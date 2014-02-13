@@ -7,12 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\Catalog\Model\Config\Source;
 
-class ListMode implements \Magento\Core\Model\Option\ArrayInterface
+use Magento\Core\Model\Option\ArrayInterface;
+
+class ListMode implements ArrayInterface
 {
+    /**
+     * {@inheritdoc}
+     */
     public function toOptionArray()
     {
         return array(

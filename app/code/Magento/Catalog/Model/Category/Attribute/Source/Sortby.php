@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Catalog\Model\Category\Attribute\Source;
 
 /**
  * Catalog Category *_sort_by Attributes Source Model
@@ -16,8 +16,6 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Model\Category\Attribute\Source;
-
 class Sortby
     extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
 {
@@ -44,14 +42,13 @@ class Sortby
      *
      * @return \Magento\Catalog\Model\Config
      */
-    protected function _getCatalogConfig() {
+    protected function _getCatalogConfig()
+    {
         return $this->_catalogConfig;
     }
 
     /**
-     * Retrieve All options
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function getAllOptions()
     {

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Backend\Helper\Media;
 
 /**
  * Media library js helper
@@ -17,12 +17,10 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Backend\Helper\Media;
-
 class Js extends \Magento\Core\Helper\Js
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function _populateTranslateData()
     {

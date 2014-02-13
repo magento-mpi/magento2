@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Core\Model\Resource\Layout\Update;
 
 /**
  * Layout update collection model
  */
-namespace Magento\Core\Model\Resource\Layout\Update;
-
 class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
@@ -69,7 +68,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Add filter by theme id
      *
      * @param int $themeId
-     * @return \Magento\Core\Model\Resource\Layout\Update\Collection
+     * @return $this
      */
     public function addThemeFilter($themeId)
     {
@@ -84,7 +83,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Add filter by store id
      *
      * @param int $storeId
-     * @return \Magento\Core\Model\Resource\Layout\Update\Collection
+     * @return $this
      */
     public function addStoreFilter($storeId)
     {
@@ -98,7 +97,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Join with layout link table
      *
-     * @return \Magento\Core\Model\Resource\Layout\Update\Collection
+     * @return $this
      */
     protected function _joinWithLink()
     {
@@ -121,7 +120,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Left Join with layout link table
      *
      * @param array $fields
-     * @return \Magento\Core\Model\Resource\Layout\Update\Collection
+     * @return $this
      */
     protected function _joinLeftWithLink($fields = array())
     {
@@ -142,8 +141,8 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Get layouts that are older then specified number of days
      *
-     * @param $days
-     * @return \Magento\Core\Model\Resource\Layout\Update\Collection
+     * @param string $days
+     * @return $this
      */
     public function addUpdatedDaysBeforeFilter($days)
     {
@@ -161,7 +160,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Get layouts without links
      *
-     * @return \Magento\Core\Model\Resource\Layout\Update\Collection
+     * @return $this
      */
     public function addNoLinksFilter()
     {
