@@ -87,7 +87,7 @@ class PrinterControlsTest extends TestBase
 <?php class If5 {
 protected function alpha() {
         if($response->getResultCode() == self::RESPONSE_CODE_VOID_ERROR) {
-            throw new \Magento\Paypal\Exception(__('You cannot void a verification transaction.'));
+            throw new \Magento\SomeModule\Exception(__('You cannot void a verification transaction.'));
         }elseif($response->getResultCode() != self::RESPONSE_CODE_APPROVED
             && $response->getResultCode() != self::RESPONSE_CODE_FRAUDSERVICE_FILTER
         ){throw new \Magento\Core\Exception($response->getRespmsg());}}}
@@ -99,7 +99,7 @@ class If5
     protected function alpha()
     {
         if ($response->getResultCode() == self::RESPONSE_CODE_VOID_ERROR) {
-            throw new \Magento\Paypal\Exception(__('You cannot void a verification transaction.'));
+            throw new \Magento\SomeModule\Exception(__('You cannot void a verification transaction.'));
         } elseif ($response->getResultCode() != self::RESPONSE_CODE_APPROVED &&
             $response->getResultCode() != self::RESPONSE_CODE_FRAUDSERVICE_FILTER
         ) {

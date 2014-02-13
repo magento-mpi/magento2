@@ -15,8 +15,25 @@
  */
 namespace Magento\Paypal\Controller;
 
+use Magento\App\Action\Context;
+
 class Hostedpro extends \Magento\App\Action\Action
 {
+    /**
+     * @var \Magento\Checkout\Model\Session
+     */
+    protected $_session;
+
+    /**
+     * @param Context $context
+     * @param \Magento\Checkout\Model\Session $session
+     */
+    public function __construct(\Magento\App\Action\Context $context, \Magento\Checkout\Model\Session $session)
+    {
+        parent::__construct($context);
+        $this->_session = $session;
+    }
+
     /**
      * When a customer return to website from gateway.
      */
@@ -53,7 +70,7 @@ class Hostedpro extends \Magento\App\Action\Action
         $gotoSection = false;
         $helper = $this->_objectManager->get('Magento\Paypal\Helper\Checkout');
         $helper->cancelCurrentOrder($errorMsg);
-        if ($helper->restoreQuote()) {
+        if ($this->_session->restoreQuote()) {
             $gotoSection = 'payment';
         }
 

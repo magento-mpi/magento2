@@ -813,7 +813,6 @@ class Onepage
 
             /**
              * a flag to set that there will be redirect to third party after confirmation
-             * eg: paypal standard ipn
              */
             $redirectUrl = $this->getQuote()->getPayment()->getOrderPlaceRedirectUrl();
             /**

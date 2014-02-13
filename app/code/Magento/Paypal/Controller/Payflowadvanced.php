@@ -158,7 +158,7 @@ class Payflowadvanced extends \Magento\Paypal\Controller\Express\AbstractExpress
     {
         $gotoSection = false;
         $this->_checkoutHelper->cancelCurrentOrder($errorMsg);
-        if ($this->_checkoutHelper->restoreQuote()) {
+        if ($this->_checkoutSession->restoreQuote()) {
             $gotoSection = 'payment';
         }
         return $gotoSection;

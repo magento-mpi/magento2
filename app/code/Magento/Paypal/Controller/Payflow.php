@@ -138,7 +138,7 @@ class Payflow extends \Magento\App\Action\Action
     {
         $gotoSection = false;
         $this->_checkoutHelper->cancelCurrentOrder($errorMsg);
-        if ($this->_checkoutHelper->restoreQuote()) {
+        if ($this->_checkoutSession->restoreQuote()) {
             //Redirect to payment step
             $gotoSection = 'payment';
         }
