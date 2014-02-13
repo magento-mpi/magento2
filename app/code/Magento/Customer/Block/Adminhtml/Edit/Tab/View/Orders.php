@@ -2,21 +2,16 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Block\Adminhtml\Edit\Tab\View;
+
+use Magento\Customer\Controller\Adminhtml\Index;
 
 /**
  * Adminhtml customer recent orders grid block
- *
- * @category   Magento
- * @package    Magento_Customer
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Block\Adminhtml\Edit\Tab\View;
-
 class Orders extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
@@ -32,6 +27,8 @@ class Orders extends \Magento\Backend\Block\Widget\Grid\Extended
     protected $_collectionFactory;
 
     /**
+     * Constructor
+     *
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Sales\Model\Resource\Order\Grid\CollectionFactory $collectionFactory
@@ -50,6 +47,11 @@ class Orders extends \Magento\Backend\Block\Widget\Grid\Extended
         parent::__construct($context, $backendHelper, $data);
     }
 
+    /**
+     * Initialize the orders grid.
+     *
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -60,6 +62,9 @@ class Orders extends \Magento\Backend\Block\Widget\Grid\Extended
         $this->setFilterVisibility(false);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function _preparePage()
     {
         $this->getCollection()
@@ -67,18 +72,23 @@ class Orders extends \Magento\Backend\Block\Widget\Grid\Extended
             ->setCurPage(1);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function _prepareCollection()
     {
         $collection = $this->_collectionFactory->create()
-            ->addFieldToFilter('customer_id', $this->_coreRegistry->registry('current_customer')->getId())
+            ->addFieldToFilter('customer_id', $this->_coreRegistry->registry(Index::REGISTRY_CURRENT_CUSTOMER_ID))
             ->setIsCustomerMode(true);
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function _prepareColumns()
     {
-
         $this->addColumn('increment_id', array(
             'header'    => __('Order'),
             'align'     => 'center',
@@ -129,11 +139,17 @@ class Orders extends \Magento\Backend\Block\Widget\Grid\Extended
         return parent::_prepareColumns();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getRowUrl($row)
     {
-        return $this->getUrl('sales/order/view', array('order_id' => $row->getId()));
+        return $this->getUrl('sales/order/view', ['order_id' => $row->getId()]);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getHeadersVisibility()
     {
         return ($this->getCollection()->getSize() >= 0);
