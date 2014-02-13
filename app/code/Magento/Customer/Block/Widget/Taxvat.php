@@ -12,7 +12,7 @@ namespace Magento\Customer\Block\Widget;
  * Customer Value Added Tax Widget
  *
  */
-class Taxvat extends \Magento\Customer\Block\Widget\AbstractWidget
+class Taxvat extends AbstractWidget
 {
     /**
      * Constructor.
