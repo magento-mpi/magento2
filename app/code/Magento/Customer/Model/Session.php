@@ -188,12 +188,8 @@ class Session extends \Magento\Session\SessionManager
     public function setCustomerDto(CustomerDto $customer)
     {
         $this->_customer = $customer;
-        if ($customer === null) {
-            $this->setCustomerId(null);
-        } else {
-            $this->response->setVary('customer_group', $customer->getGroupId());
-            $this->setCustomerId($customer->getCustomerId());
-        }
+        $this->response->setVary('customer_group', $customer->getGroupId());
+        $this->setCustomerId($customer->getCustomerId());
         return $this;
     }
 
@@ -251,14 +247,10 @@ class Session extends \Magento\Session\SessionManager
     public function setCustomer(Customer $customerModel)
     {
         $this->_customerModel = $customerModel;
-        if ($customerModel === null) {
-            $this->setCustomerId(null);
-        } else {
-            $this->response->setVary('customer_group', $customerModel->getGroupId());
-            $this->setCustomerId($customerModel->getId());
-            if ((!$customerModel->isConfirmationRequired()) && $customerModel->getConfirmation()) {
-                $customerModel->setConfirmation(null)->save();
-            }
+        $this->response->setVary('customer_group', $customerModel->getGroupId());
+        $this->setCustomerId($customerModel->getId());
+        if ((!$customerModel->isConfirmationRequired()) && $customerModel->getConfirmation()) {
+            $customerModel->setConfirmation(null)->save();
         }
 
         return $this;

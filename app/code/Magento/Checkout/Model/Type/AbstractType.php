@@ -127,9 +127,8 @@ abstract class AbstractType extends \Magento\Object
         $address = $this->getData('customer_default_shipping_address');
         if (is_null($address)) {
             $customerId = $this->getCustomer()->getCustomerId();
-            try {
-                $address = $this->_customerAddressService->getDefaultShippingAddress($customerId);
-            } catch (\Exception $e) {
+            $address = $this->_customerAddressService->getDefaultShippingAddress($customerId);
+            if (!$address) {
                 /** Default shipping address is not available, try to find any customer address */
                 $allAddresses = $this->_customerAddressService->getAddresses($customerId);
                 $address = count($allAddresses) ? reset($allAddresses) : null;
@@ -149,9 +148,8 @@ abstract class AbstractType extends \Magento\Object
         $address = $this->getData('customer_default_billing_address');
         if (is_null($address)) {
             $customerId = $this->getCustomer()->getCustomerId();
-            try {
-                $address = $this->_customerAddressService->getDefaultBillingAddress($customerId);
-            } catch (\Exception $e) {
+            $address = $this->_customerAddressService->getDefaultBillingAddress($customerId);
+            if (!$address) {
                 /** Default billing address is not available, try to find any customer address */
                 $allAddresses = $this->_customerAddressService->getAddresses($customerId);
                 $address = count($allAddresses) ? reset($allAddresses) : null;
@@ -159,19 +157,5 @@ abstract class AbstractType extends \Magento\Object
             $this->setData('customer_default_billing_address', $address);
         }
         return $address;
-    }
-
-    protected function _createOrderFromAddress($address)
-    {
-        $order = $this->_orderFactory->create()
-            ->createFromQuoteAddress($address)
-            ->setCustomerId($this->getCustomer()->getCustomerId())
-            ->setGlobalCurrencyCode('USD')
-            ->setBaseCurrencyCode('USD')
-            ->setStoreCurrencyCode('USD')
-            ->setOrderCurrencyCode('USD')
-            ->setStoreToBaseRate(1)
-            ->setStoreToOrderRate(1);
-        return $order;
     }
 }

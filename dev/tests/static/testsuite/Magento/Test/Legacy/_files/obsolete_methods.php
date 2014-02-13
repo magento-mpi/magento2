@@ -827,6 +827,7 @@ return array(
     array('_getSelectedRoles', 'Magento\User\Block\User\Edit\Tab\Roles', 'getSelectedRoles'),
     array('_prepareSelect', 'Magento\Core\Model\Resource\Db\Collection\AbstractCollection'),
     array('_prepareSelect', 'Magento\Data\Collection\Db'),
+    array('_createOrderFromAddress', 'Magento\Checkout\Model\Type\AbstractType'),
     array('castField', 'Magento\Core\Model\Resource\Helper'),
     array('getQueryUsingAnalyticFunction', 'Magento\Core\Model\Resource\Helper'),
     array('limitUnion', 'Magento\Core\Model\Resource\Helper'),

@@ -56,18 +56,18 @@ class Multishipping extends \Magento\Checkout\Model\Type\AbstractType
      */
     protected $_quote;
 
-    /** @var CustomerAddressServiceInterface */
-    protected $_customerAddressService;
-
     /**
      * @var \Magento\Payment\Model\Method\SpecificationInterface
      */
     protected $paymentSpecification;
 
     /**
+     * Initialize dependencies.
+     *
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
+     * @param CustomerAddressServiceInterface $customerAddressService
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\Session $session
@@ -75,13 +75,13 @@ class Multishipping extends \Magento\Checkout\Model\Type\AbstractType
      * @param \Magento\Sales\Model\Convert\Quote $quote
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Payment\Model\Method\SpecificationInterface $paymentSpecification
-     * @param CustomerAddressServiceInterface $customerAddressService
      * @param array $data
      */
     public function __construct(
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Sales\Model\OrderFactory $orderFactory,
+        CustomerAddressServiceInterface $customerAddressService,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\Session $session,
@@ -89,7 +89,6 @@ class Multishipping extends \Magento\Checkout\Model\Type\AbstractType
         \Magento\Sales\Model\Convert\Quote $quote,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Payment\Model\Method\SpecificationInterface $paymentSpecification,
-        CustomerAddressServiceInterface $customerAddressService,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
@@ -99,8 +98,7 @@ class Multishipping extends \Magento\Checkout\Model\Type\AbstractType
         $this->_quote = $quote;
         $this->_storeManager = $storeManager;
         $this->paymentSpecification = $paymentSpecification;
-        $this->_customerAddressService = $customerAddressService;
-        parent::__construct($checkoutSession, $customerSession, $orderFactory, $data);
+        parent::__construct($checkoutSession, $customerSession, $orderFactory, $customerAddressService, $data);
         $this->_init();
     }
 

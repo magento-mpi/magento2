@@ -23,6 +23,8 @@ use Magento\Customer\Service\V1\Dto\CustomerBuilder as CustomerDtoBuilder;
  * @method mixed getDisableAutoGroupChange()
  * @method \Magento\Customer\Model\Customer setDisableAutoGroupChange($value)
  * @method \Magento\Customer\Model\Customer setGroupId($value)
+ * @method \Magento\Customer\Model\Customer setDefaultBilling($value)
+ * @method \Magento\Customer\Model\Customer setDefaultShipping($value)
  */
 class Customer extends \Magento\Core\Model\AbstractModel
 {
