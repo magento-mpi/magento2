@@ -466,6 +466,11 @@ return array(
     array('getQuoteItemOption', 'Magento\Catalog\Model\Product\Option\Type\DefaultType'),
     array('getQuoteOrdersHtml', 'Magento\GoogleAnalytics\Block\Ga'),
     array('getRefererParamName', 'Magento\Backend\Block\Page\Footer'),
+    array(
+        'getRecurringProfileMethods',
+        'Magento\Payment\Helper\Data',
+        'Magento\RecurringProfile\Model\Method\PeymentMethodList::toOptionArray'
+    ),
     array('getRecurringPaymentProfiles', 'Magento\Paypal\Model\Express\Checkout'),
     array('getRecurringPaymentProfiles', 'Magento\Sales\Model\Service\Quote'),
     array('getRelativePath', 'Magento\Core\Model\Theme\Files'),
@@ -571,6 +576,7 @@ return array(
     array('getXmlConfig','Magento\Persistent\Model\Persistent\Config'),
     array('getXmlElementByType','Magento\Widget\Model\Widget', 'getWidgetByClassType'),
     array('hasItems', 'Magento\Wishlist\Helper\Data'),
+    array('hasRecurringItems', 'Magento\Sales\Model\Quote'),
     array('htmlEscape', '', 'escapeHtml'),
     array('imageAction', 'Magento\Catalog\Controller\Product'),
     array('implodeStreetAddress', 'Magento\Customer\Model\Address\AbstractAddress'),

@@ -17,4 +17,7 @@
     <event name="paypal_express_place_order_success">
         <observer name="magento_recurringprofile" instance="Magento\RecurringProfile\Model\Observer" method="addRecurringProfileIdsToSession" />
     </event>
+    <event name="payment_method_is_active">
+        <observer name="magento_recurringprofile" instance="Magento\RecurringProfile\Model\Observer\PaymentAvailabilityObserver" method="observe" />
+    </event>
 </config>
