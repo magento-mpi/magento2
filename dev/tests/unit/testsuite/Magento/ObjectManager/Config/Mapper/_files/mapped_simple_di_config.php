@@ -13,13 +13,13 @@ return array(
 
     'Magento\App\State' => array(
         'arguments' => array(
-            'test name' => 'arg1',
+            'test name' => 'test value',
         ),
     ),
 
     'Magento\Core\Model\Config\Modules' => array(
         'arguments' => array(
-            'test name' => 'arg2',
+            'test name' => 'test value',
         ),
         'plugins' => array(
             'simple_modules_plugin' => array(
@@ -41,7 +41,7 @@ return array(
     'Magento\Http\Handler\Composite' => array(
         'shared' => false,
         'arguments' => array(
-            'test name' => 'arg3',
+            'test name' => 'test value',
         ),
     ),
 

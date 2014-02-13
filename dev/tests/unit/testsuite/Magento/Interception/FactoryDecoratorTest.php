@@ -50,7 +50,12 @@ class FactoryDecoratorTest extends \PHPUnit_Framework_TestCase
     {
         $this->config->expects($this->once())->method('hasPlugins')->with('type')->will($this->returnValue(false));
         $this->config->expects($this->never())->method('getInterceptorClassName');
-        $this->factory->expects($this->once())->method('create')->with('type', array(1, 2, 3));
-        $this->decorator->create('type', array(1, 2, 3));
+        $this->factory
+            ->expects($this->once())
+            ->method('create')
+            ->with('type', array(1, 2, 3))
+            ->will($this->returnValue('test'))
+        ;
+        $this->assertEquals('test', $this->decorator->create('type', array(1, 2, 3)));
     }
 } 

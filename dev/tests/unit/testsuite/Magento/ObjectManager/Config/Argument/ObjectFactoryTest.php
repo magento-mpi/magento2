@@ -47,21 +47,27 @@ class ObjectFactoryTest extends \PHPUnit_Framework_TestCase
     /**
      * @param bool $isShared
      * @param string $expectedMethod
-     * @dataProvider isSharedDataProvider
+     * @dataProvider createDataProvider
      */
     public function testCreateLookup($isShared, $expectedMethod)
     {
         $value = new \StdClass;
         $factory = new ObjectFactory($this->config, $this->objectManager);
-        $this->objectManager->expects($this->once())->method($expectedMethod)->with('type')->will($this->returnValue($value));
+        $this->objectManager->expects($this->once())
+            ->method($expectedMethod)
+            ->with('type')
+            ->will($this->returnValue($value))
+        ;
         $this->config->expects($this->once())->method('isShared')->with('type')->will($this->returnValue($isShared));
         $this->assertSame($value, $factory->create('type'));
     }
 
     /**
+     * Returns "is shared" and expectation of which ObjectManager method should be called depending on it
+     *
      * @return array
      */
-    public function isSharedDataProvider()
+    public function createDataProvider()
     {
         return array(
             array(true, 'get'),
@@ -72,7 +78,7 @@ class ObjectFactoryTest extends \PHPUnit_Framework_TestCase
     /**
      * @param bool $isShared
      * @param string $expectedMethod
-     * @dataProvider isSharedDataProvider
+     * @dataProvider createDataProvider
      */
     public function testCreateNoLookup($isShared, $expectedMethod)
     {

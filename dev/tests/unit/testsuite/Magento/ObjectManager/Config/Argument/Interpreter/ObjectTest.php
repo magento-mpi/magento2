@@ -20,11 +20,21 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
      */
     public function testEvaluate($data, $className, $isShared)
     {
-        $expected = 'a value';
-        $factory = $this->getMock('\Magento\ObjectManager\Config\Argument\ObjectFactory', array('create'), array(), '', false);
-        $factory->expects($this->once())->method('create')->with($className, $isShared)->will($this->returnValue($expected));
+        $expected = new \StdClass;
+        $factory = $this->getMock(
+            '\Magento\ObjectManager\Config\Argument\ObjectFactory',
+            array('create'),
+            array(),
+            '',
+            false
+        );
+        $factory->expects($this->once())
+            ->method('create')
+            ->with($className, $isShared)
+            ->will($this->returnValue($expected))
+        ;
         $interpreter = new Object(new BooleanUtils, $factory);
-        $this->assertEquals($expected, $interpreter->evaluate($data));
+        $this->assertSame($expected, $interpreter->evaluate($data));
     }
 
     /**

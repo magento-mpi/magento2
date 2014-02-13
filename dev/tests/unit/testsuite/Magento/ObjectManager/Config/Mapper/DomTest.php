@@ -19,7 +19,7 @@ class DomTest extends \PHPUnit_Framework_TestCase
         $argumentParser = $this->getMock('\Magento\ObjectManager\Config\Mapper\ArgumentParser');
         $argumentParser->expects($this->any())
             ->method('parse')
-            ->will($this->onConsecutiveCalls('arg1', 'arg2', 'arg3'));
+            ->will($this->returnCallback(array($this, 'parserMockCallback')));
 
         $booleanUtils = $this->getMock('\Magento\Stdlib\BooleanUtils');
         $booleanUtils->expects($this->any())
@@ -41,6 +41,19 @@ class DomTest extends \PHPUnit_Framework_TestCase
         $resultFile = __DIR__ . '/_files/mapped_simple_di_config.php';
         $expectedResult = include $resultFile;
         $this->assertEquals($expectedResult, $this->_mapper->convert($dom));
+    }
+
+    /**
+     * Callback for mocking parse() method of the argument parser
+     *
+     * @param \DOMElement $argument
+     * @return string
+     */
+    public function parserMockCallback(\DOMElement $argument)
+    {
+        $this->assertNotEmpty($argument->getAttribute('name'));
+        $this->assertNotEmpty($argument->getAttribute('xsi:type'));
+        return 'test value';
     }
 
     /**
