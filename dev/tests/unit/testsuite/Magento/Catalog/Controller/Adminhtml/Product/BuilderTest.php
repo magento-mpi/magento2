@@ -91,7 +91,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
         );
         $this->registryMock->expects($this->any())->method('register')->will($this->returnValueMap($registryValueMap));
         $this->wysiwygConfigMock->expects($this->once())->method('setStoreId')->with('store');
-        $this->builder->build($this->requestMock);
+        $this->assertEquals($this->productMock, $this->builder->build($this->requestMock));
     }
 
     public function testBuildWhenImpossibleLoadProduct()
@@ -126,7 +126,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
         );
         $this->registryMock->expects($this->any())->method('register')->will($this->returnValueMap($registryValueMap));
         $this->wysiwygConfigMock->expects($this->once())->method('setStoreId')->with('store');
-        $this->builder->build($this->requestMock);
+        $this->assertEquals($this->productMock, $this->builder->build($this->requestMock));
     }
 
     public function testBuildWhenProductNotExist()
@@ -157,7 +157,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
         );
         $this->registryMock->expects($this->any())->method('register')->will($this->returnValueMap($registryValueMap));
         $this->wysiwygConfigMock->expects($this->once())->method('setStoreId')->with('store');
-        $this->builder->build($this->requestMock);
+        $this->assertEquals($this->productMock, $this->builder->build($this->requestMock));
     }
 
 }

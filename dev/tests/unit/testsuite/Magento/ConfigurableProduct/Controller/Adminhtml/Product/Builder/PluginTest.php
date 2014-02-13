@@ -173,7 +173,10 @@ class PluginTest extends \PHPUnit_Framework_TestCase
             ->with('website_id')
             ->will($this->returnSelf());
 
-        $this->plugin->aroundBuild(array($this->requestMock), $this->invocationChainMock);
+        $this->assertEquals(
+            $this->productMock,
+            $this->plugin->aroundBuild(array($this->requestMock), $this->invocationChainMock)
+        );
     }
 
     public function testAroundBuildWhenProductNotHaveAttributeAndRequiredParameters()
@@ -194,7 +197,10 @@ class PluginTest extends \PHPUnit_Framework_TestCase
         $this->productFactoryMock->expects($this->never())->method('create');
         $this->configurableMock->expects($this->never())->method('getTypeInstance');
         $this->attributeMock->expects($this->never())->method('getAttributeCode');
-        $this->plugin->aroundBuild(array($this->requestMock), $this->invocationChainMock);
+        $this->assertEquals(
+            $this->productMock,
+            $this->plugin->aroundBuild(array($this->requestMock), $this->invocationChainMock)
+        );
     }
 
     public function testAroundBuildWhenAttributesAreEmpty()
@@ -211,7 +217,10 @@ class PluginTest extends \PHPUnit_Framework_TestCase
         $this->productFactoryMock->expects($this->never())->method('create');
         $this->configurableMock->expects($this->never())->method('getTypeInstance');
         $this->attributeMock->expects($this->never())->method('getAttributeCode');
-        $this->plugin->aroundBuild(array($this->requestMock), $this->invocationChainMock);
+        $this->assertEquals(
+            $this->productMock,
+            $this->plugin->aroundBuild(array($this->requestMock), $this->invocationChainMock)
+        );
     }
 
 }
