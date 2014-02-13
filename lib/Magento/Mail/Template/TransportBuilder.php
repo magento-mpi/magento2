@@ -200,8 +200,8 @@ class TransportBuilder
             \Magento\App\TemplateTypesInterface::TYPE_HTML => \Magento\Mail\MessageInterface::TYPE_HTML,
         );
 
-        $this->message->setMessageType($types[$template->getType()])
-            ->setBody($template->processTemplate())
+        $this->message->setBody($template->processTemplate())
+            ->setMessageType($types[$template->getType()])
             ->setSubject($template->getSubject());
 
         $result = $this->objectManager->create('Magento\Mail\TransportInterface', array(
