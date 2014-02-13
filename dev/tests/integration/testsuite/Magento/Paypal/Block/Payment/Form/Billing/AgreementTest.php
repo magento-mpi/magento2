@@ -1,6 +1,6 @@
 <?php
 /**
- * Test for \Magento\Sales\Block\Payment\Form\Billing\Agreement
+ * Test for \Magento\Paypal\Block\Payment\Form\Billing\Agreement
  *
  * {license_notice}
  *
@@ -8,11 +8,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\Sales\Block\Payment\Form\Billing;
+namespace Magento\Paypal\Block\Payment\Form\Billing;
 
 class AgreementTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Magento\Sales\Block\Payment\Form\Billing\Agreement */
+    /** @var \Magento\Paypal\Block\Payment\Form\Billing\Agreement */
     protected $_block;
 
     protected function setUp()
@@ -32,14 +32,14 @@ class AgreementTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue('billing_agreement_form'));
 
         $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Sales\Block\Payment\Form\Billing\Agreement');
+            ->create('Magento\Paypal\Block\Payment\Form\Billing\Agreement');
         $this->_block->setLayout($layout);
     }
 
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
      * @magentoDataFixture Magento/Sales/_files/quote_with_customer.php
-     * @magentoDataFixture Magento/Sales/_files/billing_agreement.php
+     * @magentoDataFixture Magento/Paypal/_files/billing_agreement.php
      */
     public function testGetBillingAgreements()
     {
