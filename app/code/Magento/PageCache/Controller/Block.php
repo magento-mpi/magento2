@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\PageCache\Controller;
 
 use Magento\PageCache\Helper\Data;
@@ -16,6 +15,8 @@ class Block extends \Magento\App\Action\Action
 {
     /**
      * Returns block content depends on ajax request
+     *
+     * @return void
      */
     public function renderAction()
     {

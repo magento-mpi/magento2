@@ -47,6 +47,8 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 
     /**
      * Set defaults
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -62,7 +64,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Instantiate and prepare collection
      *
-     * @return \Magento\Banner\Block\Adminhtml\Banner\Grid
+     * @return $this
      */
     protected function _prepareCollection()
     {
@@ -74,6 +76,8 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 
     /**
      * Define grid columns
+     *
+     * @return $this
      */
     protected function _prepareColumns()
     {
@@ -135,6 +139,8 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 
     /**
      * Prepare mass action options for this grid
+     *
+     * @return $this
      */
     protected function _prepareMassaction()
     {
@@ -153,6 +159,9 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 
     /**
      * Grid row URL getter
+     *
+     * @param \Magento\Object $row
+     * @return string
      */
     public function getRowUrl($row)
     {
@@ -161,6 +170,8 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 
     /**
      * Define row click callback
+     *
+     * @return string
      */
     public function getGridUrl()
     {
@@ -171,7 +182,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      * Add store filter
      *
      * @param \Magento\Backend\Block\Widget\Grid\Column  $column
-     * @return \Magento\Banner\Block\Adminhtml\Banner\Grid
+     * @return $this
      */
     protected function _addColumnFilterToCollection($column)
     {

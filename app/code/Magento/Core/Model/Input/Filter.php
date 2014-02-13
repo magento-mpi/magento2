@@ -110,7 +110,7 @@ class Filter implements \Zend_Filter_Interface
      * @param string $name
      * @param array|\Zend_Filter_Interface $filter
      * @param string $placement
-     * @return \Magento\Core\Model\Input\Filter
+     * @return $this
      */
     public function addFilter($name, $filter, $placement = \Zend_Filter::CHAIN_APPEND)
     {
@@ -126,7 +126,7 @@ class Filter implements \Zend_Filter_Interface
      * Add a filter to the end of the chain
      *
      * @param  array|\Zend_Filter_Interface $filter
-     * @return \Magento\Core\Model\Input\Filter
+     * @return $this
      */
     public function appendFilter(\Zend_Filter_Interface $filter)
     {
@@ -137,7 +137,7 @@ class Filter implements \Zend_Filter_Interface
      * Add a filter to the start of the chain
      *
      * @param  array|\Zend_Filter_Interface $filter
-     * @return \Magento\Core\Model\Input\Filter
+     * @return $this
      */
     public function prependFilter($filter)
     {
@@ -155,7 +155,7 @@ class Filter implements \Zend_Filter_Interface
      *      )
      *
      * @param array $filters
-     * @return \Magento\Core\Model\Input\Filter
+     * @return $this
      */
     public function addFilters(array $filters)
     {
@@ -167,7 +167,7 @@ class Filter implements \Zend_Filter_Interface
      * Set filters
      *
      * @param array $filters
-     * @return \Magento\Core\Model\Input\Filter
+     * @return $this
      */
     public function setFilters(array $filters)
     {
@@ -178,8 +178,8 @@ class Filter implements \Zend_Filter_Interface
     /**
      * Get filters
      *
-     * @param string|null $name     Get filter for selected name
-     * @return array
+     * @param string|null $name Get filter for selected name
+     * @return array|\Zend_Filter_Interface
      */
     public function getFilters($name = null)
     {
@@ -194,7 +194,7 @@ class Filter implements \Zend_Filter_Interface
      * Filter data
      *
      * @param array $data
-     * @return array    Return filtered data
+     * @return array Return filtered data
      */
     public function filter($data)
     {
@@ -248,6 +248,7 @@ class Filter implements \Zend_Filter_Interface
      * @param \Magento\App\Helper\AbstractHelper $helper
      * @param array $filterData
      * @return mixed
+     * @throws \Exception
      */
     protected function _applyFiltrationWithHelper($value, \Magento\App\Helper\AbstractHelper $helper, array $filterData)
     {
@@ -266,8 +267,8 @@ class Filter implements \Zend_Filter_Interface
     /**
      * Try to create Magento helper for filtration based on $filterData. Return false on failure
      *
-     * @param $filterData
-     * @return bool|\Magento\App\Helper\AbstractHelper
+     * @param \Zend_Filter_Interface|array $filterData
+     * @return false|\Magento\App\Helper\AbstractHelper
      * @throws \Exception
      */
     protected function _getFiltrationHelper($filterData)
@@ -287,8 +288,8 @@ class Filter implements \Zend_Filter_Interface
     /**
      * Try to create Zend filter based on $filterData. Return false on failure
      *
-     * @param $filterData
-     * @return bool|\Zend_Filter_Interface
+     * @param \Zend_Filter_Interface|array $filterData
+     * @return false|\Zend_Filter_Interface
      */
     protected function _getZendFilter($filterData)
     {
@@ -307,7 +308,7 @@ class Filter implements \Zend_Filter_Interface
     /**
      * Get Magento filters
      *
-     * @param $filterData
+     * @param array $filterData
      * @return \Zend_Filter_Interface
      * @throws \Exception
      */
@@ -332,7 +333,7 @@ class Filter implements \Zend_Filter_Interface
     /**
      * Get native \Zend_Filter
      *
-     * @param $filterData
+     * @param array $filterData
      * @return \Zend_Filter_Interface
      * @throws \Exception
      */

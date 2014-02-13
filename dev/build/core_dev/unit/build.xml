@@ -95,4 +95,22 @@
         </antcall>
     </target>
 
+    <target name="unit_tests_ce_magento_code_coverage_clover" depends="_product_location" description="Code Coverage All CE Unit Tests: clover xml report generation">
+        <antcall target="_code_coverage_configuration_clover_xml">
+            <param name="configuration_file" value="${product_root_dir}/dev/tests/unit/phpunit.xml.dist"/>
+        </antcall>
+        <antcall target="unit_tests_ce">
+            <param name="phpunit" value="${basedir}/dev/build/bin/phpunit-with-xdebug.sh"/>
+        </antcall>
+    </target>
+
+    <target name="unit_tests_ee_magento_code_coverage_clover" depends="_product_location" description="Code Coverage All EE Unit Tests: clover xml report generation">
+        <antcall target="_code_coverage_configuration_clover_xml">
+            <param name="configuration_file" value="${product_root_dir}/dev/tests/unit/phpunit.xml.dist"/>
+        </antcall>
+        <antcall target="unit_tests_ee">
+            <param name="phpunit" value="${basedir}/dev/build/bin/phpunit-with-xdebug.sh"/>
+        </antcall>
+    </target>
+
 </project>

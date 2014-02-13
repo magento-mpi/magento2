@@ -7,16 +7,20 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Helper;
+
+use Magento\App\Helper\AbstractHelper;
 
 /**
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Data extends \Magento\App\Helper\AbstractHelper
+class Data extends AbstractHelper
 {
-    const XML_PATH_USE_CUSTOM_ADMIN_URL         = 'admin/url/use_custom';
+    const XML_PATH_USE_CUSTOM_ADMIN_URL = 'admin/url/use_custom';
 
+    /**
+     * @var string
+     */
     protected $_pageHelpUrl;
 
     /**
@@ -76,6 +80,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
         $this->mathRandom = $mathRandom;
     }
 
+    /**
+     * @return string
+     */
     public function getPageHelpUrl()
     {
         if (!$this->_pageHelpUrl) {
@@ -84,6 +91,10 @@ class Data extends \Magento\App\Helper\AbstractHelper
         return $this->_pageHelpUrl;
     }
 
+    /**
+     * @param string|null $url
+     * @return $this
+     */
     public function setPageHelpUrl($url = null)
     {
         if (is_null($url)) {
@@ -110,17 +121,29 @@ class Data extends \Magento\App\Helper\AbstractHelper
         return $this;
     }
 
+    /**
+     * @param string $suffix
+     * @return $this
+     */
     public function addPageHelpUrl($suffix)
     {
         $this->_pageHelpUrl = $this->getPageHelpUrl().$suffix;
         return $this;
     }
 
+    /**
+     * @param string $route
+     * @param array $params
+     * @return string
+     */
     public function getUrl($route = '', $params = array())
     {
         return $this->_backendUrl->getUrl($route, $params);
     }
 
+    /**
+     * @return int|bool
+     */
     public function getCurrentUserId()
     {
         if ($this->_auth->getUser()) {
@@ -147,7 +170,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Decode URL encoded filter value recursive callback method
      *
-     * @param string $value
+     * @param string &$value
+     * @return void
      */
     public function decodeFilter(&$value)
     {

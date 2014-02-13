@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Core\Model;
 
 /**
  * Core Website model
@@ -28,12 +29,14 @@
  * @method int getIsDefault()
  * @method \Magento\Core\Model\Website setIsDefault(int $value)
  */
-namespace Magento\Core\Model;
-
 class Website extends \Magento\Core\Model\AbstractModel
 {
     const ENTITY    = 'core_website';
     const CACHE_TAG = 'website';
+
+    /**
+     * @var bool
+     */
     protected $_cacheTag = true;
 
     /**
@@ -56,7 +59,7 @@ class Website extends \Magento\Core\Model\AbstractModel
     /**
      * Website Group Collection array
      *
-     * @var array
+     * @var \Magento\Core\Model\Store\Group[]
      */
     protected $_groups;
 
@@ -112,7 +115,7 @@ class Website extends \Magento\Core\Model\AbstractModel
     /**
      * Website default store
      *
-     * @var \Magento\Core\Model\Store
+     * @var Store
      */
     protected $_defaultStore;
 
@@ -134,7 +137,7 @@ class Website extends \Magento\Core\Model\AbstractModel
     protected $_configDataResource;
 
     /**
-     * @var \Magento\Core\Model\StoreFactory
+     * @var StoreFactory
      */
     protected $_storeFactory;
 
@@ -144,17 +147,17 @@ class Website extends \Magento\Core\Model\AbstractModel
     protected $_storeGroupFactory;
 
     /**
-     * @var \Magento\Core\Model\WebsiteFactory
+     * @var WebsiteFactory
      */
     protected $_websiteFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var \Magento\Core\Model\App
+     * @var App
      */
     protected $_app;
 
@@ -207,6 +210,7 @@ class Website extends \Magento\Core\Model\AbstractModel
     /**
      * init model
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -218,7 +222,7 @@ class Website extends \Magento\Core\Model\AbstractModel
      *
      * @param int|string $id
      * @param string $field
-     * @return \Magento\Core\Model\Website
+     * @return $this
      */
     public function load($id, $field = null)
     {
@@ -251,6 +255,7 @@ class Website extends \Magento\Core\Model\AbstractModel
     /**
      * Load group collection and set internal data
      *
+     * @return void
      */
     protected function _loadGroups()
     {
@@ -270,7 +275,7 @@ class Website extends \Magento\Core\Model\AbstractModel
      * Set website groups
      *
      * @param array $groups
-     * @return \Magento\Core\Model\Website
+     * @return $this
      */
     public function setGroups($groups)
     {
@@ -357,6 +362,7 @@ class Website extends \Magento\Core\Model\AbstractModel
     /**
      * Load store collection and set internal data
      *
+     * @return void
      */
     protected function _loadStores()
     {
@@ -377,6 +383,7 @@ class Website extends \Magento\Core\Model\AbstractModel
      * Set website stores
      *
      * @param array $stores
+     * @return void
      */
     public function setStores($stores)
     {
@@ -458,7 +465,7 @@ class Website extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * is can delete website
+     * Can delete website
      *
      * @return bool
      */
@@ -484,16 +491,25 @@ class Website extends \Magento\Core\Model\AbstractModel
         return join('-', array($this->getWebsiteId(), $this->getGroupId(), $this->getStoreId()));
     }
 
+    /**
+     * @return mixed
+     */
     public function getDefaultGroupId()
     {
         return $this->_getData('default_group_id');
     }
 
+    /**
+     * @return mixed
+     */
     public function getCode()
     {
         return $this->_getData('code');
     }
 
+    /**
+     * @return $this
+     */
     protected function _beforeDelete()
     {
         $this->_protectFromNonAdmin();
@@ -502,9 +518,9 @@ class Website extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * rewrite in order to clear configuration cache
+     * Rewrite in order to clear configuration cache
      *
-     * @return \Magento\Core\Model\Website
+     * @return $this
      */
     protected function _afterDelete()
     {
@@ -547,7 +563,7 @@ class Website extends \Magento\Core\Model\AbstractModel
     /**
      * Retrieve Default Website Store or null
      *
-     * @return \Magento\Core\Model\Store
+     * @return Store
      */
     public function getDefaultStore()
     {

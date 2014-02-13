@@ -74,7 +74,7 @@ class Js extends \Magento\App\Helper\AbstractHelper
      * Retrieve framed javascript
      *
      * @param   string $script
-     * @return  script
+     * @return  string
      */
     public function getScript($script)
     {
@@ -109,6 +109,7 @@ class Js extends \Magento\App\Helper\AbstractHelper
     /**
      * Helper function that populates _translateData with default values.
      *
+     * @return void
      * @SuppressWarnings(PHPMD)
      */
     protected function _populateTranslateData()
@@ -269,8 +270,9 @@ class Js extends \Magento\App\Helper\AbstractHelper
      *
      * There is no point in having translated text added if the key is already representing the translated text.
      *
-     * @param $key
-     * @param $translatedText
+     * @param string $key
+     * @param string $translatedText
+     * @return void
      */
     protected function _addTranslation($key, $translatedText)
     {

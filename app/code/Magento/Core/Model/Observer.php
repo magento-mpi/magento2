@@ -23,7 +23,7 @@ class Observer
     private $_cacheFrontendPool;
 
     /**
-     * @var \Magento\Core\Model\Theme
+     * @var Theme
      */
     private $_currentTheme;
 
@@ -83,6 +83,7 @@ class Observer
      * Cron job method to clean old cache resources
      *
      * @param \Magento\Cron\Model\Schedule $schedule
+     * @return void
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function cleanCache(\Magento\Cron\Model\Schedule $schedule)
@@ -98,7 +99,7 @@ class Observer
      * Theme registration
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\Core\Model\Observer
+     * @return $this
      */
     public function themeRegistration(\Magento\Event\Observer $observer)
     {
@@ -115,6 +116,7 @@ class Observer
      * Apply customized static files to frontend
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function applyThemeCustomization(\Magento\Event\Observer $observer)
@@ -140,7 +142,7 @@ class Observer
      * Rebuild whole config and save to fast storage
      *
      * @param  \Magento\Event\Observer $observer
-     * @return \Magento\Core\Model\Observer
+     * @return $this
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function processReinitConfig(\Magento\Event\Observer $observer)
