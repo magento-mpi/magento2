@@ -42,11 +42,6 @@ class File extends FileAbstract
      */
     public function buildUniquePath()
     {
-        if ($this->allowDuplication) {
-            $targetPath = $this->buildPublicViewRedundantFilename();
-        } else {
-            $targetPath = $this->buildPublicViewSufficientFilename();
-        }
-        return $targetPath;
+        return $this->buildPublicViewRedundantFilename();
     }
 }

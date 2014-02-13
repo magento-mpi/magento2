@@ -56,13 +56,6 @@ abstract class FileAbstract implements FileInterface
     protected $sourcePath;
 
     /**
-     * Indicates how to materialize view files: with or without "duplication"
-     *
-     * @var bool
-     */
-    protected $allowDuplication;
-
-    /**
      * @var bool
      */
     protected $isPublicationAllowed;
@@ -92,7 +85,6 @@ abstract class FileAbstract implements FileInterface
      * @param \Magento\Module\Dir\Reader $modulesReader
      * @param \Magento\View\FileSystem $viewFileSystem
      * @param string $filePath
-     * @param bool $allowDuplication
      * @param array $viewParams
      * @param string|null $sourcePath
      */
@@ -102,7 +94,6 @@ abstract class FileAbstract implements FileInterface
         \Magento\Module\Dir\Reader $modulesReader,
         \Magento\View\FileSystem $viewFileSystem,
         $filePath,
-        $allowDuplication,
         array $viewParams,
         $sourcePath = null
     ) {
@@ -110,7 +101,6 @@ abstract class FileAbstract implements FileInterface
         $this->viewService = $viewService;
         $this->modulesReader = $modulesReader;
         $this->filePath = $filePath;
-        $this->allowDuplication = $allowDuplication;
         $this->viewParams = $viewParams;
         $this->viewFileSystem = $viewFileSystem;
         $this->rootDirectory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::ROOT_DIR);
@@ -265,27 +255,6 @@ abstract class FileAbstract implements FileInterface
             . ($this->getViewParams()['module'] ? '/' . $this->getViewParams()['module'] : '')
             . '/' . $this->getFilePath();
 
-        return $publicFile;
-    }
-
-    /**
-     * Build public filename for a view file that sufficiently depends on the passed parameters
-     *
-     * @return string
-     */
-    protected function buildPublicViewSufficientFilename()
-    {
-        $designDir = $this->filesystem->getPath(\Magento\App\Filesystem::THEMES_DIR) . '/';
-        if (0 === strpos($this->getSourcePath(), $designDir)) {
-            // theme file
-            $publicFile = substr($this->getSourcePath(), strlen($designDir));
-        } else {
-            // modular file
-            $module = $this->getViewParams()['module'];
-            $moduleDir = $this->modulesReader->getModuleDir('theme', $module) . '/';
-            $publicFile = substr($this->getSourcePath(), strlen($moduleDir));
-            $publicFile = self::PUBLIC_MODULE_DIR . '/' . $module . '/' . $publicFile;
-        }
         return $publicFile;
     }
 }
