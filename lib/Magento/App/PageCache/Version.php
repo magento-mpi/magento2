@@ -31,14 +31,14 @@ class Version
      *
      * @var \Magento\Stdlib\Cookie
      */
-    private $cookie;
+    protected $cookie;
 
     /**
      * Request
      *
      * @var \Magento\App\Request\Http
      */
-    private $request;
+    protected $request;
 
     public function __construct(
         \Magento\Stdlib\Cookie $cookie,
@@ -49,19 +49,11 @@ class Version
     }
 
     /**
-     * Increment private content version cookie (for user to pull new private content)
-     */
-    private function set()
-    {
-        $this->cookie->set(self::COOKIE_NAME, $this->generateValue(), self::COOKIE_PERIOD, '/');
-    }
-
-    /**
      * Generate unique version identifier
      *
      * @return string
      */
-    private function generateValue()
+    protected function generateValue()
     {
         return md5(rand() . time());
     }
@@ -75,7 +67,7 @@ class Version
     public function process()
     {
         if ($this->request->isPost()) {
-            $this->set();
+            $this->cookie->set(self::COOKIE_NAME, $this->generateValue(), self::COOKIE_PERIOD, '/');
         }
     }
 }

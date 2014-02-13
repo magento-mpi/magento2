@@ -50,11 +50,9 @@ class Kernel
     public function load()
     {
         if ($this->request->isGet() || $this->request->isHead()) {
-            $response = unserialize($this->cache->load($this->identifier->getValue()));
-        } else {
-            $response = false;
+            return unserialize($this->cache->load($this->identifier->getValue()));
         }
-        return $response;
+        return false;
     }
 
     /**

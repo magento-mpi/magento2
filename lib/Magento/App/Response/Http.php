@@ -17,11 +17,24 @@ class Http extends \Zend_Controller_Response_Http implements \Magento\App\Respon
     const COOKIE_VARY_STRING = 'X-Magento-Vary';
 
     /**
+     * @var \Magento\Stdlib\Cookie
+     */
+    protected $cookie;
+
+    /**
      * Response vary identifiers
      *
      * @var array
      */
     protected $vary;
+
+    /**
+     * @param \Magento\Stdlib\Cookie $cookie
+     */
+    public function __construct(\Magento\Stdlib\Cookie $cookie)
+    {
+        $this->cookie = $cookie;
+    }
 
     /**
      * Get header value by name.
@@ -54,9 +67,7 @@ class Http extends \Zend_Controller_Response_Http implements \Magento\App\Respon
             $value = serialize($value);
         }
         $this->vary[$name] = $value;
-        if (!headers_sent()) {
-            setcookie(self::COOKIE_VARY_STRING, $this->getVaryString(), null, '/');
-        }
+        $this->cookie->set(self::COOKIE_VARY_STRING, $this->getVaryString(), null, '/');
         return $this;
     }
 
