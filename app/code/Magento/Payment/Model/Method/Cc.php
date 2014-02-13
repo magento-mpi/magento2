@@ -7,13 +7,23 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Payment\Model\Method;
 
 class Cc extends \Magento\Payment\Model\Method\AbstractMethod
 {
+    /**
+     * @var string
+     */
     protected $_formBlockType = 'Magento\Payment\Block\Form\Cc';
+
+    /**
+     * @var string
+     */
     protected $_infoBlockType = 'Magento\Payment\Block\Info\Cc';
+
+    /**
+     * @var bool
+     */
     protected $_canSaveCc     = false;
 
     /**
@@ -74,7 +84,7 @@ class Cc extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Assign data to info model instance
      *
-     * @param   mixed $data
+     * @param   \Magento\Object|mixed $data
      * @return  \Magento\Payment\Model\Info
      */
     public function assignData($data)
@@ -100,7 +110,7 @@ class Cc extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Prepare info instance for save
      *
-     * @return \Magento\Payment\Model\Method\Cc
+     * @return $this
      */
     public function prepareSave()
     {
@@ -117,7 +127,7 @@ class Cc extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Validate payment method information object
      *
-     * @return \Magento\Payment\Model\Method\Cc
+     * @return $this
      * @throws \Magento\Core\Exception
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
@@ -214,6 +224,9 @@ class Cc extends \Magento\Payment\Model\Method\AbstractMethod
         return $this;
     }
 
+    /**
+     * @return bool
+     */
     public function hasVerification()
     {
         $configData = $this->getConfigData('useccv');
@@ -223,6 +236,9 @@ class Cc extends \Magento\Payment\Model\Method\AbstractMethod
         return (bool) $configData;
     }
 
+    /**
+     * @return array
+     */
     public function getVerificationRegEx()
     {
         $verificationExpList = array(
@@ -239,6 +255,11 @@ class Cc extends \Magento\Payment\Model\Method\AbstractMethod
         return $verificationExpList;
     }
 
+    /**
+     * @param string $expYear
+     * @param string $expMonth
+     * @return bool
+     */
     protected function _validateExpDate($expYear, $expMonth)
     {
         $date = $this->_locale->date();
@@ -250,6 +271,10 @@ class Cc extends \Magento\Payment\Model\Method\AbstractMethod
         return true;
     }
 
+    /**
+     * @param string $type
+     * @return bool
+     */
     public function otherCcType($type)
     {
         return $type=='OT';
@@ -298,7 +323,7 @@ class Cc extends \Magento\Payment\Model\Method\AbstractMethod
      * Other credit cart type number validation
      *
      * @param string $ccNumber
-     * @return boolean
+     * @return bool
      */
     public function validateCcNumOther($ccNumber)
     {

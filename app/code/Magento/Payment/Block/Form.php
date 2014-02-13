@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Payment\Block;
 
 /**
  * Payment method form base block
  */
-namespace Magento\Payment\Block;
-
 class Form extends \Magento\View\Element\Template
 {
     /**
