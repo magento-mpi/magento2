@@ -76,8 +76,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             '\Magento\Checkout\Model\Session', ['setLastRecurringProfileIds'], [], '', false
         );
         $this->_quote = $this->getMock(
-            '\Magento\RecurringProfile\Model\Quote',
-            ['prepareRecurringPaymentProfiles'],
+            '\Magento\RecurringProfile\Model\QuoteImporter',
+            ['__invoke'],
             [],
             '',
             false
@@ -182,7 +182,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     public function testSubmitRecurringPaymentProfiles()
     {
         $this->_prepareRecurringPaymentProfiles();
-        $this->_quote->expects($this->once())->method('prepareRecurringPaymentProfiles')
+        $this->_quote->expects($this->once())->method('__invoke')
             ->will($this->returnValue([$this->_profile]));
 
         $this->_profile->expects($this->once())->method('isValid')->will($this->returnValue(true));

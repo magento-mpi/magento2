@@ -11,7 +11,7 @@
  */
 namespace Magento\RecurringProfile\Model;
 
-class Quote
+class QuoteImporter
 {
     /**
      * Prepare recurring payment profiles
@@ -20,7 +20,7 @@ class Quote
      * @throws \Exception
      * @return array
      */
-    public function prepareRecurringPaymentProfiles(\Magento\Sales\Model\Quote $quote)
+    public function __invoke(\Magento\Sales\Model\Quote $quote)
     {
         if (!$quote->getTotalsCollectedFlag()) {
             // Whoops! Make sure nominal totals must be calculated here.

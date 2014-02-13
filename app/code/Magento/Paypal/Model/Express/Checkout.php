@@ -211,7 +211,7 @@ class Checkout
     /**
      * @var \Magento\RecurringProfile\Model\Quote
      */
-    protected $_quoteRecurring;
+    protected $_quoteImporter;
 
     /**
      * Set config, session and quote instances
@@ -233,7 +233,7 @@ class Checkout
      * @param \Magento\Sales\Model\Billing\AgreementFactory $agreementFactory
      * @param \Magento\Paypal\Model\Api\Type\Factory $apiTypeFactory
      * @param \Magento\Object\Copy $objectCopyService
-     * @param \Magento\RecurringProfile\Model\Quote $quoteRecurring
+     * @param \Magento\RecurringProfile\Model\QuoteImporter $quoteImporter
      * @param array $params
      * @throws \Exception
      */
@@ -255,7 +255,7 @@ class Checkout
         \Magento\Sales\Model\Billing\AgreementFactory $agreementFactory,
         \Magento\Paypal\Model\Api\Type\Factory $apiTypeFactory,
         \Magento\Object\Copy $objectCopyService,
-        \Magento\RecurringProfile\Model\Quote $quoteRecurring,
+        \Magento\RecurringProfile\Model\QuoteImporter $quoteImporter,
         $params = array()
     ) {
         $this->_customerData = $customerData;
@@ -275,7 +275,7 @@ class Checkout
         $this->_agreementFactory = $agreementFactory;
         $this->_apiTypeFactory = $apiTypeFactory;
         $this->_objectCopyService = $objectCopyService;
-        $this->_quoteRecurring = $quoteRecurring;
+        $this->_quoteImporter = $quoteImporter;
 
         if (isset($params['config']) && $params['config'] instanceof \Magento\Paypal\Model\Config) {
             $this->_config = $params['config'];
@@ -463,7 +463,7 @@ class Checkout
         }
 
         // add recurring payment profiles information
-        $profiles = $this->_quoteRecurring->prepareRecurringPaymentProfiles($this->_quote);
+        $profiles = $this->_quoteImporter($this->_quote);
         if ($profiles) {
             foreach ($profiles as $profile) {
                 $profile->setMethodCode(\Magento\Paypal\Model\Config::METHOD_WPP_EXPRESS);
