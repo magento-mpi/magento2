@@ -31,7 +31,7 @@ $categorySecond->setName('Category 2')
 
 $categoryThird = $objectManager->create('Magento\Catalog\Model\Category');
 $categoryThird->setName('Category 3')
-    ->setPath('1/2/' . $categoryFirst->getId())
+    ->setPath($categoryFirst->getPath())
     ->setLevel(3)
     ->setAvailableSortBy('name')
     ->setDefaultSortBy('name')
@@ -42,7 +42,17 @@ $categoryThird->setName('Category 3')
 
 $categoryFourth = $objectManager->create('Magento\Catalog\Model\Category');
 $categoryFourth->setName('Category 4')
-    ->setPath('1/2/' . $categorySecond->getId())
+    ->setPath($categoryThird->getPath())
+    ->setLevel(4)
+    ->setAvailableSortBy('name')
+    ->setDefaultSortBy('name')
+    ->setIsActive(true)
+    ->setPosition(1)
+    ->save();
+
+$categoryFifth = $objectManager->create('Magento\Catalog\Model\Category');
+$categoryFifth->setName('Category 5')
+    ->setPath($categorySecond->getPath())
     ->setLevel(3)
     ->setAvailableSortBy('name')
     ->setDefaultSortBy('name')

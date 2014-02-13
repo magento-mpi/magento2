@@ -13,26 +13,16 @@ namespace Magento\Catalog\Model\Indexer\Category;
  */
 class ProductTest extends \PHPUnit_Framework_TestCase
 {
+    const DEFAULT_ROOT_CATEGORY = 2;
     /**
      * @var \Magento\Indexer\Model\IndexerInterface
      */
     protected $indexer;
 
-    public static function setUpBeforeClass()
-    {
-        $indexer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Indexer\Model\Indexer');
-        $indexer->load('catalog_category_product');
-        $indexer->setScheduled(true);
-    }
-
-    public static function tearDownAfterClass()
-    {
-        $indexer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Indexer\Model\Indexer');
-        $indexer->load('catalog_category_product');
-        $indexer->setScheduled(false);
-    }
+    /**
+     * @var \Magento\Catalog\Model\Resource\Product
+     */
+    protected $productResource;
 
     protected function setUp()
     {
@@ -40,161 +30,157 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $this->indexer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Indexer\Model\Indexer');
         $this->indexer->load('catalog_category_product');
+
+        /** @var \Magento\Catalog\Model\Resource\Product $productResource */
+        $this->productResource = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Resource\Product');
     }
 
     public function testReindexAll()
     {
-        $categories = $this->getCategories(3);
+        $categories = $this->getCategories(4);
         $products = $this->getProducts(2);
 
-        /** @var \Magento\Catalog\Model\Resource\Product $productResource */
-        $productResource = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Resource\Product');
-
-        $expectedResult = array();
-        /** @var \Magento\Catalog\Model\Category $category */
-        $category = end($categories);
+        /** @var \Magento\Catalog\Model\Category $categoryFourth */
+        $categoryFourth = end($categories);
         foreach ($products as $product) {
             /** @var \Magento\Catalog\Model\Product $product */
-            $product->setCategoryIds(array($category->getId()));
+            $product->setCategoryIds(array($categoryFourth->getId()));
             $product->save();
-            $expectedResult[$category->getId()][$product->getId()] = true;
-            $expectedResult[$category->getParentId()][$product->getId()] = true;
         }
-        ksort($expectedResult);
 
-        /** @var \Magento\Catalog\Model\Category $category */
-        $category = reset($categories);
-        $category->setIsAnchor(true);
-        $category->save();
+        /** @var \Magento\Catalog\Model\Category $categoryThird */
+        $categoryThird = $categories[2];
+        $categoryThird->setIsAnchor(true);
+        $categoryThird->save();
 
-        $actualResult = array();
-        foreach ($categories as $category) {
-            /** @var \Magento\Catalog\Model\Category $category */
-            foreach ($products as $product) {
-                /** @var \Magento\Catalog\Model\Product $product */
-                $r = $productResource->canBeShowInCategory($product, $category->getId());
-                if ($r !== false) {
-                    $actualResult[$category->getId()][$product->getId()] = true;
-                }
-            }
-        }
-        ksort($actualResult);
-        $this->assertNotEquals($actualResult, $expectedResult);
+        $this->clearIndex();
+        $categories = array(self::DEFAULT_ROOT_CATEGORY, $categoryThird->getId(), $categoryFourth->getId());
 
         $this->indexer->reindexAll();
 
-        $actualResult = array();
-        foreach ($categories as $category) {
-            /** @var \Magento\Catalog\Model\Category $category */
-            foreach ($products as $product) {
-                /** @var \Magento\Catalog\Model\Product $product */
-                $r = $productResource->canBeShowInCategory($product, $category->getId());
-                if ($r !== false) {
-                    $actualResult[$category->getId()][$product->getId()] = true;
-                }
+        foreach ($products as $product) {
+            /** @var \Magento\Catalog\Model\Product $product */
+            foreach ($categories as $categoryId) {
+                $this->assertTrue((bool)$this->productResource->canBeShowInCategory($product, $categoryId));
             }
+
+            $this->assertFalse(
+                (bool)$this->productResource->canBeShowInCategory($product, $categoryThird->getParentId())
+            );
         }
-        ksort($actualResult);
-        $this->assertEquals($actualResult, $expectedResult);
     }
 
     /**
      * @magentoAppArea adminhtml
      */
-    public function testReindexList()
+    public function testCategoryMove()
     {
-        /** @var \Magento\Catalog\Model\Resource\Product $productResource */
-        $productResource = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Resource\Product');
+        $this->clearIndex();
 
+        $categories = $this->getCategories(4);
+        $products = $this->getProducts(2);
+
+        /** @var \Magento\Catalog\Model\Category $categoryFourth */
+        $categoryFourth = end($categories);
+
+        /** @var \Magento\Catalog\Model\Category $categorySecond */
+        $categorySecond = $categories[1];
+        $categorySecond->setIsAnchor(true);
+        $categorySecond->save();
+
+        /** @var \Magento\Catalog\Model\Category $categoryThird */
+        $categoryThird = $categories[2];
+
+        $categoryFourth->move($categorySecond->getId(), null);
+
+        $categories = array(self::DEFAULT_ROOT_CATEGORY, $categorySecond->getId(), $categoryFourth->getId());
+
+        foreach ($products as $product) {
+            /** @var \Magento\Catalog\Model\Product $product */
+            foreach ($categories as $categoryId) {
+                $this->assertTrue((bool)$this->productResource->canBeShowInCategory($product, $categoryId));
+            }
+
+            $this->assertFalse(
+                (bool)$this->productResource->canBeShowInCategory($product, $categoryThird->getId())
+            );
+        }
+    }
+
+    /**
+     * @magentoAppArea adminhtml
+     */
+    public function testCategoryDelete()
+    {
+        $this->clearIndex();
+
+        $categories = $this->getCategories(4);
+        $products = $this->getProducts(2);
+
+        /** @var \Magento\Catalog\Model\Category $categoryFourth */
+        $categoryFourth = end($categories);
+        $categoryFourth->delete();
+
+        /** @var \Magento\Catalog\Model\Category $categorySecond */
+        $categorySecond = $categories[1];
+
+        $categories = array($categorySecond->getId(), $categoryFourth->getId());
+
+        foreach ($products as $product) {
+            /** @var \Magento\Catalog\Model\Product $product */
+            foreach ($categories as $categoryId) {
+                $this->assertFalse(
+                    (bool)$this->productResource->canBeShowInCategory($product, $categoryId)
+                );
+            }
+            $this->assertTrue(
+                (bool)$this->productResource->canBeShowInCategory($product, self::DEFAULT_ROOT_CATEGORY)
+            );
+        }
+    }
+
+    public function testCategoryCreate()
+    {
         $categories = $this->getCategories(4);
         $products = $this->getProducts(3);
 
-        /** @var \Magento\Catalog\Model\Product $productLast */
-        $productLast = end($products);
+        /** @var \Magento\Catalog\Model\Category $categorySecond */
+        $categorySecond = $categories[1];
+        $categorySecond->setIsAnchor(0);
+        $categorySecond->save();
 
-        /** @var \Magento\Catalog\Model\Category $category */
-        $category = end($categories);
-        /** @var \Magento\Catalog\Model\Category $categoryParent */
-        $categoryParent = $categories[1];
-        $categoryParent->setIsAnchor(true);
-        $categoryParent->save();
+        /** @var \Magento\Catalog\Model\Category $categoryFifth */
+        $categoryFifth = end($categories);
 
-        $productLast->setCategoryIds(array($category->getId()));
-        $productLast->save();
+        /** @var \Magento\Catalog\Model\Category $categorySixth */
+        $categorySixth = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Category');
+        $categorySixth->setName('Category 6')
+            ->setPath($categoryFifth->getPath())
+            ->setAvailableSortBy('name')
+            ->setDefaultSortBy('name')
+            ->setIsActive(true)
+            ->save();
 
-        $expectedResult = array();
-        foreach ($categories as $category) {
-            /** @var \Magento\Catalog\Model\Category $category */
-            foreach ($products as $product) {
-                /** @var \Magento\Catalog\Model\Product $product */
-                $r = $productResource->canBeShowInCategory($product, $category->getId());
-                if ($r !== false) {
-                    $expectedResult[$category->getId()][$product->getId()] = true;
-                }
-            }
+        /** @var \Magento\Catalog\Model\Product $productThird */
+        $productThird = end($products);
+        $productThird->setCategoryIds(array($categorySixth->getId()));
+        $productThird->save();
+
+        $categories = array(self::DEFAULT_ROOT_CATEGORY, $categorySixth->getId());
+        foreach ($categories as $categoryId) {
+            $this->assertTrue(
+                (bool)$this->productResource->canBeShowInCategory($productThird, $categoryId)
+            );
         }
-        ksort($expectedResult);
 
-        $categoryNewParent = reset($categories);
-        $categoryOldParent = next($categories);
-
-        $category->getResource()->changeParent($category, $categoryNewParent, null);
-
-        $expectedResult[$categoryNewParent->getId()][$productLast->getId()] = true;
-        unset($expectedResult[$categoryOldParent->getId()]);
-
-        $this->indexer->reindexList(
-            array($category->getId(), $categoryNewParent->getId(), $categoryOldParent->getId())
-        );
-
-        $actualResult = array();
-        foreach ($categories as $category) {
-            /** @var \Magento\Catalog\Model\Category $category */
-            foreach ($products as $product) {
-                /** @var \Magento\Catalog\Model\Product $product */
-                $r = $productResource->canBeShowInCategory($product, $category->getId());
-                if ($r !== false) {
-                    $actualResult[$category->getId()][$product->getId()] = true;
-                }
-            }
+        $categories = array($categoryFifth->getId(), $categorySecond->getId());
+        foreach ($categories as $categoryId) {
+            $this->assertFalse(
+                (bool)$this->productResource->canBeShowInCategory($productThird, $categoryId)
+            );
         }
-        ksort($actualResult);
-        $this->assertEquals($expectedResult, $actualResult);
-    }
-
-    /**
-     * @magentoAppArea adminhtml
-     */
-    public function testReindexRow()
-    {
-        /** @var \Magento\Catalog\Model\Resource\Product $productResource */
-        $productResource = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Resource\Product');
-
-        $categories = $this->getCategories(3);
-        $products = $this->getProducts(2);
-
-        /** @var \Magento\Catalog\Model\Category $category */
-        $category = end($categories);
-        $categoryId = $category->getId();
-        $category->delete();
-
-        $this->indexer->reindexRow($categoryId);
-
-        $actualResult = array();
-        foreach ($categories as $category) {
-            /** @var \Magento\Catalog\Model\Category $category */
-            foreach ($products as $product) {
-                /** @var \Magento\Catalog\Model\Product $product */
-                $r = $productResource->canBeShowInCategory($product, $category->getId());
-                if ($r !== false) {
-                    $actualResult[$category->getId()][$product->getId()] = true;
-                }
-            }
-        }
-        $this->assertEquals(array(), $actualResult);
     }
 
     /**
@@ -226,5 +212,21 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $result = $product->getCollection()->getItems();
 
         return array_slice($result, 0, $count);
+    }
+
+    /**
+     * Clear index data
+     */
+    protected function clearIndex()
+    {
+        $this->productResource->getWriteConnection()
+            ->delete($this->productResource->getTable('catalog_category_product_index'));
+
+        $actualResult = $this->productResource->getReadConnection()->fetchOne(
+            $this->productResource->getReadConnection()->select()
+                ->from($this->productResource->getTable('catalog_category_product_index'), 'product_id')
+
+        );
+        $this->assertFalse($actualResult);
     }
 }
