@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Persistent\Model\Observer;
 
 /**
@@ -83,6 +82,10 @@ class Session
         $this->_sessionFactory = $sessionFactory;
     }
 
+    /**
+     * @param \Magento\Event\Observer $observer
+     * @return void
+     */
     public function synchronizePersistentOnLogin(\Magento\Event\Observer $observer)
     {
         /** @var $customer \Magento\Customer\Model\Customer */
@@ -133,6 +136,7 @@ class Session
      * Unload persistent session (if set in config)
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function synchronizePersistentOnLogout(\Magento\Event\Observer $observer)
     {
@@ -157,6 +161,7 @@ class Session
      * Synchronize persistent session info
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function synchronizePersistentInfo(\Magento\Event\Observer $observer)
     {
@@ -182,6 +187,7 @@ class Session
      * Set Checked status of "Remember Me"
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function setRememberMeCheckedStatus(\Magento\Event\Observer $observer)
     {
@@ -209,6 +215,7 @@ class Session
      * Renew persistent cookie
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function renewCookie(\Magento\Event\Observer $observer)
     {

@@ -7,15 +7,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\PersistentHistory\Block\Adminhtml\System\Config;
 
 /**
  * Enterprise Persistent System Config Option Customer Segmentation admin frontend model
  *
  */
-namespace Magento\PersistentHistory\Block\Adminhtml\System\Config;
-
 class Customer extends \Magento\Backend\Block\System\Config\Form\Field
 {
+    /**
+     * @param \Magento\Data\Form\Element\AbstractElement $element
+     * @return string
+     */
     public function render(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $elementId = $element->getHtmlId();
@@ -25,8 +28,7 @@ class Customer extends \Magento\Backend\Block\System\Config\Form\Field
         $addInheritCheckbox = false;
         if ($element->getCanUseWebsiteValue()) {
             $addInheritCheckbox = true;
-        }
-        elseif ($element->getCanUseDefaultValue()) {
+        } elseif ($element->getCanUseDefaultValue()) {
             $addInheritCheckbox = true;
         }
 

@@ -135,10 +135,10 @@ class Observer
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\UrlInterface $url
-     * @param SessionFactory $sessionFactory
+     * @param \Magento\Persistent\Model\SessionFactory $sessionFactory
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
-     * @param Persistent\ConfigFactory $persistentConfigFactory
+     * @param \Magento\Persistent\Model\Persistent\ConfigFactory $persistentConfigFactory
      * @param \Magento\App\RequestInterface $requestHttp
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Escaper $escaper
@@ -184,7 +184,7 @@ class Observer
      * Apply persistent data
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\Persistent\Model\Observer
+     * @return $this
      */
     public function applyPersistentData($observer)
     {
@@ -205,7 +205,7 @@ class Observer
      * Apply persistent data to specific block
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\Persistent\Model\Observer
+     * @return $this
      */
     public function applyBlockPersistentData($observer)
     {
@@ -240,7 +240,7 @@ class Observer
      * Emulate 'welcome' block with persistent data
      *
      * @param \Magento\View\Element\AbstractBlock $block
-     * @return \Magento\Persistent\Model\Observer
+     * @return $this
      */
     public function emulateWelcomeBlock($block)
     {
@@ -255,6 +255,8 @@ class Observer
 
     /**
      * Emulate 'account links' block with persistent data
+     *
+     * @return void
      */
     protected function _applyAccountLinksPersistentData()
     {
@@ -267,6 +269,7 @@ class Observer
      * Emulate 'top links' block with persistent data
      *
      * @param \Magento\View\Element\AbstractBlock $block
+     * @return void
      */
     public function emulateTopLinks($block)
     {
@@ -278,6 +281,7 @@ class Observer
      * Emulate quote by persistent data
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function emulateQuote($observer)
     {
@@ -311,6 +315,7 @@ class Observer
      * Set persistent data into quote
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function setQuotePersistentData($observer)
     {
@@ -334,6 +339,7 @@ class Observer
      * Set quote to be loaded even if not active
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function setLoadPersistentQuote($observer)
     {
@@ -350,6 +356,7 @@ class Observer
      * Prevent clear checkout session
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function preventClearCheckoutSession($observer)
     {
@@ -364,6 +371,7 @@ class Observer
      * Make persistent quote to be guest
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function makePersistentQuoteGuest($observer)
     {
@@ -399,6 +407,7 @@ class Observer
      * Reset session data when customer re-authenticates
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function customerAuthenticatedEvent($observer)
     {
@@ -416,6 +425,7 @@ class Observer
      * Unset persistent cookie and make customer's quote as a guest
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function removePersistentCookie($observer)
     {
@@ -436,6 +446,7 @@ class Observer
      * Disable guest checkout if we are in persistent mode
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function disableGuestCheckout($observer)
     {
@@ -448,6 +459,7 @@ class Observer
      * Prevent express checkout with Google checkout and PayPal Express checkout
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function preventExpressCheckout($observer)
     {
@@ -538,6 +550,7 @@ class Observer
      * Make quote to be guest
      *
      * @param bool $checkQuote Check quote to be persistent (not stolen)
+     * @return void
      */
     public function setQuoteGuest($checkQuote = false)
     {
@@ -577,6 +590,7 @@ class Observer
      * Check and clear session data if persistent session expired
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function checkExpirePersistentQuote(\Magento\Event\Observer $observer)
     {
@@ -597,6 +611,9 @@ class Observer
         }
     }
 
+    /**
+     * @return void
+     */
     protected function _expirePersistentSession()
     {
         $quote = $this->_checkoutSession->setLoadInactive()->getQuote();
@@ -614,7 +631,7 @@ class Observer
      * Clear expired persistent sessions
      *
      * @param \Magento\Cron\Model\Schedule $schedule
-     * @return \Magento\Persistent\Model\Observer
+     * @return $this
      */
     public function clearExpiredCronJob(\Magento\Cron\Model\Schedule $schedule)
     {
@@ -634,6 +651,7 @@ class Observer
      * Update customer id and customer group id if user is in persistent session
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function updateCustomerCookies(\Magento\Event\Observer $observer)
     {
@@ -653,7 +671,7 @@ class Observer
      * Set persistent data to customer session
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\Persistent\Model\Observer
+     * @return $this
      */
     public function emulateCustomer($observer)
     {
