@@ -534,7 +534,7 @@ abstract class AbstractAction
                                 $this->getWriteAdapter()->getCheckSql('ccp.product_id IS NOT NULL', 'ccp.position', '0')
                             ),
                         'is_parent'   => new \Zend_Db_Expr(
-                                $this->getWriteAdapter()->getCheckSql('ccp.product_id IS NOT NULL', '0', '1')),
+                                $this->getWriteAdapter()->getCheckSql('ccp.product_id IS NOT NULL', '1', '0')),
                         'store_id'    => new \Zend_Db_Expr($store->getId()),
                         'visibility'  => new \Zend_Db_Expr(
                                 $this->getWriteAdapter()->getIfNullSql('cpvs.value', 'cpvd.value')),
