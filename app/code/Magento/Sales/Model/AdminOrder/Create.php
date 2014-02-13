@@ -1157,10 +1157,19 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
     protected function _setQuoteAddress(\Magento\Sales\Model\Quote\Address $address, array $data)
     {
         $isAjax = !$this->getIsValidate();
+
+        // Region is a DTO, so it is represented by an array. validateData() doesn't understand arrays, so we need to
+        // merge region data with address data. This is going to be removed when we switch to use address DTO instead
+        // of the address model.
+        // Note: if we use getRegion() here it will pull region from db using the region_id
+        $data = is_array($address->getData('region'))
+            ? array_merge($address->getData(), $address->getData('region'))
+            : $address->getData();
+
         $addressForm = $this->_metadataFormFactory->create(
             CustomerMetadataServiceInterface::ENTITY_TYPE_ADDRESS,
             'adminhtml_customer_address',
-            $address->getData(),
+            $data,
             CustomerForm::DONT_IGNORE_INVISIBLE,
             [],
             $isAjax

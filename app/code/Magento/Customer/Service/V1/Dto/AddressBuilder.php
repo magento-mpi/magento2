@@ -56,15 +56,20 @@ class AddressBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
 
     /**
      * {@inheritdoc}
-     * @throws \InvalidArgumentException
      */
     public function populateWithArray(array $data)
     {
-        if (isset($data[Address::KEY_REGION])) {
-            $regionData = $data[Address::KEY_REGION];
-
-            if (!is_array($regionData)) {
-                throw new \InvalidArgumentException("'region' expected to be an array");
+        if (array_key_exists(Address::KEY_REGION, $data)) {
+            if (!is_array($data[Address::KEY_REGION])) {
+                // Region data has been submitted as individual keys of Address object. Let's extract it.
+                $regionData = [];
+                foreach ([Region::KEY_REGION, Region::KEY_REGION_CODE, Region::KEY_REGION_ID] as $attrCode) {
+                    if (isset($data[$attrCode])) {
+                        $regionData[$attrCode] = $data[$attrCode];
+                    }
+                }
+            } else {
+                $regionData = $data[Address::KEY_REGION];
             }
 
             $data[Address::KEY_REGION] = $this->_regionBuilder->populateWithArray($regionData)->create();
