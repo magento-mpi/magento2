@@ -8,14 +8,15 @@
 
 namespace Magento\Test\Legacy\Magento\ObjectManager;
 
-use Magento\TestFramework\Utility;
-
 class DiConfigTest extends \PHPUnit_Framework_TestCase
 {
     public function testObsoleteDiFormat()
     {
-        $invoker = new Utility\AggregateInvoker($this);
-        $invoker(array($this, 'assertObsoleteFormat'), Utility\Files::init()->getDiConfigs(true));
+        $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
+        $invoker(
+            array($this, 'assertObsoleteFormat'),
+            \Magento\TestFramework\Utility\Files::init()->getDiConfigs(true)
+        );
     }
 
     /**
