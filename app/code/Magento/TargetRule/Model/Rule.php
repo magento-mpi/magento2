@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 namespace Magento\TargetRule\Model;
+use Magento\Core\Exception;
 
 /**
  * TargetRule Rule Model
@@ -376,8 +377,8 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      * Validate rule data
      *
      * @param \Magento\Object $object
-     * @return array|bool - Return true if validation passed successfully. Array with errors description otherwise
-     * @throws \Magento\Core\Exception
+     * @return string[]|bool - Return true if validation passed successfully. Array with errors description otherwise
+     * @throws Exception
      */
     public function validateData(\Magento\Object $object)
     {
@@ -395,7 +396,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
                     continue;
                 }
                 if (!class_exists($actionArgs['type'])) {
-                    throw new \Magento\Core\Exception(
+                    throw new Exception(
                         __('Model class name for attribute is invalid')
                     );
                 }
