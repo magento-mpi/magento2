@@ -22,9 +22,9 @@ class Setup extends \Magento\Core\Model\Resource\Setup
      * Construct resource Setup Model
      *
      * @param \Magento\Core\Model\Resource\Setup\Context $context
-     * @param \Magento\Integration\Model\Manager $integrationManager
      * @param string $resourceName
-     * @param $moduleName
+     * @param \Magento\Integration\Model\Manager $integrationManager
+     * @param string $moduleName
      * @param string $connectionName
      *
      */
