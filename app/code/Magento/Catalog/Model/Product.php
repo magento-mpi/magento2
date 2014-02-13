@@ -616,6 +616,11 @@ class Product extends \Magento\Catalog\Model\AbstractModel
             $this->setRequiredOptions(false);
         }
 
+        if (!$this->getOrigData('website_ids')) {
+            $websiteIds = $this->_getResource()->getWebsiteIds($this);
+            $this->setOrigData('website_ids', $websiteIds);
+        }
+
         parent::_beforeSave();
     }
 
@@ -667,18 +672,8 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      */
     public function reindexCallback()
     {
-        $originEntityId = $this->getOrigData('entity_id');
-
-        $newPrice = $this->getData('price');
-        $originPrice = $this->getOrigData('price');
-
-        $newWebsites = $this->getData('website_ids');
-        $originWebsites = $this->getOrigData('website_ids');
-
-        $newStatus = $this->getData('status');
-        $originStatus = $this->getOrigData('status');
-
-        if (!$originEntityId || $originPrice != $newPrice || $originStatus != $newStatus || $originWebsites!=$newWebsites) {
+        if ($this->isObjectNew() || $this->dataHasChangedFor('price') ||
+            $this->dataHasChangedFor('status') || $this->dataHasChangedFor('website_ids')) {
             $this->_productPriceIndexerProcessor->reindexRow($this->getEntityId());
         }
         return $this;
@@ -732,7 +727,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel
             }
         }
 
-        $this->getWebsiteIds();
         return $this;
     }
 
