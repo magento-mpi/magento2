@@ -42,7 +42,7 @@ interface CustomerServiceInterface
      * @param int $customerId
      *
      * @return void
-     * @throws \Magento\Exception\NoSuchEntityException
+     * @throws NoSuchEntityException If customer with customerId is not found.
      */
     public function deleteCustomer($customerId);
 }
