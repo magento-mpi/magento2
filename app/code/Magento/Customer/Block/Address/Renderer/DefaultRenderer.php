@@ -217,7 +217,7 @@ class DefaultRenderer
                 $data['country'] =
                     $this->_countryFactory->create(['id' => $addressAttributes['country_id']])->getName();
             } elseif ($attributeCode == 'region' && isset($addressAttributes['region'])) {
-                $data['region'] = __($addressAttributes['region']);
+                $data['region'] = __($addressAttributes['region']['region']);
             } elseif (isset($addressAttributes[$attributeCode])) {
                 $value = $addressAttributes[$attributeCode];
                 $dataModel = $this->_elementFactory->create($attributeMetadata, $value, 'customer_address');

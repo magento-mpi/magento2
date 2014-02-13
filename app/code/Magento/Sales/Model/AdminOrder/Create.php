@@ -1572,7 +1572,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         $addressType = $quoteCustomerAddress->getAddressType();
         if ($quoteAddressId) {
             /** Update existing address */
-            $existingAddressDto = $this->_customerAddressService->getAddressById($customerId, $quoteAddressId);
+            $existingAddressDto = $this->_customerAddressService->getAddressById($quoteAddressId);
             /** Update customer address data */
             $customerAddressDto = $this->_customerAddressBuilder->mergeDtos($existingAddressDto, $customerAddressDto);
         } else if ($addressType == CustomerAddressDto::ADDRESS_TYPE_SHIPPING ) {

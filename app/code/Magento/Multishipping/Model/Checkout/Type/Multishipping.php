@@ -362,8 +362,7 @@ class Multishipping extends \Magento\Checkout\Model\Type\AbstractType
             $quoteItem->setMultishippingQty((int)$quoteItem->getMultishippingQty()+$qty);
             $quoteItem->setQty($quoteItem->getMultishippingQty());
             try {
-                $customerId = $this->getCustomer()->getCustomerId();
-                $address = $this->_customerAddressService->getAddressById($customerId, $addressId);
+                $address = $this->_customerAddressService->getAddressById($addressId);
             } catch (\Exception $e) {
                 /** Customer address does not exist. */
             }
@@ -397,9 +396,8 @@ class Multishipping extends \Magento\Checkout\Model\Type\AbstractType
      */
     public function updateQuoteCustomerShippingAddress($addressId)
     {
-        $customerId = $this->getCustomer()->getCustomerId();
         try {
-            $address = $this->_customerAddressService->getAddressById($customerId, $addressId);
+            $address = $this->_customerAddressService->getAddressById($addressId);
         } catch (\Exception $e) {
             /** Customer address does not exist. */
         }
@@ -421,9 +419,8 @@ class Multishipping extends \Magento\Checkout\Model\Type\AbstractType
      */
     public function setQuoteCustomerBillingAddress($addressId)
     {
-        $customerId = $this->getCustomer()->getCustomerId();
         try {
-            $address = $this->_customerAddressService->getAddressById($customerId, $addressId);
+            $address = $this->_customerAddressService->getAddressById($addressId);
         } catch (\Exception $e) {
             /** Customer address does not exist. */
         }
