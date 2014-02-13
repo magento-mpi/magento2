@@ -18,7 +18,7 @@
  */
 namespace Magento\CatalogInventory\Block\Stockqty;
 
-class DefaultStockqty extends AbstractStockqty
+class DefaultStockqty extends AbstractStockqty implements \Magento\View\Block\IdentityInterface
 {
     /**
      * Render block HTML
@@ -31,5 +31,15 @@ class DefaultStockqty extends AbstractStockqty
             return '';
         }
         return parent::_toHtml();
+    }
+
+    /**
+     * Return identifiers for produced content
+     *
+     * @return array
+     */
+    public function getIdentities()
+    {
+        return $this->getProduct()->getIdentities();
     }
 }

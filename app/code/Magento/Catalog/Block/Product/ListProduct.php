@@ -19,6 +19,7 @@
 namespace Magento\Catalog\Block\Product;
 
 class ListProduct extends \Magento\Catalog\Block\Product\AbstractProduct
+    implements \Magento\View\Block\IdentityInterface
 {
     /**
      * Default toolbar block name
@@ -316,5 +317,19 @@ class ListProduct extends \Magento\Catalog\Block\Product\AbstractProduct
         }
 
         return $this;
+    }
+
+    /**
+     * Return identifiers for produced content
+     *
+     * @return array
+     */
+    public function getIdentities()
+    {
+        $identities = array();
+        foreach ($this->_getProductCollection() as $item) {
+            $identities[] = $item->getIdentities();
+        }
+        return array_merge($this->getLayer()->getCurrentCategory()->getIdentities(), $identities);
     }
 }

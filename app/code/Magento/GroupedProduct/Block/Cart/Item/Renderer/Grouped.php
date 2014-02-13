@@ -13,7 +13,7 @@ use Magento\Catalog\Model\Config\Source\Product\Thumbnail as ThumbnailSource;
 /**
  * Shopping cart item render block
  */
-class Grouped extends \Magento\Checkout\Block\Cart\Item\Renderer
+class Grouped extends \Magento\Checkout\Block\Cart\Item\Renderer implements \Magento\View\Block\IdentityInterface
 {
     /**
      * Path in config to the setting which defines if parent or child product should be used to generate a thumbnail.
@@ -81,5 +81,15 @@ class Grouped extends \Magento\Checkout\Block\Cart\Item\Renderer
             $product = $this->getProduct();
         }
         return $product;
+    }
+
+    /**
+     * Return identifiers for produced content
+     *
+     * @return array
+     */
+    public function getIdentities()
+    {
+        return array_merge(parent::getIdentities(), $this->getGroupedProduct()->getIdentities());
     }
 }
