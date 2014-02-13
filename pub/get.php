@@ -52,7 +52,9 @@ if ($mediaDirectory) {
     }
 
     if (is_readable($request->getFilePath())) {
-        $transfer = new \Magento\File\Transfer\Adapter\Http();
+        $transfer = new \Magento\File\Transfer\Adapter\Http(
+            new \Zend_Controller_Response_Http, new \Magento\File\Mime
+        );
         $transfer->send($request->getFilePath());
         exit;
     }

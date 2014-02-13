@@ -18,57 +18,30 @@ namespace Magento\File\Transfer\Adapter;
 class Http
 {
     /**
-     * @var array
+     * @var \Zend_Controller_Response_Http
      */
-    protected $_mimeTypes = array(
-        'txt' => 'text/plain',
-        'htm' => 'text/html',
-        'html' => 'text/html',
-        'php' => 'text/html',
-        'css' => 'text/css',
-        'js' => 'application/javascript',
-        'json' => 'application/json',
-        'xml' => 'application/xml',
-        'swf' => 'application/x-shockwave-flash',
-        'flv' => 'video/x-flv',
+    private $response;
 
-        // images
-        'png' => 'image/png',
-        'jpe' => 'image/jpeg',
-        'jpeg' => 'image/jpeg',
-        'jpg' => 'image/jpeg',
-        'gif' => 'image/gif',
-        'bmp' => 'image/bmp',
-        'ico' => 'image/vnd.microsoft.icon',
-        'tiff' => 'image/tiff',
-        'tif' => 'image/tiff',
-        'svg' => 'image/svg+xml',
-        'svgz' => 'image/svg+xml',
+    /**
+     * @var \Magento\File\Mime
+     */
+    private $mime;
 
-        // archives
-        'zip' => 'application/zip',
-        'rar' => 'application/x-rar-compressed',
-        'exe' => 'application/x-msdownload',
-        'msi' => 'application/x-msdownload',
-        'cab' => 'application/vnd.ms-cab-compressed',
-
-        // audio/video
-        'mp3' => 'audio/mpeg',
-        'qt' => 'video/quicktime',
-        'mov' => 'video/quicktime',
-
-        // adobe
-        'pdf' => 'application/pdf',
-        'psd' => 'image/vnd.adobe.photoshop',
-        'ai' => 'application/postscript',
-        'eps' => 'application/postscript',
-        'ps' => 'application/postscript'
-    );
+    /**
+     * @param \Zend_Controller_Response_Http $response
+     * @param \Magento\File\Mime $mime
+     */
+    public function __construct(\Zend_Controller_Response_Http $response, \Magento\File\Mime $mime)
+    {
+        $this->response = $response;
+        $this->mime = $mime;
+    }
 
     /**
      * Send the file to the client (Download)
      *
      * @param  string|array $options Options for the file(s) to send
+     * @throws \Exception
      * @return void
      */
     public function send($options = null)
@@ -85,14 +58,12 @@ class Http
             throw new \Exception("File '{$filepath}' does not exists.");
         }
 
-        $mimeType = $this->_detectMimeType(array('name' => $filepath));
+        $mimeType = $this->_detectMimeType($filepath);
 
-        $response = new \Zend_Controller_Response_Http();
+        $this->response->setHeader('Content-length', filesize($filepath));
+        $this->response->setHeader('Content-Type', $mimeType);
 
-        $response->setHeader('Content-length', filesize($filepath));
-        $response->setHeader('Content-Type', $mimeType);
-
-        $response->sendHeaders();
+        $this->response->sendHeaders();
 
         $handle = fopen($filepath, 'r');
         if ($handle) {
@@ -109,34 +80,14 @@ class Http
     /**
      * Internal method to detect the mime type of a file
      *
-     * @param  array $value File infos
-     * @return string Mime type of given file
+     * @param  string $file
+     * @return string|null Mime type of given file
      */
-    protected function _detectMimeType($value)
+    protected function _detectMimeType($file)
     {
-        if (file_exists($value['name'])) {
-            $file = $value['name'];
-        } else if (file_exists($value['tmp_name'])) {
-            $file = $value['tmp_name'];
-        } else {
-            return null;
+        if (file_exists($file)) {
+            return $this->mime->getMimeType($file);
         }
-
-        $parts = explode('.', $file);
-        $extention = strtolower(array_pop($parts));
-        if (isset($this->_mimeTypes[$extention])) {
-            $result = $this->_mimeTypes[$extention];
-        }
-
-        if (empty($result) && (function_exists('mime_content_type') && ini_get('mime_magic.magicfile'))) {
-            $result = mime_content_type($file);
-        }
-
-        if (empty($result)) {
-            $result = 'application/octet-stream';
-        }
-
-        return $result;
+        return null;
     }
-
 }

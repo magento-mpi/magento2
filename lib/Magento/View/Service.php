@@ -119,6 +119,7 @@ class Service
      * Update required parameters with default values if custom not specified
      *
      * @param array $params
+     * @throws \UnexpectedValueException
      * @return $this
      *
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
@@ -145,6 +146,9 @@ class Service
 
         if ($theme) {
             $params['themeModel'] = $this->themeFactory->create($theme, $area);
+            if (!$params['themeModel']) {
+                throw new \UnexpectedValueException("Could not find theme '$theme' for area '$area'");
+            }
         } elseif (empty($params['themeModel'])) {
             $params['themeModel'] = $defaults['themeModel'];
         }
