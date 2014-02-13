@@ -1953,7 +1953,6 @@ return array(
     ],
     ['Magento\Shipping\Model\Rate\Request', 'Magento\Sales\Model\Quote\Address\RateRequest'],
     array('Magento\PageCache\Block\Adminhtml\Cache\Additional'),
-    array('Magento\PageCache\Controller\Adminhtml\PageCache'),
     array('Magento\PageCache\Model\Control\ControlInterface'),
     array('Magento\PageCache\Model\Control\Zend'),
     array('Magento\PageCache\Model\System\Config\Source\Controls'),

@@ -47,7 +47,7 @@ class Wishlist extends \Magento\Backend\App\Action
     /**
      * Init layout and add breadcrumbs
      *
-     * @return \Magento\MultipleWishlist\Controller\Adminhtml\Report\Customer\Wishlist
+     * @return $this
      */
     protected function _initAction()
     {
@@ -67,6 +67,8 @@ class Wishlist extends \Magento\Backend\App\Action
     /**
      * Index Action.
      * Forward to Wishlist Action
+     *
+     * @return void
      */
     public function indexAction()
     {
@@ -75,6 +77,8 @@ class Wishlist extends \Magento\Backend\App\Action
 
     /**
      * Wishlist view action
+     *
+     * @return void
      */
     public function wishlistAction()
     {
@@ -86,6 +90,8 @@ class Wishlist extends \Magento\Backend\App\Action
 
     /**
      * Export Excel Action
+     *
+     * @return \Magento\App\ResponseInterface
      */
     public function exportExcelAction()
     {
@@ -105,6 +111,8 @@ class Wishlist extends \Magento\Backend\App\Action
 
     /**
      * Export Csv Action
+     *
+     * @return \Magento\App\ResponseInterface
      */
     public function exportCsvAction()
     {

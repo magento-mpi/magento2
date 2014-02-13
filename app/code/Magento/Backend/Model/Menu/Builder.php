@@ -7,13 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Model\Menu;
 
 /**
  * Menu builder object. Retrieves commands (\Magento\Backend\Model\Menu\Builder\AbstractCommand)
  * to build menu (\Magento\Backend\Model\Menu)
  */
-namespace Magento\Backend\Model\Menu;
-
 class Builder
 {
     /**
@@ -39,7 +38,7 @@ class Builder
      * Process provided command object
      *
      * @param \Magento\Backend\Model\Menu\Builder\AbstractCommand $command
-     * @return \Magento\Backend\Model\Menu\Builder
+     * @return $this
      */
     public function processCommand(\Magento\Backend\Model\Menu\Builder\AbstractCommand $command)
     {

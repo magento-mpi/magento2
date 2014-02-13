@@ -7,13 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\FullPageCache\Block;
 
 /**
  * Front end helper block to highliht dynamic blocks
  */
-namespace Magento\FullPageCache\Block;
-
 class Debug extends \Magento\View\Element\Template
 {
+    /**
+     * @var string
+     */
     protected $_template = 'blockdebug.phtml';
 }

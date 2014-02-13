@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Core\Model\Resource;
 
 /**
  * Core Website Resource Model
@@ -16,8 +16,6 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Core\Model\Resource;
-
 class Website extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
@@ -32,7 +30,7 @@ class Website extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Initialize unique fields
      *
-     * @return \Magento\Core\Model\Resource\Website
+     * @return $this
      */
     protected function _initUniqueFields()
     {
@@ -47,8 +45,8 @@ class Website extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Validate website code before object save
      *
      * @param \Magento\Core\Model\AbstractModel $object
+     * @return $this
      * @throws \Magento\Core\Exception
-     * @return \Magento\Core\Model\Resource\Website
      */
     protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
     {
@@ -63,7 +61,7 @@ class Website extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Perform actions after object save
      *
      * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Core\Model\Resource\Website
+     * @return $this
      */
     protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
     {
@@ -79,7 +77,7 @@ class Website extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Remove core configuration data after delete website
      *
      * @param \Magento\Core\Model\AbstractModel $model
-     * @return \Magento\Core\Model\Resource\Website
+     * @return $this
      */
     protected function _afterDelete(\Magento\Core\Model\AbstractModel $model)
     {
@@ -98,7 +96,7 @@ class Website extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Retrieve default stores select object
      * Select fields website_id, store_id
      *
-     * @param boolean $includeDefault include/exclude default admin website
+     * @param bool $includeDefault include/exclude default admin website
      * @return \Magento\DB\Select
      */
     public function getDefaultStoresSelect($includeDefault = false)

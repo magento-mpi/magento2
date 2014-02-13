@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Core\Model\Layout\Argument;
 
 /**
  * Layout object abstract argument
@@ -15,7 +16,6 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Core\Model\Layout\Argument;
 
 abstract class AbstractHandler implements \Magento\View\Layout\Argument\HandlerInterface
 {
@@ -28,7 +28,7 @@ abstract class AbstractHandler implements \Magento\View\Layout\Argument\HandlerI
      * Retrieve value from argument
      *
      * @param \Magento\View\Layout\Element $argument
-     * @return mixed|null
+     * @return string|null
      */
     protected function _getArgumentValue(\Magento\View\Layout\Element $argument)
     {
@@ -47,7 +47,7 @@ abstract class AbstractHandler implements \Magento\View\Layout\Argument\HandlerI
      * Check whether updater used and value not overwritten
      *
      * @param \Magento\View\Layout\Element $argument
-     * @return string
+     * @return bool
      */
     protected function _isUpdater(\Magento\View\Layout\Element $argument)
     {
@@ -98,6 +98,7 @@ abstract class AbstractHandler implements \Magento\View\Layout\Argument\HandlerI
      * Validate parsed argument before processing
      *
      * @param array $argument
+     * @return void
      * @throws \InvalidArgumentException
      */
     protected function _validate(array $argument)

@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model;
 
 /**
@@ -53,6 +52,8 @@ class Category extends \Magento\Catalog\Model\AbstractModel
 
     /**
      * Model cache tag for clear cache in after save and after delete
+     *
+     * @var string
      */
     protected $_cacheTag        = self::CACHE_TAG;
 
@@ -80,7 +81,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel
     /**
      * Category design attributes
      *
-     * @var array
+     * @var string[]
      */
     protected $_designAttributes  = array(
         'custom_design',
@@ -292,9 +293,9 @@ class Category extends \Magento\Catalog\Model\AbstractModel
     /**
      * Move category
      *
-     * @param   int $parentId new parent category id
-     * @param   null|int $afterCategoryId category id after which we have put current category
-     * @return  \Magento\Catalog\Model\Category
+     * @param  int $parentId new parent category id
+     * @param  null|int $afterCategoryId category id after which we have put current category
+     * @return $this
      * @throws \Magento\Core\Exception|\Exception
      */
     public function move($parentId, $afterCategoryId)
@@ -388,9 +389,9 @@ class Category extends \Magento\Catalog\Model\AbstractModel
     /**
      * Retrieve all customer attributes
      *
-     * @todo Use with Flat Resource
      * @param bool $noDesignAttributes
      * @return array
+     * @todo Use with Flat Resource
      */
     public function getAttributes($noDesignAttributes = false)
     {
@@ -398,8 +399,8 @@ class Category extends \Magento\Catalog\Model\AbstractModel
             ->loadAllAttributes($this)
             ->getSortedAttributes();
 
-        if ($noDesignAttributes){
-            foreach ($result as $k => $a){
+        if ($noDesignAttributes) {
+            foreach ($result as $k => $a) {
                 if (in_array($k, $this->_designAttributes)) {
                     unset($result[$k]);
                 }
@@ -412,6 +413,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel
     /**
      * Retrieve array of product id's for category
      *
+     * The array returned has the following format:
      * array($productId => $position)
      *
      * @return array
@@ -492,7 +494,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel
      * Set store id
      *
      * @param int|string $storeId
-     * @return \Magento\Catalog\Model\Category
+     * @return $this
      */
     public function setStoreId($storeId)
     {
@@ -824,7 +826,8 @@ class Category extends \Magento\Catalog\Model\AbstractModel
     /**
      * Before delete process
      *
-     * @return \Magento\Catalog\Model\Category
+     * @throws \Magento\Core\Exception
+     * @return $this
      */
     protected function _beforeDelete()
     {
@@ -1028,6 +1031,8 @@ class Category extends \Magento\Catalog\Model\AbstractModel
 
     /**
      * Init indexing process after category save
+     *
+     * @return void
      */
     public function reindex()
     {

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Catalog\Model\Resource\Product\Type\Configurable\Product;
 
 /**
  * Catalog super product link collection
@@ -16,8 +16,6 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Model\Resource\Product\Type\Configurable\Product;
-
 class Collection
     extends \Magento\Catalog\Model\Resource\Product\Collection
 {
@@ -30,6 +28,8 @@ class Collection
 
     /**
      * Assign link table name
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -39,7 +39,8 @@ class Collection
 
     /**
      * Init select
-     * @return \Magento\Catalog\Model\Resource\Product\Type\Configurable\Product\Collection
+     *
+     * @return $this|\Magento\Catalog\Model\Resource\Product\Collection
      */
     protected function _initSelect()
     {
@@ -56,7 +57,7 @@ class Collection
      * Set Product filter to result
      *
      * @param \Magento\Catalog\Model\Product $product
-     * @return \Magento\Catalog\Model\Resource\Product\Type\Configurable\Product\Collection
+     * @return $this
      */
     public function setProductFilter($product)
     {

@@ -10,6 +10,8 @@
 
 namespace Magento\Catalog\Block\Product\View\Options\Type;
 
+use Magento\View\Element\AbstractBlock;
+
 /**
  * Product options text type block
  *
@@ -50,6 +52,9 @@ class Date extends \Magento\Catalog\Block\Product\View\Options\AbstractOptions
         parent::__construct($context, $taxData, $coreHelper, $data);
     }
 
+    /**
+     * @return AbstractBlock
+     */
     protected function _prepareLayout()
     {
         if ($head = $this->getLayout()->getBlock('head')) {
@@ -167,7 +172,7 @@ class Date extends \Magento\Catalog\Block\Product\View\Options\AbstractOptions
      * @param string $name Id/name of html select element
      * @param int $from  Start position
      * @param int $to    End position
-     * @param int $value Value selected
+     * @param int|null $value Value selected
      * @return string Formatted Html
      */
     protected function _getSelectFromToHtml($name, $from, $to, $value = null)
@@ -187,7 +192,8 @@ class Date extends \Magento\Catalog\Block\Product\View\Options\AbstractOptions
      * HTML select element
      *
      * @param string $name Id/name of html select element
-     * @return \Magento\View\Element\Html\Select
+     * @param int|null $value
+     * @return mixed
      */
     protected function _getHtmlSelect($name, $value = null)
     {
@@ -222,8 +228,8 @@ class Date extends \Magento\Catalog\Block\Product\View\Options\AbstractOptions
     /**
      * Add Leading Zeros to number less than 10
      *
-     * @param int
-     * @return string
+     * @param int $value
+     * @return string|int
      */
     protected function _getValueWithLeadingZeros($value)
     {

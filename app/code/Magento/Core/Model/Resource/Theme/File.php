@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Core\Model\Resource\Theme;
 
 /**
  * Theme files resource model
  */
-namespace Magento\Core\Model\Resource\Theme;
-
 class File extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**

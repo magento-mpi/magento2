@@ -45,7 +45,7 @@ class Mode extends \Magento\Core\Model\Config\Value
     /**
      * Set after commit callback
      *
-     * @return \Magento\Catalog\Model\Indexer\Product\Flat\System\Config\Mode
+     * @return $this
      */
     protected function _afterSave()
     {

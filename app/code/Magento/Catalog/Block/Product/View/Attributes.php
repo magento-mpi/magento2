@@ -18,8 +18,13 @@
  */
 namespace Magento\Catalog\Block\Product\View;
 
+use Magento\Catalog\Model\Product;
+
 class Attributes extends \Magento\View\Element\Template
 {
+    /**
+     * @var Product
+     */
     protected $_product = null;
 
     /**
@@ -43,6 +48,9 @@ class Attributes extends \Magento\View\Element\Template
         parent::__construct($context, $data);
     }
 
+    /**
+     * @return Product
+     */
     function getProduct()
     {
         if (!$this->_product) {

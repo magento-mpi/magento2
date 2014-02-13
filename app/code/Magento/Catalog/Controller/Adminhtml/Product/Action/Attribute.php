@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Catalog\Controller\Adminhtml\Product\Action;
 
+use Magento\Backend\App\Action;
 
 /**
  * Adminhtml catalog product action attribute update controller
@@ -16,11 +18,7 @@
  * @package    Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Controller\Adminhtml\Product\Action;
-
-use Magento\Backend\App\Action;
-
-class Attribute extends \Magento\Backend\App\Action
+class Attribute extends Action
 {
     /**
      * @var \Magento\Catalog\Model\Indexer\Product\Flat\Processor
@@ -42,6 +40,9 @@ class Attribute extends \Magento\Backend\App\Action
         $this->_productFlatIndexerProcessor = $productFlatIndexerProcessor;
     }
 
+    /**
+     * @return void
+     */
     public function editAction()
     {
         if (!$this->_validateProducts()) {
@@ -54,6 +55,8 @@ class Attribute extends \Magento\Backend\App\Action
 
     /**
      * Update product attributes
+     *
+     * @return void
      */
     public function saveAction()
     {
@@ -212,6 +215,9 @@ class Attribute extends \Magento\Backend\App\Action
         return !$error;
     }
 
+    /**
+     * @return bool
+     */
     protected function _isAllowed()
     {
         return $this->_authorization->isAllowed('Magento_Catalog::update_attributes');
@@ -220,6 +226,7 @@ class Attribute extends \Magento\Backend\App\Action
     /**
      * Attributes validation action
      *
+     * @return void
      */
     public function validateAction()
     {

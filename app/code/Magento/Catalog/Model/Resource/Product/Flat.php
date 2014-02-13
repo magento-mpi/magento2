@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Catalog\Model\Resource\Product;
 
+use Magento\Core\Model\Store;
 
 /**
  * Catalog Product Flat resource model
@@ -16,8 +18,6 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Model\Resource\Product;
-
 class Flat extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
@@ -59,6 +59,7 @@ class Flat extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Init connection and resource table
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -79,8 +80,8 @@ class Flat extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Set store for resource model
      *
-     * @param mixed $store
-     * @return \Magento\Catalog\Model\Resource\Product\Flat
+     * @param null|string|bool|int|Store $store
+     * @return $this
      */
     public function setStoreId($store)
     {
@@ -203,7 +204,7 @@ class Flat extends \Magento\Core\Model\Resource\Db\AbstractDb
 
     /**
      * Retrieve entity id field name in entity table
-     * Rewrited for EAV collection compatible
+     * Rewrote for EAV collection compatibility
      *
      * @return string
      */
