@@ -9,6 +9,8 @@
  */
 namespace Magento\PersistentHistory\Block\Adminhtml\System\Config;
 
+use Magento\Data\Form\Element\AbstractElement;
+
 /**
  * Enterprise Persistent System Config Option Customer Segmentation admin frontend model
  *
@@ -16,10 +18,10 @@ namespace Magento\PersistentHistory\Block\Adminhtml\System\Config;
 class Customer extends \Magento\Backend\Block\System\Config\Form\Field
 {
     /**
-     * @param \Magento\Data\Form\Element\AbstractElement $element
+     * @param AbstractElement $element
      * @return string
      */
-    public function render(\Magento\Data\Form\Element\AbstractElement $element)
+    public function render(AbstractElement $element)
     {
         $elementId = $element->getHtmlId();
         $optionShoppingCartId = str_replace('/', '_', \Magento\Persistent\Helper\Data::XML_PATH_PERSIST_SHOPPING_CART);

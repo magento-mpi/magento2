@@ -7,13 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Persistent\Model\Persistent;
 
 /**
  * Persistent Config Model
  */
-namespace Magento\Persistent\Model\Persistent;
-
 class Config
 {
     /**

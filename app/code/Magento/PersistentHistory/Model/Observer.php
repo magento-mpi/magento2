@@ -10,6 +10,8 @@
 
 namespace Magento\PersistentHistory\Model;
 
+use Magento\Event\Observer as EventObserver;
+
 class Observer
 {
     /**
@@ -166,7 +168,7 @@ class Observer
     /**
      * Set persistent data to customer session
      *
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
      * @return $this
      */
     public function emulateCustomer($observer)
@@ -197,7 +199,7 @@ class Observer
     /**
      * Modify expired quotes cleanup
      *
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
      * @return void
      */
     public function modifyExpiredQuotesCleanup($observer)
@@ -212,7 +214,7 @@ class Observer
     /**
      * Apply persistent data
      *
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
      * @return void
      */
     public function applyPersistentData($observer)
@@ -228,7 +230,7 @@ class Observer
     }
 
     /**
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
      * @return $this
      */
     public function applyBlockPersistentData($observer)
@@ -354,7 +356,7 @@ class Observer
     /**
      * Apply persistent customer id
      *
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
      * @return void
      */
     public function applyCustomerId($observer)
@@ -369,7 +371,7 @@ class Observer
     /**
      * Emulate customer wishlist (add, delete, etc)
      *
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
      * @return void
      */
     public function emulateWishlist($observer)
@@ -389,7 +391,7 @@ class Observer
     /**
      * Set persistent data into quote
      *
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
      * @return void
      */
     public function setQuotePersistentData($observer)
@@ -423,9 +425,10 @@ class Observer
     /**
      * Prevent setting persistent data into quote
      *
-     * @param \Magento\Event\Observer $observer
-     * @see \Magento\PersistentHistory\Model\Observer::setQuotePersistentData
+     * @param EventObserver $observer
      * @return void
+     * 
+     * @see Observer::setQuotePersistentData
      */
     public function preventSettingQuotePersistent($observer)
     {
@@ -436,7 +439,7 @@ class Observer
      * Update Option "Persist Customer Group Membership and Segmentation"
      * set value "Yes" if option "Persist Shopping Cart" equals "Yes"
      *
-     * @param \Magento\PersistentHistory\Model\Observer $observer
+     * @param Observer $observer
      * @return void
      */
     public function updateOptionCustomerSegmentation($observer)
@@ -456,7 +459,7 @@ class Observer
     /**
      * Expire data of Sidebars
      *
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
      * @return void
      */
     public function expireSidebars($observer)
@@ -602,10 +605,10 @@ class Observer
     /**
      * Skip website restriction and allow access for persistent customers
      *
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
      * @return void
      */
-    public function skipWebsiteRestriction(\Magento\Event\Observer $observer)
+    public function skipWebsiteRestriction(EventObserver $observer)
     {
         $result = $observer->getEvent()->getResult();
         if ($result->getShouldProceed() && $this->_isPersistent()) {
