@@ -30,8 +30,6 @@ class PaypalStandardTest extends Functional
      */
     public function testOnepageCheckout()
     {
-        $this->markTestSkipped('Bamboo inability to run tests on instance without public IP address.');
-
         /** @var Checkout $fixture */
         $fixture = Factory::getFixtureFactory()->getMagentoCheckoutGuestPayPalStandard();
         $fixture->persist();

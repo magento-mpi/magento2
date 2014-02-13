@@ -8,6 +8,9 @@
 
 namespace Magento\Customer\Service\V1;
 
+use Magento\Exception\InputException;
+use Magento\Exception\NoSuchEntityException;
+
 /**
  * \Magento\Customer\Service\V1\CustomerAddressService
  *
@@ -18,7 +21,7 @@ namespace Magento\Customer\Service\V1;
  */
 class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
 {
-
+    /** Sample values for testing */
     const STREET = 'Parmer';
     const CITY = 'Albuquerque';
     const POSTCODE = '90014';
@@ -26,8 +29,6 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
     const REGION = 'Alabama';
     const REGION_ID = 1;
     const COUNTRY_ID = 'US';
-
-    /** Sample values for testing */
     const ID = 1;
     const FIRSTNAME = 'Jane';
     const LASTNAME = 'Doe';
@@ -55,29 +56,9 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
     private $_customerModelMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Model\Attribute
-     */
-    private $_attributeModelMock;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\CustomerMetadataServiceInterface
-     */
-    private $_eavMetadataServiceMock;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Event\ManagerInterface
-     */
-    private $_eventManagerMock;
-
-    /**
      * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Core\Model\StoreManagerInterface
      */
     private $_storeManagerMock;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Math\Random
-     */
-    private $_mathRandomMock;
 
     /**
      * @var \Magento\Customer\Model\Converter
@@ -90,15 +71,18 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
     private $_storeMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\Dto\AddressBuilder
+     * @var \Magento\Customer\Service\V1\Dto\AddressBuilder
      */
     private $_addressBuilder;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\Dto\CustomerBuilder
+     * @var \Magento\Directory\Helper\Data
      */
-    private $_customerBuilder;
+    private $_directoryData;
 
+    /**
+     * @var \Magento\Customer\Model\Metadata\Validator
+     */
     private $_validator;
 
     public function setUp()
@@ -162,25 +146,15 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
             ->setMethods(array('create'))
             ->getMock();
 
-        $this->_eavMetadataServiceMock =
-            $this->getMockBuilder('Magento\Customer\Service\Eav\AttributeMetadataServiceV1Interface')
-                ->disableOriginalConstructor()
-                ->getMock();
+        $this->_directoryData = $this->getMockBuilder('\Magento\Directory\Helper\Data')
+            ->disableOriginalConstructor()
+            ->setMethods(array('getCountriesWithOptionalZip'))
+            ->getMock();
 
-        $this->_eventManagerMock =
-            $this->getMockBuilder('\Magento\Event\ManagerInterface')
-                ->disableOriginalConstructor()
-                ->getMock();
-
-        $this->_attributeModelMock =
-            $this->getMockBuilder('\Magento\Customer\Model\Attribute')
-                ->disableOriginalConstructor()
-                ->getMock();
-
-        $this->_attributeModelMock
+        $this->_directoryData
             ->expects($this->any())
-            ->method('getAttributeCode')
-            ->will($this->returnValue(self::ATTRIBUTE_CODE));
+            ->method('getCountriesWithOptionalZip')
+            ->will($this->returnValue([]));
 
         $this->_customerModelMock
             ->expects($this->any())
@@ -195,18 +169,11 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->_setupStoreMock();
 
-        $this->_mathRandomMock = $this->getMockBuilder('\Magento\Math\Random')
-            ->disableOriginalConstructor()
-            ->getMock();
-
         $this->_validator = $this->getMockBuilder('\Magento\Customer\Model\Metadata\Validator')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_addressBuilder = new Dto\AddressBuilder(
-            new Dto\RegionBuilder());
-
-        $this->_customerBuilder = new Dto\CustomerBuilder();
+        $this->_addressBuilder = new Dto\AddressBuilder(new Dto\RegionBuilder());
 
         $customerBuilder = new Dto\CustomerBuilder();
 
@@ -256,7 +223,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
             'lastname' => 'Doe',
         ];
 
-        $this->assertEquals($expected, $address->__toArray());
+        $this->assertEquals($expected, $address->getAttributes());
     }
 
     public function testGetAddressesDefaultShipping()
@@ -305,9 +272,15 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $address->__toArray());
     }
 
-    public function testGetAddressesById()
+    public function testGetAddressById()
     {
         $addressMock = $this->_createAddress(1, 'John');
+        $addressMock->expects($this->any())
+            ->method('getCustomerId')
+            ->will($this->returnValue(self::ID));
+        $this->_addressFactoryMock->expects($this->once())
+            ->method('create')
+            ->will($this->returnValue($addressMock));
         $this->_customerModelMock->expects($this->any())
             ->method('load')
             ->will($this->returnValue($this->_customerModelMock));
@@ -315,20 +288,17 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
             ->method('getId')
             ->will($this->returnValue(1));
         $this->_customerModelMock->expects($this->any())
-            ->method('getAddressById')
-            ->will($this->returnValue($addressMock));
-        $this->_customerModelMock->expects($this->any())
             ->method('getDefaultShipping')
             ->will($this->returnValue(1));
         $this->_customerFactoryMock->expects($this->any())
             ->method('create')
             ->will($this->returnValue($this->_customerModelMock));
 
+
         $customerService = $this->_createService();
 
-        $customerId = 1;
         $addressId = 1;
-        $address = $customerService->getAddressById($customerId, $addressId);
+        $address = $customerService->getAddressById($addressId);
 
         $expected = [
             'id' => 1,
@@ -574,10 +544,6 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals([1], $ids);
     }
 
-    /**
-     * @expectedException \Magento\Customer\Service\Entity\V1\Exception
-     * @expectedExceptionMessage No customer with customerId 4200 exists
-     */
     public function testSaveAddressesCustomerIdNotExist()
     {
         // Setup Customer mock
@@ -611,8 +577,20 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
             ->setCountryId(self::COUNTRY_ID)
             ->setPostcode(self::POSTCODE);
 
-        $failures = $customerService->saveAddresses(4200, [$this->_addressBuilder->create()]);
-        $this->assertEmpty($failures);
+        try {
+            $customerService->saveAddresses(4200, [$this->_addressBuilder->create()]);
+            $this->fail("Expected NoSuchEntityException not caught");
+        } catch (\Magento\Exception\NoSuchEntityException $nsee) {
+            $this->assertSame($nsee->getCode(), \Magento\Exception\NoSuchEntityException::NO_SUCH_ENTITY);
+            $this->assertSame(
+                $nsee->getParams(),
+                [
+                    'customerId' => 4200,
+                ]
+            );
+        } catch (\Exception $unexpected) {
+            $this->fail('Unexpected exception type thrown. ' . $unexpected->getMessage());
+        }
     }
 
     public function testDeleteAddressFromCustomer()
@@ -631,33 +609,9 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
             ->method('delete');
 
         $customerService = $this->_createService();
-        $customerService->deleteAddressFromCustomer(1, 1);
+        $customerService->deleteAddress(1);
     }
 
-    /**
-     * @expectedException \Magento\Customer\Service\Entity\V1\Exception
-     * @expectedExceptionCode \Magento\Customer\Service\Entity\V1\Exception::CODE_CUSTOMER_ID_MISMATCH
-     */
-    public function testDeleteAddressFromCustomerMismatch()
-    {
-        // Setup address mock
-        $mockAddress = $this->_createAddress(1, 'John', 55);
-        $this->_addressFactoryMock->expects($this->once())
-            ->method('create')
-            ->will($this->returnValue($mockAddress));
-
-        // verify delete is called on the mock address model
-        $mockAddress->expects($this->never())
-            ->method('delete');
-
-        $customerService = $this->_createService();
-        $customerService->deleteAddressFromCustomer(1, 1);
-    }
-
-    /**
-     * @expectedException \Magento\Customer\Service\Entity\V1\Exception
-     * @expectedExceptionCode \Magento\Customer\Service\Entity\V1\Exception::CODE_ADDRESS_NOT_FOUND
-     */
     public function testDeleteAddressFromCustomerBadAddrId()
     {
         // Setup address mock
@@ -674,19 +628,19 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
             ->method('delete');
 
         $customerService = $this->_createService();
-        $customerService->deleteAddressFromCustomer(1, 2);
+        try {
+            $customerService->deleteAddress(2);
+            $this->fail("Expected NoSuchEntityException not caught");
+        } catch (NoSuchEntityException $exception) {
+            $this->assertSame($exception->getCode(), \Magento\Exception\NoSuchEntityException::NO_SUCH_ENTITY);
+            $this->assertSame(
+                $exception->getParams(),
+                [
+                    'addressId' => 2
+                ]
+            );
+        }
     }
-
-    /**
-     * @expectedException \Magento\Customer\Service\Entity\V1\Exception
-     * @expectedExceptionCode \Magento\Customer\Service\Entity\V1\Exception::CODE_INVALID_ADDRESS_ID
-     */
-    public function testDeleteAddressFromCustomerInvalidAddrId()
-    {
-        $customerService = $this->_createService();
-        $customerService->deleteAddressFromCustomer(1, 0);
-    }
-
 
     public function testSaveAddressesWithValidatorException()
     {
@@ -704,13 +658,8 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
             ->method('getAddresses')
             ->will($this->returnValue([]));
 
-        // Setup address mock
-        $mockAddress = $this->getMockBuilder('Magento\Customer\Model\Address')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $mockAddress->expects($this->any())
-            ->method('validate')
-            ->will($this->returnValue(['some error']));
+        // Setup address mock, no first name
+        $mockAddress = $this->_createAddress(1, '');
         $this->_addressFactoryMock->expects($this->once())
             ->method('create')
             ->will($this->returnValue($mockAddress));
@@ -730,14 +679,21 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
             ->setPostcode(self::POSTCODE);
         try {
             $customerService->saveAddresses(1, [$this->_addressBuilder->create()]);
-        } catch (\Magento\Customer\Service\Entity\V1\AggregateException $ae) {
-            $addressException = $ae->getExceptions()[0];
-            $this->assertInstanceOf('\Magento\Customer\Service\Entity\V1\Exception', $addressException);
-            $this->assertInstanceOf('\Magento\Validator\ValidatorException', $addressException->getPrevious());
-            $this->assertSame('some error', $addressException->getPrevious()->getMessage());
-            return;
+            $this->fail("Expected InputException not caught");
+        } catch (InputException $exception) {
+            $this->assertSame($exception->getCode(), \Magento\Exception\InputException::INPUT_EXCEPTION);
+            $this->assertSame(
+                $exception->getParams(),
+                [
+                    [
+                        'index' => 0,
+                        'fieldName' => 'firstname',
+                        'code'      => \Magento\Exception\InputException::REQUIRED_FIELD,
+                        'value'     => null
+                    ]
+                ]
+            );
         }
-        $this->fail("Expected AggregateException not caught.");
     }
 
 
@@ -770,7 +726,8 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
                 $this->_addressBuilder,
                 $this->_addressFactoryMock,
                 new Dto\RegionBuilder()
-            )
+            ),
+            $this->_directoryData
         );
         return $customerService;
     }
@@ -806,7 +763,8 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
                     'addData', 'setData', 'setCustomerId', 'setPostIndex',
                     'setFirstname', 'load', 'save', '__sleep', '__wakeup',
                     'getDefaultAttributeCodes', 'getAttributes', 'getData',
-                    'getCustomerId', 'getParentId', 'delete', 'validate'
+                    'getCustomerId', 'getParentId', 'delete', 'validate',
+                    'getCountryModel', 'getRegionCollection', 'getSize'
                 ]
             )
             ->getMock();
@@ -822,9 +780,18 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         $addressMock->expects($this->any())
             ->method('getCustomerId')
             ->will($this->returnValue($customerId));
-        $addressMock->expects($this->any())
+        $addressMock->expects($this->never())
             ->method('validate')
             ->will($this->returnValue(true));
+        $addressMock->expects($this->any())
+            ->method('getCountryModel')
+            ->will($this->returnSelf());
+        $addressMock->expects($this->any())
+            ->method('getRegionCollection')
+            ->will($this->returnSelf());
+        $addressMock->expects($this->any())
+            ->method('getSize')
+            ->will($this->returnValue(0));
 
         $map = [
             ['firstname', null, $firstName],

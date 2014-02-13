@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer;
 
 /**
  * Background image renderer
  */
-namespace Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer;
-
 class BackgroundImage
     extends \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer\AbstractRenderer
 {

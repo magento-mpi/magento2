@@ -7,16 +7,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Reward\Model\Source\Points;
 
 /**
  * Source model for Acquiring frequency when Order processed after Invitation
  */
-namespace Magento\Reward\Model\Source\Points;
-
 class InvitationOrder implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
+     * Invitation order options
+     *
      * @return array
      */
     public function toOptionArray()

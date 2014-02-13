@@ -11,6 +11,9 @@ class Dom implements \Magento\Config\ConverterInterface
 {
     /**
      * {@inheritdoc}
+     *
+     * @param \DOMDocument $source
+     * @return array
      */
     public function convert($source)
     {

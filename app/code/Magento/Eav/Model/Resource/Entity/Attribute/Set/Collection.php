@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Eav\Model\Resource\Entity\Attribute\Set;
 
 /**
  * Eav Resource Attribute Set Collection
@@ -15,13 +16,12 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Eav\Model\Resource\Entity\Attribute\Set;
-
 class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Resource initialization
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -32,7 +32,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Add filter by entity type id to collection
      *
      * @param int $typeId
-     * @return \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection
+     * @return $this
      */
     public function setEntityTypeFilter($typeId)
     {

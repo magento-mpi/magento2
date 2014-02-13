@@ -12,6 +12,7 @@ use Magento\Customer\Service\V1\CustomerServiceInterface;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\Dto\AddressBuilder;
+use Magento\Customer\Service\V1\Dto\Customer as CustomerDto;
 
 /**
  * Quote submit service model
@@ -284,9 +285,10 @@ class Quote
         $transaction = $this->_transactionFactory->create();
 
         $originalCustomerDto = null;
+        $customerDto = null;
         if (!$quote->getCustomerIsGuest()) {
             $customerDto = $quote->getCustomerData();
-            $addresses = $quote->getAddressData();
+            $addresses = $quote->getCustomerAddressData();
             if ($customerDto->getCustomerId()) {
                 //cache the original customer data for rollback if needed
                 $originalCustomerDto = $this->_customerService->getCustomer($customerDto->getCustomerId());
@@ -308,10 +310,7 @@ class Quote
                 $addresses = $this->_customerAddressService->getAddresses($createCustomerResponse->getCustomerId());
             }
 
-            $quote->setCustomerData($customerDto);
-            foreach ($addresses as $address) {
-                $quote->addAddressData($address);
-            }
+            $quote->setCustomerData($customerDto)->setCustomerAddressData($addresses);
         }
         $transaction->addObject($quote);
 
@@ -346,7 +345,9 @@ class Quote
             $order->addItem($orderItem);
         }
 
-        $order->setCustomerId($customerDto->getCustomerId());
+        if ($customerDto) {
+            $order->setCustomerId($customerDto->getCustomerId());
+        }
         $order->setQuote($quote);
 
         $transaction->addObject($order);
@@ -375,13 +376,10 @@ class Quote
             if ($originalCustomerDto) { //Restore original customer data if existing customer was updated
                 $this->_customerService->saveCustomer($originalCustomerDto);
                 $this->_customerAddressService->saveAddresses($customerDto->getCustomerId(), $originalAddresses);
-            } else { // Delete if new customer created
+            } else if ($customerDto->getCustomerId()) { // Delete if new customer created
                 $this->_customerService->deleteCustomer($customerDto->getCustomerId());
-                foreach ($addresses as $address) {
-                    $this->_customerAddressService->deleteAddressFromCustomer(
-                        $customerDto->getCustomerId(),
-                        $address->getId());
-                }
+                $order->setCustomerId(null);
+                $quote->setCustomerData(new CustomerDto([]));
             }
 
             //reset order ID's on exception, because order not saved
@@ -523,7 +521,7 @@ class Quote
         $profiles = $this->_quote->prepareRecurringPaymentProfiles();
         foreach ($profiles as $profile) {
             if (!$profile->isValid()) {
-                throw new \Magento\Core\Exception($profile->getValidationErrors(true, true));
+                throw new \Magento\Core\Exception($profile->getValidationErrors());
             }
             $profile->submit();
         }

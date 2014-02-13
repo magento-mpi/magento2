@@ -1,14 +1,11 @@
 <?php
+
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     functional_test
- * @subpackage  unit_tests
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright {copyright}
+ * @license {license_link}
  */
-
 class Mage_Test_LoaderTest extends Unit_PHPUnit_TestCase
 {
     /**
@@ -45,7 +42,7 @@ class Mage_Test_LoaderTest extends Unit_PHPUnit_TestCase
      */
     public function testLoadNotExists()
     {
-        $this->setExpectedException('PHPUnit_Framework_Exception', 'not/exists/class.php');
+        $this->setExpectedException('PHPUnit_Framework_Exception', 'Cannot open file "not\exists\class.php');
         $this->_loader->load('not_exists_class');
     }
 }

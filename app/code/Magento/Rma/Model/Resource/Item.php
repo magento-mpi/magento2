@@ -20,8 +20,6 @@ use Magento\Sales\Model\Order\Item as OrderItem;
 /**
  * RMA entity resource model
  *
- * @category   Magento
- * @package    Magento_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Item extends \Magento\Eav\Model\Entity\AbstractEntity
@@ -33,32 +31,34 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
      */
     protected $_attributes   = array();
 
-    /**
-     * Array of available items types for rma
-     *
-     * @var array
-     */
-    protected $_aviableProductTypes = array(
-        \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE,
-        \Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE,
-        \Magento\GroupedProduct\Model\Product\Type\Grouped::TYPE_CODE,
-        \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE
-    );
 
     /**
+     * Rma data
+     *
      * @var \Magento\Rma\Helper\Data
      */
     protected $_rmaData;
 
     /**
+     * Sales order item collection
+     *
      * @var \Magento\Sales\Model\Resource\Order\Item\CollectionFactory
      */
     protected $_ordersFactory;
 
     /**
+     * Catalog product factory
+     *
      * @var \Magento\Catalog\Model\ProductFactory
      */
     protected $_productFactory;
+
+    /**
+     * Rma refundable list
+     *
+     * @var \Magento\Rma\Model\RefundableList
+     */
+    protected $refundableList;
 
     /**
      * @param \Magento\App\Resource $resource
@@ -70,7 +70,7 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Sales\Model\Resource\Order\Item\CollectionFactory $ordersFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Logger
+     * @param \Magento\Rma\Model\RefundableList $refundableList
      * @param array $data
      */
     public function __construct(
@@ -83,16 +83,20 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Sales\Model\Resource\Order\Item\CollectionFactory $ordersFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Rma\Model\RefundableList $refundableList,
         $data = array()
     ) {
         $this->_rmaData = $rmaData;
         $this->_ordersFactory = $ordersFactory;
         $this->_productFactory = $productFactory;
+        $this->refundableList = $refundableList;
         parent::__construct($resource, $eavConfig, $attrSetEntity, $locale, $resourceHelper, $universalFactory, $data);
     }
 
     /**
      * Resource initialization
+     *
+     * @return void
      */
     public function _construct()
     {
@@ -255,7 +259,7 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
                 array('qty_shipped', 'qty_returned')
             )
             ->addFieldToFilter('order_id', $orderId)
-            ->addFieldToFilter('product_type', array("in" => $this->_aviableProductTypes))
+            ->addFieldToFilter('product_type', array("in" => $this->refundableList->getItem()))
             ->addFieldToFilter($expression, array("gt" => 0));
     }
 

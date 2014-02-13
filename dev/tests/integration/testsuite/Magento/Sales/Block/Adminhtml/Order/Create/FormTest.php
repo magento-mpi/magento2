@@ -20,6 +20,9 @@ class FormTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Sales\Block\Adminhtml\Order\Create\Form */
     protected $_orderCreateBlock;
 
+    /** @var \Magento\ObjectManager */
+    protected $_objectManager;
+
     /**
      * @magentoDataFixture Magento/Sales/_files/quote.php
      */
@@ -79,17 +82,19 @@ class FormTest extends \PHPUnit_Framework_TestCase
             "addresses":
                 {"{$addressIds[0]}":
                     {"firstname":"John","lastname":"Smith","company":false,"street":"Green str, 67","city":"CityM",
-                        "country_id":"US","region":"Alabama","region_id":1,"postcode":"75477",
-                        "telephone":"3468676","fax":false,"vat_id":false},
+                        "country_id":"US",
+                        "region":{"region_code":"AL","region":"Alabama","region_id":1},
+                        "region_id":false,"postcode":"75477","telephone":"3468676","fax":false,"vat_id":false},
                  "{$addressIds[1]}":
                     {"firstname":"John","lastname":"Smith","company":false,"street":"Black str, 48","city":"CityX",
-                        "country_id":"US","region":"Alabama","region_id":1,"postcode":"47676",
-                        "telephone":"3234676","fax":false,"vat_id":false}
+                        "country_id":"US",
+                        "region":{"region_code":"AL","region":"Alabama","region_id":1},
+                        "region_id":false,"postcode":"47676","telephone":"3234676","fax":false,"vat_id":false}
                  },
              "store_id":1,"currency_symbol":"$","shipping_method_reseted":true,"payment_method":null
          }
 ORDER_DATA_JSON;
-
+file_put_contents('c:\temp\a.json', $orderDataJson);
         $this->assertEquals(json_decode($expectedOrderDataJson), json_decode($orderDataJson));
     }
 

@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Email\Model;
 
 /**
  * Common sender
@@ -15,17 +16,21 @@
  * @package    Magento_Email
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Email\Model;
-
 class Sender
 {
-    /** @var \Magento\Email\Model\Template\Mailer */
+    /**
+     * @var \Magento\Email\Model\Template\Mailer
+     */
     protected $_mailer;
 
-    /** @var \Magento\Email\Model\Info */
+    /**
+     * @var \Magento\Email\Model\Info
+     */
     protected $_emailInfo;
 
-    /** @var \Magento\Core\Model\Store */
+    /**
+     * @var \Magento\Core\Model\Store
+     */
     protected $_store;
 
     /**
@@ -50,7 +55,7 @@ class Sender
      * @param string $sender
      * @param array $templateParams
      * @param int $storeId
-     * @return \Magento\Email\Model\Sender
+     * @return $this
      */
     public function send($email, $name, $template, $sender, $templateParams, $storeId)
     {

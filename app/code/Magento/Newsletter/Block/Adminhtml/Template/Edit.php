@@ -68,7 +68,7 @@ class Edit extends \Magento\Backend\Block\Widget
     /**
      * Preparing block layout
      *
-     * @return \Magento\Newsletter\Block\Adminhtml\Template\Edit
+     * @return $this
      */
     protected function _prepareLayout()
     {
@@ -216,7 +216,7 @@ class Edit extends \Magento\Backend\Block\Widget
      * Set edit flag for block
      *
      * @param boolean $value
-     * @return \Magento\Newsletter\Block\Adminhtml\Template\Edit
+     * @return $this
      */
     public function setEditMode($value = true)
     {

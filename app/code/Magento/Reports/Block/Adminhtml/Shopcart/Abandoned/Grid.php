@@ -7,16 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reports\Block\Adminhtml\Shopcart\Abandoned;
 
 /**
  * Adminhtml abandoned shopping carts report grid block
  *
- * @category   Magento
- * @package    Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Reports\Block\Adminhtml\Shopcart\Abandoned;
-
 class Grid extends \Magento\Reports\Block\Adminhtml\Grid\Shopcart
 {
     /**
@@ -40,12 +37,18 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\Shopcart
         parent::__construct($context, $backendHelper, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
         $this->setId('gridAbandoned');
     }
 
+    /**
+     * @return \Magento\Backend\Block\Widget\Grid
+     */
     protected function _prepareCollection()
     {
         /** @var $collection \Magento\Reports\Model\Resource\Quote\Collection */
@@ -67,6 +70,11 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\Shopcart
         return parent::_prepareCollection();
     }
 
+    /**
+     * @param array $column
+     *
+     * @return $this
+     */
     protected function _addColumnFilterToCollection($column)
     {
         $field = ( $column->getFilterIndex() ) ? $column->getFilterIndex() : $column->getIndex();
@@ -80,6 +88,9 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\Shopcart
         return $this;
     }
 
+    /**
+     * @return \Magento\Backend\Block\Widget\Grid\Extended
+     */
     protected function _prepareColumns()
     {
         $this->addColumn('customer_name', array(
@@ -182,6 +193,11 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\Shopcart
         return parent::_prepareColumns();
     }
 
+    /**
+     * @param \Magento\Object $row
+     *
+     * @return string
+     */
     public function getRowUrl($row)
     {
         return $this->getUrl('customer/index/edit', array('id'=>$row->getCustomerId(), 'active_tab'=>'cart'));

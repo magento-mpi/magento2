@@ -406,7 +406,7 @@ class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
             }
         } else {
             $this->setIsValid(false);
-            throw new \Magento\Core\Exception(__('Please specify the product required option(s).'));
+            throw new \Magento\Core\Exception(__('Please specify the product\'s required option(s).'));
         }
         return $this;
     }
@@ -503,7 +503,7 @@ class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
             }
         } else {
             $this->setIsValid(false);
-            throw new \Magento\Core\Exception(__('Please specify the product required option(s).'));
+            throw new \Magento\Core\Exception(__('Please specify the product\'s required option(s).'));
         }
     }
 

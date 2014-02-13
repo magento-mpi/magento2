@@ -7,6 +7,10 @@
  */
 namespace Magento\Service\Entity;
 
+/**
+ * Class AbstractDto
+ * @SuppressWarnings(PHPMD.NumberOfChildren)
+ */
 abstract class AbstractDto
 {
     /**
@@ -18,8 +22,9 @@ abstract class AbstractDto
      * Initialize internal storage
      *
      * @param array $data
+     * @throws \InvalidArgumentException
      */
-    public function __construct(array $data)
+    public function __construct($data)
     {
         $this->_data = $data;
     }
@@ -37,8 +42,6 @@ abstract class AbstractDto
 
     /**
      * Return DTO data in array format.
-     *
-     * This only handles use cases of nested DTOs and array of DTOs
      *
      * @return array
      */

@@ -32,7 +32,6 @@ class EndToEndWithExternalSolutionsTests
         $suite->addTestSuite('Magento\Checkout\Test\TestCase\PaypalExpress\CheckoutOnepageTest');
         // Onepage Checkout
         $suite->addTestSuite('Magento\Checkout\Test\TestCase\OnepageTest');
-        $suite->addTestSuite('Magento\Checkout\Test\TestCase\ProductAdvancedPricingTest');
         $suite->addTestSuite('Magento\Checkout\Test\TestCase\ShippingCarrierTest');
         // Multishipping
         $suite->addTestSuite('Magento\Multishipping\Test\TestCase\MultishippingTest');
@@ -42,6 +41,10 @@ class EndToEndWithExternalSolutionsTests
 
         // Orders. Backend
         $suite->addTestSuite('Magento\Sales\Test\TestCase\CloseOrderTest');
+
+        // Refunds
+        $suite->addTestSuite('Magento\Sales\Test\TestCase\OnlineRefundTest');
+        $suite->addTestSuite('Magento\Sales\Test\TestCase\OfflineRefundTest');
 
         // VAT
         $suite->addTestSuite('Magento\Tax\Test\TestCase\AutomaticTaxApplyingTest');

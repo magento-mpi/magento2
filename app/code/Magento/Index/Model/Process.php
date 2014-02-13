@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Index\Model;
+
+use Magento\Index\Model\Resource\Event\Collection;
 
 /**
  * @method \Magento\Index\Model\Resource\Process _getResource()
@@ -26,10 +29,6 @@
  * @package     Magento_Index
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Index\Model;
-
-use Magento\Index\Model\Resource\Event\Collection;
-
 class Process extends \Magento\Core\Model\AbstractModel
 {
     /**
@@ -139,6 +138,8 @@ class Process extends \Magento\Core\Model\AbstractModel
 
     /**
      * Initialize resource
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -151,7 +152,7 @@ class Process extends \Magento\Core\Model\AbstractModel
      * @param   Event $event
      * @return  $this
      */
-    protected function _setEventNamespace(\Magento\Index\Model\Event $event)
+    protected function _setEventNamespace(Event $event)
     {
         $namespace = get_class($this->getIndexer());
         $event->setDataNamespace($namespace);
@@ -178,7 +179,7 @@ class Process extends \Magento\Core\Model\AbstractModel
      * @param Event $event
      * @return $this
      */
-    public function register(\Magento\Index\Model\Event $event)
+    public function register(Event $event)
     {
         if ($this->matchEvent($event)) {
             $this->_setEventNamespace($event);
@@ -196,10 +197,10 @@ class Process extends \Magento\Core\Model\AbstractModel
     /**
      * Check if event can be matched by process
      *
-     * @param \Magento\Index\Model\Event $event
+     * @param Event $event
      * @return bool
      */
-    public function matchEvent(\Magento\Index\Model\Event $event)
+    public function matchEvent(Event $event)
     {
         return $this->getIndexer()->matchEvent($event);
     }
@@ -602,7 +603,7 @@ class Process extends \Magento\Core\Model\AbstractModel
      * @return $this
      * @throws \Exception
      */
-    public function safeProcessEvent(\Magento\Index\Model\Event $event)
+    public function safeProcessEvent(Event $event)
     {
         if (!$this->matchEvent($event)) {
             return $this;

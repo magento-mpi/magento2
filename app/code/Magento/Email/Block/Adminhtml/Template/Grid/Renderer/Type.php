@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Email\Block\Adminhtml\Template\Grid\Renderer;
 
 /**
  * Adminhtml system templates grid block type item renderer
@@ -15,16 +16,24 @@
  * @package    Magento_Email
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Email\Block\Adminhtml\Template\Grid\Renderer;
-
 class Type extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
+    /**
+     * Email template types
+     *
+     * @var array
+     */
     protected static $_types = array(
         \Magento\Email\Model\Template::TYPE_HTML => 'HTML',
         \Magento\Email\Model\Template::TYPE_TEXT => 'Text',
     );
 
+    /**
+     * Render grid column
+     *
+     * @param \Magento\Object $row
+     * @return string
+     */
     public function render(\Magento\Object $row)
     {
 

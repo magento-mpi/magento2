@@ -7,18 +7,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element;
 
 /**
  * Form element button
  */
-namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element;
-
 class Button extends \Magento\Data\Form\Element\AbstractElement
 {
     /**
      * Additional html attributes
      *
-     * @var array
+     * @var string[]
      */
     protected $_htmlAttributes = array('data-mage-init');
 
@@ -54,7 +53,7 @@ class Button extends \Magento\Data\Form\Element\AbstractElement
     /**
      * Html attributes
      *
-     * @return array
+     * @return string[]
      */
     public function getHtmlAttributes()
     {

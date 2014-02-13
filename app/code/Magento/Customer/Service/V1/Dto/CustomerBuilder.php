@@ -11,7 +11,7 @@ namespace Magento\Customer\Service\V1\Dto;
 /**
  * Class Customer. Uses array to hold data, setters return $this so they can be chained.
  *
- * @method \Magento\Customer\Service\V1\Dto\Customer create() create()
+ * @method Customer create() create()
  */
 class CustomerBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
 {

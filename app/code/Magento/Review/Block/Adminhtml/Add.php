@@ -19,6 +19,11 @@ namespace Magento\Review\Block\Adminhtml;
  */
 class Add extends \Magento\Backend\Block\Widget\Form\Container
 {
+    /**
+     * Initialize add review
+     *
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -103,6 +108,8 @@ class Add extends \Magento\Backend\Block\Widget\Form\Container
     }
 
     /**
+     * Get add new review header text
+     *
      * @return string
      */
     public function getHeaderText()

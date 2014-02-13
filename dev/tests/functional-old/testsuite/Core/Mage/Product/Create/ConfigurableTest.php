@@ -419,7 +419,6 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
      * @dataProvider invalidNumericFieldDataProvider
      * @depends createConfigurableAttribute
      * @TestlinkId TL-MAGE-3372
-     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function invalidTierPriceInConfigurable($invalidTierData, $attrData)
     {
@@ -802,7 +801,7 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->createProduct($configurable, 'configurable', false);
         $this->productHelper()->saveProduct('close', null);
-        $this->waitForElementEditable($this->_getControlXpath('radiobutton', 'current_attribute_set'));
+        $this->waitForControlEditable('radiobutton', 'current_attribute_set');
         $this->clickButton('cancel');
         //Verifying
         $this->assertEquals('new_product', $this->getCurrentPage(),

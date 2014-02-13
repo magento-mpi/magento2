@@ -47,6 +47,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $this->_address = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Sales\Model\Quote\Address');
         $this->_address->load(1);
+        $this->_address->setQuote($this->_quote);
     }
 
     /**
@@ -172,44 +173,34 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     /**
      * Import customer address to quote address
      */
-    public function testImportCustomerAddressData()
-    {
-        $street = ['Street1'];
-        $city = 'TestCity';
-
-        /** @var \Magento\Customer\Service\V1\Dto\AddressBuilder $addressBuilder */
-        $addressBuilder = Bootstrap::getObjectManager()->create('Magento\Customer\Service\V1\Dto\AddressBuilder');
-        $addressDto = $addressBuilder
-            ->setCity($city)
-            ->setStreet($street)
-            ->create();
-
-        $this->_address->importCustomerAddressData($addressDto);
-
-        $this->assertEquals($street, $this->_address->getStreet(), 'Imported street is invalid.');
-        $this->assertEquals($city, $this->_address->getCity(), 'Imported city is invalid.');
-    }
-
-    /**
-     * Import customer address to quote address
-     */
     public function testImportCustomerAddressDataWithCustomer()
     {
         $customerIdFromFixture = 1;
         $customerEmailFromFixture = 'customer@example.com';
         $city = 'TestCity';
+        $street = 'Street1';
 
         /** @var \Magento\Customer\Service\V1\Dto\AddressBuilder $addressBuilder */
         $addressBuilder = Bootstrap::getObjectManager()->create('Magento\Customer\Service\V1\Dto\AddressBuilder');
         $addressDto = $addressBuilder
             ->setCustomerId($customerIdFromFixture)
             ->setCity($city)
+            ->setStreet($street)
             ->create();
-
+        $this->_address->setQuote($this->_quote);
         $this->_address->importCustomerAddressData($addressDto);
 
         $this->assertEquals($customerEmailFromFixture, $this->_address->getEmail(), 'Email was imported incorrectly.');
-        $this->assertEquals($city, $this->_address->getCity(), 'City was imported incorrectly.');
+        $this->assertEquals(
+            $city,
+            $this->_address->getCity(),
+            'City was imported incorrectly.'
+        );
+        $this->assertEquals(
+            $street,
+            $this->_address->getStreetFull(),
+            'Imported street is invalid.'
+        );
     }
 
     /**

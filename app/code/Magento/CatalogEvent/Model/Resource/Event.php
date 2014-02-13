@@ -12,7 +12,14 @@
  */
 namespace Magento\CatalogEvent\Model\Resource;
 
-class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
+use Magento\App\Resource as AppResource;
+use Magento\Catalog\Model\Resource\Category\CollectionFactory;
+use Magento\Core\Model\AbstractModel;
+use Magento\Core\Model\Resource\Db\AbstractDb;
+use Magento\Core\Model\Store;
+use Magento\Core\Model\StoreManagerInterface;
+
+class Event extends AbstractDb
 {
     const EVENT_FROM_PARENT_FIRST = 1;
     const EVENT_FROM_PARENT_LAST  = 2;
@@ -34,28 +41,28 @@ class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Store model manager
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Category collection factory
      *
-     * @var \Magento\Catalog\Model\Resource\Category\CollectionFactory
+     * @var CollectionFactory
      */
     protected $_categoryCollectionFactory;
 
     /**
      * Construct
      *
-     * @param \Magento\App\Resource $resource
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryCollectionFactory
+     * @param AppResource $resource
+     * @param StoreManagerInterface $storeManager
+     * @param CollectionFactory $categoryCollectionFactory
      */
     public function __construct(
-        \Magento\App\Resource $resource,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryCollectionFactory
+        AppResource $resource,
+        StoreManagerInterface $storeManager,
+        CollectionFactory $categoryCollectionFactory
     ) {
         parent::__construct($resource);
 
@@ -66,6 +73,7 @@ class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Initialize resource
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -80,10 +88,10 @@ class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Before model save
      *
-     * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\CatalogEvent\Model\Resource\Event
+     * @param AbstractModel $object
+     * @return $this
      */
-    protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
+    protected function _beforeSave(AbstractModel $object)
     {
         if (strlen($object->getSortOrder()) === 0) {
             $object->setSortOrder(null);
@@ -95,7 +103,7 @@ class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Retrieve category ids with events
      *
-     * @param int|string|\Magento\Core\Model\Store $storeId
+     * @param int|string|Store $storeId
      * @return array
      */
     public function getCategoryIdsWithEvent($storeId = null)
@@ -152,7 +160,7 @@ class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Method for building relates between child and parent node
      *
-     * @return \Magento\CatalogEvent\Model\Resource\Event
+     * @return $this
      */
     protected function _setChildToParentList()
     {
@@ -204,10 +212,10 @@ class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * After model save (save event image)
      *
-     * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\CatalogEvent\Model\Resource\Event
+     * @param AbstractModel $object
+     * @return $this
      */
-    protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
+    protected function _afterSave(AbstractModel $object)
     {
         $where = array(
             $object->getIdFieldName() . '=?' => $object->getId(),
@@ -232,10 +240,10 @@ class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * After model load (loads event image)
      *
-     * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\CatalogEvent\Model\Resource\Event
+     * @param AbstractModel $object
+     * @return $this
      */
-    protected function _afterLoad(\Magento\Core\Model\AbstractModel $object)
+    protected function _afterLoad(AbstractModel $object)
     {
         $adapter = $this->_getReadAdapter();
         $select = $adapter->select()

@@ -8,6 +8,8 @@
  * @license     {license_link}
  */
 
+namespace Magento\Customer\Model\Address;
+
 /**
  * Address abstract model
  *
@@ -17,9 +19,11 @@
  * @method string getMiddlename()
  * @method string getLastname()
  * @method int getCountryId()
+ * @method string getCity()
+ * @method string getTelephone()
+ * @method string getPostcode()
+ * @method bool getShouldIgnoreValidation()
  */
-namespace Magento\Customer\Model\Address;
-
 class AbstractAddress extends \Magento\Core\Model\AbstractModel
 {
     /**
@@ -266,8 +270,8 @@ class AbstractAddress extends \Magento\Core\Model\AbstractModel
     public function explodeStreetAddress()
     {
         $streetLines = $this->getStreet();
-        foreach ($streetLines as $i=>$line) {
-            $this->setData('street'.($i+1), $line);
+        foreach ($streetLines as $i => $line) {
+            $this->setData('street' . ($i+1), $line);
         }
         return $this;
     }
@@ -283,8 +287,8 @@ class AbstractAddress extends \Magento\Core\Model\AbstractModel
         $region   = $this->getData('region');
 
         if ($regionId) {
-               if ($this->getRegionModel($regionId)->getCountryId() == $this->getCountryId()) {
-                   $region = $this->getRegionModel($regionId)->getName();
+            if ($this->getRegionModel($regionId)->getCountryId() == $this->getCountryId()) {
+                $region = $this->getRegionModel($regionId)->getName();
                 $this->setData('region', $region);
             }
         }
@@ -423,7 +427,7 @@ class AbstractAddress extends \Magento\Core\Model\AbstractModel
     /**
      * Validate address attribute values
      *
-     * @return bool
+     * @return bool|array
      */
     public function validate()
     {

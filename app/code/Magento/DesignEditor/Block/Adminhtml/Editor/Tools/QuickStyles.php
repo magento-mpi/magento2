@@ -7,22 +7,21 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Tools;
 
 /**
  * Block that renders Design tab
  */
-namespace Magento\DesignEditor\Block\Adminhtml\Editor\Tools;
-
 class QuickStyles
     extends \Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Tabs\AbstractTabs
 {
     /**
-     * Tab HTML identifier
+     * @var string Tab HTML identifier
      */
     protected $_htmlId = 'vde-tab-quick-styles';
 
     /**
-     * Tab HTML title
+     * @var string Tab HTML title
      */
     protected $_title = 'Quick Styles';
 

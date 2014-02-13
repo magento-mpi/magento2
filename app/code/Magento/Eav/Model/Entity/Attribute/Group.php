@@ -8,6 +8,8 @@
  * @license     {license_link}
  */
 
+namespace Magento\Eav\Model\Entity\Attribute;
+
 /**
  * @category    Magento
  * @package     Magento_Eav
@@ -28,12 +30,12 @@
  * @method string getTabGroupCode()
  * @method \Magento\Eav\Model\Entity\Attribute\Group setTabGroupCode(string $value)
  */
-namespace Magento\Eav\Model\Entity\Attribute;
-
 class Group extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Resource initialization
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -43,7 +45,7 @@ class Group extends \Magento\Core\Model\AbstractModel
     /**
      * Checks if current attribute group exists
      *
-     * @return boolean
+     * @return bool
      */
     public function itemExists()
     {
@@ -53,7 +55,7 @@ class Group extends \Magento\Core\Model\AbstractModel
     /**
      * Delete groups
      *
-     * @return \Magento\Eav\Model\Entity\Attribute\Group
+     * @return $this
      */
     public function deleteGroups()
     {
@@ -63,7 +65,7 @@ class Group extends \Magento\Core\Model\AbstractModel
     /**
      * Processing object before save data
      *
-     * @return \Magento\Eav\Model\Entity\Attribute\Group
+     * @return $this
      */
     protected function _beforeSave()
     {

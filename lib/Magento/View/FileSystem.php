@@ -21,17 +21,17 @@ class FileSystem
     protected $_resolutionPool;
 
     /**
-     * @var \Magento\View\Service
+     * @var Service
      */
     protected $_viewService;
 
     /**
      * @param \Magento\View\Design\FileResolution\StrategyPool $resolutionPool
-     * @param \Magento\View\Service $viewService
+     * @param Service $viewService
      */
     public function __construct(
         \Magento\View\Design\FileResolution\StrategyPool $resolutionPool,
-        \Magento\View\Service $viewService
+        Service $viewService
     ) {
         $this->_resolutionPool = $resolutionPool;
         $this->_viewService = $viewService;
@@ -79,8 +79,9 @@ class FileSystem
         $filePath = $this->_viewService->extractScope($this->normalizePath($fileId), $params);
         $this->_viewService->updateDesignParams($params);
         $skipProxy = isset($params['skipProxy']) && $params['skipProxy'];
-        return $this->_resolutionPool->getViewStrategy($skipProxy)->getViewFile($params['area'],
-            $params['themeModel'], $params['locale'], $filePath, $params['module']);
+        return $this->_resolutionPool->getViewStrategy($skipProxy)->getViewFile(
+            $params['area'], $params['themeModel'], $params['locale'], $filePath, $params['module']
+        );
     }
 
     /**
@@ -125,7 +126,7 @@ class FileSystem
                 } else {
                     array_pop($result);
                 }
-            } else if ('.' !== $part) {
+            } elseif ('.' !== $part) {
                 $result[] = $part;
             }
         }

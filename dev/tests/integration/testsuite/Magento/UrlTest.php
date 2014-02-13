@@ -207,7 +207,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     /**
      * Note: isolation flushes the URL memory cache
      * @magentoAppIsolation enabled
-     * @covers \Magento\Core\Model\Url::getUrl
+     * @covers \Magento\Url::getUrl
      */
     public function testGetUrlDoesntAddFragmentOnConsequentCalls()
     {
@@ -234,7 +234,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
      * @param array $secondRouteParams
      * @param string $firstExpectedUrl
      * @param string $secondExpectedUrl
-     * @covers \Magento\Core\Model\Url::getUrl
+     * @covers \Magento\Url::getUrl
      */
     public function testGetUrlOnConsequentCalls($firstCallUrl, $secondCallUrl, $firstRouteParams, $secondRouteParams,
         $firstExpectedUrl, $secondExpectedUrl

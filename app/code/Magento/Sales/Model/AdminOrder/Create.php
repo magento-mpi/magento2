@@ -23,6 +23,8 @@ use Magento\Customer\Service\V1\Dto\Address as CustomerAddressDto;
  */
 class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartInterface
 {
+    const XML_PATH_DEFAULT_EMAIL_DOMAIN = 'customer/create_account/email_domain';
+
     /**
      * Quote session object
      *
@@ -71,20 +73,6 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
      * @var boolean
      */
     protected $_isValidate              = false;
-
-    /**
-     * Customer instance
-     *
-     * @var \Magento\Customer\Model\Customer
-     */
-    protected $_customer;
-
-    /**
-     * Customer Address Form instance
-     *
-     * @var \Magento\Customer\Model\Form
-     */
-    protected $_customerAddressForm;
 
     /**
      * Array of validate errors
@@ -140,6 +128,11 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
     protected $messageManager;
 
     /**
+     * @var Product\Quote\Initializer
+     */
+    protected $quoteInitializer;
+
+    /**
      * @var CustomerServiceInterface
      */
     protected $_customerService;
@@ -183,6 +176,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
      * @param \Magento\Logger $logger
      * @param \Magento\Object\Copy $objectCopyService
      * @param \Magento\Message\ManagerInterface $messageManager
+     * @param Product\Quote\Initializer $quoteInitializer
      * @param CustomerServiceInterface $customerService
      * @param CustomerAddressServiceInterface $customerAddressService
      * @param CustomerAddressBuilder $customerAddressBuilder
@@ -201,6 +195,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         \Magento\Logger $logger,
         \Magento\Object\Copy $objectCopyService,
         \Magento\Message\ManagerInterface $messageManager,
+        Product\Quote\Initializer $quoteInitializer,
         CustomerServiceInterface $customerService,
         CustomerAddressServiceInterface $customerAddressService,
         CustomerAddressBuilder $customerAddressBuilder,
@@ -217,6 +212,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         $this->_session = $quoteSession;
         $this->_logger = $logger;
         $this->_objectCopyService = $objectCopyService;
+        $this->quoteInitializer = $quoteInitializer;
         $this->messageManager = $messageManager;
         $this->_customerService = $customerService;
         $this->_customerAddressService = $customerAddressService;
@@ -588,10 +584,6 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
             $this->_cart->setStore($this->getSession()->getStore())->loadByCustomer($customerId);
             if (!$this->_cart->getId()) {
                 $customerData = $this->_customerService->getCustomer($customerId);
-
-                // TODO: Next line should be removed when assignCustomer() is refactored in scope of MAGETWO-19931.
-                $customerData = $this->_objectManager->create('Magento\Customer\Model\Customer')->load($customerId);
-
                 $this->_cart->assignCustomer($customerData);
                 $this->_cart->save();
             }
@@ -873,30 +865,10 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
             }
         }
 
-        $stockItem = $product->getStockItem();
-        if ($stockItem && $stockItem->getIsQtyDecimal()) {
-            $product->setIsQtyDecimal(1);
-        } else {
-            $config->setQty((int) $config->getQty());
-        }
+        $item = $this->quoteInitializer->init($this->getQuote(), $product, $config);
 
-        $product->setCartQty($config->getQty());
-        $item = $this->getQuote()->addProductAdvanced(
-            $product,
-            $config,
-            \Magento\Catalog\Model\Product\Type\AbstractType::PROCESS_MODE_FULL
-        );
         if (is_string($item)) {
-            if ($product->getTypeId() != \Magento\GroupedProduct\Model\Product\Type\Grouped::TYPE_CODE) {
-                $item = $this->getQuote()->addProductAdvanced(
-                    $product,
-                    $config,
-                    \Magento\Catalog\Model\Product\Type\AbstractType::PROCESS_MODE_LITE
-                );
-            }
-            if (is_string($item)) {
-                throw new \Magento\Core\Exception($item);
-            }
+            throw new \Magento\Core\Exception($item);
         }
         $item->checkData();
 
@@ -1524,7 +1496,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         }
         $data = $form->restoreData($data);
         foreach($data as $key => $value) {
-            if(!$value){
+            if(!is_null($value)){
                 unset($data[$key]);
             }
         }
@@ -1555,7 +1527,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
                 /** Unset customer ID to ensure that new customer will be created */
                 [CustomerDto::STORE_ID => $store->getId(), CustomerDto::ID => null, CustomerDto::CREATED_AT => null]
             );
-            $this->_validateCustomerData($customerDto);
+            $customerDto = $this->_validateCustomerData($customerDto);
         } else if (!$customerDto->getCustomerId()) {
             /** Create new customer */
             $customerBillingAddressDto = $this->getBillingAddress()->exportCustomerAddressData();
@@ -1566,12 +1538,11 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
             );
             $customerDto = $this->_validateCustomerData($customerDto);
         }
-        /** Persist customer addresses if necessary */
         if ($this->getBillingAddress()->getSaveInAddressBook()) {
-            $this->_setupCustomerAddress($customerDto, $this->getBillingAddress());
+            $this->_prepareCustomerAddress($customerDto, $this->getBillingAddress());
         }
         if (!$this->getQuote()->isVirtual() && $this->getShippingAddress()->getSaveInAddressBook()) {
-            $this->_setupCustomerAddress($customerDto, $this->getShippingAddress());
+            $this->_prepareCustomerAddress($customerDto, $this->getShippingAddress());
         }
         $this->getQuote()->updateCustomerData($customerDto);
 
@@ -1591,7 +1562,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
      * @param \Magento\Sales\Model\Quote\Address $quoteCustomerAddress
      * @throws \InvalidArgumentException
      */
-    protected function _setupCustomerAddress($customerDto, $quoteCustomerAddress)
+    protected function _prepareCustomerAddress($customerDto, $quoteCustomerAddress)
     {
         // Possible that customerId is null for new customers
         $customerId = $customerDto->getCustomerId();
@@ -1640,7 +1611,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
             default:
                 throw new \InvalidArgumentException('Customer address type is invalid.');
         }
-        $this->getQuote()->addAddressData($customerAddressDto);
+        $this->getQuote()->addCustomerAddressData($customerAddressDto);
     }
 
     /**
@@ -1784,9 +1755,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
     {
         $email = $this->getData('account/email');
         if (empty($email)) {
-            $host = $this->getSession()
-                ->getStore()
-                ->getConfig(\Magento\Customer\Model\Customer::XML_PATH_DEFAULT_EMAIL_DOMAIN);
+            $host = $this->getSession()->getStore()->getConfig(self::XML_PATH_DEFAULT_EMAIL_DOMAIN);
             $account = time();
             $email = $account.'@'. $host;
             $account = $this->getData('account');

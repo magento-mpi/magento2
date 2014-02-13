@@ -7,16 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reports\Block\Adminhtml\Review\Detail;
 
 /**
  * Adminhtml report reviews product grid block
  *
- * @category   Magento
- * @package    Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Reports\Block\Adminhtml\Review\Detail;
-
 class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
@@ -40,12 +37,20 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         parent::__construct($context, $backendHelper, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
         $this->setId('reviews_grid');
     }
 
+    /**
+     * Apply sorting and filtering to reports review collection
+     *
+     * @return $this
+     */
     protected function _prepareCollection()
     {
         $collection = $this->_reviewsFactory->create()
@@ -58,9 +63,13 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         return $this;
     }
 
+    /**
+     * Initialize grid report review columns
+     *
+     * @return $this
+     */
     protected function _prepareColumns()
     {
-
         $this->addColumn('nickname', array(
             'header'    =>__('Customer'),
             'width'     =>'100px',

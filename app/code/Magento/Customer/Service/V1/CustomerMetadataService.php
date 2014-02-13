@@ -9,7 +9,7 @@
  */
 namespace Magento\Customer\Service\V1;
 
-use Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata;
+use Magento\Eav\Model\Entity\Attribute\AbstractAttribute;
 
 class CustomerMetadataService implements CustomerMetadataServiceInterface
 {
@@ -32,12 +32,12 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
     private $_storeManager;
 
     /**
-     * @var \Magento\Customer\Service\V1\Dto\Eav\OptionBuilder
+     * @var Dto\Eav\OptionBuilder
      */
     private $_optionBuilder;
 
     /**
-     * @var \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadataBuilder
+     * @var Dto\Eav\AttributeMetadataBuilder
      */
     private $_attributeMetadataBuilder;
 
@@ -45,15 +45,15 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Customer\Model\Resource\Form\Attribute\CollectionFactory $attrFormCollectionFactory
      * @param \Magento\Core\Model\StoreManager $storeManager
-     * @param \Magento\Customer\Service\V1\Dto\Eav\OptionBuilder $optionBuilder
-     * @param \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadataBuilder $attributeMetadataBuilder
+     * @param Dto\Eav\OptionBuilder $optionBuilder
+     * @param Dto\Eav\AttributeMetadataBuilder $attributeMetadataBuilder
      */
     public function __construct(
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Customer\Model\Resource\Form\Attribute\CollectionFactory $attrFormCollectionFactory,
         \Magento\Core\Model\StoreManager $storeManager,
-        \Magento\Customer\Service\V1\Dto\Eav\OptionBuilder $optionBuilder,
-        \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadataBuilder $attributeMetadataBuilder
+        Dto\Eav\OptionBuilder $optionBuilder,
+        Dto\Eav\AttributeMetadataBuilder $attributeMetadataBuilder
     ) {
         $this->_eavConfig = $eavConfig;
         $this->_cache = [];
@@ -68,7 +68,7 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
      *
      * @param   mixed $entityType
      * @param   mixed $attributeCode
-     * @return \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata
+     * @return Dto\Eav\AttributeMetadata
      */
     public function getAttributeMetadata($entityType, $attributeCode)
     {
@@ -77,7 +77,7 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
             return $dtoCache[$attributeCode];
         }
 
-        /** @var \Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute */
+        /** @var AbstractAttribute $attribute */
         $attribute = $this->_eavConfig->getAttribute($entityType, $attributeCode);
         $attributeMetadata = $this->_createMetadataAttribute($attribute);
         $dtoCache[$attributeCode] = $attributeMetadata;
@@ -90,7 +90,7 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
      * @param string $entityType
      * @param int $attributeSetId
      * @param int $storeId
-     * @return AttributeMetadata[]
+     * @return Dto\Eav\AttributeMetadata[]
      */
     public function getAllAttributeSetMetadata($entityType, $attributeSetId = 0, $storeId = null)
     {
@@ -115,7 +115,7 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
      *
      * @param $entityType
      * @param $formCode
-     * @return \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata[]
+     * @return Dto\Eav\AttributeMetadata[]
      */
     public function getAttributes($entityType, $formCode)
     {
@@ -147,7 +147,7 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
 
     /**
      * @param \Magento\Customer\Model\Attribute $attribute
-     * @return AttributeMetadata
+     * @return Dto\Eav\AttributeMetadata
      */
     private function _createMetadataAttribute($attribute)
     {
@@ -165,8 +165,8 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
             ->setInputFilter($attribute->getInputFilter())
             ->setStoreLabel($attribute->getStoreLabel())
             ->setValidationRules($attribute->getValidateRules())
-            ->setIsVisible($attribute->getIsVisible())
-            ->setIsRequired($attribute->getIsRequired())
+            ->setVisible($attribute->getIsVisible())
+            ->setRequired($attribute->getIsRequired())
             ->setMultilineCount($attribute->getMultilineCount())
             ->setDataModel($attribute->getDataModel())
             ->setOptions($options)

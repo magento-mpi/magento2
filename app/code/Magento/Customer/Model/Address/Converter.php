@@ -84,11 +84,11 @@ class Converter
         // Set all attributes
         foreach ($address->getAttributes() as $attributeCode => $attributeData) {
             if (Address::KEY_REGION == $attributeCode && $address->getRegion() instanceof Region) {
-                $addressModel->setData(Address::KEY_REGION, $address->getRegion()->getRegion());
-                $addressModel->setData('region_code', $address->getRegion()->getRegionCode());
-                $addressModel->setData(Address::KEY_REGION_ID, $address->getRegion()->getRegionId());
+                $addressModel->setDataUsingMethod(Address::KEY_REGION, $address->getRegion()->getRegion());
+                $addressModel->setDataUsingMethod('region_code', $address->getRegion()->getRegionCode());
+                $addressModel->setDataUsingMethod(Address::KEY_REGION_ID, $address->getRegion()->getRegionId());
             } else {
-                $addressModel->setData($attributeCode, $attributeData);
+                $addressModel->setDataUsingMethod($attributeCode, $attributeData);
             }
         }
         // Set customer related data
@@ -115,10 +115,9 @@ class Converter
         $validAttributes = array_merge(
             $addressModel->getDefaultAttributeCodes(),
             [
-                Address::KEY_ID, Address::KEY_REGION_ID, Address::KEY_REGION, Address::KEY_STREET, 'vat_is_valid',
-                Address::KEY_DEFAULT_BILLING, Address::KEY_DEFAULT_SHIPPING,
-                //TODO: create VAT object at MAGETWO-16860
-                'vat_request_id', 'vat_request_date', 'vat_request_success'
+                Address::KEY_ID, 'region_id', Address::KEY_REGION, Address::KEY_STREET, 'vat_is_valid',
+                Address::KEY_DEFAULT_BILLING, Address::KEY_DEFAULT_SHIPPING, 'vat_request_id', 'vat_request_date',
+                'vat_request_success'
             ]
         );
         $addressData = [];

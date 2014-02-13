@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\DesignEditor\Model\Theme\Resource;
 
 /**
  * Theme change resource model
  */
-namespace Magento\DesignEditor\Model\Theme\Resource;
-
 class Change extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
@@ -23,6 +22,7 @@ class Change extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * @param \Magento\App\Resource $resource
      * @param \Magento\Stdlib\DateTime $dateTime
+     * @return void
      */
     public function __construct(\Magento\App\Resource $resource, \Magento\Stdlib\DateTime $dateTime)
     {
@@ -32,6 +32,8 @@ class Change extends \Magento\Core\Model\Resource\Db\AbstractDb
 
     /**
      * Resource initialization
+     *
+     * @return void
      */
     protected function _construct()
     {

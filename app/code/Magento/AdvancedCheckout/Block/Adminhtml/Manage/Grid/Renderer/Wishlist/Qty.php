@@ -28,6 +28,6 @@ class Qty
      */
     protected function _isInactive($row)
     {
-        return $row->getProduct()->getTypeId() == \Magento\GroupedProduct\Model\Product\Type\Grouped::TYPE_CODE;
+        return parent::_isInactive($row->getProduct());
     }
 }

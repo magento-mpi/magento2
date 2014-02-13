@@ -11,7 +11,7 @@ namespace Magento\Customer\Service\V1\Dto;
 /**
  * Customer
  *
- * @package Magento\Customer\Service\Entity\V1
+ * @package Magento\Customer\Service\V1\Dto
  */
 class CustomerTest extends \PHPUnit_Framework_TestCase
 {
@@ -40,7 +40,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
     public function testSetters()
     {
         $customerData = $this->_createCustomerData();
-        $customerBuilder = new \Magento\Customer\Service\V1\Dto\CustomerBuilder();
+        $customerBuilder = new CustomerBuilder();
         $customerBuilder->populateWithArray($customerData);
 
         /** @var Customer $customer */
@@ -69,7 +69,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
     public function testGetAttributeNotExist()
     {
         $customerData = $this->_createCustomerData();
-        $customerBuilder = new \Magento\Customer\Service\V1\Dto\CustomerBuilder();
+        $customerBuilder = new CustomerBuilder();
         $customerBuilder->populateWithArray($customerData);
         /** @var Customer $customer */
         $customer = $customerBuilder->create();
@@ -80,8 +80,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
     public function testGetAttributes()
     {
         $customerData = $this->_createCustomerData();
-        /** @var CustomerBuilder $customerBuilder */
-        $customerBuilder = new \Magento\Customer\Service\V1\Dto\CustomerBuilder();
+        $customerBuilder = new CustomerBuilder();
         $customerBuilder->populateWithArray($customerData);
         /** @var Customer $customer */
         $customer = $customerBuilder->create();
@@ -110,10 +109,46 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testPopulateFromPrototypeVsArray()
+    {
+        $builder = new CustomerBuilder();
+        $builder->populateWithArray([
+            Customer::FIRSTNAME => self::FIRSTNAME,
+            Customer::LASTNAME  => self::LASTNAME,
+            Customer::EMAIL     => self::EMAIL,
+            Customer::ID        => self::ID,
+            'entity_id'         => self::ID,
+        ]);
+        $customerFromArray = $builder->create();
+        $builder = new CustomerBuilder();
+        $customerFromPrototype = $builder->populate($customerFromArray)->create();
+
+        $this->assertEquals($customerFromArray->__toArray(), $customerFromPrototype->__toArray());
+    }
+
+    public function testPopulateFromCustomerIdInArray()
+    {
+        $builder = new CustomerBuilder();
+        $builder->populateWithArray([
+            Customer::FIRSTNAME => self::FIRSTNAME,
+            Customer::LASTNAME  => self::LASTNAME,
+            Customer::EMAIL     => self::EMAIL,
+            'customer_id'        => self::ID,
+            'entity_id'         => self::ID,
+        ]);
+        /** @var Customer $customer */
+        $customer = $builder->create();
+
+        $this->assertEquals(self::FIRSTNAME, $customer->getFirstname());
+        $this->assertEquals(self::LASTNAME, $customer->getLastname());
+        $this->assertEquals(self::EMAIL, $customer->getEmail());
+        $this->assertEquals(self::ID, $customer->getCustomerId());
+    }
+
     /**
      * Create customer using setters.
      *
-     * @return CustomerBuilder
+     * @return array
      */
     private function _createCustomerData()
     {

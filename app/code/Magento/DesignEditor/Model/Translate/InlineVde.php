@@ -7,12 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\DesignEditor\Model\Translate;
+
 /**
  * Inline translation specific to Vde.
  */
-namespace Magento\DesignEditor\Model\Translate;
-
-class InlineVde implements \Magento\Core\Model\Translate\InlineInterface
+class InlineVde implements \Magento\Translate\InlineInterface
 {
     /**
      * data-translate-mode attribute name
@@ -50,7 +50,7 @@ class InlineVde implements \Magento\Core\Model\Translate\InlineInterface
     protected $_helper;
 
     /**
-     * @var \Magento\Core\Model\Translate\InlineParser
+     * @var \Magento\Translate\Inline\ParserInterface
      */
     protected $_parser;
 
@@ -72,20 +72,36 @@ class InlineVde implements \Magento\Core\Model\Translate\InlineInterface
     protected $_objectManager;
 
     /**
+     * @var \Magento\View\DesignInterface
+     */
+    protected $_design;
+
+    /**
+     * @var \Magento\BaseScopeResolverInterface
+     */
+    protected $_scopeResolver;
+
+    /**
      * Initialize inline translation model specific for vde
      *
-     * @param \Magento\Core\Model\Translate\InlineParser $parser
+     * @param \Magento\View\DesignInterface $design
+     * @param \Magento\BaseScopeResolverInterface $scopeResolver
+     * @param \Magento\Translate\Inline\ParserFactory $parserFactory
      * @param \Magento\DesignEditor\Helper\Data $helper
      * @param \Magento\UrlInterface $url
      * @param \Magento\ObjectManager $objectManager
      */
     public function __construct(
-        \Magento\Core\Model\Translate\InlineParser $parser,
+        \Magento\View\DesignInterface $design,
+        \Magento\BaseScopeResolverInterface $scopeResolver,
+        \Magento\Translate\Inline\ParserFactory $parserFactory,
         \Magento\DesignEditor\Helper\Data $helper,
         \Magento\UrlInterface $url,
         \Magento\ObjectManager $objectManager
     ) {
-        $this->_parser = $parser;
+        $this->_design = $design;
+        $this->_scopeResolver = $scopeResolver;
+        $this->_parser = $parserFactory->create(array('translateInline' => $this));
         $this->_helper = $helper;
         $this->_url = $url;
         $this->_objectManager = $objectManager;
@@ -104,11 +120,11 @@ class InlineVde implements \Magento\Core\Model\Translate\InlineInterface
     /**
      * Replace VDE specific translation templates with HTML fragments
      *
-     * @param array|string $body
+     * @param string[]|string &$body
      * @param bool $isJson
-     * @return \Magento\DesignEditor\Model\Translate\InlineVde
+     * @return $this
      */
-    public function processResponseBody(&$body, $isJson)
+    public function processResponseBody(&$body, $isJson = false)
     {
         if (is_array($body)) {
             foreach ($body as &$part) {
@@ -126,7 +142,7 @@ class InlineVde implements \Magento\Core\Model\Translate\InlineInterface
      * Returns the translation mode html attribute needed by vde to specify which translation mode the
      * element represents.
      *
-     * @param mixed|string $tagName
+     * @param string|null $tagName
      * @return string
      */
     public function getAdditionalHtmlAttribute($tagName = null)
@@ -136,6 +152,9 @@ class InlineVde implements \Magento\Core\Model\Translate\InlineInterface
 
     /**
      * Create block to render script and html with added inline translation content specific for vde.
+     *
+     * @param string $content
+     * @return void
      */
     private function _insertInlineScriptsHtml($content)
     {
@@ -143,16 +162,16 @@ class InlineVde implements \Magento\Core\Model\Translate\InlineInterface
             return;
         }
 
-        $store = $this->_parser->getStoreManager()->getStore();
+        $scope = $this->_scopeResolver->getScope();
         $ajaxUrl = $this->_url->getUrl('core/ajax/translate', array(
-            '_secure' => $store->isCurrentlySecure(),
+            '_secure' => $scope->isCurrentlySecure(),
             \Magento\DesignEditor\Helper\Data::TRANSLATION_MODE => $this->_helper->getTranslationMode()
         ));
 
         /** @var $block \Magento\View\Element\Template */
         $block = $this->_objectManager->create('Magento\View\Element\Template');
 
-        $block->setArea($this->_parser->getDesignPackage()->getArea());
+        $block->setArea($this->_design->getArea());
         $block->setAjaxUrl($ajaxUrl);
 
         $block->setFrameUrl($this->_getFrameUrl());

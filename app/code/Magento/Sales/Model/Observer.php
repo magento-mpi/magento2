@@ -300,6 +300,7 @@ class Observer
      */
     protected function _getVatRequiredSalesAddress($salesModel, $store = null)
     {
+        /** TODO: References to Magento\Customer\Model\Address will be eliminated in scope of MAGETWO-21105 */
         $configAddressType = $this->_customerAddress->getTaxCalculationAddressType($store);
         $requiredAddress = null;
         switch ($configAddressType) {
@@ -320,6 +321,7 @@ class Observer
      */
     public function restoreQuoteCustomerGroupId($observer)
     {
+        /** TODO: References to Magento\Customer\Model\Address will be eliminated in scope of MAGETWO-21105 */
         $quoteAddress = $observer->getQuoteAddress();
         $configAddressType = $this->_customerAddress->getTaxCalculationAddressType();
         // Restore initial customer group ID in quote only if VAT is calculated based on shipping address
