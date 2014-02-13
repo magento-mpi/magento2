@@ -26,23 +26,15 @@ class Price implements \Magento\Indexer\Model\ActionInterface, \Magento\Mview\Ac
     protected $_productPriceIndexerFull;
 
     /**
-     * @var \Magento\ObjectManager
-     */
-    protected $_objectManager;
-
-    /**
-     * @param \Magento\ObjectManager $objectManager
      * @param Price\Action\Row $productPriceIndexerRow
      * @param Price\Action\Rows $productPriceIndexerRows
      * @param Price\Action\Full $productPriceIndexerFull
      */
     public function __construct(
-        \Magento\ObjectManager $objectManager,
         \Magento\Catalog\Model\Indexer\Product\Price\Action\Row $productPriceIndexerRow,
         \Magento\Catalog\Model\Indexer\Product\Price\Action\Rows $productPriceIndexerRows,
         \Magento\Catalog\Model\Indexer\Product\Price\Action\Full $productPriceIndexerFull
     ) {
-        $this->_objectManager = $objectManager;
         $this->_productPriceIndexerRow = $productPriceIndexerRow;
         $this->_productPriceIndexerRows = $productPriceIndexerRows;
         $this->_productPriceIndexerFull = $productPriceIndexerFull;

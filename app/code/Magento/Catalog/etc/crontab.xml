@@ -12,5 +12,8 @@
         <job name="catalog_product_index_price_reindex_all" instance="Magento\Catalog\Model\Observer" method="reindexProductPrices">
             <schedule>0 2 * * *</schedule>
         </job>
+        <job name="enterprise_catalog_index_refresh_price" instance="\Magento\Catalog\Model\Indexer\Product\Price\Observer" method="refreshSpecialPrices">
+            <schedule>* * * * *</schedule><!--0-->
+        </job>
     </group>
 </config>
