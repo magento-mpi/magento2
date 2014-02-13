@@ -20,7 +20,7 @@ class QuoteImporter
      * @throws \Exception
      * @return array
      */
-    public function __invoke(\Magento\Sales\Model\Quote $quote)
+    public function prepareRecurringPaymentProfiles(\Magento\Sales\Model\Quote $quote)
     {
         if (!$quote->getTotalsCollectedFlag()) {
             // Whoops! Make sure nominal totals must be calculated here.

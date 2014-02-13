@@ -166,7 +166,7 @@ class Observer
      */
     public function submitRecurringPaymentProfiles($observer)
     {
-        $profiles = $this->_quoteImporter($observer->getEvent()->getQuote());
+        $profiles = $this->_quoteImporter->prepareRecurringPaymentProfiles($observer->getEvent()->getQuote());
         foreach ($profiles as $profile) {
             if (!$profile->isValid()) {
                 throw new \Magento\Core\Exception($profile->getValidationErrors());
@@ -177,7 +177,7 @@ class Observer
 
     public function addRecurringProfileIdsToSession($observer)
     {
-        $profiles = $this->_quoteImporter($observer->getEvent()->getQuote());
+        $profiles = $this->_quoteImporter->prepareRecurringPaymentProfiles($observer->getEvent()->getQuote());
         if ($profiles) {
             $ids = array();
             foreach ($profiles as $profile) {

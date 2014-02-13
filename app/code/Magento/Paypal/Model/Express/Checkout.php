@@ -463,7 +463,7 @@ class Checkout
         }
 
         // add recurring payment profiles information
-        $profiles = $this->_quoteImporter($this->_quote);
+        $profiles = $this->_quoteImporter->prepareRecurringPaymentProfiles($this->_quote);
         if ($profiles) {
             foreach ($profiles as $profile) {
                 $profile->setMethodCode(\Magento\Paypal\Model\Config::METHOD_WPP_EXPRESS);
