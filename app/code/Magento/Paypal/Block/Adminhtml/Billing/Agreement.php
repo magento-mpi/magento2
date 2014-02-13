@@ -5,17 +5,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Paypal\Block\Adminhtml\Billing;
 
 /**
  * Adminhtml billing agreement grid container
  */
+namespace Magento\Paypal\Block\Adminhtml\Billing;
+
 class Agreement extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**
      * Initialize billing agreements grid container
      *
-     * @return void
      */
     protected function _construct()
     {
