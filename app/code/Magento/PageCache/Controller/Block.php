@@ -42,7 +42,8 @@ class Block extends \Magento\App\Action\Action
         $html = '';
         $ttl = 0;
 
-        foreach ($blocks as $blockInstance) {
+        if (!empty($blocks)){
+            $blockInstance = array_shift($block);
             $html = $blockInstance->toHtml();
             $ttl = $blockInstance->getTtl();
         }
@@ -52,6 +53,8 @@ class Block extends \Magento\App\Action\Action
     }
 
     /**
+     * Get blocks from layout by handles
+     *
      * @return array [\Element\BlockInterface]
      */
     protected function _getBlocks()
