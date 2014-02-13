@@ -23,6 +23,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Initialize banner resource model
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -33,7 +34,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Add stores column
      *
-     * @return \Magento\Banner\Model\Resource\Banner\Collection
+     * @return $this
      */
     protected function _afterLoad()
     {
@@ -48,7 +49,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Set add stores column flag
      *
-     * @return \Magento\Banner\Model\Resource\Banner\Collection
+     * @return $this
      */
     public function addStoresVisibility()
     {
@@ -60,7 +61,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Collect and set stores ids to each collection item
      * Used in banners grid as Visible in column info
      *
-     * @return \Magento\Banner\Model\Resource\Banner\Collection
+     * @return $this
      */
     protected function _addStoresVisibility()
     {
@@ -97,7 +98,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      *
      * @param int|array $storeIds
      * @param bool $withAdmin
-     * @return \Magento\Banner\Model\Resource\Banner\Collection
+     * @return $this
      */
     public function addStoreFilter($storeIds, $withAdmin = true)
     {
@@ -124,7 +125,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      *
      * @param array $bannerIds
      * @param bool $exclude
-     * @return \Magento\Banner\Model\Resource\Banner\Collection
+     * @return $this
      */
     public function addBannerIdsFilter($bannerIds, $exclude = false)
     {

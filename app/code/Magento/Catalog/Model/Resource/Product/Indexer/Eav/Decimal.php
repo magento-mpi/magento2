@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Catalog\Model\Resource\Product\Indexer\Eav;
 
 /**
  * Catalog Product Eav Decimal Attributes Indexer resource model
@@ -16,14 +16,12 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Model\Resource\Product\Indexer\Eav;
-
-class Decimal
-    extends \Magento\Catalog\Model\Resource\Product\Indexer\Eav\AbstractEav
+class Decimal extends AbstractEav
 {
     /**
      * Initialize connection and define main index table
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -33,9 +31,9 @@ class Decimal
     /**
      * Prepare data index for indexable attributes
      *
-     * @param array $entityIds      the entity ids limitation
-     * @param int $attributeId      the attribute id limitation
-     * @return \Magento\Catalog\Model\Resource\Product\Indexer\Eav\Decimal
+     * @param array $entityIds the entity ids limitation
+     * @param int $attributeId the attribute id limitation
+     * @return $this
      */
     protected function _prepareIndex($entityIds = null, $attributeId = null)
     {
