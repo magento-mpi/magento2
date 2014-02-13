@@ -48,6 +48,16 @@ class DepersonalizePlugin
     protected $request;
 
     /**
+     * @var int
+     */
+    protected $customerGroupId;
+
+    /**
+     * @var string
+     */
+    protected $formKey;
+
+    /**
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Session\SessionManagerInterface $session
      * @param \Magento\Customer\Model\Session $customerSession
@@ -81,17 +91,28 @@ class DepersonalizePlugin
     public function beforeGenerateXml($arguments = null)
     {
         if (!$this->request->isAjax() && $this->layout->isCacheable()) {
-            $customerSegmentIds = $this->customerSession->getCustomerSegmentIds();
-            $customerGroupId = $this->customerSession->getCustomerGroupId();
-            $formKey = $this->session->getData(\Magento\Data\Form\FormKey::FORM_KEY);
+            $this->customerGroupId = $this->customerSession->getCustomerGroupId();
+            $this->formKey = $this->session->getData(\Magento\Data\Form\FormKey::FORM_KEY);
             $this->eventManager->dispatch('before_session_write_close');
             session_write_close();
             $this->session->clearStorage();
             $this->customerSession->clearStorage();
-            $formKey = $this->session->setData(\Magento\Data\Form\FormKey::FORM_KEY, $formKey);
-            $this->customerSession->setCustomerSegmentIds($customerSegmentIds);
-            $this->customerSession->setCustomerGroupId($customerGroupId);
-            $this->customer->setGroupId($customerGroupId);
+        }
+        return $arguments;
+    }
+
+    /**
+     * After layout generate
+     *
+     * @param null $arguments
+     * @return null
+     */
+    public function afterGenerateXml($arguments = null)
+    {
+        if (!$this->request->isAjax() && $this->layout->isCacheable()) {
+            $this->session->setData(\Magento\Data\Form\FormKey::FORM_KEY, $this->formKey);
+            $this->customerSession->setCustomerGroupId($this->customerGroupId);
+            $this->customer->setGroupId($this->customerGroupId);
             $this->customerSession->setCustomer($this->customer);
         }
         return $arguments;

@@ -8,11 +8,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Customer\Model\Layout;
+namespace Magento\CustomerSegment\Model\Layout;
 
 /**
  * Class DepersonalizePluginTest
- * @package Magento\Customer\Model\Layout
+ * @package Magento\CustomerSegment\Model\Layout
  */
 class DepersonalizePluginTest  extends \PHPUnit_Framework_TestCase
 {
@@ -62,28 +62,18 @@ class DepersonalizePluginTest  extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->layoutMock = $this->getMock('Magento\Core\Model\Layout', array(), array(), '', false);
-        $this->sessionMock = $this->getMock('Magento\Core\Model\Session', array('clearStorage', 'setData', 'getData'), array(), '', false);
-        $this->customerSessionMock = $this->getMock('Magento\Customer\Model\Session',
-            array('getCustomerGroupId', 'setCustomerGroupId', 'clearStorage', 'setCustomer'),
-            array(), '', false);
-        $this->customerFactoryMock = $this->getMock('Magento\Customer\Model\CustomerFactory',
-            array('create'), array(), '', false);
-        $this->eventManagerMock = $this->getMock('Magento\Event\Manager', array(), array(), '', false);
-
+        $this->customerSessionMock = $this->getMock(
+            'Magento\Customer\Model\Session',
+            array('getCustomerSegmentIds', 'setCustomerSegmentIds'),
+            array(),
+            '',
+            false
+        );
         $this->requestMock = $this->getMock('Magento\App\Request\Http', array(), array(), '', false);
-        $this->customerMock = $this->getMock('Magento\Customer\Model\Customer',
-            array('setGroupId', '__wakeup'), array(), '', false);
 
-        $this->customerFactoryMock->expects($this->once())
-            ->method('create')
-            ->will($this->returnValue($this->customerMock));
-
-        $this->plugin = new \Magento\Customer\Model\Layout\DepersonalizePlugin(
+       $this->plugin = new \Magento\CustomerSegment\Model\Layout\DepersonalizePlugin(
             $this->layoutMock,
-            $this->sessionMock,
             $this->customerSessionMock,
-            $this->customerFactoryMock,
-            $this->eventManagerMock,
             $this->requestMock
         );
     }
@@ -93,41 +83,20 @@ class DepersonalizePluginTest  extends \PHPUnit_Framework_TestCase
      */
     public function testDepersonalize()
     {
-        $formKey = md5('form_key');
-        $expectedCustomerGroupId = 3;
+        $expectedCustomerSegmentIds = array(1, 2, 3);
         $this->requestMock->expects($this->exactly(2))
             ->method('isAjax')
             ->will($this->returnValue(false));
         $this->layoutMock->expects($this->exactly(2))
             ->method('isCacheable')
             ->will($this->returnValue(true));
-        $this->sessionMock->expects($this->any())
-            ->method('getData')
-            ->with($this->equalTo(\Magento\Data\Form\FormKey::FORM_KEY))
-            ->will($this->returnValue($formKey));
         $this->customerSessionMock->expects($this->once())
-            ->method('getCustomerGroupId')
-            ->will($this->returnValue($expectedCustomerGroupId));
-        $this->eventManagerMock->expects($this->once())
-            ->method('dispatch')
-            ->with($this->equalTo('before_session_write_close'));
-        $this->sessionMock->expects($this->once())
-            ->method('clearStorage');
+            ->method('getCustomerSegmentIds')
+            ->will($this->returnValue($expectedCustomerSegmentIds));
+
         $this->customerSessionMock->expects($this->once())
-            ->method('clearStorage');
-        $this->customerSessionMock->expects($this->once())
-            ->method('setCustomerGroupId')
-            ->with($this->equalTo($expectedCustomerGroupId));
-        $this->customerMock->expects($this->once())
-            ->method('setGroupId')
-            ->with($this->equalTo($expectedCustomerGroupId));
-        $this->sessionMock->expects($this->once())
-            ->method('setData')
-            ->with($this->equalTo(\Magento\Data\Form\FormKey::FORM_KEY),
-                $this->equalTo($formKey));
-        $this->customerSessionMock->expects($this->once())
-            ->method('setCustomer')
-            ->with($this->equalTo($this->customerMock));
+            ->method('setCustomerSegmentIds')
+            ->with($this->equalTo($expectedCustomerSegmentIds));
         $this->plugin->beforeGenerateXml();
         $output = $this->plugin->afterGenerateXml();
         $this->assertNull($output);
@@ -159,8 +128,10 @@ class DepersonalizePluginTest  extends \PHPUnit_Framework_TestCase
         $this->layoutMock->expects($this->exactly(2))
             ->method('isCacheable')
             ->will($this->returnValue(false));
-        $this->eventManagerMock->expects($this->never())
-            ->method('dispatch');
+        $this->customerSessionMock->expects($this->never())
+            ->method('getCustomerSegmentIds');
+        $this->customerSessionMock->expects($this->never())
+            ->method('setCustomerSegmentIds');
         $this->plugin->beforeGenerateXml();
         $output = $this->plugin->afterGenerateXml();
         $this->assertNull($output);
