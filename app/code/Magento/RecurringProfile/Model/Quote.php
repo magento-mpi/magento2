@@ -30,7 +30,7 @@ class Quote
         $result = [];
         foreach ($quote->getAllVisibleItems() as $item) {
             $product = $item->getProduct();
-            if (is_object($product) && ($product->isRecurring())
+            if (is_object($product) && ($product->getIsRecurring() == '1')
                 && $profile = $this->_profileFactory->create()->importProduct($product)
             ) {
                 $profile->importQuote($quote);

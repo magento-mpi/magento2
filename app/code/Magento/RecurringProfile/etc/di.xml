@@ -11,8 +11,14 @@
     <type name="Magento\Module\Updater\SetupFactory">
         <param name="resourceTypes">
             <array>
-                <item key="recurringprofile_setup"><value>Magento\Catalog\Model\Resource\Setup</value></item>
+                <item key="recurringprofile_setup"><value>Magento\RecurringProfile\Model\Resource\Setup</value></item>
             </array>
         </param>
+    </type>
+    <type name="Magento\Catalog\Model\Product\Type\AbstractType">
+        <plugin name="recurringprofile_product_type" type="Magento\RecurringProfile\Model\Plugin\ProductType"/>
+    </type>
+    <type name="Magento\Downloadable\Model\Product\Type">
+        <plugin name="recurringprofile_product_type" type="Magento\RecurringProfile\Model\Plugin\ProductType"/>
     </type>
 </config>

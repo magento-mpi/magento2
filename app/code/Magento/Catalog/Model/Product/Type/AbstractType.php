@@ -820,9 +820,6 @@ abstract class AbstractType
         if ($product->getHasOptions()) {
             return true;
         }
-        if ($product->isRecurring()) {
-            return true;
-        }
         return false;
     }
 

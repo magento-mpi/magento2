@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,7 +9,7 @@
 /**
  * Backend for recurring profile parameter
  */
-namespace Magento\Catalog\Model\Product\Attribute\Backend;
+namespace Magento\RecurringProfile\Model\Product\Attribute\Backend;
 
 class Recurring
 extends \Magento\Eav\Model\Entity\Attribute\Backend\Serialized
@@ -23,7 +21,7 @@ extends \Magento\Eav\Model\Entity\Attribute\Backend\Serialized
     public function beforeSave($product)
     {
         if ($product->hasIsRecurring()) {
-            if ($product->isRecurring()) {
+            if ($product->getIsRecurring() == '1') {
                 parent::beforeSave($product);
             } else {
                 $product->unsRecurringProfile();
@@ -38,7 +36,7 @@ extends \Magento\Eav\Model\Entity\Attribute\Backend\Serialized
     protected function _unserialize(\Magento\Object $product)
     {
         if ($product->hasIsRecurring()) {
-            if ($product->isRecurring()) {
+            if ($product->$product->getIsRecurring() == '1') {
                 parent::_unserialize($product);
             } else {
                 $product->unsRecurringProfile();

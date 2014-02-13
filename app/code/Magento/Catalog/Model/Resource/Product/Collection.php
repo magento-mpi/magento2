@@ -610,12 +610,6 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
             $this->_eventManager->dispatch('catalog_product_collection_load_after', array('collection' => $this));
         }
 
-        foreach ($this as $product) {
-            if ($product->isRecurring() && $profile = $product->getRecurringProfile()) {
-                $product->setRecurringProfile(unserialize($profile));
-            }
-        }
-
         return $this;
     }
 

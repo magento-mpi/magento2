@@ -20,7 +20,6 @@
         <param name="handlers">
             <array>
                 <item key="customOptions"><value>Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\CustomOptions</value></item>
-                <item key="recurringProfile"><value>Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\RecurringProfile</value></item>
                 <item key="configurableProduct"><value>Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\ProductType\Configurable</value></item>
                 <item key="bundleProducts"><value>Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\ProductType\Bundle</value></item>
                 <item key="downloadableProducts"><value>Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\ProductType\Downloadable</value></item>

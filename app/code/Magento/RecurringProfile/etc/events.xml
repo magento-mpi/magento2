@@ -17,4 +17,10 @@
     <event name="paypal_express_place_order_success">
         <observer name="magento_recurringprofile" instance="Magento\RecurringProfile\Model\Observer" method="addRecurringProfileIdsToSession" />
     </event>
+    <event name="catalog_product_collection_load_after">
+        <observer name="magento_recurringprofile" instance="Magento\RecurringProfile\Model\Observer" method="unserializeProductRecurringProfile" />
+    </event>
+    <event name="sales_quote_item_set_product">
+        <observer name="magento_recurringprofile" instance="Magento\RecurringProfile\Model\Observer" method="setIsRecurringToQuote" />
+    </event>
 </config>

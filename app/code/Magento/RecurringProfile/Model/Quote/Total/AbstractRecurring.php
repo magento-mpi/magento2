@@ -46,7 +46,7 @@ abstract class AbstractRecurring
         parent::collect($address);
         $items = $this->_getAddressItems($address);
         foreach ($items as $item) {
-            if ($item->getProduct()->isRecurring()) {
+            if ($item->getProduct()->getIsRecurring() == '1') {
                 $profileData = $item->getProduct()->getRecurringProfile();
                 if (!empty($profileData[$this->_profileDataKey])) {
                     $item->setData(

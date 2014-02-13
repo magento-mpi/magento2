@@ -179,3 +179,5 @@ $table = $this->getConnection()
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Sales Recurring Profile Order');
 $this->getConnection()->createTable($table);
+
+$this->installEntities();
