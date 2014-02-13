@@ -48,6 +48,11 @@ class DepersonalizePlugin
     protected $request;
 
     /**
+     * @var \Magento\Module\Manager
+     */
+    protected $moduleManager;
+
+    /**
      * @var int
      */
     protected $customerGroupId;
@@ -64,6 +69,7 @@ class DepersonalizePlugin
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Event\Manager $eventManager
      * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Module\Manager $moduleManager
      */
     public function __construct(
         \Magento\View\LayoutInterface $layout,
@@ -71,7 +77,8 @@ class DepersonalizePlugin
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Event\Manager $eventManager,
-        \Magento\App\RequestInterface $request
+        \Magento\App\RequestInterface $request,
+        \Magento\Module\Manager $moduleManager
     ) {
         $this->layout = $layout;
         $this->session = $session;
@@ -79,37 +86,28 @@ class DepersonalizePlugin
         $this->customer = $customerFactory->create();
         $this->eventManager = $eventManager;
         $this->request = $request;
+        $this->moduleManager = $moduleManager;
 
     }
 
     /**
-     * Before layout generate
+     * After layout generate
      *
-     * @param null $arguments
-     * @return null
+     * @param mixed $arguments
+     * @return mixed
      */
-    public function beforeGenerateXml($arguments = null)
+    public function afterGenerateXml($arguments = null)
     {
-        if (!$this->request->isAjax() && $this->layout->isCacheable()) {
+        if ($this->moduleManager->isEnabled('Magento_PageCache')
+            && !$this->request->isAjax()
+            && $this->layout->isCacheable()
+        ) {
             $this->customerGroupId = $this->customerSession->getCustomerGroupId();
             $this->formKey = $this->session->getData(\Magento\Data\Form\FormKey::FORM_KEY);
             $this->eventManager->dispatch('before_session_write_close');
             session_write_close();
             $this->session->clearStorage();
             $this->customerSession->clearStorage();
-        }
-        return $arguments;
-    }
-
-    /**
-     * After layout generate
-     *
-     * @param null $arguments
-     * @return null
-     */
-    public function afterGenerateXml($arguments = null)
-    {
-        if (!$this->request->isAjax() && $this->layout->isCacheable()) {
             $this->session->setData(\Magento\Data\Form\FormKey::FORM_KEY, $this->formKey);
             $this->customerSession->setCustomerGroupId($this->customerGroupId);
             $this->customer->setGroupId($this->customerGroupId);
