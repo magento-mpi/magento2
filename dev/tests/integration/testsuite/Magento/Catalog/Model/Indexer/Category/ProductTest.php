@@ -33,7 +33,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
         /** @var \Magento\Catalog\Model\Resource\Product $productResource */
         $this->productResource = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Resource\Product');
+            ->get('Magento\Catalog\Model\Resource\Product');
     }
 
     public function testReindexAll()
