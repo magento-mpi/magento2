@@ -23,7 +23,7 @@ namespace Magento\Core\Model;
  * @method \Magento\Core\Model\Store setIsActive(int $value)
  */
 class Store extends AbstractModel
-    implements \Magento\BaseScopeInterface, \Magento\Url\ScopeInterface,\Magento\Object\IdentityInterface
+    implements \Magento\BaseScopeInterface, \Magento\Url\ScopeInterface, \Magento\Object\IdentityInterface
 {
     /**
      * Entity name

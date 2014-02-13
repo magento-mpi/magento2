@@ -1958,6 +1958,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
      */
     public function getIdentities()
     {
-        return array('product_' . $this->getId());
+        return array(self::CACHE_TAG  . '_' . $this->getId());
     }
 }
