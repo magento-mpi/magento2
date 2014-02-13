@@ -52,7 +52,6 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
     protected $_canUseInternal              = false;
     protected $_canUseCheckout              = true;
     protected $_canFetchTransactionInfo     = true;
-    protected $_canCreateBillingAgreement   = true;
     protected $_canReviewPayment            = true;
 
     /**

@@ -11,6 +11,9 @@
 * Modularity improvements:
   * Moved Shortcut Buttons abstraction from PayPal to Catalog 
   * Moved Recurring profile functionality into separate module
+  * Moved Billing Agreements functionality into PayPal module
+* Improvements in code coverage calculation:
+  * Added code coverage calculation in clover xml format for unit tests
 * GitHub requests:
  * [#377] (https://github.com/magento/magento2/issues/377) Remove and avoid javascript eval() calls 
  * [#319] (https://github.com/magento/magento2/issues/319) No message was displayed when product added to shopping cart.
@@ -27,6 +30,9 @@
 * Caching improvements:
   * Added a new mechanism to uniquely identify page content (a hash-key for cache storage)
   * Replaced the "magentoZoom" plugin with two widgets: the "gallery" and "zoom"
+  * Added new mechanism to identify page content uniquely (hash-key for cache storage)
+  * Added new System Configuration tab for Page Cache mechanism.
+  * Implemented possibility to configure setting for Varnish caching server and download it like `*.vcl` file
 * Fixed bugs:
   * Fixed an issue with inserting an image in WYSIWYG editor where the selected folder was stored in session
   * Fixed an issue with CMS Page Links not being shown because of the empty text in the link
