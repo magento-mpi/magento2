@@ -425,6 +425,18 @@
             <word>CHANGELOG</word>
         </item>
         <item>
+            <path>app/code/Magento/Catalog/etc/di.xml</path>
+            <word>CHANGELOG</word>
+        </item>
+        <item>
+            <path>app/code/Magento/Catalog/Model/Mview/View/State/Plugin/Status.php</path>
+            <word>CHANGELOG</word>
+        </item>
+        <item>
+            <path>dev/tests/unit/testsuite/Magento/Catalog/Model/Mview/View/State/Plugin/StatusTest.php</path>
+            <word>CHANGELOG</word>
+        </item>
+        <item>
             <path>app/code/Magento/Bundle/etc/product_types.xml</path>
             <word>CustomAttribute</word>
         </item>
