@@ -11,6 +11,7 @@
 * Modularity improvements:
   * Moved Shortcut Buttons abstraction from PayPal to Catalog 
   * Moved Recurring profile functionality into separate module
+  * Moved Billing Agreements functionality into PayPal module
 * Improvements in code coverage calculation:
   * Added code coverage calculation in clover xml format for unit tests
 * GitHub requests:
