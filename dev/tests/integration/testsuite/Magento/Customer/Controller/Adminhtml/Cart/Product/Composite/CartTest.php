@@ -46,6 +46,8 @@ class CartTest extends \Magento\Backend\Utility\Controller
     }
 
     /**
+     * @magentoDbIsolation enabled
+     * @magentoAppIsolation enabled
      * @magentoDataFixture Magento/Customer/_files/customer.php
      * @magentoDataFixture Magento/Customer/_files/quote.php
      */
@@ -53,7 +55,7 @@ class CartTest extends \Magento\Backend\Utility\Controller
     {
         $items = $this->quoteItemCollectionFactory->create();
         $itemId = $items->getAllIds()[0];
-        $quoteId = $this->getRequest()->setParam('customer_id', 1);
+        $this->getRequest()->setParam('customer_id', 1);
         $this->getRequest()->setParam('website_id', 1);
         $this->getRequest()->setParam('id', $itemId);
         $this->dispatch('backend/customer/cart_product_composite_cart/configure');
@@ -81,6 +83,8 @@ class CartTest extends \Magento\Backend\Utility\Controller
     }
 
     /**
+     * @magentoDbIsolation enabled
+     * @magentoAppIsolation enabled
      * @magentoDataFixture Magento/Customer/_files/customer.php
      * @magentoDataFixture Magento/Customer/_files/quote.php
      */
@@ -88,7 +92,7 @@ class CartTest extends \Magento\Backend\Utility\Controller
     {
         $items = $this->quoteItemCollectionFactory->create();
         $itemId = $items->getAllIds()[0];
-        $quoteId = $this->getRequest()->setParam('customer_id', 1);
+        $this->getRequest()->setParam('customer_id', 1);
         $this->getRequest()->setParam('website_id', 1);
         $this->getRequest()->setParam('id', $itemId);
 

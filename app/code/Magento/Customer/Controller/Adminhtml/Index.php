@@ -98,6 +98,7 @@ class Index extends \Magento\Backend\App\Action
         }
 
         $this->_coreRegistry->register(self::REGISTRY_CURRENT_CUSTOMER, $customer);
+        $this->_coreRegistry->register(self::REGISTRY_CURRENT_CUSTOMER_ID, $customer->getId());
         return $this;
     }
 
@@ -700,9 +701,9 @@ class Index extends \Magento\Backend\App\Action
     public function newsletterAction()
     {
         $this->_initCustomer();
-        $customer = $this->_coreRegistry->registry(self::REGISTRY_CURRENT_CUSTOMER);
+        $customerId = $this->_coreRegistry->registry(self::REGISTRY_CURRENT_CUSTOMER_ID);
         $subscriber = $this->_objectManager->create('Magento\Newsletter\Model\Subscriber')
-            ->loadByCustomer($customer->getId());
+            ->loadByCustomer($customerId);
 
         $this->_coreRegistry->register('subscriber', $subscriber);
         $this->_view->loadLayout()->renderLayout();
@@ -711,9 +712,9 @@ class Index extends \Magento\Backend\App\Action
     public function wishlistAction()
     {
         $this->_initCustomer();
-        $customer = $this->_coreRegistry->registry(self::REGISTRY_CURRENT_CUSTOMER);
+        $customerId = $this->_coreRegistry->registry(self::REGISTRY_CURRENT_CUSTOMER_ID);
         $itemId = (int)$this->getRequest()->getParam('delete');
-        if ($customer->getId() && $itemId) {
+        if ($customerId && $itemId) {
             try {
                 $this->_objectManager->create('Magento\Wishlist\Model\Item')->load($itemId)
                     ->delete();

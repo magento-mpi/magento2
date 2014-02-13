@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -52,5 +49,3 @@ $quote->collectTotals();
 $quote->save();
 $quoteItem->setQuote($quote);
 $quoteItem->save();
-
-

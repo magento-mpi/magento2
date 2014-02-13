@@ -21,15 +21,24 @@ use Magento\TestFramework\Helper\Bootstrap;
  */
 class FormTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Magento\View\LayoutInterface */
+    /**
+     * @var \Magento\View\LayoutInterface
+     */
     private $layout;
 
-    /** @var \Magento\Customer\Service\V1\CustomerGroupService */
+    /**
+     * @var \Magento\Customer\Service\V1\CustomerGroupService
+     */
     private $customerGroupService;
 
-    /** @var \Magento\Core\Model\Registry */
+    /**
+     * @var \Magento\Core\Model\Registry
+     */
     private $registry;
 
+    /**
+     * Execute per test initialization.
+     */
     public function setUp()
     {
         parent::setUp();
@@ -37,22 +46,26 @@ class FormTest extends \PHPUnit_Framework_TestCase
             'Magento\Core\Model\Layout',
             ['area' => FrontNameResolver::AREA_CODE]
         );
-        $this->customerGroupService = Bootstrap::getObjectManager()->get(
-            'Magento\Customer\Service\V1\CustomerGroupServiceInterface'
-        );
-
+        $this->customerGroupService = Bootstrap::getObjectManager()
+            ->get('Magento\Customer\Service\V1\CustomerGroupServiceInterface');
         $this->registry = Bootstrap::getObjectManager()->get('Magento\Core\Model\Registry');
     }
 
+    /**
+     * Execute per test cleanup.
+     */
     public function tearDown()
     {
-        $this->registry->unregister('current_group');
+        $this->registry->unregister('current_group_id');
     }
 
+    /**
+     * Test retrieving a valid group form.
+     */
     public function testGetForm()
     {
-        $customerGroup = $this->customerGroupService->getDefaultGroup(0);
-        $this->registry->register('current_group', $customerGroup);
+        $this->registry
+            ->register('current_group_id', $this->customerGroupService->getDefaultGroup(0)->getId());
 
         /** @var $block Form */
         $block = $this->layout->createBlock('Magento\Customer\Block\Adminhtml\Group\Edit\Form', 'block');
@@ -86,7 +99,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
         ]);
         /** @var CustomerGroup $customerGroup */
         $customerGroup = $this->customerGroupService->searchGroups($searchCriteria)->getItems()[0];
-        $this->registry->register('current_group', $customerGroup);
+        $this->registry->register('current_group_id', $customerGroup->getId());
 
         /** @var $block Form */
         $block = $this->layout->createBlock('Magento\Customer\Block\Adminhtml\Group\Edit\Form', 'block');

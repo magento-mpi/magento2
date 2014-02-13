@@ -181,7 +181,7 @@ class GroupTest extends \Magento\Backend\Utility\Controller
 
         /** @var \Magento\Core\Model\Registry $coreRegistry */
         $coreRegistry = Bootstrap::getObjectManager()->get('Magento\Core\Model\Registry');
-        $this->assertEmpty($coreRegistry->registry(Group::REGISTRY_CURRENT_GROUP));
+        $this->assertNull($coreRegistry->registry(Group::REGISTRY_CURRENT_GROUP_ID));
 
         $this->assertRedirect($this->stringStartsWith(self::BASE_CONTROLLER_URL . 'edit/id/10000'));
     }

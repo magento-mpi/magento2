@@ -123,4 +123,13 @@ class CustomerService implements CustomerServiceInterface
             throw $exception;
         }
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isReadonly($customerId)
+    {
+        $customerModel = $this->_converter->getCustomerModel($customerId);
+        return $customerModel->isReadonly();
+    }
 }

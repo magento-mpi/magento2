@@ -2,19 +2,18 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftRegistry
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftRegistry\Block\Customer;
+
+use Magento\Customer\Service\V1\CustomerServiceInterface;
+use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 
 /**
  * Customer gift registry share block
  */
-namespace Magento\GiftRegistry\Block\Customer;
-
-class Share
-    extends \Magento\Customer\Block\Account\Dashboard
+class Share extends \Magento\Customer\Block\Account\Dashboard
 {
     protected $_formData = null;
 
@@ -29,19 +28,24 @@ class Share
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
+     * @param CustomerServiceInterface $customerService
+     * @param CustomerAddressServiceInterface $addressService
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
-     * @param array $data\
+     * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
+        CustomerServiceInterface $customerService,
+        CustomerAddressServiceInterface $addressService,
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
         array $data = array()
     ) {
         $this->_giftRegistryData = $giftRegistryData;
-
-        parent::__construct($context, $customerSession, $subscriberFactory, $data);
+        parent::__construct(
+            $context, $customerSession, $subscriberFactory, $customerService, $addressService, $data
+        );
     }
 
     /**
@@ -62,7 +66,7 @@ class Share
      */
     public function getCustomerName()
     {
-        return $this->escapeHtml($this->getCustomer()->getName());
+        return $this->escapeHtml($this->_customerSession->getCustomer()->getName());
     }
 
     /**
@@ -98,8 +102,7 @@ class Share
         }
         if (!$this->_formData || !isset($this->_formData[$key])) {
             return null;
-        }
-        else {
+        } else {
             return $this->escapeHtml($this->_formData[$key]);
         }
     }

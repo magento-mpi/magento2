@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,18 +14,21 @@ class Newsletter extends \Magento\View\Element\Template
 {
     /**
      * The subscriber.
+     *
      * @var \Magento\Newsletter\Model\Subscriber
      */
     protected $_subscription;
 
     /**
      * Session model.
+     *
      * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
      * Factory for creating new Subscriber instances.
+     *
      * @var \Magento\Newsletter\Model\SubscriberFactory
      */
     protected $_subscriberFactory;
@@ -54,6 +55,7 @@ class Newsletter extends \Magento\View\Element\Template
 
     /**
      * Fetch the subscription object. Create the subscriber by loading using the customerId.
+     *
      * @return \Magento\Newsletter\Model\Subscriber
      */
     public function getSubscriptionObject()
@@ -67,6 +69,7 @@ class Newsletter extends \Magento\View\Element\Template
 
     /**
      * Use the factory to create an empty Subscriber model instance.
+     *
      * @return \Magento\Newsletter\Model\Subscriber
      */
     protected function _createSubscriber()

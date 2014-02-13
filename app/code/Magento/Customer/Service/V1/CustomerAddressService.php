@@ -19,7 +19,9 @@ use Magento\Exception\InputException;
  */
 class CustomerAddressService implements CustomerAddressServiceInterface
 {
-    /** @var \Magento\Customer\Model\AddressFactory */
+    /**
+     * @var \Magento\Customer\Model\AddressFactory
+     */
     private $_addressFactory;
 
     /**
@@ -163,7 +165,7 @@ class CustomerAddressService implements CustomerAddressServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function saveAddresses($customerId, array $addresses)
+    public function saveAddresses($customerId, $addresses)
     {
         $customerModel = $this->_converter->getCustomerModel($customerId);
         $addressModels = [];
@@ -203,6 +205,7 @@ class CustomerAddressService implements CustomerAddressServiceInterface
      *
      * @param CustomerAddressModel $addressModel
      * @param Dto\Address $address
+     * @return void
      */
     private function _updateAddressModel(CustomerAddressModel $addressModel, Dto\Address $address)
     {

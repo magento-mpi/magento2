@@ -45,8 +45,7 @@ class TaxvatTest extends \PHPUnit_Framework_TestCase
         $this->_block = new Taxvat(
             $this->getMock('Magento\View\Element\Template\Context', [], [], '', false),
             $this->getMock('Magento\Customer\Helper\Address', [], [], '', false),
-            $this->_attributeMetadata,
-            $this->_customerSession
+            $this->_attributeMetadata
         );
     }
 
@@ -96,32 +95,5 @@ class TaxvatTest extends \PHPUnit_Framework_TestCase
             [true, true],
             [false, false]
         ];
-    }
-
-    public function testGetCustomer()
-    {
-        $abstractAttribute =
-            $this->getMockForAbstractClass(
-                'Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
-                [], '', false, true, true, ['__wakeup']
-            );
-        /** Do not include prefix, middlename, and suffix attributes when calling Customer::getName() */
-        $abstractAttribute->expects($this->any())->method('isVisible')->will($this->returnValue(false));
-
-        $config = $this->getMock('Magento\Eav\Model\Config', [], [], '', false);
-        $config->expects($this->any())->method('getAttribute')->will($this->returnValue($abstractAttribute));
-
-        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-
-        $data = ['firstname' => 'John', 'lastname' => 'Doe'];
-        $customerModel = $objectManager
-            ->getObject('Magento\Customer\Model\Customer', ['config' => $config, 'data' => $data]);
-        $this->_customerSession
-            ->expects($this->once())->method('getCustomer')->will($this->returnValue($customerModel));
-
-        $customer = $this->_block->getCustomer();
-        $this->assertSame($customerModel, $customer);
-
-        $this->assertEquals('John Doe', $customer->getName());
     }
 }

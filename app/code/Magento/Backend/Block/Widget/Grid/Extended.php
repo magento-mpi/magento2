@@ -556,7 +556,7 @@ class Extended
     /**
      * Retrieve massaction block
      *
-     * @return \Magento\Backend\Block\Widget\Grid\Massaction\Extended
+     * @return \Magento\Backend\Block\Widget\Grid\Massaction\Extended|bool
      */
     public function getMassactionBlock()
     {
