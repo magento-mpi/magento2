@@ -100,7 +100,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
             ),
             'lib folder' => array(
                 'varien',
-                'http://localhost/pub/lib/varien',
+                'static/frontend/test_default/en_US/varien',
             )
         );
     }
@@ -214,6 +214,11 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
             'locale'  => 'en_US'
         );
         return array(
+            'library file' => array(
+                'jquery/jquery-ui.js',
+                $designParams,
+                'frontend/test_default/en_US/jquery/jquery-ui.js',
+            ),
             'view file' => array(
                 'images/logo_email.gif',
                 $designParams,
@@ -435,7 +440,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
         $this->_viewUrl = $objectManager->create('Magento\View\Url');
 
         $themePath = $this->_model->getDesignTheme()->getFullPath();
-        
+
         $fixtureViewPath = "$appInstallDir/media_for_change/$themePath/";
         $publishedPath = $this->_viewService->getPublicDir() . "/$themePath/en_US/";
 

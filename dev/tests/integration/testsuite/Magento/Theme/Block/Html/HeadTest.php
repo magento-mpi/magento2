@@ -100,18 +100,21 @@ class HeadTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             '<link rel="alternate" type="application/rss+xml" title="RSS Feed" href="http://example.com/feed.xml" />'
             . "\n"
-            . '<script type="text/javascript" src="http://localhost/pub/lib/varien/js.js"></script>' . "\n"
-            . '<script type="text/javascript" '
-            . 'src="http://localhost/pub/static/frontend/magento_blank/en_US/Magento_Bundle/bundle.js">'
+            . '<script type="text/javascript"'
+            . ' src="http://localhost/pub/static/frontend/magento_blank/en_US/varien/js.js"></script>' . "\n"
+            . '<script type="text/javascript"'
+            . ' src="http://localhost/pub/static/frontend/magento_blank/en_US/Magento_Bundle/bundle.js">'
             . '</script>' . "\n"
             . '<link rel="stylesheet" type="text/css" media="all"'
-            . ' href="http://localhost/pub/lib/tiny_mce/themes/advanced/skins/default/ui.css" />' . "\n"
+            . ' href="http://localhost/pub/static/frontend/magento_blank/en_US/'
+            . 'tiny_mce/themes/advanced/skins/default/ui.css" />' . "\n"
             . '<link rel="stylesheet" type="text/css" media="print" '
                 . 'href="http://localhost/pub/static/frontend/magento_blank/en_US/css/styles.css" />'
                 . "\n"
             . '<link rel="next" href="http://localhost/index.php/category.html" />' . "\n"
             . '<!--[if lt IE 7]>' . "\n"
-            . '<script type="text/javascript" src="http://localhost/pub/lib/varien/form.js"></script>' . "\n"
+            . '<script type="text/javascript"'
+            . ' src="http://localhost/pub/static/frontend/magento_blank/en_US/varien/form.js"></script>' . "\n"
             . '<![endif]-->' . "\n",
             $this->_block->getCssJsHtml()
         );
@@ -198,8 +201,8 @@ class HeadTest extends \PHPUnit_Framework_TestCase
         );
 
 
-
-        $this->assertEquals('<script type="text/javascript" src="http://localhost/pub/lib/varien/js.js"></script>'
+        $this->assertEquals('<script type="text/javascript"'
+            . ' src="http://localhost/pub/static/frontend/magento_blank/en_US/varien/js.js"></script>'
             . "\n" . '<script type="text/javascript" src="http://localhost/index.php/core/index/notfound"></script>'
             . "\n" . '<!--[if lt IE 7]>' . "\n"
             . '<script type="text/javascript" src="http://localhost/index.php/core/index/notfound"></script>' . "\n"
@@ -244,7 +247,8 @@ class HeadTest extends \PHPUnit_Framework_TestCase
             )
         );
         $this->assertSame(
-            '<script type="text/javascript" src="http://localhost/pub/lib/varien/js.js"></script>' . "\n",
+            '<script type="text/javascript"'
+                . ' src="http://localhost/pub/static/frontend/magento_blank/en_US/varien/js.js"></script>' . "\n",
             $this->_block->getCssJsHtml()
         );
     }

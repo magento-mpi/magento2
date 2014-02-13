@@ -111,12 +111,8 @@ abstract class FileAbstract implements FileInterface
     /**
      * Determine whether a file needs to be published
      *
-     * All files located in 'pub/lib' dir should not be published cause it's already publicly accessible.
      * All other files must be processed either if they are not published already (located in 'pub/static'),
      * or if they are css-files and we're working in developer mode.
-     *
-     * If sourcePath points to file in 'pub/lib' dir - no publishing required
-     * If sourcePath points to file in 'pub/static' dir - no publishing required
      *
      * @return bool
      */
@@ -223,19 +219,6 @@ abstract class FileAbstract implements FileInterface
         }
 
         return $this;
-    }
-
-    /**
-     * @param string $filePath
-     * @return bool
-     */
-    protected function isLibFile($filePath)
-    {
-        $pubLibDir = $this->filesystem->getPath(\Magento\App\Filesystem::PUB_LIB_DIR) . '/';
-        if (strncmp($filePath, $pubLibDir, strlen($pubLibDir)) === 0) {
-            return true;
-        }
-        return false;
     }
 
     /**

@@ -13,8 +13,6 @@ namespace Magento\Core\Helper;
 
 class JsTest extends \PHPUnit_Framework_TestCase
 {
-    const FILE = 'blank.html';
-
     /**
      * @var \Magento\Core\Helper\Js
      */
@@ -47,12 +45,33 @@ class JsTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testIncludeScript()
+    /**
+     * @dataProvider includeScriptDataProvider
+     * @magentoAppArea frontend
+     */
+    public function testIncludeScript($file, $expected)
     {
-        $this->assertEquals('<script type="text/javascript" src="http://localhost/pub/lib/blank.html"></script>' . "\n",
-            $this->_helper->includeScript(self::FILE)
+        $this->assertEquals($expected, $this->_helper->includeScript($file));
+    }
+
+    /**
+     * @return array
+     */
+    public static function includeScriptDataProvider()
+    {
+        return array(
+            'base file' => array(
+                'blank.html',
+                '<script type="text/javascript"'
+                    . ' src="http://localhost/pub/static/frontend/magento_plushe/en_US/blank.html"></script>'
+                    . "\n",
+            ),
+            'subdir file' => array(
+                'images/spacer.gif',
+                '<script type="text/javascript"'
+                    . ' src="http://localhost/pub/static/frontend/magento_plushe/en_US/images/spacer.gif">'
+                    . "</script>\n",
+            ),
         );
-        $script = '<script type="text/javascript" src="http://localhost/pub/lib/images/spacer.gif"></script>';
-        $this->assertStringMatchesFormat($script, $this->_helper->includeScript('images/spacer.gif'));
     }
 }

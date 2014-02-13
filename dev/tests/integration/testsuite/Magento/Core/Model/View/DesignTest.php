@@ -292,7 +292,7 @@ class DesignTest extends \PHPUnit_Framework_TestCase
             array(
                 \Magento\App\State::MODE_DEFAULT,
                 'prototype/prototype.js',
-                'http://localhost/pub/lib/prototype/prototype.js'
+                'http://localhost/pub/static/frontend/test_default/en_US/prototype/prototype.js'
             ),
             array(
                 \Magento\App\State::MODE_DEVELOPER,
