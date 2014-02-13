@@ -22,7 +22,7 @@ class Link extends \Magento\Wishlist\Block\Link
     /**
      * Wishlist data
      *
-     * @var \Magento\MultipleWishlist\Helper\Data
+     * @var \Magento\MultipleWishlist\Helper\Data|null
      */
     protected $_wishlistData = null;
 

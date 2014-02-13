@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Helper;
 
 /**
@@ -64,14 +63,14 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Catalog product
      *
-     * @var \Magento\Catalog\Helper\Product
+     * @var Product
      */
     protected $_catalogProduct;
 
     /**
      * Catalog category
      *
-     * @var \Magento\Catalog\Helper\Category
+     * @var Category
      */
     protected $_catalogCategory;
 
@@ -140,8 +139,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Session $catalogSession
      * @param \Magento\Stdlib\String $string
-     * @param \Magento\Catalog\Helper\Category $catalogCategory
-     * @param \Magento\Catalog\Helper\Product $catalogProduct
+     * @param Category $catalogCategory
+     * @param Product $catalogProduct
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Catalog\Model\Template\Filter\Factory $templateFilterFactory
@@ -156,8 +155,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Session $catalogSession,
         \Magento\Stdlib\String $string,
-        \Magento\Catalog\Helper\Category $catalogCategory,
-        \Magento\Catalog\Helper\Product $catalogProduct,
+        Category $catalogCategory,
+        Product $catalogProduct,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Catalog\Model\Template\Filter\Factory $templateFilterFactory,
@@ -184,7 +183,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * Set a specified store ID value
      *
      * @param int $store
-     * @return \Magento\Catalog\Helper\Data
+     * @return $this
      */
     public function setStoreId($store)
     {
@@ -296,11 +295,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
 
     /**
      * Split SKU of an item by dashes and spaces
-     * Words will not be broken, unless thir length is greater than $length
+     * Words will not be broken, unless this length is greater than $length
      *
      * @param string $sku
      * @param int $length
-     * @return array
+     * @return string[]
      */
     public function splitSku($sku, $length = 30)
     {

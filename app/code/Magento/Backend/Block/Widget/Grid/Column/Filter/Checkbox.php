@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Block\Widget\Grid\Column\Filter;
 
 /**
  * Checkbox grid column filter
@@ -15,15 +16,19 @@
  * @package    Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Backend\Block\Widget\Grid\Column\Filter;
-
 class Checkbox extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Select
 {
+    /**
+     * @return string
+     */
     public function getHtml()
     {
         return '<span class="head-massaction">' . parent::getHtml() . '</span>';
     }
 
+    /**
+     * @return array
+     */
     protected function _getOptions()
     {
         return array(
@@ -42,6 +47,9 @@ class Checkbox extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Select
         );
     }
 
+    /**
+     * @return array
+     */
     public function getCondition()
     {
         if ($this->getValue()) {

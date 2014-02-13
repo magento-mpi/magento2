@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Eav\Block\Adminhtml\Attribute\Edit;
 
 /**
  * Eav Attribute Block with additional js scripts in template
@@ -15,8 +16,6 @@
  * @package    Magento_Eav
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Eav\Block\Adminhtml\Attribute\Edit;
-
 class Js extends \Magento\Backend\Block\Template
 {
     /**
