@@ -8,16 +8,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Cms\Model\Resource;
 
 /**
  * Cms page mysql resource
- *
- * @category    Magento
- * @package     Magento_Cms
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Cms\Model\Resource;
-
 class Page extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
@@ -81,9 +76,7 @@ class Page extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     protected function _beforeDelete(\Magento\Core\Model\AbstractModel $object)
     {
-        $condition = array(
-            'page_id = ?'     => (int) $object->getId(),
-        );
+        $condition = array('page_id = ?' => (int) $object->getId());
 
         $this->_getWriteAdapter()->delete($this->getTable('cms_page_store'), $condition);
 

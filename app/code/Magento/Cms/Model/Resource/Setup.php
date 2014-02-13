@@ -6,11 +6,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Cms\Model\Resource;
+
 /**
  * Cms resource setup
  */
-namespace Magento\Cms\Model\Resource;
-
 class Setup extends \Magento\Core\Model\Resource\Setup\Generic
 {
     /**

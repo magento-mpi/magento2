@@ -270,4 +270,5 @@ return array(
     array('_columns', 'Magento\Catalog\Model\Resource\Category\Flat'),
     array('fileIteratorFactory', 'Magento\Core\Model\Theme\Collection'),
     array('_allowDuplication', 'Magento\View\Publisher'),
+    array('_modulesReader', 'Magento\View\Publisher'),
 );

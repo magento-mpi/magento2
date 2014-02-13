@@ -21,11 +21,6 @@ class PreProcessor
     const PUBLICATION_PREFIX_PATH = 'less';
 
     /**
-     * @var \Magento\View\FileSystem
-     */
-    protected $viewFileSystem;
-
-    /**
      * @var \Magento\Filesystem
      */
     protected $filesystem;
@@ -34,6 +29,11 @@ class PreProcessor
      * @var InstructionFactory
      */
     protected $instructionFactory;
+
+    /**
+     * @var string[]
+     */
+    protected $processedPaths = [];
 
     /**
      * @var \Magento\Less\PreProcessorInterface[]
@@ -61,7 +61,7 @@ class PreProcessor
     /**
      * Instantiate instruction less preprocessors
      *
-     * @param $preProcessors
+     * @param array $preProcessors
      * @return \Magento\Less\PreProcessorInterface[]
      */
     protected function initLessPreProcessors($preProcessors)
@@ -137,11 +137,7 @@ class PreProcessor
         );
 
         foreach ($this->preProcessors as $processor) {
-            $lessContent = $processor->process(
-                $lessContent,
-                $viewParams,
-                ['parentPath' => $lessFilePath, 'parentAbsolutePath' => $lessFileSourcePath]
-            );
+            $lessContent = $processor->process($lessContent, $viewParams, ['parentPath' => $lessFilePath]);
         }
 
         if ($lessSourceContent != $lessContent) {

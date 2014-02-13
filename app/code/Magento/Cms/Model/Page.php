@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 
+namespace Magento\Cms\Model;
 
 /**
  * Cms Page Model
@@ -48,15 +49,12 @@
  * @method \Magento\Cms\Model\Page setCustomThemeFrom(string $value)
  * @method string getCustomThemeTo()
  * @method \Magento\Cms\Model\Page setCustomThemeTo(string $value)
- *
- * @category    Magento
- * @package     Magento_Cms
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Cms\Model;
-
 class Page extends \Magento\Core\Model\AbstractModel
 {
+    /**
+     * No route page id
+     */
     const NOROUTE_PAGE_ID = 'no-route';
 
     /**
@@ -87,11 +85,11 @@ class Page extends \Magento\Core\Model\AbstractModel
     /**
      * Load object data
      *
-     * @param mixed $id
+     * @param null|int $id
      * @param string $field
      * @return \Magento\Cms\Model\Page
      */
-    public function load($id, $field=null)
+    public function load($id, $field = null)
     {
         if (is_null($id)) {
             return $this->noRoutePage();

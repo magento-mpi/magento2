@@ -8,15 +8,17 @@
  * @license     {license_link}
  */
 
+namespace Magento\Cms\Model\Page;
+
 /**
+ * Page Url rewrite model
+ *
  * @method \Magento\Cms\Model\Resource\Page\Urlrewrite getResource() getResource()
  * @method int getCmsPageId() getCmsPageId()
  * @method int getUrlRewriteId() getUrlRewriteId()
  * @method \Magento\Cms\Model\Page\Urlrewrite setCmsPageId() setCmsPageId(int)
  * @method \Magento\Cms\Model\Page\Urlrewrite setUrlRewriteId() setUrlRewriteId(int)
  */
-namespace Magento\Cms\Model\Page;
-
 class Urlrewrite extends \Magento\Core\Model\AbstractModel
 {
     /**
