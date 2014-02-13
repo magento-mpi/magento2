@@ -64,7 +64,6 @@ class Options extends \Magento\View\Element\Template
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Json\EncoderInterface $jsonEncoder
-     * @param \Magento\Catalog\Model\Product $catalogProduct
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Model\Product\Option $option
      * @param \Magento\Core\Model\Registry $registry
@@ -75,7 +74,6 @@ class Options extends \Magento\View\Element\Template
         \Magento\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Json\EncoderInterface $jsonEncoder,
-        \Magento\Catalog\Model\Product $catalogProduct,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Model\Product\Option $option,
         \Magento\Core\Model\Registry $registry,
@@ -84,7 +82,6 @@ class Options extends \Magento\View\Element\Template
     ) {
         $this->_coreData = $coreData;
         $this->_jsonEncoder = $jsonEncoder;
-        $this->_catalogProduct = $catalogProduct;
         $this->_registry = $registry;
         $this->_option = $option;
         $this->_taxData = $taxData;
@@ -96,6 +93,7 @@ class Options extends \Magento\View\Element\Template
      * Retrieve product object
      *
      * @return \Magento\Catalog\Model\Product
+     * @throws \LogicExceptions
      */
     public function getProduct()
     {
@@ -103,7 +101,7 @@ class Options extends \Magento\View\Element\Template
             if ($this->_registry->registry('current_product')) {
                 $this->_product = $this->_registry->registry('current_product');
             } else {
-                $this->_product = $this->_catalogProduct;
+                throw new \LogicException('Product is not defined');
             }
         }
         return $this->_product;
