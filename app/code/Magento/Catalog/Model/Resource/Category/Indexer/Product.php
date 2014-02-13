@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Catalog\Model\Resource\Category\Indexer;
 
 /**
  * Resource model for category product indexer
@@ -16,8 +16,6 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Model\Resource\Category\Indexer;
-
 class Product extends \Magento\Index\Model\Resource\AbstractResource
 {
     /**
@@ -82,6 +80,7 @@ class Product extends \Magento\Index\Model\Resource\AbstractResource
     /**
      * Model initialization
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -99,7 +98,7 @@ class Product extends \Magento\Index\Model\Resource\AbstractResource
      * when product was saved and assigned categories was changed.
      *
      * @param \Magento\Index\Model\Event $event
-     * @return \Magento\Catalog\Model\Resource\Category\Indexer\Product
+     * @return $this
      */
     public function catalogProductSave(\Magento\Index\Model\Event $event)
     {
@@ -153,7 +152,7 @@ class Product extends \Magento\Index\Model\Resource\AbstractResource
      * Process Catalog Product mass action
      *
      * @param \Magento\Index\Model\Event $event
-     * @return \Magento\Catalog\Model\Resource\Category\Indexer\Product
+     * @return $this
      */
     public function catalogProductMassAction(\Magento\Index\Model\Event $event)
     {
@@ -225,6 +224,7 @@ class Product extends \Magento\Index\Model\Resource\AbstractResource
      * Process category index after category save
      *
      * @param \Magento\Index\Model\Event $event
+     * @return void
      */
     public function catalogCategorySave(\Magento\Index\Model\Event $event)
     {
@@ -326,7 +326,7 @@ class Product extends \Magento\Index\Model\Resource\AbstractResource
      * Reindex not anchor root categories
      *
      * @param array $categoryIds
-     * @return \Magento\Catalog\Model\Resource\Category\Indexer\Product
+     * @return $this
      */
     protected function _refreshNotAnchorRootCategories(array $categoryIds = null)
     {
@@ -436,7 +436,7 @@ class Product extends \Magento\Index\Model\Resource\AbstractResource
      *
      * @param null|array $categoryIds
      * @param null|array $productIds
-     * @return \Magento\Catalog\Model\Resource\Category\Indexer\Product
+     * @return $this
      */
     protected function _refreshDirectRelations($categoryIds = null, $productIds = null)
     {
@@ -519,7 +519,7 @@ class Product extends \Magento\Index\Model\Resource\AbstractResource
      *
      * @param null | array $categoryIds
      * @param null | array $productIds
-     * @return \Magento\Catalog\Model\Resource\Category\Indexer\Product
+     * @return $this
      */
     protected function _refreshAnchorRelations($categoryIds = null, $productIds = null)
     {
@@ -619,10 +619,10 @@ class Product extends \Magento\Index\Model\Resource\AbstractResource
     }
 
     /**
-     * Add product association with root store category for products which are not assigned to any another category
+     * Add product association with root store category for products which are not assigned to another category
      *
      * @param int | array $productIds
-     * @return \Magento\Catalog\Model\Resource\Category\Indexer\Product
+     * @return $this
      */
     protected function _refreshRootRelations($productIds)
     {
@@ -771,7 +771,7 @@ class Product extends \Magento\Index\Model\Resource\AbstractResource
     /**
      * Rebuild all index data
      *
-     * @return \Magento\Catalog\Model\Resource\Category\Indexer\Product
+     * @return $this
      */
     public function reindexAll()
     {

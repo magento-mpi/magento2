@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\FullPageCache\Model\Container;
 
 /**
  * Abstract placeholder container
  */
-namespace Magento\FullPageCache\Model\Container;
-
 abstract class AbstractContainer implements \Magento\FullPageCache\Model\ContainerInterface
 {
     /**
@@ -103,7 +102,7 @@ abstract class AbstractContainer implements \Magento\FullPageCache\Model\Contain
     /**
      * Generate placeholder content before application was initialized and apply to page content if possible
      *
-     * @param string $content
+     * @param string &$content
      * @return bool
      */
     public function applyWithoutApp(&$content)
@@ -128,7 +127,7 @@ abstract class AbstractContainer implements \Magento\FullPageCache\Model\Contain
     /**
      * Generate and apply container content in controller after application is initialized
      *
-     * @param string $content
+     * @param string &$content
      * @return bool
      */
     public function applyInApp(&$content)
@@ -159,7 +158,7 @@ abstract class AbstractContainer implements \Magento\FullPageCache\Model\Contain
      * Save rendered block content to cache storage
      *
      * @param string $blockContent
-     * @return \Magento\FullPageCache\Model\Container\AbstractContainer
+     * @return $this
      */
     public function saveCache($blockContent)
     {
@@ -183,8 +182,9 @@ abstract class AbstractContainer implements \Magento\FullPageCache\Model\Contain
     /**
      * Replace container placeholder in content on container content
      *
-     * @param string $content
+     * @param string &$content
      * @param string $containerContent
+     * @return void
      */
     protected function _applyToContent(&$content, $containerContent)
     {
@@ -210,7 +210,7 @@ abstract class AbstractContainer implements \Magento\FullPageCache\Model\Contain
      * @param string $id
      * @param array $tags
      * @param null|int $lifetime
-     * @return \Magento\FullPageCache\Model\Container\AbstractContainer
+     * @return $this
      */
     protected function _saveCache($data, $id, $tags = array(), $lifetime = null)
     {
@@ -245,7 +245,7 @@ abstract class AbstractContainer implements \Magento\FullPageCache\Model\Contain
      * Set processor for container needs
      *
      * @param \Magento\FullPageCache\Model\Processor $processor
-     * @return \Magento\FullPageCache\Model\Container\AbstractContainer
+     * @return $this
      */
     public function setProcessor(\Magento\FullPageCache\Model\Processor $processor)
     {

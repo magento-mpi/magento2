@@ -10,6 +10,8 @@
 
 namespace Magento\Catalog\Model\Product\Compare;
 
+use Magento\Catalog\Model\Resource\Product\Compare\Item\Collection;
+
 /**
  * Product Compare List Model
  *
@@ -82,7 +84,7 @@ class ListCompare extends \Magento\Object
      * Add product to Compare List
      *
      * @param int|\Magento\Catalog\Model\Product $product
-     * @return \Magento\Catalog\Model\Product\Compare\ListCompare
+     * @return $this
      */
     public function addProduct($product)
     {
@@ -102,8 +104,8 @@ class ListCompare extends \Magento\Object
     /**
      * Add products to compare list
      *
-     * @param array $productIds
-     * @return \Magento\Catalog\Model\Product\Compare\ListCompare
+     * @param string[] $productIds
+     * @return $this
      */
     public function addProducts($productIds)
     {
@@ -118,7 +120,7 @@ class ListCompare extends \Magento\Object
     /**
      * Retrieve Compare Items Collection
      *
-     * @return product_compare_item_collection
+     * @return Collection
      */
     public function getItemCollection()
     {
@@ -129,7 +131,7 @@ class ListCompare extends \Magento\Object
      * Remove product from compare list
      *
      * @param int|\Magento\Catalog\Model\Product $product
-     * @return \Magento\Catalog\Model\Product\Compare\ListCompare
+     * @return $this
      */
     public function removeProduct($product)
     {
@@ -149,7 +151,7 @@ class ListCompare extends \Magento\Object
      * Add visitor and customer data to compare item
      *
      * @param \Magento\Catalog\Model\Product\Compare\Item $item
-     * @return \Magento\Catalog\Model\Product\Compare\ListCompare
+     * @return $this
      */
     protected function _addVisitorToItem($item)
     {

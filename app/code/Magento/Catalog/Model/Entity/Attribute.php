@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Catalog\Model\Entity;
 
 /**
  * Product attribute extension with event dispatching
@@ -54,12 +55,22 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Model\Entity;
-
 class Attribute extends \Magento\Eav\Model\Entity\Attribute
 {
+    /**
+     * Event Prefix
+     *
+     * @var string
+     */
     protected $_eventPrefix = 'catalog_entity_attribute';
+
+    /**
+     * Event Object
+     *
+     * @var string
+     */
     protected $_eventObject = 'attribute';
+
     const MODULE_NAME = 'Magento_Catalog';
 
     /**

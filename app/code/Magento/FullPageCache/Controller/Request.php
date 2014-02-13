@@ -22,7 +22,7 @@ class Request extends \Magento\App\Action\Action
      * @var \Magento\Stdlib\Cookie
      */
     protected $_cookie;
-    
+
     /**
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
@@ -40,6 +40,8 @@ class Request extends \Magento\App\Action\Action
 
     /**
      * Request processing action
+     *
+     * @return void
      */
     public function processAction()
     {
