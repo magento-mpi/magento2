@@ -127,7 +127,24 @@ abstract class FileAbstract implements FileInterface
      *
      * @return string
      */
-    abstract public function buildUniquePath();
+    public function buildUniquePath()
+    {
+        /** @var $theme \Magento\View\Design\ThemeInterface */
+        $theme = $this->getViewParams()['themeModel'];
+        if ($theme->getThemePath()) {
+            $designPath = $theme->getThemePath();
+        } elseif ($theme->getId()) {
+            $designPath = self::PUBLIC_THEME_DIR . $theme->getId();
+        } else {
+            $designPath = self::PUBLIC_VIEW_DIR;
+        }
+
+        $publicFile = $this->getViewParams()['area'] . '/' . $designPath . '/' . $this->getViewParams()['locale']
+            . ($this->getViewParams()['module'] ? '/' . $this->getViewParams()['module'] : '')
+            . '/' . $this->getFilePath();
+
+        return $publicFile;
+    }
 
     /**
      * Original file extension
@@ -232,29 +249,5 @@ abstract class FileAbstract implements FileInterface
             return true;
         }
         return false;
-    }
-
-    /**
-     * Build public filename for a theme file that always includes area/package/theme/locate parameters
-     *
-     * @return string
-     */
-    protected function buildPublicViewRedundantFilename()
-    {
-        /** @var $theme \Magento\View\Design\ThemeInterface */
-        $theme = $this->getViewParams()['themeModel'];
-        if ($theme->getThemePath()) {
-            $designPath = $theme->getThemePath();
-        } elseif ($theme->getId()) {
-            $designPath = self::PUBLIC_THEME_DIR . $theme->getId();
-        } else {
-            $designPath = self::PUBLIC_VIEW_DIR;
-        }
-
-        $publicFile = $this->getViewParams()['area'] . '/' . $designPath . '/' . $this->getViewParams()['locale']
-            . ($this->getViewParams()['module'] ? '/' . $this->getViewParams()['module'] : '')
-            . '/' . $this->getFilePath();
-
-        return $publicFile;
     }
 }

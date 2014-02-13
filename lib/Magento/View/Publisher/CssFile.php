@@ -35,14 +35,4 @@ class CssFile extends FileAbstract
         }
         return $this->isPublicationAllowed;
     }
-
-    /**
-     * Build unique file path for publication
-     *
-     * @return string
-     */
-    public function buildUniquePath()
-    {
-        return $this->buildPublicViewRedundantFilename();
-    }
 }
