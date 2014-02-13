@@ -18,6 +18,9 @@
  */
 namespace Magento\Wishlist\Model\Resource\Item\Option;
 
+use Magento\Catalog\Model\Product;
+use Magento\Wishlist\Model\Item;
+
 class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
@@ -47,7 +50,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Fill array of options by item and product
      *
-     * @return \Magento\Wishlist\Model\Resource\Item\Option\Collection
+     * @return $this
      */
     protected function _afterLoad()
     {
@@ -75,8 +78,8 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Apply quote item(s) filter to collection
      *
-     * @param  int|array $item
-     * @return \Magento\Wishlist\Model\Resource\Item\Option\Collection
+     * @param  int|array|Item $item
+     * @return $this
      */
     public function addItemFilter($item)
     {
@@ -85,7 +88,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
             $this->_setIsLoaded(true);
         } else if (is_array($item)) {
             $this->addFieldToFilter('wishlist_item_id', array('in' => $item));
-        } else if ($item instanceof \Magento\Wishlist\Model\Item) {
+        } else if ($item instanceof Item) {
             $this->addFieldToFilter('wishlist_item_id', $item->getId());
         } else {
             $this->addFieldToFilter('wishlist_item_id', $item);
@@ -109,12 +112,12 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Get all option for item
      *
-     * @param  mixed $item
+     * @param Item|int|string $item
      * @return array
      */
     public function getOptionsByItem($item)
     {
-        if ($item instanceof \Magento\Wishlist\Model\Item) {
+        if ($item instanceof Item) {
             $itemId = $item->getId();
         } else {
             $itemId = $item;
@@ -135,12 +138,12 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Get all option for item
      *
-     * @param  mixed $item
+     * @param  Product|int|string $product
      * @return array
      */
     public function getOptionsByProduct($product)
     {
-        if ($product instanceof \Magento\Catalog\Model\Product) {
+        if ($product instanceof Product) {
             $productId = $product->getId();
         } else {
             $productId = $product;

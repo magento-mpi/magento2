@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Invitation\Model\Resource\Invitation\History;
 
 /**
  * Invitation status history collection
@@ -16,14 +16,13 @@
  * @package     Magento_Invitation
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Invitation\Model\Resource\Invitation\History;
-
 class Collection
     extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Intialize collection
      *
+     * @return void
      */
     protected function _construct()
     {

@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Block\System;
 
 /**
  * Custom Variable Block
@@ -15,13 +16,12 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Backend\Block\System;
-
 class Variable extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**
      * Block constructor
+     *
+     * @return void
      */
     protected function _construct()
     {

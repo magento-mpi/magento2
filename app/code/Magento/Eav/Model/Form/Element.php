@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Eav\Model\Form;
 
+use Magento\Core\Exception;
 
 /**
  * Eav Form Element Model
@@ -26,10 +28,6 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Eav\Model\Form;
-
-use Magento\Core\Exception;
-
 class Element extends \Magento\Core\Model\AbstractModel
 {
     /**

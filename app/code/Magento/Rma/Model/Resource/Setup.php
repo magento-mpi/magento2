@@ -16,16 +16,22 @@ namespace Magento\Rma\Model\Resource;
 class Setup extends \Magento\Sales\Model\Resource\Setup
 {
     /**
+     * Catalog model setup factory
+     *
      * @var \Magento\Catalog\Model\Resource\SetupFactory
      */
     protected $_catalogSetupFactory;
 
     /**
+     * Enterprise setup migration factory
+     *
      * @var \Magento\Enterprise\Model\Resource\Setup\MigrationFactory
      */
     protected $_entMigrationFactory;
 
     /**
+     * Rma refundable list
+     *
      * @var \Magento\Rma\Model\RefundableList
      */
     protected $refundableList;
@@ -84,6 +90,8 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
     }
 
     /**
+     * Get refundable products
+     *
      * @return array
      */
     public function getRefundableProducts()
@@ -271,6 +279,8 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
     }
 
     /**
+     * Get catalog setup
+     *
      * @param array $data
      * @return \Magento\Catalog\Model\Resource\Setup
      */

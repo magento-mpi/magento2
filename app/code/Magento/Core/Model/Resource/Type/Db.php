@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model\Resource\Type;
 
 abstract class Db extends \Magento\Core\Model\Resource\Type\AbstractType

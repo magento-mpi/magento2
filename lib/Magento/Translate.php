@@ -7,6 +7,8 @@
  */
 namespace Magento;
 
+use Magento\TranslateInterface;
+
 /**
  * Translate library
  *
@@ -31,7 +33,7 @@ class Translate implements \Magento\TranslateInterface
     const CONFIG_KEY_AREA   = 'area';
 
     /**
-     * Configuration locale kay
+     * Configuration locale key
      */
     const CONFIG_KEY_LOCALE = 'locale';
 
@@ -225,7 +227,7 @@ class Translate implements \Magento\TranslateInterface
      * @param string $area
      * @param \Magento\Object $initParams
      * @param bool $forceReload
-     * @return \Magento\TranslateInterface
+     * @return $this
      */
     public function init($area = null, $initParams = null, $forceReload = false)
     {
@@ -261,7 +263,7 @@ class Translate implements \Magento\TranslateInterface
      * Initialize configuration
      *
      * @param   array $config
-     * @return  \Magento\TranslateInterface
+     * @return  $this
      */
     protected function setConfig($config)
     {
@@ -307,7 +309,7 @@ class Translate implements \Magento\TranslateInterface
      * Load data from module translation files
      *
      * @param string $moduleName
-     * @return \Magento\TranslateInterface
+     * @return $this
      */
     protected function _loadModuleTranslation($moduleName)
     {
@@ -323,7 +325,7 @@ class Translate implements \Magento\TranslateInterface
      * Compose the list of locales which are required to translate text entity based on given locale
      *
      * @param string $locale
-     * @return array
+     * @return string[]
      */
     protected function _composeRequiredLocaleList($locale)
     {
@@ -340,7 +342,7 @@ class Translate implements \Magento\TranslateInterface
      * @param array $data
      * @param string|bool $scope
      * @param boolean $forceReload
-     * @return \Magento\TranslateInterface
+     * @return $this
      */
     protected function _addData($data, $scope = false, $forceReload = false)
     {
@@ -386,7 +388,7 @@ class Translate implements \Magento\TranslateInterface
      * Load current theme translation
      *
      * @param bool $forceReload
-     * @param string $area
+     * @param string|null $area
      * @return $this
      */
     protected function _loadThemeTranslation($forceReload = false, $area = null)
@@ -410,8 +412,8 @@ class Translate implements \Magento\TranslateInterface
     /**
      * Loading current translation from DB
      *
-     * @param boolean $forceReload
-     * @return \Magento\TranslateInterface
+     * @param bool $forceReload
+     * @return $this
      */
     protected function _loadDbTranslation($forceReload = false)
     {
@@ -441,7 +443,7 @@ class Translate implements \Magento\TranslateInterface
      * Retrieve translation file for theme
      *
      * @param string $locale
-     * @param string $area
+     * @param string|null $area
      * @return string
      */
     protected function _getThemeTranslationFile($locale, $area = null)
@@ -454,8 +456,8 @@ class Translate implements \Magento\TranslateInterface
     /**
      * Retrieve data from file
      *
-     * @param   string $file
-     * @return  array
+     * @param string $file
+     * @return array
      */
     protected function _getFileData($file)
     {
@@ -498,7 +500,7 @@ class Translate implements \Magento\TranslateInterface
      * Set locale
      *
      * @param string $locale
-     * @return \Magento\TranslateInterface
+     * @return $this
      */
     public function setLocale($locale)
     {
@@ -560,7 +562,7 @@ class Translate implements \Magento\TranslateInterface
      * Set Translate inline mode
      *
      * @param bool $flag
-     * @return \Magento\TranslateInterface
+     * @return $this
      */
     public function setTranslateInline($flag = false)
     {
@@ -621,7 +623,7 @@ class Translate implements \Magento\TranslateInterface
     /**
      * Saving data cache
      *
-     * @return \Magento\TranslateInterface
+     * @return $this
      */
     protected function _saveCache()
     {

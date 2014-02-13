@@ -6,16 +6,11 @@
  * @license    {license_link}
  */
 
+namespace Magento\Io;
 
 /**
  * Filesystem client
- *
- * @category   Magento
- * @package    Magento_Io
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Io;
-
 class File extends AbstractIo
 {
     /**
@@ -539,7 +534,7 @@ class File extends AbstractIo
      * Get destination folder
      *
      * @param string $filePath
-     * @return bool
+     * @return bool|string
      */
     public function getDestinationFolder($filePath)
     {
@@ -692,7 +687,7 @@ class File extends AbstractIo
     {
         $ignoredDirectories = Array('.', '..');
 
-        if ( is_dir($this->_cwd)) {
+        if (is_dir($this->_cwd)) {
             $dir = $this->_cwd;
         } elseif (is_dir($this->_iwd)) {
             $dir = $this->_iwd;
@@ -718,7 +713,7 @@ class File extends AbstractIo
                 }
 
                 $listItem['text'] = $entry;
-                $listItem['mod_date'] = date ('Y-m-d H:i:s', filectime($fullPath));
+                $listItem['mod_date'] = date('Y-m-d H:i:s', filectime($fullPath));
                 $listItem['permissions'] = $this->_parsePermissions(fileperms($fullPath));
                 $listItem['owner'] = $this->_getFileOwner($fullPath);
 

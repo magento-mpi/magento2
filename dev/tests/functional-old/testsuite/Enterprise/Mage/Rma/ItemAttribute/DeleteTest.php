@@ -37,12 +37,12 @@ class Enterprise_Mage_Rma_ItemAttribute_DeleteTest extends Mage_Selenium_TestCas
     {
         //Data
         $attrData = $this->loadDataSet('RMAItemsAttribute', $attributeType);
-        $this->addParameter('elementTitle', $attrData['attribute_properties']['attribute_label']);
         //Steps
         $this->attributesHelper()->createAttribute($attrData);
         $this->assertMessagePresent('success', 'success_saved_attribute');
-        $this->searchAndOpen(array('filter_attribute_code' => $attrData['attribute_properties']['attribute_code']),
-            'rma_item_atribute_grid');
+        $this->attributesHelper()->openAttribute(
+            array('filter_attribute_code' => $attrData['attribute_properties']['attribute_code'])
+        );
         $this->clickButtonAndConfirm('delete_attribute', 'delete_confirm_message');
         //Verifying
         $this->assertMessagePresent('success', 'success_deleted_attribute');
@@ -70,11 +70,12 @@ class Enterprise_Mage_Rma_ItemAttribute_DeleteTest extends Mage_Selenium_TestCas
     public function systemAttribute($attributeLabel)
     {
         //Steps
-        $this->addParameter('elementTitle', $attributeLabel);
-        $this->searchAndOpen(array('filter_attribute_label' => $attributeLabel), 'rma_item_atribute_grid');
+        $this->attributesHelper()->openAttribute(array('filter_attribute_label' => $attributeLabel));
         //Verifying
-        $this->assertFalse($this->controlIsPresent('button', 'delete_attribute'),
-            'Delete button must be absent for system RMA attribute');
+        $this->assertFalse(
+            $this->controlIsPresent('button', 'delete_attribute'),
+            'Delete button must be absent for system RMA attribute'
+        );
     }
 
     public function systemAttributeDataProvider()

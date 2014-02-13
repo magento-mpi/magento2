@@ -17,6 +17,10 @@
  */
 namespace Magento\Catalog\Block\Adminhtml\Category\Tab;
 
+use Magento\Backend\Block\Widget\Grid;
+use Magento\Backend\Block\Widget\Grid\Column;
+use Magento\Backend\Block\Widget\Grid\Extended;
+
 class Product extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
@@ -50,6 +54,9 @@ class Product extends \Magento\Backend\Block\Widget\Grid\Extended
         parent::__construct($context, $backendHelper, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -58,11 +65,18 @@ class Product extends \Magento\Backend\Block\Widget\Grid\Extended
         $this->setUseAjax(true);
     }
 
+    /**
+     * @return array|null
+     */
     public function getCategory()
     {
         return $this->_coreRegistry->registry('category');
     }
 
+    /**
+     * @param Column $column
+     * @return $this
+     */
     protected function _addColumnFilterToCollection($column)
     {
         // Set custom filter for in category flag
@@ -84,6 +98,9 @@ class Product extends \Magento\Backend\Block\Widget\Grid\Extended
         return $this;
     }
 
+    /**
+     * @return Grid
+     */
     protected function _prepareCollection()
     {
         if ($this->getCategory()->getId()) {
@@ -113,6 +130,9 @@ class Product extends \Magento\Backend\Block\Widget\Grid\Extended
         return parent::_prepareCollection();
     }
 
+    /**
+     * @return Extended
+     */
     protected function _prepareColumns()
     {
         if (!$this->getCategory()->getProductsReadonly()) {
@@ -159,11 +179,17 @@ class Product extends \Magento\Backend\Block\Widget\Grid\Extended
         return parent::_prepareColumns();
     }
 
+    /**
+     * @return string
+     */
     public function getGridUrl()
     {
         return $this->getUrl('catalog/*/grid', array('_current'=>true));
     }
 
+    /**
+     * @return array
+     */
     protected function _getSelectedProducts()
     {
         $products = $this->getRequest()->getPost('selected_products');

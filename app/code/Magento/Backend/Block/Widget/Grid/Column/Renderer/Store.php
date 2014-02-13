@@ -7,17 +7,22 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Backend\Block\Widget\Grid\Column\Renderer;
 
 /**
  * Store grid column filter
  */
-namespace Magento\Backend\Block\Widget\Grid\Column\Renderer;
-
 class Store
     extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
+    /**
+     * @var bool
+     */
     protected $_skipAllStoresLabel = false;
+
+    /**
+     * @var bool
+     */
     protected $_skipEmptyStoresLabel = false;
 
     /**

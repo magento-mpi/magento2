@@ -13,12 +13,12 @@ namespace Magento\FullPageCache\Model;
 class Validator
 {
     /**
-     * @var array
+     * @var string[]
      */
     protected $_changeDependencies = array();
 
     /**
-     * @var array
+     * @var string[]
      */
     protected $_deleteDependencies = array();
 
@@ -29,8 +29,8 @@ class Validator
 
     /**
      * @param \Magento\App\Cache\TypeListInterface $typeList
-     * @param $changeDependencies
-     * @param $deleteDependencies
+     * @param string[] $changeDependencies
+     * @param string[] $deleteDependencies
      */
     public function __construct(
         \Magento\App\Cache\TypeListInterface $typeList,
@@ -44,6 +44,8 @@ class Validator
 
     /**
      * Mark full page cache as invalidated
+     *
+     * @return void
      */
     protected function _invalidateCache()
     {
@@ -53,8 +55,8 @@ class Validator
     /**
      * Get list of all classes related with object instance
      *
-     * @param $object
-     * @return array
+     * @param object $object
+     * @return string[]
      */
     protected function _getObjectClasses($object)
     {
@@ -73,8 +75,8 @@ class Validator
     /**
      * Check if during data change was used some model related with page cache and invalidate cache
      *
-     * @param mixed $object
-     * @return \Magento\FullPageCache\Model\Validator
+     * @param object $object
+     * @return $this
      */
     public function checkDataChange($object)
     {
@@ -90,8 +92,8 @@ class Validator
     /**
      * Check if during data delete was used some model related with page cache and invalidate cache
      *
-     * @param mixed $object
-     * @return \Magento\FullPageCache\Model\Validator
+     * @param object $object
+     * @return $this
      */
     public function checkDataDelete($object)
     {

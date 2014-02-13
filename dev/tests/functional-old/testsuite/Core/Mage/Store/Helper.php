@@ -176,7 +176,6 @@ class Core_Mage_Store_Helper extends Mage_Selenium_AbstractHelper
                 $this->assertMessagePresent('success', 'success_deleted_' . $type);
                 unset($toDelete[$url]);
             } else {
-                $this->markTestIncomplete('MAGETWO-11690');
                 $this->navigate('manage_stores');
             }
         }

@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Newsletter\Controller;
 
 use Magento\App\Action\NotFoundException;
@@ -87,7 +86,7 @@ class Manage extends \Magento\App\Action\Action
     /**
      * Save newsletter subscription preference action
      *
-     * @return void
+     * @return void|null
      */
     public function saveAction()
     {

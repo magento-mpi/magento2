@@ -24,7 +24,7 @@ abstract class AbstractShell
     /**
      * Raw arguments, that should be parsed
      *
-     * @var array
+     * @var string[]
      */
     protected $_rawArgs     = array();
 
@@ -70,8 +70,8 @@ abstract class AbstractShell
     /**
      * Sets raw arguments to be parsed
      *
-     * @param array $args
-     * @return \Magento\Core\Model\AbstractShell
+     * @param string[] $args
+     * @return $this
      */
     public function setRawArgs($args)
     {
@@ -83,7 +83,7 @@ abstract class AbstractShell
     /**
      * Parses .htaccess file and apply php settings to shell script
      *
-     * @return \Magento\Core\Model\AbstractShell
+     * @return $this
      */
     protected function _applyPhpVariables()
     {
@@ -111,7 +111,7 @@ abstract class AbstractShell
     /**
      * Parses input arguments
      *
-     * @return \Magento\Core\Model\AbstractShell
+     * @return $this
      */
     protected function _parseArgs()
     {
@@ -142,7 +142,7 @@ abstract class AbstractShell
     /**
      * Runs script
      *
-     * @return \Magento\Core\Model\AbstractShell
+     * @return $this
      */
     abstract public function run();
 

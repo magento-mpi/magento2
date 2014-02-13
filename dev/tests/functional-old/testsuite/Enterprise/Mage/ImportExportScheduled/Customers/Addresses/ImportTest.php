@@ -18,11 +18,6 @@
  */
 class Enterprise_Mage_ImportExportScheduled_Customers_Addresses_ImportTest extends Mage_Selenium_TestCase
 {
-    public function setUpBeforeTests()
-    {
-        $this->markTestIncomplete('MAGETWO-11477');
-    }
-
     protected function assertPreConditions()
     {
         //logged in once for all tests

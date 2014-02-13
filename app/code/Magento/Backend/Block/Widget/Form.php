@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Block\Widget;
 
 /**
@@ -24,6 +23,9 @@ class Form extends \Magento\Backend\Block\Widget
      */
     protected $_form;
 
+    /**
+     * @var string
+     */
     protected $_template = 'Magento_Backend::widget/form.phtml';
 
     /**
@@ -46,6 +48,7 @@ class Form extends \Magento\Backend\Block\Widget
     /**
      * Class constructor
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -60,7 +63,7 @@ class Form extends \Magento\Backend\Block\Widget
      *
      * You can redefine this method in child classes for changing layout
      *
-     * @return \Magento\View\Element\AbstractBlock
+     * @return $this
      */
     protected function _prepareLayout()
     {
@@ -113,7 +116,7 @@ class Form extends \Magento\Backend\Block\Widget
      * Set form object
      *
      * @param \Magento\Data\Form $form
-     * @return \Magento\Backend\Block\Widget\Form
+     * @return $this
      */
     public function setForm(\Magento\Data\Form $form)
     {
@@ -126,7 +129,7 @@ class Form extends \Magento\Backend\Block\Widget
     /**
      * Prepare form before rendering HTML
      *
-     * @return \Magento\Backend\Block\Widget\Form
+     * @return $this
      */
     protected function _prepareForm()
     {
@@ -136,7 +139,7 @@ class Form extends \Magento\Backend\Block\Widget
     /**
      * This method is called before rendering HTML
      *
-     * @return \Magento\Backend\Block\Widget\Form|\Magento\View\Element\AbstractBlock
+     * @return $this
      */
     protected function _beforeToHtml()
     {
@@ -149,7 +152,7 @@ class Form extends \Magento\Backend\Block\Widget
      * Initialize form fields values
      * Method will be called after prepareForm and can be used for field values initialization
      *
-     * @return \Magento\Backend\Block\Widget\Form
+     * @return $this
      */
     protected function _initFormValues()
     {
@@ -162,6 +165,7 @@ class Form extends \Magento\Backend\Block\Widget
      * @param array $attributes attributes that are to be added
      * @param \Magento\Data\Form\Element\Fieldset $fieldset
      * @param array $exclude attributes that should be skipped
+     * @return void
      */
     protected function _setFieldset($attributes, $fieldset, $exclude=array())
     {
@@ -217,6 +221,7 @@ class Form extends \Magento\Backend\Block\Widget
      * @param string $inputType
      * @param \Magento\Data\Form\Element\AbstractElement $element
      * @param \Magento\Eav\Model\Entity\Attribute $attribute
+     * @return void
      */
     protected function _applyTypeSpecificConfig($inputType, $element, \Magento\Eav\Model\Entity\Attribute $attribute)
     {
@@ -244,6 +249,7 @@ class Form extends \Magento\Backend\Block\Widget
      * Add new element type
      *
      * @param \Magento\Data\Form\AbstractForm $baseElement
+     * @return void
      */
     protected function _addElementTypes(\Magento\Data\Form\AbstractForm $baseElement)
     {

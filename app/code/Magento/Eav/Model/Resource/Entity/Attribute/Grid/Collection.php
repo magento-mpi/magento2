@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Eav\Model\Resource\Entity\Attribute\Grid;
+
+use Magento\Core\Model\Resource\Db\Collection\AbstractCollection;
 
 /**
  * Eav Resource Attribute Set Collection
@@ -15,10 +18,6 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Eav\Model\Resource\Entity\Attribute\Grid;
-
-use Magento\Core\Model\Resource\Db\Collection\AbstractCollection;
-
 class Collection
     extends \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection
 {

@@ -20,7 +20,6 @@ class Core_Mage_PriceRules_ShoppingCart_ApplyTest extends Mage_Selenium_TestCase
 {
     public function setUpBeforeTests()
     {
-        $this->markTestIncomplete('MAGETWO-11604');
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('Tax/default_tax_config');
@@ -60,7 +59,7 @@ class Core_Mage_PriceRules_ShoppingCart_ApplyTest extends Mage_Selenium_TestCase
         $categoryPath = $category['parent_category'] . '/' . $category['name'];
         $products = array();
         //Steps
-        $this->frontend('customer_login');
+        $this->frontend();
         $this->customerHelper()->registerCustomer($user);
         $this->assertMessagePresent('success', 'success_registration');
         $this->logoutCustomer();
@@ -130,11 +129,11 @@ class Core_Mage_PriceRules_ShoppingCart_ApplyTest extends Mage_Selenium_TestCase
             $this->productHelper()->frontOpenProduct($productName);
             $this->productHelper()->frontAddProductToCart();
         }
-        $this->shoppingCartHelper()
-            ->frontEstimateShipping('PriceReview/estimate_shipping', 'Shipping/shipping_flatrate');
-        $this->addParameter('couponCode', $ruleData['info']['coupon_code']);
-        $this->fillFieldset(array('coupon_code' => $ruleData['info']['coupon_code']), 'discount_codes');
-        $this->clickButton('apply_coupon');
+        $this->shoppingCartHelper()->frontEstimateShipping(
+            'PriceReview/estimate_shipping',
+            'Shipping/shipping_flatrate'
+        );
+        $this->shoppingCartHelper()->frontApplyCouponCode($ruleData['info']['coupon_code']);
         //Verifying that coupon is successfully applied
         $this->assertMessagePresent('success', 'success_applied_coupon');
         $this->shoppingCartHelper()->verifyPricesDataOnPage($cartProductsData, $checkoutData);

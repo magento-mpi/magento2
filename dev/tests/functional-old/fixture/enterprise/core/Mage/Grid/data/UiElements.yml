@@ -8,7 +8,7 @@
 # @license     {license_link}
 #
 ---
-#dataset for ui elements in Manage Admin Users grid
+#dataset for ui elements in Manage Product Rules grid
 manage_roles:
     button:
         reset_filter: ~
@@ -27,7 +27,6 @@ manage_roles:
         1: Role
         2: Allowed Scopes
 
-#dataset for ui elements in Manage Product Rules grid
 manage_product_rules:
     fieldset:
         cms_banners_grid: tablename
@@ -430,15 +429,15 @@ reward_points_history_grid:
     fieldset:
         reward_points_history_grid: tablename
     field:
-        pager:
-        filter_created_from:
-        filter_created_to:
+        pager: ~
+        filter_created_from: ~
+        filter_created_to: ~
     dropdown:
-        filter_website:
-        filter_limit_page:
+        filter_website: ~
+        filter_limit_page: ~
     button:
-        reset_filter:
-        search:
+        reset_filter: ~
+        search: ~
     headers:
         0: Balance
         1: Amount Balance
@@ -482,7 +481,7 @@ catalog_search_edit_page:
         6: Synonym
         7: Redirect URL
         8: Suggested Term
-        9: Action 
+        9: Action
 
 #dataset for ui elements Customer Wish List Report grid
 customer_wishlist_report:
@@ -493,15 +492,10 @@ customer_wishlist_report:
         search: ~
         export: ~
     field:
-        filter_from: ~
-        filter_to:  ~
-        comment: ~
-        wishlist_quantity_from: ~
-        wishlist_quantity_to: ~
-        store_quantity_from: ~
-        store_quantity_to: ~
-        surplus_from: ~
-        surplus_to: ~
+        filter_added_from: ~
+        filter_added_to: ~
+        filter_wishlist_name: ~
+        filter_comment: ~
     dropdown:
         view_per_page: ~
         filter_status: ~
@@ -513,10 +507,6 @@ customer_wishlist_report:
         4: Product
         5: SKU
         6: Comment
-        7: Wish List Quantity
-        8: Store Quantity
-        9: Surplus / Deficit
-        10: Price
 
 #dataset for ui elements Customer Segment Report grid
 customer_segment_report:

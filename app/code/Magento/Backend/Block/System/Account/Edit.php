@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Block\System\Account;
 
 /**
  * Adminhtml edit admin user account
@@ -15,11 +16,11 @@
  * @package    Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Backend\Block\System\Account;
-
 class Edit extends \Magento\Backend\Block\Widget\Form\Container
 {
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -31,6 +32,9 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
         $this->_removeButton('back');
     }
 
+    /**
+     * @return string
+     */
     public function getHeaderText()
     {
         return __('My Account');

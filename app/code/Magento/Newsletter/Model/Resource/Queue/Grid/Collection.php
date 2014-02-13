@@ -22,7 +22,7 @@ class Collection
     extends \Magento\Newsletter\Model\Resource\Queue\Collection
 {
     /**
-     * @return \Magento\Newsletter\Model\Resource\Queue\Grid\Collection
+     * @return $this
      */
     protected function _initSelect()
     {
