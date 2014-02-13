@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Core\Model\Layout\Argument\Handler;
 
 /**
  * Layout argument. Type Array
@@ -15,7 +16,6 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Core\Model\Layout\Argument\Handler;
 
 class ArrayHandler extends \Magento\Core\Model\Layout\Argument\AbstractHandler
 {
@@ -54,6 +54,7 @@ class ArrayHandler extends \Magento\Core\Model\Layout\Argument\AbstractHandler
 
     /**
      * @param array $argument
+     * @return void
      * @throws \InvalidArgumentException
      */
     protected function _validate(array $argument)

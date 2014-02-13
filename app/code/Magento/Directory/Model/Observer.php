@@ -81,6 +81,10 @@ class Observer
         $this->_currencyFactory = $currencyFactory;
     }
 
+    /**
+     * @param mixed $schedule
+     * @return void
+     */
     public function scheduledUpdateCurrencyRates($schedule)
     {
         $importWarnings = array();

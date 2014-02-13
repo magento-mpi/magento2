@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Core\Model\Resource\Url;
 
 /**
  * Url rewrite resource model class
@@ -16,8 +16,6 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Core\Model\Resource\Url;
-
 class Rewrite extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
@@ -32,7 +30,7 @@ class Rewrite extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Initialize array fields
      *
-     * @return \Magento\Core\Model\Resource\Url\Rewrite
+     * @return $this
      */
     protected function _initUniqueFields()
     {
@@ -76,7 +74,7 @@ class Rewrite extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param string $idPath
      * @param int|\Magento\Core\Model\Store $store
-     * @return string|false
+     * @return string
      */
     public function getRequestPathByIdPath($idPath, $store)
     {
@@ -107,7 +105,7 @@ class Rewrite extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param   \Magento\Core\Model\Url\Rewrite $object
      * @param   array|string $path
-     * @return  \Magento\Core\Model\Resource\Url\Rewrite
+     * @return  $this
      */
     public function loadByRequestPath(\Magento\Core\Model\Url\Rewrite $object, $path)
     {

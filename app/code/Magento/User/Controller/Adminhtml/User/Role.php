@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\User\Controller\Adminhtml\User;
 
 use Magento\User\Model\Acl\Role\Group as RoleGroup;
@@ -109,6 +108,7 @@ class Role extends \Magento\Backend\App\AbstractAction
     /**
      * Show grid with roles existing in systems
      *
+     * @return void
      */
     public function indexAction()
     {
@@ -122,6 +122,7 @@ class Role extends \Magento\Backend\App\AbstractAction
     /**
      * Action for ajax request from grid
      *
+     * @return void
      */
     public function roleGridAction()
     {
@@ -132,6 +133,7 @@ class Role extends \Magento\Backend\App\AbstractAction
     /**
      * Edit role action
      *
+     * @return void
      */
     public function editRoleAction()
     {
@@ -161,6 +163,7 @@ class Role extends \Magento\Backend\App\AbstractAction
     /**
      * Remove role action
      *
+     * @return void
      */
     public function deleteAction()
     {
@@ -187,6 +190,7 @@ class Role extends \Magento\Backend\App\AbstractAction
     /**
      * Role form submit action to save or create new role
      *
+     * @return void
      */
     public function saveRoleAction()
     {
@@ -248,6 +252,8 @@ class Role extends \Magento\Backend\App\AbstractAction
 
     /**
      * Action for ajax request from assigned users grid
+     *
+     * @return void
      */
     public function editrolegridAction()
     {

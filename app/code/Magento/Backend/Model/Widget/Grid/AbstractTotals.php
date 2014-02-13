@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model\Widget\Grid;
 
 abstract class AbstractTotals
@@ -58,20 +57,20 @@ abstract class AbstractTotals
     /**
      * Count collection column sum based on column index
      *
-     * @abstract
      * @param string $index
      * @param \Magento\Data\Collection $collection
      * @return float|int
+     * @abstract
      */
     abstract protected function _countSum($index, $collection);
 
     /**
      * Count collection column average based on column index
      *
-     * @abstract
      * @param string $index
      * @param \Magento\Data\Collection $collection
      * @return float|int
+     * @abstract
      */
     abstract protected function _countAverage($index, $collection);
 
@@ -132,10 +131,11 @@ abstract class AbstractTotals
     /**
      * Check if operands in not null and set operands values if they are empty
      *
-     * @param float|int $firstOperand
-     * @param float|int $secondOperand
-     * @param float|int $tmpResult
+     * @param float|int &$firstOperand
+     * @param float|int &$secondOperand
+     * @param float|int &$tmpResult
      * @param float|int $result
+     * @return void
      */
     protected function _checkOperandsSet(&$firstOperand, &$secondOperand, &$tmpResult, $result)
     {
@@ -203,7 +203,7 @@ abstract class AbstractTotals
      *
      * @param string $index
      * @param string $totalExpr
-     * @return \Magento\Backend\Model\Widget\Grid\AbstractTotals
+     * @return $this
      */
     public function setColumn($index, $totalExpr)
     {
@@ -251,6 +251,7 @@ abstract class AbstractTotals
      * Reset totals and columns set
      *
      * @param bool $isFullReset
+     * @return void
      */
     public function reset($isFullReset = false)
     {

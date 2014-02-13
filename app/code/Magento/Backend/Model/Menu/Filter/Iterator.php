@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Model\Menu\Filter;
 
 /**
  * Menu filter iterator
  */
-namespace Magento\Backend\Model\Menu\Filter;
-
 class Iterator extends \FilterIterator
 {
     /**

@@ -38,10 +38,14 @@ class Observer
      */
     const SECONDS_IN_MINUTE = 60;
 
-    /** @var \Magento\Cron\Model\Resource\Schedule\Collection */
+    /**
+     * @var \Magento\Cron\Model\Resource\Schedule\Collection
+     */
     protected $_pendingSchedules;
 
-    /** @var \Magento\Cron\Model\ConfigInterface */
+    /**
+     * @var \Magento\Cron\Model\ConfigInterface
+     */
     protected $_config;
 
     /**
@@ -49,7 +53,9 @@ class Observer
      */
     protected $_objectManager;
 
-    /** @var \Magento\Core\Model\App */
+    /**
+     * @var \Magento\Core\Model\App
+     */
     protected $_app;
 
     /**
@@ -105,6 +111,7 @@ class Observer
      * Cleanup tasks schedule
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function dispatch($observer)
     {
@@ -112,7 +119,6 @@ class Observer
         $currentTime = time();
         $jobGroupsRoot = $this->_config->getJobs();
 
-        /** @var $schedule \Magento\Cron\Model\Schedule */
         foreach ($jobGroupsRoot as $groupId => $jobsRoot) {
             if (
                 $this->_request->getParam('group') === null
@@ -159,12 +165,12 @@ class Observer
     /**
      * Execute job by calling specific class::method
      *
-     * @param $scheduledTime
-     * @param $currentTime
-     * @param $jobConfig
-     * @param $schedule
+     * @param int $scheduledTime
+     * @param int $currentTime
+     * @param string[] $jobConfig
+     * @param Schedule $schedule
      * @param string $groupId
-     *
+     * @return void
      * @throws \Exception
      */
     protected function _runJob($scheduledTime, $currentTime, $jobConfig, $schedule, $groupId)
@@ -175,18 +181,18 @@ class Observer
         );
         $scheduleLifetime = $scheduleLifetime * self::SECONDS_IN_MINUTE;
         if ($scheduledTime < $currentTime - $scheduleLifetime) {
-            $schedule->setStatus(\Magento\Cron\Model\Schedule::STATUS_MISSED);
+            $schedule->setStatus(Schedule::STATUS_MISSED);
             throw new \Exception('Too late for the schedule');
         }
 
         if (!isset($jobConfig['instance'], $jobConfig['method'])) {
-            $schedule->setStatus(\Magento\Cron\Model\Schedule::STATUS_ERROR);
+            $schedule->setStatus(Schedule::STATUS_ERROR);
             throw new \Exception('No callbacks found');
         }
         $model = $this->_objectManager->create($jobConfig['instance']);
         $callback = array($model, $jobConfig['method']);
         if (!is_callable($callback)) {
-            $schedule->setStatus(\Magento\Cron\Model\Schedule::STATUS_ERROR);
+            $schedule->setStatus(Schedule::STATUS_ERROR);
             throw new \Exception(
                 sprintf('Invalid callback: %s::%s can\'t be called', $jobConfig['instance'], $jobConfig['method'])
             );
@@ -197,14 +203,14 @@ class Observer
          * was loaded with a pending status and will set it back to pending if we don't set it here
          */
         $schedule
-            ->setStatus(\Magento\Cron\Model\Schedule::STATUS_RUNNING)
+            ->setStatus(Schedule::STATUS_RUNNING)
             ->setExecutedAt(strftime('%Y-%m-%d %H:%M:%S', time()))
             ->save();
 
         call_user_func_array($callback, array($schedule));
 
         $schedule
-            ->setStatus(\Magento\Cron\Model\Schedule::STATUS_SUCCESS)
+            ->setStatus(Schedule::STATUS_SUCCESS)
             ->setFinishedAt(strftime('%Y-%m-%d %H:%M:%S', time()));
     }
 
@@ -217,7 +223,7 @@ class Observer
     {
         if (!$this->_pendingSchedules) {
             $this->_pendingSchedules = $this->_scheduleFactory->create()->getCollection()
-                ->addFieldToFilter('status', \Magento\Cron\Model\Schedule::STATUS_PENDING)
+                ->addFieldToFilter('status', Schedule::STATUS_PENDING)
                 ->load();
         }
         return $this->_pendingSchedules;
@@ -227,7 +233,7 @@ class Observer
      * Generate cron schedule
      *
      * @param string $groupId
-     * @return \Magento\Cron\Model\Observer
+     * @return $this
      */
     protected function _generate($groupId)
     {
@@ -246,7 +252,7 @@ class Observer
 
         $schedules = $this->_getPendingSchedules();
         $exists = array();
-        /** @var \Magento\Cron\Model\Schedule $schedule */
+        /** @var Schedule $schedule */
         foreach ($schedules as $schedule) {
             $exists[$schedule->getJobCode() . '/' . $schedule->getScheduledAt()] = 1;
         }
@@ -268,10 +274,10 @@ class Observer
     /**
      * Generate jobs for config information
      *
-     * @param   $jobs
+     * @param   array $jobs
      * @param   array $exists
      * @param   string $groupId
-     * @return  \Magento\Cron\Model\Observer
+     * @return  $this
      */
     protected function _generateJobs($jobs, $exists, $groupId)
     {
@@ -281,7 +287,7 @@ class Observer
         );
         $scheduleAheadFor = $scheduleAheadFor * self::SECONDS_IN_MINUTE;
         /**
-         * @var \Magento\Cron\Model\Schedule $schedule
+         * @var Schedule $schedule
          */
         $schedule = $this->_scheduleFactory->create();
 
@@ -301,7 +307,7 @@ class Observer
             $timeAhead = $currentTime + $scheduleAheadFor;
             $schedule->setJobCode($jobCode)
                 ->setCronExpr($cronExpr)
-                ->setStatus(\Magento\Cron\Model\Schedule::STATUS_PENDING);
+                ->setStatus(Schedule::STATUS_PENDING);
 
             for ($time = $currentTime; $time < $timeAhead; $time += self::SECONDS_IN_MINUTE) {
                 $ts = strftime('%Y-%m-%d %H:%M:00', $time);
@@ -342,9 +348,9 @@ class Observer
          */
         $history = $this->_scheduleFactory->create()->getCollection()
             ->addFieldToFilter('status', array('in' => array(
-                \Magento\Cron\Model\Schedule::STATUS_SUCCESS,
-                \Magento\Cron\Model\Schedule::STATUS_MISSED,
-                \Magento\Cron\Model\Schedule::STATUS_ERROR,
+                Schedule::STATUS_SUCCESS,
+                Schedule::STATUS_MISSED,
+                Schedule::STATUS_ERROR,
             )))->load();
 
         $historySuccess = (int)$this->_coreStoreConfig->getConfig(
@@ -356,13 +362,13 @@ class Observer
             'default'
         );
         $historyLifetimes = array(
-            \Magento\Cron\Model\Schedule::STATUS_SUCCESS => $historySuccess * self::SECONDS_IN_MINUTE,
-            \Magento\Cron\Model\Schedule::STATUS_MISSED => $historyFailure * self::SECONDS_IN_MINUTE,
-            \Magento\Cron\Model\Schedule::STATUS_ERROR => $historyFailure * self::SECONDS_IN_MINUTE,
+            Schedule::STATUS_SUCCESS => $historySuccess * self::SECONDS_IN_MINUTE,
+            Schedule::STATUS_MISSED => $historyFailure * self::SECONDS_IN_MINUTE,
+            Schedule::STATUS_ERROR => $historyFailure * self::SECONDS_IN_MINUTE,
         );
 
         $now = time();
-        /** @var \Magento\Cron\Model\Schedule $record */
+        /** @var Schedule $record */
         foreach ($history as $record) {
             if (strtotime($record->getExecutedAt()) < $now - $historyLifetimes[$record->getStatus()]) {
                 $record->delete();
