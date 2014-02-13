@@ -185,7 +185,6 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
 
         $block = $this->_layout->createBlock($blockType, $blockName, array('data' => $blockData));
 
-        $this->assertEquals($this->_layout, $block->getLayout());
         $this->assertRegExp($expectedName, $block->getNameInLayout());
         $this->assertEquals($expectedData, $block->getData());
     }
