@@ -70,7 +70,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected function _prepareForm()
     {
         /* @var $queue \Magento\Newsletter\Model\Queue */
-        $queue = $this->_queueFactory->create();
+        $queue = $this->_coreRegistry->registry('current_queue');
 
         /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();

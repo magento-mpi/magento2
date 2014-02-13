@@ -15,13 +15,6 @@ class Observer extends \Magento\Core\Model\AbstractModel
     const ATTRIBUTE_CODE = 'giftcard_amounts';
 
     /**
-     * Email template model instance
-     *
-     * @var \Magento\Email\Model\Template
-     */
-    protected $_emailTemplateModel;
-
-    /**
      * Gift card data
      *
      * @var \Magento\GiftCard\Helper\Data
@@ -133,16 +126,6 @@ class Observer extends \Magento\Core\Model\AbstractModel
         $this->_urlModel = $urlModel;
         $this->_giftCardData = $giftCardData;
         $this->_coreStoreConfig = $coreStoreConfig;
-        if (isset($data['email_template_model'])) {
-            if (!$data['email_template_model'] instanceof \Magento\Email\Model\Template) {
-                throw new \InvalidArgumentException(
-                    'Argument "email_template_model" is expected to be an'
-                        . ' instance of "Magento\Email\Model\Template".'
-                );
-            }
-            $this->_emailTemplateModel = $data['email_template_model'];
-            unset($data['email_template_model']);
-        }
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
