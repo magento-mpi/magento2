@@ -97,7 +97,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
 
     public function testGetHtml()
     {
-        $html = $this->_block->getHtml();
+        $html = $this->_block->toHtml();
         $this->assertContains("<div id=\"customer_cart_grid\">", $html);
         $this->assertContains("<div class=\"grid-actions\">", $html);
         $this->assertContains("customer_cart_gridJsObject = new varienGrid('customer_cart_grid',", $html);
