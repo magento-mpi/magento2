@@ -75,12 +75,6 @@ class LayoutPluginTest extends \PHPUnit_Framework_TestCase
         $this->layoutMock->expects($this->once())
             ->method('isCacheable')
             ->will($this->returnValue($layoutIsCacheable));
-
-        $this->configMock->expects($this->once())
-            ->method('isSetFlag')
-            ->with(\Magento\PageCache\Model\Config::XML_PAGECACHE_TYPE)
-            ->will($this->returnValue(true));
-
         if ($layoutIsCacheable) {
             $this->configMock->expects($this->once())
                 ->method('getValue')

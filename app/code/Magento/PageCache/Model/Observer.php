@@ -65,7 +65,7 @@ class Observer
     }
 
     /**
-     * Replace the output of the block with ttl with ESI tag
+     * Replace the output of the block, containing ttl attribute, with ESI tag
      *
      * @param \Magento\View\Element\AbstractBlock $block
      * @param \Magento\Core\Model\Layout $layout
@@ -80,7 +80,7 @@ class Observer
             'page_cache/block/esi',
             [
                 'blocks' => json_encode([$block->getNameInLayout()]),
-                'handles'   => json_encode($layout->getUpdate()->getHandles())
+                'handles' => json_encode($layout->getUpdate()->getHandles())
             ]
         );
         return sprintf('<esi:include src="%s" />', $url);
