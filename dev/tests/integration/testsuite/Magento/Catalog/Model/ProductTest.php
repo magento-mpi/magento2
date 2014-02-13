@@ -139,7 +139,10 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             $this->assertNotEmpty($duplicate->getId());
             $this->assertNotEquals($duplicate->getId(), $this->_model->getId());
             $this->assertNotEquals($duplicate->getSku(), $this->_model->getSku());
-            $this->assertEquals(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED, $duplicate->getStatus());
+            $this->assertEquals(
+                \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED,
+                $duplicate->getStatus()
+            );
             $this->assertEquals(\Magento\Core\Model\Store::DEFAULT_STORE_ID, $duplicate->getStoreId());
             $this->_undo($duplicate);
         } catch (\Exception $e) {
