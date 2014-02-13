@@ -1,5 +1,6 @@
 * Fixed bugs:
   * Fixed an issue with Backup module feature not possible to store files
+  * Fixed an issue where the Add Address button for Customer in Admin was broken.
 * Indexer implementation:
   * Implemented new optimized Catalog Category Flat Indexer
 * Cron improvements:
@@ -16,8 +17,11 @@
  * [#319] (https://github.com/magento/magento2/issues/319) No message was displayed when product added to shopping cart.
  * [#367] (https://github.com/magento/magento2/issues/367) Improve the error message from the contact form
  * [#469] (https://github.com/magento/magento2/issues/469) Can't change prices on different websites for custom options
-* Update Customer Service Exception handling and add tests
-* Add usage of Customer Service to Customer Module, replacing some direct usage of Customer Model
+* Customer Service usage:
+ * Update Customer Service Exception handling and add tests
+ * Add usage of Customer Service to Customer Module, replacing some direct usage of Customer Model
+ * Updated Customer Group Grid to use Customer Service for retrieving data and filtering.
+ * Updated CustomerMetadataService::getAttributeMetadata to throw an exception if invalid code provided.
 
 2.0.0.0-dev64
 =============
