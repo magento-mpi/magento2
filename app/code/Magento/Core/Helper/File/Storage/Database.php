@@ -145,6 +145,7 @@ class Database extends \Magento\App\Helper\AbstractHelper
      * Save file in DB storage
      *
      * @param string $filename
+     * @return void
      */
     public function saveFile($filename)
     {
@@ -158,6 +159,7 @@ class Database extends \Magento\App\Helper\AbstractHelper
      *
      * @param string $oldName
      * @param string $newName
+     * @return void
      */
     public function renameFile($oldName, $newName)
     {
@@ -172,6 +174,7 @@ class Database extends \Magento\App\Helper\AbstractHelper
      *
      * @param string $oldName
      * @param string $newName
+     * @return void
      */
     public function copyFile($oldName, $newName) {
         if ($this->checkDbUsage()) {
@@ -205,8 +208,8 @@ class Database extends \Magento\App\Helper\AbstractHelper
     public function getUniqueFilename($directory, $filename)
     {
         if ($this->checkDbUsage()) {
-           $directory = $this->_removeAbsPathFromFileName($directory);
-            if($this->fileExists($directory . $filename)) {
+            $directory = $this->_removeAbsPathFromFileName($directory);
+            if ($this->fileExists($directory . $filename)) {
                 $index = 1;
                 $extension = strrchr($filename, '.');
                 $filenameWoExtension = substr($filename, 0, -1 * strlen($extension));
@@ -254,6 +257,7 @@ class Database extends \Magento\App\Helper\AbstractHelper
      * Deletes from DB files, which belong to one folder
      *
      * @param string $folderName
+     * @return void
      */
     public function deleteFolder($folderName)
     {
@@ -266,6 +270,7 @@ class Database extends \Magento\App\Helper\AbstractHelper
      * Deletes from DB files, which belong to one folder
      *
      * @param string $filename
+     * @return void
      */
     public function deleteFile($filename)
     {

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Core\Model\Resource;
 
 /**
  * Core Cache resource model
@@ -16,8 +16,6 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Core\Model\Resource;
-
 class Cache extends \Magento\Core\Model\Resource\Db\AbstractDb implements \Magento\App\Cache\State\OptionsInterface
 {
     /**
@@ -32,7 +30,7 @@ class Cache extends \Magento\Core\Model\Resource\Db\AbstractDb implements \Magen
     /**
      * Get all cache options
      *
-     * @return array | false
+     * @return array|false
      */
     public function getAllOptions()
     {
@@ -54,7 +52,7 @@ class Cache extends \Magento\Core\Model\Resource\Db\AbstractDb implements \Magen
      * Save all options to option table
      *
      * @param array $options
-     * @return \Magento\Core\Model\Resource\Cache
+     * @return $this
      * @throws \Exception
      */
     public function saveAllOptions($options)

@@ -44,6 +44,10 @@ class Allregion implements \Magento\Core\Model\Option\ArrayInterface
         $this->_regionCollectionFactory = $regionCollectionFactory;
     }
 
+    /**
+     * @param bool $isMultiselect
+     * @return array
+     */
     public function toOptionArray($isMultiselect = false)
     {
         if (!$this->_options) {
