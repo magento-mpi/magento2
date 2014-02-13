@@ -55,22 +55,20 @@ class DepersonalizePlugin extends \Magento\Customer\Model\Layout\DepersonalizePl
     /**
      * Before layout generate
      *
-     * @param null $arguments
-     * @return null
+     * @param mixed $arguments
+     * @return mixed
      */
     public function beforeGenerateXml($arguments = null)
     {
-        if (!$this->request->isAjax() && $this->layout->isCacheable()) {
-            $this->customerSegmentIds = $this->customerSession->getCustomerSegmentIds();
-        }
+        $this->customerSegmentIds = $this->customerSession->getCustomerSegmentIds();
         return $arguments;
     }
 
     /**
      * After layout generate
      *
-     * @param null $arguments
-     * @return null
+     * @param mixed $arguments
+     * @return mixed
      */
     public function afterGenerateXml($arguments = null)
     {
