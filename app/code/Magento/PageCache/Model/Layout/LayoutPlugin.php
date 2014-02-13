@@ -50,14 +50,11 @@ class LayoutPlugin
      */
     public function afterGenerateXml()
     {
-        $varnishIsEnabled = $this->config->isSetFlag(\Magento\PageCache\Model\Config::XML_PAGECACHE_TYPE);
-        if ($varnishIsEnabled) {
-            if ($this->layout->isCacheable()) {
-                $maxAge = $this->config->getValue(\Magento\PageCache\Model\Config::XML_PAGECACHE_TTL);
-                $this->response->setPublicHeaders($maxAge);
-            } else {
-                $this->response->setNoCacheHeaders();
-            }
+        if ($this->layout->isCacheable()) {
+            $maxAge = $this->config->getValue(\Magento\PageCache\Model\Config::XML_PAGECACHE_TTL);
+            $this->response->setPublicHeaders($maxAge);
+        } else {
+            $this->response->setNoCacheHeaders();
         }
     }
 }
