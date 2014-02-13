@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model\Resource\Setup;
 
 class Generic extends \Magento\Core\Model\Resource\Setup

@@ -17,22 +17,24 @@
  */
 namespace Magento\Connect\Block\Adminhtml\Extension\Custom\Edit\Tab;
 
+use Magento\View\LayoutInterface;
+
 abstract class AbstractTab
     extends \Magento\Backend\Block\Widget\Form\Generic
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
-     * TODO
+     * @var LayoutInterface[]
      */
     protected $_addRowButtonHtml;
 
     /**
-     * TODO
+     * @var LayoutInterface[]
      */
     protected $_removeRowButtonHtml;
 
     /**
-     * TODO
+     * @var LayoutInterface[]
      */
     protected $_addFileDepButtonHtml;
 
@@ -56,6 +58,8 @@ abstract class AbstractTab
 
     /**
      * TODO   remove ???
+     *
+     * @return $this
      */
     public function initForm()
     {
@@ -63,7 +67,9 @@ abstract class AbstractTab
     }
 
     /**
-     * TODO
+     * @param string $key
+     * @param string $default
+     * @return string
      */
     public function getValue($key, $default='')
     {
@@ -72,7 +78,9 @@ abstract class AbstractTab
     }
 
     /**
-     * TODO
+     * @param string $key
+     * @param string $value
+     * @return string
      */
     public function getSelected($key, $value)
     {
@@ -80,7 +88,8 @@ abstract class AbstractTab
     }
 
     /**
-     * TODO
+     * @param string $key
+     * @return string
      */
     public function getChecked($key)
     {
@@ -88,7 +97,10 @@ abstract class AbstractTab
     }
 
     /**
-     * TODO
+     * @param string $container
+     * @param string $template
+     * @param string $title
+     * @return LayoutInterface[]
      */
     public function getAddRowButtonHtml($container, $template, $title='Add')
     {
@@ -105,7 +117,8 @@ abstract class AbstractTab
     }
 
     /**
-     * TODO
+     * @param string $selector
+     * @return LayoutInterface[]
      */
     public function getRemoveRowButtonHtml($selector='span')
     {
@@ -121,6 +134,11 @@ abstract class AbstractTab
         return $this->_removeRowButtonHtml;
     }
 
+    /**
+     * @param string $selector
+     * @param string $filesClass
+     * @return LayoutInterface[]
+     */
     public function getAddFileDepsRowButtonHtml($selector='span', $filesClass='files')
     {
         if (!$this->_addFileDepButtonHtml) {
@@ -156,11 +174,17 @@ abstract class AbstractTab
         return '';
     }
 
+    /**
+     * @return bool
+     */
     public function canShowTab()
     {
         return true;
     }
 
+    /**
+     * @return bool
+     */
     public function isHidden()
     {
         return false;

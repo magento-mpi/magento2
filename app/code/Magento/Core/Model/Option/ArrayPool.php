@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Core\Model\Option;
 
 /**
  * Array optioned object factory
  */
-namespace Magento\Core\Model\Option;
-
 class ArrayPool
 {
     /**

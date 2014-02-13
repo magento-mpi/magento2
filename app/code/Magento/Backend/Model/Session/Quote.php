@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model\Session;
 
 /**
@@ -137,8 +136,9 @@ class Quote extends \Magento\Session\SessionManager
     /**
      * Set customer model object
      * To enable quick switch of preconfigured customer
+     *
      * @param \Magento\Customer\Model\Customer $customer
-     * @return \Magento\Backend\Model\Session\Quote
+     * @return $this
      */
     public function setCustomer(\Magento\Customer\Model\Customer $customer)
     {
@@ -148,6 +148,7 @@ class Quote extends \Magento\Session\SessionManager
 
     /**
      * Retrieve customer model object
+     *
      * @param bool $forceReload
      * @param bool $useSetStore
      * @return \Magento\Customer\Model\Customer

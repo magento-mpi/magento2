@@ -18,7 +18,7 @@ class Xml implements \Magento\Config\ConverterInterface
     /**
      * Converting data to array type
      *
-     * @param mixed $source
+     * @param \DOMDocument $source
      * @return array
      * @throws \InvalidArgumentException
      */

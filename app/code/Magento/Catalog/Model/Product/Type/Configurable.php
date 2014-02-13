@@ -482,7 +482,7 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
      * Before save process
      *
      * @param  \Magento\Catalog\Model\Product $product
-     * @return \Magento\Catalog\Model\Product\Type\Configurable
+     * @return $this
      */
     public function beforeSave($product)
     {
@@ -514,7 +514,7 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
      * Save configurable product depended data
      *
      * @param  \Magento\Catalog\Model\Product $product
-     * @return \Magento\Catalog\Model\Product\Type\Configurable
+     * @return $this
      */
     public function save($product)
     {
@@ -770,7 +770,7 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
      * Check if product can be bought
      *
      * @param  \Magento\Catalog\Model\Product $product
-     * @return \Magento\Catalog\Model\Product\Type\Configurable
+     * @return $this
      * @throws \Magento\Core\Exception
      */
     public function checkProductBuyState($product)
@@ -873,7 +873,7 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
      * weight or configurable product weight
      *
      * @param  \Magento\Catalog\Model\Product $product
-     * @return decimal
+     * @return float
      */
     public function getWeight($product)
     {
@@ -896,7 +896,7 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @param  \Magento\Catalog\Model\Product|null $optionProduct
      * @param  \Magento\Sales\Model\Quote\Item\Option $option
      * @param  \Magento\Catalog\Model\Product|null $product
-     * @return \Magento\Catalog\Model\Product\Type\Configurable
+     * @return $this
      */
     public function assignProductToOption($optionProduct, $option, $product)
     {

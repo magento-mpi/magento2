@@ -17,6 +17,10 @@
  */
 namespace Magento\Catalog\Block\Product;
 
+use Magento\Catalog\Model\Product;
+use Magento\Data\Collection;
+use Magento\View\Element\AbstractBlock;
+
 class Gallery extends \Magento\View\Element\Template
 {
     /**
@@ -40,6 +44,9 @@ class Gallery extends \Magento\View\Element\Template
         parent::__construct($context, $data);
     }
 
+    /**
+     * @return $this
+     */
     protected function _prepareLayout()
     {
         $headBlock = $this->getLayout()->getBlock('head');
@@ -49,16 +56,25 @@ class Gallery extends \Magento\View\Element\Template
         return parent::_prepareLayout();
     }
 
+    /**
+     * @return Product
+     */
     public function getProduct()
     {
         return $this->_coreRegistry->registry('product');
     }
 
+    /**
+     * @return Collection
+     */
     public function getGalleryCollection()
     {
         return $this->getProduct()->getMediaGalleryImages();
     }
 
+    /**
+     * @return Image|null
+     */
     public function getCurrentImage()
     {
         $imageId = $this->getRequest()->getParam('image');
@@ -73,11 +89,17 @@ class Gallery extends \Magento\View\Element\Template
         return $image;
     }
 
+    /**
+     * @return string
+     */
     public function getImageUrl()
     {
         return $this->getCurrentImage()->getUrl();
     }
 
+    /**
+     * @return mixed
+     */
     public function getImageFile()
     {
         return $this->getCurrentImage()->getFile();
@@ -106,6 +128,9 @@ class Gallery extends \Magento\View\Element\Template
         return false;
     }
 
+    /**
+     * @return Image|false
+     */
     public function getPreviousImage()
     {
         $current = $this->getCurrentImage();
@@ -122,6 +147,9 @@ class Gallery extends \Magento\View\Element\Template
         return $previous;
     }
 
+    /**
+     * @return Image|false
+     */
     public function getNextImage()
     {
         $current = $this->getCurrentImage();
@@ -142,6 +170,9 @@ class Gallery extends \Magento\View\Element\Template
         return $next;
     }
 
+    /**
+     * @return false|string
+     */
     public function getPreviousImageUrl()
     {
         $image = $this->getPreviousImage();
@@ -151,6 +182,9 @@ class Gallery extends \Magento\View\Element\Template
         return false;
     }
 
+    /**
+     * @return false|string
+     */
     public function getNextImageUrl()
     {
         $image = $this->getNextImage();

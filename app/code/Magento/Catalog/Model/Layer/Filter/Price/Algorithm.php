@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Catalog\Model\Layer\Filter\Price;
 
 /**
  * Algorithm for layer price filter
@@ -15,8 +16,6 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Model\Layer\Filter\Price;
-
 class Algorithm
 {
     /**
@@ -137,7 +136,7 @@ class Algorithm
      * Returns -1 if index was not found
      *
      * @param float $value
-     * @param null|array $limits search [from, to]
+     * @param null|float[] $limits search [from, to]
      * @return int
      */
     protected function _binarySearch($value, $limits = null)
@@ -181,7 +180,7 @@ class Algorithm
      * @param float $max
      * @param float $standardDeviation
      * @param int $count
-     * @return \Magento\Catalog\Model\Layer\Filter\Price\Algorithm
+     * @return $this
      */
     public function setStatistics($min, $max, $standardDeviation, $count)
     {
@@ -210,7 +209,7 @@ class Algorithm
      * Set prices model
      *
      * @param \Magento\Catalog\Model\Layer\Filter\Price $pricesModel
-     * @return \Magento\Catalog\Model\Layer\Filter\Price\Algorithm
+     * @return $this
      */
     public function setPricesModel($pricesModel)
     {
@@ -261,7 +260,7 @@ class Algorithm
      * Get quantile interval
      *
      * @param int $quantileNumber should be from 1 to n-1 where n is number of intervals
-     * @return null|array [floatMin,floatMax]
+     * @return null|float[] [floatMin,floatMax]
      */
     protected function _getQuantileInterval($quantileNumber)
     {
@@ -291,8 +290,8 @@ class Algorithm
     /**
      * Merge new round prices with old ones
      *
-     * @param array $oldRoundPrices
-     * @param array $newRoundPrices
+     * @param array &$oldRoundPrices
+     * @param array &$newRoundPrices
      * @return void
      */
     protected function _mergeRoundPrices(&$oldRoundPrices, &$newRoundPrices)
@@ -487,7 +486,7 @@ class Algorithm
      *
      * @param int $quantileNumber
      * @param array $separators
-     * @return bool|array [deflection, separatorPrice, $priceIndex]
+     * @return array|false [deflection, separatorPrice, $priceIndex]
      */
     protected function _findBestSeparator($quantileNumber, $separators)
     {

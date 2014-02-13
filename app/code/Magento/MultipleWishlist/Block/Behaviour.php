@@ -22,7 +22,7 @@ class Behaviour extends \Magento\View\Element\Template
     /**
      * Wishlist data
      *
-     * @var \Magento\MultipleWishlist\Helper\Data
+     * @var \Magento\MultipleWishlist\Helper\Data|null
      */
     protected $_wishlistData = null;
 
@@ -94,7 +94,7 @@ class Behaviour extends \Magento\View\Element\Template
     /**
      * Check whether customer reached wishlist limit
      *
-     * @param \Magento\Wishlist\Model\Resource\Wishlist\Collection
+     * @param \Magento\Wishlist\Model\Resource\Wishlist\Collection $wishlistList
      * @return bool
      */
     public function canCreateWishlists($wishlistList)

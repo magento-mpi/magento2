@@ -23,7 +23,7 @@ class Sharing extends \Magento\View\Element\Template
     /**
      * Entered Data cache
      *
-     * @param array
+     * @var array|null
      */
     protected $_enteredData = null;
 
@@ -60,7 +60,7 @@ class Sharing extends \Magento\View\Element\Template
     /**
      * Prepare Global Layout
      *
-     * @return \Magento\Wishlist\Block\Customer\Sharing
+     * @return void
      */
     protected function _prepareLayout()
     {
@@ -84,7 +84,7 @@ class Sharing extends \Magento\View\Element\Template
      * Retrieve Entered Data by key
      *
      * @param string $key
-     * @return mixed
+     * @return string|null
      */
     public function getEnteredData($key)
     {
@@ -94,8 +94,7 @@ class Sharing extends \Magento\View\Element\Template
 
         if (!$this->_enteredData || !isset($this->_enteredData[$key])) {
             return null;
-        }
-        else {
+        } else {
             return $this->escapeHtml($this->_enteredData[$key]);
         }
     }

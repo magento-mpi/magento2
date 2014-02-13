@@ -20,6 +20,7 @@
  * [#469] (https://github.com/magento/magento2/issues/469) Can't change prices on different websites for custom options
 * Update Customer Service Exception handling and add tests
 * Add usage of Customer Service to Customer Module, replacing some direct usage of Customer Model
+* Updated various PHPDoc with parameter and return types
 
 2.0.0.0-dev64
 =============
