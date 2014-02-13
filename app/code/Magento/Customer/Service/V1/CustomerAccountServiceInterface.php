@@ -46,6 +46,19 @@ interface CustomerAccountServiceInterface
     );
 
     /**
+     * Update Customer Account
+     *
+     * @param Dto\Customer $customer
+     * @param string $currentPassword
+     * @param string $newPassword
+     * @return Dto\Response\CreateCustomerAccountResponse
+     * @throws \Exception If something goes wrong during save
+     * @throws \Magento\Exception\InputException If bad input is provided
+     * @throws \Magento\Exception\AuthenticationException If the provided password is incorrect
+     */
+    public function updateAccount($customer, $currentPassword = null, $newPassword = null);
+
+    /**
      * Used to activate a customer account using a key that was sent in a confirmation e-mail.
      *
      * @param int $customerId

@@ -8,8 +8,10 @@
  * @license     {license_link}
  */
 namespace Magento\Invitation\Controller\Customer;
+
 use Magento\App\Action\NotFoundException;
 use Magento\App\RequestInterface;
+use Magento\Customer\Service\V1\CustomerServiceInterface;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 
@@ -50,6 +52,7 @@ class Account extends \Magento\Customer\Controller\Account
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Escaper $escaper
+     * @param \Magento\Customer\Service\V1\CustomerServiceInterface $customerService
      * @param CustomerGroupServiceInterface $customerGroupService
      * @param CustomerAccountServiceInterface $customerAccountService
      * @param \Magento\Customer\Service\V1\Dto\RegionBuilder $regionBuilder
@@ -70,6 +73,7 @@ class Account extends \Magento\Customer\Controller\Account
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Escaper $escaper,
+        CustomerServiceInterface $customerService,
         CustomerGroupServiceInterface $customerGroupService,
         CustomerAccountServiceInterface $customerAccountService,
         \Magento\Customer\Service\V1\Dto\RegionBuilder $regionBuilder,
@@ -78,7 +82,8 @@ class Account extends \Magento\Customer\Controller\Account
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Invitation\Model\Config $config,
         \Magento\Invitation\Model\InvitationFactory $invitationFactory
-    ) {
+    )
+    {
         parent::__construct(
             $context,
             $customerSession,
@@ -90,6 +95,7 @@ class Account extends \Magento\Customer\Controller\Account
             $subscriberFactory,
             $storeManager,
             $escaper,
+            $customerService,
             $customerGroupService,
             $customerAccountService,
             $regionBuilder,
@@ -136,8 +142,8 @@ class Account extends \Magento\Customer\Controller\Account
             $invitation = $this->_invitationFactory->create();
             $invitation
                 ->loadByInvitationCode($this->_objectManager->get('Magento\Core\Helper\Data')->urlDecode(
-                        $this->getRequest()->getParam('invitation', false)
-                    ))
+                    $this->getRequest()->getParam('invitation', false)
+                ))
                 ->makeSureCanBeAccepted();
             $this->_coreRegistry->register('current_invitation', $invitation);
         }
@@ -224,7 +230,7 @@ class Account extends \Magento\Customer\Controller\Account
     }
 
     /**
-     * @param \Magento\Customer\Model\Customer $customer
+     * @param \Magento\Customer\Service\V1\Dto\Customer $customer
      * @param mixed $key
      * @return bool|null
      * @throws \Exception
@@ -245,6 +251,22 @@ class Account extends \Magento\Customer\Controller\Account
     }
 
     /**
+     * @param \Magento\Customer\Service\V1\Dto\Customer $customer
+     * @throws \Exception
+     */
+    protected function _activateCustomer($customer)
+    {
+        try {
+            $this->_customerBuilder->populata($customer);
+            $this->_customerBuilder->setConfirmation(null);
+            $customer = $this->_customerBuilder->create();
+            $this->_customerService->saveCustomer($customer);
+        } catch (\Exception $e) {
+            throw new \Exception(__('Failed to confirm customer account.'));
+        }
+    }
+
+    /**
      * Confirm customer account by id and confirmation key
      *
      * @return void
@@ -257,7 +279,7 @@ class Account extends \Magento\Customer\Controller\Account
         }
         try {
             $customerId = $this->getRequest()->getParam('id', false);
-            $key     = $this->getRequest()->getParam('key', false);
+            $key = $this->getRequest()->getParam('key', false);
             if (empty($customerId) || empty($key)) {
                 throw new \Exception(__('Bad request.'));
             }
@@ -275,33 +297,6 @@ class Account extends \Magento\Customer\Controller\Account
             $this->_redirect('magento_invitation/customer_account/create',
                 array('_current' => true, '_secure' => true));
             return;
-        }
-    }
-
-    /**
-     * @param \Magento\Customer\Model\Customer $customer
-     * @param string $email
-     * @return void
-     */
-    protected function _confirmByEmail($customer, $email)
-    {
-        try {
-            $customer->setWebsiteId($this->_storeManager->getStore()->getWebsiteId())->loadByEmail($email);
-            if (!$customer->getId()) {
-                throw new \Exception('');
-            }
-            if ($customer->getConfirmation()) {
-                $customer->sendNewAccountEmail('confirmation', '', $this->_storeManager->getStore()->getId());
-                $this->messageManager->addSuccess(__('Please, check your email for confirmation key.'));
-            } else {
-                $this->messageManager->addSuccess(__('This email does not require confirmation.'));
-            }
-            $this->_getSession()->setUsername($email);
-            $this->_redirect('customer/account/');
-        } catch (\Exception $e) {
-            $this->messageManager->addException($e, __('Wrong email.'));
-            $this->_redirect('magento_invitation/customer_account/create',
-                array('_current' => true, '_secure' => true));
         }
     }
 

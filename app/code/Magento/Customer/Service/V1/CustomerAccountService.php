@@ -269,6 +269,27 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     /**
      * {@inheritdoc}
      */
+    public function updateAccount($customer, $currentPassword = null, $newPassword = null)
+    {
+        $customerModel = $this->_converter->getCustomerModel($customer->getCustomerId());
+
+        if ($currentPassword && $newPassword) {
+            if ($customerModel->validatePassword($currentPassword)) {
+                $customerId = $this->_customerService->saveCustomer($customer, $newPassword);
+                $customerModel->sendPasswordResetNotificationEmail();
+            } else {
+                throw new AuthenticationException(__('Invalid current password.'),
+                    AuthenticationException::INVALID_EMAIL_OR_PASSWORD);
+            }
+        }
+        else {
+            $customerId = $this->_customerService->saveCustomer($customer);
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function validateCustomerData(Dto\Customer $customer, array $attributes)
     {
         $customerErrors = $this->_validator->validateData(
