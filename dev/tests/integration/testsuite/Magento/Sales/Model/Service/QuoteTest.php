@@ -87,8 +87,8 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @magentoDataFixture Magento/Sales/_files/quote.php
-     * @expectedException \Magento\Customer\Service\Entity\V1\Exception
-     * @expectedExceptionMessage There were one or more errors validating the customer object.
+     * @expectedException \Magento\Exception\InputException
+     * @expectedExceptionMessage One or more input exceptions have occurred.
      */
     public function testSubmitOrderInvalidCustomerData()
     {
@@ -131,6 +131,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @magentoDbIsolation enabled
      * @magentoDataFixture Magento/Sales/_files/quote.php
      */
     public function testSubmitOrderNewCustomer()
@@ -149,6 +150,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @magentoAppArea adminhtml
+     * @magentoDbIsolation enabled
      * @magentoAppIsolation enabled
      * @magentoDataFixture Magento/Sales/_files/quote.php
      */
