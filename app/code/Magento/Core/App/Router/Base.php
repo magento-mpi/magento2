@@ -295,6 +295,7 @@ class Base extends \Magento\App\Router\AbstractRouter
             if (is_null($controllerInstance)) {
                 return null;
             }
+            $action = 'noroute';
         }
 
         // set values only after all the checks are done
