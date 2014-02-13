@@ -7,6 +7,9 @@
  */
 namespace Magento\App\PageCache;
 
+/**
+ * Builtin cache processor
+ */
 class Kernel
 {
     /**
@@ -40,6 +43,8 @@ class Kernel
     }
 
     /**
+     * Load response from cache
+     *
      * @return \Magento\App\Response\Http|false
      */
     public function load()
@@ -53,6 +58,8 @@ class Kernel
     }
 
     /**
+     * Modify and cache application response
+     *
      * @param \Magento\App\Response\Http $response
      */
     public function process(\Magento\App\Response\Http $response)

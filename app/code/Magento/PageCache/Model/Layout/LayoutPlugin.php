@@ -44,6 +44,10 @@ class LayoutPlugin
         $this->config = $config;
     }
 
+    /**
+     * Set appropriate Cache-Control headers
+     * We have to set public headers in order to tell Varnish and Builtin app that page should be cached
+     */
     public function afterGenerateXml()
     {
         $varnishIsEnabled = $this->config->isSetFlag(\Magento\PageCache\Model\Config::XML_PAGECACHE_TYPE);

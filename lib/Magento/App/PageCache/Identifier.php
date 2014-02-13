@@ -7,6 +7,9 @@
  */
 namespace Magento\App\PageCache;
 
+/**
+ * Page unique identifier
+ */
 class Identifier
 {
     /**
@@ -24,6 +27,8 @@ class Identifier
     }
 
     /**
+     * Return unique page identifier
+     *
      * @return string
      */
     public function getValue()

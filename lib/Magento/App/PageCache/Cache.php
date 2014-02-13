@@ -7,6 +7,9 @@
  */
 namespace Magento\App\PageCache;
 
+/**
+ * Cache model for builtin cache
+ */
 class Cache extends \Magento\App\Cache
 {
     /**

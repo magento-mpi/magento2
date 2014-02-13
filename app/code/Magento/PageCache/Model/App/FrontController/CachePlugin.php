@@ -7,6 +7,9 @@
  */
 namespace Magento\PageCache\Model\App\FrontController;
 
+/**
+ * Plugin for processing builtin cache
+ */
 class CachePlugin
 {
     /**
@@ -40,6 +43,8 @@ class CachePlugin
     }
 
     /**
+     * Try load response from cache and preventing application from being processing if cache hit
+     *
      * @param array $arguments
      * @param \Magento\Code\Plugin\InvocationChain $invocationChain
      * @return \Magento\App\Response\Http
