@@ -40,9 +40,9 @@ interface CustomerServiceInterface
      * Delete Customer
      *
      * @param int $customerId
-     *
+     * @throws \Magento\Customer\Exception If something goes wrong during delete
+     * @throws NoSuchEntityException If customer with customerId is not found.
      * @return void
-     * @throws \Magento\Customer\Service\Entity\V1\Exception
      */
     public function deleteCustomer($customerId);
 }

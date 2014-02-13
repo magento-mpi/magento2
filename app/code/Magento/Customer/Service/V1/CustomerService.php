@@ -130,11 +130,7 @@ class CustomerService implements CustomerServiceInterface
     public function deleteCustomer($customerId)
     {
         $customerModel = $this->_converter->getCustomerModel($customerId);
-        try {
-            $customerModel->delete();
-            unset($this->_cache[$customerModel->getId()]);
-        } catch (\Exception $e) {
-            throw new Exception($e->getMessage(), Exception::CODE_UNKNOWN, $e);
-        }
+        $customerModel->delete();
+        unset($this->_cache[$customerModel->getId()]);
     }
 }
