@@ -160,7 +160,7 @@ abstract class AbstractIndex extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param Index $object
      * @param string $value
-     * @return \Magento\TargetRule\Model\Resource\Index\AbstractIndex
+     * @return $this
      * @deprecated after 1.12.0.0
      */
     public function saveResult($object, $value)
