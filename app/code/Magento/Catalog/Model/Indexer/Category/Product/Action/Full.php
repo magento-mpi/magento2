@@ -17,96 +17,14 @@ class Full extends \Magento\Catalog\Model\Indexer\Category\Product\AbstractActio
      */
     public function execute()
     {
-        $this->createTmpTable();
+        $this->clearTmpData();
 
         $this->reindex();
 
         $this->publishData();
         $this->removeUnnecessaryData();
-        $this->clearTmpData();
 
         return $this;
-    }
-
-    /**
-     * Create temporary index table
-     */
-    protected function createTmpTable()
-    {
-        $table = $this->getWriteAdapter()
-            ->newTable($this->getMainTmpTable())
-            ->addColumn(
-                'category_id',
-                \Magento\DB\Ddl\Table::TYPE_INTEGER,
-                null,
-                [
-                    'unsigned'  => true,
-                    'nullable'  => false,
-                    'primary'   => true,
-                    'default'   => '0',
-                ],
-                'Category ID'
-            )
-            ->addColumn(
-                'product_id',
-                \Magento\DB\Ddl\Table::TYPE_INTEGER,
-                null,
-                [
-                    'unsigned'  => true,
-                    'nullable'  => false,
-                    'primary'   => true,
-                    'default'   => '0',
-                ],
-                'Product ID'
-            )
-            ->addColumn(
-                'position',
-                \Magento\DB\Ddl\Table::TYPE_INTEGER,
-                null,
-                [
-                    'unsigned'  => false,
-                    'nullable'  => true,
-                    'default'   => null,
-                ],
-                'Position'
-            )
-            ->addColumn(
-                'is_parent',
-                \Magento\DB\Ddl\Table::TYPE_SMALLINT,
-                null,
-                [
-                    'unsigned'  => true,
-                    'nullable'  => false,
-                    'default'   => '0',
-                ],
-                'Is Parent'
-            )
-            ->addColumn(
-                'store_id',
-                \Magento\DB\Ddl\Table::TYPE_SMALLINT,
-                null,
-                [
-                    'unsigned'  => true,
-                    'nullable'  => false,
-                    'primary'   => true,
-                    'default'   => '0',
-                ],
-                'Store ID'
-            )
-            ->addColumn(
-                'visibility',
-                \Magento\DB\Ddl\Table::TYPE_SMALLINT,
-                null,
-                [
-                    'unsigned'  => true,
-                    'nullable'  => false,
-                ],
-                'Visibility'
-            )
-            ->setComment('Catalog Category Product Index Tmp');
-
-        $this->getWriteAdapter()->dropTable($this->getMainTmpTable());
-        $this->getWriteAdapter()->createTable($table);
     }
 
     /**
@@ -167,6 +85,8 @@ class Full extends \Magento\Catalog\Model\Indexer\Category\Product\AbstractActio
      */
     protected function clearTmpData()
     {
-        $this->getWriteAdapter()->dropTable($this->getMainTmpTable());
+        $this->getWriteAdapter()->delete(
+            $this->getMainTmpTable()
+        );
     }
 }
