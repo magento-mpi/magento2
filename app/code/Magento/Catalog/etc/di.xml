@@ -155,9 +155,6 @@
         <plugin name="catalogProductFlatIndexerStoreGroup" type="Magento\Catalog\Model\Indexer\Product\Flat\Plugin\StoreGroup" />
         <plugin name="categoryStoreGroupAroundSave" type="Magento\Catalog\Model\Indexer\Category\Product\Plugin\StoreGroup"/>
     </type>
-    <type name="Magento\Indexer\Model\Config\Data">
-        <plugin name="indexerConfigGet" type="Magento\Catalog\Model\Indexer\Category\Flat\Plugin\IndexerConfigData"/>
-    </type>
     <type name="Magento\Catalog\Model\Indexer\Category\Flat">
         <param name="indexer">
             <instance type="Magento\Indexer\Model\IndexerInterface" shared="false"/>
