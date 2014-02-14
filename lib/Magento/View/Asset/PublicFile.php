@@ -14,9 +14,9 @@ namespace Magento\View\Asset;
 class PublicFile implements LocalInterface
 {
     /**
-     * @var \Magento\View\Url
+     * @var \Magento\View\FileResolver
      */
-    protected $viewUrl;
+    protected $resolver;
 
     /**
      * @var string
@@ -29,13 +29,13 @@ class PublicFile implements LocalInterface
     protected $contentType;
 
     /**
-     * @param \Magento\View\Url $viewUrl
+     * @param \Magento\View\FileResolver $source
      * @param string $file
      * @param string $contentType
      */
-    public function __construct(\Magento\View\Url $viewUrl, $file, $contentType)
+    public function __construct(\Magento\View\FileResolver $source, $file, $contentType)
     {
-        $this->viewUrl = $viewUrl;
+        $this->resolver = $source;
         $this->file = $file;
         $this->contentType = $contentType;
     }
@@ -45,7 +45,7 @@ class PublicFile implements LocalInterface
      */
     public function getUrl()
     {
-        return $this->viewUrl->getPublicFileUrl($this->file);
+        return $this->resolver->getPublicFileUrl($this->file);
     }
 
     /**

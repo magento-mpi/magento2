@@ -19,6 +19,11 @@ class ViewFile implements MergeableInterface
     protected $viewUrl;
 
     /**
+     * @var \Magento\View\FileResolver
+     */
+    protected $resolver;
+
+    /**
      * @var string
      */
     protected $file;
@@ -30,12 +35,14 @@ class ViewFile implements MergeableInterface
 
     /**
      * @param \Magento\View\Url $viewUrl
+     * @param \Magento\View\FileResolver $source
      * @param string $file
      * @param string $contentType
      * @throws \InvalidArgumentException
      */
     public function __construct(
         \Magento\View\Url $viewUrl,
+        \Magento\View\FileResolver $source,
         $file,
         $contentType
     ) {
@@ -43,6 +50,7 @@ class ViewFile implements MergeableInterface
             throw new \InvalidArgumentException("Parameter 'file' must not be empty");
         }
         $this->viewUrl = $viewUrl;
+        $this->resolver = $source;
         $this->file = $file;
         $this->contentType = $contentType;
     }
@@ -68,6 +76,6 @@ class ViewFile implements MergeableInterface
      */
     public function getSourceFile()
     {
-        return $this->viewUrl->getViewFilePublicPath($this->file);
+        return $this->resolver->getViewFilePublicPath($this->file);
     }
 }

@@ -125,21 +125,13 @@ abstract class FileAbstract implements FileInterface
      */
     public function buildUniquePath()
     {
-        /** @var $theme \Magento\View\Design\ThemeInterface */
-        $theme = $this->getViewParams()['themeModel'];
-        if ($theme->getThemePath()) {
-            $designPath = $theme->getThemePath();
-        } elseif ($theme->getId()) {
-            $designPath = self::PUBLIC_THEME_DIR . $theme->getId();
-        } else {
-            $designPath = self::PUBLIC_VIEW_DIR;
-        }
-
-        $publicFile = $this->getViewParams()['area'] . '/' . $designPath . '/' . $this->getViewParams()['locale']
-            . ($this->getViewParams()['module'] ? '/' . $this->getViewParams()['module'] : '')
-            . '/' . $this->getFilePath();
-
-        return $publicFile;
+        return \Magento\View\Url::getFullyQualifiedPath(
+            $this->getFilePath(),
+            $this->getViewParams()['area'],
+            $this->getViewParams()['themeModel'],
+            $this->getViewParams()['locale'],
+            $this->getViewParams()['module']
+        );
     }
 
     /**

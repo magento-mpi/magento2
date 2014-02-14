@@ -8,93 +8,41 @@
 
 namespace Magento\View;
 
+use Magento\View\Design\ThemeInterface;
+use Magento\UrlInterface;
+
 /**
  * Builds URLs for publicly accessible files
  */
 class Url
 {
-    /**
-     * XPath for configuration setting of signing static files
+    /**#@+
+     * Public directories prefix group
      */
-    const XML_PATH_STATIC_FILE_SIGNATURE = 'dev/static/sign';
+    const PUBLIC_VIEW_DIR   = '_view';
+    const PUBLIC_THEME_DIR  = '_theme';
+    /**#@-*/
 
     /**
-     * @var \Magento\App\Filesystem
+     * @var DesignInterface
      */
-    protected $_filesystem;
-
-    /**
-     * @var \Magento\View\Service
-     */
-    protected $_viewService;
-
-    /**
-     * @var \Magento\View\Publisher
-     */
-    protected $_publisher;
-
-    /**
-     * @var \Magento\View\DeployedFilesManager
-     */
-    protected $_deployedFileManager;
+    private $design;
 
     /**
      * @var \Magento\UrlInterface
      */
-    protected $_urlBuilder;
+    protected $baseUrl;
 
-    /**
-     * @var \Magento\View\Url\ConfigInterface
-     */
-    protected $_config;
-
-    /**
-     * Map urls to app dirs
-     *
-     * @var array
-     */
-    protected $_fileUrlMap;
-
-    /**
-     * @var \Magento\View\FileSystem
-     */
-    protected $_viewFileSystem;
-
-    /**
-     * @param \Magento\App\Filesystem $filesystem
-     * @param \Magento\UrlInterface $urlBuilder
-     * @param Url\ConfigInterface $config
-     * @param Service $viewService
-     * @param Publisher $publisher
-     * @param DeployedFilesManager $deployedFileManager
-     * @param \Magento\View\FileSystem $viewFileSystem,
-     * @param array $fileUrlMap
-     */
-    public function __construct(
-        \Magento\App\Filesystem $filesystem,
-        \Magento\UrlInterface $urlBuilder,
-        \Magento\View\Url\ConfigInterface $config,
-        \Magento\View\Service $viewService,
-        \Magento\View\Publisher $publisher,
-        \Magento\View\DeployedFilesManager $deployedFileManager,
-        \Magento\View\FileSystem $viewFileSystem,
-        array $fileUrlMap = array()
-    ) {
-        $this->_filesystem = $filesystem;
-        $this->_urlBuilder = $urlBuilder;
-        $this->_config = $config;
-        $this->_viewService = $viewService;
-        $this->_publisher = $publisher;
-        $this->_deployedFileManager = $deployedFileManager;
-        $this->_viewFileSystem = $viewFileSystem;
-        $this->_fileUrlMap = $fileUrlMap;
+    public function __construct(DesignInterface $design, \Magento\UrlInterface $baseUrl)
+    {
+        $this->design = $design;
+        $this->baseUrl = $baseUrl;
     }
 
     /**
      * Retrieve view file URL
      *
      * Get URL to file base on theme file identifier.
-     * Publishes file there, if needed.
      *
      * @param string $fileId
      * @param array $params
@@ -102,91 +50,34 @@ class Url
      */
     public function getViewFileUrl($fileId, array $params = array())
     {
+        list($module, $filePath) = Service::extractModule($fileId);
+        $defaults = $this->design->getDesignParams();
+        $theme = $this->design->getDesignTheme();
+        $relPath = self::getFullyQualifiedPath($filePath, $defaults['area'], $theme, $defaults['locale'], $module);
         $isSecure = isset($params['_secure']) ? (bool) $params['_secure'] : null;
-        unset($params['_secure']);
-
-        $publicFilePath = $this->getViewFilePublicPath($fileId, $params);
-        $url = $this->getPublicFileUrl($publicFilePath, $isSecure);
-
-        return $url;
+        $baseUrl = $this->baseUrl->getBaseUrl(array('_type' => UrlInterface::URL_TYPE_STATIC, '_secure' => $isSecure));
+        return $baseUrl . $relPath;
     }
 
     /**
-     * Get public file path
+     * Build a fully qualified path to view file using specified components
      *
-     * @param string $fileId
-     * @param array $params
+     * @param string $filePath
+     * @param string $areaCode
+     * @param ThemeInterface $theme
+     * @param string $localeCode
+     * @param string $module
      * @return string
      */
-    public function getViewFilePublicPath($fileId, array $params = array())
+    public static function getFullyQualifiedPath($filePath, $areaCode, ThemeInterface $theme, $localeCode, $module = '')
     {
-        $this->_viewService->updateDesignParams($params);
-        $filePath = $this->_viewService->extractScope($this->_viewFileSystem->normalizePath($fileId), $params);
-
-        $publicFilePath = $this->_getFilesManager()->getPublicFilePath($filePath, $params);
-
-        return $publicFilePath;
-    }
-
-    /**
-     * Get url to public file
-     *
-     * @param string $publicFilePath
-     * @param bool|null $isSecure
-     * @return string
-     * @throws \Magento\Exception
-     */
-    public function getPublicFileUrl($publicFilePath, $isSecure = null)
-    {
-        foreach ($this->_fileUrlMap as $urlMap) {
-            $dir = $this->_filesystem->getPath($urlMap['value']);
-            $publicFilePath = str_replace('\\', '/', $publicFilePath);
-            if (strpos($publicFilePath, $dir) === 0) {
-                $relativePath = ltrim(substr($publicFilePath, strlen($dir)), '\\/');
-                $url = $this->_urlBuilder->getBaseUrl(
-                        array(
-                            '_type' => $urlMap['key'],
-                            '_secure' => $isSecure
-                        )
-                    ) . $relativePath;
-
-                if ($this->_isStaticFilesSigned() && $this->_viewService->isViewFileOperationAllowed()) {
-                    $directory = $this->_filesystem->getDirectoryRead(\Magento\App\Filesystem::ROOT_DIR);
-                    $fileMTime = $directory->stat($directory->getRelativePath($publicFilePath))['mtime'];
-                    $url .= '?' . $fileMTime;
-                }
-                return $url;
-            }
-        }
-
-        throw new \Magento\Exception(
-            "Cannot build URL for the file '$publicFilePath' because it does not reside in a public directory."
-        );
-    }
-
-    /**
-     * Check if static files have to be signed
-     *
-     * @return bool
-     */
-    protected function _isStaticFilesSigned()
-    {
-        return (bool)$this->_config->getValue(self::XML_PATH_STATIC_FILE_SIGNATURE);
-    }
-
-    /**
-     * Get files manager that is able to return file public path
-     *
-     * @return \Magento\View\PublicFilesManagerInterface
-     */
-    protected function _getFilesManager()
-    {
-        if ($this->_viewService->isViewFileOperationAllowed()) {
-            $filesManager = $this->_publisher;
+        if ($theme->getThemePath()) {
+            $designPath = $theme->getThemePath();
+        } elseif ($theme->getId()) {
+            $designPath = self::PUBLIC_THEME_DIR . $theme->getId();
         } else {
-            $filesManager = $this->_deployedFileManager;
+            $designPath = self::PUBLIC_VIEW_DIR;
         }
-
-        return $filesManager;
+        return $areaCode . '/' . $designPath . '/' . $localeCode . ($module ? '/' . $module : '') . '/' . $filePath;
     }
 }

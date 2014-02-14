@@ -13,14 +13,6 @@ namespace Magento\View\Publisher;
  */
 interface FileInterface
 {
-    /**#@+
-     * Public directories prefix group
-     */
-    const PUBLIC_MODULE_DIR = '_module';
-    const PUBLIC_VIEW_DIR   = '_view';
-    const PUBLIC_THEME_DIR  = '_theme';
-    /**#@-*/
-
     /**
      * Check is publication allowed for a file
      *

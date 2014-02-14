@@ -25,9 +25,9 @@ class StaticResource implements \Magento\LauncherInterface
     private $request;
 
     /**
-     * @var \Magento\View\Publisher
+     * @var \Magento\View\FileResolver
      */
-    private $publisher;
+    private $fileResolver;
 
     /**
      * @var \Magento\Module\ModuleList
@@ -35,40 +35,24 @@ class StaticResource implements \Magento\LauncherInterface
     private $moduleList;
 
     /**
-     * @var \Magento\View\FileSystem
-     */
-    private $filesystem;
-
-    /**
-     * @var \Magento\View\Service
-     */
-    private $viewService;
-
-    /**
      * @param State $state
      * @param Response\FileInterface $response
      * @param Request\Http $request
-     * @param \Magento\View\Publisher $publisher
-     * @param \Magento\View\FileSystem $filesystem
+     * @param \Magento\View\FileResolver $resolver
      * @param \Magento\Module\ModuleList $moduleList
-     * @param \Magento\View\Service $viewService
      */
     public function __construct(
         State $state,
         Response\FileInterface $response,
         Request\Http $request,
-        \Magento\View\Publisher $publisher,
-        \Magento\View\FileSystem $filesystem,
-        \Magento\Module\ModuleList $moduleList,
-        \Magento\View\Service $viewService
+        \Magento\View\FileResolver $resolver,
+        \Magento\Module\ModuleList $moduleList
     ) {
         $this->state = $state;
         $this->response = $response;
         $this->request = $request;
-        $this->publisher = $publisher;
-        $this->filesystem = $filesystem;
+        $this->fileResolver = $resolver;
         $this->moduleList = $moduleList;
-        $this->viewService = $viewService;
     }
 
     /**
@@ -88,14 +72,7 @@ class StaticResource implements \Magento\LauncherInterface
             unset($params['file']);
 
             $this->state->setAreaCode($params['area']);
-
-            if ($appMode == \Magento\App\State::MODE_DEVELOPER) {
-                $publicFile = $this->filesystem->getViewFile($file, $params);
-            } else {
-                $this->viewService->updateDesignParams($params);
-                $publicFile = $this->publisher->getPublicFilePath($file, $params);
-            }
-
+            $publicFile = $this->fileResolver->getViewFilePublicPath($file, $params);
             $this->response->setFilePath($publicFile);
         }
         return $this->response;

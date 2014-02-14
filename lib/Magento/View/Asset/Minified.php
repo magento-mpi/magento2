@@ -35,9 +35,9 @@ class Minified implements MergeableInterface
     protected $url;
 
     /**
-     * @var \Magento\View\Url
+     * @var \Magento\View\FileResolver
      */
-    protected $viewUrl;
+    protected $resolver;
 
     /**
      * @var \Magento\Logger
@@ -47,18 +47,18 @@ class Minified implements MergeableInterface
     /**
      * @param LocalInterface $asset
      * @param \Magento\Code\Minifier $minifier
-     * @param \Magento\View\Url $viewUrl
+     * @param \Magento\View\FileResolver $source
      * @param \Magento\Logger $logger
      */
     public function __construct(
         LocalInterface $asset,
         \Magento\Code\Minifier $minifier,
-        \Magento\View\Url $viewUrl,
+        \Magento\View\FileResolver $source,
         \Magento\Logger $logger
     ) {
         $this->originalAsset = $asset;
         $this->minifier = $minifier;
-        $this->viewUrl = $viewUrl;
+        $this->resolver = $source;
         $this->logger = $logger;
     }
 
@@ -108,7 +108,7 @@ class Minified implements MergeableInterface
         if ($this->file == $originalFile) {
             $this->url = $this->originalAsset->getUrl();
         } else {
-            $this->url = $this->viewUrl->getPublicFileUrl($this->file);
+            $this->url = $this->resolver->getPublicFileUrl($this->file);
         }
     }
 }

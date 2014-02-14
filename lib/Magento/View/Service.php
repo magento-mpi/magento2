@@ -69,20 +69,33 @@ class Service
      */
     public function extractScope($fileId, array &$params)
     {
+        list($module, $file) = self::extractModule($fileId);
+        if (!empty($module)) {
+            $params['module'] = $module;
+        }
+        return $file;
+    }
+
+    /**
+     * Extract module name from specified file ID
+     *
+     * @param string $fileId
+     * @return array
+     * @throws \Magento\Exception
+     */
+    public static function extractModule($fileId)
+    {
         if (strpos(str_replace('\\', '/', $fileId), './') !== false) {
             throw new \Magento\Exception("File name '{$fileId}' is forbidden for security reasons.");
         }
         if (strpos($fileId, self::SCOPE_SEPARATOR) === false) {
-            $file = $fileId;
-        } else {
-            $fileId = explode(self::SCOPE_SEPARATOR, $fileId);
-            if (empty($fileId[0])) {
-                throw new \Magento\Exception('Scope separator "::" cannot be used without scope identifier.');
-            }
-            $params['module'] = $fileId[0];
-            $file = $fileId[1];
+            return array('', $fileId);
         }
-        return $file;
+        $result = explode(self::SCOPE_SEPARATOR, $fileId, 2);
+        if (empty($fileId[0])) {
+            throw new \Magento\Exception('Scope separator "::" cannot be used without scope identifier.');
+        }
+        return array($result[0], $result[1]);
     }
 
     /**
