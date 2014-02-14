@@ -69,7 +69,9 @@ class PluginTest extends \PHPUnit_Framework_TestCase
 
             }
         }
-        $this->assertEquals($expected, $this->plugin->aroundProcess($arguments, $invocationChain));
+        $this->assertInstanceOf(
+            'Magento\View\Publisher\CssFile', $this->plugin->aroundProcess($arguments, $invocationChain)
+        );
     }
 
     /**
@@ -137,7 +139,7 @@ class PluginTest extends \PHPUnit_Framework_TestCase
             'cached value exists' => [
                 'arguments' => $argSecond,
                 'invocationChain' => $invChainSecond,
-                'cacheManagerData' => ['getCachedFile' => ['result' => 'cached-value']],
+                'cacheManagerData' => ['getCachedFile' => ['result' => $cssFileSecond]],
                 'expected' => 'cached-value'
             ],
             'cached value does not exist' => [

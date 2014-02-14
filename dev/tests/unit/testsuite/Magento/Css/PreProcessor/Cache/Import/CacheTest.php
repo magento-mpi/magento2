@@ -45,13 +45,26 @@ class CacheTest extends \PHPUnit_Framework_TestCase
             ->method('getViewParams')
             ->will($this->returnValue(['theme' => 'some_theme', 'area' => 'frontend', 'locale' => 'en_US']));
 
+        $fileFactory = $this->getMock(
+            'Magento\View\Publisher\FileFactory',
+            [],
+            [],
+            '',
+            false
+        );
+
+        $fileFactory->expects($this->any())
+            ->method('create')
+            ->will($this->returnValue($cssFile));
+
         $this->objectManagerHelper = new ObjectManagerHelper($this);
         $this->cache = $this->objectManagerHelper->getObject(
             'Magento\Css\PreProcessor\Cache\Import\Cache',
             [
                 'storage' => $this->storageMock,
                 'importEntityFactory' => $this->importEntityFactoryMock,
-                'data' => $cssFile
+                'fileFactory' => $fileFactory,
+                'publisherFile' => $cssFile
             ]
         );
     }
@@ -79,7 +92,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnSelf());
 
         $this->assertEquals($this->cache, $this->cache->clear());
-        $this->assertNull($cachedFileProperty->getValue($this->cache));
+        $this->assertEmpty($cachedFileProperty->getValue($this->cache));
         $this->assertEquals([], $importEntitiesProperty->getValue($this->cache));
     }
 
@@ -87,9 +100,16 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     {
         $property = new \ReflectionProperty($this->cache, 'cachedFile');
         $property->setAccessible(true);
-        $this->assertNull($property->getValue($this->cache));
-        $property->setValue($this->cache, 'test');
-        $this->assertEquals('test', $this->cache->get());
+        $this->assertEmpty($property->getValue($this->cache));
+        $property->setValue(
+            $this->cache,
+            [
+                'filePath' => 'cached_file_path',
+                'viewParams' => [],
+                'sourcePath' => 'cached_source_path'
+            ]
+        );
+        $this->assertInstanceOf('\Magento\View\Publisher\CssFile', $this->cache->get());
     }
 
     /**
@@ -177,7 +197,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
      * @param array $expected
      * @dataProvider saveCacheDataProvider
      */
-    public function testSaveCache($uniqueFileKey, $expected)
+    public function testSaveCache($cssFile, $uniqueFileKey, $expected)
     {
         $importEntitiesProperty = new \ReflectionProperty($this->cache, 'importEntities');
         $importEntitiesProperty->setAccessible(true);
@@ -188,7 +208,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
             ->method('save')
             ->with($this->equalTo($uniqueFileKey), $this->equalTo(serialize($expected)))
             ->will($this->returnSelf());
-        $this->assertEquals($this->cache, $this->cache->save($expected['cached_file']));
+        $this->assertEquals($this->cache, $this->cache->save($cssFile));
     }
 
     /**
@@ -196,11 +216,29 @@ class CacheTest extends \PHPUnit_Framework_TestCase
      */
     public function saveCacheDataProvider()
     {
+        $cssFile = $this->getMock('Magento\View\Publisher\CssFile', [], [], '', false);
+        $cssFile->expects($this->once())
+            ->method('getViewParams')
+            ->will($this->returnValue([]));
+
+        $cssFile->expects($this->once())
+            ->method('getFilePath')
+            ->will($this->returnValue('file_path'));
+
+        $cssFile->expects($this->once())
+            ->method('getSourcePath')
+            ->will($this->returnValue('source_path'));
+
         return [
             [
+                $cssFile,
                 'Magento_Core::style.css|frontend|en_US|some_theme',
                 [
-                    'cached_file' => 'file-to-save.css',
+                    'cached_file' => [
+                        'filePath' => 'file_path',
+                        'viewParams' => [],
+                        'sourcePath' => 'source_path'
+                    ],
                     'imports' => ['import1', 'import2', 'import3']
                 ]
             ]
