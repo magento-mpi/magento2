@@ -36,6 +36,31 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @magentoAppIsolation enabled
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     * @magentoDataFixture Magento/Customer/_files/customer_address.php
+     */
+    public function testSaveShipping()
+    {
+        $data = [
+            'address_id' => '',
+            'firstname' => 'Joe',
+            'lastname' => 'Black',
+            'company' => 'Lunatis',
+            'street' => ['1100 Parmer', 'ln.'],
+            'city' => 'Austin',
+            'region_id' => '57',
+            'region' => '',
+            'postcode' => '78757',
+            'country_id' => 'US',
+            'telephone' => '(512) 999-9999',
+            'fax' => '',
+            'save_in_address_book' => 1
+        ];
+        $this->_model->saveShipping($data, 1);
+    }
+
+    /**
+     * @magentoAppIsolation enabled
      */
     public function testSaveOrder()
     {
