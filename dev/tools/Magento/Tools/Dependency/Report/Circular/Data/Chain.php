@@ -26,7 +26,7 @@ class Chain
     /**
      * Get modules
      *
-     * @return string
+     * @return array
      */
     public function getModules()
     {

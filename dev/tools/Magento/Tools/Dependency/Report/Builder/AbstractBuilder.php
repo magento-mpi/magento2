@@ -86,7 +86,7 @@ abstract class AbstractBuilder implements BuilderInterface
      * Template method. Prepare data for writer step
      *
      * @param array $modulesData
-     * @return Object
+     * @return \Magento\Tools\Dependency\Report\Data\ConfigInterface
      */
     abstract protected function prepareData($modulesData);
 }

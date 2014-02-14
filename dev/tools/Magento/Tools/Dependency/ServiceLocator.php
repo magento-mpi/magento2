@@ -57,6 +57,13 @@ class ServiceLocator
     private static $frameworkDependenciesReportBuilder;
 
     /**
+     * Csv file tool
+     *
+     * @var \Magento\File\Csv
+     */
+    private static $csvTool;
+
+    /**
      * Get modules dependencies report builder
      *
      * @return \Magento\Tools\Dependency\Report\BuilderInterface
@@ -82,7 +89,7 @@ class ServiceLocator
         if (null === self::$circularDependenciesReportBuilder) {
             self::$circularDependenciesReportBuilder = new Circular\Builder(
                 self::getXmlConfigParser(),
-                new Circular\Writer((new Csv())->setDelimiter(';')),
+                new Circular\Writer(self::getCsvTool()),
                 new CircularTool(array(), null)
             );
         }
@@ -99,7 +106,7 @@ class ServiceLocator
         if (null === self::$frameworkDependenciesReportBuilder) {
             self::$frameworkDependenciesReportBuilder = new Framework\Builder(
                 self::getFrameworkDependenciesParser(),
-                new Framework\Writer((new Csv())->setDelimiter(';')),
+                new Framework\Writer(self::getCsvTool()),
                 self::getXmlConfigParser()
             );
         }
@@ -132,5 +139,18 @@ class ServiceLocator
             );
         }
         return self::$frameworkDependenciesParser;
+    }
+
+    /**
+     * Get csv file tool
+     *
+     * @return \Magento\File\Csv
+     */
+    private static function getCsvTool()
+    {
+        if (null === self::$csvTool) {
+            self::$csvTool = (new Csv())->setDelimiter(';');
+        }
+        return self::$csvTool;
     }
 }
