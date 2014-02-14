@@ -448,7 +448,7 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
      * Load array
      *
      * @param array $arr
-     * @return \Magento\CatalogRule\Model\Rule\Condition\Product
+     * @return $this
      */
     public function loadArray($arr)
     {
