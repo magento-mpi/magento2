@@ -25,6 +25,8 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
 
     /**
      * Define collection item type and corresponding table
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -35,7 +37,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Filter out disabled banners
      *
-     * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+     * @return $this
      */
     protected function _initSelect()
     {
@@ -55,7 +57,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Add sales rule ids filter to the collection
      *
      * @param array $ruleIds
-     * @return \Magento\Banner\Model\Resource\Salesrule\Collection
+     * @return $this
      */
     public function addRuleIdsFilter(array $ruleIds)
     {

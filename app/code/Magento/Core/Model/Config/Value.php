@@ -79,6 +79,8 @@ class Value extends \Magento\Core\Model\AbstractModel implements \Magento\App\Co
 
     /**
      * Magento model constructor
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -87,6 +89,8 @@ class Value extends \Magento\Core\Model\AbstractModel implements \Magento\App\Co
 
     /**
      * Add availability call after load as public
+     *
+     * @return void
      */
     public function afterLoad()
     {
@@ -120,7 +124,7 @@ class Value extends \Magento\Core\Model\AbstractModel implements \Magento\App\Co
         if ($websiteCode) {
             return $this->_storeManager->getWebsite($websiteCode)->getConfig($path);
         }
-        return (string) $this->_config->getValue($path, 'default');
+        return (string) $this->_config->getValue($path, \Magento\BaseScopeInterface::SCOPE_DEFAULT);
     }
 
 

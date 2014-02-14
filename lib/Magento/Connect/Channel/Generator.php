@@ -7,14 +7,25 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Connect\Channel;
 
-class Generator extends \Magento\Xml\Generator
+use Magento\Xml\Generator as XmlGenerator;
+
+class Generator extends XmlGenerator
 {
-    protected $_file      = 'channel.xml';
+    /**
+     * @var string
+     */
+    protected $_file = 'channel.xml';
+
+    /**
+     * @var XmlGenerator
+     */
     protected $_generator = null;
 
+    /**
+     * @param string $file
+     */
     public function __construct($file='')
     {
         if ($file) {
@@ -23,21 +34,28 @@ class Generator extends \Magento\Xml\Generator
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getFile()
     {
         return $this->_file;
     }
 
+    /**
+     * @return XmlGenerator
+     */
     public function getGenerator()
     {
         if (is_null($this->_generator)) {
-            $this->_generator = new \Magento\Xml\Generator();
+            $this->_generator = new XmlGenerator();
         }
         return $this->_generator;
     }
 
     /**
      * @param array $content
+     * @return this
      */
     public function save($content)
     {

@@ -7,23 +7,24 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reward\Model\System\Config\Backend;
 
 /**
  * Backend model for "Reward Points Lifetime"
- *
  */
-namespace Magento\Reward\Model\System\Config\Backend;
-
 class Expiration extends \Magento\Core\Model\Config\Value
 {
     const XML_PATH_EXPIRATION_DAYS = 'magento_reward/general/expiration_days';
 
     /**
+     * Core config collection
      * @var \Magento\Core\Model\Resource\Config\Data\CollectionFactory
      */
     protected $_configFactory;
 
     /**
+     * Reward history factory
+     *
      * @var \Magento\Reward\Model\Resource\Reward\HistoryFactory
      */
     protected $_historyFactory;

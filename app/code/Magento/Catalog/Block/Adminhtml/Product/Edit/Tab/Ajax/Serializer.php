@@ -11,6 +11,9 @@ namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Ajax;
 
 class Serializer extends \Magento\View\Element\Template
 {
+    /**
+     * @return $this
+     */
     public function _construct()
     {
         parent::_construct();
@@ -18,6 +21,9 @@ class Serializer extends \Magento\View\Element\Template
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getProductsJSON()
     {
         $result = array();

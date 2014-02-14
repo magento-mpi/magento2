@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Newsletter\Model;
 
 /**
  * Newsletter problem model
@@ -26,8 +27,6 @@
  * @package     Magento_Newsletter
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Newsletter\Model;
-
 class Problem extends \Magento\Core\Model\AbstractModel
 {
     /**
@@ -68,6 +67,8 @@ class Problem extends \Magento\Core\Model\AbstractModel
 
     /**
      * Initialize Newsletter Problem Model
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -78,7 +79,7 @@ class Problem extends \Magento\Core\Model\AbstractModel
      * Add Subscriber Data
      *
      * @param \Magento\Newsletter\Model\Subscriber $subscriber
-     * @return \Magento\Newsletter\Model\Problem
+     * @return $this
      */
     public function addSubscriberData(\Magento\Newsletter\Model\Subscriber $subscriber)
     {
@@ -90,7 +91,7 @@ class Problem extends \Magento\Core\Model\AbstractModel
      * Add Queue Data
      *
      * @param \Magento\Newsletter\Model\Queue $queue
-     * @return \Magento\Newsletter\Model\Problem
+     * @return $this
      */
     public function addQueueData(\Magento\Newsletter\Model\Queue $queue)
     {
@@ -102,7 +103,7 @@ class Problem extends \Magento\Core\Model\AbstractModel
      * Add Error Data
      *
      * @param \Exception $e
-     * @return \Magento\Newsletter\Model\Problem
+     * @return $this
      */
     public function addErrorData(\Exception $e)
     {
@@ -133,7 +134,7 @@ class Problem extends \Magento\Core\Model\AbstractModel
     /**
      * Unsubscribe Subscriber
      *
-     * @return \Magento\Newsletter\Model\Problem
+     * @return $this
      */
     public function unsubscribe()
     {

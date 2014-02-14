@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\FullPageCache\Model;
 
 /**
@@ -137,7 +136,7 @@ class Cookie extends \Magento\Stdlib\Cookie
     /**
      * Keep customer cookies synchronized with customer session
      *
-     * @return \Magento\FullPageCache\Model\Cookie
+     * @return $this
      */
     public function updateCustomerCookies()
     {
@@ -197,6 +196,7 @@ class Cookie extends \Magento\Stdlib\Cookie
      * @param int|string|array $productIds
      * @param int $countLimit
      * @param bool $append
+     * @return void
      */
     public static function registerViewedProducts($productIds, $countLimit, $append = true)
     {
@@ -224,6 +224,7 @@ class Cookie extends \Magento\Stdlib\Cookie
      * Set catalog cookie
      *
      * @param string $value
+     * @return void
      */
     public static function setCategoryCookieValue($value)
     {
@@ -245,6 +246,7 @@ class Cookie extends \Magento\Stdlib\Cookie
      * Set cookie with visited category id
      *
      * @param int $categoryId
+     * @return void
      */
     public static function setCategoryViewedCookieValue($categoryId)
     {

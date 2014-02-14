@@ -30,11 +30,15 @@ class Tracking extends \Magento\Backend\Block\Template
     protected $_rmaData;
 
     /**
+     * Shipping carrier factory
+     *
      * @var \Magento\Shipping\Model\CarrierFactory
      */
     protected $_carrierFactory;
 
     /**
+     * Rma shipping collection
+     *
      * @var \Magento\Rma\Model\Resource\Shipping\CollectionFactory
      */
     protected $_shippingCollectionFactory;
@@ -98,7 +102,7 @@ class Tracking extends \Magento\Backend\Block\Template
     /**
      * Prepares layout of block
      *
-     * @return string
+     * @return \Magento\View\Element\AbstractBlock|void
      */
     protected function _prepareLayout()
     {

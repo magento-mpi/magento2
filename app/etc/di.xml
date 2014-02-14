@@ -80,7 +80,7 @@
     <preference for="Magento\View\Design\Theme\Image\PathInterface" type="Magento\Core\Model\Theme\Image\Path" />
     <preference for="Magento\Session\Config\ConfigInterface" type="Magento\Core\Model\Session\Config" />
     <preference for="Magento\Session\SidResolverInterface" type="Magento\Core\Model\Session\SidResolver\Proxy" />
-    <preference for="Magento\TranslateInterface" type="Magento\Core\Model\Translate" />
+    <preference for="Magento\TranslateInterface" type="Magento\Translate" />
     <preference for="Magento\Config\ScopeListInterface" type="interceptionConfigScope" />
     <preference for="Magento\View\Design\Theme\Label\ListInterface" type="Magento\Core\Model\Resource\Theme\Collection" />
     <virtualType name="interceptionConfigScope" type="Magento\Config\Scope">
@@ -151,7 +151,7 @@
             <value type="argument">Magento\Core\Model\App::PARAM_RUN_TYPE</value>
         </param>
     </type>
-    <type name="Magento\Core\Model\Translate">
+    <type name="Magento\Translate">
         <param name="cache">
             <instance type="Magento\App\Cache\Type\Translate" />
         </param>
@@ -301,12 +301,28 @@
             </array>
         </param>
     </type>
+    <preference for="Magento\Mview\ConfigInterface" type="Magento\Mview\Config" />
+    <preference for="Magento\Mview\ViewInterface" type="Magento\Mview\View" />
+    <preference for="Magento\Mview\ProcessorInterface" type="Magento\Mview\Processor" />
+    <preference for="Magento\Mview\View\CollectionInterface" type="Magento\Mview\View\Collection" />
+    <preference for="Magento\Mview\View\SubscriptionInterface" type="Magento\Mview\View\Subscription" />
+    <preference for="Magento\Mview\View\ChangelogInterface" type="Magento\Mview\View\Changelog" />
     <type name="Magento\Mview\View">
         <param name="state">
             <instance type="Magento\Core\Model\Mview\View\State" shared="false"/>
         </param>
         <param name="changelog">
             <instance type="Magento\Mview\View\Changelog" shared="false"/>
+        </param>
+    </type>
+    <type name="Magento\Mview\Config">
+        <param name="configData">
+            <instance type="Magento\Mview\Config\Data\Proxy"/>
+        </param>
+    </type>
+    <type name="Magento\Mview\Config\Data">
+        <param name="stateCollection">
+            <instance type="Magento\Mview\View\State\CollectionInterface" shared="false"/>
         </param>
     </type>
 </config>

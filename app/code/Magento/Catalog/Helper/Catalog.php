@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Catalog\Helper;
 
 /**
  * Adminhtml Catalog helper
@@ -15,8 +16,6 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Helper;
-
 class Catalog extends \Magento\App\Helper\AbstractHelper
 {
     /**
@@ -78,7 +77,7 @@ class Catalog extends \Magento\App\Helper\AbstractHelper
      * Set Custom Attribute Tab Block Name for Product Edit
      *
      * @param string $attributeTabBlock
-     * @return \Magento\Catalog\Helper\Catalog
+     * @return $this
      */
     public function setAttributeTabBlock($attributeTabBlock)
     {
@@ -100,7 +99,7 @@ class Catalog extends \Magento\App\Helper\AbstractHelper
      * Set Custom Attribute Tab Block Name for Category Edit
      *
      * @param string $attributeTabBlock
-     * @return \Magento\Catalog\Helper\Catalog
+     * @return $this
      */
     public function setCategoryAttributeTabBlock($attributeTabBlock)
     {

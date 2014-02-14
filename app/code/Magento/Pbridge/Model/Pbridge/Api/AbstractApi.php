@@ -7,17 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Pbridge\Model\Pbridge\Api;
 
+use Magento\Logger;
 
 /**
  * Abstract Pbridge API model
  *
- * @category    Magento
- * @package     Magento_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Pbridge\Model\Pbridge\Api;
-
 class AbstractApi extends \Magento\Object
 {
     /**
@@ -49,7 +47,9 @@ class AbstractApi extends \Magento\Object
     protected $_coreStoreConfig;
 
     /**
-     * @var \Magento\Logger
+     * Logger model
+     *
+     * @var Logger
      */
     protected $_logger;
 
@@ -63,7 +63,7 @@ class AbstractApi extends \Magento\Object
     /**
      * Constructor
      *
-     * @param \Magento\Logger $logger
+     * @param Logger $logger
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
@@ -71,7 +71,7 @@ class AbstractApi extends \Magento\Object
      * @param array $data
      */
     public function __construct(
-        \Magento\Logger $logger,
+        Logger $logger,
         \Magento\Pbridge\Helper\Data $pbridgeData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Store\Config $coreStoreConfig,

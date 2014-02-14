@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Index\Model\Resource;
 
+use Magento\Index\Model\Process as ModelProcess;
 
 /**
  * Index Process Resource Model
@@ -16,10 +18,6 @@
  * @package     Magento_Index
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Index\Model\Resource;
-
-use Magento\Index\Model\Process as ModelProcess;
-
 class Process extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
@@ -39,6 +37,8 @@ class Process extends \Magento\Core\Model\Resource\Db\AbstractDb
 
     /**
      * Initialize  table and table pk
+     *
+     * @return void
      */
     protected function _construct()
     {

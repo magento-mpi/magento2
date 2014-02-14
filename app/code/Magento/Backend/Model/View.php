@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model;
 
 class View extends \Magento\App\View
@@ -21,7 +20,7 @@ class View extends \Magento\App\View
      * @param \Magento\App\ResponseInterface $response
      * @param \Magento\Config\ScopeInterface $configScope
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Core\Model\Translate $translator
+     * @param \Magento\Translate\InlineInterface $translateInline
      * @param \Magento\App\ActionFlag $actionFlag
      * @param \Magento\Core\Model\Layout\Filter\Acl $aclFilter
      */
@@ -31,12 +30,12 @@ class View extends \Magento\App\View
         \Magento\App\ResponseInterface $response,
         \Magento\Config\ScopeInterface $configScope,
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Core\Model\Translate $translator,
+        \Magento\Translate\InlineInterface $translateInline,
         \Magento\App\ActionFlag $actionFlag,
         \Magento\Core\Model\Layout\Filter\Acl $aclFilter
     ) {
         $this->_aclFilter = $aclFilter;
-        parent::__construct($layout, $request, $response, $configScope, $eventManager, $translator, $actionFlag);
+        parent::__construct($layout, $request, $response, $configScope, $eventManager, $translateInline, $actionFlag);
     }
 
 
@@ -55,4 +54,4 @@ class View extends \Magento\App\View
         return $this;
     }
 
-} 
+}

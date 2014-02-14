@@ -40,7 +40,7 @@ class Form extends \Magento\View\Element\Template
      * Retrieve submitted param by key
      *
      * @param string $key
-     * @return mixed
+     * @return string|null
      */
     public function getFormData($key)
     {

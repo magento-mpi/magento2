@@ -26,6 +26,8 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
     protected $_collection;
 
     /**
+     * Review resource model
+     *
      * @var \Magento\Review\Model\Resource\Review\Product\CollectionFactory
      */
     protected $_collectionFactory;
@@ -50,6 +52,8 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
     }
 
     /**
+     * Initialize review collection
+     *
      * @return $this
      */
     protected function _initCollection()
@@ -151,6 +155,8 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
     }
 
     /**
+     * Add review summary
+     *
      * @return \Magento\View\Element\AbstractBlock
      */
     protected function _beforeToHtml()

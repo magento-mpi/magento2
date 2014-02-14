@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\DesignEditor\Model;
 
 /**
@@ -169,6 +168,7 @@ class State
     /**
      * Create url model instance that will be used instead of \Magento\UrlInterface in navigation mode
      *
+     * @param string $mode
      * @return void
      */
     protected function _injectUrlModel($mode)

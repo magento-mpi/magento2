@@ -109,7 +109,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
     /**
      * Translate instance
      *
-     * @var \Magento\Core\Model\Translate
+     * @var \Magento\TranslateInterface
      */
     protected $_translate;
 
@@ -190,7 +190,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Translate $translate
+     * @param \Magento\TranslateInterface $translate
      * @param \Magento\Email\Model\TemplateFactory $templateFactory
      * @param \Magento\GiftRegistry\Model\Type $type
      * @param \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig
@@ -217,7 +217,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Registry $registry,
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Translate $translate,
+        \Magento\TranslateInterface $translate,
         \Magento\Email\Model\TemplateFactory $templateFactory,
         \Magento\GiftRegistry\Model\Type $type,
         \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig,

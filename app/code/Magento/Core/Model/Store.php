@@ -7,8 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model;
+
+use Magento\Directory\Model\Currency\Filter;
 
 /**
  * Store model
@@ -22,7 +23,8 @@ namespace Magento\Core\Model;
  * @method \Magento\Core\Model\Store setSortOrder(int $value)
  * @method \Magento\Core\Model\Store setIsActive(int $value)
  */
-class Store extends AbstractModel implements \Magento\Url\ScopeInterface
+class Store extends AbstractModel
+    implements \Magento\BaseScopeInterface, \Magento\Url\ScopeInterface
 {
     /**
      * Entity name
@@ -340,6 +342,9 @@ class Store extends AbstractModel implements \Magento\Url\ScopeInterface
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
+    /**
+     * @return string[]
+     */
     public function __sleep()
     {
         $properties = parent::__sleep();
@@ -353,6 +358,8 @@ class Store extends AbstractModel implements \Magento\Url\ScopeInterface
 
     /**
      * Init not serializable fields
+     *
+     * @return void
      */
     public function __wakeup()
     {
@@ -369,6 +376,8 @@ class Store extends AbstractModel implements \Magento\Url\ScopeInterface
 
     /**
      * Initialize object
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -421,7 +430,7 @@ class Store extends AbstractModel implements \Magento\Url\ScopeInterface
      *
      * @param   mixed $key
      * @param   string $field
-     * @return  \Magento\Core\Model\Store
+     * @return  $this
      */
     public function load($key, $field = null)
     {
@@ -464,7 +473,7 @@ class Store extends AbstractModel implements \Magento\Url\ScopeInterface
      *
      * @param string $path
      * @param mixed $value
-     * @return \Magento\Core\Model\Store
+     * @return $this
      */
     public function setConfig($path, $value)
     {
@@ -475,9 +484,10 @@ class Store extends AbstractModel implements \Magento\Url\ScopeInterface
     /**
      * Set relation to the website
      *
-     * @param \Magento\Core\Model\Website $website
+     * @param Website $website
+     * @return void
      */
-    public function setWebsite(\Magento\Core\Model\Website $website)
+    public function setWebsite(Website $website)
     {
         $this->setWebsiteId($website->getId());
     }
@@ -485,7 +495,7 @@ class Store extends AbstractModel implements \Magento\Url\ScopeInterface
     /**
      * Retrieve store website
      *
-     * @return \Magento\Core\Model\Website|bool
+     * @return Website|bool
      */
     public function getWebsite()
     {
@@ -647,7 +657,7 @@ class Store extends AbstractModel implements \Magento\Url\ScopeInterface
             && $this->_coreFileStorageDatabase->checkDbUsage()
         ) {
             return $this->getBaseUrl(\Magento\UrlInterface::URL_TYPE_WEB, $secure)
-                . $filesystem->getUri(\Magento\App\Filesystem::PUB_DIR) . '/' . self::MEDIA_REWRITE_SCRIPT;
+            . $filesystem->getUri(\Magento\App\Filesystem::PUB_DIR) . '/' . self::MEDIA_REWRITE_SCRIPT;
         }
         return false;
     }
@@ -674,8 +684,8 @@ class Store extends AbstractModel implements \Magento\Url\ScopeInterface
     public function isUseStoreInUrl()
     {
         return !($this->hasDisableStoreInUrl() && $this->getDisableStoreInUrl())
-            && $this->_appState->isInstalled()
-            && $this->getConfig(self::XML_PATH_STORE_IN_URL);
+        && $this->_appState->isInstalled()
+        && $this->getConfig(self::XML_PATH_STORE_IN_URL);
     }
 
     /**
@@ -728,7 +738,7 @@ class Store extends AbstractModel implements \Magento\Url\ScopeInterface
 
         if ($this->_appState->isInstalled()) {
             $secureBaseUrl = $this->_coreStoreConfig->getConfig(self::XML_PATH_SECURE_BASE_URL);
-            
+
             if (!$secureBaseUrl) {
                 return false;
             }
@@ -942,10 +952,10 @@ class Store extends AbstractModel implements \Magento\Url\ScopeInterface
     /**
      * Convert price from default currency to current currency
      *
-     * @param   double $price
-     * @param   boolean $format             Format price to currency format
-     * @param   boolean $includeContainer   Enclose into <span class="price"><span>
-     * @return  double
+     * @param   float $price
+     * @param   bool $format             Format price to currency format
+     * @param   bool $includeContainer   Enclose into <span class="price"><span>
+     * @return  float
      */
     public function convertPrice($price, $format = false, $includeContainer = true)
     {
@@ -964,8 +974,8 @@ class Store extends AbstractModel implements \Magento\Url\ScopeInterface
     /**
      * Round price
      *
-     * @param mixed $price
-     * @return double
+     * @param float $price
+     * @return float
      */
     public function roundPrice($price)
     {
@@ -975,7 +985,7 @@ class Store extends AbstractModel implements \Magento\Url\ScopeInterface
     /**
      * Format price with currency filter (taking rate into consideration)
      *
-     * @param   double $price
+     * @param   float $price
      * @param   bool $includeContainer
      * @return  string
      */
@@ -990,7 +1000,7 @@ class Store extends AbstractModel implements \Magento\Url\ScopeInterface
     /**
      * Get store price filter
      *
-     * @return \Magento\Filter\Sprintf
+     * @return Filter|\Magento\Filter\Sprintf
      */
     public function getPriceFilter()
     {
@@ -1024,6 +1034,7 @@ class Store extends AbstractModel implements \Magento\Url\ScopeInterface
      * Set group model for store
      *
      * @param \Magento\Core\Model\Store\Group $group
+     * @return void
      */
     public function setGroup($group)
     {
@@ -1134,9 +1145,9 @@ class Store extends AbstractModel implements \Magento\Url\ScopeInterface
         }
 
         return $storeParsedUrl['scheme'] . '://' . $storeParsedUrl['host']
-            . (isset($storeParsedUrl['port']) ? ':' . $storeParsedUrl['port'] : '')
-            . $storeParsedUrl['path'] . $requestString
-            . ($storeParsedQuery ? '?'.http_build_query($storeParsedQuery, '', '&amp;') : '');
+        . (isset($storeParsedUrl['port']) ? ':' . $storeParsedUrl['port'] : '')
+        . $storeParsedUrl['path'] . $requestString
+        . ($storeParsedQuery ? '?'.http_build_query($storeParsedQuery, '', '&amp;') : '');
     }
 
     /**
@@ -1164,7 +1175,7 @@ class Store extends AbstractModel implements \Magento\Url\ScopeInterface
      *
      * Register indexing event before delete store
      *
-     * @return \Magento\Core\Model\Store
+     * @return $this
      */
     protected function _beforeDelete()
     {
@@ -1176,9 +1187,9 @@ class Store extends AbstractModel implements \Magento\Url\ScopeInterface
     }
 
     /**
-     * rewrite in order to clear configuration cache
+     * Rewrite in order to clear configuration cache
      *
-     * @return \Magento\Core\Model\Store
+     * @return $this
      */
     protected function _afterDelete()
     {
@@ -1190,7 +1201,7 @@ class Store extends AbstractModel implements \Magento\Url\ScopeInterface
     /**
      * Init indexing process after store delete commit
      *
-     * @return \Magento\Core\Model\Store
+     * @return $this
      */
     protected function _afterDeleteCommit()
     {
@@ -1203,7 +1214,7 @@ class Store extends AbstractModel implements \Magento\Url\ScopeInterface
     /**
      * Reinit and reset Config Data
      *
-     * @return \Magento\Core\Model\Store
+     * @return $this
      */
     public function resetConfig()
     {
@@ -1247,7 +1258,7 @@ class Store extends AbstractModel implements \Magento\Url\ScopeInterface
      * Set url model for current store
      *
      * @param \Magento\UrlInterface $urlModel
-     * @return \Magento\Core\Model\Store
+     * @return $this
      */
     public function setUrlModel($urlModel)
     {

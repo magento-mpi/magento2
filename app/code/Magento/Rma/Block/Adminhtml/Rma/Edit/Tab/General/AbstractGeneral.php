@@ -63,7 +63,7 @@ class AbstractGeneral extends \Magento\Backend\Block\Widget\Form
     /**
      * Add specific fieldset block to parent block form
      *
-     * @return \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\AbstractGeneral
+     * @return $this
      */
     protected function _prepareForm()
     {
@@ -95,7 +95,7 @@ class AbstractGeneral extends \Magento\Backend\Block\Widget\Form
      * Getter of model's data
      *
      * @param string $field
-     * @return mixed
+     * @return mixed|null
      */
     public function getRmaData($field)
     {
