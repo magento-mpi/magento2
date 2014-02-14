@@ -116,7 +116,8 @@ class Sidebar extends \Magento\Wishlist\Block\AbstractBlock implements \Magento\
     {
         $identities = array();
         foreach ($this->getWishlistItems() as $item) {
-            $identities[] = $item->getIdentities();
+            /** @var $item \Magento\Wishlist\Model\Item */
+            $identities = array_merge($identities, $item->getProduct()->getIdentities());
         }
         return $identities;
     }
