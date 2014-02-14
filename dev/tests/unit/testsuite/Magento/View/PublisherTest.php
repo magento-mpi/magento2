@@ -166,10 +166,13 @@ class PublisherTest extends \PHPUnit_Framework_TestCase
         $filePath = 'some/file/path.css';
         $params = ['some', 'array4'];
         $sourcePath = 'some/source/path.css';
-        $result = 'some/full/source/path.css';
-        $timeSource = ['mtime' => 111];
-        $timeTarget = ['mtime' => 111];
-        $isExistsTarget = true;
+        $result = $testConfig['result'];
+        $timeSource = $testConfig['timeSource'];
+        $timeTarget = $testConfig['timeTarget'];
+        $isExistsTarget = $testConfig['isExistsTarget'];
+        $shouldBeUpdated = $testConfig['shouldBeUpdated'];
+        $isFile = $testConfig['isFile'];
+        $isDirectory = $testConfig['isDirectory'];
 
         $this->prepareCommonMocks($filePath, $params);
 
@@ -214,16 +217,13 @@ class PublisherTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo($uniquePath))
             ->will($this->returnValue($isExistsTarget));
 
-        if (!$isExistsTarget) {
+        if ($isExistsTarget) {
             $this->pubDirectory->expects($this->once())
                 ->method('stat')
                 ->with($this->equalTo($uniquePath))
                 ->will($this->returnValue($timeTarget));
         }
 
-        $shouldBeUpdated = true;
-        $isFile = true;
-        $isDirectory = true;
         if ($shouldBeUpdated) {
             if ($isFile) {
                 $this->rootDirectory->expects($this->once())
@@ -267,24 +267,24 @@ class PublisherTest extends \PHPUnit_Framework_TestCase
     public function getPublicFilePathDataProvider()
     {
         return [
-            'file that should be published' => [
+            'file that should be published mtime' => [
                 [
                     'isExistsTarget' => true,
-                    'timeSource' => 111,
-                    'timeTarget' => 111,
+                    'timeSource' => ['mtime' => 121],
+                    'timeTarget' => ['mtime' => 111],
                     'shouldBeUpdated' => true,
                     'isFile' => true,
                     'isDirectory' => false,
                     'result' => 'some/file/path.css',
                 ],
             ],
-            'file that should not be published' => [
+            'file that should be published not exist' => [
                 [
                     'isExistsTarget' => false,
-                    'timeSource' => 111,
-                    'timeTarget' => 111,
+                    'timeSource' => ['mtime' => 111],
+                    'timeTarget' => ['mtime' => 111],
                     'shouldBeUpdated' => false,
-                    'isFile' => true,
+                    'isFile' => false,
                     'isDirectory' => false,
                     'result' => 'some/file/path.img',
                 ],
@@ -292,8 +292,8 @@ class PublisherTest extends \PHPUnit_Framework_TestCase
             'dir that should be published' => [
                 [
                     'isExistsTarget' => true,
-                    'timeSource' => 111,
-                    'timeTarget' => 111,
+                    'timeSource' => ['mtime' => 121],
+                    'timeTarget' => ['mtime' => 111],
                     'shouldBeUpdated' => true,
                     'isFile' => false,
                     'isDirectory' => true,
@@ -303,8 +303,8 @@ class PublisherTest extends \PHPUnit_Framework_TestCase
             'not dir not a file' => [
                 [
                     'isExistsTarget' => true,
-                    'timeSource' => 111,
-                    'timeTarget' => 111,
+                    'timeSource' => ['mtime' => 121],
+                    'timeTarget' => ['mtime' => 111],
                     'shouldBeUpdated' => true,
                     'isFile' => false,
                     'isDirectory' => false,
