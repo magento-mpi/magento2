@@ -28,13 +28,6 @@ class Status extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_productAttributes  = array();
 
     /**
-     * Catalog product
-     *
-     * @var \Magento\Catalog\Model\Product
-     */
-    protected $_catalogProduct;
-
-    /**
      * Store manager
      *
      * @var \Magento\Core\Model\StoreManagerInterface
@@ -42,7 +35,7 @@ class Status extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_storeManager;
 
     /**
-     * Catalog product1
+     * Catalog product
      *
      * @var \Magento\Catalog\Model\Resource\Product
      */
@@ -52,17 +45,14 @@ class Status extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param \Magento\App\Resource $resource
      * @param \Magento\Catalog\Model\Resource\Product $productResource
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Catalog\Model\Product $catalogProduct
      */
     public function __construct(
         \Magento\App\Resource $resource,
         \Magento\Catalog\Model\Resource\Product $productResource,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Catalog\Model\Product $catalogProduct
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         $this->_productResource = $productResource;
         $this->_storeManager = $storeManager;
-        $this->_catalogProduct = $catalogProduct;
         parent::__construct($resource);
     }
 
@@ -96,7 +86,7 @@ class Status extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected function _getProductAttribute($attribute)
     {
         if (empty($this->_productAttributes[$attribute])) {
-            $this->_productAttributes[$attribute] = $this->_catalogProduct->getResource()->getAttribute($attribute);
+            $this->_productAttributes[$attribute] = $this->_productResource->getAttribute($attribute);
         }
         return $this->_productAttributes[$attribute];
     }
