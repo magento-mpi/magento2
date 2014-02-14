@@ -43,7 +43,7 @@ class Block extends \Magento\App\Action\Action
         $ttl = 0;
 
         if (!empty($blocks)){
-            $blockInstance = array_shift($block);
+            $blockInstance = array_shift($blocks);
             $html = $blockInstance->toHtml();
             $ttl = $blockInstance->getTtl();
         }
