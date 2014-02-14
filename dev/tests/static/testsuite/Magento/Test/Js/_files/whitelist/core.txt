@@ -15,4 +15,4 @@ app/code/Magento/Persistent
 app/code/Magento/Sales
 app/code/Magento/Theme
 app/code/Magento/Wishlist
-pub/lib/mage
+lib/web/mage

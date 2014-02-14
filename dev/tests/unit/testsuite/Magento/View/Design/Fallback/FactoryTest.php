@@ -33,7 +33,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
             array('dir' => array(
                 \Magento\App\Filesystem::THEMES_DIR => 'themes',
                 \Magento\App\Filesystem::MODULES_DIR => 'modules',
-                \Magento\App\Filesystem::PUB_LIB_DIR => 'pub_lib',
+                \Magento\App\Filesystem::LIB_WEB => 'lib_web',
                 )
             ),
             '',
@@ -45,7 +45,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
                 array(
                     (\Magento\App\Filesystem::THEMES_DIR) => 'themes',
                     (\Magento\App\Filesystem::MODULES_DIR) => 'modules',
-                    (\Magento\App\Filesystem::PUB_LIB_DIR) => 'pub_lib',
+                    (\Magento\App\Filesystem::LIB_WEB) => 'lib_web',
                 ))
             );
 

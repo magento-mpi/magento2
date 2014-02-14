@@ -45,16 +45,16 @@ class DesignTest extends \PHPUnit_Framework_TestCase
         $themeDir->delete('theme/frontend');
         $themeDir->delete('theme/_merged');
 
-        $pubLibPath = $filesystem->getPath(\Magento\App\Filesystem::PUB_LIB_DIR);
-        copy($pubLibPath . '/prototype/prototype.js', $pubLibPath . '/prototype/prototype.min.js');
+        $libPath = $filesystem->getPath(\Magento\App\Filesystem::LIB_WEB);
+        copy($libPath . '/prototype/prototype.js', $libPath . '/prototype/prototype.min.js');
     }
 
     public static function tearDownAfterClass()
     {
         /** @var \Magento\App\Filesystem $filesystem */
         $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Filesystem');
-        $pubLibPath = $filesystem->getPath(\Magento\App\Filesystem::PUB_LIB_DIR);
-        unlink($pubLibPath . '/prototype/prototype.min.js');
+        $libPath = $filesystem->getPath(\Magento\App\Filesystem::LIB_WEB);
+        unlink($libPath . '/prototype/prototype.min.js');
     }
 
     protected function setUp()
@@ -320,7 +320,7 @@ class DesignTest extends \PHPUnit_Framework_TestCase
     public function testGetPublicFileUrl()
     {
         $pubLibFile = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Filesystem')
-                ->getPath(\Magento\App\Filesystem::PUB_LIB_DIR) . '/jquery/jquery.js';
+                ->getPath(\Magento\App\Filesystem::LIB_WEB) . '/jquery/jquery.js';
         $actualResult = $this->_viewUrl->getPublicFileUrl($pubLibFile);
         $this->assertStringEndsWith('/jquery/jquery.js', $actualResult);
     }
@@ -331,7 +331,7 @@ class DesignTest extends \PHPUnit_Framework_TestCase
     public function testGetPublicFileUrlSigned()
     {
         $pubLibFile = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Filesystem')
-                ->getPath(\Magento\App\Filesystem::PUB_LIB_DIR) . '/jquery/jquery.js';
+                ->getPath(\Magento\App\Filesystem::LIB_WEB) . '/jquery/jquery.js';
         $actualResult = $this->_viewUrl->getPublicFileUrl($pubLibFile);
         $this->assertStringMatchesFormat('%a/jquery/jquery.js?%d', $actualResult);
     }

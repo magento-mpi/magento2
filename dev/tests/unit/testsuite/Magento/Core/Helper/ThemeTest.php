@@ -17,7 +17,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
     const APP_DIR = '/zzz/qqq';
     const MODULES_DIR = '/zzz/qqq/code00';
     const THEMES_DIR = '/zzz/qqq/design00';
-    const PUB_LIB_DIR = '/zzz/qqq/js00';
+    const LIB_WEB = '/zzz/qqq/js00';
 
     /**
      * @dataProvider getCssFilesDataProvider
@@ -480,7 +480,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
                 array(\Magento\App\Filesystem::APP_DIR, self::APP_DIR),
                 array(\Magento\App\Filesystem::MODULES_DIR, self::MODULES_DIR),
                 array(\Magento\App\Filesystem::THEMES_DIR, self::THEMES_DIR),
-                array(\Magento\App\Filesystem::PUB_LIB_DIR, self::PUB_LIB_DIR),
+                array(\Magento\App\Filesystem::LIB_WEB, self::LIB_WEB),
             )));
 
         return $filesystem;

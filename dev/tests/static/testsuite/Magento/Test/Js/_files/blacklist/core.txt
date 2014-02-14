@@ -13,8 +13,8 @@ app/code/Magento/Sales/view/adminhtml/order/create/scripts.js
 app/code/Magento/Sales/view/adminhtml/order/giftoptions_tooltip.js
 app/code/Magento/Shipping/view/adminhtml/order/packaging.js
 app/code/Magento/Theme/view/frontend/menu.js
-pub/lib/mage/adminhtml
-pub/lib/mage/backend/editablemultiselect.js
-pub/lib/mage/captcha.js
-pub/lib/mage/flex.js
-pub/lib/mage/jquery-no-conflict.js
+lib/web/mage/adminhtml
+lib/web/mage/backend/editablemultiselect.js
+lib/web/mage/captcha.js
+lib/web/mage/flex.js
+lib/web/mage/jquery-no-conflict.js

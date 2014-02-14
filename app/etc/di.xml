@@ -244,12 +244,6 @@
     <type name="Magento\View\Url">
         <param name="fileUrlMap">
             <array>
-                <item key="urlLib">
-                    <array>
-                        <item key="key"><value type="const">Magento\UrlInterface::URL_TYPE_LIB</value></item>
-                        <item key="value"><value type="const">Magento\App\Filesystem::PUB_LIB_DIR</value></item>
-                    </array>
-                </item>
                 <item key="urlMedia">
                     <array>
                         <item key="key"><value type="const">Magento\UrlInterface::URL_TYPE_MEDIA</value></item>

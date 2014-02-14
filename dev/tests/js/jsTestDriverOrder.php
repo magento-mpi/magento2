@@ -13,12 +13,12 @@
  * @return array
  */
 return array(
-    '/pub/lib/jquery/jquery.js',
-    '/pub/lib/jquery/jquery-ui.js',
-    '/pub/lib/jquery/jquery.cookie.js',
-    '/pub/lib/headjs/head.load.min.js',
-    '/pub/lib/mage/mage.js',
-    '/pub/lib/mage/decorate.js',
-    '/pub/lib/jquery/jquery.validate.js',
-    '/pub/lib/jquery/jquery.metadata.js'
+    '/lib/web/jquery/jquery.js',
+    '/lib/web/jquery/jquery-ui.js',
+    '/lib/web/jquery/jquery.cookie.js',
+    '/lib/web/headjs/head.load.min.js',
+    '/lib/web/mage/mage.js',
+    '/lib/web/mage/decorate.js',
+    '/lib/web/jquery/jquery.validate.js',
+    '/lib/web/jquery/jquery.metadata.js'
 );

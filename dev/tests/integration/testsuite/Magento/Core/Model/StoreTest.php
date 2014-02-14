@@ -167,10 +167,6 @@ class StoreTest extends \PHPUnit_Framework_TestCase
             array(\Magento\UrlInterface::URL_TYPE_CACHE, false, true,  'http://localhost/pub/cache/'),
             array(\Magento\UrlInterface::URL_TYPE_CACHE, true,  false, 'http://localhost/pub/cache/'),
             array(\Magento\UrlInterface::URL_TYPE_CACHE, true,  true,  'http://localhost/pub/cache/'),
-            array(\Magento\UrlInterface::URL_TYPE_LIB, false, false, 'http://localhost/pub/lib/'),
-            array(\Magento\UrlInterface::URL_TYPE_LIB, false, true,  'http://localhost/pub/lib/'),
-            array(\Magento\UrlInterface::URL_TYPE_LIB, true,  false, 'http://localhost/pub/lib/'),
-            array(\Magento\UrlInterface::URL_TYPE_LIB, true,  true,  'http://localhost/pub/lib/'),
             array(\Magento\UrlInterface::URL_TYPE_MEDIA, false, false, 'http://localhost/pub/media/'),
             array(\Magento\UrlInterface::URL_TYPE_MEDIA, false, true,  'http://localhost/pub/media/'),
             array(\Magento\UrlInterface::URL_TYPE_MEDIA, true,  false, 'http://localhost/pub/media/'),
@@ -192,10 +188,6 @@ class StoreTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             'http://localhost/pub/static/',
             $this->_model->getBaseUrl(\Magento\UrlInterface::URL_TYPE_STATIC)
-        );
-        $this->assertEquals(
-            'http://localhost/pub/lib/',
-            $this->_model->getBaseUrl(\Magento\UrlInterface::URL_TYPE_LIB)
         );
         $this->assertEquals(
             'http://localhost/pub/media/',

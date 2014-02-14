@@ -539,7 +539,7 @@ return array(
     array('UPLOAD_ROOT', 'Magento\Backend\Model\Config\Backend\Logo'),
     array('UPLOAD_ROOT', 'Magento\Backend\Model\Config\Backend\Favicon'),
     array('DIRECTORY_SEPARATOR', 'Magento\Filesystem'),
-    
+
     array('MAX_QTY_VALUE', '\Magento\Catalog\Controller\Adminhtml\Product',
         'Magento\Catalog\Controller\Adminhtml\Product\Initialization\StockDataFilter::MAX_QTY_VALUE'
     ),
@@ -560,7 +560,8 @@ return array(
     array('LIB', '\Magento\Filesystem', '\Magento\App\Filesystem::LIB_DIR'),
     array('LOCALE', '\Magento\Filesystem', '\Magento\App\Filesystem::LOCALE_DIR'),
     array('PUB', '\Magento\Filesystem', '\Magento\App\Filesystem::PUB_DIR'),
-    array('PUB_LIB', '\Magento\Filesystem', '\Magento\App\Filesystem::PUB_LIB_DIR'),
+    array('PUB_LIB', '\Magento\Filesystem', '\Magento\App\Filesystem::LIB_WEB'),
+    array('PUB_LIB_DIR', '\Magento\App\Filesystem', '\Magento\App\Filesystem::LIB_WEB'),
     array('MEDIA', '\Magento\Filesystem', '\Magento\App\Filesystem::MEDIA_DIR'),
     array('STATIC_VIEW', '\Magento\Filesystem', '\Magento\App\Filesystem::STATIC_VIEW_DIR'),
     array('PUB_VIEW_CACHE', '\Magento\Filesystem', '\Magento\App\Filesystem::PUB_VIEW_CACHE_DIR'),

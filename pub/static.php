@@ -9,6 +9,6 @@
  */
 require __DIR__ . '/../app/bootstrap.php';
 
-// todo: how to configure custom pub/lib
+// todo: how to configure custom lib/web
 $entryPoint = new \Magento\App\EntryPoint\EntryPoint(BP, $_SERVER);
 $entryPoint->run('Magento\App\StaticResource');

@@ -89,7 +89,7 @@ class Factory
     {
         $themesDir = $this->filesystem->getPath(Filesystem::THEMES_DIR);
         $modulesDir = $this->filesystem->getPath(Filesystem::MODULES_DIR);
-        $pubLibDir = $this->filesystem->getPath(Filesystem::PUB_LIB_DIR);
+        $libDir = $this->filesystem->getPath(Filesystem::LIB_WEB);
         return new ModularSwitch(
             new Composite(
                 array(
@@ -106,7 +106,7 @@ class Factory
                             )
                         )
                     ),
-                    new Simple($pubLibDir),
+                    new Simple($libDir),
                 )
             ),
             new Composite(

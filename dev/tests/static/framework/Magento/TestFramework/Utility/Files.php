@@ -437,7 +437,7 @@ class Files
             array(
                 "{$this->_path}/app/code/{$namespace}/{$module}/view/{$area}",
                 "{$this->_path}/app/design/{$area}/{$theme}/skin/{$skin}",
-                "{$this->_path}/pub/lib/{mage,varien}"
+                "{$this->_path}/lib/web/{mage,varien}"
             ),
             '*.js'
         );
@@ -461,7 +461,7 @@ class Files
         $paths = array(
             "{$this->_path}/app/code/{$namespace}/{$module}/view/{$area}",
             "{$this->_path}/app/design/{$area}/{$theme}",
-            "{$this->_path}/pub/lib/varien",
+            "{$this->_path}/lib/web/varien",
         );
         $files = self::getFiles(
             $paths,
@@ -470,12 +470,12 @@ class Files
 
         if ($area == 'adminhtml') {
             $adminhtmlPaths = array(
-                "{$this->_path}/pub/lib/mage/{adminhtml,backend}",
+                "{$this->_path}/lib/web/mage/{adminhtml,backend}",
             );
             $files = array_merge($files, self::getFiles($adminhtmlPaths, '*.js'));
         } else {
-            $frontendPaths = array("{$this->_path}/pub/lib/mage");
-            /* current structure of /pub/lib/mage directory contains frontend javascript in the root,
+            $frontendPaths = array("{$this->_path}/lib/web/mage");
+            /* current structure of /lib/web/mage directory contains frontend javascript in the root,
                backend javascript in subdirectories. That's why script shouldn't go recursive throught subdirectories
                to get js files for frontend */
             $files = array_merge($files, self::getFiles($frontendPaths, '*.js', false));

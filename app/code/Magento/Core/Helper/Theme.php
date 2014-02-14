@@ -129,7 +129,7 @@ class Theme extends \Magento\App\Helper\AbstractHelper
      */
     public function getGroupedCssFiles($theme)
     {
-        $jsDir = $this->_filesystem->getPath(\Magento\App\Filesystem::PUB_LIB_DIR);
+        $libDir = $this->_filesystem->getPath(\Magento\App\Filesystem::LIB_WEB);
         $codeDir = $this->_filesystem->getPath(\Magento\App\Filesystem::MODULES_DIR);
         $designDir = $this->_filesystem->getPath(\Magento\App\Filesystem::THEMES_DIR);
 
@@ -137,7 +137,7 @@ class Theme extends \Magento\App\Helper\AbstractHelper
         $themes = array();
         foreach ($this->getCssFiles($theme) as $file) {
             $this->_detectTheme($file, $designDir);
-            $this->_detectGroup($file, $designDir, $jsDir, $codeDir);
+            $this->_detectGroup($file, $designDir, $libDir, $codeDir);
 
             if (isset($file['theme']) && $file['theme']->getThemeId()) {
                 $themes[$file['theme']->getThemeId()] = $file['theme'];
@@ -160,13 +160,13 @@ class Theme extends \Magento\App\Helper\AbstractHelper
             $themes = $this->_sortThemesByHierarchy($themes);
         }
 
-        $order = array_merge(array($codeDir, $jsDir), array_map(function ($fileTheme) {
+        $order = array_merge(array($codeDir, $libDir), array_map(function ($fileTheme) {
             /** @var $fileTheme \Magento\View\Design\ThemeInterface */
             return $fileTheme->getThemeId();
         }, $themes));
         $groups = $this->_sortArrayByArray($groups, $order);
 
-        $labels = $this->_getGroupLabels($themes, $jsDir, $codeDir);
+        $labels = $this->_getGroupLabels($themes, $libDir, $codeDir);
         foreach ($groups as $key => $group) {
             usort($group, array($this, '_sortGroupFilesCallback'));
             $groups[$labels[$key]] = $group;

@@ -51,7 +51,7 @@ class Library implements SourceInterface
         Factory $fileFactory
     ) {
         $this->fileListFactory = $fileListFactory;
-        $this->libraryDirectory = $filesystem->getDirectoryRead(Filesystem::PUB_LIB_DIR);
+        $this->libraryDirectory = $filesystem->getDirectoryRead(Filesystem::LIB_WEB);
         $this->themesDirectory = $filesystem->getDirectoryRead(Filesystem::THEMES_DIR);
         $this->fileFactory = $fileFactory;
     }

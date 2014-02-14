@@ -49,7 +49,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
 
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
             \Magento\App\Filesystem::PARAM_APP_DIRS => array(
-                \Magento\App\Filesystem::PUB_LIB_DIR => array(
+                \Magento\App\Filesystem::LIB_WEB => array(
                     'path' => $this->tmpDirectory->getAbsolutePath() . '/' . self::LIB_SUB_DIR
                 ),
             )

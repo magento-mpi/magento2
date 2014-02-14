@@ -48,8 +48,6 @@ class Store extends AbstractModel
     const XML_PATH_SECURE_IN_ADMINHTML      = 'web/secure/use_in_adminhtml';
     const XML_PATH_SECURE_BASE_LINK_URL     = 'web/secure/base_link_url';
     const XML_PATH_UNSECURE_BASE_LINK_URL   = 'web/unsecure/base_link_url';
-    const XML_PATH_SECURE_BASE_LIB_URL      = 'web/secure/base_lib_url';
-    const XML_PATH_UNSECURE_BASE_LIB_URL    = 'web/unsecure/base_lib_url';
     const XML_PATH_SECURE_BASE_STATIC_URL   = 'web/secure/base_static_url';
     const XML_PATH_UNSECURE_BASE_STATIC_URL = 'web/unsecure/base_static_url';
     const XML_PATH_SECURE_BASE_CACHE_URL    = 'web/secure/base_cache_url';
@@ -544,15 +542,6 @@ class Store extends AbstractModel
                     $path = $secure ? self::XML_PATH_SECURE_BASE_LINK_URL : self::XML_PATH_UNSECURE_BASE_LINK_URL;
                     $url = $this->getConfig($path);
                     $url = $this->_updatePathUseRewrites($url);
-                    break;
-
-                case \Magento\UrlInterface::URL_TYPE_LIB:
-                    $path = $secure ? self::XML_PATH_SECURE_BASE_LIB_URL : self::XML_PATH_UNSECURE_BASE_LIB_URL;
-                    $url = $this->getConfig($path);
-                    if (!$url) {
-                        $url = $this->getBaseUrl(\Magento\UrlInterface::URL_TYPE_WEB, $secure)
-                            . $this->filesystem->getUri(\Magento\App\Filesystem::PUB_LIB_DIR);
-                    }
                     break;
 
                 case \Magento\UrlInterface::URL_TYPE_STATIC:

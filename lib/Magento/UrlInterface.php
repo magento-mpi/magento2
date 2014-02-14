@@ -15,7 +15,6 @@ interface UrlInterface
     const URL_TYPE_LINK                   = 'link';
     const URL_TYPE_DIRECT_LINK            = 'direct_link';
     const URL_TYPE_WEB                    = 'web';
-    const URL_TYPE_LIB                    = 'lib';
     const URL_TYPE_MEDIA                  = 'media';
     const URL_TYPE_STATIC                 = 'static';
     const URL_TYPE_CACHE                  = 'cache';

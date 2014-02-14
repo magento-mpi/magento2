@@ -242,7 +242,7 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
             ),
             'non-modular: inherit js lib file' => array(
                 'mage/script.js', 'frontend', 'vendor_default', null, null,
-                '%s/pub/lib/mage/script.js',
+                '%s/lib/web/mage/script.js',
             ),
             'modular: no default inheritance' => array(
                 'fixture_script.js', 'frontend', 'vendor_standalone_theme', null, 'Fixture_Module',
