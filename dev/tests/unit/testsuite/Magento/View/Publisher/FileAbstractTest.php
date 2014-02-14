@@ -8,15 +8,10 @@
 
 namespace Magento\View\Publisher;
 
-use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
-
 class FileAbstractTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Magento\View\Publisher\FileAbstract */
+    /** @var \Magento\View\Publisher\FileAbstract|\PHPUnit_Framework_MockObject_MockObject */
     protected $fileAbstract;
-
-    /** @var ObjectManagerHelper */
-    protected $objectManagerHelper;
 
     /** @var \Magento\App\Filesystem|\PHPUnit_Framework_MockObject_MockObject */
     protected $filesystemMock;
@@ -37,12 +32,11 @@ class FileAbstractTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param string $filePath
-     * @param bool $allowDuplication
      * @param array $viewParams
      * @param null|string $sourcePath
      * @param null|string $fallback
      */
-    protected function getModelMock($filePath, $allowDuplication, $viewParams, $sourcePath = null, $fallback = null)
+    protected function getModelMock($filePath, $viewParams, $sourcePath = null, $fallback = null)
     {
         $this->rootDirectory = $this->getMock('Magento\Filesystem\Directory\WriteInterface');
 
@@ -66,8 +60,6 @@ class FileAbstractTest extends \PHPUnit_Framework_TestCase
                 ->will($this->returnValue('related\\' . $fallback));
         }
 
-
-        $this->objectManagerHelper = new ObjectManagerHelper($this);
         $this->fileAbstract = $this->getMockForAbstractClass(
             'Magento\View\Publisher\FileAbstract',
             [
@@ -76,7 +68,7 @@ class FileAbstractTest extends \PHPUnit_Framework_TestCase
                 'modulesReader' => $this->readerMock,
                 'viewFileSystem' => $this->viewFileSystem,
                 'filePath' => $filePath,
-                'allowDuplication' => $allowDuplication,
+                'allowDuplication' => true,
                 'viewParams' => $viewParams,
                 'sourcePath' => $sourcePath
             ]
@@ -90,7 +82,7 @@ class FileAbstractTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetExtension($filePath, $expected)
     {
-        $this->getModelMock($filePath, true, ['some', 'array']);
+        $this->getModelMock($filePath, ['some', 'array']);
         $this->assertSame($expected, $this->fileAbstract->getExtension());
     }
 
@@ -116,7 +108,7 @@ class FileAbstractTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsSourceFileExists($filePath, $isExist, $sourcePath, $fallback, $expected)
     {
-        $this->getModelMock($filePath, true, ['some', 'array'], $sourcePath, $fallback);
+        $this->getModelMock($filePath, ['some', 'array'], $sourcePath, $fallback);
         if ($fallback) {
             $this->rootDirectory->expects($this->once())
                 ->method('isExist')
@@ -167,20 +159,20 @@ class FileAbstractTest extends \PHPUnit_Framework_TestCase
     public function testGetFilePath()
     {
         $filePath = 'test\me';
-        $this->getModelMock($filePath, true, ['some', 'array']);
+        $this->getModelMock($filePath, ['some', 'array']);
         $this->assertSame($filePath, $this->fileAbstract->getFilePath());
     }
 
     public function testGetViewParams()
     {
         $viewParams = ['some', 'array'];
-        $this->getModelMock('some\file', true, $viewParams);
+        $this->getModelMock('some\file', $viewParams);
         $this->assertSame($viewParams, $this->fileAbstract->getViewParams());
     }
 
     public function testBuildPublicViewFilename()
     {
-        $this->getModelMock('some\file', true, []);
+        $this->getModelMock('some\file', []);
         $this->serviceMock->expects($this->once())
             ->method('getPublicDir')->will($this->returnValue('/some/pub/dir'));
 
@@ -201,7 +193,7 @@ class FileAbstractTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetSourcePath($filePath, $isExist, $sourcePath, $fallback, $expected)
     {
-        $this->getModelMock($filePath, true, ['some', 'array'], $sourcePath, $fallback);
+        $this->getModelMock($filePath, ['some', 'array'], $sourcePath, $fallback);
         if ($fallback) {
             $this->rootDirectory->expects($this->once())
                 ->method('isExist')
