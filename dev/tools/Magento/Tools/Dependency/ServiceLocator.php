@@ -12,7 +12,9 @@ use Magento\File\Csv;
 use Magento\Tools\Dependency\Parser;
 use Magento\Tools\Dependency\Report\Dependency;
 use Magento\Tools\Dependency\Report\Circular;
-use Magento\TestFramework\Dependency\Circular as CircularTool;
+use Magento\Tools\Dependency\Report\Framework;
+use Magento\Tools\Dependency\Circular as CircularTool;
+use Magento\TestFramework\Utility\Files;
 
 /**
  *  Service Locator (instead DI container)
@@ -20,25 +22,39 @@ use Magento\TestFramework\Dependency\Circular as CircularTool;
 class ServiceLocator
 {
     /**
-     * Xml dependencies parser
+     * Xml config dependencies parser
      *
      * @var \Magento\Tools\Dependency\ParserInterface
      */
-    private static $configDependenciesParser;
+    private static $xmlConfigParser;
 
     /**
-     * Dependencies report builder
+     * Framework dependencies parser
+     *
+     * @var \Magento\Tools\Dependency\ParserInterface
+     */
+    private static $frameworkDependenciesParser;
+
+    /**
+     * Modules dependencies report builder
      *
      * @var \Magento\Tools\Dependency\Report\BuilderInterface
      */
     private static $dependenciesReportBuilder;
 
     /**
-     * Circular dependencies report builder
+     * Modules circular dependencies report builder
      *
      * @var \Magento\Tools\Dependency\Report\BuilderInterface
      */
     private static $circularDependenciesReportBuilder;
+
+    /**
+     * Framework dependencies report builder
+     *
+     * @var \Magento\Tools\Dependency\Report\BuilderInterface
+     */
+    private static $frameworkDependenciesReportBuilder;
 
     /**
      * Get modules dependencies report builder
@@ -49,7 +65,7 @@ class ServiceLocator
     {
         if (null === self::$dependenciesReportBuilder) {
             self::$dependenciesReportBuilder = new Dependency\Builder(
-                self::getConfigDependenciesParser(),
+                self::getXmlConfigParser(),
                 new Dependency\Writer((new Csv())->setDelimiter(';'))
             );
         }
@@ -65,7 +81,7 @@ class ServiceLocator
     {
         if (null === self::$circularDependenciesReportBuilder) {
             self::$circularDependenciesReportBuilder = new Circular\Builder(
-                self::getConfigDependenciesParser(),
+                self::getXmlConfigParser(),
                 new Circular\Writer((new Csv())->setDelimiter(';')),
                 new CircularTool(array(), null)
             );
@@ -80,18 +96,41 @@ class ServiceLocator
      */
     public static function getFrameworkDependenciesReportBuilder()
     {
+        if (null === self::$frameworkDependenciesReportBuilder) {
+            self::$frameworkDependenciesReportBuilder = new Framework\Builder(
+                self::getFrameworkDependenciesParser(),
+                new Framework\Writer((new Csv())->setDelimiter(';')),
+                self::getXmlConfigParser()
+            );
+        }
+        return self::$frameworkDependenciesReportBuilder;
     }
 
     /**
-     * Get dependencies parser from config files
+     * Get modules dependencies parser
      *
      * @return \Magento\Tools\Dependency\ParserInterface
      */
-    private static function getConfigDependenciesParser()
+    private static function getXmlConfigParser()
     {
-        if (null === self::$configDependenciesParser) {
-            self::$configDependenciesParser = new Parser\Config();
+        if (null === self::$xmlConfigParser) {
+            self::$xmlConfigParser = new Parser\Config\Xml();
         }
-        return self::$configDependenciesParser;
+        return self::$xmlConfigParser;
+    }
+
+    /**
+     * Get framework dependencies parser
+     *
+     * @return \Magento\Tools\Dependency\ParserInterface
+     */
+    private static function getFrameworkDependenciesParser()
+    {
+        if (null === self::$frameworkDependenciesParser) {
+            self::$frameworkDependenciesParser = new Parser\Code(
+                Files::init()->getNamespaces()
+            );
+        }
+        return self::$frameworkDependenciesParser;
     }
 }

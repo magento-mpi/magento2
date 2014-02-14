@@ -18,14 +18,14 @@ class Module
      *
      * @var string
      */
-    private $name;
+    protected $name;
 
     /**
      * Circular dependencies chains
      *
      * @var \Magento\Tools\Dependency\Report\Circular\Data\Chain[]
      */
-    private $chains;
+    protected $chains;
 
     /**
      * Module construct

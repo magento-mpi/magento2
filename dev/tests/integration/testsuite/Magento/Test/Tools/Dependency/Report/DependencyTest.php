@@ -10,10 +10,7 @@ namespace Magento\Test\Tools\Dependency\Report\Builder;
 
 use Magento\Tools\Dependency\ServiceLocator;
 
-// TODO:
-require_once BP . '/dev/tests/static/framework/Magento/TestFramework/Dependency/Circular.php';
-
-class Circular extends \PHPUnit_Framework_TestCase
+class DependencyTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var string
@@ -33,23 +30,23 @@ class Circular extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->fixtureDir = realpath(__DIR__ . '/../_files') . '/';
-        $this->sourceFilename = $this->fixtureDir . 'modules-circular-dependencies.csv';
+        $this->sourceFilename = $this->fixtureDir . 'dependencies.csv';
 
-        $this->builder = ServiceLocator::getCircularDependenciesReportBuilder();
+        $this->builder = ServiceLocator::getDependenciesReportBuilder();
     }
 
     public function testBuild()
     {
         $this->builder->build([
-            'configFiles' => [
-                $this->fixtureDir . 'config4.xml',
-                $this->fixtureDir . 'config5.xml',
+            'files_for_parse' => [
+                $this->fixtureDir . 'config1.xml',
+                $this->fixtureDir . 'config2.xml',
             ],
-            'filename' => $this->sourceFilename,
+            'report_filename' => $this->sourceFilename,
         ]);
 
         $this->assertFileEquals(
-            $this->fixtureDir . 'expected/modules-circular-dependencies.csv',
+            $this->fixtureDir . 'expected/dependencies.csv',
             $this->sourceFilename
         );
     }
@@ -57,14 +54,14 @@ class Circular extends \PHPUnit_Framework_TestCase
     public function testBuildWithoutDependencies()
     {
         $this->builder->build([
-            'configFiles' => [
+            'files_for_parse' => [
                 $this->fixtureDir . 'config3.xml',
             ],
-            'filename' => $this->sourceFilename,
+            'report_filename' => $this->sourceFilename,
         ]);
 
         $this->assertFileEquals(
-            $this->fixtureDir . 'expected/modules-without-circular-dependencies.csv',
+            $this->fixtureDir . 'expected/without-dependencies.csv',
             $this->sourceFilename
         );
     }

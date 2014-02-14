@@ -13,7 +13,7 @@ use Magento\Tools\Dependency\ParserInterface;
 use Magento\Tools\Dependency\Report\WriterInterface;
 
 /**
- *  Abstract report builder
+ *  Abstract report builder by config files
  */
 abstract class AbstractBuilder implements BuilderInterface
 {
@@ -30,6 +30,11 @@ abstract class AbstractBuilder implements BuilderInterface
      * @var \Magento\Tools\Dependency\Report\WriterInterface
      */
     protected $reportWriter;
+
+    /**
+     * @var array
+     */
+    protected $options = array();
 
     /**
      * Builder constructor
@@ -53,10 +58,11 @@ abstract class AbstractBuilder implements BuilderInterface
     public function build(array $options)
     {
         $this->checkOptions($options);
+        $this->options = $options;
 
-        $config = $this->prepareData($this->dependenciesParser->parse($options['configFiles']));
+        $config = $this->prepareData($this->dependenciesParser->parse($this->options['files_for_parse']));
 
-        $this->reportWriter->write($options['filename'], $config);
+        $this->reportWriter->write($this->options['report_filename'], $config);
     }
 
     /**
@@ -67,12 +73,12 @@ abstract class AbstractBuilder implements BuilderInterface
      */
     protected function checkOptions($options)
     {
-        if (!isset($options['configFiles']) || empty($options['configFiles'])) {
-            throw new \InvalidArgumentException('Passed option "configFiles" is wrong.');
+        if (!isset($options['files_for_parse']) || empty($options['files_for_parse'])) {
+            throw new \InvalidArgumentException('Passed option "files_for_parse" is wrong.');
         }
 
-        if (!isset($options['filename']) || empty($options['filename'])) {
-            throw new \InvalidArgumentException('Passed option "filename" is wrong.');
+        if (!isset($options['report_filename']) || empty($options['report_filename'])) {
+            throw new \InvalidArgumentException('Passed option "report_filename" is wrong.');
         }
     }
 

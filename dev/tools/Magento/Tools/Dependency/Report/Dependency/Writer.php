@@ -11,7 +11,7 @@ namespace Magento\Tools\Dependency\Report\Dependency;
 use Magento\Tools\Dependency\Report\Writer\Csv\AbstractWriter;
 
 /**
- * Csv file writer for dependencies report
+ * Csv file writer for modules dependencies report
  */
 class Writer extends AbstractWriter
 {

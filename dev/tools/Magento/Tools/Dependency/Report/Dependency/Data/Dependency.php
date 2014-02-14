@@ -25,14 +25,14 @@ class Dependency
      *
      * @var string
      */
-    private $module;
+    protected $module;
 
     /**
      * Dependency type
      *
      * @var string
      */
-    private $type;
+    protected $type;
 
     /**
      * Dependency construct

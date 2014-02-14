@@ -6,14 +6,14 @@
  * @license   {license_link}
  */
 
-namespace Magento\Tools\Dependency\Parser;
+namespace Magento\Tools\Dependency\Parser\Config;
 
 use Magento\Tools\Dependency\ParserInterface;
 
 /**
- * Config parser
+ * Config xml parser
  */
-class Config implements ParserInterface
+class Xml implements ParserInterface
 {
     /**
      * Template method. Main algorithm
@@ -41,7 +41,7 @@ class Config implements ParserInterface
      */
     protected function extractModuleName($config)
     {
-        return (string)$config->attributes()->name;
+        return $this->prepareModuleName((string)$config->attributes()->name);
     }
 
     /**
@@ -57,8 +57,8 @@ class Config implements ParserInterface
         if ($config->depends) {
             foreach ($config->depends->module as $dependency) {
                 $dependencies[] = [
-                    'module' => (string)$dependency->attributes()->name,
-                    'type' => (string)$dependency->attributes()->type
+                    'module' => $this->prepareModuleName((string)$dependency->attributes()->name),
+                    'type' => (string)$dependency->attributes()->type,
                 ];
             }
         }
@@ -74,5 +74,16 @@ class Config implements ParserInterface
     protected function getModuleConfig($file)
     {
         return \simplexml_load_file($file)->xpath('/config/module')[0];
+    }
+
+    /**
+     * Prepare module name
+     *
+     * @param string $name
+     * @return string
+     */
+    protected function prepareModuleName($name)
+    {
+        return str_replace('_', '\\', $name);
     }
 }

@@ -39,7 +39,7 @@ class AbstractBuilderTest extends \PHPUnit_Framework_TestCase
     /**
      * @param array $options
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Passed option "configFiles" is wrong.
+     * @expectedExceptionMessage Passed option "files_for_parse" is wrong.
      * @dataProvider dataProviderWrongOptionConfigFiles
      */
     public function testBuildWithIfPassedFilesIsWrong($options)
@@ -53,15 +53,15 @@ class AbstractBuilderTest extends \PHPUnit_Framework_TestCase
     public function dataProviderWrongOptionConfigFiles()
     {
         return [
-            [['filename' => 'filename']],
-            [['configFiles' => [], 'filename' => 'some_filename']],
+            [['report_filename' => 'some_filename']],
+            [['files_for_parse' => [], 'report_filename' => 'some_filename']],
         ];
     }
 
     /**
      * @param array $options
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Passed option "filename" is wrong.
+     * @expectedExceptionMessage Passed option "report_filename" is wrong.
      * @dataProvider dataProviderWrongOptionFilename
      */
     public function testBuildWithIfPassedFilename($options)
@@ -75,22 +75,23 @@ class AbstractBuilderTest extends \PHPUnit_Framework_TestCase
     public function dataProviderWrongOptionFilename()
     {
         return [
-            [['configFiles' => [1, 2]]],
-            [['configFiles' => [1, 2], 'filename' => '']],
+            [['files_for_parse' => [1, 2]]],
+            [['files_for_parse' => [1, 2], 'report_filename' => '']],
         ];
     }
 
     public function testBuild()
     {
-        $options = ['configFiles' => [1, 2, 3], 'filename' => 'some_filename'];
+        $options = ['files_for_parse' => [1, 2, 3], 'report_filename' => 'some_filename'];
         $parseResult = ['foo', 'bar', 'baz'];
         $configMock = $this->getMock('\Magento\Tools\Dependency\Report\Data\ConfigInterface');
 
-        $this->dependenciesParserMock->expects($this->once())->method('parse')->with($options['configFiles'])
+        $this->dependenciesParserMock->expects($this->once())->method('parse')->with($options['files_for_parse'])
             ->will($this->returnValue($parseResult));
         $this->builder->expects($this->once())->method('prepareData')->with($parseResult)
             ->will($this->returnValue($configMock));
-        $this->reportWriterMock->expects($this->once())->method('write')->with($options['filename'], $configMock);
+        $this->reportWriterMock->expects($this->once())->method('write')
+            ->with($options['report_filename'], $configMock);
 
         $this->builder->build($options);
     }

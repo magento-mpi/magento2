@@ -18,14 +18,14 @@ class Module
      *
      * @var string
      */
-    private $name;
+    protected $name;
 
     /**
      * Module dependencies
      *
      * @var \Magento\Tools\Dependency\Report\Dependency\Data\Dependency[]
      */
-    private $dependencies;
+    protected $dependencies;
 
     /**
      * Module construct

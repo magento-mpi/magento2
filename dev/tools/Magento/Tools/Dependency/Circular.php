@@ -5,12 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\TestFramework\Dependency;
+namespace Magento\Tools\Dependency;
 
 use Magento\Data\Graph;
 
 /**
- * Class Circular
+ * Build circular dependencies by modules map
  */
 class Circular
 {
@@ -41,7 +41,7 @@ class Circular
      * @param array $dependencies Key is the vertex and the value are the adjacent vertices(dependencies) of this vertex
      * @return array
      */
-    public function buildModulesDependencies($dependencies)
+    public function buildCircularDependencies($dependencies)
     {
         $this->init($dependencies);
 

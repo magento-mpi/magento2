@@ -12,8 +12,8 @@
  */
 namespace Magento\Test\Integrity;
 
-use Magento\TestFramework\Dependency\Circular;
 use Magento\TestFramework\Utility\Files;
+use Magento\Tools\Dependency\Circular;
 
 class CircularDependencyTest extends \PHPUnit_Framework_TestCase
 {
@@ -61,7 +61,7 @@ class CircularDependencyTest extends \PHPUnit_Framework_TestCase
      */
     protected function buildCircularModulesDependencies()
     {
-        $this->circularModuleDependencies = (new Circular())->buildModulesDependencies($this->moduleDependencies);
+        $this->circularModuleDependencies = (new Circular())->buildCircularDependencies($this->moduleDependencies);
     }
 
     /**
@@ -69,7 +69,7 @@ class CircularDependencyTest extends \PHPUnit_Framework_TestCase
      */
     public function testCircularDependencies()
     {
-        $this->markTestSkipped('Skipped before circular dependencies will be fixed MAGETWO-10938');
+//        $this->markTestSkipped('Skipped before circular dependencies will be fixed MAGETWO-10938');
         if ($this->circularModuleDependencies) {
             $result = '';
             foreach ($this->circularModuleDependencies as $module => $chains) {

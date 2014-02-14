@@ -6,11 +6,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\Test\Tools\Dependency\Parser;
+namespace Magento\Test\Tools\Dependency\Parser\Config;
 
 use Magento\Tools\Dependency\Parser;
 
-class ConfigTest extends \PHPUnit_Framework_TestCase
+class XmlTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var string
@@ -24,21 +24,21 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->fixtureDir = realpath(__DIR__ . '/../_files') . '/';
+        $this->fixtureDir = realpath(__DIR__ . '/../../_files') . '/';
 
-        $this->parser = new Parser\Config();
+        $this->parser = new Parser\Config\Xml();
     }
 
     public function testParse()
     {
         $expected = [
             ['name' => 'Module1', 'dependencies' => [
-                ['module' => 'Magento_Core', 'type' => ''],
-                ['module' => 'Magento_Backend', 'type' => 'soft'],
+                ['module' => 'Magento\Core', 'type' => ''],
+                ['module' => 'Magento\Backend', 'type' => 'soft'],
                 ['module' => 'Module1', 'type' => ''],
             ]],
             ['name' => 'Module2', 'dependencies' => [
-                ['module' => 'Magento_Core', 'type' => ''],
+                ['module' => 'Magento\Core', 'type' => ''],
                 ['module' => 'Module2', 'type' => ''],
             ]],
         ];

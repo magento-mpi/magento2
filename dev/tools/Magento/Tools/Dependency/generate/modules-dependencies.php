@@ -14,8 +14,8 @@ use Magento\Tools\Dependency\ServiceLocator;
 try {
 
     ServiceLocator::getDependenciesReportBuilder()->build([
-        'filename' => 'modules-dependencies.csv',
-        'configFiles' => Files::init()->getConfigFiles('module.xml', array(), false),
+        'report_filename' => 'modules-dependencies.csv',
+        'files_for_parse' => Files::init()->getConfigFiles('module.xml', array(), false),
     ]);
 
     fwrite(STDOUT, PHP_EOL . 'Report successfully processed.' . PHP_EOL);

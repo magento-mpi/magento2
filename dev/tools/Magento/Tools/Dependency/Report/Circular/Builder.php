@@ -8,7 +8,7 @@
 
 namespace Magento\Tools\Dependency\Report\Circular;
 
-use Magento\TestFramework\Dependency\Circular;
+use Magento\Tools\Dependency\Circular;
 use Magento\Tools\Dependency\ParserInterface;
 use Magento\Tools\Dependency\Report\Builder\AbstractBuilder;
 use Magento\Tools\Dependency\Report\WriterInterface;
@@ -21,7 +21,7 @@ class Builder extends AbstractBuilder
     /**
      * Circular dependencies builder
      *
-     * @var \Magento\TestFramework\Dependency\Circular
+     * @var \Magento\Tools\Dependency\Circular
      */
     protected $circularBuilder;
 
@@ -30,7 +30,7 @@ class Builder extends AbstractBuilder
      *
      * @param \Magento\Tools\Dependency\ParserInterface $dependenciesParser
      * @param \Magento\Tools\Dependency\Report\WriterInterface $reportWriter
-     * @param \Magento\TestFramework\Dependency\Circular $circularBuilder
+     * @param \Magento\Tools\Dependency\Circular $circularBuilder
      */
     public function __construct(
         ParserInterface $dependenciesParser,
@@ -75,6 +75,6 @@ class Builder extends AbstractBuilder
                 $dependencies[$moduleData['name']][] = $dependencyData['module'];
             }
         }
-        return $this->circularBuilder->buildModulesDependencies($dependencies);
+        return $this->circularBuilder->buildCircularDependencies($dependencies);
     }
 }

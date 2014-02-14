@@ -12,10 +12,14 @@ use Magento\TestFramework\Utility\Files;
 use Magento\Tools\Dependency\ServiceLocator;
 
 try {
+    $filesUtility = Files::init();
+    $filesForParse = $filesUtility->getFiles(array($filesUtility->getPathToSource() . '/app/code/Magento'), '*');
+    $configFiles = $filesUtility->getConfigFiles('module.xml', [], false);
 
-    ServiceLocator::getCircularDependenciesReportBuilder()->build([
-        'report_filename' => 'modules-circular-dependencies.csv',
-        'files_for_parse' => Files::init()->getConfigFiles('module.xml', [], false),
+    ServiceLocator::getFrameworkDependenciesReportBuilder()->build([
+        'files_for_parse' => $filesForParse,
+        'config_files' => $configFiles,
+        'report_filename' => 'framework-dependencies.csv',
     ]);
 
     fwrite(STDOUT, PHP_EOL . 'Report successfully processed.' . PHP_EOL);

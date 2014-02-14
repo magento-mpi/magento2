@@ -26,13 +26,19 @@ class ModuleTest extends \PHPUnit_Framework_TestCase
         ]);
     }
 
-    public function testGetters()
+    public function testGetName()
     {
         $name = 'name';
-        $chains = ['foo', 'baz', 'bar'];
-        $module = $this->createModule($name, $chains);
+        $module = $this->createModule($name, []);
 
         $this->assertEquals($name, $module->getName());
+    }
+
+    public function testGetChains()
+    {
+        $chains = ['foo', 'baz', 'bar'];
+        $module = $this->createModule('name', $chains);
+
         $this->assertEquals($chains, $module->getChains());
     }
 

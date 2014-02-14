@@ -11,7 +11,7 @@ namespace Magento\Tools\Dependency\Report\Dependency;
 use Magento\Tools\Dependency\Report\Builder\AbstractBuilder;
 
 /**
- *  Dependencies report builder
+ *  Modules dependencies report builder
  */
 class Builder extends AbstractBuilder
 {
