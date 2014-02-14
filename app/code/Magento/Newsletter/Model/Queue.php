@@ -95,13 +95,6 @@ class Queue extends \Magento\Core\Model\Template
     protected $_locale;
 
     /**
-     * Email template factory
-     *
-     * @var \Magento\Email\Model\TemplateFactory
-     */
-    protected $_emailTemplateFactory;
-
-    /**
      * Problem factory
      *
      * @var \Magento\Newsletter\Model\ProblemFactory
@@ -116,18 +109,9 @@ class Queue extends \Magento\Core\Model\Template
     protected $_templateFactory;
 
     /**
-     * Transport Factory
-     *
-     * @var \Magento\Mail\TransportFactory
+     * @var \Magento\Newsletter\Model\Queue\TransportBuilder
      */
-    protected $_transportFactory;
-
-    /**
-     * Mail Message Factory
-     *
-     * @var \Magento\Mail\TransportFactory
-     */
-    protected $_messageFactory;
+    protected $_transportBuilder;
 
     /**
      * @param \Magento\Model\Context $context
@@ -140,10 +124,8 @@ class Queue extends \Magento\Core\Model\Template
      * @param \Magento\Core\Model\Date $date
      * @param \Magento\Newsletter\Model\TemplateFactory $templateFactory
      * @param \Magento\Newsletter\Model\ProblemFactory $problemFactory
-     * @param \Magento\Email\Model\TemplateFactory $emailTemplateFactory
      * @param \Magento\Newsletter\Model\Resource\Subscriber\CollectionFactory $subscriberCollectionFactory
-     * @param \Magento\Mail\TransportFactory $transportFactory
-     * @param \Magento\Mail\MessageFactory $messageFactory
+     * @param \Magento\Newsletter\Model\Queue\TransportBuilder $transportBuilder
      * @param array $data
      */
     public function __construct(
@@ -157,10 +139,8 @@ class Queue extends \Magento\Core\Model\Template
         \Magento\Core\Model\Date $date,
         \Magento\Newsletter\Model\TemplateFactory $templateFactory,
         \Magento\Newsletter\Model\ProblemFactory $problemFactory,
-        \Magento\Email\Model\TemplateFactory $emailTemplateFactory,
         \Magento\Newsletter\Model\Resource\Subscriber\CollectionFactory $subscriberCollectionFactory,
-        \Magento\Mail\TransportFactory $transportFactory,
-        \Magento\Mail\MessageFactory $messageFactory,
+        \Magento\Newsletter\Model\Queue\TransportBuilder $transportBuilder,
         array $data = array()
     ) {
         parent::__construct($context, $design, $registry, $appEmulation, $storeManager, $data);
@@ -169,10 +149,8 @@ class Queue extends \Magento\Core\Model\Template
         $this->_locale = $locale;
         $this->_templateFactory = $templateFactory;
         $this->_problemFactory = $problemFactory;
-        $this->_emailTemplateFactory = $emailTemplateFactory;
         $this->_subscribersCollection = $subscriberCollectionFactory->create();
-        $this->_transportFactory = $transportFactory;
-        $this->_messageFactory = $messageFactory;
+        $this->_transportBuilder = $transportBuilder;
     }
 
     /**
@@ -215,11 +193,10 @@ class Queue extends \Magento\Core\Model\Template
     /**
      * Send messages to subscribers for this queue
      *
-     * @param   int     $count
-     * @param   array   $additionalVariables
+     * @param int $count
      * @return $this
      */
-    public function sendPerSubscriber($count = 20, array $additionalVariables = array())
+    public function sendPerSubscriber($count = 20)
     {
         if ($this->getQueueStatus() != self::STATUS_SENDING
            && ($this->getQueueStatus() != self::STATUS_NEVER && $this->getQueueStartAt())
@@ -243,32 +220,28 @@ class Queue extends \Magento\Core\Model\Template
             ->setCurPage(1)
             ->load();
 
-        /** @var \Magento\Email\Model\Template $template */
-        $template = $this->_emailTemplateFactory->create();
-        $template
-            ->setTemplateSubject($this->getNewsletterSubject())
-            ->setTemplateText($this->getNewsletterText())
-            ->setTemplateStyles($this->getNewsletterStyles())
-            ->setTemplateFilter($this->_templateFilter);
+        $this->_transportBuilder->setTemplateData(array(
+            'template_subject' => $this->getNewsletterSubject(),
+            'template_text' => $this->getNewsletterText(),
+            'template_styles' => $this->getNewsletterStyles(),
+            'template_filter' => $this->_templateFilter,
+            'template_type' => self::TYPE_HTML,
+        ));
 
         /** @var \Magento\Newsletter\Model\Subscriber $item */
         foreach ($collection->getItems() as $item) {
-            $template
-                ->setVars(array('subscriber' => $item))
-                ->setOptions(array(
+            $transport = $this->_transportBuilder
+                ->setTemplateOptions(array(
                     'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
                     'store' => $item->getStoreId()
-                ));
-            $message = $this->_messageFactory->create();
-            $message
-                ->setFrom($this->getNewsletterSenderEmail(), $this->getNewsletterSenderName())
-                ->setMessageType(\Magento\Mail\MessageInterface::TYPE_HTML)
-                ->setSubject($template->getSubject())
+                ))
+                ->setTemplateVars(array('subscriber' => $item))
+                ->setFrom(['name' => $this->getNewsletterSenderEmail(), 'email' => $this->getNewsletterSenderName()])
                 ->addTo($item->getSubscriberEmail(), $item->getSubscriberFullName())
-                ->setBody($template->getProcessedTemplate());
+                ->getTransport();
+
             try {
-                $this->_transportFactory->create($message)->sendMessage();
-                $item->received($this);
+                $transport->sendMessage();
             } catch (\Magento\Mail\Exception $e) {
                 /** @var \Magento\Newsletter\Model\Problem $problem */
                 $problem = $this->_problemFactory->create();
@@ -276,8 +249,8 @@ class Queue extends \Magento\Core\Model\Template
                 $problem->addQueueData($this);
                 $problem->addErrorData($e);
                 $problem->save();
-                $item->received($this);
             }
+            $item->received($this);
         }
 
         if (count($collection->getItems()) < $count-1 || count($collection->getItems()) == 0) {

@@ -10,6 +10,11 @@ namespace Magento\Mail\Template;
 class TransportBuilderTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * @var string
+     */
+    protected $builderClassName = '\Magento\Mail\Template\TransportBuilder';
+
+    /**
      * @var \Magento\Mail\Template\TransportBuilder
      */
     protected $builder;
@@ -42,7 +47,7 @@ class TransportBuilderTest extends \PHPUnit_Framework_TestCase
         $this->objectManagerMock = $this->getMock('\Magento\ObjectManager');
         $this->senderResolverMock = $this->getMock('\Magento\Mail\Template\SenderResolverInterface');
 
-        $this->builder = $helper->getObject('\Magento\Mail\Template\TransportBuilder', array(
+        $this->builder = $helper->getObject($this->builderClassName, array(
             'templateFactory' => $this->templateFactoryMock,
             'message' => $this->messageMock,
             'objectManager' => $this->objectManagerMock,

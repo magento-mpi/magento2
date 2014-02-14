@@ -192,17 +192,7 @@ class TransportBuilder
      */
     public function getTransport()
     {
-        $template = $this->templateFactory->get($this->templateIdentifier)
-            ->setVars($this->templateVars)
-            ->setOptions($this->templateOptions);
-        $types = array(
-            \Magento\App\TemplateTypesInterface::TYPE_TEXT => \Magento\Mail\MessageInterface::TYPE_TEXT,
-            \Magento\App\TemplateTypesInterface::TYPE_HTML => \Magento\Mail\MessageInterface::TYPE_HTML,
-        );
-
-        $this->message->setBody($template->processTemplate())
-            ->setMessageType($types[$template->getType()])
-            ->setSubject($template->getSubject());
+        $this->prepareMessage();
 
         $result = $this->objectManager->create('Magento\Mail\TransportInterface', array(
             'message' => clone $this->message
@@ -224,6 +214,38 @@ class TransportBuilder
         $this->templateIdentifier = null;
         $this->templateVars = null;
         $this->templateOptions = null;
+        return $this;
+    }
+
+    /**
+     * Get template
+     *
+     * @return \Magento\Mail\TemplateInterface
+     */
+    protected function getTemplate()
+    {
+        return $this->templateFactory->get($this->templateIdentifier)
+            ->setVars($this->templateVars)
+            ->setOptions($this->templateOptions);
+    }
+
+    /**
+     * Prepare message
+     *
+     * @return $this
+     */
+    protected function prepareMessage()
+    {
+        $template = $this->getTemplate();
+        $types = array(
+            \Magento\App\TemplateTypesInterface::TYPE_TEXT => \Magento\Mail\MessageInterface::TYPE_TEXT,
+            \Magento\App\TemplateTypesInterface::TYPE_HTML => \Magento\Mail\MessageInterface::TYPE_HTML,
+        );
+
+        $this->message->setBody($template->processTemplate())
+            ->setMessageType($types[$template->getType()])
+            ->setSubject($template->getSubject());
+
         return $this;
     }
 }
