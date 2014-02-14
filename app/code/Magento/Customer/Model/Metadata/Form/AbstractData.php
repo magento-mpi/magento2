@@ -64,7 +64,7 @@ abstract class AbstractData
     protected $_attribute;
 
     /**
-     * @var string
+     * @var string|int|bool
      */
     protected $_value;
 
@@ -75,7 +75,7 @@ abstract class AbstractData
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Logger $logger
      * @param \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata $attribute
-     * @param string $value
+     * @param string|int|bool $value
      * @param string $entityTypeCode
      * @param bool $isAjax
      */
@@ -83,7 +83,7 @@ abstract class AbstractData
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Logger $logger,
         \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata $attribute,
-        $value = null,
+        $value = false,
         $entityTypeCode,
         $isAjax = false
     ) {

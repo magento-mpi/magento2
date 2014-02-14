@@ -45,8 +45,8 @@ class ElementFactory
      * Create Form Element
      *
      * @param \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata $attribute
-     * @param $value
-     * @param $entityTypeCode
+     * @param string|int|bool $value
+     * @param string $entityTypeCode
      * @param bool $isAjax
      * @return \Magento\Customer\Model\Metadata\Form\AbstractData
      */
@@ -59,7 +59,7 @@ class ElementFactory
         $dataModelClass = $attribute->getDataModel();
         $params = [
             'entityTypeCode' => $entityTypeCode,
-            'value' => $value,
+            'value' => is_null($value) ? false : $value,
             'isAjax' => $isAjax,
             'attribute' => $attribute
         ];
