@@ -616,7 +616,7 @@ class Observer
     }
 
     /**
-     * Subtract qtys of quote item products after multishipping checkout
+     * Subtract qtys of quote item products after checkout
      *
      * @param EventObserver $observer
      * @return $this
