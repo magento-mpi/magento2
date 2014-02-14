@@ -1946,7 +1946,6 @@ return array(
     ],
     ['Magento\Shipping\Model\Rate\Request', 'Magento\Sales\Model\Quote\Address\RateRequest'],
     array('Magento\PageCache\Block\Adminhtml\Cache\Additional'),
-    array('Magento\PageCache\Controller\Adminhtml\PageCache'),
     array('Magento\PageCache\Model\Control\ControlInterface'),
     array('Magento\PageCache\Model\Control\Zend'),
     array('Magento\PageCache\Model\System\Config\Source\Controls'),
@@ -1967,4 +1966,5 @@ return array(
     array('Magento\GoogleShopping\Helper\Price', 'Magento\Catalog\Model\Product\CatalogPrice'),
     ['Magento\Sales\Controller\Adminhtml\Recurring\Profile', 'Magento\RecurringProfile\Controller\Adminhtml\Profile'],
     ['Magento\Sales\Controller\Recurring\Profile', 'Magento\RecurringProfile\Controller\Profile'],
+    ['Magento\Core\App\Action\Plugin\Session', 'Magento\Core\Block\RequireCookie']
 );

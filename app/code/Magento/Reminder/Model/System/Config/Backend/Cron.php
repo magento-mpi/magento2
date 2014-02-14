@@ -63,7 +63,7 @@ class Cron extends \Magento\Core\Model\Config\Value
     /**
      * Cron settings after save
      *
-     * @return AbstractModel|void
+     * @return void
      * @throws Exception
      */
     protected function _afterSave()
