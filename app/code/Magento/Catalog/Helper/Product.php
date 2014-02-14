@@ -104,6 +104,13 @@ class Product extends \Magento\Core\Helper\Url
     protected $_categoryFactory;
 
     /**
+     * Invalidate price indexer params
+     *
+     * @var \Magento\Catalog\Model\CategoryFactory
+     */
+    protected $_reindexPriceIndexerData;
+
+    /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
@@ -127,7 +134,8 @@ class Product extends \Magento\Core\Helper\Url
         \Magento\Catalog\Model\Attribute\Config $attributeConfig,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\App\ConfigInterface $coreConfig,
-        $typeSwitcherLabel
+        $typeSwitcherLabel,
+        $reindexPriceIndexerData
     ) {
         $this->_categoryFactory = $categoryFactory;
         $this->_productFactory = $productFactory;
@@ -141,7 +149,37 @@ class Product extends \Magento\Core\Helper\Url
         $this->_coreConfig = $coreConfig;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_logger = $context->getLogger();
+        $this->_reindexPriceIndexerData = $reindexPriceIndexerData;
         parent::__construct($context, $storeManager);        
+    }
+
+    /**
+     * Retrieve data for price indexer update
+     *
+     * @return  array
+     */
+    public function isDataForPriceIndexerWasChanged($data)
+    {
+        if ($data instanceof \Magento\Catalog\Model\Product) {
+            foreach ($this->_reindexPriceIndexerData['byDataResult'] as $param) {
+                if ($data->getData($param)) {
+                    return true;
+                }
+            }
+            foreach ($this->_reindexPriceIndexerData['byDataChange'] as $param) {
+                if ($data->dataHasChangedFor($param)) {
+                    return true;
+                }
+            }
+        } elseif (is_array($data)) {
+            foreach ($this->_reindexPriceIndexerData['byDataChange'] as $param) {
+                if (isset($data[$param])) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     /**
