@@ -31,7 +31,6 @@ class RecurringProfile
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
-     * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\RecurringProfile\Model\Resource\Profile\CollectionFactory $profileCollection
      * @param \Magento\RecurringProfile\Model\States $recurringStates
      * @param \Magento\RecurringProfile\Block\Fields $fields
@@ -42,7 +41,6 @@ class RecurringProfile
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
-        \Magento\Payment\Helper\Data $paymentData,
         \Magento\RecurringProfile\Model\Resource\Profile\CollectionFactory $profileCollection,
         \Magento\RecurringProfile\Model\States $recurringStates,
         \Magento\RecurringProfile\Block\Fields $fields,
@@ -65,7 +63,6 @@ class RecurringProfile
         parent::__construct(
             $context,
             $backendHelper,
-            $paymentData,
             $profileCollection,
             $recurringStates,
             $fields,
