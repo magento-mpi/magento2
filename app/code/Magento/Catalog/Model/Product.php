@@ -672,8 +672,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      */
     public function reindexCallback()
     {
-        if ($this->isObjectNew() || $this->dataHasChangedFor('price') ||
-            $this->dataHasChangedFor('status') || $this->dataHasChangedFor('website_ids')) {
+        if ($this->isObjectNew() || $this->_catalogProduct->isDataForPriceIndexerWasChanged($this)) {
             $this->_productPriceIndexerProcessor->reindexRow($this->getEntityId());
         }
         return $this;
