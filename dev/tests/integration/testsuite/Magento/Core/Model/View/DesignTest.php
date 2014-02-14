@@ -319,8 +319,7 @@ class DesignTest extends \PHPUnit_Framework_TestCase
 
     public function testGetPublicFileUrl()
     {
-        $pubLibFile = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Filesystem')
-                ->getPath(\Magento\App\Filesystem::LIB_WEB) . '/jquery/jquery.js';
+        $pubLibFile = $this->_viewUrl->getViewFilePublicPath('jquery/jquery.js');
         $actualResult = $this->_viewUrl->getPublicFileUrl($pubLibFile);
         $this->assertStringEndsWith('/jquery/jquery.js', $actualResult);
     }
@@ -330,8 +329,7 @@ class DesignTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetPublicFileUrlSigned()
     {
-        $pubLibFile = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Filesystem')
-                ->getPath(\Magento\App\Filesystem::LIB_WEB) . '/jquery/jquery.js';
+        $pubLibFile = $this->_viewUrl->getViewFilePublicPath('jquery/jquery.js');
         $actualResult = $this->_viewUrl->getPublicFileUrl($pubLibFile);
         $this->assertStringMatchesFormat('%a/jquery/jquery.js?%d', $actualResult);
     }

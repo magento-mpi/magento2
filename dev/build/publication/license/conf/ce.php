@@ -34,6 +34,7 @@ $config = array(
     'downloader'            => $magentoOslAfl,
     'lib/flex'              => array('xml' => 'AFL', 'flex' => 'AFL'),
     'lib/Magento'           => $magentoOslAfl,
+    'lib/web'               => $magentoOslAfl,
     'pub'                   => $magentoOslAfl,
 );
 
