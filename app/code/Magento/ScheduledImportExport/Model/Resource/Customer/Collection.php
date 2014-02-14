@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\ScheduledImportExport\Model\Resource\Customer;
 
 /**
  * Customized customers collection
@@ -16,15 +16,13 @@
  * @package     Magento_ScheduledImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\ScheduledImportExport\Model\Resource\Customer;
-
 class Collection
     extends \Magento\Customer\Model\Resource\Customer\Collection
 {
     /**
      * Additional filters to use
      *
-     * @var array
+     * @var string[]
      */
     protected $_usedFiltersNotNull = array();
 
@@ -101,7 +99,7 @@ class Collection
     /**
      * Join with reward points table
      *
-     * @return \Magento\ScheduledImportExport\Model\Resource\Customer\Collection
+     * @return $this
      */
     public function joinWithRewardPoints()
     {
@@ -135,7 +133,7 @@ class Collection
     /**
      * Join with store credit table
      *
-     * @return \Magento\ScheduledImportExport\Model\Resource\Customer\Collection
+     * @return $this
      */
     public function joinWithCustomerBalance()
     {
@@ -169,7 +167,7 @@ class Collection
     /**
      * Additional filters
      *
-     * @return \Magento\ScheduledImportExport\Model\Resource\Customer\Collection
+     * @return $this
      */
     protected function _beforeLoad()
     {
