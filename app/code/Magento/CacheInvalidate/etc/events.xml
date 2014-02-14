@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <event name="clean_cache_by_tags">
+        <observer name="invalidate_pagechache" instance="Magento\CacheInvalidate\Model\Observer" method="invalidateCache" />
+    </event>
+</config>

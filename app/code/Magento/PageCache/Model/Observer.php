@@ -24,13 +24,30 @@ class Observer
     protected $_config;
 
     /**
+     * @var \Magento\App\PageCache\Cache
+     */
+    protected $_cache;
+
+    /**
+     * @var \Magento\PageCache\Helper\Data
+     */
+    protected $_helper;
+
+    /**
      * Constructor
      *
      * @param \Magento\App\ConfigInterface $config
+     * @param \Magento\App\PageCache\Cache $cache
+     * @param \Magento\PageCache\Helper\Data $helper
      */
-    public function __construct(\Magento\App\ConfigInterface $config)
-    {
+    public function __construct(
+        \Magento\App\ConfigInterface $config,
+        \Magento\App\PageCache\Cache $cache,
+        \Magento\PageCache\Helper\Data $helper
+    ){
         $this->_config = $config;
+        $this->_cache = $cache;
+        $this->_helper = $helper;
     }
 
     /**
@@ -87,4 +104,28 @@ class Observer
         );
         return sprintf('<esi:include src="%s" />', $url);
     }
+
+    /**
+     * If Built-In caching is enabled it collects array of tags
+     * of incoming object and asks to clean cache.
+     *
+     * @param \Magento\Event\Observer $observer
+     */
+    public function invalidateCache(\Magento\Event\Observer $observer)
+    {
+        $tags = $observer->getIdentities();
+        if($observer instanceof \Magento\Object\IdentityInteface) {
+            if($this->_config->getType() == \Magento\PageCache\Model\Config::BUILT_IN)
+            {
+                $this->_cache->clean($tags);
+            } else {
+                $preparedTags = implode('|', $tags);
+                $curl = curl_init($this->_helper->getUrl('*'));
+                curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PURGE");
+                curl_setopt($curl, CURLOPT_HTTPHEADER, "X-Magento-Tags-Pattern: {$preparedTags}");
+                curl_exec($curl);
+            }
+        }
+    }
+
 }
