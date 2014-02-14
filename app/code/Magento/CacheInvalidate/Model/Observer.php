@@ -59,12 +59,12 @@ class Observer
      */
     public function invalidateCache(\Magento\Event\Observer $observer)
     {
-        if($observer instanceof \Magento\Object\IdentityInteface) {
-            if($this->_config->getType() == \Magento\PageCache\Model\Config::BUILT_IN)
-            {
-                $this->_cache->clean($observer->getIdentities());
+        $object = $observer->getEvent();
+        if($object instanceof \Magento\Object\IdentityInteface) {
+            if($this->_config->getType() == \Magento\PageCache\Model\Config::BUILT_IN) {
+                $this->_cache->clean($object->getIdentities());
             } else {
-                $preparedTags = implode('|', $observer->getIdentities());
+                $preparedTags = implode('|', $object->getIdentities());
                 $curl = curl_init($this->_helper->getUrl('*'));
                 curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PURGE");
                 curl_setopt($curl, CURLOPT_HTTPHEADER, "X-Magento-Tags-Pattern: {$preparedTags}");
