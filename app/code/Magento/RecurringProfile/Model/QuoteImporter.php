@@ -14,6 +14,18 @@ namespace Magento\RecurringProfile\Model;
 class QuoteImporter
 {
     /**
+     * @var \Magento\RecurringProfile\Model\ProfileFactory
+     */
+    protected $_profileFactory;
+
+    /**
+     * @param \Magento\RecurringProfile\Model\ProfileFactory $profileFactory
+     */
+    public function __construct(\Magento\RecurringProfile\Model\ProfileFactory $profileFactory) {
+        $this->_profileFactory = $profileFactory;
+    }
+
+    /**
      * Prepare recurring payment profiles
      *
      * @param \Magento\Sales\Model\Quote $quote
