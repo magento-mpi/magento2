@@ -20,6 +20,8 @@ interface SidResolverInterface
     const SESSION_ID_QUERY_PARAM = 'SID';
 
     /**
+     * Get SID
+     *
      * @param \Magento\Session\SessionManagerInterface $session
      * @return string
      */
@@ -37,7 +39,7 @@ interface SidResolverInterface
      * Set use session var instead of SID for URL
      *
      * @param bool $var
-     * @return \Magento\Session\SidResolverInterface
+     * @return $this
      */
     public function setUseSessionVar($var);
 
@@ -52,7 +54,7 @@ interface SidResolverInterface
      * Set Use session in URL flag
      *
      * @param bool $flag
-     * @return \Magento\Session\SidResolverInterface
+     * @return $this
      */
     public function setUseSessionInUrl($flag = true);
 
