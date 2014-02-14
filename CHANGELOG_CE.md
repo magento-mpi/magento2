@@ -1,8 +1,10 @@
 * Fixed bugs:
   * Fixed an issue with Backup module feature not possible to store files
-  * Fixed an issue where the Add Address button for Customer in Admin was broken.
+  * Fixed an issue with "Add to Cart" button on MAP popup of compound products
+  * Fixed an issue where the Add Address button for Customer in Admin was broken
 * Indexer implementation:
   * Implemented new optimized Catalog Category Flat Indexer
+  * Implemented new optimized Catalog Product Flat Indexer
 * Cron improvements:
   * Added the ability to divide cron tasks into groups
   * Added the ability to run cron groups in separate processes
@@ -10,21 +12,21 @@
   * LESS files in library/theme/module, during materialization are automatically compiled into CSS
   * LESS files compilation caching mechanism added for developer mode
 * Modularity improvements:
-  * Moved Shortcut Buttons abstraction from PayPal to Catalog 
+  * Moved Shortcut Buttons abstraction from PayPal to Catalog
   * Moved Recurring profile functionality into separate module
   * Moved Billing Agreements functionality into PayPal module
 * Improvements in code coverage calculation:
   * Added code coverage calculation in clover xml format for unit tests
 * GitHub requests:
- * [#377] (https://github.com/magento/magento2/issues/377) Remove and avoid javascript eval() calls 
+ * [#377] (https://github.com/magento/magento2/issues/377) Remove and avoid javascript eval() calls
  * [#319] (https://github.com/magento/magento2/issues/319) No message was displayed when product added to shopping cart.
  * [#367] (https://github.com/magento/magento2/issues/367) Improve the error message from the contact form
  * [#469] (https://github.com/magento/magento2/issues/469) Can't change prices on different websites for custom options
 * Customer Service usage:
  * Update Customer Service Exception handling and add tests
  * Add usage of Customer Service to Customer Module, replacing some direct usage of Customer Model
- * Updated Customer Group Grid to use Customer Service for retrieving data and filtering.
- * Updated CustomerMetadataService::getAttributeMetadata to throw an exception if invalid code provided.
+ * Updated Customer Group Grid to use Customer Service for retrieving data and filtering
+ * Updated CustomerMetadataService::getAttributeMetadata to throw an exception if invalid code provided
 * Updated various PHPDoc with parameter and return types
 * Caching improvements:
   * Added new System Configuration tab for Page Cache mechanism.
