@@ -227,6 +227,11 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     protected $_filesystem;
 
     /**
+     * @var \Magento\Catalog\Model\Indexer\Product\Flat\Processor
+     */
+    protected $_productFlatIndexerProcessor;
+
+    /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -249,6 +254,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      * @param Resource\Product\Collection $resourceCollection
      * @param \Magento\Data\CollectionFactory $collectionFactory
      * @param \Magento\App\Filesystem $filesystem
+     * @param Indexer\Product\Flat\Processor $productFlatIndexerProcessor
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -276,6 +282,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
         Resource\Product\Collection $resourceCollection,
         \Magento\Data\CollectionFactory $collectionFactory,
         \Magento\App\Filesystem $filesystem,
+        \Magento\Catalog\Model\Indexer\Product\Flat\Processor $productFlatIndexerProcessor,
         array $data = array()
     ) {
         $this->_itemOptionFactory = $itemOptionFactory;
@@ -295,6 +302,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
         $this->_urlModel = $url;
         $this->_linkInstance = $productLink;
         $this->_filesystem = $filesystem;
+        $this->_productFlatIndexerProcessor = $productFlatIndexerProcessor;
         parent::__construct($context, $registry, $storeManager, $resource, $resourceCollection, $data);
     }
 
@@ -670,6 +678,8 @@ class Product extends \Magento\Catalog\Model\AbstractModel
         $this->getLinkInstance()->saveProductRelations($this);
         $this->getTypeInstance()->save($this);
 
+        $this->_getResource()->addCommitCallback(array($this, 'reindexCallback'));
+
         /**
          * Product Options
          */
@@ -682,6 +692,17 @@ class Product extends \Magento\Catalog\Model\AbstractModel
             $this, self::ENTITY, \Magento\Index\Model\Event::TYPE_SAVE
         );
         return $result;
+    }
+
+    /**
+     * Callback for entity reindex
+     *
+     * @return $this
+     */
+    public function reindexCallback()
+    {
+        $this->_productFlatIndexerProcessor->reindexRow($this->getEntityId());
+        return $this;
     }
 
     /**
@@ -707,6 +728,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      */
     protected function _afterDeleteCommit()
     {
+        $this->_productFlatIndexerProcessor->reindexRow($this->getId());
         parent::_afterDeleteCommit();
         $this->_indexIndexer->indexEvents(
             self::ENTITY, \Magento\Index\Model\Event::TYPE_DELETE

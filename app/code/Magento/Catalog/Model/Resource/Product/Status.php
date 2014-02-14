@@ -28,13 +28,6 @@ class Status extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_productAttributes  = array();
 
     /**
-     * Catalog product
-     *
-     * @var \Magento\Catalog\Model\Product
-     */
-    protected $_catalogProduct;
-
-    /**
      * Store manager
      *
      * @var \Magento\Core\Model\StoreManagerInterface
@@ -42,7 +35,7 @@ class Status extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_storeManager;
 
     /**
-     * Catalog product1
+     * Catalog product
      *
      * @var \Magento\Catalog\Model\Resource\Product
      */
