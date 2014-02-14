@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 namespace Magento\TargetRule\Model;
+
 use Magento\Core\Exception;
 
 /**
