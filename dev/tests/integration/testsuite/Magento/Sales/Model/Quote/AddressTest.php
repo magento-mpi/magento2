@@ -111,13 +111,16 @@ class AddressTest extends \PHPUnit_Framework_TestCase
      *
      * @param bool $unsetId
      * @dataProvider unsetAddressIdDataProvider
+     * @magentoDbIsolation enabled
      */
     public function testSameAsBillingWhenCustomerHasNoDefaultShippingAddress($unsetId)
     {
-        $this->_customer->setDefaultShipping(-1);
+        $this->_customer->setDefaultShipping(-1)
+            ->save(); // we should save the customer data in order to be able to use it
         $this->_quote->setCustomer($this->_customer);
         $this->_setCustomerAddressAndSave($unsetId);
-        $this->assertEquals((int)$unsetId, $this->_quote->getShippingAddress()->getSameAsBilling());
+        $sameAsBilling = $this->_quote->getShippingAddress()->getSameAsBilling();
+        $this->assertEquals((int)$unsetId, $sameAsBilling);
     }
 
     /**
@@ -125,6 +128,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
      *
      * @param bool $unsetId
      * @dataProvider unsetAddressIdDataProvider
+     * @magentoDbIsolation enabled
      */
     public function testSameAsBillingWhenCustomerHasBillingSameShipping($unsetId)
     {
@@ -138,13 +142,16 @@ class AddressTest extends \PHPUnit_Framework_TestCase
      *
      * @param bool $unsetId
      * @dataProvider unsetAddressIdDataProvider
+     * @magentoDbIsolation enabled
      */
     public function testSameAsBillingWhenCustomerHasDefaultShippingAddress($unsetId)
     {
-        $this->_customer->setDefaultShipping(2);
+        $this->_customer->setDefaultShipping(2)
+            ->save(); // we should save the customer data in order to be able to use it
         $this->_quote->setCustomer($this->_customer);
         $this->_setCustomerAddressAndSave($unsetId);
-        $this->assertEquals(0, $this->_quote->getShippingAddress()->getSameAsBilling());
+        $sameAsBilling = $this->_quote->getShippingAddress()->getSameAsBilling();
+        $this->assertEquals(0, $sameAsBilling);
     }
 
     /**

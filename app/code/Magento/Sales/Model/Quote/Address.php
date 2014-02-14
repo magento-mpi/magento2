@@ -11,6 +11,7 @@
 namespace Magento\Sales\Model\Quote;
 
 use Magento\Customer\Service\V1\Dto\AddressBuilder as CustomerAddressBuilder;
+use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 
 /**
  * Sales Quote address model
@@ -245,6 +246,11 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     protected $_customerAddressBuilder;
 
     /**
+     * @var CustomerAddressServiceInterface
+     */
+    protected $_customerAdressService;
+
+    /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Directory\Helper\Data $directoryData
@@ -265,6 +271,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
      * @param \Magento\Object\Copy $objectCopyService
      * @param \Magento\Sales\Model\Quote\Address\CarrierFactoryInterface $carrierFactory
      * @param CustomerAddressBuilder $customerAddressBuilder
+     * @param CustomerAddressServiceInterface $customerAddressService
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -290,6 +297,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         \Magento\Object\Copy $objectCopyService,
         \Magento\Sales\Model\Quote\Address\CarrierFactoryInterface $carrierFactory,
         CustomerAddressBuilder $customerAddressBuilder,
+        CustomerAddressServiceInterface $customerAddressService,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -307,6 +315,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         $this->_objectCopyService = $objectCopyService;
         $this->_carrierFactory = $carrierFactory;
         $this->_customerAddressBuilder = $customerAddressBuilder;
+        $this->_customerAdressService = $customerAddressService;
         parent::__construct(
             $context,
             $registry,
@@ -402,9 +411,23 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     protected function _isDefaultShippingNullOrSameAsBillingAddress()
     {
         $customerData = $this->getQuote()->getCustomerData();
-        $isShippingSameAsBilling = $customerData->getDefaultBilling() && $customerData->getDefaultShipping()
-            && ($customerData->getDefaultBilling() == $customerData->getDefaultShipping());
-        return !$customerData->getDefaultShipping() || $isShippingSameAsBilling;
+        $customerId = $customerData->getCustomerId();
+        $defaultBillingAddress = null;
+        $defaultShippingAddress = null;
+
+        if ($customerId) {
+            /* we should load data from the service once customer is saved */
+            $defaultBillingAddress = $this->_customerAdressService->getDefaultBillingAddress($customerId);
+            $defaultShippingAddress = $this->_customerAdressService->getDefaultShippingAddress($customerId);
+        } else {
+            /* we should load data from the quote if customer is not saved yet */
+            $defaultBillingAddress = $customerData->getDefaultBilling();
+            $defaultShippingAddress = $customerData->getDefaultShipping();
+        }
+
+        return !$defaultShippingAddress
+        || $defaultBillingAddress && $defaultShippingAddress
+        && $defaultBillingAddress->getId() == $defaultShippingAddress->getId();
     }
 
     /**
