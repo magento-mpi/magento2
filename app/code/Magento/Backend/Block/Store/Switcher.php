@@ -99,6 +99,9 @@ class Switcher extends \Magento\Backend\Block\Template
         $this->_storeFactory = $storeFactory;
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -126,7 +129,7 @@ class Switcher extends \Magento\Backend\Block\Template
     /**
      * Get websites
      *
-     * @return array
+     * @return \Magento\Core\Model\Website[]
      */
     public function getWebsites()
     {
@@ -188,7 +191,7 @@ class Switcher extends \Magento\Backend\Block\Template
      * Get store views for specified store group
      *
      * @param \Magento\Core\Model\Store\Group|int $group
-     * @return array
+     * @return \Magento\Core\Model\Store[]
      */
     public function getStores($group)
     {
@@ -219,7 +222,7 @@ class Switcher extends \Magento\Backend\Block\Template
 
     /**
      * @param string $varName
-     * @return \Magento\Backend\Block\Store\Switcher
+     * @return $this
      */
     public function setStoreVarName($varName)
     {
@@ -253,7 +256,7 @@ class Switcher extends \Magento\Backend\Block\Template
 
     /**
      * @param array $storeIds
-     * @return \Magento\Backend\Block\Store\Switcher
+     * @return $this
      */
     public function setStoreIds($storeIds)
     {

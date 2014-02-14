@@ -45,7 +45,7 @@ class Mode extends \Magento\Core\Model\Config\Value
     /**
      * Set after commit callback
      *
-     * @return \Magento\Catalog\Model\Indexer\Category\Flat\System\Config\Mode
+     * @return $this
      */
     protected function _afterSave()
     {
@@ -55,6 +55,8 @@ class Mode extends \Magento\Core\Model\Config\Value
 
     /**
      * Process flat enabled mode change
+     *
+     * @return void
      */
     public function processValue()
     {

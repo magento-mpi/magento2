@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Catalog\Model\Product\Attribute\Backend;
 
 /**
  *
@@ -16,9 +17,6 @@
  * @package    Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Catalog\Model\Product\Attribute\Backend;
-
 class Startdate extends \Magento\Eav\Model\Entity\Attribute\Backend\Datetime
 {
     /**
@@ -29,6 +27,8 @@ class Startdate extends \Magento\Eav\Model\Entity\Attribute\Backend\Datetime
     protected $_date;
 
     /**
+     * Constructor
+     *
      * @param \Magento\Logger $logger
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Core\Model\Date $date
@@ -62,13 +62,13 @@ class Startdate extends \Magento\Eav\Model\Entity\Attribute\Backend\Datetime
         return $startDate;
     }
 
-   /**
-    * Before save hook.
-    * Prepare attribute value for save
-    *
-    * @param \Magento\Object $object
-    * @return \Magento\Catalog\Model\Product\Attribute\Backend\Startdate
-    */
+    /**
+     * Before save hook.
+     * Prepare attribute value for save
+     *
+     * @param \Magento\Object $object
+     * @return $this
+     */
     public function beforeSave($object)
     {
         $startDate = $this->_getValueForSave($object);
@@ -81,14 +81,14 @@ class Startdate extends \Magento\Eav\Model\Entity\Attribute\Backend\Datetime
         return $this;
     }
 
-   /**
-    * Product from date attribute validate function.
-    * In case invalid data throws exception.
-    *
-    * @param \Magento\Object $object
-    * @throws \Magento\Eav\Model\Entity\Attribute\Exception
-    * @return bool
-    */
+    /**
+     * Product from date attribute validate function.
+     * In case invalid data throws exception.
+     *
+     * @param \Magento\Object $object
+     * @throws \Magento\Eav\Model\Entity\Attribute\Exception
+     * @return bool
+     */
     public function validate($object)
     {
         $attr      = $this->getAttribute();

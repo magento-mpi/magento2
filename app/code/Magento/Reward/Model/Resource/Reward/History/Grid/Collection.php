@@ -13,6 +13,8 @@ class Collection
     extends \Magento\Reward\Model\Resource\Reward\History\Collection
 {
     /**
+     * Reward data
+     *
      * @var \Magento\Reward\Helper\Data
      */
     protected $_helper;
@@ -56,6 +58,8 @@ class Collection
     }
 
     /**
+     * Initialize select
+     *
      * @return $this
      */
     protected function _initSelect()

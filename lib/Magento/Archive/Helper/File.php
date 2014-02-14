@@ -66,8 +66,6 @@ class File
 
     /**
      * Close file if it's not closed before object destruction
-     *
-     * @return void
      */
     public function __destruct()
     {

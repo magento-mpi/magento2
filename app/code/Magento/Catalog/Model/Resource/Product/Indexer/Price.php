@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Catalog\Model\Resource\Product\Indexer;
 
 /**
  * Catalog Product Price Indexer Resource Model
@@ -16,8 +16,6 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Model\Resource\Product\Indexer;
-
 class Price extends \Magento\Index\Model\Resource\AbstractResource
 {
     /**
@@ -114,6 +112,7 @@ class Price extends \Magento\Index\Model\Resource\AbstractResource
     /**
      * Define main index table
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -146,7 +145,7 @@ class Price extends \Magento\Index\Model\Resource\AbstractResource
      * If the deleted product was found in a composite product(s) update it
      *
      * @param \Magento\Index\Model\Event $event
-     * @return \Magento\Catalog\Model\Resource\Product\Indexer\Price
+     * @return $this
      */
     public function catalogProductDelete(\Magento\Index\Model\Event $event)
     {
@@ -177,7 +176,7 @@ class Price extends \Magento\Index\Model\Resource\AbstractResource
      * Copy data from temporary index table to main table by defined ids
      *
      * @param array $processIds
-     * @return \Magento\Catalog\Model\Resource\Product\Indexer\Price
+     * @return $this
      * @throws \Exception
      */
     protected function _copyIndexDataToMainTable($processIds)
@@ -210,7 +209,7 @@ class Price extends \Magento\Index\Model\Resource\AbstractResource
      * when product was saved and changed attribute(s) has an effect on price.
      *
      * @param \Magento\Index\Model\Event $event
-     * @return \Magento\Catalog\Model\Resource\Product\Indexer\Price
+     * @return $this
      */
     public function catalogProductSave(\Magento\Index\Model\Event $event)
     {
@@ -268,7 +267,7 @@ class Price extends \Magento\Index\Model\Resource\AbstractResource
      * Process product mass update action
      *
      * @param \Magento\Index\Model\Event $event
-     * @return \Magento\Catalog\Model\Resource\Product\Indexer\Price
+     * @return $this
      */
     public function catalogProductMassAction(\Magento\Index\Model\Event $event)
     {
@@ -311,7 +310,7 @@ class Price extends \Magento\Index\Model\Resource\AbstractResource
      * Reindex product prices for specified product ids
      *
      * @param array | int $ids
-     * @return \Magento\Catalog\Model\Resource\Product\Indexer\Price
+     * @return $this
      */
     public function reindexProductIds($ids)
     {
@@ -427,7 +426,8 @@ class Price extends \Magento\Index\Model\Resource\AbstractResource
     /**
      * Rebuild all index data
      *
-     * @return \Magento\Catalog\Model\Resource\Product\Indexer\Price
+     * @return $this
+     * @throws \Exception
      */
     public function reindexAll()
     {
@@ -478,7 +478,7 @@ class Price extends \Magento\Index\Model\Resource\AbstractResource
      * Prepare tier price index table
      *
      * @param int|array $entityIds the entity ids limitation
-     * @return \Magento\Catalog\Model\Resource\Product\Indexer\Price
+     * @return $this
      */
     protected function _prepareTierPriceIndex($entityIds = null)
     {
@@ -521,7 +521,7 @@ class Price extends \Magento\Index\Model\Resource\AbstractResource
      * Prepare group price index table
      *
      * @param int|array $entityIds the entity ids limitation
-     * @return \Magento\Catalog\Model\Resource\Product\Indexer\Price
+     * @return $this
      */
     protected function _prepareGroupPriceIndex($entityIds = null)
     {
@@ -566,8 +566,8 @@ class Price extends \Magento\Index\Model\Resource\AbstractResource
      * @package array|int $excludeIds
      *
      * @param array|int $parentIds
-     * @param unknown_type $excludeIds
-     * @return \Magento\Catalog\Model\Resource\Product\Indexer\Price
+     * @param mixed $excludeIds
+     * @return $this
      */
     protected function _copyRelationIndexData($parentIds, $excludeIds = null)
     {
@@ -605,7 +605,7 @@ class Price extends \Magento\Index\Model\Resource\AbstractResource
     /**
      * Prepare website current dates table
      *
-     * @return \Magento\Catalog\Model\Resource\Product\Indexer\Price
+     * @return $this
      */
     protected function _prepareWebsiteDateTable()
     {
@@ -666,7 +666,7 @@ class Price extends \Magento\Index\Model\Resource\AbstractResource
     /**
      * Retrieve temporary index table name
      *
-     * @param unknown_type $table
+     * @param string|null $table
      * @return string
      */
     public function getIdxTable($table = null)

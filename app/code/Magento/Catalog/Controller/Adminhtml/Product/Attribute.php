@@ -61,6 +61,9 @@ class Attribute extends \Magento\Backend\App\Action
         return parent::dispatch($request);
     }
 
+    /**
+     * @return $this
+     */
     protected function _initAction()
     {
         $this->_title->add(__('Product Attributes'));
@@ -93,6 +96,9 @@ class Attribute extends \Magento\Backend\App\Action
         return $this;
     }
 
+    /**
+     * @return void
+     */
     public function indexAction()
     {
         $this->_initAction()
@@ -102,11 +108,17 @@ class Attribute extends \Magento\Backend\App\Action
         $this->_view->renderLayout();
     }
 
+    /**
+     * @return void
+     */
     public function newAction()
     {
         $this->_forward('edit');
     }
 
+    /**
+     * @return void
+     */
     public function editAction()
     {
         $id = $this->getRequest()->getParam('attribute_id');
@@ -155,9 +167,11 @@ class Attribute extends \Magento\Backend\App\Action
             ->setIsPopup((bool)$this->getRequest()->getParam('popup'));
 
         $this->_view->renderLayout();
-
     }
 
+    /**
+     * @return void
+     */
     public function validateAction()
     {
         $response = new \Magento\Object();
@@ -225,6 +239,9 @@ class Attribute extends \Magento\Backend\App\Action
         return $code;
     }
 
+    /**
+     * @return void
+     */
     public function saveAction()
     {
         $data = $this->getRequest()->getPost();
@@ -407,6 +424,9 @@ class Attribute extends \Magento\Backend\App\Action
         $this->_redirect('catalog/*/');
     }
 
+    /**
+     * @return void
+     */
     public function deleteAction()
     {
         $id = $this->getRequest()->getParam('attribute_id');
@@ -441,6 +461,8 @@ class Attribute extends \Magento\Backend\App\Action
 
     /**
      * Search for attributes by part of attribute's label in admin store
+     *
+     * @return void
      */
     public function suggestConfigurableAttributesAction()
     {

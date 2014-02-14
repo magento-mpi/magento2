@@ -22,7 +22,7 @@ class Key extends \Magento\Core\Model\Config\Value
     /**
      * Checks data transfer key length
      *
-     * @return \Magento\Pbridge\Model\System\Config\Backend\Data\Transfer\Key
+     * @return $this
      */
     protected function _beforeSave()
     {

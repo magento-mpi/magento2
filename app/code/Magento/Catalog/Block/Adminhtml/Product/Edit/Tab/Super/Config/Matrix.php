@@ -17,6 +17,8 @@
  */
 namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Super\Config;
 
+use Magento\Catalog\Model\Product;
+
 class Matrix
     extends \Magento\Backend\Block\Template
 {
@@ -79,7 +81,7 @@ class Matrix
     /**
      * Retrieve currently edited product object
      *
-     * @return \Magento\Catalog\Model\Product
+     * @return Product
      */
     public function getProduct()
     {
@@ -150,15 +152,13 @@ class Matrix
     /**
      * Get url for product edit
      *
-     * @param $id
-     *
+     * @param string $id
      * @return string
      */
     public function getEditProductUrl($id)
     {
         return $this->getUrl('catalog/*/edit', array('id' => $id));
     }
-
 
     /**
      * Retrieve attributes data
@@ -201,7 +201,7 @@ class Matrix
     /**
      * Retrieve actual list of associated products, array key is obtained from varying attributes values
      *
-     * @return array
+     * @return Product[]
      */
     public function getAssociatedProducts()
     {
@@ -221,7 +221,7 @@ class Matrix
      * Retrieve actual list of associated products (i.e. if product contains variations matrix form data
      * - previously saved in database relations are not considered)
      *
-     * @return array
+     * @return Product[]
      */
     protected function _getAssociatedProducts()
     {
@@ -232,7 +232,7 @@ class Matrix
         }
         $products = array();
         foreach ($ids as $productId) {
-            /** @var $product \Magento\Catalog\Model\Product */
+            /** @var $product Product */
             $product = $this->_productFactory->create()->load($productId);
             if ($product->getId()) {
                 $products[] = $product;
@@ -250,7 +250,7 @@ class Matrix
     public function getAttributeFrontendClass($code)
     {
         /** @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */
-        $attribute = $this->_config->getAttribute(\Magento\Catalog\Model\Product::ENTITY, $code);
+        $attribute = $this->_config->getAttribute(Product::ENTITY, $code);
         return $attribute instanceof \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
             ? $attribute->getFrontend()->getClass()
             : '';

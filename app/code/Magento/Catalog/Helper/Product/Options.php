@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Catalog\Helper\Product;
 
 /**
  * Catalog Product Custom Options helper
@@ -16,8 +16,6 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Helper\Product;
-
 class Options extends \Magento\App\Helper\AbstractHelper
 {
     /**

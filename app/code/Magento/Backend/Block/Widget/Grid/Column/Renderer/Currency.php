@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Block\Widget\Grid\Column\Renderer;
 
 /**
  * Backend grid item renderer currency
@@ -15,16 +16,18 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Backend\Block\Widget\Grid\Column\Renderer;
-
 class Currency
     extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
+    /**
+     * @var int
+     */
     protected $_defaultWidth = 100;
 
     /**
      * Currency objects cache
+     *
+     * @var \Magento\Object[]
      */
     protected static $_currencies = array();
 
@@ -95,7 +98,7 @@ class Currency
     /**
      * Returns currency code, false on error
      *
-     * @param $row
+     * @param \Magento\Object $row
      * @return string
      */
     protected function _getCurrencyCode($row)
@@ -113,7 +116,7 @@ class Currency
     /**
      * Get rate for current row, 1 by default
      *
-     * @param $row
+     * @param \Magento\Object $row
      * @return float|int
      */
     protected function _getRate($row)

@@ -36,8 +36,8 @@ class Locale extends \Magento\Install\Block\AbstractBlock
     /**
      * Set locale code
      *
-     * @param $localeCode
-     * @return \Magento\Install\Block\Locale
+     * @param string $localeCode
+     * @return $this
      */
     public function setLocaleCode($localeCode)
     {

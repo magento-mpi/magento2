@@ -34,12 +34,13 @@ class InstructionFactory
      * Create class instance with specified parameters
      *
      * @param string $className
-     * @return \Magento\Less\PreProcessorInterface
+     * @param array $data
      * @throws \InvalidArgumentException
+     * @return \Magento\Less\PreProcessorInterface
      */
-    public function create($className)
+    public function create($className, array $data = [])
     {
-        $preProcessor = $this->_objectManager->create($className);
+        $preProcessor = $this->_objectManager->create($className, $data);
         if (!$preProcessor instanceof \Magento\Less\PreProcessorInterface) {
             throw new \InvalidArgumentException(
                 "{$className} aren't instance of \\Magento\\Less\\PreProcessorInterface"

@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Product\CopyConstructor;
 
 class CrossSell implements \Magento\Catalog\Model\Product\CopyConstructorInterface
@@ -15,6 +14,7 @@ class CrossSell implements \Magento\Catalog\Model\Product\CopyConstructorInterfa
      *
      * @param \Magento\Catalog\Model\Product $product
      * @param \Magento\Catalog\Model\Product $duplicate
+     * @return void
      */
     public function build(\Magento\Catalog\Model\Product $product, \Magento\Catalog\Model\Product $duplicate)
     {
@@ -33,4 +33,4 @@ class CrossSell implements \Magento\Catalog\Model\Product\CopyConstructorInterfa
         }
         $duplicate->setCrossSellLinkData($data);
     }
-} 
+}

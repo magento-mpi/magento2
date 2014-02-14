@@ -187,7 +187,7 @@ abstract class FileAbstract implements FileInterface
     public function getSourcePath()
     {
         if (!$this->isSourcePathProvided && !$this->isFallbackUsed) {
-            $this->isFallbackUsed = false;
+            $this->isFallbackUsed = true;
 
             // Fallback look-up for view files. Remember it can be file of any type: CSS, LESS, JS, image
             $fallbackSourcePath = $this->viewFileSystem->getViewFile($this->getFilePath(), $this->getViewParams());

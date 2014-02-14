@@ -12,46 +12,35 @@ use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 class PluginTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Magento\Css\PreProcessor\Cache\Plugin */
+    /**
+     * @var \Magento\Css\PreProcessor\Cache\Plugin
+     */
     protected $plugin;
 
-    /** @var ObjectManagerHelper */
+    /**
+     * @var ObjectManagerHelper
+     */
     protected $objectManagerHelper;
 
-    /** @var \Magento\Css\PreProcessor\Cache\CacheManagerFactory|\PHPUnit_Framework_MockObject_MockObject */
-    protected $cacheManagerFactoryMock;
+    /**
+     * @var \Magento\Css\PreProcessor\Cache\CacheManager
+     */
+    protected $cacheManagerMock;
 
-    /** @var \Magento\Css\PreProcessor\Cache\CacheManager|\PHPUnit_Framework_MockObject_MockObject */
-    protected $cacheManager;
-
-    /** @var \Magento\Logger|\PHPUnit_Framework_MockObject_MockObject */
+    /**
+     * @var \Magento\Logger
+     */
     protected $loggerMock;
-
-    /** @var \Magento\Filesystem\Directory\WriteInterface|\PHPUnit_Framework_MockObject_MockObject */
-    protected $targetDirMock;
 
     protected function setUp()
     {
-        $this->targetDirMock = $this->getMock('Magento\Filesystem\Directory\WriteInterface', [], [], '', false);
-        $this->cacheManagerFactoryMock = $this->getMock(
-            'Magento\Css\PreProcessor\Cache\CacheManagerFactory',
-            [],
-            [],
-            '',
-            false
-        );
-        $this->cacheManager = $this->getMock('Magento\Css\PreProcessor\Cache\CacheManager', [], [], '', false);
-        $this->cacheManagerFactoryMock->expects($this->any())
-            ->method('create')
-            ->with($this->anything(), $this->anything())
-            ->will($this->returnValue($this->cacheManager));
-        $this->loggerMock = $this->getMock('Magento\Logger', [], [], '', false);
-
         $this->objectManagerHelper = new ObjectManagerHelper($this);
+        $this->cacheManagerMock = $this->getMock('Magento\Css\PreProcessor\Cache\CacheManager', [], [], '', false);
+        $this->loggerMock = $this->getMock('Magento\Logger', [], [], '', false);
         $this->plugin = $this->objectManagerHelper->getObject(
             'Magento\Css\PreProcessor\Cache\Plugin',
             [
-                'cacheManagerFactory' => $this->cacheManagerFactoryMock,
+                'cacheManager' => $this->cacheManagerMock,
                 'logger' => $this->loggerMock
             ]
         );
@@ -61,27 +50,28 @@ class PluginTest extends \PHPUnit_Framework_TestCase
      * @param array $arguments
      * @param \Magento\Code\Plugin\InvocationChain $invocationChain
      * @param array $cacheManagerData
-     * @param string|null $expected
      * @dataProvider aroundProcessDataProvider
      */
-    public function testAroundProcess($arguments, $invocationChain, $cacheManagerData, $expected)
+    public function testAroundProcess($arguments, $invocationChain, $cacheManagerData)
     {
         if (!empty($cacheManagerData)) {
             foreach ($cacheManagerData as $method => $info) {
                 if ($method === 'getCachedFile') {
-                    $this->cacheManager->expects($this->once())
+                    $this->cacheManagerMock->expects($this->once())
                         ->method($method)
                         ->will($this->returnValue($info['result']));
                 } else {
-                    $this->cacheManager->expects($this->once())
+                    $this->cacheManagerMock->expects($this->once())
                         ->method($method)
-                        ->with($this->equalTo($info['with']))
                         ->will($this->returnValue($info['result']));
                 }
 
             }
         }
-        $this->assertEquals($expected, $this->plugin->aroundProcess($arguments, $invocationChain));
+        $this->assertInstanceOf(
+            'Magento\View\Publisher\CssFile',
+            $this->plugin->aroundProcess($arguments, $invocationChain)
+        );
     }
 
     /**
@@ -89,34 +79,49 @@ class PluginTest extends \PHPUnit_Framework_TestCase
      */
     public function aroundProcessDataProvider()
     {
-        $argFirst = [
-            'css\style.less', // lessFilePath
-            [], // params
-            $this->targetDirMock, // target directory
-            'css\style.css' // sourceFile
-        ];
-        $expectedFirst = 'expectedFirst';
+        /**
+         * Prepare first item
+         */
+        $cssFileFirst = $this->getMock('Magento\View\Publisher\CssFile', [], [], '', false);
+        $cssFileFirst->expects($this->once())
+            ->method('getSourcePath')
+            ->will($this->returnValue(false));
+
+        $argFirst[] = $cssFileFirst;
+
+        $expectedFirst = $this->getMock('Magento\View\Publisher\CssFile', [], [], '', false);
+        $cssFileFirst->expects($this->once())
+            ->method('buildUniquePath')
+            ->will($this->returnValue('expectedFirst'));
+
         $invChainFirst = $this->getMock('Magento\Code\Plugin\InvocationChain', [], [], '', false);
         $invChainFirst->expects($this->once())
             ->method('proceed')
             ->with($this->equalTo($argFirst))
             ->will($this->returnValue($expectedFirst));
 
-        $invChainSecond = $this->getMock('Magento\Code\Plugin\InvocationChain', [], [], '', false);
-        $argSecond = [
-            'css\style.less', // lessFilePath
-            [], // params
-            $this->targetDirMock, // target directory
-            null // sourceFile
-        ];
+        /**
+         * Prepare second item
+         */
+        $cssFileSecond = $this->getMock('Magento\View\Publisher\CssFile', [], [], '', false);
+        $cssFileSecond->expects($this->once())
+            ->method('getSourcePath')
+            ->will($this->returnValue(false));
 
-        $expectedThird = 'expectedThird';
-        $argThird = [
-            'css\style.less', // lessFilePath
-            [], // params
-            $this->targetDirMock, // target directory
-            null // sourceFile
-        ];
+        $argSecond[] = $cssFileSecond;
+        $invChainSecond = $this->getMock('Magento\Code\Plugin\InvocationChain', [], [], '', false);
+
+        /**
+         * Prepare third item
+         */
+        $cssFileThird = $this->getMock('Magento\View\Publisher\CssFile', [], [], '', false);
+        $cssFileThird->expects($this->once())
+            ->method('getSourcePath')
+            ->will($this->returnValue(false));
+
+        $argThird[] = $cssFileThird;
+
+        $expectedThird = $this->getMock('Magento\View\Publisher\CssFile', [], [], '', false);
 
         $invChainThird = $this->getMock('Magento\Code\Plugin\InvocationChain', [], [], '', false);
         $invChainThird->expects($this->once())
@@ -134,7 +139,7 @@ class PluginTest extends \PHPUnit_Framework_TestCase
             'cached value exists' => [
                 'arguments' => $argSecond,
                 'invocationChain' => $invChainSecond,
-                'cacheManagerData' => ['getCachedFile' => ['result' => 'cached-value']],
+                'cacheManagerData' => ['getCachedFile' => ['result' => $cssFileSecond]],
                 'expected' => 'cached-value'
             ],
             'cached value does not exist' => [
@@ -142,7 +147,7 @@ class PluginTest extends \PHPUnit_Framework_TestCase
                 'invocationChain' => $invChainThird,
                 'cacheManagerData' => [
                     'getCachedFile' => ['result' => null],
-                    'saveCache' => ['with' => $expectedThird, 'result' => 'self']
+                    'saveCache' => ['result' => 'self']
                 ],
                 'expected' => $expectedThird
             ],
@@ -151,14 +156,14 @@ class PluginTest extends \PHPUnit_Framework_TestCase
 
     public function testAroundProcessException()
     {
-        $arguments = [
-            'css\style.less', // lessFilePath
-            [], // params
-            $this->targetDirMock, // target directory
-            null // sourceFile
-        ];
+        $cssFile = $this->getMock('Magento\View\Publisher\CssFile', [], [], '', false);
+        $cssFile->expects($this->once())
+            ->method('getSourcePath')
+            ->will($this->returnValue(false));
 
-        $this->cacheManager->expects($this->once())
+        $arguments[] = $cssFile;
+
+        $this->cacheManagerMock->expects($this->once())
             ->method('getCachedFile')
             ->will($this->returnValue(null));
 
@@ -173,23 +178,5 @@ class PluginTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo($exception))
             ->will($this->returnSelf());
         $this->assertNull($this->plugin->aroundProcess($arguments, $invocationChain));
-    }
-
-
-    public function testBeforeProcessLessInstructions()
-    {
-        $arguments = ['some\less\filePth.less', ['some', 'kind', 'of' ,'params']];
-        list($lessFilePath, $params) = $arguments;
-
-        $method = new \ReflectionMethod('Magento\Css\PreProcessor\Cache\Plugin', 'initializeCacheManager');
-        $method->setAccessible(true);
-        $this->assertEquals($this->plugin, $method->invoke($this->plugin, $lessFilePath, $params));
-
-        $this->cacheManager->expects($this->once())
-            ->method('addEntityToCache')
-            ->with($this->equalTo($lessFilePath), $this->equalTo($params))
-            ->will($this->returnSelf());
-
-        $this->assertEquals($arguments, $this->plugin->beforeProcessLessInstructions($arguments));
     }
 }

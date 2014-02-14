@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model\Resource\Design;
 
 /**
@@ -44,6 +43,8 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
 
     /**
      * Core Design resource collection
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -67,8 +68,8 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Add date filter to collection
      *
-     * @param null|int|string|Zend_Date $date
-     * @return \Magento\Core\Model\Resource\Design\Collection
+     * @param null|int|string|\Zend_Date $date
+     * @return $this
      */
     public function addDateFilter($date = null)
     {

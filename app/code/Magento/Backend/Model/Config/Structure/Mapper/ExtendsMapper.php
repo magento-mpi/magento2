@@ -26,7 +26,7 @@ class ExtendsMapper
     /**
      * List of already extended notes (used to break circular extends)
      *
-     * @var array
+     * @var string[]
      */
     protected $_extendedNodesList = array();
 
@@ -71,6 +71,7 @@ class ExtendsMapper
      * Recursively traverse through configuration and apply extends
      *
      * @param string $path
+     * @return void
      */
     protected function _traverseAndExtend($path)
     {
@@ -174,6 +175,7 @@ class ExtendsMapper
      *
      * @param string $path
      * @param array $newData
+     * @return void
      */
     protected function _replaceData($path, $newData)
     {
@@ -194,7 +196,7 @@ class ExtendsMapper
      * Transform path to list of keys
      *
      * @param string $path
-     * @return array
+     * @return string[]
      */
     protected function _transformPathToKeysList($path)
     {

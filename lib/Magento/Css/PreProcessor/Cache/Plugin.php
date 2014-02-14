@@ -17,29 +17,24 @@ use Magento\Css\PreProcessor\Cache;
 class Plugin
 {
     /**
-     * @var CacheManagerFactory
-     */
-    protected $cacheManagerFactory;
-
-    /**
      * @var \Magento\Logger
      */
     protected $logger;
 
     /**
-     * @var \Magento\Css\PreProcessor\Cache\CacheManager
+     * @var CacheManager
      */
     protected $cacheManager;
 
     /**
-     * @param CacheManagerFactory $cacheManagerFactory
+     * @param CacheManager $cacheManager
      * @param \Magento\Logger $logger
      */
     public function __construct(
-        CacheManagerFactory $cacheManagerFactory,
+        CacheManager $cacheManager,
         \Magento\Logger $logger
     ) {
-        $this->cacheManagerFactory = $cacheManagerFactory;
+        $this->cacheManager = $cacheManager;
         $this->logger = $logger;
     }
 
@@ -50,49 +45,34 @@ class Plugin
      */
     public function aroundProcess(array $arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
     {
-        // check if source path already exist
-        if (isset($arguments[3])) {
+        /** @var \Magento\View\Publisher\CssFile $publicationFile */
+        $publicationFile = $arguments[0];
+
+        if ($publicationFile->getSourcePath()) {
             return $invocationChain->proceed($arguments);
         }
 
-        $this->initializeCacheManager($arguments[0], $arguments[1]);
+        $this->cacheManager->initializeCacheByType(
+            Import\Cache::IMPORT_CACHE,
+            $publicationFile
+        );
 
-        $cachedFile = $this->cacheManager->getCachedFile();
-        if (null !== $cachedFile) {
+        $cachedFile = $this->cacheManager->getCachedFile(Import\Cache::IMPORT_CACHE);
+        if ($cachedFile instanceof \Magento\View\Publisher\FileInterface) {
             return $cachedFile;
         }
 
         try {
+            /** @var \Magento\View\Publisher\FileInterface $result */
             $result = $invocationChain->proceed($arguments);
-            $this->cacheManager->saveCache($result);
+            $this->cacheManager->saveCache(
+                Import\Cache::IMPORT_CACHE,
+                $result
+            );
         } catch (Filesystem\FilesystemException $e) {
             $this->logger->logException($e);
             return null;
         }
         return $result;
-    }
-
-    /**
-     * @param string $lessFilePath
-     * @param array $params
-     * @return $this
-     */
-    protected function initializeCacheManager($lessFilePath, $params)
-    {
-        $this->cacheManager = $this->cacheManagerFactory->create($lessFilePath, $params);
-        return $this;
-    }
-
-    /**
-     * @param array $arguments
-     * @return array
-     */
-    public function beforeProcessLessInstructions(array $arguments)
-    {
-        if (null !== $this->cacheManager) {
-            list($lessFilePath, $params) = $arguments;
-            $this->cacheManager->addEntityToCache($lessFilePath, $params);
-        }
-        return $arguments;
     }
 }

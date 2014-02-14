@@ -33,6 +33,8 @@ class Response extends Http implements \Magento\App\Response\FileInterface
 
     /**
      * Send response
+     *
+     * @return void
      */
     public function sendResponse()
     {
@@ -45,6 +47,7 @@ class Response extends Http implements \Magento\App\Response\FileInterface
 
     /**
      * @param string $path
+     * @return void
      */
     public function setFilePath($path)
     {
