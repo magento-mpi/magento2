@@ -22,16 +22,16 @@ class Multishipping extends \Magento\GiftRegistry\Block\Customer\Checkout
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
      * @param \Magento\Checkout\Model\Session $customerSession
-     * @param \Magento\Multishipping\Model\Checkout\Type\MultishippingFactory $typeMultiShippingFactory
      * @param \Magento\GiftRegistry\Model\EntityFactory $entityFactory
+     * @param \Magento\Multishipping\Model\Checkout\Type\MultishippingFactory $typeMultiShippingFactory
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
         \Magento\Checkout\Model\Session $customerSession,
-        \Magento\Multishipping\Model\Checkout\Type\MultishippingFactory $typeMultiShippingFactory,
         \Magento\GiftRegistry\Model\EntityFactory $entityFactory,
+        \Magento\Multishipping\Model\Checkout\Type\MultishippingFactory $typeMultiShippingFactory,
         array $data = array()
     ) {
         $this->typeMultiShippingFactory = $typeMultiShippingFactory;
