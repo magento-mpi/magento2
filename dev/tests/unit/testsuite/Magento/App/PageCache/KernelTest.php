@@ -99,6 +99,11 @@ class KernelTest extends \PHPUnit_Framework_TestCase
         $httpCode = 200;
         $this->responseMock
             ->expects($this->once())
+            ->method('__sleep')
+            ->will($this->returnValue(array()));
+
+        $this->responseMock
+            ->expects($this->at(0))
             ->method('getHeader')
             ->with('Cache-Control')
             ->will($this->returnValue(array('value' => $cacheControlHeader)));
@@ -114,9 +119,17 @@ class KernelTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('setNoCacheHeaders');
         $this->responseMock
-            ->expects($this->once())
+            ->expects($this->at(3))
+            ->method('getHeader')
+            ->with('X-Magento-Tags');
+        $this->responseMock
+            ->expects($this->at(4))
             ->method('clearHeader')
             ->with($this->equalTo('Set-Cookie'));
+        $this->responseMock
+            ->expects($this->at(5))
+            ->method('clearHeader')
+            ->with($this->equalTo('X-Magento-Tags'));
         $this->cacheMock
             ->expects($this->once())
             ->method('save');
