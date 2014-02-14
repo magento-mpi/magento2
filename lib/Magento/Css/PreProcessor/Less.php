@@ -18,7 +18,7 @@ class Less implements PreProcessorInterface
     /**
      * Temporary directory prefix
      */
-    const TMP_LESS_DIR   = 'less';
+    const TMP_LESS_DIR = 'less';
 
     /**
      * @var \Magento\Less\PreProcessor
@@ -80,10 +80,10 @@ class Less implements PreProcessorInterface
             $cssContent = $this->adapter->process($preparedLessFileSourcePath);
         } catch (\Magento\Filesystem\FilesystemException $e) {
             $this->logger->logException($e);
-            return $publisherFile;     // It has 'null' source path
+            return $publisherFile; // It has 'null' source path
         } catch (Adapter\AdapterException $e) {
             $this->logger->logException($e);
-            return $publisherFile;     // It has 'null' source path
+            return $publisherFile; // It has 'null' source path
         }
 
         $tmpFilePath = Composite::TMP_VIEW_DIR . '/' . self::TMP_LESS_DIR . '/' . $publisherFile->buildUniquePath();

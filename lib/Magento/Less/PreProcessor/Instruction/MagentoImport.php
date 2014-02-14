@@ -63,11 +63,13 @@ class MagentoImport implements PreProcessorInterface
     /**
      * {@inheritdoc}
      */
-    public function process($lessContent, array $viewParams, array $paths = [])
+    public function process(PreProcessor\File $lessFile, $lessContent)
     {
+        $viewParams = $lessFile->getViewParams();
+        $parentPath = $lessFile->getFilePath();
         $this->viewService->updateDesignParams($viewParams);
-        $replaceCallback = function ($matchContent) use ($viewParams, $paths) {
-            return $this->replace($matchContent, $viewParams, $paths);
+        $replaceCallback = function ($matchContent) use ($viewParams, $parentPath) {
+            return $this->replace($matchContent, $viewParams, $parentPath);
         };
         return preg_replace_callback(self::REPLACE_PATTERN, $replaceCallback, $lessContent);
     }
@@ -77,18 +79,14 @@ class MagentoImport implements PreProcessorInterface
      *
      * @param array $matchContent
      * @param array $viewParams
-     * @param array $paths
+     * @param string $parentPath
      * @return string
      */
-    protected function replace($matchContent, $viewParams, $paths)
+    protected function replace($matchContent, $viewParams, $parentPath)
     {
         $importsContent = '';
         try {
-            $resolvedPath = $this->relatedFile->buildPath(
-                $matchContent['path'],
-                $paths['parentPath'],
-                $viewParams
-            );
+            $resolvedPath = $this->relatedFile->buildPath($matchContent['path'], $parentPath, $viewParams);
             $importFiles = $this->fileSource->getFiles($viewParams['themeModel'], $resolvedPath);
             /** @var $importFile \Magento\View\Layout\File */
             foreach ($importFiles as $importFile) {
