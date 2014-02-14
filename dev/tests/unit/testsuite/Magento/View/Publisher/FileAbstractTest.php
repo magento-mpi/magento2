@@ -81,7 +81,6 @@ class FileAbstractTest extends \PHPUnit_Framework_TestCase
                 'sourcePath' => $sourcePath
             ]
         );
-
     }
 
     /**
@@ -92,7 +91,7 @@ class FileAbstractTest extends \PHPUnit_Framework_TestCase
     public function testGetExtension($filePath, $expected)
     {
         $this->getModelMock($filePath, true, ['some', 'array']);
-        $this->assertEquals($expected, $this->fileAbstract->getExtension());
+        $this->assertSame($expected, $this->fileAbstract->getExtension());
     }
 
     /**
@@ -102,7 +101,7 @@ class FileAbstractTest extends \PHPUnit_Framework_TestCase
     {
         return [
             ['some\path\file.css', 'css'],
-            ['some\path\noextension', false]
+            ['some\path\noextension', '']
         ];
     }
 
@@ -125,7 +124,7 @@ class FileAbstractTest extends \PHPUnit_Framework_TestCase
                 ->will($this->returnValue($isExist));
         }
 
-        $this->assertEquals($expected, $this->fileAbstract->isSourceFileExists());
+        $this->assertSame($expected, $this->fileAbstract->isSourceFileExists());
     }
 
     /**
@@ -169,24 +168,84 @@ class FileAbstractTest extends \PHPUnit_Framework_TestCase
     {
         $filePath = 'test\me';
         $this->getModelMock($filePath, true, ['some', 'array']);
-        $this->assertEquals($filePath, $this->fileAbstract->getFilePath());
+        $this->assertSame($filePath, $this->fileAbstract->getFilePath());
     }
 
     public function testGetViewParams()
     {
         $viewParams = ['some', 'array'];
         $this->getModelMock('some\file', true, $viewParams);
-        $this->assertEquals($viewParams, $this->fileAbstract->getViewParams());
+        $this->assertSame($viewParams, $this->fileAbstract->getViewParams());
     }
-//
-//    public function testBuildPublicViewFilename()
-//    {
-//    }
-//
-//    public function testGetSourcePath()
-//    {
-//        $viewParams = ['some', 'array'];
-//        $this->getModelMock('some\file', true, $viewParams);
-//        $this->assertEquals($viewParams, $this->fileAbstract->getViewParams());
-//    }
+
+    public function testBuildPublicViewFilename()
+    {
+        $this->getModelMock('some\file', true, []);
+        $this->serviceMock->expects($this->once())
+            ->method('getPublicDir')->will($this->returnValue('/some/pub/dir'));
+
+        $this->fileAbstract->expects($this->once())
+            ->method('buildUniquePath')
+            ->will($this->returnValue('some/path/to/file'));
+        $this->assertSame('/some/pub/dir/some/path/to/file', $this->fileAbstract->buildPublicViewFilename());
+    }
+
+    /**
+     * @param string $filePath
+     * @param bool $isExist
+     * @param null|string $sourcePath
+     * @param string|null $fallback
+     * @param bool $expected
+     * @internal param null|string $sourceFile
+     * @dataProvider getSourcePathDataProvider
+     */
+    public function testGetSourcePath($filePath, $isExist, $sourcePath, $fallback, $expected)
+    {
+        $this->getModelMock($filePath, true, ['some', 'array'], $sourcePath, $fallback);
+        if ($fallback) {
+            $this->rootDirectory->expects($this->once())
+                ->method('isExist')
+                ->with('related\\' . $fallback)
+                ->will($this->returnValue($isExist));
+        }
+
+        $this->assertSame($expected, $this->fileAbstract->getSourcePath());
+    }
+
+    /**
+     * @return array
+     */
+    public function getSourcePathDataProvider()
+    {
+        return [
+            [
+                'filePath' => 'some\file',
+                'isExist' => false,
+                'sourcePath' => null,
+                'fallback' => null,
+                'expectedResult' => null
+            ],
+            [
+                'filePath' => 'some\file2',
+                'isExist' => false,
+                'sourcePath' => 'some\sourcePath',
+                'fallback' => null,
+                'expectedResult' => null
+            ],
+            [
+                'filePath' => 'some\file2',
+                'isExist' => false,
+                'sourcePath' => null,
+                'fallback' => 'some\fallback\file',
+                'expectedResult' => null
+            ],
+            [
+                'filePath' => 'some\file2',
+                'isExist' => true,
+                'sourcePath' => null,
+                'fallback' => 'some\fallback\file',
+                'expectedResult' => 'fallback\some\fallback\file'
+            ],
+        ];
+    }
 }
