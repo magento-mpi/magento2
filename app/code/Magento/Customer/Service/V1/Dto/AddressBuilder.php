@@ -210,7 +210,6 @@ class AddressBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
      */
     public function setCustomerId($customerId)
     {
-        /** XXX: (string) Needed for tests to pass */
         return $this->_set(Address::KEY_CUSTOMER_ID, $customerId);
     }
 }
