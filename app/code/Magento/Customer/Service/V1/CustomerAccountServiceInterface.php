@@ -22,6 +22,11 @@ interface CustomerAccountServiceInterface
     const NEW_ACCOUNT_EMAIL_CONFIRMED = 'confirmed';       // welcome email, when confirmation is enabled
     const NEW_ACCOUNT_EMAIL_CONFIRMATION = 'confirmation'; // email with confirmation link
 
+    // Constants for confirmation status
+    const ACCOUNT_CONFIRMED = 'comfirmed';
+    const ACCOUNT_CONFIRMATION_REQUIRED = 'required';
+    const ACCOUNT_CONFIRMATION_NOT_REQUIRED = 'not_required';
+
     /**
      * Create Customer Account
      *
@@ -116,6 +121,14 @@ interface CustomerAccountServiceInterface
      * @throws \Magento\Exception\NoSuchEntityException if customer doesn't exist
      */
     public function resetPassword($customerId, $password, $resetToken);
+
+    /**
+     * Gets the account confirmation status
+     *
+     * @param int $customerId
+     * @return string returns one of the account confirmation statuses
+     */
+    public function getConfirmationStatus($customerId);
 
     /*
      * Send Confirmation email
