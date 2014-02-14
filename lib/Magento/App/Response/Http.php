@@ -127,4 +127,9 @@ class Http extends \Zend_Controller_Response_Http implements \Magento\App\Respon
         $this->setHeader('cache-control', 'no-store, no-cache, must-revalidate, max-age=0', true);
         $this->setHeader('expires', gmdate('D, d M Y H:i:s T', strtotime('-1 year')), true);
     }
+
+    public function __sleep()
+    {
+        return array('vary', '_body', '_exceptions', '_headers', '_headersRaw', '_httpResponseCode');
+    }
 }
