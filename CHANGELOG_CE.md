@@ -1,3 +1,5 @@
+2.0.0.0-dev65
+=============
 * Fixed bugs:
   * Fixed an issue with Backup module feature not possible to store files
 * Indexer implementation:
@@ -5,6 +7,10 @@
 * Cron improvements:
   * Added the ability to divide cron tasks into groups
   * Added the ability to run cron groups in separate processes
+* Caching improvements:
+  * Added new mechanism to identify page content uniquely (hash-key for cache storage)
+  * Added new System Configuration tab for Page Cache mechanism.
+  * Implemented possibility to configure setting for Varnish caching server and download it like `*.vcl` file
 * LESS pre-processisng to CSS
   * LESS files in library/theme/module, during materialization are automatically compiled into CSS
   * LESS files compilation caching mechanism added for developer mode
@@ -29,10 +35,6 @@
   * Moved abstract shopping cart logic from the Paypal module to the Payments module
 * Caching improvements:
   * Added a new mechanism to uniquely identify page content (a hash-key for cache storage)
-  * Replaced the "magentoZoom" plugin with two widgets: the "gallery" and "zoom"
-  * Added new mechanism to identify page content uniquely (hash-key for cache storage)
-  * Added new System Configuration tab for Page Cache mechanism.
-  * Implemented possibility to configure setting for Varnish caching server and download it like `*.vcl` file
 * Fixed bugs:
   * Fixed an issue with inserting an image in WYSIWYG editor where the selected folder was stored in session
   * Fixed an issue with CMS Page Links not being shown because of the empty text in the link
@@ -45,6 +47,7 @@
 * Created the architecture for the email template library
 * Introduced a consistent approach for using the Config scope
 * Fixed an issue with the dependency static test
+* Replaced the "magentoZoom" plugin with two widgets: the "gallery" and "zoom"
 
 2.0.0.0-dev63
 =============
