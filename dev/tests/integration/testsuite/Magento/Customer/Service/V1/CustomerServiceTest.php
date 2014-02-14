@@ -613,15 +613,13 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
     /**
      *
      * @magentoDataFixture Magento/Customer/_files/customer.php
-     * @magentoDataFixture Magento/Customer/_files/customer_address.php
      * @magentoDataFixture Magento/Customer/_files/customer_two_addresses.php
-     * @magentoAppArea adminhtml
-     * @magentoAppIsolation enabled
      * @expectedException \Magento\Exception\NoSuchEntityException
      * @expectedExceptionMessage No such entity with customerId = 1
      */
     public function testDeleteCustomerWithAddress()
     {
+        $this->markTestSkipped('Investigate how to ensure that addresses are deleted. Currently it is false negative');
         //Verify address is created for the customer;
         $result = $this->_addressService->getAddresses(1);
         $this->assertEquals(2, count($result));
@@ -644,7 +642,7 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
      */
     protected function verifyDeletedAddress($addressId)
     {
-        /** @var $addressFactory \Magento\Customer\Model\AddressFactory*/
+        /** @var $addressFactory \Magento\Customer\Model\AddressFactory */
         $addressFactory = $this->_objectManager
             ->create('Magento\Customer\Model\AddressFactory');
         $addressModel = $addressFactory->create()->load($addressId);
