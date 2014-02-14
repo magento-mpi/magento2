@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Css\PreProcessor\Cache;
+namespace Magento\Css\PreProcessor;
 
 class CacheTest extends \PHPUnit_Framework_TestCase
 {

@@ -50,10 +50,9 @@ class PluginTest extends \PHPUnit_Framework_TestCase
      * @param array $arguments
      * @param \Magento\Code\Plugin\InvocationChain $invocationChain
      * @param array $cacheManagerData
-     * @param string|null $expected
      * @dataProvider aroundProcessDataProvider
      */
-    public function testAroundProcess($arguments, $invocationChain, $cacheManagerData, $expected)
+    public function testAroundProcess($arguments, $invocationChain, $cacheManagerData)
     {
         if (!empty($cacheManagerData)) {
             foreach ($cacheManagerData as $method => $info) {
@@ -70,7 +69,8 @@ class PluginTest extends \PHPUnit_Framework_TestCase
             }
         }
         $this->assertInstanceOf(
-            'Magento\View\Publisher\CssFile', $this->plugin->aroundProcess($arguments, $invocationChain)
+            'Magento\View\Publisher\CssFile',
+            $this->plugin->aroundProcess($arguments, $invocationChain)
         );
     }
 
