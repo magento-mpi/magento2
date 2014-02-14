@@ -7,16 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
-/**
- * Quote rule action abstract
- */
 namespace Magento\Rule\Model\Action;
 
 use Magento\Data\Form;
 use Magento\Data\Form\Element\AbstractElement;
 
+/**
+ * Quote rule action abstract
+ */
 abstract class AbstractAction extends \Magento\Object implements ActionInterface
 {
     /**

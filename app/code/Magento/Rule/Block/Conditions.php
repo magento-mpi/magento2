@@ -7,8 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\Rule\Block;
 
 use Magento\Data\Form\Element\AbstractElement;
