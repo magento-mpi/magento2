@@ -10,6 +10,7 @@ namespace Magento\Catalog\Model\Indexer\Category;
 
 /**
  * @magentoDataFixture Magento/Catalog/_files/indexer_catalog_category.php
+ * @magentoDbIsolation enabled
  */
 class ProductTest extends \PHPUnit_Framework_TestCase
 {
@@ -73,11 +74,10 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @magentoAppArea adminhtml
+     * @depends testReindexAll
      */
     public function testCategoryMove()
     {
-        $this->clearIndex();
-
         $categories = $this->getCategories(4);
         $products = $this->getProducts(2);
 
@@ -92,6 +92,9 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Catalog\Model\Category $categoryThird */
         $categoryThird = $categories[2];
 
+        /**
+         * Move category from $categoryThird to $categorySecond
+         */
         $categoryFourth->move($categorySecond->getId(), null);
 
         $categories = array(self::DEFAULT_ROOT_CATEGORY, $categorySecond->getId(), $categoryFourth->getId());
@@ -110,11 +113,10 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @magentoAppArea adminhtml
+     * @depends testReindexAll
      */
     public function testCategoryDelete()
     {
-        $this->clearIndex();
-
         $categories = $this->getCategories(4);
         $products = $this->getProducts(2);
 
@@ -140,6 +142,9 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    /**
+     * @depends testReindexAll
+     */
     public function testCategoryCreate()
     {
         $categories = $this->getCategories(4);
