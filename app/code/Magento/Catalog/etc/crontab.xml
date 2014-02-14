@@ -13,7 +13,7 @@
             <schedule>0 2 * * *</schedule>
         </job>
         <job name="enterprise_catalog_index_refresh_price" instance="\Magento\Catalog\Model\Indexer\Product\Price\Observer" method="refreshSpecialPrices">
-            <schedule>* * * * *</schedule><!--0-->
+            <schedule>0 * * * *</schedule>
         </job>
     </group>
 </config>

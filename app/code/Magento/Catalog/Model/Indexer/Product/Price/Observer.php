@@ -71,6 +71,11 @@ class Observer
         $this->_processor = $processor;
     }
 
+    /**
+     * Retrieve write connection instance
+     *
+     * @return bool|\Magento\DB\Adapter\AdapterInterface
+     */
     protected function _getWriteConnection()
     {
         if (null === $this->_connection) {
@@ -109,7 +114,7 @@ class Observer
     }
 
     /**
-     * Add affected products to changelog
+     * Reindex affected products
      *
      * @param int $storeId
      * @param string $attrCode
