@@ -38,7 +38,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
     /**
      * @var string
      */
-    protected $libDir = '/some/pub/lib/dir';
+    protected $libDir = '/some/lib/web/dir';
 
     /**
      * @var string
@@ -108,7 +108,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
     public function getPathCallback($param)
     {
         switch ($param) {
-            case \Magento\App\Filesystem::PUB_LIB_DIR:
+            case \Magento\App\Filesystem::LIB_WEB:
                 return $this->libDir;
             case \Magento\App\Filesystem::STATIC_VIEW_DIR:
                 return $this->viewStaticDir;
