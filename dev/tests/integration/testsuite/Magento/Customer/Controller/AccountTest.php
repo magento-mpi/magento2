@@ -381,4 +381,15 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
             \Magento\Message\MessageInterface::TYPE_SUCCESS
         );
     }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     */
+    public function testEditAction()
+    {
+        $this->_login();
+        $this->dispatch('customer/account/edit/changepass/1');
+
+        $this->assertEquals(200, $this->getResponse()->getHttpResponseCode());
+    }
 }

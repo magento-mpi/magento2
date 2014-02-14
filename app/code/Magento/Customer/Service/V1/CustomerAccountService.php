@@ -216,6 +216,21 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     /**
      * {@inheritdoc}
      */
+    public function getConfirmationStatus($customerId)
+    {
+        $customerModel = $this->_customerFactory->create()->load($customerId);
+        if (!$customerModel->getConfirmation()) {
+            return CustomerAccountServiceInterface::ACCOUNT_CONFIRMED;
+        }
+        if ($customerModel->isConfirmationRequired()) {
+            return CustomerAccountServiceInterface::ACCOUNT_CONFIRMATION_REQUIRED;
+        }
+        return CustomerAccountServiceInterface::ACCOUNT_CONFIRMATION_NOT_REQUIRED;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function createAccount(
         Dto\Customer $customer,
         array $addresses,
