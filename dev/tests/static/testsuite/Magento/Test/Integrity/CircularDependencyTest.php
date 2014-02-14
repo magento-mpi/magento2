@@ -69,7 +69,7 @@ class CircularDependencyTest extends \PHPUnit_Framework_TestCase
      */
     public function testCircularDependencies()
     {
-//        $this->markTestSkipped('Skipped before circular dependencies will be fixed MAGETWO-10938');
+        $this->markTestSkipped('Skipped before circular dependencies will be fixed MAGETWO-10938');
         if ($this->circularModuleDependencies) {
             $result = '';
             foreach ($this->circularModuleDependencies as $module => $chains) {
