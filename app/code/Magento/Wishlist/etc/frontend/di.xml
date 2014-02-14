@@ -33,14 +33,4 @@
             </array>
         </param>
     </type>
-    <virtualType name="wishlistInitSession" type="Magento\Core\App\Action\Plugin\Session">
-        <param name="cookieCheckActions">
-            <array>
-                <item key="wishlistAdd"><value>add</value></item>
-            </array>
-        </param>
-    </virtualType>
-    <type name="Magento\Wishlist\Controller\Index">
-        <plugin name="sessionInitializer" type="wishlistInitSession" />
-    </type>
 </config>

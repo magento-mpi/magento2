@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Newsletter\Model\Resource\Subscriber;
 
+use Magento\Newsletter\Model\Queue as ModelQueue;
 
 /**
  * Newsletter subscribers collection
@@ -16,10 +18,6 @@
  * @package     Magento_Newsletter
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Newsletter\Model\Resource\Subscriber;
-
-use Magento\Newsletter\Model\Queue as ModelQueue;
-
 class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
 
@@ -92,6 +90,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Constructor
      * Configures collection
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -117,7 +116,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * @param ModelQueue $queue
      * @return $this
      */
-    public function useQueue(\Magento\Newsletter\Model\Queue $queue)
+    public function useQueue(ModelQueue $queue)
     {
         $this->getSelect()
             ->join(array('link'=>$this->_queueLinkTable), "link.subscriber_id = main_table.subscriber_id", array())

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Log\Model\Visitor;
 
 /**
  * Prepare Log Online Visitors Model
@@ -30,8 +30,6 @@
  * @package     Magento_Log
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Log\Model\Visitor;
-
 class Online extends \Magento\Core\Model\AbstractModel
 {
     const XML_PATH_ONLINE_INTERVAL      = 'customer/online_customers/online_minutes_interval';
@@ -67,6 +65,7 @@ class Online extends \Magento\Core\Model\AbstractModel
     /**
      * Initialize resource model
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -86,7 +85,7 @@ class Online extends \Magento\Core\Model\AbstractModel
     /**
      * Prepare Online visitors collection
      *
-     * @return \Magento\Log\Model\Visitor\Online
+     * @return $this
      */
     public function prepare()
     {
@@ -108,7 +107,7 @@ class Online extends \Magento\Core\Model\AbstractModel
      * Set Prepare at timestamp (if time is null, set current timestamp)
      *
      * @param int $time
-     * @return \Magento\Log\Model\Resource\Visitor\Online
+     * @return $this
      */
     public function setPrepareAt($time = null)
     {

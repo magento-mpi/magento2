@@ -64,14 +64,7 @@ class Converter
      */
     public function getCustomerModel($customerId)
     {
-        $customer = $this->_customerFactory->create()->load($customerId);
-
-        if (!$customer->getId()) {
-            // customer does not exist
-            throw new NoSuchEntityException('customerId', $customerId);
-        } else {
-            return $customer;
-        }
+        return $this->_customerFactory->create()->load($customerId);
     }
 
 

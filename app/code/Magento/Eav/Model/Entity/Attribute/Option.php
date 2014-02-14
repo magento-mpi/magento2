@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Eav\Model\Entity\Attribute;
 
 /**
  * Emtity attribute option model
@@ -22,8 +23,6 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Eav\Model\Entity\Attribute;
-
 class Option extends \Magento\Core\Model\AbstractModel
 {
     /**
