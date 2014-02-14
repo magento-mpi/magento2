@@ -24,14 +24,6 @@
             <argument name="catalogProductStatus" xsi:type="object">Magento\Catalog\Model\Product\Status\Proxy</argument>
         </arguments>
     </type>
-    <type name="Magento\Catalog\Model\Resource\Product\Flat\Indexer">
-        <arguments>
-            <argument name="maxIndexCount" xsi:type="number">64</argument>
-            <argument name="flatAttributeGroups" xsi:type="array">
-                <item name="catalog_product" xsi:type="string">catalog_product</item>
-            </argument>
-        </arguments>
-    </type>
     <type name="Magento\Catalog\Model\Resource\Product\Collection">
         <arguments>
             <argument name="catalogUrl" xsi:type="object">Magento\Catalog\Model\Resource\Url\Proxy</argument>
@@ -50,12 +42,6 @@
                     <item name="label" xsi:type="string">Block after Info Column</item>
                 </item>
             </argument>
-        </arguments>
-    </type>
-    <type name="Magento\Catalog\Helper\Product\Flat">
-        <arguments>
-            <argument name="addFilterableAttrs" xsi:type="number">0</argument>
-            <argument name="addChildData" xsi:type="number">0</argument>
         </arguments>
     </type>
     <type name="Magento\Catalog\Helper\Data">
@@ -124,9 +110,11 @@
     </type>
     <type name="Magento\Core\Model\Resource\Store">
         <plugin name="storeViewResourceAroundSave" type="Magento\Catalog\Model\Indexer\Category\Flat\Plugin\StoreView"/>
+        <plugin name="catalogProductFlatIndexerStore" type="Magento\Catalog\Model\Indexer\Product\Flat\Plugin\Store" />
     </type>
     <type name="Magento\Core\Model\Resource\Store\Group">
         <plugin name="storeGroupResourceAroundSave" type="Magento\Catalog\Model\Indexer\Category\Flat\Plugin\StoreGroup"/>
+        <plugin name="catalogProductFlatIndexerStoreGroup" type="Magento\Catalog\Model\Indexer\Product\Flat\Plugin\StoreGroup" />
     </type>
     <type name="Magento\Catalog\Model\Indexer\Category\Flat\Plugin\AbstractStore">
         <arguments>
@@ -135,10 +123,26 @@
     </type>
     <type name="Magento\Indexer\Model\Config\Data">
         <plugin name="indexerConfigGet" type="Magento\Catalog\Model\Indexer\Category\Flat\Plugin\IndexerConfigData"/>
+        <plugin name="indexerConfigGet" type="Magento\Catalog\Model\Indexer\Product\Flat\Plugin\IndexerConfigData"/>
     </type>
     <type name="Magento\Catalog\Model\Indexer\Category\Flat">
         <arguments>
             <argument name="indexer" xsi:type="object" shared="false">Magento\Indexer\Model\IndexerInterface</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Catalog\Model\Indexer\Product\Flat\Processor">
+        <arguments>
+            <argument name="indexer" xsi:type="object" shared="false">Magento\Indexer\Model\Indexer</argument>
+        </arguments>
+    </type>
+    <type name="Magento\ImportExport\Model\Import">
+        <plugin name="catalogProductFlatIndexerImport" type="\Magento\Catalog\Model\Indexer\Product\Flat\Plugin\Import" />
+    </type>
+    <type name="Magento\Catalog\Helper\Product\Flat\Indexer">
+        <arguments>
+            <argument name="flatAttributeGroups" xsi:type="array">
+                <item name="catalog_product" xsi:type="string">catalog_product</item>
+            </argument>
         </arguments>
     </type>
     <type name="Magento\Catalog\Model\Product\LinkTypeProvider">

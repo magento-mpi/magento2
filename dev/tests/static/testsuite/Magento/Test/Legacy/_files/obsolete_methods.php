@@ -1266,5 +1266,9 @@ return array(
     array('_processValueNode', 'Magento\ObjectManager\Config\Mapper\Dom',
         'Magento\Data\Argument\Interpreter\Composite'),
     array('cleanAction', 'Magento\PageCache\Controller\Adminhtml\PageCache'),
-    array('_isAllowed', 'Magento\PageCache\Controller\Adminhtml\PageCache')
+    array('_isAllowed', 'Magento\PageCache\Controller\Adminhtml\PageCache'),
+    array('useDbCompatibleMode', 'Magento\Core\Helper\Data'),
+    array('getFlag', 'Magento\Catalog\Helper\Product\Flat'),
+    array('isBuilt', 'Magento\Catalog\Helper\Product\Flat'),
+    array('getIndexerIds', 'Magento\Indexer\Model\Config'),
 );
