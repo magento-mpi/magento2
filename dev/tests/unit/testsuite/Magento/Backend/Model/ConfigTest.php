@@ -93,7 +93,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             'Magento\Core\Model\Config\ValueFactory',
             array(), array(), '', false
         );
-        
+
         $this->_storeManager = $this->getMockForAbstractClass('Magento\Core\Model\StoreManagerInterface');
 
         $this->_model = new \Magento\Backend\Model\Config(
@@ -138,14 +138,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->_configLoaderMock->expects($this->any())
             ->method('getConfigByPath')
             ->will($this->returnValue(array()));
-
-        $this->_eventManagerMock->expects($this->at(1))
-            ->method('dispatch')
-            ->with($this->equalTo('admin_system_config_changed_section_'), $this->arrayHasKey('oldConfigData'));
-
-        $this->_eventManagerMock->expects($this->at(1))
-            ->method('dispatch')
-            ->with($this->equalTo('admin_system_config_changed_section_'), $this->arrayHasKey('newConfigData'));
 
         $this->_eventManagerMock->expects($this->at(1))
             ->method('dispatch')
