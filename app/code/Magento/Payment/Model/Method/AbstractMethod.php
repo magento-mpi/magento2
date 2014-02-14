@@ -563,7 +563,6 @@ abstract class AbstractMethod extends \Magento\Object
      *
      * @param \Magento\Object $payment
      * @param float $amount
-     *
      * @return $this
      * @throws \Magento\Core\Exception
      */
@@ -629,7 +628,7 @@ abstract class AbstractMethod extends \Magento\Object
      * Attempt to accept a payment that us under review
      *
      * @param \Magento\Payment\Model\Info $payment
-     * @return bool
+     * @return false
      * @throws \Magento\Core\Exception
      */
     public function acceptPayment(\Magento\Payment\Model\Info $payment)
@@ -644,7 +643,7 @@ abstract class AbstractMethod extends \Magento\Object
      * Attempt to deny a payment that us under review
      *
      * @param \Magento\Payment\Model\Info $payment
-     * @return bool
+     * @return false
      * @throws \Magento\Core\Exception
      */
     public function denyPayment(\Magento\Payment\Model\Info $payment)
@@ -685,8 +684,8 @@ abstract class AbstractMethod extends \Magento\Object
     /**
      * Assign data to info model instance
      *
-     * @param   array|\Magento\Object $data
-     * @return  \Magento\Payment\Model\Info
+     * @param array|\Magento\Object $data
+     * @return $this
      */
     public function assignData($data)
     {
@@ -817,6 +816,7 @@ abstract class AbstractMethod extends \Magento\Object
      * Log debug data to file
      *
      * @param mixed $debugData
+     * @return void
      */
     protected function _debug($debugData)
     {
@@ -842,6 +842,7 @@ abstract class AbstractMethod extends \Magento\Object
      * Used to call debug method from not Payment Method context
      *
      * @param mixed $debugData
+     * @return void
      */
     public function debugData($debugData)
     {

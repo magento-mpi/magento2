@@ -109,7 +109,7 @@ class Cc extends \Magento\Payment\Block\Form
     /**
      * Whether switch/solo card type available
      *
-     * @return false
+     * @return bool
      */
     public function hasSsCardType()
     {

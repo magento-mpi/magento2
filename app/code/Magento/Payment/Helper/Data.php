@@ -24,7 +24,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Core store config
      *
-     * @var Store\Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
     
@@ -149,8 +149,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
     }
 
     /**
-     * @param $a
-     * @param $b
+     * @param $mixed $a
+     * @param $mixed $b
      * @return int
      */
     protected function _sortMethods($a, $b)
@@ -268,7 +268,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param bool $sorted
      * @param bool $asLabelValue
      * @param bool $withGroups
-     * @param Store $store
+     * @param Store|null $store
      * @return array
      */
     public function getPaymentMethodList($sorted = true, $asLabelValue = false, $withGroups = false, $store = null)
@@ -322,7 +322,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Returns value of Zero Subtotal Checkout / Enabled
      *
-     * @param mixed $store
+     * @param null|string|bool|int|Store $store
      * @return bool
      */
     public function isZeroSubTotal($store = null)
@@ -334,7 +334,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Returns value of Zero Subtotal Checkout / New Order Status
      *
-     * @param mixed $store
+     * @param null|string|bool|int|Store $store
      * @return string
      */
     public function getZeroSubTotalOrderStatus($store = null)
@@ -346,7 +346,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Returns value of Zero Subtotal Checkout / Automatically Invoice All Items
      *
-     * @param mixed $store
+     * @param null|string|bool|int|Store $store
      * @return string
      */
     public function getZeroSubTotalPaymentAutomaticInvoice($store = null)

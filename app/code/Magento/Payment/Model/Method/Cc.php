@@ -84,8 +84,8 @@ class Cc extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Assign data to info model instance
      *
-     * @param   \Magento\Object|mixed $data
-     * @return  \Magento\Payment\Model\Info
+     * @param \Magento\Object|mixed $data
+     * @return $this
      */
     public function assignData($data)
     {
