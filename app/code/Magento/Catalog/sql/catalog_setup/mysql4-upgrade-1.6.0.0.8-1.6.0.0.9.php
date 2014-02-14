@@ -24,6 +24,10 @@ if ($modulesDirectory->isExist($modulesDirectory->getRelativePath($installFile))
 /** @var $connection \Magento\DB\Adapter\Pdo\Mysql */
 $connection = $installer->getConnection();
 $memoryTables = array(
+    'catalog_category_anc_categs_index_tmp',
+    'catalog_category_anc_products_index_tmp',
+    'catalog_category_product_index_enbl_tmp',
+    'catalog_category_product_index_tmp',
     'catalog_product_index_eav_decimal_tmp',
     'catalog_product_index_eav_tmp',
     'catalog_product_index_price_cfg_opt_agr_tmp',
