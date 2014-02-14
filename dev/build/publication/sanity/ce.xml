@@ -403,6 +403,10 @@
             <word>CHANGELOG</word>
         </item>
         <item>
+            <path>app/code/Magento/Catalog/Model/Indexer/Product/Flat/AbstractAction.php</path>
+            <word>CHANGELOG</word>
+        </item>
+        <item>
             <path>app/code/Magento/Indexer</path>
             <word>CHANGELOG</word>
         </item>
