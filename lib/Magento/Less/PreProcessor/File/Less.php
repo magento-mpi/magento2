@@ -156,9 +156,10 @@ class Less
     public function getFileIdentifier()
     {
         $themeIdentifier = !empty($this->viewParams['themeModel']) && $this->viewParams['themeModel']->getFullPath()
-            ? $this->viewParams['themeModel']->getFullPath()
-            : 'base';
-        return implode('|', [$this->filePath, $this->viewParams['module'], $themeIdentifier]);
+            ? 'base'
+            : $this->viewParams['themeModel']->getFullPath();
+        $module = empty($this->viewParams['module']) ? 'base' : $this->viewParams['module'];
+        return implode('|', [$this->filePath, $module, $themeIdentifier]);
     }
 
     /**

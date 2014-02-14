@@ -14,12 +14,12 @@ namespace Magento\Less;
 class PreProcessor
 {
     /**
-     * @var InstructionFactory
+     * @var PreProcessor\InstructionFactory
      */
     protected $instructionFactory;
 
     /**
-     * @var PreProcessor\FileListFactory
+     * @var PreProcessor\File\FileListFactory
      */
     protected $fileListFactory;
 

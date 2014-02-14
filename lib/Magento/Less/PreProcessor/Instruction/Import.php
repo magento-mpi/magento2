@@ -81,7 +81,6 @@ class Import implements PreProcessorInterface
                 );
                 $importedLessFile = $this->fileFactory->create([
                     'filePath'   => $resolvedPath,
-                    'parentFile' => $lessFile,
                     'viewParams' => $viewParams
                 ]);
                 $this->fileList->addFile($importedLessFile);
