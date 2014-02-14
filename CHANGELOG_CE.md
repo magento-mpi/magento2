@@ -17,13 +17,16 @@
 * Improvements in code coverage calculation:
   * Added code coverage calculation in clover xml format for unit tests
 * GitHub requests:
- * [#377] (https://github.com/magento/magento2/issues/377) Remove and avoid javascript eval() calls
- * [#319] (https://github.com/magento/magento2/issues/319) No message was displayed when product added to shopping cart.
- * [#367] (https://github.com/magento/magento2/issues/367) Improve the error message from the contact form
- * [#469] (https://github.com/magento/magento2/issues/469) Can't change prices on different websites for custom options
+  * [#377] (https://github.com/magento/magento2/issues/377) Remove and avoid javascript eval() calls
+  * [#319] (https://github.com/magento/magento2/issues/319) No message was displayed when product added to shopping cart.
+  * [#367] (https://github.com/magento/magento2/issues/367) Improve the error message from the contact form
+  * [#469] (https://github.com/magento/magento2/issues/469) Can't change prices on different websites for custom options
 * Update Customer Service Exception handling and add tests
 * Add usage of Customer Service to Customer Module, replacing some direct usage of Customer Model
 * Updated various PHPDoc with parameter and return types
+* Unified format of specifying arguments for class constructors in DI and in Layout configuration
+  * Common xsd schema is being used for defining simple types. Layout and DI customize common types with their specific ones
+  * Arguments processing is unified and moved to library
 
 2.0.0.0-dev64
 =============
