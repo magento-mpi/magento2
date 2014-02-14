@@ -87,6 +87,7 @@ abstract class AbstractRecurring
      *
      * @param \Magento\Sales\Model\Quote\Address $address
      * @param \Magento\Sales\Model\Quote\Item\AbstractItem $item
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function _afterCollectSuccess($address, $item)
     {
