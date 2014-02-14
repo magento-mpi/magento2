@@ -27,6 +27,8 @@ class Config implements \Magento\Image\Adapter\ConfigInterface
 
     /**
      * {@inherit}
+     *
+     * @return string
      */
     public function getAdapterAlias()
     {
@@ -35,6 +37,8 @@ class Config implements \Magento\Image\Adapter\ConfigInterface
 
     /**
      * {@inherit}
+     *
+     * @return mixed
      */
     public function getAdapters()
     {

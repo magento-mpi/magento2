@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Catalog\Model\Category\Attribute\Source;
 
 /**
  * Catalog category landing page attribute source
@@ -15,8 +16,6 @@
  * @package    Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Model\Category\Attribute\Source;
-
 class Layout extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
 {
     /**
@@ -37,6 +36,9 @@ class Layout extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
         $this->_pageSourceLayout = $pageSourceLayout;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getAllOptions()
     {
         if (!$this->_options) {

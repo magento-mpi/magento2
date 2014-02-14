@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Block\Widget\Button;
 
 /**
  * Split button widget
@@ -20,12 +21,12 @@
  * @method string getStyle()
  * @method array getDataAttribute()
  */
-namespace Magento\Backend\Block\Widget\Button;
-
 class SplitButton extends \Magento\Backend\Block\Widget
 {
     /**
      * Define block template
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -189,7 +190,8 @@ class SplitButton extends \Magento\Backend\Block\Widget
      * Add data attributes to $attributes array
      *
      * @param array $data
-     * @param array $attributes
+     * @param array &$attributes
+     * @return void
      */
     protected function _getDataAttributes($data, &$attributes)
     {

@@ -126,6 +126,8 @@ class Identifier
 
     /**
      * Initialize request ids
+     *
+     * @return void
      */
     protected function _createRequestIds()
     {
@@ -182,6 +184,7 @@ class Identifier
      * Initialize store cache id
      *
      * @param array $uriParts
+     * @return void
      */
     protected function _initializeStoreCacheId(array $uriParts)
     {
@@ -227,6 +230,8 @@ class Identifier
      * Some parts of $this->_requestId and $this->_requestCacheId might be changed in runtime
      * E.g. we may not know about design package
      * But during cache save we need this data to be actual
+     *
+     * @return void
      */
     public function refreshRequestIds()
     {

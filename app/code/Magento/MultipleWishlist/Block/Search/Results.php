@@ -22,7 +22,7 @@ class Results extends \Magento\View\Element\Template
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Core\Model\Registry|null
      */
     protected $_coreRegistry = null;
 

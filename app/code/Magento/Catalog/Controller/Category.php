@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Catalog\Controller;
 
 /**
  * Category controller
@@ -15,8 +16,6 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Controller;
-
 class Category extends \Magento\App\Action\Action
 {
     /**
@@ -116,6 +115,8 @@ class Category extends \Magento\App\Action\Action
 
     /**
      * Category view action
+     *
+     * @return void
      */
     public function viewAction()
     {

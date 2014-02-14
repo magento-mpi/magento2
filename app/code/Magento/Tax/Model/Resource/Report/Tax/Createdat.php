@@ -22,6 +22,8 @@ class Createdat extends \Magento\Reports\Model\Resource\Report\AbstractReport
 {
     /**
      * Resource initialization
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -33,7 +35,7 @@ class Createdat extends \Magento\Reports\Model\Resource\Report\AbstractReport
      *
      * @param mixed $from
      * @param mixed $to
-     * @return \Magento\Tax\Model\Resource\Report\Tax\Createdat
+     * @return $this
      */
     public function aggregate($from = null, $to = null)
     {
@@ -43,11 +45,11 @@ class Createdat extends \Magento\Reports\Model\Resource\Report\AbstractReport
     /**
      * Aggregate Tax data by orders
      *
-     * @throws \Exception
      * @param string $aggregationField
      * @param mixed $from
      * @param mixed $to
-     * @return \Magento\Tax\Model\Resource\Report\Tax\Createdat
+     * @return $this
+     * @throws \Exception
      */
     protected function _aggregateByOrder($aggregationField, $from, $to)
     {

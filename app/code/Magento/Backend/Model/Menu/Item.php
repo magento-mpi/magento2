@@ -191,7 +191,7 @@ class Item
      * Retrieve argument element, or default value
      *
      * @param array $array
-     * @param mixed $key
+     * @param string $key
      * @param mixed $defaultValue
      * @return mixed
      */
@@ -260,7 +260,7 @@ class Item
      * Set Item action
      *
      * @param string $action
-     * @return \Magento\Backend\Model\Menu\Item
+     * @return $this
      * @throws \InvalidArgumentException
      */
     public function setAction($action)
@@ -307,7 +307,7 @@ class Item
      * Set Item title
      *
      * @param string $title
-     * @return \Magento\Backend\Model\Menu\Item
+     * @return $this
      * @throws \InvalidArgumentException
      */
     public function setTitle($title)
@@ -341,7 +341,7 @@ class Item
      * Set Item tooltip
      *
      * @param string $tooltip
-     * @return \Magento\Backend\Model\Menu\Item
+     * @return $this
      * @throws \InvalidArgumentException
      */
     public function setTooltip($tooltip)
@@ -355,7 +355,7 @@ class Item
      * Set Item module
      *
      * @param string $module
-     * @return \Magento\Backend\Model\Menu\Item
+     * @return $this
      * @throws \InvalidArgumentException
      */
     public function setModule($module)
@@ -369,7 +369,7 @@ class Item
      * Set Item module dependency
      *
      * @param string $moduleName
-     * @return \Magento\Backend\Model\Menu\Item
+     * @return $this
      * @throws \InvalidArgumentException
      */
     public function setModuleDependency($moduleName)
@@ -383,7 +383,7 @@ class Item
      * Set Item config dependency
      *
      * @param string $configPath
-     * @return \Magento\Backend\Model\Menu\Item
+     * @return $this
      * @throws \InvalidArgumentException
      */
     public function setConfigDependency($configPath)
@@ -446,6 +446,9 @@ class Item
         }
     }
 
+    /**
+     * @return string[]
+     */
     public function __sleep()
     {
         if ($this->_submenu) {
@@ -467,6 +470,9 @@ class Item
         );
     }
 
+    /**
+     * @return void
+     */
     public function __wakeup()
     {
         $objectManager = \Magento\App\ObjectManager::getInstance();

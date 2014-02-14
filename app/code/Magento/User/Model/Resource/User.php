@@ -5,11 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\User\Model\Resource;
 
 use \Magento\User\Model\Acl\Role\Group as RoleGroup;
 use \Magento\User\Model\Acl\Role\User as RoleUser;
+use Magento\User\Model\User as ModelUser;
 
 /**
  * ACL user resource
@@ -56,6 +56,7 @@ class User extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Define main table
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -65,7 +66,7 @@ class User extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Initialize unique fields
      *
-     * @return \Magento\User\Model\Resource\User
+     * @return $this
      */
     protected function _initUniqueFields()
     {
@@ -85,10 +86,10 @@ class User extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Authenticate user by $username and $password
      *
-     * @param \Magento\User\Model\User $user
-     * @return \Magento\User\Model\Resource\User
+     * @param ModelUser $user
+     * @return $this
      */
-    public function recordLogin(\Magento\User\Model\User $user)
+    public function recordLogin(ModelUser $user)
     {
         $adapter = $this->_getWriteAdapter();
 
@@ -110,7 +111,7 @@ class User extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Load data by specified username
      *
      * @param string $username
-     * @return false|array
+     * @return array
      */
     public function loadByUsername($username)
     {
@@ -130,8 +131,8 @@ class User extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Check if user is assigned to any role
      *
-     * @param int|\Magento\Core\Admin\Model\User $user
-     * @return null|false|array
+     * @param int|ModelUser $user
+     * @return null|array
      */
     public function hasAssigned2Role($user)
     {
@@ -166,7 +167,7 @@ class User extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Set created/modified values before user save
      *
      * @param \Magento\Core\Model\AbstractModel $user
-     * @return \Magento\User\Model\Resource\User
+     * @return $this
      */
     protected function _beforeSave(\Magento\Core\Model\AbstractModel $user)
     {
@@ -182,7 +183,7 @@ class User extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Unserialize user extra data after user save
      *
      * @param \Magento\Core\Model\AbstractModel $user
-     * @return \Magento\User\Model\Resource\User
+     * @return $this
      */
     protected function _afterSave(\Magento\Core\Model\AbstractModel $user)
     {
@@ -197,9 +198,10 @@ class User extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Clear all user-specific roles of provided user
      *
-     * @param \Magento\User\Model\User $user
+     * @param ModelUser $user
+     * @return void
      */
-    public function _clearUserRoles(\Magento\User\Model\User $user)
+    public function _clearUserRoles(ModelUser $user)
     {
         $conditions = array(
             'user_id = ?' => (int) $user->getId(),
@@ -211,9 +213,10 @@ class User extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Create role for provided user of provided type
      *
      * @param $parentId
-     * @param \Magento\User\Model\User $user
+     * @param ModelUser $user
+     * @return void
      */
-    protected function _createUserRole($parentId, \Magento\User\Model\User $user)
+    protected function _createUserRole($parentId, ModelUser $user)
     {
         if ($parentId > 0) {
             /** @var \Magento\User\Model\Role $parentRole */
@@ -243,7 +246,7 @@ class User extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Unserialize user extra data after user load
      *
      * @param \Magento\Core\Model\AbstractModel $user
-     * @return \Magento\User\Model\Resource\User
+     * @return $this
      */
     protected function _afterLoad(\Magento\Core\Model\AbstractModel $user)
     {
@@ -327,7 +330,7 @@ class User extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Delete user role
      *
      * @param \Magento\Core\Model\AbstractModel $user
-     * @return \Magento\User\Model\Resource\User
+     * @return $this
      */
     public function deleteFromRole(\Magento\Core\Model\AbstractModel $user)
     {
@@ -353,7 +356,7 @@ class User extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Check if role user exists
      *
      * @param \Magento\Core\Model\AbstractModel $user
-     * @return array|false
+     * @return array
      */
     public function roleUserExists(\Magento\Core\Model\AbstractModel $user)
     {
@@ -381,7 +384,7 @@ class User extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Check if user exists
      *
      * @param \Magento\Core\Model\AbstractModel $user
-     * @return array|false
+     * @return array
      */
     public function userExists(\Magento\Core\Model\AbstractModel $user)
     {
@@ -417,7 +420,7 @@ class User extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param \Magento\Core\Model\AbstractModel $object
      * @param string $data
-     * @return \Magento\User\Model\Resource\User
+     * @return $this
      */
     public function saveExtra($object, $data)
     {

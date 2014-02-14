@@ -24,13 +24,35 @@ namespace Magento\Tax\Model\Calculation;
 
 class Rule extends \Magento\Core\Model\AbstractModel
 {
-    protected $_ctcs                = null;
-    protected $_ptcs                = null;
-    protected $_rates               = null;
+    /**
+     * @var mixed
+     */
+    protected $_ctcs = null;
 
-    protected $_ctcModel            = null;
-    protected $_ptcModel            = null;
-    protected $_rateModel           = null;
+    /**
+     * @var mixed
+     */
+    protected $_ptcs = null;
+
+    /**
+     * @var mixed
+     */
+    protected $_rates = null;
+
+    /**
+     * @var mixed
+     */
+    protected $_ctcModel = null;
+
+    /**
+     * @var mixed
+     */
+    protected $_ptcModel = null;
+
+    /**
+     * @var mixed
+     */
+    protected $_rateModel = null;
 
     /**
      * Prefix of model events names
@@ -91,7 +113,7 @@ class Rule extends \Magento\Core\Model\AbstractModel
      * After save rule
      * Redeclared for populate rate calculations
      *
-     * @return \Magento\Tax\Model\Calculation\Rule
+     * @return $this
      */
     protected function _afterSave()
     {
@@ -103,9 +125,9 @@ class Rule extends \Magento\Core\Model\AbstractModel
 
     /**
      * After rule delete
-     * redeclared for dispatch tax_settings_change_after event
+     * re-declared for dispatch tax_settings_change_after event
      *
-     * @return \Magento\Tax\Model\Calculation\Rule
+     * @return $this
      */
     protected function _afterDelete()
     {
@@ -113,6 +135,9 @@ class Rule extends \Magento\Core\Model\AbstractModel
         return parent::_afterDelete();
     }
 
+    /**
+     * @return void
+     */
     public function saveCalculationData()
     {
         $ctc = $this->getData('tax_customer_class');
@@ -143,16 +168,25 @@ class Rule extends \Magento\Core\Model\AbstractModel
         return $this->_calculation;
     }
 
+    /**
+     * @return array
+     */
     public function getRates()
     {
         return $this->getCalculationModel()->getRates($this->getId());
     }
 
+    /**
+     * @return array
+     */
     public function getCustomerTaxClasses()
     {
         return $this->getCalculationModel()->getCustomerTaxClasses($this->getId());
     }
 
+    /**
+     * @return array
+     */
     public function getProductTaxClasses()
     {
         return $this->getCalculationModel()->getProductTaxClasses($this->getId());

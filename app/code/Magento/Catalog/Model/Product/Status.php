@@ -78,6 +78,7 @@ class Status extends \Magento\Core\Model\AbstractModel
     /**
      * Initialize resource model
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -108,7 +109,7 @@ class Status extends \Magento\Core\Model\AbstractModel
     /**
      * Retrieve Visible Status Ids
      *
-     * @return array
+     * @return string[]
      */
     public function getVisibleStatusIds()
     {
@@ -119,7 +120,7 @@ class Status extends \Magento\Core\Model\AbstractModel
      * Retrieve Saleable Status Ids
      * Default Product Enable status
      *
-     * @return array
+     * @return int[]
      */
     public function getSaleableStatusIds()
     {
@@ -255,7 +256,6 @@ class Status extends \Magento\Core\Model\AbstractModel
     /**
      * Retrieve Select For Flat Attribute update
      *
-     * @param \Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute
      * @param int $store
      * @return \Magento\DB\Select|null
      */
@@ -268,7 +268,7 @@ class Status extends \Magento\Core\Model\AbstractModel
      * Set attribute instance
      *
      * @param \Magento\Catalog\Model\Resource\Eav\Attribute $attribute
-     * @return \Magento\Eav\Model\Entity\Attribute\Frontend\AbstractFrontend
+     * @return $this
      */
     public function setAttribute($attribute)
     {
@@ -291,7 +291,7 @@ class Status extends \Magento\Core\Model\AbstractModel
      *
      * @param \Magento\Eav\Model\Entity\Collection\AbstractCollection $collection
      * @param string $dir direction
-     * @return \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
+     * @return $this
      */
     public function addValueSortToCollection($collection, $dir = 'asc')
     {
