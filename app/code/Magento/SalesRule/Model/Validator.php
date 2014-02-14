@@ -88,6 +88,13 @@ class Validator extends \Magento\Core\Model\AbstractModel
     protected $_customerFactory;
 
     /**
+     * Defines if rule with stop further rules is already applied
+     *
+     * @var bool
+     */
+    protected $_stopFurtherRules = false;
+
+    /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\SalesRule\Model\Resource\Coupon\UsageFactory $usageFactory
@@ -341,6 +348,10 @@ class Validator extends \Magento\Core\Model\AbstractModel
 
         $appliedRuleIds = array();
         foreach ($this->_getRules() as $rule) {
+            if ($this->_stopFurtherRules) {
+                break;
+            }
+
             /* @var $rule \Magento\SalesRule\Model\Rule */
             if (!$this->_canProcessRule($rule, $address)) {
                 continue;
@@ -534,6 +545,7 @@ class Validator extends \Magento\Core\Model\AbstractModel
             $this->_addDiscountDescription($address, $rule);
 
             if ($rule->getStopRulesProcessing()) {
+                $this->_stopFurtherRules = true;
                 break;
             }
         }
@@ -729,6 +741,7 @@ class Validator extends \Magento\Core\Model\AbstractModel
             }
         }
 
+        $this->_stopFurtherRules = false;
         return $this;
     }
 
@@ -862,6 +875,29 @@ class Validator extends \Magento\Core\Model\AbstractModel
         return $this;
     }
 
+    /**
+     * Return items list sorted by possibility to apply prioritized rules
+     *
+     * @param array $items
+     * @return array $items
+     */
+    public function sortItemsByPriority($items)
+    {
+        $itemsSorted = array();
+        /** @var $rule \Magento\SalesRule\Model\Rule */
+        foreach ($this->_getRules() as $rule) {
+            foreach ($items as $itemKey => $itemValue) {
+                if ($rule->getActions()->validate($itemValue)) {
+                    unset($items[$itemKey]);
+                    array_push($itemsSorted, $itemValue);
+                }
+            }
+        }
 
+        if (!empty($itemsSorted)) {
+            $items = array_merge($itemsSorted, $items);
+        }
 
+        return $items;
+    }
 }
