@@ -83,7 +83,6 @@ class LayoutPluginTest extends \PHPUnit_Framework_TestCase
 
     public function testAfterGenerateXmlLayoutIsNotCacheable()
     {
-        $maxAge = 180;
         $this->layoutMock->expects($this->once())
             ->method('isCacheable')
             ->will($this->returnValue(false));
