@@ -9,7 +9,7 @@
  */
 namespace Magento\App\Response;
 
-class Http extends \Zend_Controller_Response_Http implements \Magento\App\ResponseInterface
+class Http extends \Zend_Controller_Response_Http implements HttpInterface
 {
     /**
      * Cookie to store page vary string

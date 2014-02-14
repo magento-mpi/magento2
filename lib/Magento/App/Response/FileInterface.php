@@ -9,7 +9,7 @@
  */
 namespace Magento\App\Response;
 
-interface FileInterface extends \Magento\App\ResponseInterface
+interface FileInterface extends HttpInterface
 {
     /**
      * Set path to the file being send
