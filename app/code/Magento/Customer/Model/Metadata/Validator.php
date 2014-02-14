@@ -44,7 +44,7 @@ class Validator extends \Magento\Eav\Model\Validator\Attribute\Data
         } else {
             $this->_entityData = $entityData;
         }
-        return $this->validateData($this->_entityData, $this->_attributes, $this->_entityType);
+        return $this->validateData($this->_data, $this->_attributes, $this->_entityType);
     }
 
     /**
