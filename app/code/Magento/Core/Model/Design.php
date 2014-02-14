@@ -24,7 +24,7 @@ namespace Magento\Core\Model;
  * @method string getDateTo()
  * @method \Magento\Core\Model\Design setDateTo(string $value)
  */
-class Design extends \Magento\Core\Model\AbstractModel
+class Design extends \Magento\Core\Model\AbstractModel implements \Magento\Object\IdentityInterface
 {
     /**
      * Cache tag
@@ -133,5 +133,15 @@ class Design extends \Magento\Core\Model\AbstractModel
             $packageInto->setDesignTheme($design);
         }
         return $this;
+    }
+
+    /**
+     * Get identities
+     *
+     * @return array
+     */
+    public function getIdentities()
+    {
+        return array(self::CACHE_TAG . '_' . $this->getId());
     }
 }

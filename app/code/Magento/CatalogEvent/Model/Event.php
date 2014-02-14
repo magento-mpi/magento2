@@ -37,7 +37,7 @@ use Magento\UrlInterface;
  * @method int getSortOrder()
  * @method Event setSortOrder(int $value)
  */
-class Event extends AbstractModel
+class Event extends AbstractModel implements \Magento\Object\IdentityInterface
 {
     const DISPLAY_CATEGORY_PAGE = 1;
     const DISPLAY_PRODUCT_PAGE  = 2;
@@ -521,5 +521,15 @@ class Event extends AbstractModel
         }
 
         return $this->getData('date_end');
+    }
+
+    /**
+     * Get identities
+     *
+     * @return array
+     */
+    public function getIdentities()
+    {
+        return array(self::CACHE_TAG . '_' . $this->getId());
     }
 }
