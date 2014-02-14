@@ -50,7 +50,7 @@ class MergedTest extends \PHPUnit_Framework_TestCase
         $this->_assetJsOne = $this->getMockForAbstractClass('Magento\View\Asset\MergeableInterface');
         $this->_assetJsOne->expects($this->any())->method('getContentType')->will($this->returnValue('js'));
         $this->_assetJsOne->expects($this->any())->method('getSourceFile')
-            ->will($this->returnValue('pub/lib/script_one.js'));
+            ->will($this->returnValue('pub/static/script_one.js'));
 
         $this->_assetJsTwo = $this->getMockForAbstractClass('Magento\View\Asset\MergeableInterface');
         $this->_assetJsTwo->expects($this->any())->method('getContentType')->will($this->returnValue('js'));
@@ -125,15 +125,11 @@ class MergedTest extends \PHPUnit_Framework_TestCase
         $this->_logger->expects($this->never())->method('logException');
 
         $publicFiles = array(
-            'pub/lib/script_one.js' => 'pub/lib/script_one.js',
+            'pub/static/script_one.js' => 'pub/static/script_one.js',
             'pub/static/script_two.js' => 'pub/static/script_two.js'
         );
 
         $this->_filesystem->expects($this->at(0))
-            ->method('getPath')
-            ->with($this->equalTo(\Magento\App\Filesystem::PUB_LIB_DIR))
-            ->will($this->returnValue('pub/lib'));
-        $this->_filesystem->expects($this->at(1))
             ->method('getPath')
             ->with($this->equalTo(\Magento\App\Filesystem::STATIC_VIEW_DIR))
             ->will($this->returnValue('pub/static'));

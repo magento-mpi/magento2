@@ -40,7 +40,7 @@ class MergedTest extends \PHPUnit_Framework_TestCase
     {
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
             \Magento\App\Filesystem::PARAM_APP_DIRS => array(
-                \Magento\App\Filesystem::THEMES_DIR => array('path' => dirname(dirname(__DIR__)) . '/_files/design'),
+                \Magento\App\Filesystem::THEMES_DIR => array('path' => dirname(__DIR__) . '/_files/design'),
                 \Magento\App\Filesystem::PUB_DIR => array('path' => BP),
             )
         ));
@@ -64,14 +64,18 @@ class MergedTest extends \PHPUnit_Framework_TestCase
      */
     protected function _buildModel(array $files, $contentType)
     {
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+
         $assets = array();
         foreach ($files as $file) {
-            $assets[] = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\View\Asset\ViewFile',
+            $assets[] = $objectManager->create('Magento\View\Asset\ViewFile',
                 array('file' => $file, 'contentType' => $contentType));
         }
-        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\View\Asset\Merged', array('assets' => $assets));
+
+        $mergeStrategy = $objectManager->get('Magento\View\Asset\MergeStrategy\Direct');
+
+        $model = $objectManager->create('Magento\View\Asset\Merged', array('assets' => $assets,
+            'mergeStrategy' => $mergeStrategy));
         return $model;
     }
 
@@ -87,7 +91,6 @@ class MergedTest extends \PHPUnit_Framework_TestCase
      */
     public function testMerging($contentType, $files, $expectedFilename, $related = array())
     {
-        $this->markTestSkipped('Task: MAGETWO-18162');
         $resultingFile = self::$_viewPublicMergedDir->getAbsolutePath(
             \Magento\View\Asset\Merged::PUBLIC_MERGE_DIR . '/' . $expectedFilename
         );
@@ -120,7 +123,6 @@ class MergedTest extends \PHPUnit_Framework_TestCase
      */
     public function testMergingAndSigning($contentType, $files, $expectedFilename, $related = array())
     {
-        $this->markTestSkipped('Task: MAGETWO-18162');
         $model = $this->_buildModel($files, $contentType);
 
         $asset = $model->current();
@@ -146,7 +148,12 @@ class MergedTest extends \PHPUnit_Framework_TestCase
                     'mage/calendar.css',
                     'css/file.css',
                 ),
-                'e6ae894165d22b7d57a0f5644b6ef160.css',
+                md5(implode('|',
+                        array(
+                            'frontend/vendor_default/en_US/mage/calendar.css',
+                            'frontend/vendor_default/en_US/css/file.css')
+                    )
+                ) . '.css',
                 array(
                     'css/file.css',
                     'recursive.css',
@@ -167,7 +174,12 @@ class MergedTest extends \PHPUnit_Framework_TestCase
                     'mage/calendar.js',
                     'scripts.js',
                 ),
-                'e81061cbad0d8b6fe328225d0df7dace.js',
+                md5(implode('|',
+                    array(
+                        'frontend/vendor_default/en_US/mage/calendar.js',
+                        'frontend/vendor_default/en_US/scripts.js')
+                    )
+                ) . '.js',
             ),
         );
     }
