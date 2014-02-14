@@ -15,4 +15,12 @@ interface ResponseInterface
      * Send response to client
      */
     public function sendResponse();
+
+    /**
+     * Set HTTP response code
+     *
+     * @param int $code
+     * @return void
+     */
+    public function setHttpResponseCode($code);
 }

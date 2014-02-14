@@ -1,0 +1,20 @@
+<?php
+/**
+ * Interface of response sending file content
+ *
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+namespace Magento\App\Response;
+
+interface FileInterface extends \Magento\App\ResponseInterface
+{
+    /**
+     * Set path to the file being send
+     *
+     * @param string $path
+     */
+    public function setFilePath($path);
+}

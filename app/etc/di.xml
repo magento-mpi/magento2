@@ -325,4 +325,9 @@
             <instance type="Magento\Mview\View\State\CollectionInterface" shared="false"/>
         </param>
     </type>
+    <type name="Magento\App\StaticResource">
+        <param name="response">
+            <instance type="Magento\Core\Model\File\Storage\Response" shared="false"/>
+        </param>
+    </type>
 </config>

@@ -15,7 +15,7 @@ class StaticResource implements \Magento\LauncherInterface
     private $state;
 
     /**
-     * @var Response\Http
+     * @var Response\FileInterface
      */
     private $response;
 
@@ -30,24 +30,14 @@ class StaticResource implements \Magento\LauncherInterface
     private $publisher;
 
     /**
-     * @var \Magento\Filesystem\Directory\Read
-     */
-    private $reader;
-
-    /**
      * @var \Magento\Module\ModuleList
      */
     private $moduleList;
 
     /**
-     * @var \Magento\Filesystem
+     * @var \Magento\View\FileSystem
      */
     private $filesystem;
-
-    /**
-     * @var \Magento\File\Mime
-     */
-    private $mime;
 
     /**
      * @var \Magento\View\Service
@@ -56,22 +46,20 @@ class StaticResource implements \Magento\LauncherInterface
 
     /**
      * @param State $state
-     * @param Response\Http $response
+     * @param Response\FileInterface $response
      * @param Request\Http $request
      * @param \Magento\View\Publisher $publisher
-     * @param Filesystem|\Magento\Filesystem $filesystem
+     * @param \Magento\View\FileSystem $filesystem
      * @param \Magento\Module\ModuleList $moduleList
-     * @param \Magento\File\Mime $mime
      * @param \Magento\View\Service $viewService
      */
     public function __construct(
         State $state,
-        Response\Http $response,
+        Response\FileInterface $response,
         Request\Http $request,
         \Magento\View\Publisher $publisher,
-        \Magento\Filesystem $filesystem,
+        \Magento\View\FileSystem $filesystem,
         \Magento\Module\ModuleList $moduleList,
-        \Magento\File\Mime $mime,
         \Magento\View\Service $viewService
     ) {
         $this->state = $state;
@@ -79,9 +67,7 @@ class StaticResource implements \Magento\LauncherInterface
         $this->request = $request;
         $this->publisher = $publisher;
         $this->filesystem = $filesystem;
-        $this->reader = $filesystem->getDirectoryRead(\Magento\App\Filesystem::PUB_DIR);
         $this->moduleList = $moduleList;
-        $this->mime = $mime;
         $this->viewService = $viewService;
     }
 
@@ -92,7 +78,8 @@ class StaticResource implements \Magento\LauncherInterface
      */
     public function launch()
     {
-        if ($this->state->getMode() == \Magento\App\State::MODE_PRODUCTION) {
+        $appMode = $this->state->getMode();
+        if ($appMode == \Magento\App\State::MODE_PRODUCTION) {
             $this->response->setHttpResponseCode(404);
         } else {
             $path = $this->request->get('resource');
@@ -101,16 +88,15 @@ class StaticResource implements \Magento\LauncherInterface
             unset($params['file']);
 
             $this->state->setAreaCode($params['area']);
-            $this->viewService->updateDesignParams($params);
 
-            // todo: separate getting file path and publication
-            $publicFile = $this->publisher->getPublicFilePath($file, $params);
+            if ($appMode == \Magento\App\State::MODE_DEVELOPER) {
+                $publicFile = $this->filesystem->getViewFile($file, $params);
+            } else {
+                $this->viewService->updateDesignParams($params);
+                $publicFile = $this->publisher->getPublicFilePath($file, $params);
+            }
 
-            $content = $this->reader->readFile($this->reader->getRelativePath($publicFile));
-            $this->response->setBody($content);
-
-            $contentType = $this->mime->getMimeType($publicFile);
-            $this->response->setHeader('Content-Type', $contentType);
+            $this->response->setFilePath($publicFile);
         }
         return $this->response;
     }
