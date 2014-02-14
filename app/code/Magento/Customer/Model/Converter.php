@@ -74,7 +74,6 @@ class Converter
         }
     }
 
-
     /**
      * Creates a customer model from a customer entity.
      *

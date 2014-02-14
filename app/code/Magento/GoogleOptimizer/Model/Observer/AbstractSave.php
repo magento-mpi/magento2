@@ -77,7 +77,7 @@ abstract class AbstractSave
     /**
      * Check is Google Experiment enabled
      *
-     * @return void
+     * @return bool
      */
     protected function _isGoogleExperimentActive()
     {

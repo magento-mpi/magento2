@@ -105,11 +105,6 @@
             </array>
         </param>
     </type>
-    <type name="Magento\Core\App\Action\Plugin\Session">
-        <param name="sessionNamespace">
-            <value type="const">Magento\Backend\App\AbstractAction::SESSION_NAMESPACE</value>
-        </param>
-    </type>
     <type name="Magento\Backend\App\AbstractAction">
         <plugin name="adminAuthentication" type="Magento\Backend\App\Action\Plugin\Authentication" sortOrder="100" />
         <plugin name="adminMassactionKey" type="Magento\Backend\App\Action\Plugin\MassactionKey" sortOrder="11" />

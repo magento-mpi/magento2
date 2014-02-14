@@ -8,33 +8,33 @@
  * @license     {license_link}
  */
 
+namespace Magento\Invitation\Block\Adminhtml\Invitation;
+
 /**
  * Invitation view block
  *
  * @category   Magento
  * @package    Magento_Invitation
  */
-namespace Magento\Invitation\Block\Adminhtml\Invitation;
-
 class Add extends \Magento\Backend\Block\Widget\Form\Container
 {
     /**
-     * @inheritdoc
+     * @var string
      */
     protected $_objectId = 'invitation_id';
 
     /**
-     * @inheritdoc
+     * @var string
      */
     protected $_blockGroup = 'Magento_Invitation';
 
     /**
-     * @inheritdoc
+     * @var string
      */
     protected $_controller = 'adminhtml_invitation';
 
     /**
-     * @inheritdoc
+     * @var string
      */
     protected $_mode = 'add';
 

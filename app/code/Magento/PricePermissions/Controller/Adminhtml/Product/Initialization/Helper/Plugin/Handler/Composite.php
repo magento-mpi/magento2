@@ -15,6 +15,8 @@ use Magento\Catalog\Model\Product;
 class Composite implements HandlerInterface
 {
     /**
+     * Array of handler interface objects
+     *
      * @var HandlerInterface[]
      */
     protected $handlers;
@@ -31,6 +33,8 @@ class Composite implements HandlerInterface
     }
 
     /**
+     * Process each of the handler objects
+     *
      * @param Product $product
      * @return void
      */
