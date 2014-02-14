@@ -13,6 +13,9 @@
  */
 namespace Magento\Checkout\Model\Type;
 
+use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
+use Magento\Customer\Model\Metadata\Form;
+
 class Onepage
 {
     /**
@@ -114,6 +117,20 @@ class Onepage
     protected $messageManager;
 
     /**
+     * @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface
+     */
+    protected $_accountService;
+
+    /** @var \Magento\Customer\Model\Metadata\FormFactory */
+    protected $_formFactory;
+
+    /** @var \Magento\Customer\Service\V1\Dto\CustomerBuilder */
+    protected $_customerBuilder;
+
+    /** @var \Magento\Math\Random */
+    protected $mathRandom;
+
+    /**
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Checkout\Helper\Data $helper
      * @param \Magento\Customer\Helper\Data $customerData
@@ -129,6 +146,11 @@ class Onepage
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Object\Copy $objectCopyService
      * @param \Magento\Message\ManagerInterface $messageManager
+     * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $accountService
+     * @param \Magento\Customer\Model\Metadata\FormFactory $formFactory
+     * @param \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerBuilder
+     * @param \Magento\Math\Random $mathRandom
+     * @param \Magento\Encryption\EncryptorInterface $encryptor
      */
     public function __construct(
         \Magento\Event\ManagerInterface $eventManager,
@@ -145,7 +167,12 @@ class Onepage
         \Magento\Sales\Model\Service\QuoteFactory $serviceQuoteFactory,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Object\Copy $objectCopyService,
-        \Magento\Message\ManagerInterface $messageManager
+        \Magento\Message\ManagerInterface $messageManager,
+        \Magento\Customer\Service\V1\CustomerAccountServiceInterface $accountService,
+        \Magento\Customer\Model\Metadata\FormFactory $formFactory,
+        \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerBuilder,
+        \Magento\Math\Random $mathRandom,
+        \Magento\Encryption\EncryptorInterface $encryptor
     ) {
         $this->_eventManager = $eventManager;
         $this->_customerData = $customerData;
@@ -163,6 +190,11 @@ class Onepage
         $this->_orderFactory = $orderFactory;
         $this->_objectCopyService = $objectCopyService;
         $this->messageManager = $messageManager;
+        $this->_accountService = $accountService;
+        $this->_formFactory = $formFactory;
+        $this->_customerBuilder = $customerBuilder;
+        $this->mathRandom = $mathRandom;
+        $this->_encryptor = $encryptor;
     }
 
     /**
@@ -428,24 +460,26 @@ class Onepage
      * Will return either true or array with error messages
      *
      * @param array $data
-     * @return true|array
+     * @return bool|array
      */
     protected function _validateCustomerData(array $data)
     {
-        /** @var $customerForm \Magento\Customer\Model\Form */
-        $customerForm = $this->_customerFormFactory->create();
-        $customerForm->setFormCode('checkout_register')
-            ->setIsAjaxRequest($this->_request->isAjax());
-
         $quote = $this->getQuote();
-        if ($quote->getCustomerId()) {
-            $customer = $quote->getCustomer();
-            $customerForm->setEntity($customer);
-            $customerData = $quote->getCustomer()->getData();
-        } else {
-            /* @var $customer \Magento\Customer\Model\Customer */
-            $customer = $this->_customerFactory->create();
-            $customerForm->setEntity($customer);
+        $isCustomerNew = !$quote->getCustomerId();
+        $customer = $quote->getCustomerData();
+        $customerData = $customer->__toArray();
+
+        /** @var Form $customerForm */
+        $customerForm = $this->_formFactory->create(
+            'customer',
+            'checkout_register',
+            $customerData,
+            Form::IGNORE_INVISIBLE,
+            [],
+            $this->_request->isAjax()
+        );
+
+        if ($isCustomerNew) {
             $customerRequest = $customerForm->prepareRequest($data);
             $customerData = $customerForm->extractData($customerRequest);
         }
@@ -458,27 +492,35 @@ class Onepage
             );
         }
 
-        if ($quote->getCustomerId()) {
+        if (!$isCustomerNew) {
             return true;
         }
 
-        $customerForm->compactData($customerData);
+        $this->_customerBuilder->populateWithArray($customerData);
+        $customer = $this->_customerBuilder->create();
 
         if ($quote->getCheckoutMethod() == self::METHOD_REGISTER) {
-            // set customer password
-            $customer->setPassword($customerRequest->getParam('customer_password'));
-            $customer->setConfirmation($customerRequest->getParam('confirm_password'));
+            // We always have $customerRequest here, otherwise we would have been kicked off the function several
+            // lines above
+            $password = $customerRequest->getParam('customer_password');
+            if ($customerRequest->getParam('customer_password') != $customerRequest->getParam('confirm_password')) {
+                return array(
+                    'error'   => -1,
+                    'message' => __('Password and password confirmation are not equal.')
+                );
+            }
         } else {
-            // spoof customer password for guest
-            $password = $customer->generatePassword();
-            $customer->setPassword($password);
-            $customer->setConfirmation($password);
+            $password = $this->mathRandom->getRandomString(6);
             // set NOT LOGGED IN group id explicitly,
             // otherwise copyFieldsetToTarget('customer_account', 'to_quote') will fill it with default group id value
-            $customer->setGroupId(\Magento\Customer\Model\Group::NOT_LOGGED_IN_ID);
+            $this->_customerBuilder->populate($customer);
+            $this->_customerBuilder->setGroupId(CustomerGroupServiceInterface::NOT_LOGGED_IN_ID);
+            $customer = $this->_customerBuilder->create();
         }
 
-        $result = $customer->validate();
+        //validate customer
+        $attributes = $customerForm->getAllowedAttributes();
+        $result = $this->_accountService->validateCustomerData($customer, $attributes);
         if (true !== $result && is_array($result)) {
             return array(
                 'error'   => -1,
@@ -488,14 +530,15 @@ class Onepage
 
         if ($quote->getCheckoutMethod() == self::METHOD_REGISTER) {
             // save customer encrypted password in quote
-            $quote->setPasswordHash($customer->encryptPassword($customer->getPassword()));
+            $quote->setPassword($password);
+            $quote->setPasswordHash($this->_encryptor->getHash($password, 2));
         }
 
         // copy customer/guest email to address
         $quote->getBillingAddress()->setEmail($customer->getEmail());
 
         // copy customer data to quote
-        $this->_objectCopyService->copyFieldsetToTarget('customer_account', 'to_quote', $customer, $quote);
+        $this->_objectCopyService->copyFieldsetToTarget('customer_account', 'to_quote', $customer->__toArray(), $quote);
 
         return true;
     }
@@ -670,7 +713,7 @@ class Onepage
         $quote->setCustomerId(null)
             ->setCustomerEmail($quote->getBillingAddress()->getEmail())
             ->setCustomerIsGuest(true)
-            ->setCustomerGroupId(\Magento\Customer\Model\Group::NOT_LOGGED_IN_ID);
+            ->setCustomerGroupId(\Magento\Customer\Service\V1\CustomerGroupServiceInterface::NOT_LOGGED_IN_ID);
         return $this;
     }
 

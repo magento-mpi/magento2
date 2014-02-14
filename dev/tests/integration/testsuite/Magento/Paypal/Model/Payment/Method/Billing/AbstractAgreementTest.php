@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Sales\Model\Payment\Method\Billing;
+namespace Magento\Paypal\Model\Payment\Method\Billing;
 
 use \Magento\Paypal\Model\Payment\Method\Billing\AbstractAgreement;
 

@@ -1,3 +1,4 @@
+* Sales module refactoring to use customer service layer
 * Fixed bugs:
   * Fixed an issue with Backup module feature not possible to store files
 * Indexer implementation:

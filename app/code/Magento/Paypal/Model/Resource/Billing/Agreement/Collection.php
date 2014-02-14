@@ -13,8 +13,6 @@ use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
 /**
  * Billing agreements resource collection
  */
-namespace Magento\Paypal\Model\Resource\Billing\Agreement;
-
 class Collection
     extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
