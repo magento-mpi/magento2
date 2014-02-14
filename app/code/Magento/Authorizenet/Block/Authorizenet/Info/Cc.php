@@ -76,7 +76,7 @@ class Cc extends \Magento\Payment\Block\Info\Cc
      * in Previously used card information block
      *
      * @param bool $flag
-     * @return \Magento\Authorizenet\Block\Authorizenet\Info\Cc
+     * @return $this
      */
     public function setCheckoutProgressBlock($flag)
     {

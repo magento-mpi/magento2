@@ -161,7 +161,7 @@ class Directpost extends \Magento\Authorizenet\Model\Authorizenet
      *
      * @param \Magento\Object $payment
      * @param float $amount
-     * @return \Magento\Authorizenet\Model\Directpost
+     * @return $this
      * @throws \Magento\Core\Exception
      */
     public function capture(\Magento\Object $payment, $amount)

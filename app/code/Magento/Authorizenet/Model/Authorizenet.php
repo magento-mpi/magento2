@@ -326,7 +326,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
         /**
          * If there are not transactions it is placing order and capturing is available
          */
-        foreach($this->getCardsStorage()->getCards() as $card) {
+        foreach ($this->getCardsStorage()->getCards() as $card) {
             $lastTransaction = $this->getInfoInstance()->getTransaction($card->getLastTransId());
             if ($lastTransaction) {
                 return false;
@@ -347,7 +347,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
         ) {
             return false;
         }
-        foreach($this->getCardsStorage()->getCards() as $card) {
+        foreach ($this->getCardsStorage()->getCards() as $card) {
             $lastTransaction = $this->getInfoInstance()->getTransaction($card->getLastTransId());
             if ($lastTransaction
                 && $lastTransaction->getTxnType() == \Magento\Sales\Model\Order\Payment\Transaction::TYPE_CAPTURE
@@ -471,7 +471,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
         $messages = array();
         $isSuccessful = false;
         $isFiled = false;
-        foreach($cardsStorage->getCards() as $card) {
+        foreach ($cardsStorage->getCards() as $card) {
             try {
                 $newTransaction = $this->_voidCardTransaction($payment, $card);
                 $messages[] = $newTransaction->getMessage();
@@ -525,7 +525,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
         $messages = array();
         $isSuccessful = false;
         $isFiled = false;
-        foreach($cardsStorage->getCards() as $card) {
+        foreach ($cardsStorage->getCards() as $card) {
             if ($requestedAmount > 0) {
                 $cardAmountForRefund = $this->_formatAmount($card->getCapturedAmount() - $card->getRefundedAmount());
                 if ($cardAmountForRefund <= 0) {
@@ -567,7 +567,8 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
      * @return void
      * @throws \Magento\Core\Exception
      */
-    public function cancelPartialAuthorization(\Magento\Payment\Model\Info $payment) {
+    public function cancelPartialAuthorization(\Magento\Payment\Model\Info $payment)
+    {
         if (!$payment->getAdditionalInformation($this->_splitTenderIdKey)) {
             throw new \Magento\Core\Exception(__('This is an invalid split tenderId ID.'));
         }
@@ -766,7 +767,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
         if ($this->getCardsStorage()->getCardsCount() <= 0) {
             return false;
         }
-        foreach($this->getCardsStorage()->getCards() as $card) {
+        foreach ($this->getCardsStorage()->getCards() as $card) {
             $lastTransaction = $payment->getTransaction($card->getLastTransId());
             if (!$lastTransaction
                 || $lastTransaction->getTxnType() != \Magento\Sales\Model\Order\Payment\Transaction::TYPE_AUTH
@@ -781,7 +782,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
      * Send capture request to gateway for capture authorized transactions
      *
      * @param \Magento\Payment\Model\Info $payment
-     * @param float $requestAmount
+     * @param float $requestedAmount
      * @return $this
      * @throws \Magento\Core\Exception
      */
@@ -799,7 +800,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
         $messages = array();
         $isSuccessful = false;
         $isFiled = false;
-        foreach($cardsStorage->getCards() as $card) {
+        foreach ($cardsStorage->getCards() as $card) {
             if ($requestedAmount > 0) {
                 $cardAmountForCapture = $card->getProcessedAmount();
                 if ($cardAmountForCapture > $requestedAmount) {
@@ -807,7 +808,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
                 }
                 try {
                     $newTransaction = $this->_preauthorizeCaptureCardTransaction(
-                        $payment, $cardAmountForCapture , $card
+                        $payment, $cardAmountForCapture, $card
                     );
                     $messages[] = $newTransaction->getMessage();
                     $isSuccessful = true;
@@ -1261,8 +1262,8 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
             $request->setXInvoiceNum($order->getIncrementId());
         }
 
-        if($payment->getAmount()){
-            $request->setXAmount($payment->getAmount(),2);
+        if ($payment->getAmount()) {
+            $request->setXAmount($payment->getAmount(), 2);
             $request->setXCurrencyCode($order->getBaseCurrencyCode());
         }
 
@@ -1298,7 +1299,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
                 break;
         }
 
-        if ($this->getIsCentinelValidationEnabled()){
+        if ($this->getIsCentinelValidationEnabled()) {
             $params  = $this->getCentinelValidator()->exportCmpiData(array());
             $request = \Magento\Object\Mapper::accumulateByMap($params, $request, $this->_centinelFieldMap);
         }
@@ -1341,7 +1342,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
                 ->setXFreight($order->getBaseShippingAmount());
         }
 
-        if($payment->getCcNumber()){
+        if ($payment->getCcNumber()) {
             $request->setXCardNum($payment->getCcNumber())
                 ->setXExpDate(sprintf('%02d-%04d', $payment->getCcExpMonth(), $payment->getCcExpYear()))
                 ->setXCardCode($payment->getCcCid());
@@ -1396,9 +1397,9 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
         $r = explode(self::RESPONSE_DELIM_CHAR, $responseBody);
 
         if ($r) {
-            $result->setResponseCode((int)str_replace('"','',$r[0]))
-                ->setResponseSubcode((int)str_replace('"','',$r[1]))
-                ->setResponseReasonCode((int)str_replace('"','',$r[2]))
+            $result->setResponseCode((int)str_replace('"', '', $r[0]))
+                ->setResponseSubcode((int)str_replace('"', '', $r[1]))
+                ->setResponseReasonCode((int)str_replace('"', '', $r[2]))
                 ->setResponseReasonText($r[3])
                 ->setApprovalCode($r[4])
                 ->setAvsResultCode($r[5])
@@ -1417,8 +1418,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
                 ->setCardType($r[51])
                 ->setRequestedAmount($r[53])
                 ->setBalanceOnCard($r[54]);
-        }
-        else {
+        } else {
              throw new \Magento\Core\Exception(
                 __('Something went wrong in the payment gateway.')
             );
@@ -1475,7 +1475,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
      * Reset assigned data in payment info model
      *
      * @param \Magento\Payment\Model\Info $payment
-     * @return \Magento\Authorizenet\Model\Authorizenet
+     * @return $this
      */
     private function _clearAssignedData($payment)
     {

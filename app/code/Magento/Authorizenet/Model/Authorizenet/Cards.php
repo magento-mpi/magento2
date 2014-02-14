@@ -100,7 +100,7 @@ class Cards
      * Retrieve card by ID
      *
      * @param string $cardId
-     * @return \Magento\Object|bool
+     * @return \Magento\Object|false
      */
     public function getCard($cardId)
     {
@@ -120,7 +120,7 @@ class Cards
     {
         $this->_isPaymentValid();
         $_cards = array();
-        foreach(array_keys($this->_cards) as $key) {
+        foreach (array_keys($this->_cards) as $key) {
             $_cards[$key] = $this->getCard($key);
         }
         return $_cards;
@@ -170,7 +170,7 @@ class Cards
     /**
      * Remove all cards from payment instance
      *
-     * @return \Magento\Authorizenet\Model\Authorizenet\Cards
+     * @return $this
      */
     public function flushCards()
     {

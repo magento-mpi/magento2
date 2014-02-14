@@ -61,7 +61,7 @@ class Api extends \Magento\Payment\Model\Method\AbstractMethod
      * "Out" relative to Magento, "in" relative to Ogone.
      *
      * @see Ogone eCommerce Advanced Technical Integration Guide v.5.0
-     * @var array
+     * @var string[]
      */
     protected static $_outAllMap = array(
         'ACCEPTURL', 'ADDMATCH', 'ADDRMATCH',
@@ -119,7 +119,7 @@ class Api extends \Magento\Payment\Model\Method\AbstractMethod
      * "In" relative to Magento, "out" relative to Ogone.
      *
      * @see Ogone eCommerce Advanced Technical Integration Guide v.5.0
-     * @var array
+     * @var string[]
      */
     protected static $_inAllMap = array(
         'AAVADDRESS', 'AAVCHECK', 'AAVZIP', 'ACCEPTANCE', 'ALIAS', 'AMOUNT', 'BRAND', 'CARDNO', 'CCCTY', 'CN',

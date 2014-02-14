@@ -17,7 +17,7 @@ namespace Magento\Authorizenet\Model\Directpost;
 class Request extends \Magento\Object
 {
     /**
-     * @var null
+     * @var string
      */
     protected $_transKey = null;
 

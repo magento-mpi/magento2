@@ -18,7 +18,7 @@ namespace Magento\Authorizenet\Model\Authorizenet\Source;
 class PaymentAction implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
-     * @return string[]
+     * {@inheritdoc}
      */
     public function toOptionArray()
     {

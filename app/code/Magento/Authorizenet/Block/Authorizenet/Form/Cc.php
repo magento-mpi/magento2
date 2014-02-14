@@ -89,7 +89,7 @@ class Cc extends \Magento\Payment\Block\Form
     /**
      * Return partial authorization confirmation message and unset it in payment model
      *
-     * @return string|bool
+     * @return string|false
      */
     public function getPartialAuthorizationConfirmationMessage()
     {
