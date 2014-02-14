@@ -71,7 +71,7 @@ class DepersonalizePluginTest  extends \PHPUnit_Framework_TestCase
         );
         $this->requestMock = $this->getMock('Magento\App\Request\Http', array(), array(), '', false);
 
-       $this->plugin = new \Magento\CustomerSegment\Model\Layout\DepersonalizePlugin(
+        $this->plugin = new \Magento\CustomerSegment\Model\Layout\DepersonalizePlugin(
             $this->layoutMock,
             $this->customerSessionMock,
             $this->requestMock
