@@ -10,7 +10,6 @@ namespace Magento\Catalog\Model\Indexer\Product;
 
 /**
  * @magentoDataFixture Magento/Catalog/_files/indexer_catalog_category.php
- * @magentoDbIsolation enabled
  */
 class CategoryTest extends \PHPUnit_Framework_TestCase
 {
