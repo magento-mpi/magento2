@@ -65,17 +65,12 @@ class LayoutPluginTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * @param $layoutIsCacheable
-     * @dataProvider afterGenerateXmlDataProvider
-     */
-    public function testAfterGenerateXml($layoutIsCacheable)
+    public function testAfterGenerateXmlLayoutIsCacheable()
     {
         $maxAge = 180;
         $this->layoutMock->expects($this->once())
             ->method('isCacheable')
-            ->will($this->returnValue($layoutIsCacheable));
-        if ($layoutIsCacheable) {
+            ->will($this->returnValue(true));
             $this->configMock->expects($this->once())
                 ->method('getValue')
                 ->with(\Magento\PageCache\Model\Config::XML_PAGECACHE_TTL)
@@ -83,19 +78,17 @@ class LayoutPluginTest extends \PHPUnit_Framework_TestCase
             $this->responseMock->expects($this->once())
                 ->method('setPublicHeaders')
                 ->with($maxAge);
-        } else {
-            $this->responseMock->expects($this->once())
-                ->method('setNoCacheHeaders');
-        }
-
         $this->model->afterGenerateXml();
     }
 
-    public function afterGenerateXmlDataProvider()
+    public function testAfterGenerateXmlLayoutIsNotCacheable()
     {
-        return [
-            'Layout is cache-able' => [true],
-            'Layout is not cache-able' => [false]
-        ];
+        $maxAge = 180;
+        $this->layoutMock->expects($this->once())
+            ->method('isCacheable')
+            ->will($this->returnValue(false));
+        $this->responseMock->expects($this->never())
+            ->method('setPublicHeaders');
+        $this->model->afterGenerateXml();
     }
-} 
+}
