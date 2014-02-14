@@ -6,14 +6,14 @@
  * @license     {license_link}
  */
 
-namespace Magento\Css\PreProcessor\Cache;
+namespace Magento\Css\PreProcessor\Cache\Import;
 
 use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
-class CacheManagerTest extends \PHPUnit_Framework_TestCase
+class CacheTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Magento\Css\PreProcessor\Cache\CacheManager */
-    protected $cacheManager;
+    /** @var \Magento\Css\PreProcessor\Cache\Import\Cache */
+    protected $cache;
 
     /** @var ObjectManagerHelper */
     protected $objectManagerHelper;
@@ -35,14 +35,23 @@ class CacheManagerTest extends \PHPUnit_Framework_TestCase
             false
         );
 
+        $cssFile = $this->getMock('Magento\View\Publisher\CssFile', [], [], '', false);
+
+        $cssFile->expects($this->once())
+            ->method('getFilePath')
+            ->will($this->returnValue('Magento_Core::style.css'));
+
+        $cssFile->expects($this->once())
+            ->method('getViewParams')
+            ->will($this->returnValue(['theme' => 'some_theme', 'area' => 'frontend', 'locale' => 'en_US']));
+
         $this->objectManagerHelper = new ObjectManagerHelper($this);
-        $this->cacheManager = $this->objectManagerHelper->getObject(
-            'Magento\Css\PreProcessor\Cache\CacheManager',
+        $this->cache = $this->objectManagerHelper->getObject(
+            'Magento\Css\PreProcessor\Cache\Import\Cache',
             [
                 'storage' => $this->storageMock,
                 'importEntityFactory' => $this->importEntityFactoryMock,
-                'filePath' => 'Magento_Core::style.css',
-                'params' => ['theme' => 'some_theme', 'area' => 'frontend', 'locale' => 'en_US']
+                'data' => $cssFile
             ]
         );
     }
@@ -51,36 +60,36 @@ class CacheManagerTest extends \PHPUnit_Framework_TestCase
     {
         $expectedKey = 'Magento_Core::style.css|frontend|en_US|some_theme';
 
-        $fileKeyProperty = new \ReflectionProperty($this->cacheManager, 'uniqueFileKey');
+        $fileKeyProperty = new \ReflectionProperty($this->cache, 'uniqueFileKey');
         $fileKeyProperty->setAccessible(true);
-        $this->assertEquals($expectedKey, $fileKeyProperty->getValue($this->cacheManager));
+        $this->assertEquals($expectedKey, $fileKeyProperty->getValue($this->cache));
 
-        $cachedFileProperty = new \ReflectionProperty($this->cacheManager, 'cachedFile');
+        $cachedFileProperty = new \ReflectionProperty($this->cache, 'cachedFile');
         $cachedFileProperty->setAccessible(true);
-        $cachedFileProperty->setValue($this->cacheManager, 'some_cachedFile');
+        $cachedFileProperty->setValue($this->cache, 'some_cachedFile');
 
-        $importEntitiesProperty = new \ReflectionProperty($this->cacheManager, 'importEntities');
+        $importEntitiesProperty = new \ReflectionProperty($this->cache, 'importEntities');
         $importEntitiesProperty->setAccessible(true);
-        $this->assertEquals([], $importEntitiesProperty->getValue($this->cacheManager));
-        $importEntitiesProperty->setValue($this->cacheManager, ['some_import_1', 'some_import_2']);
+        $this->assertEquals([], $importEntitiesProperty->getValue($this->cache));
+        $importEntitiesProperty->setValue($this->cache, ['some_import_1', 'some_import_2']);
 
         $this->storageMock->expects($this->once())
             ->method('delete')
             ->with($this->equalTo($expectedKey))
             ->will($this->returnSelf());
 
-        $this->assertEquals($this->cacheManager, $this->cacheManager->clearCache());
-        $this->assertNull($cachedFileProperty->getValue($this->cacheManager));
-        $this->assertEquals([], $importEntitiesProperty->getValue($this->cacheManager));
+        $this->assertEquals($this->cache, $this->cache->clear());
+        $this->assertNull($cachedFileProperty->getValue($this->cache));
+        $this->assertEquals([], $importEntitiesProperty->getValue($this->cache));
     }
 
     public function testGetCachedFile()
     {
-        $property = new \ReflectionProperty($this->cacheManager, 'cachedFile');
+        $property = new \ReflectionProperty($this->cache, 'cachedFile');
         $property->setAccessible(true);
-        $this->assertNull($property->getValue($this->cacheManager));
-        $property->setValue($this->cacheManager, 'test');
-        $this->assertEquals('test', $this->cacheManager->getCachedFile());
+        $this->assertNull($property->getValue($this->cache));
+        $property->setValue($this->cache, 'test');
+        $this->assertEquals('test', $this->cache->get());
     }
 
     /**
@@ -90,19 +99,19 @@ class CacheManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddEntityToCache($params, $expectedResult)
     {
-        $importEntitiesProperty = new \ReflectionProperty($this->cacheManager, 'importEntities');
+        $importEntitiesProperty = new \ReflectionProperty($this->cache, 'importEntities');
         $importEntitiesProperty->setAccessible(true);
-        $this->assertEquals([], $importEntitiesProperty->getValue($this->cacheManager));
+        $this->assertEquals([], $importEntitiesProperty->getValue($this->cache));
 
         $this->importEntityFactoryMock->expects($this->any())->method('create')
             ->with($this->anything(), $this->anything())->will($this->returnValue('entity_object_here'));
         foreach ($params as $value) {
             $this->assertEquals(
-                $this->cacheManager,
-                $this->cacheManager->addEntityToCache($value['filePath'], $value['viewParams'])
+                $this->cache,
+                $this->cache->add(array($value['filePath'], $value['viewParams']))
             );
         }
-        $this->assertEquals($expectedResult, $importEntitiesProperty->getValue($this->cacheManager));
+        $this->assertEquals($expectedResult, $importEntitiesProperty->getValue($this->cache));
     }
 
     /**
@@ -170,16 +179,16 @@ class CacheManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function testSaveCache($uniqueFileKey, $expected)
     {
-        $importEntitiesProperty = new \ReflectionProperty($this->cacheManager, 'importEntities');
+        $importEntitiesProperty = new \ReflectionProperty($this->cache, 'importEntities');
         $importEntitiesProperty->setAccessible(true);
-        $this->assertEquals([], $importEntitiesProperty->getValue($this->cacheManager));
-        $importEntitiesProperty->setValue($this->cacheManager, $expected['imports']);
+        $this->assertEquals([], $importEntitiesProperty->getValue($this->cache));
+        $importEntitiesProperty->setValue($this->cache, $expected['imports']);
 
         $this->storageMock->expects($this->once())
             ->method('save')
             ->with($this->equalTo($uniqueFileKey), $this->equalTo(serialize($expected)))
             ->will($this->returnSelf());
-        $this->assertEquals($this->cacheManager, $this->cacheManager->saveCache($expected['cached_file']));
+        $this->assertEquals($this->cache, $this->cache->save($expected['cached_file']));
     }
 
     /**
@@ -199,21 +208,21 @@ class CacheManagerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param Import\ImportEntity[] $importData
+     * @param ImportEntity[] $importData
      * @param bool $expected
      * @dataProvider isValidDataProvider
      */
     public function testIsValid($importData, $expected)
     {
-        $importEntitiesProperty = new \ReflectionProperty($this->cacheManager, 'importEntities');
+        $importEntitiesProperty = new \ReflectionProperty($this->cache, 'importEntities');
         $importEntitiesProperty->setAccessible(true);
-        $this->assertEquals([], $importEntitiesProperty->getValue($this->cacheManager));
-        $importEntitiesProperty->setValue($this->cacheManager, $importData);
+        $this->assertEquals([], $importEntitiesProperty->getValue($this->cache));
+        $importEntitiesProperty->setValue($this->cache, $importData);
 
-        $method = new \ReflectionMethod('Magento\Css\PreProcessor\Cache\CacheManager', 'isValid');
+        $method = new \ReflectionMethod('Magento\Css\PreProcessor\Cache\Import\Cache', 'isValid');
         $method->setAccessible(true);
 
-        $this->assertEquals($expected, $method->invoke($this->cacheManager));
+        $this->assertEquals($expected, $method->invoke($this->cache));
     }
 
     /**

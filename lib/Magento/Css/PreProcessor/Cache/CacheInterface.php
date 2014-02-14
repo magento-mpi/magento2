@@ -11,27 +11,26 @@ namespace Magento\Css\PreProcessor\Cache;
 /**
  * Less cache manager interface
  */
-interface CacheManagerInterface
+interface CacheInterface
 {
     /**
      * @return $this
      */
-    public function clearCache();
+    public function clear();
 
     /**
      * @return null|string
      */
-    public function getCachedFile();
+    public function get();
 
     /**
-     * @param string $filePath
-     * @param array $params
+     * @param array $data
      */
-    public function addEntityToCache($filePath, $params);
+    public function add($data);
 
     /**
-     * @param string $generatedFile
+     * @param \Magento\View\Publisher\FileInterface $cachedFile
      * @return $this
      */
-    public function saveCache($generatedFile);
+    public function save($cachedFile);
 }
