@@ -24,12 +24,12 @@ class Import implements PreProcessorInterface
         '#@import\s+(\((?P<type>\w+)\)\s+)?[\'\"](?P<path>(?![/\\\]|\w:[/\\\])[^\"\']+)[\'\"]\s*?(?P<media>.*?);#';
 
     /**
-     * @var PreProcessor\FileList
+     * @var PreProcessor\File\FileList
      */
     protected $fileList;
 
     /**
-     * @var PreProcessor\FileFactory
+     * @var PreProcessor\File\LessFactory
      */
     protected $fileFactory;
 
@@ -46,14 +46,14 @@ class Import implements PreProcessorInterface
     /**
      * @param View\RelatedFile $relatedFile
      * @param PreProcessor\ErrorHandlerInterface $errorHandler
-     * @param PreProcessor\FileList $fileList
-     * @param PreProcessor\FileFactory $fileFactory
+     * @param PreProcessor\File\FileList $fileList
+     * @param PreProcessor\File\LessFactory $fileFactory
      */
     public function __construct(
         View\RelatedFile $relatedFile,
         PreProcessor\ErrorHandlerInterface $errorHandler,
-        PreProcessor\FileList $fileList,
-        PreProcessor\FileFactory $fileFactory
+        PreProcessor\File\FileList $fileList,
+        PreProcessor\File\LessFactory $fileFactory
     ) {
         $this->relatedFile = $relatedFile;
         $this->errorHandler = $errorHandler;
@@ -64,11 +64,11 @@ class Import implements PreProcessorInterface
     /**
      * Explode import paths
      *
-     * @param \Magento\Less\PreProcessor\File $lessFile
+     * @param \Magento\Less\PreProcessor\File\Less $lessFile
      * @param array $matchedPaths
      * @return array
      */
-    protected function generatePaths(PreProcessor\File $lessFile, $matchedPaths)
+    protected function generatePaths(PreProcessor\File\Less $lessFile, $matchedPaths)
     {
         $importPaths = array();
         foreach ($matchedPaths as $path) {
@@ -107,7 +107,7 @@ class Import implements PreProcessorInterface
     /**
      * {@inheritdoc}
      */
-    public function process(PreProcessor\File $lessFile, $lessContent)
+    public function process(PreProcessor\File\Less $lessFile, $lessContent)
     {
         $matches = [];
         preg_match_all(self::REPLACE_PATTERN, $lessContent, $matches);

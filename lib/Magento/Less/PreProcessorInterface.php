@@ -16,9 +16,9 @@ interface PreProcessorInterface
     /**
      * Process less content to adapt magento view system
      *
-     * @param PreProcessor\File $lessFile
+     * @param PreProcessor\File\Less $lessFile
      * @param string $lessContent
      * @return string of processed content
      */
-    public function process(PreProcessor\File $lessFile, $lessContent);
+    public function process(PreProcessor\File\Less $lessFile, $lessContent);
 }

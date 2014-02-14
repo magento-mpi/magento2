@@ -63,7 +63,7 @@ class MagentoImport implements PreProcessorInterface
     /**
      * {@inheritdoc}
      */
-    public function process(PreProcessor\File $lessFile, $lessContent)
+    public function process(PreProcessor\File\Less $lessFile, $lessContent)
     {
         $viewParams = $lessFile->getViewParams();
         $parentPath = $lessFile->getFilePath();

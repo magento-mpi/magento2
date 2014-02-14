@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Less\PreProcessor;
+namespace Magento\Less\PreProcessor\File;
 
 /**
  * Less file list
@@ -14,17 +14,17 @@ namespace Magento\Less\PreProcessor;
 class FileList implements \Iterator
 {
     /**
-     * @var File[]
+     * @var Less[]
      */
     protected $files = [];
 
     /**
      * Add file to list
      *
-     * @param File $file
+     * @param Less $file
      * @return $this
      */
-    public function addFile(File $file)
+    public function addFile(Less $file)
     {
         $this->files[$file->getFileIdentifier()] = $file;
         return $this;

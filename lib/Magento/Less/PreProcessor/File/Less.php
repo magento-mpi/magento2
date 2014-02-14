@@ -6,14 +6,14 @@
  * @license     {license_link}
  */
 
-namespace Magento\Less\PreProcessor;
+namespace Magento\Less\PreProcessor\File;
 
 use Magento\View;
 
 /**
  * Less file
  */
-class File
+class Less
 {
     /**
      * Folder for publication preprocessed less files
@@ -90,8 +90,8 @@ class File
     /**
      * Return source path of file if it's exist
      *
+     * @return string
      * @throws \Magento\Filesystem\FilesystemException
-     * @return string|null
      */
     public function getSourcePath()
     {

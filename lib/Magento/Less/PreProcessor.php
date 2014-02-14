@@ -8,8 +8,6 @@
 
 namespace Magento\Less;
 
-use Magento\Less\PreProcessor\InstructionFactory;
-
 /**
  * LESS instruction preprocessor
  */
@@ -26,7 +24,7 @@ class PreProcessor
     protected $fileListFactory;
 
     /**
-     * @var PreProcessor\FileFactory
+     * @var PreProcessor\File\LessFactory
      */
     protected $fileFactory;
 
@@ -38,15 +36,15 @@ class PreProcessor
     protected $preProcessors;
 
     /**
-     * @param InstructionFactory $instructionFactory
-     * @param PreProcessor\FileListFactory $fileListFactory
-     * @param PreProcessor\FileFactory $fileFactory
+     * @param PreProcessor\InstructionFactory $instructionFactory
+     * @param PreProcessor\File\FileListFactory $fileListFactory
+     * @param PreProcessor\File\LessFactory $fileFactory
      * @param array $preProcessors
      */
     public function __construct(
-        InstructionFactory $instructionFactory,
-        PreProcessor\FileListFactory $fileListFactory,
-        PreProcessor\FileFactory $fileFactory,
+        PreProcessor\InstructionFactory $instructionFactory,
+        PreProcessor\File\FileListFactory $fileListFactory,
+        PreProcessor\File\LessFactory $fileFactory,
         array $preProcessors = array()
     ) {
         $this->instructionFactory = $instructionFactory;
@@ -58,10 +56,10 @@ class PreProcessor
     /**
      * Instantiate instruction less pre-processors
      *
-     * @param PreProcessor\FileList $fileList
+     * @param PreProcessor\File\FileList $fileList
      * @return PreProcessorInterface[]
      */
-    protected function initLessPreProcessors(PreProcessor\FileList $fileList)
+    protected function initLessPreProcessors(PreProcessor\File\FileList $fileList)
     {
         $preProcessorsInstances = [];
         foreach ($this->preProcessors as $preProcessorClass) {
@@ -81,12 +79,12 @@ class PreProcessor
      */
     public function processLessInstructions($lessFilePath, $viewParams)
     {
-        /** @var $fileList PreProcessor\FileList */
+        /** @var $fileList PreProcessor\File\FileList */
         $fileList = $this->fileListFactory->create();
         $preProcessors = $this->initLessPreProcessors($fileList);
         $entryLessFile = $this->fileFactory->create(['filePath' => $lessFilePath, 'viewParams' => $viewParams]);
         $fileList->addFile($entryLessFile);
-        /** @var $lessFile PreProcessor\File */
+        /** @var $lessFile PreProcessor\File\Less */
         foreach ($fileList as $lessFile) {
             $this->publishProcessedContent($preProcessors, $lessFile);
         }
@@ -97,9 +95,9 @@ class PreProcessor
      * Process less content and save
      *
      * @param PreProcessorInterface[] $preProcessors
-     * @param PreProcessor\File $lessFile
+     * @param PreProcessor\File\Less $lessFile
      */
-    public function publishProcessedContent(array $preProcessors, PreProcessor\File $lessFile)
+    public function publishProcessedContent(array $preProcessors, PreProcessor\File\Less $lessFile)
     {
         $lessContent = $lessFile->getContent();
         foreach ($preProcessors as $processor) {
