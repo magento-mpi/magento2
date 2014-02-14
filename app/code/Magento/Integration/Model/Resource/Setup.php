@@ -5,8 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Integration\Model\Resource;
+
+use Magento\Integration\Model\Manager;
 
 /**
  * Resource Setup Model
@@ -14,7 +15,7 @@ namespace Magento\Integration\Model\Resource;
 class Setup extends \Magento\Core\Model\Resource\Setup
 {
     /**
-     * @var  \Magento\Integration\Model\Manager
+     * @var  Manager
      */
     protected $_integrationManager;
 
@@ -23,7 +24,7 @@ class Setup extends \Magento\Core\Model\Resource\Setup
      *
      * @param \Magento\Core\Model\Resource\Setup\Context $context
      * @param string $resourceName
-     * @param \Magento\Integration\Model\Manager $integrationManager
+     * @param Manager $integrationManager
      * @param string $moduleName
      * @param string $connectionName
      *
@@ -31,7 +32,7 @@ class Setup extends \Magento\Core\Model\Resource\Setup
     public function __construct(
         \Magento\Core\Model\Resource\Setup\Context $context,
         $resourceName,
-        \Magento\Integration\Model\Manager $integrationManager,
+        Manager $integrationManager,
         $moduleName = 'Magento_Integration',
         $connectionName = ''
     ) {
