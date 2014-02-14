@@ -36,6 +36,8 @@ class Customer extends \Magento\Service\Entity\AbstractDto implements Eav\Entity
     const WEBSITE_ID = 'website_id';
     const DEFAULT_BILLING = 'default_billing';
     const DEFAULT_SHIPPING = 'default_shipping';
+    const RP_TOKEN = 'rp_token';
+    const RP_TOKEN_CREATED_AT = 'rp_token_created_at';
     /**#@-*/
 
     /**
@@ -61,7 +63,9 @@ class Customer extends \Magento\Service\Entity\AbstractDto implements Eav\Entity
         self::TAXVAT,
         self::WEBSITE_ID,
         self::DEFAULT_BILLING,
-        self::DEFAULT_SHIPPING
+        self::DEFAULT_SHIPPING,
+        self::RP_TOKEN,
+        self::RP_TOKEN_CREATED_AT,
     ];
 
     /**
@@ -238,5 +242,21 @@ class Customer extends \Magento\Service\Entity\AbstractDto implements Eav\Entity
     public function getWebsiteId()
     {
         return (int)$this->_get(self::WEBSITE_ID);
+    }
+
+    /**
+     * @return string
+     */
+    public function getRpToken()
+    {
+        return $this->_get(self::RP_TOKEN);
+    }
+
+    /**
+     * @return string
+     */
+    public function getRpTokenCreatedAt()
+    {
+        return $this->_get(self::RP_TOKEN_CREATED_AT);
     }
 }

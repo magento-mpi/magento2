@@ -1,7 +1,5 @@
 <?php
 /**
- * Test for Magento\Sales\Model\Payment\Method\Billing\AbstractAgreement
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -9,7 +7,7 @@
  */
 namespace Magento\Sales\Model\Payment\Method\Billing;
 
-use \Magento\Sales\Model\Payment\Method\Billing\AbstractAgreement;
+use \Magento\Paypal\Model\Payment\Method\Billing\AbstractAgreement;
 
 class AbstractAgreementTest extends \PHPUnit_Framework_TestCase
 {
@@ -36,7 +34,7 @@ class AbstractAgreementTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @magentoDataFixture Magento/Sales/_files/quote_with_customer.php
-     * @magentoDataFixture Magento/Sales/_files/billing_agreement.php
+     * @magentoDataFixture Magento/Paypal/_files/billing_agreement.php
      */
     public function testIsActive()
     {
@@ -48,7 +46,7 @@ class AbstractAgreementTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @magentoDataFixture Magento/Sales/_files/quote_with_customer.php
-     * @magentoDataFixture Magento/Sales/_files/billing_agreement.php
+     * @magentoDataFixture Magento/Paypal/_files/billing_agreement.php
      */
     public function testAssignData()
     {
@@ -64,7 +62,7 @@ class AbstractAgreementTest extends \PHPUnit_Framework_TestCase
             ->setQuote($quote);
         $this->_model->setData('info_instance', $info);
         $billingAgreement = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Sales\Model\Resource\Billing\Agreement\Collection')
+            ->create('Magento\Paypal\Model\Resource\Billing\Agreement\Collection')
             ->getFirstItem();
         $data = [
             AbstractAgreement::TRANSPORT_BILLING_AGREEMENT_ID =>

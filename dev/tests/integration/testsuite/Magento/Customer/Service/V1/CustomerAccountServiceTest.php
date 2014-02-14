@@ -64,7 +64,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             ->setLastname('Smith');
         $address = $this->_addressBuilder->create();
 
-        /* XXX: would it be better to have a clear method for this? */
         $this->_addressBuilder->setId(2)
             ->setCountryId('US')
             ->setCustomerId(1)
@@ -214,7 +213,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testValidateResetPasswordLinkToken()
     {
-        $this->markTestIncomplete('Should be processed in MAGETWO-20703');
         $this->_customerBuilder->populateWithArray(array_merge($this->_customerService->getCustomer(1)->__toArray(), [
             'rp_token' => 'token',
             'rp_token_created_at' => date('Y-m-d')
@@ -238,7 +236,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             'rp_token' => $resetToken,
             'rp_token_created_at' => '1970-01-01',
         ]));
-        $this->_customerService->saveCustomer($this->_customerBuilder->create());
+        $customerData = $this->_customerBuilder->create();
+        $this->_customerService->saveCustomer($customerData);
 
         $this->_service->validateResetPasswordLinkToken(1, $resetToken);
     }
@@ -349,7 +348,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testResetPassword()
     {
-        $this->markTestIncomplete('Should be processed in MAGETWO-20703');
         $resetToken = 'lsdj579slkj5987slkj595lkj';
         $password = 'password_secret';
 
