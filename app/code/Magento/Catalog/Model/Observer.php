@@ -198,7 +198,7 @@ class Observer
                 $subcategories = $category->getChildren();
             }
 
-            $this->_addCategoriesToMenu($subcategories, $categoryNode);
+            $this->_addCategoriesToMenu($subcategories, $categoryNode, $block);
         }
     }
 

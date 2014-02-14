@@ -47,6 +47,7 @@ class Topmenu extends \Magento\View\Element\Template implements \Magento\View\Bl
     {
         $this->_eventManager->dispatch('page_block_html_topmenu_gethtml_before', array(
             'menu' => $this->_menu,
+            'block' => $this
         ));
 
         $this->_menu->setOutermostClass($outermostClass);
