@@ -33,15 +33,20 @@ class Search extends \Magento\Backend\App\Action
         parent::__construct($context);
     }
 
+    /**
+     * @return $this
+     */
     protected function _initAction()
     {
         $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_CatalogSearch::catalog_search')
-            ->_addBreadcrumb(__('Search'), __('Search'))
-        ;
+            ->_addBreadcrumb(__('Search'), __('Search'));
         return $this;
     }
 
+    /**
+     * @return void
+     */
     public function indexAction()
     {
         $this->_title->add(__('Search Terms'));
@@ -51,11 +56,17 @@ class Search extends \Magento\Backend\App\Action
             $this->_view->renderLayout();
     }
 
+    /**
+     * @return void
+     */
     public function newAction()
     {
         $this->_forward('edit');
     }
 
+    /**
+     * @return void
+     */
     public function editAction()
     {
         $this->_title->add(__('Search Terms'));
@@ -97,6 +108,7 @@ class Search extends \Magento\Backend\App\Action
     /**
      * Save search query
      *
+     * @return void
      */
     public function saveAction()
     {
@@ -150,6 +162,9 @@ class Search extends \Magento\Backend\App\Action
         }
     }
 
+    /**
+     * @return void
+     */
     public function deleteAction()
     {
         $id = $this->getRequest()->getParam('id');
@@ -171,6 +186,9 @@ class Search extends \Magento\Backend\App\Action
         $this->_redirect('catalog/*/');
     }
 
+    /**
+     * @return void
+     */
     public function massDeleteAction()
     {
         $searchIds = $this->getRequest()->getParam('search');
@@ -190,6 +208,9 @@ class Search extends \Magento\Backend\App\Action
         $this->_redirect('catalog/*/index');
     }
 
+    /**
+     * @return bool
+     */
     protected function _isAllowed()
     {
         return $this->_authorization->isAllowed('Magento_CatalogSearch::search');

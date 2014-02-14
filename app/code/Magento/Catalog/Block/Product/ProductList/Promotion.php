@@ -9,12 +9,15 @@
  */
 namespace Magento\Catalog\Block\Product\ProductList;
 
+use Magento\Catalog\Model\Resource\Product\Collection;
+use Magento\Catalog\Model\Resource\Product\CollectionFactory;
+
 class Promotion extends \Magento\Catalog\Block\Product\ListProduct
 {
     /**
      * Product collection factory
      *
-     * @var \Magento\Catalog\Model\Resource\Product\CollectionFactory
+     * @var CollectionFactory
      */
     protected $_productCollectionFactory;
 
@@ -40,7 +43,7 @@ class Promotion extends \Magento\Catalog\Block\Product\ListProduct
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Catalog\Model\Layer $catalogLayer
      * @param \Magento\Catalog\Model\LayerFactory $layerFactory
-     * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
+     * @param CollectionFactory $productCollectionFactory
      * @param array $data
      * @param array $priceBlockTypes
      * 
@@ -61,7 +64,7 @@ class Promotion extends \Magento\Catalog\Block\Product\ListProduct
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Catalog\Model\Layer $catalogLayer,
         \Magento\Catalog\Model\LayerFactory $layerFactory,
-        \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
+        CollectionFactory $productCollectionFactory,
         array $data = array(),
         array $priceBlockTypes = array()
     ) {
@@ -86,10 +89,13 @@ class Promotion extends \Magento\Catalog\Block\Product\ListProduct
         );
     }
 
+    /**
+     * @return Collection
+     */
     protected function _getProductCollection()
     {
         if (is_null($this->_productCollection)) {
-            /** @var \Magento\Catalog\Model\Resource\Product\Collection $collection */
+            /** @var Collection $collection */
             $collection = $this->_productCollectionFactory->create();
             $this->_layerFactory->create()->prepareProductCollection($collection);
 

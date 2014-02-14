@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Reminder\Model;
 
 use Magento\Event\Observer as EventObserver;
@@ -130,6 +129,7 @@ class Observer
      * detaches it from Email Remainder Rules
      *
      * @param EventObserver $observer
+     *
      * @return void
      */
     public function detachUnsupportedSalesRule($observer)
@@ -149,6 +149,7 @@ class Observer
      * Adds filter to collection which excludes all rules that can't be used in Email Remainder Rules
      *
      * @param EventObserver $observer
+     *
      * @return void
      */
     public function addSalesRuleFilter($observer)
@@ -161,6 +162,7 @@ class Observer
      * Adds notice to "Use Auto Generation" checkbox
      *
      * @param EventObserver $observer
+     *
      * @return void
      */
     public function addUseAutoGenerationNotice($observer)

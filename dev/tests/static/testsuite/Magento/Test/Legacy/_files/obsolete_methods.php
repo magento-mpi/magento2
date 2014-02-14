@@ -1258,4 +1258,6 @@ return array(
     array('_buildPublicViewRedundantFilename', 'Magento\View\Publisher', 'Magento\View\Publisher\File'),
     array('_buildPublicViewSufficientFilename', 'Magento\View\Publisher', 'Magento\View\Publisher\File'),
     array('_buildPublicViewFilename', 'Magento\View\Publisher', 'Magento\View\Publisher\FileInterface'),
+    array('cleanAction', 'Magento\PageCache\Controller\Adminhtml\PageCache'),
+    array('_isAllowed', 'Magento\PageCache\Controller\Adminhtml\PageCache'),
 );

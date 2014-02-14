@@ -18,6 +18,8 @@
 
 namespace Magento\Tax\Controller\Adminhtml;
 
+use Magento\App\ResponseInterface;
+
 class Rate extends \Magento\Backend\App\Action
 {
     /**
@@ -40,6 +42,7 @@ class Rate extends \Magento\Backend\App\Action
     /**
      * Show Main Grid
      *
+     * @return void
      */
     public function indexAction()
     {
@@ -53,6 +56,7 @@ class Rate extends \Magento\Backend\App\Action
     /**
      * Show Add Form
      *
+     * @return void
      */
     public function addAction()
     {
@@ -122,6 +126,8 @@ class Rate extends \Magento\Backend\App\Action
 
     /**
      * Save Tax Rate via AJAX
+     *
+     * @return void
      */
     public function ajaxSaveAction()
     {
@@ -177,6 +183,7 @@ class Rate extends \Magento\Backend\App\Action
     /**
      * Show Edit Form
      *
+     * @return void
      */
     public function editAction()
     {
@@ -249,6 +256,8 @@ class Rate extends \Magento\Backend\App\Action
 
     /**
      * Delete Tax Rate via AJAX
+     *
+     * @return void
      */
     public function ajaxDeleteAction()
     {
@@ -279,6 +288,7 @@ class Rate extends \Magento\Backend\App\Action
     /**
      * Export rates grid to CSV format
      *
+     * @return ResponseInterface
      */
     public function exportCsvAction()
     {
@@ -289,6 +299,8 @@ class Rate extends \Magento\Backend\App\Action
 
     /**
      * Export rates grid to XML format
+     *
+     * @return ResponseInterface
      */
     public function exportXmlAction()
     {
@@ -314,6 +326,7 @@ class Rate extends \Magento\Backend\App\Action
     /**
      * Import and export Page
      *
+     * @return void
      */
     public function importExportAction()
     {
@@ -331,6 +344,7 @@ class Rate extends \Magento\Backend\App\Action
     /**
      * import action from import/export tax
      *
+     * @return void
      */
     public function importPostAction()
     {
@@ -355,6 +369,7 @@ class Rate extends \Magento\Backend\App\Action
     /**
      * export action from import/export tax
      *
+     * @return ResponseInterface
      */
     public function exportPostAction()
     {
@@ -418,6 +433,9 @@ class Rate extends \Magento\Backend\App\Action
         return $this->_fileFactory->create('tax_rates.csv', $content, \Magento\App\Filesystem::VAR_DIR);
     }
 
+    /**
+     * @return bool
+     */
     protected function _isAllowed()
     {
         switch ($this->getRequest()->getActionName()) {

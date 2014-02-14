@@ -7,16 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Rma\Block\Adminhtml\Product\Bundle;
 
 /**
  * Additional Renderer of Product's Attribute Enable RMA control structure
  *
- * @category   Magento
- * @package    Magento_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Rma\Block\Adminhtml\Product\Bundle;
-
 class Items extends \Magento\View\Element\Template
 {
     /**
@@ -40,6 +37,11 @@ class Items extends \Magento\View\Element\Template
         parent::__construct($context, $data);
     }
 
+    /**
+     * Initialize current rma bundle item
+     *
+     * @return void
+     */
     public function _construct()
     {
         parent::_construct();

@@ -19,6 +19,7 @@ abstract class AbstractController extends \Magento\App\Action\Action
 {
     /**
      * Filter to convert localized values to internal ones
+     *
      * @var \Zend_Filter_LocalizedToNormalized
      */
     protected $_localFilter = null;
@@ -33,7 +34,7 @@ abstract class AbstractController extends \Magento\App\Action\Action
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      */
     public function __construct(
-        \Magento\App\Action\Context $context,
+        Context $context,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
     ) {
         $this->_formKeyValidator = $formKeyValidator;
@@ -69,6 +70,8 @@ abstract class AbstractController extends \Magento\App\Action\Action
 
     /**
      * Add all items from wishlist to shopping cart
+     *
+     * @return void
      */
     public function allcartAction()
     {

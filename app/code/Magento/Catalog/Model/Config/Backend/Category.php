@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Catalog\Model\Config\Backend;
 
 /**
  * Config category field backend
@@ -15,8 +16,6 @@
  * @package    Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Model\Config\Backend;
-
 class Category extends \Magento\Core\Model\Config\Value
 {
     /**
@@ -27,6 +26,8 @@ class Category extends \Magento\Core\Model\Config\Value
     protected $_catalogCategory;
 
     /**
+     * Constructor
+     *
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -50,6 +51,9 @@ class Category extends \Magento\Core\Model\Config\Value
         parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function _afterSave()
     {
         if ($this->getScope() == 'stores') {

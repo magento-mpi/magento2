@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\User\Model\Resource;
 
 /**
@@ -61,6 +60,7 @@ class Rules extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Define main table
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -71,6 +71,7 @@ class Rules extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Save ACL resources
      *
      * @param \Magento\User\Model\Rules $rule
+     * @return void
      * @throws \Magento\Core\Exception
      */
     public function saveRel(\Magento\User\Model\Rules $rule)

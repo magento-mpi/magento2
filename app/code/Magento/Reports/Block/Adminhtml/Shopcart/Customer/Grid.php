@@ -119,5 +119,4 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\Shopcart
 
         return parent::_prepareColumns();
     }
-
 }

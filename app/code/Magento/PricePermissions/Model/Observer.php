@@ -8,19 +8,17 @@
  * @license     {license_link}
  */
 
-/**
- * Price Permissions Observer
- *
- * @category    Magento
- * @package     Magento_PricePermissions
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\PricePermissions\Model;
 
 use Magento\Backend\Block\Template;
 use Magento\Event\Observer as EventObserver;
 use Magento\Backend\Block\Widget\Grid;
 
+/**
+ * Price Permissions Observer
+ *
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
 class Observer
 {
     /**
@@ -101,11 +99,15 @@ class Observer
     protected $_coreRegistry = null;
 
     /**
+     * Backend authorization session
+     *
      * @var \Magento\Backend\Model\Auth\Session
      */
     protected $_authSession;
 
     /**
+     * Catalog product model
+     *
      * @var \Magento\Catalog\Model\ProductFactory
      */
     protected $_productFactory;

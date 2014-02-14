@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Block\Widget\Grid\Column\Renderer;
+
+use Magento\Backend\Block\Widget\Grid\Column;
 
 /**
  * Backend grid item renderer interface
@@ -15,17 +18,14 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Backend\Block\Widget\Grid\Column\Renderer;
-
 interface RendererInterface
 {
     /**
      * Set column for renderer
      *
-     * @abstract
-     * @param $column
+     * @param Column $column
      * @return void
+     * @abstract
      */
     public function setColumn($column);
 
@@ -41,6 +41,7 @@ interface RendererInterface
      * Renders grid column
      *
      * @param \Magento\Object $row
+     * @return string
      */
     public function render(\Magento\Object $row);
 }

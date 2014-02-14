@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Reward\Model\Reward;
 
 /**
  * Reward rate model
@@ -23,12 +23,8 @@
  * @method \Magento\Reward\Model\Reward\Rate setPoints(int $value)
  * @method \Magento\Reward\Model\Reward\Rate setCurrencyAmount(float $value)
  *
- * @category    Magento
- * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Reward\Model\Reward;
-
 class Rate extends \Magento\Core\Model\AbstractModel
 {
     const RATE_EXCHANGE_DIRECTION_TO_CURRENCY = 1;
@@ -42,11 +38,15 @@ class Rate extends \Magento\Core\Model\AbstractModel
     protected $_rewardData = null;
 
     /**
+     * Core model store manager interface
+     *
      * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
+     * Core model locale
+     *
      * @var \Magento\Core\Model\Locale
      */
     protected $_locale;
@@ -100,6 +100,8 @@ class Rate extends \Magento\Core\Model\AbstractModel
 
     /**
      * Internal constructor
+     *
+     * @return void
      */
     protected function _construct()
     {

@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Catalog\Model\Resource\Product;
 
+use Magento\Core\Model\Config\Element;
 
 /**
  * Catalog product website resource model
@@ -16,8 +18,6 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Model\Resource\Product;
-
 class Status extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
@@ -69,6 +69,7 @@ class Status extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Initialize connection
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -89,7 +90,7 @@ class Status extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Retrieve product attribute
      *
-     * @param unknown_type $attribute
+     * @param string|integer|Element $attribute
      * @return \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
      */
     protected function _getProductAttribute($attribute)
@@ -105,7 +106,7 @@ class Status extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param int $productId
      * @param int $storeId
-     * @return \Magento\Catalog\Model\Resource\Product\Status
+     * @return $this
      */
     public function refreshEnabledIndex($productId, $storeId)
     {
@@ -126,9 +127,9 @@ class Status extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Update product status for store
      *
      * @param int $productId
-     * @param int $storId
+     * @param int $storeId
      * @param int $value
-     * @return \Magento\Catalog\Model\Resource\Product\Status
+     * @return $this
      */
     public function updateProductStatus($productId, $storeId, $value)
     {

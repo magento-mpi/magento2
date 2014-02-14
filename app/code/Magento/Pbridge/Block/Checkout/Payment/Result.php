@@ -7,17 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Pbridge\Block\Checkout\Payment;
 
 /**
  * Pbridge result payment block
  *
- * @category    Magento
- * @package     Magento_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Pbridge\Block\Checkout\Payment;
-
 class Result extends \Magento\View\Element\Template
 {
     /**
@@ -28,6 +24,8 @@ class Result extends \Magento\View\Element\Template
     protected $_pbridgeData = null;
 
     /**
+     * Json encoder interface
+     *
      * @var \Magento\Json\EncoderInterface
      */
     protected $_jsonEncoder;

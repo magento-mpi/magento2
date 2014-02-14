@@ -46,6 +46,10 @@ class Cron extends \Magento\Core\Model\Config\Value
         parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
     }
 
+    /**
+     * @return void
+     * @throws \Exception
+     */
     protected function _afterSave()
     {
         $time = $this->getData('groups/import/fields/time/value');

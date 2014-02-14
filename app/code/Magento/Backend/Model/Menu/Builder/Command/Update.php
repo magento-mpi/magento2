@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Model\Menu\Builder\Command;
 
 /**
  * Command to update menu item data
  */
-namespace Magento\Backend\Model\Menu\Builder\Command;
-
 class Update extends \Magento\Backend\Model\Menu\Builder\AbstractCommand
 {
     /**

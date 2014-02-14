@@ -16,11 +16,15 @@ namespace Magento\Rma\Block\Adminhtml\Rma\Create\Order;
 class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
+     * Sales order config model
+     *
      * @var \Magento\Sales\Model\Order\Config
      */
     protected $_orderConfig;
 
     /**
+     * Sales order collection
+     *
      * @var \Magento\Sales\Model\Resource\Order\Grid\CollectionFactory
      */
     protected $_gridCollectionFactory;
@@ -46,6 +50,8 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 
     /**
      * Block constructor
+     *
+     * @return void
      */
     public function _construct()
     {

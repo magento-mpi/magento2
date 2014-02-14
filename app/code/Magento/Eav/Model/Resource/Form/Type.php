@@ -7,7 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Eav\Model\Resource\Form;
 
+use Magento\Eav\Model\Form\Type as FormType;
+use Magento\Core\Model\AbstractModel;
 
 /**
  * Eav Form Type Resource Model
@@ -16,10 +19,6 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Eav\Model\Resource\Form;
-
-use Magento\Eav\Model\Form\Type as FormType;
-
 class Type extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
@@ -39,12 +38,12 @@ class Type extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Load an object
      *
-     * @param FormType $object
+     * @param FormType|AbstractModel $object
      * @param mixed $value
      * @param string $field field to load by (defaults to model id)
      * @return $this
      */
-    public function load(\Magento\Core\Model\AbstractModel $object, $value, $field = null)
+    public function load(AbstractModel $object, $value, $field = null)
     {
         if (is_null($field) && !is_numeric($value)) {
             $field = 'code';
@@ -78,10 +77,10 @@ class Type extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @see \Magento\Core\Model\Resource\Db\AbstractDb#_afterSave($object)
      *
-     * @param FormType $object
+     * @param FormType|AbstractModel $object
      * @return $this
      */
-    protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
+    protected function _afterSave(AbstractModel $object)
     {
         if ($object->hasEntityTypes()) {
             $new = $object->getEntityTypes();

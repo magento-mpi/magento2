@@ -24,7 +24,7 @@ class Collection
     /**
      * Join custom fields
      *
-     * @return \Magento\Invitation\Model\Resource\Report\Invitation\Order\Collection
+     * @return $this
      */
     protected function _joinFields()
     {
@@ -58,7 +58,7 @@ class Collection
     /**
      * Additional data manipulation after collection was loaded
      *
-     * @return \Magento\Invitation\Model\Resource\Report\Invitation\Order\Collection
+     * @return $this
      */
     protected function _afterLoad()
     {
