@@ -24,7 +24,7 @@ class Exception extends \Exception
     protected $_code = null;
 
     /**
-     * @param null $message
+     * @param string|null $message
      * @param int $code
      */
     public function __construct($message = null, $code = 0)
