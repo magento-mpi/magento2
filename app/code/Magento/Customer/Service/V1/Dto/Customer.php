@@ -78,7 +78,7 @@ class Customer extends \Magento\Service\Entity\AbstractDto implements Eav\Entity
         $unvalidatedData = $this->__toArray();
         $validData = [];
         foreach ($this->_validAttributes as $attributeCode) {
-            if (in_array($attributeCode, array_keys($unvalidatedData))) {
+            if (array_key_exists($attributeCode, $unvalidatedData)) {
                 $validData[$attributeCode] = $unvalidatedData[$attributeCode];
             }
         }
