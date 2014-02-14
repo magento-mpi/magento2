@@ -59,7 +59,7 @@ class ElementFactory
         $dataModelClass = $attribute->getDataModel();
         $params = [
             'entityTypeCode' => $entityTypeCode,
-            'value' => is_null($value) ? false : $value,
+            'value' => $value,
             'isAjax' => $isAjax,
             'attribute' => $attribute
         ];
