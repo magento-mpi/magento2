@@ -45,76 +45,65 @@ class Account extends \Magento\App\Action\Action
         'loginpost'
     );
 
-    /**
-     * @var \Magento\Customer\Model\Session
-     */
+    /** @var \Magento\Customer\Model\Session */
     protected $_session;
 
-    /**
-     * @var \Magento\UrlFactory
-     */
+    /** @var \Magento\Customer\Helper\Address */
+    protected $_addressHelper;
+
+    /** @var \Magento\UrlFactory */
     protected $_urlFactory;
 
-    /**
-     * @var \Magento\Customer\Model\FormFactory
-     */
+    /** @var \Magento\Customer\Model\Metadata\FormFactory */
     protected $_formFactory;
 
-    /**
-     * Magento string lib
-     *
-     * @var \Magento\Stdlib\String
-     */
+    /** @var \Magento\Stdlib\String */
     protected $string;
+
+    /** @var \Magento\Core\App\Action\FormKeyValidator */
+    protected $_formKeyValidator;
+
+    /** @var \Magento\Newsletter\Model\SubscriberFactory */
+    protected $_subscriberFactory;
+
+    /** @var \Magento\Core\Model\StoreManagerInterface */
+    protected $_storeManager;
+
+    /** @var \Magento\Core\Model\Store\Config */
+    protected $_storeConfig;
+
+    /** @var \Magento\Escaper */
+    protected $escaper;
 
     /** @var CustomerServiceInterface  */
     protected $_customerService;
 
-    /** @var CustomerAccountServiceInterface  */
-    protected $_customerAccountService;
-
     /** @var CustomerGroupV1Interface */
     protected $_groupService;
 
-    /**
-     * @var \Magento\Core\App\Action\FormKeyValidator
-     */
-    protected $_formKeyValidator;
+    /** @var CustomerAccountServiceInterface  */
+    protected $_customerAccountService;
 
-    /**
-     * @var \Magento\Escaper
-     */
-    protected $escaper;
-
-    /**
-     * @var \Magento\Newsletter\Model\SubscriberFactory
-     */
-    protected $_subscriberFactory;
-
-    /**
-     * @var \Magento\Customer\Service\V1\Dto\RegionBuilder
-     */
+    /** @var \Magento\Customer\Service\V1\Dto\RegionBuilder */
     protected $_regionBuilder;
 
-    /**
-     * @var \Magento\Customer\Service\V1\Dto\AddressBuilder
-     */
+    /** @var \Magento\Customer\Service\V1\Dto\AddressBuilder */
     protected $_addressBuilder;
 
-    /**
-     * @var \Magento\Customer\Service\V1\Dto\CustomerBuilder
-     */
+    /** @var \Magento\Customer\Service\V1\Dto\CustomerBuilder */
     protected $_customerBuilder;
 
     /**
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Customer\Helper\Address $addressHelper
      * @param \Magento\UrlFactory $urlFactory
-     * @param \Magento\Customer\Model\FormFactory $formFactory
+     * @param \Magento\Customer\Model\Metadata\FormFactory $formFactory
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Store\Config $storeConfig
      * @param \Magento\Escaper $escaper
      * @param \Magento\Customer\Service\V1\CustomerServiceInterface $customerService
      * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService
@@ -126,12 +115,14 @@ class Account extends \Magento\App\Action\Action
     public function __construct(
         \Magento\App\Action\Context $context,
         \Magento\Customer\Model\Session $customerSession,
+        \Magento\Customer\Helper\Address $addressHelper,
         \Magento\UrlFactory $urlFactory,
-        \Magento\Customer\Model\FormFactory $formFactory,
+        \Magento\Customer\Model\Metadata\FormFactory $formFactory,
         \Magento\Stdlib\String $string,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Store\Config $storeConfig,
         \Magento\Escaper $escaper,
         CustomerServiceInterface $customerService,
         CustomerGroupServiceInterface $customerGroupService,
@@ -140,17 +131,19 @@ class Account extends \Magento\App\Action\Action
         \Magento\Customer\Service\V1\Dto\AddressBuilder $addressBuilder,
         \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerBuilder
     ) {
-        $this->_storeManager = $storeManager;
         $this->_session = $customerSession;
+        $this->_addressHelper = $addressHelper;
         $this->_urlFactory = $urlFactory;
         $this->_formFactory = $formFactory;
         $this->string = $string;
         $this->_formKeyValidator = $formKeyValidator;
-        $this->_customerService = $customerService;
-        $this->_customerAccountService = $customerAccountService;
-        $this->_groupService = $customerGroupService;
         $this->_subscriberFactory = $subscriberFactory;
+        $this->_storeManager = $storeManager;
+        $this->_storeConfig = $storeConfig;
         $this->escaper = $escaper;
+        $this->_customerService = $customerService;
+        $this->_groupService = $customerGroupService;
+        $this->_customerAccountService = $customerAccountService;
         $this->_regionBuilder = $regionBuilder;
         $this->_addressBuilder = $addressBuilder;
         $this->_customerBuilder = $customerBuilder;
@@ -445,14 +438,12 @@ class Account extends \Magento\App\Action\Action
             return null;
         }
 
-        $addressForm = $this->_createForm();
-        $addressForm->setFormCode('customer_register_address')
-            ->setEntityType('customer_address');
+        $addressForm = $this->_createForm('customer_address', 'customer_register_address');
         $allowedAttributes = $addressForm->getAllowedAttributes();
 
         $addressData = [];
 
-        /** @var $attribute \Magento\Eav\Model\Attribute */
+        /** @var $attribute \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata */
         foreach ($allowedAttributes as $attribute) {
             $attributeCode = $attribute->getAttributeCode();
             $value = $this->getRequest()->getParam($attributeCode);
@@ -486,11 +477,10 @@ class Account extends \Magento\App\Action\Action
      */
     protected function _extractCustomer($formCode)
     {
-        $customerForm = $this->_createForm();
-        $customerForm->setFormCode($formCode)->setEntityType('customer');
+        $customerForm = $this->_createForm('customer', $formCode);
         $allowedAttributes = $customerForm->getAllowedAttributes();
         $isGroupIdEmpty = true;
-        /** @var $attribute \Magento\Eav\Model\Attribute */
+        /** @var $attribute \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata */
         $customerData = [];
         foreach ($allowedAttributes as $attribute) {
             $attributeCode = $attribute->getAttributeCode();
@@ -521,7 +511,7 @@ class Account extends \Magento\App\Action\Action
         $this->_addWelcomeMessage();
 
         $successUrl = $this->_createUrl()->getUrl('*/*/index', array('_secure' => true));
-        if (!$this->_objectManager->get('Magento\Core\Model\Store\Config')->getConfigFlag(
+        if (!$this->_storeConfig->getConfigFlag(
                 \Magento\Customer\Helper\Data::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD
             )
             && $this->_getSession()->getBeforeAuthUrl()
@@ -541,8 +531,7 @@ class Account extends \Magento\App\Action\Action
         );
         if ($this->_isVatValidationEnabled()) {
             // Show corresponding VAT message to customer
-            $configAddressType = $this->_objectManager->get('Magento\Customer\Helper\Address')
-                ->getTaxCalculationAddressType();
+            $configAddressType = $this->_addressHelper->getTaxCalculationAddressType();
             $editAddersUrl = $this->_createUrl()->getUrl('customer/address/edit');
             switch ($configAddressType) {
                 case \Magento\Customer\Service\V1\CustomerAddressServiceInterface::TYPE_SHIPPING:
@@ -574,13 +563,10 @@ class Account extends \Magento\App\Action\Action
         try {
             /** @var \Magento\Customer\Service\V1\Dto\Customer $customer */
             $customer = $this->_customerService->getCustomer($customerId);
-            if ((!$customer) || (!$customer->getCustomerId())) {
-                throw new \Exception('Failed to load customer by id.');
-            }
-        } catch (\Exception $e) {
+            return $customer;
+        } catch (NoSuchEntityException $e) {
             throw new \Exception(__('Wrong customer account specified.'));
         }
-        return $customer;
     }
 
     /**
@@ -820,15 +806,16 @@ class Account extends \Magento\App\Action\Action
 
         $data = $this->_getSession()->getCustomerFormData(true);
         $customerId = $this->_getSession()->getCustomerId();
-        $customer = $this->_customerService->getCustomer($customerId)->__toArray();
+        $customerData = $this->_customerService->getCustomer($customerId)->__toArray();
 
         if (!empty($data)) {
-            array_merge($customer, $data);
+            array_merge($customerData, $data);
         }
+        $this->_getSession()->setCustomerDto($this->_customerBuilder->populateWithArray($customerData)->create());
+
         if ($this->getRequest()->getParam('changepass') == 1) {
-            $customer['change_password'] = 1;
+            $this->getSession()->setChangePassword(true);
         }
-        $this->_getSession()->setCustomerDto($this->_customerBuilder->populateWithArray($customer)->create());
 
         $this->_view->getLayout()->getBlock('head')->setTitle(__('Account Information'));
         $this->_view->getLayout()->getBlock('messages')->setEscapeMessageFlag(true);
@@ -920,10 +907,12 @@ class Account extends \Magento\App\Action\Action
     }
 
     /**
-     * @return \Magento\Customer\Model\Form
+     * @param string $entityType
+     * @param string $formCode
+     * @return \Magento\Customer\Model\Metadata\Form
      */
-    protected function _createForm()
+    protected function _createForm($entityType, $formCode)
     {
-        return $this->_formFactory->create();
+        return $this->_formFactory->create($entityType, $formCode);
     }
 }

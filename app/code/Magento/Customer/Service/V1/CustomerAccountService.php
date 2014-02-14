@@ -281,8 +281,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
                 throw new AuthenticationException(__('Invalid current password.'),
                     AuthenticationException::INVALID_EMAIL_OR_PASSWORD);
             }
-        }
-        else {
+        } else {
             $customerId = $this->_customerService->saveCustomer($customer);
         }
     }
