@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Catalog\Model\Product\Compare;
 
+use Magento\Catalog\Model\Product;
 
 /**
  * Catalog Compare Item Model
@@ -24,8 +26,6 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Model\Product\Compare;
-
 class Item extends \Magento\Core\Model\AbstractModel
 {
 
@@ -105,6 +105,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     /**
      * Initialize resourse model
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -124,7 +125,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     /**
      * Set current store before save
      *
-     * @return \Magento\Catalog\Model\Product\Compare\Item
+     * @return $this
      */
     protected function _beforeSave()
     {
@@ -140,7 +141,7 @@ class Item extends \Magento\Core\Model\AbstractModel
      * Add customer data from customer object
      *
      * @param \Magento\Customer\Model\Customer $customer
-     * @return \Magento\Catalog\Model\Product\Compare\Item
+     * @return $this
      */
     public function addCustomerData(\Magento\Customer\Model\Customer $customer)
     {
@@ -152,7 +153,7 @@ class Item extends \Magento\Core\Model\AbstractModel
      * Set visitor
      *
      * @param int $visitorId
-     * @return \Magento\Catalog\Model\Product\Compare\Item
+     * @return $this
      */
     public function addVisitorId($visitorId)
     {
@@ -163,8 +164,8 @@ class Item extends \Magento\Core\Model\AbstractModel
     /**
      * Load compare item by product
      *
-     * @param mixed $product
-     * @return \Magento\Catalog\Model\Product\Compare\Item
+     * @param Product|int $product
+     * @return $this
      */
     public function loadByProduct($product)
     {
@@ -175,15 +176,14 @@ class Item extends \Magento\Core\Model\AbstractModel
     /**
      * Set product data
      *
-     * @param mixed $product
-     * @return \Magento\Catalog\Model\Product\Compare\Item
+     * @param Product|int $product
+     * @return $this
      */
     public function addProductData($product)
     {
-        if ($product instanceof \Magento\Catalog\Model\Product) {
+        if ($product instanceof Product) {
             $this->setProductId($product->getId());
-        }
-        else if(intval($product)) {
+        } elseif (intval($product)) {
             $this->setProductId(intval($product));
         }
 
@@ -208,7 +208,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     /**
      * Customer login bind process
      *
-     * @return \Magento\Catalog\Model\Product\Compare\Item
+     * @return $this
      */
     public function bindCustomerLogin()
     {
@@ -222,7 +222,7 @@ class Item extends \Magento\Core\Model\AbstractModel
      * Customer logout bind process
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\Catalog\Model\Product\Compare\Item
+     * @return $this
      */
     public function bindCustomerLogout(\Magento\Event\Observer $observer = null)
     {
@@ -235,7 +235,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     /**
      * Clean compare items
      *
-     * @return \Magento\Catalog\Model\Product\Compare\Item
+     * @return $this
      */
     public function clean()
     {

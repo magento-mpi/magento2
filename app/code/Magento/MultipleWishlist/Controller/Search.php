@@ -174,6 +174,8 @@ class Search extends \Magento\App\Action\Action
 
     /**
      * Index action
+     *
+     * @return void
      */
     public function indexAction()
     {
@@ -189,6 +191,7 @@ class Search extends \Magento\App\Action\Action
     /**
      * Wishlist search action
      *
+     * @return void
      * @throws \Magento\Core\Exception
      */
     public function resultsAction()
@@ -238,6 +241,7 @@ class Search extends \Magento\App\Action\Action
     /**
      * View customer wishlist
      *
+     * @return void
      * @throws NotFoundException
      */
     public function viewAction()
@@ -266,6 +270,8 @@ class Search extends \Magento\App\Action\Action
 
     /**
      * Add wishlist item to cart
+     *
+     * @return void
      */
     public function addtocartAction()
     {

@@ -13,11 +13,15 @@ interface UpdaterInterface
 {
     /**
      * Apply database scheme updates whenever needed
+     *
+     * @return void
      */
     public function updateScheme();
 
     /**
      * Apply database data updates whenever needed
+     *
+     * @return void
      */
     public function updateData();
 }

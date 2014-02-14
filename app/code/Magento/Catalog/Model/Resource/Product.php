@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Resource;
 
 /**
@@ -15,7 +14,7 @@ namespace Magento\Catalog\Model\Resource;
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Product extends \Magento\Catalog\Model\Resource\AbstractResource
+class Product extends AbstractResource
 {
     /**
      * Product to website linkage table
@@ -34,7 +33,7 @@ class Product extends \Magento\Catalog\Model\Resource\AbstractResource
     /**
      * Catalog category
      *
-     * @var \Magento\Catalog\Model\Resource\Category
+     * @var Category
      */
     protected $_catalogCategory;
 
@@ -57,7 +56,7 @@ class Product extends \Magento\Catalog\Model\Resource\AbstractResource
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Factory $modelFactory
      * @param \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryCollectionFactory
-     * @param \Magento\Catalog\Model\Resource\Category $catalogCategory
+     * @param Category $catalogCategory
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -72,7 +71,7 @@ class Product extends \Magento\Catalog\Model\Resource\AbstractResource
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Factory $modelFactory,
         \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryCollectionFactory,
-        \Magento\Catalog\Model\Resource\Category $catalogCategory,
+        Category $catalogCategory,
         $data = array()
     ) {
         $this->_categoryCollectionFactory = $categoryCollectionFactory;
@@ -96,7 +95,7 @@ class Product extends \Magento\Catalog\Model\Resource\AbstractResource
     /**
      * Default product attributes
      *
-     * @return array
+     * @return string[]
      */
     protected function _getDefaultAttributes()
     {
@@ -190,7 +189,7 @@ class Product extends \Magento\Catalog\Model\Resource\AbstractResource
      * Process product data before save
      *
      * @param \Magento\Object $object
-     * @return \Magento\Catalog\Model\Resource\Product
+     * @return $this
      */
     protected function _beforeSave(\Magento\Object $object)
     {
@@ -218,7 +217,7 @@ class Product extends \Magento\Catalog\Model\Resource\AbstractResource
      * Save data related with product
      *
      * @param \Magento\Object $product
-     * @return \Magento\Catalog\Model\Resource\Product
+     * @return $this
      */
     protected function _afterSave(\Magento\Object $product)
     {
@@ -231,7 +230,7 @@ class Product extends \Magento\Catalog\Model\Resource\AbstractResource
      * Save product website relations
      *
      * @param \Magento\Catalog\Model\Product $product
-     * @return \Magento\Catalog\Model\Resource\Product
+     * @return $this
      */
     protected function _saveWebsiteIds($product)
     {
@@ -280,7 +279,7 @@ class Product extends \Magento\Catalog\Model\Resource\AbstractResource
      * Save product category relations
      *
      * @param \Magento\Object $object
-     * @return \Magento\Catalog\Model\Resource\Product
+     * @return $this
      */
     protected function _saveCategories(\Magento\Object $object)
     {
@@ -403,7 +402,7 @@ class Product extends \Magento\Catalog\Model\Resource\AbstractResource
      *
      * @param int $oldId
      * @param int $newId
-     * @return \Magento\Catalog\Model\Resource\Product
+     * @return $this
      */
     public function duplicate($oldId, $newId)
     {

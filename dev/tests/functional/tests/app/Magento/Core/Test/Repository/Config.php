@@ -81,6 +81,9 @@ class Config extends AbstractRepository
         $this->_data['enable_mysql_search'] = $this->_getMysqlSearchEnabled();
         $this->_data['check_money_order'] = $this->getCheckmo();
         $this->_data['show_out_of_stock'] = $this->_getShowOutOfStock();
+        $this->_data['enable_product_flat'] = $this->_getProductFlatEnabled();
+        $this->_data['manual_layered_navigation_mysql'] = $this->_getManualPriceLayeredNavigationMysql();
+        $this->_data['disable_product_flat'] = $this->_getProductFlatDisabled();
         //Sales
         $this->_data['enable_map_config'] = $this->_getMapEnabled();
         $this->_data['disable_secret_key'] = $this->_getSecretKeyEnabled();
@@ -1969,6 +1972,64 @@ class Config extends AbstractRepository
     }
 
     /**
+     * Enable product flat
+     *
+     * @return array
+     */
+    protected function _getProductFlatEnabled()
+    {
+        return array(
+            'data' => array(
+                'sections' => array(
+                    'catalog' => array(
+                        'section' => 'catalog',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'frontend' => array( //Frontend
+                                'fields' => array(
+                                    'flat_catalog_product' => array( //Enabled
+                                        'value' => self::YES_VALUE
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
+    }
+
+    /**
+     * Disable product flat
+     *
+     * @return array
+     */
+    protected function _getProductFlatDisabled()
+    {
+        return array(
+            'data' => array(
+                'sections' => array(
+                    'catalog' => array(
+                        'section' => 'catalog',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'frontend' => array( //Frontend
+                                'fields' => array(
+                                    'flat_catalog_product' => array( //Disabled
+                                        'value' => self::NO_VALUE
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
+    }
+
+    /**
      * Enable 'Display out of Stock' option for catalog
      *
      * @return array
@@ -1995,5 +2056,39 @@ class Config extends AbstractRepository
                 ),
             ),
         );
+    }
+
+    /**
+     * Setup manual price layered navigation via Mysql
+     *
+     * @return array
+     */
+    protected function _getManualPriceLayeredNavigationMysql()
+    {
+        $config  =  array(
+            'data' => array(
+                'sections' => array(
+                    'catalog' => array(
+                        'section' => 'catalog',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'layered_navigation' => array(
+                                'fields' => array(
+                                    'price_range_calculation' => array(
+                                        'value' => 'manual' // Price Navigation Step Calculation
+                                    ),
+                                    'price_range_step' => array(
+                                        'value' => '10' // Default Price Navigation Step
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
+
+        return array_replace_recursive($this->_getMysqlSearchEnabled(), $config);
     }
 }

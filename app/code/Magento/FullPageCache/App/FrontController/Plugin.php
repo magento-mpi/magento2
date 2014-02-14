@@ -61,8 +61,8 @@ class Plugin
     /**
      * Extract cached page or call front controller if page is not cached
      *
+     * @param array $arguments
      * @param \Magento\Code\Plugin\InvocationChain $invocationChain
-     * @param $arguments
      * @return mixed
      */
     public function aroundDispatch($arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)

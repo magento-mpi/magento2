@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Catalog\Model\Resource\Product\Type\Configurable;
 
 /**
  * Catalog super product attribute resource model
@@ -16,8 +16,6 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Model\Resource\Product\Type\Configurable;
-
 class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
@@ -66,6 +64,7 @@ class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Inititalize connection and define tables
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -88,7 +87,7 @@ class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Save Custom labels for Attribute name
      *
      * @param \Magento\Catalog\Model\Product\Type\Configurable\Attribute $attribute
-     * @return \Magento\Catalog\Model\Resource\Product\Type\Configurable\Attribute
+     * @return $this
      */
     public function saveLabel($attribute)
     {
@@ -130,7 +129,7 @@ class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Save Options prices (Depends from price save scope)
      *
      * @param \Magento\Catalog\Model\Product\Type\Configurable\Attribute $attribute
-     * @return \Magento\Catalog\Model\Resource\Product\Type\Configurable\Attribute
+     * @return $this
      */
     public function savePrices($attribute)
     {
@@ -261,7 +260,6 @@ class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
             $write->insertMultiple($this->_priceTable, $insert);
         }
 
-
         return $this;
     }
 
@@ -297,9 +295,8 @@ class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Get configurable attribute id by product id and attribute id
      *
      * @param \Magento\Catalog\Model\Product\Type\Configurable\Attribute $attribute
-     * @param $productId
-     * @param $attributeId
-     *
+     * @param mixed $productId
+     * @param mixed $attributeId
      * @return string
      */
     public function getIdByProductIdAndAttributeId($attribute, $productId, $attributeId)
@@ -314,7 +311,8 @@ class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Delete configurable attributes by product id
      *
-     * @param $productId
+     * @param mixed $productId
+     * @return void
      */
     public function deleteAttributesByProductId($productId)
     {

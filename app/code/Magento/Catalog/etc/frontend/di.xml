@@ -36,4 +36,17 @@
             <value type="bool">true</value>
         </param>
     </type>
+    <virtualType name="Magento\Catalog\Block\ShortcutButtons\InCatalog" type="Magento\Catalog\Block\ShortcutButtons">
+        <param name="isCatalogProduct">
+            <value type="bool">true</value>
+        </param>
+    </virtualType>
+    <virtualType name="Magento\Catalog\Block\ShortcutButtons\InCatalog\PositionAfter" type="Magento\Catalog\Block\ShortcutButtons">
+        <param name="isCatalogProduct">
+            <value type="bool">true</value>
+        </param>
+        <param name="orPosition">
+            <value type="const">Magento\Catalog\Block\ShortcutButtons::POSITION_AFTER</value>
+        </param>
+    </virtualType>
 </config>

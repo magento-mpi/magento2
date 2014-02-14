@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Catalog\Model\Product;
 
 /**
  * Catalog Product Mass Action processing model
@@ -16,8 +16,6 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Model\Product;
-
 class Action extends \Magento\Core\Model\AbstractModel
 {
     /**
@@ -68,6 +66,7 @@ class Action extends \Magento\Core\Model\AbstractModel
     /**
      * Initialize resource model
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -103,7 +102,7 @@ class Action extends \Magento\Core\Model\AbstractModel
      * @param array $productIds
      * @param array $attrData
      * @param int $storeId
-     * @return \Magento\Catalog\Model\Product\Action
+     * @return $this
      */
     public function updateAttributes($productIds, $attrData, $storeId)
     {
@@ -133,13 +132,14 @@ class Action extends \Magento\Core\Model\AbstractModel
     /**
      * Update websites for product action
      *
-     * allowed types:
+     * Allowed types:
      * - add
      * - remove
      *
      * @param array $productIds
      * @param array $websiteIds
      * @param string $type
+     * @return void
      */
     public function updateWebsites($productIds, $websiteIds, $type)
     {

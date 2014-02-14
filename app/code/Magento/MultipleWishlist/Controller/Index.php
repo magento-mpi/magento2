@@ -50,7 +50,7 @@ class Index extends \Magento\Wishlist\Controller\Index
     /**
      * List of protected actions
      *
-     * @var array
+     * @var string[]
      */
     protected $_protectedActions = array(
         'createwishlist', 'editwishlist', 'deletewishlist', 'copyitems', 'moveitem', 'moveitems'
@@ -62,7 +62,6 @@ class Index extends \Magento\Wishlist\Controller\Index
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Wishlist\Model\Config $wishlistConfig
      * @param \Magento\App\Response\Http\FileFactory $fileResponseFactory
-     * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      * @param \Magento\Wishlist\Model\ItemFactory $itemFactory
      * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
      * @param \Magento\Session\Generic $wishlistSession
@@ -121,6 +120,8 @@ class Index extends \Magento\Wishlist\Controller\Index
     /**
      * Add item to wishlist
      * Create new wishlist if wishlist params (name, visibility) are provided
+     *
+     * @return void
      */
     public function addAction()
     {
@@ -148,6 +149,8 @@ class Index extends \Magento\Wishlist\Controller\Index
 
     /**
      * Display customer wishlist
+     *
+     * @return void
      */
     public function indexAction()
     {
@@ -164,6 +167,8 @@ class Index extends \Magento\Wishlist\Controller\Index
 
     /**
      * Create new customer wishlist
+     *
+     * @return void
      */
     public function createwishlistAction()
     {
@@ -315,6 +320,7 @@ class Index extends \Magento\Wishlist\Controller\Index
      * @param \Magento\Wishlist\Model\Item $item
      * @param \Magento\Wishlist\Model\Wishlist $wishlist
      * @param int $qty
+     * @return void
      * @throws \InvalidArgumentException|\DomainException
      */
     protected function _copyItem(\Magento\Wishlist\Model\Item $item, \Magento\Wishlist\Model\Wishlist $wishlist, $qty = null)
@@ -407,6 +413,7 @@ class Index extends \Magento\Wishlist\Controller\Index
     /**
      * Copy wishlist items to given wishlist
      *
+     * @return void
      * @throws NotFoundException
      */
     public function copyitemsAction()
@@ -482,6 +489,7 @@ class Index extends \Magento\Wishlist\Controller\Index
      * @param \Magento\Wishlist\Model\Wishlist $wishlist
      * @param \Magento\Wishlist\Model\Resource\Wishlist\Collection $customerWishlists
      * @param int $qty
+     * @return void
      * @throws \InvalidArgumentException|\DomainException
      */
     protected function _moveItem(
@@ -574,6 +582,8 @@ class Index extends \Magento\Wishlist\Controller\Index
 
     /**
      * Move wishlist items to given wishlist
+     *
+     * @return void
      * @throws NotFoundException
      */
     public function moveitemsAction()

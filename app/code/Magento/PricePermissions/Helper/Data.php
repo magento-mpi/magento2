@@ -7,16 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\PricePermissions\Helper;
 
 /**
  * Price Permissions Data Helper
  *
- * @category    Magento
- * @package     Magento_PricePermissions
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\PricePermissions\Helper;
-
 class Data extends \Magento\App\Helper\AbstractHelper
 {
     /**
@@ -46,11 +43,15 @@ class Data extends \Magento\App\Helper\AbstractHelper
     const DEFAULT_PRODUCT_PRICE_CONFIG_PATH = 'catalog/price/default_product_price';
 
     /**
+     * Authorization interface
+     *
      * @var \Magento\AuthorizationInterface
      */
     protected $_authorization;
 
     /**
+     * Configuration interface
+     *
      * @var \Magento\App\ConfigInterface
      */
     protected $_coreConfig;

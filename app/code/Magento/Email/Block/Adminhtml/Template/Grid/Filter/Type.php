@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Email\Block\Adminhtml\Template\Grid\Filter;
 
 /**
  * Adminhtml system template grid type filter
@@ -15,9 +16,6 @@
  * @package    Magento_Email
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Email\Block\Adminhtml\Template\Grid\Filter;
-
 class Type extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Select
 {
     /**

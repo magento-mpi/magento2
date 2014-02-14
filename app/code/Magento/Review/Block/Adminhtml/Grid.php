@@ -47,11 +47,15 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     protected $_coreRegistry = null;
 
     /**
+     * Review collection model factory
+     *
      * @var \Magento\Review\Model\Resource\Review\Product\CollectionFactory
      */
     protected $_productsFactory;
 
     /**
+     * Review model factory
+     *
      * @var \Magento\Review\Model\ReviewFactory
      */
     protected $_reviewFactory;
@@ -86,6 +90,8 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 
     /**
      * Initialize grid
+     *
+     * @return void
      */
     protected function _construct()
     {

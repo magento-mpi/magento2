@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Email\Model\Source;
 
 /**
  * Store Contact Information source model
@@ -16,8 +16,6 @@
  * @package    Magento_Email
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Email\Model\Source;
-
 class Variables implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
@@ -29,7 +27,6 @@ class Variables implements \Magento\Core\Model\Option\ArrayInterface
 
     /**
      * Constructor
-     *
      */
     public function __construct()
     {

@@ -113,6 +113,34 @@ interface AdapterInterface
     public function dropTable($tableName, $schemaName = null);
 
     /**
+     * Create temporary table from DDL object
+     *
+     * @param \Magento\DB\Ddl\Table $table
+     * @throws \Zend_Db_Exception
+     * @return \Zend_Db_Statement_Interface
+     */
+    public function createTemporaryTable(\Magento\DB\Ddl\Table $table);
+
+    /**
+     * Drop temporary table from database
+     *
+     * @param string $tableName
+     * @param string $schemaName
+     * @return boolean
+     */
+    public function dropTemporaryTable($tableName, $schemaName = null);
+
+    /**
+     * Rename several tables
+     *
+     * @param array $tablePairs array('oldName' => 'Name1', 'newName' => 'Name2')
+     *
+     * @return boolean
+     * @throws \Zend_Db_Exception
+     */
+    public function renameTablesBatch(array $tablePairs);
+
+    /**
      * Truncate a table
      *
      * @param string $tableName
@@ -324,7 +352,7 @@ interface AdapterInterface
      * @param string $schemaName
      * @param string $refSchemaName
      * @return \Magento\DB\Adapter\AdapterInterface
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function addForeignKey($fkName, $tableName, $columnName, $refTableName, $refColumnName,
@@ -1035,4 +1063,12 @@ interface AdapterInterface
      * @return mixed
      */
     public function dropTrigger($triggerName, $schemaName = null);
+
+    /**
+     * Retrieve tables list
+     *
+     * @param null|string $likeCondition
+     * @return array
+     */
+    public function getTables($likeCondition = null);
 }

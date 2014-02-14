@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Resource\Product;
 
 /**
@@ -35,6 +34,7 @@ class Website extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Initialize connection and define resource table
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -46,7 +46,7 @@ class Website extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param array $websiteIds
      * @param array $productIds
-     * @return \Magento\Catalog\Model\Resource\Product\Website
+     * @return $this
      * @throws \Exception
      */
     public function removeProducts($websiteIds, $productIds)
@@ -82,7 +82,7 @@ class Website extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param array $websiteIds
      * @param array $productIds
-     * @return \Magento\Catalog\Model\Resource\Product\Website
+     * @return $this
      * @throws \Exception
      */
     public function addProducts($websiteIds, $productIds)

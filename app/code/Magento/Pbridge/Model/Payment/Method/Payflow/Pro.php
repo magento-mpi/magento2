@@ -5,13 +5,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Pbridge\Model\Payment\Method\Payflow;
+
+use Magento\Paypal\Model\Api\Nvp;
+use Magento\Pbridge\Model\Payment\Method\Paypal;
+use Magento\Sales\Model\Order\Payment;
 
 /**
  * Payflow Pro implementation for payment method instances
  * This model was created because right now PayPal Direct and PayPal Express payment methods cannot have same abstract
  */
-namespace Magento\Pbridge\Model\Payment\Method\Payflow;
-
 class Pro extends \Magento\Paypal\Model\Payflow\Pro
 {
     /**
@@ -24,7 +27,7 @@ class Pro extends \Magento\Paypal\Model\Payflow\Pro
     /**
      * Paypal pbridge payment method
      *
-     * @var \Magento\Pbridge\Model\Payment\Method\Paypal
+     * @var Paypal
      */
     protected $_pbridgePaymentMethod;
 
@@ -63,9 +66,9 @@ class Pro extends \Magento\Paypal\Model\Payflow\Pro
     /**
      * Pbridge payment method setter
      *
-     * @param \Magento\Pbridge\Model\Payment\Method\Paypal $pbridgePaymentMethod
+     * @param Paypal $pbridgePaymentMethod
+     * @return void
      */
-
     public function setPaymentMethod($pbridgePaymentMethod)
     {
         $this->_pbridgePaymentMethod = $pbridgePaymentMethod;
@@ -141,6 +144,7 @@ class Pro extends \Magento\Paypal\Model\Payflow\Pro
      * Cancel payment
      *
      * @param \Magento\Object $payment
+     * @return void
      */
     public function cancel(\Magento\Object $payment)
     {
@@ -149,7 +153,6 @@ class Pro extends \Magento\Paypal\Model\Payflow\Pro
             $this->_infoFactory->create()->importToPayment(new \Magento\Object($result), $payment);
         }
     }
-
 
     /**
      * Parent transaction id getter
@@ -166,8 +169,9 @@ class Pro extends \Magento\Paypal\Model\Payflow\Pro
     /**
      * Import capture results to payment
      *
-     * @param \Magento\Paypal\Model\Api\Nvp
-     * @param \Magento\Sales\Model\Order\Payment
+     * @param Nvp $api
+     * @param Payment $payment
+     * @return void
      */
     protected function _importCaptureResultToPayment($api, $payment)
     {
@@ -181,9 +185,10 @@ class Pro extends \Magento\Paypal\Model\Payflow\Pro
     /**
      * Import refund results to payment
      *
-     * @param \Magento\Paypal\Model\Api\Nvp $api
-     * @param \Magento\Sales\Model\Order\Payment $payment
+     * @param Nvp $api
+     * @param Payment $payment
      * @param bool $canRefundMore
+     * @return void
      */
     protected function _importRefundResultToPayment($api, $payment, $canRefundMore)
     {

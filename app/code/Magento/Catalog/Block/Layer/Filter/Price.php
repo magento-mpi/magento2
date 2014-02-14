@@ -21,7 +21,6 @@ class Price extends \Magento\Catalog\Block\Layer\Filter\AbstractFilter
 {
     /**
      * Initialize Price filter module
-     *
      */
     protected function _construct()
     {

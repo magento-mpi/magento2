@@ -7,13 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\User\Model\Acl\Role;
 
 /**
  * User acl role
  */
-namespace Magento\User\Model\Acl\Role;
-
 class Generic extends \Zend_Acl_Role
 {
 

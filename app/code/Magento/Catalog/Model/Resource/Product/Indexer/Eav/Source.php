@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Catalog\Model\Resource\Product\Indexer\Eav;
 
+use \Magento\Catalog\Model\Product\Attribute\Source\Status as ProductStatus;
 
 /**
  * Catalog Product Eav Select and Multiply Select Attributes Indexer resource model
@@ -16,12 +18,8 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Model\Resource\Product\Indexer\Eav;
-
-use \Magento\Catalog\Model\Product\Attribute\Source\Status as ProductStatus;
-
 class Source
-    extends \Magento\Catalog\Model\Resource\Product\Indexer\Eav\AbstractEav
+    extends AbstractEav
 {
     /**
      * Catalog resource helper
@@ -51,6 +49,7 @@ class Source
     /**
      * Initialize connection and define main index table
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -87,9 +86,9 @@ class Source
     /**
      * Prepare data index for indexable attributes
      *
-     * @param array $entityIds      the entity ids limitation
-     * @param int $attributeId      the attribute id limitation
-     * @return \Magento\Catalog\Model\Resource\Product\Indexer\Eav\Source
+     * @param array $entityIds the entity ids limitation
+     * @param int $attributeId the attribute id limitation
+     * @return $this
      */
     protected function _prepareIndex($entityIds = null, $attributeId = null)
     {
@@ -102,9 +101,9 @@ class Source
     /**
      * Prepare data index for indexable select attributes
      *
-     * @param array $entityIds      the entity ids limitation
-     * @param int $attributeId      the attribute id limitation
-     * @return \Magento\Catalog\Model\Resource\Product\Indexer\Eav\Source
+     * @param array $entityIds the entity ids limitation
+     * @param int $attributeId the attribute id limitation
+     * @return $this
      */
     protected function _prepareSelectIndex($entityIds = null, $attributeId = null)
     {
@@ -180,9 +179,9 @@ class Source
     /**
      * Prepare data index for indexable multiply select attributes
      *
-     * @param array $entityIds      the entity ids limitation
-     * @param int $attributeId      the attribute id limitation
-     * @return \Magento\Catalog\Model\Resource\Product\Indexer\Eav\Source
+     * @param array $entityIds the entity ids limitation
+     * @param int $attributeId the attribute id limitation
+     * @return $this
      */
     protected function _prepareMultiselectIndex($entityIds = null, $attributeId = null)
     {
@@ -278,7 +277,7 @@ class Source
      * Save a data to temporary source index table
      *
      * @param array $data
-     * @return \Magento\Catalog\Model\Resource\Product\Indexer\Eav\Source
+     * @return $this
      */
     protected function _saveIndexData(array $data)
     {
@@ -293,7 +292,7 @@ class Source
     /**
      * Retrieve temporary source index table name
      *
-     * @param unknown_type $table
+     * @param string|null $table
      * @return string
      */
     public function getIdxTable($table = null)

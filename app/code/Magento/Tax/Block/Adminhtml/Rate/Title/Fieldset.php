@@ -41,6 +41,9 @@ class Fieldset extends \Magento\Data\Form\Element\Fieldset
         parent::__construct($factoryElement, $factoryCollection, $escaper, $data);
     }
 
+    /**
+     * @return string
+     */
     public function getBasicChildrenHtml()
     {
         return $this->_title->toHtml();
