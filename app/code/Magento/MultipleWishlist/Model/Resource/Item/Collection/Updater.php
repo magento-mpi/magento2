@@ -20,9 +20,8 @@ class Updater implements \Magento\View\Layout\Argument\UpdaterInterface
     /**
      * @param \Magento\Wishlist\Helper\Data $wishlistData
      */
-    public function __construct(
-        \Magento\Wishlist\Helper\Data $wishlistData
-    ) {
+    public function __construct(\Magento\Wishlist\Helper\Data $wishlistData)
+    {
         $this->_wishlistData = $wishlistData;
     }
 
@@ -30,7 +29,7 @@ class Updater implements \Magento\View\Layout\Argument\UpdaterInterface
      * Add filtration by customer id
      *
      * @param \Magento\Data\Collection\Db $argument
-     * @return mixed
+     * @return \Magento\Data\Collection\Db
      */
     public function update($argument)
     {

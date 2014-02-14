@@ -11,16 +11,16 @@
     <preference for="Magento\Cron\Model\ConfigInterface" type="Magento\Cron\Model\Config" />
     <type name="Magento\Cron\Model\Config\Reader\Db">
         <arguments>
-            <argument name="converter" xsi:type="object">Magento\Cron\Model\Config\Converter\Db</argument>
-        </arguments>
-    </type>
-    <type name="Magento\Cron\Model\Config\Reader\Xml">
-        <arguments>
-            <argument name="converter" xsi:type="object">Magento\Cron\Model\Config\Converter\Xml</argument>
-            <argument name="schemaLocator" xsi:type="object">Magento\Cron\Model\Config\SchemaLocator</argument>
+            <argument name="defaultReader" xsi:type="object">Magento\Core\Model\Config\Scope\Reader\DefaultReader</argument>
         </arguments>
     </type>
     <type name="Magento\App\Cron">
         <plugin name="application_initializer" type="Magento\Cron\App\Cron\Plugin\ApplicationInitializer" sortOrder="10"/>
+    </type>
+    <type name="Magento\Backend\Model\Config\Structure\Converter">
+        <plugin name="cron_backend_config_structure_converter_plugin" type="Magento\Cron\Model\Backend\Config\Structure\Converter" />
+    </type>
+    <type name="Magento\App\Config\Initial\Converter">
+        <plugin name="cron_system_config_initial_converter_plugin" type="Magento\Cron\Model\System\Config\Initial\Converter" />
     </type>
 </config>

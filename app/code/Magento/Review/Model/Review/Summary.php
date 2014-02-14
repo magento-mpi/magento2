@@ -32,6 +32,8 @@ class Summary extends \Magento\Core\Model\AbstractModel
     }
 
     /**
+     * Get entity primary key value
+     *
      * @return int
      */
     public function getEntityPkValue()
@@ -40,6 +42,8 @@ class Summary extends \Magento\Core\Model\AbstractModel
     }
 
     /**
+     * Get rating summary data
+     *
      * @return string
      */
     public function getRatingSummary()
@@ -48,6 +52,8 @@ class Summary extends \Magento\Core\Model\AbstractModel
     }
 
     /**
+     * Get count of reviews
+     *
      * @return int
      */
     public function getReviewsCount()

@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Core\Model\Resource;
 
+use Magento\Stdlib\DateTime;
 
 /**
  * Core Design Resource Model
@@ -16,20 +18,18 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Core\Model\Resource;
-
 class Design extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
-     * @var \Magento\Stdlib\DateTime
+     * @var DateTime
      */
     protected $dateTime;
 
     /**
      * @param \Magento\App\Resource $resource
-     * @param \Magento\Stdlib\DateTime $dateTime
+     * @param DateTime $dateTime
      */
-    public function __construct(\Magento\App\Resource $resource, \Magento\Stdlib\DateTime $dateTime)
+    public function __construct(\Magento\App\Resource $resource, DateTime $dateTime)
     {
         $this->dateTime = $dateTime;
         parent::__construct($resource);
@@ -37,7 +37,6 @@ class Design extends \Magento\Core\Model\Resource\Db\AbstractDb
 
     /**
      * Define main table and primary key
-     *
      */
     protected function _construct()
     {
@@ -48,7 +47,7 @@ class Design extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Perform actions before object save
      *
      * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Core\Model\Resource\Db\AbstractDb
+     * @return $this
      * @throws \Magento\Core\Exception
      */
     public function _beforeSave(\Magento\Core\Model\AbstractModel $object)
@@ -99,10 +98,10 @@ class Design extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Check intersections
      *
      * @param int $storeId
-     * @param date $dateFrom
-     * @param date $dateTo
+     * @param string $dateFrom
+     * @param string $dateTo
      * @param int $currentId
-     * @return Array
+     * @return string
      */
     protected function _checkIntersection($storeId, $dateFrom, $dateTo, $currentId)
     {

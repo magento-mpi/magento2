@@ -23,6 +23,8 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
      * Constructor
      *
      * Initializes edit form container, adds necessary buttons
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -58,16 +60,16 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     }
 
     /**
-    * Get header of page
-    *
-    * @return string
-    */
+     * Get header of page
+     *
+     * @return string
+     */
     public function getHeaderText()
     {
         return __('New Extension');
     }
 
-    /*
+    /**
      * Get form submit URL
      *
      * @return string

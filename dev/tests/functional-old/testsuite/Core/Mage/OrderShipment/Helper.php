@@ -40,14 +40,18 @@ class Core_Mage_OrderShipment_Helper extends Mage_Selenium_AbstractHelper
             }
         }
         if (!$verify) {
-            $productCount = $this->getControlCount('fieldset', 'product_line_to_ship');
-            for ($i = 1; $i <= $productCount; $i++) {
-                $this->addParameter('productNumber', $i);
-                $prodSku = $this->getControlAttribute('field', 'product_sku', 'text');
-                $pointer = 'SKU: ';
-                $prodSku = substr($prodSku, strpos($prodSku, $pointer) + strlen($pointer));
-                $prodQty = $this->getControlAttribute('field', 'product_qty', 'selectedValue');
-                $verify[$prodSku] = $prodQty;
+            /** $var $productElement PHPUnit_Extensions_Selenium2TestCase_Element*/
+            foreach ($this->getControlElements('fieldset', 'product_line_to_ship') as $productElement) {
+                $prodSku = $this->getChildElement($productElement, "//*[strong='SKU:']")->text();
+                if ($options = $this->childElementIsPresent($productElement, '//td[@class="col-product"]/dl')) {
+                    $prodSku = str_replace($options->text(), '', $prodSku);
+                }
+                list(, $prodSku) = explode('SKU: ', $prodSku);
+                list($prodSku) = explode("\n", $prodSku);
+                $qtyElement = $this->getChildElement($productElement, '//td[3]');
+                $qtyInput = $this->childElementIsPresent($qtyElement, 'input');
+                $prodQty = $qtyInput ? $qtyInput->value() : $qtyElement->text();
+                $verify[trim($prodSku)] = trim($prodQty);
             }
         }
         $this->clickButton('submit_shipment');

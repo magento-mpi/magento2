@@ -31,7 +31,7 @@ class Custom extends \Magento\Core\Model\Config\Value
     /**
      * Writer of configuration storage
      *
-     * @var \Magento\Core\Model\Config\Storage\WriterInterface
+     * @var \Magento\App\Config\Storage\WriterInterface
      */
     protected $_configWriter;
 
@@ -40,7 +40,7 @@ class Custom extends \Magento\Core\Model\Config\Value
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\ConfigInterface $config
-     * @param \Magento\Core\Model\Config\Storage\WriterInterface $configWriter
+     * @param \Magento\App\Config\Storage\WriterInterface $configWriter
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -50,7 +50,7 @@ class Custom extends \Magento\Core\Model\Config\Value
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\ConfigInterface $config,
-        \Magento\Core\Model\Config\Storage\WriterInterface $configWriter,
+        \Magento\App\Config\Storage\WriterInterface $configWriter,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -70,7 +70,7 @@ class Custom extends \Magento\Core\Model\Config\Value
     /**
      * Validate value before save
      *
-     * @return \Magento\Backend\Model\Config\Backend\Admin\Custom
+     * @return $this
      */
     protected function _beforeSave()
     {
@@ -87,7 +87,7 @@ class Custom extends \Magento\Core\Model\Config\Value
     /**
      * Change secure/unsecure base_url after use_custom_url was modified
      *
-     * @return \Magento\Backend\Model\Config\Backend\Admin\Custom
+     * @return $this
      */
     public function _afterSave()
     {

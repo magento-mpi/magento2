@@ -20,6 +20,7 @@ namespace Magento\Wishlist\Controller;
 
 use Magento\App\Action\NotFoundException;
 use Magento\App\RequestInterface;
+use Magento\App\ResponseInterface;
 
 class Index
     extends \Magento\Wishlist\Controller\AbstractController
@@ -71,7 +72,7 @@ class Index
 
     /**
      * @param RequestInterface $request
-     * @return \Magento\App\ResponseInterface
+     * @return ResponseInterface
      * @throws \Magento\App\Action\NotFoundException
      */
     public function dispatch(RequestInterface $request)
@@ -95,7 +96,7 @@ class Index
     /**
      * Set skipping authentication in actions of this controller (wishlist)
      *
-     * @return \Magento\Wishlist\Controller\Index
+     * @return $this
      */
     public function skipAuthentication()
     {
@@ -105,8 +106,9 @@ class Index
 
     /**
      * Retrieve wishlist object
+     *
      * @param int $wishlistId
-     * @return \Magento\Wishlist\Model\Wishlist|bool
+     * @return \Magento\Wishlist\Model\Wishlist|false
      */
     protected function _getWishlist($wishlistId = null)
     {
@@ -150,6 +152,7 @@ class Index
     /**
      * Display customer wishlist
      *
+     * @return void
      * @throws NotFoundException
      */
     public function indexAction()
@@ -177,6 +180,7 @@ class Index
     /**
      * Adding new item
      *
+     * @return void
      * @throws NotFoundException
      */
     public function addAction()
@@ -259,6 +263,7 @@ class Index
     /**
      * Action to reconfigure wishlist item
      *
+     * @return void
      * @throws NotFoundException
      */
     public function configureAction()
@@ -306,6 +311,8 @@ class Index
 
     /**
      * Action to accept new configuration for a wishlist item
+     *
+     * @return void
      */
     public function updateItemOptionsAction()
     {
@@ -363,6 +370,7 @@ class Index
     /**
      * Update wishlist item comments
      *
+     * @return ResponseInterface|void
      * @throws NotFoundException
      */
     public function updateAction()
@@ -451,6 +459,7 @@ class Index
     /**
      * Remove item
      *
+     * @return void
      * @throws NotFoundException
      */
     public function removeAction()
@@ -488,6 +497,8 @@ class Index
      *
      * If Product has required options - item removed from wishlist and redirect
      * to product view page with message about needed defined required options
+     *
+     * @return ResponseInterface
      */
     public function cartAction()
     {
@@ -538,6 +549,14 @@ class Index
             $cart->save()->getQuote()->collectTotals();
             $wishlist->save();
 
+            if (!$cart->getQuote()->getHasError()) {
+                $message = __(
+                    'You added %1 to your shopping cart.',
+                    $this->_objectManager->get('Magento\Escaper')->escapeHtml($item->getProduct()->getName())
+                );
+                $this->messageManager->addSuccess($message);
+            }
+
             $this->_objectManager->get('Magento\Wishlist\Helper\Data')->calculate();
 
             if ($this->_objectManager->get('Magento\Checkout\Helper\Cart')->getShouldRedirectToCart()) {
@@ -568,6 +587,7 @@ class Index
     /**
      * Add cart item to wishlist and remove from cart
      *
+     * @return \Zend_Controller_Response_Abstract
      * @throws NotFoundException
      */
     public function fromcartAction()
@@ -618,6 +638,8 @@ class Index
 
     /**
      * Prepare wishlist for share
+     *
+     * @return void
      */
     public function shareAction()
     {
@@ -630,7 +652,7 @@ class Index
     /**
      * Share wishlist
      *
-     * @return \Magento\App\Action\Action|void
+     * @return ResponseInterface|void
      * @throws NotFoundException
      */
     public function sendAction()
@@ -678,8 +700,8 @@ class Index
             return;
         }
 
-        $translate = $this->_objectManager->get('Magento\Core\Model\Translate');
-        /* @var $translate \Magento\Core\Model\Translate */
+        $translate = $this->_objectManager->get('Magento\TranslateInterface');
+        /* @var $translate \Magento\TranslateInterface */
         $translate->setTranslateInline(false);
         $sent = 0;
 
@@ -751,6 +773,7 @@ class Index
 
     /**
      * Custom options download action
+     *
      * @return void
      */
     public function downloadCustomOptionAction()

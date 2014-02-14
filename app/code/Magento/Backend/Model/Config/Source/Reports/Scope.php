@@ -21,6 +21,8 @@ class Scope implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Scope filter
+     *
+     * @return array
      */
     public function toOptionArray()
     {

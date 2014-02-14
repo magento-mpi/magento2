@@ -44,6 +44,9 @@ class Usesecretkey extends \Magento\Core\Model\Config\Value
         parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
     }
 
+    /**
+     * @return $this
+     */
     protected function _afterSave()
     {
         $this->_backendUrl->renewSecretUrls();

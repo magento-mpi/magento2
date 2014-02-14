@@ -106,7 +106,7 @@ class Observer
     protected $_stockColFactory;
 
     /**
-     * @var \Magento\Core\Model\Translate
+     * @var \Magento\TranslateInterface
      */
     protected $_translate;
 
@@ -129,7 +129,7 @@ class Observer
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Core\Model\DateFactory $dateFactory
      * @param \Magento\ProductAlert\Model\Resource\Stock\CollectionFactory $stockColFactory
-     * @param \Magento\Core\Model\Translate $translate
+     * @param \Magento\TranslateInterface $translate
      * @param \Magento\Email\Model\TemplateFactory $templateFactory
      * @param \Magento\ProductAlert\Model\EmailFactory $emailFactory
      */
@@ -142,7 +142,7 @@ class Observer
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Core\Model\DateFactory $dateFactory,
         \Magento\ProductAlert\Model\Resource\Stock\CollectionFactory $stockColFactory,
-        \Magento\Core\Model\Translate $translate,
+        \Magento\TranslateInterface $translate,
         \Magento\Email\Model\TemplateFactory $templateFactory,
         \Magento\ProductAlert\Model\EmailFactory $emailFactory
     ) {

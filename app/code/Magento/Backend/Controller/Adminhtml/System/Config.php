@@ -7,13 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Controller\Adminhtml\System;
+
+use Magento\App\ResponseInterface;
 
 /**
  * System Configuration controller
  */
-namespace Magento\Backend\Controller\Adminhtml\System;
-
-class Config extends \Magento\Backend\Controller\Adminhtml\System\AbstractConfig
+class Config extends AbstractConfig
 {
     /**
      * @var \Magento\App\Response\Http\FileFactory
@@ -45,6 +46,7 @@ class Config extends \Magento\Backend\Controller\Adminhtml\System\AbstractConfig
     /**
      * Index action
      *
+     * @return void
      */
     public function indexAction()
     {
@@ -54,6 +56,7 @@ class Config extends \Magento\Backend\Controller\Adminhtml\System\AbstractConfig
     /**
      * Edit configuration section
      *
+     * @return void
      */
     public function editAction()
     {
@@ -71,7 +74,7 @@ class Config extends \Magento\Backend\Controller\Adminhtml\System\AbstractConfig
 
         $this->_view->loadLayout();
 
-        $this->_setActiveMenu('Magento_Adminhtml::system_config');
+        $this->_setActiveMenu('Magento_Backend::system_config');
         $this->_view->getLayout()->getBlock('menu')->setAdditionalCacheKeyInfo(array($current));
 
         $this->_addBreadcrumb(
@@ -85,6 +88,8 @@ class Config extends \Magento\Backend\Controller\Adminhtml\System\AbstractConfig
 
     /**
      * Save fieldset state through AJAX
+     *
+     * @return void
      */
     public function stateAction()
     {
@@ -101,6 +106,8 @@ class Config extends \Magento\Backend\Controller\Adminhtml\System\AbstractConfig
 
     /**
      * Export shipping table rates in csv format
+     *
+     * @return ResponseInterface
      */
     public function exportTableratesAction()
     {

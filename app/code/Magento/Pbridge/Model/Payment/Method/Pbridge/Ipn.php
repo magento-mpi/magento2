@@ -7,15 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Pbridge\Model\Payment\Method\Pbridge;
+
+use Magento\Paypal\Model\Config;
+use Magento\Sales\Model\Order;
+use Magento\Sales\Model\Order\Status\History;
 
 /**
  * PayPal Instant Payment Notification processor model
  */
-namespace Magento\Pbridge\Model\Payment\Method\Pbridge;
-
-use Magento\Sales\Model\Order;
-use Magento\Sales\Model\Order\Status\History;
-
 class Ipn
 {
     const STATUS_CREATED      = 'Created';
@@ -33,14 +33,17 @@ class Ipn
     const AUTH_STATUS_IN_PROGRESS = 'In_Progress';
     const AUTH_STATUS_COMPLETED   = 'Completed';
 
-    /*
-     * @param Order
+    /**
+     * Order
+     *
+     * @var Order|null
      */
     protected $_order = null;
 
     /**
+     * Paypal configuration
      *
-     * @var \Magento\Paypal\Model\Config
+     * @var Config
      */
     protected $_config = null;
 
@@ -65,6 +68,8 @@ class Ipn
     protected $_pbridgeData = null;
 
     /**
+     * Logger
+     *
      * @var \Magento\Logger
      */
     protected $_logger;
@@ -105,10 +110,11 @@ class Ipn
 
     /**
      * Config model setter
-     * @param \Magento\Paypal\Model\Config $config
-     * @return \Magento\Paypal\Model\Ipn
+     *
+     * @param Config $config
+     * @return $this
      */
-    public function setConfig(\Magento\Paypal\Model\Config $config)
+    public function setConfig(Config $config)
     {
         $this->_config = $config;
         return $this;
@@ -116,8 +122,9 @@ class Ipn
 
     /**
      * IPN request data setter
+     *
      * @param array $data
-     * @return \Magento\Paypal\Model\Ipn
+     * @return $this
      */
     public function setIpnFormData(array $data)
     {
@@ -140,7 +147,9 @@ class Ipn
 
     /**
      * Get ipn data, send verification to PayPal, run corresponding handler
+     *
      * @return void
+     * @throws \Exception
      */
     public function processIpnRequest()
     {
@@ -347,6 +356,7 @@ class Ipn
     /**
      * Treat failed payment as order cancellation
      *
+     * @param string $explanationMessage
      * @return void
      */
     protected function _registerPaymentFailure($explanationMessage = '')
@@ -357,6 +367,8 @@ class Ipn
     }
 
     /**
+     * Register payment refund
+     *
      * @return void
      */
     protected function _registerPaymentRefund()
@@ -386,9 +398,12 @@ class Ipn
     }
 
     /**
-     * @see pending_reason at https://cms.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=developer/e_howto_admin_IPNReference
+     * Register payment pending
+     *
      * @return void
      * @throws \Magento\Core\Exception
+     *
+     * @see pending_reason at https://cms.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=developer/e_howto_admin_IPNReference
      */
     public function _registerPaymentPending()
     {
@@ -460,6 +475,7 @@ class Ipn
      * We just can void only authorized transaction
      * Check if transaction authorized and not captured
      *
+     * @param string $explanationMessage
      * @return void
      */
     protected function _registerPaymentVoid($explanationMessage = '')
@@ -502,7 +518,7 @@ class Ipn
     /**
      * Notify Administrator about exceptional situation
      *
-     * @param $message
+     * @param string $message
      * @param \Exception $exception
      * @return void
      */
@@ -523,10 +539,11 @@ class Ipn
     /**
      * Generate a message basing on request reason_code
      * Should be invoked only on refunds
-     * @see payment_status at https://cms.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=developer/e_howto_admin_IPNReference
      *
      * @param bool $addToHistory
      * @return History
+     *
+     * @see payment_status at https://cms.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=developer/e_howto_admin_IPNReference
      */
     private function _explainRefundReason($addToHistory = true)
     {

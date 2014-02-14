@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 
-/*jshint evil:true browser:true jquery:true*/
+/*jshint browser:true jquery:true*/
 (function($) {
     $.widget('mage.addToCart', {
         options: {

@@ -21,13 +21,13 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
 
     /**
      * Cache tags related with request
-     * @var array
+     * @var string[]
      */
     protected $_requestTags;
 
     /**
      * Request processor model
-     * @var mixed
+     * @var \Magento\FullPageCache\Model\Processor\DefaultProcessor
      */
     protected $_requestProcessor = null;
 
@@ -122,7 +122,6 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
     protected $_eventManager = null;
 
     /**
-     * @param \Magento\Event\ManagerInterface $eventManager
      * Core registry
      *
      * @var \Magento\Core\Model\Registry
@@ -269,7 +268,7 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\App\ResponseInterface $response
      * @param string $content
-     * @return bool
+     * @return string|false
      */
     public function extractContent(
         \Magento\App\RequestInterface $request,
@@ -310,6 +309,8 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
 
     /**
      * Renew recently viewed products
+     *
+     * @return void
      */
     protected function _updateRecentlyViewedProducts()
     {
@@ -324,6 +325,7 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
      * Restore response headers
      *
      * @param \Magento\App\ResponseInterface $response
+     * @return void
      */
     protected function _restoreResponseHeaders(\Magento\App\ResponseInterface $response)
     {
@@ -444,7 +446,7 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
     /**
      * Process Containers
      *
-     * @param $content
+     * @param string &$content
      * @return \Magento\FullPageCache\Model\ContainerInterface[]
      */
     protected function _processContainers(&$content)
@@ -481,8 +483,8 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
     /**
      * Associate tag with page cache request identifier
      *
-     * @param array|string $tag
-     * @return \Magento\FullPageCache\Model\Processor
+     * @param string[]|string $tag
+     * @return $this
      */
     public function addRequestTag($tag)
     {
@@ -496,7 +498,7 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
 
     /**
      * Get cache request associated tags
-     * @return array
+     * @return string[]
      */
     public function getRequestTags()
     {
@@ -508,7 +510,7 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
      *
      * @param \Zend_Controller_Request_Http $request
      * @param \Magento\App\ResponseInterface $response
-     * @return \Magento\FullPageCache\Model\Processor
+     * @return $this
      */
     public function processRequestResponse(
         \Zend_Controller_Request_Http $request,
@@ -641,8 +643,7 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
      *
      * @param string $key
      * @param string $value
-     *
-     * @return \Magento\FullPageCache\Model\Processor
+     * @return $this
      */
     public function setMetadata($key, $value)
     {
@@ -655,7 +656,7 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
      *
      * @param string $key
      *
-     * @return mixed
+     * @return string|null
      */
     public function getMetadata($key)
     {
@@ -666,6 +667,7 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
      * Set subprocessor
      *
      * @param \Magento\FullPageCache\Model\Cache\SubProcessorInterface $subProcessor
+     * @return void
      */
     public function setSubprocessor(\Magento\FullPageCache\Model\Cache\SubProcessorInterface $subProcessor)
     {

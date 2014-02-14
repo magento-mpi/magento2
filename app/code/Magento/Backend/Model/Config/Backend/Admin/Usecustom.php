@@ -19,7 +19,7 @@ class Usecustom extends \Magento\Core\Model\Config\Value
     /**
      * Writer of configuration storage
      *
-     * @var \Magento\Core\Model\Config\Storage\WriterInterface
+     * @var \Magento\App\Config\Storage\WriterInterface
      */
     protected $_configWriter;
 
@@ -28,7 +28,7 @@ class Usecustom extends \Magento\Core\Model\Config\Value
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\ConfigInterface $config
-     * @param \Magento\Core\Model\Config\Storage\WriterInterface $configWriter
+     * @param \Magento\App\Config\Storage\WriterInterface $configWriter
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -38,7 +38,7 @@ class Usecustom extends \Magento\Core\Model\Config\Value
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\ConfigInterface $config,
-        \Magento\Core\Model\Config\Storage\WriterInterface $configWriter,
+        \Magento\App\Config\Storage\WriterInterface $configWriter,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -58,7 +58,7 @@ class Usecustom extends \Magento\Core\Model\Config\Value
     /**
      * Validate custom url
      *
-     * @return \Magento\Backend\Model\Config\Backend\Admin\Usecustom
+     * @return $this
      * @throws \Magento\Core\Exception
      */
     protected function _beforeSave()
@@ -79,7 +79,7 @@ class Usecustom extends \Magento\Core\Model\Config\Value
     /**
      * Delete custom admin url from configuration if "Use Custom Admin Url" option disabled
      *
-     * @return \Magento\Backend\Model\Config\Backend\Admin\Usecustom
+     * @return $this
      */
     protected function _afterSave()
     {
@@ -87,14 +87,14 @@ class Usecustom extends \Magento\Core\Model\Config\Value
 
         if (!$value) {
             $this->_configWriter->delete(
-                \Magento\Backend\Model\Config\Backend\Admin\Custom::XML_PATH_SECURE_BASE_URL,
-                \Magento\Backend\Model\Config\Backend\Admin\Custom::CONFIG_SCOPE,
-                \Magento\Backend\Model\Config\Backend\Admin\Custom::CONFIG_SCOPE_ID
+                Custom::XML_PATH_SECURE_BASE_URL,
+                Custom::CONFIG_SCOPE,
+                Custom::CONFIG_SCOPE_ID
             );
             $this->_configWriter->delete(
-                \Magento\Backend\Model\Config\Backend\Admin\Custom::XML_PATH_UNSECURE_BASE_URL,
-                \Magento\Backend\Model\Config\Backend\Admin\Custom::CONFIG_SCOPE,
-                \Magento\Backend\Model\Config\Backend\Admin\Custom::CONFIG_SCOPE_ID
+                Custom::XML_PATH_UNSECURE_BASE_URL,
+                Custom::CONFIG_SCOPE,
+                Custom::CONFIG_SCOPE_ID
             );
         }
 

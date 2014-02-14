@@ -37,7 +37,7 @@ class SuccessTest extends \PHPUnit_Framework_TestCase
             ->method('getLastRecurringProfileIds')
             ->will($this->returnValue([1, 2, 3]));
         $collection = $this->getMock(
-            'Magento\Sales\Model\Resource\Recurring\Profile\Collection',
+            'Magento\RecurringProfile\Model\Resource\Profile\Collection',
             ['addFieldToFilter'],
             [],
             '',
@@ -46,7 +46,7 @@ class SuccessTest extends \PHPUnit_Framework_TestCase
         $collection->expects($this->once())->method('addFieldToFilter')
             ->with('profile_id', ['in' => [1, 2, 3]])->will($this->returnValue([]));
         $recurringProfileCollectionFactory = $this->getMock(
-            'Magento\Sales\Model\Resource\Recurring\Profile\CollectionFactory',
+            'Magento\RecurringProfile\Model\Resource\Profile\CollectionFactory',
             ['create'],
             [],
             '',
@@ -64,5 +64,18 @@ class SuccessTest extends \PHPUnit_Framework_TestCase
             )
         );
         $this->assertEquals('', $block->toHtml());
+    }
+
+    public function testGetAdditionalInfoHtml()
+    {
+        /** @var \Magento\Checkout\Block\Onepage\Success $block */
+        $block = $this->objectManager->getObject('Magento\Checkout\Block\Onepage\Success');
+        $layout = $this->getMock('Magento\View\LayoutInterface', [], [], '', false);
+        $layout->expects($this->once())
+            ->method('renderElement')
+            ->with('order.success.additional.info')
+            ->will($this->returnValue('AdditionalInfoHtml'));
+        $block->setLayout($layout);
+        $this->assertEquals('AdditionalInfoHtml', $block->getAdditionalInfoHtml());
     }
 }

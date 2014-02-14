@@ -39,7 +39,7 @@ class Additional extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Prepare form before rendering HTML
      *
-     * @return \Magento\Backend\Block\Widget\Form
+     * @return $this
      */
     protected function _prepareForm()
     {
@@ -56,7 +56,8 @@ class Additional extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Prepare form item
      *
-     * @param array $item
+     * @param array &$item
+     * @return void
      */
     protected function _prepareFormItem(array &$item)
     {

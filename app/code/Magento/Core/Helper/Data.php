@@ -26,6 +26,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     const DIVIDE_EPSILON = 10000;
 
+    /**
+     * @var string[]
+     */
     protected $_allowedFormats = array(
         \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_FULL,
         \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_LONG,
@@ -97,7 +100,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param   float $value
      * @param   bool $format
      * @param   bool $includeContainer
-     * @return  mixed
+     * @return  float|string
      */
     public function currency($value, $format = true, $includeContainer = true)
     {
@@ -111,7 +114,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param   int|\Magento\Core\Model\Store $store
      * @param   bool $format
      * @param   bool $includeContainer
-     * @return  mixed
+     * @return  float|string
      */
     public function currencyByStore($value, $store = null, $format = true, $includeContainer = true)
     {
@@ -193,15 +196,16 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * Encode the mixed $valueToEncode into the JSON format
      *
      * @param mixed $valueToEncode
-     * @param  boolean $cycleCheck Optional; whether or not to check for object recursion; off by default
-     * @param  array $options Additional options used during encoding
+     * @param boolean $cycleCheck Optional; whether or not to check for object recursion; off by default
+     * @param array $options Additional options used during encoding
      * @return string
      */
     public function jsonEncode($valueToEncode, $cycleCheck = false, $options = array())
     {
         $json = \Zend_Json::encode($valueToEncode, $cycleCheck, $options);
-        if ($this->_translator->isAllowed()) {
-            $this->_translator->processResponseBody($json, true);
+        $translateInline = $this->_inlineFactory->get();
+        if ($translateInline->isAllowed()) {
+            $translateInline->processResponseBody($json, true);
         }
 
         return $json;

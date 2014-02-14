@@ -17,10 +17,10 @@
     <preference for="Magento\Session\SessionManagerInterface" type="Magento\Core\Model\Session" />
     <preference for="Magento\Core\Model\LocaleInterface" type="Magento\Core\Model\Locale" />
     <preference for="Magento\Core\Model\DataService\ConfigInterface" type="Magento\Core\Model\DataService\Config" />
-    <preference for="Magento\App\ConfigInterface" type="Magento\Core\Model\Config" />
-    <preference for="Magento\App\ReinitableConfigInterface" type="Magento\Core\Model\ReinitableConfig" />
-    <preference for="Magento\Core\Model\Config\DataInterface" type="Magento\Core\Model\Config\Data" />
-    <preference for="Magento\Core\Model\Config\Storage\WriterInterface" type="Magento\Core\Model\Config\Storage\Writer\Db" />
+    <preference for="Magento\App\ConfigInterface" type="Magento\App\Config" />
+    <preference for="Magento\App\ReinitableConfigInterface" type="Magento\App\ReinitableConfig" />
+    <preference for="Magento\App\Config\Scope\ReaderPoolInterface" type="Magento\Core\Model\Config\Scope\ReaderPool" />
+    <preference for="Magento\App\Config\Storage\WriterInterface" type="Magento\Core\Model\Config\Storage\Db" />
     <preference for="Magento\PubSub\Event\QueueWriterInterface" type="Magento\PubSub\Event\QueueWriter" />
     <preference for="Magento\PubSub\Event\FactoryInterface" type="Magento\PubSub\Event\Factory" />
     <preference for="Magento\View\Design\Theme\FileInterface" type="Magento\Core\Model\Theme\File" />
@@ -37,10 +37,12 @@
     <preference for="Magento\View\Design\Theme\Customization\ConfigInterface" type="Magento\Core\Model\Theme\Customization\Config" />
     <preference for="Magento\View\Asset\ConfigInterface" type="Magento\Core\Model\Asset\Config" />
     <preference for="Magento\App\ViewInterface" type="Magento\App\View" />
-    <preference for="Magento\TranslateInterface" type="Magento\Core\Model\Translate" />
+    <preference for="Magento\TranslateInterface" type="Magento\Translate" />
     <preference for="Magento\App\Response\RedirectInterface" type="Magento\Core\App\Response\Redirect" />
     <preference for="Magento\Data\Collection\EntityFactoryInterface" type="Magento\Core\Model\EntityFactory" />
-    <preference for="Magento\Core\Model\Translate\InlineInterface" type="Magento\Core\Model\Translate\Inline" />
+    <preference for="Magento\Translate\InlineInterface" type="Magento\Translate\Inline" />
+    <preference for="Magento\Translate\Inline\ConfigInterface" type="Magento\Core\Model\Translate\Inline\Config" />
+    <preference for="Magento\Translate\Inline\ParserInterface" type="Magento\Core\Model\Translate\Inline\Parser" />
     <preference for="Magento\Session\ValidatorInterface" type="Magento\Core\Model\Session\Validator" />
     <preference for="Magento\Session\StorageInterface" type="Magento\Session\Storage" />
     <preference for="Magento\Url\RouteParamsResolverInterface" type="Magento\Core\Model\Url\RouteParamsResolver" />
@@ -56,6 +58,15 @@
     <preference for="Magento\Mview\View\SubscriptionInterface" type="Magento\Mview\View\Subscription" />
     <preference for="Magento\Mview\View\ChangelogInterface" type="Magento\Mview\View\Changelog" />
     <preference for="Magento\Css\PreProcessor\AdapterInterface" type="Magento\Css\PreProcessor\Adapter\Oyejorge" />
+    <preference for="Magento\Translate\ResourceInterface" type="Magento\Core\Model\Resource\Translate" />
+    <preference for="Magento\BaseScopeResolverInterface" type="Magento\Core\Model\BaseScopeResolver" />
+    <preference for="Magento\Less\PreProcessor\ErrorHandlerInterface" type="Magento\Less\PreProcessor\ErrorHandler" />
+    <type name="Magento\Translate\Inline">
+        <arguments>
+            <argument name="templateFileName" xsi:type="string">Magento_Core::translate_inline.phtml</argument>
+            <argument name="translatorRoute" xsi:type="string">core/ajax/translate</argument>
+        </arguments>
+    </type>
     <type name="Magento\App\DefaultPath\DefaultPath">
         <arguments>
             <argument name="parts" xsi:type="array">
@@ -215,27 +226,44 @@
     </type>
     <type name="Magento\Phrase\Renderer\Translate">
         <arguments>
-            <argument name="translator" xsi:type="object">Magento\Core\Model\Translate</argument>
+            <argument name="translator" xsi:type="object">Magento\Translate</argument>
         </arguments>
     </type>
-    <type name="Magento\Core\Model\Translate\InlineParser">
+    <type name="Magento\Core\Model\Translate\Inline\Parser">
         <arguments>
             <argument name="inputFilter" xsi:type="object">Magento\Core\Model\Input\Filter\MaliciousCode</argument>
         </arguments>
     </type>
-    <type name="Magento\Core\Model\Config\SectionPool">
+    <type name="Magento\App\Config\ScopePool">
         <arguments>
             <argument name="cache" xsi:type="object">Magento\App\Cache\Type\Config</argument>
         </arguments>
     </type>
-    <type name="Magento\Core\Model\Config\Section\Reader\Website">
+    <type name="Magento\Core\Model\Config\Scope\Reader\Website">
         <arguments>
-            <argument name="sectionPool" xsi:type="object">Magento\Core\Model\Config\SectionPool\Proxy</argument>
+            <argument name="scopePool" xsi:type="object">Magento\App\Config\ScopePool\Proxy</argument>
         </arguments>
     </type>
-    <type name="Magento\Core\Model\Config\Section\Reader\Store">
+    <type name="Magento\Core\Model\Config\Scope\Reader\Store">
         <arguments>
-            <argument name="sectionPool" xsi:type="object">Magento\Core\Model\Config\SectionPool\Proxy</argument>
+            <argument name="scopePool" xsi:type="object">Magento\App\Config\ScopePool\Proxy</argument>
+        </arguments>
+    </type>
+    <type name="Magento\App\Config\Initial\SchemaLocator">
+        <arguments>
+            <argument name="moduleName" xsi:type="string">Magento_Core</argument>
+        </arguments>
+    </type>
+    <type name="Magento\App\Config\Initial\Reader">
+        <arguments>
+            <argument name="converter" xsi:type="object">Magento\App\Config\Initial\Converter</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Core\Model\Config\Scope\ReaderPool">
+        <arguments>
+            <argument name="default" xsi:type="object">Magento\Core\Model\Config\Scope\Reader\DefaultReader</argument>
+            <argument name="website" xsi:type="object">Magento\Core\Model\Config\Scope\Reader\Website</argument>
+            <argument name="store" xsi:type="object">Magento\Core\Model\Config\Scope\Reader\Store</argument>
         </arguments>
     </type>
     <type name="Magento\Core\App\Router\Base">
@@ -272,7 +300,25 @@
     </type>
     <type name="Magento\View\Publisher">
         <arguments>
+            <argument name="preProcessor" xsi:type="object">Magento\View\Asset\PreProcessor\Composite</argument>
             <argument name="allowDuplication" xsi:type="boolean">true</argument>
+        </arguments>
+    </type>
+    <type name="Magento\View\Asset\PreProcessor\Composite">
+        <arguments>
+            <argument name="preProcessorsConfig" xsi:type="array">
+                <item name="css_preprocessor" xsi:type="array">
+                    <item name="class" xsi:type="string">Magento\Css\PreProcessor\Composite</item>
+                    <item name="asset_type" xsi:type="string">css</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Css\PreProcessor\Composite">
+        <arguments>
+            <argument name="preProcessors" xsi:type="array">
+                <item name="css_source_processor" xsi:type="string">Magento\Css\PreProcessor\Less</item>
+            </argument>
         </arguments>
     </type>
     <type name="Magento\Object\Copy\Config\Reader">
@@ -293,7 +339,7 @@
             <argument name="cacheId" xsi:type="string">fieldset_config</argument>
         </arguments>
     </type>
-    <type name="Magento\Core\Model\Locale\Hierarchy\Config">
+    <type name="Magento\Locale\Hierarchy\Config">
         <arguments>
             <argument name="reader" xsi:type="object">Magento\Core\Model\Locale\Hierarchy\Config\Reader</argument>
         </arguments>
@@ -331,7 +377,7 @@
             <argument name="helper" xsi:type="object">Magento\Core\Helper\Data\Proxy</argument>
         </arguments>
     </type>
-    <type name="Magento\Core\Model\Config\Section\Processor\Placeholder">
+    <type name="Magento\Core\Model\Config\Scope\Processor\Placeholder">
         <arguments>
             <argument name="request" xsi:type="object">Magento\App\Request\Http\Proxy</argument>
         </arguments>
@@ -360,7 +406,7 @@
             </argument>
         </arguments>
     </type>
-    <type name="\Magento\Image">
+    <type name="Magento\Image">
         <arguments>
             <argument name="adapter" xsi:type="object">Magento\Image\Adapter\Gd2</argument>
         </arguments>
@@ -396,7 +442,7 @@
     </type>
     <type name="Magento\Core\Model\App\Area">
         <arguments>
-            <argument name="translator" xsi:type="object">Magento\Core\Model\Translate\Proxy</argument>
+            <argument name="translator" xsi:type="object">Magento\Translate</argument>
             <argument name="design" xsi:type="object">Magento\Core\Model\Design\Proxy</argument>
         </arguments>
     </type>
@@ -456,7 +502,11 @@
             <argument name="themeFiles" xsi:type="object">Magento\Less\File\Source\Theme</argument>
         </arguments>
     </type>
+    <type name="Magento\Css\PreProcessor\Less">
+        <plugin name="process_less" type="Magento\Css\PreProcessor\Cache\Plugin" sortOrder="10"/>
+    </type>
     <type name="Magento\Less\PreProcessor">
+        <plugin name="process_less_instructions" type="Magento\Css\PreProcessor\Cache\Plugin" sortOrder="10"/>
         <arguments>
             <argument name="preProcessors" xsi:type="array">
                 <item name="import" xsi:type="array">
@@ -465,6 +515,15 @@
                 <item name="magento_import" xsi:type="array">
                     <item name="class" xsi:type="string">Magento\Less\PreProcessor\Instruction\MagentoImport</item>
                 </item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\App\Config\Initial\Converter">
+        <arguments>
+            <argument name="nodeMap" xsi:type="array">
+                <item name="default" xsi:type="string">/config/default</item>
+                <item name="stores" xsi:type="string">/config/stores</item>
+                <item name="websites" xsi:type="string">/config/websites</item>
             </argument>
         </arguments>
     </type>

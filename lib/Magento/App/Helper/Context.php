@@ -14,14 +14,14 @@ class Context implements \Magento\ObjectManager\ContextInterface
     /**
      * @var \Magento\TranslateInterface
      */
-    protected $_translator;
+    protected $_inlineFactory;
 
     /**
      * @var \Magento\Module\Manager
      */
     protected $_moduleManager;
 
-    /** 
+    /**
      * @var  \Magento\Event\ManagerInterface
      */
     protected $_eventManager;
@@ -63,7 +63,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
 
     /**
      * @param \Magento\Logger $logger
-     * @param \Magento\TranslateInterface $translator
+     * @param \Magento\Translate\InlineFactory $inlineFactory
      * @param \Magento\Module\Manager $moduleManager
      * @param \Magento\App\RequestInterface $httpRequest
      * @param \Magento\Cache\ConfigInterface $cacheConfig
@@ -77,7 +77,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
      */
     public function __construct(
         \Magento\Logger $logger,
-        \Magento\TranslateInterface $translator,
+        \Magento\Translate\InlineFactory $inlineFactory,
         \Magento\Module\Manager $moduleManager,
         \Magento\App\RequestInterface $httpRequest,
         \Magento\Cache\ConfigInterface $cacheConfig,
@@ -87,7 +87,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\HTTP\Header $httpHeader,
         \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
     ) {
-        $this->_translator = $translator;
+        $this->_inlineFactory = $inlineFactory;
         $this->_moduleManager = $moduleManager;
         $this->_httpRequest = $httpRequest;
         $this->_cacheConfig = $cacheConfig;
@@ -100,11 +100,11 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\TranslateInterface
+     * @return \Magento\Translate\InlineFactory
      */
-    public function getTranslator()
+    public function getInlineFactory()
     {
-        return $this->_translator;
+        return $this->_inlineFactory;
     }
 
     /**

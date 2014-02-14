@@ -21,7 +21,7 @@ return array(
         'Magento\Core\Model\Resource\Db\Collection\AbstractCollection',
         'Magento_Core_Model_Cache_Type_Collection::CACHE_TAG'
     ),
-    array('CACHE_TAG', 'Magento\Core\Model\Translate', 'Magento_Core_Model_Cache_Type_Translate::CACHE_TAG'),
+    array('CACHE_TAG', 'Magento\Translate', 'Magento_Core_Model_Cache_Type_Translate::CACHE_TAG'),
     array('CACHE_TAG', 'Magento\Rss\Block\Catalog\NotifyStock'),
     array('CACHE_TAG', 'Magento\Rss\Block\Catalog\Review'),
     array('CACHE_TAG', 'Magento\Rss\Block\Order\NewOrder'),
@@ -559,4 +559,27 @@ return array(
     array('UPLOAD', '\Magento\Filesystem', '\Magento\App\Filesystem::UPLOAD_DIR'),
     array('SYS_TMP', '\Magento\Filesystem', '\Magento\App\Filesystem::SYS_TMP_DIR'),
     array('LAYOUT_NAVIGATION_CLASS_NAME', 'Magento\DesignEditor\Model\State'),
+    ['PERIOD_UNIT_DAY', '\Magento\Payment\Model\Recurring\Profile', '\Magento\RecurringProfile\Model\PeriodUnits::DAY'],
+    [
+        'PERIOD_UNIT_WEEK',
+        '\Magento\Payment\Model\Recurring\Profile',
+        '\Magento\RecurringProfile\Model\PeriodUnits::WEEK'
+    ],
+    [
+        'PERIOD_UNIT_SEMI_MONTH',
+        '\Magento\Payment\Model\Recurring\Profile',
+        '\Magento\RecurringProfile\Model\PeriodUnits::SEMI_MONTH'
+    ],
+    [
+        'PERIOD_UNIT_MONTH',
+        '\Magento\Payment\Model\Recurring\Profile',
+        '\Magento\RecurringProfile\Model\PeriodUnits::MONTH'
+    ],
+    [
+        'PERIOD_UNIT_YEAR',
+        '\Magento\Payment\Model\Recurring\Profile',
+        '\Magento\RecurringProfile\Model\PeriodUnits::YEAR'
+    ],
+    array('XML_PATH_IS_ENABLED_FLAT_CATALOG_CATEGORY', '\Magento\Catalog\Helper\Category\Flat',
+        '\Magento\Catalog\Model\Indexer\Category\Flat\Config::XML_PATH_IS_ENABLED_FLAT_CATALOG_CATEGORY'),
 );

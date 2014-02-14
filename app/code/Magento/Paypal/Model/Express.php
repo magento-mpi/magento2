@@ -52,7 +52,6 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
     protected $_canUseInternal              = false;
     protected $_canUseCheckout              = true;
     protected $_canFetchTransactionInfo     = true;
-    protected $_canCreateBillingAgreement   = true;
     protected $_canReviewPayment            = true;
 
     /**
@@ -503,9 +502,9 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Validate RP data
      *
-     * @param \Magento\Payment\Model\Recurring\Profile $profile
+     * @param \Magento\RecurringProfile\Model\RecurringProfile $profile
      */
-    public function validateRecurringProfile(\Magento\Payment\Model\Recurring\Profile $profile)
+    public function validateRecurringProfile(\Magento\RecurringProfile\Model\RecurringProfile $profile)
     {
         return $this->_pro->validateRecurringProfile($profile);
     }
@@ -513,10 +512,10 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Submit RP to the gateway
      *
-     * @param \Magento\Payment\Model\Recurring\Profile $profile
+     * @param \Magento\RecurringProfile\Model\RecurringProfile $profile
      * @param \Magento\Payment\Model\Info $paymentInfo
      */
-    public function submitRecurringProfile(\Magento\Payment\Model\Recurring\Profile $profile,
+    public function submitRecurringProfile(\Magento\RecurringProfile\Model\RecurringProfile $profile,
         \Magento\Payment\Model\Info $paymentInfo
     ) {
         $token = $paymentInfo->getAdditionalInformation(
@@ -548,9 +547,9 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Update RP data
      *
-     * @param \Magento\Payment\Model\Recurring\Profile $profile
+     * @param \Magento\RecurringProfile\Model\RecurringProfile $profile
      */
-    public function updateRecurringProfile(\Magento\Payment\Model\Recurring\Profile $profile)
+    public function updateRecurringProfile(\Magento\RecurringProfile\Model\RecurringProfile $profile)
     {
         return $this->_pro->updateRecurringProfile($profile);
     }
@@ -558,9 +557,9 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Manage status
      *
-     * @param \Magento\Payment\Model\Recurring\Profile $profile
+     * @param \Magento\RecurringProfile\Model\RecurringProfile $profile
      */
-    public function updateRecurringProfileStatus(\Magento\Payment\Model\Recurring\Profile $profile)
+    public function updateRecurringProfileStatus(\Magento\RecurringProfile\Model\RecurringProfile $profile)
     {
         return $this->_pro->updateRecurringProfileStatus($profile);
     }
@@ -597,7 +596,9 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
 
         // prepare api call
         $token = $payment->getAdditionalInformation(\Magento\Paypal\Model\Express\Checkout::PAYMENT_INFO_TRANSPORT_TOKEN);
-        $parameters = array('params' => array($order));
+
+        $cart = $this->_cartFactory->create(array('salesModel' => $order));
+
         $api = $this->_pro->getApi()
             ->setToken($token)
             ->setPayerId($payment->
@@ -607,7 +608,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
             ->setNotifyUrl($this->_urlBuilder->getUrl('paypal/ipn/'))
             ->setInvNum($order->getIncrementId())
             ->setCurrencyCode($order->getBaseCurrencyCode())
-            ->setPaypalCart($this->_cartFactory->create($parameters))
+            ->setPaypalCart($cart)
             ->setIsLineItemsEnabled($this->_pro->getConfig()->lineItemsEnabled);
         if ($order->getIsVirtual()) {
             $api->setAddress($order->getBillingAddress())->setSuppressShipping(true);

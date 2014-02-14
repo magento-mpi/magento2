@@ -5,12 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Pbridge\Model\Payment\Method;
 
 /**
  * Payflow Pro dummy payment method model
  */
-namespace Magento\Pbridge\Model\Payment\Method;
-
 class Payflowpro extends \Magento\Paypal\Model\Payflowpro
 {
     /**
@@ -26,6 +25,10 @@ class Payflowpro extends \Magento\Paypal\Model\Payflowpro
      * @var \Magento\Pbridge\Model\Payment\Method\Pbridge
      */
     protected $_pbridgeMethodInstance = null;
+
+    /**
+     * @var bool
+     */
     protected $_canFetchTransactionInfo = false;
 
     /**
@@ -212,6 +215,7 @@ class Payflowpro extends \Magento\Paypal\Model\Payflowpro
      */
     public function authorize(\Magento\Object $payment, $amount)
     {
+        $payment->setCart($this->_pbridgeData->preparePaypalCart($payment->getOrder()));
         $response = $this->getPbridgeMethodInstance()->authorize($payment, $amount);
         $payment->addData((array)$response);
         $payment->setIsTransactionClosed(0);
@@ -231,6 +235,7 @@ class Payflowpro extends \Magento\Paypal\Model\Payflowpro
         $payment->setFirstCaptureFlag(!$this->getInfoInstance()->hasAmountPaid());
         $response = $this->getPbridgeMethodInstance()->capture($payment, $amount);
         if (!$response) {
+            $payment->setCart($this->_pbridgeData->preparePaypalCart($payment->getOrder()));
             $response = $this->getPbridgeMethodInstance()->authorize($payment, $amount);
         }
         $payment->addData((array)$response);
@@ -267,6 +272,8 @@ class Payflowpro extends \Magento\Paypal\Model\Payflowpro
     }
     /**
      * Disable magento centinel validation for pbridge payment methods
+     *
+     * @return bool
      */
     public function getIsCentinelValidationEnabled()
     {

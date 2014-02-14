@@ -1,0 +1,18 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php /* @var $this \Magento\RecurringProfile\Block\Catalog\Product\View\Profile */ ?>
+<?php if ($dateHtml = $this->getDateHtml()): ?>
+<dl class="payment product options">
+    <dt class="title">
+        <label for="<?php echo $this->getDateHtmlId() ?>"><?php echo __('Recurring Profile Start Date') ?></label>
+    </dt>
+    <dd class="content"><?php echo $dateHtml ?></dd>
+</dl>
+<?php endif; ?>

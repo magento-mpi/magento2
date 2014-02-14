@@ -16,7 +16,7 @@
     </type>
     <type name="Magento\Rma\Model\Rma\Status\History">
         <arguments>
-            <argument name="translate" xsi:type="object">Magento\Core\Model\Translate\Proxy</argument>
+            <argument name="translate" xsi:type="object">Magento\Translate</argument>
         </arguments>
     </type>
     <type name="Magento\Module\Updater\SetupFactory">
@@ -28,7 +28,7 @@
     </type>
     <type name="Magento\Rma\Model\Rma">
         <arguments>
-            <argument name="translate" xsi:type="object">Magento\Core\Model\Translate\Proxy</argument>
+            <argument name="translate" xsi:type="object">Magento\Translate</argument>
         </arguments>
     </type>
 </config>

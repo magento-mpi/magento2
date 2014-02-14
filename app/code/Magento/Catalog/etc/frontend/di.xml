@@ -31,4 +31,20 @@
     <type name="Magento\Catalog\Controller\Product\Compare">
         <plugin name="sessionInitializer" type="compareProductInitSession" />
     </type>
+    <type name="Magento\Catalog\Model\Indexer\AbstractFlatState">
+        <arguments>
+            <argument name="isAvailable" xsi:type="boolean">true</argument>
+        </arguments>
+    </type>
+    <virtualType name="Magento\Catalog\Block\ShortcutButtons\InCatalog" type="Magento\Catalog\Block\ShortcutButtons">
+        <arguments>
+            <argument name="isCatalogProduct" xsi:type="boolean">true</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\Catalog\Block\ShortcutButtons\InCatalog\PositionAfter" type="Magento\Catalog\Block\ShortcutButtons">
+        <arguments>
+            <argument name="isCatalogProduct" xsi:type="boolean">true</argument>
+            <argument name="orPosition" xsi:type="const">Magento\Catalog\Block\ShortcutButtons::POSITION_AFTER</argument>
+        </arguments>
+    </virtualType>
 </config>

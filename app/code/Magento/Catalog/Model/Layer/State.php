@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Catalog\Model\Layer;
 
 /**
  * Layered navigation state model
@@ -15,15 +16,13 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Model\Layer;
-
 class State extends \Magento\Object
 {
     /**
      * Add filter item to layer state
      *
      * @param   \Magento\Catalog\Model\Layer\Filter\Item $filter
-     * @return  \Magento\Catalog\Model\Layer\State
+     * @return  $this
      */
     public function addFilter($filter)
     {
@@ -36,8 +35,8 @@ class State extends \Magento\Object
     /**
      * Set layer state filter items
      *
-     * @param   array $filters
-     * @return  \Magento\Catalog\Model\Layer\State
+     * @param  array $filters
+     * @return $this
      * @throws \Magento\Core\Exception
      */
     public function setFilters($filters)

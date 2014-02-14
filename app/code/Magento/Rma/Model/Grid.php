@@ -16,6 +16,8 @@ namespace Magento\Rma\Model;
 class Grid extends \Magento\Core\Model\AbstractModel
 {
     /**
+     * Rma source status factory
+     *
      * @var \Magento\Rma\Model\Rma\Source\StatusFactory
      */
     protected $_statusFactory;
@@ -42,6 +44,8 @@ class Grid extends \Magento\Core\Model\AbstractModel
 
     /**
      * Init resource model
+     *
+     * @return void
      */
     protected function _construct()
     {

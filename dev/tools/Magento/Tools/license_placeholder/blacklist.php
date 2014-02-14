@@ -20,6 +20,8 @@ return array(
     'dev/tests/integration/testsuite/Magento/Css/PreProcessor/_files',
     'dev/tests/integration/testsuite/Magento/Less/_files/design/frontend/test_pre_process',
     'dev/tests/integration/testsuite/Magento/Less/_files/lib/magento_import.less',
+    'dev/tests/integration/testsuite/Magento/Core/Model/_files/design/frontend/test_default/result_source.css',
+    'dev/tests/integration/testsuite/Magento/Core/Model/_files/design/frontend/test_default/source.less',
     'dev/tests/integration/tmp',
     'dev/tests/static/report',
     'dev/tests/static/framework/Magento/Sniffs/Annotations',
