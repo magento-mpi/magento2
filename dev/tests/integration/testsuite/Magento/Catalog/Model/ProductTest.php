@@ -58,6 +58,97 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @magentoDbIsolation enabled
+     * @magentoAppIsolation enabled
+     * @magentoAppArea adminhtml
+     */
+    public function testCRUD()
+    {
+        $this->_model->setTypeId('simple')->setAttributeSetId(4)
+            ->setName('Simple Product')->setSku(uniqid())->setPrice(10)
+            ->setMetaTitle('meta title')->setMetaKeyword('meta keyword')->setMetaDescription('meta description')
+            ->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH)
+            ->setStatus(\Magento\Catalog\Model\Product\Status::STATUS_ENABLED)
+        ;
+        $crud = new \Magento\TestFramework\Entity($this->_model, array('sku' => uniqid()));
+        $crud->testCrud();
+    }
+
+    public function testCleanCache()
+    {
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
+            ->saveCache('test', 'catalog_product_999', array('catalog_product_999'));
+        // potential bug: it cleans by cache tags, generated from its ID, which doesn't make much sense
+        $this->_model->setId(999)->cleanCache();
+        $this->assertEmpty(
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
+                ->loadCache('catalog_product_999')
+        );
+    }
+
+    public function testAddImageToMediaGallery()
+    {
+        // Model accepts only files in tmp media path, we need to copy fixture file there
+        $mediaFile = $this->_copyFileToBaseTmpMediaPath(dirname(__DIR__) . '/_files/magento_image.jpg');
+
+        $this->_model->addImageToMediaGallery($mediaFile);
+        $gallery = $this->_model->getData('media_gallery');
+        $this->assertNotEmpty($gallery);
+        $this->assertTrue(isset($gallery['images'][0]['file']));
+        $this->assertStringStartsWith('/m/a/magento_image', $gallery['images'][0]['file']);
+        $this->assertTrue(isset($gallery['images'][0]['position']));
+        $this->assertTrue(isset($gallery['images'][0]['disabled']));
+        $this->assertArrayHasKey('label', $gallery['images'][0]);
+    }
+
+    /**
+     * Copy file to media tmp directory and return it's name
+     *
+     * @param string $sourceFile
+     * @return string
+     */
+    protected function _copyFileToBaseTmpMediaPath($sourceFile)
+    {
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        /** @var \Magento\Catalog\Model\Product\Media\Config $config */
+        $config = $objectManager->get('Magento\Catalog\Model\Product\Media\Config');
+
+        /** @var \Magento\Filesystem\Directory\WriteInterface $mediaDirectory */
+        $mediaDirectory = $objectManager->get('Magento\App\Filesystem')
+            ->getDirectoryWrite(\Magento\App\Filesystem::MEDIA_DIR);
+
+        $mediaDirectory->create($config->getBaseTmpMediaPath());
+        $targetFile = $config->getTmpMediaPath(basename($sourceFile));
+        copy($sourceFile, $mediaDirectory->getAbsolutePath($targetFile));
+
+        return $targetFile;
+    }
+
+    /**
+     * @magentoAppIsolation enabled
+     * @magentoAppArea adminhtml
+     */
+    public function testDuplicate()
+    {
+        $this->_model->load(1); // fixture
+        /** @var \Magento\Catalog\Model\Product\Copier $copier */
+        $copier = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Catalog\Model\Product\Copier');
+        $duplicate = $copier->copy($this->_model);
+        try {
+            $this->assertNotEmpty($duplicate->getId());
+            $this->assertNotEquals($duplicate->getId(), $this->_model->getId());
+            $this->assertNotEquals($duplicate->getSku(), $this->_model->getSku());
+            $this->assertEquals(\Magento\Catalog\Model\Product\Status::STATUS_DISABLED, $duplicate->getStatus());
+            $this->assertEquals(\Magento\Core\Model\Store::DEFAULT_STORE_ID, $duplicate->getStoreId());
+            $this->_undo($duplicate);
+        } catch (\Exception $e) {
+            $this->_undo($duplicate);
+            throw $e;
+        }
+    }
+
+    /**
      * @magentoAppArea adminhtml
      */
     public function testDuplicateSkuGeneration()
