@@ -58,18 +58,23 @@ class DepersonalizePlugin
     }
 
     /**
-     * Depersonalize customer data after load
-     *
-     * @param \Magento\Customer\Model\Customer $customer
+     * @param array $arguments
+     * @param \Magento\Code\Plugin\InvocationChain $invocationChain
+     * @return \Magento\Customer\Model\Customer|mixed
      */
-    public function afterGetCustomerModel(\Magento\Customer\Model\Customer $customer)
+    public function aroundGetCustomerModel(array $arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
     {
         if (!$this->request->isAjax() && $this->layout->isCacheable()) {
-            $customerGroupId = $customer->getGroupId();
+            try{
+                $customer = $invocationChain->proceed($arguments);
+                $this->customer->setGroupId($customer->getGroupId());
+            } catch(\Magento\Exception\NoSuchEntityException $e) {
+                $customer = $this->customer;
+            }
             $this->eventManager->dispatch('before_depersonalize_customer', array('customer' => $customer));
-            $this->customer->setGroupId($customerGroupId);
-            return $this->customer;
+        } else {
+            $customer = $invocationChain->proceed($arguments);
         }
         return $customer;
     }
-} 
+}
