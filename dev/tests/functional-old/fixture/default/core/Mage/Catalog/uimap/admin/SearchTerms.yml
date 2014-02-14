@@ -1,17 +1,13 @@
 #
 # {license_notice}
 #
-# @category    Magento
-# @package     Mage_Catalog
-# @subpackage  functional_tests
 # @copyright   {copyright}
 # @license     {license_link}
-#
 #
 ---
 search_terms:
     mca: catalog/search/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'catalog_search/')]
+    click_xpath: //ul[@id='nav']//a[contains(@href, '/catalog/search/')]
     title: Search Terms / SEO & Search / Marketing / Magento Admin
     uimap:
         form:

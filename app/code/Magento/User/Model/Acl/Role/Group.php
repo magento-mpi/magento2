@@ -7,13 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\User\Model\Acl\Role;
 
 /**
  * Acl Group model
  */
-namespace Magento\User\Model\Acl\Role;
-
 class Group extends \Magento\User\Model\Acl\Role\Generic
 {
     /**

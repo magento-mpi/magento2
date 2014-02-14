@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\FullPageCache\Model;
 
 interface ContainerInterface
@@ -15,7 +14,7 @@ interface ContainerInterface
     /**
      * Generate placeholder content before application was initialized and apply to page content if possible
      *
-     * @param string $content
+     * @param string &$content
      * @return bool
      */
     public function applyWithoutApp(&$content);
@@ -23,7 +22,7 @@ interface ContainerInterface
     /**
      * Generate and apply container content in controller after application is initialized
      *
-     * @param string $content
+     * @param string &$content
      * @return bool
      */
     public function applyInApp(&$content);
@@ -32,7 +31,7 @@ interface ContainerInterface
      * Save rendered block content to cache storage
      *
      * @param string $blockContent
-     * @return \Magento\FullPageCache\Model\ContainerInterface
+     * @return $this
      */
     public function saveCache($blockContent);
 
@@ -40,7 +39,7 @@ interface ContainerInterface
      * Set processor for container needs
      *
      * @param \Magento\FullPageCache\Model\Processor $processor
-     * @return \Magento\FullPageCache\Model\ContainerInterface
+     * @return $this
      */
     public function setProcessor(\Magento\FullPageCache\Model\Processor $processor);
 }

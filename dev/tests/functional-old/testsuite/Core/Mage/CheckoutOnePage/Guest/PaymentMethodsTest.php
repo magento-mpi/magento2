@@ -18,8 +18,6 @@
  */
 class Core_Mage_CheckoutOnePage_Guest_PaymentMethodsTest extends Mage_Selenium_TestCase
 {
-    private static $_paypalAccount;
-
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
@@ -27,12 +25,8 @@ class Core_Mage_CheckoutOnePage_Guest_PaymentMethodsTest extends Mage_Selenium_T
 
     protected function tearDownAfterTestClass()
     {
-        $this->loginAdminUser();
-        $this->systemConfigurationHelper()->useHttps('frontend', 'no');
-        if (isset(self::$_paypalAccount)) {
-            $this->paypalHelper()->paypalDeveloperLogin();
-            $this->paypalHelper()->deleteAccount(self::$_paypalAccount);
-        }
+//        $this->loginAdminUser();
+//        $this->systemConfigurationHelper()->useHttps('frontend', 'no');
     }
 
     /**
@@ -58,7 +52,6 @@ class Core_Mage_CheckoutOnePage_Guest_PaymentMethodsTest extends Mage_Selenium_T
         $accountInfo = $this->paypalHelper()->createPreconfiguredAccount('paypal_sandbox_new_pro_account');
         $api = $this->paypalHelper()->getApiCredentials($accountInfo['email']);
         $accounts = $this->paypalHelper()->createBuyerAccounts('visa');
-        self::$_paypalAccount = $accountInfo['email'];
 
         return array(
             'sku' => $simple['general_name'],
@@ -77,18 +70,21 @@ class Core_Mage_CheckoutOnePage_Guest_PaymentMethodsTest extends Mage_Selenium_T
      * @dataProvider differentPaymentMethodsWithout3DDataProvider
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-3191
-     * @SuppressWarnings("unused")
      */
     public function differentPaymentMethodsWithout3D($payment, $testData)
     {
+        if ($payment == 'paypaldirectuk') {
+            $this->markTestIncomplete('BUG: There is no "Website Payments Pro Payflow Edition" fiedset');
+        }
         //Data
+        $paymentData = $this->loadDataSet('Payment', 'payment_' . $payment);
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'guest_flatrate_checkmoney_usa', array(
             'general_name' => $testData['sku'],
-            'payment_data' => $this->loadDataSet('Payment', 'payment_' . $payment)
+            'payment_data' => $paymentData
         ));
         $configName = ($payment !== 'checkmoney') ? $payment . '_without_3Dsecure' : $payment;
         $paymentConfig = $this->loadDataSet('PaymentMethod', $configName);
-        if ($payment != 'payflowpro' && isset($paymentData['payment_info'])) {
+        if ($payment != 'purchaseorder' && $payment != 'payflowpro' && isset($paymentData['payment_info'])) {
             $checkoutData = $this->overrideArrayData($testData['visa'], $checkoutData, 'byFieldKey');
         }
         if ($payment == 'paypaldirect') {
@@ -119,7 +115,8 @@ class Core_Mage_CheckoutOnePage_Guest_PaymentMethodsTest extends Mage_Selenium_T
             array('paypaldirectuk'),
             array('checkmoney'),
             array('payflowpro'),
-            array('authorizenet')
+            array('authorizenet'),
+            array('authorizenetdp')
         );
     }
 
@@ -136,15 +133,18 @@ class Core_Mage_CheckoutOnePage_Guest_PaymentMethodsTest extends Mage_Selenium_T
      */
     public function differentPaymentMethodsWith3D($payment, $testData)
     {
+        if ($payment == 'paypaldirectuk') {
+            $this->markTestIncomplete('BUG: There is no "Website Payments Pro Payflow Edition" fiedset');
+        }
         //Data
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'guest_flatrate_checkmoney_usa', array(
             'general_name' => $testData['sku'],
             'payment_data' => $this->loadDataSet('Payment', 'payment_' . $payment)
         ));
         $paymentConfig = $this->loadDataSet('PaymentMethod', $payment . '_with_3Dsecure');
-        $this->systemConfigurationHelper()->useHttps('frontend', 'yes');
         //Steps
         if ($payment == 'paypaldirect') {
+//            $this->systemConfigurationHelper()->useHttps('frontend', 'yes');
             $paymentConfig = $this->loadDataSet('PaymentMethod', $payment . '_with_3Dsecure', $testData['api']);
         }
         $this->navigate('system_configuration');

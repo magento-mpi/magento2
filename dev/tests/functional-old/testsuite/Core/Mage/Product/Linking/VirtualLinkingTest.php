@@ -24,7 +24,6 @@ class Core_Mage_Product_Linking_VirtualLinkingTest extends Mage_Selenium_TestCas
     {
         $this->loginAdminUser();
         $this->navigate('manage_products');
-        $this->runMassAction('Delete', 'all');
     }
 
     protected function assertPreconditions()

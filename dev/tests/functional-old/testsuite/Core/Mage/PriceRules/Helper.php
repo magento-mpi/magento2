@@ -18,9 +18,9 @@
  */
 class Core_Mage_PriceRules_Helper extends Mage_Selenium_AbstractHelper
 {
-    protected static $_optionsNesting = 1;
-    protected static $_qtyOptionsNesting = 0;
-    protected static $_optionsQty = 0;
+    private $_optionsNesting;
+    private $_qtyOptionsNesting;
+    private $_optionsQty;
 
     /**
      * Create new Rule
@@ -89,6 +89,9 @@ class Core_Mage_PriceRules_Helper extends Mage_Selenium_AbstractHelper
     public function fillConditionsTab(array $conditionsData)
     {
         $this->openTab('rule_conditions');
+        $this->_optionsNesting = 1;
+        $this->_qtyOptionsNesting = 0;
+        $this->_optionsQty = 0;
         $this->addConditions($conditionsData, 'rule_conditions');
     }
 
@@ -105,6 +108,9 @@ class Core_Mage_PriceRules_Helper extends Mage_Selenium_AbstractHelper
             unset($actionsData['action_conditions']);
         }
         $this->fillTab($actionsData, 'rule_actions');
+        $this->_optionsNesting = 1;
+        $this->_qtyOptionsNesting = 0;
+        $this->_optionsQty = 0;
         $this->addConditions($conditionsData, 'rule_actions');
     }
 
@@ -147,9 +153,9 @@ class Core_Mage_PriceRules_Helper extends Mage_Selenium_AbstractHelper
                 unset($conditionsData[$key]);
             }
         }
-        $returnOptionsNesting = self::$_optionsNesting;
-        $retQtyOptsNesting = self::$_qtyOptionsNesting;
-        $returnOptionsQty = self::$_optionsQty;
+        $returnOptionsNesting = $this->_optionsNesting;
+        $retQtyOptsNesting = $this->_qtyOptionsNesting;
+        $returnOptionsQty = $this->_optionsQty;
         if ($fillArray) {
             $this->fillConditionFields($fillArray, $tabId, $isNested);
         }
@@ -159,9 +165,9 @@ class Core_Mage_PriceRules_Helper extends Mage_Selenium_AbstractHelper
                 $this->addConditions($value, $tabId);
             }
         }
-        self::$_optionsNesting = $returnOptionsNesting;
-        self::$_qtyOptionsNesting = $retQtyOptsNesting;
-        self::$_optionsQty = $returnOptionsQty;
+        $this->_optionsNesting = $returnOptionsNesting;
+        $this->_qtyOptionsNesting = $retQtyOptsNesting;
+        $this->_optionsQty = $returnOptionsQty;
     }
 
     /**
@@ -171,19 +177,19 @@ class Core_Mage_PriceRules_Helper extends Mage_Selenium_AbstractHelper
      */
     public function setConditionsParams($type)
     {
-        $_optionsNesting = self::$_optionsNesting;
-        if (self::$_qtyOptionsNesting > 0) {
-            for ($i = 1; $i < self::$_qtyOptionsNesting; $i++) {
-                $_optionsNesting = self::$_optionsNesting . '--' . self::$_optionsQty;
+        $_optionsNesting = $this->_optionsNesting;
+        if ($this->_qtyOptionsNesting > 0) {
+            for ($i = 1; $i < $this->_qtyOptionsNesting; $i++) {
+                $_optionsNesting = $this->_optionsNesting . '--' . $this->_optionsQty;
             }
             $this->addParameter('condition', $_optionsNesting);
-            self::$_optionsQty = $this->getControlCount('pageelement', 'rule_' . $type . '_item_row');
+            $this->_optionsQty = $this->getControlCount('pageelement', 'rule_' . $type . '_item_row');
         } else {
             $this->addParameter('condition', $_optionsNesting);
-            self::$_optionsQty = $this->getControlCount('pageelement', 'apply_for_rule_' . $type . '_row');
+            $this->_optionsQty = $this->getControlCount('pageelement', 'apply_for_rule_' . $type . '_row');
         }
-        self::$_optionsNesting = $_optionsNesting;
-        $this->addParameter('key', self::$_optionsQty);
+        $this->_optionsNesting = $_optionsNesting;
+        $this->addParameter('key', $this->_optionsQty);
     }
 
     /**
@@ -198,7 +204,7 @@ class Core_Mage_PriceRules_Helper extends Mage_Selenium_AbstractHelper
     public function fillConditionFields(array $data, $tabId = '', $isNested = false)
     {
         if ($isNested) {
-            self::$_qtyOptionsNesting += 1;
+            $this->_qtyOptionsNesting += 1;
         }
         $type = preg_replace('/(^rule_)|(s$)/', '', $tabId);
         $this->setConditionsParams($type);
@@ -207,10 +213,9 @@ class Core_Mage_PriceRules_Helper extends Mage_Selenium_AbstractHelper
             $uimapData = $uimapData->getTab($tabId);
         }
         $fieldsets = $uimapData->getAllFieldsets($this->getParamsHelper());
-        $formDataMap = $this->_getFormDataMap($fieldsets, $data);
 
-        foreach ($formDataMap as $formFieldName => $formField) {
-            if ($formFieldName === 'category') {
+        foreach ($this->_getFormDataMap($fieldsets, $data) as $formField) {
+            if ($formField['name'] === 'category') {
                 $buttonName = preg_replace('/(^rule_)|(s$)/', '', $tabId) . '_value';
                 $this->clickControl('link', $buttonName, false);
                 $this->clickControl('link', 'open_chooser', false);
@@ -220,16 +225,12 @@ class Core_Mage_PriceRules_Helper extends Mage_Selenium_AbstractHelper
                 foreach ($categories as $value) {
                     $this->categoryHelper()->selectCategory($value, 'rule_condition_item');
                 }
+                $this->hidePageActionsPanel();
                 $this->clickControl('link', 'confirm_choice', false);
                 continue;
             }
-            $this->clickControl('link', preg_replace('/(^select_)|(^type_)/', '', $formFieldName), false);
-            $this->_fill(array(
-                'type' => $formField['type'],
-                'name' => $formFieldName,
-                'value' => $formField['value'],
-                'locator' => $formField['path']
-            ));
+            $this->clickControl('link', preg_replace('/(^select_)|(^type_)/', '', $formField['name']), false);
+            $this->_fill($formField);
             $this->clearActiveFocus();
         }
     }

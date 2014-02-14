@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 
-/*jshint evil:true browser:true jquery:true*/
+/*jshint browser:true jquery:true*/
 (function($) {
     $.widget('mage.addToCart', {
         options: {
@@ -66,7 +66,7 @@
             this.element.trigger('addToCart', this.element);
             if (this.options.addToCartUrl) {
                 $('#map-popup').hide();
-                if (opener !== null) {
+                if (opener) {
                     opener.location.href = this.options.addToCartUrl;
                 } else {
                     location.href = this.options.addToCartUrl;

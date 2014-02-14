@@ -56,10 +56,11 @@ class ChangelogTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateAndDrop()
     {
+        /** @var \Magento\Mview\View\Changelog $model */
         $model = $this->objectManager->create('Magento\Mview\View\Changelog', array(
             'resource' => $this->resource));
         $model->setViewId('test_view_id_2');
-        $changelogName = $this->connection->getTableName($model->getName());
+        $changelogName = $this->resource->getTableName($model->getName());
         $this->assertFalse($this->connection->isTableExists($changelogName));
         $model->create();
         $this->assertTrue($this->connection->isTableExists($changelogName));
@@ -77,7 +78,7 @@ class ChangelogTest extends \PHPUnit_Framework_TestCase
         $model->setViewId('test_view_id_2');
         $model->create();
         $this->assertEquals(0, $model->getVersion());
-        $changelogName = $this->connection->getTableName($model->getName());
+        $changelogName = $this->resource->getTableName($model->getName());
         $this->connection->insert(
             $changelogName,
             array($model->getColumnName() => mt_rand(1, 200))
@@ -92,14 +93,14 @@ class ChangelogTest extends \PHPUnit_Framework_TestCase
     public function testClear()
     {
         $this->assertEquals(0, $this->model->getVersion());//the same that a table is empty
-        $changelogName = $this->connection->getTableName($this->model->getName());
+        $changelogName = $this->resource->getTableName($this->model->getName());
         $this->connection->insert(
             $changelogName,
             array('version_id' => 1, 'entity_id' => 1)
         );
         $this->assertEquals(1, $this->model->getVersion());
         $this->model->clear(1);
-        $this->assertEquals(0, $this->model->getVersion());//the same that a table is empty
+        $this->assertEquals(1, $this->model->getVersion());//the same that a table is empty
     }
 
     /**
@@ -108,7 +109,7 @@ class ChangelogTest extends \PHPUnit_Framework_TestCase
     public function testGetList()
     {
         $this->assertEquals(0, $this->model->getVersion());//the same that a table is empty
-        $changelogName = $this->connection->getTableName($this->model->getName());
+        $changelogName = $this->resource->getTableName($this->model->getName());
         $testChengelogData =  array(
             array('version_id' => 1, 'entity_id' => 1),
             array('version_id' => 2, 'entity_id' => 1),

@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Catalog\Model\Product\Attribute\Backend;
 
 /**
  * Product attribute for `Apply MAP` enable/disable option
@@ -15,8 +16,6 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Model\Product\Attribute\Backend;
-
 class Msrp extends \Magento\Catalog\Model\Product\Attribute\Backend\Boolean
 {
     /**
@@ -27,6 +26,8 @@ class Msrp extends \Magento\Catalog\Model\Product\Attribute\Backend\Boolean
     protected $_catalogData = null;
 
     /**
+     * Constructor
+     *
      * @param \Magento\Logger $logger
      * @param \Magento\Catalog\Helper\Data $catalogData
      */
@@ -42,7 +43,7 @@ class Msrp extends \Magento\Catalog\Model\Product\Attribute\Backend\Boolean
      * Disable MAP if it's bundle with dynamic price type
      *
      * @param \Magento\Catalog\Model\Product $product
-     * @return bool
+     * @return $this
      */
     public function beforeSave($product)
     {

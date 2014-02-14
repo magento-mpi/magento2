@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\User\Model;
 
 /**
@@ -74,7 +73,7 @@ class User
     /**
      * Available resources flag
      *
-     * @var boolean
+     * @var bool
      */
     protected $_hasResources = true;
 
@@ -105,9 +104,9 @@ class User
     /**
      * Factory for validator composite object
      *
-     * @var \Magento\Validator\Composite\VarienObjectFactory
+     * @var \Magento\Validator\ObjectFactory
      */
-    protected $_validatorComposite;
+    protected $_validatorObject;
 
     /**
      * Role model factory
@@ -139,7 +138,7 @@ class User
      * @param \Magento\User\Helper\Data $userData
      * @param \Magento\Email\Model\Sender $sender
      * @param \Magento\Backend\App\ConfigInterface $config
-     * @param \Magento\Validator\Composite\VarienObjectFactory $validatorCompositeFactory
+     * @param \Magento\Validator\ObjectFactory $validatorObjectFactory
      * @param \Magento\User\Model\RoleFactory $roleFactory
      * @param \Magento\Email\Model\InfoFactory $emailInfoFactory
      * @param \Magento\Email\Model\Template\MailerFactory $mailerFactory
@@ -157,7 +156,7 @@ class User
         \Magento\User\Helper\Data $userData,
         \Magento\Email\Model\Sender $sender,
         \Magento\Backend\App\ConfigInterface $config,
-        \Magento\Validator\Composite\VarienObjectFactory $validatorCompositeFactory,
+        \Magento\Validator\ObjectFactory $validatorObjectFactory,
         \Magento\User\Model\RoleFactory $roleFactory,
         \Magento\Email\Model\InfoFactory $emailInfoFactory,
         \Magento\Email\Model\Template\MailerFactory $mailerFactory,
@@ -173,7 +172,7 @@ class User
         $this->_userData = $userData;
         $this->_sender = $sender;
         $this->_config = $config;
-        $this->_validatorComposite = $validatorCompositeFactory;
+        $this->_validatorObject = $validatorObjectFactory;
         $this->_roleFactory = $roleFactory;
         $this->_emailInfoFactory = $emailInfoFactory;
         $this->_mailer = $mailerFactory->create();
@@ -181,12 +180,17 @@ class User
 
     /**
      * Initialize user model
+     *
+     * @return void
      */
     protected function _construct()
     {
         $this->_init('Magento\User\Model\Resource\User');
     }
 
+    /**
+     * @return string[]
+     */
     public function __sleep()
     {
         $properties = parent::__sleep();
@@ -195,7 +199,7 @@ class User
             '_sender',
             '_userData',
             '_config',
-            '_validatorComposite',
+            '_validatorObject',
             '_roleFactory',
             '_emailInfoFactory',
             '_mailer',
@@ -203,6 +207,9 @@ class User
         ));
     }
 
+    /**
+     * @return void
+     */
     public function __wakeup()
     {
         parent::__wakeup();
@@ -212,7 +219,7 @@ class User
         $this->_userData        = $objectManager->get('Magento\User\Helper\Data');
         $this->_config = $objectManager->get('Magento\Backend\App\ConfigInterface');
         $this->_coreRegistry    = $objectManager->get('Magento\Core\Model\Registry');
-        $this->_validatorComposite = $objectManager->get('Magento\Validator\Composite\VarienObjectFactory');
+        $this->_validatorObject = $objectManager->get('Magento\Validator\ObjectFactory');
         $this->_roleFactory = $objectManager->get('Magento\User\Model\RoleFactory');
         $this->_emailInfoFactory = $objectManager->get('Magento\Email\Model\InfoFactory');
         $this->_mailer = $objectManager->get('Magento\Email\Model\Template\MailerFactory');
@@ -222,7 +229,7 @@ class User
     /**
      * Processing data before model save
      *
-     * @return \Magento\User\Model\User
+     * @return $this
      */
     protected function _beforeSave()
     {
@@ -293,8 +300,8 @@ class User
             \Zend_Validate_EmailAddress::INVALID
         );
 
-        /** @var $validator \Magento\Validator\Composite\VarienObject */
-        $validator = $this->_validatorComposite->create();
+        /** @var $validator \Magento\Validator\Object */
+        $validator = $this->_validatorObject->create();
         $validator->addRule($userNameNotEmpty, 'username')
             ->addRule($firstNameNotEmpty, 'firstname')
             ->addRule($lastNameNotEmpty, 'lastname')
@@ -309,9 +316,10 @@ class User
     /**
      * Add validation rules for the password management fields
      *
-     * @param \Magento\Validator\Composite\VarienObject $validator
+     * @param \Magento\Validator\Object $validator
+     * @return void
      */
-    protected function _addPasswordValidation(\Magento\Validator\Composite\VarienObject $validator)
+    protected function _addPasswordValidation(\Magento\Validator\Object $validator)
     {
         $passwordNotEmpty = new \Zend_Validate_NotEmpty();
         $passwordNotEmpty->setMessage(
@@ -347,7 +355,7 @@ class User
     /**
      * Process data after model is saved
      *
-     * @return \Magento\Core\Model\AbstractModel
+     * @return $this
      */
     protected function _afterSave()
     {
@@ -359,7 +367,7 @@ class User
      * Save admin user extra data (like configuration sections state)
      *
      * @param   array $data
-     * @return  \Magento\User\Model\User
+     * @return  $this
      */
     public function saveExtra($data)
     {
@@ -400,7 +408,7 @@ class User
     /**
      * Unassign user from his current role
      *
-     * @return \Magento\User\Model\User
+     * @return $this
      */
     public function deleteFromRole()
     {
@@ -411,7 +419,7 @@ class User
     /**
      * Check if such combination role/user exists
      *
-     * @return boolean
+     * @return bool
      */
     public function roleUserExists()
     {
@@ -423,7 +431,7 @@ class User
      * Set custom mail handler
      *
      * @param \Magento\Email\Model\Template\Mailer $mailer
-     * @return \Magento\User\Model\User
+     * @return $this
      */
     public function setMailer(\Magento\Email\Model\Template\Mailer $mailer)
     {
@@ -434,7 +442,7 @@ class User
     /**
      * Send email with reset password confirmation link
      *
-     * @return \Magento\User\Model\User
+     * @return $this
      */
     public function sendPasswordResetConfirmationEmail()
     {
@@ -458,7 +466,7 @@ class User
     /**
      * Send email to when password is resetting
      *
-     * @return \Magento\User\Model\User
+     * @return $this
      */
     public function sendPasswordResetNotificationEmail()
     {
@@ -509,7 +517,7 @@ class User
      *
      * @param string $username
      * @param string $password
-     * @return boolean
+     * @return bool
      * @throws \Magento\Core\Exception
      * @throws \Magento\Backend\Model\Auth\Exception
      * @throws \Magento\Backend\Model\Auth\Plugin\Exception
@@ -566,7 +574,7 @@ class User
      *
      * @param   string $username
      * @param   string $password
-     * @return  \Magento\User\Model\User
+     * @return  $this
      */
     public function login($username, $password)
     {
@@ -579,7 +587,7 @@ class User
     /**
      * Reload current user
      *
-     * @return \Magento\User\Model\User
+     * @return $this
      */
     public function reload()
     {
@@ -593,7 +601,7 @@ class User
      * Load user by its username
      *
      * @param string $username
-     * @return \Magento\User\Model\User
+     * @return $this
      */
     public function loadByUsername($username)
     {
@@ -608,7 +616,7 @@ class User
      * Check if user is assigned to any role
      *
      * @param int|\Magento\User\Model\User $user
-     * @return null|boolean|array
+     * @return null|array
      */
     public function hasAssigned2Role($user)
     {
@@ -632,7 +640,7 @@ class User
      * Stores new reset password link token and its creation time
      *
      * @param string $newToken
-     * @return \Magento\User\Model\User
+     * @return $this
      * @throws \Magento\Core\Exception
      */
     public function changeResetPasswordLinkToken($newToken)
@@ -649,7 +657,7 @@ class User
     /**
      * Check if current reset password link token is expired
      *
-     * @return boolean
+     * @return bool
      */
     public function isResetPasswordLinkTokenExpired()
     {
@@ -690,7 +698,7 @@ class User
      * Set user has available resources
      *
      * @param bool $hasResources
-     * @return \Magento\User\Model\User
+     * @return $this
      */
     public function setHasAvailableResources($hasResources)
     {

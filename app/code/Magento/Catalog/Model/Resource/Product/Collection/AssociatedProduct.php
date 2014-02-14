@@ -7,13 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * Catalog compare item resource model
- */
 namespace Magento\Catalog\Model\Resource\Product\Collection;
 
 /**
+ * Catalog compare item resource model
+ *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class AssociatedProduct
@@ -62,7 +60,7 @@ class AssociatedProduct
      * @param \Magento\Core\Model\Registry $registryManager
      * @param \Magento\Catalog\Model\Product\Type\Configurable $productType
      * @param \Magento\Catalog\Helper\Product\Configuration $configurationHelper
-     * @param mixed $connection
+     * @param \Zend_Db_Adapter_Abstract $connection
      * 
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -138,6 +136,8 @@ class AssociatedProduct
 
     /**
      * Add attributes to select
+     *
+     * @return $this
      */
     public function _initSelect()
     {

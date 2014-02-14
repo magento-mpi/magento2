@@ -54,7 +54,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_appEmulation;
 
     /**
-     * @var \Magento\Core\Model\Config\Initial
+     * @var \Magento\App\Config\Initial
      */
     protected $_initialConfig;
 
@@ -68,7 +68,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\App\ConfigInterface $config
      * @param \Magento\Core\Model\App\Emulation $appEmulation
      * @param \Magento\Payment\Model\Config $paymentConfig
-     * @param \Magento\Core\Model\Config\Initial $initialConfig
+     * @param \Magento\App\Config\Initial $initialConfig
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
@@ -78,7 +78,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\App\ConfigInterface $config,
         \Magento\Core\Model\App\Emulation $appEmulation,
         \Magento\Payment\Model\Config $paymentConfig,
-        \Magento\Core\Model\Config\Initial $initialConfig
+        \Magento\App\Config\Initial $initialConfig
     ) {
         parent::__construct($context);
         $this->_coreStoreConfig = $coreStoreConfig;
@@ -209,24 +209,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
     }
 
     /**
-     * Retrieve available billing agreement methods
-     *
-     * @param mixed $store
-     * @param \Magento\Sales\Model\Quote $quote
-     * @return array
-     */
-    public function getBillingAgreementMethods($store = null, $quote = null)
-    {
-        $result = array();
-        foreach ($this->getStoreMethods($store, $quote) as $method) {
-            if ($method->canManageBillingAgreements()) {
-                $result[] = $method;
-            }
-        }
-        return $result;
-    }
-
-    /**
      * Get payment methods that implement recurring profilez management
      *
      * @param mixed $store
@@ -251,7 +233,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getPaymentMethods()
     {
-        return $this->_initialConfig->getDefault()[self::XML_PATH_PAYMENT_METHODS];
+        return $this->_initialConfig->getData('default')[self::XML_PATH_PAYMENT_METHODS];
     }
 
     /**
@@ -321,27 +303,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
         }
 
         return $methods;
-    }
-
-    /**
-     * Retrieve all billing agreement methods (code and label)
-     *
-     * @return array
-     */
-    public function getAllBillingAgreementMethods()
-    {
-        $result = array();
-        $interface = 'Magento\Payment\Model\Billing\Agreement\MethodInterface';
-        foreach ($this->getPaymentMethods() as $code => $data) {
-            if (!isset($data['model'])) {
-                continue;
-            }
-            $method = $data['model'];
-            if (in_array($interface, class_implements($method))) {
-                $result[$code] = $data['title'];
-            }
-        }
-        return $result;
     }
 
     /**

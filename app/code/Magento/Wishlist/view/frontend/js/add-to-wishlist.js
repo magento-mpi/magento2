@@ -11,7 +11,7 @@
             bundleInfo: '[id^=bundle-option-]',
             configurableInfo: '.super-attribute-select',
             groupedInfo: '#super-product-table input',
-            downloadableInfo: '.options-list input',
+            downloadableInfo: '#downloadable-links-list input',
             customOptionsInfo: '.product-custom-option'
         },
         _create: function () {

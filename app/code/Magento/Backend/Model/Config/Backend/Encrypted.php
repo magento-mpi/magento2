@@ -13,7 +13,7 @@ namespace Magento\Backend\Model\Config\Backend;
 
 class Encrypted
     extends \Magento\Core\Model\Config\Value
-    implements \Magento\Core\Model\Config\Data\BackendModelInterface
+    implements \Magento\App\Config\Data\ProcessorInterface
 {
     /**
      * @var \Magento\Encryption\EncryptorInterface
@@ -47,7 +47,7 @@ class Encrypted
     /**
      * Magic method called during class serialization
      *
-     * @return array
+     * @return string[]
      */
     public function __sleep()
     {
@@ -57,6 +57,8 @@ class Encrypted
 
     /**
      * Magic method called during class un-serialization
+     *
+     * @return void
      */
     public function __wakeup()
     {
@@ -68,6 +70,7 @@ class Encrypted
     /**
      * Decrypt value after loading
      *
+     * @return void
      */
     protected function _afterLoad()
     {
@@ -80,6 +83,7 @@ class Encrypted
     /**
      * Encrypt value before saving
      *
+     * @return void
      */
     protected function _beforeSave()
     {

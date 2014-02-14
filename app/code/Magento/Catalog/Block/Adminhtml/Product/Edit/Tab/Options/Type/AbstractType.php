@@ -20,6 +20,9 @@ namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Options\Type;
 
 class AbstractType extends \Magento\Backend\Block\Widget
 {
+    /**
+     * @var string
+     */
     protected $_name = 'abstract';
 
     /**
@@ -41,6 +44,9 @@ class AbstractType extends \Magento\Backend\Block\Widget
         parent::__construct($context, $data);
     }
 
+    /**
+     * @return $this
+     */
     protected function _prepareLayout()
     {
         $this->setChild('option_price_type',

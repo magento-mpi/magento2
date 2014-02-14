@@ -105,16 +105,16 @@ verify_prices_all_gift_options:
             product_1:
                 product_name: %product1%
                 gift_wrapping: %product1wrapping%
-                product_qty: '1'
                 price: $12.99
                 subtotal: $12.99
+                qty: '1'
         total:
-            total_for_this_address: $60.06
-            printed_card: $18.53
-            gift_wrapping_for_items: $11.77
-            gift_wrapping_for_order: $11.77
-            shipping_handling_flat_rate_fixed: $5.00
             subtotal: $12.99
+            shipping_handling_flat_rate_fixed: $5.00
+            gift_wrapping_for_order: $11.77
+            gift_wrapping_for_items: $11.77
+            printed_card: $18.53
+            total_for_this_address: $60.06
     address_2:
         shipping:
             shipping_service: Flat Rate
@@ -124,16 +124,16 @@ verify_prices_all_gift_options:
             product_1:
                 product_name: %product2%
                 gift_wrapping: %product2wrapping%
-                product_qty: '1'
                 price: $12.99
                 subtotal: $12.99
+                qty: '1'
         total:
-            total_for_this_address: $60.06
-            printed_card: $18.53
-            gift_wrapping_for_items: $11.77
-            gift_wrapping_for_order: $11.77
-            shipping_handling_flat_rate_fixed: $5.00
             subtotal: $12.99
+            shipping_handling_flat_rate_fixed: $5.00
+            gift_wrapping_for_order: $11.77
+            gift_wrapping_for_items: $11.77
+            printed_card: $18.53
+            total_for_this_address: $60.06
     grand_total: $120.12
 
 verify_prices_gift_wrapping_TL-MAGE-1044:
@@ -146,9 +146,9 @@ verify_prices_gift_wrapping_TL-MAGE-1044:
             product_1:
                 product_name: %product1%
                 gift_wrapping: %product1wrapping%
-                product_qty: '1'
                 price: $12.99
                 subtotal: $12.99
+                qty: '1'
         total:
             total_for_this_address: $45.43
             gift_wrapping_for_items: $15.67
@@ -163,9 +163,9 @@ verify_prices_gift_wrapping_TL-MAGE-1044:
         products:
             product_1:
                 product_name: %product2%
-                product_qty: '1'
                 price: $12.99
                 subtotal: $12.99
+                qty: '1'
         total:
             total_for_this_address: $17.99
             shipping_handling_flat_rate_fixed: $5.00

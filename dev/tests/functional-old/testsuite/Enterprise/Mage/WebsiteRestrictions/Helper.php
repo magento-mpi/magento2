@@ -31,5 +31,3 @@ class Enterprise_Mage_WebsiteRestrictions_Helper extends Mage_Selenium_AbstractH
         $this->assertEquals($code, $httpResponse['http_code'], 'Wrong http response code');
     }
 }
-
-

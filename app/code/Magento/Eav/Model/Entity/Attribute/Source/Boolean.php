@@ -7,8 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\Eav\Model\Entity\Attribute\Source;
 
 class Boolean extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
@@ -84,7 +82,7 @@ class Boolean extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
      * Get a text for option value
      *
      * @param string|int $value
-     * @return string
+     * @return string|false
      */
     public function getOptionText($value)
     {
@@ -110,16 +108,10 @@ class Boolean extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
             'default'   => null,
             'extra'     => null
         );
-
-        if ($this->_coreData->useDbCompatibleMode()) {
-            $column['type']     = 'tinyint(1)';
-            $column['is_null']  = true;
-        } else {
-            $column['type']     = \Magento\DB\Ddl\Table::TYPE_SMALLINT;
-            $column['length']   = 1;
-            $column['nullable'] = true;
-            $column['comment']  = $attributeCode . ' column';
-        }
+        $column['type']     = \Magento\DB\Ddl\Table::TYPE_SMALLINT;
+        $column['length']   = 1;
+        $column['nullable'] = true;
+        $column['comment']  = $attributeCode . ' column';
 
         return array($attributeCode => $column);
     }

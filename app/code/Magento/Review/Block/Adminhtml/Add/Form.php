@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Review\Block\Adminhtml\Add;
 
 /**
  * Adminhtml add product review form
@@ -15,9 +16,6 @@
  * @package    Magento_Review
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Review\Block\Adminhtml\Add;
-
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
@@ -28,6 +26,8 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_reviewData = null;
 
     /**
+     * Core system store model
+     *
      * @var \Magento\Core\Model\System\Store
      */
     protected $_systemStore;
@@ -54,6 +54,8 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     }
 
     /**
+     * Prepare add review form
+     *
      * @return void
      */
     protected function _prepareForm()
