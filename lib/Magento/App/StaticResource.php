@@ -35,24 +35,32 @@ class StaticResource implements \Magento\LauncherInterface
     private $moduleList;
 
     /**
+     * @var \Magento\View\Design\Theme\ListInterface
+     */
+    private $themeList;
+
+    /**
      * @param State $state
      * @param Response\FileInterface $response
      * @param Request\Http $request
      * @param \Magento\View\FileResolver $resolver
      * @param \Magento\Module\ModuleList $moduleList
+     * @param \Magento\View\Design\Theme\ListInterface $themeList
      */
     public function __construct(
         State $state,
         Response\FileInterface $response,
         Request\Http $request,
         \Magento\View\FileResolver $resolver,
-        \Magento\Module\ModuleList $moduleList
+        \Magento\Module\ModuleList $moduleList,
+        \Magento\View\Design\Theme\ListInterface $themeList
     ) {
         $this->state = $state;
         $this->response = $response;
         $this->request = $request;
         $this->fileResolver = $resolver;
         $this->moduleList = $moduleList;
+        $this->themeList = $themeList;
     }
 
     /**
@@ -68,11 +76,14 @@ class StaticResource implements \Magento\LauncherInterface
         } else {
             $path = $this->request->get('resource');
             $params = $this->parsePath($path);
-            $file = $params['file'];
-            unset($params['file']);
-
             $this->state->setAreaCode($params['area']);
+
+            $file = $params['file'];
+            $params['themeModel'] = $this->getThemeModel($params['area'], $params['theme']);
+            unset($params['file'], $params['theme']);
+
             $publicFile = $this->fileResolver->getViewFilePublicPath($file, $params);
+
             $this->response->setFilePath($publicFile);
         }
         return $this->response;
@@ -108,6 +119,24 @@ class StaticResource implements \Magento\LauncherInterface
         }
         $result['file'] = $parts[4];
         return $result;
+    }
+
+    /**
+     * Get theme model by its code for specified area
+     *
+     * @param string $area
+     * @param string $themeCode
+     * @return \Magento\View\Design\ThemeInterface
+     * @throws \UnexpectedValueException
+     */
+    protected function getThemeModel($area, $themeCode)
+    {
+        $themeModel = $this->themeList->getThemeByFullPath($area
+            . \Magento\View\Design\ThemeInterface::PATH_SEPARATOR . $themeCode);
+        if (!$themeModel) {
+            throw new \UnexpectedValueException("Can't find theme '$themeCode' for area '$area'");
+        }
+        return $themeModel;
     }
 
     /**
