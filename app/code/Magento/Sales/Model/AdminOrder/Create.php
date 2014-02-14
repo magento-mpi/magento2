@@ -1162,9 +1162,9 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         // merge region data with address data. This is going to be removed when we switch to use address DTO instead
         // of the address model.
         // Note: if we use getRegion() here it will pull region from db using the region_id
-        $data = is_array($address->getData('region'))
-            ? array_merge($address->getData(), $address->getData('region'))
-            : $address->getData();
+        $data = isset($data['region']) && is_array($data['region'])
+            ? array_merge($data, $data['region'])
+            : $data;
 
         $addressForm = $this->_metadataFormFactory->create(
             CustomerMetadataServiceInterface::ENTITY_TYPE_ADDRESS,
@@ -1497,7 +1497,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         $data = $form->extractData($request, 'order/account');
         if ($this->getIsValidate()) {
             $errors = $form->validateData($data);
-            if (!empty($errors)) {
+            if (is_array($errors)) {
                 foreach ($errors as $error) {
                     $this->_errors[] = $error;
                 }
