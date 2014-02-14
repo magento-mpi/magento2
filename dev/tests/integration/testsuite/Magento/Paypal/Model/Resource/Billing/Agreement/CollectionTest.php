@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Sales\Model\Resource\Billing\Agreement;
+namespace Magento\Paypal\Model\Resource\Billing\Agreement;
 
 use Magento\TestFramework\Helper\Bootstrap;
 
@@ -14,18 +14,18 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
-     * @magentoDataFixture Magento/Sales/_files/billing_agreement.php
+     * @magentoDataFixture Magento/Paypal/_files/billing_agreement.php
      */
     public function testAddCustomerDetails()
     {
-        /** @var \Magento\Sales\Model\Resource\Billing\Agreement\Collection $billingAgreementCollection */
+        /** @var \Magento\Paypal\Model\Resource\Billing\Agreement\Collection $billingAgreementCollection */
         $billingAgreementCollection = Bootstrap::getObjectManager()
-            ->create('Magento\Sales\Model\Resource\Billing\Agreement\Collection');
+            ->create('Magento\Paypal\Model\Resource\Billing\Agreement\Collection');
 
         $billingAgreementCollection->addCustomerDetails();
 
         $this->assertEquals(1, $billingAgreementCollection->count(), "Invalid collection items quantity.");
-        /** @var \Magento\Sales\Model\Billing\Agreement $billingAgreement */
+        /** @var \Magento\Paypal\Model\Billing\Agreement $billingAgreement */
         $billingAgreement = $billingAgreementCollection->getFirstItem();
 
         $expectedData = [

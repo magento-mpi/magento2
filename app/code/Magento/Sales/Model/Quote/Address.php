@@ -548,6 +548,9 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
             'to_customer_address',
             $this
         );
+        $customerAddressDataWithRegion = [];
+        $customerAddressDataWithRegion['region']['region'] = $customerAddressData['region'];
+        $customerAddressData = array_merge($customerAddressData, $customerAddressDataWithRegion);
         return $this->_customerAddressBuilder->populateWithArray($customerAddressData)->create();
     }
 
