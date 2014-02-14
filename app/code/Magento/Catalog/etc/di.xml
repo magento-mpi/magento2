@@ -144,6 +144,25 @@
     <type name="Magento\Core\Model\Resource\Store\Group">
         <plugin name="storeGroupResourceAroundSave" type="Magento\Catalog\Model\Indexer\Category\Flat\Plugin\StoreGroup"/>
     </type>
+    <type name="Magento\Customer\Model\Group">
+        <plugin name="customerGroupAroundDelete" type="Magento\Catalog\Model\Indexer\Product\Price\Plugin\CustomerGroup"/>
+    </type>
+    <type name="Magento\Customer\Model\Group">
+        <plugin name="customerGroupAroundSave" type="Magento\Catalog\Model\Indexer\Product\Price\Plugin\CustomerGroup"/>
+    </type>
+    <type name="Magento\Catalog\Model\Indexer\Product\Price\Plugin\AbstractPlugin">
+        <param name="indexer">
+            <instance type="Magento\Indexer\Model\IndexerInterface" shared="false"/>
+        </param>
+    </type>
+    <type name="Magento\Catalog\Model\Indexer\Product\Price\System\Config\PriceScope">
+        <param name="indexer">
+            <instance type="Magento\Indexer\Model\IndexerInterface" shared="false"/>
+        </param>
+    </type>
+    <type name="Magento\ImportExport\Model\Import">
+        <plugin name="catalogProductPriceIndexerImport" type="\Magento\Catalog\Model\Indexer\Product\Price\Plugin\Import" />
+    </type>
     <type name="Magento\Catalog\Model\Indexer\Category\Flat\Plugin\AbstractStore">
         <param name="indexer">
             <instance type="Magento\Indexer\Model\IndexerInterface" shared="false"/>
