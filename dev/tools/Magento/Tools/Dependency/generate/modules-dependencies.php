@@ -15,7 +15,7 @@ try {
 
     ServiceLocator::getDependenciesReportBuilder()->build([
         'report_filename' => 'modules-dependencies.csv',
-        'files_for_parse' => Files::init()->getConfigFiles('module.xml', array(), false),
+        'files_for_parse' => Files::init()->getConfigFiles('module.xml', [], false),
     ]);
 
     fwrite(STDOUT, PHP_EOL . 'Report successfully processed.' . PHP_EOL);

@@ -9,11 +9,11 @@
 namespace Magento\Tools\Dependency;
 
 use Magento\File\Csv;
+use Magento\Tools\Dependency\Circular as CircularTool;
 use Magento\Tools\Dependency\Parser;
 use Magento\Tools\Dependency\Report\Dependency;
-use Magento\Tools\Dependency\Report\Circular;
+use Magento\Tools\Dependency\Report\Circular as CircularReport;
 use Magento\Tools\Dependency\Report\Framework;
-use Magento\Tools\Dependency\Circular as CircularTool;
 use Magento\TestFramework\Utility\Files;
 
 /**
@@ -87,10 +87,10 @@ class ServiceLocator
     public static function getCircularDependenciesReportBuilder()
     {
         if (null === self::$circularDependenciesReportBuilder) {
-            self::$circularDependenciesReportBuilder = new Circular\Builder(
+            self::$circularDependenciesReportBuilder = new CircularReport\Builder(
                 self::getXmlConfigParser(),
-                new Circular\Writer(self::getCsvTool()),
-                new CircularTool(array(), null)
+                new CircularReport\Writer(self::getCsvTool()),
+                new CircularTool([], null)
             );
         }
         return self::$circularDependenciesReportBuilder;

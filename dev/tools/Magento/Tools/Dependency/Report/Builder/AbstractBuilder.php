@@ -34,7 +34,7 @@ abstract class AbstractBuilder implements BuilderInterface
     /**
      * @var array
      */
-    protected $options = array();
+    protected $options = [];
 
     /**
      * Builder constructor

@@ -13,7 +13,7 @@ use Magento\Tools\Dependency\ServiceLocator;
 
 try {
     $filesUtility = Files::init();
-    $filesForParse = $filesUtility->getFiles(array($filesUtility->getPathToSource() . '/app/code/Magento'), '*');
+    $filesForParse = $filesUtility->getFiles([$filesUtility->getPathToSource() . '/app/code/Magento'], '*');
     $configFiles = $filesUtility->getConfigFiles('module.xml', [], false);
 
     ServiceLocator::getFrameworkDependenciesReportBuilder()->build([

@@ -42,7 +42,7 @@ class Code implements ParserInterface
         $pattern = '#\b((?<module>(' . implode('_|', $this->namespacesPrefixes)
             . '[\\\\])[a-zA-Z0-9]+)[a-zA-Z0-9_\\\\]*)\b#';
 
-        $modules = array();
+        $modules = [];
         foreach ($files as $file) {
             $content = file_get_contents($file);
             $module = $this->extractModuleName($file);

@@ -23,9 +23,9 @@ class Builder extends AbstractBuilder
      */
     protected function prepareData($modulesData)
     {
-        $modules = array();
+        $modules = [];
         foreach ($modulesData as $moduleData) {
-            $dependencies = array();
+            $dependencies = [];
             foreach ($moduleData['dependencies'] as $dependencyData) {
                 $dependencies[] = new Data\Dependency($dependencyData['module'], $dependencyData['type']);
             }

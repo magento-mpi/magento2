@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Test\Tools\Dependency\Report\Builder;
+namespace Magento\Test\Tools\Dependency\Report;
 
 use Magento\Tools\Dependency\ServiceLocator;
 

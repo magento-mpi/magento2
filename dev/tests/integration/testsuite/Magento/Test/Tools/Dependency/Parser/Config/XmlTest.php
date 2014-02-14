@@ -8,7 +8,7 @@
 
 namespace Magento\Test\Tools\Dependency\Parser\Config;
 
-use Magento\Tools\Dependency\Parser;
+use Magento\Tools\Dependency\Parser\Config\Xml;
 
 class XmlTest extends \PHPUnit_Framework_TestCase
 {
@@ -26,7 +26,7 @@ class XmlTest extends \PHPUnit_Framework_TestCase
     {
         $this->fixtureDir = realpath(__DIR__ . '/../../_files') . '/';
 
-        $this->parser = new Parser\Config\Xml();
+        $this->parser = new Xml();
     }
 
     public function testParse()
