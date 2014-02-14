@@ -14,9 +14,15 @@ class HttpTest extends \PHPUnit_Framework_TestCase
      */
     protected $_model;
 
+    /**
+     * @var \Magento\Stdlib\Cookie|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_cookieMock;
+
     protected function setUp()
     {
-        $this->_model = new \Magento\App\Response\Http();
+        $this->_cookieMock = $this->getMock('Magento\Stdlib\Cookie', array(), array(), '', false);
+        $this->_model = new Http($this->_cookieMock);
         $this->_model->headersSentThrowsException = false;
         $this->_model->setHeader('name', 'value');
     }
@@ -36,6 +42,15 @@ class HttpTest extends \PHPUnit_Framework_TestCase
     public function testGetHeaderWhenHeaderNameIsNotEqualsName()
     {
         $this->assertFalse($this->_model->getHeader('Test'));
+    }
+
+    public function testSetVary()
+    {
+        $this->_cookieMock
+            ->expects($this->once())
+            ->method('set')
+            ->with(Http::COOKIE_VARY_STRING);
+        $this->_model->setVary('test', 12345);
     }
 
     public function testGetVaryString()

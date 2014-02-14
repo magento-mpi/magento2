@@ -325,4 +325,19 @@
             <instance type="Magento\Mview\View\State\CollectionInterface" shared="false"/>
         </param>
     </type>
+    <type name="Magento\App\Cache\Frontend\Pool">
+        <param name="frontendSettings">
+            <array>
+                <item key="page_cache">
+                    <array>
+                        <item key="backend_options">
+                            <array>
+                                <item key="cache_dir"><value>page_cache</value></item>
+                            </array>
+                        </item>
+                    </array>
+                </item>
+            </array>
+        </param>
+    </type>
 </config>
