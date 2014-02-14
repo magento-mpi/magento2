@@ -334,17 +334,6 @@ abstract class AbstractMethod extends \Magento\Object
     }
 
     /**
-     * Whether can manage recurring profiles
-     *
-     * @return bool
-     */
-    public function canManageRecurringProfiles()
-    {
-        return $this->_canManageRecurringProfiles
-               && ($this instanceof \Magento\Payment\Model\Recurring\Profile\MethodInterface);
-    }
-
-    /**
      * Retrieve payment method code
      *
      * @return string
@@ -717,9 +706,7 @@ abstract class AbstractMethod extends \Magento\Object
 
         if ($checksBitMask & self::CHECK_ZERO_TOTAL) {
             $total = $quote->getBaseSubtotal() + $quote->getShippingAddress()->getBaseShippingAmount();
-            if ($total < 0.0001 && $this->getCode() != 'free'
-                && !($this->canManageRecurringProfiles() && $quote->hasRecurringItems())
-            ) {
+            if ($total < 0.0001 && $this->getCode() != 'free') {
                 return false;
             }
         }
