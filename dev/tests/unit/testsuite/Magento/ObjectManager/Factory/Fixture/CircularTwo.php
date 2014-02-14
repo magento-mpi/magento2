@@ -15,8 +15,9 @@ class CircularTwo
 {
     /**
      * @param CircularThree $three
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function __construct(CircularThree $three)
     {
     }
-} 
+}

@@ -11,6 +11,11 @@
 
 namespace Magento\Validator;
 
+/**
+ * Class BuilderTest
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class BuilderTest extends \PHPUnit_Framework_TestCase
 {
     /**

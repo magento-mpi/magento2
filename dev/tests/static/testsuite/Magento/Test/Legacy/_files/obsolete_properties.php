@@ -270,5 +270,4 @@ return array(
     array('_attributeCodes', 'Magento\Catalog\Model\Resource\Category\Flat'),
     array('_columnsSql', 'Magento\Catalog\Model\Resource\Category\Flat'),
     array('_columns', 'Magento\Catalog\Model\Resource\Category\Flat'),
-    array('fileIteratorFactory', 'Magento\Core\Model\Theme\Collection')
 );
