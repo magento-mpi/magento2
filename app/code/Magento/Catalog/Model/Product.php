@@ -745,6 +745,16 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     }
 
     /**
+     * Init indexing process after product save
+     */
+    public function reindex()
+    {
+        if (!$this->getCategoryIndexer()->isScheduled()) {
+            $this->getCategoryIndexer()->reindexRow($this->getId());
+        }
+    }
+
+    /**
      * Init indexing process after product delete commit
      *
      * @return void

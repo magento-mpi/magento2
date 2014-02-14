@@ -81,7 +81,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             $this->getMock('Magento\Catalog\Model\CategoryFactory', array(), array(), '', false),
             $this->getMock('Magento\Catalog\Model\Product\Option', array(), array(), '', false),
             $this->getMock('Magento\Catalog\Model\Product\Visibility', array(), array(), '', false),
-            $this->getMock('Magento\Catalog\Model\Product\Status', array(), array(), '', false),
+            $this->getMock('Magento\Catalog\Model\Product\Attribute\Source\Status', array(), array(), '', false),
             $this->getMock('Magento\Catalog\Model\Product\Media\Config', array(), array(), '', false),
             $this->getMock('Magento\Index\Model\Indexer', array(), array(), '', false),
             $this->getMock('Magento\Catalog\Model\Product\Type', array(), array(), '', false),
@@ -92,6 +92,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             $this->getMock('Magento\Catalog\Model\Resource\Product\Collection', array(), array(), '', false),
             $this->getMock('Magento\Data\CollectionFactory', array(), array(), '', false),
             $this->getMock('Magento\App\Filesystem', array(), array(), '', false),
+            $this->getMock('Magento\Indexer\Model\IndexerInterface', array(), array(), '', false),
             $this->_processor,
             array('id' => 1)
         );
