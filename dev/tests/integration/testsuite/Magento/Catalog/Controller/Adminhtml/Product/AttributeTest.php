@@ -69,6 +69,9 @@ class AttributeTest extends \Magento\Backend\Utility\Controller
         $string = $this->_objectManager->create('Magento\Core\Model\Resource\Translate\String');
         $this->assertEquals($this->_translate('string to translate'), 'predefined string translation');
         $string->saveTranslate('string to translate', 'new string translation');
+        $postData = $this->_getAttributeData() + array('attribute_id' => 1);
+        $this->getRequest()->setPost($postData);
+        $this->dispatch('backend/catalog/product_attribute/save');
         $this->assertEquals($this->_translate('string to translate'), 'new string translation');
     }
 
@@ -117,7 +120,7 @@ class AttributeTest extends \Magento\Backend\Utility\Controller
             'used_for_sort_by' => '0',
             'apply_to' => array('simple', 'configurable'),
             'frontend_label' => array(
-                \Magento\Core\Model\Store::DEFAULT_STORE_ID => 'Fixture String',
+                \Magento\Core\Model\Store::DEFAULT_STORE_ID => 'string to translate',
             ),
         );
     }
