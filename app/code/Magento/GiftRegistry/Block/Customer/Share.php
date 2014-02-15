@@ -25,12 +25,20 @@ class Share extends \Magento\Customer\Block\Account\Dashboard
     protected $_giftRegistryData = null;
 
     /**
+     * Customer view helper
+     *
+     * @var \Magento\Customer\Helper\View
+     */
+    protected $_customerView;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
      * @param CustomerServiceInterface $customerService
      * @param CustomerAddressServiceInterface $addressService
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
+     * @param \Magento\Customer\Helper\View $customerView
      * @param array $data
      */
     public function __construct(
@@ -40,9 +48,11 @@ class Share extends \Magento\Customer\Block\Account\Dashboard
         CustomerServiceInterface $customerService,
         CustomerAddressServiceInterface $addressService,
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
+        \Magento\Customer\Helper\View $customerView,
         array $data = array()
     ) {
         $this->_giftRegistryData = $giftRegistryData;
+        $this->_customerView = $customerView;
         parent::__construct(
             $context, $customerSession, $subscriberFactory, $customerService, $addressService, $data
         );
@@ -66,7 +76,7 @@ class Share extends \Magento\Customer\Block\Account\Dashboard
      */
     public function getCustomerName()
     {
-        return $this->escapeHtml($this->_customerSession->getCustomer()->getName());
+        return $this->escapeHtml($this->_customerView->getCustomerName($this->getCustomer()));
     }
 
     /**
