@@ -431,7 +431,7 @@ class Socket
 
     /**
      * Get response status code
-     * @see lib/Magento/HTTP/\Magento\HTTP\Client#getStatus()
+     * @see lib/internal/Magento/HTTP/\Magento\HTTP\Client#getStatus()
      */
     public function getStatus()
     {

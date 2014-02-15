@@ -12,7 +12,7 @@ Zend
 downloader
 dev
 Mysql
-lib/Magento/DB
+lib/internal/Magento/DB
 sql
 data
 Magento/Paypal
@@ -91,14 +91,14 @@ Magento/Webapi/Model
 Magento/Widget/Model/Widget/Instance
 Magento/Wishlist/Block
 Magento/Wishlist/Model
-lib/Magento/Archive
-lib/Magento/Connect/Channel
-lib/Magento/HTTP/Client
-lib/Magento/Acl
-lib/PEAR
-lib/phpseclib
-lib/Magento/Convert
-lib/Magento/App/Config
+lib/internal/Magento/Archive
+lib/internal/Magento/Connect/Channel
+lib/internal/Magento/HTTP/Client
+lib/internal/Magento/Acl
+lib/internal/PEAR
+lib/internal/phpseclib
+lib/internal/Magento/Convert
+lib/internal/Magento/App/Config
 Magento/Cron/Model
 Magento/SalesRule/Model/Resource/Report/Rule
 Magento/SalesRule/Model/Resource/Rule
@@ -112,4 +112,4 @@ Magento/Newsletter/Block/Adminhtml/Template/Grid/Renderer
 Magento/Newsletter/Model/Template/Filter
 Magento/Newsletter/Model/Resource/Subscriber
 Magento/CatalogInventory/Model/Resource/Stock/Item
-lib/Magento/Filesystem/Driver
+lib/internal/Magento/Filesystem/Driver

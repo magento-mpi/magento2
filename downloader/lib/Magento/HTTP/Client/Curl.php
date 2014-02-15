@@ -245,7 +245,7 @@ implements \Magento\HTTP\IClient
 
     /**
      * Make POST request
-     * @see lib/Magento/HTTP/\Magento\HTTP\Client#post($uri, $params)
+     * @see lib/internal/Magento/HTTP/\Magento\HTTP\Client#post($uri, $params)
      */
     public function post($uri, $params)
     {
@@ -338,7 +338,7 @@ implements \Magento\HTTP\IClient
 
     /**
      * Get response status code
-     * @see lib/Magento/HTTP/\Magento\HTTP\Client#getStatus()
+     * @see lib/internal/Magento/HTTP/\Magento\HTTP\Client#getStatus()
      */
     public function getStatus()
     {

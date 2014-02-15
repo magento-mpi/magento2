@@ -1,7 +1,7 @@
 <?php
 /**
  * {license_notice}
- *   
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -39,7 +39,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
         );
         $fsDirList->expects($this->once())
             ->method('getDir')
-            ->with(\Magento\App\Filesystem::LIB_DIR)
+            ->with(\Magento\App\Filesystem::LIB_INTERNAL)
             ->will($this->returnValue('stub'))
         ;
         $schemaLocator = new \Magento\Mview\Config\SchemaLocator($fsDirList);

@@ -235,7 +235,7 @@ implements \Magento\HTTP\IClient
      * @param array $params
      * @return void
      *
-     * @see lib/Magento/HTTP/\Magento\HTTP\Client#post($uri, $params)
+     * @see lib/internal/Magento/HTTP/\Magento\HTTP\Client#post($uri, $params)
      */
     public function post($uri, $params)
     {
@@ -325,7 +325,7 @@ implements \Magento\HTTP\IClient
 
     /**
      * Get response status code
-     * @see lib/Magento/HTTP/\Magento\HTTP\Client#getStatus()
+     * @see lib/internal/Magento/HTTP/\Magento\HTTP\Client#getStatus()
      *
      * @return int
      */
@@ -369,7 +369,7 @@ implements \Magento\HTTP\IClient
             }
             $this->curlOption(CURLOPT_COOKIE, implode(";", $cookies));
         }
-         
+
         if($this->_timeout) {
             $this->curlOption(CURLOPT_TIMEOUT, $this->_timeout);
         }
@@ -381,7 +381,7 @@ implements \Magento\HTTP\IClient
         //$this->curlOption(CURLOPT_HEADER, 1);
         $this->curlOption(CURLOPT_RETURNTRANSFER, 1);
         $this->curlOption(CURLOPT_HEADERFUNCTION, array($this,'parseHeaders'));
-         
+
 
         if(count($this->_curlUserOptions)) {
             foreach($this->_curlUserOptions as $k=>$v) {
@@ -448,7 +448,7 @@ implements \Magento\HTTP\IClient
 
         }
         $this->_headerCount++;
-         
+
 
         return strlen($data);
     }

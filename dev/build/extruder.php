@@ -10,7 +10,7 @@
  */
 
 require __DIR__ . '/../../app/autoload.php';
-\Magento\Autoload\IncludePath::addIncludePath(__DIR__ . '/../../lib');
+\Magento\Autoload\IncludePath::addIncludePath(__DIR__ . '/../../lib/internal');
 
 define('USAGE', <<<USAGE
 $>./extruder.php -w <working_dir> -l /path/to/list.txt [[-l /path/to/extra.txt] parameters]

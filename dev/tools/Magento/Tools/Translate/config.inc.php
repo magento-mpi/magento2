@@ -93,7 +93,7 @@ $CONFIG['translates'] = array(
         'app/code/Magento/Core/view/frontend',
         'app/code/Magento/Core/view/adminhtml',
         'app/code/Magento/Core/view/frontend/layout.xml',
-        'lib/Zend/Validate/',
+        'lib/internal/Zend/Validate/',
     ),
     'Magento_Cron' => array(
         'app/code/Magento/Cron/',

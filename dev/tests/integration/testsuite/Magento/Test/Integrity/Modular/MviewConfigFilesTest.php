@@ -30,7 +30,7 @@ class MviewConfigFilesTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->schemeFile = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Filesystem')
-            ->getPath(\Magento\App\Filesystem::LIB_DIR) . '/Magento/Mview/etc/mview.xsd';
+            ->getPath(\Magento\App\Filesystem::LIB_INTERNAL) . '/Magento/Mview/etc/mview.xsd';
     }
 
     /**

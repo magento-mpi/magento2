@@ -134,7 +134,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         $fontsConfig = $this->_config->getValue(\Magento\Captcha\Helper\Data::XML_PATH_CAPTCHA_FONTS, 'default');
         $fonts = array();
         if ($fontsConfig) {
-            $libDir = $this->_filesystem->getPath(\Magento\App\Filesystem::LIB_DIR);
+            $libDir = $this->_filesystem->getPath(\Magento\App\Filesystem::LIB_INTERNAL);
             foreach ($fontsConfig as $fontName => $fontConfig) {
                 $fonts[$fontName] = array(
                     'label' => $fontConfig['label'],
@@ -171,7 +171,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     {
         return $this->_storeManager->getWebsite($website)->getCode();
     }
-    
+
     /**
      * Get captcha image base URL
      *

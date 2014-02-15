@@ -244,7 +244,7 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
             self::$_namespaceBlacklist = $blackList;
         }
     }
-    
+
     /**
      * Assert PHP classes have valid formal namespaces according to file locations
      *
@@ -419,7 +419,7 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
 
             // Remove usage of classes that do NOT using fully-qualified class names (possibly under same namespace)
             $directories = array(
-                '/app/code/', '/lib/', '/downloader/app/', '/downloader/lib/', '/dev/tools/',
+                '/app/code/', '/lib/internal/', '/downloader/app/', '/downloader/lib/', '/dev/tools/',
                 '/dev/tests/api-functional/framework/', '/dev/tests/integration/framework/',
                 '/dev/tests/integration/framework/tests/unit/testsuite/', '/dev/tests/integration/testsuite/',
                 '/dev/tests/integration/testsuite/Magento/Test/Integrity/', '/dev/tests/performance/framework/',

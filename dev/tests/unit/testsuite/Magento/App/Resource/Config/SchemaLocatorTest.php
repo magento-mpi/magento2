@@ -21,7 +21,7 @@ class SchemaLocatorTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_expected = str_replace('\\', '/', BP) . '/lib/Magento/App/etc/resources.xsd';
+        $this->_expected = str_replace('\\', '/', BP) . '/lib/internal/Magento/App/etc/resources.xsd';
         $this->_model = new \Magento\App\Resource\Config\SchemaLocator();
     }
 

@@ -22,7 +22,7 @@ require_once SELENIUM_TESTS_BASEDIR . '/bootstrap.php';
 set_include_path(implode(PATH_SEPARATOR, array(
     realpath(SELENIUM_TESTS_BASEDIR . '/framework'),
     realpath(SELENIUM_TESTS_BASEDIR . '/testsuite'),
-    realpath(SELENIUM_TESTS_BASEDIR . '/../../../lib'),
+    realpath(SELENIUM_TESTS_BASEDIR . '/../../../lib/internal'),
     get_include_path(),
 )));
 

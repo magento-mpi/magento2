@@ -46,8 +46,8 @@ dev/tools/Magento/Tools/Migration/aliases_map/cms_content_tables_ee.php
 downloader/app/Magento/Downloader/Model/Config/Enterprise.php
 downloader/skin/install/images/enterprise.gif
 downloader/template/enterprise
-lib/Apache
-lib/Magento/JobQueue
+lib/internal/Apache
+lib/internal/Magento/JobQueue
 pub/errors/enterprise
 app/code/Magento/AdminGws
 dev/tests/unit/testsuite/Magento/AdminGws

@@ -73,14 +73,14 @@
             <path>dev/tests/integration/testsuite/Magento/Test/Integrity/Modular/BlockInstantiationTest.php</path>
         </item>
         <item>
-            <path>lib/LinLibertineFont</path>
+            <path>lib/internal/LinLibertineFont</path>
         </item>
         <item>
             <word>CHANGELOG</word>
-            <path>lib/Magento/Pear/Package.php</path>
+            <path>lib/internal/Magento/Pear/Package.php</path>
         </item>
         <item>
-            <path>lib/Symfony</path>
+            <path>lib/internal/Symfony</path>
         </item>
         <item>
             <path>dev/tests/static/testsuite/Magento/Test/Legacy/_files</path>
@@ -109,7 +109,7 @@
             <word>CHANGELOG</word>
         </item>
         <item>
-            <path>lib/Magento/Mview</path>
+            <path>lib/internal/Magento/Mview</path>
             <word>CHANGELOG</word>
         </item>
         <item>

@@ -4,6 +4,6 @@
 app/
 dev/
 index.php
-lib/Magento
+lib/internal/Magento
 downloader/lib/Magento
 downloader/app/Magento

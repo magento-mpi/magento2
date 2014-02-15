@@ -36,7 +36,7 @@
             <path>dev/tests/functional-old/testsuite/Enterprise</path>
         </item>
         <item>
-            <path>lib/Symfony</path>
+            <path>lib/internal/Symfony</path>
             <word>twig</word>
         </item>
     </whitelist>

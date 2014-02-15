@@ -11,9 +11,9 @@ namespace Magento\Tools\Translate;
 
 define('BASE_PATH', dirname(dirname(dirname(dirname(dirname(__DIR__))))));
 
-require_once BASE_PATH . '/lib/Zend/Exception.php';
-require_once BASE_PATH . '/lib/Zend/Console/Getopt/Exception.php';
-require_once BASE_PATH . '/lib/Zend/Console/Getopt.php';
+require_once BASE_PATH . '/lib/internal/Zend/Exception.php';
+require_once BASE_PATH . '/lib/internal/Zend/Console/Getopt/Exception.php';
+require_once BASE_PATH . '/lib/internal/Zend/Console/Getopt.php';
 
 class MultyGetopt extends \Zend_Console_Getopt {
 

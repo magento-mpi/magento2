@@ -19,7 +19,7 @@ try {
     \Magento\Autoload\IncludePath::addIncludePath(
         array(
             realpath($basePath . '/dev/build/publication/edition/'),
-            realpath($basePath . '/lib/'),
+            realpath($basePath . '/lib/internal/'),
         )
     );
 

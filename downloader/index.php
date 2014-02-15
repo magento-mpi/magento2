@@ -15,6 +15,6 @@ if (version_compare(phpversion(), '5.4.0', '<') === true) {
 
 
 \Magento\Autoload\Simple::register();
-require_once("lib/Magento/Autoload/Simple.php");
+require_once("lib/internal/Magento/Autoload/Simple.php");
 umask(0);
 \Magento\Downloader\Controller::run();

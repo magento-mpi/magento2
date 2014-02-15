@@ -33,11 +33,11 @@ class Socket
 	private $_port = 80;
 
 	/**
-	 * Stream resource 
+	 * Stream resource
 	 * @var object
 	 */
 	private $_sock = null;
-	
+
 	/**
 	 * Request headers
 	 * @var array
@@ -49,25 +49,25 @@ class Socket
 	 * @var array
 	 */
 	private $_postFields = array();
-	
+
 	/**
-	 * Request cookies 
+	 * Request cookies
 	 * @var array
 	 */
 	private $_cookies = array();
-	
+
 	/**
 	 * Response headers
 	 * @var array
 	 */
 	private $_responseHeaders = array();
-	
+
 	/**
 	 * Response body
 	 * @var string
 	 */
 	private $_responseBody = '';
-	
+
 	/**
 	 * Response status
 	 * @var int
@@ -79,7 +79,7 @@ class Socket
 	 * @var int
 	 */
 	private $_timeout = 300;
-	
+
 	/**
 	 * TODO
 	 * @var int
@@ -88,7 +88,7 @@ class Socket
 
 	/**
 	 * Set request timeout, msec
-	 * 
+	 *
 	 * @param int $value
 	 * @return void
 	 */
@@ -122,7 +122,7 @@ class Socket
 		$this->_host = $host;
 		$this->_port = (int) $port;
 	}
-	
+
 	/**
 	 * Disconnect
 	 *
@@ -135,18 +135,18 @@ class Socket
 
 	/**
 	 * Set headers from hash
-	 
+
 	 * @param array $headers
 	 * @return void
-	 */	
+	 */
 	public function setHeaders($headers)
 	{
 		$this->_headers = $headers;
 	}
-	
+
 	/**
 	 * Add header
-	 * 
+	 *
 	 * @param string $name name, ex. "Location"
 	 * @param string $value value ex. "http://google.com"
 	 * @return void
@@ -155,10 +155,10 @@ class Socket
 	{
 		$this->_headers[$name] = $value;
 	}
-	
+
 	/**
 	 * Remove specified header
-	 * 
+	 *
 	 * @param string $name
 	 * @return void
 	 */
@@ -170,7 +170,7 @@ class Socket
 	/**
 	 * Authorization: Basic header
 	 * Login credentials support
-	 * 
+	 *
 	 * @param string $login username
 	 * @param string $pass password
 	 * @return void
@@ -183,7 +183,7 @@ class Socket
 
 	/**
 	 * Add cookie
-	 * 
+	 *
 	 * @param string $name
 	 * @param string $value
 	 * @return void
@@ -194,11 +194,11 @@ class Socket
 	}
 
 	/**
-	 * Remove cookie 
-	 * 
+	 * Remove cookie
+	 *
 	 * @param string $name
 	 * @return void
-	 */	
+	 */
 	public function removeCookie($name)
 	{
 		unset($this->_cookies[$name]);
@@ -206,7 +206,7 @@ class Socket
 
 	/**
 	 * Set cookies array
-	 * 	 
+	 *
 	 * @param array $cookies
 	 * @return void
 	 */
@@ -224,22 +224,22 @@ class Socket
 	{
 		$this->setCookies(array());
 	}
-	
+
 	/**
 	 * Make GET request
-	 * 
+	 *
 	 * @param string $uri full uri path
 	 * @return void
 	 */
 	public function get($uri)
-	{	
-        $this->makeRequest("GET",$this->parseUrl($uri));		
+	{
+        $this->makeRequest("GET",$this->parseUrl($uri));
 	}
 
 	/**
 	 * Set host, port from full url
-	 * and return relative url 
-	 * 
+	 * and return relative url
+	 *
 	 * @param string $uri ex. http://google.com/index.php?a=b
 	 * @return string ex. /index.php?a=b
 	 * @throws \InvalidArgumentException
@@ -253,14 +253,14 @@ class Socket
 		if(!empty($parts['port'])) {
 			$this->_port = (int) $parts['port'];
 		}
-		
+
 		if(!empty($parts['host'])) {
 			$this->_host = $parts['host'];
 		} else {
-			throw new \InvalidArgumentException("Uri doesn't contain host part"); 
+			throw new \InvalidArgumentException("Uri doesn't contain host part");
 		}
-		
-		
+
+
 		if(!empty($parts['path'])) {
 			$requestUri = $parts['path'];
 		} else {
@@ -271,7 +271,7 @@ class Socket
 		}
 		return $requestUri;
 	}
-	
+
 	/**
 	 * Make POST request
 	 *
@@ -286,8 +286,8 @@ class Socket
 
 	/**
 	 * Get response headers
-	 * 
-	 * @return array	 
+	 *
+	 * @return array
 	 */
 	public function getHeaders()
 	{
@@ -296,8 +296,8 @@ class Socket
 
 	/**
 	 * Get response body
-	 * 
-	 * @return string	
+	 *
+	 * @return string
 	 */
 	public function getBody()
 	{
@@ -305,9 +305,9 @@ class Socket
 	}
 
 	/**
-	 * Get cookies response hash 
+	 * Get cookies response hash
 	 *
-	 * @return array	 
+	 * @return array
 	 */
 	public function getCookies()
 	{
@@ -384,7 +384,7 @@ class Socket
 			if(count($out) == 2) {
 				$name = $out[0];
 				$value = $out[1];
-			}		
+			}
     		if(!empty($value)) {
 				if($name == "Set-Cookie") {
 				    if(!isset($this->_responseHeaders[$name])) {
@@ -446,7 +446,7 @@ class Socket
 
 	/**
 	 * Get response status code
-	 * @see lib/Magento/HTTP/\Magento\HTTP\Client#getStatus()
+	 * @see lib/internal/Magento/HTTP/\Magento\HTTP\Client#getStatus()
 	 *
 	 * @return int
 	 */
@@ -457,7 +457,7 @@ class Socket
 
 	/**
 	 * Make request
-	 * @param string $method 
+	 * @param string $method
 	 * @param string $uri
 	 * @param array $params
 	 * @return void
@@ -487,11 +487,11 @@ class Socket
 		if($paramsStr) {
 			$out .= $paramsStr.$crlf;
 		}
-		
+
 		fwrite($this->_sock, $out);
 		$this->processResponse();
 	}
-	
+
 	/**
 	 * Throw error exception
 	 * @param string $string
@@ -504,7 +504,7 @@ class Socket
 	}
 
 	/**
-	 * Convert headers hash to string 
+	 * Convert headers hash to string
 	 * @param array $append
 	 * @return string
 	 */
@@ -531,7 +531,7 @@ class Socket
 	{
 		// Stub
 	}
-	
+
 	/**
 	 * TODO
 	 *

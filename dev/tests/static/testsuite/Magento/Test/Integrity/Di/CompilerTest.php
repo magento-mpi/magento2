@@ -61,7 +61,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
 
         \Magento\Autoload\IncludePath::addIncludePath(array(
             $basePath . '/app/code',
-            $basePath . '/lib',
+            $basePath . '/lib/internal',
             $this->_generationDir,
         ));
 
@@ -156,7 +156,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
         $basePath = \Magento\TestFramework\Utility\Files::init()->getPathToSource();
 
         $basePath = str_replace('/', '\\', $basePath);
-        $libPath = $basePath . '\\lib';
+        $libPath = $basePath . '\\lib\\internal';
         $appPath = $basePath . '\\app\\code';
         $generationPathPath = str_replace('/', '\\', $this->_generationDir);
 

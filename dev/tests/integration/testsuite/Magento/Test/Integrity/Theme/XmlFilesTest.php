@@ -26,7 +26,7 @@ class XmlFilesTest extends \PHPUnit_Framework_TestCase
         }
         $this->_validateConfigFile(
             $file,
-            $this->getPath(\Magento\App\Filesystem::LIB_DIR) . '/Magento/Config/etc/view.xsd'
+            $this->getPath(\Magento\App\Filesystem::LIB_INTERNAL) . '/Magento/Config/etc/view.xsd'
         );
     }
 
@@ -77,7 +77,7 @@ class XmlFilesTest extends \PHPUnit_Framework_TestCase
     {
         $this->_validateConfigFile(
             $file,
-            $this->getPath(\Magento\App\Filesystem::LIB_DIR) . '/Magento/Config/etc/theme.xsd'
+            $this->getPath(\Magento\App\Filesystem::LIB_INTERNAL) . '/Magento/Config/etc/theme.xsd'
         );
     }
 

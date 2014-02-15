@@ -64,7 +64,7 @@ if (!is_writeable(dirname($args['output']))) {
 }
 
 require_once __DIR__ . '/config.inc.php';
-require_once BASE_PATH . '/lib/Varien/File/Csv.php';
+require_once BASE_PATH . '/lib/internal/Varien/File/Csv.php';
 
 $CONFIG['generate'] = array(
     'base_dir'      => BASE_PATH,

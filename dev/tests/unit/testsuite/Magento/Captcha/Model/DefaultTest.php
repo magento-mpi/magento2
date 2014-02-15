@@ -53,7 +53,7 @@ class DefaultTest extends \PHPUnit_Framework_TestCase
     protected $_fontPath = array(
         'LinLibertine' => array(
             'label' => 'LinLibertine',
-            'path' => 'lib/LinLibertineFont/LinLibertine_Bd-2.8.1.ttf'
+            'path' => 'lib/internal/LinLibertineFont/LinLibertine_Bd-2.8.1.ttf'
         )
     );
 

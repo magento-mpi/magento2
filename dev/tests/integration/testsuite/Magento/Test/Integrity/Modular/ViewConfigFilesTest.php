@@ -22,7 +22,7 @@ class ViewConfigFilesTest extends \PHPUnit_Framework_TestCase
         $domConfig = new \Magento\Config\Dom($file);
         $result = $domConfig->validate(
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                ->get('Magento\App\Filesystem')->getPath(\Magento\App\Filesystem::LIB_DIR)
+                ->get('Magento\App\Filesystem')->getPath(\Magento\App\Filesystem::LIB_INTERNAL)
                 . '/Magento/Config/etc/view.xsd',
             $errors
         );

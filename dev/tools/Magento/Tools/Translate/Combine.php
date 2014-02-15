@@ -24,7 +24,7 @@ define('MESSAGE_TYPE_ERROR', '2');
 
 define('LOCALE_PATH', BASE_PATH . '/app/locale/%s/');
 
-include(BASE_PATH . '/lib/Magento/File/Csv.php');
+include(BASE_PATH . '/lib/internal/Magento/File/Csv.php');
 include(__DIR__ . '/ModuleTranslations.php');
 
 global $argv;

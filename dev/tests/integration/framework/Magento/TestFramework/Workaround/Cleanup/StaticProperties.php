@@ -24,7 +24,7 @@ class StaticProperties
     protected static $_cleanableFolders = array(
         '/app/code/',
         '/dev/tests/',
-        '/lib/',
+        '/lib/internal/',
     );
 
     /**

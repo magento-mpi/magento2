@@ -40,6 +40,6 @@ class FieldsetConfigFilesTest extends \Magento\TestFramework\TestCase\AbstractCo
      */
     protected function _getXsdPath()
     {
-        return '/../../lib/Magento/Object/etc/fieldset_file.xsd';
+        return '/../../lib/internal/Magento/Object/etc/fieldset_file.xsd';
     }
 }

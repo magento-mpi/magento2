@@ -39,7 +39,7 @@ class Indexer
      * Indexation mode when commit is not provided by Magento at all.
      * Changes will be applied after third party search engine autocommit will be called.
      *
-     * @see e.g. /lib/Apache/Solr/conf/solrconfig.xml : <luceneAutoCommit/>, <autoCommit/>
+     * @see e.g. /lib/internal/Apache/Solr/conf/solrconfig.xml : <luceneAutoCommit/>, <autoCommit/>
      */
     const SEARCH_ENGINE_INDEXATION_COMMIT_MODE_ENGINE  = 2;
 

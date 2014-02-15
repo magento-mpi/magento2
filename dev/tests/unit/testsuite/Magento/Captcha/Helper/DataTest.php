@@ -89,8 +89,8 @@ class DataTest extends \PHPUnit_Framework_TestCase
     {
         $this->_filesystem->expects($this->once())
             ->method('getPath')
-            ->with(\Magento\App\Filesystem::LIB_DIR)
-            ->will($this->returnValue(TESTS_TEMP_DIR . '/lib'));
+            ->with(\Magento\App\Filesystem::LIB_INTERNAL)
+            ->will($this->returnValue(TESTS_TEMP_DIR . '/lib/internal'));
 
         $factoryMock = $this->getMock('Magento\Captcha\Model\CaptchaFactory', array(), array(), '', false);
         $object = $this->_getHelper($this->_getStoreStub(), $this->_getConfigStub(), $factoryMock);

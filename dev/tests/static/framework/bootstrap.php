@@ -14,7 +14,7 @@ require BP . '/app/autoload.php';
 \Magento\Autoload\IncludePath::addIncludePath(array(
     __DIR__,
     dirname(__DIR__) . '/testsuite',
-    BP . '/lib',
+    BP . '/lib/internal',
 ));
 \Magento\TestFramework\Utility\Files::setInstance(new \Magento\TestFramework\Utility\Files(BP));
 

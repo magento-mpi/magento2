@@ -44,7 +44,7 @@ class Filesystem extends \Magento\Filesystem
     /**
      * Libraries or third-party components
      */
-    const LIB_DIR = 'lib';
+    const LIB_INTERNAL = 'lib_internal';
 
     /**
      * Libraries/components that need to be accessible publicly through web-server (such as various DHTML components)

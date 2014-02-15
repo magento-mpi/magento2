@@ -1670,7 +1670,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             'Network Error',
             'Warning: ',
             '/app/code/',
-            '/lib/Magento/',
+            '/lib/internal/Magento/',
             'was not found',
             'Notice: ',
             'Whoops, our bad',

@@ -34,8 +34,8 @@ class DirectoryList extends \Magento\Filesystem\DirectoryList
         Filesystem::CONFIG_DIR => array(
             'path' => 'app/etc'
         ),
-        Filesystem::LIB_DIR => array(
-            'path' => 'lib'
+        Filesystem::LIB_INTERNAL => array(
+            'path' => 'lib/internal'
         ),
         Filesystem::VAR_DIR => array(
             'path'              => 'var',

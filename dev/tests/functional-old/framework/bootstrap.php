@@ -18,7 +18,7 @@ set_include_path(
         array(
             realpath(SELENIUM_TESTS_BASEDIR . '/framework'),
             realpath(SELENIUM_TESTS_BASEDIR . '/testsuite'),
-            realpath(SELENIUM_TESTS_BASEDIR . '/../../../lib'),
+            realpath(SELENIUM_TESTS_BASEDIR . '/../../../lib/internal'),
             get_include_path(),
         )
     )

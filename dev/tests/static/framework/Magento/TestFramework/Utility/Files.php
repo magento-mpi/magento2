@@ -120,7 +120,7 @@ class Files
                     glob($this->_path . '/*.php', GLOB_NOSORT),
                     glob($this->_path . '/pub/*.php', GLOB_NOSORT),
                     self::getFiles(array("{$this->_path}/downloader"), '*.php'),
-                    self::getFiles(array("{$this->_path}/lib/{Mage,Magento,Varien}"), '*.php')
+                    self::getFiles(array("{$this->_path}/lib/internal/{Mage,Magento,Varien}"), '*.php')
                 );
             }
             if ($templates) {
@@ -195,7 +195,7 @@ class Files
             if ($lib) {
                 $files = array_merge(
                     $files,
-                    self::getFiles(array("{$this->_path}/lib/Magento"), '*.php')
+                    self::getFiles(array("{$this->_path}/lib/internal/Magento"), '*.php')
                 );
             }
             self::$_cache[$key] = $files;
@@ -612,7 +612,7 @@ class Files
         $namespace = implode('\\', $classParts);
         $path = implode('/', explode('\\', $class)) . '.php';
         $directories = array(
-            '/app/code/', '/lib/', '/downloader/app/', '/downloader/lib/', '/dev/tools/',
+            '/app/code/', '/lib/internal/', '/downloader/app/', '/downloader/lib/', '/dev/tools/',
             '/dev/tests/api-functional/framework/', '/dev/tests/integration/framework/',
             '/dev/tests/integration/framework/tests/unit/testsuite/', '/dev/tests/integration/testsuite/',
             '/dev/tests/integration/testsuite/Magento/Test/Integrity/', '/dev/tests/performance/framework/',

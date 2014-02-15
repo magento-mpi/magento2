@@ -29,7 +29,7 @@
         <whitelist>
             <directory>../app/code/Magento/</directory>
             <exclude>
-                <directory>../lib/</directory>
+                <directory>../lib/internal/</directory>
                 <directory>../app/code/Magento/Install</directory>
                 <directory>../app/code/Magento/Index</directory>
                 <directory prefix="data-upgrade-">../app/code/Magento/</directory>

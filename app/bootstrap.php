@@ -49,11 +49,11 @@ require_once BP . '/app/functions.php';
 require_once __DIR__ . '/autoload.php';
 \Magento\Autoload\IncludePath::addIncludePath(array(
     BP . '/app/code',
-    BP . '/lib',
+    BP . '/lib/internal',
 ));
 $classMapPath = BP . '/var/classmap.ser';
 if (file_exists($classMapPath)) {
-    require_once BP . '/lib/Magento/Autoload/ClassMap.php';
+    require_once BP . '/lib/internal/Magento/Autoload/ClassMap.php';
     $classMap = new \Magento\Autoload\ClassMap(BP);
     $classMap->addMap(unserialize(file_get_contents($classMapPath)));
     spl_autoload_register(array($classMap, 'load'), true, true);

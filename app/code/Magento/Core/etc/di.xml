@@ -375,10 +375,10 @@
     </type>
     <type name="Magento\Object\Copy\Config\SchemaLocator">
         <param name="schema">
-            <value>lib/Magento/Object/etc/fieldset.xsd</value>
+            <value>lib/internal/Magento/Object/etc/fieldset.xsd</value>
         </param>
         <param name="perFileSchema">
-            <value>lib/Magento/Object/etc/fieldset_file.xsd</value>
+            <value>lib/internal/Magento/Object/etc/fieldset_file.xsd</value>
         </param>
     </type>
     <type name="Magento\Object\Copy\Config\Data">
