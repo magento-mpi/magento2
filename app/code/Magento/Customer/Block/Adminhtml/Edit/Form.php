@@ -2,38 +2,72 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Block\Adminhtml\Edit;
+
+use Magento\Customer\Controller\Adminhtml\Index;
+use Magento\Customer\Service\V1\CustomerServiceInterface;
 
 /**
  * Adminhtml customer edit form block
  */
-namespace Magento\Customer\Block\Adminhtml\Edit;
-
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
+    /**
+     * Customer Service.
+     *
+     * @var CustomerServiceInterface
+     */
+    protected $_customerService;
+
+    /**
+     * Constructor
+     *
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\FormFactory $formFactory
+     * @param CustomerServiceInterface $customerService
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\FormFactory $formFactory,
+        CustomerServiceInterface $customerService,
+        array $data = array()
+    ) {
+        $this->_customerService = $customerService;
+        parent::__construct($context, $registry, $formFactory, $data);
+    }
+
+    /**
+     * Prepare the form.
+     *
+     * @return \Magento\Backend\Block\Widget\Form
+     */
     protected function _prepareForm()
     {
         /** @var \Magento\Data\Form $form */
-        $form = $this->_formFactory->create(array(
-            'data' => array(
+        $form = $this->_formFactory->create([
+            'data' => [
                 'id'        => 'edit_form',
                 'action'    => $this->getUrl('customer/*/save'),
                 'method'    => 'post',
                 'enctype'   => 'multipart/form-data',
-            ))
-        );
+            ]
+        ]);
 
-        $customer = $this->_coreRegistry->registry('current_customer');
+        $customerId = $this->_coreRegistry->registry(Index::REGISTRY_CURRENT_CUSTOMER_ID);
 
-        if ($customer->getId()) {
-            $form->addField('entity_id', 'hidden', array(
+        if ($customerId) {
+            $form->addField('entity_id', 'hidden', [
                 'name' => 'customer_id',
-            ));
-            $form->setValues($customer->getData());
+            ]);
+            $customer = $this->_customerService->getCustomer($customerId);
+            $form->setValues($customer->getAttributes())
+                ->addValues(['customer_id' => $customerId]);
         }
 
         $form->setUseContainer(true);
