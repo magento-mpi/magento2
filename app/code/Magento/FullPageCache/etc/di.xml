@@ -19,6 +19,7 @@
             <argument name="storeManager" xsi:type="object">Magento\Core\Model\StoreManager\Proxy</argument>
             <argument name="metadata" xsi:type="object">Magento\FullPageCache\Model\Metadata\Proxy</argument>
             <argument name="requestIdentifier" xsi:type="object">Magento\FullPageCache\Model\Request\Identifier\Proxy</argument>
+            <argument name="fpcCookie" xsi:type="object">Magento\FullPageCache\Model\Cookie\Proxy</argument>
             <argument name="allowedCache" xsi:type="array">
                 <item name="cms" xsi:type="string">Magento\FullPageCache\Model\Processor\DefaultProcessor</item>
                 <item name="catalog" xsi:type="array">
