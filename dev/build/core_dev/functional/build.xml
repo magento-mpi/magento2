@@ -14,7 +14,7 @@
 <project name="Core Development Functional Tests" basedir="../../../../" default="run">
     <import file="../util.xml"/>
 
-    <target name="run-ee" depends="_server_info" description="Deploy multiple Magento instances and run functional tests on each of them simultaneously">
+    <target name="run" depends="_server_info" description="Deploy multiple Magento instances and run functional tests on each of them simultaneously">
         <script language="javascript"><![CDATA[
             if (project.getProperty('env.bamboo_desired_agent')
                 && project.getProperty('env.bamboo_desired_agent') != ''
@@ -80,7 +80,7 @@
 
         <fail if="error_message" message="${error_message}"/>
 
-        <property name="dir.build_directory" location="${env.deploy_directory}/${env.build.key}"/>
+        <property name="dir.build_directory" location="${env.deploy_directory}/${env.build_key}"/>
         <delete dir="${dir.build_directory}"/>
 
         <antcall target="_product_edition">
@@ -187,7 +187,7 @@
 
         <fail if="error_message" message="${error_message}"/>
 
-        <property name="dir.build_directory" location="${env.deploy_directory}/${env.build.key}"/>
+        <property name="dir.build_directory" location="${env.deploy_directory}/${env.build_key}"/>
         <delete dir="${dir.build_directory}"/>
 
         <antcall target="_product_edition">
@@ -218,11 +218,11 @@
             }
 
             parallel.execute();
+
         ]]></script>
 
         <exec executable="phpunit" failonerror="true" dir="${dir.build_directory}/instance-0/dev/tests/functional/">
             <arg line="--log-junit ${basedir}/test-cases-report.xml
-                --bootstrap config/bootstrap-with-cleanup-enabled.php
                  ${env.bamboo_executer_options}
                 "/>
         </exec>
@@ -232,7 +232,7 @@
         <copy todir="${dir.build_directory}/instance-${instanceIndex}" failonerror="true">
             <fileset dir="${basedir}"/>
         </copy>
-        <mkdir dir="{dir.build_directory}/instance-${instanceIndex}/pub/cache"/>
+        <mkdir dir="${dir.build_directory}/instance-${instanceIndex}/pub/cache"/>
 
         <mkdir dir="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional/var/logs"/>
         <mkdir dir="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional/var/screenshots"/>
@@ -252,8 +252,8 @@
             <replacefilter token="{{db_name}}" value="${env.db_name_prefix}${instanceIndex}"/>
             <replacefilter token="{{db_user}}" value="${env.db_user}"/>
             <replacefilter token="{{db_password}}" value="${env.db_password}"/>
-            <replacefilter token="{{url}}" value="${env.http_host}${env.build.key}/instance-${instanceIndex}"/>
-            <replacefilter token="{{secure_url}}" value="${env.http_host}${env.build.key}/instance-${instanceIndex}"/>
+            <replacefilter token="{{url}}" value="${env.http_host}${env.build_key}/instance-${instanceIndex}"/>
+            <replacefilter token="{{secure_url}}" value="${env.http_host}${env.build_key}/instance-${instanceIndex}"/>
         </replace>
 
         <replace file="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional/config/server.yml.dist">
@@ -264,8 +264,8 @@
         </replace>
 
         <replace file="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional/phpunit.xml">
-            <replacefilter token="{{admin_url}}" value="${env.http_host}${env.build.key}/instance-${instanceIndex}/backend/"/>
-            <replacefilter token="{{url}}" value="${env.http_host}${env.build.key}/instance-${instanceIndex}"/>
+            <replacefilter token="{{admin_url}}" value="${env.http_host}${env.build_key}/instance-${instanceIndex}/backend/"/>
+            <replacefilter token="{{url}}" value="${env.http_host}${env.build_key}/instance-${instanceIndex}"/>
         </replace>
 
         <exec executable="php" dir="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional/" failonerror="true">
@@ -275,11 +275,23 @@
         <antcall target="_run_compiler">
             <param name="product_root_dir" value="${dir.build_directory}/instance-${instanceIndex}" />
         </antcall>
+
+        <script language="javascript"><![CDATA[
+            var currentInstance = project.getProperty('instanceIndex');
+            if (currentInstance != 0) {
+                self.project.executeTarget( '_install_standalone_application' );
+            }
+        ]]></script>
     </target>
 
     <target name="_run_compiler" description="Run DI compiler tool">
         <exec executable="php" failonerror="true" >
             <arg line='-f ${product_root_dir}/dev/tools/Magento/Tools/Di/compiler.php'/>
+        </exec>
+    </target>
+    <target name="_install_standalone_application">
+        <exec executable="php" dir="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional/config/">
+            <arg line="-f standalone-installer.php"/>
         </exec>
     </target>
 </project>
