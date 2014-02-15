@@ -557,7 +557,7 @@ return array(
     array('MODULES', '\Magento\Filesystem', '\Magento\App\Filesystem::MODULES_DIR'),
     array('THEMES', '\Magento\Filesystem', '\Magento\App\Filesystem::THEMES_DIR'),
     array('CONFIG', '\Magento\Filesystem', '\Magento\App\Filesystem::CONFIG_DIR'),
-    array('LIB', '\Magento\Filesystem', '\Magento\App\Filesystem::LIB_DIR'),
+    array('LIB', '\Magento\Filesystem', '\Magento\App\Filesystem::LIB_INTERNAL'),
     array('LOCALE', '\Magento\Filesystem', '\Magento\App\Filesystem::LOCALE_DIR'),
     array('PUB', '\Magento\Filesystem', '\Magento\App\Filesystem::PUB_DIR'),
     array('PUB_LIB', '\Magento\Filesystem', '\Magento\App\Filesystem::LIB_WEB'),
@@ -574,6 +574,7 @@ return array(
     array('GENERATION', '\Magento\Filesystem', '\Magento\App\Filesystem::GENERATION_DIR'),
     array('UPLOAD', '\Magento\Filesystem', '\Magento\App\Filesystem::UPLOAD_DIR'),
     array('SYS_TMP', '\Magento\Filesystem', '\Magento\App\Filesystem::SYS_TMP_DIR'),
+    array('LIB_DIR', '\Magento\App\Filesystem', '\Magento\App\Filesystem::LIB_INTERNAL'),
     ['PERIOD_UNIT_DAY', '\Magento\Payment\Model\Recurring\Profile', '\Magento\RecurringProfile\Model\PeriodUnits::DAY'],
     [
         'PERIOD_UNIT_WEEK',
@@ -597,4 +598,6 @@ return array(
     ],
     array('XML_PATH_IS_ENABLED_FLAT_CATALOG_CATEGORY', '\Magento\Catalog\Helper\Category\Flat',
         '\Magento\Catalog\Model\Indexer\Category\Flat\Config::XML_PATH_IS_ENABLED_FLAT_CATALOG_CATEGORY'),
+    array('XML_PATH_UNSECURE_BASE_LIB_URL'),
+    array('XML_PATH_SECURE_BASE_LIB_URL'),
 );

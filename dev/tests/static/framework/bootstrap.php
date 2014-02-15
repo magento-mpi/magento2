@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-define('BP', realpath(__DIR__ . '/../../../../'));
+define('BP', str_replace('\\', '/', realpath(__DIR__ . '/../../../../')));
 require BP . '/app/autoload.php';
 \Magento\Autoload\IncludePath::addIncludePath(array(
     __DIR__,

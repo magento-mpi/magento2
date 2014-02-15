@@ -27,6 +27,7 @@
         <word>secure_base_url}}js/</word>
         <word>secure_base_url}}skin/</word>
         <word>secure_base_url}}media/</word>
+        <word>base_lib_url</word>
         <!-- typos -->
         <word>overriden</word>
         <word>retrive</word>
@@ -65,6 +66,7 @@
         <item>
             <path>dev/tests/static/testsuite/Magento/Test/Legacy/_files/obsolete_constants.php</path>
             <word>overriden</word>
+            <word>base_lib_url</word>
         </item>
     </whitelist>
 </config>
