@@ -28,9 +28,9 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $model = $this->getMockBuilder('Magento\Email\Model\Template')
             ->setMethods(array('_init'))
             ->setConstructorArgs(array(
-                $this->getMock('Magento\Core\Model\Context', array(), array(), '', false),
+                $this->getMock('Magento\Model\Context', array(), array(), '', false),
                 $this->getMock('Magento\Core\Model\View\Design', array(), array(), '', false),
-                $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false),
+                $this->getMock('Magento\Registry', array(), array(), '', false),
                 $this->getMock('Magento\Core\Model\App\Emulation', array(), array(), '', false),
                 $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false),
                 $this->getMock('Magento\App\Filesystem', array(), array(), '', false),

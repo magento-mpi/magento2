@@ -62,13 +62,13 @@ class Index extends \Magento\Wishlist\Controller\Index
      * @param \Magento\Registry $coreRegistry
      * @param \Magento\Wishlist\Model\Config $wishlistConfig
      * @param \Magento\App\Response\Http\FileFactory $fileResponseFactory
+     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      * @param \Magento\Wishlist\Model\ItemFactory $itemFactory
      * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
      * @param \Magento\Session\Generic $wishlistSession
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Wishlist\Model\Resource\Wishlist\CollectionFactory $wishlistCollectionFactory
-     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
      */
     public function __construct(
         \Magento\App\Action\Context $context,
@@ -76,12 +76,12 @@ class Index extends \Magento\Wishlist\Controller\Index
         \Magento\Registry $coreRegistry,
         \Magento\Wishlist\Model\Config $wishlistConfig,
         \Magento\App\Response\Http\FileFactory $fileResponseFactory,
+        \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Wishlist\Model\ItemFactory $itemFactory,
         \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
         \Magento\Session\Generic $wishlistSession,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Wishlist\Model\Resource\Wishlist\CollectionFactory $wishlistCollectionFactory,
-        \Magento\Mail\Template\TransportBuilder $transportBuilder
+        \Magento\Wishlist\Model\Resource\Wishlist\CollectionFactory $wishlistCollectionFactory
     ) {
         $this->_itemFactory = $itemFactory;
         $this->_wishlistFactory = $wishlistFactory;

@@ -107,8 +107,8 @@ class EntityTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnArgument(0));
         $mathRandom = $this->getMock('Magento\Math\Random', array(), array(), '', false, false);
         $this->_model = new \Magento\GiftRegistry\Model\Entity(
-            $context, $coreRegistry, $giftRegistryData, $this->_storeManagerMock, $translate, $this->_transportBuilderMock,
-            $type, $attributeConfig, $item, $inventoryStockItem, $session,
+            $context, $coreRegistry, $giftRegistryData, $this->_storeManagerMock, $translate,
+            $this->_transportBuilderMock, $type, $attributeConfig, $item, $inventoryStockItem, $session,
             $quoteFactory, $customerFactory, $personFactory, $itemFactory, $addressFactory, $productFactory,
             $dateFactory, $loggingEventFactory, $request, $escaper, $mathRandom, $resource, null, array()
         );
