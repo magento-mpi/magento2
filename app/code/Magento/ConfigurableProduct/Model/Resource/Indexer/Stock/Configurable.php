@@ -19,7 +19,7 @@ namespace Magento\ConfigurableProduct\Model\Resource\Indexer\Stock;
  */
 use \Magento\Catalog\Model\Product\Attribute\Source\Status as ProductStatus;
 
-class Configurable extends DefaultStock
+class Configurable extends \Magento\CatalogInventory\Model\Resource\Indexer\Stock\DefaultStock
 {
     /**
      * Get the select object for get stock status by configurable product ids
