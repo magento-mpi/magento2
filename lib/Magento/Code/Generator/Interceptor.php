@@ -218,6 +218,14 @@ class Interceptor extends \Magento\Code\Generator\EntityAbstract
                 && !in_array($method->getName(), array('__sleep', '__wakeup', '__clone'))
             ) {
                 $methods[] = $this->_getMethodInfo($method);
+            } elseif ($method->isDestructor()) {
+                $methods[] = array(
+                    'name' => '__destruct',
+                    'docblock' => array(
+                        'shortDescription' => 'Destruct subject',
+                    ),
+                    'body' => 'return $this->_getSubject()->__destruct();',
+                );
             }
         }
 
@@ -266,16 +274,17 @@ class Interceptor extends \Magento\Code\Generator\EntityAbstract
         foreach ($method->getParameters() as $parameter) {
             $parameters[] = $this->_getMethodParameterInfo($parameter);
         }
-
         $methodInfo = array(
             'name' => $method->getName(),
             'parameters' => $parameters,
-            'body' => "return \$this->_invoke('{$method->getName()}', func_get_args());",
-            'docblock' => array(
-                'shortDescription' => '{@inheritdoc}',
-            ),
+            'docblock' => array('shortDescription' => '{@inheritdoc}'),
+            'body' => "\$result = \$this->_invoke('{$method->getName()}', func_get_args());"
+                . "\n\$className = get_class(\$this->_getSubject());"
+                . "\nif (\$result instanceof \$className) {"
+                . "\n    \$result = \$this;"
+                . "\n}"
+                . "\nreturn \$result;"
         );
-
         return $methodInfo;
     }
 

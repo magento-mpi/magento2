@@ -33,7 +33,7 @@
 
 namespace Magento\Cms\Model;
 
-class Block extends \Magento\Core\Model\AbstractModel
+class Block extends \Magento\Core\Model\AbstractModel implements \Magento\Object\IdentityInterface
 {
     const CACHE_TAG     = 'cms_block';
     protected $_cacheTag= 'cms_block';
@@ -65,5 +65,15 @@ class Block extends \Magento\Core\Model\AbstractModel
         throw new \Magento\Core\Exception(
             __('Make sure that static block content does not reference the block itself.')
         );
+    }
+
+    /**
+     * Get identities
+     *
+     * @return array
+     */
+    public function getIdentities()
+    {
+        return array(self::CACHE_TAG . '_' . $this->getId());
     }
 }
