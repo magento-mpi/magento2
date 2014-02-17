@@ -48,11 +48,6 @@
             </array>
         </param>
     </type>
-    <type name="Magento\Catalog\Helper\Flat\AbstractFlat">
-        <param name="isAvailable">
-            <value type="bool">false</value>
-        </param>
-    </type>
     <type name="Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper">
         <plugin name="configurable" type="Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Configurable" sortOrder="50" />
     </type>
