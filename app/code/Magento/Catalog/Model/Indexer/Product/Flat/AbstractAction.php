@@ -27,6 +27,13 @@ abstract class AbstractAction
     const ATTRIBUTES_CHUNK_SIZE = 59;
 
     /**
+     * Calls amount during current session
+     *
+     * @var int
+     */
+    protected static $_calls = 0;
+
+    /**
      * Suffix for value field on composite attributes
      *
      * @var string
@@ -93,13 +100,6 @@ abstract class AbstractAction
     protected $_coreData;
 
     /**
-     * Product flat helper
-     *
-     * @var \Magento\Catalog\Helper\Product\Flat
-     */
-    protected $_productFlatHelper;
-
-    /**
      * @var \Magento\DB\Adapter\AdapterInterface
      */
     protected $_connection;
@@ -131,21 +131,9 @@ abstract class AbstractAction
     protected $_productTypes = array();
 
     /**
-     * Calls amount during current session
-     *
-     * @var int
-     */
-    protected static $_calls = 0;
-
-    /**
      * @var \Magento\App\ConfigInterface $config
      */
     protected $_config;
-
-    /**
-     * @var \Magento\Catalog\Helper\Product\Flat
-     */
-    protected $_flatProductHelper;
 
     /**
      * @var \Magento\Catalog\Model\Indexer\Product\Flat\Processor
@@ -161,7 +149,6 @@ abstract class AbstractAction
      * @param \Magento\Catalog\Helper\Product\Flat\Indexer $productHelper
      * @param \Magento\Catalog\Model\Product\Type $productType
      * @param \Magento\App\ConfigInterface $config
-     * @param \Magento\Catalog\Helper\Product\Flat $flatProductHelper
      * @param Processor $flatProductProcessor
      */
     public function __construct(
@@ -173,7 +160,6 @@ abstract class AbstractAction
         \Magento\Catalog\Helper\Product\Flat\Indexer $productHelper,
         \Magento\Catalog\Model\Product\Type $productType,
         \Magento\App\ConfigInterface $config,
-        \Magento\Catalog\Helper\Product\Flat $flatProductHelper,
         \Magento\Catalog\Model\Indexer\Product\Flat\Processor $flatProductProcessor
     ) {
         $this->_logger = $logger;
@@ -185,7 +171,6 @@ abstract class AbstractAction
         $this->_productType = $productType;
         $this->_config = $config;
         $this->_connection = $resource->getConnection('default');
-        $this->_flatProductHelper = $flatProductHelper;
         $this->_flatProductProcessor = $flatProductProcessor;
     }
 
@@ -859,7 +844,7 @@ abstract class AbstractAction
      */
     protected function _updateRelationProducts($storeId, $productIds = null)
     {
-        if (!$this->_flatProductHelper->isAddChildData() || !$this->_isFlatTableExists($storeId)) {
+        if (!$this->_productIndexerHelper->isAddChildData() || !$this->_isFlatTableExists($storeId)) {
             return $this;
         }
 
@@ -916,7 +901,7 @@ abstract class AbstractAction
      */
     protected function _cleanRelationProducts($storeId)
     {
-        if (!$this->_flatProductHelper->isAddChildData()) {
+        if (!$this->_productIndexerHelper->isAddChildData()) {
             return $this;
         }
 

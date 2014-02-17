@@ -42,7 +42,7 @@ class IndexerTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnArgument(0));
 
         $flatHelperMock = $this->getMock(
-            '\Magento\Catalog\Helper\Product\Flat', array('isAddChildData'), array(), '', false
+            '\Magento\Catalog\Helper\Product\Flat\Indexer', array('isAddChildData'), array(), '', false
         );
         $flatHelperMock->expects($this->any())
             ->method('isAddChildData')

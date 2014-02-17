@@ -1973,4 +1973,6 @@ return array(
     array('Magento\GoogleShopping\Helper\Price', 'Magento\Catalog\Model\Product\CatalogPrice'),
     ['Magento\Sales\Controller\Adminhtml\Recurring\Profile', 'Magento\RecurringProfile\Controller\Adminhtml\Profile'],
     ['Magento\Sales\Controller\Recurring\Profile', 'Magento\RecurringProfile\Controller\Profile'],
+    ['Magento\Catalog\Helper\Product\Flat'],
+    ['Magento\Catalog\Helper\Flat\AbstractFlat']
 );
