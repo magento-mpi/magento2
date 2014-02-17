@@ -1,5 +1,7 @@
 <?php
 /**
+ * {license_notice}
+ *
  * Page cache data helper
  *
  * @category    Magento
