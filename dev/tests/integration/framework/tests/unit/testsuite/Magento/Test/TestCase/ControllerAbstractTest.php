@@ -34,7 +34,9 @@ class ControllerAbstractTest extends \Magento\TestFramework\TestCase\AbstractCon
             $this->getMock('\Magento\App\Route\ConfigInterface', array(), array(), '', false),
             $this->getMock('Magento\App\Request\PathInfoProcessorInterface', array(), array(), '', false)
         );
-        $response = new \Magento\TestFramework\Response();
+        $response = new \Magento\TestFramework\Response(
+            $this->getMock('\Magento\Stdlib\Cookie', array(), array(), '', false)
+        );
 
         $this->_objectManager = $this->getMock(
             'Magento\TestFramework\ObjectManager', array('get', 'create'), array(), '', false

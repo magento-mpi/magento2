@@ -25,7 +25,8 @@ class HttpTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetHeaderExists($header)
     {
-        $response = new \Magento\App\Response\Http();
+        $cookieMock = $this->getMock('\Magento\Stdlib\Cookie', array(), array(), '', false);
+        $response = new \Magento\App\Response\Http($cookieMock);
         $response->headersSentThrowsException = false;
         $response->setHeader($header['name'], $header['value'], $header['replace']);
         $this->assertEquals($header, $response->getHeader($header['name']));
@@ -61,7 +62,8 @@ class HttpTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetHeaderNotExists()
     {
-        $response = new \Magento\App\Response\Http();
+        $cookieMock = $this->getMock('\Magento\Stdlib\Cookie', array(), array(), '', false);
+        $response = new \Magento\App\Response\Http($cookieMock);
         $response->headersSentThrowsException = false;
         $response->setHeader('Name', 'value', true);
         $this->assertFalse($response->getHeader('Wrong name'));

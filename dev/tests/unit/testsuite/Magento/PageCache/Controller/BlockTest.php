@@ -199,7 +199,7 @@ class BlockTest extends \PHPUnit_Framework_TestCase
         $handles = json_encode(array('handle1', 'handle2'));
         $mapData = array(
             array('blocks', '', null),
-            array('handles', [],  $handles)
+            array('handles', '',  $handles)
         );
 
         $this->requestMock->expects($this->any())

@@ -21,9 +21,6 @@
     <type name="Magento\Sales\Model\Convert\Quote">
         <plugin name="copy_quote_files_to_order" type="Magento\Catalog\Model\Plugin\QuoteItemProductOption"/>
     </type>
-    <type name="Magento\Catalog\Controller\Product\Compare">
-        <plugin name="sessionInitializer" type="compareProductInitSession" />
-    </type>
     <type name="Magento\Catalog\Model\Indexer\AbstractFlatState">
         <param name="isAvailable">
             <value type="bool">true</value>

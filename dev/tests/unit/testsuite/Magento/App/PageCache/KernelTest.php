@@ -44,7 +44,10 @@ class KernelTest extends \PHPUnit_Framework_TestCase
         $this->identifierMock = $this->getMock('Magento\App\PageCache\Identifier', array(), array(), '', false);
         $this->requestMock = $this->getMock('Magento\App\Request\Http', array(), array(), '', false);
         $this->kernel = new Kernel($this->cacheMock, $this->identifierMock, $this->requestMock);
-        $this->responseMock = $this->getMock('Magento\App\Response\Http', array(), array(), '', false);
+        $this->responseMock = $this->getMockBuilder('Magento\App\Response\Http')
+            ->setMethods(array('getHeader', 'getHttpResponseCode', 'setNoCacheHeaders', 'clearHeader'))
+            ->disableOriginalConstructor()
+            ->getMock();
     }
 
     /**
