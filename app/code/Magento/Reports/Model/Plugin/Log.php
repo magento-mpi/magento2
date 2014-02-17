@@ -49,7 +49,7 @@ class Log
      *
      * @see Global Log Clean Settings
      */
-    public function afterClean($logResourceModel)
+    public function afterClean(\Magento\Log\Model\Resource\Log $subject, $logResourceModel)
     {
         $this->_reportEvent->clean();
         $this->_comparedProductIdx->clean();

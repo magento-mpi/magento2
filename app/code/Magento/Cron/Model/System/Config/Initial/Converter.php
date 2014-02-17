@@ -31,7 +31,7 @@ class Converter
      * @param array $result
      * @return array
      */
-    public function afterConvert(array $result)
+    public function afterConvert(\Magento\App\Config\Initial\Converter $subject, array $result)
     {
         if (isset($result['data']['default']['system'])) {
             $result['data']['default']['system']['cron'] = $this->groupsConfig->get();

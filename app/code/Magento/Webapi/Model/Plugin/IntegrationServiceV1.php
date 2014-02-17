@@ -42,7 +42,7 @@ class IntegrationServiceV1
      * @param IntegrationModel $integration
      * @return IntegrationModel
      */
-    public function afterCreate($integration)
+    public function afterCreate(\Magento\Integration\Service\IntegrationV1 $subject, $integration)
     {
         $this->_saveApiPermissions($integration);
         return $integration;
@@ -54,7 +54,7 @@ class IntegrationServiceV1
      * @param IntegrationModel $integration
      * @return IntegrationModel
      */
-    public function afterUpdate($integration)
+    public function afterUpdate(\Magento\Integration\Service\IntegrationV1 $subject, $integration)
     {
         $this->_saveApiPermissions($integration);
         return $integration;
@@ -66,7 +66,7 @@ class IntegrationServiceV1
      * @param IntegrationModel $integration
      * @return IntegrationModel
      */
-    public function afterGet($integration)
+    public function afterGet(\Magento\Integration\Service\IntegrationV1 $subject, $integration)
     {
         $this->_addAllowedResources($integration);
         return $integration;
@@ -130,7 +130,7 @@ class IntegrationServiceV1
      * @param array $integrationData Data of integration deleted
      * @return array $integrationData
      */
-    public function afterDelete(array $integrationData)
+    public function afterDelete(\Magento\Integration\Service\IntegrationV1 $subject, array $integrationData)
     {
         //No check needed for integration data since it cannot be empty in the parent invocation - delete
         $userIdentifier = $this->_userIdentifierFactory->create(

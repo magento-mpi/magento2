@@ -32,7 +32,7 @@ class Plugin
      * @param string $result
      * @return mixed
      */
-    public function afterGetOptionArray($result)
+    public function afterGetOptionArray(\Magento\Catalog\Model\Product\Type $subject, $result)
     {
         if (!$this->moduleManager->isOutputEnabled('Magento_GroupedProduct')) {
             unset($result[\Magento\GroupedProduct\Model\Product\Type\Grouped::TYPE_CODE]);

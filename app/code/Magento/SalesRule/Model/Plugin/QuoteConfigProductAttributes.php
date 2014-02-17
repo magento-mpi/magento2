@@ -39,7 +39,7 @@ class QuoteConfigProductAttributes
      * @param array $attributeKeys
      * @return array
      */
-    public function afterGetProductAttributes(array $attributeKeys)
+    public function afterGetProductAttributes(\Magento\Sales\Model\Quote\Config $subject, array $attributeKeys)
     {
         $attributes = $this->_ruleResource->getActiveAttributes(
             $this->_storeManager->getWebsite()->getId(),

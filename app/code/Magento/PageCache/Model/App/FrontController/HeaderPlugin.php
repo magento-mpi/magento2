@@ -52,7 +52,7 @@ class HeaderPlugin
      * @param \Magento\App\Response\Http $response
      * @return \Magento\App\Response\Http
      */
-    public function afterDispatch(\Magento\App\Response\Http $response)
+    public function afterDispatch(\Magento\App\FrontControllerInterface $subject, \Magento\App\Response\Http $response)
     {
         if ($this->layout->isPrivate()) {
             $this->setPrivateHeaders($response);

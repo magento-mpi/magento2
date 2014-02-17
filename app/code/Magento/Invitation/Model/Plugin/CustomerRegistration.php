@@ -37,7 +37,7 @@ class CustomerRegistration
      * @param boolean $invocationResult
      * @return boolean
      */
-    public function afterIsRegistrationAllowed($invocationResult)
+    public function afterIsRegistrationAllowed(\Magento\Customer\Helper\Data $subject, $invocationResult)
     {
         if (!$this->_invitationConfig->isEnabledOnFront()) {
             return $invocationResult;

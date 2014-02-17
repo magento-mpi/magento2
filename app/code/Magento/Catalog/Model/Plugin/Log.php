@@ -31,7 +31,7 @@ class Log
      * @param \Magento\Log\Model\Resource\Log $logResourceModel
      * @return \Magento\Log\Model\Resource\Log
      */
-    public function afterClean($logResourceModel)
+    public function afterClean(\Magento\Log\Model\Resource\Log $subject, $logResourceModel)
     {
         $this->_productCompareItem->clean();
         return $logResourceModel;

@@ -17,7 +17,7 @@ class PrivacyHeader
      * @param \Magento\App\ResponseInterface $response
      * @return \Magento\App\ResponseInterface
      */
-    public function afterDispatch($response)
+    public function afterDispatch(\Magento\App\ActionInterface $subject, $response)
     {
         if ($response) {
             $response->setHeader("P3P", 'CP="CAO PSA OUR"', true);

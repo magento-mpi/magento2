@@ -73,7 +73,7 @@ class Setup
      * @param string[] $integrationNames Name of integrations passed as array from the invocation chain
      * @return string[]
      */
-    public function afterInitIntegrationProcessing($integrationNames)
+    public function afterInitIntegrationProcessing(\Magento\Integration\Model\Resource\Setup $subject, $integrationNames)
     {
         if (empty($integrationNames)) {
             return array();

@@ -78,7 +78,7 @@ class FulltextIndexRebuild
      * @param \Magento\CatalogSearch\Model\Fulltext $result
      * @return \Magento\CatalogSearch\Model\Fulltext
      */
-    public function afterRebuildIndex(\Magento\CatalogSearch\Model\Fulltext $result)
+    public function afterRebuildIndex(\Magento\CatalogSearch\Model\Fulltext $subject, \Magento\CatalogSearch\Model\Fulltext $result)
     {
         if ($this->_searchHelper->isThirdPartyEngineAvailable()) {
 

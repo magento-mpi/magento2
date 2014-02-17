@@ -32,7 +32,7 @@ class Import
      * @param Object $import
      * @return mixed
      */
-    public function afterImportSource($import)
+    public function afterImportSource(\Magento\ImportExport\Model\Import $subject, $import)
     {
         $this->_productFlatIndexerProcessor->markIndexerAsInvalid();
         return $import;

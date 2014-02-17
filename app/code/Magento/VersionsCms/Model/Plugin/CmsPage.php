@@ -15,7 +15,7 @@ class CmsPage
      * @param array $invocationResult
      * @return array
      */
-    public function afterGetAvailableStatuses(array $invocationResult)
+    public function afterGetAvailableStatuses(\Magento\Cms\Model\Page $subject, array $invocationResult)
     {
         $invocationResult[\Magento\Cms\Model\Page::STATUS_ENABLED] = __('Published');
         return $invocationResult;

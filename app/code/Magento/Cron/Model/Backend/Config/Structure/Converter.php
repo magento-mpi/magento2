@@ -31,7 +31,7 @@ class Converter
      * @param array $result
      * @return array
      */
-    public function afterConvert(array $result)
+    public function afterConvert(\Magento\Backend\Model\Config\Structure\Converter $subject, array $result)
     {
         $groupIterator = 0;
         if (!isset($result['config']['system']['sections']['system']['children']['cron']['children']['template'])) {

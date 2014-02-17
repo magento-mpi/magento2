@@ -29,7 +29,7 @@ class Grouped
      * @param \Magento\Catalog\Model\Product $product
      * @return \Magento\Catalog\Model\Product
      */
-    public function afterInitializeLinks(\Magento\Catalog\Model\Product $product)
+    public function afterInitializeLinks(\Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\ProductLinks $subject, \Magento\Catalog\Model\Product $product)
     {
         $links = $this->request->getPost('links');
 
