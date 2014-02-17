@@ -11,6 +11,10 @@ namespace Magento\Interception;
 
 interface Definition
 {
+    const LISTENER_BEFORE = 0;
+    const LISTENER_AROUND = 1;
+    const LISTENER_AFTER =  2;
+
     /**
      * Retrieve list of methods
      *

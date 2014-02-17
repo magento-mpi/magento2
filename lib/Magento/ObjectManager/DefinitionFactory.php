@@ -13,6 +13,8 @@ namespace Magento\ObjectManager;
 use \Magento\Filesystem\DriverInterface;
 use \Magento\ObjectManager\Definition\Runtime;
 use \Magento\ObjectManager\Relations;
+use \Magento\ObjectManager\Code\Generator;
+use \Magento\Interception\Code\Generator as InterceptionGenerator;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -103,10 +105,10 @@ class DefinitionFactory
                 $this->_generationDir
             );
             $generator = new \Magento\Code\Generator(null, $autoloader, $generatorIo, null, array(
-                'factory' => '\Magento\ObjectManager\Code\Generator\Factory',
-                'proxy' => '\Magento\ObjectManager\Code\Generator\Proxy',
-                'decorator' => '\Magento\Interception\Code\Generator\Decorator',
-                'interceptor' => '\Magento\Interception\Code\Generator\Interceptor',
+                Generator\Factory::ENTITY_TYPE                 => '\Magento\ObjectManager\Code\Generator\Factory',
+                Generator\Proxy::ENTITY_TYPE                   => '\Magento\ObjectManager\Code\Generator\Proxy',
+                InterceptionGenerator\Decorator::ENTITY_TYPE   => '\Magento\Interception\Code\Generator\Decorator',
+                InterceptionGenerator\Interceptor::ENTITY_TYPE => '\Magento\Interception\Code\Generator\Interceptor',
             ));
             $autoloader = new \Magento\Code\Generator\Autoloader($generator);
             spl_autoload_register(array($autoloader, 'load'));

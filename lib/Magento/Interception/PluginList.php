@@ -20,4 +20,13 @@ interface PluginList
      * @return array
      */
     public function getNext($type, $method, $code = null);
+
+    /**
+     * Retrieve plugin instance by code
+     *
+     * @param string $type
+     * @param string $code
+     * @return mixed
+     */
+    public function getPlugin($type, $code);
 }

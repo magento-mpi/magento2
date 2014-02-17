@@ -24,11 +24,6 @@ use Zend\Soap\Exception\InvalidArgumentException;
 class PluginList extends Scoped implements InterceptionPluginList
 {
     /**
-     * @var PluginList
-     */
-    protected static $_instance;
-
-    /**
      * Type config
      *
      * @var Config
@@ -90,7 +85,6 @@ class PluginList extends Scoped implements InterceptionPluginList
         $cacheId = 'plugins',
         Compiled $classDefinitions = null
     ) {
-        self::$_instance = $this;
         parent::__construct($reader, $configScope, $cache, $cacheId);
         $this->_omConfig = $omConfig;
         $this->_relations = $relations;
@@ -153,7 +147,7 @@ class PluginList extends Scoped implements InterceptionPluginList
                     foreach ($this->_definitions->getMethodList($pluginType) as $pluginMethod => $methodType) {
                         $current = isset($lastPerMethod[$pluginMethod]) ? $lastPerMethod[$pluginMethod] : '__self';
                         $currentKey = $type . '_'. $pluginMethod . '_' . $current;
-                        if ($methodType == 1) {
+                        if ($methodType == Definition::LISTENER_AROUND) {
                             $this->_data['processed'][$currentKey][$methodType] = $key;
                             $lastPerMethod[$pluginMethod] = $key;
                         } else {
