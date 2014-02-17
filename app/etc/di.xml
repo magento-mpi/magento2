@@ -284,9 +284,6 @@
             <instance type="Magento\Filesystem\File\WriteFactory" />
         </param>
     </type>
-    <type name="Magento\App\FrontController">
-        <plugin name="install" type="Magento\Module\FrontController\Plugin\Install" sortOrder="40"/>
-    </type>
     <type name="Magento\View\Layout\Argument\HandlerFactory">
         <param name="handlerFactories">
             <array>
