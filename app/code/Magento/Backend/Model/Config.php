@@ -155,8 +155,6 @@ class Config extends \Magento\Object
 
             // website and store codes can be used in event implementation, so set them as well
             $this->_eventManager->dispatch("admin_system_config_changed_section_{$this->getSection()}", array(
-                'oldConfigData' => $oldConfig,
-                'newConfigData' => $this->getData(),
                 'website' => $this->getWebsite(),
                 'store' => $this->getStore()
             ));
