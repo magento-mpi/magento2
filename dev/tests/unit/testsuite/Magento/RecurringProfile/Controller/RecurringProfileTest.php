@@ -6,19 +6,19 @@
  * @license     {license_link}
  */
 
-namespace Magento\Sales\Controller\Recurring;
+namespace Magento\RecurringProfile\Controller;
 
-class ProfileTest extends \PHPUnit_Framework_TestCase
+class RecurringProfileTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Sales\Controller\Recurring\Profile
+     * @var \Magento\RecurringProfile\Controller\RecurringProfile
      */
     protected $_controller;
 
     protected function setUp()
     {
         $objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_controller = $objectHelper->getObject('Magento\Sales\Controller\Recurring\Profile');
+        $this->_controller = $objectHelper->getObject('Magento\RecurringProfile\Controller\RecurringProfile');
     }
 
     public function testOrdersAction()
