@@ -16,9 +16,9 @@
         </param>
     </type>
     <type name="Magento\Catalog\Model\Product\Type\AbstractType">
-        <plugin name="recurringprofile_product_type" type="Magento\RecurringProfile\Model\Plugin\ProductType"/>
+        <plugin name="recurringprofile_product_type" type="Magento\RecurringProfile\Model\ProductType\Plugin"/>
     </type>
     <type name="Magento\Downloadable\Model\Product\Type">
-        <plugin name="recurringprofile_product_type" type="Magento\RecurringProfile\Model\Plugin\ProductType"/>
+        <plugin name="recurringprofile_product_type" type="Magento\RecurringProfile\Model\ProductType\Plugin"/>
     </type>
 </config>

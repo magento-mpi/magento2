@@ -5,9 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\RecurringProfile\Model\Plugin;
+namespace Magento\RecurringProfile\Model\ProductType;
 
-class ProductType
+class Plugin
 {
     /**
      * @param array $arguments

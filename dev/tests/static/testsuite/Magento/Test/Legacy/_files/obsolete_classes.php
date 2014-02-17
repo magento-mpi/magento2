@@ -1807,6 +1807,10 @@ return array(
     array('Magento\Core\Model\ConfigInterface', 'Magento\App\ConfigInterface'),
     array('Magento\CatalogRule\Block\Adminhtml\Promo\Widget\Chooser'),
     array(
+        'Magento\Catalog\Model\Product\Attribute\Backend\Recurring',
+        'Magento\RecurringProfile\Model\Product\Attribute\Backend\Recurring'
+    ),
+    array(
         'Magento\Catalog\Model\Product\Type\Grouped\Backend',
         'Magento\GroupedProduct\Model\Product\Type\Grouped\Backend'
     ),

@@ -75,7 +75,6 @@ class NewObject implements HandlerInterface
                 ));
             }
         }
-        $product->unsRecurringProfile();
         // Add MAP default values
         $product->setMsrpEnabled(
             \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type\Enabled::MSRP_ENABLE_USE_CONFIG

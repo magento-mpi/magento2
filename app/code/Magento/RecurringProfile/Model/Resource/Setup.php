@@ -18,7 +18,7 @@
  */
 namespace Magento\RecurringProfile\Model\Resource;
 
-class Setup extends \Magento\Eav\Model\Entity\Setup
+class Setup extends \Magento\Catalog\Model\Resource\Setup
 {
     /**
      * Default entites and attributes

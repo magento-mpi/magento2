@@ -252,11 +252,16 @@ class Observer
     }
 
     /**
+     * Set recurring data to quote
+     *
      * @param \Magento\Event\Observer $observer
      */
     public function setIsRecurringToQuote($observer)
     {
-        $event = $observer->getEvent();
-        $event->getQuoteItem()->setIsRecurring($event->getProduct()->getIsRecurring());
+        $quote = $observer->getEvent()->getQuoteItem();
+        $product = $observer->getEvent()->getProduct();
+
+        $quote->setIsRecurring($product->getIsRecurring());
+        $product->unsRecurringProfile();
     }
 }
