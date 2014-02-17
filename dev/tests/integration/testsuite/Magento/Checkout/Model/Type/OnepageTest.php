@@ -134,7 +134,7 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
      * @magentoAppIsolation enabled
      * @magentoDbIsolation enabled
      */
-    public function testSaveBilling()
+    public function testSaveBillingSameAsShipping()
     {
         $quote = $this->_model->getQuote();
 
@@ -198,7 +198,7 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
             "As soon as 'same_as_billing' is set to 1, 'save_in_address_book' of shipping should be 0"
         );
 
-        /** Ensure that customer-related data was ported to quote correcty */
+        /** Ensure that customer-related data was ported to quote correctly */
         $quoteFieldsToCheck = [
             'customer_firstname' => 'John',
             'customer_lastname' => 'Smith',
@@ -214,6 +214,208 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($checkoutSession->getStepData('billing', 'allow'), 'Billing step should be allowed.');
         $this->assertTrue($checkoutSession->getStepData('billing', 'complete'), 'Billing step should be completed.');
         $this->assertTrue($checkoutSession->getStepData('shipping', 'allow'), 'Shipping step should be allowed.');
+    }
+
+    /**
+     * New customer, billing address should not be used as shipping address, it should be persisted to DB.
+     *
+     * @magentoAppIsolation enabled
+     * @magentoDbIsolation enabled
+     */
+    public function testSaveBilling()
+    {
+        $quote = $this->_model->getQuote();
+
+        /** Preconditions */
+        $customerData = $this->_getCustomerData();
+        $customerData['use_for_shipping'] = 0;
+        $customerAddressId = false;
+        $this->assertEquals(
+            1,
+            $customerData['save_in_address_book'],
+            "Precondition failed: save_in_address_book is invalid"
+        );
+        $this->assertEmpty(
+            $quote->getBillingAddress()->getId(),
+            "Precondition failed: billing address must not be initialized."
+        );
+        $this->assertEmpty(
+            $quote->getShippingAddress()->getId(),
+            "Precondition failed: billing address must not be initialized."
+        );
+
+        /** Execute SUT */
+        $result = $this->_model->saveBilling($customerData, $customerAddressId);
+        $this->assertEquals([], $result, 'Return value is invalid');
+
+        /** Ensure that quote addresses were persisted correctly */
+        $billingAddress = $quote->getBillingAddress();
+        $shippingAddress = $quote->getShippingAddress();
+
+        $quoteAddressFieldsToCheck = [
+            'quote_id' => $quote->getId(),
+            'firstname' => 'John',
+            'lastname' => 'Smith',
+            'email' => 'John.Smith@example.com',
+            'street' => '6131 Monterey Rd, Apt 1',
+            'city' => 'Los Angeles',
+            'postcode' => '90042',
+            'country_id' => 'US',
+            'region_id' => '1',
+            'region' => 'Alabama',
+            'telephone' => '(323) 255-5861',
+            'customer_id' => null,
+            'customer_address_id' => null
+        ];
+
+        foreach ($quoteAddressFieldsToCheck as $field => $value) {
+            $this->assertEquals($value, $billingAddress->getData($field), "{$field} value is invalid");
+        }
+        $this->assertGreaterThan(0, $billingAddress->getData('address_id'), "address_id value is invalid");
+        $this->assertEmpty(
+            $shippingAddress->getData('firstname'),
+            "Shipping address should not be populated with billing address data when 'same_as_billing' is set to 0."
+        );
+        $this->assertEquals(
+            1,
+            $billingAddress->getData('save_in_address_book'),
+            "save_in_address_book value is invalid"
+        );
+
+        /** Ensure that customer-related data was ported to quote correctly */
+        $quoteFieldsToCheck = [
+            'customer_firstname' => 'John',
+            'customer_lastname' => 'Smith',
+            'customer_email' => 'John.Smith@example.com'
+        ];
+        foreach ($quoteFieldsToCheck as $field => $value) {
+            $this->assertEquals($value, $quote->getData($field), "{$field} value is set to quote incorrectly.");
+        }
+
+        /** Perform if checkout steps status was correctly updated in session */
+        /** @var \Magento\Checkout\Model\Session $checkoutSession */
+        $checkoutSession = Bootstrap::getObjectManager()->get('Magento\Checkout\Model\Session');
+        $this->assertTrue($checkoutSession->getStepData('billing', 'allow'), 'Billing step should be allowed.');
+        $this->assertTrue($checkoutSession->getStepData('billing', 'complete'), 'Billing step should be completed.');
+        $this->assertTrue($checkoutSession->getStepData('shipping', 'allow'), 'Shipping step should be allowed.');
+    }
+
+    /**
+     * New address, address data is invalid.
+     */
+    public function testSaveBillingValidationErrorNewAddress()
+    {
+        /** Preconditions */
+        $customerData = $this->_getCustomerData();
+        unset($customerData['firstname']);
+        $customerAddressId = false;
+
+        /** Execute SUT */
+        $result = $this->_model->saveBilling($customerData, $customerAddressId);
+        $validationErrors = [
+            '"First Name" is a required value.',
+            '"First Name" length must be equal or greater than 1 characters.'
+        ];
+        $this->assertEquals(['error' => 1, 'message' => $validationErrors], $result, 'Validation error is invalid.');
+    }
+
+    /**
+     * Existing address, address data is invalid.
+     *
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     * @magentoDataFixture Magento/Customer/_files/customer_address.php
+     */
+    public function testSaveBillingExistingAddressInvalidData()
+    {
+        /** Preconditions */
+        $addressIdFromFixture = 1;
+        $customerIdFromFixture = 1;
+        $customerData = $this->_getCustomerData();
+        unset($customerData['firstname']);
+        $this->_getQuote()->setCustomerId($customerIdFromFixture);
+
+        /** Execute SUT */
+        /**
+         * If customer address is available, provided customer data is not validated,
+         * that's why no error occurs when invalid data is provided
+         */
+        $result = $this->_model->saveBilling($customerData, $addressIdFromFixture);
+        $this->assertEquals([], $result, 'No errors expected.');
+    }
+
+    /**
+     * Address exists, but it does not belong to the current customer which is set to quote.
+     *
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     * @magentoDataFixture Magento/Customer/_files/customer_address.php
+     */
+    public function testSaveBillingInvalidAddressId()
+    {
+        /** Preconditions */
+        $addressIdFromFixture = 1;
+        $customerData = $this->_getCustomerData();
+        unset($customerData['firstname']);
+        /** Any ID can be used, which is not equal to ID of customer to which current address belongs. */
+        $secondCustomerId = 2;
+        $this->_getQuote()->setCustomerId($secondCustomerId);
+
+        /** Execute SUT */
+        $result = $this->_model->saveBilling($customerData, $addressIdFromFixture);
+        $validationErrors = 'The customer address is not valid.';
+        $this->assertEquals(['error' => 1, 'message' => $validationErrors], $result, 'Validation error is invalid.');
+    }
+
+    /**
+     * Empty data.
+     */
+    public function testSaveBillingEmptyData()
+    {
+        /** Execute SUT */
+        $customerData = [];
+        $customerAddressId = false;
+        $result = $this->_model->saveBilling($customerData, $customerAddressId);
+        $this->assertEquals(['error' => -1, 'message' => 'Invalid data'], $result, 'Validation error is invalid.');
+    }
+
+    /**
+     * Address does not exist, but existing email is specified in address data.
+     *
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     */
+    public function testSaveBillingNewAddressErrorExistingEmail()
+    {
+        /** Preconditions */
+        $customerData = $this->_getCustomerData();
+        $fixtureCustomerEmail = 'customer@example.com';
+        $customerData['email'] = $fixtureCustomerEmail;
+        $customerAddressId = false;
+        $this->_getQuote()->setCheckoutMethod(\Magento\Checkout\Model\Type\Onepage::METHOD_REGISTER);
+
+        /** Execute SUT */
+        $result = $this->_model->saveBilling($customerData, $customerAddressId);
+        $this->assertArrayHasKey('message', $result, 'Error message was expected to be set');
+        $this->assertStringStartsWith(
+            'There is already a registered customer using this email address',
+            $result['message'],
+            'Validation error is invalid.'
+        );
+    }
+
+    /**
+     * New address, customer address is invalid (customer validation should fail, not address validation).
+     */
+    public function testSaveBillingInvalidCustomerData()
+    {
+        /** Preconditions */
+        $customerData = $this->_getCustomerData();
+        $customerData['email'] = 'invalidemail';
+        $this->_getQuote()->setCheckoutMethod(\Magento\Checkout\Model\Type\Onepage::METHOD_REGISTER);
+        $customerAddressId = false;
+
+        /** Execute SUT */
+        $result = $this->_model->saveBilling($customerData, $customerAddressId);
+        $validationErrors = '"Email" is not a valid email address.';
+        $this->assertEquals(['error' => -1, 'message' => $validationErrors], $result, 'Validation error is invalid.');
     }
 
     /**
