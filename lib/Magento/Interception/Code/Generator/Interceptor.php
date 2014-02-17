@@ -51,6 +51,16 @@ class Interceptor extends \Magento\Code\Generator\EntityAbstract
                     )
                 ),
             ),
+            array(
+                'name' => '_decorators',
+                'visibility' => 'protected',
+                'docblock' => array(
+                    'shortDescription' => 'List of decorators',
+                    'tags' => array(
+                        array('name' => 'var', 'description' => 'array')
+                    )
+                ),
+            ),
         );
     }
 
@@ -119,6 +129,7 @@ class Interceptor extends \Magento\Code\Generator\EntityAbstract
 
         $methods[] = array(
             'name' => '_getDecorator',
+            'visibility' => 'protected',
             'parameters' => array(
                 array('name' => 'code', 'type' => 'string'),
             ),
@@ -133,6 +144,7 @@ class Interceptor extends \Magento\Code\Generator\EntityAbstract
 
         $methods[] = array(
             'name' => '___call',
+            'visibility' => 'protected',
             'parameters' => array(
                 array('name' => 'method', 'type' => 'string'),
                 array('name' => 'arguments', 'type' => 'array'),
@@ -176,7 +188,6 @@ class Interceptor extends \Magento\Code\Generator\EntityAbstract
                 . "    }\n"
                 . "}\n"
                 . "return \$result;\n"
-
         );
 
         $reflectionClass = new \ReflectionClass($this->_getSourceClassName());
