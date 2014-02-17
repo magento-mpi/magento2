@@ -169,7 +169,7 @@ class Sidebar extends \Magento\View\Element\Template implements \Magento\View\Bl
     {
         $identities = array();
         foreach ($this->getItems() as $item) {
-            $identities[] = $item->getProduct()->getIdentities();
+            $identities = array_merge($identities, $item->getProduct()->getIdentities());
         }
         return $identities;
     }

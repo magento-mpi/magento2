@@ -76,7 +76,7 @@ class Viewed extends \Magento\Reports\Block\Product\AbstractProduct implements \
     {
         $identities = array();
         foreach ($this->getItemsCollection() as $item) {
-            $identities[] = $item->getIdentities();
+            $identities = array_merge($identities, $item->getIdentities());
         }
         return $identities;
     }
