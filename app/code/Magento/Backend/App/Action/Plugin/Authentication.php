@@ -70,8 +70,10 @@ class Authentication
     }
 
     /**
-     * @param array $arguments
-     * @param \Magento\Code\Plugin\InvocationChain $invocationChain
+     * @param \Magento\Backend\App\AbstractAction $subject
+     * @param callable $proceed
+     * @param \Magento\App\RequestInterface $request
+     *
      * @return mixed
      */
     public function aroundDispatch(\Magento\Backend\App\AbstractAction $subject, \Closure $proceed, \Magento\App\RequestInterface $request)
