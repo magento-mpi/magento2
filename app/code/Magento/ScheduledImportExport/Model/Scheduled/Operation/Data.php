@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ScheduledImportExport\Model\Scheduled\Operation;
 
 /**
  * Operation Data model
@@ -15,8 +16,6 @@
  * @package     Magento_ScheduledImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\ScheduledImportExport\Model\Scheduled\Operation;
-
 class Data
 {
     /**

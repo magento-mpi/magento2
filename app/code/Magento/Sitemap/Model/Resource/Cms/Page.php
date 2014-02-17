@@ -7,22 +7,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Sitemap\Model\Resource\Cms;
 
 /**
  * Sitemap cms page collection model
  *
- * @category    Magento
- * @package     Magento_Sitemap
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sitemap\Model\Resource\Cms;
-
 class Page extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Init resource model (catalog/category)
      *
+     * @return void
      */
     protected function _construct()
     {

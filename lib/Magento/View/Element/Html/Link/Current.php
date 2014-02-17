@@ -28,6 +28,8 @@ class Current extends \Magento\View\Element\Template
     protected $_defaultPath;
 
     /**
+     * Constructor
+     *
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\App\DefaultPathInterface $defaultPath
      * @param array $data
@@ -43,6 +45,8 @@ class Current extends \Magento\View\Element\Template
 
 
     /**
+     * Get href URL
+     *
      * @return string
      */
     public function getHref()
