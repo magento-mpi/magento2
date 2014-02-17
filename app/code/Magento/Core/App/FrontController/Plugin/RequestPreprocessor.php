@@ -63,7 +63,7 @@ class RequestPreprocessor
      * @param \Magento\Code\Plugin\InvocationChain $invocationChain
      * @return mixed
      */
-    public function aroundDispatch(array $arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
+    public function aroundDispatch(\Magento\App\FrontController $subject, \Closure $proceed, \Magento\App\RequestInterface $request)
     {
         $request = $arguments[0];
         if ($this->_appState->isInstalled() && !$request->isPost() && $this->_isBaseUrlCheckEnabled()) {

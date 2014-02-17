@@ -31,7 +31,7 @@ class ThemeCopyService
      * @param InvocationChain $invocationChain
      * @return void
      */
-    public function aroundCopy(array $methodArguments, InvocationChain $invocationChain)
+    public function aroundCopy(\Magento\Theme\Model\CopyService $subject, \Closure $proceed, \Magento\View\Design\ThemeInterface $source, \Magento\View\Design\ThemeInterface $target)
     {
         $invocationChain->proceed($methodArguments);
 

@@ -51,7 +51,7 @@ class AuthorizationServiceV1
      * @param InvocationChain $invocationChain
      * @return bool
      */
-    public function aroundIsAllowed(array $arguments, InvocationChain $invocationChain)
+    public function aroundIsAllowed(\Magento\Authz\Service\AuthorizationV1 $subject, \Closure $proceed,  $resources, \Magento\Authz\Model\UserIdentifier $userIdentifier = null)
     {
         /** @var UserIdentifier $userIdentifier */
         $userIdentifier = $arguments[1] ?: $this->_userIdentifier;

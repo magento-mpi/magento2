@@ -34,7 +34,7 @@ class Log
      * @param \Magento\Code\Plugin\InvocationChain $invocationChain
      * @return ResponseInterface
      */
-    public function aroundDispatch($arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
+    public function aroundDispatch(\Magento\App\ActionInterface $subject, \Closure $proceed, \Magento\App\RequestInterface $request)
     {
         /* @var $request \Magento\App\RequestInterface */
         $request = $arguments[0];

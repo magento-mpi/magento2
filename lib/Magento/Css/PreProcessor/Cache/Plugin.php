@@ -48,7 +48,7 @@ class Plugin
      * @param \Magento\Code\Plugin\InvocationChain $invocationChain
      * @return string|null
      */
-    public function aroundProcess(array $arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
+    public function aroundProcess(\Magento\Css\PreProcessor\Less $subject, \Closure $proceed,  $filePath,  $params,  $targetDirectory,  $sourcePath = null)
     {
         // check if source path already exist
         if (isset($arguments[3])) {

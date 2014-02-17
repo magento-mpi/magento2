@@ -33,7 +33,7 @@ class StoreCheck
      * @param \Magento\Code\Plugin\InvocationChain $invocationChain
      * @return mixed
      */
-    public function aroundDispatch(array $arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
+    public function aroundDispatch(\Magento\App\Action\Action $subject, \Closure $proceed, \Magento\App\RequestInterface $request)
     {
         if (!$this->_storeManager->getStore()->getIsActive())
         {

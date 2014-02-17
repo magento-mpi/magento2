@@ -45,7 +45,7 @@ class DispatchExceptionHandler
      * @param \Magento\Code\Plugin\InvocationChain $invocationChain
      * @return mixed
      */
-    public function aroundDispatch(array $arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
+    public function aroundDispatch(\Magento\App\FrontController $subject, \Closure $proceed, \Magento\App\RequestInterface $request)
     {
         try {
             return $invocationChain->proceed($arguments);

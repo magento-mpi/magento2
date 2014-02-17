@@ -24,7 +24,7 @@ class Initializer
      * @param \Magento\Code\Plugin\InvocationChain $invocationChain
      * @return \Magento\Sales\Model\Quote\Item|string
      */
-    public function aroundInit(array $arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
+    public function aroundInit(\Magento\Sales\Model\AdminOrder\Product\Quote\Initializer $subject, \Closure $proceed, \Magento\Sales\Model\Quote $quote, \Magento\Catalog\Model\Product $product, \Magento\Object $config)
     {
         /** @var \Magento\Sales\Model\Quote $quote */
         $quote = $arguments[0];

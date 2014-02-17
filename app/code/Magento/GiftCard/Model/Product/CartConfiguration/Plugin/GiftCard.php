@@ -19,7 +19,7 @@ class GiftCard
      * @param \Magento\Code\Plugin\InvocationChain $invocationChain
      * @return bool
      */
-    public function aroundIsProductConfigured(array $arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
+    public function aroundIsProductConfigured(\Magento\Catalog\Model\Product\CartConfiguration $subject, \Closure $proceed, \Magento\Catalog\Model\Product $product,  $config)
     {
         /** @var $product \Magento\Catalog\Model\Product */
         list($product, $config) = $arguments;

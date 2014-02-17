@@ -17,7 +17,7 @@ class Sidebar
      * @param \Magento\Code\Plugin\InvocationChain $invocationChain
      * @return mixed|string
      */
-    public function aroundGetItemQty(array $arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
+    public function aroundGetItemQty(\Magento\Sales\Block\Adminhtml\Order\Create\Sidebar\AbstractSidebar $subject, \Closure $proceed, \Magento\Object $item)
     {
         /** @var \Magento\Catalog\Model\Product\Configuration\Item\ItemInterface $item */
         $item = $arguments[0];
@@ -34,7 +34,7 @@ class Sidebar
      * @param \Magento\Code\Plugin\InvocationChain $invocationChain
      * @return bool|mixed
      */
-    public function aroundIsConfigurationRequired(array $arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
+    public function aroundIsConfigurationRequired(\Magento\Sales\Block\Adminhtml\Order\Create\Sidebar\AbstractSidebar $subject, \Closure $proceed,  $productType)
     {
         $typeId = $arguments[0];
         if ($typeId == \Magento\GroupedProduct\Model\Product\Type\Grouped::TYPE_CODE) {

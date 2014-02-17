@@ -19,7 +19,7 @@ class Grouped
      * @param \Magento\Code\Plugin\InvocationChain $invocationChain
      * @return bool
      */
-    public function aroundIsProductConfigured(array $arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
+    public function aroundIsProductConfigured(\Magento\Catalog\Model\Product\CartConfiguration $subject, \Closure $proceed, \Magento\Catalog\Model\Product $product,  $config)
     {
         list($product, $config) = $arguments;
 

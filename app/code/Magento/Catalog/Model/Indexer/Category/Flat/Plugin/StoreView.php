@@ -14,7 +14,7 @@ class StoreView extends AbstractStore
      * @param \Magento\Code\Plugin\InvocationChain $invocationChain
      * @return \Magento\Core\Model\Resource\Db\AbstractDb
      */
-    public function aroundSave(array $arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
+    public function aroundSave(\Magento\Core\Model\Resource\Store $subject, \Closure $proceed, \Magento\Core\Model\AbstractModel $object)
     {
         /** @var \Magento\Core\Model\Store $store */
         $store = $arguments[0];

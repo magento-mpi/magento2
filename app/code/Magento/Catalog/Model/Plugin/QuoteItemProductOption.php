@@ -14,7 +14,7 @@ class QuoteItemProductOption
      * @param \Magento\Code\Plugin\InvocationChain $invocationChain
      * @return \Magento\Sales\Model\Order\Item
      */
-    public function aroundItemToOrderItem(array $arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
+    public function aroundItemToOrderItem(\Magento\Sales\Model\Convert\Quote $subject, \Closure $proceed, \Magento\Sales\Model\Quote\Item\AbstractItem $item)
     {
         /** @var $orderItem \Magento\Sales\Model\Order\Item */
         $orderItem = $invocationChain->proceed($arguments);

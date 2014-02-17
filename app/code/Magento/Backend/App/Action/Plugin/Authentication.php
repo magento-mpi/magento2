@@ -74,7 +74,7 @@ class Authentication
      * @param \Magento\Code\Plugin\InvocationChain $invocationChain
      * @return mixed
      */
-    public function aroundDispatch(array $arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
+    public function aroundDispatch(\Magento\Backend\App\AbstractAction $subject, \Closure $proceed, \Magento\App\RequestInterface $request)
     {
         $request = $arguments[0];
         $requestedActionName = $request->getActionName();

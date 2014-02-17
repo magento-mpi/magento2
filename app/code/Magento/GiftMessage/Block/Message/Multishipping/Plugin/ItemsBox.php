@@ -39,7 +39,7 @@ class ItemsBox
      * @param InvocationChain $invocationChain
      * @return string
      */
-    public function aroundGetItemsBoxTextAfter(array $arguments, InvocationChain $invocationChain)
+    public function aroundGetItemsBoxTextAfter(\Magento\Multishipping\Block\Checkout\Shipping $subject, \Closure $proceed, \Magento\Object $addressEntity)
     {
         $itemsBoxText = $invocationChain->proceed($arguments);
         return $itemsBoxText . $this->helper->getInline('multishipping_address', $arguments[0]);

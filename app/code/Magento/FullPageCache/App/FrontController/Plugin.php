@@ -65,7 +65,7 @@ class Plugin
      * @param \Magento\Code\Plugin\InvocationChain $invocationChain
      * @return mixed
      */
-    public function aroundDispatch($arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
+    public function aroundDispatch(\Magento\App\FrontController $subject, \Closure $proceed, \Magento\App\RequestInterface $request)
     {
         if (empty($this->_processors)) {
             return $invocationChain->proceed($arguments);

@@ -39,7 +39,7 @@ class CleanMergedJsCss
      * @param \Magento\Code\Plugin\InvocationChain $invocationChain
      * @return void
      */
-    public function aroundCleanMergedJsCss(array $arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
+    public function aroundCleanMergedJsCss(\Magento\View\Asset\MergeService $subject, \Closure $proceed)
     {
         $invocationChain->proceed($arguments);
 

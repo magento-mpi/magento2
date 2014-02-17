@@ -34,7 +34,7 @@ class IndexerConfigData
      *
      * @return mixed|null
      */
-    public function aroundGet(array $arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
+    public function aroundGet(\Magento\Indexer\Model\Config\Data $subject, \Closure $proceed,  $path = null,  $default = null)
     {
         $data = $invocationChain->proceed($arguments);
 

@@ -71,7 +71,7 @@ class Authentication extends \Magento\Backend\App\Action\Plugin\Authentication
      * @param \Magento\Code\Plugin\InvocationChain $invocationChain
      * @return mixed
      */
-    public function aroundDispatch(array $arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
+    public function aroundDispatch(\Magento\Rss\Controller\Adminhtml\Authenticate $subject, \Closure $proceed, \Magento\App\RequestInterface $request)
     {
         /** @var \Magento\App\RequestInterface $request */
         $request = $arguments[0];

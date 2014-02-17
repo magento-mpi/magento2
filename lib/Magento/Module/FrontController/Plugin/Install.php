@@ -51,7 +51,7 @@ class Install
      * @param InvocationChain $invocationChain
      * @return mixed
      */
-    public function aroundDispatch($arguments, InvocationChain $invocationChain)
+    public function aroundDispatch(\Magento\App\FrontController $subject, \Closure $proceed, \Magento\App\RequestInterface $request)
     {
         if ($this->_appState->isInstalled() && !$this->_cache->load('data_upgrade')) {
             $this->_dbUpdater->updateScheme();

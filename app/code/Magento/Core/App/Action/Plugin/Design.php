@@ -30,7 +30,7 @@ class Design
      * @param \Magento\Interception\InvocationChain $invocationChain
      * @return mixed
      */
-    public function aroundDispatch(array $arguments, \Magento\Interception\InvocationChain $invocationChain)
+    public function aroundDispatch(\Magento\App\Action\Action $subject, \Closure $proceed, \Magento\App\RequestInterface $request)
     {
         $this->_designLoader->load();
         return $invocationChain->proceed($arguments);

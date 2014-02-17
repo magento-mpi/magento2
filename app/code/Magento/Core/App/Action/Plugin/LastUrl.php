@@ -52,7 +52,7 @@ class LastUrl
      * @param \Magento\Code\Plugin\InvocationChain $invocationChain
      * @return mixed
      */
-    public function aroundDispatch(array $arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
+    public function aroundDispatch(\Magento\App\Action\Action $subject, \Closure $proceed, \Magento\App\RequestInterface $request)
     {
         $result = $invocationChain->proceed($arguments);
         $this->_session->setLastUrl($this->_url->getUrl('*/*/*', array('_current' => true)));
