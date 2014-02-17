@@ -17,8 +17,6 @@ namespace Magento\ConfigurableProduct\Model\Resource\Indexer\Stock;
  * @package     Magento_CatalogInventory
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\CatalogInventory\Model\Resource\Indexer\Stock;
-
 use \Magento\Catalog\Model\Product\Attribute\Source\Status as ProductStatus;
 
 class Configurable extends DefaultStock
