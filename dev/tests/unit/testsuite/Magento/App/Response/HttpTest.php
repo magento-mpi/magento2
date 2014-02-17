@@ -19,10 +19,16 @@ class HttpTest extends \PHPUnit_Framework_TestCase
      */
     protected $_cookieMock;
 
+    /**
+     * @var \Magento\App\Http\Context
+     */
+    protected $_context;
+
     protected function setUp()
     {
         $this->_cookieMock = $this->getMock('Magento\Stdlib\Cookie', array(), array(), '', false);
-        $this->_model = new Http($this->_cookieMock);
+        $this->_context = new \Magento\App\Http\Context();
+        $this->_model = new Http($this->_cookieMock, $this->_context);
         $this->_model->headersSentThrowsException = false;
         $this->_model->setHeader('name', 'value');
     }
@@ -44,23 +50,17 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->_model->getHeader('Test'));
     }
 
-    public function testSetVary()
+    public function testSendVary()
     {
+        $vary = array('some-vary-key' => 'some-vary-value');
+        $expected = sha1(serialize($vary));
+
+        $this->_context->setValue('some-vary-key', 'some-vary-value');
         $this->_cookieMock
             ->expects($this->once())
             ->method('set')
-            ->with(Http::COOKIE_VARY_STRING);
-        $this->_model->setVary('test', 12345);
-    }
-
-    public function testGetVaryString()
-    {
-        $vary = array('some-vary-key' => 'some-vary-value');
-        ksort($vary);
-        $expected = sha1(serialize($vary));
-        $this->_model->setVary('some-vary-key', 'some-vary-value');
-
-        $this->assertEquals($expected, $this->_model->getVaryString());
+            ->with(Http::COOKIE_VARY_STRING, $expected);
+        $this->_model->sendVary();
     }
 
     /**

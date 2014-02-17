@@ -22,18 +22,18 @@ class Http extends \Zend_Controller_Response_Http implements \Magento\App\Respon
     protected $cookie;
 
     /**
-     * Response vary identifiers
-     *
-     * @var array
+     * @var \Magento\App\Http\Context
      */
-    protected $vary;
+    protected $context;
 
     /**
      * @param \Magento\Stdlib\Cookie $cookie
+     * @param \Magento\App\Http\Context $context
      */
-    public function __construct(\Magento\Stdlib\Cookie $cookie)
+    public function __construct(\Magento\Stdlib\Cookie $cookie, \Magento\App\Http\Context $context)
     {
         $this->cookie = $cookie;
+        $this->context = $context;
     }
 
     /**
@@ -55,34 +55,26 @@ class Http extends \Zend_Controller_Response_Http implements \Magento\App\Respon
     }
 
     /**
-     * Set vary identifier
-     *
-     * @param string $name
-     * @param string|array $value
-     * @return $this
+     * Send Vary coookie
      */
-    public function setVary($name, $value)
+    public function sendVary()
     {
-        if (is_array($value)) {
-            $value = serialize($value);
+        $data = array_filter($this->context->getData());
+        if ($data) {
+            ksort($data);
+            $vary = sha1(serialize($data));
+            $this->cookie->set(self::COOKIE_VARY_STRING, $vary, null, '/');
         }
-        $this->vary[$name] = $value;
-        $this->cookie->set(self::COOKIE_VARY_STRING, $this->getVaryString(), null, '/');
-        return $this;
     }
 
     /**
-     * Returns hash of varies
-     *
-     * @return string
+     * Send the response, including all headers, rendering exceptions if so
+     * requested.
      */
-    public function getVaryString()
+    public function sendResponse()
     {
-        if (!empty($this->vary)) {
-            ksort($this->vary);
-        }
-
-        return sha1(serialize($this->vary));
+        $this->sendVary();
+        parent::sendResponse();
     }
 
     /**
@@ -128,8 +120,11 @@ class Http extends \Zend_Controller_Response_Http implements \Magento\App\Respon
         $this->setHeader('expires', gmdate('D, d M Y H:i:s T', strtotime('-1 year')), true);
     }
 
+    /**
+     * @return array
+     */
     public function __sleep()
     {
-        return array('vary', '_body', '_exceptions', '_headers', '_headersRaw', '_httpResponseCode');
+        return array('_body', '_exceptions', '_headers', '_headersRaw', '_httpResponseCode');
     }
 }
