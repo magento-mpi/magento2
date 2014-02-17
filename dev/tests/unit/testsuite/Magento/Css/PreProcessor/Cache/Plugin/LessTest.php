@@ -6,14 +6,14 @@
  * @license     {license_link}
  */
 
-namespace Magento\Css\PreProcessor\Cache;
+namespace Magento\Css\PreProcessor\Cache\Plugin;
 
 use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
-class PluginTest extends \PHPUnit_Framework_TestCase
+class LessTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Css\PreProcessor\Cache\Plugin
+     * @var \Magento\Css\PreProcessor\Cache\Plugin\Less
      */
     protected $plugin;
 
@@ -38,7 +38,7 @@ class PluginTest extends \PHPUnit_Framework_TestCase
         $this->cacheManagerMock = $this->getMock('Magento\Css\PreProcessor\Cache\CacheManager', [], [], '', false);
         $this->loggerMock = $this->getMock('Magento\Logger', [], [], '', false);
         $this->plugin = $this->objectManagerHelper->getObject(
-            'Magento\Css\PreProcessor\Cache\Plugin',
+            'Magento\Css\PreProcessor\Cache\Plugin\Less',
             [
                 'cacheManager' => $this->cacheManagerMock,
                 'logger' => $this->loggerMock

@@ -6,15 +6,16 @@
  * @license     {license_link}
  */
 
-namespace Magento\Css\PreProcessor\Cache;
+namespace Magento\Css\PreProcessor\Cache\Plugin;
 
 use Magento\Filesystem;
-use Magento\Css\PreProcessor\Cache;
+use Magento\Css\PreProcessor\Cache\CacheManager;
+use Magento\Css\PreProcessor\Cache\Import\Cache;
 
 /**
  * Plugin for less caching
  */
-class Plugin
+class Less
 {
     /**
      * @var \Magento\Logger
@@ -52,12 +53,9 @@ class Plugin
             return $invocationChain->proceed($arguments);
         }
 
-        $this->cacheManager->initializeCacheByType(
-            Import\Cache::IMPORT_CACHE,
-            $publicationFile
-        );
+        $this->cacheManager->initializeCacheByType(Cache::IMPORT_CACHE, $publicationFile);
 
-        $cachedFile = $this->cacheManager->getCachedFile(Import\Cache::IMPORT_CACHE);
+        $cachedFile = $this->cacheManager->getCachedFile(Cache::IMPORT_CACHE);
         if ($cachedFile instanceof \Magento\View\Publisher\FileInterface) {
             return $cachedFile;
         }
@@ -65,10 +63,7 @@ class Plugin
         try {
             /** @var \Magento\View\Publisher\FileInterface $result */
             $result = $invocationChain->proceed($arguments);
-            $this->cacheManager->saveCache(
-                Import\Cache::IMPORT_CACHE,
-                $result
-            );
+            $this->cacheManager->saveCache(Cache::IMPORT_CACHE, $result);
         } catch (Filesystem\FilesystemException $e) {
             $this->logger->logException($e);
             return null;
