@@ -151,10 +151,10 @@ class Info extends \Magento\Backend\Block\Widget\Container
      */
     public function getCreatedAt()
     {
-        $format = $this->_locale->getDateTimeFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM);
+        $format = $this->_localeDate->getDateTimeFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM);
         $data = $this->_page->getRevisionCreatedAt();
         try {
-            $data = $this->_locale->date($data, \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT)->toString($format);
+            $data = $this->_localeDate->date($data, \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT)->toString($format);
         } catch (\Exception $e) {
             $data = __('N/A');
         }

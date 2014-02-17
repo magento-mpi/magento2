@@ -68,10 +68,10 @@ class Settlement extends \Magento\Core\Model\Resource\Db\AbstractDb
                     /**
                      * Converting dates
                      */
-                    $completionDate = new \Zend_Date($rows[$key]['transaction_completion_date']);
+                    $completionDate = new \Magento\Stdlib\DateTime\Date($rows[$key]['transaction_completion_date']);
                     $rows[$key]['transaction_completion_date'] = $this->_coreDate
                         ->date(null, $completionDate->getTimestamp());
-                    $initiationDate = new \Zend_Date($rows[$key]['transaction_initiation_date']);
+                    $initiationDate = new \Magento\Stdlib\DateTime\Date($rows[$key]['transaction_initiation_date']);
                     $rows[$key]['transaction_initiation_date'] = $this->_coreDate
                         ->date(null, $initiationDate->getTimestamp());
                     /*

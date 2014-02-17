@@ -13,37 +13,33 @@ namespace Magento\Usa\Model\Resource;
 class Setup extends \Magento\Core\Model\Resource\Setup
 {
     /**
-     * Locale model
-     *
-     * @var \Magento\Core\Model\Locale
+     * @var \Magento\Locale\ListsInterface
      */
-    protected $_localeModel;
+    protected $_localeLists;
 
     /**
      * @param \Magento\Core\Model\Resource\Setup\Context $context
      * @param string $resourceName
      * @param string $moduleName
-     * @param \Magento\Core\Model\Locale $localeModel
+     * @param \Magento\Locale\ListsInterface $localeLists
      * @param string $connectionName
      */
     public function __construct(
         \Magento\Core\Model\Resource\Setup\Context $context,
         $resourceName,
         $moduleName,
-        \Magento\Core\Model\Locale $localeModel,
+        \Magento\Locale\ListsInterface $localeLists,
         $connectionName = ''
     ) {
-        $this->_localeModel = $localeModel;
+        $this->_localeLists = $localeLists;
         parent::__construct($context, $resourceName, $moduleName, $connectionName);
     }
 
     /**
-     * Get locale
-     *
-     * @return \Magento\Core\Model\Locale
+     * @return \Magento\Locale\ListsInterface
      */
-    public function getLocale()
+    public function getLocaleLists()
     {
-        return $this->_localeModel;
+        return $this->_localeLists;
     }
 }

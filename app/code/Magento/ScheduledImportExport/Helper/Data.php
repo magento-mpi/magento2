@@ -32,7 +32,6 @@ class Data extends \Magento\ImportExport\Helper\Data
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Locale $locale
      * @param \Magento\App\State $appState
      * @param \Magento\File\Size $fileSize
      * @param \Magento\CustomerBalance\Helper\Data $customerBalanceData
@@ -43,7 +42,6 @@ class Data extends \Magento\ImportExport\Helper\Data
         \Magento\App\Helper\Context $context,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Locale $locale,
         \Magento\App\State $appState,
         \Magento\File\Size $fileSize,
         \Magento\CustomerBalance\Helper\Data $customerBalanceData,
@@ -56,7 +54,6 @@ class Data extends \Magento\ImportExport\Helper\Data
             $context,
             $coreStoreConfig,
             $storeManager,
-            $locale,
             $appState,
             $fileSize,
             $dbCompatibleMode

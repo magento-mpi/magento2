@@ -48,9 +48,9 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
     protected $_cacheTag    = 'EAV_ATTRIBUTE';
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\Stdlib\DateTime\TimezoneInterface
      */
-    protected $_locale;
+    protected $_localeDate;
 
     /**
      * @var \Magento\Catalog\Model\ProductFactory
@@ -71,7 +71,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
      * @param \Magento\Validator\UniversalFactory $universalFactory
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Catalog\Model\ProductFactory $catalogProductFactory
      * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
@@ -87,7 +87,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Eav\Model\Resource\Helper $resourceHelper,
         \Magento\Validator\UniversalFactory $universalFactory,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Catalog\Model\ProductFactory $catalogProductFactory,
         \Magento\Locale\ResolverInterface $localeResolver,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
@@ -107,7 +107,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
             $resourceCollection,
             $data
         );
-        $this->_locale = $locale;
+        $this->_localeDate = $localeDate;
         $this->_localeResolver = $localeResolver;
         $this->_catalogProductFactory = $catalogProductFactory;
     }
@@ -245,9 +245,9 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
 
             // save default date value as timestamp
             if ($hasDefaultValue) {
-                $format = $this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
+                $format = $this->_localeDate->getDateFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
                 try {
-                    $defaultValue = $this->_locale->date($defaultValue, $format, null, false)->toValue();
+                    $defaultValue = $this->_localeDate->date($defaultValue, $format, null, false)->toValue();
                     $this->setDefaultValue($defaultValue);
                 } catch (\Exception $e) {
                     throw new Exception(__('Invalid default date'));

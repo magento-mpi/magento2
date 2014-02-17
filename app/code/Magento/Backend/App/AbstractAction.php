@@ -98,7 +98,6 @@ abstract class AbstractAction extends \Magento\App\Action\Action
         $this->_backendUrl = $context->getBackendUrl();
         $this->_formKeyValidator = $context->getFormKeyValidator();
         $this->_title = $context->getTitle();
-        $this->_locale = $context->getLocale();
         $this->_localeResolver = $context->getLocaleResolver();
         $this->_canUseBaseUrl = $context->getCanUseBaseUrl();
         $this->_session = $context->getSession();

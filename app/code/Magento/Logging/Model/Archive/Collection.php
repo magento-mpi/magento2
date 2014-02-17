@@ -60,14 +60,14 @@ class Collection extends \Magento\Data\Collection\Filesystem
     protected function _generateRow($filename)
     {
         $row = parent::_generateRow($filename);
-        $date = new \Zend_Date(
+        $date = new \Magento\Stdlib\DateTime\Date(
             str_replace('.csv', '', $row['basename']), 'yyyyMMddHH', $this->_localeResolver->getLocaleCode()
         );
         $row['time'] = $date;
         /**
          * Used in date filter, becouse $date contains hours
          */
-        $dateWithoutHours = new \Zend_Date(str_replace('.csv', '', $row['basename']), 'yyyyMMdd',
+        $dateWithoutHours = new \Magento\Stdlib\DateTime\Date(str_replace('.csv', '', $row['basename']), 'yyyyMMdd',
             $this->_localeResolver->getLocaleCode());
         $row['timestamp'] = $dateWithoutHours->toString('yyyy-MM-dd');
         return $row;

@@ -24,17 +24,17 @@ class Date
     private $_offset = 0;
 
     /**
-     * @var LocaleInterface
+     * @var \Magento\Stdlib\DateTime\TimezoneInterface
      */
-    protected $_locale;
+    protected $_localeDate;
 
     /**
-     * @param LocaleInterface $locale
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      */
-    public function __construct(LocaleInterface $locale)
+    public function __construct(\Magento\Stdlib\DateTime\TimezoneInterface $localeDate)
     {
-        $this->_locale = $locale;
-        $this->_offset = $this->calculateOffset($locale->getConfigTimezone());
+        $this->_localeDate = $localeDate;
+        $this->_offset = $this->calculateOffset($this->_localeDate->getConfigTimezone());
     }
 
     /**
@@ -118,7 +118,7 @@ class Date
             // strtotime() unable to parse string (it's not a date or has incorrect format)
             return false;
         }
-        $date = $this->_locale->date($result);
+        $date = $this->_localeDate->date($result);
         $timestamp = $date->get(\Zend_Date::TIMESTAMP) - $date->get(\Zend_Date::TIMEZONE_SECS);
         unset($date);
         return $timestamp;
@@ -142,7 +142,7 @@ class Date
                 $result = strtotime($input);
             }
         }
-        $date = $this->_locale->date($result);
+        $date = $this->_localeDate->date($result);
         $timestamp = $date->get(\Zend_Date::TIMESTAMP) + $date->get(\Zend_Date::TIMEZONE_SECS);
         unset($date);
         return $timestamp;

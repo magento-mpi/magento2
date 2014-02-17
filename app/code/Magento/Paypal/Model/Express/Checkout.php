@@ -328,7 +328,7 @@ class Checkout
         }
 
         return $this->_config->getExpressCheckoutShortcutImageUrl(
-            $this->_locale->getLocaleCode(),
+            $this->_localeResolver->getLocaleCode(),
             $this->_quote->getBaseGrandTotal(),
             $pal
         );

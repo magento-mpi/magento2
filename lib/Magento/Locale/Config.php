@@ -2,14 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Locale;
+namespace Magento\Locale;
 
-class Config
+class Config implements \Magento\Locale\ConfigInterface
 {
     /**
      * List of allowed locales
@@ -114,22 +112,18 @@ class Config
     }
 
     /**
-     * Get list pre-configured allowed locales
-     *
-     * @return array
+     * @inheritdoc
      */
     public function getAllowedLocales()
     {
-       return $this->_allowedLocales;
+        return $this->_allowedLocales;
     }
 
     /**
-     * Get list pre-configured allowed currencies
-     *
-     * @return array
+     * @inheritdoc
      */
     public function getAllowedCurrencies()
     {
-      return $this->_allowedCurrencies;
+        return $this->_allowedCurrencies;
     }
 }

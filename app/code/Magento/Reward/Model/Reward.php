@@ -95,11 +95,9 @@ class Reward extends \Magento\Core\Model\AbstractModel
     protected $_storeManager;
 
     /**
-     * Core model locale
-     *
-     * @var \Magento\Core\Model\Locale
+     * @var \Magento\Locale\CurrencyInterface
      */
-    protected $_locale;
+    protected $_localeCurrency;
 
     /**
      * Customer factory
@@ -141,7 +139,7 @@ class Reward extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Reward\Helper\Customer $rewardCustomer
      * @param \Magento\Reward\Helper\Data $rewardData
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Locale $locale
+     * @param \Magento\Locale\CurrencyInterface $localeCurrency
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Reward\Model\ActionFactory $actionFactory
      * @param \Magento\Reward\Model\Reward\HistoryFactory $historyFactory
@@ -157,7 +155,7 @@ class Reward extends \Magento\Core\Model\AbstractModel
         \Magento\Reward\Helper\Customer $rewardCustomer,
         \Magento\Reward\Helper\Data $rewardData,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Locale $locale,
+        \Magento\Locale\CurrencyInterface $localeCurrency,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Reward\Model\ActionFactory $actionFactory,
         \Magento\Reward\Model\Reward\HistoryFactory $historyFactory,
@@ -170,7 +168,7 @@ class Reward extends \Magento\Core\Model\AbstractModel
         $this->_rewardCustomer = $rewardCustomer;
         $this->_rewardData = $rewardData;
         $this->_storeManager = $storeManager;
-        $this->_locale = $locale;
+        $this->_localeCurrency = $localeCurrency;
         $this->_customerFactory = $customerFactory;
         $this->_actionFactory = $actionFactory;
         $this->_historyFactory = $historyFactory;
@@ -440,7 +438,7 @@ class Reward extends \Magento\Core\Model\AbstractModel
      */
     public function getFormatedCurrencyAmount()
     {
-        $currencyAmount = $this->_locale->currency($this->getWebsiteCurrencyCode())
+        $currencyAmount = $this->_localeCurrency->getCurrency($this->getWebsiteCurrencyCode())
                 ->toCurrency($this->getCurrencyAmount());
         return $currencyAmount;
     }

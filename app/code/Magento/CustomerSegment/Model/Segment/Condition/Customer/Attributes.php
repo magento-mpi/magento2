@@ -300,7 +300,7 @@ class Attributes
     public function getDateValue()
     {
         if ($this->getOperator() == '==') {
-            $dateObj = $this->_locale
+            $dateObj = $this->_localeDate
                 ->date($this->getValue(), \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT, null, false)
                 ->setHour(0)->setMinute(0)->setSecond(0);
             $value = array(

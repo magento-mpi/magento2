@@ -200,7 +200,7 @@ class History
      *
      * @param string $label
      * @param bool $notified
-     * @param \Zend_Date $created
+     * @param \Magento\Stdlib\DateTime\DateInterface $created
      * @param string $comment
      * @return array
      */
@@ -307,7 +307,7 @@ class History
         $createdAtA = $a['created_at'];
         $createdAtB = $b['created_at'];
 
-        /** @var $createdAta \Zend_Date */
+        /** @var $createdAta \Magento\Stdlib\DateTime\DateInterface */
         if ($createdAtA->getTimestamp() == $createdAtB->getTimestamp()) {
             return 0;
         }

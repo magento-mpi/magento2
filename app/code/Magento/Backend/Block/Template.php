@@ -23,7 +23,7 @@ class Template extends \Magento\View\Element\Template
     protected $_authorization;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\LocaleInterface
      */
     protected $_locale;
 
@@ -42,6 +42,7 @@ class Template extends \Magento\View\Element\Template
      */
     protected $formKey;
 
+
     /**
      * @var \Magento\Code\NameBuilder
      */
@@ -55,7 +56,7 @@ class Template extends \Magento\View\Element\Template
         \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
-        $this->_locale = $context->getLocale();
+        $this->_localeDate = $context->getLocaleDate();
         $this->_authorization = $context->getAuthorization();
         $this->mathRandom = $context->getMathRandom();
         $this->_backendSession = $context->getBackendSession();

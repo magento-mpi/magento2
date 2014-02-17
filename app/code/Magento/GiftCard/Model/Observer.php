@@ -74,18 +74,16 @@ class Observer extends \Magento\Core\Model\AbstractModel
     protected $_layout;
 
     /**
-     * Locale
-     *
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\Locale\CurrencyInterface
      */
-    protected $_locale;
+    protected $_localeCurrency;
 
     /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\View\LayoutInterface $layout
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Locale\CurrencyInterface $localeCurrency
      * @param \Magento\Sales\Model\Resource\Order\Invoice\Item\CollectionFactory $itemsFactory
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder,
      * @param \Magento\Sales\Model\Order\InvoiceFactory $invoiceFactory
@@ -104,7 +102,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
         \Magento\Registry $registry,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\View\LayoutInterface $layout,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Locale\CurrencyInterface $localeCurrency,
         \Magento\Sales\Model\Resource\Order\Invoice\Item\CollectionFactory $itemsFactory,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Sales\Model\Order\InvoiceFactory $invoiceFactory,
@@ -118,7 +116,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
     ) {
         $this->_storeManager = $storeManager;
         $this->_layout = $layout;
-        $this->_locale = $locale;
+        $this->_localeCurrency = $localeCurrency;
         $this->_itemsFactory = $itemsFactory;
         $this->_transportBuilder = $transportBuilder;
         $this->_invoiceFactory = $invoiceFactory;
@@ -270,7 +268,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
                             ->setCodes($codes)
                             ->setIsRedeemable($isRedeemable)
                             ->setStore($this->_storeManager->getStore($order->getStoreId()));
-                        $balance = $this->_locale->currency(
+                        $balance = $this->_localeCurrency->getCurrency(
                             $this->_storeManager->getStore($order->getStoreId())->getBaseCurrencyCode()
                         )->toCurrency($amount);
 

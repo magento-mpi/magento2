@@ -151,7 +151,7 @@ class Backup extends \Magento\Object implements \Magento\Backup\Db\BackupInterfa
             'extension' => $this->_helper->getExtensionByType($backupData->getType()),
             'display_name' => $this->_helper->nameToDisplayName($backupData->getName()),
             'name' => $backupData->getName(),
-            'date_object' => new \Zend_Date((int)$backupData->getTime(), $this->_localeResolver->getLocaleCode())
+            'date_object' => new \Magento\Stdlib\DateTime\Date((int)$backupData->getTime(), $this->_localeResolver->getLocaleCode())
         ));
 
         $this->setType($backupData->getType());

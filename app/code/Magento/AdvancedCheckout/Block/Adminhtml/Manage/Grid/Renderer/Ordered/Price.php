@@ -16,6 +16,21 @@ namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Grid\Renderer\Ordered;
 class Price
     extends \Magento\Sales\Block\Adminhtml\Order\Create\Search\Grid\Renderer\Price
 {
+
+    /**
+     * @param \Magento\Backend\Block\Context $context
+     * @param \Magento\Locale\CurrencyInterface $localeCurrency
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Backend\Block\Context $context,
+        \Magento\Locale\CurrencyInterface $localeCurrency,
+        array $data = array()
+    ) {
+        parent::__construct($context, $localeCurrency, $data);
+    }
+
+
     /**
      * Render price for last ordered item
      *
@@ -31,7 +46,7 @@ class Price
         $priceInitial = sprintf("%f", $priceInitial);
         $currencyCode = $this->_getCurrencyCode($row);
         if ($currencyCode) {
-            $priceInitial = $this->_locale->currency($currencyCode)->toCurrency($priceInitial);
+            $priceInitial = $this->_localeCurrency->getCurrency($currencyCode)->toCurrency($priceInitial);
         }
 
         return $priceInitial;

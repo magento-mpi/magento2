@@ -32,11 +32,9 @@ class Resolver implements \Magento\Locale\ResolverInterface
     protected $_localeCode;
 
     /**
-     * Core store config
-     *
-     * @var \Magento\Core\Model\Store\ConfigInterface
+     * @var \Magento\BaseScopeResolverInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeResolver;
 
     /**
      * @var \Magento\AppInterface
@@ -51,31 +49,37 @@ class Resolver implements \Magento\Locale\ResolverInterface
     protected $_emulatedLocales = array();
 
     /**
-     * Object Manager instance
-     *
-     * @var \Magento\ObjectManager
+     * @var \Magento\LocaleFactory
      */
-    protected $_objectManager = null;
+    protected $_localeFactory;
 
     /**
-     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
+     * @param \Magento\BaseScopeResolverInterface $scopeResolver
      * @param \Magento\AppInterface $app
-     * @param \Magento\Core\Helper\Translate $translate
-     * @param \Magento\ObjectManager $objectManager
-     * @param string|null $locale
+     * @param \Magento\LocaleFactory $localeFactory
+     * @param string $defaultLocalePath
+     * @param mixed $locale
      */
     public function __construct(
-        \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
+        \Magento\BaseScopeResolverInterface $scopeResolver,
         \Magento\AppInterface $app,
-        \Magento\Core\Helper\Translate $translate,
-        \Magento\ObjectManager $objectManager,
+        \Magento\LocaleFactory $localeFactory,
+        $defaultLocalePath,
         $locale = null
     ) {
         $this->_app = $app;
-        $this->_coreStoreConfig = $coreStoreConfig;
-        $this->_translate = $translate;
-        $this->_objectManager = $objectManager;
+        $this->_scopeResolver = $scopeResolver;
+        $this->_localeFactory = $localeFactory;
+        $this->_defaultLocalePath = $defaultLocalePath;
         $this->setLocale($locale);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDefaultLocalePath()
+    {
+        return $this->_defaultLocalePath;
     }
 
     /**
@@ -93,7 +97,7 @@ class Resolver implements \Magento\Locale\ResolverInterface
     public function getDefaultLocale()
     {
         if (!$this->_defaultLocale) {
-            $locale = $this->_coreStoreConfig->getConfig(\Magento\Locale\ResolverInterface::XML_PATH_DEFAULT_LOCALE);
+            $locale = $this->_getConfig($this->getDefaultLocalePath());
             if (!$locale) {
                 $locale = \Magento\Locale\ResolverInterface::DEFAULT_LOCALE;
             }
@@ -122,9 +126,7 @@ class Resolver implements \Magento\Locale\ResolverInterface
     {
         if (!$this->_locale) {
             \Zend_Locale_Data::setCache($this->_app->getCache()->getLowLevelFrontend());
-            $this->_locale = $this->_objectManager->create(
-                'Magento\LocaleInterface', array('locale' => $this->getLocaleCode())
-            );
+            $this->_locale = $this->_localeFactory->create(array('locale' => $this->getLocaleCode()));
         } elseif ($this->_locale->__toString() != $this->_localeCode) {
             $this->setLocale($this->_localeCode);
         }
@@ -156,21 +158,20 @@ class Resolver implements \Magento\Locale\ResolverInterface
     /**
      * {@inheritdoc}
      */
-    public function emulate($storeId)
+    public function emulate($scopeId)
     {
-        if ($storeId) {
+        $result = null;
+        if ($scopeId) {
             $this->_emulatedLocales[] = clone $this->getLocale();
-            $this->_locale = $this->_objectManager->create('Magento\LocaleInterface', array(
-                'locale' => $this->_coreStoreConfig->getConfig(
-                    \Magento\Locale\ResolverInterface::XML_PATH_DEFAULT_LOCALE, $storeId
-                )
+            $this->_locale = $this->_localeFactory->create(array(
+                'locale' => $this->_getConfig($this->getDefaultLocalePath(), $scopeId)
             ));
             $this->_localeCode = $this->_locale->toString();
-
-            $this->_translate->initTranslate($this->_localeCode, true);
+            $result = $this->_localeCode;
         } else {
             $this->_emulatedLocales[] = false;
         }
+        return $result;
     }
 
     /**
@@ -178,12 +179,24 @@ class Resolver implements \Magento\Locale\ResolverInterface
      */
     public function revert()
     {
+        $result = null;
         $locale = array_pop($this->_emulatedLocales);
         if ($locale) {
             $this->_locale = $locale;
             $this->_localeCode = $this->_locale->toString();
-
-            $this->_translate->initTranslate($this->_localeCode, true);
+            $result = $this->_localeCode;
         }
+        return $result;
+    }
+
+    /**
+     * Retrieve config value by path
+     *
+     * @param string $path
+     * @param null|string|bool|int|\Magento\Url\ScopeInterface $scope
+     */
+    protected function _getConfig($path, $scope = null)
+    {
+        $this->_scopeResolver->getScope($scope)->getConfig($path);
     }
 }

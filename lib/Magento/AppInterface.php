@@ -64,13 +64,6 @@ interface AppInterface
     public function getDistroLocaleCode();
 
     /**
-     * Retrieve application locale object
-     *
-     * @return \Magento\Core\Model\LocaleInterface
-     */
-    public function getLocale();
-
-    /**
      * Retrieve application locale resolver object
      *
      * @return \Magento\Locale\ResolverInterface

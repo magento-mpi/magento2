@@ -45,6 +45,11 @@ class Config
     protected $_configurableType;
 
     /**
+     * @var \Magento\Locale\CurrencyInterface
+     */
+    protected $_localeCurrency;
+
+    /**
      * @var \Magento\Json\EncoderInterface
      */
     protected $_jsonEncoder;
@@ -55,6 +60,7 @@ class Config
      * @param \Magento\ConfigurableProduct\Model\Product\Type\Configurable $configurableType
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Locale\CurrencyInterface $localeCurrency
      * @param array $data
      */
     public function __construct(
@@ -63,12 +69,14 @@ class Config
         \Magento\ConfigurableProduct\Model\Product\Type\Configurable $configurableType,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Registry $coreRegistry,
+        \Magento\Locale\CurrencyInterface $localeCurrency,
         array $data = array()
     ) {
         $this->_configurableType = $configurableType;
         $this->_coreRegistry = $coreRegistry;
         $this->_catalogData = $catalogData;
         $this->_jsonEncoder = $jsonEncoder;
+        $this->_localeCurrency = $localeCurrency;
         parent::__construct($context, $data);
     }
 
@@ -397,7 +405,7 @@ class Config
     }
 
     /**
-     * @return LocaleInterface
+     * @return \Magento\LocaleInterface
      */
     public function getLocale()
     {
@@ -407,10 +415,10 @@ class Config
     /**
      * Get base application currency
      *
-     * @return \Zend_Currency
+     * @return \Magento\CurrencyInterface
      */
     public function getBaseCurrency()
     {
-        return $this->getLocale()->currency($this->getApp()->getBaseCurrencyCode());
+        return $this->_localeCurrency->getCurrency($this->getApp()->getBaseCurrencyCode());
     }
 }

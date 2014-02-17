@@ -146,11 +146,9 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_filterManager;
 
     /**
-     * Locale
-     *
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\Stdlib\DateTime\TimezoneInterface
      */
-    protected $_locale;
+    protected $_localeDate;
 
     /**
      * Constructor
@@ -173,7 +171,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\Core\Model\App $app
      * @param \Magento\Escaper $escaper
      * @param \Magento\Filter\FilterManager $filterManager
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -198,7 +196,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\Core\Model\App $app,
         \Magento\Escaper $escaper,
         \Magento\Filter\FilterManager $filterManager,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         array $data = array()
     ) {
         $this->_request         = $request;
@@ -219,7 +217,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         $this->_app             = $app;
         $this->_escaper         = $escaper;
         $this->_filterManager   = $filterManager;
-        $this->_locale          = $locale;
+        $this->_localeDate      = $localeDate;
     }
 
     /**
@@ -403,12 +401,10 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * Get locale
-     *
-     * @return \Magento\Core\Model\LocaleInterface
+     * @return \Magento\Stdlib\DateTime\TimezoneInterface
      */
-    public function getLocale()
+    public function getLocaleDate()
     {
-        return $this->_locale;
+        return $this->_localeDate;
     }
 }

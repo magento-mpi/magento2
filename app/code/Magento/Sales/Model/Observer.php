@@ -61,9 +61,9 @@ class Observer
     protected $_quoteCollectionFactory;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\Stdlib\DateTime\TimezoneInterface
      */
-    protected $_coreLocale;
+    protected $_localeDate;
 
     /**
      * @var Resource\Report\OrderFactory
@@ -97,7 +97,7 @@ class Observer
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Model\Store\Config $storeConfig
      * @param \Magento\Sales\Model\Resource\Quote\CollectionFactory $quoteFactory
-     * @param \Magento\Core\Model\LocaleInterface $coreLocale
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param Resource\Report\OrderFactory $orderFactory
      * @param Resource\Report\InvoicedFactory $invoicedFactory
      * @param Resource\Report\RefundedFactory $refundedFactory
@@ -111,7 +111,7 @@ class Observer
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Model\Store\Config $storeConfig,
         \Magento\Sales\Model\Resource\Quote\CollectionFactory $quoteFactory,
-        \Magento\Core\Model\LocaleInterface $coreLocale,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Sales\Model\Resource\Report\OrderFactory $orderFactory,
         \Magento\Sales\Model\Resource\Report\InvoicedFactory $invoicedFactory,
         \Magento\Sales\Model\Resource\Report\RefundedFactory $refundedFactory,
@@ -124,7 +124,7 @@ class Observer
         $this->_catalogData = $catalogData;
         $this->_storeConfig = $storeConfig;
         $this->_quoteCollectionFactory = $quoteFactory;
-        $this->_coreLocale = $coreLocale;
+        $this->_localeDate = $localeDate;
         $this->_orderFactory = $orderFactory;
         $this->_invoicedFactory = $invoicedFactory;
         $this->_refundedFactory = $refundedFactory;
@@ -193,7 +193,7 @@ class Observer
     public function aggregateSalesReportOrderData($schedule)
     {
         $this->_localeResolver->emulate(0);
-        $currentDate = $this->_coreLocale->date();
+        $currentDate = $this->_localeDate->date();
         $date = $currentDate->subHour(25);
         $this->_orderFactory->create()->aggregate($date);
         $this->_localeResolver->revert();
@@ -209,7 +209,7 @@ class Observer
     public function aggregateSalesReportInvoicedData($schedule)
     {
         $this->_localeResolver->emulate(0);
-        $currentDate = $this->_coreLocale->date();
+        $currentDate = $this->_localeDate->date();
         $date = $currentDate->subHour(25);
         $this->_invoicedFactory->create()->aggregate($date);
         $this->_localeResolver->revert();
@@ -225,7 +225,7 @@ class Observer
     public function aggregateSalesReportRefundedData($schedule)
     {
         $this->_localeResolver->emulate(0);
-        $currentDate = $this->_coreLocale->date();
+        $currentDate = $this->_localeDate->date();
         $date = $currentDate->subHour(25);
         $this->_refundedFactory->create()->aggregate($date);
         $this->_localeResolver->revert();
@@ -241,7 +241,7 @@ class Observer
     public function aggregateSalesReportBestsellersData($schedule)
     {
         $this->_localeResolver->emulate(0);
-        $currentDate = $this->_coreLocale->date();
+        $currentDate = $this->_localeDate->date();
         $date = $currentDate->subHour(25);
         $this->_bestsellersFactory->create()->aggregate($date);
         $this->_localeResolver->revert();

@@ -112,9 +112,9 @@ class Ups
     protected $_customizableContainerTypes = array('CP', 'CSP');
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\Locale\FormatInterface
      */
-    protected $_locale;
+    protected $_localeFormat;
 
     /**
      * @var \Magento\Logger
@@ -136,7 +136,7 @@ class Ups
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
      * @param \Magento\Directory\Helper\Data $directoryData
      * @param \Magento\Logger $logger
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Locale\FormatInterface $localeFormat
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -156,11 +156,11 @@ class Ups
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
         \Magento\Directory\Helper\Data $directoryData,
         \Magento\Logger $logger,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Locale\FormatInterface $localeFormat,
         array $data = array()
     ) {
         $this->_logger = $logger;
-        $this->_locale = $locale;
+        $this->_localeFormat = $localeFormat;
         parent::__construct(
             $coreStoreConfig,
             $rateErrorFactory,
@@ -504,7 +504,7 @@ class Ups
                 switch (substr($row[0], -1)) {
                     case 3: case 4:
                         if (in_array($row[1], $allowedMethods)) {
-                            $responsePrice = $this->_locale->getNumber($row[8]);
+                            $responsePrice = $this->_localeFormat->getNumber($row[8]);
                             $costArr[$row[1]] = $responsePrice;
                             $priceArr[$row[1]] = $this->getMethodPrice($responsePrice, $row[1]);
                         }
@@ -516,7 +516,7 @@ class Ups
                         break;
                     case 6:
                         if (in_array($row[3], $allowedMethods)) {
-                            $responsePrice = $this->_locale->getNumber($row[10]);
+                            $responsePrice = $this->_localeFormat->getNumber($row[10]);
                             $costArr[$row[3]] = $responsePrice;
                             $priceArr[$row[3]] = $this->getMethodPrice($responsePrice, $row[3]);
                         }

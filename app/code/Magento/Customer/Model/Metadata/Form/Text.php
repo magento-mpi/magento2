@@ -17,7 +17,7 @@ class Text extends AbstractData
     protected $_string;
 
     /**
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Logger $logger
      * @param \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata $attribute
      * @param \Magento\Locale\ResolverInterface $localeResolver
@@ -27,7 +27,7 @@ class Text extends AbstractData
      * @param \Magento\Stdlib\String $stringHelper
      */
     public function __construct(
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Logger $logger,
         \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata $attribute,
         \Magento\Locale\ResolverInterface $localeResolver,
@@ -36,7 +36,7 @@ class Text extends AbstractData
         $isAjax = false,
         \Magento\Stdlib\String $stringHelper
     ) {
-        parent::__construct($locale, $logger, $attribute, $localeResolver,  $value, $entityTypeCode, $isAjax);
+        parent::__construct($localeDate, $logger, $attribute, $localeResolver,  $value, $entityTypeCode, $isAjax);
         $this->_string = $stringHelper;
     }
 

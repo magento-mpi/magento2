@@ -37,6 +37,7 @@ class Attributes
      * @param \Magento\Catalog\Model\Resource\Product $productResource
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection $attrSetCollection
      * @param \Magento\Reminder\Model\Resource\Rule $ruleResource
+     * @param \Magento\Locale\FormatInterface $localeFormat
      * @param array $data
      */
     public function __construct(
@@ -46,10 +47,13 @@ class Attributes
         \Magento\Catalog\Model\Product $product,
         \Magento\Catalog\Model\Resource\Product $productResource,
         \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection $attrSetCollection,
+        \Magento\Locale\FormatInterface $localeFormat,
         \Magento\Reminder\Model\Resource\Rule $ruleResource,
         array $data = array()
     ) {
-        parent::__construct($context, $backendData, $config, $product, $productResource, $attrSetCollection, $data);
+        parent::__construct(
+            $context, $backendData, $config, $product, $productResource, $attrSetCollection, $localeFormat, $data
+        );
         $this->setType('Magento\Reminder\Model\Rule\Condition\Wishlist\Attributes');
         $this->setValue(null);
         $this->_config = $config;

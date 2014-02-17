@@ -16,9 +16,9 @@ namespace Magento\Rss\Block\Catalog;
 class Special extends \Magento\Rss\Block\Catalog\AbstractCatalog
 {
     /**
-     * \Zend_Date object for date comparsions
+     * \Magento\Stdlib\DateTime\DateInterface object for date comparsions
      *
-     * @var \Zend_Date
+     * @var \Magento\Stdlib\DateTime\Date
      */
     protected static $_currentDate = null;
 
@@ -167,7 +167,7 @@ class Special extends \Magento\Rss\Block\Catalog\AbstractCatalog
                         if ($result['use_special']) {
                             $special = '<br />' . __('Special Expires On: %1',
                                     $this->formatDate($result['special_to_date'],
-                                        \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM));
+                                        \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM));
                         }
                         $html .= sprintf('<p>%s %s%s</p>',
                             __('Price: %1', $this->_coreData->currency($result['price'])),
@@ -197,7 +197,7 @@ class Special extends \Magento\Rss\Block\Catalog\AbstractCatalog
     public function addSpecialXmlCallback($args)
     {
         if (!isset(self::$_currentDate)) {
-            self::$_currentDate = new \Zend_Date();
+            self::$_currentDate = new \Magento\Stdlib\DateTime\Date();
         }
 
         // dispatch event to determine whether the product will eventually get to the result

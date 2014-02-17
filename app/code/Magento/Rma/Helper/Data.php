@@ -75,11 +75,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_storeManager;
 
     /**
-     * Core locale interface
-     *
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\Stdlib\DateTime\TimezoneInterface
      */
-    protected $_locale;
+    protected $_localeDate;
 
     /**
      * Rma item factory
@@ -142,7 +140,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Directory\Model\CountryFactory $countryFactory
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Rma\Model\Resource\ItemFactory $itemFactory
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Backend\Model\Auth\Session $authSession
@@ -159,7 +157,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\Directory\Model\CountryFactory $countryFactory,
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Rma\Model\Resource\ItemFactory $itemFactory,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Backend\Model\Auth\Session $authSession,
@@ -174,7 +172,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         $this->_countryFactory = $countryFactory;
         $this->_regionFactory = $regionFactory;
         $this->_storeManager = $storeManager;
-        $this->_locale = $locale;
+        $this->_localeDate = $localeDate;
         $this->_itemFactory = $itemFactory;
         $this->_customerSession = $customerSession;
         $this->_authSession = $authSession;
@@ -468,7 +466,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Shipping package popup URL getter
      *
-     * @param Rma $model 
+     * @param Rma $model
      * @param string $action string
      * @return string
      */
@@ -566,10 +564,10 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getFormatedDate($date)
     {
-        $storeDate = $this->_locale->storeDate(
+        $storeDate = $this->_localeDate->scopeDate(
             $this->_storeManager->getStore(), $this->dateTime->toTimestamp($date), true
         );
-        return $this->_locale->formatDate($storeDate, \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
+        return $this->_localeDate->formatDate($storeDate, \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
     }
 
     /**

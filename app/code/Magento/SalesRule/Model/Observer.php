@@ -53,6 +53,11 @@ class Observer
     protected $messageManager;
 
     /**
+     * @var \Magento\Stdlib\DateTime\TimezoneInterface
+     */
+    protected $_localeDate;
+
+    /**
      * @param \Magento\SalesRule\Model\RuleFactory $ruleFactory
      * @param \Magento\SalesRule\Model\Rule\CustomerFactory $ruleCustomerFactory
      * @param \Magento\SalesRule\Model\Coupon $coupon
@@ -61,6 +66,7 @@ class Observer
      * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param \Magento\SalesRule\Model\Resource\Rule\CollectionFactory $collectionFactory
      * @param \Magento\Message\ManagerInterface $messageManager
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      */
     public function __construct(
         \Magento\SalesRule\Model\RuleFactory $ruleFactory,
@@ -70,7 +76,8 @@ class Observer
         \Magento\SalesRule\Model\Resource\Report\Rule $reportRule,
         \Magento\Locale\ResolverInterface $localeResolver,
         \Magento\SalesRule\Model\Resource\Rule\CollectionFactory $collectionFactory,
-        \Magento\Message\ManagerInterface $messageManager
+        \Magento\Message\ManagerInterface $messageManager,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
     ) {
         $this->_ruleFactory = $ruleFactory;
         $this->_ruleCustomerFactory = $ruleCustomerFactory;
@@ -150,7 +157,7 @@ class Observer
     public function aggregateSalesReportCouponsData($schedule)
     {
         $this->_localeResolver->emulate(0);
-        $currentDate = $this->_locale->date();
+        $currentDate = $this->_localeDate->date();
         $date = $currentDate->subHour(25);
         $this->_reportRule->aggregate($date);
         $this->_localeResolver->revert();

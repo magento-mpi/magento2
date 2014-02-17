@@ -408,7 +408,7 @@ return array(
         'Magento\Cron\Model\Config\Source\Frequency'
     ),
     array('Mage_Adminhtml_Model_System_Config_Source_Currency_Service',
-        'Magento\Backend\Model\Config\Source\Currency'
+        'Magento\Backend\Model\Config\Source\Locale\Currency'
     ),
     array('Mage_Adminhtml_Model_System_Config_Source_Customer_Address_Type',
         'Magento\Customer\Model\Config\Source\Address\Type'
@@ -556,7 +556,7 @@ return array(
         'Magento\Directory\Model\Config\Source\Country'
     ),
     array('Mage_Adminhtml_Model_System_Config_Source_Currency',
-        'Magento\Backend\Model\Config\Source\Currency'
+        'Magento\Backend\Model\Config\Source\Locale\Currency'
     ),
     array('Mage_Adminhtml_Model_System_Config_Source_Enabledisable',
         'Magento\Backend\Model\Config\Source\Enabledisable'
@@ -2130,6 +2130,8 @@ return array(
     array('Magento\Catalog\Model\Resource\Product\Collection\AssociatedProductUpdater'),
     ['Magento\Sales\Controller\Adminhtml\Recurring\Profile', 'Magento\RecurringProfile\Controller\Adminhtml\Profile'],
     ['Magento\Sales\Controller\Recurring\Profile', 'Magento\RecurringProfile\Controller\Profile'],
+    ['Magento\Backend\Model\Config\Source\Currency', 'Magento\Backend\Model\Config\Source\Locale\Currency'],
+    ['Magento\Core\Model\Locale\Config', 'Magento\Locale\Config'],
     ['Magento\Core\Model\Image\Adapter\Config', 'Magento\Image\Adapter\Config'],
     ['Magento\Core\Model\AbstractShell', 'Magento\App\AbstractShell'],
     ['Magento\Core\Model\Calculator', 'Magento\Math\Calculator'],

@@ -302,7 +302,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
 
         $field = $expiryConfig->getExpiryCalculation()== 'static' ? 'expired_at_static' : 'expired_at_dynamic';
         $locale = $this->_localeResolver->getLocale();
-        $expireAtLimit = new \Zend_Date($locale);
+        $expireAtLimit = new \Magento\Stdlib\DateTime\Date($locale);
         $expireAtLimit->addDay($inDays);
         $expireAtLimit = $this->dateTime->formatDate($expireAtLimit);
 

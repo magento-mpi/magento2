@@ -466,14 +466,14 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         $now = $this->_date->date();
         $gmtOffset = (int)$this->_date->getGmtOffset();
         if (isset($constraints['from'])) {
-            $lastDay = new \Zend_Date($now, \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
+            $lastDay = new \Magento\Stdlib\DateTime\Date($now, \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
             $lastDay->subSecond($gmtOffset)
                 ->subDay(intval($constraints['from']));
             $filter['to'] = $lastDay;
         }
 
         if (isset($constraints['to'])) {
-            $firstDay = new \Zend_Date($now, \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
+            $firstDay = new \Magento\Stdlib\DateTime\Date($now, \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
             $firstDay->subSecond($gmtOffset)
                 ->subDay(intval($constraints['to']) + 1);
             $filter['from'] = $firstDay;

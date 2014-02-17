@@ -76,11 +76,11 @@ class AppTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(\Magento\Core\Model\App::DISTRO_LOCALE_CODE, $this->_model->getDistroLocaleCode());
     }
 
-    public function testGetLocale()
+    public function testGetLocaleResolver()
     {
-        $locale = $this->_model->getLocale();
-        $this->assertInstanceOf('Magento\Core\Model\LocaleInterface', $locale);
-        $this->assertSame($locale, $this->_model->getLocale());
+        $locale = $this->_model->getLocaleResolver();
+        $this->assertInstanceOf('Magento\Locale\ResolverInterface', $locale);
+        $this->assertSame($locale, $this->_model->getLocaleResolver());
     }
 
     public function testGetBaseCurrencyCode()

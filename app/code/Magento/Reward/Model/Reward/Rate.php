@@ -45,11 +45,9 @@ class Rate extends \Magento\Core\Model\AbstractModel
     protected $_storeManager;
 
     /**
-     * Core model locale
-     *
-     * @var \Magento\Core\Model\Locale
+     * @var \Magento\Locale\CurrencyInterface
      */
-    protected $_locale;
+    protected $_localeCurrency;
 
     /**
      * @param \Magento\Model\Context $context
@@ -57,7 +55,7 @@ class Rate extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Reward\Helper\Data $rewardData
      * @param \Magento\Reward\Model\Resource\Reward\Rate $resource
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Locale $locale
+     * @param \Magento\Locale\CurrencyInterface $localeCurrency
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -67,13 +65,13 @@ class Rate extends \Magento\Core\Model\AbstractModel
         \Magento\Reward\Helper\Data $rewardData,
         \Magento\Reward\Model\Resource\Reward\Rate $resource,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Locale $locale,
+        \Magento\Locale\CurrencyInterface $localeCurrency,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_rewardData = $rewardData;
         $this->_storeManager = $storeManager;
-        $this->_locale = $locale;
+        $this->_localeCurrency = $localeCurrency;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -267,7 +265,7 @@ class Rate extends \Magento\Core\Model\AbstractModel
                 $websiteId = $this->getWebsiteId();
             }
             $currencyCode = $this->_storeManager->getWebsite($websiteId)->getBaseCurrencyCode();
-            return $this->_locale->currency($currencyCode)->toCurrency($amount);
+            return $this->_localeCurrency->getCurrency($currencyCode)->toCurrency($amount);
         }
         return $amount;
     }

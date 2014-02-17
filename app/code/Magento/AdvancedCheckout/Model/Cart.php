@@ -159,9 +159,9 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     protected $_storeManager;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\Locale\FormatInterface
      */
-    protected $_locale;
+    protected $_localeFormat;
 
     /**
      * @var string
@@ -196,7 +196,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Locale\FormatInterface $localeFormat
      * @param \Magento\Message\ManagerInterface $messageManager
      * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig
      * @param \Magento\Catalog\Model\Product\CartConfiguration $productConfiguration
@@ -216,7 +216,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Locale\FormatInterface $localeFormat,
         \Magento\Message\ManagerInterface $messageManager,
         \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig,
         \Magento\Catalog\Model\Product\CartConfiguration $productConfiguration,
@@ -235,7 +235,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
         $this->_productFactory = $productFactory;
         $this->_quoteFactory = $quoteFactory;
         $this->_storeManager = $storeManager;
-        $this->_locale = $locale;
+        $this->_localeFormat = $localeFormat;
         $this->_itemFailedStatus = $itemFailedStatus;
         $this->messageManager = $messageManager;
         $this->productTypeConfig = $productTypeConfig;
@@ -1160,7 +1160,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
             if (!\Zend_Validate::is($qty, 'Float')) {
                 $code = \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_QTY_INVALID_NUMBER;
             } else {
-                $qty = $this->_locale->getNumber($qty);
+                $qty = $this->_localeFormat->getNumber($qty);
                 if ($qty <= 0) {
                     $code = \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_QTY_INVALID_NON_POSITIVE;
                 } elseif ($qty < 0.0001 || $qty > 99999999.9999) {

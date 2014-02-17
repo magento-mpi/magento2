@@ -183,7 +183,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
      */
     public function getFormattedDate($item)
     {
-        return $this->formatDate($item->getCreatedAt(), \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM);
+        return $this->formatDate($item->getCreatedAt(), \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM);
     }
 
     /**

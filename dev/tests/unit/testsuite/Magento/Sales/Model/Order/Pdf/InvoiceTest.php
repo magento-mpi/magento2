@@ -50,7 +50,7 @@ class InvoiceTest extends \PHPUnit_Framework_TestCase
             false);
         $pdfItemsFactoryMock = $this->getMock('Magento\Sales\Model\Order\Pdf\ItemsFactory', array(), array(), '', false,
             false);
-        $localeMock = $this->getMock('Magento\Core\Model\LocaleInterface', array(), array(), '', false,
+        $localeDateMock = $this->getMock('Magento\Stdlib\DateTime\TimezoneInterface', array(), array(), '', false,
             false);
         $storeManagerMock = $this->getMock('Magento\Core\Model\StoreManagerInterface', array(), array(), '', false,
             false);
@@ -66,7 +66,7 @@ class InvoiceTest extends \PHPUnit_Framework_TestCase
             $this->_pdfConfigMock,
             $totalFactoryMock,
             $pdfItemsFactoryMock,
-            $localeMock,
+            $localeDateMock,
             $storeManagerMock,
             $localeResolverMock,
             array()

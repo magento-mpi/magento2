@@ -842,7 +842,7 @@ class Callback extends \Magento\GoogleCheckout\Model\Api\Xml\AbstractXml
         $payment->setAmountAuthorized($this->getData('root/authorization-amount/VALUE'));
 
         $expDate = $this->getData('root/authorization-expiration-date/VALUE');
-        $expDate = new \Zend_Date($expDate);
+        $expDate = new \Magento\Stdlib\DateTime\Date($expDate);
         $msg = __('Google Authorization:');
         $msg .= '<br />' . __('Amount: %1', '<strong>'
                 . $this->_formatAmount($payment->getAmountAuthorized()) . '</strong>');

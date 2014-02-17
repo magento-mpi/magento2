@@ -35,23 +35,25 @@ class Resolver extends \Magento\Locale\Resolver
     protected $_localeValidator;
 
     /**
-     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
+     * @param \Magento\BaseScopeResolverInterface $scopeResolver
      * @param \Magento\AppInterface $app
-     * @param \Magento\Core\Helper\Translate $translate
+     * @param \Magento\LocaleFactory $localeFactory
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Backend\Model\Session $session
      * @param Manager $localeManager
+     * @param $defaultLocalePath
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\Core\Model\Locale\Validator $localeValidator
      * @param string|null $locale
      */
     public function __construct(
-        \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
+        \Magento\BaseScopeResolverInterface $scopeResolver,
         \Magento\AppInterface $app,
-        \Magento\Core\Helper\Translate $translate,
+        \Magento\LocaleFactory $localeFactory,
         \Magento\ObjectManager $objectManager,
         \Magento\Backend\Model\Session $session,
         \Magento\Backend\Model\Locale\Manager $localeManager,
+        $defaultLocalePath,
         \Magento\App\RequestInterface $request,
         \Magento\Core\Model\Locale\Validator $localeValidator,
         $locale = null
@@ -60,14 +62,14 @@ class Resolver extends \Magento\Locale\Resolver
         $this->_localeManager = $localeManager;
         $this->_request = $request;
         $this->_localeValidator = $localeValidator;
-        parent::__construct($coreStoreConfig, $app, $translate, $objectManager, $locale);
+        parent::__construct($scopeResolver, $app, $localeFactory, $defaultLocalePath, $locale);
     }
 
     /**
      * Set locale
      *
-     * @param   string $locale
-     * @return  $this
+     * @param string $locale
+     * @return $this
      */
     public function setLocale($locale = null)
     {

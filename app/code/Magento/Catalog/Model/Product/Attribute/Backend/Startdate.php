@@ -30,16 +30,16 @@ class Startdate extends \Magento\Eav\Model\Entity\Attribute\Backend\Datetime
      * Constructor
      *
      * @param \Magento\Logger $logger
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Core\Model\Date $date
      */
     public function __construct(
         \Magento\Logger $logger,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Core\Model\Date $date
     ) {
         $this->_date = $date;
-        parent::__construct($logger, $locale);
+        parent::__construct($logger, $localeDate);
     }
 
     /**
@@ -56,7 +56,7 @@ class Startdate extends \Magento\Eav\Model\Entity\Attribute\Backend\Datetime
             return false;
         }
         if ($startDate == '' && $object->getSpecialPrice()) {
-            $startDate = $this->_locale->date();
+            $startDate = $this->_localeDate->date();
         }
 
         return $startDate;

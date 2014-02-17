@@ -80,11 +80,9 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
     protected $_coreStoreConfig;
 
     /**
-     * Locale
-     *
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\Stdlib\DateTime\TimezoneInterface
      */
-    protected $_locale;
+    protected $_localeDate;
 
     /**
      * Store manager
@@ -108,7 +106,7 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
      * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param array $supportedLanguages
@@ -118,7 +116,7 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
         \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Stdlib\DateTime $dateTime,
         array $supportedLanguages = array()
@@ -126,7 +124,7 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
         $this->_engineProvider = $engineProvider;
         $this->_taxData = $taxData;
         $this->_coreStoreConfig = $coreStoreConfig;
-        $this->_locale = $locale;
+        $this->_localeDate = $localeDate;
         $this->_storeManager = $storeManager;
         $this->dateTime = $dateTime;
         $this->_languages = $supportedLanguages;
@@ -335,7 +333,7 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
         }
 
         $locale = $this->_storeManager->getStore()
-            ->getConfig(\Magento\Locale\ResolverInterface::XML_PATH_DEFAULT_LOCALE);
+            ->getConfig($this->_app->getLocaleResolver()->getDefaultLocalePath());
         $languageSuffix = $this->getLanguageSuffix($locale);
 
         $field = $attribute->getAttributeCode();
@@ -351,17 +349,17 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
         } elseif ($backendType == 'datetime') {
             $field = 'attr_datetime_'. $field;
 
-            $format = $this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
+            $format = $this->_localeDate->getDateFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
             if (is_array($value)) {
                 foreach ($value as &$val) {
                     if (!$this->dateTime->isEmptyDate($val)) {
-                        $date = new \Zend_Date($val, $format);
+                        $date = new \Magento\Stdlib\DateTime\Date($val, $format);
                         $val = $date->toString(\Zend_Date::ISO_8601) . 'Z';
                     }
                 }
             } else {
                 if (!$this->dateTime->isEmptyDate($value)) {
-                    $date = new \Zend_Date($value, $format);
+                    $date = new \Magento\Stdlib\DateTime\Date($value, $format);
                     $value = $date->toString(\Zend_Date::ISO_8601) . 'Z';
                 }
             }

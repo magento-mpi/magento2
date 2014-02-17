@@ -8,7 +8,8 @@
  * @license     {license_link}
  */
 
-$days = $this->getLocale()->getTranslationList('days');
+/** @var \Magento\Usa\Model\Resource\Setup $this */
+$days = $this->getLocaleLists()->getTranslationList('days');
 
 $days = array_keys($days['format']['wide']);
 foreach ($days as $key => $value) {

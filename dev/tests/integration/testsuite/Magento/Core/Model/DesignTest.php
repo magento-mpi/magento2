@@ -164,17 +164,19 @@ class DesignTest extends \PHPUnit_Framework_TestCase
 
         $store = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Core\Model\StoreManagerInterface')->getStore($storeCode);
-        $store->setConfig(\Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_TIMEZONE, $storeTimezone);
+        $defaultTimeZonePath = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Stdlib\DateTime\TimezoneInterface')->getDefaultTimezonePath();
+        $store->setConfig($defaultTimeZonePath, $storeTimezone);
         $storeId = $store->getId();
 
-        /** @var $locale \Magento\Core\Model\LocaleInterface|\PHPUnit_Framework_MockObject_MockObject */
-        $locale = $this->getMock('Magento\Core\Model\LocaleInterface');
+        /** @var $locale \Magento\Stdlib\DateTime\TimezoneInterface|\PHPUnit_Framework_MockObject_MockObject */
+        $locale = $this->getMock('Magento\Stdlib\DateTime\TimezoneInterface');
         $locale->expects($this->once())
-            ->method('storeTimeStamp')
+            ->method('scopeTimeStamp')
             ->with($storeId)
             ->will($this->returnValue($storeDatetime)); // store time must stay unchanged during test execution
         $design = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\Design', array('locale' => $locale));
+            ->create('Magento\Core\Model\Design', array('localeDate' => $locale));
         $design->loadChange($storeId);
         $actualDesign = $design->getDesign();
 

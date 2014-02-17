@@ -150,6 +150,11 @@ class Installer extends \Magento\Object
     protected $_arguments;
 
     /**
+     * @var \Magento\Stdlib\DateTime\TimezoneInterface
+     */
+    protected $_localeDate;
+
+    /**
      * @param \Magento\App\ReinitableConfigInterface $config
      * @param \Magento\Module\UpdaterInterface $dbUpdater
      * @param \Magento\App\CacheInterface $cache
@@ -169,6 +174,7 @@ class Installer extends \Magento\Object
      * @param \Magento\Encryption\EncryptorInterface $encryptor
      * @param \Magento\Math\Random $mathRandom
      * @param \Magento\App\Resource $resource
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param array $data
      */
     public function __construct(
@@ -191,6 +197,7 @@ class Installer extends \Magento\Object
         \Magento\Encryption\EncryptorInterface $encryptor,
         \Magento\Math\Random $mathRandom,
         \Magento\App\Resource $resource,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         array $data = array()
     ) {
         $this->_dbUpdater = $dbUpdater;
@@ -213,6 +220,7 @@ class Installer extends \Magento\Object
         $this->_installerConfig = $installerConfig;
         $this->_session = $session;
         $this->_resource = $resource;
+        $this->_localeDate = $localeDate;
     }
 
     /**
@@ -373,11 +381,12 @@ class Installer extends \Magento\Object
          */
         $locale = $this->getDataModel()->getLocaleData();
         if (!empty($locale['locale'])) {
-            $setupModel->setConfigData(\Magento\Locale\ResolverInterface::XML_PATH_DEFAULT_LOCALE,
+            $setupModel->setConfigData($this->_app->getLocaleResolver()->getDefaultLocalePath(),
                 $locale['locale']);
         }
         if (!empty($locale['timezone'])) {
-            $setupModel->setConfigData(\Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_TIMEZONE,
+            $setupModel->setConfigData(
+                $this->_localeDate->getDefaultTimezonePath(),
                 $locale['timezone']);
         }
         if (!empty($locale['currency'])) {

@@ -24,7 +24,6 @@ class Date
      * @param \Magento\Backend\Block\Context $context
      * @param \Magento\Core\Model\Resource\Helper $resourceHelper
      * @param \Magento\Math\Random $mathRandom
-     * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param array $data
      */
     public function __construct(
@@ -54,7 +53,7 @@ class Date
     public function getHtml()
     {
         $htmlId = $this->mathRandom->getUniqueHash($this->_getHtmlId());
-        $format = $this->getLocale()->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
+        $format = $this->_localeDate->getDateFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
         $html = '<div class="range" id="' . $htmlId . '_range"><div class="range-line date">'
             . '<input type="text" name="' . $this->_getHtmlName() . '[from]" id="' . $htmlId . '_from"'
                 . ' value="' . $this->getEscapedValue('from') . '" class="input-text no-changes" placeholder="' . __('From') . '" '
@@ -93,7 +92,7 @@ class Date
     {
         $value = $this->getValue($index);
         if ($value instanceof \Zend_Date) {
-            return $value->toString($this->getLocale()->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT));
+            return $value->toString($this->_localeDate->getDateFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT));
         }
         return $value;
     }
@@ -151,30 +150,20 @@ class Date
     }
 
     /**
-     * Retrieve locale
-     *
-     * @return \Magento\Core\Model\LocaleInterface
-     */
-    public function getLocale()
-    {
-        return $this->_locale;
-    }
-
-    /**
      * Convert given date to default (UTC) timezone
      *
      * @param string $date
      * @param string $locale
-     * @return \Zend_Date|null
+     * @return \Magento\Stdlib\DateTime\Date|null
      */
     protected function _convertDate($date, $locale)
     {
         try {
-            $dateObj = $this->getLocale()->date(null, null, $locale, false);
+            $dateObj = $this->_localeDate->date(null, null, $locale, false);
 
             //set default timezone for store (admin)
             $dateObj->setTimezone(
-                $this->_storeConfig->getConfig(\Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_TIMEZONE)
+                $this->_storeConfig->getConfig($this->_localeDate->getDefaultTimezonePath())
             );
 
             //set beginning of day
@@ -186,7 +175,7 @@ class Date
             $dateObj->set($date, \Zend_Date::DATE_SHORT, $locale);
 
             //convert store date to default date in UTC timezone without DST
-            $dateObj->setTimezone(\Magento\Core\Model\LocaleInterface::DEFAULT_TIMEZONE);
+            $dateObj->setTimezone(\Magento\Stdlib\DateTime\TimezoneInterface::DEFAULT_TIMEZONE);
 
             return $dateObj;
         } catch (\Exception $e) {

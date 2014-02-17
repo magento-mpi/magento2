@@ -145,7 +145,7 @@ class Search extends \Magento\App\Action\Action
     {
         if (!$this->_localFilter) {
             $this->_localFilter = new \Zend_Filter_LocalizedToNormalized(
-                array('locale' => $this->_locale->getLocaleCode())
+                array('locale' => $this->_localeResolver->getLocaleCode())
             );
         }
         $qty = $this->_localFilter->filter($qty);

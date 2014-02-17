@@ -107,9 +107,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_config;
 
     /**
-     * @var \Magento\Core\Model\Locale
+     * @var \Magento\Locale\CurrencyInterface
      */
-    protected $_locale;
+    protected $_localeCurrency;
 
     /**
      * @var \Magento\Reward\Model\Resource\Reward\Rate\CollectionFactory
@@ -121,7 +121,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Store\Config $storeConfig
      * @param \Magento\App\ConfigInterface $config
-     * @param \Magento\Core\Model\Locale $locale
+     * @param \Magento\Locale\CurrencyInterface $localeCurrency
      * @param \Magento\Reward\Model\Resource\Reward\Rate\CollectionFactory $ratesFactory
      */
     public function __construct(
@@ -129,13 +129,13 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Store\Config $storeConfig,
         \Magento\App\ConfigInterface $config,
-        \Magento\Core\Model\Locale $locale,
+        \Magento\Locale\CurrencyInterface $localeCurrency,
         \Magento\Reward\Model\Resource\Reward\Rate\CollectionFactory $ratesFactory
     ) {
         $this->_storeManager = $storeManager;
         $this->_storeConfig = $storeConfig;
         $this->_config = $config;
-        $this->_locale = $locale;
+        $this->_localeCurrency = $localeCurrency;
         $this->_ratesFactory = $ratesFactory;
         parent::__construct($context);
     }
@@ -380,7 +380,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         if (!$currencyCode) {
             $amountFormatted = sprintf('%.2F', $amount);
         } else {
-            $amountFormatted = $this->_locale->currency($currencyCode)->toCurrency((float)$amount);
+            $amountFormatted = $this->_localeCurrency->getCurrency($currencyCode)->toCurrency((float)$amount);
         }
         return sprintf($format, $points, $amountFormatted);
     }

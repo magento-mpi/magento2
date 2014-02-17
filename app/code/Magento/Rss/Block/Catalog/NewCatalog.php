@@ -89,11 +89,11 @@ class NewCatalog extends \Magento\Rss\Block\Catalog\AbstractCatalog
 
         /** @var $product \Magento\Catalog\Model\Product */
         $product = $this->_productFactory->create();
-        $todayStartOfDayDate  = $this->_locale->date()
+        $todayStartOfDayDate  = $this->_localeDate->date()
             ->setTime('00:00:00')
             ->toString(\Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
 
-        $todayEndOfDayDate  = $this->_locale->date()
+        $todayEndOfDayDate  = $this->_localeDate->date()
             ->setTime('23:59:59')
             ->toString(\Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
 

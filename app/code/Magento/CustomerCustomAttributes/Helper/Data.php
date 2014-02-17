@@ -36,7 +36,7 @@ class Data extends \Magento\CustomAttribute\Helper\Data
     /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Filter\FilterManager $filterManager
      * @param \Magento\CustomerCustomAttributes\Helper\Address $customerAddress
      * @param \Magento\CustomerCustomAttributes\Helper\Customer $customerCustomer
@@ -44,14 +44,14 @@ class Data extends \Magento\CustomAttribute\Helper\Data
     public function __construct(
         \Magento\App\Helper\Context $context,
         \Magento\Eav\Model\Config $eavConfig,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Filter\FilterManager $filterManager,
         \Magento\CustomerCustomAttributes\Helper\Address $customerAddress,
         \Magento\CustomerCustomAttributes\Helper\Customer $customerCustomer
     ) {
         $this->_customerAddress = $customerAddress;
         $this->_customerCustomer = $customerCustomer;
-        parent::__construct($context, $eavConfig, $locale, $filterManager);
+        parent::__construct($context, $eavConfig, $localeDate, $filterManager);
     }
 
     /**

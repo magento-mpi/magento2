@@ -38,8 +38,8 @@ class Date
                             break;
 
                         default:
-                            self::$_format = $this->_locale->getDateFormat(
-                                \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM
+                            self::$_format = $this->_localeDate->getDateFormat(
+                                \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM
                             );
                             break;
                     }
@@ -77,13 +77,13 @@ class Date
             $format = $this->_getFormat();
             try {
                 $data = ($this->getColumn()->getGmtoffset())
-                    ? $this->_locale->date($data, $dateFormat)->toString($format)
-                    : $this->_locale->date($data, \Zend_Date::ISO_8601, null, false)->toString($format);
+                    ? $this->_localeDate->date($data, $dateFormat)->toString($format)
+                    : $this->_localeDate->date($data, \Zend_Date::ISO_8601, null, false)->toString($format);
             }
             catch (\Exception $e) {
                 $data = ($this->getColumn()->getTimezone())
-                    ? $this->_locale->date($data, $dateFormat)->toString($format)
-                    : $this->_locale->date($data, $dateFormat, null, false)->toString($format);
+                    ? $this->_localeDate->date($data, $dateFormat)->toString($format)
+                    : $this->_localeDate->date($data, $dateFormat, null, false)->toString($format);
             }
             return $data;
         }

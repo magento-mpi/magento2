@@ -57,7 +57,7 @@ abstract class AbstractEvent extends \Magento\View\Element\Template
     public function getEventTime($type, $event, $format = null)
     {
         if ($format === null) {
-            $format = $this->_locale->getTimeFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM);
+            $format = $this->_localeDate->getTimeFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM);
         }
 
         return $this->_getEventDate($type, $event, $format);
@@ -74,7 +74,7 @@ abstract class AbstractEvent extends \Magento\View\Element\Template
     public function getEventDate($type, $event, $format = null)
     {
         if ($format === null) {
-            $format = $this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM);
+            $format = $this->_localeDate->getDateFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM);
         }
 
         return $this->_getEventDate($type, $event, $format);
@@ -103,14 +103,14 @@ abstract class AbstractEvent extends \Magento\View\Element\Template
      */
     protected function _getEventDate($type, $event, $format)
     {
-        $date = new \Zend_Date($this->_app->getLocaleResolver()->getLocale());
+        $date = new \Magento\Stdlib\DateTime\Date($this->_app->getLocaleResolver()->getLocale());
         // changing timezone to UTC
-        $date->setTimezone(\Magento\Core\Model\LocaleInterface::DEFAULT_TIMEZONE);
+        $date->setTimezone(\Magento\Stdlib\DateTime\TimezoneInterface::DEFAULT_TIMEZONE);
 
         $dateString = $event->getData('date_' . $type);
         $date->set($dateString, \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
 
-        $timezone = $this->_storeConfig->getConfig(\Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_TIMEZONE);
+        $timezone = $this->_storeConfig->getConfig($this->_localeDate->getDefaultTimezonePath());
         if ($timezone) {
             // changing timezone to default store timezone
             $date->setTimezone($timezone);

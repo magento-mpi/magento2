@@ -49,11 +49,9 @@ class Page extends \Magento\App\Helper\AbstractHelper
     protected $messageManager;
 
     /**
-     * Locale
-     *
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\Stdlib\DateTime\TimezoneInterface
      */
-    protected $_locale;
+    protected $_localeDate;
 
     /**
      * Store manager
@@ -87,7 +85,7 @@ class Page extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\View\DesignInterface $design
      * @param \Magento\Cms\Model\PageFactory $pageFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Escaper $escaper
      * @param \Magento\App\ViewInterface $view
      */
@@ -99,7 +97,7 @@ class Page extends \Magento\App\Helper\AbstractHelper
         \Magento\View\DesignInterface $design,
         \Magento\Cms\Model\PageFactory $pageFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Escaper $escaper,
         \Magento\App\ViewInterface $view
     ) {
@@ -110,7 +108,8 @@ class Page extends \Magento\App\Helper\AbstractHelper
         $this->_design = $design;
         $this->_pageFactory = $pageFactory;
         $this->_storeManager = $storeManager;
-        $this->_locale = $locale;
+        $this->_storeManager = $storeManager;
+        $this->_localeDate = $localeDate;
         $this->_escaper = $escaper;
         parent::__construct($context);
     }
@@ -155,7 +154,7 @@ class Page extends \Magento\App\Helper\AbstractHelper
             return false;
         }
 
-        $inRange = $this->_locale->isStoreDateInInterval(null, $this->_page->getCustomThemeFrom(),
+        $inRange = $this->_localeDate->isScopeDateInInterval(null, $this->_page->getCustomThemeFrom(),
             $this->_page->getCustomThemeTo());
 
         if ($this->_page->getCustomTheme()) {

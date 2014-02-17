@@ -23,7 +23,7 @@ use Magento\Stdlib\DateTime;
 class Date extends AbstractElement
 {
     /**
-     * @var \Zend_Date
+     * @var \Magento\Stdlib\DateTime\Date
      */
     protected $_value;
 
@@ -68,8 +68,8 @@ class Date extends AbstractElement
 
     /**
      * Set date value
-     * If \Zend_Date instance is provided instead of value, other params will be ignored.
-     * Format and locale must be compatible with \Zend_Date
+     * If \Magento\Stdlib\DateTime\Date instance is provided instead of value, other params will be ignored.
+     * Format and locale must be compatible with \Magento\Stdlib\DateTime\Date
      *
      * @param mixed $value
      * @param string $format
@@ -82,13 +82,13 @@ class Date extends AbstractElement
             $this->_value = '';
             return $this;
         }
-        if ($value instanceof \Zend_Date) {
+        if ($value instanceof \Magento\Stdlib\DateTime\DateInterface) {
             $this->_value = $value;
             return $this;
         }
         if (preg_match('/^[0-9]+$/', $value)) {
-            $this->_value = new \Zend_Date($this->_toTimestamp($value));
-            //$this->_value = new \Zend_Date((int)value);
+            $this->_value = new \Magento\Stdlib\DateTime\Date($this->_toTimestamp($value));
+            //$this->_value = new \Magento\Stdlib\DateTime\Date((int)value);
             return $this;
         }
         // last check, if input format was set
@@ -105,7 +105,7 @@ class Date extends AbstractElement
             }
         }
         try {
-            $this->_value = new \Zend_Date($value, $format, $locale);
+            $this->_value = new \Magento\Stdlib\DateTime\Date($value, $format, $locale);
         } catch (\Exception $e) {
             $this->_value = '';
         }
@@ -116,7 +116,7 @@ class Date extends AbstractElement
      * Get date value as string.
      * Format can be specified, or it will be taken from $this->getFormat()
      *
-     * @param string $format (compatible with \Zend_Date)
+     * @param string $format (compatible with \Magento\Stdlib\DateTime\Date
      * @return string
      */
     public function getValue($format = null)
@@ -133,7 +133,7 @@ class Date extends AbstractElement
     /**
      * Get value instance, if any
      *
-     * @return \Zend_Date
+     * @return \Magento\Stdlib\DateTime\Date
      */
     public function getValueInstance()
     {
@@ -146,8 +146,8 @@ class Date extends AbstractElement
     /**
      * Output the input field and assign calendar instance to it.
      * In order to output the date:
-     * - the value must be instantiated (\Zend_Date)
-     * - output format must be set (compatible with \Zend_Date)
+     * - the value must be instantiated (\Magento\Stdlib\DateTime\Date)
+     * - output format must be set (compatible with \Magento\Stdlib\DateTime\Date)
      *
      * @throws \Exception
      * @return string

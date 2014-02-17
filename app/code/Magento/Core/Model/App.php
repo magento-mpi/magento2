@@ -69,13 +69,6 @@ class App implements \Magento\AppInterface
     protected $_areas = array();
 
     /**
-     * Application location object
-     *
-     * @var LocaleInterface
-     */
-    protected $_locale;
-
-    /**
      * Application locale resolver object
      *
      * @var \Magento\Locale\ResolverInterface
@@ -253,19 +246,6 @@ class App implements \Magento\AppInterface
     public function getDistroLocaleCode()
     {
         return self::DISTRO_LOCALE_CODE;
-    }
-
-    /**
-     * Retrieve application locale object
-     *
-     * @return LocaleInterface
-     */
-    public function getLocale()
-    {
-        if (!$this->_locale) {
-            $this->_locale = $this->_objectManager->get('Magento\Core\Model\LocaleInterface');
-        }
-        return $this->_locale;
     }
 
     /**

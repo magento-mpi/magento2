@@ -64,6 +64,11 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
     protected $productTypeConfig;
 
     /**
+     * @var \Magento\Locale\FormatInterface
+     */
+    protected $_localeFormat;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Registry $registry
@@ -82,6 +87,7 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Catalog\Helper\Product $productHelper
      * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig
+     * @param \Magento\Locale\FormatInterface $localeFormat
      * @param array $data
      * @param array $priceBlockTypes
      *
@@ -106,6 +112,7 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
         \Magento\Stdlib\String $string,
         \Magento\Catalog\Helper\Product $productHelper,
         \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig,
+        \Magento\Locale\FormatInterface $localeFormat,
         array $data = array(),
         array $priceBlockTypes = array()
     ) {
@@ -116,6 +123,7 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
         $this->_taxCalculation = $taxCalculation;
         $this->productTypeConfig = $productTypeConfig;
         $this->string = $string;
+        $this->_localeFormat = $localeFormat;
         parent::__construct(
             $context,
             $catalogConfig,
@@ -270,7 +278,7 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
         }
         $config = array(
             'productId'           => $product->getId(),
-            'priceFormat'         => $this->_locale->getJsPriceFormat(),
+            'priceFormat'         => $this->_localeFormat->getPriceFormat(),
             'includeTax'          => $this->_taxData->priceIncludesTax() ? 'true' : 'false',
             'showIncludeTax'      => $this->_taxData->displayPriceIncludingTax(),
             'showBothPrices'      => $this->_taxData->displayBothPrices(),

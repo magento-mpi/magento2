@@ -24,8 +24,8 @@ class Collection
     /**
      * Joins Invitation report data, and filter by date
      *
-     * @param \Zend_Date|string $fromDate
-     * @param \Zend_Date|string $toDate
+     * @param \Magento\Stdlib\DateTime\Date|string $fromDate
+     * @param \Magento\Stdlib\DateTime\Date|string $toDate
      * @return $this
      */
     public function setDateRange($fromDate, $toDate)

@@ -152,11 +152,11 @@ class NewProduct extends \Magento\Catalog\Block\Product\AbstractProduct
      */
     protected function _getProductCollection()
     {
-        $todayStartOfDayDate  = $this->_locale->date()
+        $todayStartOfDayDate  = $this->_localeDate->date()
             ->setTime('00:00:00')
             ->toString(\Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
 
-        $todayEndOfDayDate  = $this->_locale->date()
+        $todayEndOfDayDate  = $this->_localeDate->date()
             ->setTime('23:59:59')
             ->toString(\Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
 

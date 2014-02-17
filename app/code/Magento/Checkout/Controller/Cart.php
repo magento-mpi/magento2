@@ -136,8 +136,8 @@ class Cart
             if (!$this->_getQuote()->validateMinimumAmount()) {
                 $currencyCode = $this->_objectManager->get('Magento\Core\Model\StoreManagerInterface')->getStore()
                     ->getCurrentCurrencyCode();
-                $minimumAmount = $this->_objectManager->get('Magento\Core\Model\LocaleInterface')
-                    ->currency($currencyCode)
+                $minimumAmount = $this->_objectManager->get('Magento\Locale\CurrencyInterface')
+                    ->getCurrency($currencyCode)
                     ->toCurrency($this->_storeConfig->getConfig('sales/minimum_order/amount'));
 
                 $warning = $this->_storeConfig->getConfig('sales/minimum_order/description')

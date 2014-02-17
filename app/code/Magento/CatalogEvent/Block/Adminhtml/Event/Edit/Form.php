@@ -17,7 +17,6 @@ use Magento\Backend\Helper\Data;
 use Magento\Catalog\Model\Category as ModelCategory;
 use Magento\Catalog\Model\CategoryFactory;
 use Magento\CatalogEvent\Model\Event;
-use Magento\Core\Model\LocaleInterface;
 use Magento\Registry;
 use Magento\Data\FormFactory;
 
@@ -125,8 +124,8 @@ class Form extends Generic
             )
         );
 
-        $dateFormat = $this->_locale->getDateFormat(LocaleInterface::FORMAT_TYPE_SHORT);
-        $timeFormat = $this->_locale->getTimeFormat(LocaleInterface::FORMAT_TYPE_SHORT);
+        $dateFormat = $this->_localeDate->getDateFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
+        $timeFormat = $this->_localeDate->getTimeFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
 
         $fieldset->addField('date_start', 'date', array(
                 'label'        => __('Start Date'),

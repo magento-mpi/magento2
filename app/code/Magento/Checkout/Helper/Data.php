@@ -40,9 +40,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_checkoutSession;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\Stdlib\DateTime\TimezoneInterface
      */
-    protected $_locale;
+    protected $_localeDate;
 
     /**
      * @var \Magento\Checkout\Model\Resource\Agreement\CollectionFactory
@@ -66,7 +66,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Checkout\Model\Session $checkoutSession
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Checkout\Model\Resource\Agreement\CollectionFactory $agreementCollectionFactory
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\TranslateInterface $translator
@@ -76,7 +76,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Checkout\Model\Session $checkoutSession,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Checkout\Model\Resource\Agreement\CollectionFactory $agreementCollectionFactory,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\TranslateInterface $translator
@@ -84,7 +84,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_storeManager = $storeManager;
         $this->_checkoutSession = $checkoutSession;
-        $this->_locale = $locale;
+        $this->_localeDate = $localeDate;
         $this->_agreementCollectionFactory = $agreementCollectionFactory;
         $this->_transportBuilder = $transportBuilder;
         $this->_translator = $translator;
@@ -265,7 +265,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
                 ->setTemplateVars(array(
                     'reason' => $message,
                     'checkoutType' => $checkoutType,
-                    'dateAndTime' => $this->_locale->date(),
+                    'dateAndTime' => $this->_localeDate->date(),
                     'customer' => $checkout->getCustomerFirstname() . ' ' . $checkout->getCustomerLastname(),
                     'customerEmail' => $checkout->getCustomerEmail(),
                     'billingAddress' => $checkout->getBillingAddress(),

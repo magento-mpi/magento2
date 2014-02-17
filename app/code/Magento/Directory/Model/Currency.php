@@ -42,9 +42,9 @@ class Currency extends \Magento\Core\Model\AbstractModel
     protected $_rates;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\Locale\FormatInterface
      */
-    protected $_locale;
+    protected $_localeFormat;
 
     /**
      * @var \Magento\Core\Model\StoreManagerInterface
@@ -62,12 +62,18 @@ class Currency extends \Magento\Core\Model\AbstractModel
     protected $_currencyFilterFactory;
 
     /**
+     * @var \Magento\Locale\CurrencyInterface
+     */
+    protected $_localeCurrency;
+
+    /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Locale\FormatInterface $localeFormat
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Directory\Helper\Data $directoryHelper
      * @param \Magento\Directory\Model\Currency\FilterFactory $currencyFilterFactory
+     * @param \Magento\Locale\CurrencyInterface $localeCurrency
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -75,10 +81,11 @@ class Currency extends \Magento\Core\Model\AbstractModel
     public function __construct(
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Locale\FormatInterface $localeFormat,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Directory\Helper\Data $directoryHelper,
         \Magento\Directory\Model\Currency\FilterFactory $currencyFilterFactory,
+        \Magento\Locale\CurrencyInterface $localeCurrency,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -86,10 +93,11 @@ class Currency extends \Magento\Core\Model\AbstractModel
         parent::__construct(
             $context, $registry, $resource, $resourceCollection, $data
         );
-        $this->_locale = $locale;
+        $this->_localeFormat = $localeFormat;
         $this->_storeManager = $storeManager;
         $this->_directoryHelper = $directoryHelper;
         $this->_currencyFilterFactory = $currencyFilterFactory;
+        $this->_localeCurrency = $localeCurrency;
     }
 
     /**
@@ -284,7 +292,7 @@ class Currency extends \Magento\Core\Model\AbstractModel
     public function formatTxt($price, $options = array())
     {
         if (!is_numeric($price)) {
-            $price = $this->_locale->getNumber($price);
+            $price = $this->_localeFormat->getNumber($price);
         }
         /**
          * Fix problem with 12 000 000, 1 200 000
@@ -293,7 +301,7 @@ class Currency extends \Magento\Core\Model\AbstractModel
          * %F - the argument is treated as a float, and presented as a floating-point number (non-locale aware).
          */
         $price = sprintf("%F", $price);
-        return $this->_locale->currency($this->getCode())->toCurrency($price, $options);
+        return $this->_localeCurrency->getCurrency($this->getCode())->toCurrency($price, $options);
     }
 
     /**
@@ -302,7 +310,7 @@ class Currency extends \Magento\Core\Model\AbstractModel
     public function getOutputFormat()
     {
         $formatted = $this->formatTxt(0);
-        $number = $this->formatTxt(0, array('display' => \Zend_Currency::NO_SYMBOL));
+        $number = $this->formatTxt(0, array('display' => \Magento\Currency::NO_SYMBOL));
         return str_replace($number, '%s', $formatted);
     }
 

@@ -11,14 +11,16 @@ namespace Magento\Locale;
 interface ResolverInterface
 {
     /**
-     * XML path to the default locale
-     */
-    const XML_PATH_DEFAULT_LOCALE = 'general/locale/code';
-
-    /**
      * Default locale
      */
     const DEFAULT_LOCALE = 'en_US';
+
+    /**
+     * Return path to default locale
+     *
+     * @return string
+     */
+    public function getDefaultLocalePath();
 
     /**
      * Set default locale code
@@ -68,12 +70,15 @@ interface ResolverInterface
     /**
      * Push current locale to stack and replace with locale from specified store
      *
-     * @param int $storeId
+     * @param int $scopeId
+     * @return string|null
      */
-    public function emulate($storeId);
+    public function emulate($scopeId);
 
     /**
      * Get last locale, used before last emulation
+     *
+     * @return string|null
      */
     public function revert();
 }

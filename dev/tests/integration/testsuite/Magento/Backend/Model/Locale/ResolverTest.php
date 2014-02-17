@@ -29,7 +29,7 @@ class ResolverTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Core\Model\LocaleInterface::setLocale
+     * @covers \Magento\Locale\ResolverInterface::setLocale
      */
     public function testSetLocaleWithDefaultLocale()
     {
@@ -37,7 +37,7 @@ class ResolverTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Core\Model\LocaleInterface::setLocale
+     * @covers \Magento\Locale\ResolverInterface::setLocale
      */
     public function testSetLocaleWithBaseInterfaceLocale()
     {
@@ -51,7 +51,7 @@ class ResolverTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Core\Model\LocaleInterface::setLocale
+     * @covers \Magento\Locale\ResolverInterface::setLocale
      */
     public function testSetLocaleWithSessionLocale()
     {
@@ -61,7 +61,7 @@ class ResolverTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Core\Model\LocaleInterface::setLocale
+     * @covers \Magento\Locale\ResolverInterface::setLocale
      */
     public function testSetLocaleWithRequestLocale()
     {

@@ -21,11 +21,6 @@ class DataTest extends \PHPUnit_Framework_TestCase
     protected $_helper = null;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
-     */
-    protected $locale;
-
-    /**
      * @var \DateTime
      */
     protected $_dateTime = null;
@@ -33,8 +28,6 @@ class DataTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Helper\Data');
-        $this->locale = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Core\Model\LocaleInterface');
         $this->_dateTime = new \DateTime;
         $this->_dateTime->setTimezone(new \DateTimeZone(self::DATE_TIMEZONE));
     }

@@ -18,9 +18,9 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Locale model
      *
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\Locale\ListsInterface
      */
-    protected $_locale;
+    protected $_localeLists;
 
     /**
      * Core store config
@@ -51,7 +51,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * @param \Magento\Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Locale\ListsInterface $localeLists
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Directory\Model\Resource\CountryFactory $countryFactory
      * @param \Magento\Stdlib\ArrayUtils $arrayUtils
@@ -64,7 +64,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         \Magento\Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Locale\ListsInterface $localeLists,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Directory\Model\Resource\CountryFactory $countryFactory,
         \Magento\Stdlib\ArrayUtils $arrayUtils,
@@ -74,7 +74,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     ) {
         parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $connection, $resource);
         $this->_coreStoreConfig = $coreStoreConfig;
-        $this->_locale = $locale;
+        $this->_localeLists = $localeLists;
         $this->_localeResolver = $localeResolver;
         $this->_countryFactory = $countryFactory;
         $this->_arrayUtils = $arrayUtils;
@@ -195,7 +195,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
 
         $sort = array();
         foreach ($options as $data) {
-            $name = (string)$this->_locale->getCountryTranslation($data['value']);
+            $name = (string)$this->_localeLists->getCountryTranslation($data['value']);
             if (!empty($name)) {
                 $sort[$name] = $data['value'];
             }

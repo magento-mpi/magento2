@@ -29,7 +29,7 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_separator                = '|';
 
     /**
-     * Array of \Zend_Date objects per store
+     * Array of \Magento\Stdlib\DateTime\DateInterface objects per store
      *
      * @var array
      */
@@ -128,6 +128,16 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $dateTime;
 
     /**
+     * @var \Magento\Locale\ResolverInterface
+     */
+    protected $_localeResolver;
+
+    /**
+     * @var \Magento\Stdlib\DateTime\TimezoneInterface
+     */
+    protected $_localeDate;
+
+    /**
      * @param \Magento\App\Resource $resource
      * @param \Magento\Catalog\Model\Product\Type $catalogProductType
      * @param \Magento\Eav\Model\Config $eavConfig
@@ -141,6 +151,8 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param Helper $resourceHelper
      * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      */
     public function __construct(
         \Magento\App\Resource $resource,
@@ -155,7 +167,9 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\CatalogSearch\Model\Resource\Helper $resourceHelper,
-        \Magento\Stdlib\DateTime $dateTime
+        \Magento\Stdlib\DateTime $dateTime,
+        \Magento\Locale\ResolverInterface $localeResolver,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
     ) {
         $this->_catalogProductType = $catalogProductType;
         $this->_eavConfig = $eavConfig;
@@ -169,6 +183,8 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
         $this->_resourceHelper = $resourceHelper;
         $this->_engineProvider = $engineProvider;
         $this->dateTime = $dateTime;
+        $this->_localeResolver = $localeResolver;
+        $this->_localeDate = $localeDate;
         parent::__construct($resource);
     }
 
@@ -883,15 +899,13 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected function _getStoreDate($storeId, $date = null)
     {
         if (!isset($this->_dates[$storeId])) {
-            $timezone = $this->_coreStoreConfig->getConfig(
-                \Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_TIMEZONE, $storeId
-            );
+            $timezone = $this->_coreStoreConfig->getConfig($this->_localeDate->getDefaultTimezonePath(), $storeId);
             $locale   = $this->_coreStoreConfig->getConfig(
-                \Magento\Locale\ResolverInterface::XML_PATH_DEFAULT_LOCALE, $storeId
+                $this->_localeResolver->getDefaultLocalePath(), $storeId
             );
             $locale   = new \Zend_Locale($locale);
 
-            $dateObj = new \Zend_Date(null, null, $locale);
+            $dateObj = new \Magento\Stdlib\DateTime\Date(null, null, $locale);
             $dateObj->setTimezone($timezone);
             $this->_dates[$storeId] = array($dateObj, $locale->getTranslation(null, 'date', $locale));
         }

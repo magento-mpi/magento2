@@ -20,16 +20,16 @@ namespace Magento\Core\Model\Locale;
 class Validator
 {
     /**
-     * @var \Magento\Core\Model\Locale\Config
+     * @var \Magento\Locale\ConfigInterface
      */
     protected $_localeConfig;
 
     /**
      * Constructor
      *
-     * @param \Magento\Core\Model\Locale\Config $localeConfig
+     * @param \Magento\Locale\ConfigInterface $localeConfig
      */
-    public function __construct(\Magento\Core\Model\Locale\Config $localeConfig)
+    public function __construct(\Magento\Locale\ConfigInterface $localeConfig)
     {
         $this->_localeConfig = $localeConfig;
     }

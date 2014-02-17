@@ -68,11 +68,9 @@ class Rma extends \Magento\Core\Model\AbstractModel
     protected $_rmaData;
 
     /**
-     * Core locale interface
-     *
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\Stdlib\DateTime\TimezoneInterface
      */
-    protected $locale;
+    protected $_localeDate;
 
     /**
      * Core session model
@@ -260,7 +258,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Shipping\Model\ShippingFactory $shippingFactory
      * @param \Magento\Escaper $escaper
      * @param \Magento\Rma\Model\Resource\Rma $resource
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Message\ManagerInterface $messageManager
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -292,7 +290,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
         \Magento\Shipping\Model\ShippingFactory $shippingFactory,
         \Magento\Escaper $escaper,
         \Magento\Rma\Model\Resource\Rma $resource,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Message\ManagerInterface $messageManager,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -320,7 +318,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
         $this->_rateRequestFactory = $rateRequestFactory;
         $this->_shippingFactory = $shippingFactory;
         $this->_escaper = $escaper;
-        $this->locale = $locale;
+        $this->_localeDate = $localeDate;
         $this->messageManager = $messageManager;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
@@ -1006,7 +1004,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
      */
     public function getCreatedAtFormated($format)
     {
-        return $this->locale->formatDate($this->getCreatedAtStoreDate(), $format, true);
+        return $this->_localeDate->formatDate($this->getCreatedAtStoreDate(), $format, true);
     }
 
     /**

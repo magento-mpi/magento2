@@ -25,6 +25,7 @@ class Amounts extends \Magento\Backend\Block\Dashboard\Graph
      * @param \Magento\Reports\Model\Resource\Order\CollectionFactory $collectionFactory
      * @param \Magento\Backend\Helper\Dashboard\Data $dashboardData
      * @param \Magento\Backend\Helper\Dashboard\Order $dataHelper
+     * @param \Magento\Locale\ListsInterface $localeLists
      * @param array $data
      */
     public function __construct(
@@ -32,10 +33,11 @@ class Amounts extends \Magento\Backend\Block\Dashboard\Graph
         \Magento\Reports\Model\Resource\Order\CollectionFactory $collectionFactory,
         \Magento\Backend\Helper\Dashboard\Data $dashboardData,
         \Magento\Backend\Helper\Dashboard\Order $dataHelper,
+        \Magento\Locale\ListsInterface $localeLists,
         array $data = array()
     ) {
         $this->_dataHelper = $dataHelper;
-        parent::__construct($context, $collectionFactory, $dashboardData, $data);
+        parent::__construct($context, $collectionFactory, $dashboardData, $localeLists, $data);
     }
 
     /**

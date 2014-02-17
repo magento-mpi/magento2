@@ -144,7 +144,7 @@ class View
     {
         return $this->formatDate(
             $this->getCustomer()->getCreatedAt(),
-            \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM,
+            \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM,
             true
         );
     }
@@ -154,12 +154,12 @@ class View
      */
     public function getStoreCreateDate()
     {
-        $date = $this->_locale->storeDate(
+        $date = $this->_localeDate->scopeDate(
             $this->getCustomer()->getStoreId(),
             $this->getCustomer()->getCreatedAtTimestamp(),
             true
         );
-        return $this->formatDate($date, \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM, true);
+        return $this->formatDate($date, \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM, true);
     }
 
     /**
@@ -168,7 +168,7 @@ class View
     public function getStoreCreateDateTimezone()
     {
         return $this->_storeConfig->getConfig(
-            \Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_TIMEZONE,
+            $this->_localeDate->getDefaultTimezonePath(),
             $this->getCustomer()->getStoreId()
         );
     }
@@ -184,7 +184,7 @@ class View
         if ($date) {
             return $this->formatDate(
                 $date,
-                \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM,
+                \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM,
                 true
             );
         }
@@ -198,12 +198,12 @@ class View
     {
         $date = $this->getCustomerLog()->getLoginAtTimestamp();
         if ($date) {
-            $date = $this->_locale->storeDate(
+            $date = $this->_localeDate->storeDate(
                 $this->getCustomer()->getStoreId(),
                 $date,
                 true
             );
-            return $this->formatDate($date, \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM, true);
+            return $this->formatDate($date, \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM, true);
         }
         return __('Never');
     }
@@ -214,7 +214,7 @@ class View
     public function getStoreLastLoginDateTimezone()
     {
         return $this->_storeConfig->getConfig(
-            \Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_TIMEZONE,
+            $this->_localeDate->getDefaultTimezonePath(),
             $this->getCustomer()->getStoreId()
         );
     }
