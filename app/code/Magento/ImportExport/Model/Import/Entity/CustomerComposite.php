@@ -61,7 +61,7 @@ class CustomerComposite
     /**
      * Column names that holds values with particular meaning
      *
-     * @var array
+     * @var string[]
      */
     protected $_specialAttributes = array(
         \Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_WEBSITE,
@@ -73,7 +73,7 @@ class CustomerComposite
     /**
      * Permanent entity columns
      *
-     * @var array
+     * @var string[]
      */
     protected $_permanentAttributes = array(
         \Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_EMAIL,
@@ -83,14 +83,14 @@ class CustomerComposite
     /**
      * Customer attributes
      *
-     * @var array
+     * @var string[]
      */
     protected $_customerAttributes = array();
 
     /**
      * Address attributes
      *
-     * @var array
+     * @var string[]
      */
     protected $_addressAttributes = array();
 
@@ -209,7 +209,7 @@ class CustomerComposite
     /**
      * Collect customer attributes
      *
-     * @return \Magento\ImportExport\Model\Import\Entity\CustomerComposite
+     * @return $this
      */
     protected function _initCustomerAttributes()
     {
@@ -224,7 +224,7 @@ class CustomerComposite
     /**
      * Collect address attributes
      *
-     * @return \Magento\ImportExport\Model\Import\Entity\CustomerComposite
+     * @return $this
      */
     protected function _initAddressAttributes()
     {
@@ -239,7 +239,7 @@ class CustomerComposite
     /**
      * Import data rows
      *
-     * @return boolean
+     * @return bool
      */
     protected function _importData()
     {
@@ -266,7 +266,7 @@ class CustomerComposite
      *
      * @param array $rowData
      * @param int $rowNumber
-     * @return boolean
+     * @return bool
      */
     public function validateRow(array $rowData, $rowNumber)
     {
@@ -384,7 +384,7 @@ class CustomerComposite
      * Set data from outside to change behavior
      *
      * @param array $parameters
-     * @return \Magento\ImportExport\Model\Import\Entity\CustomerComposite
+     * @return $this
      */
     public function setParameters(array $parameters)
     {

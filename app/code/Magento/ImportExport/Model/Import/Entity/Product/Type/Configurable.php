@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ImportExport\Model\Import\Entity\Product\Type;
 
 /**
  * Import entity configurable product type model
@@ -15,8 +16,6 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\ImportExport\Model\Import\Entity\Product\Type;
-
 class Configurable
     extends \Magento\ImportExport\Model\Import\Entity\Product\Type\AbstractType
 {
@@ -43,7 +42,7 @@ class Configurable
     /**
      * Column names that holds values with particular meaning.
      *
-     * @var array
+     * @var string[]
      */
     protected $_specialAttributes = array(
         '_super_products_sku', '_super_attribute_code', '_super_attribute_option',
@@ -53,7 +52,7 @@ class Configurable
     /**
      * Reference array of existing product-attribute to product super attribute ID.
      *
-     * product_1 (underscore) attribute_id_1 => product_super_attr_id_1,
+     * Example: product_1 (underscore) attribute_id_1 => product_super_attr_id_1,
      * product_1 (underscore) attribute_id_2 => product_super_attr_id_2,
      * ...,
      * product_n (underscore) attribute_id_n => product_super_attr_id_n
@@ -162,7 +161,7 @@ class Configurable
     /**
      * Add attribute parameters to appropriate attribute set.
      *
-     * @param string $attrParams Name of attribute set.
+     * @param string $attrSetName Name of attribute set.
      * @param array $attrParams Refined attribute parameters.
      * @return \Magento\ImportExport\Model\Import\Entity\Product\Type\AbstractType
      */
@@ -206,7 +205,7 @@ class Configurable
      * Is attribute is super-attribute?
      *
      * @param string $attrCode
-     * @return boolean
+     * @return bool
      */
     protected function _isAttributeSuper($attrCode)
     {
@@ -249,7 +248,7 @@ class Configurable
     /**
      * Array of SKU to array of super attribute values for all products.
      *
-     * @return \Magento\ImportExport\Model\Import\Entity\Product\Type\Configurable
+     * @return $this
      */
     protected function _loadSkuSuperAttributeValues()
     {
@@ -276,7 +275,7 @@ class Configurable
     /**
      * Array of SKU to array of super attribute values for all products.
      *
-     * @return \Magento\ImportExport\Model\Import\Entity\Product\Type\Configurable
+     * @return $this
      */
     protected function _loadSkuSuperData()
     {
@@ -309,8 +308,8 @@ class Configurable
      * Validate and prepare data about super attributes and associated products.
      *
      * @param array $superData
-     * @param array $superAttributes
-     * @return \Magento\ImportExport\Model\Import\Entity\Product\Type\Configurable
+     * @param array &$superAttributes
+     * @return $this
      */
     protected function _processSuperData(array $superData, array &$superAttributes)
     {
@@ -368,7 +367,7 @@ class Configurable
      * Save product type specific data.
      *
      * @throws \Exception
-     * @return \Magento\ImportExport\Model\Import\Entity\Product\Type\AbstractType
+     * @return $this
      */
     public function saveData()
     {
