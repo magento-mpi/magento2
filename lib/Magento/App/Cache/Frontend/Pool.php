@@ -79,9 +79,8 @@ class Pool implements \Iterator
         /*
          * Merging is intentionally implemented through array_merge() instead of array_replace_recursive()
          * to avoid "inheritance" of the default settings that become irrelevant as soon as cache storage type changes
-         * @TODO Check above approval
          */
-        return array_replace_recursive($this->_frontendSettings, $this->_arguments->getCacheFrontendSettings());
+        return array_merge($this->_frontendSettings, $this->_arguments->getCacheFrontendSettings());
     }
 
     /**

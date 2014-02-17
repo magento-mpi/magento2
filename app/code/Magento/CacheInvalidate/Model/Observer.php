@@ -52,18 +52,16 @@ class Observer
     }
 
     /**
-     * If Built-In caching is enabled it collects array of tags
+     * If Varnish caching is enabled it collects array of tags
      * of incoming object and asks to clean cache.
      *
      * @param \Magento\Event\Observer $observer
      */
-    public function invalidateCache(\Magento\Event\Observer $observer)
+    public function invalidateVarnish(\Magento\Event\Observer $observer)
     {
-        $object = $observer->getEvent();
+        $object = $observer->getEvent()->getObject();
         if($object instanceof \Magento\Object\IdentityInterface) {
-            if($this->_config->getType() == \Magento\PageCache\Model\Config::BUILT_IN) {
-                $this->_cache->clean($object->getIdentities());
-            } else {
+            if($this->_config->getType() == \Magento\PageCache\Model\Config::VARNISH) {
                 $preparedTags = implode('|', $object->getIdentities());
                 $curl = new \Magento\HTTP\Adapter\Curl();
                 $curl->setOptions(array(CURLOPT_CUSTOMREQUEST => 'PURGE'));
