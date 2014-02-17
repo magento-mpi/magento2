@@ -34,10 +34,8 @@ class Sidebar
      * @param \Magento\Code\Plugin\InvocationChain $invocationChain
      * @return bool|mixed
      */
-    public function aroundIsConfigurationRequired(
-        array $arguments,
-        \Magento\Code\Plugin\InvocationChain $invocationChain
-    ) {
+    public function aroundIsConfigurationRequired(array $arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
+    {
         $typeId = $arguments[0];
         if ($typeId == \Magento\GroupedProduct\Model\Product\Type\Grouped::TYPE_CODE) {
             return true;
