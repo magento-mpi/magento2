@@ -309,8 +309,8 @@ class Product extends \Magento\Catalog\Model\AbstractModel
         $this->_urlModel = $url;
         $this->_linkInstance = $productLink;
         $this->_filesystem = $filesystem;
-        $this->_productFlatIndexerProcessor = $productFlatIndexerProcessor;
         $this->categoryIndexer = $categoryIndexer;
+        $this->_productFlatIndexerProcessor = $productFlatIndexerProcessor;
         parent::__construct($context, $registry, $storeManager, $resource, $resourceCollection, $data);
     }
 
@@ -699,8 +699,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel
         $this->getLinkInstance()->saveProductRelations($this);
         $this->getTypeInstance()->save($this);
 
-        $this->_getResource()->addCommitCallback(array($this, 'reindexCallback'));
-
         /**
          * Product Options
          */
@@ -718,14 +716,16 @@ class Product extends \Magento\Catalog\Model\AbstractModel
 
 
     /**
-     * Callback for entity reindex
+     * Init indexing process after product save
      *
      * @return $this
      */
-    public function reindexCallback()
+    public function reindex()
     {
         $this->_productFlatIndexerProcessor->reindexRow($this->getEntityId());
-        return $this;
+        if (!$this->getCategoryIndexer()->isScheduled()) {
+            $this->getCategoryIndexer()->reindexRow($this->getId());
+        }
     }
 
     /**
@@ -745,16 +745,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     }
 
     /**
-     * Init indexing process after product save
-     */
-    public function reindex()
-    {
-        if (!$this->getCategoryIndexer()->isScheduled()) {
-            $this->getCategoryIndexer()->reindexRow($this->getId());
-        }
-    }
-
-    /**
      * Init indexing process after product delete commit
      *
      * @return void
@@ -762,7 +752,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     protected function _afterDeleteCommit()
     {
         $this->reindex();
-        $this->_productFlatIndexerProcessor->reindexRow($this->getId());
         parent::_afterDeleteCommit();
         $this->_indexIndexer->indexEvents(
             self::ENTITY, \Magento\Index\Model\Event::TYPE_DELETE

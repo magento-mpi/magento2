@@ -19,12 +19,21 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var \Magento\Catalog\Model\Indexer\Product\Flat\Processor
+     * @var \Magento\Indexer\Model\IndexerInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $categoryIndexerMock;
+
+    /**
+     * @var \Magento\Catalog\Model\Indexer\Product\Flat\Processor|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_processor;
 
     public function setUp()
     {
+        $this->categoryIndexerMock = $this->getMockForAbstractClass(
+            '\Magento\Indexer\Model\IndexerInterface', array(), '', false, false, true, array()
+        );
+
         $this->_processor = $this->getMock(
             'Magento\Catalog\Model\Indexer\Product\Flat\Processor', array(), array(), '', false
         );
@@ -93,6 +102,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             $this->getMock('Magento\Data\CollectionFactory', array(), array(), '', false),
             $this->getMock('Magento\App\Filesystem', array(), array(), '', false),
             $this->getMock('Magento\Indexer\Model\IndexerInterface', array(), array(), '', false),
+            $this->categoryIndexerMock,
             $this->_processor,
             array('id' => 1)
         );
@@ -100,17 +110,21 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
     public function testIndexerAfterDeleteCommitProduct()
     {
+        $this->categoryIndexerMock->expects($this->once())
+            ->method('reindexRow');
         $this->_processor->expects($this->once())
             ->method('reindexRow');
 
         $this->_model->delete();
     }
 
-    public function testReindexCallbackProduct()
+    public function testReindex()
     {
+        $this->categoryIndexerMock->expects($this->once())
+            ->method('reindexRow');
         $this->_processor->expects($this->once())
             ->method('reindexRow');
 
-        $this->_model->reindexCallback();
+        $this->_model->reindex();
     }
 }
