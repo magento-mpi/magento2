@@ -13,6 +13,7 @@
         <indexerModel instance="Magento\GiftCard\Model\Resource\Indexer\Price" />
         <customAttributes>
             <attribute name="refundable" value="false"/>
+            <attribute name="taxable" value="false"/>
         </customAttributes>
     </type>
 </config>

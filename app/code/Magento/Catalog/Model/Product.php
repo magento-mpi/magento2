@@ -1185,16 +1185,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     }
 
     /**
-     * Check is product configurable
-     *
-     * @return bool
-     */
-    public function isConfigurable()
-    {
-        return $this->getTypeId() == Product\Type::TYPE_CONFIGURABLE;
-    }
-
-    /**
      * Returns visible status IDs in catalog
      *
      * @return array
