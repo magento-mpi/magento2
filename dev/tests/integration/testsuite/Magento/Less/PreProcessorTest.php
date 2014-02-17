@@ -42,10 +42,14 @@ class PreProcessorTest extends \PHPUnit_Framework_TestCase
         $viewService = $this->objectManager->get('Magento\View\Service');
         $viewService->updateDesignParams($designParams);
         /** @var $file \Magento\View\Publisher\CssFile */
-        $cssFile = $this->objectManager->create('Magento\View\Publisher\CssFile', [
-            'filePath'   => 'source/source.css',
-            'viewParams' => $designParams
-        ]);
+        $cssFile = $this->objectManager->create(
+            'Magento\View\Publisher\CssFile',
+            [
+                'filePath'   => 'source/source.css',
+                'allowDuplication' => true,
+                'viewParams' => $designParams
+            ]
+        );
         $cssTargetFile = $lessPreProcessor->process($cssFile, $targetDirectory);
         /** @var $viewFilesystem \Magento\View\FileSystem */
         $viewFilesystem = $this->objectManager->get('Magento\View\FileSystem');
