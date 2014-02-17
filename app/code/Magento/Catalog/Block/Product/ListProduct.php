@@ -328,7 +328,7 @@ class ListProduct extends \Magento\Catalog\Block\Product\AbstractProduct
     {
         $identities = array();
         foreach ($this->_getProductCollection() as $item) {
-            $identities[] = $item->getIdentities();
+            $identities = array_merge($identities, $item->getIdentities());
         }
         return array_merge($this->getLayer()->getCurrentCategory()->getIdentities(), $identities);
     }

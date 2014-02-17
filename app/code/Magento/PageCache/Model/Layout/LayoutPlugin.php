@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 namespace Magento\PageCache\Model\Layout;
+use Magento\TestFramework\Inspection\Exception;
 
 /**
  * Class LayoutPlugin
@@ -72,9 +73,10 @@ class LayoutPlugin
             $tags = array();
             foreach($this->layout->getAllBlocks() as $block) {
                 if ($block instanceof \Magento\View\Block\IdentityInterface) {
-                    $tags += $block->getIdentities();
+                    $tags = array_merge($tags, $block->getIdentities());
                 }
             }
+            $tags = array_unique($tags);
             $this->response->setHeader('X-Magento-Tags', implode(',', $tags));
         }
         return $html;

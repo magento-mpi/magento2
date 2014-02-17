@@ -90,6 +90,10 @@ class Grouped extends \Magento\Checkout\Block\Cart\Item\Renderer implements \Mag
      */
     public function getIdentities()
     {
-        return array_merge(parent::getIdentities(), $this->getGroupedProduct()->getIdentities());
+        $identities = parent::getIdentities();
+        if ($this->getItem()) {
+            $identities = array_merge($identities, $this->getGroupedProduct()->getIdentities());
+        }
+        return $identities;
     }
 }
