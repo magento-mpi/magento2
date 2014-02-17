@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Model\Indexer\State\Plugin;
+namespace Magento\Catalog\Model\Indexer\Category\Product\Plugin;
 
-class StatusTest extends \PHPUnit_Framework_TestCase
+class IndexerStateTest extends \PHPUnit_Framework_TestCase
 {
     public function testAfterSetStatus()
     {
@@ -58,7 +58,7 @@ class StatusTest extends \PHPUnit_Framework_TestCase
             )
             ->will($this->returnSelf());
 
-        $model = new \Magento\Catalog\Model\Indexer\State\Plugin\Status($state);
+        $model = new \Magento\Catalog\Model\Indexer\Category\Product\Plugin\IndexerState($state);
         $this->assertInstanceOf('\Magento\Indexer\Model\Indexer\State', $model->afterSetStatus($testableState));
     }
 }

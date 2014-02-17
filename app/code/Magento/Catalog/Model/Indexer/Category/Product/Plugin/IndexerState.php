@@ -7,9 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Model\Indexer\State\Plugin;
+namespace Magento\Catalog\Model\Indexer\Category\Product\Plugin;
 
-class Status
+class IndexerState
 {
     /**
      * @var \Magento\Indexer\Model\Indexer\State
@@ -17,9 +17,9 @@ class Status
     protected $state;
 
     /**
-     * ids list
+     * Related indexers IDs
      *
-     * @var array
+     * @var int[]
      */
     protected $indexerIds = array(
         \Magento\Catalog\Model\Indexer\Product\Category::INDEXER_ID,
@@ -37,10 +37,10 @@ class Status
     /**
      * Synchronize status for indexers
      *
-     * @param \Magento\Object $state
-     * @return \Magento\Object
+     * @param \Magento\Indexer\Model\Indexer\State $state
+     * @return \Magento\Indexer\Model\Indexer\State
      */
-    public function afterSetStatus(\Magento\Object $state)
+    public function afterSetStatus(\Magento\Indexer\Model\Indexer\State $state)
     {
         if (in_array($state->getIndexerId(), $this->indexerIds)) {
             $indexerId = $state->getIndexerId() == \Magento\Catalog\Model\Indexer\Category\Product::INDEXER_ID
@@ -49,8 +49,8 @@ class Status
 
             $relatedIndexerState = $this->state->load($indexerId, 'indexer_id');
 
-            $relatedIndexerState->setData('status', $state->getStatus())
-                ->save();
+            $relatedIndexerState->setData('status', $state->getStatus());
+            $relatedIndexerState->save();
         }
 
         return $state;

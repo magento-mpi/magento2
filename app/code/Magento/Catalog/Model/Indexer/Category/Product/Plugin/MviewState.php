@@ -7,9 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Model\Mview\View\State\Plugin;
+namespace Magento\Catalog\Model\Indexer\Category\Product\Plugin;
 
-class Status
+class MviewState
 {
     /**
      * @var \Magento\Mview\View\StateInterface
@@ -22,9 +22,9 @@ class Status
     protected $changelog;
 
     /**
-     * ids list
+     * Related indexers IDs
      *
-     * @var array
+     * @var int[]
      */
     protected $viewIds = array(
         \Magento\Catalog\Model\Indexer\Category\Product::INDEXER_ID,
@@ -58,15 +58,22 @@ class Status
 
             $relatedViewState = $this->state->loadByView($viewId);
 
+            // if equals nothing to change
             if ($state->getStatus() == $relatedViewState->getStatus()) {
                 return $state;
             }
 
-            $relatedViewState->setStatus($state->getStatus());
+            // suspend
             if ($state->getStatus() == \Magento\Mview\View\StateInterface::STATUS_SUSPENDED) {
+                $relatedViewState->setStatus(\Magento\Mview\View\StateInterface::STATUS_SUSPENDED);
                 $relatedViewState->setVersionId($this->changelog->setViewId($viewId)->getVersion());
+                $relatedViewState->save();
+            } else {
+                if ($relatedViewState->getStatus() == \Magento\Mview\View\StateInterface::STATUS_SUSPENDED) {
+                    $relatedViewState->setStatus(\Magento\Mview\View\StateInterface::STATUS_IDLE);
+                    $relatedViewState->save();
+                }
             }
-            $relatedViewState->save();
         }
 
         return $state;
