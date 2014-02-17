@@ -100,10 +100,6 @@ class KernelTest extends \PHPUnit_Framework_TestCase
     {
         $cacheControlHeader = 'public, max-age=100, s-maxage=100';
         $httpCode = 200;
-        $this->responseMock
-            ->expects($this->once())
-            ->method('__sleep')
-            ->will($this->returnValue(array()));
 
         $this->responseMock
             ->expects($this->at(0))
