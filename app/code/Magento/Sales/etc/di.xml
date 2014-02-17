@@ -33,7 +33,7 @@
             <instance type="pdfConfigDataStorage" />
         </param>
     </type>
-    <type name="Magento\Catalog\Model\Resource\Product\Flat\Indexer">
+    <type name="Magento\Catalog\Helper\Product\Flat\Indexer">
         <param name="flatAttributeGroups">
             <array>
                 <item key="sales_quote_item"><value>sales_quote_item</value></item>

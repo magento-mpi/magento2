@@ -78,7 +78,7 @@ class CreateProduct extends Curl
         foreach ($requestParams as $key => $value) {
             $params .= $key . '/' . $value . '/';
         }
-        return $_ENV['app_backend_url'] . 'catalog/product/save/' . $params . 'popup/1/';
+        return $_ENV['app_backend_url'] . 'catalog/product/save/' . $params . 'popup/1/back/edit';
     }
 
     /**
@@ -95,7 +95,7 @@ class CreateProduct extends Curl
         $prefix = isset($config['input_prefix']) ? $config['input_prefix'] : null;
         $data = $this->_prepareData($fixture->getData('fields'), $prefix);
         if ($fixture->getData('category_id')) {
-            $data['product']['category_ids'] = $fixture->getData('category_id');
+            $data['product']['category_ids'] = $fixture->getCategoryIds();
         }
         $url = $this->_getUrl($config);
         $curl = new BackendDecorator(new CurlTransport(), new Config);

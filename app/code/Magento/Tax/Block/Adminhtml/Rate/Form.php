@@ -22,14 +22,20 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     const FORM_ELEMENT_ID = 'rate-form';
 
+    /**
+     * @var null
+     */
     protected $_titles = null;
 
+    /**
+     * @var string
+     */
     protected $_template = 'rate/form.phtml';
 
     /**
      * Tax data
      *
-     * @var \Magento\Tax\Helper\Data
+     * @var \Magento\Tax\Helper\Data|null
      */
     protected $_taxData = null;
 
@@ -91,6 +97,9 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         parent::__construct($context, $registry, $formFactory, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -98,6 +107,9 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
     }
 
+    /**
+     * @return $this
+     */
     protected function _prepareForm()
     {
         $rateObject = new \Magento\Object($this->_rate->getData());
@@ -235,7 +247,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Get Tax Rates Collection
      *
-     * @return array
+     * @return mixed
      */
     public function getRateCollection()
     {

@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ScheduledImportExport\Model\Scheduled;
 
 /**
  * Operation model
@@ -30,8 +31,6 @@
  * @method \Magento\ScheduledImportExport\Model\Scheduled\Operation setLastRunDate() setLastRunDate(int $value)
  * @method int getLastRunDate() getLastRunDate()
  */
-namespace Magento\ScheduledImportExport\Model\Scheduled;
-
 class Operation extends \Magento\Core\Model\AbstractModel
 {
     /**
@@ -125,7 +124,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
     /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\App\Filesystem $filesystem,
+     * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation\GenericFactory $schedOperFactory
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation\DataFactory $operationFactory
@@ -185,7 +184,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
      * Send email notification
      *
      * @param array $vars
-     * @return \Magento\ScheduledImportExport\Model\Scheduled\Operation
+     * @return $this
      */
     public function sendEmailNotification($vars = array())
     {
@@ -237,7 +236,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
     /**
      * Unserialize file_info and entity_attributes after load
      *
-     * @return \Magento\ScheduledImportExport\Model\Scheduled\Operation
+     * @return $this
      */
     protected function _afterLoad()
     {
@@ -257,7 +256,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
     /**
      * Serialize file_info and entity_attributes arrays before save
      *
-     * @return \Magento\ScheduledImportExport\Model\Scheduled\Operation
+     * @return $this
      */
     protected function _beforeSave()
     {
@@ -277,7 +276,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
     /**
      * Add task to cron after save
      *
-     * @return \Magento\ScheduledImportExport\Model\Scheduled\Operation
+     * @return $this
      */
     protected function _afterSave()
     {
@@ -292,7 +291,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
     /**
      * Delete cron task
      *
-     * @return \Magento\ScheduledImportExport\Model\Scheduled\Operation
+     * @return $this
      */
     protected function _afterDelete()
     {
@@ -304,7 +303,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
      * Add operation to cron
      *
      * @throws \Magento\Core\Exception
-     * @return \Magento\ScheduledImportExport\Model\Scheduled\Operation
+     * @return $this
      */
     protected function _addCronTask()
     {
@@ -347,7 +346,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
      * Remove cron task
      *
      * @throws \Magento\Core\Exception
-     * @return \Magento\ScheduledImportExport\Model\Scheduled\Operation
+     * @return $this
      */
     protected function _dropCronTask()
     {
@@ -389,9 +388,9 @@ class Operation extends \Magento\Core\Model\AbstractModel
      * Load operation by cron job code.
      * Operation id must present in job code.
      *
-     * @throws \Magento\Core\Exception
      * @param string $jobCode
-     * @return \Magento\ScheduledImportExport\Model\Scheduled\Operation
+     * @return $this
+     * @throws \Magento\Core\Exception
      */
     public function loadByJobCode($jobCode)
     {
@@ -492,10 +491,10 @@ class Operation extends \Magento\Core\Model\AbstractModel
     /**
      * Save/upload file to server (ftp, local)
      *
-     * @throws \Magento\Core\Exception
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation\OperationInterface $operation
      * @param string $fileContent
      * @return bool
+     * @throws \Magento\Core\Exception
      */
     public function saveFileSource(
         \Magento\ScheduledImportExport\Model\Scheduled\Operation\OperationInterface $operation,
@@ -544,7 +543,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
      * Prepare data for server io driver initialization
      *
      * @param array $fileInfo
-     * @return array prepared configuration
+     * @return array Prepared configuration
      */
     protected function _prepareIoConfiguration($fileInfo)
     {
@@ -570,9 +569,9 @@ class Operation extends \Magento\Core\Model\AbstractModel
     /**
      * Save operation file history.
      *
-     * @throws \Magento\Core\Exception
      * @param string $source
-     * @return \Magento\ScheduledImportExport\Model\Scheduled\Operation
+     * @return $this
+     * @throws \Magento\Core\Exception
      */
     protected function _saveOperationHistory($source)
     {

@@ -384,11 +384,26 @@
             <word>GiftCard</word>
         </item>
         <item>
+            <!-- Incorrect dependency: EE functionality mentioned in CE test for layer navigation. -->
+            <path>dev/tests/functional/tests/app/Magento/Catalog/Test/Page/Category/CatalogCategoryView.php</path>
+            <word>Magento\Search</word>
+        </item>
+        <item>
+            <!-- Incorrect dependency: EE functionality mentioned in CE test for layer navigation. -->
+            <path>dev/tests/functional/tests/app/Magento/Search/Test/Block/Catalog/Layer/View.php</path>
+            <word>Magento\Search</word>
+            <word>Magento/Search</word>
+        </item>
+        <item>
             <!-- Skip all words in CE check as currently this testsuites are used only for EE -->
             <path>dev/tests/functional/testsuites/</path>
         </item>
         <item>
             <path>app/code/Magento/Core/etc/di.xml</path>
+            <word>CHANGELOG</word>
+        </item>
+        <item>
+            <path>app/code/Magento/Catalog/Model/Indexer/Product/Flat/AbstractAction.php</path>
             <word>CHANGELOG</word>
         </item>
         <item>
@@ -433,6 +448,10 @@
             <word>CustomAttribute</word>
         </item>
         <item>
+            <path>app/code/Magento/Catalog/Model/ProductTypes/ConfigInterface.php</path>
+            <word>CustomAttribute</word>
+        </item>
+        <item>
             <path>app/code/Magento/Catalog/etc/product_types.xml</path>
             <word>CustomAttribute</word>
         </item>
@@ -450,6 +469,10 @@
         </item>
         <item>
             <path>app/code/Magento/Downloadable/etc/product_types.xml</path>
+            <word>CustomAttribute</word>
+        </item>
+        <item>
+            <path>app/code/Magento/ConfigurableProduct/etc/product_types.xml</path>
             <word>CustomAttribute</word>
         </item>
         <item>

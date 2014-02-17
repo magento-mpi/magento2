@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <event name="payment_method_is_active">
+        <observer name="sales_billing_agreement" instance="Magento\Paypal\Model\Observer" method="restrictAdminBillingAgreementUsage" />
+    </event>
+</config>

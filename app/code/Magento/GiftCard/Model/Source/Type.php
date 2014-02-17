@@ -99,14 +99,9 @@ class Type extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
             'extra'     => null
         );
 
-        if ($this->_coreData->useDbCompatibleMode()) {
-            $column['type']     = 'tinyint';
-            $column['is_null']  = true;
-        } else {
-            $column['type']     = \Magento\DB\Ddl\Table::TYPE_SMALLINT;
-            $column['nullable'] = true;
-            $column['comment']  = 'Enterprise Giftcard Type ' . $attributeCode . ' column';
-        }
+        $column['type']     = \Magento\DB\Ddl\Table::TYPE_SMALLINT;
+        $column['nullable'] = true;
+        $column['comment']  = 'Enterprise Giftcard Type ' . $attributeCode . ' column';
 
         return array($attributeCode => $column);
     }

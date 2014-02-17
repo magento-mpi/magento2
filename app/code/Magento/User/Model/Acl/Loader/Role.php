@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\User\Model\Acl\Loader;
 
 use Magento\User\Model\Acl\Role\Group as RoleGroup;
@@ -47,6 +46,7 @@ class Role implements \Magento\Acl\LoaderInterface
      * Populate ACL with roles from external storage
      *
      * @param \Magento\Acl $acl
+     * @return void
      */
     public function populateAcl(\Magento\Acl $acl)
     {

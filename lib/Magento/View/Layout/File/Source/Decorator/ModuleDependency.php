@@ -19,11 +19,15 @@ use Magento\View\Design\ThemeInterface;
 class ModuleDependency implements SourceInterface
 {
     /**
+     * Subject
+     *
      * @var SourceInterface
      */
     private $subject;
 
     /**
+     * Module list
+     *
      * @var ModuleListInterface
      */
     private $moduleList;
@@ -36,6 +40,8 @@ class ModuleDependency implements SourceInterface
     private $orderedModules;
 
     /**
+     * Constructor
+     *
      * @param SourceInterface $subject
      * @param ModuleListInterface $listInterface
      */

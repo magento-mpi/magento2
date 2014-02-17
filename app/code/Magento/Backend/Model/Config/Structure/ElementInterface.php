@@ -17,6 +17,7 @@ interface ElementInterface
      *
      * @param array $data
      * @param string $scope
+     * @return void
      */
     public function setData(array $data, $scope);
 

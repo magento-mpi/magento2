@@ -72,6 +72,8 @@ class Filesystem implements \Magento\Config\ReaderInterface
     protected $_isValidated;
 
     /**
+     * Constructor
+     *
      * @param \Magento\Config\FileResolverInterface $fileResolver
      * @param \Magento\Config\ConverterInterface $converter
      * @param \Magento\Config\SchemaLocatorInterface $schemaLocator

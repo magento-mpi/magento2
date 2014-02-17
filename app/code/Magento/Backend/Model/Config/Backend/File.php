@@ -78,7 +78,7 @@ class File extends \Magento\Core\Model\Config\Value
     /**
      * Save uploaded file before saving config value
      *
-     * @return \Magento\Backend\Model\Config\Backend\File
+     * @return $this
      * @throws \Magento\Core\Exception
      */
     protected function _beforeSave()
@@ -127,6 +127,7 @@ class File extends \Magento\Core\Model\Config\Value
      * Validation callback for checking max file size
      *
      * @param  string $filePath Path to temporary uploaded file
+     * @return void
      * @throws \Magento\Core\Exception
      */
     public function validateMaxSize($filePath)

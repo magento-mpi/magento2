@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Resource\Product\Option;
 
 /**
@@ -38,7 +37,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Catalog\Model\Resource\Product\Option\Value\CollectionFactory $optionValueCollectionFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param mixed $connection
+     * @param \Zend_Db_Adapter_Abstract $connection
      * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
@@ -58,6 +57,8 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
 
     /**
      * Resource initialization
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -68,7 +69,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Adds title, price & price_type attributes to result
      *
      * @param int $storeId
-     * @return \Magento\Catalog\Model\Resource\Product\Option\Collection
+     * @return $this
      */
     public function getOptions($storeId)
     {
@@ -82,7 +83,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Add title to result
      *
      * @param int $storeId
-     * @return \Magento\Catalog\Model\Resource\Product\Option\Collection
+     * @return $this
      */
     public function addTitleToResult($storeId)
     {
@@ -115,7 +116,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Add price to result
      *
      * @param int $storeId
-     * @return \Magento\Catalog\Model\Resource\Product\Option\Collection
+     * @return $this
      */
     public function addPriceToResult($storeId)
     {
@@ -162,7 +163,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Add value to result
      *
      * @param int $storeId
-     * @return \Magento\Catalog\Model\Resource\Product\Option\Collection
+     * @return $this
      */
     public function addValuesToResult($storeId = null)
     {
@@ -198,7 +199,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Add product_id filter to select
      *
      * @param array|\Magento\Catalog\Model\Product|int $product
-     * @return \Magento\Catalog\Model\Resource\Product\Option\Collection
+     * @return $this
      */
     public function addProductToFilter($product)
     {
@@ -219,7 +220,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Add is_required filter to select
      *
      * @param bool $required
-     * @return \Magento\Catalog\Model\Resource\Product\Option\Collection
+     * @return $this
      */
     public function addRequiredFilter($required = true)
     {
@@ -230,8 +231,8 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Add filtering by option ids
      *
-     * @param mixed $optionIds
-     * @return \Magento\Catalog\Model\Resource\Product\Option\Collection
+     * @param string|array $optionIds
+     * @return $this
      */
     public function addIdsToFilter($optionIds)
     {
@@ -242,7 +243,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Call of protected method reset
      *
-     * @return \Magento\Catalog\Model\Resource\Product\Option\Collection
+     * @return $this
      */
     public function reset()
     {
