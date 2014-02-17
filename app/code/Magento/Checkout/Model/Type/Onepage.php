@@ -18,6 +18,8 @@ use Magento\Customer\Service\V1\Dto\AddressBuilder;
 use Magento\Customer\Service\V1\Dto\Address as AddressDto;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 use Magento\Customer\Model\Metadata\Form;
+use Magento\Customer\Service\V1\Dto\Response\CreateCustomerAccountResponse;
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 
 class Onepage
 {
@@ -120,7 +122,7 @@ class Onepage
     protected $messageManager;
 
     /**
-     * @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface
+     * @var CustomerAccountServiceInterface
      */
     protected $_accountService;
 
@@ -152,7 +154,7 @@ class Onepage
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Object\Copy $objectCopyService
      * @param \Magento\Message\ManagerInterface $messageManager
-     * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $accountService
+     * @param CustomerAccountServiceInterface $accountService
      * @param \Magento\Customer\Model\Metadata\FormFactory $formFactory
      * @param CustomerBuilder $customerBuilder
      * @param AddressBuilder $addressBuilder
@@ -175,7 +177,7 @@ class Onepage
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Object\Copy $objectCopyService,
         \Magento\Message\ManagerInterface $messageManager,
-        \Magento\Customer\Service\V1\CustomerAccountServiceInterface $accountService,
+        CustomerAccountServiceInterface $accountService,
         \Magento\Customer\Model\Metadata\FormFactory $formFactory,
         CustomerBuilder $customerBuilder,
         AddressBuilder $addressBuilder,
@@ -826,20 +828,19 @@ class Onepage
     /**
      * Involve new customer to system
      *
-     * @return \Magento\Checkout\Model\Type\Onepage
+     * @param CreateCustomerAccountResponse $createCustomerResponse
+     * @return $this
      */
-    protected function _involveNewCustomer()
+    protected function _involveNewCustomer(CreateCustomerAccountResponse $createCustomerResponse)
     {
-        $customer = $this->getQuote()->getCustomer();
-        if ($customer->isConfirmationRequired()) {
-            $customer->sendNewAccountEmail('confirmation', '', $this->getQuote()->getStoreId());
+        $customer = $this->getQuote()->getCustomerData();
+        if ($createCustomerResponse->getStatus() == CustomerAccountServiceInterface::ACCOUNT_CONFIRMATION) {
             $url = $this->_customerData->getEmailConfirmationUrl($customer->getEmail());
             $this->messageManager->addSuccess(
                 __('Account confirmation is required. Please, check your e-mail for confirmation link. To resend confirmation email please <a href="%1">click here</a>.', $url)
             );
         } else {
-            $customer->sendNewAccountEmail('registered', '', $this->getQuote()->getStoreId());
-            $this->getCustomerSession()->loginById($customer->getId());
+            $this->getCustomerSession()->loginById($customer->getCustomerId());
         }
         return $this;
     }
@@ -871,7 +872,7 @@ class Onepage
 
         if ($isNewCustomer) {
             try {
-                $this->_involveNewCustomer();
+                $this->_involveNewCustomer($service->getCreateCustomerResponse());
             } catch (\Exception $e) {
                 $this->_logger->logException($e);
             }

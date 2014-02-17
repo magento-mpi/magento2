@@ -13,6 +13,7 @@ use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\Dto\AddressBuilder;
 use Magento\Customer\Service\V1\Dto\Customer as CustomerDto;
+use Magento\Customer\Service\V1\Dto\Response\CreateCustomerAccountResponse;
 
 /**
  * Quote submit service model
@@ -97,6 +98,11 @@ class Quote
      * @var AddressBuilder
      */
     protected $_customerAddressBuilder;
+
+    /**
+     * @var CreateCustomerAccountResponse
+     */
+    protected $_createCustomerResponse;
 
     /**
      * Class constructor
@@ -297,7 +303,7 @@ class Quote
                 $this->_customerService->saveCustomer($customerDto);
                 $this->_customerAddressService->saveAddresses($customerDto->getCustomerId(), $addresses);
             } else { //for new customers
-                $createCustomerResponse = $this->_customerAccountService->createAccount(
+                $this->_createCustomerResponse = $this->_customerAccountService->createAccount(
                     $customerDto,
                     $addresses,
                     null,
@@ -306,8 +312,9 @@ class Quote
                     $quote->getStoreId()
                 );
                 //Update quote with new customer and address data
-                $customerDto = $this->_customerService->getCustomer($createCustomerResponse->getCustomerId());
-                $addresses = $this->_customerAddressService->getAddresses($createCustomerResponse->getCustomerId());
+                $customerDto = $this->_customerService->getCustomer($this->_createCustomerResponse->getCustomerId());
+                $addresses = $this->_customerAddressService->getAddresses(
+                    $this->_createCustomerResponse->getCustomerId());
             }
 
             $quote->setCustomerData($customerDto)->setCustomerAddressData($addresses);
@@ -483,6 +490,16 @@ class Quote
     public function getOrder()
     {
         return $this->_order;
+    }
+
+    /**
+     * Get response when CustomerAccountService was invoked to create a new customer account
+     *
+     * @return CreateCustomerAccountResponse
+     */
+    public function getCreateCustomerResponse()
+    {
+        return $this->_createCustomerResponse;
     }
 
     /**
