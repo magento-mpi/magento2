@@ -101,7 +101,6 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             $this->getMock('Magento\Catalog\Model\Resource\Product\Collection', array(), array(), '', false),
             $this->getMock('Magento\Data\CollectionFactory', array(), array(), '', false),
             $this->getMock('Magento\App\Filesystem', array(), array(), '', false),
-            $this->getMock('Magento\Indexer\Model\IndexerInterface', array(), array(), '', false),
             $this->categoryIndexerMock,
             $this->_processor,
             array('id' => 1)
