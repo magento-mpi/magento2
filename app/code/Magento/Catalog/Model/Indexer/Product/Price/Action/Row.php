@@ -21,18 +21,18 @@ class Row extends \Magento\Catalog\Model\Indexer\Product\Price\AbstractAction
      * Execute Row reindex
      *
      * @param int|null $id
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Catalog\Exception
      */
     public function execute($id = null)
     {
         if (!isset($id) || empty($id)) {
-            throw new \Magento\Core\Exception(__('Could not rebuild index for undefined product'));
+            throw new \Magento\Catalog\Exception(__('Could not rebuild index for undefined product'));
         }
         try {
             $this->_reindex(array($id));
             $this->_logger->log('Row reindex for product - ' . $id . '');
         } catch (\Exception $e) {
-            throw new \Magento\Core\Exception($e->getMessage(), $e->getCode(), $e);
+            throw new \Magento\Catalog\Exception($e->getMessage(), $e->getCode(), $e);
         }
     }
 
