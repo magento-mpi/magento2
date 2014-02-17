@@ -12,14 +12,26 @@ use Magento\TestFramework\Utility\Files;
 use Magento\Tools\Dependency\ServiceLocator;
 
 try {
-    $filesUtility = Files::init();
-    $filesForParse = $filesUtility->getFiles([$filesUtility->getPathToSource() . '/app/code/Magento'], '*');
-    $configFiles = $filesUtility->getConfigFiles('module.xml', [], false);
+    $console = new \Zend_Console_Getopt(array(
+        'directory|d=s' => 'Path to base directory for parsing',
+    ));
+    $console->parse();
+
+    $directory = $console->getOption('directory') ?: BP;
+
+    Files::setInstance(new \Magento\TestFramework\Utility\Files($directory));
+    $filesForParse = Files::init()->getFiles([Files::init()->getPathToSource() . '/app/code/Magento'], '*');
+    $configFiles = Files::init()->getConfigFiles('module.xml', [], false);
 
     ServiceLocator::getFrameworkDependenciesReportBuilder()->build([
-        'files_for_parse' => $filesForParse,
-        'config_files' => $configFiles,
-        'report_filename' => 'framework-dependencies.csv',
+        'parse' => [
+            'files_for_parse' => $filesForParse,
+            'config_files' => $configFiles,
+            'declared_namespaces' => Files::init()->getNamespaces(),
+        ],
+        'write' => [
+            'report_filename' => 'framework-dependencies.csv',
+        ],
     ]);
 
     fwrite(STDOUT, PHP_EOL . 'Report successfully processed.' . PHP_EOL);
@@ -28,6 +40,6 @@ try {
     fwrite(STDERR, $e->getUsageMessage() . PHP_EOL);
     exit(1);
 } catch (\Exception $e) {
-    fwrite(STDERR, 'Dependencies report generator failed: ' . $e->getMessage() . PHP_EOL);
+    fwrite(STDERR, 'Please, check passed path. Dependencies report generator failed: ' . $e->getMessage() . PHP_EOL);
     exit(1);
 }

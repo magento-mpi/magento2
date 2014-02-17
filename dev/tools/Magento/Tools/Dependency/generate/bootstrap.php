@@ -14,5 +14,3 @@ require_once BP . 'app/autoload.php';
     BP . 'dev/tools',
     BP . '/lib',
 ]);
-
-\Magento\TestFramework\Utility\Files::setInstance(new \Magento\TestFramework\Utility\Files(BP));

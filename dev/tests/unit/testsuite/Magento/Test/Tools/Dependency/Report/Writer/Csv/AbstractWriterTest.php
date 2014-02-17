@@ -31,14 +31,38 @@ class AbstractWriterTest extends \PHPUnit_Framework_TestCase
 
     public function testWrite()
     {
-        $filename = 'some_filename';
+        $options = ['report_filename' => 'some_filename'];
         $configMock = $this->getMock('Magento\Tools\Dependency\Report\Data\ConfigInterface');
         $preparedData = ['foo', 'baz', 'bar'];
 
         $this->writer->expects($this->once())->method('prepareData')->with($configMock)
             ->will($this->returnValue($preparedData));
-        $this->csvMock->expects($this->once())->method('saveData')->with($filename, $preparedData);
+        $this->csvMock->expects($this->once())->method('saveData')->with($options['report_filename'], $preparedData);
 
-        $this->writer->write($filename, $configMock);
+        $this->writer->write($options, $configMock);
+    }
+
+    /**
+     * @param array $options
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Writing error: Passed option "report_filename" is wrong.
+     * @dataProvider dataProviderWrongOptionReportFilename
+     */
+    public function testWriteWithWrongOptionReportFilename($options)
+    {
+        $configMock = $this->getMock('Magento\Tools\Dependency\Report\Data\ConfigInterface');
+
+        $this->writer->write($options, $configMock);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderWrongOptionReportFilename()
+    {
+        return [
+            [['report_filename' => '']],
+            [['there_are_no_report_filename' => 'some_name']],
+        ];
     }
 }

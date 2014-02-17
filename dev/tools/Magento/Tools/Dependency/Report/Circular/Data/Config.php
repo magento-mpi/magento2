@@ -13,7 +13,7 @@ use Magento\Tools\Dependency\Report\Data\Config\AbstractConfig;
 /**
  * Config
  *
- *  @method \Magento\Tools\Dependency\Report\Circular\Data\Module[] getModules()
+ * @method \Magento\Tools\Dependency\Report\Circular\Data\Module[] getModules()
  */
 class Config extends AbstractConfig
 {

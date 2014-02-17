@@ -48,7 +48,7 @@ class Builder extends AbstractBuilder
      * @param array $modulesData
      * @return \Magento\Tools\Dependency\Report\Circular\Data\Config
      */
-    protected function prepareData($modulesData)
+    protected function buildData($modulesData)
     {
         $modules = [];
         foreach ($this->buildCircularDependencies($modulesData) as $moduleName => $modulesChains) {

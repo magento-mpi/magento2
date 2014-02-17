@@ -18,7 +18,7 @@ use Magento\Tools\Dependency\Report\WriterInterface;
 class Builder extends AbstractBuilder
 {
     /**
-     * Confug parser
+     * Config parser
      *
      * @var \Magento\Tools\Dependency\ParserInterface
      */
@@ -51,8 +51,8 @@ class Builder extends AbstractBuilder
     {
         parent::checkOptions($options);
 
-        if (!isset($options['config_files']) || empty($options['config_files'])) {
-            throw new \InvalidArgumentException('Passed option "config_files" is wrong.');
+        if (!isset($options['parse']['config_files']) || empty($options['parse']['config_files'])) {
+            throw new \InvalidArgumentException('Parse error. Passed option "config_files" is wrong.');
         }
     }
 
@@ -62,7 +62,7 @@ class Builder extends AbstractBuilder
      * @param array $modulesData
      * @return \Magento\Tools\Dependency\Report\Framework\Data\Config
      */
-    protected function prepareData($modulesData)
+    protected function buildData($modulesData)
     {
         $allowedModules = $this->getAllowedModules();
 
@@ -88,6 +88,6 @@ class Builder extends AbstractBuilder
     {
         return array_map(function ($element) {
             return $element['name'];
-        }, $this->configParser->parse($this->options['config_files']));
+        }, $this->configParser->parse(['files_for_parse' => $this->options['parse']['config_files']]));
     }
 }

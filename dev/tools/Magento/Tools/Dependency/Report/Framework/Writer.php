@@ -23,7 +23,7 @@ class Writer extends AbstractWriter
      */
     protected function prepareData($config)
     {
-        $data[] = ['Dependenices of framework:', 'Total number'];
+        $data[] = ['Dependencies of framework:', 'Total number'];
         $data[] = ['', $config->getDependenciesCount()];
         $data[] = [];
 

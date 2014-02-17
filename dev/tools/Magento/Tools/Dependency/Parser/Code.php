@@ -16,34 +16,28 @@ use Magento\Tools\Dependency\ParserInterface;
 class Code implements ParserInterface
 {
     /**
-     * Allowed namespaces prefixes
+     * Declared namespaces
      *
      * @var array
      */
-    protected $namespacesPrefixes;
-
-    /**
-     * Framework construct
-     *
-     * @param array $namespacesPrefixes
-     */
-    public function __construct(array $namespacesPrefixes)
-    {
-        $this->namespacesPrefixes = $namespacesPrefixes;
-    }
+    protected $declaredNamespaces;
 
     /**
      * Template method. Main algorithm
      *
      * {@inheritdoc}
      */
-    public function parse(array $files)
+    public function parse(array $options)
     {
-        $pattern = '#\b((?<module>(' . implode('_|', $this->namespacesPrefixes)
+        $this->checkOptions($options);
+
+        $this->declaredNamespaces = $options['declared_namespaces'];
+
+        $pattern = '#\b((?<module>(' . implode('[\\\\]|', $this->declaredNamespaces)
             . '[\\\\])[a-zA-Z0-9]+)[a-zA-Z0-9_\\\\]*)\b#';
 
         $modules = [];
-        foreach ($files as $file) {
+        foreach ($options['files_for_parse'] as $file) {
             $content = file_get_contents($file);
             $module = $this->extractModuleName($file);
 
@@ -76,6 +70,25 @@ class Code implements ParserInterface
     }
 
     /**
+     * Template method. Check passed options step
+     *
+     * @param array $options
+     * @throws \InvalidArgumentException
+     */
+    protected function checkOptions($options)
+    {
+        if (!isset($options['files_for_parse']) || !is_array($options['files_for_parse'])
+            || !$options['files_for_parse']) {
+            throw new \InvalidArgumentException('Parse error: Option "files_for_parse" is wrong.');
+        }
+
+        if (!isset($options['declared_namespaces']) || !is_array($options['declared_namespaces'])
+            || !$options['declared_namespaces']) {
+            throw new \InvalidArgumentException('Parse error: Option "declared_namespaces" is wrong.');
+        }
+    }
+
+    /**
      * Extract module name form file path
      *
      * @param string $file
@@ -83,7 +96,7 @@ class Code implements ParserInterface
      */
     protected function extractModuleName($file)
     {
-        $pattern = '#code/(?<namespace>' . $this->namespacesPrefixes[0] . ')[/_\\\\]?(?<module>[^/]+)/#';
+        $pattern = '#code/(?<namespace>' . $this->declaredNamespaces[0] . ')[/_\\\\]?(?<module>[^/]+)/#';
         if (preg_match($pattern, $file, $matches)) {
             return $matches['namespace'] . '\\' . $matches['module'];
         }

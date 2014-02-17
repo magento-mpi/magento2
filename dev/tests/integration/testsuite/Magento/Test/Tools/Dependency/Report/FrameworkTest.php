@@ -44,15 +44,20 @@ class FrameworkTest extends \PHPUnit_Framework_TestCase
     public function testBuild()
     {
         $this->builder->build([
-            'files_for_parse' => [
-                $this->fixtureDirModule . 'Helper/Helper.php',
-                $this->fixtureDirModule . 'Model/Model.php',
-                $this->fixtureDirModule . 'view/frontend/template.phtml',
+            'parse' => [
+                'files_for_parse' => [
+                    $this->fixtureDirModule . 'Helper/Helper.php',
+                    $this->fixtureDirModule . 'Model/Model.php',
+                    $this->fixtureDirModule . 'view/frontend/template.phtml',
+                ],
+                'config_files' => [
+                    $this->fixtureDirModule . 'etc/module.xml',
+                ],
+                'declared_namespaces' => ['Magento'],
             ],
-            'config_files' => [
-                $this->fixtureDirModule . 'etc/module.xml',
+            'write' => [
+                'report_filename' => $this->sourceFilename,
             ],
-            'report_filename' => $this->sourceFilename,
         ]);
 
         $this->assertFileEquals(
@@ -64,13 +69,18 @@ class FrameworkTest extends \PHPUnit_Framework_TestCase
     public function testBuildWithoutDependencies()
     {
         $this->builder->build([
-            'files_for_parse' => [
-                $this->fixtureDirModule . 'Model/WithoutDependencies.php',
+            'parse' => [
+                'files_for_parse' => [
+                    $this->fixtureDirModule . 'Model/WithoutDependencies.php',
+                ],
+                'config_files' => [
+                    $this->fixtureDirModule . 'etc/module.xml',
+                ],
+                'declared_namespaces' => ['Magento'],
             ],
-            'config_files' => [
-                $this->fixtureDirModule . 'etc/module.xml',
+            'write' => [
+                'report_filename' => $this->sourceFilename,
             ],
-            'report_filename' => $this->sourceFilename,
         ]);
 
         $this->assertFileEquals(

@@ -38,11 +38,15 @@ class DependencyTest extends \PHPUnit_Framework_TestCase
     public function testBuild()
     {
         $this->builder->build([
-            'files_for_parse' => [
-                $this->fixtureDir . 'config1.xml',
-                $this->fixtureDir . 'config2.xml',
+            'parse' => [
+                'files_for_parse' => [
+                    $this->fixtureDir . 'config1.xml',
+                    $this->fixtureDir . 'config2.xml',
+                ],
             ],
-            'report_filename' => $this->sourceFilename,
+            'write' => [
+                'report_filename' => $this->sourceFilename,
+            ],
         ]);
 
         $this->assertFileEquals(
@@ -54,10 +58,14 @@ class DependencyTest extends \PHPUnit_Framework_TestCase
     public function testBuildWithoutDependencies()
     {
         $this->builder->build([
-            'files_for_parse' => [
-                $this->fixtureDir . 'config3.xml',
+            'parse' => [
+                'files_for_parse' => [
+                    $this->fixtureDir . 'config3.xml',
+                ],
             ],
-            'report_filename' => $this->sourceFilename,
+            'write' => [
+                'report_filename' => $this->sourceFilename,
+            ],
         ]);
 
         $this->assertFileEquals(

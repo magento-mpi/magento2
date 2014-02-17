@@ -33,7 +33,7 @@ class Writer extends AbstractWriter
         $data[] = [];
 
         if ($config->getDependenciesCount()) {
-            $data[] = ['Circular dependenices for each module:', ''];
+            $data[] = ['Circular dependencies for each module:', ''];
             foreach ($config->getModules() as $module) {
                 $data[] = [$module->getName(), $module->getChainsCount()];
                 foreach ($module->getChains() as $chain) {

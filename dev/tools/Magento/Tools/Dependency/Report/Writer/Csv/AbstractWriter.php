@@ -38,9 +38,24 @@ abstract class AbstractWriter implements WriterInterface
      *
      * {@inheritdoc}
      */
-    public function write($filename, ConfigInterface $config)
+    public function write(array $options, ConfigInterface $config)
     {
-        $this->writeToFile($filename, $this->prepareData($config));
+        $this->checkOptions($options);
+
+        $this->writeToFile($options['report_filename'], $this->prepareData($config));
+    }
+
+    /**
+     * Template method. Check passed options step
+     *
+     * @param array $options
+     * @throws \InvalidArgumentException
+     */
+    protected function checkOptions($options)
+    {
+        if (!isset($options['report_filename']) || empty($options['report_filename'])) {
+            throw new \InvalidArgumentException('Writing error: Passed option "report_filename" is wrong.');
+        }
     }
 
     /**

@@ -18,8 +18,8 @@ interface WriterInterface
     /**
      * Write a report file
      *
-     * @param string $filename
+     * @param array $options
      * @param \Magento\Tools\Dependency\Report\Data\ConfigInterface $config
      */
-    public function write($filename, ConfigInterface $config);
+    public function write(array $options, ConfigInterface $config);
 }

@@ -13,7 +13,7 @@ use Magento\TestFramework\Helper\ObjectManager;
 class BuilderTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Tools\Dependency\Report\Framework\Builder|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Tools\Dependency\Report\Framework\Builder
      */
     protected $builder;
 
@@ -26,10 +26,10 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     /**
      * @param array $options
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Passed option "config_files" is wrong.
-     * @dataProvider dataProviderWrongOptionFilename
+     * @expectedExceptionMessage Parse error. Passed option "config_files" is wrong.
+     * @dataProvider dataProviderWrongOptionConfigFiles
      */
-    public function testBuildWithIfPassedFilename($options)
+    public function testBuildWithWrongOptionConfigFiles($options)
     {
         $this->builder->build($options);
     }
@@ -37,11 +37,15 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     /**
      * @return array
      */
-    public function dataProviderWrongOptionFilename()
+    public function dataProviderWrongOptionConfigFiles()
     {
         return [
-            [['files_for_parse' => [1, 2], 'report_filename' => 'filename']],
-            [['files_for_parse' => [1, 2], 'report_filename' => 'filename', 'config_files' => []]],
+            [
+                ['parse' => ['files_for_parse' => [1, 2], 'config_files' => []], 'write' => [1, 2]],
+            ],
+            [
+                ['parse' => ['files_for_parse' => [1, 2]], 'write' => [1, 2]],
+            ],
         ];
     }
 }

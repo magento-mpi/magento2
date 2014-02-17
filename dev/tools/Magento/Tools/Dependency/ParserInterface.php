@@ -16,8 +16,8 @@ interface ParserInterface
     /**
      * Parse files
      *
-     * @param array $files
+     * @param array $options
      * @return array
      */
-    public function parse(array $files);
+    public function parse(array $options);
 }

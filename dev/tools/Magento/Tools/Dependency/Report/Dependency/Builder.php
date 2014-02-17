@@ -21,7 +21,7 @@ class Builder extends AbstractBuilder
      * @param array $modulesData
      * @return \Magento\Tools\Dependency\Report\Dependency\Data\Config
      */
-    protected function prepareData($modulesData)
+    protected function buildData($modulesData)
     {
         $modules = [];
         foreach ($modulesData as $moduleData) {

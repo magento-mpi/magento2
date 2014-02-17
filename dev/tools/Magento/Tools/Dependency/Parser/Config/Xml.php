@@ -20,10 +20,12 @@ class Xml implements ParserInterface
      *
      * {@inheritdoc}
      */
-    public function parse(array $files)
+    public function parse(array $options)
     {
+        $this->checkOptions($options);
+
         $modules = [];
-        foreach ($files as $file) {
+        foreach ($options['files_for_parse'] as $file) {
             $config = $this->getModuleConfig($file);
             $modules[] = [
                 'name' => $this->extractModuleName($config),
@@ -31,6 +33,20 @@ class Xml implements ParserInterface
             ];
         }
         return $modules;
+    }
+
+    /**
+     * Template method. Check passed options step
+     *
+     * @param array $options
+     * @throws \InvalidArgumentException
+     */
+    protected function checkOptions($options)
+    {
+        if (!isset($options['files_for_parse']) || !is_array($options['files_for_parse'])
+            || !$options['files_for_parse']) {
+            throw new \InvalidArgumentException('Parse error: Option "files_for_parse" is wrong.');
+        }
     }
 
     /**

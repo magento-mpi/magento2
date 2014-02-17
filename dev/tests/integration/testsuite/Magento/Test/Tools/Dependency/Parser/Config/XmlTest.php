@@ -44,8 +44,10 @@ class XmlTest extends \PHPUnit_Framework_TestCase
         ];
 
         $actual = $this->parser->parse([
-            $this->fixtureDir . 'config1.xml',
-            $this->fixtureDir . 'config2.xml',
+            'files_for_parse' => [
+                $this->fixtureDir . 'config1.xml',
+                $this->fixtureDir . 'config2.xml',
+            ],
         ]);
 
         $this->assertEquals($expected, $actual);

@@ -60,9 +60,8 @@ abstract class AbstractBuilder implements BuilderInterface
         $this->checkOptions($options);
         $this->options = $options;
 
-        $config = $this->prepareData($this->dependenciesParser->parse($this->options['files_for_parse']));
-
-        $this->reportWriter->write($this->options['report_filename'], $config);
+        $config = $this->buildData($this->dependenciesParser->parse($options['parse']));
+        $this->reportWriter->write($options['write'], $config);
     }
 
     /**
@@ -73,12 +72,12 @@ abstract class AbstractBuilder implements BuilderInterface
      */
     protected function checkOptions($options)
     {
-        if (!isset($options['files_for_parse']) || empty($options['files_for_parse'])) {
-            throw new \InvalidArgumentException('Passed option "files_for_parse" is wrong.');
+        if (!isset($options['parse']) || empty($options['parse'])) {
+            throw new \InvalidArgumentException('Passed option section "parse" is wrong.');
         }
 
-        if (!isset($options['report_filename']) || empty($options['report_filename'])) {
-            throw new \InvalidArgumentException('Passed option "report_filename" is wrong.');
+        if (!isset($options['write']) || empty($options['write'])) {
+            throw new \InvalidArgumentException('Passed option section "write" is wrong.');
         }
     }
 
@@ -88,5 +87,5 @@ abstract class AbstractBuilder implements BuilderInterface
      * @param array $modulesData
      * @return \Magento\Tools\Dependency\Report\Data\ConfigInterface
      */
-    abstract protected function prepareData($modulesData);
+    abstract protected function buildData($modulesData);
 }

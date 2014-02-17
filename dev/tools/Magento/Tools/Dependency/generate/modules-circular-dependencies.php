@@ -12,10 +12,23 @@ use Magento\TestFramework\Utility\Files;
 use Magento\Tools\Dependency\ServiceLocator;
 
 try {
+    $console = new \Zend_Console_Getopt(array(
+        'directory|d=s' => 'Path to base directory for parsing',
+    ));
+    $console->parse();
+
+    $directory = $console->getOption('directory') ?: BP;
+
+    Files::setInstance(new \Magento\TestFramework\Utility\Files($directory));
+    $filesForParse = Files::init()->getConfigFiles('module.xml', [], false);
 
     ServiceLocator::getCircularDependenciesReportBuilder()->build([
-        'report_filename' => 'modules-circular-dependencies.csv',
-        'files_for_parse' => Files::init()->getConfigFiles('module.xml', [], false),
+        'parse' => [
+            'files_for_parse' => $filesForParse,
+        ],
+        'write' => [
+            'report_filename' => 'modules-circular-dependencies.csv',
+        ],
     ]);
 
     fwrite(STDOUT, PHP_EOL . 'Report successfully processed.' . PHP_EOL);
@@ -24,6 +37,6 @@ try {
     fwrite(STDERR, $e->getUsageMessage() . PHP_EOL);
     exit(1);
 } catch (\Exception $e) {
-    fwrite(STDERR, 'Dependencies report generator failed: ' . $e->getMessage() . PHP_EOL);
+    fwrite(STDERR, 'Please, check passed path. Dependencies report generator failed: ' . $e->getMessage() . PHP_EOL);
     exit(1);
 }

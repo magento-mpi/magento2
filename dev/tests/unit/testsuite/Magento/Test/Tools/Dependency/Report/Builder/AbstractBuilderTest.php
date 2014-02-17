@@ -39,10 +39,10 @@ class AbstractBuilderTest extends \PHPUnit_Framework_TestCase
     /**
      * @param array $options
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Passed option "files_for_parse" is wrong.
-     * @dataProvider dataProviderWrongOptionConfigFiles
+     * @expectedExceptionMessage Passed option section "parse" is wrong.
+     * @dataProvider dataProviderWrongParseOptions
      */
-    public function testBuildWithIfPassedFilesIsWrong($options)
+    public function testBuildWithWrongParseOptions($options)
     {
         $this->builder->build($options);
     }
@@ -50,21 +50,21 @@ class AbstractBuilderTest extends \PHPUnit_Framework_TestCase
     /**
      * @return array
      */
-    public function dataProviderWrongOptionConfigFiles()
+    public function dataProviderWrongParseOptions()
     {
         return [
-            [['report_filename' => 'some_filename']],
-            [['files_for_parse' => [], 'report_filename' => 'some_filename']],
+            [['write' => [1, 2]]],
+            [['parse' => [], 'write' => [1, 2]]],
         ];
     }
 
     /**
      * @param array $options
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Passed option "report_filename" is wrong.
-     * @dataProvider dataProviderWrongOptionFilename
+     * @expectedExceptionMessage Passed option section "write" is wrong.
+     * @dataProvider dataProviderWrongWriteOptions
      */
-    public function testBuildWithIfPassedFilename($options)
+    public function testBuildWithWrongWriteOptions($options)
     {
         $this->builder->build($options);
     }
@@ -72,26 +72,35 @@ class AbstractBuilderTest extends \PHPUnit_Framework_TestCase
     /**
      * @return array
      */
-    public function dataProviderWrongOptionFilename()
+    public function dataProviderWrongWriteOptions()
     {
         return [
-            [['files_for_parse' => [1, 2]]],
-            [['files_for_parse' => [1, 2], 'report_filename' => '']],
+            [['parse' => [1, 2]]],
+            [['parse' => [1, 2], 'write' => []]],
         ];
     }
 
     public function testBuild()
     {
-        $options = ['files_for_parse' => [1, 2, 3], 'report_filename' => 'some_filename'];
+        $options = [
+            'parse' => [
+                'files_for_parse' => [1, 2, 3],
+            ],
+            'write' => [
+                'report_filename' => 'some_filename'
+            ],
+        ];
+
+
         $parseResult = ['foo', 'bar', 'baz'];
         $configMock = $this->getMock('\Magento\Tools\Dependency\Report\Data\ConfigInterface');
 
-        $this->dependenciesParserMock->expects($this->once())->method('parse')->with($options['files_for_parse'])
+        $this->dependenciesParserMock->expects($this->once())->method('parse')->with($options['parse'])
             ->will($this->returnValue($parseResult));
-        $this->builder->expects($this->once())->method('prepareData')->with($parseResult)
+        $this->builder->expects($this->once())->method('buildData')->with($parseResult)
             ->will($this->returnValue($configMock));
         $this->reportWriterMock->expects($this->once())->method('write')
-            ->with($options['report_filename'], $configMock);
+            ->with($options['write'], $configMock);
 
         $this->builder->build($options);
     }
