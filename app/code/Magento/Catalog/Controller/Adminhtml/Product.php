@@ -18,6 +18,7 @@
 namespace Magento\Catalog\Controller\Adminhtml;
 
 use Magento\Backend\App\Action;
+use Magento\Catalog\Model\Product\Validator;
 
 class Product extends \Magento\Backend\App\Action
 {
@@ -56,12 +57,30 @@ class Product extends \Magento\Backend\App\Action
     protected $productCopier;
 
     /**
+     * @var Product\Builder
+     */
+    protected $productBuilder;
+
+    /**
+     * @var \Magento\Catalog\Model\Product\TypeTransitionManager
+     */
+    protected $productTypeManager;
+
+    /**
+     * @var \Magento\Catalog\Model\Product\Validator
+     */
+    protected $productValidator;
+
+    /**
      * @param Action\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Filter\Date $dateFilter
      * @param Product\Initialization\Helper $initializationHelper
      * @param Product\Initialization\StockDataFilter $stockFilter
      * @param \Magento\Catalog\Model\Product\Copier $productCopier
+     * @param Product\Builder $productBuilder
+     * @param Validator $productValidator
+     * @param \Magento\Catalog\Model\Product\TypeTransitionManager $productTypeManager
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
@@ -69,106 +88,20 @@ class Product extends \Magento\Backend\App\Action
         \Magento\Core\Filter\Date $dateFilter,
         \Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper $initializationHelper,
         \Magento\Catalog\Controller\Adminhtml\Product\Initialization\StockDataFilter $stockFilter,
-        \Magento\Catalog\Model\Product\Copier $productCopier
+        \Magento\Catalog\Model\Product\Copier $productCopier,
+        Product\Builder $productBuilder,
+        Validator $productValidator,
+        \Magento\Catalog\Model\Product\TypeTransitionManager $productTypeManager
     ) {
         $this->stockFilter = $stockFilter;
         $this->initializationHelper = $initializationHelper;
         $this->registry = $registry;
         $this->_dateFilter = $dateFilter;
         $this->productCopier = $productCopier;
+        $this->productBuilder = $productBuilder;
+        $this->productValidator = $productValidator;
+        $this->productTypeManager = $productTypeManager;
         parent::__construct($context);
-    }
-
-    /**
-     * Initialize product from request parameters
-     *
-     * @return \Magento\Catalog\Model\Product
-     */
-    protected function _initProduct()
-    {
-        $this->_title->add(__('Products'));
-
-        $productId  = (int)$this->getRequest()->getParam('id');
-        /** @var $product \Magento\Catalog\Model\Product */
-        $product    = $this->_objectManager->create('Magento\Catalog\Model\Product')
-            ->setStoreId($this->getRequest()->getParam('store', 0));
-
-        $typeId = $this->getRequest()->getParam('type');
-        if (!$productId && $typeId) {
-            $product->setTypeId($typeId);
-        }
-
-        $product->setData('_edit_mode', true);
-        if ($productId) {
-            try {
-                $product->load($productId);
-            } catch (\Exception $e) {
-                $product->setTypeId(\Magento\Catalog\Model\Product\Type::DEFAULT_TYPE);
-                $this->_objectManager->get('Magento\Logger')->logException($e);
-            }
-        }
-
-        $setId = (int)$this->getRequest()->getParam('set');
-        if ($setId) {
-            $product->setAttributeSetId($setId);
-        }
-
-        if ($this->getRequest()->has('attributes')) {
-            $attributes = $this->getRequest()->getParam('attributes');
-            if (!empty($attributes)) {
-                $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE);
-                $this->_objectManager->get('Magento\Catalog\Model\Product\Type\Configurable')
-                    ->setUsedProductAttributeIds($attributes, $product);
-            } else {
-                $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE);
-            }
-        }
-
-        // Required attributes of simple product for configurable creation
-        if ($this->getRequest()->getParam('popup')
-            && $requiredAttributes = $this->getRequest()->getParam('required')) {
-            $requiredAttributes = explode(",", $requiredAttributes);
-            foreach ($product->getAttributes() as $attribute) {
-                if (in_array($attribute->getId(), $requiredAttributes)) {
-                    $attribute->setIsRequired(1);
-                }
-            }
-        }
-
-        if ($this->getRequest()->getParam('popup')
-            && $this->getRequest()->getParam('product')
-            && !is_array($this->getRequest()->getParam('product'))
-            && $this->getRequest()->getParam('id', false) === false
-        ) {
-
-            $configProduct = $this->_objectManager->create('Magento\Catalog\Model\Product')
-                ->setStoreId(0)
-                ->load($this->getRequest()->getParam('product'))
-                ->setTypeId($this->getRequest()->getParam('type'));
-
-            /* @var $configProduct \Magento\Catalog\Model\Product */
-            $data = array();
-            foreach ($configProduct->getTypeInstance()->getEditableAttributes($configProduct) as $attribute) {
-                /* @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */
-                if (!$attribute->getIsUnique()
-                    && $attribute->getFrontend()->getInputType() != 'gallery'
-                    && $attribute->getAttributeCode() != 'required_options'
-                    && $attribute->getAttributeCode() != 'has_options'
-                    && $attribute->getAttributeCode() != $configProduct->getIdFieldName()
-                ) {
-                    $data[$attribute->getAttributeCode()] = $configProduct->getData($attribute->getAttributeCode());
-                }
-            }
-            $product->addData($data)
-                ->setWebsiteIds($configProduct->getWebsiteIds());
-        }
-
-        $this->registry->register('product', $product);
-        $this->registry->register('current_product', $product);
-        $this->_objectManager->get('Magento\Cms\Model\Wysiwyg\Config')->setStoreId(
-            $this->getRequest()->getParam('store')
-        );
-        return $product;
     }
 
     /**
@@ -230,8 +163,9 @@ class Product extends \Magento\Backend\App\Action
             $this->_forward('noroute');
             return;
         }
+        $this->_title->add(__('Products'));
 
-        $product = $this->_initProduct();
+        $product = $this->productBuilder->build($this->getRequest());
 
         $productData = $this->getRequest()->getPost('product');
         if ($productData) {
@@ -247,16 +181,10 @@ class Product extends \Magento\Backend\App\Action
         if ($this->getRequest()->getParam('popup')) {
             $this->_view->loadLayout('popup');
         } else {
-            $_additionalLayoutPart = '';
-            if ($product->getTypeId() == \Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE
-                && !($product->getTypeInstance()->getUsedProductAttributeIds($product))
-            ) {
-                $_additionalLayoutPart = '_new';
-            }
             $this->_view->loadLayout(array(
                 'default',
                 strtolower($this->_request->getFullActionName()),
-                'catalog_product_' . $product->getTypeId() . $_additionalLayoutPart
+                'catalog_product_' . $product->getTypeId()
             ));
             $this->_setActiveMenu('Magento_Catalog::catalog_products');
         }
@@ -278,8 +206,9 @@ class Product extends \Magento\Backend\App\Action
      */
     public function editAction()
     {
+        $this->_title->add(__('Products'));
         $productId  = (int)$this->getRequest()->getParam('id');
-        $product = $this->_initProduct();
+        $product = $this->productBuilder->build($this->getRequest());
 
         if ($productId && !$product->getId()) {
             $this->messageManager->addError(
@@ -293,17 +222,10 @@ class Product extends \Magento\Backend\App\Action
 
         $this->_eventManager->dispatch('catalog_product_edit_action', array('product' => $product));
 
-        $additionalLayoutPart = '';
-        if ($product->getTypeId() == \Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE
-           && !($product->getTypeInstance()->getUsedProductAttributeIds($product))
-        ) {
-            $additionalLayoutPart = '_new';
-        }
-
         $this->_view->loadLayout(array(
             'default',
             strtolower($this->_request->getFullActionName()),
-            'catalog_product_'.$product->getTypeId() . $additionalLayoutPart
+            'catalog_product_'.$product->getTypeId()
         ));
 
         $this->_setActiveMenu('Magento_Catalog::catalog_products');
@@ -377,7 +299,9 @@ class Product extends \Magento\Backend\App\Action
      */
     public function gridOnlyAction()
     {
-        $this->_initProduct();
+        $this->_title->add(__('Products'));
+
+        $this->productBuilder->build($this->getRequest());
         $this->_view->loadLayout();
 
         $block = $this->getRequest()->getParam('gridOnlyBlock');
@@ -390,69 +314,6 @@ class Product extends \Magento\Backend\App\Action
         );
     }
 
-    /**
-     * Generate product variations matrix
-     *
-     * @return void
-     */
-    public function generateVariationsAction()
-    {
-        $this->_saveAttributeOptions();
-        $this->initializationHelper->initialize($this->_initProduct());
-        $this->_view->loadLayout();
-        $this->_view->renderLayout();
-    }
-
-    /**
-     * Save attribute options just created by user
-     *
-     * @TODO Move this logic to configurable product type model
-     *   when full set of operations for attribute options during
-     *   product creation will be implemented: edit labels, remove, reorder.
-     * Currently only addition of options to end and removal of just added option is supported.
-     *
-     * @return void
-     */
-    protected function _saveAttributeOptions()
-    {
-        $productData = (array)$this->getRequest()->getParam('product');
-        if (!isset($productData['configurable_attributes_data'])) {
-            return;
-        }
-
-        foreach ($productData['configurable_attributes_data'] as &$attributeData) {
-            $values = array();
-            foreach ($attributeData['values'] as $valueId => $priceData) {
-                if (isset($priceData['label'])) {
-                    /* @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */
-                    $attribute = $this->_objectManager->create('Magento\Catalog\Model\Resource\Eav\Attribute');
-                    $attribute->load($attributeData['attribute_id']);
-                    $optionsBefore = $attribute->getSource()->getAllOptions(false);
-
-                    $attribute->setOption(array(
-                        'value' => array('option_0' => array($priceData['label'])),
-                        'order' => array('option_0' => count($optionsBefore) + 1),
-                    ));
-                    $attribute->save();
-
-                    /* @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */
-                    $attribute = $this->_objectManager->create('Magento\Catalog\Model\Resource\Eav\Attribute');
-                    $attribute->load($attributeData['attribute_id']);
-                    $optionsAfter = $attribute->getSource()->getAllOptions(false);
-
-                    $newOption = array_pop($optionsAfter);
-
-                    unset($priceData['label']);
-                    $valueId = $newOption['value'];
-                    $priceData['value_index'] = $valueId;
-                }
-                $values[$valueId] = $priceData;
-            }
-            $attributeData['values'] = $values;
-        }
-
-        $this->getRequest()->setParam('product', $productData);
-    }
 
     /**
      * Get categories fieldset block
@@ -461,7 +322,7 @@ class Product extends \Magento\Backend\App\Action
      */
     public function categoriesAction()
     {
-        $this->_initProduct();
+        $this->productBuilder->build($this->getRequest());
         $this->_view->loadLayout();
         $this->_view->renderLayout();
     }
@@ -473,7 +334,7 @@ class Product extends \Magento\Backend\App\Action
      */
     public function optionsAction()
     {
-        $this->_initProduct();
+        $this->productBuilder->build($this->getRequest());
         $this->_view->loadLayout();
         $this->_view->renderLayout();
     }
@@ -485,7 +346,7 @@ class Product extends \Magento\Backend\App\Action
      */
     public function relatedAction()
     {
-        $this->_initProduct();
+        $this->productBuilder->build($this->getRequest());
         $this->_view->loadLayout();
         $this->_view->getLayout()->getBlock('catalog.product.edit.tab.related')
             ->setProductsRelated($this->getRequest()->getPost('products_related', null));
@@ -499,7 +360,7 @@ class Product extends \Magento\Backend\App\Action
      */
     public function upsellAction()
     {
-        $this->_initProduct();
+        $this->productBuilder->build($this->getRequest());
         $this->_view->loadLayout();
         $this->_view->getLayout()->getBlock('catalog.product.edit.tab.upsell')
             ->setProductsUpsell($this->getRequest()->getPost('products_upsell', null));
@@ -513,7 +374,7 @@ class Product extends \Magento\Backend\App\Action
      */
     public function crosssellAction()
     {
-        $this->_initProduct();
+        $this->productBuilder->build($this->getRequest());
         $this->_view->loadLayout();
         $this->_view->getLayout()->getBlock('catalog.product.edit.tab.crosssell')
             ->setProductsCrossSell($this->getRequest()->getPost('products_crosssell', null));
@@ -527,7 +388,7 @@ class Product extends \Magento\Backend\App\Action
      */
     public function relatedGridAction()
     {
-        $this->_initProduct();
+        $this->productBuilder->build($this->getRequest());
         $this->_view->loadLayout();
         $this->_view->getLayout()->getBlock('catalog.product.edit.tab.related')
             ->setProductsRelated($this->getRequest()->getPost('products_related', null));
@@ -541,7 +402,7 @@ class Product extends \Magento\Backend\App\Action
      */
     public function upsellGridAction()
     {
-        $this->_initProduct();
+        $this->productBuilder->build($this->getRequest());
         $this->_view->loadLayout();
         $this->_view->getLayout()->getBlock('catalog.product.edit.tab.upsell')
             ->setProductsRelated($this->getRequest()->getPost('products_upsell', null));
@@ -555,7 +416,7 @@ class Product extends \Magento\Backend\App\Action
      */
     public function crosssellGridAction()
     {
-        $this->_initProduct();
+        $this->productBuilder->build($this->getRequest());
         $this->_view->loadLayout();
         $this->_view->getLayout()->getBlock('catalog.product.edit.tab.crosssell')
             ->setProductsRelated($this->getRequest()->getPost('products_crosssell', null));
@@ -569,23 +430,11 @@ class Product extends \Magento\Backend\App\Action
      */
     public function reviewsAction()
     {
-        $this->_initProduct();
+        $product = $this->productBuilder->build($this->getRequest());
         $this->_view->loadLayout();
         $this->_view->getLayout()->getBlock('admin.product.reviews')
-            ->setProductId($this->registry->registry('product')->getId())
+            ->setProductId($product->getId())
             ->setUseAjax(true);
-        $this->_view->renderLayout();
-    }
-
-    /**
-     * Get super config grid
-     *
-     * @return void
-     */
-    public function superConfigAction()
-    {
-        $this->_initProduct();
-        $this->_view->loadLayout(false);
         $this->_view->renderLayout();
     }
 
@@ -647,16 +496,7 @@ class Product extends \Magento\Backend\App\Action
             $resource->getAttribute('custom_design_from')
                 ->setMaxValue($product->getCustomDesignTo());
 
-            $variationProducts = (array)$this->getRequest()->getPost('variations-matrix');
-            if ($variationProducts) {
-                $validationResult = $this->_validateProductVariations($product, $variationProducts);
-                if (!empty($validationResult)) {
-                    $response->setError(true)
-                        ->setMessage(__('Some product variations fields are not valid.'))
-                        ->setAttributes($validationResult);
-                }
-            }
-            $product->validate();
+            $this->productValidator->validate($product, $this->getRequest(), $response);
         } catch (\Magento\Eav\Model\Entity\Attribute\Exception $e) {
             $response->setError(true);
             $response->setAttribute($e->getAttributeCode());
@@ -675,50 +515,6 @@ class Product extends \Magento\Backend\App\Action
     }
 
     /**
-     * Product variations attributes validation
-     *
-     * @param \Magento\Catalog\Model\Product $parentProduct
-     * @param array $products
-     * @return array
-     */
-    protected function _validateProductVariations($parentProduct, array $products)
-    {
-        $this->_eventManager->dispatch(
-            'catalog_product_validate_variations_before',
-            array('product' => $parentProduct, 'variations' => $products)
-        );
-        $validationResult = array();
-        foreach ($products as $productData) {
-            /** @var \Magento\Catalog\Model\Product $product */
-            $product = $this->_objectManager->create('Magento\Catalog\Model\Product');
-            $product->setData('_edit_mode', true);
-            $storeId = $this->getRequest()->getParam('store');
-            if ($storeId) {
-                $product->setStoreId($storeId);
-            }
-            $product->setAttributeSetId($parentProduct->getAttributeSetId());
-
-            $product->addData($productData);
-            $product->setCollectExceptionMessages(true);
-            $configurableAttribute = $this->_objectManager->get('Magento\Core\Helper\Data')
-                ->jsonDecode($productData['configurable_attribute']);
-            $configurableAttribute = implode('-', $configurableAttribute);
-
-            $errorAttributes = $product->validate();
-            if (is_array($errorAttributes)) {
-                foreach ($errorAttributes as $attributeCode => $result) {
-                    if (is_string($result)) {
-                        $key = 'variations-matrix-' . $configurableAttribute . '-' . $attributeCode;
-                        $validationResult[$key] = $result;
-                    }
-                }
-            }
-        }
-
-        return $validationResult;
-    }
-
-    /**
      * Save product action
      *
      * @return void
@@ -732,11 +528,8 @@ class Product extends \Magento\Backend\App\Action
 
         $data = $this->getRequest()->getPost();
         if ($data) {
-            $product = $this->initializationHelper->initialize($this->_initProduct());
-            $this->_eventManager->dispatch(
-                'catalog_product_transition_product_type',
-                array('product' => $product, 'request' => $this->getRequest())
-            );
+            $product = $this->initializationHelper->initialize($this->productBuilder->build($this->getRequest()));
+            $this->productTypeManager->processProduct($product);
 
             try {
                 if (isset($data['product'][$product->getIdFieldName()])) {
@@ -810,12 +603,6 @@ class Product extends \Magento\Backend\App\Action
                 'id'       => $productId,
                 '_current' => true
             ));
-        } elseif ($this->getRequest()->getParam('popup')) {
-            $this->_redirect('catalog/*/created', array(
-                '_current' => true,
-                'id'       => $productId,
-                'edit'     => $isEdit
-            ));
         } else {
             $this->_redirect('catalog/*/', array('store'=>$storeId));
         }
@@ -828,7 +615,7 @@ class Product extends \Magento\Backend\App\Action
      */
     public function duplicateAction()
     {
-        $product = $this->_initProduct();
+        $product = $this->productBuilder->build($this->getRequest());
         try {
             $newProduct = $this->productCopier->copy($product);
             $this->messageManager->addSuccess(__('You duplicated the product.'));
@@ -862,34 +649,6 @@ class Product extends \Magento\Backend\App\Action
         $this->_view->renderLayout();
     }
 
-    /**
-     * @return void
-     */
-    public function addAttributeAction()
-    {
-        $this->_view->loadLayout('popup');
-        $this->_initProduct();
-        $this->_addContent(
-            $this->_view->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Product\Attribute\NewAttribute\Product\Created')
-        );
-        $this->_view->renderLayout();
-    }
-
-    /**
-     * @return void
-     */
-    public function createdAction()
-    {
-        $this->_view->loadLayout('popup');
-        $this->_addContent(
-            $this->_view->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Product\Created')
-        );
-        $this->_view->renderLayout();
-    }
-
-    /**
-     * @return void
-     */
     public function massDeleteAction()
     {
         $productIds = $this->getRequest()->getParam('product');
@@ -1023,7 +782,7 @@ class Product extends \Magento\Backend\App\Action
      */
     public function suggestProductTemplatesAction()
     {
-        $this->_initProduct();
+        $this->productBuilder->build($this->getRequest());
         $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(
             $this->_view->getLayout()->createBlock('Magento\Catalog\Block\Product\TemplateSelector')
                 ->getSuggestedTemplates($this->getRequest()->getParam('label_part'))
