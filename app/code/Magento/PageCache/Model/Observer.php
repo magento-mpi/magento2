@@ -24,14 +24,22 @@ class Observer
     protected $_config;
 
     /**
+     * @var \Magento\App\PageCache\Cache
+     */
+    protected $_cache;
+
+    /**
      * Constructor
      *
      * @param \Magento\App\ConfigInterface $config
+     * @param \Magento\App\PageCache\Cache $cache
      */
     public function __construct(
-        \Magento\App\ConfigInterface $config
+        \Magento\App\ConfigInterface $config,
+        \Magento\App\PageCache\Cache $cache
     ){
         $this->_config = $config;
+        $this->_cache = $cache;
     }
 
     /**
@@ -87,5 +95,21 @@ class Observer
             ]
         );
         return sprintf('<esi:include src="%s" />', $url);
+    }
+
+    /**
+     * If Built-In caching is enabled it collects array of tags
+     * of incoming object and asks to clean cache.
+     *
+     * @param \Magento\Event\Observer $observer
+     */
+    public function invalidateCache(\Magento\Event\Observer $observer)
+    {
+        $object = $observer->getEvent();
+        if($object instanceof \Magento\Object\IdentityInterface) {
+            if($this->_config->getType() == \Magento\PageCache\Model\Config::BUILT_IN) {
+                $this->_cache->clean($object->getIdentities());
+            }
+        }
     }
 }
