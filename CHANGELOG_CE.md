@@ -6,7 +6,7 @@
 2.0.0.0-dev65
 =============
 * Fixed bugs:
-  * Fixed an issue with the Backup module feature not possible to store files
+  * Fixed inability to execute System Backup, Database Backup, and Media Backup
 * Indexer implementation:
   * Implemented a new optimized Catalog Category Flat Indexer
 * Cron improvements:
