@@ -40,7 +40,7 @@ abstract class AbstractType
     protected $_isComposite = false;
 
     /**
-     * Is a configurable product type
+     * If product can be configured
      *
      * @var bool
      */
@@ -729,7 +729,7 @@ abstract class AbstractType
     }
 
     /**
-     * Check if product is configurable
+     * Check if product can be configured
      *
      * @param \Magento\Catalog\Model\Product $product
      * @return bool

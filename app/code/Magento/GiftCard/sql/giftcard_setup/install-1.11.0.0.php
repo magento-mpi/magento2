@@ -86,7 +86,6 @@ $installer->addAttribute('catalog_product', 'giftcard_amounts', array(
         'visible_on_front'  => false,
         'unique'            => false,
         'apply_to'          => 'giftcard',
-        'is_configurable'   => false,
         'used_in_product_listing' => true,
         'sort_order'        => -5,
     ));
@@ -111,7 +110,6 @@ $installer->addAttribute('catalog_product', 'allow_open_amount', array(
         'visible_on_front'  => false,
         'unique'            => false,
         'apply_to'          => 'giftcard',
-        'is_configurable'   => false,
         'used_in_product_listing' => true,
         'sort_order'        => -4,
     ));
@@ -135,7 +133,6 @@ $installer->addAttribute('catalog_product', 'open_amount_min', array(
         'visible_on_front'  => false,
         'unique'            => false,
         'apply_to'          => 'giftcard',
-        'is_configurable'   => false,
         'used_in_product_listing' => true,
         'sort_order'        => -3,
     ));
@@ -159,7 +156,6 @@ $installer->addAttribute('catalog_product', 'open_amount_max', array(
         'visible_on_front'  => false,
         'unique'            => false,
         'apply_to'          => 'giftcard',
-        'is_configurable'   => false,
         'used_in_product_listing' => true,
         'sort_order'        => -2,
     ));
@@ -184,7 +180,6 @@ $installer->addAttribute('catalog_product', 'giftcard_type', array(
         'visible_on_front'  => false,
         'unique'            => false,
         'apply_to'          => 'giftcard',
-        'is_configurable'   => false
     ));
 
 $installer->addAttribute('catalog_product', 'is_redeemable', array(
@@ -207,7 +202,6 @@ $installer->addAttribute('catalog_product', 'is_redeemable', array(
         'visible_on_front'  => false,
         'unique'            => false,
         'apply_to'          => 'giftcard',
-        'is_configurable'   => false
     ));
 
 $installer->addAttribute('catalog_product', 'use_config_is_redeemable', array(
@@ -230,7 +224,6 @@ $installer->addAttribute('catalog_product', 'use_config_is_redeemable', array(
         'visible_on_front'  => false,
         'unique'            => false,
         'apply_to'          => 'giftcard',
-        'is_configurable'   => false
     ));
 
 $installer->addAttribute('catalog_product', 'lifetime', array(
@@ -253,7 +246,6 @@ $installer->addAttribute('catalog_product', 'lifetime', array(
         'visible_on_front'  => false,
         'unique'            => false,
         'apply_to'          => 'giftcard',
-        'is_configurable'   => false
     ));
 
 $installer->addAttribute('catalog_product', 'use_config_lifetime', array(
@@ -276,7 +268,6 @@ $installer->addAttribute('catalog_product', 'use_config_lifetime', array(
         'visible_on_front'  => false,
         'unique'            => false,
         'apply_to'          => 'giftcard',
-        'is_configurable'   => false
     ));
 
 $installer->addAttribute('catalog_product', 'email_template', array(
@@ -299,7 +290,6 @@ $installer->addAttribute('catalog_product', 'email_template', array(
         'visible_on_front'  => false,
         'unique'            => false,
         'apply_to'          => 'giftcard',
-        'is_configurable'   => false
     ));
 
 $installer->addAttribute('catalog_product', 'use_config_email_template', array(
@@ -322,7 +312,6 @@ $installer->addAttribute('catalog_product', 'use_config_email_template', array(
         'visible_on_front'  => false,
         'unique'            => false,
         'apply_to'          => 'giftcard',
-        'is_configurable'   => false
     ));
 // 0.0.3 => 0.0.4
 $installer->addAttribute('catalog_product', 'allow_message', array(
@@ -345,7 +334,6 @@ $installer->addAttribute('catalog_product', 'allow_message', array(
         'visible_on_front'  => false,
         'unique'            => false,
         'apply_to'          => 'giftcard',
-        'is_configurable'   => false
     ));
 
 $installer->addAttribute('catalog_product', 'use_config_allow_message', array(
@@ -368,7 +356,6 @@ $installer->addAttribute('catalog_product', 'use_config_allow_message', array(
         'visible_on_front'  => false,
         'unique'            => false,
         'apply_to'          => 'giftcard',
-        'is_configurable'   => false
     ));
 
 // 0.0.4 => 0.0.5 make 'weight' attribute applicable to gift card products

@@ -32,4 +32,11 @@
             </array>
         </param>
     </type>
+    <type name="Magento\Catalog\Model\Product\PriceModifier\Composite">
+        <param name="modifiers">
+            <array>
+                <item key="catalog_rule"><value>Magento\CatalogRule\Model\Product\PriceModifier</value></item>
+            </array>
+        </param>
+    </type>
 </config>

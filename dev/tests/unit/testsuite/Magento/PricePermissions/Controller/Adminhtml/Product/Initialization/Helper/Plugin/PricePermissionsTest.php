@@ -47,7 +47,7 @@ class PricePermissionsTest extends \PHPUnit_Framework_TestCase
         $this->pricePermDataMock = $this->getMock('\Magento\PricePermissions\Helper\Data', array(), array(), '', false);
         $this->productMock = $this->getMock('\Magento\Catalog\Model\Product', array(), array(), '', false);
         $this->productHandlerMock = $this->getMock(
-            '\Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\HandlerInterface'
+            '\Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\HandlerInterface'
         );
         $this->userMock = $this->getMock('\Magento\User\Model\User', array(), array(), '', false);
 

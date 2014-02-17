@@ -96,4 +96,12 @@ return array(
     array('Magento\Search\Model\Client\Solr\Factory'),
     array('Magento\Search\Model\Client\SolrClient\Factory'),
     array('Magento\License','Magento_License'),
+    array(
+        'Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\HandlerInterface',
+        'Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\HandlerInterface',
+    ),
+    array(
+        'Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\ProductType\Configurable',
+        'Magento\ConfigurableProduct\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\ProductType\Configurable'
+    ),
 );
