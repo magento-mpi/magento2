@@ -1,5 +1,7 @@
 <?php
 /**
+ * Import entity configurable product type model
+ * 
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -34,7 +36,7 @@ class Configurable
     /**
      * Column names that holds values with particular meaning.
      *
-     * @var array
+     * @var string[]
      */
     protected $_specialAttributes = array(
         '_super_products_sku', '_super_attribute_code', '_super_attribute_option',
@@ -44,7 +46,7 @@ class Configurable
     /**
      * Reference array of existing product-attribute to product super attribute ID.
      *
-     * product_1 (underscore) attribute_id_1 => product_super_attr_id_1,
+     * Example: product_1 (underscore) attribute_id_1 => product_super_attr_id_1,
      * product_1 (underscore) attribute_id_2 => product_super_attr_id_2,
      * ...,
      * product_n (underscore) attribute_id_n => product_super_attr_id_n
@@ -152,8 +154,9 @@ class Configurable
 
     /**
      * Add attribute parameters to appropriate attribute set.
-     * @param string $attrSetName
-     * @param array $attrParams
+     *
+     * @param string $attrSetName Name of attribute set.
+     * @param array $attrParams Refined attribute parameters.
      * @param mixed $attribute
      * @return \Magento\ImportExport\Model\Import\Entity\Product\Type\AbstractType
      */
@@ -197,7 +200,7 @@ class Configurable
      * Is attribute is super-attribute?
      *
      * @param string $attrCode
-     * @return boolean
+     * @return bool
      */
     protected function _isAttributeSuper($attrCode)
     {

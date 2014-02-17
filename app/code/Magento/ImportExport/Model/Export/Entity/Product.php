@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ImportExport\Model\Export\Entity;
 
 /**
  * Export entity product model
@@ -15,13 +16,12 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\ImportExport\Model\Export\Entity;
-
 class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
 {
     /**
      * Attributes that should be exported
-     * @var array
+     *
+     * @var string[]
      */
     protected $_bannedAttributes = array('media_gallery');
 
@@ -67,7 +67,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
     /**
      * Attributes with index (not label) value.
      *
-     * @var array
+     * @var string[]
      */
     protected $_indexValueAttributes = array(
         'status',
@@ -81,7 +81,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
     /**
      * Permanent entity columns.
      *
-     * @var array
+     * @var string[]
      */
     protected $_permanentAttributes = array(self::COL_SKU);
 
@@ -108,6 +108,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
 
     /**
      * Attribute types
+     *
      * @var array
      */
     protected $_attributeTypes = array();
@@ -255,7 +256,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
     /**
      * Initialize attribute sets code-to-id pairs.
      *
-     * @return \Magento\ImportExport\Model\Export\Entity\Product
+     * @return $this
      */
     protected function _initAttributeSets()
     {
@@ -269,7 +270,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
     /**
      * Initialize categories ID to text-path hash.
      *
-     * @return \Magento\ImportExport\Model\Export\Entity\Product
+     * @return $this
      */
     protected function _initCategories()
     {
@@ -297,7 +298,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
      * Initialize product type models.
      *
      * @throws \Magento\Core\Exception
-     * @return \Magento\ImportExport\Model\Export\Entity\Product
+     * @return $this
      */
     protected function _initTypeModels()
     {
@@ -330,7 +331,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
     /**
      * Initialize website values.
      *
-     * @return \Magento\ImportExport\Model\Export\Entity\Product
+     * @return $this
      */
     protected function _initWebsites()
     {
@@ -344,7 +345,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
     /**
      * Prepare products tier prices
      *
-     * @param  array $productIds
+     * @param  int[] $productIds
      * @return array
      */
     protected function _prepareTierPrices(array $productIds)
@@ -376,7 +377,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
     /**
      * Prepare products group prices
      *
-     * @param  array $productIds
+     * @param  int[] $productIds
      * @return array
      */
     protected function _prepareGroupPrices(array $productIds)
@@ -408,7 +409,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
     /**
      * Prepare products media gallery
      *
-     * @param  array $productIds
+     * @param  int[] $productIds
      * @return array
      */
     protected function _prepareMediaGallery(array $productIds)
@@ -449,7 +450,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
     /**
      * Prepare catalog inventory
      *
-     * @param  array $productIds
+     * @param  int[] $productIds
      * @return array
      */
     protected function _prepareCatalogInventory(array $productIds)
@@ -477,7 +478,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
     /**
      * Prepare product links
      *
-     * @param  array $productIds
+     * @param  int[] $productIds
      * @return array
      */
     protected function _prepareLinks(array $productIds)
@@ -544,8 +545,8 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
     /**
      * Update data row with information about categories. Return true, if data row was updated
      *
-     * @param array $dataRow
-     * @param array $rowCategories
+     * @param array &$dataRow
+     * @param array &$rowCategories
      * @param int $productId
      * @return bool
      */
@@ -567,7 +568,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function _getHeaderColumns()
     {
@@ -579,6 +580,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
      *
      * @param array $customOptionsData
      * @param array $stockItemRows
+     * @return void
      */
     protected function _setHeaderColumns($customOptionsData, $stockItemRows)
     {
@@ -674,6 +676,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
      *
      * @param int $page
      * @param int $pageSize
+     * @return void
      */
     protected function _paginateCollection($page, $pageSize)
     {
@@ -1097,7 +1100,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
     /**
      * Initialize attribute option values and types.
      *
-     * @return \Magento\ImportExport\Model\Export\Entity\Product
+     * @return $this
      */
     protected function _initAttributes()
     {

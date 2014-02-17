@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ImportExport\Model\Import\Entity\Product\Type;
 
 /**
  * Import entity abstract product type model
@@ -15,14 +16,12 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\ImportExport\Model\Import\Entity\Product\Type;
-
 abstract class AbstractType
 {
     /**
      * Product type attribute sets and attributes parameters.
      *
-     * [attr_set_name_1] => array(
+     * Example: [attr_set_name_1] => array(
      *     [attr_code_1] => array(
      *         'options' => array(),
      *         'type' => 'text', 'price', 'textarea', 'select', etc.
@@ -39,14 +38,14 @@ abstract class AbstractType
     /**
      * Attributes' codes which will be allowed anyway, independently from its visibility property.
      *
-     * @var array
+     * @var string[]
      */
     protected $_forcedAttributesCodes = array();
 
     /**
      * Attributes with index (not label) value.
      *
-     * @var array
+     * @var string[]
      */
     protected $_indexValueAttributes = array();
 
@@ -60,7 +59,7 @@ abstract class AbstractType
     /**
      * Column names that holds values with particular meaning.
      *
-     * @var array
+     * @var string[]
      */
     protected $_specialAttributes = array();
 
@@ -154,7 +153,7 @@ abstract class AbstractType
     /**
      * Initialize attributes parameters for all attributes' sets.
      *
-     * @return \Magento\ImportExport\Model\Import\Entity\Product\Type\AbstractType
+     * @return $this
      */
     protected function _initAttributes()
     {
@@ -233,7 +232,7 @@ abstract class AbstractType
     /**
      * Particular attribute names getter.
      *
-     * @return array
+     * @return string[]
      */
     public function getParticularAttributes()
     {
@@ -245,8 +244,8 @@ abstract class AbstractType
      *
      * @param array $rowData
      * @param int $rowNum
-     * @param boolean $isNewProduct OPTIONAL
-     * @return boolean
+     * @param bool $isNewProduct Optional
+     * @return bool
      */
     public function isRowValid(array $rowData, $rowNum, $isNewProduct = true)
     {
@@ -339,7 +338,7 @@ abstract class AbstractType
     /**
      * Save product type specific data.
      *
-     * @return \Magento\ImportExport\Model\Import\Entity\Product\Type\AbstractType
+     * @return $this
      */
     public function saveData()
     {

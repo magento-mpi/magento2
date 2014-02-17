@@ -16,6 +16,8 @@ use Magento\View\Element\Text;
 class Item extends \Magento\View\Element\Text
 {
     /**
+     * Set link
+     *
      * @param array|string $liParams
      * @param string $innerText
      * @return $this

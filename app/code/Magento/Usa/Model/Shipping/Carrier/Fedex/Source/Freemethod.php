@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Usa\Model\Shipping\Carrier\Fedex\Source;
 
 /**
  * Fedex freemethod source implementation
@@ -15,11 +16,12 @@
  * @package    Magento_Usa
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Usa\Model\Shipping\Carrier\Fedex\Source;
-
 class Freemethod
     extends \Magento\Usa\Model\Shipping\Carrier\Fedex\Source\Method
 {
+    /**
+     * {@inheritdoc}
+     */
     public function toOptionArray()
     {
         $arr = parent::toOptionArray();
