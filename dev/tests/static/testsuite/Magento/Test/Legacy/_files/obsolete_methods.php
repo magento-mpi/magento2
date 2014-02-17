@@ -580,6 +580,7 @@ return array(
     array('getXmlElementByType','Magento\Widget\Model\Widget', 'getWidgetByClassType'),
     array('hasItems', 'Magento\Wishlist\Helper\Data'),
     array('hasRecurringItems', 'Magento\Sales\Model\Quote'),
+    array('hasRecurringItems', 'Magento\Checkout\Block\Onepage\Payment'),
     array('htmlEscape', '', 'escapeHtml'),
     array('imageAction', 'Magento\Catalog\Controller\Product'),
     array('implodeStreetAddress', 'Magento\Customer\Model\Address\AbstractAddress'),
