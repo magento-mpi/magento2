@@ -212,9 +212,11 @@ class IndexerTest extends \PHPUnit_Framework_TestCase
      */
     protected function _setStoreManagerExpectedStores(array $storeIds)
     {
-        $stores = [];
+        $stores = array();
         foreach ($storeIds as $storeId) {
-            $store = $this->getMock('Magento\Core\Model\Store', array('getId', '__sleep', '__wakeup'), [], '', false);
+            $store = $this->getMock(
+                'Magento\Core\Model\Store', array('getId', '__sleep', '__wakeup'), array(), '', false
+            );
             $store->expects($this->once())
                 ->method('getId')
                 ->will($this->returnValue($storeId));
