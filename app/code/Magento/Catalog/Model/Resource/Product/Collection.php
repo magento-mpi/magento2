@@ -11,7 +11,6 @@ namespace Magento\Catalog\Model\Resource\Product;
 
 use Magento\Catalog\Model\Product\Attribute\Source\Status as ProductStatus;
 use Magento\Core\Model\Store;
-use Magento\Core\Model\Website;
 
 /**
  * Product collection
@@ -751,7 +750,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     /**
      * Add website filter to collection
      *
-     * @param null|bool|int|string|Website|array $websites
+     * @param null|bool|int|string|array $websites
      * @return $this
      */
     public function addWebsiteFilter($websites = null)

@@ -37,21 +37,21 @@ class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
      *
      * @var string
      */
-    protected $_keyStatusFilters        = '_cache_instance_status_filters';
+    protected $_keyStatusFilters = '_cache_instance_status_filters';
 
     /**
      * Product is composite properties
      *
      * @var bool
      */
-    protected $_isComposite             = true;
+    protected $_isComposite = true;
 
     /**
-     * Product is configurable
+     * Product is possible to configure
      *
      * @var bool
      */
-    protected $_canConfigure            = true;
+    protected $_canConfigure = true;
 
     /**
      * Catalog product status

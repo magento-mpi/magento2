@@ -22,4 +22,11 @@
             </array>
         </param>
     </type>
+    <type name="Magento\Eav\Model\Entity\Setup\PropertyMapper\Composite">
+        <param name="propertyMappers">
+            <array>
+                <item key="reward"><value>Magento\Reward\Model\Resource\Setup\PropertyMapper</value></item>
+            </array>
+        </param>
+    </type>
 </config>

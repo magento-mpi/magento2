@@ -150,20 +150,6 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_observer->adminhtmlBlockHtmlBefore($this->_varienObserver);
     }
 
-    public function testAdminhtmlBlockHtmlBeforeProductTabs()
-    {
-        $this->_setGetNameInLayoutExpects('product_tabs');
-
-        $this->_block->expects($this->exactly(2))->method('setTabData')
-            ->with($this->equalTo('configurable'),
-            $this->logicalOr(
-                $this->equalTo('can_edit_price'),
-                $this->equalTo('can_read_price')
-            ),
-            $this->equalTo(false));
-        $this->_observer->adminhtmlBlockHtmlBefore($this->_varienObserver);
-    }
-
     public function testAdminhtmlBlockHtmlBeforeProductOptions()
     {
         $this->_setGetNameInLayoutExpects('admin.product.options');

@@ -178,16 +178,6 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Catalog\Model\Product::isConfigurable
-     */
-    public function testIsConfigurable()
-    {
-        $this->assertFalse($this->_model->isConfigurable());
-        $this->_model->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE);
-        $this->assertTrue($this->_model->isConfigurable());
-    }
-
-    /**
      * @covers \Magento\Catalog\Model\Product::getVisibleInCatalogStatuses
      * @covers \Magento\Catalog\Model\Product::getVisibleStatuses
      * @covers \Magento\Catalog\Model\Product::isVisibleInCatalog
@@ -294,18 +284,6 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     {
         $this->_model->fromArray(array('sku' => 'sku', 'name' => 'name', 'stock_item' => array('key' => 'value')));
         $this->assertEquals(array('sku' => 'sku', 'name' => 'name'), $this->_model->getData());
-    }
-
-    public function testIsComposite()
-    {
-        $this->assertFalse($this->_model->isComposite());
-
-        /** @var $model \Magento\Catalog\Model\Product */
-        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Catalog\Model\Product',
-            array('data' => array('type_id' => \Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE))
-        );
-        $this->assertTrue($model->isComposite());
     }
 
     /**
