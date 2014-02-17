@@ -184,9 +184,9 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     /**
      * Catalog product flat
      *
-     * @var \Magento\Catalog\Helper\Product\Flat
+     * @var \Magento\Catalog\Model\Indexer\Product\Flat\State
      */
-    protected $_catalogProductFlat = null;
+    protected $_catalogProductFlatState = null;
 
     /**
      * Catalog data
@@ -238,6 +238,13 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     protected $_resourceHelper;
 
     /**
+     * Product flat indexer helper
+     *
+     * @var \Magento\Catalog\Helper\Product\Flat\Indexer
+     */
+    protected $_productFlatIndexerHelper;
+
+    /**
      * @var \Magento\Stdlib\DateTime
      */
     protected $dateTime;
@@ -254,15 +261,15 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
      * @param \Magento\Validator\UniversalFactory $universalFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Catalog\Helper\Product\Flat $catalogProductFlat
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Catalog\Model\Indexer\Product\Flat\State $catalogProductFlatState
+     * @param Store\Config $coreStoreConfig
      * @param \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory
      * @param \Magento\Catalog\Model\Resource\Url $catalogUrl
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Zend_Db_Adapter_Abstract $connection
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -277,7 +284,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
         \Magento\Validator\UniversalFactory $universalFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Catalog\Helper\Product\Flat $catalogProductFlat,
+        \Magento\Catalog\Model\Indexer\Product\Flat\State $catalogProductFlatState,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory,
         \Magento\Catalog\Model\Resource\Url $catalogUrl,
@@ -287,13 +294,14 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
         $connection = null
     ) {
         $this->_catalogData = $catalogData;
-        $this->_catalogProductFlat = $catalogProductFlat;
+        $this->_catalogProductFlatState = $catalogProductFlatState;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_productOptionFactory = $productOptionFactory;
         $this->_catalogUrl = $catalogUrl;
         $this->_locale = $locale;
         $this->_customerSession = $customerSession;
         $this->_resourceHelper = $resourceHelper;
+        $this->_productFlatIndexerHelper = $this->_catalogProductFlatState->getFlatIndexerHelper();
         $this->dateTime = $dateTime;
         parent::__construct(
             $entityFactory,
@@ -397,11 +405,11 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     /**
      * Retrieve Catalog Product Flat Helper object
      *
-     * @return \Magento\Catalog\Helper\Product\Flat
+     * @return \Magento\Catalog\Model\Indexer\Product\Flat\State
      */
-    public function getFlatHelper()
+    public function getFlatState()
     {
-        return $this->_catalogProductFlat;
+        return $this->_catalogProductFlatState;
     }
 
     /**
@@ -413,7 +421,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     public function isEnabledFlat()
     {
         if (!isset($this->_flatEnabled[$this->getStoreId()])) {
-            $this->_flatEnabled[$this->getStoreId()] = $this->getFlatHelper()->isAvailable();
+            $this->_flatEnabled[$this->getStoreId()] = $this->getFlatState()->isAvailable();
         }
         return $this->_flatEnabled[$this->getStoreId()];
     }
@@ -531,7 +539,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
                 ->from(array(self::MAIN_TABLE_ALIAS => $this->getEntity()->getFlatTableName()), null)
                 ->columns(array('status' => new \Zend_Db_Expr(\Magento\Catalog\Model\Product\Status::STATUS_ENABLED)));
             $this->addAttributeToSelect(array('entity_id', 'type_id', 'attribute_set_id'));
-            if ($this->getFlatHelper()->isAddChildData()) {
+            if ($this->_productFlatIndexerHelper->isAddChildData()) {
                 $this->getSelect()
                     ->where('e.is_child=?', 0);
                 $this->addAttributeToSelect(array('child_id', 'is_child'));

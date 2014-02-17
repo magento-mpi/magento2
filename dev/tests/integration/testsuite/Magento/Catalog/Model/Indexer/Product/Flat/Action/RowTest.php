@@ -28,9 +28,9 @@ class RowTest extends \Magento\TestFramework\Indexer\TestCase
     protected $_category;
 
     /**
-     * @var \Magento\Catalog\Helper\Product\Flat
+     * @var \Magento\Catalog\Model\Indexer\Product\Flat\State
      */
-    protected $_helper;
+    protected $_state;
 
     /**
      * @var \Magento\Catalog\Model\Indexer\Product\Flat\Processor
@@ -43,8 +43,8 @@ class RowTest extends \Magento\TestFramework\Indexer\TestCase
             ->create('Magento\Catalog\Model\Product');
         $this->_category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Catalog\Model\Category');
-        $this->_helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Helper\Product\Flat');
+        $this->_state = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('\Magento\Catalog\Model\Indexer\Product\Flat\State');
         $this->_processor = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Catalog\Model\Indexer\Product\Flat\Processor');
     }
@@ -62,7 +62,7 @@ class RowTest extends \Magento\TestFramework\Indexer\TestCase
         $listProduct = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('\Magento\Catalog\Block\Product\ListProduct');
 
-        $this->assertTrue($this->_helper->isEnabled());
+        $this->assertTrue($this->_state->isFlatEnabled());
 
         $this->_processor->getIndexer()->setScheduled(false);
         $this->assertFalse($this->_processor->getIndexer()->isScheduled());

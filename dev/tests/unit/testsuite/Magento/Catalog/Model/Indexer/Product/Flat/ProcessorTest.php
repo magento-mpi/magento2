@@ -30,10 +30,10 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
         $indexerMock = $this->getMock('\Magento\Indexer\Model\Indexer', array('getId'), array(), '', false);
         $indexerMock->expects($this->any())->method('getId')->will($this->returnValue(1));
 
-        $flatHelperMock = $this->getMock('\Magento\Catalog\Helper\Product\Flat', array(), array(), '', false);
+        $stateMock = $this->getMock('\Magento\Catalog\Model\Indexer\Product\Flat\State', array(), array(), '', false);
         $this->_model = $this->_objectManager->getObject('\Magento\Catalog\Model\Indexer\Product\Flat\Processor', array(
             'indexer' => $indexerMock,
-            'helper'  => $flatHelperMock
+            'state'  => $stateMock
         ));
     }
 

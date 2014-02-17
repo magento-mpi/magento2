@@ -49,4 +49,9 @@
             <value type="const">Magento\Catalog\Block\ShortcutButtons::POSITION_AFTER</value>
         </param>
     </virtualType>
+    <type name="Magento\Catalog\Model\Indexer\Product\Flat\State">
+        <param name="isAvailable">
+            <value type="bool">true</value>
+        </param>
+    </type>
 </config>
