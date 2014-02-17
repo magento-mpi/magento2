@@ -20,7 +20,9 @@ use Magento\Eav\Exception;
  * @package    Magento_Eav
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
+class Attribute
+    extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
+    implements \Magento\Object\IdentityInterface
 {
     /**
      * Prefix of model events names
@@ -408,5 +410,15 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
             ? (float)$this->_data['attribute_set_info'][$setId]['sort'] * 0.0001
             : 0.0;
         return $groupSortWeight + $sortWeight;
+    }
+
+    /**
+     * Get identities
+     *
+     * @return array
+     */
+    public function getIdentities()
+    {
+        return array(self::CACHE_TAG . '_' . $this->getId());
     }
 }

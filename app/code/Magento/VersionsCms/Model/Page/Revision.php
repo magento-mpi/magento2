@@ -48,8 +48,14 @@
  */
 namespace Magento\VersionsCms\Model\Page;
 
-class Revision extends \Magento\Core\Model\AbstractModel
+class Revision extends \Magento\Core\Model\AbstractModel implements \Magento\Object\IdentityInterface
 {
+    /**
+     * Cache tag
+     *
+     * @var string
+     */
+    const CACHE_TAG = 'CMS_REVISION';
     /**
      * Prefix of model events names.
      *
@@ -75,7 +81,7 @@ class Revision extends \Magento\Core\Model\AbstractModel
     /**
      * @var string
      */
-    protected $_cacheTag = 'CMS_REVISION';
+    protected $_cacheTag = self::CACHE_TAG;
 
     /**
      * @var \Magento\Core\Model\Date
@@ -285,5 +291,15 @@ class Revision extends \Magento\Core\Model\AbstractModel
         $this->_afterLoad();
         $this->setOrigData();
         return $this;
+    }
+
+    /**
+     * Get identities
+     *
+     * @return array
+     */
+    public function getIdentities()
+    {
+        return array(self::CACHE_TAG . '_' . $this->getId());
     }
 }
