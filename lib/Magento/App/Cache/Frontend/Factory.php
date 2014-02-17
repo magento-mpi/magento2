@@ -53,7 +53,7 @@ class Factory
      *
      * @var string
      */
-    protected $_defaultBackend = 'File';
+    protected $_defaultBackend = 'Cm_Cache_Backend_File';
 
     /**
      * Options for default backend
