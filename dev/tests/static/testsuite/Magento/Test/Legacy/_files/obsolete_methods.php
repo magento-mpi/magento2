@@ -600,6 +600,7 @@ return array(
     array('isLocalConfigLoaded', 'Magento\Core\Model\Config'),
     array('isModuleEnabled', 'Magento\Core\Model\Config', 'Magento_Core_Model_ModuleManager::isEnabled'),
     array('isReadablePopupObject'),
+    array('isRecurring', 'Magento\Catalog\Model\Product::getIsRecurring'),
     array('isStaticFilesSigned', 'Magento\Core\Helper\Data'),
     array('isTemplateAllowedForApplication'),
     array('isThemeCompatible', 'Magento\Core\Model\Design\Package', 'Magento_Core_Model_Theme::isThemeCompatible'),
