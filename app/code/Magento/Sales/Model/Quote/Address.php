@@ -11,6 +11,7 @@
 namespace Magento\Sales\Model\Quote;
 
 use Magento\Customer\Service\V1\Dto\AddressBuilder as CustomerAddressBuilder;
+use Magento\Customer\Service\V1\Dto\Address as AddressDto;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 
 /**
@@ -19,113 +20,111 @@ use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
  * @method \Magento\Sales\Model\Resource\Quote\Address _getResource()
  * @method \Magento\Sales\Model\Resource\Quote\Address getResource()
  * @method int getQuoteId()
- * @method \Magento\Sales\Model\Quote\Address setQuoteId(int $value)
+ * @method Address setQuoteId(int $value)
  * @method string getCreatedAt()
- * @method \Magento\Sales\Model\Quote\Address setCreatedAt(string $value)
+ * @method Address setCreatedAt(string $value)
  * @method string getUpdatedAt()
- * @method \Magento\Sales\Model\Quote\Address setUpdatedAt(string $value)
+ * @method Address setUpdatedAt(string $value)
  * @method int getCustomerId()
- * @method \Magento\Sales\Model\Quote\Address setCustomerId(int $value)
+ * @method Address setCustomerId(int $value)
  * @method int getSaveInAddressBook()
- * @method \Magento\Sales\Model\Quote\Address setSaveInAddressBook(int $value)
+ * @method Address setSaveInAddressBook(int $value)
  * @method int getCustomerAddressId()
- * @method \Magento\Sales\Model\Quote\Address setCustomerAddressId(int $value)
+ * @method Address setCustomerAddressId(int $value)
  * @method \Magento\Customer\Model\Address getCustomerAddress()
- * @method \Magento\Sales\Model\Quote\Address setCustomerAddress(\Magento\Customer\Model\Address $value)
- * @method \Magento\Customer\Service\V1\Dto\Address getCustomerAddressData()
- * @method \Magento\Sales\Model\Quote\Address setCustomerAddressData(\Magento\Customer\Service\V1\Dto\Address $value)
+ * @method Address setCustomerAddress(\Magento\Customer\Model\Address $value)
  * @method string getAddressType()
- * @method \Magento\Sales\Model\Quote\Address setAddressType(string $value)
+ * @method Address setAddressType(string $value)
  * @method string getEmail()
- * @method \Magento\Sales\Model\Quote\Address setEmail(string $value)
+ * @method Address setEmail(string $value)
  * @method string getPrefix()
- * @method \Magento\Sales\Model\Quote\Address setPrefix(string $value)
+ * @method Address setPrefix(string $value)
  * @method string getFirstname()
- * @method \Magento\Sales\Model\Quote\Address setFirstname(string $value)
+ * @method Address setFirstname(string $value)
  * @method string getMiddlename()
- * @method \Magento\Sales\Model\Quote\Address setMiddlename(string $value)
+ * @method Address setMiddlename(string $value)
  * @method string getLastname()
- * @method \Magento\Sales\Model\Quote\Address setLastname(string $value)
+ * @method Address setLastname(string $value)
  * @method string getSuffix()
- * @method \Magento\Sales\Model\Quote\Address setSuffix(string $value)
+ * @method Address setSuffix(string $value)
  * @method string getCompany()
- * @method \Magento\Sales\Model\Quote\Address setCompany(string $value)
+ * @method Address setCompany(string $value)
  * @method string getCity()
- * @method \Magento\Sales\Model\Quote\Address setCity(string $value)
- * @method \Magento\Sales\Model\Quote\Address setRegion(string $value)
- * @method \Magento\Sales\Model\Quote\Address setRegionId(int $value)
+ * @method Address setCity(string $value)
+ * @method Address setRegion(string $value)
+ * @method Address setRegionId(int $value)
  * @method string getPostcode()
- * @method \Magento\Sales\Model\Quote\Address setPostcode(string $value)
+ * @method Address setPostcode(string $value)
  * @method string getCountryId()
- * @method \Magento\Sales\Model\Quote\Address setCountryId(string $value)
+ * @method Address setCountryId(string $value)
  * @method string getTelephone()
- * @method \Magento\Sales\Model\Quote\Address setTelephone(string $value)
+ * @method Address setTelephone(string $value)
  * @method string getFax()
- * @method \Magento\Sales\Model\Quote\Address setFax(string $value)
+ * @method Address setFax(string $value)
  * @method int getSameAsBilling()
- * @method \Magento\Sales\Model\Quote\Address setSameAsBilling(int $value)
+ * @method Address setSameAsBilling(int $value)
  * @method int getFreeShipping()
- * @method \Magento\Sales\Model\Quote\Address setFreeShipping(int $value)
+ * @method Address setFreeShipping(int $value)
  * @method int getCollectShippingRates()
- * @method \Magento\Sales\Model\Quote\Address setCollectShippingRates(int $value)
+ * @method Address setCollectShippingRates(int $value)
  * @method string getShippingMethod()
- * @method \Magento\Sales\Model\Quote\Address setShippingMethod(string $value)
+ * @method Address setShippingMethod(string $value)
  * @method string getShippingDescription()
- * @method \Magento\Sales\Model\Quote\Address setShippingDescription(string $value)
+ * @method Address setShippingDescription(string $value)
  * @method float getWeight()
- * @method \Magento\Sales\Model\Quote\Address setWeight(float $value)
+ * @method Address setWeight(float $value)
  * @method float getSubtotal()
- * @method \Magento\Sales\Model\Quote\Address setSubtotal(float $value)
+ * @method Address setSubtotal(float $value)
  * @method float getBaseSubtotal()
- * @method \Magento\Sales\Model\Quote\Address setBaseSubtotal(float $value)
- * @method \Magento\Sales\Model\Quote\Address setSubtotalWithDiscount(float $value)
- * @method \Magento\Sales\Model\Quote\Address setBaseSubtotalWithDiscount(float $value)
+ * @method Address setBaseSubtotal(float $value)
+ * @method Address setSubtotalWithDiscount(float $value)
+ * @method Address setBaseSubtotalWithDiscount(float $value)
  * @method float getTaxAmount()
- * @method \Magento\Sales\Model\Quote\Address setTaxAmount(float $value)
+ * @method Address setTaxAmount(float $value)
  * @method float getBaseTaxAmount()
- * @method \Magento\Sales\Model\Quote\Address setBaseTaxAmount(float $value)
+ * @method Address setBaseTaxAmount(float $value)
  * @method float getShippingAmount()
  * @method float getBaseShippingAmount()
  * @method float getShippingTaxAmount()
- * @method \Magento\Sales\Model\Quote\Address setShippingTaxAmount(float $value)
+ * @method Address setShippingTaxAmount(float $value)
  * @method float getBaseShippingTaxAmount()
- * @method \Magento\Sales\Model\Quote\Address setBaseShippingTaxAmount(float $value)
+ * @method Address setBaseShippingTaxAmount(float $value)
  * @method float getDiscountAmount()
- * @method \Magento\Sales\Model\Quote\Address setDiscountAmount(float $value)
+ * @method Address setDiscountAmount(float $value)
  * @method float getBaseDiscountAmount()
- * @method \Magento\Sales\Model\Quote\Address setBaseDiscountAmount(float $value)
+ * @method Address setBaseDiscountAmount(float $value)
  * @method float getGrandTotal()
- * @method \Magento\Sales\Model\Quote\Address setGrandTotal(float $value)
+ * @method Address setGrandTotal(float $value)
  * @method float getBaseGrandTotal()
- * @method \Magento\Sales\Model\Quote\Address setBaseGrandTotal(float $value)
+ * @method Address setBaseGrandTotal(float $value)
  * @method string getCustomerNotes()
- * @method \Magento\Sales\Model\Quote\Address setCustomerNotes(string $value)
+ * @method Address setCustomerNotes(string $value)
  * @method string getDiscountDescription()
- * @method \Magento\Sales\Model\Quote\Address setDiscountDescription(string $value)
+ * @method Address setDiscountDescription(string $value)
  * @method null|array getDiscountDescriptionArray()
- * @method \Magento\Sales\Model\Quote\Address setDiscountDescriptionArray(array $value)
+ * @method Address setDiscountDescriptionArray(array $value)
  * @method float getShippingDiscountAmount()
- * @method \Magento\Sales\Model\Quote\Address setShippingDiscountAmount(float $value)
+ * @method Address setShippingDiscountAmount(float $value)
  * @method float getBaseShippingDiscountAmount()
- * @method \Magento\Sales\Model\Quote\Address setBaseShippingDiscountAmount(float $value)
+ * @method Address setBaseShippingDiscountAmount(float $value)
  * @method float getSubtotalInclTax()
- * @method \Magento\Sales\Model\Quote\Address setSubtotalInclTax(float $value)
+ * @method Address setSubtotalInclTax(float $value)
  * @method float getBaseSubtotalTotalInclTax()
- * @method \Magento\Sales\Model\Quote\Address setBaseSubtotalTotalInclTax(float $value)
+ * @method Address setBaseSubtotalTotalInclTax(float $value)
  * @method int getGiftMessageId()
- * @method \Magento\Sales\Model\Quote\Address setGiftMessageId(int $value)
+ * @method Address setGiftMessageId(int $value)
  * @method float getHiddenTaxAmount()
- * @method \Magento\Sales\Model\Quote\Address setHiddenTaxAmount(float $value)
+ * @method Address setHiddenTaxAmount(float $value)
  * @method float getBaseHiddenTaxAmount()
- * @method \Magento\Sales\Model\Quote\Address setBaseHiddenTaxAmount(float $value)
+ * @method Address setBaseHiddenTaxAmount(float $value)
  * @method float getShippingHiddenTaxAmount()
- * @method \Magento\Sales\Model\Quote\Address setShippingHiddenTaxAmount(float $value)
+ * @method Address setShippingHiddenTaxAmount(float $value)
  * @method float getBaseShippingHiddenTaxAmnt()
- * @method \Magento\Sales\Model\Quote\Address setBaseShippingHiddenTaxAmnt(float $value)
+ * @method Address setBaseShippingHiddenTaxAmnt(float $value)
  * @method float getShippingInclTax()
- * @method \Magento\Sales\Model\Quote\Address setShippingInclTax(float $value)
+ * @method Address setShippingInclTax(float $value)
  * @method float getBaseShippingInclTax()
- * @method \Magento\Sales\Model\Quote\Address setBaseShippingInclTax(float $value)
+ * @method Address setBaseShippingInclTax(float $value)
  */
 class Address extends \Magento\Customer\Model\Address\AbstractAddress
 {
@@ -249,6 +248,10 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
      * @var CustomerAddressServiceInterface
      */
     protected $_customerAdressService;
+    /**
+     * @var \Magento\Customer\Model\Address\Converter
+     */
+    private $addressConverter;
 
     /**
      * @param \Magento\Core\Model\Context $context
@@ -272,6 +275,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
      * @param \Magento\Sales\Model\Quote\Address\CarrierFactoryInterface $carrierFactory
      * @param CustomerAddressBuilder $customerAddressBuilder
      * @param CustomerAddressServiceInterface $customerAddressService
+     * @param \Magento\Customer\Model\Address\Converter $addressConverter
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -298,6 +302,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         \Magento\Sales\Model\Quote\Address\CarrierFactoryInterface $carrierFactory,
         CustomerAddressBuilder $customerAddressBuilder,
         CustomerAddressServiceInterface $customerAddressService,
+        \Magento\Customer\Model\Address\Converter $addressConverter,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -328,6 +333,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
             $resourceCollection,
             $data
         );
+        $this->addressConverter = $addressConverter;
     }
 
     /**
@@ -366,13 +372,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
             /**
              * Init customer address id if customer address is assigned
              */
-            /**
-             * TODO: Should be refactored in scope of other stories (MAGETWO-20857)
-             * when dependant methods are refactored and getCustomerAddressData() is introduced to work with DTO
-             */
-            if ($this->getCustomerAddress()) {
-                $this->setCustomerAddressId($this->getCustomerAddress()->getId());
-            } elseif ($this->getCustomerAddressData()) {
+            if ($this->getCustomerAddressData()) {
                 $this->setCustomerAddressId($this->getCustomerAddressData()->getId());
             }
 
@@ -1415,5 +1415,38 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     public function getSubtotalWithDiscount()
     {
         return $this->getSubtotal() + $this->getDiscountAmount();
+    }
+
+    /**
+     * Keep customer address
+     * @todo refactor in scope of MAGETWO-20857
+     *
+     * @param AddressDto $address
+     * @return $this
+     */
+    public function setCustomerAddressData(AddressDto $address)
+    {
+        return $this->setCustomerAddress($this->addressConverter->createAddressModel($address));
+    }
+
+    /**
+     * Get previously set customer address
+     * @todo refactor in scope of MAGETWO-20857
+     *
+     * @return AddressDto|null
+     */
+    public function getCustomerAddressData()
+    {
+        $address = $this->getCustomerAddress();
+
+        if ($address) {
+            return $this->addressConverter->createAddressFromModel(
+                $address,
+                $address->getIsDefaultBilling(),
+                $address->getIsDefaultShipping()
+            );
+        }
+
+        return null;
     }
 }

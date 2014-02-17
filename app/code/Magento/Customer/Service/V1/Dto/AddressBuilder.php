@@ -9,10 +9,14 @@
  */
 namespace Magento\Customer\Service\V1\Dto;
 
+use Magento\Service\Entity\AbstractDto;
+use Magento\Service\Entity\AbstractDtoBuilder;
+
 /**
  * @method Address create()
+ * @method Address mergeDtoWithArray(AbstractDto $dto, array $data)
  */
-class AddressBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
+class AddressBuilder extends AbstractDtoBuilder
 {
     /** @var RegionBuilder */
     protected $_regionBuilder;

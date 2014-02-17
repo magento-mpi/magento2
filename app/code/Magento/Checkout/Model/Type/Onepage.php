@@ -138,6 +138,9 @@ class Onepage
     /** @var \Magento\Math\Random */
     protected $mathRandom;
 
+    /** @var \Magento\Customer\Service\V1\CustomerService */
+    protected $_customerService;
+
     /**
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Checkout\Helper\Data $helper
@@ -160,6 +163,7 @@ class Onepage
      * @param AddressBuilder $addressBuilder
      * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Encryption\EncryptorInterface $encryptor
+     * @param \Magento\Customer\Service\V1\CustomerService $customerService
      */
     public function __construct(
         \Magento\Event\ManagerInterface $eventManager,
@@ -182,7 +186,8 @@ class Onepage
         CustomerBuilder $customerBuilder,
         AddressBuilder $addressBuilder,
         \Magento\Math\Random $mathRandom,
-        \Magento\Encryption\EncryptorInterface $encryptor
+        \Magento\Encryption\EncryptorInterface $encryptor,
+        \Magento\Customer\Service\V1\CustomerService $customerService
     ) {
         $this->_eventManager = $eventManager;
         $this->_customerData = $customerData;
@@ -206,6 +211,7 @@ class Onepage
         $this->_addressBuilder = $addressBuilder;
         $this->mathRandom = $mathRandom;
         $this->_encryptor = $encryptor;
+        $this->_customerService = $customerService;
     }
 
     /**
@@ -793,7 +799,7 @@ class Onepage
     /**
      * Prepare quote for customer order submit
      *
-     * @return \Magento\Checkout\Model\Type\Onepage
+     * @return void
      */
     protected function _prepareCustomerQuote()
     {
@@ -801,28 +807,41 @@ class Onepage
         $billing    = $quote->getBillingAddress();
         $shipping   = $quote->isVirtual() ? null : $quote->getShippingAddress();
 
-        $customer = $this->getCustomerSession()->getCustomer();
+        $customer = $this->_customerService->getCustomer($this->getCustomerSession()->getCustomerId());
         if (!$billing->getCustomerId() || $billing->getSaveInAddressBook()) {
-            $customerBilling = $billing->exportCustomerAddress();
-            $customer->addAddress($customerBilling);
-            $billing->setCustomerAddress($customerBilling);
+            $billingAddress = $billing->exportCustomerAddressData();
+            $billing->setCustomerAddressData($billingAddress);
         }
         if ($shipping && !$shipping->getSameAsBilling() &&
             (!$shipping->getCustomerId() || $shipping->getSaveInAddressBook())) {
-            $customerShipping = $shipping->exportCustomerAddress();
-            $customer->addAddress($customerShipping);
-            $shipping->setCustomerAddress($customerShipping);
+            $shippingAddress = $shipping->exportCustomerAddressData();
+            $shipping->setCustomerAddressData($shippingAddress);
         }
 
-        if (isset($customerBilling) && !$customer->getDefaultBilling()) {
-            $customerBilling->setIsDefaultBilling(true);
+        if (isset($billingAddress)) {
+            $newData = [];
+
+            if (!$customer->getDefaultBilling()) {
+                $newData = [AddressDto::KEY_DEFAULT_BILLING => true];
+            }
+
+            if (!$customer->getDefaultShipping()) {
+                $newData += [AddressDto::KEY_DEFAULT_SHIPPING => true];
+            }
+
+            if (!empty($newData)) {
+                $billingAddress = $this->_addressBuilder
+                    ->mergeDtoWithArray($billingAddress, $newData);
+            }
+
+            $quote->addCustomerAddressData($billingAddress);
         }
-        if ($shipping && isset($customerShipping) && !$customer->getDefaultShipping()) {
-            $customerShipping->setIsDefaultShipping(true);
-        } else if (isset($customerBilling) && !$customer->getDefaultShipping()) {
-            $customerBilling->setIsDefaultShipping(true);
+
+        if ($shipping && isset($shippingAddress) && !$customer->getDefaultShipping()) {
+            $shippingAddress = $this->_addressBuilder
+                ->mergeDtoWithArray($shippingAddress, [AddressDto::KEY_DEFAULT_SHIPPING => true]);
+            $quote->addCustomerAddressData($shippingAddress);
         }
-        $quote->setCustomer($customer);
     }
 
     /**
