@@ -115,7 +115,7 @@ class Datetime
                 . $this->getUiId('filter', $this->_getHtmlName(), 'to') . '/>'
             . '</div></div>';
         $html .= '<input type="hidden" name="' . $this->_getHtmlName() . '[locale]"'
-            . ' value="' . $this->getLocaleResolver()->getLocaleCode() . '"/>';
+            . ' value="' . $this->_app->getLocaleResolver()->getLocaleCode() . '"/>';
         $html .= '<script type="text/javascript">
             (function( $ ) {
                     $("#'.$htmlId.'_range").dateRange({

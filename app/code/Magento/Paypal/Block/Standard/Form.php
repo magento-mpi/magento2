@@ -34,24 +34,16 @@ class Form extends \Magento\Payment\Block\Form
     protected $_paypalConfigFactory;
 
     /**
-     * @var \Magento\Locale\ResolverInterface
-     */
-    protected $_localeResolver;
-
-    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Paypal\Model\ConfigFactory $paypalConfigFactory
-     * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Paypal\Model\ConfigFactory $paypalConfigFactory,
-        \Magento\Locale\ResolverInterface $localeResolver,
         array $data = array()
     ) {
         $this->_paypalConfigFactory = $paypalConfigFactory;
-        $this->_localeResolver = $localeResolver;
         parent::__construct($context, $data);
     }
 
@@ -64,9 +56,11 @@ class Form extends \Magento\Payment\Block\Form
         /** @var $mark \Magento\View\Element\Template */
         $mark = $this->_layout->createBlock('Magento\View\Element\Template');
         $mark->setTemplate('Magento_Paypal::payment/mark.phtml')
-            ->setPaymentAcceptanceMarkHref($this->_config->getPaymentMarkWhatIsPaypalUrl($this->_localeResolver))
+            ->setPaymentAcceptanceMarkHref(
+                $this->_config->getPaymentMarkWhatIsPaypalUrl($this->_app->getLocaleResolver())
+            )
             ->setPaymentAcceptanceMarkSrc(
-                $this->_config->getPaymentMarkImageUrl($this->_localeResolver->getLocaleCode())
+                $this->_config->getPaymentMarkImageUrl($this->_app->getLocaleResolver()->getLocaleCode())
             );
         // known issue: code above will render only static mark image
         $this->setTemplate('Magento_Paypal::payment/redirect.phtml')

@@ -21,25 +21,6 @@ abstract class AbstractEvent extends \Magento\View\Element\Template
      */
     protected $_statuses;
 
-    /**
-     * @var \Magento\Locale\ResolverInterface
-     */
-    protected $_localeResolver;
-
-    /**
-     * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Locale\ResolverInterface $localeResolver
-     * @param array $data
-     */
-    public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        \Magento\Locale\ResolverInterface $localeResolver,
-        array $data = array()
-    ){
-        parent::__construct($context, $data);
-        $this->_localeResolver = $localeResolver;
-    }
-
     protected function _construct()
     {
         parent::_construct();
@@ -122,7 +103,7 @@ abstract class AbstractEvent extends \Magento\View\Element\Template
      */
     protected function _getEventDate($type, $event, $format)
     {
-        $date = new \Zend_Date($this->_localeResolver->getLocale());
+        $date = new \Zend_Date($this->_app->getLocaleResolver()->getLocale());
         // changing timezone to UTC
         $date->setTimezone(\Magento\Core\Model\LocaleInterface::DEFAULT_TIMEZONE);
 

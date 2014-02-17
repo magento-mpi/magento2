@@ -34,16 +34,10 @@ class Locale extends \Magento\Install\Block\AbstractBlock
     protected $_localeCode;
 
     /**
-     * @var \Magento\Locale\ResolverInterface
-     */
-    protected $_localeResolver;
-
-    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Install\Model\Installer $installer
      * @param \Magento\Install\Model\Wizard $installWizard
      * @param \Magento\Session\Generic $session
-     * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param array $data
      */
     public function __construct(
@@ -51,11 +45,9 @@ class Locale extends \Magento\Install\Block\AbstractBlock
         \Magento\Install\Model\Installer $installer,
         \Magento\Install\Model\Wizard $installWizard,
         \Magento\Session\Generic $session,
-        \Magento\Locale\ResolverInterface $localeResolver,
         array $data = array()
     ) {
         parent::__construct($context, $installer, $installWizard, $session, $data);
-        $this->_localeResolver = $localeResolver;
     }
 
     /**
@@ -89,7 +81,7 @@ class Locale extends \Magento\Install\Block\AbstractBlock
     {
         $locale = $this->getData('locale');
         if (null === $locale) {
-            $locale = $this->_localeResolver->setLocaleCode(
+            $locale = $this->_app->getLocaleResolver()->setLocaleCode(
                 $this->getLocaleCode()
             )->getLocale();
             $this->setData('locale', $locale);
