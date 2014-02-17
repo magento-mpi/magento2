@@ -9,6 +9,6 @@
 -->
 <config>
     <event name="clean_cache_by_tags">
-        <observer name="invalidate_pagechache" instance="Magento\CacheInvalidate\Model\Observer" method="invalidateCache" />
+        <observer name="invalidate_varnish" instance="Magento\CacheInvalidate\Model\Observer" method="invalidateVarnish" />
     </event>
 </config>
