@@ -13,6 +13,9 @@
  */
 namespace Magento\Checkout\Model\Type;
 
+use Magento\Customer\Service\V1\Dto\CustomerBuilder;
+use Magento\Customer\Service\V1\Dto\AddressBuilder;
+use Magento\Customer\Service\V1\Dto\Address as AddressDto;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 use Magento\Customer\Model\Metadata\Form;
 
@@ -124,8 +127,11 @@ class Onepage
     /** @var \Magento\Customer\Model\Metadata\FormFactory */
     protected $_formFactory;
 
-    /** @var \Magento\Customer\Service\V1\Dto\CustomerBuilder */
+    /** @var CustomerBuilder */
     protected $_customerBuilder;
+
+    /** @var AddressBuilder */
+    protected $_addressBuilder;
 
     /** @var \Magento\Math\Random */
     protected $mathRandom;
@@ -148,7 +154,8 @@ class Onepage
      * @param \Magento\Message\ManagerInterface $messageManager
      * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $accountService
      * @param \Magento\Customer\Model\Metadata\FormFactory $formFactory
-     * @param \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerBuilder
+     * @param CustomerBuilder $customerBuilder
+     * @param AddressBuilder $addressBuilder
      * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Encryption\EncryptorInterface $encryptor
      */
@@ -170,7 +177,8 @@ class Onepage
         \Magento\Message\ManagerInterface $messageManager,
         \Magento\Customer\Service\V1\CustomerAccountServiceInterface $accountService,
         \Magento\Customer\Model\Metadata\FormFactory $formFactory,
-        \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerBuilder,
+        CustomerBuilder $customerBuilder,
+        AddressBuilder $addressBuilder,
         \Magento\Math\Random $mathRandom,
         \Magento\Encryption\EncryptorInterface $encryptor
     ) {
@@ -193,6 +201,7 @@ class Onepage
         $this->_accountService = $accountService;
         $this->_formFactory = $formFactory;
         $this->_customerBuilder = $customerBuilder;
+        $this->_addressBuilder = $addressBuilder;
         $this->mathRandom = $mathRandom;
         $this->_encryptor = $encryptor;
     }
@@ -728,32 +737,55 @@ class Onepage
         $billing    = $quote->getBillingAddress();
         $shipping   = $quote->isVirtual() ? null : $quote->getShippingAddress();
 
-        /** @var $customer \Magento\Customer\Model\Customer */
-        $customer = $quote->getCustomer();
+        $customerData = $quote->getCustomerData();
         // Need to set proper attribute id or future updates will cause data loss.
-        $customer->setData('attribute_set_id', 1);
-        /** @var $customerBilling \Magento\Customer\Model\Address */
-        $customerBilling = $billing->exportCustomerAddress();
-        $customer->addAddress($customerBilling);
-        $billing->setCustomerAddress($customerBilling);
-        $customerBilling->setIsDefaultBilling(true);
+        $customerData = $this->_customerBuilder->mergeDtoWithArray(
+            $customerData,
+            ['attribute_set_id' => 1]
+        );
+
+        $customerBillingData = $billing->exportCustomerAddressData();
+        $billing->setCustomerAddressData($customerBillingData);
+        $customerBillingData = $this->_addressBuilder->mergeDtoWithArray(
+            $customerBillingData,
+            [AddressDto::KEY_DEFAULT_BILLING => true]
+        );
         if ($shipping && !$shipping->getSameAsBilling()) {
-            $customerShipping = $shipping->exportCustomerAddress();
-            $customer->addAddress($customerShipping);
-            $shipping->setCustomerAddress($customerShipping);
-            $customerShipping->setIsDefaultShipping(true);
+            $customerShippingData = $shipping->exportCustomerAddressData();
+            $shipping->setCustomerAddressData($customerShippingData);
+            $customerShippingData = $this->_addressBuilder->mergeDtoWithArray(
+                $customerShippingData,
+                [AddressDto::KEY_DEFAULT_SHIPPING => true]
+            );
+            //Add shipping address data to the quote
+            $quote->addCustomerAddressData($customerShippingData);
         } elseif ($shipping && $shipping->getSameAsBilling()) {
-            $shipping->setCustomerAddress($billing->getCustomerAddress());
-            $customerBilling->setIsDefaultShipping(true);
+            $shipping->setCustomerAddressData($billing->getCustomerAddressData());
+            $customerBillingData = $this->_addressBuilder->mergeDtoWithArray(
+                $customerBillingData,
+                [AddressDto::KEY_DEFAULT_SHIPPING => true]
+            );
         } else {
-            $customerBilling->setIsDefaultShipping(true);
+            $customerBillingData = $this->_addressBuilder->mergeDtoWithArray(
+                $customerBillingData,
+                [AddressDto::KEY_DEFAULT_SHIPPING => true]
+            );
         }
 
-        $this->_objectCopyService->copyFieldsetToTarget('checkout_onepage_quote', 'to_customer', $quote, $customer);
-        $customer->setPassword($customer->decryptPassword($quote->getPasswordHash()));
-        $customer->setPasswordHash($customer->hashPassword($customer->getPassword()));
-        $quote->setCustomer($customer)
-            ->setCustomerId(true);
+        $dataArray = $this->_objectCopyService->getDataFromFieldset(
+            'checkout_onepage_quote',
+            'to_customer',
+            $quote
+        );
+        $customerData = $this->_customerBuilder->mergeDtoWithArray(
+            $customerData,
+            $dataArray
+        );
+        //$this->_objectCopyService->copyFieldsetToTarget('checkout_onepage_quote', 'to_customer', $quote, $customer);
+        $quote->setCustomerData($customerData)
+            ->setCustomerId(true); // TODO : Eventually need to remove this hack
+        //Add billing address data to the quote
+        $quote->addCustomerAddressData($customerBillingData);
     }
 
     /**
@@ -835,7 +867,7 @@ class Onepage
         }
 
         $service = $this->_serviceQuoteFactory->create(array('quote' => $this->getQuote()));
-        $service->submitAll();
+        $service->submitAllWithDto();
 
         if ($isNewCustomer) {
             try {

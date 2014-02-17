@@ -37,7 +37,6 @@ abstract class AbstractDtoBuilder
     /**
      * Populates the fields with data from the array.
      *
-     * The $data array should be a map that only contain scalar types or arrays of scalar types.
      * Keys for the map are snake_case attribute/field names.
      *
      * @param array $data

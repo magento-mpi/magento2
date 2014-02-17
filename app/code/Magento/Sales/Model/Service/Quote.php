@@ -442,6 +442,30 @@ class Quote
     }
 
     /**
+     * Submit all available items
+     * All created items will be set to the object
+     */
+    public function submitAllWithDto()
+    {
+        // don't allow submitNominalItems() to inactivate quote
+        $inactivateQuoteOld = $this->_shouldInactivateQuote;
+        $this->_shouldInactivateQuote = false;
+        try {
+            $this->submitNominalItems();
+            $this->_shouldInactivateQuote = $inactivateQuoteOld;
+        } catch (\Exception $e) {
+            $this->_shouldInactivateQuote = $inactivateQuoteOld;
+            throw $e;
+        }
+        // no need to submit the order if there are no normal items remained
+        if (!$this->_quote->getAllVisibleItems()) {
+            $this->_inactivateQuote();
+            return;
+        }
+        $this->submitOrderWithDto();
+    }
+
+    /**
      * Return recurring payment profiles
      *
      * @return array
