@@ -91,7 +91,7 @@
                 data.blocks.push(placeholders[i].name);
             }
             data.blocks = JSON.stringify(data.blocks.sort());
-            data.handles = JSON.stringify(data.handles.sort());
+            data.handles = JSON.stringify(data.handles);
             $.ajax({
                 url: this.options.url,
                 data: data,
