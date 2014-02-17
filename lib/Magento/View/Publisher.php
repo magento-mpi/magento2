@@ -31,31 +31,43 @@ class Publisher implements PublicFilesManagerInterface
     /**#@-*/
 
     /**
+     * View file system
+     *
      * @var \Magento\View\FileSystem
      */
     protected $viewFileSystem;
 
     /**
+     * Pre-processor
+     *
      * @var \Magento\View\Asset\PreProcessor\PreProcessorInterface
      */
     protected $preProcessor;
 
     /**
+     * Publisher file factory
+     *
      * @var Publisher\FileFactory
      */
     protected $fileFactory;
 
     /**
+     * Root directory
+     *
      * @var WriteInterface
      */
     protected $rootDirectory;
 
     /**
+     * Pre-processors temporary directory
+     *
      * @var WriteInterface
      */
     protected $tmpDirectory;
 
     /**
+     * Public directory
+     *
      * @var WriteInterface
      */
     protected $pubDirectory;

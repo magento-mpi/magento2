@@ -7,20 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Sitemap\Model;
 
 /**
  * Sitemap module observer
  *
- * @category   Magento
- * @package    Magento_Sitemap
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sitemap\Model;
-
 class Observer
 {
-
     /**
      * Enable/disable configuration
      */
@@ -90,6 +85,7 @@ class Observer
      * Generate sitemaps
      *
      * @param \Magento\Cron\Model\Schedule $schedule
+     * @return void
      */
     public function scheduledGenerateSitemaps($schedule)
     {

@@ -29,11 +29,15 @@ class HandlerFactory
     protected $_argumentHandlers = array();
 
     /**
+     * Object manager
+     *
      * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
+     * Constructor
+     *
      * @param \Magento\ObjectManager $objectManager
      * @param array $handlerFactories
      */
@@ -78,6 +82,8 @@ class HandlerFactory
     }
 
     /**
+     * Get types
+     *
      * @return array
      */
     public function getTypes()

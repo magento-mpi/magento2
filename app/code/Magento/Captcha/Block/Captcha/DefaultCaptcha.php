@@ -7,18 +7,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Captcha\Block\Captcha;
 
 /**
  * Captcha block
  *
- * @category   Core
- * @package    Magento_Captcha
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Captcha\Block\Captcha;
-
 class DefaultCaptcha extends \Magento\View\Element\Template
 {
+    /**
+     * @var string
+     */
     protected $_template = 'default.phtml';
 
     /**

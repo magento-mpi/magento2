@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ImportExport\Block\Adminhtml\Import\Frame;
+
+use Magento\View\Element\Template;
 
 /**
  * Import frame result block.
@@ -15,10 +18,6 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\ImportExport\Block\Adminhtml\Import\Frame;
-
-use Magento\View\Element\Template;
-
 class Result extends \Magento\Backend\Block\Template
 {
     /**
@@ -72,7 +71,7 @@ class Result extends \Magento\Backend\Block\Template
      * @param string $actionName
      * @param string $elementId
      * @param mixed $value OPTIONAL
-     * @return \Magento\ImportExport\Block\Adminhtml\Import\Frame\Result
+     * @return $this
      */
     public function addAction($actionName, $elementId, $value = null)
     {
@@ -96,7 +95,7 @@ class Result extends \Magento\Backend\Block\Template
      * Add error message.
      *
      * @param string $message Error message
-     * @return \Magento\ImportExport\Block\Adminhtml\Import\Frame\Result
+     * @return $this
      */
     public function addError($message)
     {
@@ -113,9 +112,9 @@ class Result extends \Magento\Backend\Block\Template
     /**
      * Add notice message.
      *
-     * @param mixed $message Message text
-     * @param boolean $appendImportButton OPTIONAL Append import button to message?
-     * @return \Magento\ImportExport\Block\Adminhtml\Import\Frame\Result
+     * @param string[]|string $message Message text
+     * @param bool $appendImportButton OPTIONAL Append import button to message?
+     * @return $this
      */
     public function addNotice($message, $appendImportButton = false)
     {
@@ -132,9 +131,9 @@ class Result extends \Magento\Backend\Block\Template
     /**
      * Add success message.
      *
-     * @param mixed $message Message text
-     * @param boolean $appendImportButton OPTIONAL Append import button to message?
-     * @return \Magento\ImportExport\Block\Adminhtml\Import\Frame\Result
+     * @param string[]|string $message Message text
+     * @param bool $appendImportButton OPTIONAL Append import button to message?
+     * @return $this
      */
     public function addSuccess($message, $appendImportButton = false)
     {
