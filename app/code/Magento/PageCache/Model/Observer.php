@@ -24,13 +24,32 @@ class Observer
     protected $_config;
 
     /**
+     * @var \Magento\App\PageCache\Cache
+     */
+    protected $_cache;
+
+    /**
+     * PageCache helper
+     *
+     * @var \Magento\PageCache\Helper\Data
+     */
+    protected $_helper;
+
+    /**
      * Constructor
      *
      * @param \Magento\App\ConfigInterface $config
+     * @param \Magento\App\PageCache\Cache $cache
+     * @param \Magento\PageCache\Helper\Data $helper
      */
-    public function __construct(\Magento\App\ConfigInterface $config)
-    {
+    public function __construct(
+        \Magento\App\ConfigInterface $config,
+        \Magento\App\PageCache\Cache $cache,
+        \Magento\PageCache\Helper\Data $helper
+    ){
         $this->_config = $config;
+        $this->_cache = $cache;
+        $this->_helper = $helper;
     }
 
     /**
@@ -53,7 +72,7 @@ class Observer
                 $blockTtl = $block->getTtl();
                 $varnishIsEnabledFlag = $this->_config->isSetFlag(\Magento\PageCache\Model\Config::XML_PAGECACHE_TYPE);
                 if ($varnishIsEnabledFlag && isset($blockTtl)) {
-                    $output = $this->_wrapEsi($block, $layout);
+                    $output = $this->_wrapEsi($block);
                 } elseif ($block->isScopePrivate()) {
                     $output = sprintf(
                         '<!-- BLOCK %1$s -->%2$s<!-- /BLOCK %1$s -->',
@@ -70,21 +89,34 @@ class Observer
      * Replace the output of the block, containing ttl attribute, with ESI tag
      *
      * @param \Magento\View\Element\AbstractBlock $block
-     * @param \Magento\Core\Model\Layout $layout
      * @return string
      */
     protected function _wrapEsi(
-        \Magento\View\Element\AbstractBlock $block,
-        \Magento\Core\Model\Layout $layout
+        \Magento\View\Element\AbstractBlock $block
     ) {
-
         $url = $block->getUrl(
             'page_cache/block/esi',
             [
                 'blocks' => json_encode([$block->getNameInLayout()]),
-                'handles' => json_encode($layout->getUpdate()->getHandles())
+                'handles' => json_encode($this->_helper->getActualHandles())
             ]
         );
         return sprintf('<esi:include src="%s" />', $url);
+    }
+
+    /**
+     * If Built-In caching is enabled it collects array of tags
+     * of incoming object and asks to clean cache.
+     *
+     * @param \Magento\Event\Observer $observer
+     */
+    public function invalidateCache(\Magento\Event\Observer $observer)
+    {
+        $object = $observer->getEvent();
+        if($object instanceof \Magento\Object\IdentityInterface) {
+            if($this->_config->getType() == \Magento\PageCache\Model\Config::BUILT_IN) {
+                $this->_cache->clean($object->getIdentities());
+            }
+        }
     }
 }

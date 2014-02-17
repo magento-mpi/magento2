@@ -142,8 +142,10 @@ class Sidebar extends \Magento\View\Element\Template implements \Magento\View\Bl
      */
     public function getLastOrder()
     {
-        foreach ($this->getOrders() as $order) {
-            return $order;
+        if ($this->getOrders()) {
+            foreach ($this->getOrders() as $order) {
+                return $order;
+            }
         }
         return false;
     }

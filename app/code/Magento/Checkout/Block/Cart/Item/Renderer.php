@@ -478,9 +478,8 @@ class Renderer extends \Magento\View\Element\Template implements \Magento\View\B
      */
     public function getIdentities()
     {
-        $product = $this->getProduct();
-        if ($product instanceof \Magento\Object\IdentityInterface) {
-            return $product->getIdentities();
+        if ($this->getItem()) {
+            return $this->getProduct()->getIdentities();
         }
         return array();
     }

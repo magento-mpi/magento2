@@ -109,6 +109,10 @@ class Configurable extends \Magento\Checkout\Block\Cart\Item\Renderer implements
      */
     public function getIdentities()
     {
-        return array_merge(parent::getIdentities(), $this->getChildProduct()->getIdentities());
+        $identities = parent::getIdentities();
+        if ($this->getItem()) {
+            $identities = array_merge($identities, $this->getChildProduct()->getIdentities());
+        }
+        return $identities;
     }
 }
