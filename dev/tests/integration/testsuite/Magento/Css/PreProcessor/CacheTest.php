@@ -8,6 +8,9 @@
 
 namespace Magento\Css\PreProcessor;
 
+use \Magento\Css\PreProcessor\Cache\Import\Cache;
+use \Magento\Css\PreProcessor\Cache\Import\Map\Storage;
+
 class CacheTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -65,8 +68,8 @@ class CacheTest extends \PHPUnit_Framework_TestCase
          * @var \Magento\Css\PreProcessor\Cache\CacheManager $cacheManagerEmpty
          */
         $emptyCache = $this->objectManager->create('Magento\Css\PreProcessor\Cache\CacheManager');
-        $emptyCache->initializeCacheByType(Import\Cache::IMPORT_CACHE, $file);
-        $this->assertEmpty($emptyCache->getCachedFile(Import\Cache::IMPORT_CACHE));
+        $emptyCache->initializeCacheByType(Cache::IMPORT_CACHE, $file);
+        $this->assertEmpty($emptyCache->getCachedFile(Cache::IMPORT_CACHE));
 
         $this->preProcessorLess->process($file, $targetDirectory);
 
@@ -76,8 +79,8 @@ class CacheTest extends \PHPUnit_Framework_TestCase
          * @var \Magento\Css\PreProcessor\Cache\CacheManager $cacheManagerGenerated
          */
         $generatedCache = $this->objectManager->create('Magento\Css\PreProcessor\Cache\CacheManager');
-        $generatedCache->initializeCacheByType(Import\Cache::IMPORT_CACHE, $file);
-        $this->assertNotEmpty($generatedCache->getCachedFile(Import\Cache::IMPORT_CACHE));
+        $generatedCache->initializeCacheByType(Cache::IMPORT_CACHE, $file);
+        $this->assertNotEmpty($generatedCache->getCachedFile(Cache::IMPORT_CACHE));
     }
 
     /**
@@ -100,8 +103,8 @@ class CacheTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Filesystem\Directory\WriteInterface $mapsDirectory */
         $mapsDirectory = $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::VAR_DIR);
 
-        if ($mapsDirectory->isDirectory(Import\Map\Storage::MAPS_DIR)) {
-            $mapsDirectory->delete(Import\Map\Storage::MAPS_DIR);
+        if ($mapsDirectory->isDirectory(Storage::MAPS_DIR)) {
+            $mapsDirectory->delete(Storage::MAPS_DIR);
         }
         return $this;
     }
