@@ -28,6 +28,9 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Event\Observer */
     protected $_observerMock;
 
+    /** @var \Magento\PageCache\Helper\Data  */
+    protected $_helperMock;
+
     /** @var \Magento\Object */
     protected $_transport;
 
@@ -36,8 +39,10 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->_configMock = $this->getMock('\Magento\App\ConfigInterface', [], [], '', false);
-        $this->_model = new \Magento\PageCache\Model\Observer($this->_configMock);
+        $this->_configMock = $this->getMock('Magento\App\ConfigInterface', [], [], '', false);
+        $cacheMock = $this->getMock('Magento\App\PageCache\Cache', [], [], '', false);
+        $this->_helperMock = $this->getMock('Magento\PageCache\Helper\Data', [], [], '', false);
+        $this->_model = new \Magento\PageCache\Model\Observer($this->_configMock, $cacheMock, $this->_helperMock);
         $this->_observerMock = $this->getMock('Magento\Event\Observer', ['getEvent'], [], '', false);
         $eventMock = $this->getMock('Magento\Event', ['getLayout', 'getElementName', 'getTransport'], [], '', false);
         $this->_layoutMock = $this->getMock(
