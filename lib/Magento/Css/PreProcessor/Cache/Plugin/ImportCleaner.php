@@ -33,7 +33,7 @@ class ImportCleaner
      */
     public function beforeCleanMergedJsCss(array $arguments)
     {
-        $this->importStorage->clearImportCache();
+        $this->importStorage->clearMaps();
         return $arguments;
     }
 }

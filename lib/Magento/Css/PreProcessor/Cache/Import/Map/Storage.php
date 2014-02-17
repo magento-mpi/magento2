@@ -76,11 +76,9 @@ class Storage
     /**
      * @return $this
      */
-    public function clearImportCache()
+    public function clearMaps()
     {
-        if ($this->mapsDirectory->isDirectory(self::MAPS_DIR)) {
-            $this->mapsDirectory->delete(self::MAPS_DIR);
-        }
+        $this->mapsDirectory->delete(self::MAPS_DIR);
         return $this;
     }
 
