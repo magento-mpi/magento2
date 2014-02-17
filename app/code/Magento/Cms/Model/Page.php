@@ -55,7 +55,7 @@
  */
 namespace Magento\Cms\Model;
 
-class Page extends \Magento\Core\Model\AbstractModel
+class Page extends \Magento\Core\Model\AbstractModel implements \Magento\Object\IdentityInterface
 {
     const NOROUTE_PAGE_ID = 'no-route';
 
@@ -134,5 +134,15 @@ class Page extends \Magento\Core\Model\AbstractModel
             self::STATUS_ENABLED => __('Enabled'),
             self::STATUS_DISABLED => __('Disabled'),
         );
+    }
+
+    /**
+     * Get identities
+     *
+     * @return array
+     */
+    public function getIdentities()
+    {
+        return array(self::CACHE_TAG . '_' . $this->getId());
     }
 }

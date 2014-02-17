@@ -43,6 +43,18 @@ class Data extends \Magento\App\Helper\AbstractHelper
     const PRIVATE_MAX_AGE_CACHE = 31536000;
 
     /**
+     * Retrieve url
+     *
+     * @param $route
+     * @param array $params
+     * @return string
+     */
+    public function getUrl($route, $params = array())
+    {
+        return $this->_getUrl($route, $params);
+    }
+
+    /**
      * Get handles applied for current page
      *
      * @return array
