@@ -52,26 +52,22 @@ class FulltextIndexRebuild
     /**
      * Hold commit at indexation start if needed
      *
-     * @param array $arguments
-     * @return array
-     */
-    public function beforeRebuildIndex(array $arguments)
-    {
-        /* input parameters processing (with default values emulation) */
-        if (isset($arguments[1])) {
-            list(,$productIds) = $arguments;
-        } else {
-            $productIds = null;
-        }
+     * @param \Magento\CatalogSearch\Model\Fulltext $subject
+     * @param int|null $storeId Store View Id
+     * @param int|array|null $productIds Product Entity Id
 
+     * @return void
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
+    public function beforeRebuildIndex(
+        \Magento\CatalogSearch\Model\Fulltext $subject, $storeId = null, $productIds = null
+    ) {
         if ($this->_searchHelper->isThirdPartyEngineAvailable()) {
             $engine = $this->_engineProvider->get();
             if ($engine->holdCommit() && is_null($productIds)) {
                 $engine->setIndexNeedsOptimization();
             }
         }
-
-        return $arguments;
     }
 
     /**

@@ -84,15 +84,18 @@ class Plugin
     }
 
     /**
-     * @param array $arguments
-     * @return array
+     *
+     * @param \Magento\Less\PreProcessor $subject
+     * @param string $lessFilePath
+     * @param array $viewParams
+     *
+     * @return void
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function beforeProcessLessInstructions(array $arguments)
+    public function beforeProcessLessInstructions(\Magento\Less\PreProcessor $subject, $lessFilePath, $viewParams)
     {
         if (null !== $this->cacheManager) {
-            list($lessFilePath, $params) = $arguments;
-            $this->cacheManager->addEntityToCache($lessFilePath, $params);
+            $this->cacheManager->addEntityToCache($lessFilePath, $viewParams);
         }
-        return $arguments;
     }
 }
