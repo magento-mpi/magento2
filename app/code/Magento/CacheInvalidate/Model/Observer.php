@@ -37,12 +37,12 @@ class Observer
     /**
      * Constructor
      *
-     * @param \Magento\App\ConfigInterface $config
+     * @param \Magento\PageCache\Model\Config $config
      * @param \Magento\App\PageCache\Cache $cache
      * @param \Magento\PageCache\Helper\Data $helper
      */
     public function __construct(
-        \Magento\App\ConfigInterface $config,
+        \Magento\PageCache\Model\Config $config,
         \Magento\App\PageCache\Cache $cache,
         \Magento\PageCache\Helper\Data $helper
     ){
@@ -60,15 +60,14 @@ class Observer
     public function invalidateCache(\Magento\Event\Observer $observer)
     {
         $object = $observer->getEvent();
-        if($object instanceof \Magento\Object\IdentityInteface) {
+        if($object instanceof \Magento\Object\IdentityInterface) {
             if($this->_config->getType() == \Magento\PageCache\Model\Config::BUILT_IN) {
                 $this->_cache->clean($object->getIdentities());
             } else {
                 $preparedTags = implode('|', $object->getIdentities());
-                $curl = curl_init($this->_helper->getUrl('*'));
-                curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PURGE");
-                curl_setopt($curl, CURLOPT_HTTPHEADER, "X-Magento-Tags-Pattern: {$preparedTags}");
-                curl_exec($curl);
+                $curl = new \Magento\HTTP\Adapter\Curl();
+                $curl->setOptions(array(CURLOPT_CUSTOMREQUEST => 'PURGE'));
+                $curl->write('', $this->_helper->getUrl('*'), '1.1', "X-Magento-Tags-Pattern: {$preparedTags}");
             }
         }
     }
