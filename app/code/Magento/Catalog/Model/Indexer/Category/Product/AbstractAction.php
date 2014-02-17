@@ -26,6 +26,11 @@ abstract class AbstractAction
     const MAIN_INDEX_TABLE = 'catalog_category_product_index';
 
     /**
+     * Suffix for table to show it is temporary
+     */
+    const TEMPORARY_TABLE_SUFFIX = '_tmp';
+
+    /**
      * Cached non anchor categories select by store id
      *
      * @var \Magento\DB\Select[]
@@ -139,7 +144,8 @@ abstract class AbstractAction
      */
     protected function getMainTmpTable()
     {
-        return $this->useTempTable ? $this->getTable(self::MAIN_INDEX_TABLE . '_tmp') : $this->getMainTable();
+        return $this->useTempTable ? $this->getTable(self::MAIN_INDEX_TABLE . self::TEMPORARY_TABLE_SUFFIX)
+            : $this->getMainTable();
     }
 
     /**
