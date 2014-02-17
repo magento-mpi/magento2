@@ -24,30 +24,14 @@ class Observer
     protected $_config;
 
     /**
-     * @var \Magento\App\PageCache\Cache
-     */
-    protected $_cache;
-
-    /**
-     * @var \Magento\PageCache\Helper\Data
-     */
-    protected $_helper;
-
-    /**
      * Constructor
      *
      * @param \Magento\App\ConfigInterface $config
-     * @param \Magento\App\PageCache\Cache $cache
-     * @param \Magento\PageCache\Helper\Data $helper
      */
     public function __construct(
-        \Magento\App\ConfigInterface $config,
-        \Magento\App\PageCache\Cache $cache,
-        \Magento\PageCache\Helper\Data $helper
+        \Magento\App\ConfigInterface $config
     ){
         $this->_config = $config;
-        $this->_cache = $cache;
-        $this->_helper = $helper;
     }
 
     /**
