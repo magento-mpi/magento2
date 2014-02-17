@@ -14,16 +14,16 @@ namespace Magento\GiftRegistry\Block\Customer\Checkout;
 class Multishipping extends \Magento\GiftRegistry\Block\Customer\Checkout
 {
     /**
-     * @var \Magento\Multishipping\Model\Checkout\Type\MultishippingFactory
+     * @var \Magento\Multishipping\Model\Checkout\Type\Multishipping
      */
-    protected $typeMultiShippingFactory;
+    protected $typeMultiShipping;
 
     /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
      * @param \Magento\Checkout\Model\Session $customerSession
      * @param \Magento\GiftRegistry\Model\EntityFactory $entityFactory
-     * @param \Magento\Multishipping\Model\Checkout\Type\MultishippingFactory $typeMultiShippingFactory
+     * @param \Magento\Multishipping\Model\Checkout\Type\Multishipping $typeMultiShipping
      * @param array $data
      */
     public function __construct(
@@ -31,10 +31,10 @@ class Multishipping extends \Magento\GiftRegistry\Block\Customer\Checkout
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
         \Magento\Checkout\Model\Session $customerSession,
         \Magento\GiftRegistry\Model\EntityFactory $entityFactory,
-        \Magento\Multishipping\Model\Checkout\Type\MultishippingFactory $typeMultiShippingFactory,
+        \Magento\Multishipping\Model\Checkout\Type\Multishipping $typeMultiShipping,
         array $data = array()
     ) {
-        $this->typeMultiShippingFactory = $typeMultiShippingFactory;
+        $this->typeMultiShipping = $typeMultiShipping;
         parent::__construct($context, $giftRegistryData, $customerSession, $entityFactory, $data);
     }
 
@@ -63,7 +63,7 @@ class Multishipping extends \Magento\GiftRegistry\Block\Customer\Checkout
     {
         $result = array();
         $registryQuoteItemIds = array_keys($this->getItems());
-        $quoteAddressItems = $this->typeMultiShippingFactory->create()->getQuoteShippingAddressesItems();
+        $quoteAddressItems = $this->typeMultiShipping->getQuoteShippingAddressesItems();
         foreach ($quoteAddressItems as $index => $quoteAddressItem) {
             $quoteItemId = $quoteAddressItem->getQuoteItem()->getId();
             if (!$quoteAddressItem->getCustomerAddressId() && in_array($quoteItemId, $registryQuoteItemIds)) {
