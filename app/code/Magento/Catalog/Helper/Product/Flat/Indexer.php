@@ -121,6 +121,11 @@ class Indexer extends \Magento\App\Helper\AbstractHelper
     protected $_addChildData;
 
     /**
+     * @var \Magento\Mview\View\Changelog
+     */
+    protected $_changelog;
+
+    /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\App\Resource $resource
      * @param \Magento\Eav\Model\Config $eavConfig
@@ -128,6 +133,7 @@ class Indexer extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Catalog\Model\Resource\ConfigFactory $configFactory
      * @param \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Mview\View\Changelog $changelog
      * @param int $addFilterableAttrs
      * @param int $addChildData
      * @param array $flatAttributeGroups
@@ -140,6 +146,7 @@ class Indexer extends \Magento\App\Helper\AbstractHelper
         \Magento\Catalog\Model\Resource\ConfigFactory $configFactory,
         \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Mview\View\Changelog $changelog,
         $addFilterableAttrs = 0,
         $addChildData = 0,
         $flatAttributeGroups = array()
@@ -151,6 +158,7 @@ class Indexer extends \Magento\App\Helper\AbstractHelper
         $this->_attributeFactory = $attributeFactory;
         $this->_flatAttributeGroups = $flatAttributeGroups;
         $this->_storeManager = $storeManager;
+        $this->_changelog = $changelog;
         $this->_addFilterableAttrs = $addFilterableAttrs;
         $this->_addChildData = $addChildData;
         parent::__construct($context);
@@ -487,7 +495,12 @@ class Indexer extends \Magento\App\Helper\AbstractHelper
     {
         $connection = $this->_resource->getConnection('write');
         $existentTables = $connection->getTables($connection->getTableName('catalog_product_flat_%'));
-
+        $this->_changelog->setViewId('catalog_product_flat');
+        foreach ($existentTables as $key => $tableName) {
+            if ($this->_changelog->getName() == $tableName) {
+                unset($existentTables[$key]);
+            }
+        }
         $actualStoreTables = array();
         foreach ($this->_storeManager->getStores() as $store) {
             $actualStoreTables[] = $this->getFlatTableName($store->getId());
