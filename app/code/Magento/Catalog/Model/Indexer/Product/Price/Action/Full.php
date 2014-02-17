@@ -27,6 +27,8 @@ class Full extends \Magento\Catalog\Model\Indexer\Product\Price\AbstractAction
     public function execute($ids = null)
     {
         try {
+            $this->_logger->log(__CLASS__ . '::' . __METHOD__ . ' has been triggered');
+
             $this->_useIdxTable(true);
             $this->_emptyTable($this->_getIdxTable());
             $this->_prepareWebsiteDateTable();
