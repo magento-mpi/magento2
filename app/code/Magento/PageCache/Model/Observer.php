@@ -19,7 +19,7 @@ class Observer
     /**
      * Application config object
      *
-     * @var \Magento\App\ConfigInterface
+     * @var \Magento\PageCache\Model\Config
      */
     protected $_config;
 
@@ -29,8 +29,6 @@ class Observer
     protected $_cache;
 
     /**
-     * PageCache helper
-     *
      * @var \Magento\PageCache\Helper\Data
      */
     protected $_helper;
@@ -38,12 +36,12 @@ class Observer
     /**
      * Constructor
      *
-     * @param \Magento\App\ConfigInterface $config
+     * @param \Magento\PageCache\Model\Config $config
      * @param \Magento\App\PageCache\Cache $cache
      * @param \Magento\PageCache\Helper\Data $helper
      */
     public function __construct(
-        \Magento\App\ConfigInterface $config,
+        \Magento\PageCache\Model\Config $config,
         \Magento\App\PageCache\Cache $cache,
         \Magento\PageCache\Helper\Data $helper
     ){
@@ -70,7 +68,7 @@ class Observer
             if ($block instanceof \Magento\View\Element\AbstractBlock) {
                 $output = $transport->getData('output');
                 $blockTtl = $block->getTtl();
-                $varnishIsEnabledFlag = $this->_config->isSetFlag(\Magento\PageCache\Model\Config::XML_PAGECACHE_TYPE);
+                $varnishIsEnabledFlag = ($this->_config->getType() == \Magento\PageCache\Model\Config::VARNISH);
                 if ($varnishIsEnabledFlag && isset($blockTtl)) {
                     $output = $this->_wrapEsi($block);
                 } elseif ($block->isScopePrivate()) {
@@ -112,7 +110,7 @@ class Observer
      */
     public function invalidateCache(\Magento\Event\Observer $observer)
     {
-        $object = $observer->getEvent();
+        $object = $observer->getEvent()->getObject();
         if($object instanceof \Magento\Object\IdentityInterface) {
             if($this->_config->getType() == \Magento\PageCache\Model\Config::BUILT_IN) {
                 $this->_cache->clean($object->getIdentities());
