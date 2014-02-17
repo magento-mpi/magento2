@@ -1,3 +1,8 @@
+* Fixed bugs:
+  * Fixed an issue with "Add to Cart" button on MAP popup of compound products
+* Indexer implementation:
+  * Implemented new optimized Catalog Product Flat Indexer
+
 2.0.0.0-dev65
 =============
 * Fixed bugs:
@@ -21,7 +26,7 @@
 * Improvements in code coverage calculation:
   * Added code coverage calculation in the clover xml format for unit tests
 * GitHub requests:
- * [#377] (https://github.com/magento/magento2/issues/377) Remove and avoid javascript eval() calls 
+ * [#377] (https://github.com/magento/magento2/issues/377) Remove and avoid javascript eval() calls
  * [#319] (https://github.com/magento/magento2/issues/319) No message was displayed when product added to shopping cart.
  * [#367] (https://github.com/magento/magento2/issues/367) Improve the error message from the contact form
  * [#469] (https://github.com/magento/magento2/issues/469) Can't change prices on different websites for custom options

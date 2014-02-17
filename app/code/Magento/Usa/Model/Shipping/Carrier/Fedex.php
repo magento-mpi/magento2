@@ -7,16 +7,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Usa\Model\Shipping\Carrier;
+
+use Magento\Sales\Model\Quote\Address\RateRequest;
+use Magento\Shipping\Model\Rate\Result;
 
 /**
  * Fedex shipping implementation
  *
- * @category   Magento
- * @package    Magento_Usa
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Usa\Model\Shipping\Carrier;
-
 class Fedex
     extends \Magento\Usa\Model\Shipping\Carrier\AbstractCarrier
     implements \Magento\Shipping\Model\Carrier\CarrierInterface
@@ -53,7 +53,7 @@ class Fedex
     /**
      * Rate request data
      *
-     * @var \Magento\Sales\Model\Quote\Address\RateRequest|null
+     * @var RateRequest|null
      */
     protected $_request = null;
 
@@ -67,7 +67,7 @@ class Fedex
     /**
      * Rate result data
      *
-     * @var \Magento\Shipping\Model\Rate\Result|null
+     * @var Result|null
      */
     protected $_result = null;
 
@@ -95,7 +95,7 @@ class Fedex
     /**
      * Container types that could be customized for FedEx carrier
      *
-     * @var array
+     * @var string[]
      */
     protected $_customizableContainerTypes = array('YOUR_PACKAGING');
 
@@ -232,10 +232,10 @@ class Fedex
     /**
      * Collect and get rates
      *
-     * @param \Magento\Sales\Model\Quote\Address\RateRequest $request
-     * @return \Magento\Shipping\Model\Rate\Result|bool|null
+     * @param RateRequest $request
+     * @return Result|bool|null
      */
-    public function collectRates(\Magento\Sales\Model\Quote\Address\RateRequest $request)
+    public function collectRates(RateRequest $request)
     {
         if (!$this->getConfigFlag($this->_activeFlag)) {
             return false;
@@ -252,10 +252,10 @@ class Fedex
     /**
      * Prepare and set request to this instance
      *
-     * @param \Magento\Sales\Model\Quote\Address\RateRequest $request
-     * @return \Magento\Usa\Model\Shipping\Carrier\Fedex
+     * @param RateRequest $request
+     * @return $this
      */
-    public function setRequest(\Magento\Sales\Model\Quote\Address\RateRequest $request)
+    public function setRequest(RateRequest $request)
     {
         $this->_request = $request;
 
@@ -343,11 +343,11 @@ class Fedex
     /**
      * Get result of request
      *
-     * @return mixed
+     * @return Result|null
      */
     public function getResult()
     {
-       return $this->_result;
+        return $this->_result;
     }
 
     /**
@@ -484,7 +484,7 @@ class Fedex
     /**
      * Do remote request for and handle errors
      *
-     * @return \Magento\Shipping\Model\Rate\Result
+     * @return Result
      */
     protected function _getQuotes()
     {
@@ -511,7 +511,7 @@ class Fedex
      * Prepare shipping rate result based on response
      *
      * @param mixed $response
-     * @return \Magento\Shipping\Model\Rate\Result
+     * @return Result
      */
     protected function _prepareRateResponse($response)
     {
@@ -608,7 +608,7 @@ class Fedex
     /**
      * Set free method request
      *
-     * @param  $freeMethod
+     * @param string $freeMethod
      * @return void
      */
     protected function _setFreeMethodRequest($freeMethod)
@@ -622,7 +622,7 @@ class Fedex
     /**
      * Get xml quotes
      *
-     * @return \Magento\Shipping\Model\Rate\Result
+     * @return Result
      */
     protected function _getXmlQuotes()
     {
@@ -705,7 +705,7 @@ class Fedex
      * Prepare shipping rate result based on response
      *
      * @param mixed $response
-     * @return \Magento\Shipping\Model\Rate\Result
+     * @return Result
      */
     protected function _parseXmlResponse($response)
     {
@@ -713,34 +713,33 @@ class Fedex
         $priceArr = array();
 
         if (strlen(trim($response))>0) {
-           if ($xml = $this->_parseXml($response)) {
+            if ($xml = $this->_parseXml($response)) {
+                if (is_object($xml->Error) && is_object($xml->Error->Message)) {
+                    $errorTitle = (string)$xml->Error->Message;
+                } elseif (is_object($xml->SoftError) && is_object($xml->SoftError->Message)) {
+                    $errorTitle = (string)$xml->SoftError->Message;
+                } else {
+                    $errorTitle = 'Sorry, something went wrong. Please try again or contact us and we\'ll try to help.';
+                }
 
-               if (is_object($xml->Error) && is_object($xml->Error->Message)) {
-                   $errorTitle = (string)$xml->Error->Message;
-               } elseif (is_object($xml->SoftError) && is_object($xml->SoftError->Message)) {
-                   $errorTitle = (string)$xml->SoftError->Message;
-               } else {
-                   $errorTitle = 'Sorry, something went wrong. Please try again or contact us and we\'ll try to help.';
-               }
+                $allowedMethods = explode(",", $this->getConfigData('allowed_methods'));
 
-               $allowedMethods = explode(",", $this->getConfigData('allowed_methods'));
+                foreach ($xml->Entry as $entry) {
+                    if (in_array((string)$entry->Service, $allowedMethods)) {
+                        $costArr[(string)$entry->Service] =
+                            (string)$entry->EstimatedCharges->DiscountedCharges->NetCharge;
+                        $priceArr[(string)$entry->Service] = $this->getMethodPrice(
+                            (string)$entry->EstimatedCharges->DiscountedCharges->NetCharge,
+                            (string)$entry->Service
+                        );
+                    }
+                }
 
-               foreach ($xml->Entry as $entry) {
-                   if (in_array((string)$entry->Service, $allowedMethods)) {
-                       $costArr[(string)$entry->Service] =
-                           (string)$entry->EstimatedCharges->DiscountedCharges->NetCharge;
-                       $priceArr[(string)$entry->Service] = $this->getMethodPrice(
-                           (string)$entry->EstimatedCharges->DiscountedCharges->NetCharge,
-                           (string)$entry->Service
-                       );
-                   }
-               }
+                asort($priceArr);
 
-               asort($priceArr);
-
-           } else {
-               $errorTitle = 'Response is in the wrong format.';
-           }
+            } else {
+                $errorTitle = 'Response is in the wrong format.';
+            }
         } else {
             $errorTitle = 'Unable to retrieve tracking';
         }
@@ -793,7 +792,7 @@ class Fedex
      *
      * @param string $type
      * @param string $code
-     * @return array|bool
+     * @return array|false
      */
     public function getCode($type, $code='')
     {
@@ -955,9 +954,9 @@ class Fedex
     }
 
     /**
-     *  Return FeDex currency ISO code by Magento Base Currency Code
+     * Return FeDex currency ISO code by Magento Base Currency Code
      *
-     *  @return string 3-digit currency code
+     * @return string 3-digit currency code
      */
     public function getCurrencyCode ()
     {
@@ -985,8 +984,8 @@ class Fedex
     /**
      * Get tracking
      *
-     * @param mixed $trackings
-     * @return mixed
+     * @param string|string[] $trackings
+     * @return Result|null
      */
     public function getTracking($trackings)
     {
@@ -996,7 +995,7 @@ class Fedex
             $trackings=array($trackings);
         }
 
-        foreach($trackings as $tracking){
+        foreach ($trackings as $tracking) {
             $this->_getXMLTracking($tracking);
         }
 
@@ -1021,7 +1020,7 @@ class Fedex
     /**
      * Send request for tracking
      *
-     * @param array $tracking
+     * @param string[] $tracking
      * @return void
      */
     protected function _getXMLTracking($tracking)
@@ -1078,8 +1077,9 @@ class Fedex
     /**
      * Parse tracking response
      *
-     * @param array $trackingValue
+     * @param string[] $trackingValue
      * @param \stdClass $response
+     * @return void
      */
     protected function _parseTrackingResponse($trackingValue, $response)
     {
@@ -1172,12 +1172,12 @@ class Fedex
             $tracking->addData($resultArray);
             $this->_result->append($tracking);
         } else {
-           $error = $this->_trackErrorFactory->create();
-           $error->setCarrier('fedex');
-           $error->setCarrierTitle($this->getConfigData('title'));
-           $error->setTracking($trackingValue);
-           $error->setErrorMessage($errorTitle ? $errorTitle : __('Unable to retrieve tracking'));
-           $this->_result->append($error);
+            $error = $this->_trackErrorFactory->create();
+            $error->setCarrier('fedex');
+            $error->setCarrierTitle($this->getConfigData('title'));
+            $error->setTracking($trackingValue);
+            $error->setErrorMessage($errorTitle ? $errorTitle : __('Unable to retrieve tracking'));
+            $this->_result->append($error);
         }
     }
 
@@ -1191,8 +1191,8 @@ class Fedex
         $statuses = '';
         if ($this->_result instanceof \Magento\Shipping\Model\Tracking\Result) {
             if ($trackings = $this->_result->getAllTrackings()) {
-                foreach ($trackings as $tracking){
-                    if($data = $tracking->getAllData()){
+                foreach ($trackings as $tracking) {
+                    if ($data = $tracking->getAllData()) {
                         if (!empty($data['status'])) {
                             $statuses .= __($data['status']) . "\n<br/>";
                         } else {

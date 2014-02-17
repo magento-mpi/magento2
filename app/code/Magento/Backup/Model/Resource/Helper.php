@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backup\Model\Resource;
 
 class Helper extends \Magento\Core\Model\Resource\Helper
@@ -30,7 +29,7 @@ class Helper extends \Magento\Core\Model\Resource\Helper
     /**
      * @param \Magento\App\Resource $resource
      * @param \Magento\Core\Model\Date $coreDate
-     * @param $modulePrefix
+     * @param string $modulePrefix
      */
     public function __construct(
         \Magento\App\Resource $resource,
@@ -315,6 +314,8 @@ class Helper extends \Magento\Core\Model\Resource\Helper
 
     /**
      * Prepare transaction isolation level for backup process
+     *
+     * @return void
      */
     public function prepareTransactionIsolationLevel()
     {
@@ -323,6 +324,8 @@ class Helper extends \Magento\Core\Model\Resource\Helper
 
     /**
      * Restore transaction isolation level after backup
+     *
+     * @return void
      */
     public function restoreTransactionIsolationLevel()
     {

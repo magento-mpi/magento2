@@ -112,14 +112,9 @@ class Open extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
             'default'  => $isNullable ? null : $attributeDefaultValue
         );
 
-        if ($this->_coreData->useDbCompatibleMode()) {
-            $column['type']     = $attributeType;
-            $column['is_null']  = $isNullable;
-        } else {
-            $column['type']     = $this->_resourceHelper->getDdlTypeByColumnType($attributeType);
-            $column['nullable'] = $isNullable;
-            $column['comment']  = 'Enterprise Giftcard Open ' . $attributeCode . ' column';
-        }
+        $column['type']     = $this->_resourceHelper->getDdlTypeByColumnType($attributeType);
+        $column['nullable'] = $isNullable;
+        $column['comment']  = 'Enterprise Giftcard Open ' . $attributeCode . ' column';
 
         return array($attributeCode => $column);
     }
