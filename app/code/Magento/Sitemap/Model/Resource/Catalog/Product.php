@@ -89,7 +89,7 @@ class Product extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param \Magento\Catalog\Model\Resource\Product $productResource
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Product\Visibility $productVisibility
-     * @param \Magento\Catalog\Model\Product\Status $productStatus
+     * @param \Magento\Catalog\Model\Product\Attribute\Source\Status $productStatus
      * @param \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Media $mediaAttribute
      * @param \Magento\Eav\Model\ConfigFactory $eavConfigFactory
      * @param \Magento\Catalog\Model\Product\Media\Config $mediaConfig
