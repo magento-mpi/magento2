@@ -312,28 +312,6 @@ class Observer
     }
 
     /**
-     * Set form element value and readonly
-     *
-     * @param Template $block
-     * @return void
-     */
-    protected function _setFormElementAttributes($block)
-    {
-        // Handle quick creation of simple product in configurable product
-        /** @var $form \Magento\Data\Form */
-        $form = $block->getForm();
-        if (!is_null($form)) {
-            if (!$this->_canEditProductStatus) {
-                $statusElement = $form->getElement('simple_product_status');
-                if (!is_null($statusElement)) {
-                    $statusElement->setValue(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
-                    $statusElement->setReadonly(true, true);
-                }
-            }
-        }
-    }
-
-    /**
      * Handle adminhtml_block_html_before event
      *
      * @param EventObserver $observer
