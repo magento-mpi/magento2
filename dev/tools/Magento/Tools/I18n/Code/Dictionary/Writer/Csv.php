@@ -44,12 +44,27 @@ class Csv implements WriterInterface
     public function write(Phrase $phrase)
     {
         $fields = array($phrase->getPhrase(), $phrase->getTranslation());
+        $fields = $this->_filterFields($fields);
         if (($contextType = $phrase->getContextType()) && ($contextValue = $phrase->getContextValueAsString())) {
             $fields[] = $contextType;
             $fields[] = $contextValue;
         }
 
         fputcsv($this->_fileHandler, $fields, ',', '"');
+    }
+
+    /**
+     * Filter phrase and its translation
+     *
+     * @param array $fields
+     * @return array
+     */
+    protected function _filterFields(array $fields)
+    {
+        foreach ($fields as &$field) {
+            $field = str_replace("\'", "'", $field);
+        }
+        return $fields;
     }
 
     /**
