@@ -1,5 +1,6 @@
 * Fixed bugs:
   * Fixed an issue with Backup module feature not possible to store files
+  * Fixed an issue with "Add to Cart" button on MAP popup of compound products
 * Indexer implementation:
   * Implemented new optimized Catalog Category Flat Indexer
   * Implemented new optimized Catalog Product Flat Indexer
@@ -10,6 +11,7 @@
   * LESS files in library/theme/module, during materialization are automatically compiled into CSS
   * LESS files compilation caching mechanism added for developer mode
 * Modularity improvements:
+  * Moved all Configurable Product functionality to newly created module ConfigurableProduct
   * Moved Shortcut Buttons abstraction from PayPal to Catalog
   * Moved Recurring profile functionality into separate module
   * Moved Billing Agreements functionality into PayPal module

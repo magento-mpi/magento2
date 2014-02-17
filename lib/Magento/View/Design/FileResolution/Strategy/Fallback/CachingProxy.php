@@ -54,6 +54,8 @@ class CachingProxy implements FileInterface, LocaleInterface, ViewInterface, Not
     protected $canSaveMap;
 
     /**
+     * Var directory
+     *
      * @var Write
      */
     protected $varDirectory;
@@ -66,6 +68,8 @@ class CachingProxy implements FileInterface, LocaleInterface, ViewInterface, Not
     protected $sections = array();
 
     /**
+     * Constructor
+     *
      * @param Fallback $fallback
      * @param Filesystem $filesystem
      * @param string $mapDir
@@ -204,6 +208,7 @@ class CachingProxy implements FileInterface, LocaleInterface, ViewInterface, Not
      * @param string|null $module
      * @param string $file
      * @param string $filePath
+     * @return void
      * @throws \Magento\Exception
      */
     protected function setToMap($fileType, $area, ThemeInterface $theme, $locale, $module, $file, $filePath)
@@ -268,7 +273,7 @@ class CachingProxy implements FileInterface, LocaleInterface, ViewInterface, Not
      * @param string|null $module
      * @param string $file
      * @param string $newFilePath
-     * @return \Magento\View\Design\FileResolution\Strategy\Fallback\CachingProxy
+     * @return $this
      */
     public function setViewFilePathToMap($area, ThemeInterface $themeModel, $locale, $module, $file, $newFilePath)
     {

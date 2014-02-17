@@ -8,6 +8,7 @@
  */
 -->
 <config>
+    <preference for="Magento\Eav\Model\Entity\Setup\PropertyMapperInterface" type="Magento\Eav\Model\Entity\Setup\PropertyMapper\Composite" />
     <type name="Magento\Eav\Model\Resource\Helper">
         <param name="modulePrefix">
             <value>eav</value>
@@ -17,6 +18,13 @@
         <param name="resourceTypes">
             <array>
                 <item key="eav_setup"><value>Magento\Eav\Model\Entity\Setup</value></item>
+            </array>
+        </param>
+    </type>
+    <type name="Magento\Eav\Model\Entity\Setup\PropertyMapper\Composite">
+        <param name="propertyMappers">
+            <array>
+                <item key="default"><value>Magento\Eav\Model\Entity\Setup\PropertyMapper</value></item>
             </array>
         </param>
     </type>

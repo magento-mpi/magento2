@@ -21,6 +21,8 @@ class FileFactory
     protected $_objectManager;
 
     /**
+     * Object manager
+     *
      * @param \Magento\ObjectManager $objectManager
      */
     public function __construct(\Magento\ObjectManager $objectManager)

@@ -30,11 +30,15 @@ class Config implements \Magento\View\ConfigInterface
     protected $moduleReader;
 
     /**
+     * Root directory
+     *
      * @var ReadInterface
      */
     protected $rootDirectory;
 
     /**
+     * View service
+     *
      * @var \Magento\View\Service
      */
     protected $viewService;
@@ -47,22 +51,28 @@ class Config implements \Magento\View\ConfigInterface
     protected $viewFileSystem;
 
     /**
+     * File name
+     *
      * @var string
      */
     protected $filename;
 
     /**
+     * File iterator factory
+     *
      * @var \Magento\Config\FileIteratorFactory
      */
     protected $fileIteratorFactory;
 
     /**
+     * Constructor
+     *
      * @param \Magento\Module\Dir\Reader $moduleReader
      * @param \Magento\App\Filesystem $filesystem
-     * @param Service $viewService
-     * @param FileSystem $viewFileSystem
+     * @param \Magento\View\Service  $viewService
+     * @param \Magento\View\FileSystem $viewFileSystem
      * @param \Magento\Config\FileIteratorFactory $fileIteratorFactory
-     * @param $filename
+     * @param string $filename
      */
     public function __construct(
         \Magento\Module\Dir\Reader $moduleReader,

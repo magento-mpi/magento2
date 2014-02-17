@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ImportExport\Model\Source\Export;
 
 /**
  * Source export entity model
@@ -15,8 +16,6 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\ImportExport\Model\Source\Export;
-
 class Entity implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
@@ -34,9 +33,7 @@ class Entity implements \Magento\Core\Model\Option\ArrayInterface
     }
 
     /**
-     * Prepare and return array of export entities ids and their names
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function toOptionArray()
     {

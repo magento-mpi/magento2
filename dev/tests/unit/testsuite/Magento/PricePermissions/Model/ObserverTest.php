@@ -150,20 +150,6 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_observer->adminhtmlBlockHtmlBefore($this->_varienObserver);
     }
 
-    public function testAdminhtmlBlockHtmlBeforeProductTabs()
-    {
-        $this->_setGetNameInLayoutExpects('product_tabs');
-
-        $this->_block->expects($this->exactly(2))->method('setTabData')
-            ->with($this->equalTo('configurable'),
-            $this->logicalOr(
-                $this->equalTo('can_edit_price'),
-                $this->equalTo('can_read_price')
-            ),
-            $this->equalTo(false));
-        $this->_observer->adminhtmlBlockHtmlBefore($this->_varienObserver);
-    }
-
     public function testAdminhtmlBlockHtmlBeforeProductOptions()
     {
         $this->_setGetNameInLayoutExpects('admin.product.options');
@@ -221,25 +207,6 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
         $this->_observer->expects($this->once())->method('_hidePriceElements')
             ->with($this->isInstanceOf('Magento\Backend\Block\Widget\Grid'));
-
-        $this->_observer->adminhtmlBlockHtmlBefore($this->_varienObserver);
-    }
-
-    public function testAdminhtmlBlockHtmlBeforeSuperConfigSimple()
-    {
-        $formElement = $this->getMock('Magento\Data\Form\Element\Text',
-            array('setValue', 'setReadOnly'), array(), '', false);
-        $formElement->expects($this->once())->method('setValue')
-            ->with(\Magento\Catalog\Model\Product\Status::STATUS_DISABLED);
-        $formElement->expects($this->once())->method('setReadOnly')
-            ->with(true, true);
-        $form = $this->getMock('Magento\Data\Form',
-            array('getElement'), array(), '', false);
-        $form->expects($this->once())->method('getElement')->with('simple_product_status')
-            ->will($this->returnValue($formElement));
-        $this->_setGetNameInLayoutExpects('catalog.product.edit.tab.super.config.simple');
-        $this->_block->expects($this->once())->method('getForm')
-            ->will($this->returnValue($form));
 
         $this->_observer->adminhtmlBlockHtmlBefore($this->_varienObserver);
     }
