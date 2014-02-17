@@ -14,8 +14,11 @@ class PrivacyHeader
     /**
      * Add HTTP header to response that allows browsers accept third-party cookies
      *
+     * @param \Magento\App\ActionInterface $subject
      * @param \Magento\App\ResponseInterface $response
+     *
      * @return \Magento\App\ResponseInterface
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function afterDispatch(\Magento\App\ActionInterface $subject, $response)
     {

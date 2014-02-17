@@ -39,8 +39,11 @@ class IntegrationServiceV1
     /**
      * Persist API permissions.
      *
+     * @param \Magento\Integration\Service\IntegrationV1 $subject
      * @param IntegrationModel $integration
+     *
      * @return IntegrationModel
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function afterCreate(\Magento\Integration\Service\IntegrationV1 $subject, $integration)
     {
@@ -51,8 +54,11 @@ class IntegrationServiceV1
     /**
      * Persist API permissions.
      *
+     * @param \Magento\Integration\Service\IntegrationV1 $subject
      * @param IntegrationModel $integration
+     *
      * @return IntegrationModel
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function afterUpdate(\Magento\Integration\Service\IntegrationV1 $subject, $integration)
     {
@@ -63,8 +69,11 @@ class IntegrationServiceV1
     /**
      * Add API permissions to integration data.
      *
+     * @param \Magento\Integration\Service\IntegrationV1 $subject
      * @param IntegrationModel $integration
+     *
      * @return IntegrationModel
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function afterGet(\Magento\Integration\Service\IntegrationV1 $subject, $integration)
     {
@@ -127,8 +136,11 @@ class IntegrationServiceV1
     /**
      * Process integration resource permissions after the integration is created
      *
+     * @param \Magento\Integration\Service\IntegrationV1 $subject
      * @param array $integrationData Data of integration deleted
+     *
      * @return array $integrationData
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function afterDelete(\Magento\Integration\Service\IntegrationV1 $subject, array $integrationData)
     {

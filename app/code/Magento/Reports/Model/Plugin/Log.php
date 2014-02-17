@@ -44,8 +44,11 @@ class Log
     /**
      * Clean events by old visitors after plugin for clean method
      *
+     * @param \Magento\Log\Model\Resource\Log $subject
      * @param \Magento\Log\Model\Resource\Log $logResourceModel
+     *
      * @return \Magento\Log\Model\Resource\Log
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      *
      * @see Global Log Clean Settings
      */

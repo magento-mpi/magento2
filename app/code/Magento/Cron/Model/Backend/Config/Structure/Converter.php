@@ -28,8 +28,11 @@ class Converter
     /**
      * Modify system configuration for cron
      *
+     * @param \Magento\Backend\Model\Config\Structure\Converter $subject
      * @param array $result
+     *
      * @return array
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function afterConvert(\Magento\Backend\Model\Config\Structure\Converter $subject, array $result)
     {

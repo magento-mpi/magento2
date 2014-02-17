@@ -25,8 +25,11 @@ class CustomerRegistration
     /**
      * Check if registration is allowed
      *
+     * @param \Magento\Customer\Helper\Data $subject
      * @param boolean $invocationResult
+     *
      * @return boolean
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function afterIsRegistrationAllowed(\Magento\Customer\Helper\Data $subject, $invocationResult)
     {

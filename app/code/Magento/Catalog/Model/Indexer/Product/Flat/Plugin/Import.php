@@ -29,8 +29,11 @@ class Import
     /**
      * After improt handler
      *
+     * @param \Magento\ImportExport\Model\Import $subject
      * @param Object $import
+     *
      * @return mixed
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function afterImportSource(\Magento\ImportExport\Model\Import $subject, $import)
     {

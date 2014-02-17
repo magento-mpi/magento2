@@ -75,11 +75,16 @@ class FulltextIndexRebuild
      * Make index optimization if documents were added to index.
      * Allow commit if it was held.
      *
+     * @param \Magento\CatalogSearch\Model\Fulltext $subject
      * @param \Magento\CatalogSearch\Model\Fulltext $result
+     *
      * @return \Magento\CatalogSearch\Model\Fulltext
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function afterRebuildIndex(\Magento\CatalogSearch\Model\Fulltext $subject, \Magento\CatalogSearch\Model\Fulltext $result)
-    {
+    public function afterRebuildIndex(
+        \Magento\CatalogSearch\Model\Fulltext $subject,
+        \Magento\CatalogSearch\Model\Fulltext $result
+    ) {
         if ($this->_searchHelper->isThirdPartyEngineAvailable()) {
 
             $engine = $this->_engineProvider->get();

@@ -49,8 +49,11 @@ class HeaderPlugin
     /**
      * Modify response after dispatch
      *
+     * @param \Magento\App\FrontControllerInterface $subject
      * @param \Magento\App\Response\Http $response
+     * 
      * @return \Magento\App\Response\Http
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function afterDispatch(\Magento\App\FrontControllerInterface $subject, \Magento\App\Response\Http $response)
     {
