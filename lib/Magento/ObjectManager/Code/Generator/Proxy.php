@@ -1,14 +1,14 @@
 <?php
 /**
+ * Proxy generator
+ *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Code
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-namespace Magento\Code\Generator;
+namespace Magento\ObjectManager\Code\Generator;
 
 class Proxy extends \Magento\Code\Generator\EntityAbstract
 {

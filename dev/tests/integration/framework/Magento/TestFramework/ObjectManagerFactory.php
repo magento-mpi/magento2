@@ -36,11 +36,6 @@ class ObjectManagerFactory extends \Magento\App\ObjectManagerFactory
     protected $_primaryConfigData = null;
 
     /**
-     * @var \Magento\TestFramework\Interception\PluginList
-     */
-    protected $_pluginList = null;
-
-    /**
      * Restore locator instance
      *
      * @param ObjectManager $objectManager
@@ -56,8 +51,6 @@ class ObjectManagerFactory extends \Magento\App\ObjectManagerFactory
         $directoryList = new \Magento\TestFramework\App\Filesystem\DirectoryList($rootDir, $directories);
 
         \Magento\TestFramework\ObjectManager::setInstance($objectManager);
-
-        $this->_pluginList->reset();
 
         $objectManager->configure($this->_primaryConfigData);
         $objectManager->addSharedInstance($directoryList, 'Magento\App\Filesystem\DirectoryList');
@@ -75,6 +68,7 @@ class ObjectManagerFactory extends \Magento\App\ObjectManagerFactory
                 'Magento\App\Request\Http' => 'Magento\TestFramework\Request',
                 'Magento\App\ResponseInterface' => 'Magento\TestFramework\Response',
                 'Magento\App\Response\Http' => 'Magento\TestFramework\Response',
+                'Magento\Interception\PluginList\PluginList' => 'Magento\TestFramework\Interception\PluginList'
             ),
         ));
 
@@ -85,6 +79,8 @@ class ObjectManagerFactory extends \Magento\App\ObjectManagerFactory
 
         $objectManager->addSharedInstance($options, 'Magento\App\Arguments');
         $objectManager->getFactory()->setArguments($options->get());
+
+        $objectManager->get('Magento\Interception\PluginList')->reset();
         $objectManager->configure(
             $objectManager->get('Magento\App\ObjectManager\ConfigLoader')->load('global')
         );
@@ -106,32 +102,6 @@ class ObjectManagerFactory extends \Magento\App\ObjectManagerFactory
             $this->_primaryConfigData = parent::_loadPrimaryConfig($configDirectoryPath, $appMode);
         }
         return $this->_primaryConfigData;
-    }
-
-    /**
-     * Create plugin list object
-     *
-     * @param \Magento\ObjectManager $locator
-     * @param \Magento\ObjectManager\Relations $relations
-     * @param \Magento\ObjectManager\DefinitionFactory $definitionFactory
-     * @param \Magento\ObjectManager\Config\Config $diConfig
-     * @param \Magento\ObjectManager\Definition $definitions
-     * @return \Magento\Interception\PluginList\PluginList
-     */
-    protected function _createPluginList(
-        \Magento\ObjectManager $locator,
-        \Magento\ObjectManager\Relations $relations,
-        \Magento\ObjectManager\DefinitionFactory $definitionFactory,
-        \Magento\ObjectManager\Config\Config $diConfig,
-        \Magento\ObjectManager\Definition $definitions
-    ) {
-        $locator->configure(array('preferences' =>
-            array('Magento\Interception\PluginList\PluginList' => 'Magento\TestFramework\Interception\PluginList')
-        ));
-        $this->_pluginList = parent::_createPluginList(
-            $locator, $relations, $definitionFactory, $diConfig, $definitions
-        );
-        return $this->_pluginList;
     }
 
     /**

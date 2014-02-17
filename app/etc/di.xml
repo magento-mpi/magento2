@@ -325,4 +325,14 @@
             <instance type="Magento\Mview\View\State\CollectionInterface" shared="false"/>
         </param>
     </type>
+    <type name="Magento\Code\Generator">
+        <param name="generatedEntities">
+            <array>
+                <item key="factory"><value>\Magento\ObjectManager\Code\Generator\Factory</value></item>
+                <item key="proxy"><value>\Magento\ObjectManager\Code\Generator\Proxy</value></item>
+                <item key="interceptor"><value>\Magento\Interception\Code\Generator\Interceptor</value></item>
+                <item key="decorator"><value>\Magento\Interception\Code\Generator\Decorator</value></item>
+            </array>
+        </param>
+    </type>
 </config>

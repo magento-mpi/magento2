@@ -5,12 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\App\Action\Plugin;
 
 class DesignTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testAroundDispatch()
     {
         $designLoaderMock = $this->getMock('Magento\View\DesignLoader', array(), array(), '', false);

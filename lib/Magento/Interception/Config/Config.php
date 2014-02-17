@@ -26,13 +26,6 @@ class Config implements \Magento\Interception\Config
     protected $_relations;
 
     /**
-     * Interceptor generator
-     *
-     * @var \Magento\Interception\CodeGenerator
-     */
-    protected $_codeGenerator;
-
-    /**
      * List of interceptable classes
      *
      * @var \Magento\ObjectManager\Definition
@@ -74,7 +67,6 @@ class Config implements \Magento\Interception\Config
      * @param \Magento\ObjectManager\Relations $relations
      * @param \Magento\ObjectManager\Config $omConfig
      * @param \Magento\ObjectManager\Definition\Compiled $classDefinitions
-     * @param \Magento\Interception\CodeGenerator $codeGenerator
      * @param string $cacheId
      */
     public function __construct(
@@ -84,12 +76,10 @@ class Config implements \Magento\Interception\Config
         \Magento\ObjectManager\Relations $relations,
         \Magento\ObjectManager\Config $omConfig,
         \Magento\ObjectManager\Definition\Compiled $classDefinitions = null,
-        \Magento\Interception\CodeGenerator $codeGenerator = null,
         $cacheId = 'interception'
     ) {
         $this->_omConfig = $omConfig;
         $this->_relations = $relations;
-        $this->_codeGenerator = $codeGenerator;
         $this->_classDefinitions = $classDefinitions;
         $this->_cache = $cache;
         $this->_cacheId = $cacheId;
@@ -126,7 +116,7 @@ class Config implements \Magento\Interception\Config
     protected function _inheritInterception($type)
     {
         if (!isset($this->_intercepted[$type])) {
-            $realType = $this->_omConfig->getInstanceType($type);
+            $realType = $this->_omConfig->getOriginalInstanceType($type);
             if ($type !== $realType) {
                 if ($this->_inheritInterception($realType)) {
                     $this->_intercepted[$type] = true;
@@ -154,15 +144,4 @@ class Config implements \Magento\Interception\Config
         return isset($this->_intercepted[$type]) ? $this->_intercepted[$type] : $this->_inheritInterception($type);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getInterceptorClassName($type)
-    {
-        $className = $this->_omConfig->getInstanceType($type) . '\Interceptor';
-        if ($this->_codeGenerator && !class_exists($className)) {
-            $this->_codeGenerator->generate($className);
-        }
-        return $className;
-    }
 }

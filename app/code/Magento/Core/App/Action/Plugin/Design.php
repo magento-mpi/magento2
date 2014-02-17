@@ -27,10 +27,10 @@ class Design
      * Initialize design
      *
      * @param array $arguments
-     * @param \Magento\Code\Plugin\InvocationChain $invocationChain
+     * @param \Magento\Interception\InvocationChain $invocationChain
      * @return mixed
      */
-    public function aroundDispatch(array $arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
+    public function aroundDispatch(array $arguments, \Magento\Interception\InvocationChain $invocationChain)
     {
         $this->_designLoader->load();
         return $invocationChain->proceed($arguments);

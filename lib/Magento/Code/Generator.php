@@ -34,29 +34,29 @@ class Generator
     /**
      * @var string[]
      */
-    protected $_generatedEntities = array(
-        \Magento\Code\Generator\Factory::ENTITY_TYPE,
-        \Magento\Code\Generator\Proxy::ENTITY_TYPE,
-        \Magento\Code\Generator\Interceptor::ENTITY_TYPE,
-    );
+    protected $_generatedEntities;
 
     /**
      * @param Generator\EntityAbstract $generator
      * @param \Magento\Autoload\IncludePath $autoloader
      * @param Generator\Io $ioObject
      * @param \Magento\App\Filesystem $filesystem
+     * @param array $generatedEntities
      */
     public function __construct(
         \Magento\Code\Generator\EntityAbstract $generator = null,
         \Magento\Autoload\IncludePath $autoloader = null,
         \Magento\Code\Generator\Io $ioObject = null,
-        \Magento\App\Filesystem $filesystem = null
+        \Magento\App\Filesystem $filesystem = null,
+        array $generatedEntities = array()
     ) {
-        //todo: remove $filesystem from constructor
-        $this->_generator   = $generator;
-        $this->_autoloader  = $autoloader ? : new \Magento\Autoload\IncludePath();
-        $this->_ioObject    = $ioObject ? : new \Magento\Code\Generator\Io(
-            new \Magento\Filesystem\Driver\File(), $this->_autoloader);
+        $this->_generator  = $generator;
+        $this->_autoloader = $autoloader ? : new \Magento\Autoload\IncludePath();
+        $this->_ioObject   = $ioObject ? : new \Magento\Code\Generator\Io(
+            new \Magento\Filesystem\Driver\File(),
+            $this->_autoloader
+        );
+        $this->_generatedEntities = $generatedEntities;
     }
 
     /**
@@ -70,16 +70,19 @@ class Generator
     }
 
     /**
+     * Generate Class
+     *
      * @param string $className
-     * @return string const
+     * @return string
      * @throws \Magento\Exception
+     * @throws \InvalidArgumentException
      */
     public function generateClass($className)
     {
         // check if source class a generated entity
         $entity = null;
         $entityName = null;
-        foreach ($this->_generatedEntities as $entityType) {
+        foreach ($this->_generatedEntities as $entityType => $generatorClass) {
             $entitySuffix = ucfirst($entityType);
             // if $className string ends on $entitySuffix substring
             if (strrpos($className, $entitySuffix) === strlen($className) - strlen($entitySuffix)) {
@@ -99,8 +102,14 @@ class Generator
             return self::GENERATION_SKIP;
         }
 
-        // generate class file
-        $this->_initGenerator($entity, $entityName, $className);
+        if (!$this->_generator) {
+            // generate class file
+            if (!isset($this->_generatedEntities[$entity])) {
+                throw new \InvalidArgumentException('Unknown generation entity.');
+            }
+            $generatorClass = $this->_generatedEntities[$entity];
+            $this->_generator = new $generatorClass($entityName, $className, $this->_ioObject);
+        }
         if (!$this->_generator->generate()) {
             $errors = $this->_generator->getErrors();
             throw new \Magento\Exception(implode(' ', $errors));
@@ -110,44 +119,5 @@ class Generator
         $this->_generator = null;
 
         return self::GENERATION_SUCCESS;
-    }
-
-    /**
-     * Get generator by entity type
-     *
-     * @param string $entity
-     * @param string $sourceClassName
-     * @param string $resultClassName
-     * @return \Magento\Code\Generator\EntityAbstract|\Magento\Code\Generator\Factory|\Magento\Code\Generator\Proxy
-     * @throws \InvalidArgumentException
-     */
-    protected function _initGenerator($entity, $sourceClassName, $resultClassName)
-    {
-        if (!$this->_generator) {
-            switch ($entity) {
-                case \Magento\Code\Generator\Factory::ENTITY_TYPE:
-                    $this->_generator = new \Magento\Code\Generator\Factory($sourceClassName, $resultClassName,
-                        $this->_ioObject
-                    );
-                    break;
-                case \Magento\Code\Generator\Proxy::ENTITY_TYPE:
-                    $this->_generator = new \Magento\Code\Generator\Proxy($sourceClassName, $resultClassName,
-                        $this->_ioObject
-                    );
-                    break;
-                case \Magento\Code\Generator\Interceptor::ENTITY_TYPE:
-                    $this->_generator = new \Magento\Code\Generator\Interceptor($sourceClassName, $resultClassName,
-                        $this->_ioObject
-                    );
-                    break;
-                default:
-                    throw new \InvalidArgumentException('Unknown generation entity.');
-                    break;
-            }
-        } else {
-            $this->_generator->init($sourceClassName, $resultClassName);
-        }
-
-        return $this->_generator;
     }
 }

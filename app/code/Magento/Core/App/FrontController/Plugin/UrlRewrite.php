@@ -25,8 +25,10 @@ class UrlRewrite
      * @param \Magento\Core\App\Request\RewriteService $rewriteService
      * @param \Magento\App\State $state
      */
-    public function __construct(\Magento\Core\App\Request\RewriteService $rewriteService, \Magento\App\State $state)
-    {
+    public function __construct(
+        \Magento\Core\App\Request\RewriteService $rewriteService,
+        \Magento\App\State $state
+    ) {
         $this->_rewriteService = $rewriteService;
         $this->_state = $state;
     }

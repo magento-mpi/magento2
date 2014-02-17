@@ -15,6 +15,20 @@ use Magento\Interception\Definition;
 class Runtime implements Definition
 {
     /**
+     * @var array
+     */
+    protected $_typesByPrefixes = array(
+        'befor' => 0, 'aroun' => 1, 'after' => 2
+    );
+
+    /**
+     * Plugin method service prefix lengths
+     *
+     * @var array
+     */
+    protected $prefixLengths = array(6, 6, 5);
+
+    /**
      * Retrieve list of methods
      *
      * @param string $type
@@ -22,6 +36,14 @@ class Runtime implements Definition
      */
     public function getMethodList($type)
     {
-        return get_class_methods($type);
+        $methods = array();
+        foreach(get_class_methods($type) as $method) {
+            $prefix = substr($method, 0, 5);
+            if (isset($this->_typesByPrefixes[$prefix])) {
+                $methods[substr($method, $this->prefixLengths[$this->_typesByPrefixes[$prefix]])]
+                    = $this->_typesByPrefixes[$prefix];
+            }
+        }
+        return $methods;
     }
 }

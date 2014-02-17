@@ -102,7 +102,12 @@ class DefinitionFactory
                 $autoloader,
                 $this->_generationDir
             );
-            $generator = new \Magento\Code\Generator(null, $autoloader, $generatorIo);
+            $generator = new \Magento\Code\Generator(null, $autoloader, $generatorIo, null, array(
+                'factory' => '\Magento\ObjectManager\Code\Generator\Factory',
+                'proxy' => '\Magento\ObjectManager\Code\Generator\Proxy',
+                'decorator' => '\Magento\Interception\Code\Generator\Decorator',
+                'interceptor' => '\Magento\Interception\Code\Generator\Interceptor',
+            ));
             $autoloader = new \Magento\Code\Generator\Autoloader($generator);
             spl_autoload_register(array($autoloader, 'load'));
 

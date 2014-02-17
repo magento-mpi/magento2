@@ -7,8 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-namespace Magento\Code\Generator;
+namespace Magento\ObjectManager\Code\Generator;
 
 class Factory extends \Magento\Code\Generator\EntityAbstract
 {

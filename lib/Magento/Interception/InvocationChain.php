@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Code\Plugin;
+namespace Magento\Interception;
 
 class InvocationChain
 {
@@ -60,8 +60,8 @@ class InvocationChain
     public function proceed(array $arguments)
     {
         if (count($this->_pluginList)) {
-            $aroundMethodName = 'around' . ucfirst($this->_methodName);
-            return $this->_objectManager->get(array_shift($this->_pluginList))->$aroundMethodName($arguments, $this);
+            $methodName = $this->_methodName;
+            return $this->_objectManager->get(array_shift($this->_pluginList))->$methodName($arguments, $this);
         }
         return call_user_func_array(array($this->_subject, $this->_methodName), $arguments);
     }

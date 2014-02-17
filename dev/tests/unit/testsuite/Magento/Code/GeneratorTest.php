@@ -24,9 +24,9 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
      * @var array
      */
     protected $_expectedEntities = array(
-        'factory' => \Magento\Code\Generator\Factory::ENTITY_TYPE,
-        'proxy'   => \Magento\Code\Generator\Proxy::ENTITY_TYPE,
-        'interceptor' => \Magento\Code\Generator\Interceptor::ENTITY_TYPE,
+        'factory' => \Magento\ObjectManager\Code\Generator\Factory::ENTITY_TYPE,
+        'proxy'   => \Magento\ObjectManager\Code\Generator\Proxy::ENTITY_TYPE,
+        'interceptor' => \Magento\Interception\Code\Generator\Interceptor::ENTITY_TYPE,
     );
 
     /**
