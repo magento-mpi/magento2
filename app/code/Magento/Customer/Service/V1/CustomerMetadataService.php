@@ -18,9 +18,6 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
      */
     private $_eavConfig;
 
-    /** @var array Cache of DTOs - entityType => attributeCode => DTO */
-    private $_cache;
-
     /**
      * @var \Magento\Customer\Model\Resource\Form\Attribute\CollectionFactory
      */
@@ -56,7 +53,6 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
         Dto\Eav\AttributeMetadataBuilder $attributeMetadataBuilder
     ) {
         $this->_eavConfig = $eavConfig;
-        $this->_cache = [];
         $this->_attrFormCollectionFactory = $attrFormCollectionFactory;
         $this->_storeManager = $storeManager;
         $this->_optionBuilder = $optionBuilder;
@@ -72,15 +68,9 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
      */
     public function getAttributeMetadata($entityType, $attributeCode)
     {
-        $dtoCache = $this->_getEntityCache($entityType);
-        if (isset($dtoCache[$attributeCode])) {
-            return $dtoCache[$attributeCode];
-        }
-
         /** @var AbstractAttribute $attribute */
         $attribute = $this->_eavConfig->getAttribute($entityType, $attributeCode);
         $attributeMetadata = $this->_createMetadataAttribute($attribute);
-        $dtoCache[$attributeCode] = $attributeMetadata;
         return $attributeMetadata;
     }
 
@@ -213,17 +203,4 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
         return $this->_attributeMetadataBuilder->create();
     }
 
-    /**
-     * Helper for getting access to an entity types DTO cache.
-     *
-     * @param $entityType
-     * @return \ArrayAccess
-     */
-    private function _getEntityCache($entityType)
-    {
-        if (!isset($this->_cache[$entityType])) {
-            $this->_cache[$entityType] = new \ArrayObject();
-        }
-        return $this->_cache[$entityType];
-    }
 }
