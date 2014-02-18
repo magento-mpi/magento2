@@ -1,5 +1,6 @@
 * Fixed bugs:
   * Fixed an issue with "Add to Cart" button on MAP popup of compound products
+  * Fixed an issue where the Add Address button for Customer in Admin was broken
   * Fixed a Typo in Region of Austria (GitHub #134)
   * Fixed issue where predefined data are not loaded for Newsletter after try to put it in a Queue
 * Indexer implementation:
@@ -9,6 +10,10 @@
   * Moved Shortcut Buttons abstraction from PayPal to Catalog
   * Moved Recurring profile functionality into separate module
   * Moved Billing Agreements functionality into PayPal module
+* Customer Service usage:
+ * Updated Customer Group Grid to use Customer Service for retrieving data and filtering
+ * Updated CustomerMetadataService::getAttributeMetadata to throw an exception if invalid code provided
+
 
 2.0.0.0-dev65
 =============
