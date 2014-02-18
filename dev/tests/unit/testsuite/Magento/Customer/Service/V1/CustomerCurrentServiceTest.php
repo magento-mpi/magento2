@@ -52,6 +52,10 @@ class CustomerCurrentServiceTest extends \PHPUnit_Framework_TestCase
     protected $moduleManagerMock;
 
     /**
+     * @var \Magento\App\ViewInterface
+     */
+    protected $viewMock;
+    /**
      * @var int
      */
     protected $customerId = 100;
@@ -80,6 +84,8 @@ class CustomerCurrentServiceTest extends \PHPUnit_Framework_TestCase
             array(), array(), '', false);
         $this->moduleManagerMock = $this->getMock('Magento\Module\Manager',
             array(), array(), '', false);
+        $this->viewMock = $this->getMock('Magento\App\View',
+            array(), array(), '', false);
 
         $this->customerCurrentService = new \Magento\Customer\Service\V1\CustomerCurrentService(
             $this->customerSessionMock,
@@ -87,7 +93,8 @@ class CustomerCurrentServiceTest extends \PHPUnit_Framework_TestCase
             $this->customerDtoBuilderMock,
             $this->customerServiceMock,
             $this->requestMock,
-            $this->moduleManagerMock
+            $this->moduleManagerMock,
+            $this->viewMock
         );
     }
 
@@ -101,6 +108,9 @@ class CustomerCurrentServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(false));
         $this->layoutMock->expects($this->once())
             ->method('isCacheable')
+            ->will($this->returnValue(true));
+        $this->viewMock->expects($this->once())
+            ->method('isLayoutLoaded')
             ->will($this->returnValue(true));
         $this->moduleManagerMock->expects($this->once())
             ->method('isEnabled')
