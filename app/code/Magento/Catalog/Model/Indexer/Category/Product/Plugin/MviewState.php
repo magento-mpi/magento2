@@ -59,7 +59,9 @@ class MviewState
             $relatedViewState = $this->state->loadByView($viewId);
 
             // if equals nothing to change
-            if ($state->getStatus() == $relatedViewState->getStatus()) {
+            if ($relatedViewState->getMode() == \Magento\Mview\View\StateInterface::MODE_DISABLED
+                || $state->getStatus() == $relatedViewState->getStatus()
+            ) {
                 return $state;
             }
 

@@ -234,10 +234,12 @@ class View extends \Magento\Object implements ViewInterface
      */
     public function suspend()
     {
-        $state = $this->getState();
-        $state->setVersionId($this->getChangelog()->getVersion());
-        $state->setStatus(View\StateInterface::STATUS_SUSPENDED);
-        $state->save();
+        if ($this->getState()->getMode() == View\StateInterface::MODE_ENABLED) {
+            $state = $this->getState();
+            $state->setVersionId($this->getChangelog()->getVersion());
+            $state->setStatus(View\StateInterface::STATUS_SUSPENDED);
+            $state->save();
+        }
     }
 
     /**
