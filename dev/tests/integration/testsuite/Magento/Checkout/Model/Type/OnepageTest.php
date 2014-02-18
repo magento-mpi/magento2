@@ -35,11 +35,14 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @magentoAppIsolation enabled
+     * @magentoDbIsolation enabled
      * @magentoDataFixture Magento/Customer/_files/customer.php
      * @magentoDataFixture Magento/Customer/_files/customer_address.php
      */
-    public function testSaveShipping()
+    public function testSaveShippingWithCustomerId()
     {
+        $this->_currentQuote->setCustomerId(1)
+            ->save();
         $data = [
             'address_id' => '',
             'firstname' => 'Joe',
@@ -56,6 +59,63 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
             'save_in_address_book' => 1
         ];
         $this->_model->saveShipping($data, 1);
+
+        $address = $this->_currentQuote->getShippingAddress();
+
+        /* Verify that data from Customer Address identified by id=1 is set */
+        $this->assertEquals('John', $address->getFirstname());
+        $this->assertEquals('Smith', $address->getLastname());
+        $this->assertEquals(['Green str, 67'], $address->getStreet());
+        $this->assertEquals('CityM', $address->getCity());
+        $this->assertEquals('Alabama', $address->getRegion());
+        $this->assertEquals(1, $address->getRegionId());
+        $this->assertEquals('75477', $address->getPostcode());
+        $this->assertEquals('US', $address->getCountryId());
+        $this->assertEquals('3468676', $address->getTelephone());
+        $this->assertEquals('customer@example.com', $address->getEmail());
+        $this->assertTrue($address->getCollectShippingRates());
+        $this->assertEquals(1, $address->getCustomerAddressId());
+    }
+
+    /**
+     * @magentoAppIsolation enabled
+     * @magentoDbIsolation enabled
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     * @magentoDataFixture Magento/Customer/_files/customer_address.php
+     */
+    public function testSaveShippingWithData()
+    {
+        $data = [
+            'address_id' => '',
+            'firstname' => 'Joe',
+            'lastname' => 'Black',
+            'company' => 'Lunatis',
+            'street' => ['1100 Parmer', 'ln.'],
+            'city' => 'Austin',
+            'region_id' => '57',
+            'region' => '',
+            'postcode' => '78757',
+            'country_id' => 'US',
+            'telephone' => '(512) 999-9999',
+            'fax' => '',
+            'save_in_address_book' => 1
+        ];
+        $this->_model->saveShipping($data, null);
+
+        $address = $this->_currentQuote->getShippingAddress();
+
+        /* Verify that data from the form is set */
+        $this->assertEquals('Joe', $address->getFirstname());
+        $this->assertEquals('Black', $address->getLastname());
+        $this->assertEquals('Lunatis', $address->getCompany());
+        $this->assertEquals("1100 Parmer\nln.", $address->getData('street'));
+        $this->assertEquals('Austin', $address->getCity());
+        $this->assertEquals('US', $address->getCountryId());
+        $this->assertEquals('Texas', $address->getRegion());
+        $this->assertEquals('57', $address->getRegionId());
+        $this->assertEquals('78757', $address->getPostcode());
+        $this->assertEquals('(512) 999-9999', $address->getTelephone());
+        $this->assertNull($address->getCustomerAddressId());
     }
 
     /**

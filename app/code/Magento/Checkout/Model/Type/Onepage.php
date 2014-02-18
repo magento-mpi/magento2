@@ -20,6 +20,7 @@ use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 use Magento\Customer\Model\Metadata\Form;
 use Magento\Customer\Service\V1\Dto\Response\CreateCustomerAccountResponse;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+use Magento\Exception\NoSuchEntityException;
 
 class Onepage
 {
@@ -141,6 +142,9 @@ class Onepage
     /** @var \Magento\Customer\Service\V1\CustomerService */
     protected $_customerService;
 
+    /** @var \Magento\Customer\Service\V1\CustomerAddressService */
+    protected $_customerAddressService;
+
     /**
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Checkout\Helper\Data $helper
@@ -164,6 +168,7 @@ class Onepage
      * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Encryption\EncryptorInterface $encryptor
      * @param \Magento\Customer\Service\V1\CustomerService $customerService
+     * @param \Magento\Customer\Service\V1\CustomerAddressService $customerAddressService
      */
     public function __construct(
         \Magento\Event\ManagerInterface $eventManager,
@@ -187,7 +192,8 @@ class Onepage
         AddressBuilder $addressBuilder,
         \Magento\Math\Random $mathRandom,
         \Magento\Encryption\EncryptorInterface $encryptor,
-        \Magento\Customer\Service\V1\CustomerService $customerService
+        \Magento\Customer\Service\V1\CustomerService $customerService,
+        \Magento\Customer\Service\V1\CustomerAddressService $customerAddressService
     ) {
         $this->_eventManager = $eventManager;
         $this->_customerData = $customerData;
@@ -212,6 +218,7 @@ class Onepage
         $this->mathRandom = $mathRandom;
         $this->_encryptor = $encryptor;
         $this->_customerService = $customerService;
+        $this->_customerAddressService = $customerAddressService;
     }
 
     /**
@@ -574,41 +581,56 @@ class Onepage
         }
         $address = $this->getQuote()->getShippingAddress();
 
-        /* @var $addressForm \Magento\Customer\Model\Form */
-        $addressForm    = $this->_customerFormFactory->create();
-        $addressForm->setFormCode('customer_address_edit')
-            ->setEntityType('customer_address')
-            ->setIsAjaxRequest($this->_request->isAjax());
+        $addressForm  = $this->_formFactory->create(
+            'customer_address',
+            'customer_address_edit',
+            [],
+            Form::IGNORE_INVISIBLE,
+            [],
+            $this->_request->isAjax()
+        );
 
         if (!empty($customerAddressId)) {
-            $customerAddress = $this->_customrAddrFactory->create()->load($customerAddressId);
-            if ($customerAddress->getId()) {
-                if ($customerAddress->getCustomerId() != $this->getQuote()->getCustomerId()) {
-                    return array('error' => 1,
-                        'message' => __('The customer address is not valid.')
-                    );
-                }
-
-                $address->importCustomerAddress($customerAddress)->setSaveInAddressBook(0);
-                $addressForm->setEntity($address);
-                $addressErrors  = $addressForm->validateData($address->getData());
-                if ($addressErrors !== true) {
-                    return array('error' => 1, 'message' => $addressErrors);
-                }
+            $addressData = null;
+            try {
+                $addressData = $this->_customerAddressService->getAddressById($customerAddressId);
+            } catch (NoSuchEntityException $e) {
+                return array('error' => 1,
+                    'message' => __('The customer address is not valid.')
+                );
             }
+
+            if ($addressData->getCustomerId() != $this->getQuote()->getCustomerId()) {
+                return array('error' => 1,
+                    'message' => __('The customer address is not valid.')
+                );
+            }
+
+            $address->importCustomerAddressData($addressData)->setSaveInAddressBook(0);
+            $data = is_array($address->getRegion())
+                ? array_merge($address->getData(), $address->getRegion())
+                : $address->getData();
+            $address->setData($data);
+            $addressErrors  = $addressForm->validateData($address->getData());
+            if ($addressErrors !== true) {
+                return array('error' => 1, 'message' => $addressErrors);
+            }
+
         } else {
-            $addressForm->setEntity($address);
             // emulate request object
             $addressData    = $addressForm->extractData($addressForm->prepareRequest($data));
             $addressErrors  = $addressForm->validateData($addressData);
             if ($addressErrors !== true) {
                 return array('error' => 1, 'message' => $addressErrors);
             }
-            $addressForm->compactData($addressData);
+            $compactedData = $addressForm->compactData($addressData);
             // unset shipping address attributes which were not shown in form
             foreach ($addressForm->getAttributes() as $attribute) {
-                if (!isset($data[$attribute->getAttributeCode()])) {
-                    $address->setData($attribute->getAttributeCode(), NULL);
+                $attributeCode = $attribute->getAttributeCode();
+                if (!isset($data[$attributeCode])) {
+                    $address->setData($attributeCode, NULL);
+                } else {
+                    $address->setDataUsingMethod($attributeCode, $compactedData[$attributeCode]);
                 }
             }
 
