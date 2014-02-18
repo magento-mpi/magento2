@@ -117,4 +117,16 @@ class Observer
             }
         }
     }
+
+    /**
+     * Flash Built-In cache
+     *
+     * @param \Magento\Event\Observer $observer
+     */
+    public function flushAllCache(\Magento\Event\Observer $observer)
+    {
+        if($this->_config->getType() == \Magento\PageCache\Model\Config::BUILT_IN) {
+            $this->_cache->clean();
+        }
+    }
 }
