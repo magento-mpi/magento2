@@ -12,7 +12,6 @@ namespace Magento\Module\FrontController\Plugin;
 use Magento\Cache\FrontendInterface;
 use Magento\Module\UpdaterInterface;
 use Magento\App\State;
-use Magento\Code\Plugin\InvocationChain;
 
 class Install
 {

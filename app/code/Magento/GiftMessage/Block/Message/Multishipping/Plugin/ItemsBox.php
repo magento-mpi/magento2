@@ -8,7 +8,6 @@
 
 namespace Magento\GiftMessage\Block\Message\Multishipping\Plugin;
 
-use Magento\Code\Plugin\InvocationChain;
 
 /**
  * Multishipping items box plugin

@@ -7,7 +7,6 @@
  */
 namespace Magento\Webapi\Model\Plugin;
 
-use Magento\Code\Plugin\InvocationChain;
 use Magento\Authz\Model\UserIdentifier;
 use Magento\Integration\Service\IntegrationV1 as IntegrationService;
 use Magento\Integration\Model\Integration;

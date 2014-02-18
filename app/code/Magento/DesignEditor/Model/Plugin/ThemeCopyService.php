@@ -7,7 +7,6 @@
  */
 namespace Magento\DesignEditor\Model\Plugin;
 
-use Magento\Code\Plugin\InvocationChain;
 
 class ThemeCopyService
 {
