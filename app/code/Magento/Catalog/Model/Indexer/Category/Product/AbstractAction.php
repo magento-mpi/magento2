@@ -254,8 +254,9 @@ abstract class AbstractAction
                 ->where(
                     $this->getWriteAdapter()->getIfNullSql('cpvs.value', 'cpvd.value') . ' IN (?)',
                     [
-                        \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH,
                         \Magento\Catalog\Model\Product\Visibility::VISIBILITY_IN_CATALOG,
+                        \Magento\Catalog\Model\Product\Visibility::VISIBILITY_IN_SEARCH,
+                        \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH,
                     ]
                 )
                 ->columns(
@@ -414,8 +415,9 @@ abstract class AbstractAction
             ->where(
                 $this->getWriteAdapter()->getIfNullSql('cpvs.value', 'cpvd.value') . ' IN (?)',
                 [
+                    \Magento\Catalog\Model\Product\Visibility::VISIBILITY_IN_CATALOG,
+                    \Magento\Catalog\Model\Product\Visibility::VISIBILITY_IN_SEARCH,
                     \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH,
-                    \Magento\Catalog\Model\Product\Visibility::VISIBILITY_IN_CATALOG
                 ]
             )
             ->where($this->getWriteAdapter()->getIfNullSql('ccas.value', 'ccad.value') . ' = ?', 1)
@@ -527,8 +529,9 @@ abstract class AbstractAction
                 ->where(
                     $this->getWriteAdapter()->getIfNullSql('cpvs.value', 'cpvd.value') . ' IN (?)',
                     [
+                        \Magento\Catalog\Model\Product\Visibility::VISIBILITY_IN_CATALOG,
+                        \Magento\Catalog\Model\Product\Visibility::VISIBILITY_IN_SEARCH,
                         \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH,
-                        \Magento\Catalog\Model\Product\Visibility::VISIBILITY_IN_CATALOG
                     ]
                 )
                 ->group('cp.entity_id')
