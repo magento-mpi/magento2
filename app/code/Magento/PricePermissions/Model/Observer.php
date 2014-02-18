@@ -405,6 +405,49 @@ class Observer
     }
 
     /**
+     * Handle view_block_abstract_to_html_before event
+     *
+     * @param EventObserver $observer
+     * @return void
+     */
+    public function viewBlockAbstractToHtmlBefore($observer)
+    {
+        /** @var $block \Magento\View\Element\AbstractBlock */
+        $block = $observer->getBlock();
+        $blockNameInLayout = $block->getNameInLayout();
+        switch ($blockNameInLayout) {
+            // Handle product Recurring Profile tab
+            case 'adminhtml_recurring_profile_edit_form' :
+                if (!$this->_coreRegistry->registry('product')->isObjectNew()) {
+                    if (!$this->_canReadProductPrice) {
+                        $block->setProductEntity($this->_productFactory->create());
+                    }
+                }
+                if (!$this->_canEditProductPrice) {
+                    $block->setIsReadonly(true);
+                }
+                break;
+            case 'adminhtml_recurring_profile_edit_form_dependence' :
+                if (!$this->_canEditProductPrice) {
+                    $block->addConfigOptions(array('can_edit_price' => false));
+                    if (!$this->_canReadProductPrice) {
+                        $dependenceValue = ($this->_coreRegistry->registry('product')->getIsRecurring()) ? '0' : '1';
+                        // Override previous dependence value
+                        $block->addFieldDependence('product[recurring_profile]', 'product[is_recurring]',
+                            $dependenceValue);
+                    }
+                }
+                break;
+            // Handle MAP functionality for bundle products
+            case 'adminhtml.catalog.product.edit.tab.attributes' :
+                if (!$this->_canEditProductPrice) {
+                    $block->setCanEditPrice(false);
+                }
+                break;
+        }
+    }
+
+    /**
      * Handle catalog_product_load_after event
      *
      * @param EventObserver $observer

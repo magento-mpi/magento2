@@ -8,6 +8,9 @@
  */
 -->
 <config>
+    <event name="view_block_abstract_to_html_before">
+        <observer name="magento_pricepermissions" instance="Magento\PricePermissions\Model\Observer" method="viewBlockAbstractToHtmlBefore" />
+    </event>
     <event name="adminhtml_block_html_before">
         <observer name="magento_pricepermissions" instance="Magento\PricePermissions\Model\Observer" method="adminhtmlBlockHtmlBefore" />
     </event>
