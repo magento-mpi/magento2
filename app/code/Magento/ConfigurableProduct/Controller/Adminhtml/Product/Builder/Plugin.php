@@ -9,7 +9,6 @@
 namespace Magento\ConfigurableProduct\Controller\Adminhtml\Product\Builder;
 
 use Magento\Catalog\Model\ProductFactory;
-use Magento\Code\Plugin\InvocationChain;
 use Magento\ConfigurableProduct\Model\Product\Type;
 
 class Plugin
@@ -35,17 +34,19 @@ class Plugin
     }
 
     /**
-     * @param array $arguments
-     * @param InvocationChain $invocationChain
+     * @param \Magento\Catalog\Controller\Adminhtml\Product\Builder $subject
+     * @param callable $proceed
+     * @param \Magento\App\RequestInterface $request
+     *
      * @return \Magento\Catalog\Model\Product
-     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function aroundBuild(array $arguments, InvocationChain $invocationChain)
-    {
-        /** @var \Magento\Catalog\Model\Product $product */
-        $product = $invocationChain->proceed($arguments);
-        /** @var \Magento\App\RequestInterface $request */
-        $request = $arguments[0];
+    public function aroundBuild(
+        \Magento\Catalog\Controller\Adminhtml\Product\Builder $subject,
+        \Closure $proceed,
+        \Magento\App\RequestInterface $request
+    ) {
+        $product = $proceed($request);
 
         if ($request->has('attributes')) {
             $attributes = $request->getParam('attributes');
