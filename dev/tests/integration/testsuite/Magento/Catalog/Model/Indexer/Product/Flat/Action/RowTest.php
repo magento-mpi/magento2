@@ -76,7 +76,7 @@ class RowTest extends \Magento\TestFramework\Indexer\TestCase
         $layer->setCurrentCategory($category);
         $productCollection = $layer->getProductCollection();
 
-        $this->assertEquals(1, $productCollection->count());
+        $this->assertEquals(2, $productCollection->count());
 
         /** @var $product \Magento\Catalog\Model\Product */
         foreach ($productCollection as $product) {
