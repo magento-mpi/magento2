@@ -94,6 +94,9 @@ class Processor
      */
     public function markIndexerAsInvalid()
     {
+        if (!$this->_state->isFlatEnabled()) {
+            return;
+        }
         $this->getIndexer()->invalidate();
     }
 }
