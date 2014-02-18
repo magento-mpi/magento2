@@ -8,7 +8,8 @@
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 
 use Magento\Core\Model\LocaleInterface;
-use Magento\Customer\Model\Customer as CustomerModel;
+use Magento\Customer\Service\V1\Dto\Customer;
+use Magento\Customer\Controller\Adminhtml\Index;
 
 /**
  * Magento\Customer\Block\Adminhtml\Edit\Tab\View
@@ -17,16 +18,17 @@ use Magento\Customer\Model\Customer as CustomerModel;
  */
 class ViewTest extends \PHPUnit_Framework_TestCase
 {
-    const CURRENT_CUSTOMER = 'current_customer';
-
     /** @var  \Magento\Backend\Block\Template\Context */
     private $_context;
 
     /** @var  \Magento\Core\Model\Registry */
     private $_coreRegistry;
 
-    /** @var  \Magento\Customer\Model\CustomerFactory */
-    private $_customerFactory;
+    /** @var  \Magento\Customer\Service\V1\Dto\CustomerBuilder */
+    private $_customerBuilder;
+
+    /** @var  \Magento\Customer\Service\V1\CustomerServiceInterface */
+    private $_customerService;
 
     /** @var  \Magento\Customer\Service\V1\CustomerGroupServiceInterface */
     private $_groupService;
@@ -48,8 +50,9 @@ class ViewTest extends \PHPUnit_Framework_TestCase
                 array('storeManager' => $this->_storeManager)
             );
 
-        $this->_customerFactory = $objectManager->get('Magento\Customer\Model\CustomerFactory');
+        $this->_customerBuilder = $objectManager->get('Magento\Customer\Service\V1\Dto\CustomerBuilder');
         $this->_coreRegistry = $objectManager->get('Magento\Core\Model\Registry');
+        $this->_customerService = $objectManager->get('Magento\Customer\Service\V1\CustomerServiceInterface');
         $this->_groupService = $objectManager->get('Magento\Customer\Service\V1\CustomerGroupServiceInterface');
 
         $this->_block = $objectManager->get('Magento\View\LayoutInterface')
@@ -66,7 +69,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
 
     public function tearDown()
     {
-        $this->_coreRegistry->unregister(self::CURRENT_CUSTOMER);
+        $this->_coreRegistry->unregister(Index::REGISTRY_CURRENT_CUSTOMER_ID);
     }
 
     /**
@@ -74,12 +77,15 @@ class ViewTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetCustomer()
     {
-        $this->assertSame($this->_loadCustomer(), $this->_block->getCustomer());
+        $this->assertEquals($this->_loadCustomer(), $this->_block->getCustomer());
     }
 
+    /**
+     * @magentoDbIsolation enabled
+     */
     public function testGetCustomerEmpty()
     {
-        $this->assertSame($this->_createCustomer(), $this->_block->getCustomer());
+        $this->assertEquals($this->_createCustomer(), $this->_block->getCustomer());
     }
 
     /**
@@ -91,10 +97,13 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($groupName, $this->_block->getGroupName());
     }
 
-    public function testGetGroupNameNull()
+    /**
+     * @magentoDbIsolation enabled
+     */
+    public function testGetGroupNameGeneral()
     {
         $this->_createCustomer();
-        $this->assertNull($this->_block->getGroupName());
+        $this->assertEquals('General', $this->_block->getGroupName());
     }
 
     /**
@@ -114,7 +123,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     {
         $customer = $this->_loadCustomer();
         $date = $this->_context
-            ->getLocale()->storeDate($customer->getStoreId(), $customer->getCreatedAtTimestamp(), true);
+            ->getLocale()->storeDate($customer->getStoreId(), $customer->getCreatedAt(), true);
         $storeCreateDate = $this->_block->formatDate($date, LocaleInterface::FORMAT_TYPE_MEDIUM, true);
         $this->assertEquals($storeCreateDate, $this->_block->getStoreCreateDate());
     }
@@ -135,19 +144,8 @@ class ViewTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsConfirmedStatusConfirmed()
     {
-        $this->_loadCustomer()->setConfirmation(false);
+        $this->_loadCustomer();
         $this->assertEquals('Confirmed', $this->_block->getIsConfirmedStatus());
-    }
-
-    public function testIsConfirmedStatusConfirmationIsRequired()
-    {
-        $customer = $this->getMock(
-            'Magento\Customer\Model\Customer', ['getConfirmation', 'isConfirmationRequired'], [], '', false
-        );
-        $customer->expects($this->once())->method('getConfirmation')->will($this->returnValue(true));
-        $customer->expects($this->once())->method('isConfirmationRequired')->will($this->returnValue(true));
-        $this->_coreRegistry->register(self::CURRENT_CUSTOMER, $customer);
-        $this->assertEquals('Not confirmed, cannot login', $this->_block->getIsConfirmedStatus());
     }
 
     /**
@@ -155,10 +153,15 @@ class ViewTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsConfirmedStatusConfirmationIsNotRequired()
     {
-        $customer = $this->_loadCustomer();
-        $customer->setConfirmation(true);
-        $customer->setSkipConfirmationIfEmail($customer->getEmail());
-        $this->assertEquals('Not confirmed, can login', $this->_block->getIsConfirmedStatus());
+        /** @var Customer $customer */
+        $customer = $this->_customerBuilder->setConfirmation(true)
+            ->setFirstname('firstname')
+            ->setLastname('lastname')
+            ->setEmail('email@email.com')
+            ->create();
+        $id = $this->_customerService->saveCustomer($customer);
+        $this->_coreRegistry->register(Index::REGISTRY_CURRENT_CUSTOMER_ID, $id);
+        $this->assertEquals('Confirmation Not Required', $this->_block->getIsConfirmedStatus());
     }
 
     /**
@@ -184,10 +187,16 @@ class ViewTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetBillingAddressHtml()
     {
-        $html = $this->_loadCustomer()->getPrimaryBillingAddress()->format('html');
-        $this->assertEquals($html, $this->_block->getBillingAddressHtml());
+        $this->_loadCustomer();
+        $html = $this->_block->getBillingAddressHtml();
+        $this->assertContains('John Smith<br/>', $html);
+        $this->assertContains('Green str, 67<br />', $html);
+        $this->assertContains('CityM,  Alabama, 75477<br/>', $html);
     }
 
+    /**
+     * @magentoDbIsolation enabled
+     */
     public function testGetBillingAddressHtmlNoDefaultAddress()
     {
         $this->_createCustomer();
@@ -215,12 +224,6 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->_block->canShowTab());
     }
 
-    public function testCanShowTabNot()
-    {
-        $this->_createCustomer();
-        $this->assertFalse($this->_block->canShowTab());
-    }
-
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
      */
@@ -230,27 +233,29 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->_block->isHidden());
     }
 
-    public function testIsHiddenNot()
-    {
-        $this->_createCustomer();
-        $this->assertTrue($this->_block->isHidden());
-    }
-
     /**
-     * @return CustomerModel
+     * @return Customer
      */
     private function _createCustomer()
     {
-        $customer = $this->_customerFactory->create();
-        $this->_coreRegistry->register(self::CURRENT_CUSTOMER, $customer);
-        return $customer;
+        /** @var Customer $customer */
+        $customer = $this->_customerBuilder->setFirstname('firstname')
+            ->setLastname('lastname')
+            ->setEmail('email@email.com')
+            ->create();
+        $id = $this->_customerService->saveCustomer($customer);
+        $this->_coreRegistry->register(Index::REGISTRY_CURRENT_CUSTOMER_ID, $id);
+        return $this->_customerService->getCustomer($id);
     }
 
     /**
-     * @return CustomerModel
+     * @return Customer
      */
     private function _loadCustomer()
     {
-        return $this->_createCustomer()->load(1);
+        $customer = $this->_customerService->getCustomer(1);
+        $this->_coreRegistry->register(Index::REGISTRY_CURRENT_CUSTOMER_ID, $customer->getCustomerId());
+        return $customer;
     }
+
 }

@@ -218,7 +218,8 @@ class CustomerAccountService implements CustomerAccountServiceInterface
      */
     public function getConfirmationStatus($customerId)
     {
-        $customerModel = $this->_customerFactory->create()->load($customerId);
+        /** @var \Magento\Customer\Model\Customer $customerModel */
+        $customerModel= $this->_converter->getCustomerModel($customerId);
         if (!$customerModel->getConfirmation()) {
             return CustomerAccountServiceInterface::ACCOUNT_CONFIRMED;
         }
