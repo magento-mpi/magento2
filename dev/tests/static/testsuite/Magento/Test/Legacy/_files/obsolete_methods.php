@@ -1216,4 +1216,7 @@ return array(
     array('_getSession', 'Magento\CatalogSearch\Controller\Result'),
     array('addPriceBlockType', 'Magento\Rss\Block\Catalog\AbstractCatalog'),
     array('getAttributeDisabledTypes', 'Magento\Catalog\Helper\Data'),
+    array('sendTransactional', 'Magento\Email\Model\Template'),
+    array('_getMail', 'Magento\Email\Model\Template'),
+    array('send', 'Magento\Email\Model\Template'),
 );

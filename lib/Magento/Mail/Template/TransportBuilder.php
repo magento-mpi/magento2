@@ -124,7 +124,7 @@ class TransportBuilder
     }
 
     /**
-     * Add bcc address
+     * Set Reply-To Header
      *
      * @param string $email
      * @param string|null $name
@@ -139,7 +139,7 @@ class TransportBuilder
     /**
      * Set mail from address
      *
-     * @param string $from
+     * @param string|array $from
      * @return $this
      */
     public function setFrom($from)
