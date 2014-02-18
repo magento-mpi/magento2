@@ -198,7 +198,7 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
                 'source' => __DIR__ . '/_files/ThemeDeployment/run/source_cased_js',
                 'destinationContext' => array(
                     'area' => 'frontend',
-                    'locale' => 'not_important',
+                    'locale' => '',
                     'themePath' => 'theme_path',
                     'module' => null
                 ),

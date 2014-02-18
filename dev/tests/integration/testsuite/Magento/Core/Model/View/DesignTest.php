@@ -31,11 +31,6 @@ class DesignTest extends \PHPUnit_Framework_TestCase
      */
     protected $_viewConfig;
 
-    /**
-     * @var \Magento\View\Url
-     */
-    protected $_viewUrl;
-
     public static function setUpBeforeClass()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
@@ -63,7 +58,6 @@ class DesignTest extends \PHPUnit_Framework_TestCase
         $this->_model = $objectManager->create('Magento\View\DesignInterface');
         $this->_viewFileSystem = $objectManager->create('Magento\View\FileSystem');
         $this->_viewConfig = $objectManager->create('Magento\View\ConfigInterface');
-        $this->_viewUrl = $objectManager->create('Magento\View\Url');
         $objectManager->get('Magento\App\State')->setAreaCode('frontend');
     }
 
@@ -85,7 +79,6 @@ class DesignTest extends \PHPUnit_Framework_TestCase
 
         $this->_viewFileSystem = $objectManager->create('Magento\View\FileSystem');
         $this->_viewConfig = $objectManager->create('Magento\View\ConfigInterface');
-        $this->_viewUrl = $objectManager->create('Magento\View\Url');
     }
 
     public function testSetGetArea()
@@ -173,24 +166,6 @@ class DesignTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param string $file
-     * @expectedException \Magento\Exception
-     * @dataProvider extractScopeExceptionDataProvider
-     */
-    public function testExtractScopeException($file)
-    {
-        $this->_viewFileSystem->getFilename($file, array());
-    }
-
-    public function extractScopeExceptionDataProvider()
-    {
-        return array(
-            array('::no_scope.ext'),
-            array('../file.ext'),
-        );
-    }
-
-    /**
      * @magentoAppIsolation enabled
      */
     public function testGetViewConfig()
@@ -228,109 +203,5 @@ class DesignTest extends \PHPUnit_Framework_TestCase
             throw $e;
         }
         $directory->delete($relativePath);
-    }
-
-    /**
-     * @param string $appMode
-     * @param string $file
-     * @param string $result
-     *
-     * @dataProvider getViewUrlDataProvider
-     *
-     * @magentoConfigFixture current_store dev/static/sign 0
-     * @magentoAppIsolation enabled
-     */
-    public function testGetViewUrl($appMode, $file, $result)
-    {
-        $currentAppMode = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\App\State')->getMode();
-        if ($currentAppMode != $appMode) {
-            $this->markTestSkipped("Implemented to be run in {$appMode} mode");
-        }
-        $this->_emulateFixtureTheme();
-        $this->assertEquals($result, $this->_viewUrl->getViewFileUrl($file));
-    }
-
-    /**
-     * @param string $appMode
-     * @param string $file
-     * @param string $result
-     *
-     * @dataProvider getViewUrlDataProvider
-     *
-     * @magentoConfigFixture current_store dev/static/sign 1
-     * @magentoAppIsolation enabled
-     */
-    public function testGetViewUrlSigned($appMode, $file, $result)
-    {
-        $currentAppMode = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\App\State')->getMode();
-        if ($currentAppMode != $appMode) {
-            $this->markTestSkipped("Implemented to be run in {$appMode} mode");
-        }
-        $url = $this->_viewUrl->getViewFileUrl($file);
-        $this->assertEquals(strpos($url, $result), 0);
-        $lastModified = array();
-        preg_match('/.*\?(.*)$/i', $url, $lastModified);
-        $this->assertArrayHasKey(1, $lastModified);
-        $this->assertEquals(10, strlen($lastModified[1]));
-        $this->assertLessThanOrEqual(time(), $lastModified[1]);
-        $this->assertGreaterThan(1970, date('Y', $lastModified[1]));
-    }
-
-    /**
-     * @return array
-     */
-    public function getViewUrlDataProvider()
-    {
-        return array(
-            array(
-                \Magento\App\State::MODE_DEFAULT,
-                'Magento_Theme::favicon.ico',
-                'http://localhost/pub/static/frontend/test_default/en_US/Magento_Theme/favicon.ico',
-            ),
-            array(
-                \Magento\App\State::MODE_DEFAULT,
-                'prototype/prototype.js',
-                'http://localhost/pub/static/frontend/test_default/en_US/prototype/prototype.js'
-            ),
-            array(
-                \Magento\App\State::MODE_DEVELOPER,
-                'Magento_Theme::menu.js',
-                'http://localhost/pub/static/frontend/test_default/en_US/Magento_Theme/menu.js'
-            ),
-            array(
-                \Magento\App\State::MODE_DEFAULT,
-                'Magento_Theme::menu.js',
-                'http://localhost/pub/static/frontend/test_default/en_US/Magento_Theme/menu.js'
-            ),
-            array(
-                \Magento\App\State::MODE_DEFAULT,
-                'Magento_Catalog::widgets.css',
-                'http://localhost/pub/static/frontend/test_default/en_US/Magento_Catalog/widgets.css'
-            ),
-            array(
-                \Magento\App\State::MODE_DEVELOPER,
-                'Magento_Catalog::widgets.css',
-                'http://localhost/pub/static/frontend/test_default/en_US/Magento_Catalog/widgets.css'
-            ),
-        );
-    }
-
-    public function testGetPublicFileUrl()
-    {
-        $pubLibFile = $this->_viewUrl->getViewFilePublicPath('jquery/jquery.js');
-        $actualResult = $this->_viewUrl->getPublicFileUrl($pubLibFile);
-        $this->assertStringEndsWith('/jquery/jquery.js', $actualResult);
-    }
-
-    /**
-     * @magentoConfigFixture current_store dev/static/sign 1
-     */
-    public function testGetPublicFileUrlSigned()
-    {
-        $pubLibFile = $this->_viewUrl->getViewFilePublicPath('jquery/jquery.js');
-        $actualResult = $this->_viewUrl->getPublicFileUrl($pubLibFile);
-        $this->assertStringMatchesFormat('%a/jquery/jquery.js?%d', $actualResult);
     }
 }

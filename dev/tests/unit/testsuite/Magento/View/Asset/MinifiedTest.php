@@ -16,22 +16,22 @@ class MinifiedTest extends \PHPUnit_Framework_TestCase
     const ORIGINAL_URL = 'http://localhost/original.js';
 
     /**
-     * @var \Magento\View\Asset\LocalInterface|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\View\Asset\LocalInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_asset;
 
     /**
-     * @var \Magento\Code\Minifier|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Code\Minifier|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_minifier;
 
     /**
-     * @var \Magento\View\Url|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\View\FileResolver|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_viewUrl;
+    protected $_fileResolver;
 
     /**
-     * @var \Magento\Logger|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Logger|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_logger;
 
@@ -43,16 +43,16 @@ class MinifiedTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_asset = $this->getMockForAbstractClass(
-            'Magento\View\Asset\LocalInterface',
+            '\Magento\View\Asset\LocalInterface',
             array(),
             '',
             false
         );
-        $this->_minifier = $this->getMock('Magento\Code\Minifier', array('getMinifiedFile'), array(), '', false);
-        $this->_viewUrl = $this->getMock('Magento\View\Url', array(), array(), '', false);
-        $this->_logger = $this->getMock('Magento\Logger', array(), array(), '', false);
+        $this->_minifier = $this->getMock('\Magento\Code\Minifier', array('getMinifiedFile'), array(), '', false);
+        $this->_fileResolver = $this->getMock('\Magento\View\FileResolver', array(), array(), '', false);
+        $this->_logger = $this->getMock('\Magento\Logger', array(), array(), '', false);
 
-        $this->_model = new \Magento\View\Asset\Minified($this->_asset, $this->_minifier, $this->_viewUrl,
+        $this->_model = new \Magento\View\Asset\Minified($this->_asset, $this->_minifier, $this->_fileResolver,
             $this->_logger
         );
     }
@@ -61,7 +61,7 @@ class MinifiedTest extends \PHPUnit_Framework_TestCase
     {
         $this->_asset = null;
         $this->_minifier = null;
-        $this->_viewUrl = null;
+        $this->_fileResolver = null;
         $this->_logger = null;
         $this->_model = null;
     }
@@ -89,7 +89,7 @@ class MinifiedTest extends \PHPUnit_Framework_TestCase
             ->method('getMinifiedFile')
             ->with(self::ORIG_SOURCE_FILE)
             ->will($this->returnValue(self::MINIFIED_SOURCE_FILE));
-        $this->_viewUrl->expects($this->any())
+        $this->_fileResolver->expects($this->any())
             ->method('getPublicFileUrl')
             ->with(self::MINIFIED_SOURCE_FILE)
             ->will($this->returnValue(self::MINIFIED_URL));
@@ -109,7 +109,7 @@ class MinifiedTest extends \PHPUnit_Framework_TestCase
             ->with(self::ORIG_SOURCE_FILE)
             ->will($this->throwException(new \Exception('Error')));
 
-        $this->_viewUrl->expects($this->never())
+        $this->_fileResolver->expects($this->never())
             ->method('getPublicFileUrl');
 
         $this->assertSame(self::ORIGINAL_URL, $this->_model->getUrl());

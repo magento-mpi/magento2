@@ -17,7 +17,7 @@ $copyRules = array(
         'source' => $sourceDir . '/frontend/package1/theme11',
         'destinationContext' => array(
             'area' => 'frontend',
-            'locale' => 'not_important',
+            'locale' => '',
             'themePath' => 'package1/inherited_theme',
             'module' => null
         ),
@@ -26,7 +26,7 @@ $copyRules = array(
         'source' => $sourceDir . '/frontend/package1/theme12',
         'destinationContext' => array(
             'area' => 'frontend',
-            'locale' => 'not_important',
+            'locale' => '',
             'themePath' => 'package1/theme12',
             'module' => null
         ),
@@ -35,7 +35,7 @@ $copyRules = array(
         'source' => $sourceDir . '/frontend/package2/theme21',
         'destinationContext' => array(
             'area' => 'frontend',
-            'locale' => 'not_important',
+            'locale' => '',
             'themePath' => 'package1/inherited_theme',
             'module' => null
         ),
@@ -44,7 +44,7 @@ $copyRules = array(
         'source' => $sourceDir . '/frontend/package3/theme31',
         'destinationContext' => array(
             'area' => 'frontend',
-            'locale' => 'not_important',
+            'locale' => '',
             'themePath' => 'package3/theme31',
             'module' => null
         ),
@@ -53,7 +53,7 @@ $copyRules = array(
         'source' => $sourceDir . '/Some_Module',
         'destinationContext' => array(
             'area' => 'adminhtml',
-            'locale' => 'not_important',
+            'locale' => '',
             'themePath' => 'package4/theme41',
             'module' => 'Some_Module'
         ),

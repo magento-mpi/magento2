@@ -12,29 +12,40 @@ namespace Magento\View;
 class DeployedFilesManagerTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * @param string $pubDir
      * @param string $area
      * @param string $themePath
-     * @param string $file
      * @param string $module
+     * @param string $filePath
      * @param string $expected
-     * @dataProvider buildDeployedFilePathDataProvider
+     * @dataProvider getPublicViewFileDataProvider
      */
-    public function testBuildDeployedFilePath($area, $themePath, $file, $module, $expected)
+    public function testGetPublicViewFile($pubDir, $area, $themePath, $module, $filePath, $expected)
     {
-        $actual = \Magento\View\DeployedFilesManager::buildDeployedFilePath(
-            $area, $themePath, $file, $module, $expected
-        );
-        $this->assertEquals($expected, $actual);
+        $viewService = $this->getMock('\Magento\View\Service', array('getPublicDir'), array(), '', false);
+        $viewService->expects($this->once())->method('getPublicDir')->will($this->returnValue($pubDir));
+
+        $theme = $this->getMockForAbstractClass('\Magento\View\Design\ThemeInterface');
+        $theme->expects($this->at(0))->method('getThemePath')->will($this->returnValue(false));
+        $theme->expects($this->at(1))->method('getThemePath')->will($this->returnValue(false));
+        $theme->expects($this->at(2))->method('getThemePath')->will($this->returnValue($themePath));
+        $theme->expects($this->at(3))->method('getThemePath')->will($this->returnValue($themePath));
+        $theme->expects($this->any())->method('getParentTheme')->will($this->returnSelf());
+        $params = array('themeModel' => $theme, 'area' => $area, 'module' => $module);
+
+        $model = new DeployedFilesManager($viewService);
+        $result = $model->getPublicViewFile($filePath, $params);
+        $this->assertStringEndsWith($expected, $result);
     }
 
     /**
      * @return array
      */
-    public static function buildDeployedFilePathDataProvider()
+    public static function getPublicViewFileDataProvider()
     {
         return array(
-            'no module' => array('a', 't', 'f', null, 'a/t/f'),
-            'with module' => array('a', 't', 'f', 'm', 'a/t/m/f'),
+            'no module' => array('/dir', 'f', 'magento_demo', null, 'file.ext', '/dir/f/magento_demo/file.ext'),
+            'with module' => array('/dir', 'b', 'theme', 'm', 'file.ext', '/dir/b/theme/m/file.ext'),
         );
     }
 }

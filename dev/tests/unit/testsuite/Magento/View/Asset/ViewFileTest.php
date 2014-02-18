@@ -19,14 +19,20 @@ class ViewFileTest extends \PHPUnit_Framework_TestCase
     protected $_object;
 
     /**
-     * @var \Magento\View\Url|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\View\Url|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_viewUrl;
 
+    /**
+     * @var \Magento\View\FileResolver|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_fileResolver;
+
     protected function setUp()
     {
-        $this->_viewUrl = $this->getMock('Magento\View\Url', array(), array(), '', false);
-        $this->_object = new \Magento\View\Asset\ViewFile($this->_viewUrl, 'test/script.js', 'js');
+        $this->_viewUrl = $this->getMock('\Magento\View\Url', array(), array(), '', false);
+        $this->_fileResolver = $this->getMock('\Magento\View\FileResolver', array(), array(), '', false);
+        $this->_object = new ViewFile($this->_viewUrl, $this->_fileResolver, 'test/script.js', 'js');
     }
 
     /**
@@ -35,7 +41,7 @@ class ViewFileTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstructorException()
     {
-        new \Magento\View\Asset\ViewFile($this->_viewUrl, '', 'unknown');
+        new ViewFile($this->_viewUrl, $this->_fileResolver, '', 'unknown');
     }
 
     public function testGetUrl()
@@ -58,7 +64,7 @@ class ViewFileTest extends \PHPUnit_Framework_TestCase
     public function testGetSourceFile()
     {
         $sourcePath = '/source_dir/test/script.js';
-        $this->_viewUrl
+        $this->_fileResolver
             ->expects($this->once())
             ->method('getViewFilePublicPath')
             ->with('test/script.js')

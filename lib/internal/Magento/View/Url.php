@@ -24,18 +24,18 @@ class Url
     /**#@-*/
 
     /**
-     * @var DesignInterface
+     * @var Service
      */
-    private $design;
+    private $service;
 
     /**
      * @var \Magento\UrlInterface
      */
     protected $baseUrl;
 
-    public function __construct(DesignInterface $design, \Magento\UrlInterface $baseUrl)
+    public function __construct(Service $service, \Magento\UrlInterface $baseUrl)
     {
-        $this->design = $design;
+        $this->service = $service;
         $this->baseUrl = $baseUrl;
     }
 
@@ -51,16 +51,15 @@ class Url
     public function getViewFileUrl($fileId, array $params = array())
     {
         list($module, $filePath) = Service::extractModule($fileId);
-        $defaults = $this->design->getDesignParams();
-        $theme = $this->design->getDesignTheme();
-        $relPath = self::getFullyQualifiedPath($filePath, $defaults['area'], $theme, $defaults['locale'], $module);
+        $this->service->updateDesignParams($params);
+        $relPath = self::getPathUsingTheme($filePath, $params['area'], $params['themeModel'], $params['locale'], $module);
         $isSecure = isset($params['_secure']) ? (bool) $params['_secure'] : null;
         $baseUrl = $this->baseUrl->getBaseUrl(array('_type' => UrlInterface::URL_TYPE_STATIC, '_secure' => $isSecure));
         return $baseUrl . $relPath;
     }
 
     /**
-     * Build a fully qualified path to view file using specified components
+     * Build a fully qualified path to view file using theme object and other components
      *
      * @param string $filePath
      * @param string $areaCode
@@ -69,15 +68,32 @@ class Url
      * @param string $module
      * @return string
      */
-    public static function getFullyQualifiedPath($filePath, $areaCode, ThemeInterface $theme, $localeCode, $module = '')
+    public static function getPathUsingTheme($filePath, $areaCode, ThemeInterface $theme, $localeCode, $module = '')
     {
-        if ($theme->getThemePath()) {
-            $designPath = $theme->getThemePath();
-        } elseif ($theme->getId()) {
-            $designPath = self::PUBLIC_THEME_DIR . $theme->getId();
-        } else {
-            $designPath = self::PUBLIC_VIEW_DIR;
+        $themePath = $theme->getThemePath();
+        if (!$themePath) {
+            $themeId = $theme->getId();
+            if ($themeId) {
+                $themePath = self::PUBLIC_THEME_DIR . $themeId;
+            } else {
+                $themePath = self::PUBLIC_VIEW_DIR;
+            }
         }
-        return $areaCode . '/' . $designPath . '/' . $localeCode . ($module ? '/' . $module : '') . '/' . $filePath;
+        return self::getFullyQualifiedPath($filePath, $areaCode, $themePath, $localeCode, $module);
+    }
+
+    /**
+     * Build a fully qualified path to view file using specified components
+     *
+     * @param string $filePath
+     * @param string $areaCode
+     * @param string $themePath
+     * @param string $localeCode
+     * @param string $module
+     * @return string
+     */
+    public static function getFullyQualifiedPath($filePath, $areaCode, $themePath, $localeCode, $module = '')
+    {
+        return $areaCode . '/' . $themePath . '/' . $localeCode . ($module ? '/' . $module : '') . '/' . $filePath;
     }
 }

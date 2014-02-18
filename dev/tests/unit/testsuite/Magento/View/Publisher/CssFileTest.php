@@ -52,17 +52,15 @@ class CssFileTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param string $filePath
-     * @param bool $allowDuplication
      * @param array $viewParams
      * @param null|string $sourcePath
-     * @param bool $developerModel
+     * @param bool $developerMode
      */
     protected function getModelMock(
         $filePath,
-        $allowDuplication,
         $viewParams,
         $sourcePath = null,
-        $developerModel = false
+        $developerMode = false
     ) {
         $this->rootDirectory = $this->getMock('Magento\Filesystem\Directory\WriteInterface');
 
@@ -76,7 +74,7 @@ class CssFileTest extends \PHPUnit_Framework_TestCase
             ->with($this->anything())
             ->will($this->returnCallback(array($this, 'getPathCallback')));
         $this->serviceMock = $this->getMock('Magento\View\Service', [], [], '', false);
-        if ($developerModel) {
+        if ($developerMode) {
             $this->serviceMock->expects($this->once())
                 ->method('getAppMode')
                 ->will($this->returnValue('developer'));
@@ -108,7 +106,6 @@ class CssFileTest extends \PHPUnit_Framework_TestCase
                 'modulesReader' => $this->readerMock,
                 'viewFileSystem' => $this->viewFileSystem,
                 'filePath' => $filePath,
-                'allowDuplication' => $allowDuplication,
                 'viewParams' => $viewParams,
                 'sourcePath' => $sourcePath
             ]
@@ -137,14 +134,14 @@ class CssFileTest extends \PHPUnit_Framework_TestCase
     /**
      * @param null|string $sourcePath
      * @param bool $expected
-     * @param bool $developerModel
+     * @param bool $developerMode
      * @internal param null|string $sourceFile
      * @dataProvider isPublicationAllowedDataProvider
      */
-    public function testIsPublicationAllowed($sourcePath, $expected, $developerModel)
+    public function testIsPublicationAllowed($sourcePath, $expected, $developerMode)
     {
         $filePath = 'some/css/path';
-        $this->getModelMock($filePath, true, ['some', 'array'], $sourcePath, $developerModel);
+        $this->getModelMock($filePath, ['some', 'array'], $sourcePath, $developerMode);
         $this->assertSame($expected, $this->cssFile->isPublicationAllowed());
     }
 
@@ -157,14 +154,14 @@ class CssFileTest extends \PHPUnit_Framework_TestCase
             [null, true, false],
             ['some/interesting/path/to/file', true, false],
             ['some\interesting\path\to\file', true, false],
-            [$this->libDir . '/path/to/file', false, false],
-            [$this->libDir . '\path\to\file', false, false],
+            [$this->libDir . '/path/to/file', true, false],
+            [$this->libDir . '\path\to\file', true, false],
             [$this->viewStaticDir . '\path\to\file', false, false],
             [$this->viewStaticDir . '/path/to/file', false, false],
             [$this->themeDir . '/path/to/file', true, false],
             [$this->themeDir . '\path\to\file', true, false],
-            [$this->libDir . '/path/to/file', false, false],
-            [$this->libDir . '\path\to\file', false, false],
+            [$this->libDir . '/path/to/file', true, false],
+            [$this->libDir . '\path\to\file', true, false],
             [$this->viewStaticDir . '\path\to\file', true, true],
             [$this->viewStaticDir . '/path/to/file', true, true],
         ];
@@ -172,15 +169,14 @@ class CssFileTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param string $filePath
-     * @param bool $allowDuplication
      * @param array $viewParams
      * @param string|null $sourcePath
      * @param string $expected
      * @dataProvider buildUniquePathDataProvider
      */
-    public function testBuildUniquePath($filePath, $allowDuplication, $viewParams, $sourcePath, $expected)
+    public function testBuildUniquePath($filePath, $viewParams, $sourcePath, $expected)
     {
-        $this->getModelMock($filePath, $allowDuplication, $viewParams, $sourcePath);
+        $this->getModelMock($filePath, $viewParams, $sourcePath);
         $this->assertSame($expected, $this->cssFile->buildUniquePath());
     }
 
@@ -196,7 +192,6 @@ class CssFileTest extends \PHPUnit_Framework_TestCase
         return [
             'theme with path' => [
                 'filePath' => 'some/css/path',
-                'allowDuplication' => true,
                 'viewParams' => [
                     'themeModel' => $themModelWithPath,
                     'area' => 'frontend',
@@ -208,7 +203,6 @@ class CssFileTest extends \PHPUnit_Framework_TestCase
             ],
             'theme with id' => [
                 'filePath' => 'some/css/path2',
-                'allowDuplication' => true,
                 'viewParams' => [
                     'themeModel' => $themModelWithId,
                     'area' => 'backend',
@@ -220,7 +214,6 @@ class CssFileTest extends \PHPUnit_Framework_TestCase
             ],
             'theme without any data' => [
                 'filePath' => 'some/css/path3',
-                'allowDuplication' => true,
                 'viewParams' => [
                     'themeModel' => $this->getMock('Magento\View\Design\ThemeInterface', [], [], '', false),
                     'locale' => 'fr_FR',
@@ -229,30 +222,6 @@ class CssFileTest extends \PHPUnit_Framework_TestCase
                 ],
                 'sourcePath' => null,
                 'expected' => 'some_area/_view/fr_FR/some/css/path3'
-            ],
-            'no duplication modular file' => [
-                'filePath' => 'some/css/path4',
-                'allowDuplication' => false,
-                'viewParams' => [
-                    'themeModel' => $this->getMock('Magento\View\Design\ThemeInterface', [], [], '', false),
-                    'locale' => 'fr_FR',
-                    'area' => 'some_area',
-                    'module' => 'My_Module',
-                ],
-                'sourcePath' => 'custom_module_dir/some/css/path2',
-                'expected' => 'some_area/_view/fr_FR/My_Module/some/css/path4'
-            ],
-            'no duplication theme file' => [
-                'filePath' => 'some/css/path5',
-                'allowDuplication' => false,
-                'viewParams' => [
-                    'themeModel' => $this->getMock('Magento\View\Design\ThemeInterface', [], [], '', false),
-                    'locale' => 'fr_FR',
-                    'area' => 'some_area',
-                    'module' => 'My_Module',
-                ],
-                'sourcePath' => $this->themeDir . '/custom_module_dir/some/css/path5',
-                'expected' => 'some_area/_view/fr_FR/My_Module/some/css/path5'
             ],
         ];
     }

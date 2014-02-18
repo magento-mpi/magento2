@@ -57,7 +57,9 @@ try {
     $themes = $objectManager->create('Magento\Core\Model\Theme\Collection');
     $themes->setItemObjectClass('Magento\Tools\View\Generator\ThemeLight');
     $themes->addDefaultPattern('*');
+    /** @var \Magento\View\Design\Fallback\Factory $fallbackFactory */
     $fallbackFactory = $objectManager->create('Magento\View\Design\Fallback\Factory');
+    /** @var \Magento\Tools\View\Generator\CopyRule $generator */
     $generator = $objectManager->create('Magento\Tools\View\Generator\CopyRule', array(
             'themes' => $themes,
             'fallbackRule' => $fallbackFactory->createViewFileRule()

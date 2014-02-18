@@ -125,7 +125,7 @@ abstract class FileAbstract implements FileInterface
      */
     public function buildUniquePath()
     {
-        return \Magento\View\Url::getFullyQualifiedPath(
+        return \Magento\View\Url::getPathUsingTheme(
             $this->getFilePath(),
             $this->getViewParams()['area'],
             $this->getViewParams()['themeModel'],

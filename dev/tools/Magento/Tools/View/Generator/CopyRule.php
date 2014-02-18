@@ -95,7 +95,7 @@ class CopyRule
                     $destinationContext = array(
                         'area' => $area,
                         'themePath' => $theme->getThemePath(),
-                        'locale' => null, // Temporary locale is not taken into account
+                        'locale' => null, // locale support is not implemented yet
                         'module' => $module
                     );
 

@@ -92,7 +92,7 @@ class Service
             return array('', $fileId);
         }
         $result = explode(self::SCOPE_SEPARATOR, $fileId, 2);
-        if (empty($fileId[0])) {
+        if (empty($result[0])) {
             throw new \Magento\Exception('Scope separator "::" cannot be used without scope identifier.');
         }
         return array($result[0], $result[1]);

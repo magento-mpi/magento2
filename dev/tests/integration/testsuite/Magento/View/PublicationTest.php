@@ -31,6 +31,11 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
      */
     protected $_viewUrl;
 
+    /**
+     * @var \Magento\View\FileResolver
+     */
+    protected $_fileResolver;
+
     protected function setUp()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
@@ -38,6 +43,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
         $this->_viewService = $objectManager->create('Magento\View\Service');
         $this->_fileSystem = $objectManager->create('Magento\View\FileSystem');
         $this->_viewUrl = $objectManager->create('Magento\View\Url');
+        $this->_fileResolver = $objectManager->create('Magento\View\FileResolver');
         $this->_model = $objectManager->get('Magento\View\DesignInterface');
     }
 
@@ -178,9 +184,9 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
      * @param string $expectedFile
      * @magentoDataFixture Magento/Core/Model/_files/design/themes.php
      * @magentoAppIsolation enabled
-     * @dataProvider getPublicFilePathDataProvider
+     * @dataProvider getPublicViewFileDataProvider
      */
-    public function testGetPublicFilePath($file, $designParams, $expectedFile)
+    public function testGetPublicViewFile($file, $designParams, $expectedFile)
     {
         $this->_initTestTheme();
 
@@ -206,7 +212,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
     /**
      * @return array
      */
-    public function getPublicFilePathDataProvider()
+    public function getPublicViewFileDataProvider()
     {
         $designParams = array(
             'area'    => 'frontend',
@@ -639,7 +645,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
         $expectedFile = $this->_viewService->getPublicDir() . '/' . $expectedFile;
 
         $this->assertFileNotExists($expectedFile, 'Please verify isolation from previous test(s).');
-        $this->_viewUrl->getViewFilePublicPath($file, $designParams);
+        $this->_fileResolver->getViewFilePublicPath($file, $designParams);
         $this->assertFileExists($expectedFile);
     }
 
@@ -650,7 +656,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
                 ->getPath(\Magento\App\Filesystem::LIB_WEB) . '/' . $filePath;
         $this->assertFileExists($expectedFile, 'Please verify existence of the library file ' . $filePath);
 
-        $actualFile = $this->_viewUrl->getViewFilePublicPath($filePath);
+        $actualFile = $this->_fileResolver->getViewFilePublicPath($filePath);
         $this->assertFileEquals($expectedFile, $actualFile);
     }
 }

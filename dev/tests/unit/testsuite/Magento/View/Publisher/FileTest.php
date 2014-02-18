@@ -52,11 +52,10 @@ class FileTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param string $filePath
-     * @param bool $allowDuplication
      * @param array $viewParams
      * @param null|string $sourcePath
      */
-    protected function getModelMock($filePath, $allowDuplication, $viewParams, $sourcePath = null)
+    protected function getModelMock($filePath, $viewParams, $sourcePath = null)
     {
         $this->rootDirectory = $this->getMock('Magento\Filesystem\Directory\WriteInterface');
 
@@ -93,7 +92,6 @@ class FileTest extends \PHPUnit_Framework_TestCase
                 'modulesReader' => $this->readerMock,
                 'viewFileSystem' => $this->viewFileSystem,
                 'filePath' => $filePath,
-                'allowDuplication' => $allowDuplication,
                 'viewParams' => $viewParams,
                 'sourcePath' => $sourcePath
             ]
@@ -128,7 +126,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
     public function testIsPublicationAllowed($sourcePath, $expected)
     {
         $filePath = 'some/file/path';
-        $this->getModelMock($filePath, true, ['some', 'array'], $sourcePath);
+        $this->getModelMock($filePath, ['some', 'array'], $sourcePath);
 
         $this->assertSame($expected, $this->file->isPublicationAllowed());
     }
@@ -142,8 +140,8 @@ class FileTest extends \PHPUnit_Framework_TestCase
             [null, true],
             ['some/interesting/path/to/file', true],
             ['some\interesting\path\to\file', true],
-            [$this->libDir . '/path/to/file', false],
-            [$this->libDir . '\path\to\file', false],
+            [$this->libDir . '/path/to/file', true],
+            [$this->libDir . '\path\to\file', true],
             [$this->viewStaticDir . '\path\to\file', false],
             [$this->viewStaticDir . '/path/to/file', false],
             [$this->themeDir . '/path/to/file', true],
@@ -153,21 +151,14 @@ class FileTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param string $filePath
-     * @param bool $allowDuplication
      * @param array $viewParams
      * @param string|null $sourcePath
      * @param string $expected
      * @dataProvider buildUniquePathDataProvider
      */
-    public function testBuildUniquePath($filePath, $allowDuplication, $viewParams, $sourcePath, $expected)
+    public function testBuildUniquePath($filePath, $viewParams, $sourcePath, $expected)
     {
-        $this->getModelMock($filePath, $allowDuplication, $viewParams, $sourcePath);
-        if (!$allowDuplication && isset($viewParams['module'])) {
-            $this->readerMock->expects($this->once())
-                ->method('getModuleDir')
-                ->with($this->equalTo('theme'), $this->equalTo($viewParams['module']))
-                ->will($this->returnValue('custom_module_dir'));
-        }
+        $this->getModelMock($filePath, $viewParams, $sourcePath);
         $this->assertSame($expected, $this->file->buildUniquePath());
     }
 
@@ -183,7 +174,6 @@ class FileTest extends \PHPUnit_Framework_TestCase
         return [
             'theme with path' => [
                 'filePath' => 'some/file/path',
-                'allowDuplication' => true,
                 'viewParams' => [
                     'themeModel' => $themModelWithPath,
                     'area' => 'frontend',
@@ -195,7 +185,6 @@ class FileTest extends \PHPUnit_Framework_TestCase
             ],
             'theme with id' => [
                 'filePath' => 'some/file/path2',
-                'allowDuplication' => true,
                 'viewParams' => [
                     'themeModel' => $themModelWithId,
                     'area' => 'backend',
@@ -207,7 +196,6 @@ class FileTest extends \PHPUnit_Framework_TestCase
             ],
             'theme without any data' => [
                 'filePath' => 'some/file/path3',
-                'allowDuplication' => true,
                 'viewParams' => [
                     'themeModel' => $this->getMock('Magento\View\Design\ThemeInterface', [], [], '', false),
                     'locale' => 'fr_FR',
@@ -216,29 +204,6 @@ class FileTest extends \PHPUnit_Framework_TestCase
                 ],
                 'sourcePath' => null,
                 'expected' => 'some_area/_view/fr_FR/some/file/path3'
-            ],
-            'no duplication modular file' => [
-                'filePath' => 'some/file/path4',
-                'allowDuplication' => false,
-                'viewParams' => [
-                    'themeModel' => $this->getMock('Magento\View\Design\ThemeInterface', [], [], '', false),
-                    'locale' => 'fr_FR',
-                    'area' => 'some_area',
-                    'module' => 'My_Module',
-                ],
-                'sourcePath' => 'custom_module_dir/some/file/path2',
-                'expected' => '_module/My_Module/some/file/path2'
-            ],
-            'no duplication theme file' => [
-                'filePath' => 'some/file/path5',
-                'allowDuplication' => false,
-                'viewParams' => [
-                    'themeModel' => $this->getMock('Magento\View\Design\ThemeInterface', [], [], '', false),
-                    'locale' => 'fr_FR',
-                    'area' => 'some_area'
-                ],
-                'sourcePath' => $this->themeDir . '/custom_module_dir/some/file/path5',
-                'expected' => 'custom_module_dir/some/file/path5'
             ],
         ];
     }

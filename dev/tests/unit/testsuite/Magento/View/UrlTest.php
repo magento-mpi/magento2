@@ -9,131 +9,103 @@
 
 namespace Magento\View;
 
+use Magento\UrlInterface;
+
 class UrlTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @param \Magento\View\Design\ThemeInterface $themeModel
-     * @dataProvider getViewFileUrlProductionModeDataProvider
+     * @param string $fileId
+     * @param array $params
+     * @param string $isSecureExpected
+     * @param string $expectedResult
+     * @dataProvider getViewUrlDataProvider
      */
-    public function testGetViewFileUrlProductionMode($themeModel)
+    public function testGetViewFileUrl($fileId, $params, $isSecureExpected, $expectedResult)
     {
-        $isProductionMode = true;
-        $isSigned = false;      //NOTE: If going to test with signature enabled mock \Magento\Filesystem::getMTime()
-        $expected = 'http://example.com/public_dir/a/t/m/file.js';
-
-        // 1. Get fileSystem model
-        /** @var $filesystem \Magento\App\Filesystem|\PHPUnit_Framework_MockObject_MockObject */
-        $filesystem = $this->getMock('Magento\App\Filesystem', array(), array(), '', false);
-        $filesystem->expects($this->never())
-            ->method('isFile');
-        $filesystem->expects($this->never())
-            ->method('isDirectory');
-        $filesystem->expects($this->never())
-            ->method('read');
-        $filesystem->expects($this->never())
-            ->method('write');
-        $filesystem->expects($this->never())
-            ->method('copy');
-
-        // 2. Get directories configuration
-        $filesystem->expects($this->any())
-            ->method('getPath')
-            ->will($this->returnValue('some_dir'));
-
-        // 3. Get url model
-        $urlBuilder = $this->getMockBuilder('Magento\UrlInterface')->getMockForAbstractClass();
-        $urlBuilder->expects($this->any())
+        $service = $this->getMock('\Magento\View\service', array(), array(), '', false);
+        $service->expects($this->once())
+            ->method('updateDesignParams')
+            ->will($this->returnCallback(array($this, 'updateDesignParams')))
+        ;
+        $baseUrl = $this->getMockForAbstractClass('\Magento\UrlInterface');
+        $baseUrl->expects($this->once())
             ->method('getBaseUrl')
-            ->will($this->returnValue('http://example.com/'));
+            ->with(array('_type' => UrlInterface::URL_TYPE_STATIC, '_secure' => $isSecureExpected))
+            ->will($this->returnValue('http://example.com/'))
+        ;
+        $object = new Url($service, $baseUrl);
+        $this->assertEquals($expectedResult, $object->getViewFileUrl($fileId, $params));
+    }
 
-        // 4. Get urlConfig model
-        $urlConfig = $this->getMockBuilder('Magento\View\Url\ConfigInterface')->getMockForAbstractClass();
-        $urlConfig->expects($this->any())
-            ->method('getValue')
-            ->will($this->returnValue($isSigned));
-
-        // 5. Get viewService model
-        /** @var $viewService \Magento\View\Service|\PHPUnit_Framework_MockObject_MockObject */
-        $viewService = $this->getMock('Magento\View\Service',
-            array('updateDesignParams', 'extractScope', 'isViewFileOperationAllowed'), array(), '', false
-        );
-        $viewService->expects($this->any())
-            ->method('extractScope')
-            ->will($this->returnArgument(0));
-        $viewService->expects($this->any())
-            ->method('isViewFileOperationAllowed')
-            ->will($this->returnValue($isProductionMode));
-        $viewService->expects($this->any())
-            ->method('updateDesignParams');
-
-        // 6. Get publisher model
-        /** @var $publisher \Magento\View\Publisher|\PHPUnit_Framework_MockObject_MockObject */
-        $publisher = $this->getMock('Magento\View\Publisher', array(), array(), '', false);
-        $publisher->expects($this->any())
-            ->method('getPublicViewFile')
-            ->will($this->returnValue('some_dir/public_dir/a/t/m/file.js'));
-
-        // 7. Get deployed file manager
-        /** @var $dFManager \Magento\View\DeployedFilesManager|\PHPUnit_Framework_MockObject_MockObject */
-        $dFManager = $this->getMock('Magento\View\DeployedFilesManager', array(), array(), '',
-            false
-        );
-        $viewFilesystem = $this->getMock('Magento\View\Filesystem', array(), array(), '', false);
-
-        // 8. Get default fake url map
-        $urlMap = array('fake' => array('key' => "some_key", 'value' => "some_value"));
-
-        // Create model to be tested
-        /** @var $model \Magento\View\Url|\PHPUnit_Framework_MockObject_MockObject */
-        $model = new \Magento\View\Url(
-            $filesystem, $urlBuilder, $urlConfig, $viewService, $publisher, $dFManager, $viewFilesystem, $urlMap
-        );
-
-        // Test
-        $actual = $model->getViewFileUrl('file.js', array(
-            'area'       => 'a',
-            'themeModel' => $themeModel,
-            'locale'     => 'l',
-            'module'     => 'm'
-        ));
-        $this->assertEquals($expected, $actual);
+    /**
+     * A mock callback replacement for "update design params" of View Service model
+     *
+     * @param array $params
+     */
+    public function updateDesignParams(array &$params)
+    {
+        $theme = $this->getMockForAbstractClass('\Magento\View\Design\ThemeInterface');
+        $theme->expects($this->once())->method('getThemePath')->will($this->returnValue('theme/path'));
+        $params['area'] = 'frontend';
+        $params['locale'] = 'en_US';
+        $params['themeModel'] = $theme;
     }
 
     /**
      * @return array
      */
-    public static function getViewFileUrlProductionModeDataProvider()
+    public function getViewUrlDataProvider()
     {
-        $usualTheme = \PHPUnit_Framework_MockObject_Generator::getMock(
-            'Magento\View\Design\ThemeInterface',
-            array(),
-            array(),
-            '',
-            false,
-            false
-        );
-        $virtualTheme = clone $usualTheme;
-        $parentOfVirtualTheme = clone $usualTheme;
-
-        $usualTheme->expects(new \PHPUnit_Framework_MockObject_Matcher_InvokedCount(1))
-            ->method('getThemePath')
-            ->will(new \PHPUnit_Framework_MockObject_Stub_Return('t'));
-
-        $parentOfVirtualTheme->expects(new \PHPUnit_Framework_MockObject_Matcher_InvokedCount(1))
-            ->method('getThemePath')
-            ->will(new \PHPUnit_Framework_MockObject_Stub_Return('t'));
-
-        $virtualTheme->expects(new \PHPUnit_Framework_MockObject_Matcher_InvokedCount(1))
-            ->method('getParentTheme')
-            ->will(new \PHPUnit_Framework_MockObject_Stub_Return($parentOfVirtualTheme));
-
         return array(
-            'usual theme' => array(
-                $usualTheme
-            ),
-            'virtual theme' => array(
-                $virtualTheme
-            ),
+            array('file.ext', array(), false, 'http://example.com/frontend/theme/path/en_US/file.ext'),
+            array('Module::file.ext', array(), false, 'http://example.com/frontend/theme/path/en_US/Module/file.ext'),
+            array('file.ext', array('_secure' => true), true, 'http://example.com/frontend/theme/path/en_US/file.ext'),
+        );
+    }
+
+    public function testGetPathUsingTheme()
+    {
+        $theme = $this->getMockForAbstractClass('\Magento\View\Design\ThemeInterface');
+        $theme->expects($this->once())->method('getThemePath')->will($this->returnValue('one'));
+        $this->assertEquals('area/one/en_US/file', Url::getPathUsingTheme('file', 'area', $theme, 'en_US', ''));
+
+        $theme = $this->getMockForAbstractClass('\Magento\View\Design\ThemeInterface');
+        $theme->expects($this->once())->method('getThemePath')->will($this->returnValue(''));
+        $theme->expects($this->once())->method('getId')->will($this->returnValue(5));
+        $this->assertEquals(
+            'area/_theme5/en_US/Module/file',
+            Url::getPathUsingTheme('file', 'area', $theme, 'en_US', 'Module')
+        );
+
+        $theme = $this->getMockForAbstractClass('\Magento\View\Design\ThemeInterface');
+        $theme->expects($this->once())->method('getThemePath')->will($this->returnValue(''));
+        $theme->expects($this->once())->method('getId')->will($this->returnValue(0));
+        $this->assertEquals('area/_view/en_US/file', Url::getPathUsingTheme('file', 'area', $theme, 'en_US'));
+    }
+
+    /**
+     * @param string $file
+     * @param string $area
+     * @param string $theme
+     * @param string $locale
+     * @param string $module
+     * @param string $expected
+     * @dataProvider getFullyQualifiedPathDataProvider
+     */
+    public function testGetFullyQualifiedPath($file, $area, $theme, $locale, $module, $expected)
+    {
+        $this->assertEquals($expected, Url::getFullyQualifiedPath($file, $area, $theme, $locale, $module));
+    }
+
+    /**
+     * @return array
+     */
+    public function getFullyQualifiedPathDataProvider()
+    {
+        return array(
+            array('1', '2', '3', '4', '5', '2/3/4/5/1'),
+            array('1', '2', '3', '4', '', '2/3/4/1'),
+            array('1', '2', '3', '4', null, '2/3/4/1'),
         );
     }
 }

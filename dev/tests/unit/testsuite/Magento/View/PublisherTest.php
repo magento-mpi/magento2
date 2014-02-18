@@ -88,7 +88,7 @@ class PublisherTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function testGetPublicFilePathNotAllowedExtension()
+    public function testGetPublicViewFileNotAllowedExtension()
     {
         $filePath = 'some/file/path.php';
         $params = ['some', 'array'];
@@ -109,7 +109,7 @@ class PublisherTest extends \PHPUnit_Framework_TestCase
      * @expectedException \Magento\Exception
      * @expectedExceptionMessage Unable to locate theme file 'some/file/path'.
      */
-    public function testGetPublicFilePathException()
+    public function testGetPublicViewFileException()
     {
         $filePath = 'some/file/path';
         $params = ['some', 'array2'];
@@ -131,7 +131,7 @@ class PublisherTest extends \PHPUnit_Framework_TestCase
         $this->publisher->getPublicViewFile($filePath, $params);
     }
 
-    public function testGetPublicFilePathPublicationNotAllowed()
+    public function testGetPublicViewFilePublicationNotAllowed()
     {
         $filePath = 'some/file/path.css';
         $params = ['some', 'array3'];
@@ -159,9 +159,9 @@ class PublisherTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param string[] $testConfig
-     * @dataProvider getPublicFilePathDataProvider
+     * @dataProvider getPublicViewFileDataProvider
      */
-    public function testGetPublicFilePath($testConfig)
+    public function testGetPublicViewFile($testConfig)
     {
         $filePath = 'some/file/path.css';
         $params = ['some', 'array4'];
@@ -264,7 +264,7 @@ class PublisherTest extends \PHPUnit_Framework_TestCase
     /**
      * @return array
      */
-    public function getPublicFilePathDataProvider()
+    public function getPublicViewFileDataProvider()
     {
         return [
             'file that should be published mtime' => [

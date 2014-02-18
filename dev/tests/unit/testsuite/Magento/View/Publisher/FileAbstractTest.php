@@ -68,7 +68,6 @@ class FileAbstractTest extends \PHPUnit_Framework_TestCase
                 'modulesReader' => $this->readerMock,
                 'viewFileSystem' => $this->viewFileSystem,
                 'filePath' => $filePath,
-                'allowDuplication' => true,
                 'viewParams' => $viewParams,
                 'sourcePath' => $sourcePath
             ]

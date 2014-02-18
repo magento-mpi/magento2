@@ -117,13 +117,15 @@ class ThemeDeployment
                 'destinationContext' => $destinationContext,
             );
 
-            $destDir = \Magento\View\DeployedFilesManager::buildDeployedFilePath(
+            $destDir = \Magento\View\Url::getFullyQualifiedPath(
+                '',
                 $destinationContext['area'],
                 $destinationContext['themePath'],
-                '',
+                $destinationContext['locale'],
                 $destinationContext['module']
             );
             $destDir = rtrim($destDir, '\\/');
+            $destDir = str_replace('//', '/', $destDir); // workaround for missing locale code
 
             $this->_copyDirStructure(
                 $copyRule['source'],
@@ -198,10 +200,14 @@ class ThemeDeployment
                     if (!strlen($module) || !strlen($file)) {
                         throw new \Magento\Exception("Wrong module url: {$relativeUrl}");
                     }
-                    $relPath = \Magento\View\DeployedFilesManager::buildDeployedFilePath(
-                        $destContext['area'], $destContext['themePath'], $file, $module
+                    $relPath = \Magento\View\Url::getFullyQualifiedPath(
+                        $file,
+                        $destContext['area'],
+                        $destContext['themePath'],
+                        $destContext['locale'],
+                        $module
                     );
-
+                    $relPath = str_replace('//', '/', $relPath); // workaround for missing locale code
                     $result = $destHomeDir . '/' . $relPath;
                 } else {
                     $result = $destFileDir . '/' . $relativeUrl;
