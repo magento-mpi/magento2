@@ -45,6 +45,7 @@ class Account extends \Magento\Customer\Controller\Account
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Customer\Helper\Address $addressHelper
+     * @param \Magento\Customer\Helper\Data $customerHelperData
      * @param \Magento\UrlFactory $urlFactory
      * @param \Magento\Customer\Model\Metadata\FormFactory $formFactory
      * @param \Magento\Stdlib\String $string
@@ -66,14 +67,18 @@ class Account extends \Magento\Customer\Controller\Account
     public function __construct(
         \Magento\App\Action\Context $context,
         \Magento\Customer\Model\Session $customerSession,
+        \Magento\Customer\Helper\Address $addressHelper,
+        \Magento\Customer\Helper\Data $customerHelperData,
         \Magento\UrlFactory $urlFactory,
-        \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Customer\Model\Metadata\FormFactory $formFactory,
         \Magento\Stdlib\String $string,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Store\Config $storeConfig,
+        \Magento\Core\Helper\Data $coreHelperData,
         \Magento\Escaper $escaper,
+        \Magento\App\State $appState,
         CustomerServiceInterface $customerService,
         CustomerGroupServiceInterface $customerGroupService,
         CustomerAccountServiceInterface $customerAccountService,
@@ -87,14 +92,18 @@ class Account extends \Magento\Customer\Controller\Account
         parent::__construct(
             $context,
             $customerSession,
+            $addressHelper,
+            $customerHelperData,
             $urlFactory,
-            $customerFactory,
             $formFactory,
             $string,
             $formKeyValidator,
             $subscriberFactory,
             $storeManager,
+            $storeConfig,
+            $coreHelperData,
             $escaper,
+            $appState,
             $customerService,
             $customerGroupService,
             $customerAccountService,

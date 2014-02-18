@@ -51,6 +51,9 @@ class Account extends \Magento\App\Action\Action
     /** @var \Magento\Customer\Helper\Address */
     protected $_addressHelper;
 
+    /** @var \Magento\Customer\Helper\Data */
+    protected $_customerHelperData;
+
     /** @var \Magento\UrlFactory */
     protected $_urlFactory;
 
@@ -72,8 +75,14 @@ class Account extends \Magento\App\Action\Action
     /** @var \Magento\Core\Model\Store\Config */
     protected $_storeConfig;
 
+    /** @var \Magento\Core\Helper\Data */
+    protected  $coreHelperData;
+
     /** @var \Magento\Escaper */
     protected $escaper;
+
+    /** @var \Magento\App\State */
+    protected $appState;
 
     /** @var CustomerServiceInterface  */
     protected $_customerService;
@@ -97,6 +106,7 @@ class Account extends \Magento\App\Action\Action
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Customer\Helper\Address $addressHelper
+     * @param \Magento\Customer\Helper\Data $customerHelperData
      * @param \Magento\UrlFactory $urlFactory
      * @param \Magento\Customer\Model\Metadata\FormFactory $formFactory
      * @param \Magento\Stdlib\String $string
@@ -104,7 +114,9 @@ class Account extends \Magento\App\Action\Action
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Store\Config $storeConfig
+     * @param \Magento\Core\Helper\Data $coreHelperData
      * @param \Magento\Escaper $escaper
+     * @param \Magento\App\State $appState
      * @param \Magento\Customer\Service\V1\CustomerServiceInterface $customerService
      * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService
      * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
@@ -116,6 +128,7 @@ class Account extends \Magento\App\Action\Action
         \Magento\App\Action\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Customer\Helper\Address $addressHelper,
+        \Magento\Customer\Helper\Data $customerHelperData,
         \Magento\UrlFactory $urlFactory,
         \Magento\Customer\Model\Metadata\FormFactory $formFactory,
         \Magento\Stdlib\String $string,
@@ -123,7 +136,9 @@ class Account extends \Magento\App\Action\Action
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Store\Config $storeConfig,
+        \Magento\Core\Helper\Data $coreHelperData,
         \Magento\Escaper $escaper,
+        \Magento\App\State $appState,
         CustomerServiceInterface $customerService,
         CustomerGroupServiceInterface $customerGroupService,
         CustomerAccountServiceInterface $customerAccountService,
@@ -133,6 +148,7 @@ class Account extends \Magento\App\Action\Action
     ) {
         $this->_session = $customerSession;
         $this->_addressHelper = $addressHelper;
+        $this->_customerHelperData = $customerHelperData;
         $this->_urlFactory = $urlFactory;
         $this->_formFactory = $formFactory;
         $this->string = $string;
@@ -140,7 +156,9 @@ class Account extends \Magento\App\Action\Action
         $this->_subscriberFactory = $subscriberFactory;
         $this->_storeManager = $storeManager;
         $this->_storeConfig = $storeConfig;
+        $this->coreHelperData = $coreHelperData;
         $this->escaper = $escaper;
+        $this->appState = $appState;
         $this->_customerService = $customerService;
         $this->_groupService = $customerGroupService;
         $this->_customerAccountService = $customerAccountService;
@@ -178,7 +196,7 @@ class Account extends \Magento\App\Action\Action
      */
     public function dispatch(RequestInterface $request)
     {
-        if (!$this->_objectManager->get('Magento\App\State')->isInstalled()) {
+        if (!$this->appState->isInstalled()) {
             parent::dispatch($request);
         }
 
@@ -247,8 +265,7 @@ class Account extends \Magento\App\Action\Action
                 } catch (AuthenticationException $e) {
                     switch ($e->getCode()) {
                         case AuthenticationException::EMAIL_NOT_CONFIRMED:
-                            $value = $this->_objectManager->get('Magento\Customer\Helper\Data')
-                                ->getEmailConfirmationUrl($login['username']);
+                            $value = $this->_customerHelperData->getEmailConfirmationUrl($login['username']);
                             $message = __(
                                 'This account is not confirmed.'
                                 . ' <a href="%1">Click here</a> to resend confirmation email.',
@@ -289,15 +306,15 @@ class Account extends \Magento\App\Action\Action
             || $this->_getSession()->getBeforeAuthUrl() == $this->_storeManager->getStore()->getBaseUrl()
         ) {
             // Set default URL to redirect customer to
-            $this->_getSession()->setBeforeAuthUrl($this->_objectManager->get('Magento\Customer\Helper\Data')->getAccountUrl());
+            $this->_getSession()->setBeforeAuthUrl($this->_customerHelperData->getAccountUrl());
             // Redirect customer to the last page visited after logging in
             if ($this->_getSession()->isLoggedIn()) {
-                if (!$this->_objectManager->get('Magento\Core\Model\Store\Config')->getConfigFlag(
+                if (!$this->_storeConfig->getConfigFlag(
                     \Magento\Customer\Helper\Data::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD
                 )) {
                     $referer = $this->getRequest()->getParam(\Magento\Customer\Helper\Data::REFERER_QUERY_PARAM_NAME);
                     if ($referer) {
-                        $referer = $this->_objectManager->get('Magento\Core\Helper\Data')->urlDecode($referer);
+                        $referer = $this->coreHelperData->urlDecode($referer);
                         if ($this->_url->isOwnOriginUrl()) {
                             $this->_getSession()->setBeforeAuthUrl($referer);
                         }
@@ -306,10 +323,10 @@ class Account extends \Magento\App\Action\Action
                     $this->_getSession()->setBeforeAuthUrl($this->_getSession()->getAfterAuthUrl(true));
                 }
             } else {
-                $this->_getSession()->setBeforeAuthUrl($this->_objectManager->get('Magento\Customer\Helper\Data')->getLoginUrl());
+                $this->_getSession()->setBeforeAuthUrl($this->_customerHelperData->getLoginUrl());
             }
-        } elseif ($this->_getSession()->getBeforeAuthUrl() == $this->_objectManager->get('Magento\Customer\Helper\Data')->getLogoutUrl()) {
-            $this->_getSession()->setBeforeAuthUrl($this->_objectManager->get('Magento\Customer\Helper\Data')->getDashboardUrl());
+        } elseif ($this->_getSession()->getBeforeAuthUrl() == $this->_customerHelperData->getLogoutUrl()) {
+            $this->_getSession()->setBeforeAuthUrl($this->_customerHelperData->getDashboardUrl());
         } else {
             if (!$this->_getSession()->getAfterAuthUrl()) {
                 $this->_getSession()->setAfterAuthUrl($this->_getSession()->getBeforeAuthUrl());
@@ -397,7 +414,7 @@ class Account extends \Magento\App\Action\Action
             );
 
             if ($result->getStatus() == CustomerAccountServiceInterface::ACCOUNT_CONFIRMATION) {
-                $email = $this->_objectManager->get('Magento\Customer\Helper\Data')->getEmailConfirmationUrl($customer->getEmail());
+                $email = $this->_customerHelperData->getEmailConfirmationUrl($customer->getEmail());
                 $this->messageManager->addSuccess(
                     __('Account confirmation is required. Please, check your email for the confirmation link. To resend the confirmation email please <a href="%1">click here</a>.', $email)
                 );
@@ -699,7 +716,7 @@ class Account extends \Magento\App\Action\Action
                 $this->_redirect('*/*/forgotpassword');
                 return;
             }
-            $email = $this->_objectManager->get('Magento\Escaper')->escapeHtml($email);
+            $email = $this->escaper->escapeHtml($email);
             $this->messageManager->addSuccess(
                 __('If there is an account associated with %1 you will receive an email with a link to reset your password.', $email)
             );
@@ -814,7 +831,7 @@ class Account extends \Magento\App\Action\Action
         $this->_getSession()->setCustomerDto($this->_customerBuilder->populateWithArray($customerData)->create());
 
         if ($this->getRequest()->getParam('changepass') == 1) {
-            $this->getSession()->setChangePassword(true);
+            $this->_getSession()->setChangePassword(true);
         }
 
         $this->_view->getLayout()->getBlock('head')->setTitle(__('Account Information'));
@@ -895,7 +912,7 @@ class Account extends \Magento\App\Action\Action
      */
     protected function _isVatValidationEnabled($store = null)
     {
-        return $this->_objectManager->get('Magento\Customer\Helper\Address')->isVatValidationEnabled($store);
+        return $this->_addressHelper->isVatValidationEnabled($store);
     }
 
     /**

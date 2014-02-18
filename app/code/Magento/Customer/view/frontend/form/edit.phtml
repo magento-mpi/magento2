@@ -85,7 +85,7 @@
                     passwordId: '#password',
                     confirmationId: '#confirmation',
                     passwordContainer: 'fieldset.fieldset.password',
-                    showOnDefault: <?php echo $this->getCustomer()->getChangePassword() ? 'true' : 'false' ?>
+                    showOnDefault: <?php echo $this->getChangePassword() ? 'true' : 'false' ?>
                 });
                 var dataForm = $('#form-validate'), ignore;
                 <?php if ($_dob->isEnabled()): ?>
