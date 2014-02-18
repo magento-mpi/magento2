@@ -71,7 +71,7 @@ abstract class AbstractType
     protected $_entityModel;
 
     /**
-     * Product type (simple, configurable, etc.).
+     * Product type (simple, etc.).
      *
      * @var string
      */
@@ -124,9 +124,10 @@ abstract class AbstractType
      *
      * @param string $attrSetName Name of attribute set.
      * @param array $attrParams Refined attribute parameters.
-     * @return $this
+     * @param mixed $attribute
+     * @return \Magento\ImportExport\Model\Import\Entity\Product\Type\AbstractType
      */
-    protected function _addAttributeParams($attrSetName, array $attrParams)
+    protected function _addAttributeParams($attrSetName, array $attrParams, $attribute)
     {
         if (!$attrParams['apply_to'] || in_array($this->_type, $attrParams['apply_to'])) {
             $this->_attributes[$attrSetName][$attrParams['code']] = $attrParams;
@@ -172,7 +173,6 @@ abstract class AbstractType
                         $attributesCache[$attributeId] = array(
                             'id'               => $attributeId,
                             'code'             => $attributeCode,
-                            'for_configurable' => $attribute->getIsConfigurable(),
                             'is_global'        => $attribute->getIsGlobal(),
                             'is_required'      => $attribute->getIsRequired(),
                             'is_unique'        => $attribute->getIsUnique(),
@@ -186,7 +186,9 @@ abstract class AbstractType
                                                       ->getAttributeOptions($attribute, $this->_indexValueAttributes)
                         );
                     }
-                    $this->_addAttributeParams($attributeSet->getAttributeSetName(), $attributesCache[$attributeId]);
+                    $this->_addAttributeParams(
+                        $attributeSet->getAttributeSetName(), $attributesCache[$attributeId], $attribute
+                    );
                 }
             }
         }

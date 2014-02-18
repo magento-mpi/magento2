@@ -46,6 +46,5 @@
     <order>
         <available_product_type name="simple"/>
         <available_product_type name="virtual"/>
-        <available_product_type name="configurable"/>
     </order>
 </config>
