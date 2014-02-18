@@ -33,8 +33,8 @@ class TaxvatTest extends \PHPUnit_Framework_TestCase
             $this->getMockForAbstractClass(
                 'Magento\Customer\Service\V1\CustomerMetadataServiceInterface', [], '', false
             );
-        $this->_attributeMetadata->expects($this->any())->method('getAttributeMetadata')
-            ->with(self::CUSTOMER_ENTITY_TYPE, self::TAXVAT_ATTRIBUTE_CODE)
+        $this->_attributeMetadata->expects($this->any())->method('getCustomerAttributeMetadata')
+            ->with(self::TAXVAT_ATTRIBUTE_CODE)
             ->will($this->returnValue($this->_attribute));
 
         $this->_block = new Taxvat(

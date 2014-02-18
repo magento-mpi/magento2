@@ -460,7 +460,6 @@ class Account extends \Magento\App\Action\Action
 
         $addressData = [];
 
-        /** @var $attribute \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata */
         foreach ($allowedAttributes as $attribute) {
             $attributeCode = $attribute->getAttributeCode();
             $value = $this->getRequest()->getParam($attributeCode);
