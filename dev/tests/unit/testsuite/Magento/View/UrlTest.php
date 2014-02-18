@@ -70,7 +70,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         /** @var $publisher \Magento\View\Publisher|\PHPUnit_Framework_MockObject_MockObject */
         $publisher = $this->getMock('Magento\View\Publisher', array(), array(), '', false);
         $publisher->expects($this->any())
-            ->method('getPublicFilePath')
+            ->method('getPublicViewFile')
             ->will($this->returnValue('some_dir/public_dir/a/t/m/file.js'));
 
         // 7. Get deployed file manager

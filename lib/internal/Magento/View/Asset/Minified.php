@@ -35,7 +35,7 @@ class Minified implements MergeableInterface
     protected $url;
 
     /**
-     * @var \Magento\View\FileResolver
+     * @var \Magento\View\UrlResolver
      */
     protected $resolver;
 
@@ -47,13 +47,13 @@ class Minified implements MergeableInterface
     /**
      * @param LocalInterface $asset
      * @param \Magento\Code\Minifier $minifier
-     * @param \Magento\View\FileResolver $source
+     * @param \Magento\View\UrlResolver $source
      * @param \Magento\Logger $logger
      */
     public function __construct(
         LocalInterface $asset,
         \Magento\Code\Minifier $minifier,
-        \Magento\View\FileResolver $source,
+        \Magento\View\UrlResolver $source,
         \Magento\Logger $logger
     ) {
         $this->originalAsset = $asset;

@@ -81,15 +81,32 @@ class Publisher implements PublicFilesManagerInterface
     }
 
     /**
-     * Get published file path
-     *
-     * @param  string $filePath
-     * @param  array $params
-     * @return string
+     * {@inheritdoc}
      */
-    public function getPublicFilePath($filePath, $params)
+    public function getPublicViewFile($filePath, array $params)
     {
         return $this->getPublishedFilePath($this->fileFactory->create($filePath, $params));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getViewFile($file, array $params = array())
+    {
+        $fileContainer = $this->fileFactory->create($file, $params);
+
+        /** If $filePath points to file with protected extension - no publishing, return null */
+        if (!$this->isAllowedExtension($fileContainer->getExtension())) {
+            return null;
+        }
+
+        $readyFile = $this->preProcessor->process($fileContainer, $this->tmpDirectory);
+
+        if (!$readyFile->isSourceFileExists()) {
+            throw new \Magento\Exception("Unable to locate theme file '{$readyFile->getFilePath()}'.");
+        }
+
+        return $readyFile->getSourcePath();
     }
 
     /**

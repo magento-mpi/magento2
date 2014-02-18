@@ -76,6 +76,6 @@ class ViewFile implements MergeableInterface
      */
     public function getSourceFile()
     {
-        return $this->resolver->getViewFilePublicPath($this->file);
+        return $this->resolver->getPublicViewFile($this->file);
     }
 }

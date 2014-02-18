@@ -133,6 +133,6 @@ class UrlResolver implements PreProcessorInterface
     protected function publishRelatedViewFile($fileId, $parentFileName, $params)
     {
         $relativeFilePath = $this->relatedFile->buildPath($fileId, $parentFileName, $params);
-        return $this->publisher->getPublicFilePath($relativeFilePath, $params);
+        return $this->publisher->getPublicViewFile($relativeFilePath, $params);
     }
 }

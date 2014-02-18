@@ -102,7 +102,7 @@ class PublisherTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo($filePath), $this->equalTo($params))
             ->will($this->returnValue($this->publisherFileMock));
 
-        $this->assertSame(null, $this->publisher->getPublicFilePath($filePath, $params));
+        $this->assertSame(null, $this->publisher->getPublicViewFile($filePath, $params));
     }
 
     /**
@@ -128,7 +128,7 @@ class PublisherTest extends \PHPUnit_Framework_TestCase
 
         $this->prepareCommonMocks($filePath, $params);
 
-        $this->publisher->getPublicFilePath($filePath, $params);
+        $this->publisher->getPublicViewFile($filePath, $params);
     }
 
     public function testGetPublicFilePathPublicationNotAllowed()
@@ -154,7 +154,7 @@ class PublisherTest extends \PHPUnit_Framework_TestCase
 
         $this->prepareCommonMocks($filePath, $params);
 
-        $this->assertSame('some/source/path.css', $this->publisher->getPublicFilePath($filePath, $params));
+        $this->assertSame('some/source/path.css', $this->publisher->getPublicViewFile($filePath, $params));
     }
 
     /**
@@ -258,7 +258,7 @@ class PublisherTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo($this->publisherFileMock))
             ->will($this->returnSelf());
 
-        $this->assertSame($result, $this->publisher->getPublicFilePath($filePath, $params));
+        $this->assertSame($result, $this->publisher->getPublicViewFile($filePath, $params));
     }
 
     /**

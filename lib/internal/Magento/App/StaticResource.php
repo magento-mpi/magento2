@@ -82,9 +82,13 @@ class StaticResource implements \Magento\LauncherInterface
             $params['themeModel'] = $this->getThemeModel($params['area'], $params['theme']);
             unset($params['file'], $params['theme']);
 
-            $publicFile = $this->fileResolver->getViewFilePublicPath($file, $params);
+            if ($appMode == \Magento\App\State::MODE_DEVELOPER) {
+                $resourceFile = $this->fileResolver->getViewFile($file, $params);
+            } else {
+                $resourceFile = $this->fileResolver->getPublicViewFile($file, $params);
+            }
 
-            $this->response->setFilePath($publicFile);
+            $this->response->setFilePath($resourceFile);
         }
         return $this->response;
     }
