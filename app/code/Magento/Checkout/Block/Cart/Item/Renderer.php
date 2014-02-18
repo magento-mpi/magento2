@@ -20,7 +20,7 @@
  */
 namespace Magento\Checkout\Block\Cart\Item;
 
-class Renderer extends \Magento\View\Element\Template
+class Renderer extends \Magento\View\Element\Template implements \Magento\View\Block\IdentityInterface
 {
     /** @var \Magento\Checkout\Model\Session */
     protected $_checkoutSession;
@@ -469,5 +469,18 @@ class Renderer extends \Magento\View\Element\Template
     {
         $this->_ignoreProductUrl = $ignore;
         return $this;
+    }
+
+    /**
+     * Return identifiers for produced content
+     *
+     * @return array
+     */
+    public function getIdentities()
+    {
+        if ($this->getItem()) {
+            return $this->getProduct()->getIdentities();
+        }
+        return array();
     }
 }

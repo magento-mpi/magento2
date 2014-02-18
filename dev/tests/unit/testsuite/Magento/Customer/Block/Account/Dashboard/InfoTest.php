@@ -22,12 +22,6 @@ class InfoTest extends \PHPUnit_Framework_TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\View\Element\Template\Context */
     private $_context;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Model\Session */
-    private $_customerSession;
-
-    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\CustomerServiceInterface */
-    private $_customerService;
-
     /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\Dto\Customer */
     private $_customer;
 
@@ -72,13 +66,6 @@ class InfoTest extends \PHPUnit_Framework_TestCase
         $this->_context = $this->getMock('Magento\View\Element\Template\Context', array(), array(), '', false);
         $this->_context->expects($this->once())->method('getUrlBuilder')->will($this->returnValue($urlBuilder));
         $this->_context->expects($this->once())->method('getLayout')->will($this->returnValue($layout));
-
-
-
-//        $this->customerCurrentService->expects($this->any())
-//            ->method('getCustomer')
-//            ->will($this->returnValue($this->_customer));
-
 
         $this->_customer = $this->getMock('Magento\Customer\Service\V1\Dto\Customer', array(), array(), '', false);
         $this->_customer->expects($this->any())->method('getEmail')->will($this->returnValue(self::EMAIL_ADDRESS));

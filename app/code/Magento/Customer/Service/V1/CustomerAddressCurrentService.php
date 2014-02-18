@@ -25,7 +25,7 @@ class CustomerAddressCurrentService implements \Magento\Customer\Service\V1\Cust
     public function __construct(
         \Magento\Customer\Service\V1\CustomerCurrentService $customerCurrentService,
         \Magento\Customer\Service\V1\CustomerAddressService $customerAddressService
-    ){
+    ) {
         $this->customerCurrentService = $customerCurrentService;
         $this->customerAddressService = $customerAddressService;
     }

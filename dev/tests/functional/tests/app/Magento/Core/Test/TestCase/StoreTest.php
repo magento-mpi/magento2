@@ -44,6 +44,12 @@ class StoreTest extends Functional
         $this->assertTrue(
             $storeListPage->getGridBlock()->isStoreExists($storeFixture->getName())
         );
+
+        $cachePage = Factory::getPageFactory()->getAdminCache();
+        $cachePage->open();
+        $cachePage->getActionsBlock()->flushCacheStorage();
+        $cachePage->getMessagesBlock()->assertSuccessMessage();
+
         $configPage = Factory::getPageFactory()->getAdminSystemConfig();
         $configPage->open();
         $storeSwitcher = $configPage->getStoreSwitcher();
