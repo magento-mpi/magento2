@@ -44,7 +44,11 @@ class Csv implements WriterInterface
     public function write(Phrase $phrase)
     {
         $fields = array($phrase->getPhrase(), $phrase->getTranslation());
-        $fields = $this->_filterFields($fields);
+        if ($phrase->getQuote()) {
+            $encloseQuote = $phrase->getQuote() == 'single' ? "'" : '"';
+            $fields[0] = $this->_compileString($fields[0], $encloseQuote);
+            $fields[1] = $this->_compileString($fields[1], $encloseQuote);
+        }
         if (($contextType = $phrase->getContextType()) && ($contextValue = $phrase->getContextValueAsString())) {
             $fields[] = $contextType;
             $fields[] = $contextValue;
@@ -54,17 +58,17 @@ class Csv implements WriterInterface
     }
 
     /**
-     * Filter phrase and its translation
+     * Compile PHP string based on quotes type it enclosed with
      *
-     * @param array $fields
-     * @return array
+     * @param string $string
+     * @param string $encloseQuote
+     * @return string
      */
-    protected function _filterFields(array $fields)
+    protected function _compileString($string, $encloseQuote)
     {
-        foreach ($fields as &$field) {
-            $field = str_replace("\'", "'", $field);
-        }
-        return $fields;
+        $evalString = 'return '.$encloseQuote . $string . $encloseQuote.';';
+        $result = @eval($evalString);
+        return is_string($result) ? $result : $string;
     }
 
     /**
