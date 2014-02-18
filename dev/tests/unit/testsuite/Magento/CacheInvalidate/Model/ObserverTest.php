@@ -40,7 +40,13 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_url = 'http://mangento.index.php';
         $this->_configMock = $this->getMock('Magento\PageCache\Model\Config', ['getType'], [], '', false);
         $this->_helperMock = $this->getMock('Magento\PageCache\Helper\Data', ['getUrl'], [], '', false);
-        $this->_curlMock = $this->getMock('\Magento\HTTP\Adapter\Curl', [], [], '', false);
+        $this->_curlMock = $this->getMock(
+            '\Magento\HTTP\Adapter\Curl',
+            ['setOptions', 'write', 'read', 'close'],
+            [],
+            '',
+            false
+        );
         $this->_model = new \Magento\CacheInvalidate\Model\Observer(
             $this->_configMock,
             $this->_helperMock,
@@ -105,8 +111,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->method('write')
             ->with($this->equalTo(''), $this->equalTo($this->_url), $httpVersion, $headers);
         $this->_curlMock->expects($this->once())
+            ->method('read');
+        $this->_curlMock->expects($this->once())
             ->method('close');
     }
-
-
 }

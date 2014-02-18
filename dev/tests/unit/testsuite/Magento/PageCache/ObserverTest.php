@@ -45,7 +45,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->_configMock = $this->getMock('Magento\PageCache\Model\Config', ['getType'], [], '', false);
-        $this->_cacheMock = $this->getMock('Magento\App\PageCache\Cache', [], [], '', false);
+        $this->_cacheMock = $this->getMock('Magento\App\PageCache\Cache', ['clean'], [], '', false);
         $this->_helperMock = $this->getMock('Magento\PageCache\Helper\Data', [], [], '', false);
         $this->_model = new \Magento\PageCache\Model\Observer(
             $this->_configMock,

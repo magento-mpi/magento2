@@ -87,8 +87,10 @@ class Observer
      */
     protected function sendPurgeRequest($tagsPattern)
     {
+        $headers = "X-Magento-Tags-Pattern: {$tagsPattern}";
         $this->_curlAdapter->setOptions(array(CURLOPT_CUSTOMREQUEST => 'PURGE'));
-        $this->_curlAdapter->write('', $this->_helper->getUrl('*'), '1.1', "X-Magento-Tags-Pattern: {$tagsPattern}");
+        $this->_curlAdapter->write('', $this->_helper->getUrl('*'), '1.1', $headers);
+        $this->_curlAdapter->read();
         $this->_curlAdapter->close();
     }
 }
