@@ -41,7 +41,6 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         foreach ($this->_collection->getItems() as $reportItem) {
             $actualResult[] = array_intersect_key($reportItem->getData(), $expectedResult[0]);
         }
-        $s = $this->_collection->getSelect();
         $this->assertEquals($expectedResult, $actualResult);
     }
 }
