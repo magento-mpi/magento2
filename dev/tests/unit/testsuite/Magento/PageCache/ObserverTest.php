@@ -10,7 +10,6 @@
 
 namespace Magento\PageCache;
 
-
 class ObserverTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\PageCache\Model\Observer */
@@ -18,6 +17,9 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
     /** @var  \Magento\Core\Model\Config */
     protected $_configMock;
+
+    /** @var  \Magento\App\PageCache\Cache */
+    protected $_cacheMock;
 
     /** @var \Magento\View\Element\AbstractBlock */
     protected $_blockMock;
@@ -34,22 +36,23 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Object */
     protected $_transport;
 
+    /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Object\ */
+    protected $_observerObject;
+
     /**
      * Set up all mocks and data for test
      */
     public function setUp()
     {
         $this->_configMock = $this->getMock('Magento\PageCache\Model\Config', ['getType'], [], '', false);
-        $cacheMock = $this->getMock('Magento\App\PageCache\Cache', [], [], '', false);
+        $this->_cacheMock = $this->getMock('Magento\App\PageCache\Cache', [], [], '', false);
         $this->_helperMock = $this->getMock('Magento\PageCache\Helper\Data', [], [], '', false);
         $this->_model = new \Magento\PageCache\Model\Observer(
             $this->_configMock,
-            $cacheMock,
+            $this->_cacheMock,
             $this->_helperMock
         );
         $this->_observerMock = $this->getMock('Magento\Event\Observer', ['getEvent'], [], '', false);
-        $eventMock = $this->getMock('Magento\Event', ['getLayout', 'getElementName', 'getTransport'], [], '', false);
-
         $this->_layoutMock = $this->getMock(
             'Magento\Core\Model\Layout',
             ['isCacheable', 'getBlock', 'getUpdate', 'getHandles'],
@@ -69,7 +72,19 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_transport = new \Magento\Object([
             'output' => 'test output html'
         ]);
+        $this->_observerObject = $this->getMock('\Magento\Core\Model\Store',[], [], '', false);
+    }
 
+    /**
+     * @param bool $varnishIsEnabled
+     * @param bool $scopeIsPrivate
+     * @param int|null $blockTtl
+     * @param string $expectedOutput
+     * @dataProvider processLayoutRenderDataProvider
+     */
+    public function testProcessLayoutRenderElement($varnishIsEnabled, $scopeIsPrivate, $blockTtl, $expectedOutput)
+    {
+        $eventMock = $this->getMock('Magento\Event', ['getLayout', 'getElementName', 'getTransport'], [], '', false);
         $this->_observerMock->expects($this->once())
             ->method('getEvent')
             ->will($this->returnValue($eventMock));
@@ -94,17 +109,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_layoutMock->expects($this->any())
             ->method('getHandles')
             ->will($this->returnValue([]));
-    }
 
-    /**
-     * @param bool $varnishIsEnabled
-     * @param bool $scopeIsPrivate
-     * @param int|null $blockTtl
-     * @param string $expectedOutput
-     * @dataProvider processLayoutRenderDataProvider
-     */
-    public function testProcessLayoutRenderElement($varnishIsEnabled, $scopeIsPrivate, $blockTtl, $expectedOutput)
-    {
         if ($varnishIsEnabled) {
             $this->_blockMock->setTtl($blockTtl);
             $this->_blockMock->expects($this->any())
@@ -144,5 +149,46 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             'Varnish disabled, private scope, ttl is not set' =>
                 [false, true, null, '<!-- BLOCK testBlockName -->test output html<!-- /BLOCK testBlockName -->']
         ];
+    }
+
+    /**
+     * Test case for cache invalidation
+     */
+    public function testInvalidateCache()
+    {
+        $eventMock = $this->getMock('Magento\Event', ['getObject'], [], '', false);
+        $eventMock->expects($this->once())
+            ->method('getObject')
+            ->will($this->returnValue($this->_observerObject));
+        $this->_observerMock->expects($this->once())
+            ->method('getEvent')
+            ->will($this->returnValue($eventMock));
+        $this->_configMock->expects($this->once())
+            ->method('getType')
+            ->will($this->returnValue(0));
+        $tags = array('cache_1', 'cache_group');
+        $this->_observerObject->expects($this->once())
+            ->method('getIdentities')
+            ->will($this->returnValue($tags));
+
+        $this->_cacheMock->expects($this->once())
+            ->method('clean')
+            ->with($this->equalTo($tags));
+
+        $this->_model->invalidateCache($this->_observerMock);
+    }
+
+    /**
+     * Test case for flushing all the cache
+     */
+    public function testFlushAllCache()
+    {
+        $this->_configMock->expects($this->once())
+            ->method('getType')
+            ->will($this->returnValue(0));
+
+        $this->_cacheMock->expects($this->once())
+            ->method('clean');
+        $this->_model->flushAllCache($this->_observerMock);
     }
 }

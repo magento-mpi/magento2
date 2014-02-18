@@ -25,11 +25,6 @@ class Observer
     protected $_config;
 
     /**
-     * @var \Magento\App\PageCache\Cache
-     */
-    protected $_cache;
-
-    /**
      * @var \Magento\CacheInvalidate\Helper\Data
      */
     protected $_helper;
@@ -43,18 +38,15 @@ class Observer
      * Constructor
      *
      * @param \Magento\PageCache\Model\Config $config
-     * @param \Magento\App\PageCache\Cache $cache
      * @param \Magento\PageCache\Helper\Data $helper
      * @param \Magento\HTTP\Adapter\Curl $curlAdapter
      */
     public function __construct(
         \Magento\PageCache\Model\Config $config,
-        \Magento\App\PageCache\Cache $cache,
         \Magento\PageCache\Helper\Data $helper,
         \Magento\HTTP\Adapter\Curl $curlAdapter
     ){
         $this->_config = $config;
-        $this->_cache = $cache;
         $this->_helper = $helper;
         $this->_curlAdapter = $curlAdapter;
     }
@@ -76,7 +68,7 @@ class Observer
     }
 
     /**
-     * Flash Built-In cache
+     * Flash Varnish cache
      *
      * @param \Magento\Event\Observer $observer
      */
@@ -88,7 +80,8 @@ class Observer
     }
 
     /**
-     * Invalidate cache by tags pattern
+     * Send curl purge request
+     * to invalidate cache by tags pattern
      *
      * @param string $tagsPattern
      */
