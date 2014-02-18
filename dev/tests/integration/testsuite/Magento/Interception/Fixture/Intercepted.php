@@ -22,31 +22,36 @@ class Intercepted extends InterceptedParent implements InterceptedInterface
 
     public function B($param1, $param2)
     {
-        return '<I_B>' . $param1 . $param2 . $this->C($param1) . '</I_B>';
+        return '<B>' . $param1 . $param2 . $this->C($param1) . '</B>';
     }
 
     public function C($param1)
     {
-        return '<I_C>' . $param1 . '</I_C>';
+        return '<C>' . $param1 . '</C>';
     }
 
     public function D($param1)
     {
-        return '<I_D>' . $this->_key . $param1 . '</I_D>';
+        return '<D>' . $this->_key . $param1 . '</D>';
     }
 
     public final function E($param1)
     {
-        return '<I_E>' . $this->_key . $param1 . '</I_E>';
+        return '<E>' . $this->_key . $param1 . '</E>';
     }
 
     public function F($param1)
     {
-        return '<I_F>' . $param1 . '</I_F>';
+        return '<F>' . $param1 . '</F>';
+    }
+
+    public function G($param1)
+    {
+        return '<G>' . $param1 . "</G>";
     }
 
     public function K($param1)
     {
-        return '<I_K>' . $param1 . '</I_K>';
+        return '<K>' . $param1 . '</K>';
     }
 }

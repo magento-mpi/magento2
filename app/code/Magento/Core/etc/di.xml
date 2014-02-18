@@ -83,7 +83,7 @@
             <array>
                 <item key="frontend">
                     <array>
-                        <item key="frontName"><value/></item>
+                        <item key="frontName"><value type="null" /></item>
                         <item key="router"><value>standard</value></item>
                     </array>
                 </item>

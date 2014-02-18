@@ -107,7 +107,6 @@ class DefinitionFactory
             $generator = new \Magento\Code\Generator(null, $autoloader, $generatorIo, null, array(
                 Generator\Factory::ENTITY_TYPE                 => '\Magento\ObjectManager\Code\Generator\Factory',
                 Generator\Proxy::ENTITY_TYPE                   => '\Magento\ObjectManager\Code\Generator\Proxy',
-                InterceptionGenerator\Decorator::ENTITY_TYPE   => '\Magento\Interception\Code\Generator\Decorator',
                 InterceptionGenerator\Interceptor::ENTITY_TYPE => '\Magento\Interception\Code\Generator\Interceptor',
             ));
             $autoloader = new \Magento\Code\Generator\Autoloader($generator);

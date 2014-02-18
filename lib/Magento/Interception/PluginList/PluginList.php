@@ -144,15 +144,21 @@ class PluginList extends Scoped implements InterceptionPluginList
                     if (!class_exists($pluginType)) {
                         throw new InvalidArgumentException('Plugin class ' . $pluginType . ' doesn\'t exist');
                     }
-                    foreach ($this->_definitions->getMethodList($pluginType) as $pluginMethod => $methodType) {
+                    foreach ($this->_definitions->getMethodList($pluginType) as $pluginMethod => $methodTypes) {
                         $current = isset($lastPerMethod[$pluginMethod]) ? $lastPerMethod[$pluginMethod] : '__self';
                         $currentKey = $type . '_'. $pluginMethod . '_' . $current;
-                        if ($methodType == Definition::LISTENER_AROUND) {
-                            $this->_data['processed'][$currentKey][$methodType] = $key;
+                        $pluginMethods = array();
+                        if ($methodTypes & Definition::LISTENER_AROUND) {
+                            $pluginMethods[Definition::LISTENER_AROUND] = $key;
                             $lastPerMethod[$pluginMethod] = $key;
-                        } else {
-                            $this->_data['processed'][$currentKey][$methodType][] = $key;
                         }
+                        if ($methodTypes & Definition::LISTENER_BEFORE) {
+                            $pluginMethods[Definition::LISTENER_BEFORE][] = $key;
+                        }
+                        if ($methodTypes & Definition::LISTENER_AFTER) {
+                            $pluginMethods[Definition::LISTENER_AFTER][] = $key;
+                        }
+                        $this->_data['processed'][$currentKey] = $pluginMethods;
                     }
                 }
             } else {
@@ -215,7 +221,7 @@ class PluginList extends Scoped implements InterceptionPluginList
         if (!isset($this->_data['inherited'][$type])) {
             $this->_inheritPlugins($type);
         }
-        $key = $type . '_' . $method . '_' . $code;
+        $key = $type . '_' . lcfirst($method) . '_' . $code;
         return isset($this->_data['processed'][$key]) ? $this->_data['processed'][$key] : null;
     }
 

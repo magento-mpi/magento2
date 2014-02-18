@@ -22,6 +22,8 @@ class Config extends \Magento\Config\Data\Scoped
      */
     protected $_connectionNames = array();
 
+    protected $_scopePriorityScheme = array('global');
+
     /**
      * @param Config\Reader $reader
      * @param \Magento\Config\ScopeInterface $configScope

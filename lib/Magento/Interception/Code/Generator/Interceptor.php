@@ -32,7 +32,7 @@ class Interceptor extends \Magento\Code\Generator\EntityAbstract
     {
         return array(
             array(
-                'name' => '_objectManager',
+                'name' => 'objectManager',
                 'visibility' => 'protected',
                 'docblock' => array(
                     'shortDescription' => 'Object Manager instance',
@@ -42,7 +42,7 @@ class Interceptor extends \Magento\Code\Generator\EntityAbstract
                 ),
             ),
             array(
-                'name' => '_pluginList',
+                'name' => 'pluginList',
                 'visibility' => 'protected',
                 'docblock' => array(
                     'shortDescription' => 'List of plugins',
@@ -52,12 +52,12 @@ class Interceptor extends \Magento\Code\Generator\EntityAbstract
                 ),
             ),
             array(
-                'name' => '_decorators',
+                'name' => 'chain',
                 'visibility' => 'protected',
                 'docblock' => array(
-                    'shortDescription' => 'List of decorators',
+                    'shortDescription' => 'Invocation chain',
                     'tags' => array(
-                        array('name' => 'var', 'description' => 'array')
+                        array('name' => 'var', 'description' => 'Magento\Interception\Chain')
                     )
                 ),
             ),
@@ -85,11 +85,13 @@ class Interceptor extends \Magento\Code\Generator\EntityAbstract
             'parameters' => array_merge(array(
                 array('name' => 'objectManager', 'type' => '\Magento\ObjectManager\ObjectManager'),
                 array('name' => 'pluginList', 'type' => '\Magento\Interception\PluginList'),
+                array('name' => 'chain', 'type' => '\Magento\Interception\Chain'),
             ), $parameters),
-            'body' => "\$this->_objectManager = \$objectManager;"
-                . "\n\$this->_pluginList = \$pluginList;"
-                . "\n\$this->_subjectType = get_parent_class(\$this);"
-                . (count($parameters) ? "\nparent::__construct({$this->_getParameterList($parameters)});" : '')
+            'body' => "\$this->objectManager = \$objectManager;\n"
+                . "\$this->pluginList = \$pluginList;\n"
+                . "\$this->chain = \$chain;\n"
+                . "\$this->subjectType = get_parent_class(\$this);\n"
+                . (count($parameters) ? "parent::__construct({$this->_getParameterList($parameters)});" : '')
         );
     }
 
@@ -122,24 +124,10 @@ class Interceptor extends \Magento\Code\Generator\EntityAbstract
 
         $methods[] = array(
             'name' => '__wakeup',
-            'body' => "\$this->_objectManager = \\Magento\\App\\ObjectManager::getInstance();\n"
-                . "\$this->_pluginList = \$this->_objectManager->get('Magento\\Interception\\PluginList');\n"
-                . "\$this->_subjectType = get_parent_class(\$this);\n"
-        );
-
-        $methods[] = array(
-            'name' => '_getDecorator',
-            'visibility' => 'protected',
-            'parameters' => array(
-                array('name' => 'code', 'type' => 'string'),
-            ),
-            'body' => "if (!isset(\$this->_decorators[\$code])) {\n"
-                . "    \$this->_decorators[\$code] = new Decorator(\n"
-                . "        \$this, \$this->_objectManager, \$this->_subjectType,\n"
-                . "        \$this->_pluginList, \$code\n"
-                . "    );\n"
-                . "}\n"
-                . "return \$this->_decorators[\$code];\n"
+            'body' => "\$this->objectManager = \\Magento\\App\\ObjectManager::getInstance();\n"
+                . "\$this->pluginList = \$this->objectManager->get('Magento\\Interception\\PluginList');\n"
+                . "\$this->chain = \$this->objectManager->get('Magento\\Interception\\Chain');\n"
+                . "\$this->subjectType = get_parent_class(\$this);\n"
         );
 
         $methods[] = array(
@@ -160,7 +148,7 @@ class Interceptor extends \Magento\Code\Generator\EntityAbstract
                 . "if (isset(\$pluginInfo[\\Magento\\Interception\\Definition::LISTENER_BEFORE])) {\n"
                 . "    foreach (\$pluginInfo[\\Magento\\Interception\\Definition::LISTENER_BEFORE] as \$code) {\n"
                 . "        \$beforeResult = call_user_func_array(\n"
-                . "            array(\$this->_pluginList->getPlugin(\$this->_subjectType, \$code), 'before'"
+                . "            array(\$this->pluginList->getPlugin(\$this->subjectType, \$code), 'before'"
                     . ". \$capMethod), array_merge(array(\$this), \$arguments)\n"
                 . "        );\n"
                 . "        if (\$beforeResult) {\n"
@@ -169,14 +157,15 @@ class Interceptor extends \Magento\Code\Generator\EntityAbstract
                 . "    }\n"
                 . "}\n"
                 . "if (isset(\$pluginInfo[\\Magento\\Interception\\Definition::LISTENER_AROUND])) {\n"
-                . "    \$decorator = \$this->_getDecorator(\$pluginInfo["
-                    . "\\Magento\\Interception\\Definition::LISTENER_AROUND]);\n"
-                . "    \$next = function() use (\$decorator, \$method) {\n"
-                . "        return call_user_func_array(array(\$decorator, \$method), func_get_args());\n"
+                . "    \$chain = \$this->chain;\n"
+                . "    \$type = \$this->subjectType;\n"
+                . "    \$subject = \$this;\n"
+                . "    \$code = \$pluginInfo[\\Magento\\Interception\\Definition::LISTENER_AROUND];\n"
+                . "    \$next = function() use (\$chain, \$type, \$method, \$subject, \$code) {\n"
+                . "        return \$chain->invokeNext(\$type, \$method, \$subject, func_get_args(), \$code);\n"
                 . "    };\n"
                 . "    \$result = call_user_func_array(\n"
-                . "        array(\$this->_pluginList->getPlugin(\$this->_subjectType,"
-                    . " \$pluginInfo[\\Magento\\Interception\\Definition::LISTENER_AROUND]), 'around' . \$capMethod),\n"
+                . "        array(\$this->pluginList->getPlugin(\$this->subjectType, \$code), 'around' . \$capMethod),\n"
                 . "        array_merge(array(\$this, \$next), \$arguments)\n"
                 . "    );\n"
                 . "} else {\n"
@@ -184,7 +173,7 @@ class Interceptor extends \Magento\Code\Generator\EntityAbstract
                 . "}\n"
                 . "if (isset(\$pluginInfo[\\Magento\\Interception\\Definition::LISTENER_AFTER])) {\n"
                 . "    foreach (\$pluginInfo[\\Magento\\Interception\\Definition::LISTENER_AFTER] as \$code) {\n"
-                . "        \$result = \$this->_pluginList->getPlugin(\$this->_subjectType, \$code)\n"
+                . "        \$result = \$this->pluginList->getPlugin(\$this->subjectType, \$code)\n"
                 . "             ->{'after' . \$capMethod}(\$this, \$result);\n"
                 . "    }\n"
                 . "}\n"
@@ -220,7 +209,7 @@ class Interceptor extends \Magento\Code\Generator\EntityAbstract
         $methodInfo = array(
             'name' => $method->getName(),
             'parameters' => $parameters,
-            'body' => "\$pluginInfo = \$this->_pluginList->getNext(\$this->_subjectType, '{$method->getName()}');\n"
+            'body' => "\$pluginInfo = \$this->pluginList->getNext(\$this->subjectType, '{$method->getName()}');\n"
                 . "if (!\$pluginInfo) {\n"
                 . "    return parent::{$method->getName()}({$this->_getParameterList($parameters)});\n"
                 . "} else {\n"
