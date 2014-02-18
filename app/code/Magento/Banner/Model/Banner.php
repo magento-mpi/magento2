@@ -25,7 +25,7 @@
  */
 namespace Magento\Banner\Model;
 
-class Banner extends \Magento\Core\Model\AbstractModel
+class Banner extends \Magento\Core\Model\AbstractModel implements \Magento\Object\IdentityInterface
 {
     /**
      * Representation value of enabled banner
@@ -38,6 +38,12 @@ class Banner extends \Magento\Core\Model\AbstractModel
      *
      */
     const STATUS_DISABLED  = 0;
+
+    /**
+     * Representation value of disabled banner
+     *
+     */
+    const CACHE_TAG  = 'banner';
 
     /**
      * Prefix of model events names
@@ -232,5 +238,15 @@ class Banner extends \Magento\Core\Model\AbstractModel
         }
         $this->setData('types', $types);
         return $types;
+    }
+
+    /**
+     * Return identifiers for produced content
+     *
+     * @return array
+     */
+    public function getIdentities()
+    {
+        return array(self::CACHE_TAG . '_' . $this->getId());
     }
 }

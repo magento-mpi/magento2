@@ -155,9 +155,12 @@ class Observer
      */
     public function addCatalogToTopmenuItems(\Magento\Event\Observer $observer)
     {
+        $block = $observer->getEvent()->getBlock();
+        $block->addIdentity(\Magento\Catalog\Model\Category::CACHE_TAG);
         $this->_addCategoriesToMenu(
             $this->_catalogCategory->getStoreCategories(),
-            $observer->getMenu()
+            $observer->getMenu(),
+            $block
         );
     }
 
@@ -166,8 +169,9 @@ class Observer
      *
      * @param \Magento\Data\Tree\Node\Collection|array $categories
      * @param \Magento\Data\Tree\Node $parentCategoryNode
+     * @param \Magento\Theme\Block\Html\Topmenu $block
      */
-    protected function _addCategoriesToMenu($categories, $parentCategoryNode)
+    protected function _addCategoriesToMenu($categories, $parentCategoryNode, $block)
     {
         foreach ($categories as $category) {
             if (!$category->getIsActive()) {
@@ -175,6 +179,8 @@ class Observer
             }
 
             $nodeId = 'category-node-' . $category->getId();
+
+            $block->addIdentity(\Magento\Catalog\Model\Category::CACHE_TAG . '_' . $category->getId());
 
             $tree = $parentCategoryNode->getTree();
             $categoryData = array(
@@ -192,7 +198,7 @@ class Observer
                 $subcategories = $category->getChildren();
             }
 
-            $this->_addCategoriesToMenu($subcategories, $categoryNode);
+            $this->_addCategoriesToMenu($subcategories, $categoryNode, $block);
         }
     }
 

@@ -39,12 +39,9 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->_configMock = $this->getMock('Magento\PageCache\Model\Config', [], [], '', false);
+        $this->_configMock = $this->getMock('Magento\PageCache\Model\Config', ['getType'], [], '', false);
         $cacheMock = $this->getMock('Magento\App\PageCache\Cache', [], [], '', false);
         $this->_helperMock = $this->getMock('Magento\PageCache\Helper\Data', [], [], '', false);
-//        \Magento\PageCache\Model\Config $config,
-//        \Magento\App\PageCache\Cache $cache,
-//        \Magento\PageCache\Helper\Data $helper
         $this->_model = new \Magento\PageCache\Model\Observer(
             $this->_configMock,
             $cacheMock,
@@ -52,6 +49,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         );
         $this->_observerMock = $this->getMock('Magento\Event\Observer', ['getEvent'], [], '', false);
         $eventMock = $this->getMock('Magento\Event', ['getLayout', 'getElementName', 'getTransport'], [], '', false);
+
         $this->_layoutMock = $this->getMock(
             'Magento\Core\Model\Layout',
             ['isCacheable', 'getBlock', 'getUpdate', 'getHandles'],
@@ -121,6 +119,9 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
                 ->method('isScopePrivate')
                 ->will($this->returnValue($scopeIsPrivate));
         }
+        $this->_configMock->expects($this->once())
+            ->method('getType')
+            ->will($this->returnValue($varnishIsEnabled));
 
         $this->_model->processLayoutRenderElement($this->_observerMock);
 
@@ -135,8 +136,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     public function processLayoutRenderDataProvider()
     {
         return [
-//            'Varnish enabled, public scope, ttl is set' =>
-//                [true, false, 360, '<esi:include src="page_cache/block/wrapesi/with/handles/and/other/stuff" />'],
+            'Varnish enabled, public scope, ttl is set' =>
+                [true, false, 360, '<esi:include src="page_cache/block/wrapesi/with/handles/and/other/stuff" />'],
             'Varnish enabled, public scope, ttl is not set' => [true, false, null, 'test output html'],
             'Varnish disabled, public scope, ttl is set' => [false, false, 360, 'test output html'],
             'Varnish disabled, public scope, ttl is not set' => [false, false, null, 'test output html'],

@@ -15,7 +15,7 @@ namespace Magento\Catalog\Block\Product\ProductList;
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Upsell extends \Magento\Catalog\Block\Product\AbstractProduct
+class Upsell extends \Magento\Catalog\Block\Product\AbstractProduct implements \Magento\View\Block\IdentityInterface
 {
     /**
      * Default MAP renderer type
@@ -229,5 +229,19 @@ class Upsell extends \Magento\Catalog\Block\Product\AbstractProduct
         } else {
             return 0;
         }
+    }
+
+    /**
+     * Return identifiers for produced content
+     *
+     * @return array
+     */
+    public function getIdentities()
+    {
+        $identities = array();
+        foreach ($this->getItems() as $item) {
+            $identities[] = $item->getIdentities();
+        }
+        return $identities;
     }
 }

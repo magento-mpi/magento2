@@ -66,11 +66,15 @@ class Kernel
             $maxAge = $matches[1];
             $response->setNoCacheHeaders();
             if ($response->getHttpResponseCode() == 200 && ($this->request->isGet() || $this->request->isHead())) {
+                $tagsHeader = $response->getHeader('X-Magento-Tags');
+                $tags = $tagsHeader ? explode(',', $tagsHeader['value']) : array();
+
                 $response->clearHeader('Set-Cookie');
+                $response->clearHeader('X-Magento-Tags');
                 if (!headers_sent()) {
                     header_remove('Set-Cookie');
                 }
-                $this->cache->save(serialize($response), $this->identifier->getValue(), array(), $maxAge);
+                $this->cache->save(serialize($response), $this->identifier->getValue(), $tags, $maxAge);
             }
         }
     }
