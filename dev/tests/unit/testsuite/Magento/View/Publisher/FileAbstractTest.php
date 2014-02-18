@@ -240,4 +240,30 @@ class FileAbstractTest extends \PHPUnit_Framework_TestCase
             ],
         ];
     }
+
+    /**
+     * @dataProvider sleepDataProvider
+     */
+    public function test__sleep($expected)
+    {
+        $this->getModelMock('some\file', []);
+        $this->assertEquals($expected, $this->fileAbstract->__sleep());
+    }
+
+    /**
+     * @return array
+     */
+    public function sleepDataProvider()
+    {
+        return [[[
+            'filePath',
+            'extension',
+            'viewParams',
+            'sourcePath',
+            'allowDuplication',
+            'isPublicationAllowed',
+            'isFallbackUsed',
+            'isSourcePathProvided'
+        ]]];
+    }
 }

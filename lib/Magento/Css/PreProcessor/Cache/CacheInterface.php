@@ -19,7 +19,7 @@ interface CacheInterface
     public function clear();
 
     /**
-     * @return null|string
+     * @return null|\Magento\View\Publisher\FileInterface
      */
     public function get();
 

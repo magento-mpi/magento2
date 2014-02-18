@@ -27,9 +27,9 @@ class Cache implements \Magento\Css\PreProcessor\Cache\CacheInterface
     protected $importEntities = [];
 
     /**
-     * @var array
+     * @var null|\Magento\View\Publisher\FileInterface
      */
-    protected $cachedFile = [];
+    protected $cachedFile;
 
     /**
      * @var string
@@ -52,27 +52,19 @@ class Cache implements \Magento\Css\PreProcessor\Cache\CacheInterface
     protected $fileFactory;
 
     /**
-     * @var \Magento\View\Service
-     */
-    protected $viewService;
-
-    /**
      * @param Map\Storage $storage
      * @param ImportEntityFactory $importEntityFactory
      * @param \Magento\View\Publisher\FileInterface $publisherFile
      * @param \Magento\View\Publisher\FileFactory $fileFactory
-     * @param \Magento\View\Service $viewService
      */
     public function __construct(
         Map\Storage $storage,
         ImportEntityFactory $importEntityFactory,
         \Magento\View\Publisher\FileInterface $publisherFile,
-        \Magento\View\Publisher\FileFactory $fileFactory,
-        \Magento\View\Service $viewService
+        \Magento\View\Publisher\FileFactory $fileFactory
     ) {
         $this->storage = $storage;
         $this->fileFactory = $fileFactory;
-        $this->viewService = $viewService;
         $this->importEntityFactory = $importEntityFactory;
         $this->uniqueFileKey = $this->prepareKey($publisherFile->getFilePath(), $publisherFile->getViewParams());
 
@@ -84,7 +76,7 @@ class Cache implements \Magento\Css\PreProcessor\Cache\CacheInterface
      */
     public function clear()
     {
-        $this->cachedFile = [];
+        $this->cachedFile = null;
         $this->importEntities = [];
         $this->storage->delete($this->uniqueFileKey);
         return $this;
@@ -95,15 +87,8 @@ class Cache implements \Magento\Css\PreProcessor\Cache\CacheInterface
      */
     public function get()
     {
-        if (!empty($this->cachedFile)) {
-            $params = $this->cachedFile['viewParams'];
-            $this->viewService->updateDesignParams($params);
-
-            return $this->fileFactory->create(
-                $this->cachedFile['filePath'],
-                $params,
-                $this->cachedFile['sourcePath']
-            );
+        if ($this->cachedFile instanceof \Magento\View\Publisher\FileInterface) {
+            return $this->cachedFile;
         }
         return null;
     }
@@ -151,7 +136,7 @@ class Cache implements \Magento\Css\PreProcessor\Cache\CacheInterface
     protected function loadImportEntities()
     {
         $importEntities = unserialize($this->storage->load($this->uniqueFileKey));
-        $this->cachedFile = isset($importEntities['cached_file']) ? $importEntities['cached_file'] : [];
+        $this->cachedFile = isset($importEntities['cached_file']) ? $importEntities['cached_file'] : null;
         $this->importEntities = isset($importEntities['imports']) ? $importEntities['imports'] : [];
         if (!$this->isValid()) {
             $this->clear();
@@ -184,19 +169,6 @@ class Cache implements \Magento\Css\PreProcessor\Cache\CacheInterface
      */
     protected function prepareSaveData($cachedFile)
     {
-        $params = $cachedFile->getViewParams();
-        if (!empty($params['themeModel'])) {
-            $params['themeId'] = $params['themeModel']->getId();
-            unset($params['themeModel']);
-        }
-
-        return serialize([
-            'cached_file' => [
-                'filePath' => $cachedFile->getFilePath(),
-                'viewParams' => $params,
-                'sourcePath' => $cachedFile->getSourcePath()
-            ],
-            'imports' => $this->importEntities
-        ]);
+        return serialize(['cached_file' => $cachedFile, 'imports' => $this->importEntities]);
     }
 }

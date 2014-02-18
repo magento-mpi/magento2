@@ -288,4 +288,42 @@ abstract class FileAbstract implements FileInterface
         }
         return $publicFile;
     }
+
+    /**
+     * @return array
+     */
+    public function __sleep()
+    {
+        if (!empty($this->viewParams['themeModel'])) {
+            $this->viewParams['themeId'] = $this->viewParams['themeModel']->getId();
+            unset($this->viewParams['themeModel']);
+        }
+
+        return [
+            'filePath',
+            'extension',
+            'viewParams',
+            'sourcePath',
+            'allowDuplication',
+            'isPublicationAllowed',
+            'isFallbackUsed',
+            'isSourcePathProvided'
+        ];
+    }
+
+    /**
+     * return void
+     */
+    public function __wakeup()
+    {
+        $objectManager = \Magento\App\ObjectManager::getInstance();
+        $this->filesystem = $objectManager->get('\Magento\App\Filesystem');
+        $this->viewService = $objectManager->get('\Magento\View\Service');
+        $this->modulesReader = $objectManager->get('\Magento\Module\Dir\Reader');
+        $this->viewFileSystem = $objectManager->get('\Magento\View\FileSystem');
+
+        $this->viewService->updateDesignParams($this->viewParams);
+
+        $this->rootDirectory = $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::ROOT_DIR);
+    }
 }

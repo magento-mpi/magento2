@@ -8,8 +8,8 @@
 
 namespace Magento\Less\Cache;
 
+use Magento\Css\PreProcessor\Cache\CacheManager;
 use Magento\Filesystem;
-use Magento\Css\PreProcessor\Cache;
 
 /**
  * Import instructions caching
@@ -22,16 +22,16 @@ class Plugin
     protected $logger;
 
     /**
-     * @var \Magento\Css\PreProcessor\Cache\CacheManager
+     * @var CacheManager
      */
     protected $cacheManager;
 
     /**
-     * @param \Magento\Css\PreProcessor\Cache\CacheManager $cacheManager
+     * @param CacheManager $cacheManager
      * @param \Magento\Logger $logger
      */
     public function __construct(
-        \Magento\Css\PreProcessor\Cache\CacheManager $cacheManager,
+        CacheManager $cacheManager,
         \Magento\Logger $logger
     ) {
         $this->cacheManager = $cacheManager;
