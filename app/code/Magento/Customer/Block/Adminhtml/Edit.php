@@ -116,7 +116,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     public function getCustomerId()
     {
         $customerId = $this->_coreRegistry->registry(Index::REGISTRY_CURRENT_CUSTOMER_ID);
-        return $customerId ? $customerId : false;
+        return $customerId;
     }
 
     /**
