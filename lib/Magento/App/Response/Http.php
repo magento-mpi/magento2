@@ -125,6 +125,6 @@ class Http extends \Zend_Controller_Response_Http implements \Magento\App\Respon
      */
     public function __sleep()
     {
-        return array('_body', '_exceptions', '_headers', '_headersRaw', '_httpResponseCode');
+        return array('_body', '_exceptions', '_headers', '_headersRaw', '_httpResponseCode', '_context');
     }
 }
