@@ -71,19 +71,21 @@ class Authentication extends \Magento\Backend\App\Action\Plugin\Authentication
      * @param callable $proceed
      * @param \Magento\App\RequestInterface $request
      *
-     * @return \Magento\App\ResponseInterface|mixed
+     * @return \Magento\App\ResponseInterface
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function aroundDispatch(\Magento\Backend\App\AbstractAction $subject, \Closure $proceed, \Magento\App\RequestInterface $request)
-    {
-        /** @var \Magento\App\RequestInterface $request */
-        $request = $arguments[0];
+    public function aroundDispatch(
+        \Magento\Backend\App\AbstractAction $subject,
+        \Closure $proceed,
+        \Magento\App\RequestInterface $request
+    ) {
         $resource = isset($this->_aclResources[$request->getControllerName()])
             ? (isset($this->_aclResources[$request->getControllerName()][$request->getActionName()])
                 ? $this->_aclResources[$request->getControllerName()][$request->getActionName()]
                 : $this->_aclResources[$request->getControllerName()])
             : null;
         if (!$resource) {
-            return parent::aroundDispatch($arguments, $invocationChain);
+            return parent::aroundDispatch($subject, $proceed, $request);
         }
 
         $session = $this->_auth->getAuthStorage();
@@ -104,6 +106,6 @@ class Authentication extends \Magento\Backend\App\Action\Plugin\Authentication
             return $this->_response;
         }
 
-        return parent::aroundDispatch($arguments, $invocationChain);
+        return parent::aroundDispatch($subject, $proceed, $request);
     }
 }

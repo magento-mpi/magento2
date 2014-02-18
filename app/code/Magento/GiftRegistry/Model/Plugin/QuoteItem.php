@@ -12,14 +12,20 @@ class QuoteItem
     /**
      * Copy gift registry item id flag from quote item to order item
      *
-     * @param array $arguments
-     * @param \Magento\Code\Plugin\InvocationChain $invocationChain
+     * @param \Magento\Sales\Model\Convert\Quote $subject
+     * @param callable $proceed
+     * @param \Magento\Sales\Model\Quote\Item\AbstractItem $item
+     *
      * @return \Magento\Sales\Model\Order\Item|mixed
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function aroundItemToOrderItem(\Magento\Sales\Model\Convert\Quote $subject, \Closure $proceed, \Magento\Sales\Model\Quote\Item\AbstractItem $item)
-    {
+    public function aroundItemToOrderItem(
+        \Magento\Sales\Model\Convert\Quote $subject,
+        \Closure $proceed,
+        \Magento\Sales\Model\Quote\Item\AbstractItem $item
+    ) {
         /** @var $orderItem \Magento\Sales\Model\Order\Item */
-        $orderItem = $invocationChain->proceed($arguments);
+        $orderItem = $proceed($item);
         /** @var $quoteItem \Magento\Sales\Model\Quote\Item */
         $quoteItem = reset($arguments);
 

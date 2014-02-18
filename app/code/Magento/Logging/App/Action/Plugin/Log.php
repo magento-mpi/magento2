@@ -30,15 +30,18 @@ class Log
     /**
      * Mark actions for logging, if required
      *
-     * @param array $arguments
-     * @param \Magento\Code\Plugin\InvocationChain $invocationChain
-     * @return ResponseInterface
+     * @param \Magento\App\ActionInterface $subject
+     * @param callable $proceed
+     * @param \Magento\App\RequestInterface $request
+     *
+     * @return mixed
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function aroundDispatch(\Magento\App\ActionInterface $subject, \Closure $proceed, \Magento\App\RequestInterface $request)
-    {
-        /* @var $request \Magento\App\RequestInterface */
-        $request = $arguments[0];
-
+    public function aroundDispatch(
+        \Magento\App\ActionInterface $subject,
+        \Closure $proceed,
+        \Magento\App\RequestInterface $request
+    ) {
         $beforeForwardInfo = $request->getBeforeForwardInfo();
 
         // Always use current action name bc basing on
@@ -66,6 +69,6 @@ class Log
         }
 
         $this->_processor->initAction($fullActionName, $actionName);
-        return $invocationChain->proceed($arguments);
+        return $proceed($request);
     }
 } 

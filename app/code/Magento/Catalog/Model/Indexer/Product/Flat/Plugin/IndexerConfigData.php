@@ -29,14 +29,22 @@ class IndexerConfigData
     /**
      * Around get handler
      *
-     * @param array $arguments
-     * @param \Magento\Code\Plugin\InvocationChain $invocationChain
+     * @param \Magento\Indexer\Model\Config\Data $subject
+     * @param callable $proceed
+     * @param string $path
+     * @param string $default
      *
      * @return mixed|null
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     *
      */
-    public function aroundGet(\Magento\Indexer\Model\Config\Data $subject, \Closure $proceed,  $path = null,  $default = null)
-    {
-        $data = $invocationChain->proceed($arguments);
+    public function aroundGet(
+        \Magento\Indexer\Model\Config\Data $subject,
+        \Closure $proceed,
+        $path = null,
+        $default = null
+    ) {
+        $data = $proceed($path, $default);
 
         if (!$this->_helper->isEnabled()) {
             $indexerId = \Magento\Catalog\Model\Indexer\Product\Flat\Processor::INDEXER_ID;

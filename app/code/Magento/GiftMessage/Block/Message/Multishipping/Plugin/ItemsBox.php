@@ -35,13 +35,19 @@ class ItemsBox
     /**
      * Get items box message text for multishipping
      *
-     * @param array $arguments
-     * @param InvocationChain $invocationChain
+     * @param \Magento\Multishipping\Block\Checkout\Shipping $subject
+     * @param callable $proceed
+     * @param \Magento\Object $addressEntity
+     *
      * @return string
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function aroundGetItemsBoxTextAfter(\Magento\Multishipping\Block\Checkout\Shipping $subject, \Closure $proceed, \Magento\Object $addressEntity)
-    {
-        $itemsBoxText = $invocationChain->proceed($arguments);
-        return $itemsBoxText . $this->helper->getInline('multishipping_address', $arguments[0]);
+    public function aroundGetItemsBoxTextAfter(
+        \Magento\Multishipping\Block\Checkout\Shipping $subject,
+        \Closure $proceed,
+        \Magento\Object $addressEntity
+    ) {
+        $itemsBoxText = $proceed($addressEntity);
+        return $itemsBoxText . $this->helper->getInline('multishipping_address', $addressEntity);
     }
 }

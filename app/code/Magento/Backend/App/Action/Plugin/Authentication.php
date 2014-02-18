@@ -75,10 +75,13 @@ class Authentication
      * @param \Magento\App\RequestInterface $request
      *
      * @return mixed
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function aroundDispatch(\Magento\Backend\App\AbstractAction $subject, \Closure $proceed, \Magento\App\RequestInterface $request)
-    {
-        $request = $arguments[0];
+    public function aroundDispatch(
+        \Magento\Backend\App\AbstractAction $subject,
+        \Closure $proceed,
+        \Magento\App\RequestInterface $request
+    ) {
         $requestedActionName = $request->getActionName();
         if (in_array($requestedActionName, $this->_openActions)) {
             $request->setDispatched(true);
@@ -91,7 +94,7 @@ class Authentication
             }
         }
         $this->_auth->getAuthStorage()->refreshAcl();
-        return $invocationChain->proceed($arguments);
+        return $proceed($request);
     }
 
     /**

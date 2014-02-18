@@ -26,13 +26,19 @@ class Design
     /**
      * Initialize design
      *
-     * @param array $arguments
-     * @param \Magento\Interception\InvocationChain $invocationChain
+     * @param \Magento\App\Action\Action $subject
+     * @param callable $proceed
+     * @param \Magento\App\RequestInterface $request
+     *
      * @return mixed
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function aroundDispatch(\Magento\App\Action\Action $subject, \Closure $proceed, \Magento\App\RequestInterface $request)
-    {
+    public function aroundDispatch(
+        \Magento\App\Action\Action $subject,
+        \Closure $proceed,
+        \Magento\App\RequestInterface $request
+    ) {
         $this->_designLoader->load();
-        return $invocationChain->proceed($arguments);
+        return $proceed($request);
     }
 }

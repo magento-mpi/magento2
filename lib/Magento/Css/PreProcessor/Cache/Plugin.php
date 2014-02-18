@@ -44,18 +44,30 @@ class Plugin
     }
 
     /**
-     * @param array $arguments
-     * @param \Magento\Code\Plugin\InvocationChain $invocationChain
-     * @return string|null
+     * @param \Magento\Css\PreProcessor\Less $subject
+     * @param callable $proceed
+     * @param $filePath
+     * @param $params
+     * @param $targetDirectory
+     * @param null $sourcePath
+     *
+     * @return null|string
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function aroundProcess(\Magento\Css\PreProcessor\Less $subject, \Closure $proceed,  $filePath,  $params,  $targetDirectory,  $sourcePath = null)
-    {
+    public function aroundProcess(
+        \Magento\Css\PreProcessor\Less $subject,
+        \Closure $proceed,
+        $filePath,
+        $params,
+        $targetDirectory,
+        $sourcePath = null
+    ) {
         // check if source path already exist
-        if (isset($arguments[3])) {
-            return $invocationChain->proceed($arguments);
+        if (isset($sourcePath)) {
+            return $proceed($filePath, $params, $targetDirectory, $sourcePath);
         }
 
-        $this->initializeCacheManager($arguments[0], $arguments[1]);
+        $this->initializeCacheManager($filePath, $params);
 
         $cachedFile = $this->cacheManager->getCachedFile();
         if (null !== $cachedFile) {
@@ -63,7 +75,7 @@ class Plugin
         }
 
         try {
-            $result = $invocationChain->proceed($arguments);
+            $result = $proceed($filePath, $params, $targetDirectory, $sourcePath);
             $this->cacheManager->saveCache($result);
         } catch (Filesystem\FilesystemException $e) {
             $this->logger->logException($e);
