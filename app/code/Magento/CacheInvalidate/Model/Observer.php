@@ -35,20 +35,28 @@ class Observer
     protected $_helper;
 
     /**
+     * @var \Magento\HTTP\Adapter\Curl
+     */
+    protected $_curlAdapter;
+
+    /**
      * Constructor
      *
      * @param \Magento\PageCache\Model\Config $config
      * @param \Magento\App\PageCache\Cache $cache
      * @param \Magento\PageCache\Helper\Data $helper
+     * @param \Magento\HTTP\Adapter\Curl $curlAdapter
      */
     public function __construct(
         \Magento\PageCache\Model\Config $config,
         \Magento\App\PageCache\Cache $cache,
-        \Magento\PageCache\Helper\Data $helper
+        \Magento\PageCache\Helper\Data $helper,
+        \Magento\HTTP\Adapter\Curl $curlAdapter
     ){
         $this->_config = $config;
         $this->_cache = $cache;
         $this->_helper = $helper;
+        $this->_curlAdapter = $curlAdapter;
     }
 
     /**
@@ -62,11 +70,32 @@ class Observer
         $object = $observer->getEvent()->getObject();
         if($object instanceof \Magento\Object\IdentityInterface) {
             if($this->_config->getType() == \Magento\PageCache\Model\Config::VARNISH) {
-                $preparedTags = implode('|', $object->getIdentities());
-                $curl = new \Magento\HTTP\Adapter\Curl();
-                $curl->setOptions(array(CURLOPT_CUSTOMREQUEST => 'PURGE'));
-                $curl->write('', $this->_helper->getUrl('*'), '1.1', "X-Magento-Tags-Pattern: {$preparedTags}");
+                $this->sendPurgeRequest(implode('|', $object->getIdentities()));
             }
         }
+    }
+
+    /**
+     * Flash Built-In cache
+     *
+     * @param \Magento\Event\Observer $observer
+     */
+    public function flushAllCache(\Magento\Event\Observer $observer)
+    {
+        if($this->_config->getType() == \Magento\PageCache\Model\Config::VARNISH) {
+            $this->sendPurgeRequest('.*');
+        }
+    }
+
+    /**
+     * Invalidate cache by tags pattern
+     *
+     * @param string $tagsPattern
+     */
+    protected function sendPurgeRequest($tagsPattern)
+    {
+        $this->_curlAdapter->setOptions(array(CURLOPT_CUSTOMREQUEST => 'PURGE'));
+        $this->_curlAdapter->write('', $this->_helper->getUrl('*'), '1.1', "X-Magento-Tags-Pattern: {$tagsPattern}");
+        $this->_curlAdapter->close();
     }
 }

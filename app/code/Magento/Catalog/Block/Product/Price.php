@@ -17,7 +17,7 @@
  */
 namespace Magento\Catalog\Block\Product;
 
-class Price extends \Magento\View\Element\Template
+class Price extends \Magento\View\Element\Template implements \Magento\View\Block\IdentityInterface
 {
     protected $_priceDisplayType = null;
     protected $_idSuffix = '';
@@ -246,5 +246,15 @@ class Price extends \Magento\View\Element\Template
     public function getRandomString($length, $chars = null)
     {
         return $this->mathRandom->getRandomString($length, $chars);
+    }
+
+    /**
+     * Return identifiers for produced content
+     *
+     * @return array
+     */
+    public function getIdentities()
+    {
+        return $this->getProduct()->getIdentities();
     }
 }
