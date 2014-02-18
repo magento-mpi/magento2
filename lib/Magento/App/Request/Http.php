@@ -572,4 +572,12 @@ class Http extends \Zend_Controller_Request_Http implements \Magento\App\Request
             $this->getRequestedControllerName() . $delimiter .
             $this->getRequestedActionName();
     }
+
+    /**
+     * @return array
+     */
+    public function __sleep()
+    {
+        return array();
+    }
 }
