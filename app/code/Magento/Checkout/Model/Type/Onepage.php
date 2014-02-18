@@ -20,6 +20,8 @@ use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 use Magento\Customer\Model\Metadata\Form;
 use Magento\Customer\Service\V1\Dto\Response\CreateCustomerAccountResponse;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
+use Magento\Customer\Service\V1\CustomerServiceInterface;
 
 class Onepage
 {
@@ -29,13 +31,6 @@ class Onepage
     const METHOD_GUEST    = 'guest';
     const METHOD_REGISTER = 'register';
     const METHOD_CUSTOMER = 'customer';
-
-    /**
-     * Error message of "customer already exists"
-     *
-     * @var string
-     */
-    protected $_customerEmailExistsMessage = '';
 
     /**
      * @var \Magento\Customer\Model\Session
@@ -138,8 +133,11 @@ class Onepage
     /** @var \Magento\Math\Random */
     protected $mathRandom;
 
-    /** @var \Magento\Customer\Service\V1\CustomerService */
+    /** @var CustomerServiceInterface */
     protected $_customerService;
+
+    /** @var CustomerAddressServiceInterface */
+    protected $_customerAddressService;
 
     /**
      * @param \Magento\Event\ManagerInterface $eventManager
@@ -163,7 +161,8 @@ class Onepage
      * @param AddressBuilder $addressBuilder
      * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Encryption\EncryptorInterface $encryptor
-     * @param \Magento\Customer\Service\V1\CustomerService $customerService
+     * @param CustomerServiceInterface $customerService
+     * @param CustomerAddressServiceInterface $customerAddressService
      */
     public function __construct(
         \Magento\Event\ManagerInterface $eventManager,
@@ -187,12 +186,12 @@ class Onepage
         AddressBuilder $addressBuilder,
         \Magento\Math\Random $mathRandom,
         \Magento\Encryption\EncryptorInterface $encryptor,
-        \Magento\Customer\Service\V1\CustomerService $customerService
+        CustomerServiceInterface $customerService,
+        CustomerAddressServiceInterface $customerAddressService
     ) {
         $this->_eventManager = $eventManager;
         $this->_customerData = $customerData;
         $this->_helper = $helper;
-        $this->_customerEmailExistsMessage = __('There is already a registered customer using this email address. Please log in using this email address or enter a different email address to register your account.');
         $this->_checkoutSession = $checkoutSession;
         $this->_customerSession = $customerSession;
         $this->_logger = $logger;
@@ -212,6 +211,7 @@ class Onepage
         $this->mathRandom = $mathRandom;
         $this->_encryptor = $encryptor;
         $this->_customerService = $customerService;
+        $this->_customerAddressService = $customerAddressService;
     }
 
     /**
@@ -361,37 +361,43 @@ class Onepage
         }
 
         $address = $this->getQuote()->getBillingAddress();
-        /* @var $addressForm \Magento\Customer\Model\Form */
-        $addressForm = $this->_customerFormFactory->create();
-        $addressForm->setFormCode('customer_address_edit')
-            ->setEntityType('customer_address')
-            ->setIsAjaxRequest($this->_request->isAjax());
+        $addressForm = $this->_formFactory->create(
+            \Magento\Customer\Service\V1\CustomerMetadataServiceInterface::ENTITY_TYPE_ADDRESS,
+            'customer_address_edit',
+            [],
+            Form::IGNORE_INVISIBLE,
+            [],
+            $this->_request->isAjax()
+        );
 
         if (!empty($customerAddressId)) {
-            $customerAddress = $this->_customrAddrFactory->create()->load($customerAddressId);
-            if ($customerAddress->getId()) {
+            try {
+                $customerAddress = $this->_customerAddressService->getAddressById($customerAddressId);
+            } catch (Exception $e) {
+                /** Address does not exist */
+            }
+            if (isset($customerAddress)) {
                 if ($customerAddress->getCustomerId() != $this->getQuote()->getCustomerId()) {
                     return array('error' => 1,
                         'message' => __('The customer address is not valid.')
                     );
                 }
 
-                $address->importCustomerAddress($customerAddress)->setSaveInAddressBook(0);
-                $addressForm->setEntity($address);
-                $addressErrors  = $addressForm->validateData($address->getData());
+                $address->importCustomerAddressData($customerAddress)->setSaveInAddressBook(0);
+                $addressErrors = $addressForm->validateData($address->getData());
                 if ($addressErrors !== true) {
                     return array('error' => 1, 'message' => $addressErrors);
                 }
             }
         } else {
-            $addressForm->setEntity($address);
             // emulate request object
-            $addressData    = $addressForm->extractData($addressForm->prepareRequest($data));
-            $addressErrors  = $addressForm->validateData($addressData);
+            $addressData = $addressForm->extractData($addressForm->prepareRequest($data));
+            $addressErrors = $addressForm->validateData($addressData);
             if ($addressErrors !== true) {
                 return array('error' => 1, 'message' => array_values($addressErrors));
             }
-            $addressForm->compactData($addressData);
+            $addressData = $addressForm->compactData($addressData);
+            $address->setData($addressData);
             //unset billing address attributes which were not shown in form
             foreach ($addressForm->getAttributes() as $attribute) {
                 if (!isset($data[$attribute->getAttributeCode()])) {
@@ -401,6 +407,7 @@ class Onepage
             $address->setCustomerAddressId(null);
             // Additional form data, not fetched by extractData (as it fetches only attributes)
             $address->setSaveInAddressBook(empty($data['save_in_address_book']) ? 0 : 1);
+            $this->getQuote()->setBillingAddress($address);
         }
 
         // validate billing address
@@ -410,11 +417,17 @@ class Onepage
 
         if (true !== ($result = $this->_validateCustomerData($data))) {
             return $result;
+        } else {
+            /** Even though _validateCustomerData should not modify data, it does */
+            $address = $this->getQuote()->getBillingAddress();
         }
 
         if (!$this->getQuote()->getCustomerId() && self::METHOD_REGISTER == $this->getQuote()->getCheckoutMethod()) {
             if ($this->_customerEmailExists($address->getEmail(), $this->_storeManager->getWebsite()->getId())) {
-                return array('error' => 1, 'message' => $this->_customerEmailExistsMessage);
+                return array(
+                    'error' => 1,
+                    'message' => __('There is already a registered customer using this email address. Please log in using this email address or enter a different email address to register your account.')
+                );
             }
         }
 

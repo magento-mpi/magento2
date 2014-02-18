@@ -510,6 +510,11 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
             $address->getAttributes(),
             $this
         );
+        $region = $this->getRegion();
+        if (isset($region['region_id']) && isset($region['region'])) {
+            $this->setRegionId($region['region_id']);
+            $this->setRegion($region['region']);
+        }
         if ($address->getCustomerId() && ($address->getCustomerId() == $this->getQuote()->getCustomerId())) {
             $customer = $this->getQuote()->getCustomerData();
             $this->setEmail($customer->getEmail());
