@@ -14,4 +14,7 @@
     <event name="view_block_abstract_to_html_before">
         <observer name="magento_recurringprofile" instance="Magento\RecurringProfile\Model\Observer" method="viewBlockAbstractToHtmlBefore" />
     </event>
+    <event name="adminhtml_catalog_product_form_prepare_excluded_field_list">
+        <observer name="magento_recurringprofile" instance="Magento\RecurringProfile\Model\Observer" method="addFormExcludedAttribute"/>
+    </event>
 </config>

@@ -264,4 +264,16 @@ class Observer
         $quote->setIsRecurring($product->getIsRecurring());
         $product->unsRecurringProfile();
     }
+
+    /**
+     * Add recurring profile field to excluded list
+     *
+     * @param $observer
+     */
+    public function addFormExcludedAttribute($observer)
+    {
+        $block = $observer->getEvent()->getObject();
+
+        $block->setFormExcludedFieldList(array_merge($block->getFormExcludedFieldList(), ['recurring_profile']));
+    }
 }

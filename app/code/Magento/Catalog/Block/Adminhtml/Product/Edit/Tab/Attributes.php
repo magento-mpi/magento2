@@ -88,7 +88,7 @@ class Attributes extends \Magento\Catalog\Block\Adminhtml\Form
             $form->setDataObject($product);
 
             $fieldset = $form->addFieldset(
-                'group-fields-' .$group->getAttributeGroupCode(),
+                'group-fields-' . $group->getAttributeGroupCode(),
                  array(
                     'class' => 'user-defined',
                     'legend' => $legend,
