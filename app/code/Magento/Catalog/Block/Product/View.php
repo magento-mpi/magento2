@@ -13,7 +13,7 @@ namespace Magento\Catalog\Block\Product;
 /**
  * Product View block
  */
-class View extends \Magento\Catalog\Block\Product\AbstractProduct
+class View extends \Magento\Catalog\Block\Product\AbstractProduct implements \Magento\View\Block\IdentityInterface
 {
     /**
      * Default MAP renderer type
@@ -378,5 +378,15 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
     public function shouldRenderQuantity()
     {
         return !$this->productTypeConfig->isProductSet($this->getProduct()->getTypeId());
+    }
+
+    /**
+     * Return identifiers for produced content
+     *
+     * @return array
+     */
+    public function getIdentities()
+    {
+        return $this->getProduct()->getIdentities();
     }
 }

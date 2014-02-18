@@ -20,7 +20,7 @@ namespace Magento\Cms\Block;
 
 use Magento\View\Element\AbstractBlock;
 
-class Page extends \Magento\View\Element\AbstractBlock
+class Page extends \Magento\View\Element\AbstractBlock implements \Magento\View\Block\IdentityInterface
 {
     /**
      * @var \Magento\Cms\Model\Template\FilterProvider
@@ -144,5 +144,15 @@ class Page extends \Magento\View\Element\AbstractBlock
         $html = $this->_filterProvider->getPageFilter()->filter($this->getPage()->getContent());
         $html = $this->getLayout()->renderElement('messages') . $html;
         return $html;
+    }
+
+    /**
+     * Return identifiers for produced content
+     *
+     * @return array
+     */
+    public function getIdentities()
+    {
+        return array(\Magento\Cms\Model\Page::CACHE_TAG . '_' . $this->getPageId());
     }
 }

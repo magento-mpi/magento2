@@ -155,4 +155,13 @@ class BannerTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($this->_fixtureBanners, $this->_block->getBannersContent());
     }
+
+    public function testGetIdentities()
+    {
+        $this->_block->setBannerIds(array(1, 2));
+        $this->assertEquals(
+            array(\Magento\Banner\Model\Banner::CACHE_TAG . '_1', \Magento\Banner\Model\Banner::CACHE_TAG . '_2'),
+            $this->_block->getIdentities()
+        );
+    }
 }
