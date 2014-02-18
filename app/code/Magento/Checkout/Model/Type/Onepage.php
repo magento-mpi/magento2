@@ -745,55 +745,32 @@ class Onepage
         $billing    = $quote->getBillingAddress();
         $shipping   = $quote->isVirtual() ? null : $quote->getShippingAddress();
 
-        $customerData = $quote->getCustomerData();
+        /** @var $customer \Magento\Customer\Model\Customer */
+        $customer = $quote->getCustomer();
         // Need to set proper attribute id or future updates will cause data loss.
-        $customerData = $this->_customerBuilder->mergeDtoWithArray(
-            $customerData,
-            ['attribute_set_id' => 1]
-        );
-
-        $customerBillingData = $billing->exportCustomerAddressData();
-        $billing->setCustomerAddressData($customerBillingData);
-        $customerBillingData = $this->_addressBuilder->mergeDtoWithArray(
-            $customerBillingData,
-            [AddressDto::KEY_DEFAULT_BILLING => true]
-        );
+        $customer->setData('attribute_set_id', 1);
+        /** @var $customerBilling \Magento\Customer\Model\Address */
+        $customerBilling = $billing->exportCustomerAddress();
+        $customer->addAddress($customerBilling);
+        $billing->setCustomerAddress($customerBilling);
+        $customerBilling->setIsDefaultBilling(true);
         if ($shipping && !$shipping->getSameAsBilling()) {
-            $customerShippingData = $shipping->exportCustomerAddressData();
-            $shipping->setCustomerAddressData($customerShippingData);
-            $customerShippingData = $this->_addressBuilder->mergeDtoWithArray(
-                $customerShippingData,
-                [AddressDto::KEY_DEFAULT_SHIPPING => true]
-            );
-            //Add shipping address data to the quote
-            $quote->addCustomerAddressData($customerShippingData);
+            $customerShipping = $shipping->exportCustomerAddress();
+            $customer->addAddress($customerShipping);
+            $shipping->setCustomerAddress($customerShipping);
+            $customerShipping->setIsDefaultShipping(true);
         } elseif ($shipping && $shipping->getSameAsBilling()) {
-            $shipping->setCustomerAddressData($billing->getCustomerAddressData());
-            $customerBillingData = $this->_addressBuilder->mergeDtoWithArray(
-                $customerBillingData,
-                [AddressDto::KEY_DEFAULT_SHIPPING => true]
-            );
+            $shipping->setCustomerAddress($billing->getCustomerAddress());
+            $customerBilling->setIsDefaultShipping(true);
         } else {
-            $customerBillingData = $this->_addressBuilder->mergeDtoWithArray(
-                $customerBillingData,
-                [AddressDto::KEY_DEFAULT_SHIPPING => true]
-            );
+            $customerBilling->setIsDefaultShipping(true);
         }
 
-        $dataArray = $this->_objectCopyService->getDataFromFieldset(
-            'checkout_onepage_quote',
-            'to_customer',
-            $quote
-        );
-        $customerData = $this->_customerBuilder->mergeDtoWithArray(
-            $customerData,
-            $dataArray
-        );
-        //$this->_objectCopyService->copyFieldsetToTarget('checkout_onepage_quote', 'to_customer', $quote, $customer);
-        $quote->setCustomerData($customerData)
-            ->setCustomerId(true); // TODO : Eventually need to remove this hack
-        //Add billing address data to the quote
-        $quote->addCustomerAddressData($customerBillingData);
+        $this->_objectCopyService->copyFieldsetToTarget('checkout_onepage_quote', 'to_customer', $quote, $customer);
+        $customer->setPassword($customer->decryptPassword($quote->getPasswordHash()));
+        $customer->setPasswordHash($customer->hashPassword($customer->getPassword()));
+        $quote->setCustomer($customer)
+            ->setCustomerId(true);
     }
 
     /**
@@ -887,7 +864,7 @@ class Onepage
         }
 
         $service = $this->_serviceQuoteFactory->create(array('quote' => $this->getQuote()));
-        $service->submitAllWithDto();
+        $service->submitAll();
 
         if ($isNewCustomer) {
             try {
