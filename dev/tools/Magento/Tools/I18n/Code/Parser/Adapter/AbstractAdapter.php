@@ -67,12 +67,17 @@ abstract class AbstractAdapter implements AdapterInterface
                 $this->_file, $line));
         }
         if (!isset($this->_phrases[$phrase])) {
-            $phrase = $this->_stripQuotes($phrase);
+            $quote = '';
+            if ($this->_isFirstAndLastCharIsQuote($phrase)) {
+                $quote = $phrase[0] == '"' ? 'double' : 'single';
+                $phrase = $this->_stripFirstAndLastChar($phrase);
+            }
 
             $this->_phrases[$phrase] = array(
                 'phrase' => $phrase,
                 'file' => $this->_file,
                 'line' => $line,
+                'quote' => $quote
             );
         }
     }
@@ -83,12 +88,9 @@ abstract class AbstractAdapter implements AdapterInterface
      * @param string $phrase
      * @return string
      */
-    protected function _stripQuotes($phrase)
+    protected function _stripFirstAndLastChar($phrase)
     {
-        if ($this->_isFirstAndLastCharIsQuote($phrase)) {
-            $phrase = substr($phrase, 1, strlen($phrase) - 2);
-        }
-        return $phrase;
+        return substr($phrase, 1, strlen($phrase) - 2);
     }
 
     /**

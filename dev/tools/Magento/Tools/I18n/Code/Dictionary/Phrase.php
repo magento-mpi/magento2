@@ -42,19 +42,28 @@ class Phrase
     private $_contextValue = array();
 
     /**
+     * Quote type that enclose the phrase, single or double
+     *
+     * @var string
+     */
+    private $_quote;
+
+    /**
      * Phrase construct
      *
      * @param string $phrase
      * @param string $translation
      * @param string|null $contextType
      * @param string|array|null $contextValue
+     * @param string|null $quote
      */
-    public function __construct($phrase, $translation, $contextType = null, $contextValue = null)
+    public function __construct($phrase, $translation, $contextType = null, $contextValue = null, $quote = null)
     {
         $this->setPhrase($phrase);
         $this->setTranslation($translation);
         $this->setContextType($contextType);
         $this->setContextValue($contextValue);
+        $this->setQuote($quote);
     }
 
     /**
@@ -72,13 +81,33 @@ class Phrase
     }
 
     /**
-     * Get phrase
+     * Get quote type
      *
      * @return string
      */
     public function getPhrase()
     {
         return $this->_phrase;
+    }
+
+    /**
+     * Set quote type
+     *
+     * @param string $quote
+     */
+    public function setQuote($quote)
+    {
+        $this->_quote = $quote;
+    }
+
+    /**
+     * Get phrase
+     *
+     * @return string
+     */
+    public function getQuote()
+    {
+        return $this->_quote;
     }
 
     /**
