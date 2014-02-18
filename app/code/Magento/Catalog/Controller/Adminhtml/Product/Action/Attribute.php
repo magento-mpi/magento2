@@ -28,18 +28,28 @@ class Attribute extends \Magento\Backend\App\Action
     protected $_productPriceIndexerProcessor;
 
     /**
+     * Catalog product
+     *
+     * @var \Magento\Catalog\Helper\Product
+     */
+    protected $_catalogProduct = null;
+
+    /**
      * @param Action\Context $context
      * @param \Magento\Catalog\Helper\Product\Edit\Action\Attribute $helper
      * @param \Magento\Catalog\Model\Indexer\Product\Price\Processor $productPriceIndexerProcessor
+     * @param \Magento\Catalog\Helper\Product $catalogProduct
      */
     public function __construct(
         Action\Context $context,
         \Magento\Catalog\Helper\Product\Edit\Action\Attribute $helper,
-        \Magento\Catalog\Model\Indexer\Product\Price\Processor $productPriceIndexerProcessor
+        \Magento\Catalog\Model\Indexer\Product\Price\Processor $productPriceIndexerProcessor,
+        \Magento\Catalog\Helper\Product $catalogProduct
     ) {
         parent::__construct($context);
         $this->_helper = $helper;
         $this->_productPriceIndexerProcessor = $productPriceIndexerProcessor;
+        $this->_catalogProduct = $catalogProduct;
     }
 
     public function editAction()
@@ -175,7 +185,8 @@ class Attribute extends \Magento\Backend\App\Action
                 __('A total of %1 record(s) were updated.', count($this->_helper->getProductIds()))
             );
 
-            if (isset($attributesData['price']) || !empty($websiteRemoveData) || !empty($websiteAddData)) {
+            if ($this->_catalogProduct->isDataForPriceIndexerWasChanged($attributesData)
+                || !empty($websiteRemoveData) || !empty($websiteAddData)) {
                 $this->_productPriceIndexerProcessor->reindexList($this->_helper->getProductIds());
             }
         }
