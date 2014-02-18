@@ -44,11 +44,9 @@ class Csv implements WriterInterface
     public function write(Phrase $phrase)
     {
         $fields = array($phrase->getPhrase(), $phrase->getTranslation());
-        if ($phrase->getQuote()) {
-            $encloseQuote = $phrase->getQuote() == 'single' ? "'" : '"';
-            $fields[0] = $this->_compileString($fields[0], $encloseQuote);
-            $fields[1] = $this->_compileString($fields[1], $encloseQuote);
-        }
+        $encloseQuote = $phrase->getQuote() == 'double' ? '"' : "'";
+        $fields[0] = $this->_compileString($fields[0], $encloseQuote);
+        $fields[1] = $this->_compileString($fields[1], $encloseQuote);
         if (($contextType = $phrase->getContextType()) && ($contextValue = $phrase->getContextValueAsString())) {
             $fields[] = $contextType;
             $fields[] = $contextValue;
