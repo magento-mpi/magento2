@@ -565,6 +565,11 @@
             <instance type="Magento\Less\File\Source\Aggregated" />
         </param>
     </type>
+    <type name="Magento\Less\PreProcessor\Instruction\Import">
+        <param name="preProcessor">
+            <instance type="Magento\Less\PreProcessor\Proxy" />
+        </param>
+    </type>
     <type name="Magento\Less\File\Source\Aggregated">
         <param name="libraryFiles">
             <instance type="Magento\Less\File\Source\Library" />
