@@ -247,24 +247,17 @@ class MviewStateTest extends \PHPUnit_Framework_TestCase
     public function testAfterSetStatusDisabledDataProvider()
     {
         return [
-            ['idle', 'idle'],
-            ['idle', 'working'],
-            ['idle', 'suspended'],
-            ['working', 'idle'],
-            ['working', 'working'],
-            ['working', 'suspended'],
-            ['suspended', 'idle'],
-            ['suspended', 'working'],
-            ['suspended', 'suspended'],
+            ['idle'],
+            ['working'],
+            ['suspended'],
         ];
     }
 
     /**
      * @param string $stateStatus
-     * @param string $relatedStatus
      * @dataProvider testAfterSetStatusDisabledDataProvider
      */
-    public function testAfterSetStatusDisabled($stateStatus, $relatedStatus)
+    public function testAfterSetStatusDisabled($stateStatus)
     {
         $stateViewId  = \Magento\Catalog\Model\Indexer\Product\Category::INDEXER_ID;
         $relatedViewId   = \Magento\Catalog\Model\Indexer\Category\Product::INDEXER_ID;
