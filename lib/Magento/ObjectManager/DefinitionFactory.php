@@ -104,7 +104,7 @@ class DefinitionFactory
                 $autoloader,
                 $this->_generationDir
             );
-            $generator = new \Magento\Code\Generator(null, $autoloader, $generatorIo, null, array(
+            $generator = new \Magento\Code\Generator(null, $autoloader, $generatorIo, array(
                 Generator\Factory::ENTITY_TYPE                 => '\Magento\ObjectManager\Code\Generator\Factory',
                 Generator\Proxy::ENTITY_TYPE                   => '\Magento\ObjectManager\Code\Generator\Proxy',
                 InterceptionGenerator\Interceptor::ENTITY_TYPE => '\Magento\Interception\Code\Generator\Interceptor',

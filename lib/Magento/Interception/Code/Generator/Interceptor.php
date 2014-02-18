@@ -32,7 +32,7 @@ class Interceptor extends \Magento\Code\Generator\EntityAbstract
     {
         return array(
             array(
-                'name' => 'objectManager',
+                'name' => 'pluginLocator',
                 'visibility' => 'protected',
                 'docblock' => array(
                     'shortDescription' => 'Object Manager instance',
@@ -83,11 +83,11 @@ class Interceptor extends \Magento\Code\Generator\EntityAbstract
         return array(
             'name'       => '__construct',
             'parameters' => array_merge(array(
-                array('name' => 'objectManager', 'type' => '\Magento\ObjectManager\ObjectManager'),
+                array('name' => 'pluginLocator', 'type' => '\Magento\ObjectManager\ObjectManager'),
                 array('name' => 'pluginList', 'type' => '\Magento\Interception\PluginList'),
                 array('name' => 'chain', 'type' => '\Magento\Interception\Chain'),
             ), $parameters),
-            'body' => "\$this->objectManager = \$objectManager;\n"
+            'body' => "\$this->pluginLocator = \$pluginLocator;\n"
                 . "\$this->pluginList = \$pluginList;\n"
                 . "\$this->chain = \$chain;\n"
                 . "\$this->subjectType = get_parent_class(\$this);\n"
@@ -124,9 +124,9 @@ class Interceptor extends \Magento\Code\Generator\EntityAbstract
 
         $methods[] = array(
             'name' => '__wakeup',
-            'body' => "\$this->objectManager = \\Magento\\App\\ObjectManager::getInstance();\n"
-                . "\$this->pluginList = \$this->objectManager->get('Magento\\Interception\\PluginList');\n"
-                . "\$this->chain = \$this->objectManager->get('Magento\\Interception\\Chain');\n"
+            'body' => "\$this->pluginLocator = \\Magento\\App\\ObjectManager::getInstance();\n"
+                . "\$this->pluginList = \$this->pluginLocator->get('Magento\\Interception\\PluginList');\n"
+                . "\$this->chain = \$this->pluginLocator->get('Magento\\Interception\\Chain');\n"
                 . "\$this->subjectType = get_parent_class(\$this);\n"
         );
 

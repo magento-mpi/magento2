@@ -267,7 +267,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel
         Product\Link $productLink,
         \Magento\Catalog\Model\Product\Configuration\Item\OptionFactory $itemOptionFactory,
         \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory,
-        \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         Product\Option $catalogProductOption,
         Product\Visibility $catalogProductVisibility,
@@ -287,7 +286,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     ) {
         $this->_itemOptionFactory = $itemOptionFactory;
         $this->_stockItemFactory = $stockItemFactory;
-        $this->_productFactory = $productFactory;
         $this->_categoryFactory = $categoryFactory;
         $this->_optionInstance = $catalogProductOption;
         $this->_catalogProductVisibility = $catalogProductVisibility;

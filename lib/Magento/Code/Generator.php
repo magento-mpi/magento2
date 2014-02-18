@@ -40,14 +40,12 @@ class Generator
      * @param Generator\EntityAbstract $generator
      * @param \Magento\Autoload\IncludePath $autoloader
      * @param Generator\Io $ioObject
-     * @param \Magento\App\Filesystem $filesystem
      * @param array $generatedEntities
      */
     public function __construct(
         \Magento\Code\Generator\EntityAbstract $generator = null,
         \Magento\Autoload\IncludePath $autoloader = null,
         \Magento\Code\Generator\Io $ioObject = null,
-        \Magento\App\Filesystem $filesystem = null,
         array $generatedEntities = array()
     ) {
         $this->_generator  = $generator;
@@ -102,21 +100,15 @@ class Generator
             return self::GENERATION_SKIP;
         }
 
-        if (!$this->_generator) {
-            // generate class file
-            if (!isset($this->_generatedEntities[$entity])) {
-                throw new \InvalidArgumentException('Unknown generation entity.');
-            }
-            $generatorClass = $this->_generatedEntities[$entity];
-            $this->_generator = new $generatorClass($entityName, $className, $this->_ioObject);
+        if (!isset($this->_generatedEntities[$entity])) {
+            throw new \InvalidArgumentException('Unknown generation entity.');
         }
-        if (!$this->_generator->generate()) {
+        $generatorClass = $this->_generatedEntities[$entity];
+        $generator = new $generatorClass($entityName, $className, $this->_ioObject);
+        if (!$generator->generate()) {
             $errors = $this->_generator->getErrors();
             throw new \Magento\Exception(implode(' ', $errors));
         }
-
-        // remove generator
-        $this->_generator = null;
 
         return self::GENERATION_SUCCESS;
     }

@@ -37,7 +37,7 @@ class CheckoutTest extends \Magento\TestFramework\TestCase\AbstractController
         $logger = $this->getMock('Magento\Logger', array(), array(), '', false);
         /** @var $session \Magento\Customer\Model\Session */
         $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Customer\Model\Session', array($logger));
+            ->create('\Magento\Customer\Service\V1\CustomerAccountServiceInterface', array($logger));
         $session->login('customer@example.com', 'password');
         $this->getRequest()->setPost('payment', array('method' => 'checkmo'));
         $this->dispatch('multishipping/checkout/overview');
