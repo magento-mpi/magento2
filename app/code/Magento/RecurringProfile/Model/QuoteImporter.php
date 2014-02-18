@@ -35,7 +35,6 @@ class QuoteImporter
     public function prepareRecurringPaymentProfiles(\Magento\Sales\Model\Quote $quote)
     {
         if (!$quote->getTotalsCollectedFlag()) {
-            // Whoops! Make sure nominal totals must be calculated here.
             throw new \Exception('Quote totals must be collected before this operation.');
         }
 

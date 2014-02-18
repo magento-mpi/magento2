@@ -472,7 +472,7 @@ return array(
     array(
         'getRecurringProfileMethods',
         'Magento\Payment\Helper\Data',
-        'Magento\RecurringProfile\Model\Method\PeymentMethodList::toOptionArray'
+        'Magento\RecurringProfile\Model\Method\PaymentMethodsList::toOptionArray'
     ),
     array('getRecurringPaymentProfiles', 'Magento\Paypal\Model\Express\Checkout'),
     array('getRecurringPaymentProfiles', 'Magento\Sales\Model\Service\Quote'),

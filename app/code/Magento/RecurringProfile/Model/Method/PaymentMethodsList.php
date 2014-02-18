@@ -9,7 +9,7 @@ namespace Magento\RecurringProfile\Model\Method;
 
 use Magento\Core\Model\Option\ArrayInterface;
 
-class PaymentMethodList implements ArrayInterface
+class PaymentMethodsList implements ArrayInterface
 {
     /** @var  \Magento\Payment\Helper\Data */
     protected $paymentHelper;

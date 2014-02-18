@@ -32,7 +32,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected $_fields;
 
-    /** @var \Magento\RecurringProfile\Model\Method\PaymentMethodList */
+    /** @var \Magento\RecurringProfile\Model\Method\PaymentMethodsList */
     protected $payments;
 
     /**
@@ -41,7 +41,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      * @param \Magento\RecurringProfile\Model\Resource\Profile\CollectionFactory $profileCollection
      * @param \Magento\RecurringProfile\Model\States $recurringStates
      * @param \Magento\RecurringProfile\Block\Fields $fields
-     * @param \Magento\RecurringProfile\Model\Method\PaymentMethodList $payments
+     * @param \Magento\RecurringProfile\Model\Method\PaymentMethodsList $payments
      * @param array $data
      */
     public function __construct(
@@ -50,7 +50,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         \Magento\RecurringProfile\Model\Resource\Profile\CollectionFactory $profileCollection,
         \Magento\RecurringProfile\Model\States $recurringStates,
         \Magento\RecurringProfile\Block\Fields $fields,
-        \Magento\RecurringProfile\Model\Method\PaymentMethodList $payments,
+        \Magento\RecurringProfile\Model\Method\PaymentMethodsList $payments,
         array $data = array()
     ) {
         $this->_profileCollection = $profileCollection;

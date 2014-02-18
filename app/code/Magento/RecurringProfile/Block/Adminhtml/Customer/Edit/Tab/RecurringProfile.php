@@ -34,7 +34,7 @@ class RecurringProfile
      * @param \Magento\RecurringProfile\Model\Resource\Profile\CollectionFactory $profileCollection
      * @param \Magento\RecurringProfile\Model\States $recurringStates
      * @param \Magento\RecurringProfile\Block\Fields $fields
-     * @param \Magento\RecurringProfile\Model\Method\PaymentMethodList $payments
+     * @param \Magento\RecurringProfile\Model\Method\PaymentMethodsList $payments
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
      */
@@ -44,7 +44,7 @@ class RecurringProfile
         \Magento\RecurringProfile\Model\Resource\Profile\CollectionFactory $profileCollection,
         \Magento\RecurringProfile\Model\States $recurringStates,
         \Magento\RecurringProfile\Block\Fields $fields,
-        \Magento\RecurringProfile\Model\Method\PaymentMethodList $payments,
+        \Magento\RecurringProfile\Model\Method\PaymentMethodsList $payments,
         \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
