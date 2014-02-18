@@ -16,11 +16,11 @@ class Import extends AbstractPlugin
      * After import handler
      *
      * @param Object $import
-     * @return mixed
+     * @return Object
      */
     public function afterImportSource($import)
     {
-        $this->getIndexer()->invalidate();
+        $this->invalidateIndexer();
         return $import;
     }
 }

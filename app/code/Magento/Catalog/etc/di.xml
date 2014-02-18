@@ -145,10 +145,10 @@
         <plugin name="storeGroupResourceAroundSave" type="Magento\Catalog\Model\Indexer\Category\Flat\Plugin\StoreGroup"/>
     </type>
     <type name="Magento\Customer\Model\Group">
-        <plugin name="customerGroupAroundDelete" type="Magento\Catalog\Model\Indexer\Product\Price\Plugin\CustomerGroup"/>
+        <plugin name="invalidatePriceIndexerOnCustomerGroupDelete" type="Magento\Catalog\Model\Indexer\Product\Price\Plugin\CustomerGroup"/>
     </type>
     <type name="Magento\Customer\Model\Group">
-        <plugin name="customerGroupAroundSave" type="Magento\Catalog\Model\Indexer\Product\Price\Plugin\CustomerGroup"/>
+        <plugin name="invalidatePriceIndexerOnCustomerGroupCreate" type="Magento\Catalog\Model\Indexer\Product\Price\Plugin\CustomerGroup"/>
     </type>
     <type name="Magento\Catalog\Model\Indexer\Product\Price\Plugin\AbstractPlugin">
         <param name="indexer">
@@ -161,7 +161,7 @@
         </param>
     </type>
     <type name="Magento\ImportExport\Model\Import">
-        <plugin name="catalogProductPriceIndexerImport" type="\Magento\Catalog\Model\Indexer\Product\Price\Plugin\Import" />
+        <plugin name="invalidatePriceIndexerOnImport" type="\Magento\Catalog\Model\Indexer\Product\Price\Plugin\Import" />
     </type>
     <type name="Magento\Catalog\Model\Indexer\Category\Flat\Plugin\AbstractStore">
         <param name="indexer">

@@ -7,7 +7,7 @@
  */
 namespace Magento\Catalog\Model\Indexer\Product\Price\Plugin;
 
-class AbstractPlugin
+abstract class AbstractPlugin
 {
     /**
      * @var \Magento\Indexer\Model\IndexerInterface
