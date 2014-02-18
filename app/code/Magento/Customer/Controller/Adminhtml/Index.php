@@ -300,6 +300,9 @@ class Index extends \Magento\Backend\App\Action
                 // Done Saving customer, finish save action
                 $this->_objectManager->get('Magento\Core\Model\Registry')
                     ->register(self::REGISTRY_CURRENT_CUSTOMER, $customer);
+                $this->_objectManager->get('Magento\Core\Model\Registry')
+                    ->register(self::REGISTRY_CURRENT_CUSTOMER_ID, $customer->getId());
+
                 $this->messageManager->addSuccess(__('You saved the customer.'));
 
                 $returnToEdit = (bool)$this->getRequest()->getParam('back', false);

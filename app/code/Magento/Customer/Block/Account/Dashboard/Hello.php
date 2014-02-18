@@ -48,7 +48,7 @@ class Hello extends \Magento\View\Element\Template
     }
 
     /**
-     * Retrieve the customer's fully qualified name.
+     * Concatenate all customer name parts into full customer name.
      *
      * @return string
      */
