@@ -22,12 +22,12 @@
     <type name="Magento\Mview\View\StateInterface">
         <plugin name="setStatusForMview" type="Magento\Catalog\Model\Indexer\Category\Product\Plugin\MviewState" />
     </type>
-    <type name="Magento\Catalog\Model\Indexer\State\Plugin\Status">
+    <type name="Magento\Catalog\Model\Indexer\Category\Product\Plugin\IndexerState">
         <param name="state">
             <instance type="Magento\Indexer\Model\Indexer\State" shared="false"/>
         </param>
     </type>
-    <type name="Magento\Catalog\Model\Mview\View\State\Plugin\Status">
+    <type name="Magento\Catalog\Model\Indexer\Category\Product\Plugin\MviewState">
         <param name="state">
             <instance type="Magento\Mview\View\StateInterface" shared="false"/>
         </param>

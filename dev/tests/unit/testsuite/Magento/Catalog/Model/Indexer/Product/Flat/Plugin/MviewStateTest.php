@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Model\Indexer\Category\Product\Plugin;
+namespace Magento\Catalog\Model\Indexer\Product\Flat\Plugin;
 
 class MviewStateTest extends \PHPUnit_Framework_TestCase
 {
