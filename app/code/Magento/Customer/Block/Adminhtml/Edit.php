@@ -111,7 +111,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     /**
      * Return the customer Id.
      *
-     * @return int|bool
+     * @return int
      */
     public function getCustomerId()
     {
