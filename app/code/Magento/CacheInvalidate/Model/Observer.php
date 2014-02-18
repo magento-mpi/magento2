@@ -96,7 +96,7 @@ class Observer
     {
         $headers = array("X-Magento-Tags-Pattern: {$tagsPattern}");
         $this->_curlAdapter->setOptions(array(CURLOPT_CUSTOMREQUEST => 'PURGE'));
-        $this->_curlAdapter->write('', 'http://mage2.com:8080/', '1.1', $headers);
+        $this->_curlAdapter->write('', $this->_helper->getUrl('*'), '1.1', $headers);
         $this->_curlAdapter->read();
         $this->_curlAdapter->close();
     }
