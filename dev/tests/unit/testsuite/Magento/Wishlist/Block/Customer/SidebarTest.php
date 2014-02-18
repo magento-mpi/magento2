@@ -35,7 +35,13 @@ class SidebarTest extends \PHPUnit_Framework_TestCase
             ->method('getIdentities')
             ->will($this->returnValue($productTags));
 
-        $item = $this->getMock('Magento\Sales\Model\Resource\Order\Item', array('getProduct', '__wakeup'), array(), '', false);
+        $item = $this->getMock(
+            'Magento\Sales\Model\Resource\Order\Item',
+            array('getProduct', '__wakeup'),
+            array(),
+            '',
+            false
+        );
         $item->expects($this->once())
             ->method('getProduct')
             ->will($this->returnValue($product));

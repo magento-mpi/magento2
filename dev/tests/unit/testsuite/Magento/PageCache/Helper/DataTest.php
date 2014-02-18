@@ -38,7 +38,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     *
+     * test for getActualHandles function
      */
     public function testGetActualHandles()
     {
