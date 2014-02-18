@@ -44,7 +44,6 @@ class ImportEntity implements ImportEntityInterface
     ) {
         $this->initRootDir($filesystem);
 
-        // @todo dependency from filesystem should be removed
         $absoluteFilePath = $viewFileSystem->getViewFile($filePath, $params);
         $relativePath = $this->rootDirectory->getRelativePath($absoluteFilePath);
 
