@@ -1835,6 +1835,10 @@ return array(
         'Magento\GroupedProduct\Block\Adminhtml\Product\Composite\Fieldset\Grouped'
     ),
     array(
+        'Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Price\Recurring',
+        'Magento\RecurringProfile\Block\Adminhtml\Product\Edit\Tab\Price\Recurring'
+    ),
+    array(
         'Magento\Catalog\Block\Adminhtml\Product\Edit\Tabs\Grouped',
     ),
     array(

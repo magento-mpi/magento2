@@ -17,4 +17,7 @@
     <event name="adminhtml_catalog_product_form_prepare_excluded_field_list">
         <observer name="magento_recurringprofile" instance="Magento\RecurringProfile\Model\Observer" method="addFormExcludedAttribute"/>
     </event>
+    <event name="adminhtml_catalog_product_edit_prepare_form">
+        <observer name="magento_recurringprofile" instance="Magento\RecurringProfile\Model\Observer" method="setFormRecurringElementRenderer"/>
+    </event>
 </config>

@@ -11,7 +11,7 @@
 /**
  * Recurring profile attribute edit renderer
  */
-namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Price;
+namespace Magento\RecurringProfile\Block\Adminhtml\Product\Edit\Tab\Price;
 
 class Recurring
     extends \Magento\Catalog\Block\Adminhtml\Form\Renderer\Fieldset\Element

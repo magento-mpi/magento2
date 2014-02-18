@@ -268,12 +268,30 @@ class Observer
     /**
      * Add recurring profile field to excluded list
      *
-     * @param $observer
+     * @param \Magento\Event\Observer $observer
      */
     public function addFormExcludedAttribute($observer)
     {
         $block = $observer->getEvent()->getObject();
 
         $block->setFormExcludedFieldList(array_merge($block->getFormExcludedFieldList(), ['recurring_profile']));
+    }
+
+    /**
+     * Set recurring profile renderer
+     *
+     * @param \Magento\Event\Observer $observer
+     */
+    public function setFormRecurringElementRenderer($observer)
+    {
+        $form = $observer->getEvent()->getForm();
+
+        $recurringProfileElement = $form->getElement('recurring_profile');
+        $recurringProfileBlock = $observer->getEvent()->getLayout()
+            ->createBlock('Magento\RecurringProfile\Block\Adminhtml\Product\Edit\Tab\Price\Recurring');
+
+        if ($recurringProfileElement) {
+            $recurringProfileElement->setRenderer($recurringProfileBlock);
+        }
     }
 }
