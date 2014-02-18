@@ -151,10 +151,7 @@ class Indexer extends \Magento\Object implements IndexerInterface
     {
         if (!$this->state) {
             $this->state = $this->stateFactory->create();
-            $this->state->load($this->getId(), 'indexer_id');
-            if (!$this->state->getId()) {
-                $this->state->setIndexerId($this->getId());
-            }
+            $this->state->loadByIndexer($this->getId());
         }
         return $this->state;
     }

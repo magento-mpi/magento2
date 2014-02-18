@@ -30,25 +30,20 @@ class IndexerStateTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($testableStatus));
 
         $state = $this->getMockBuilder('Magento\Indexer\Model\Indexer\State')
-            ->setMethods(array('setData', 'load', 'save', '__wakeup'))
+            ->setMethods(array('setData', 'loadByIndexer', 'save', '__wakeup'))
             ->disableOriginalConstructor()
             ->getMock();
 
         $state->expects($this->once())
-            ->method('load')
-            ->with(
-                $this->logicalOr(
-                    $this->equalTo('indexer_id'),
-                    $this->equalTo($changedIndex)
-                )
-            )
+            ->method('loadByIndexer')
+            ->with($changedIndex)
             ->will($this->returnSelf());
 
         $state->expects($this->once())
             ->method('save')
             ->will($this->returnSelf());
 
-        $state->expects($this->once())
+        $state->expects($this->at(1))
             ->method('setData')
             ->with(
                 $this->logicalOr(

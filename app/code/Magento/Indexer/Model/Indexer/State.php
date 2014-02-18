@@ -59,6 +59,21 @@ class State extends \Magento\Core\Model\AbstractModel
     }
 
     /**
+     * Fill object with state data by view ID
+     *
+     * @param string $indexerId
+     * @return $this
+     */
+    public function loadByIndexer($indexerId)
+    {
+        $this->load($indexerId, 'indexer_id');
+        if (!$this->getId()) {
+            $this->setIndexerId($indexerId);
+        }
+        return $this;
+    }
+
+    /**
      * Status setter
      *
      * @param string $status
