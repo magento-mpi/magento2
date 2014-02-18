@@ -2,6 +2,11 @@
   * Fixed an issue with "Add to Cart" button on MAP popup of compound products
 * Indexer implementation:
   * Implemented new optimized Catalog Product Flat Indexer
+* Modularity improvements:
+  * Moved all Configurable Product functionality to newly created module ConfigurableProduct
+  * Moved Shortcut Buttons abstraction from PayPal to Catalog
+  * Moved Recurring profile functionality into separate module
+  * Moved Billing Agreements functionality into PayPal module
 
 2.0.0.0-dev65
 =============

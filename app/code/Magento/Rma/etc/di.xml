@@ -33,4 +33,11 @@
             <instance type="Magento\Translate" />
         </param>
     </type>
+    <type name="Magento\Eav\Model\Entity\Setup\PropertyMapper\Composite">
+        <param name="propertyMappers">
+            <array>
+                <item key="rma"><value>Magento\Rma\Model\Resource\Setup\PropertyMapper</value></item>
+            </array>
+        </param>
+    </type>
 </config>

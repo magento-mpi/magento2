@@ -38,8 +38,8 @@ class Plugin
     public function afterGetOptionArray(\Magento\Catalog\Model\Product\Type $subject, array $result)
     {
         if (!$this->moduleManager->isOutputEnabled('Magento_GroupedProduct')) {
-            unset($result[\Magento\GroupedProduct\Model\Product\Type\Grouped::TYPE_CODE]);
+            unset($result[Grouped::TYPE_CODE]);
         }
         return $result;
     }
-} 
+}

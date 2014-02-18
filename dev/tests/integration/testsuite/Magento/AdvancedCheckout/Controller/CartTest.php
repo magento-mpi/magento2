@@ -106,28 +106,6 @@ class CartTest extends \Magento\TestFramework\TestCase\AbstractController
     }
 
     /**
-     * Test for \Magento\AdvancedCheckout\Controller\Cart::configureFailedAction() with configurable product
-     *
-     * @magentoDataFixture Magento/Catalog/_files/product_configurable.php
-     */
-    public function testConfigureFailedActionWithConfigurableProduct()
-    {
-        $this->dispatch('checkout/cart/configureFailed/id/1');
-        $response = $this->getResponse();
-
-        $this->assertSessionMessages(
-            $this->isEmpty(),
-            \Magento\Message\MessageInterface::TYPE_ERROR
-        );
-
-        $this->assertSelectCount('button[type="button"][title="Update Cart"]', 1, $response->getBody(),
-            'Response for configurable product doesn\'t contain "Update Cart" button');
-
-        $this->assertSelectCount('select.super-attribute-select', 1, $response->getBody(),
-            'Response for configurable product doesn\'t contain select for super attribute');
-    }
-
-    /**
      * Test for \Magento\AdvancedCheckout\Controller\Cart::configureFailedAction() with gift card product
      *
      * @magentoDataFixture Magento/GiftCard/_files/gift_card.php
