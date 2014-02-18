@@ -12,9 +12,9 @@ use Magento\TestFramework\Utility\Files;
 use Magento\Tools\Dependency\ServiceLocator;
 
 try {
-    $console = new \Zend_Console_Getopt(array(
+    $console = new \Zend_Console_Getopt([
         'directory|d=s' => 'Path to base directory for parsing',
-    ));
+    ]);
     $console->parse();
 
     $directory = $console->getOption('directory') ?: BP;
