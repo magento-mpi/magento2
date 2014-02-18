@@ -31,9 +31,11 @@ namespace Magento\Sales\Model\Quote\Item;
  * @method float getBaseOriginalDiscountAmount()
  * @method \Magento\Sales\Model\Quote\Item\AbstractItem setBaseOriginalDiscountAmount()
  * @method float getDiscountCalculationPrice()
+ * @method \Magento\Sales\Model\Quote\Item\AbstractItem setDiscountCalculationPrice()
  * @method float getBaseDiscountCalculationPrice()
- * @method \Magento\Sales\Model\Quote\Item\AbstractItem setAppliedRuleIds(array $ruleIds)
+ * @method \Magento\Sales\Model\Quote\Item\AbstractItem setBaseDiscountCalculationPrice($price)
  * @method int[] getAppliedRuleIds()
+ * @method \Magento\Sales\Model\Quote\Item\AbstractItem setAppliedRuleIds(array $ruleIds)
  */
 abstract class AbstractItem extends \Magento\Core\Model\AbstractModel
     implements \Magento\Catalog\Model\Product\Configuration\Item\ItemInterface

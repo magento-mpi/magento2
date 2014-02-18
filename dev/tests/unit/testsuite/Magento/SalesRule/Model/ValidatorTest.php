@@ -119,20 +119,112 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
         return true;
     }
 
-    public function testProcess()
+    public function testProcessWhenItemPriceIsNegativeRulesAreNotApplied()
     {
-        $item = $this->getMock('Magento\Sales\Model\Quote\Item', array('getAddress', '__wakeup'), array(), '', false);
-        $item->expects($this->once())
-            ->method('getAddress')
-            ->will($this->returnValue(true));
-        $item->setDiscountCalculationPrice(-1);
-        $item->setCalculationPrice(1);
+        $negativePrice = -1;
 
-        $quote = $this->getMock('Magento\Sales\Model\Quote', array('__wakeup'), array(), '', false);
-        $item->setQuote($quote);
+        // 1. Get mocks
+        /** @var \Magento\SalesRule\Model\Validator|\PHPUnit_Framework_MockObject_MockObject $validator */
+        $validator = $this->getMock(
+            'Magento\SalesRule\Model\Validator', array('applyRules', '__wakeup'), array(), '', false
+        );
 
-        $this->assertInstanceOf('Magento\SalesRule\Model\Validator', $this->_model->process($item));
+        /** @var \Magento\Sales\Model\Quote\Item\AbstractItem|\PHPUnit_Framework_MockObject_MockObject $item */
+        $item = $this->getMock('Magento\Sales\Model\Quote\Item', array('__wakeup'), array(), '', false);
 
-        return true;
+        // 2. Set fixtures
+        $item->setDiscountCalculationPrice($negativePrice);
+        $item->setData('calculation_price', $negativePrice);
+
+        // 3. Set expectations
+        $validator->expects($this->never())->method('applyRules');
+
+        // 4. Run tested method
+        $validator->process($item);
+    }
+
+    public function testProcessWhenItemPriceIsNegativeDiscountsAreZeroed()
+    {
+        $negativePrice = -1;
+        $nonZeroDiscount = 123;
+
+        // 1. Get mocks
+        /** @var \Magento\SalesRule\Model\Validator|\PHPUnit_Framework_MockObject_MockObject $validator */
+        $validator = $this->getMock(
+            'Magento\SalesRule\Model\Validator', array('applyRules', '__wakeup'), array(), '', false
+        );
+
+        /** @var \Magento\Sales\Model\Quote\Item\AbstractItem|\PHPUnit_Framework_MockObject_MockObject $item */
+        $item = $this->getMock('Magento\Sales\Model\Quote\Item', array('__wakeup'), array(), '', false);
+
+        // 2. Set fixtures
+        $item->setDiscountCalculationPrice($negativePrice);
+        $item->setData('calculation_price', $negativePrice);
+
+        // Discounts that could be set before running tested method
+        $item->setDiscountAmount($nonZeroDiscount);
+        $item->setBaseDiscountAmount($nonZeroDiscount);
+        $item->setDiscountPercent($nonZeroDiscount);
+
+        // 3. Run tested method
+        $validator->process($item);
+
+        // 4. Check expected result
+        $this->assertEquals(0, $item->getDiscountAmount());
+        $this->assertEquals(0, $item->getBaseDiscountAmount());
+        $this->assertEquals(0, $item->getDiscountPercent());
+    }
+
+    public function testProcessAppliedRuleIdsAreSet()
+    {
+        $positivePrice = 1;
+        $previouslySetRuleIds = array(1, 2, 4);
+        $exampleRuleIds = array(1, 2, 3, 5);
+        $expectedRuleIds = '1,2,3,5';
+        $expectedMergedRuleIds = '1,2,3,4,5';
+
+        // 1. Get mocks
+        /** @var \Magento\SalesRule\Model\Validator|\PHPUnit_Framework_MockObject_MockObject $validator */
+        $validator = $this->getMock(
+            'Magento\SalesRule\Model\Validator', array('applyRules', '__wakeup'), array(), '', false
+        );
+
+        /** @var \Magento\Sales\Model\Quote\Item\AbstractItem|\PHPUnit_Framework_MockObject_MockObject $item */
+        $item = $this->getMock(
+            'Magento\Sales\Model\Quote\Item', array('getAddress', 'getQuote', '__wakeup'), array(), '', false
+        );
+
+        /** @var \Magento\Sales\Model\Quote\Address|\PHPUnit_Framework_MockObject_MockObject $address */
+        $address = $this->getMock(
+            'Magento\Sales\Model\Quote\Address', array('__wakeup'), array(), '', false
+        );
+        $item->expects($this->any())->method('getAddress')->will($this->returnValue($address));
+
+        /** @var \Magento\Sales\Model\Quote|\PHPUnit_Framework_MockObject_MockObject $quote */
+        $quote = $this->getMock(
+            'Magento\Sales\Model\Quote', array('__wakeup'), array(), '', false
+        );
+        $item->expects($this->any())->method('getQuote')->will($this->returnValue($quote));
+
+        // 2. Set fixtures
+        $item->setDiscountCalculationPrice($positivePrice);
+        $item->setData('calculation_price', $positivePrice);
+        $validator->expects($this->any())->method('applyRules')->will($this->returnValue($exampleRuleIds));
+        $address->setAppliedRuleIds($previouslySetRuleIds);
+        $quote->setAppliedRuleIds($previouslySetRuleIds);
+
+        // 3. Run tested method
+        $validator->process($item);
+
+        // 4. Check expected result
+        $this->assertEquals($expectedRuleIds, $item->getAppliedRuleIds());
+
+        $arrayAddress = explode(',', $item->getAddress()->getAppliedRuleIds());
+        sort($arrayAddress);
+        $this->assertEquals($expectedMergedRuleIds, join(',', $arrayAddress));
+
+        $arrayQuote = explode(',', $item->getQuote()->getAppliedRuleIds());
+        sort($arrayQuote);
+        $this->assertEquals($expectedMergedRuleIds, join(',', $arrayQuote));
     }
 }
