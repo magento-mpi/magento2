@@ -68,7 +68,7 @@ class Observer
             if ($block instanceof \Magento\View\Element\AbstractBlock) {
                 $output = $transport->getData('output');
                 $blockTtl = $block->getTtl();
-                $varnishIsEnabledFlag = ($this->_config->getType() == \Magento\PageCache\Model\Config::VARNISH);
+                $varnishIsEnabledFlag = $this->_config->getType() == \Magento\PageCache\Model\Config::VARNISH;
                 if ($varnishIsEnabledFlag && isset($blockTtl)) {
                     $output = $this->_wrapEsi($block);
                 } elseif ($block->isScopePrivate()) {
