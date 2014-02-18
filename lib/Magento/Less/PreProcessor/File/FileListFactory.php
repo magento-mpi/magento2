@@ -18,14 +18,14 @@ class FileListFactory
      *
      * @var \Magento\ObjectManager
      */
-    protected $_objectManager = null;
+    protected $objectManager;
 
     /**
      * Instance name to create
      *
      * @var string
      */
-    protected $_instanceName = null;
+    protected $instanceName;
 
     /**
      * Factory constructor
@@ -37,18 +37,25 @@ class FileListFactory
         \Magento\ObjectManager $objectManager,
         $instanceName = 'Magento\Less\PreProcessor\File\FileList'
     ) {
-        $this->_objectManager = $objectManager;
-        $this->_instanceName = $instanceName;
+        $this->objectManager = $objectManager;
+        $this->instanceName = $instanceName;
     }
 
     /**
      * Create class instance with specified parameters
      *
      * @param array $data
-     * @return \Magento\Less\PreProcessor\File\FileList
+     * @return FileList
+     * @throws \UnexpectedValueException
      */
     public function create(array $data = array())
     {
-        return $this->_objectManager->create($this->_instanceName, $data);
+        $fileList = $this->objectManager->create($this->instanceName, $data);
+        if (!$fileList instanceof FileList) {
+            throw new \UnexpectedValueException(
+                get_class($fileList) . ' doesn\'t extend \Magento\Less\PreProcessor\File\FileList'
+            );
+        }
+        return $fileList;
     }
 }

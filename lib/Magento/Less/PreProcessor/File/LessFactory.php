@@ -18,14 +18,14 @@ class LessFactory
      *
      * @var \Magento\ObjectManager
      */
-    protected $_objectManager = null;
+    protected $objectManager;
 
     /**
      * Instance name to create
      *
      * @var string
      */
-    protected $_instanceName = null;
+    protected $instanceName;
 
     /**
      * Factory constructor
@@ -37,8 +37,8 @@ class LessFactory
         \Magento\ObjectManager $objectManager,
         $instanceName = 'Magento\Less\PreProcessor\File\Less'
     ) {
-        $this->_objectManager = $objectManager;
-        $this->_instanceName = $instanceName;
+        $this->objectManager = $objectManager;
+        $this->instanceName = $instanceName;
     }
 
     /**
@@ -46,9 +46,16 @@ class LessFactory
      *
      * @param array $data
      * @return \Magento\Less\PreProcessor\File\Less
+     * @throws \UnexpectedValueException
      */
     public function create(array $data = array())
     {
-        return $this->_objectManager->create($this->_instanceName, $data);
+        $fileLessProcessor = $this->objectManager->create($this->instanceName, $data);
+        if (!$fileLessProcessor instanceof Less) {
+            throw new \UnexpectedValueException(
+                get_class($fileLessProcessor) . ' doesn\'t extend \Magento\Less\PreProcessor\File\Less'
+            );
+        }
+        return $fileLessProcessor;
     }
 }
