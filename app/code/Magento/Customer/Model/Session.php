@@ -91,9 +91,10 @@ class Session extends \Magento\Session\SessionManager
     protected $_storeManager;
 
     /**
-     * @var \Magento\App\ResponseInterface
+     * @var \Magento\App\Http\Context
      */
-    protected $response;
+    protected $_httpContext;
+
     /**
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\Session\SidResolverInterface $sidResolver
@@ -110,9 +111,10 @@ class Session extends \Magento\Session\SessionManager
      * @param \Magento\Core\Model\Session $session
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\App\Http\Context $httpContext
      * @param \Magento\Customer\Service\V1\CustomerServiceInterface $customerService
      * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
-     * @param null $sessionName
+     * @param string $sessionName
      * @param array $data
      */
     public function __construct(
@@ -131,7 +133,7 @@ class Session extends \Magento\Session\SessionManager
         \Magento\Core\Model\Session $session,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\App\ResponseInterface $response,
+        \Magento\App\Http\Context $httpContext,
         \Magento\Customer\Service\V1\CustomerServiceInterface $customerService,
         \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService,
         $sessionName = null,
@@ -148,7 +150,7 @@ class Session extends \Magento\Session\SessionManager
         $this->_customerAccountService = $customerAccountService;
         $this->_eventManager = $eventManager;
         $this->_storeManager = $storeManager;
-        $this->response = $response;
+        $this->_httpContext = $httpContext;
         parent::__construct($request, $sidResolver, $sessionConfig, $saveHandler, $validator, $storage);
         $this->start($sessionName);
         $this->_eventManager->dispatch('customer_session_init', array('customer_session' => $this));
@@ -176,7 +178,7 @@ class Session extends \Magento\Session\SessionManager
         if ($customer === null) {
             $this->setCustomerId(null);
         } else {
-            $this->response->setVary('customer_group', $customer->getGroupId());
+            $this->_httpContext->setValue('customer_group', $customer->getGroupId());
             $this->setCustomerId($customer->getCustomerId());
         }
         return $this;
@@ -215,7 +217,7 @@ class Session extends \Magento\Session\SessionManager
         if ($customerModel === null) {
             $this->setCustomerId(null);
         } else {
-            $this->response->setVary('customer_group', $customerModel->getGroupId());
+            $this->_httpContext->setValue('customer_group', $customerModel->getGroupId());
             $this->setCustomerId($customerModel->getId());
             if ((!$customerModel->isConfirmationRequired()) && $customerModel->getConfirmation()) {
                 $customerModel->setConfirmation(null)->save();

@@ -21,21 +21,6 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     protected $_model;
 
-    /**
-     * @var \Magento\ObjectManager
-     */
-    protected $objectManager;
-
-    /**
-     * Set Up
-     */
-    protected function setUp()
-    {
-        $this->objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $this->_model = $this->objectManager->create('Magento\Core\Model\Config\Value');
-
-    }
-
     public static function setUpBeforeClass()
     {
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Config\Storage\Db')
@@ -61,21 +46,30 @@ class DataTest extends \PHPUnit_Framework_TestCase
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize();
     }
 
+    protected function setUp()
+    {
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Config\Value');
+    }
+
     public function testIsValueChanged()
     {
-        /** @var \Magento\Core\Model\Config\Value $configValue */
-        $configValue = $this->objectManager->create('Magento\Core\Model\Config\Value');
-        $configValue->load('value-for-test-testIsValueChanged', 'path');
-        $configValue->setScope('default')
-            ->setScopeId(0)
-            ->setId($configValue->getId())
-            ->setValue('original-value')
-            ->setPath('value-for-test-testIsValueChanged')
-            ->save();
-            $this->assertNotEmpty($configValue->getId());
-            $this->assertFalse($configValue->isValueChanged());
-            $configValue->setValue('new-value');
-            $this->assertTrue($configValue->isValueChanged());
+        // load the model
+        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Resource\Config\Data\Collection');
+        $collection->addFieldToFilter('path', self::SAMPLE_CONFIG_PATH)->addFieldToFilter('scope_id', 0)
+            ->addFieldToFilter('scope', 'default')
+        ;
+        foreach ($collection as $configData) {
+            $this->_model = $configData;
+            break;
+        }
+        $this->assertNotEmpty($this->_model->getId());
+
+        // assert
+        $this->assertFalse($this->_model->isValueChanged());
+        $this->_model->setValue(uniqid());
+        $this->assertTrue($this->_model->isValueChanged());
     }
 
     public function testGetOldValue()
