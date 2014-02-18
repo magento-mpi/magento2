@@ -21,7 +21,8 @@ class QuoteImporter
     /**
      * @param \Magento\RecurringProfile\Model\ProfileFactory $profileFactory
      */
-    public function __construct(\Magento\RecurringProfile\Model\ProfileFactory $profileFactory) {
+    public function __construct(\Magento\RecurringProfile\Model\ProfileFactory $profileFactory)
+    {
         $this->_profileFactory = $profileFactory;
     }
 
