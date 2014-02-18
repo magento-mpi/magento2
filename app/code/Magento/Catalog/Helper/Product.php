@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -584,16 +582,6 @@ class Product extends \Magento\Core\Helper\Url
     {
         return $this->_coreConfig
             ->getValue(Product::XML_PATH_AUTO_GENERATE_MASK, 'default');
-    }
-
-    /**
-     * Retrieve list of attributes that cannot be removed from attribute set
-     *
-     * @return array
-     */
-    public function getUnassignableAttributes()
-    {
-        return $this->_attributeConfig->getAttributeNames('unassignable');
     }
 
     /**

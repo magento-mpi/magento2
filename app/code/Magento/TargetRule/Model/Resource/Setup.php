@@ -1,26 +1,19 @@
 <?php
 /**
+ * TargetRule Setup Resource Model
+ *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_TargetRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\TargetRule\Model\Resource;
 
-/**
- * TargetRule Setup Resource Model
- *
- * @category    Magento
- * @package     Magento_TargetRule
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 class Setup extends \Magento\Catalog\Model\Resource\Setup
 {
     /**
-     * @param \Magento\Core\Model\Resource\Setup\Context $context
-     * @param string $resourceName
+     * @param \Magento\Eav\Model\Entity\Setup\Context $context
+     * @param $resourceName
      * @param \Magento\App\CacheInterface $cache
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGroupCollectionFactory
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
@@ -30,7 +23,7 @@ class Setup extends \Magento\Catalog\Model\Resource\Setup
      * @param string $connectionName
      */
     public function __construct(
-        \Magento\Core\Model\Resource\Setup\Context $context,
+        \Magento\Eav\Model\Entity\Setup\Context $context,
         $resourceName,
         \Magento\App\CacheInterface $cache,
         \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGroupCollectionFactory,
