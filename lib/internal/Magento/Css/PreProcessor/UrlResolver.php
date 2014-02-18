@@ -39,9 +39,9 @@ class UrlResolver implements PreProcessorInterface
     protected $cssUrlResolver;
 
     /**
-     * @var \Magento\View\Publisher
+     * @var \Magento\View\Url
      */
-    protected $publisher;
+    protected $viewUrl;
 
     /**
      * @var \Magento\Logger
@@ -57,7 +57,7 @@ class UrlResolver implements PreProcessorInterface
      * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\View\RelatedFile $relatedFile
      * @param \Magento\View\Url\CssResolver $cssUrlResolver
-     * @param \Magento\View\Publisher $publisher
+     * @param \Magento\View\Url $viewUrl
      * @param \Magento\Logger $logger
      * @param \Magento\View\Publisher\FileFactory $fileFactory
      */
@@ -65,14 +65,14 @@ class UrlResolver implements PreProcessorInterface
         \Magento\App\Filesystem $filesystem,
         \Magento\View\RelatedFile $relatedFile,
         \Magento\View\Url\CssResolver $cssUrlResolver,
-        \Magento\View\Publisher $publisher,
+        \Magento\View\Url $viewUrl,
         \Magento\Logger $logger,
         \Magento\View\Publisher\FileFactory $fileFactory
     ) {
         $this->rootDirectory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::ROOT_DIR);
         $this->relatedFile = $relatedFile;
         $this->cssUrlResolver = $cssUrlResolver;
-        $this->publisher = $publisher;
+        $this->viewUrl = $viewUrl;
         $this->logger = $logger;
         $this->fileFactory = $fileFactory;
     }
@@ -133,6 +133,6 @@ class UrlResolver implements PreProcessorInterface
     protected function publishRelatedViewFile($fileId, $parentFileName, $params)
     {
         $relativeFilePath = $this->relatedFile->buildPath($fileId, $parentFileName, $params);
-        return $this->publisher->getPublicViewFile($relativeFilePath, $params);
+        return $this->viewUrl->getViewFileUrl($relativeFilePath, $params);
     }
 }
