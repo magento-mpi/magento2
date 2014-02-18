@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\Banner\Model;
+namespace Magento\Catalog\Model\Product\Compare;
 
-class BannerTest extends \PHPUnit_Framework_TestCase
+class ItemTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Catalog\Model\Product\Compare\Item
