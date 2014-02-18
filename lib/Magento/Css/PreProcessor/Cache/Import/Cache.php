@@ -169,6 +169,8 @@ class Cache implements \Magento\Css\PreProcessor\Cache\CacheInterface
      */
     protected function prepareSaveData($cachedFile)
     {
-        return serialize(['cached_file' => $cachedFile, 'imports' => $this->importEntities]);
+        // @todo quick fix for theme unset during serialization
+        $fileToCache = clone $cachedFile;
+        return serialize(['cached_file' => $fileToCache, 'imports' => $this->importEntities]);
     }
 }
