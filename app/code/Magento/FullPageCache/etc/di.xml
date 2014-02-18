@@ -56,7 +56,7 @@
             </array>
         </param>
     </type>
-    <type name="Magento\App\Response">
+    <type name="Magento\App\Response\Http">
         <plugin name="pageCache" type="Magento\FullPageCache\Model\Response\Plugin" />
     </type>
     <type name="Magento\FullPageCache\Model\Observer">

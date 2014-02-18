@@ -8,9 +8,6 @@
  */
 -->
 <config>
-    <event name="controller_response_redirect">
-        <observer name="magento_fullpagecache" instance="Magento\FullPageCache\Model\Observer" method="checkMessages" />
-    </event>
     <event name="model_load_after">
         <observer name="magento_fullpagecache" instance="Magento\FullPageCache\Model\Observer" method="registerModelTag" />
     </event>
