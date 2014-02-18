@@ -75,4 +75,9 @@ class RendererTest extends \PHPUnit_Framework_TestCase
         $product = $this->_initProduct();
         $this->assertEquals($product->getIdentities(), $this->_renderer->getIdentities());
     }
+
+    public function testGetIdentitiesFromEmptyItem()
+    {
+        $this->assertEmpty($this->_renderer->getIdentities());
+    }
 }
