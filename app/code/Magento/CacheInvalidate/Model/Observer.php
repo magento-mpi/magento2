@@ -44,15 +44,15 @@ class Observer
      *
      * @param \Magento\PageCache\Model\Config $config
      * @param \Magento\App\PageCache\Cache $cache
-     * @param \Magento\PageCache\Helper\Data $helper
+     * @param \Magento\CacheInvalidate\Helper\Data $helper
      * @param \Magento\HTTP\Adapter\Curl $curlAdapter
      */
     public function __construct(
         \Magento\PageCache\Model\Config $config,
         \Magento\App\PageCache\Cache $cache,
-        \Magento\PageCache\Helper\Data $helper,
+        \Magento\CacheInvalidate\Helper\Data $helper,
         \Magento\HTTP\Adapter\Curl $curlAdapter
-    ){
+    ) {
         $this->_config = $config;
         $this->_cache = $cache;
         $this->_helper = $helper;
@@ -68,8 +68,8 @@ class Observer
     public function invalidateVarnish(\Magento\Event\Observer $observer)
     {
         $object = $observer->getEvent()->getObject();
-        if($object instanceof \Magento\Object\IdentityInterface) {
-            if($this->_config->getType() == \Magento\PageCache\Model\Config::VARNISH) {
+        if ($object instanceof \Magento\Object\IdentityInterface) {
+            if ($this->_config->getType() == \Magento\PageCache\Model\Config::VARNISH) {
                 $this->sendPurgeRequest(implode('|', $object->getIdentities()));
             }
         }
@@ -82,7 +82,7 @@ class Observer
      */
     public function flushAllCache(\Magento\Event\Observer $observer)
     {
-        if($this->_config->getType() == \Magento\PageCache\Model\Config::VARNISH) {
+        if ($this->_config->getType() == \Magento\PageCache\Model\Config::VARNISH) {
             $this->sendPurgeRequest('.*');
         }
     }
@@ -94,8 +94,10 @@ class Observer
      */
     protected function sendPurgeRequest($tagsPattern)
     {
+        $headers = array("X-Magento-Tags-Pattern: {$tagsPattern}");
         $this->_curlAdapter->setOptions(array(CURLOPT_CUSTOMREQUEST => 'PURGE'));
-        $this->_curlAdapter->write('', $this->_helper->getUrl('*'), '1.1', "X-Magento-Tags-Pattern: {$tagsPattern}");
+        $this->_curlAdapter->write('', 'http://mage2.com:8080/', '1.1', $headers);
+        $this->_curlAdapter->read();
         $this->_curlAdapter->close();
     }
 }
