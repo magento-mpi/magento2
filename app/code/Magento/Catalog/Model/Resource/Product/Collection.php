@@ -2049,16 +2049,15 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
             if ($item->hasStockItem()) {
                 $item->unsStockItem();
             }
-            $item = $this->_items[$i] = null;
+            $this->_items[$i] = null;
         }
 
         foreach ($this->_itemsById as $i => $item) {
-            $item = $this->_itemsById[$i] = null;
+            $this->_itemsById[$i] = null;
         }
 
         unset($this->_items, $this->_data, $this->_itemsById);
         $this->_data = array();
-        $this->_itemsById = array();
         return parent::clear();
     }
 
