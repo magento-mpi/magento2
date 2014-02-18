@@ -32,12 +32,12 @@ class Store
      * Before save handler
      *
      * @param \Magento\Core\Model\Resource\Store $subject
-     * @param \Magento\Core\Model\Store $object
+     * @param \Magento\Core\Model\AbstractModel $object
      *
      * @return void
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function beforeSave(\Magento\Core\Model\Resource\Store $subject, \Magento\Core\Model\Store $object)
+    public function beforeSave(\Magento\Core\Model\Resource\Store $subject, \Magento\Core\Model\AbstractModel $object)
     {
         if (!$object->getId() || $object->dataHasChangedFor('group_id')) {
             $this->_productFlatIndexerProcessor->markIndexerAsInvalid();

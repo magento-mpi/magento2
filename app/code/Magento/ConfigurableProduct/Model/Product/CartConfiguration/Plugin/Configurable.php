@@ -18,7 +18,7 @@ class Configurable
      * @param \Magento\Catalog\Model\Product\CartConfiguration $subject
      * @param callable $proceed
      * @param \Magento\Catalog\Model\Product $product
-     * @param $config
+     * @param array $config
      *
      * @return bool
      */
