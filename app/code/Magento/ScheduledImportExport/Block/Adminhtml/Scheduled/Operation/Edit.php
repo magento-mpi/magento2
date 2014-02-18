@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation;
 
 /**
  * Scheduled operation create/edit form container
@@ -15,8 +16,6 @@
  * @package     Magento_ScheduledImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation;
-
 class Edit
     extends \Magento\Backend\Block\Widget\Form\Container
 {
@@ -90,7 +89,7 @@ class Edit
      * Set form object to container.
      *
      * @throws \Magento\Core\Exception
-     * @return \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit
+     * @return $this
      */
     protected function _prepareLayout()
     {

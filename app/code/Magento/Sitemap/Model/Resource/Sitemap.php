@@ -7,22 +7,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Sitemap\Model\Resource;
 
 /**
  * Sitemap resource model
  *
- * @category    Magento
- * @package     Magento_Sitemap
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sitemap\Model\Resource;
-
 class Sitemap extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Init resource model
      *
+     * @return void
      */
     protected function _construct()
     {
