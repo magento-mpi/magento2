@@ -8,6 +8,8 @@
  * @license     {license_link}
  */
 
+namespace Magento\Sales\Model;
+
 /**
  * Quote model
  *
@@ -116,8 +118,6 @@
  * @method bool|null getIsPersistent()
  * @method \Magento\Sales\Model\Quote setIsPersistent(bool $value)
  */
-namespace Magento\Sales\Model;
-
 class Quote extends \Magento\Core\Model\AbstractModel
 {
     /**

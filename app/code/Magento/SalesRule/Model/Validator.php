@@ -48,13 +48,6 @@ class Validator extends \Magento\Core\Model\AbstractModel
     protected $_rulesItemTotals = array();
 
     /**
-     * Store information about addresses which cart fixed rule applied for
-     *
-     * @var array
-     */
-    protected $_cartFixedRuleUsedForAddress = array();
-
-    /**
      * Skip action rules validation flag
      *
      * @var bool
@@ -88,9 +81,9 @@ class Validator extends \Magento\Core\Model\AbstractModel
     protected $_customerFactory;
 
     /**
-     * @var \Magento\SalesRule\Model\Discount\DataFactory
+     * @var \Magento\SalesRule\Model\Rule\Action\Discount\CalculatorFactory
      */
-    protected $discountFactory;
+    protected $calculatorFactory;
 
     /**
      * Defines if rule with stop further rules is already applied
@@ -107,7 +100,7 @@ class Validator extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\SalesRule\Model\CouponFactory $couponFactory
      * @param \Magento\SalesRule\Model\Rule\CustomerFactory $customerFactory
-     * @param Discount\DataFactory $discountFactory
+     * @param \Magento\SalesRule\Model\Rule\Action\Discount\CalculatorFactory $calculatorFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -120,7 +113,7 @@ class Validator extends \Magento\Core\Model\AbstractModel
         \Magento\Tax\Helper\Data $taxData,
         \Magento\SalesRule\Model\CouponFactory $couponFactory,
         \Magento\SalesRule\Model\Rule\CustomerFactory $customerFactory,
-        \Magento\SalesRule\Model\Discount\DataFactory $discountFactory,
+        \Magento\SalesRule\Model\Rule\Action\Discount\CalculatorFactory $calculatorFactory,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -130,7 +123,7 @@ class Validator extends \Magento\Core\Model\AbstractModel
         $this->_taxData = $taxData;
         $this->_couponFactory = $couponFactory;
         $this->_customerFactory = $customerFactory;
-        $this->discountFactory = $discountFactory;
+        $this->calculatorFactory = $calculatorFactory;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -334,103 +327,21 @@ class Validator extends \Magento\Core\Model\AbstractModel
     /**
      * Quote item discount calculation process
      *
-     * @param   \Magento\Sales\Model\Quote\Item\AbstractItem $item
-     * @throws \Magento\Core\Exception
-     * @return  \Magento\SalesRule\Model\Validator
+     * @param \Magento\Sales\Model\Quote\Item\AbstractItem $item
+     * @return \Magento\SalesRule\Model\Validator
      */
     public function process(\Magento\Sales\Model\Quote\Item\AbstractItem $item)
     {
         $item->setDiscountAmount(0);
         $item->setBaseDiscountAmount(0);
         $item->setDiscountPercent(0);
-        $address    = $item->getAddress();
 
-        $itemPrice              = $this->_getItemPrice($item);
-
+        $itemPrice = $this->getItemPrice($item);
         if ($itemPrice < 0) {
             return $this;
         }
 
-        $appliedRuleIds = array();
-        foreach ($this->_getRules() as $rule) {
-            if ($this->_stopFurtherRules) {
-                break;
-            }
-
-            /* @var $rule \Magento\SalesRule\Model\Rule */
-            if (!$this->_canProcessRule($rule, $address)) {
-                continue;
-            }
-
-            if (!$this->_skipActionsValidation && !$rule->getActions()->validate($item)) {
-                continue;
-            }
-
-            $qty = $this->_getItemQty($item, $rule);
-
-
-            /** @var \Magento\SalesRule\Model\Discount\Data $discountData */
-            $discountData = $this->discountFactory->create();
-            $discountData->setAmount(0);
-            $discountData->setBaseAmount(0);
-            $discountData->setOriginalAmount(0);
-            $discountData->setBaseOriginalAmount(0);
-
-            switch ($rule->getSimpleAction()) {
-                case \Magento\SalesRule\Model\Rule::TO_PERCENT_ACTION:
-                    $qty = $this->fixQuantity($qty, $rule);
-                    $rulePercent = max(0, 100-$rule->getDiscountAmount());
-                    $this->calcByPercentDiscount($discountData, $rule, $item, $qty, $rulePercent);
-                    break;
-                case \Magento\SalesRule\Model\Rule::BY_PERCENT_ACTION:
-                    $qty = $this->fixQuantity($qty, $rule);
-                    $rulePercent = min(100, $rule->getDiscountAmount());
-                    $this->calcByPercentDiscount($discountData, $rule, $item, $qty, $rulePercent);
-                    break;
-                case \Magento\SalesRule\Model\Rule::TO_FIXED_ACTION:
-                    $this->calcToFixedDiscount($discountData, $rule, $item, $qty);
-                    break;
-
-                case \Magento\SalesRule\Model\Rule::BY_FIXED_ACTION:
-                    $qty = $this->fixQuantity($qty, $rule);
-                    $this->calcByFixedDiscount($discountData, $rule, $item, $qty);
-                    break;
-
-                case \Magento\SalesRule\Model\Rule::CART_FIXED_ACTION:
-                    $this->calcCartFixedDiscount($discountData, $rule, $item, $qty);
-                    break;
-
-                case \Magento\SalesRule\Model\Rule::BUY_X_GET_Y_ACTION:
-                    $this->calcBuyXGetYDiscount($discountData, $rule, $item, $qty);
-                    break;
-            }
-
-            $this->eventFix($discountData, $item, $rule, $qty);
-            $this->deltaRoundingFix($discountData, $item);
-
-            /**
-             * We can't use row total here because row total not include tax
-             * Discount can be applied on price included tax
-             */
-
-            $this->minFix($discountData, $item, $qty);
-
-            $item->setDiscountAmount($discountData->getAmount());
-            $item->setBaseDiscountAmount($discountData->getBaseAmount());
-            $item->setOriginalDiscountAmount($discountData->getOriginalAmount());
-            $item->setBaseOriginalDiscountAmount($discountData->getBaseOriginalAmount());
-
-            $appliedRuleIds[$rule->getRuleId()] = $rule->getRuleId();
-
-            $this->_maintainAddressCouponCode($address, $rule);
-            $this->_addDiscountDescription($address, $rule);
-
-            if ($rule->getStopRulesProcessing()) {
-                $this->_stopFurtherRules = true;
-                break;
-            }
-        }
-
+        $appliedRuleIds = $this->applyRules($item);
         $this->setAppliedRuleIds($item, $appliedRuleIds);
 
         return $this;
@@ -550,32 +461,6 @@ class Validator extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * Set information about usage cart fixed rule by quote address
-     *
-     * @param int $ruleId
-     * @param int $itemId
-     * @return void
-     */
-    public function setCartFixedRuleUsedForAddress($ruleId, $itemId)
-    {
-        $this->_cartFixedRuleUsedForAddress[$ruleId] = $itemId;
-    }
-
-    /**
-     * Retrieve information about usage cart fixed rule by quote address
-     *
-     * @param int $ruleId
-     * @return int|null
-     */
-    public function getCartFixedRuleUsedForAddress($ruleId)
-    {
-        if (isset($this->_cartFixedRuleUsedForAddress[$ruleId])) {
-            return $this->_cartFixedRuleUsedForAddress[$ruleId];
-        }
-        return null;
-    }
-
-    /**
      * Calculate quote totals for each rule and save results
      *
      * @param mixed $items
@@ -607,15 +492,15 @@ class Validator extends \Magento\Core\Model\AbstractModel
                         continue;
                     }
                     $qty = $this->_getItemQty($item, $rule);
-                    $ruleTotalItemsPrice += $this->_getItemPrice($item) * $qty;
-                    $ruleTotalBaseItemsPrice += $this->_getItemBasePrice($item) * $qty;
+                    $ruleTotalItemsPrice += $this->getItemPrice($item) * $qty;
+                    $ruleTotalBaseItemsPrice += $this->getItemBasePrice($item) * $qty;
                     $validItemsCount++;
                 }
 
                 $this->_rulesItemTotals[$rule->getId()] = array(
-                    'items_price' => $ruleTotalItemsPrice,
+                    'items_price'      => $ruleTotalItemsPrice,
                     'base_items_price' => $ruleTotalBaseItemsPrice,
-                    'items_count' => $validItemsCount,
+                    'items_count'      => $validItemsCount,
                 );
             }
         }
@@ -678,11 +563,11 @@ class Validator extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Sales\Model\Quote\Item\AbstractItem $item
      * @return float
      */
-    protected function _getItemPrice($item)
+    public function getItemPrice($item)
     {
         $price = $item->getDiscountCalculationPrice();
         $calcPrice = $item->getCalculationPrice();
-        return ($price !== null) ? $price : $calcPrice;
+        return $price === null ? $calcPrice : $price;
     }
 
     /**
@@ -691,7 +576,7 @@ class Validator extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Sales\Model\Quote\Item\AbstractItem $item
      * @return float
      */
-    protected function _getItemOriginalPrice($item)
+    public function getItemOriginalPrice($item)
     {
         return $this->_taxData->getPrice($item, $item->getOriginalPrice(), true);
     }
@@ -702,7 +587,7 @@ class Validator extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Sales\Model\Quote\Item\AbstractItem $item
      * @return float
      */
-    protected function _getItemBasePrice($item)
+    public function getItemBasePrice($item)
     {
         $price = $item->getDiscountCalculationPrice();
         return ($price !== null) ? $item->getBaseDiscountCalculationPrice() : $item->getBaseCalculationPrice();
@@ -714,7 +599,7 @@ class Validator extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Sales\Model\Quote\Item\AbstractItem $item
      * @return float
      */
-    protected function _getItemBaseOriginalPrice($item)
+    public function getItemBaseOriginalPrice($item)
     {
         return $this->_taxData->getPrice($item, $item->getBaseOriginalPrice(), true);
     }
@@ -797,167 +682,17 @@ class Validator extends \Magento\Core\Model\AbstractModel
         return $this;
     }
 
-    protected function fixQuantity($qty, $rule)
-    {
-        $step = $rule->getDiscountStep();
-        if ($step) {
-            $qty = floor($qty/$step)*$step;
-        }
-
-        return $qty;
-    }
-
-    protected function calcByPercentDiscount(
-        $discountData, $rule, \Magento\Sales\Model\Quote\Item\AbstractItem $item, $qty, $rulePercent
-    ) {
-        $itemPrice              = $this->_getItemPrice($item);
-        $baseItemPrice          = $this->_getItemBasePrice($item);
-        $itemOriginalPrice      = $this->_getItemOriginalPrice($item);
-        $baseItemOriginalPrice  = $this->_getItemBaseOriginalPrice($item);
-
-        $_rulePct = $rulePercent/100;
-        $discountData->setAmount(($qty*$itemPrice - $item->getDiscountAmount()) * $_rulePct);
-        $discountData->setBaseAmount(($qty*$baseItemPrice - $item->getBaseDiscountAmount()) * $_rulePct);
-        //get discount for original price
-        $discountData->setOriginalAmount(
-            ($qty*$itemOriginalPrice - $item->getDiscountAmount()) * $_rulePct
-        );
-        $discountData->setBaseOriginalAmount(
-            ($qty*$baseItemOriginalPrice - $item->getDiscountAmount()) * $_rulePct
-        );
-
-        if (!$rule->getDiscountQty() || $rule->getDiscountQty()>$qty) {
-            $discountPercent = min(100, $item->getDiscountPercent()+$rulePercent);
-            $item->setDiscountPercent($discountPercent);
-        }
-    }
-
-    protected function calcToFixedDiscount(
-        $discountData, $rule, \Magento\Sales\Model\Quote\Item\AbstractItem $item, $qty
-    ) {
-        $store = $item->getQuote()->getStore();
-
-        $itemPrice              = $this->_getItemPrice($item);
-        $baseItemPrice          = $this->_getItemBasePrice($item);
-        $itemOriginalPrice      = $this->_getItemOriginalPrice($item);
-        $baseItemOriginalPrice  = $this->_getItemBaseOriginalPrice($item);
-
-        $quoteAmount = $store->convertPrice($rule->getDiscountAmount());
-        $discountData->setAmount($qty*($itemPrice-$quoteAmount));
-        $discountData->setBaseAmount($qty*($baseItemPrice-$rule->getDiscountAmount()));
-        //get discount for original price
-        $discountData->setOriginalAmount($qty*($itemOriginalPrice-$quoteAmount));
-        $discountData->setBaseOriginalAmount($qty*($baseItemOriginalPrice-$rule->getDiscountAmount()));
-    }
-    
-    protected function calcByFixedDiscount(
-        $discountData, $rule, \Magento\Sales\Model\Quote\Item\AbstractItem $item, $qty
-    ) {
-        $store = $item->getQuote()->getStore();
-
-        $quoteAmount        = $store->convertPrice($rule->getDiscountAmount());
-        $discountData->setAmount($qty*$quoteAmount);
-        $discountData->setBaseAmount($qty*$rule->getDiscountAmount());
-    }
-    
-    protected function calcCartFixedDiscount(
-        $discountData, $rule, \Magento\Sales\Model\Quote\Item\AbstractItem $item, $qty
-    ) {
-        if (empty($this->_rulesItemTotals[$rule->getId()])) {
-            throw new \Magento\Core\Exception(__('Item totals are not set for the rule.'));
-        }
-
-        $quote = $item->getQuote();
-        $address = $item->getAddress();
-
-        $itemPrice              = $this->_getItemPrice($item);
-        $baseItemPrice          = $this->_getItemBasePrice($item);
-        $itemOriginalPrice      = $this->_getItemOriginalPrice($item);
-        $baseItemOriginalPrice  = $this->_getItemBaseOriginalPrice($item);
-
-        /**
-         * prevent applying whole cart discount for every shipping order, but only for first order
-         */
-        if ($quote->getIsMultiShipping()) {
-            $usedForAddressId = $this->getCartFixedRuleUsedForAddress($rule->getId());
-            if ($usedForAddressId && $usedForAddressId != $address->getId()) {
-                return;
-            } else {
-                $this->setCartFixedRuleUsedForAddress($rule->getId(), $address->getId());
-            }
-        }
-        $cartRules = $address->getCartFixedRules();
-        if (!isset($cartRules[$rule->getId()])) {
-            $cartRules[$rule->getId()] = $rule->getDiscountAmount();
-        }
-
-        if ($cartRules[$rule->getId()] > 0) {
-            $store = $quote->getStore();
-            if ($this->_rulesItemTotals[$rule->getId()]['items_count'] <= 1) {
-                $quoteAmount = $store->convertPrice($cartRules[$rule->getId()]);
-                $baseDiscountAmount = min($baseItemPrice * $qty, $cartRules[$rule->getId()]);
-            } else {
-                $discountRate = $baseItemPrice * $qty /
-                                $this->_rulesItemTotals[$rule->getId()]['base_items_price'];
-                $maximumItemDiscount = $rule->getDiscountAmount() * $discountRate;
-                $quoteAmount = $store->convertPrice($maximumItemDiscount);
-
-                $baseDiscountAmount = min($baseItemPrice * $qty, $maximumItemDiscount);
-                $this->_rulesItemTotals[$rule->getId()]['items_count']--;
-            }
-
-            $discountData->setAmount($store->roundPrice(min($itemPrice * $qty, $quoteAmount)));
-            $baseDiscountAmount = $store->roundPrice($baseDiscountAmount);
-
-            $discountData->setOriginalAmount(min($itemOriginalPrice * $qty, $quoteAmount));
-            $discountData->setBaseOriginalAmount($store->roundPrice($baseItemOriginalPrice));
-
-            $cartRules[$rule->getId()] -= $baseDiscountAmount;
-            $discountData->setBaseAmount($baseDiscountAmount);
-        }
-        $address->setCartFixedRules($cartRules);
-    }
-
-    protected function calcBuyXGetYDiscount(
-        $discountData, $rule, \Magento\Sales\Model\Quote\Item\AbstractItem $item, $qty
-    ) {
-        $itemPrice              = $this->_getItemPrice($item);
-        $baseItemPrice          = $this->_getItemBasePrice($item);
-        $itemOriginalPrice      = $this->_getItemOriginalPrice($item);
-        $baseItemOriginalPrice  = $this->_getItemBaseOriginalPrice($item);
-
-        $x = $rule->getDiscountStep();
-        $y = $rule->getDiscountAmount();
-        if (!$x || $y > $x) {
-            return;
-        }
-        $buyAndDiscountQty = $x + $y;
-
-        $fullRuleQtyPeriod = floor($qty / $buyAndDiscountQty);
-        $freeQty  = $qty - $fullRuleQtyPeriod * $buyAndDiscountQty;
-
-        $discountQty = $fullRuleQtyPeriod * $y;
-        if ($freeQty > $x) {
-            $discountQty += $freeQty - $x;
-        }
-
-        $discountData->setAmount($discountQty * $itemPrice);
-        $discountData->setBaseAmount($discountQty * $baseItemPrice);
-        $discountData->setOriginalAmount($discountQty * $itemOriginalPrice);
-        $discountData->setBaseOriginalAmount($discountQty * $baseItemOriginalPrice);
-    }
-
     /**
      * Fire event to allow overwriting of discount amounts
      *
-     * @param Discount\Data $discountData
+     * @param \Magento\SalesRule\Model\Rule\Action\Discount\Data $discountData
      * @param \Magento\Sales\Model\Quote\Item\AbstractItem $item
      * @param \Magento\SalesRule\Model\Rule $rule
      * @param float $qty
      * @return $this
      */
     protected function eventFix(
-        \Magento\SalesRule\Model\Discount\Data $discountData,
+        \Magento\SalesRule\Model\Rule\Action\Discount\Data $discountData,
         \Magento\Sales\Model\Quote\Item\AbstractItem $item,
         \Magento\SalesRule\Model\Rule $rule,
         $qty
@@ -980,18 +715,20 @@ class Validator extends \Magento\Core\Model\AbstractModel
     /**
      * Process "delta" rounding
      *
-     * @param Discount\Data $discountData
+     * @param \Magento\SalesRule\Model\Rule\Action\Discount\Data
      * @param \Magento\Sales\Model\Quote\Item\AbstractItem $item
      * @return $this
      */
     protected function deltaRoundingFix(
-        \Magento\SalesRule\Model\Discount\Data $discountData,
+        \Magento\SalesRule\Model\Rule\Action\Discount\Data $discountData,
         \Magento\Sales\Model\Quote\Item\AbstractItem $item
     ) {
         $store = $item->getQuote()->getStore();
         $discountAmount = $discountData->getAmount();
         $baseDiscountAmount = $discountData->getBaseAmount();
 
+        //TODO Seems \Magento\Sales\Model\Quote\Item\AbstractItem::getDiscountPercent() returns float value
+        //that can not be used as array index
         $percentKey = $item->getDiscountPercent();
         if ($percentKey) {
             $delta      = isset($this->_roundingDeltas[$percentKey]) ? $this->_roundingDeltas[$percentKey] : 0;
@@ -1010,22 +747,109 @@ class Validator extends \Magento\Core\Model\AbstractModel
         return $this;
     }
 
+    /**
+     * @param Rule\Action\Discount\Data $discountData
+     * @param \Magento\Sales\Model\Quote\Item\AbstractItem $item
+     * @param float $qty
+     */
     protected function minFix(
-        \Magento\SalesRule\Model\Discount\Data $discountData,
+        \Magento\SalesRule\Model\Rule\Action\Discount\Data $discountData,
         \Magento\Sales\Model\Quote\Item\AbstractItem $item,
         $qty
     ) {
-        $itemPrice = $this->_getItemPrice($item);
-        $baseItemPrice = $this->_getItemBasePrice($item);
+        $itemPrice = $this->getItemPrice($item);
+        $baseItemPrice = $this->getItemBasePrice($item);
 
         $itemDiscountAmount = $item->getDiscountAmount();
         $itemBaseDiscountAmount = $item->getBaseDiscountAmount();
-
 
         $discountAmount = min($itemDiscountAmount + $discountData->getAmount(), $itemPrice * $qty);
         $baseDiscountAmount = min($itemBaseDiscountAmount + $discountData->getBaseAmount(), $baseItemPrice * $qty);
 
         $discountData->setAmount($discountAmount);
         $discountData->setBaseAmount($baseDiscountAmount);
+    }
+
+    /**
+     * @param int $key
+     * @return array
+     * @throws \Magento\Core\Exception
+     */
+    public function getRuleItemTotalsInfo($key)
+    {
+        if (empty($this->_rulesItemTotals[$key])) {
+            throw new \Magento\Core\Exception(__('Item totals are not set for the rule.'));
+        }
+
+        return $this->_rulesItemTotals[$key];
+    }
+
+    /**
+     * @param int $key
+     * @return $this
+     */
+    public function decrementRuleItemTotalsCount($key)
+    {
+        $this->_rulesItemTotals[$key]['items_count']--;
+
+        return $this;
+    }
+
+    /**
+     * @param \Magento\Sales\Model\Quote\Item\AbstractItem $item
+     * @return array
+     */
+    public function applyRules($item)
+    {
+        $address = $item->getAddress();
+
+        $appliedRuleIds = array();
+        /* @var $rule \Magento\SalesRule\Model\Rule */
+        foreach ($this->_getRules() as $rule) {
+            if ($this->_stopFurtherRules) {
+                break;
+            }
+
+            if (!$this->_canProcessRule($rule, $address)) {
+                continue;
+            }
+
+            if (!$this->_skipActionsValidation && !$rule->getActions()->validate($item)) {
+                continue;
+            }
+
+            $qty = $this->_getItemQty($item, $rule);
+
+            $discountCalculator = $this->calculatorFactory->create($rule->getSimpleAction());
+            $qty = $discountCalculator->fixQuantity($qty, $rule);
+            $discountData = $discountCalculator->calculate($rule, $item, $qty);
+
+            $this->eventFix($discountData, $item, $rule, $qty);
+            $this->deltaRoundingFix($discountData, $item);
+
+            /**
+             * We can't use row total here because row total not include tax
+             * Discount can be applied on price included tax
+             */
+
+            $this->minFix($discountData, $item, $qty);
+
+            $item->setDiscountAmount($discountData->getAmount());
+            $item->setBaseDiscountAmount($discountData->getBaseAmount());
+            $item->setOriginalDiscountAmount($discountData->getOriginalAmount());
+            $item->setBaseOriginalDiscountAmount($discountData->getBaseOriginalAmount());
+
+            $appliedRuleIds[$rule->getRuleId()] = $rule->getRuleId();
+
+            $this->_maintainAddressCouponCode($address, $rule);
+            $this->_addDiscountDescription($address, $rule);
+
+            if ($rule->getStopRulesProcessing()) {
+                $this->_stopFurtherRules = true;
+                break;
+            }
+        }
+
+        return $appliedRuleIds;
     }
 }

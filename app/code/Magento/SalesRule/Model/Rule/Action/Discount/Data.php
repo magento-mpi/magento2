@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\SalesRule\Model\Discount;
+namespace Magento\SalesRule\Model\Rule\Action\Discount;
 
 class Data
 {
@@ -31,6 +31,14 @@ class Data
      * @var float
      */
     protected $baseOriginalAmount;
+
+    public function __construct()
+    {
+        $this->setAmount(0);
+        $this->setBaseAmount(0);
+        $this->setOriginalAmount(0);
+        $this->setBaseOriginalAmount(0);
+    }
 
     /**
      * @param float $amount

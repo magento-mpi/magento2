@@ -8,6 +8,8 @@
  * @license     {license_link}
  */
 
+namespace Magento\Sales\Model\Quote;
+
 /**
  * Sales Quote address model
  *
@@ -117,9 +119,11 @@
  * @method \Magento\Sales\Model\Quote\Address setShippingInclTax(float $value)
  * @method float getBaseShippingInclTax()
  * @method \Magento\Sales\Model\Quote\Address setBaseShippingInclTax(float $value)
+ * @method \Magento\Sales\Model\Quote\Address setCartFixedRules(array $rules)
+ * @method \Magento\SalesRule\Model\Rule[] getCartFixedRules()
+ * @method \Magento\Sales\Model\Quote\Address setAppliedRuleIds(array $ruleIds)
+ * @method int[] getAppliedRuleIds()
  */
-namespace Magento\Sales\Model\Quote;
-
 class Address extends \Magento\Customer\Model\Address\AbstractAddress
 {
     const RATES_FETCH = 1;
