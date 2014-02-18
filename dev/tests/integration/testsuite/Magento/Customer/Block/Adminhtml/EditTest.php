@@ -134,8 +134,8 @@ class EditTest extends \PHPUnit_Framework_TestCase
     {
         $html = $this->block->getFormHtml();
         $this->assertContains('<div class="entry-edit form-inline">', $html);
-        $this->assertContains(
-            '<div id="product_composite_configure" class="product-configure-popup" style="display:none;">', $html
+        $this->assertStringMatchesFormat(
+            '%a name="customer_id" %s value="' . self::$customerId . '" %a', $html
         );
         $this->assertContains('id="product_composite_configure_form"', $html);
     }
