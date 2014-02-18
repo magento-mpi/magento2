@@ -63,9 +63,13 @@ class Download
                 throw new \Exception();
             }
         }
+
         $this->_fileFactory->create(
             $info['title'],
-            array('value' => $this->_rootDir->getAbsolutePath($relativePath), 'type' => 'filename'),
+            [
+                'value' => $this->_rootDir->getRelativePath($relativePath),
+                'type' => 'filename',
+            ],
             \Magento\App\Filesystem::ROOT_DIR
         );
     }
