@@ -22,4 +22,11 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\Eav\Model\Entity\Setup\PropertyMapper\Composite">
+        <arguments>
+            <argument name="propertyMappers" xsi:type="array">
+                <item name="reward" xsi:type="string">Magento\Reward\Model\Resource\Setup\PropertyMapper</item>
+            </argument>
+        </arguments>
+    </type>
 </config>

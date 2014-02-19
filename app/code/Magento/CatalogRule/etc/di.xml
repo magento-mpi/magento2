@@ -28,4 +28,11 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\Catalog\Model\Product\PriceModifier\Composite">
+        <arguments>
+            <argument name="modifiers" xsi:type="array">
+                <item name="catalog_rule" xsi:type="string">Magento\CatalogRule\Model\Product\PriceModifier</item>
+            </argument>
+        </arguments>
+    </type>
 </config>

@@ -8,6 +8,7 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <preference for="Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\HandlerInterface" type="Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\Composite" />
     <type name="Magento\Catalog\Controller\Adminhtml\Product\Attribute">
         <arguments>
             <argument name="attributeLabelCache" xsi:type="object">Magento\App\Cache\Type\Translate</argument>
@@ -44,9 +45,6 @@
         <arguments>
             <argument name="isAvailable" xsi:type="boolean">false</argument>
         </arguments>
-    </type>
-    <type name="Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper">
-        <plugin name="configurable" type="Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Configurable" sortOrder="50" />
     </type>
     <type name="Magento\Catalog\Model\Product\CopyConstructor\Composite">
         <arguments>

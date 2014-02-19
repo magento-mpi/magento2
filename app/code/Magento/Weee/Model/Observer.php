@@ -144,8 +144,6 @@ class Observer extends \Magento\Core\Model\AbstractModel
                 'is_unique',
                 'is_required',
                 'frontend_class',
-                'is_configurable',
-
                 '_scope',
                 '_default_value',
                 '_front_fieldset',
@@ -224,12 +222,12 @@ class Observer extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * Update configurable options of the product view page
+     * Update options of the product view page
      *
      * @param   \Magento\Event\Observer $observer
      * @return  \Magento\Weee\Model\Observer
      */
-    public function updateConfigurableProductOptions(\Magento\Event\Observer $observer)
+    public function updateProductOptions(\Magento\Event\Observer $observer)
     {
         /* @var $helper \Magento\Weee\Helper\Data */
         $helper = $this->_weeeData;

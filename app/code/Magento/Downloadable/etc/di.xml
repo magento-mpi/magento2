@@ -28,4 +28,12 @@
     <type name="Magento\Catalog\Model\Product\CartConfiguration">
         <plugin name="Downloadable" type="Magento\Downloadable\Model\Product\CartConfiguration\Plugin\Downloadable" />
     </type>
+    <type name="Magento\Catalog\Model\Product\TypeTransitionManager">
+        <plugin name="downloadable_product_transition" type="Magento\Downloadable\Model\Product\TypeTransitionManager\Plugin\Downloadable" />
+        <arguments>
+            <argument name="compatibleTypes" xsi:type="array">
+                <item name="downloadable" xsi:type="const">Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE</item>
+            </argument>
+        </arguments>
+    </type>
 </config>

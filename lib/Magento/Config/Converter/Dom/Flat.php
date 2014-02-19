@@ -20,6 +20,8 @@ class Flat
     protected $arrayNodeConfig;
 
     /**
+     * Constructor
+     *
      * @param ArrayNodeConfig $arrayNodeConfig
      */
     public function __construct(ArrayNodeConfig $arrayNodeConfig)

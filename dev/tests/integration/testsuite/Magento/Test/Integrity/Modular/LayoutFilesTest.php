@@ -92,7 +92,7 @@ class LayoutFilesTest extends \PHPUnit_Framework_TestCase
             array($typeAttr => 'object',
                 'value' => 'Magento\GroupedProduct\Model\Resource\Product\Type\Grouped\AssociatedProductsCollection'),
             array($typeAttr => 'object',
-                'value' => 'Magento\Catalog\Model\Resource\Product\Collection\AssociatedProduct'),
+                'value' => 'Magento\ConfigurableProduct\Model\Resource\Product\Collection\AssociatedProduct'),
             array($typeAttr => 'object', 'value' => 'Magento\Search\Model\Resource\Search\Grid\Collection'),
             array($typeAttr => 'object', 'value' => 'Magento\Wishlist\Model\Resource\Item\Collection\Grid'),
             array($typeAttr => 'object',

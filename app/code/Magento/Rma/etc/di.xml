@@ -31,4 +31,11 @@
             <argument name="translate" xsi:type="object">Magento\Translate</argument>
         </arguments>
     </type>
+    <type name="Magento\Eav\Model\Entity\Setup\PropertyMapper\Composite">
+        <arguments>
+            <argument name="propertyMappers" xsi:type="array">
+                <item name="rma" xsi:type="string">Magento\Rma\Model\Resource\Setup\PropertyMapper</item>
+            </argument>
+        </arguments>
+    </type>
 </config>

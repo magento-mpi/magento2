@@ -21,11 +21,4 @@
             </argument>
         </arguments>
     </type>
-    <type name="Magento\CatalogInventory\Block\Adminhtml\Form\Field\Stock">
-        <arguments>
-            <argument name="complexProductTypes" xsi:type="array">
-                <item name="bundle" xsi:type="const">Magento\Catalog\Model\Product\Type::TYPE_BUNDLE</item>
-            </argument>
-        </arguments>
-    </type>
 </config>

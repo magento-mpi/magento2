@@ -32,7 +32,7 @@ abstract class AbstractXml
     /**
      * Instantiate with the list of files to merge
      *
-     * @param $configFiles
+     * @param array $configFiles
      * @throws \InvalidArgumentException
      */
     public function __construct($configFiles)
@@ -73,7 +73,7 @@ abstract class AbstractXml
      *
      * @param array $configFiles
      * @return \DOMDocument
-     * @throws \Magento\Exception if a non-existing or invalid XML-file passed
+     * @throws \Magento\Exception If a non-existing or invalid XML-file passed
      */
     protected function _merge($configFiles)
     {
@@ -94,8 +94,8 @@ abstract class AbstractXml
      * Perform xml validation
      *
      * @param string $file
-     * @return \Magento\Config\AbstractXml
-     * @throws \Magento\Exception if invalid XML-file passed
+     * @return $this
+     * @throws \Magento\Exception If invalid XML-file passed
      */
     protected function _performValidate($file = null)
     {

@@ -5,12 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backup\Model\Fs;
 
 /**
  * Backup data collection
  */
-namespace Magento\Backup\Model\Fs;
-
 class Collection extends \Magento\Data\Collection\Filesystem
 {
     /**
@@ -78,6 +77,8 @@ class Collection extends \Magento\Data\Collection\Filesystem
 
     /**
      * Create .htaccess file and deny backups directory access from web
+     *
+     * @return void
      */
     protected function _hideBackupsForApache()
     {
