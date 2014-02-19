@@ -95,7 +95,8 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
             $this->_generator,
             $this->_autoloader,
             $this->_ioObjectMock,
-            $this->_filesystemMock
+            $this->_filesystemMock,
+            array('factory', 'proxy', 'interceptor')
         );
         $this->assertEquals(array_values($this->_expectedEntities), $this->_model->getGeneratedEntities());
     }
@@ -118,7 +119,8 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
             $this->_generator,
             $this->_autoloader,
             $this->_ioObjectMock,
-            $this->_filesystemMock
+            $this->_filesystemMock,
+            array('Factory' => 'factory', 'Proxy' => 'proxy', 'Interceptor' => 'interceptor')
         );
 
         $this->assertEquals(
@@ -143,7 +145,8 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
             $this->_generator,
             $this->_autoloader,
             $this->_ioObjectMock,
-            $this->_filesystemMock
+            $this->_filesystemMock,
+            array('Factory' => 'factory', 'Proxy' => 'proxy', 'Interceptor' => 'interceptor')
         );
 
         $this->assertEquals(
@@ -187,7 +190,8 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
             $this->_generator,
             $this->_autoloader,
             $this->_ioObjectMock,
-            $this->_filesystemMock
+            $this->_filesystemMock,
+            array('Factory' => 'factory', 'Proxy' => 'proxy', 'Interceptor' => 'interceptor')
         );
 
         $expectedEntities = array_values($this->_expectedEntities);
