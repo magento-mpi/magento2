@@ -43,10 +43,10 @@ class CalculatorFactory
      */
     public function create($type)
     {
-        if (!isset($classByType[$type])) {
+        if (!isset($this->classByType[$type])) {
             throw new \InvalidArgumentException($type . ' is unknown type');
         }
 
-        return $this->_objectManager->create($classByType[$type]);
+        return $this->_objectManager->create($this->classByType[$type]);
     }
 }
