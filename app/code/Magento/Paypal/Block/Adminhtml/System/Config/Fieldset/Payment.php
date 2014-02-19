@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Block\Adminhtml\System\Config\Fieldset;
 
 /**
  * Fieldset renderer for PayPal solution
  */
-namespace Magento\Paypal\Block\Adminhtml\System\Config\Fieldset;
-
 class Payment
     extends \Magento\Backend\Block\System\Config\Form\Fieldset
 {

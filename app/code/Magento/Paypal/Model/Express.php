@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Model;
 
 /**
  * PayPal Express Module
  */
-namespace Magento\Paypal\Model;
-
 class Express extends \Magento\Payment\Model\Method\AbstractMethod
     implements \Magento\Payment\Model\Recurring\Profile\MethodInterface
 {
@@ -154,20 +153,21 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
         return $this;
     }
 
-   /**
-    * Can be used in regular checkout
-    *
-    * @return bool
-    */
-   public function canUseCheckout()
-   {
-       if ($this->_coreStoreConfig->getConfigFlag('payment/hosted_pro/active')
-           && !$this->_coreStoreConfig->getConfigFlag('payment/hosted_pro/display_ec')
-       ) {
-           return false;
-       }
-       return parent::canUseCheckout();
-   }
+
+    /**
+     * Can be used in regular checkout
+     *
+     * @return bool
+     */
+    public function canUseCheckout()
+    {
+        if ($this->_coreStoreConfig->getConfigFlag('payment/hosted_pro/active')
+            && !$this->_coreStoreConfig->getConfigFlag('payment/hosted_pro/display_ec')
+        ) {
+            return false;
+        }
+        return parent::canUseCheckout();
+    }
 
     /**
      * Whether method is available for specified currency
@@ -221,7 +221,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
      *
      * @param \Magento\Object|\Magento\Sales\Model\Order\Payment $payment
      * @param float $amount
-     * @return \Magento\Paypal\Model\Express
+     * @return $this
      */
     public function order(\Magento\Object $payment, $amount)
     {
@@ -286,7 +286,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
      *
      * @param \Magento\Object|\Magento\Sales\Model\Order\Payment $payment
      * @param float $amount
-     * @return \Magento\Paypal\Model\Express
+     * @return $this
      */
     public function authorize(\Magento\Object $payment, $amount)
     {
@@ -297,7 +297,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
      * Void payment
      *
      * @param \Magento\Object|\Magento\Sales\Model\Order\Payment $payment
-     * @return \Magento\Paypal\Model\Express
+     * @return $this
      */
     public function void(\Magento\Object $payment)
     {
@@ -323,7 +323,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
      * @param \Magento\Object|\Magento\Sales\Model\Order\Payment $payment
      * @param float $amount
      * @throws \Magento\Core\Exception
-     * @return \Magento\Paypal\Model\Express
+     * @return $this
      */
     public function capture(\Magento\Object $payment, $amount)
     {
@@ -419,7 +419,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
      *
      * @param \Magento\Object|\Magento\Sales\Model\Order\Payment $payment
      * @param float $amount
-     * @return \Magento\Paypal\Model\Express
+     * @return $this
      */
     public function refund(\Magento\Object $payment, $amount)
     {
@@ -431,7 +431,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
      * Cancel payment
      *
      * @param \Magento\Object|\Magento\Sales\Model\Order\Payment $payment
-     * @return \Magento\Paypal\Model\Express
+     * @return $this
      */
     public function cancel(\Magento\Object $payment)
     {
@@ -588,7 +588,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
      *
      * @param \Magento\Sales\Model\Order\Payment $payment
      * @param float $amount
-     * @return \Magento\Paypal\Model\Express
+     * @return $this
      */
     protected function _placeOrder(\Magento\Sales\Model\Order\Payment $payment, $amount)
     {
@@ -728,7 +728,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
      *
      * @param \Magento\Sales\Model\Order\Payment\Transaction $transaction
      * @param int $period
-     * @return boolean
+     * @return bool
      */
     protected function _isTransactionExpired(\Magento\Sales\Model\Order\Payment\Transaction $transaction, $period)
     {

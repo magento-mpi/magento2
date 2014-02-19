@@ -7,13 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Model\Express;
 
 /**
  * Wrapper that performs Paypal Express and Checkout communication
  * Use current Paypal Express method instance
  */
-namespace Magento\Paypal\Model\Express;
-
 class Checkout
 {
     /**
@@ -314,7 +313,7 @@ class Checkout
                     $this->_configCacheType->save($pal, $cacheId);
                 } catch (\Exception $e) {
                     $this->_configCacheType->save(self::PAL_CACHE_ID, $cacheId);
-                   $this->_logger->logException($e);
+                    $this->_logger->logException($e);
                 }
             }
         }
@@ -332,7 +331,7 @@ class Checkout
      * @param string $successUrl - payment success result
      * @param string $cancelUrl  - payment cancellation result
      * @param string $pendingUrl - pending payment result
-     * @return \Magento\Paypal\Model\Express\Checkout
+     * @return $this
      */
     public function prepareGiropayUrls($successUrl, $cancelUrl, $pendingUrl)
     {
@@ -344,7 +343,7 @@ class Checkout
      * Set create billing agreement flag
      *
      * @param bool $flag
-     * @return \Magento\Paypal\Model\Express\Checkout
+     * @return $this
      */
     public function setIsBillingAgreementRequested($flag)
     {
@@ -356,7 +355,7 @@ class Checkout
      * Setter for customer
      *
      * @param \Magento\Customer\Model\Customer $customer
-     * @return \Magento\Paypal\Model\Express\Checkout
+     * @return $this
      */
     public function setCustomer($customer)
     {
@@ -371,7 +370,7 @@ class Checkout
      * @param  \Magento\Customer\Model\Customer   $customer
      * @param  \Magento\Sales\Model\Quote\Address $billingAddress
      * @param  \Magento\Sales\Model\Quote\Address $shippingAddress
-     * @return \Magento\Paypal\Model\Express\Checkout
+     * @return $this
      */
     public function setCustomerWithAddressChange($customer, $billingAddress = null, $shippingAddress = null)
     {
@@ -837,7 +836,7 @@ class Checkout
     /**
      * Set create billing agreement flag to api call
      *
-     * @return \Magento\Paypal\Model\Express\Checkout
+     * @return $this
      */
     protected function _setBillingAgreementRequest()
     {
@@ -957,7 +956,7 @@ class Checkout
      *
      * @param \Magento\Object $option1
      * @param \Magento\Object $option2
-     * @return integer
+     * @return int
      */
     protected static function cmpShippingOptions(\Magento\Object $option1, \Magento\Object $option2)
     {
@@ -995,7 +994,7 @@ class Checkout
     /**
      * Prepare quote for guest checkout order submit
      *
-     * @return \Magento\Paypal\Model\Express\Checkout
+     * @return $this
      */
     protected function _prepareGuestQuote()
     {
@@ -1011,7 +1010,7 @@ class Checkout
      * Prepare quote for customer registration and customer order submit
      * and restore magento customer data from quote
      *
-     * @return \Magento\Paypal\Model\Express\Checkout
+     * @return $this
      */
     protected function _prepareNewCustomerQuote()
     {
@@ -1066,7 +1065,7 @@ class Checkout
     /**
      * Prepare quote for customer order submit
      *
-     * @return \Magento\Paypal\Model\Express\Checkout
+     * @return $this
      */
     protected function _prepareCustomerQuote()
     {
@@ -1103,7 +1102,7 @@ class Checkout
     /**
      * Involve new customer to system
      *
-     * @return \Magento\Paypal\Model\Express\Checkout
+     * @return $this
      */
     protected function _involveNewCustomer()
     {
