@@ -27,21 +27,29 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     const CACHE_GROUP = \Magento\App\Cache\Type\Block::TYPE_IDENTIFIER;
 
     /**
+     * Design
+     *
      * @var \Magento\View\DesignInterface
      */
     protected $_design;
 
     /**
+     * Session
+     *
      * @var \Magento\Session\SessionManagerInterface
      */
     protected $_session;
 
     /**
+     * SID Resolver
+     *
      * @var \Magento\Session\SidResolverInterface
      */
     protected $_sidResolver;
 
     /**
+     * Translator
+     *
      * @var \Magento\TranslateInterface
      */
     protected $_translator;
@@ -61,6 +69,8 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     protected $_layout;
 
     /**
+     * Request
+     *
      * @var \Magento\App\RequestInterface
      */
     protected $_request;
@@ -88,6 +98,8 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     protected $_frontController;
 
     /**
+     * View URL
+     *
      * @var \Magento\View\Url
      */
     protected $_viewUrl;
@@ -100,31 +112,43 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     protected $_viewConfig;
 
     /**
+     * Cache State
+     *
      * @var \Magento\App\Cache\StateInterface
      */
     protected $_cacheState;
 
     /**
+     * Logger
+     *
      * @var \Magento\Logger
      */
     protected $_logger;
 
     /**
+     * Application
+     *
      * @var \Magento\Core\Model\App
      */
     protected $_app;
 
     /**
+     * Escaper
+     *
      * @var \Magento\Escaper
      */
     protected $_escaper;
 
     /**
+     * Filter manager
+     *
      * @var \Magento\Filter\FilterManager
      */
     protected $filterManager;
 
     /**
+     * Locale
+     *
      * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
@@ -138,6 +162,8 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     protected $_isScopePrivate;
 
     /**
+     * Constructor
+     *
      * @param \Magento\View\Element\Context $context
      * @param array $data
      */
@@ -168,6 +194,8 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     }
 
     /**
+     * Get request
+     *
      * @return \Magento\App\RequestInterface
      */
     public function getRequest()
@@ -179,6 +207,8 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      * Internal constructor, that is called from real constructor
      *
      * Please override this one instead of overriding real __construct constructor
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -209,7 +239,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      * Set layout object
      *
      * @param   \Magento\View\LayoutInterface $layout
-     * @return  \Magento\View\Element\AbstractBlock
+     * @return  $this
      */
     public function setLayout(\Magento\View\LayoutInterface $layout)
     {
@@ -223,7 +253,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      *
      * You can redefine this method in child classes for changing layout
      *
-     * @return \Magento\View\Element\AbstractBlock
+     * @return $this
      */
     protected function _prepareLayout()
     {
@@ -244,7 +274,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      * Sets/changes name of a block in layout
      *
      * @param string $name
-     * @return \Magento\View\Element\AbstractBlock
+     * @return $this
      */
     public function setNameInLayout($name)
     {
@@ -280,7 +310,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      *
      * @param   string $name
      * @param   mixed $value
-     * @return  \Magento\View\Element\AbstractBlock
+     * @return  $this
      */
     public function setAttribute($name, $value = null)
     {
@@ -292,7 +322,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      *
      * @param   string $alias
      * @param   \Magento\View\Element\AbstractBlock|string $block
-     * @return  \Magento\View\Element\AbstractBlock
+     * @return  $this
      */
     public function setChild($alias, $block)
     {
@@ -319,7 +349,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      * @param string $alias
      * @param string $block
      * @param array $data
-     * @return \Magento\View\Element\AbstractBlock new block
+     * @return $this new block
      */
     public function addChild($alias, $block, $data = array())
     {
@@ -334,7 +364,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      * Unset child block
      *
      * @param  string $alias
-     * @return \Magento\View\Element\AbstractBlock
+     * @return $this
      */
     public function unsetChild($alias)
     {
@@ -349,7 +379,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     /**
      * Call a child and unset it, if callback matched result
      *
-     * $params will pass to child callback
+     * Variable $params will pass to child callback
      * $params may be array, if called from layout with elements with same name, for example:
      * ...<foo>value_1</foo><foo>value_2</foo><foo>value_3</foo>
      *
@@ -363,7 +393,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      * @param string $callback
      * @param mixed $result
      * @param array $params
-     * @return \Magento\View\Element\AbstractBlock
+     * @return $this
      */
     public function unsetCallChild($alias, $callback, $result, $params)
     {
@@ -387,7 +417,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     /**
      * Unset all children blocks
      *
-     * @return \Magento\View\Element\AbstractBlock
+     * @return $this
      */
     public function unsetChildren()
     {
@@ -505,7 +535,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      * @param string|int|null $siblingName
      * @param bool $after
      * @param string $alias
-     * @return \Magento\View\Element\AbstractBlock|bool
+     * @return $this|bool
      */
     public function insert($element, $siblingName = 0, $after = true, $alias = '')
     {
@@ -528,7 +558,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      *
      * @param \Magento\View\Element\AbstractBlock|string $element
      * @param string $alias
-     * @return \Magento\View\Element\AbstractBlock
+     * @return $this
      */
     public function append($element, $alias = '')
     {
@@ -569,7 +599,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     /**
      * Before rendering html, but after trying to load cache
      *
-     * @return \Magento\View\Element\AbstractBlock
+     * @return $this
      */
     protected function _beforeToHtml()
     {
@@ -675,8 +705,8 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      * @param string $file path to file in theme
      * @param array $params
      * @return string
-     * @throws \Magento\Exception
      */
+
     public function getViewFileUrl($file = null, array $params = array())
     {
         try {
@@ -757,7 +787,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      * Escape html entities
      *
      * @param   string|array $data
-     * @param   array $allowedTags
+     * @param   array|null $allowedTags
      * @return  string
      */
     public function escapeHtml($data, $allowedTags = null)
@@ -769,7 +799,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      * Wrapper for standard strip_tags() function with extra functionality for html entities
      *
      * @param string $data
-     * @param string $allowableTags
+     * @param string|null $allowableTags
      * @param bool $allowHtmlEntities
      * @return string
      */
@@ -809,9 +839,9 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     /**
      * Escape quotes in java scripts
      *
-     * @param mixed $data
+     * @param string|array $data
      * @param string $quote
-     * @return mixed
+     * @return string|array
      */
     public function escapeJsQuote($data, $quote = '\'')
     {
@@ -833,7 +863,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      *
      * Provide string array key to share specific info item with FPC placeholder
      *
-     * @return array
+     * @return string[]
      */
     public function getCacheKeyInfo()
     {
@@ -896,7 +926,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     /**
      * Load block html from cache storage
      *
-     * @return string | false
+     * @return string|false
      */
     protected function _loadCache()
     {
@@ -919,7 +949,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      * Save block content to cache storage
      *
      * @param string $data
-     * @return \Magento\View\Element\AbstractBlock
+     * @return $this
      */
     protected function _saveCache($data)
     {
@@ -958,7 +988,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      * Module name can be omitted. If omitted, it will be determined automatically.
      *
      * @param string $name variable name
-     * @param string $module optional module name
+     * @param string|null $module optional module name
      * @return string|false
      */
     public function getVar($name, $module = null)

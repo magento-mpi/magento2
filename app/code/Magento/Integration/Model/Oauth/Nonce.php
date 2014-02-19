@@ -5,7 +5,6 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento\Integration\Model\Oauth;
 
 /**
@@ -60,9 +59,9 @@ class Nonce extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * "After save" actions
+     * The "After save" actions
      *
-     * @return \Magento\Integration\Model\Oauth\Nonce
+     * @return $this
      */
     protected function _afterSave()
     {

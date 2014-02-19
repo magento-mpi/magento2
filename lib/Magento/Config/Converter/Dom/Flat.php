@@ -31,7 +31,9 @@ class Flat implements \Magento\Config\ConverterInterface
     protected $_idAttributes;
 
     /**
-     * @param $idAttributes
+     * Constructor
+     *
+     * @param array $idAttributes
      */
     public function __construct($idAttributes)
     {

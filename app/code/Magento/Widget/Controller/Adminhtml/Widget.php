@@ -58,6 +58,8 @@ class Widget extends \Magento\Backend\App\Action
 
     /**
      * Wisywyg widget plugin main page
+     *
+     * @return void
      */
     public function indexAction()
     {
@@ -72,6 +74,8 @@ class Widget extends \Magento\Backend\App\Action
 
     /**
      * Ajax responder for loading plugin options form
+     *
+     * @return void
      */
     public function loadOptionsAction()
     {
@@ -98,6 +102,8 @@ class Widget extends \Magento\Backend\App\Action
 
     /**
      * Format widget pseudo-code for inserting into wysiwyg editor
+     *
+     * @return void
      */
     public function buildWidgetAction()
     {

@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ImportExport\Model\Export\Entity;
 
 /**
  * Export entity product model
@@ -15,13 +16,12 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\ImportExport\Model\Export\Entity;
-
 class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
 {
     /**
      * Attributes that should be exported
-     * @var array
+     *
+     * @var string[]
      */
     protected $_bannedAttributes = array('media_gallery');
 
@@ -67,7 +67,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
     /**
      * Attributes with index (not label) value.
      *
-     * @var array
+     * @var string[]
      */
     protected $_indexValueAttributes = array(
         'status',
@@ -81,7 +81,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
     /**
      * Permanent entity columns.
      *
-     * @var array
+     * @var string[]
      */
     protected $_permanentAttributes = array(self::COL_SKU);
 
@@ -108,6 +108,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
 
     /**
      * Attribute types
+     *
      * @var array
      */
     protected $_attributeTypes = array();
@@ -188,6 +189,11 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
     protected $_linkTypeProvider;
 
     /**
+     * @var \Magento\ImportExport\Model\Export\RowCustomizerInterface
+     */
+    protected $rowCustomizer;
+
+    /**
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Eav\Model\Config $config
      * @param \Magento\App\Resource $resource
@@ -201,8 +207,9 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
      * @param \Magento\CatalogInventory\Model\Resource\Stock\ItemFactory $itemFactory
      * @param \Magento\Catalog\Model\Resource\Product\Option\CollectionFactory $optionColFactory
      * @param \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeColFactory
-     * @param \Magento\ImportExport\Model\Export\Entity\Product\Type\Factory $_typeFactory
+     * @param Product\Type\Factory $_typeFactory
      * @param \Magento\Catalog\Model\Product\LinkTypeProvider $linkTypeProvider
+     * @param \Magento\ImportExport\Model\Export\RowCustomizerInterface $rowCustomizer
      */
     public function __construct(
         \Magento\Core\Model\LocaleInterface $locale,
@@ -219,7 +226,8 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
         \Magento\Catalog\Model\Resource\Product\Option\CollectionFactory $optionColFactory,
         \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeColFactory,
         \Magento\ImportExport\Model\Export\Entity\Product\Type\Factory $_typeFactory,
-        \Magento\Catalog\Model\Product\LinkTypeProvider $linkTypeProvider
+        \Magento\Catalog\Model\Product\LinkTypeProvider $linkTypeProvider,
+        \Magento\ImportExport\Model\Export\RowCustomizerInterface $rowCustomizer
     ) {
         $this->_entityCollection = $collection;
         $this->_exportConfig = $exportConfig;
@@ -233,7 +241,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
         $this->_attributeColFactory = $attributeColFactory;
         $this->_typeFactory = $_typeFactory;
         $this->_linkTypeProvider = $linkTypeProvider;
-
+        $this->rowCustomizer = $rowCustomizer;
 
         parent::__construct($locale, $config, $resource, $storeManager);
 
@@ -248,7 +256,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
     /**
      * Initialize attribute sets code-to-id pairs.
      *
-     * @return \Magento\ImportExport\Model\Export\Entity\Product
+     * @return $this
      */
     protected function _initAttributeSets()
     {
@@ -262,7 +270,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
     /**
      * Initialize categories ID to text-path hash.
      *
-     * @return \Magento\ImportExport\Model\Export\Entity\Product
+     * @return $this
      */
     protected function _initCategories()
     {
@@ -290,7 +298,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
      * Initialize product type models.
      *
      * @throws \Magento\Core\Exception
-     * @return \Magento\ImportExport\Model\Export\Entity\Product
+     * @return $this
      */
     protected function _initTypeModels()
     {
@@ -323,7 +331,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
     /**
      * Initialize website values.
      *
-     * @return \Magento\ImportExport\Model\Export\Entity\Product
+     * @return $this
      */
     protected function _initWebsites()
     {
@@ -337,7 +345,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
     /**
      * Prepare products tier prices
      *
-     * @param  array $productIds
+     * @param  int[] $productIds
      * @return array
      */
     protected function _prepareTierPrices(array $productIds)
@@ -369,7 +377,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
     /**
      * Prepare products group prices
      *
-     * @param  array $productIds
+     * @param  int[] $productIds
      * @return array
      */
     protected function _prepareGroupPrices(array $productIds)
@@ -401,7 +409,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
     /**
      * Prepare products media gallery
      *
-     * @param  array $productIds
+     * @param  int[] $productIds
      * @return array
      */
     protected function _prepareMediaGallery(array $productIds)
@@ -442,7 +450,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
     /**
      * Prepare catalog inventory
      *
-     * @param  array $productIds
+     * @param  int[] $productIds
      * @return array
      */
     protected function _prepareCatalogInventory(array $productIds)
@@ -470,7 +478,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
     /**
      * Prepare product links
      *
-     * @param  array $productIds
+     * @param  int[] $productIds
      * @return array
      */
     protected function _prepareLinks(array $productIds)
@@ -537,8 +545,8 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
     /**
      * Update data row with information about categories. Return true, if data row was updated
      *
-     * @param array $dataRow
-     * @param array $rowCategories
+     * @param array &$dataRow
+     * @param array &$rowCategories
      * @param int $productId
      * @return bool
      */
@@ -560,7 +568,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function _getHeaderColumns()
     {
@@ -571,10 +579,10 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
      * Set headers columns
      *
      * @param array $customOptionsData
-     * @param array $configurableData
      * @param array $stockItemRows
+     * @return void
      */
-    protected function _setHeaderColumns($customOptionsData, $configurableData, $stockItemRows)
+    protected function _setHeaderColumns($customOptionsData, $stockItemRows)
     {
         if (!$this->_headerColumns) {
             $customOptCols = array(
@@ -609,13 +617,6 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
             // have we merge custom options columns
             if ($customOptionsData) {
                 $this->_headerColumns = array_merge($this->_headerColumns, $customOptCols);
-            }
-            // have we merge configurable products data
-            if ($configurableData) {
-                $this->_headerColumns = array_merge($this->_headerColumns, array(
-                    '_super_products_sku', '_super_attribute_code',
-                    '_super_attribute_option', '_super_attribute_price_corr'
-                ));
             }
         }
     }
@@ -675,6 +676,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
      *
      * @param int $page
      * @param int $pageSize
+     * @return void
      */
     protected function _paginateCollection($page, $pageSize)
     {
@@ -816,35 +818,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
                 $linkIdColPrefix[$linkTypeId] = '_' . $linkTypeName . '_';
             }
 
-            $configurableProductsCollection = $this->_entityCollection;
-            $configurableProductsCollection->addAttributeToFilter(
-                'entity_id',
-                array(
-                    'in'    => $productIds
-                )
-            )->addAttributeToFilter(
-                'type_id',
-                array(
-                    'eq'    => \Magento\Catalog\Model\Product\Type\Configurable::TYPE_CODE
-                )
-            );
-            $configurableData = array();
-            while ($product = $configurableProductsCollection->fetchItem()) {
-                $productAttributesOptions = $product->getTypeInstance()->getConfigurableOptions($product);
-
-                foreach ($productAttributesOptions as $productAttributeOption) {
-                    $configurableData[$product->getId()] = array();
-                    foreach ($productAttributeOption as $optionValues) {
-                        $priceType = $optionValues['pricing_is_percent'] ? '%' : '';
-                        $configurableData[$product->getId()][] = array(
-                            '_super_products_sku'           => $optionValues['sku'],
-                            '_super_attribute_code'         => $optionValues['attribute_code'],
-                            '_super_attribute_option'       => $optionValues['option_title'],
-                            '_super_attribute_price_corr'   => $optionValues['pricing_value'] . $priceType
-                        );
-                    }
-                }
-            }
+            $this->rowCustomizer->prepareData($this->_entityCollection, $productIds);
 
             // prepare custom options information
             $customOptionsData    = array();
@@ -936,7 +910,8 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
             }
             unset($customOptionsDataPre);
 
-            $this->_setHeaderColumns($customOptionsData, $configurableData, $stockItemRows);
+            $this->_setHeaderColumns($customOptionsData, $stockItemRows);
+            $this->_headerColumns = $this->rowCustomizer->addHeaderColumns($this->_headerColumns);
 
             foreach ($dataRows as $productId => &$productData) {
                 foreach ($productData as $storeId => &$dataRow) {
@@ -978,9 +953,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
                     if (!empty($customOptionsData[$productId])) {
                         $dataRow = array_merge($dataRow, array_shift($customOptionsData[$productId]));
                     }
-                    if (!empty($configurableData[$productId])) {
-                        $dataRow = array_merge($dataRow, array_shift($configurableData[$productId]));
-                    }
+                    $dataRow = $this->rowCustomizer->addData($dataRow, $productId);
                     if (!empty($rowMultiselects[$productId])) {
                         foreach ($rowMultiselects[$productId] as $attrKey => $attrVal) {
                             if (!empty($rowMultiselects[$productId][$attrKey])) {
@@ -1016,9 +989,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
                 if (!empty($customOptionsData[$productId])) {
                     $additionalRowsCount = max($additionalRowsCount, count($customOptionsData[$productId]));
                 }
-                if (!empty($configurableData[$productId])) {
-                    $additionalRowsCount = max($additionalRowsCount, count($configurableData[$productId]));
-                }
+                $additionalRowsCount = $this->rowCustomizer->getAdditionalRowsCount($additionalRowsCount, $productId);
                 if (!empty($rowMultiselects[$productId])) {
                     foreach ($rowMultiselects[$productId] as $attributes) {
                         $additionalRowsCount = max($additionalRowsCount, count($attributes));
@@ -1057,9 +1028,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
                         if (!empty($customOptionsData[$productId])) {
                             $dataRow = array_merge($dataRow, array_shift($customOptionsData[$productId]));
                         }
-                        if (!empty($configurableData[$productId])) {
-                            $dataRow = array_merge($dataRow, array_shift($configurableData[$productId]));
-                        }
+                        $dataRow = $this->rowCustomizer->addData($dataRow, $productId);
                         if (!empty($rowMultiselects[$productId])) {
                             foreach ($rowMultiselects[$productId] as $attrKey => $attrVal) {
                                 if (!empty($rowMultiselects[$productId][$attrKey])) {
@@ -1131,7 +1100,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
     /**
      * Initialize attribute option values and types.
      *
-     * @return \Magento\ImportExport\Model\Export\Entity\Product
+     * @return $this
      */
     protected function _initAttributes()
     {
