@@ -7,16 +7,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Checkout\Model\Type;
+
+use Magento\Customer\Model\Address;
+use Magento\Sales\Model\Order;
+use Magento\Sales\Model\Quote\Item;
 
 /**
- * Cehckout type abstract class
+ * Checkout type abstract class
  *
  * @category   Magento
  * @package    Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Checkout\Model\Type;
-
 abstract class AbstractType extends \Magento\Object
 {
     /**
@@ -80,7 +83,7 @@ abstract class AbstractType extends \Magento\Object
     /**
      * Retrieve quote items
      *
-     * @return array
+     * @return Item[]
      */
     public function getQuoteItems()
     {
@@ -88,7 +91,7 @@ abstract class AbstractType extends \Magento\Object
     }
 
     /**
-     * Retrieve customer session vodel
+     * Retrieve customer session model
      *
      * @return \Magento\Customer\Model\Session
      */
@@ -110,7 +113,7 @@ abstract class AbstractType extends \Magento\Object
     /**
      * Retrieve customer default shipping address
      *
-     * @return \Magento\Customer\Model\Address || false
+     * @return Address|null
      */
     public function getCustomerDefaultShippingAddress()
     {
@@ -119,7 +122,7 @@ abstract class AbstractType extends \Magento\Object
             $address = $this->getCustomer()->getDefaultShippingAddress();
             if (!$address) {
                 foreach ($this->getCustomer()->getAddresses() as $address) {
-                    if($address){
+                    if ($address) {
                         break;
                     }
                 }
@@ -132,7 +135,7 @@ abstract class AbstractType extends \Magento\Object
     /**
      * Retrieve customer default billing address
      *
-     * @return \Magento\Customer\Model\Address || false
+     * @return Address|null
      */
     public function getCustomerDefaultBillingAddress()
     {
@@ -141,7 +144,7 @@ abstract class AbstractType extends \Magento\Object
             $address = $this->getCustomer()->getDefaultBillingAddress();
             if (!$address) {
                 foreach ($this->getCustomer()->getAddresses() as $address) {
-                    if($address){
+                    if ($address) {
                         break;
                     }
                 }
@@ -151,6 +154,10 @@ abstract class AbstractType extends \Magento\Object
         return $address;
     }
 
+    /**
+     * @param Address $address
+     * @return Order
+     */
     protected function _createOrderFromAddress($address)
     {
         $order = $this->_orderFactory->create()
