@@ -24,13 +24,13 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\View\Element\AbstractBlock */
     protected $_blockMock;
 
-    /** @var \Magento\Core\Model\Layout  */
+    /** @var \Magento\Core\Model\Layout */
     protected $_layoutMock;
 
     /** @var \Magento\Event\Observer */
     protected $_observerMock;
 
-    /** @var \Magento\PageCache\Helper\Data  */
+    /** @var \Magento\PageCache\Helper\Data */
     protected $_helperMock;
 
     /** @var \Magento\Object */
@@ -72,7 +72,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_transport = new \Magento\Object([
             'output' => 'test output html'
         ]);
-        $this->_observerObject = $this->getMock('\Magento\Core\Model\Store',[], [], '', false);
+        $this->_observerObject = $this->getMock('\Magento\Core\Model\Store', [], [], '', false);
     }
 
     /**
