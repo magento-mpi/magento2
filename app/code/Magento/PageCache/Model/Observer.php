@@ -12,7 +12,6 @@ namespace Magento\PageCache\Model;
 
 /**
  * Class Observer
- * @package Magento\PageCache\Model
  */
 class Observer
 {

@@ -29,15 +29,11 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Object\ */
     protected $_observerObject;
 
-    /** @var string */
-    protected $_url;
-
     /**
      * Set up all mocks and data for test
      */
     public function setUp()
     {
-        $this->_url = 'http://mangento.index.php';
         $this->_configMock = $this->getMock('Magento\PageCache\Model\Config', ['getType'], [], '', false);
         $this->_helperMock = $this->getMock('Magento\PageCache\Helper\Data', ['getUrl'], [], '', false);
         $this->_curlMock = $this->getMock(
@@ -102,6 +98,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      */
     protected function sendPurgeRequest($tags = array())
     {
+        $url = 'http://mangento.index.php';
         $httpVersion = '1.1';
         $headers = "X-Magento-Tags-Pattern: {$tags}";
         $this->_curlMock->expects($this->once())
@@ -109,7 +106,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->with(array(CURLOPT_CUSTOMREQUEST => 'PURGE'));
         $this->_curlMock->expects($this->once())
             ->method('write')
-            ->with($this->equalTo(''), $this->equalTo($this->_url), $httpVersion, $headers);
+            ->with($this->equalTo(''), $this->equalTo($url), $httpVersion, $headers);
         $this->_curlMock->expects($this->once())
             ->method('read');
         $this->_curlMock->expects($this->once())

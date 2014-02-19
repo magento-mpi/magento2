@@ -12,15 +12,13 @@ namespace Magento\CacheInvalidate\Helper;
 
 /**
  * Class Data
- *
- * @package Magento\CacheInvalidate\Helper
  */
 class Data extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * Retrieve url
      *
-     * @param $route
+     * @param string $route
      * @param array $params
      * @return string
      */

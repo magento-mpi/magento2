@@ -13,14 +13,11 @@
  *
  * @category    Magento
  * @package     Magento_PageCache
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\PageCache\Helper;
 
 /**
  * Helper for Page Cache module
- *
- * @package Magento\PageCache\Helper
  */
 class Data extends \Magento\App\Helper\AbstractHelper
 {
@@ -46,11 +43,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Retrieve url
      *
-     * @param $route
+     * @param string $route
      * @param array $params
      * @return string
      */
-    public function getUrl($route, $params = array())
+    public function getUrl($route, array $params = array())
     {
         return $this->_getUrl($route, $params);
     }
