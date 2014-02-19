@@ -22,7 +22,7 @@ interface CustomerAccountServiceInterface
     const NEW_ACCOUNT_EMAIL_CONFIRMED = 'confirmed';       // welcome email, when confirmation is enabled
     const NEW_ACCOUNT_EMAIL_CONFIRMATION = 'confirmation'; // email with confirmation link
 
-    // confirmation statuses
+    // Constants for confirmation statuses
     const ACCOUNT_CONFIRMED = 'account_confirmed';
     const ACCOUNT_CONFIRMATION_REQUIRED = 'account_confirmation_required';
     const ACCOUNT_CONFIRMATION_NOT_REQUIRED = 'account_confirmation_not_required';
@@ -122,6 +122,14 @@ interface CustomerAccountServiceInterface
      */
     public function resetPassword($customerId, $password, $resetToken);
 
+    /**
+     * Gets the account confirmation status
+     *
+     * @param int $customerId
+     * @return string returns one of the account confirmation statuses
+     */
+    public function getConfirmationStatus($customerId);
+
     /*
      * Send Confirmation email
      *
@@ -140,10 +148,4 @@ interface CustomerAccountServiceInterface
      * @return array|bool
      */
     public function validateCustomerData(Dto\Customer $customer, array $attributes);
-
-    /**
-     * @param int $customerId
-     * @return string
-     */
-    public function getConfirmationStatus($customerId);
 }

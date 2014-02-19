@@ -46,6 +46,8 @@ class Form
     protected $_isAjax = false;
 
     /**
+     * Attribute values
+     *
      * @var array
      */
     protected $_attributeValues = [];
@@ -216,10 +218,10 @@ class Form
     }
 
     /**
-     * Compact data array to current entity
+     * Compact data array to form attribute values
      *
      * @param array $data
-     * @return array
+     * @return array attribute values
      */
     public function compactData(array $data)
     {
@@ -229,13 +231,15 @@ class Form
             if (!isset($data[$attribute->getAttributeCode()])) {
                 $data[$attribute->getAttributeCode()] = false;
             }
+            $attributeCode = $attribute->getAttributeCode();
+            $this->_attributeValues[$attributeCode] = $dataModel->compactValue($data[$attributeCode]);
         }
 
-        return $data;
+        return $this->_attributeValues;
     }
 
     /**
-     * Restore data array from SESSION to current entity
+     * Restore data array from SESSION to attribute values
      *
      * @param array $data
      * @return array
@@ -248,9 +252,10 @@ class Form
             if (!isset($data[$attribute->getAttributeCode()])) {
                 $data[$attribute->getAttributeCode()] = false;
             }
-            $dataModel->restoreValue($data[$attribute->getAttributeCode()]);
+            $attributeCode = $attribute->getAttributeCode();
+            $this->_attributeValues[$attributeCode] = $dataModel->restoreValue($data[$attributeCode]);
         }
-        return $data;
+        return $this->_attributeValues;
     }
 
     /**

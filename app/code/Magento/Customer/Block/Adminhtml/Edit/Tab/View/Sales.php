@@ -2,24 +2,20 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * Adminhtml customer view wishlist block
- *
- * @category   Magento
- * @package    Magento_Customer
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab\View;
 
+use Magento\Customer\Controller\Adminhtml\Index;
+use Magento\Directory\Model\Currency;
+use Magento\Sales\Model\Order;
+
+/**
+ * Adminhtml customer view sales block
+ */
 class Sales extends \Magento\Backend\Block\Template
 {
-
     /**
      * Sales entity collection
      *
@@ -27,13 +23,20 @@ class Sales extends \Magento\Backend\Block\Template
      */
     protected $_collection;
 
+    /**
+     * @var array
+     */
     protected $_groupedCollection;
+
+    /**
+     * @var int[]
+     */
     protected $_websiteCounts;
 
     /**
      * Currency model
      *
-     * @var \Magento\Directory\Model\Currency
+     * @var Currency
      */
     protected $_currency;
 
@@ -55,6 +58,8 @@ class Sales extends \Magento\Backend\Block\Template
     protected $_collectionFactory;
 
     /**
+     * Constructor
+     *
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
      * @param \Magento\Sales\Model\Resource\Sale\CollectionFactory $collectionFactory
@@ -74,23 +79,33 @@ class Sales extends \Magento\Backend\Block\Template
         parent::__construct($context, $data);
     }
 
+    /**
+     * Initialize the sales grid.
+     *
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
         $this->setId('customer_view_sales_grid');
     }
 
+    /**
+     * Execute before toHtml() code.
+     *
+     * @return \Magento\View\Element\AbstractBlock
+     */
     public function _beforeToHtml()
     {
         $this->_currency = $this->_currencyFactory->create()
-            ->load($this->_storeConfig->getConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE));
+            ->load($this->_storeConfig->getConfig(Currency::XML_PATH_CURRENCY_BASE));
 
         $this->_collection = $this->_collectionFactory->create()
-            ->setCustomerFilter($this->_coreRegistry->registry('current_customer'))
-            ->setOrderStateFilter(\Magento\Sales\Model\Order::STATE_CANCELED, true)
+            ->setCustomerIdFilter($this->_coreRegistry->registry(Index::REGISTRY_CURRENT_CUSTOMER_ID))
+            ->setOrderStateFilter(Order::STATE_CANCELED, true)
             ->load();
 
-        $this->_groupedCollection = array();
+        $this->_groupedCollection = [];
 
         foreach ($this->_collection as $sale) {
             if (!is_null($sale->getStoreId())) {
@@ -120,16 +135,28 @@ class Sales extends \Magento\Backend\Block\Template
         return parent::_beforeToHtml();
     }
 
+    /**
+     * Retrieve the website count for the specified website Id
+     *
+     * @param int $websiteId
+     * @return int
+     */
     public function getWebsiteCount($websiteId)
     {
         return isset($this->_websiteCounts[$websiteId]) ? $this->_websiteCounts[$websiteId] : 0;
     }
 
+    /**
+     * @return array
+     */
     public function getRows()
     {
         return $this->_groupedCollection;
     }
 
+    /**
+     * @return \Magento\Object
+     */
     public function getTotals()
     {
         return $this->_collection->getTotals();

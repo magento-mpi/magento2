@@ -109,6 +109,9 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     {
         $this->_fillAllFields($this->_addressBuilder);
         $expected = $this->_expectedValues;
+        $region = $expected['region'];
+        $expected['region'] = $region['region'];
+        $expected['region_code'] = '';
         unset($expected['id']);
         unset($expected['default_billing']);
         unset($expected['default_shipping']);

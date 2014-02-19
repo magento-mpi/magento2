@@ -38,4 +38,43 @@ class Edit extends \Magento\Customer\Block\Account\Dashboard
         );
         $this->_isScopePrivate = true;
     }
+
+    /**
+     * Retrieve form data
+     *
+     * @return \Magento\Object
+     */
+    public function getFormData()
+    {
+        $data = $this->getData('form_data');
+        if (is_null($data)) {
+            $formData = $this->_customerSession->getCustomerFormData(true);
+            $data = new \Magento\Object();
+            if ($formData) {
+                $data->addData($formData);
+                $data->setCustomerData(1);
+            }
+            $this->setData('form_data', $data);
+        }
+        return $data;
+    }
+
+    /**
+     * Restore entity data from session.
+     * Entity and form code must be defined for the form
+     *
+     * @param \Magento\Customer\Model\Metadata\Form $form
+     * @param null $scope
+     * @return \Magento\Customer\Block\Form\Register
+     */
+    public function restoreSessionData(\Magento\Customer\Model\Metadata\Form $form, $scope = null)
+    {
+        if ($this->getFormData()->getCustomerData()) {
+            $request = $form->prepareRequest($this->getFormData()->getData());
+            $data    = $form->extractData($request, $scope, false);
+            $form->restoreData($data);
+        }
+
+        return $this;
+    }
 }

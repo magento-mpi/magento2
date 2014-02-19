@@ -59,7 +59,11 @@ class NameTest extends \PHPUnit_Framework_TestCase
             $this->getMock('Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata', array(), array(), '', false);
         $metadataService
             ->expects($this->any())
-            ->method('getAttributeMetadata')->will($this->returnValue($this->_attributeMetadata));
+            ->method('getCustomerAttributeMetadata')->will($this->returnValue($this->_attributeMetadata));
+        $metadataService
+            ->expects($this->any())
+            ->method('getAddressAttributeMetadata')->will($this->returnValue($this->_attributeMetadata));
+
 
         $this->_block = new Name($context, $addressHelper, $metadataService, $this->_customerHelper);
     }

@@ -185,7 +185,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     {
         $this->_customerModelMock->expects($this->any())
             ->method('load')
-            ->will($this->returnValue($this->_customerModelMock));
+            ->will($this->returnSelf());
 
         $this->_mockReturnValue(
             $this->_customerModelMock,
@@ -222,7 +222,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     {
         $this->_customerModelMock->expects($this->any())
             ->method('load')
-            ->will($this->returnValue($this->_customerModelMock));
+            ->will($this->returnSelf());
 
         $this->_mockReturnValue(
             $this->_customerModelMock,
@@ -252,7 +252,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     {
         $this->_customerModelMock->expects($this->any())
             ->method('load')
-            ->will($this->returnValue($this->_customerModelMock));
+            ->will($this->returnSelf());
 
         $this->_mockReturnValue(
             $this->_customerModelMock,
@@ -295,7 +295,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     {
         $this->_customerModelMock->expects($this->any())
             ->method('load')
-            ->will($this->returnValue($this->_customerModelMock));
+            ->will($this->returnSelf());
 
         $this->_mockReturnValue(
             $this->_customerModelMock,
@@ -328,7 +328,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     {
         $this->_customerModelMock->expects($this->any())
             ->method('load')
-            ->will($this->returnValue($this->_customerModelMock));
+            ->will($this->returnSelf());
 
         $this->_mockReturnValue(
             $this->_customerModelMock,
@@ -866,7 +866,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(55));
         $this->_customerModelMock->expects($this->once())
             ->method('setWebsiteId')
-            ->will($this->returnValue($this->_customerModelMock));
+            ->will($this->returnSelf());
         $this->_customerModelMock->expects($this->any())
             ->method('isConfirmationRequired')
             ->will($this->returnValue(true));
@@ -888,7 +888,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(0));
         $this->_customerModelMock->expects($this->once())
             ->method('setWebsiteId')
-            ->will($this->returnValue($this->_customerModelMock));
+            ->will($this->returnSelf());
 
         $customerService = $this->_createService();
         try {
@@ -921,10 +921,59 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerModelMock->expects($this->once())
             ->method('setWebsiteId')
             ->with(2)
-            ->will($this->returnValue($this->_customerModelMock));
+            ->will($this->returnSelf());
 
         $customerService = $this->_createService();
         $customerService->sendConfirmation('email@test.com');
+    }
+
+    /**
+     * @dataProvider testGetConfirmationStatusDataProvider
+     * @param string $expected The expected confirmation status.
+     */
+    public function testGetConfirmationStatus($expected)
+    {
+        $customerId = 1234;
+        $this->_customerFactoryMock->expects($this->once())
+            ->method('create')
+            ->will($this->returnValue($this->_customerModelMock));
+        $this->_customerModelMock->expects($this->once())
+            ->method('load')
+            ->with($customerId)
+            ->will($this->returnSelf());
+        $this->_customerModelMock->expects($this->once())
+            ->method('getId')
+            ->will($this->returnValue($customerId));
+        if (CustomerAccountServiceInterface::ACCOUNT_CONFIRMED == $expected) {
+            $this->_customerModelMock->expects($this->once())
+                ->method('getConfirmation')
+                ->will($this->returnValue(false));
+        } else {
+            $this->_customerModelMock->expects($this->once())
+                ->method('getConfirmation')
+                ->will($this->returnValue(true));
+        }
+        if (CustomerAccountServiceInterface::ACCOUNT_CONFIRMATION_REQUIRED == $expected) {
+            $this->_customerModelMock->expects($this->once())
+                ->method('isConfirmationRequired')
+                ->will($this->returnValue(true));
+        } elseif (CustomerAccountServiceInterface::ACCOUNT_CONFIRMED != $expected) {
+            $this->_customerModelMock->expects($this->once())
+                ->method('getConfirmation')
+                ->will($this->returnValue(false));
+        }
+
+        $customerService = $this->_createService();
+        $this->assertEquals($expected, $customerService->getConfirmationStatus($customerId));
+    }
+
+    public function testGetConfirmationStatusDataProvider()
+    {
+        return [
+            [CustomerAccountServiceInterface::ACCOUNT_CONFIRMED],
+            [CustomerAccountServiceInterface::ACCOUNT_CONFIRMATION_REQUIRED],
+            [CustomerAccountServiceInterface::ACCOUNT_CONFIRMATION_NOT_REQUIRED]
+        ];
     }
 
     private function _setupStoreMock()

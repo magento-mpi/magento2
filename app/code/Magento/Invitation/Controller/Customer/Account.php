@@ -44,13 +44,15 @@ class Account extends \Magento\Customer\Controller\Account
     /**
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Customer\Helper\Address $addressHelper
+     * @param \Magento\Customer\Helper\Data $customerHelperData
      * @param \Magento\UrlFactory $urlFactory
-     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
-     * @param \Magento\Customer\Model\FormFactory $formFactory
+     * @param \Magento\Customer\Model\Metadata\FormFactory $formFactory
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Store\Config $storeConfig
      * @param \Magento\Escaper $escaper
      * @param \Magento\Customer\Service\V1\CustomerServiceInterface $customerService
      * @param CustomerGroupServiceInterface $customerGroupService
@@ -65,14 +67,18 @@ class Account extends \Magento\Customer\Controller\Account
     public function __construct(
         \Magento\App\Action\Context $context,
         \Magento\Customer\Model\Session $customerSession,
+        \Magento\Customer\Helper\Address $addressHelper,
+        \Magento\Customer\Helper\Data $customerHelperData,
         \Magento\UrlFactory $urlFactory,
-        \Magento\Customer\Model\CustomerFactory $customerFactory,
-        \Magento\Customer\Model\FormFactory $formFactory,
+        \Magento\Customer\Model\Metadata\FormFactory $formFactory,
         \Magento\Stdlib\String $string,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Store\Config $storeConfig,
+        \Magento\Core\Helper\Data $coreHelperData,
         \Magento\Escaper $escaper,
+        \Magento\App\State $appState,
         CustomerServiceInterface $customerService,
         CustomerGroupServiceInterface $customerGroupService,
         CustomerAccountServiceInterface $customerAccountService,
@@ -82,19 +88,22 @@ class Account extends \Magento\Customer\Controller\Account
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Invitation\Model\Config $config,
         \Magento\Invitation\Model\InvitationFactory $invitationFactory
-    )
-    {
+    ) {
         parent::__construct(
             $context,
             $customerSession,
+            $addressHelper,
+            $customerHelperData,
             $urlFactory,
-            $customerFactory,
             $formFactory,
             $string,
             $formKeyValidator,
             $subscriberFactory,
             $storeManager,
+            $storeConfig,
+            $coreHelperData,
             $escaper,
+            $appState,
             $customerService,
             $customerGroupService,
             $customerAccountService,
@@ -241,28 +250,12 @@ class Account extends \Magento\Customer\Controller\Account
             if ($customer->getConfirmation() !== $key) {
                 throw new \Exception(__('Wrong confirmation key.'));
             }
-            $this->_activateCustomer($customer);
+            $this->_customerAccountService->activateAccount($customer->getCustomerId(), $key);
 
             // log in and send greeting email, then die happy
             $this->_getSession()->setCustomerAsLoggedIn($customer);
             $this->_redirect('customer/account/');
             return true;
-        }
-    }
-
-    /**
-     * @param \Magento\Customer\Service\V1\Dto\Customer $customer
-     * @throws \Exception
-     */
-    protected function _activateCustomer($customer)
-    {
-        try {
-            $this->_customerBuilder->populata($customer);
-            $this->_customerBuilder->setConfirmation(null);
-            $customer = $this->_customerBuilder->create();
-            $this->_customerService->saveCustomer($customer);
-        } catch (\Exception $e) {
-            throw new \Exception(__('Failed to confirm customer account.'));
         }
     }
 

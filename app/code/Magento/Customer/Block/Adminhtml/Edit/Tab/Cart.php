@@ -2,20 +2,16 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
  * Adminhtml customer orders grid block
- *
- * @category   Magento
- * @package    Magento_Customer
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
+
+use Magento\Customer\Controller\Adminhtml\Index;
 use \Magento\Directory\Model\Currency;
 
 /**
@@ -23,8 +19,6 @@ use \Magento\Directory\Model\Currency;
  */
 class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
 {
-    const CURRENT_CUSTOMER_ID = 'current_customer_id';
-
     /**
      * Core registry
      *
@@ -98,7 +92,7 @@ class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareCollection()
     {
-        $customerId = $this->_coreRegistry->registry(self::CURRENT_CUSTOMER_ID);
+        $customerId = $this->getCustomerId();
         $storeIds = $this->_storeManager->getWebsite($this->getWebsiteId())->getStoreIds();
 
         $quote = $this->_quoteFactory->create()
@@ -200,7 +194,7 @@ class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     public function getCustomerId()
     {
-        return $this->_coreRegistry->registry(self::CURRENT_CUSTOMER_ID);
+        return $this->_coreRegistry->registry(Index::REGISTRY_CURRENT_CUSTOMER_ID);
     }
 
     /**

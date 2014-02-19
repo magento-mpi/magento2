@@ -2,17 +2,14 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Model\Resource\Sale;
 
 /**
  * Sales Collection
  */
-namespace Magento\Sales\Model\Resource\Sale;
-
 class Collection extends \Magento\Data\Collection\Db
 {
     /**
@@ -28,11 +25,11 @@ class Collection extends \Magento\Data\Collection\Db
     );
 
     /**
-     * Customer model
+     * Customer Id
      *
-     * @var \Magento\Customer\Model\Customer
+     * @var int
      */
-    protected $_customer;
+    protected $_customerId;
 
     /**
      * Order state value
@@ -47,6 +44,11 @@ class Collection extends \Magento\Data\Collection\Db
      * @var string
      */
     protected $_orderStateCondition = null;
+
+    /**
+     * @var string
+     */
+    protected $_orderStateValue;
 
     /**
      * Core event manager proxy
@@ -88,14 +90,14 @@ class Collection extends \Magento\Data\Collection\Db
     }
 
     /**
-     * Set filter by customer
+     * Set filter by customer Id
      *
-     * @param \Magento\Customer\Model\Customer $customer
-     * @return \Magento\Sales\Model\Resource\Sale\Collection
+     * @param int $customerId
+     * @return $this
      */
-    public function setCustomerFilter(\Magento\Customer\Model\Customer $customer)
+    public function setCustomerIdFilter($customerId)
     {
-        $this->_customer = $customer;
+        $this->_customerId = $customerId;
         return $this;
     }
 
@@ -145,8 +147,8 @@ class Collection extends \Magento\Data\Collection\Db
             )
             ->group('sales.store_id');
 
-        if ($this->_customer instanceof \Magento\Customer\Model\Customer) {
-            $this->addFieldToFilter('sales.customer_id', $this->_customer->getId());
+        if ($this->_customerId) {
+            $this->addFieldToFilter('sales.customer_id', $this->_customerId);
         }
 
         if (!is_null($this->_orderStateValue)) {
@@ -203,7 +205,7 @@ class Collection extends \Magento\Data\Collection\Db
                 ->setWebsiteId($this->_storeManager->getStore($storeId)->getWebsiteId())
                 ->setAvgNormalized($v['avgsale'] * $v['num_orders']);
             $this->_items[$storeId] = $storeObject;
-            foreach ($this->_totals as $key => $value) {
+            foreach (array_keys($this->_totals) as $key) {
                 $this->_totals[$key] += $storeObject->getData($key);
             }
         }

@@ -46,4 +46,13 @@ interface CustomerServiceInterface
      */
     public function isReadonly($customerId);
 
+    /**
+     * Indicates if the Customer for the currently logged in user as specified by the provided
+     * customerId can be deleted.
+     *
+     * @param int $customerId
+     * @throws NoSuchEntityException If customer with customerId is not found.
+     * @return bool
+     */
+    public function isDeleteable($customerId);
 }

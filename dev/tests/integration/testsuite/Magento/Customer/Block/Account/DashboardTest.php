@@ -96,6 +96,7 @@ class DashboardTest extends \PHPUnit_Framework_TestCase
     /**
      * Verify that the specified customer has different default billing and shipping addresses.
      *
+     * @magentoDataFixture Magento/Customer/_files/customer.php
      * @magentoDataFixture Magento/Customer/_files/customer_primary_addresses.php
      */
     public function testGetPrimaryAddressesBillingShippingDifferent()

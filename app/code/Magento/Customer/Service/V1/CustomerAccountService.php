@@ -216,6 +216,22 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     /**
      * {@inheritdoc}
      */
+    public function getConfirmationStatus($customerId)
+    {
+        /** @var \Magento\Customer\Model\Customer $customerModel */
+        $customerModel= $this->_converter->getCustomerModel($customerId);
+        if (!$customerModel->getConfirmation()) {
+            return CustomerAccountServiceInterface::ACCOUNT_CONFIRMED;
+        }
+        if ($customerModel->isConfirmationRequired()) {
+            return CustomerAccountServiceInterface::ACCOUNT_CONFIRMATION_REQUIRED;
+        }
+        return CustomerAccountServiceInterface::ACCOUNT_CONFIRMATION_NOT_REQUIRED;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function createAccount(
         Dto\Customer $customer,
         array $addresses,
@@ -281,8 +297,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
                 throw new AuthenticationException(__('Invalid current password.'),
                     AuthenticationException::INVALID_EMAIL_OR_PASSWORD);
             }
-        }
-        else {
+        } else {
             $customerId = $this->_customerService->saveCustomer($customer);
         }
     }

@@ -21,9 +21,6 @@ class TaxvatTest extends \PHPUnit_Framework_TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata */
     private $_attribute;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Model\Session */
-    private $_customerSession;
-
     /** @var Taxvat */
     private $_block;
 
@@ -36,11 +33,9 @@ class TaxvatTest extends \PHPUnit_Framework_TestCase
             $this->getMockForAbstractClass(
                 'Magento\Customer\Service\V1\CustomerMetadataServiceInterface', [], '', false
             );
-        $this->_attributeMetadata->expects($this->any())->method('getAttributeMetadata')
-            ->with(self::CUSTOMER_ENTITY_TYPE, self::TAXVAT_ATTRIBUTE_CODE)
+        $this->_attributeMetadata->expects($this->any())->method('getCustomerAttributeMetadata')
+            ->with(self::TAXVAT_ATTRIBUTE_CODE)
             ->will($this->returnValue($this->_attribute));
-
-        $this->_customerSession = $this->getMock('Magento\Customer\Model\Session', [], [], '', false);
 
         $this->_block = new Taxvat(
             $this->getMock('Magento\View\Element\Template\Context', [], [], '', false),
