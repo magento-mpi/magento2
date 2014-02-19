@@ -10,7 +10,6 @@
 
 namespace Magento\SalesRule\Model\Rule\Action\Discount;
 
-use Magento\Backup\Exception;
 use Magento\ObjectManager\Factory;
 
 class CalculatorFactory
