@@ -132,8 +132,8 @@
         </param>
     </type>
     <type name="Magento\Indexer\Model\Config\Data">
-        <plugin name="indexerConfigGet" type="Magento\Catalog\Model\Indexer\Category\Flat\Plugin\IndexerConfigData"/>
-        <plugin name="indexerConfigGet" type="Magento\Catalog\Model\Indexer\Product\Flat\Plugin\IndexerConfigData"/>
+        <plugin name="indexerConfigGet" type="Magento\Catalog\Model\Indexer\Category\Flat\Plugin\IndexerConfigData" disabled="true"/>
+        <plugin name="indexerConfigGet" type="Magento\Catalog\Model\Indexer\Product\Flat\Plugin\IndexerConfigData" disabled="true"/>
     </type>
     <type name="Magento\Catalog\Model\Indexer\Category\Flat">
         <param name="indexer">

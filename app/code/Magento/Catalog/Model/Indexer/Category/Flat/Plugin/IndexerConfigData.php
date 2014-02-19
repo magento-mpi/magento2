@@ -43,12 +43,12 @@ class IndexerConfigData
 
         if (!$this->state->isFlatEnabled()) {
             $indexerId = \Magento\Catalog\Model\Indexer\Category\Flat\State::INDEXER_ID;
-            if ((!isset($path) || !$path) && isset($data[$indexerId])) {
+            if (!$path && isset($data[$indexerId])) {
                 unset($data[$indexerId]);
-            } elseif (isset($path)) {
+            } elseif ($path) {
                 list($firstKey, ) = explode('/', $path);
                 if ($firstKey == $indexerId) {
-                    $data = isset($default) ? $default : null;
+                    $data = $default ?: null;
                 }
             }
         }

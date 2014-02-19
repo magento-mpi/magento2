@@ -36,7 +36,6 @@ class IndexerConfigData
      *
      * @return mixed|null
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     *
      */
     public function aroundGet(
         \Magento\Indexer\Model\Config\Data $subject,
@@ -48,12 +47,12 @@ class IndexerConfigData
 
         if (!$this->_helper->isEnabled()) {
             $indexerId = \Magento\Catalog\Model\Indexer\Product\Flat\Processor::INDEXER_ID;
-            if ((!isset($path) || !$path) && isset($data[$indexerId])) {
+            if (!$path && isset($data[$indexerId])) {
                 unset($data[$indexerId]);
-            } elseif (isset($path)) {
-               list($firstKey, ) = explode('/', $path);
+            } elseif ($path) {
+                list($firstKey, ) = explode('/', $path);
                 if ($firstKey == $indexerId) {
-                    $data = isset($default) ? $default : null;
+                    $data = $default ?: null;
                 }
             }
         }
