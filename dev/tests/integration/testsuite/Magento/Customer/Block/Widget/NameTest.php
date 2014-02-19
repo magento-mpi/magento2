@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,15 +10,14 @@ namespace Magento\Customer\Block\Widget;
 
 use Magento\TestFramework\Helper\Bootstrap;
 
+/**
+ * Test \Magento\Customer\Block\Widget\Name
+ */
 class NameTest extends \PHPUnit_Framework_TestCase
 {
     /** @var Name */
     protected $_block;
 
-    /**
-     * Test initialization and set up. Create the Gender block.
-     * @return void
-     */
     protected function setUp()
     {
         $objectManager = Bootstrap::getObjectManager();
@@ -32,12 +28,14 @@ class NameTest extends \PHPUnit_Framework_TestCase
 
     public function testToHtmlSimpleName()
     {
-        /** @var \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerService */
+        /** @var \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerBuilder */
         $customerBuilder = Bootstrap::getObjectManager()->get('Magento\Customer\Service\V1\Dto\CustomerBuilder');
         $customerBuilder->setFirstname('Jane');
         $customerBuilder->setLastname('Doe');
         $this->_block->setObject($customerBuilder->create());
+
         $html = $this->_block->toHtml();
+
         $this->assertContains('title="First Name"', $html);
         $this->assertContains('value="Jane"', $html);
         $this->assertContains('title="Last Name"', $html);
@@ -46,7 +44,7 @@ class NameTest extends \PHPUnit_Framework_TestCase
 
     public function testToHtmlFancyName()
     {
-        /** @var \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerService */
+        /** @var \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerBuilder */
         $customerBuilder = Bootstrap::getObjectManager()->get('Magento\Customer\Service\V1\Dto\CustomerBuilder');
         $customerBuilder->setPrefix('Dr.')
             ->setFirstname('Jane')
@@ -54,7 +52,9 @@ class NameTest extends \PHPUnit_Framework_TestCase
             ->setLastname('Doe')
             ->setSuffix('Ph.D.');
         $this->_block->setObject($customerBuilder->create());
+
         $html = $this->_block->toHtml();
+
         $this->assertContains('title="First Name"', $html);
         $this->assertContains('value="Jane"', $html);
         $this->assertContains('title="Last Name"', $html);
