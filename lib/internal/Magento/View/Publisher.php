@@ -85,13 +85,27 @@ class Publisher implements PublicFilesManagerInterface
      */
     public function getPublicViewFile($filePath, array $params)
     {
-        return $this->getPublishedFilePath($this->fileFactory->create($filePath, $params));
+        return $this->getPublishedFilePath($filePath, $params);
     }
 
     /**
      * {@inheritdoc}
      */
     public function getViewFile($file, array $params = array())
+    {
+        $readyFile = $this->getSourceFileContainer($file, $params);
+        return $readyFile->getSourcePath();
+    }
+
+    /**
+     * Find source file and return publisher container for it
+     *
+     * @param string $file
+     * @param array $params
+     * @return Publisher\FileInterface|null
+     * @throws \Magento\Exception
+     */
+    protected function getSourceFileContainer($file, array $params = array())
     {
         $fileContainer = $this->fileFactory->create($file, $params);
 
@@ -106,7 +120,7 @@ class Publisher implements PublicFilesManagerInterface
             throw new \Magento\Exception("Unable to locate theme file '{$readyFile->getFilePath()}'.");
         }
 
-        return $readyFile->getSourcePath();
+        return $readyFile;
     }
 
     /**
@@ -131,29 +145,21 @@ class Publisher implements PublicFilesManagerInterface
      *
      * Check, if requested theme file has public access, and move it to public folder, if the file has no public access
      *
-     * @param Publisher\FileInterface $publisherFile
-     * @return string|null
+     * @param string $file
+     * @param array $params
      * @throws \Magento\Exception
+     * @return string|null
      */
-    protected function getPublishedFilePath(Publisher\FileInterface $publisherFile)
+    protected function getPublishedFilePath($file, $params)
     {
-        /** If $filePath points to file with protected extension - no publishing, return null */
-        if (!$this->isAllowedExtension($publisherFile->getExtension())) {
-            return null;
+        $sourceFile = $this->getSourceFileContainer($file, $params);
+
+        if (!$sourceFile->isPublicationAllowed()) {
+            return $sourceFile->getSourcePath();
         }
 
-        $fileToPublish = $this->preProcessor->process($publisherFile, $this->tmpDirectory);
-
-        if (!$fileToPublish->isSourceFileExists()) {
-            throw new \Magento\Exception("Unable to locate theme file '{$fileToPublish->getFilePath()}'.");
-        }
-
-        if (!$fileToPublish->isPublicationAllowed()) {
-            return $fileToPublish->getSourcePath();
-        }
-
-        $this->publishFile($fileToPublish);
-        return $fileToPublish->buildPublicViewFilename();
+        $this->publishFile($sourceFile);
+        return $sourceFile->buildPublicViewFilename();
     }
 
     /**
