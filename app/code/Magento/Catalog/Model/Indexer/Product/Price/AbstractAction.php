@@ -20,7 +20,7 @@ abstract class AbstractAction
     /**
      * Default Product Type Price indexer resource model
      *
-     * @var \Magento\Catalog\Model\Resource\Product\Indexer\Price\PriceInterface
+     * @var string
      */
     protected $_defaultPriceIndexer;
 
@@ -100,7 +100,7 @@ abstract class AbstractAction
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Catalog\Model\Product\Type $catalogProductType
      * @param \Magento\Catalog\Model\Resource\Product\Indexer\Price\Factory $indexerPriceFactory
-     * @param \Magento\Catalog\Model\Resource\Product\Indexer\Price\PriceInterface $defaultPriceIndexer
+     * @param string $defaultPriceIndexer
      */
     public function __construct(
         \Magento\App\Resource $resource,
@@ -111,7 +111,7 @@ abstract class AbstractAction
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Catalog\Model\Product\Type $catalogProductType,
         \Magento\Catalog\Model\Resource\Product\Indexer\Price\Factory $indexerPriceFactory,
-        \Magento\Catalog\Model\Resource\Product\Indexer\Price\PriceInterface $defaultPriceIndexer
+        $defaultPriceIndexer
     ) {
         $this->_resource = $resource;
         $this->_config = $config;
@@ -347,16 +347,14 @@ abstract class AbstractAction
             $this->_indexers = array();
             $types = $this->_catalogProductType->getTypesByPriority();
             foreach ($types as $typeId => $typeInfo) {
-                if (isset($typeInfo['price_indexer'])) {
-                    $modelName = $typeInfo['price_indexer'];
-                } else {
-                    $modelName = $this->_defaultPriceIndexer;
-                }
+                $modelName = isset($typeInfo['price_indexer'])
+                    ? $typeInfo['price_indexer']
+                    : $this->_defaultPriceIndexer;
+
                 $isComposite = !empty($typeInfo['composite']);
                 $indexer = $this->_indexerPriceFactory->create($modelName)
                     ->setTypeId($typeId)
                     ->setIsComposite($isComposite);
-
                 $this->_indexers[$typeId] = $indexer;
             }
         }
