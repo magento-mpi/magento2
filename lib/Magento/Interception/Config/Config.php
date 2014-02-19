@@ -74,7 +74,7 @@ class Config implements \Magento\Interception\Config
         \Magento\Config\ScopeListInterface $scopeList,
         \Magento\Cache\FrontendInterface $cache,
         \Magento\ObjectManager\Relations $relations,
-        \Magento\ObjectManager\Config $omConfig,
+        \Magento\Interception\ObjectManager\Config $omConfig,
         \Magento\ObjectManager\Definition\Compiled $classDefinitions = null,
         $cacheId = 'interception'
     ) {
