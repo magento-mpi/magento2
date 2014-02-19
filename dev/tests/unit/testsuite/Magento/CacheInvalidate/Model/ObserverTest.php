@@ -50,10 +50,6 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         );
         $this->_observerMock = $this->getMock('Magento\Event\Observer', ['getEvent'], [], '', false);
         $this->_observerObject = $this->getMock('\Magento\Core\Model\Store',[], [], '', false);
-        $this->_helperMock->expects($this->any())
-            ->method('getUrl')
-            ->with($this->equalTo('*'), array())
-            ->will($this->returnValue('http://mangento.index.php'));
     }
 
     /**
@@ -100,13 +96,17 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     {
         $url = 'http://mangento.index.php';
         $httpVersion = '1.1';
-        $headers = "X-Magento-Tags-Pattern: {$tags}";
+        $headers = array("X-Magento-Tags-Pattern: {$tags}");
+        $this->_helperMock->expects($this->any())
+            ->method('getUrl')
+            ->with($this->equalTo('*'), array())
+            ->will($this->returnValue($url));
         $this->_curlMock->expects($this->once())
             ->method('setOptions')
             ->with(array(CURLOPT_CUSTOMREQUEST => 'PURGE'));
         $this->_curlMock->expects($this->once())
             ->method('write')
-            ->with($this->equalTo(''), $this->equalTo($url), $httpVersion, $headers);
+            ->with($this->equalTo(''), $this->equalTo($url), $httpVersion, $this->equalTo($headers));
         $this->_curlMock->expects($this->once())
             ->method('read');
         $this->_curlMock->expects($this->once())
