@@ -20,16 +20,9 @@ abstract class AbstractAction
     /**
      * Default Product Type Price indexer resource model
      *
-     * @var string
+     * @var \Magento\Catalog\Model\Resource\Product\Indexer\Price\PriceInterface
      */
-    protected $_defaultPriceIndexer = 'Magento\Catalog\Model\Resource\Product\Indexer\Price\DefaultPrice';
-
-    /**
-     * Logger instance
-     *
-     * @var \Magento\Logger
-     */
-    protected $_logger;
+    protected $_defaultPriceIndexer;
 
     /**
      * Resource instance
@@ -99,7 +92,6 @@ abstract class AbstractAction
     protected $_useIdxTable = false;
 
     /**
-     * @param \Magento\Logger $logger
      * @param \Magento\App\Resource $resource
      * @param \Magento\App\ConfigInterface $config
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -108,9 +100,9 @@ abstract class AbstractAction
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Catalog\Model\Product\Type $catalogProductType
      * @param \Magento\Catalog\Model\Resource\Product\Indexer\Price\Factory $indexerPriceFactory
+     * @param \Magento\Catalog\Model\Resource\Product\Indexer\Price\PriceInterface $defaultPriceIndexer
      */
     public function __construct(
-        \Magento\Logger $logger,
         \Magento\App\Resource $resource,
         \Magento\App\ConfigInterface $config,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
@@ -118,9 +110,9 @@ abstract class AbstractAction
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Catalog\Model\Product\Type $catalogProductType,
-        \Magento\Catalog\Model\Resource\Product\Indexer\Price\Factory $indexerPriceFactory
+        \Magento\Catalog\Model\Resource\Product\Indexer\Price\Factory $indexerPriceFactory,
+        \Magento\Catalog\Model\Resource\Product\Indexer\Price\PriceInterface $defaultPriceIndexer
     ) {
-        $this->_logger = $logger;
         $this->_resource = $resource;
         $this->_config = $config;
         $this->_storeManager = $storeManager;
@@ -129,6 +121,7 @@ abstract class AbstractAction
         $this->_dateTime = $dateTime;
         $this->_catalogProductType = $catalogProductType;
         $this->_indexerPriceFactory = $indexerPriceFactory;
+        $this->_defaultPriceIndexer = $defaultPriceIndexer;
     }
 
     /**
@@ -139,7 +132,7 @@ abstract class AbstractAction
     protected function _getConnection()
     {
         if (null === $this->_connection) {
-            $this->_connection = $this->_resource->getConnection('default');
+            $this->_connection = $this->_resource->getConnection('write');
         }
         return $this->_connection;
     }
@@ -197,7 +190,7 @@ abstract class AbstractAction
     protected function _prepareWebsiteDateTable()
     {
         $write = $this->_getConnection();
-        $baseCurrency = $this->_config->getValue(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE, 'default');
+        $baseCurrency = $this->_config->getValue(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE);
 
         $select = $write->select()
             ->from(
@@ -392,7 +385,7 @@ abstract class AbstractAction
      *
      * @param string $sourceTable
      * @param string $destTable
-     * @param null $where
+     * @param null|string $where
      */
     protected function _insertFromTable($sourceTable, $destTable, $where = null)
     {

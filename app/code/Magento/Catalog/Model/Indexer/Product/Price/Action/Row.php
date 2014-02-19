@@ -28,8 +28,5 @@ class Row extends \Magento\Catalog\Model\Indexer\Product\Price\AbstractAction
         if (!isset($id) || empty($id)) {
             throw new \Magento\Core\Exception(__('Could not rebuild index for undefined product'));
         }
-        foreach ($this->_storeManager->getStores() as $store) {
-            $this->_logger->log('Row reindex for store - ' . $store->getId() . ' and product - ' . $id . '');
-        }
     }
 }
