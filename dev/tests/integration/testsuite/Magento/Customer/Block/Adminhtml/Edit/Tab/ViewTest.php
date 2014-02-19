@@ -80,9 +80,6 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->_loadCustomer(), $this->_block->getCustomer());
     }
 
-    /**
-     * @magentoDbIsolation enabled
-     */
     public function testGetCustomerEmpty()
     {
         $this->assertEquals($this->_createCustomer(), $this->_block->getCustomer());
@@ -97,13 +94,10 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($groupName, $this->_block->getGroupName());
     }
 
-    /**
-     * @magentoDbIsolation enabled
-     */
-    public function testGetGroupNameGeneral()
+    public function testGetGroupNameNull()
     {
         $this->_createCustomer();
-        $this->assertEquals('General', $this->_block->getGroupName());
+        $this->assertNull($this->_block->getGroupName());
     }
 
     /**
@@ -149,7 +143,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @magentoDataFixture Magento/Customer/_files/customer.php
+     * @magentoDbIsolation enabled
      */
     public function testIsConfirmedStatusConfirmationIsNotRequired()
     {
@@ -194,9 +188,6 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         $this->assertContains('CityM,  Alabama, 75477<br/>', $html);
     }
 
-    /**
-     * @magentoDbIsolation enabled
-     */
     public function testGetBillingAddressHtmlNoDefaultAddress()
     {
         $this->_createCustomer();
@@ -224,13 +215,25 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->_block->canShowTab());
     }
 
+    public function testCanShowTabNot()
+    {
+        $this->_createCustomer();
+        $this->assertFalse($this->_block->canShowTab());
+    }
+
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
      */
-    public function testIsHidden()
+    public function testIsHiddenNot()
     {
         $this->_loadCustomer();
         $this->assertFalse($this->_block->isHidden());
+    }
+
+    public function testIsHidden()
+    {
+        $this->_createCustomer();
+        $this->assertTrue($this->_block->isHidden());
     }
 
     /**
@@ -238,14 +241,12 @@ class ViewTest extends \PHPUnit_Framework_TestCase
      */
     private function _createCustomer()
     {
-        /** @var Customer $customer */
         $customer = $this->_customerBuilder->setFirstname('firstname')
             ->setLastname('lastname')
             ->setEmail('email@email.com')
             ->create();
-        $id = $this->_customerService->saveCustomer($customer);
-        $this->_coreRegistry->register(Index::REGISTRY_CURRENT_CUSTOMER_ID, $id);
-        return $this->_customerService->getCustomer($id);
+        $this->_context->getSession()->setCustomerDto($customer);
+        return $customer;
     }
 
     /**
@@ -254,6 +255,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     private function _loadCustomer()
     {
         $customer = $this->_customerService->getCustomer(1);
+        $this->_context->getSession()->setCustomerDto($customer);
         $this->_coreRegistry->register(Index::REGISTRY_CURRENT_CUSTOMER_ID, $customer->getCustomerId());
         return $customer;
     }
