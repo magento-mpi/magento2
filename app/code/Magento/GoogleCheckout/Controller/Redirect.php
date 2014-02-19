@@ -16,6 +16,7 @@
 namespace Magento\GoogleCheckout\Controller;
 
 class Redirect extends \Magento\App\Action\Action
+    implements  \Magento\Checkout\Controller\ExpressRedirectInterface
 {
     /**
      *  Send request to Google Checkout and return Response Api
@@ -171,5 +172,14 @@ class Redirect extends \Magento\App\Action\Action
                 array('context' => 'checkout')
             )
         );
+    }
+
+    /**
+     * Does method supports before auth url for redirect
+     * @return bool
+     */
+    public function supportsCustomerBeforeAuthUrl()
+    {
+        return false;
     }
 }

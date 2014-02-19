@@ -455,7 +455,7 @@ class Observer
     }
 
     /**
-     * Prevent express checkout with Google checkout and PayPal Express checkout
+     * Prevent express checkout
      *
      * @param \Magento\Event\Observer $observer
      * @return void
@@ -468,15 +468,16 @@ class Observer
 
         /** @var $controllerAction \Magento\App\Action\Action */
         $controllerAction = $observer->getEvent()->getControllerAction();
-        if (method_exists($controllerAction, 'redirectLogin')) {
-            $this->messageManager->addNotice(__('To check out, please log in using your email address.'));
-            $controllerAction->redirectLogin();
-            if ($controllerAction instanceof \Magento\GoogleCheckout\Controller\Redirect
-                || $controllerAction instanceof \Magento\Paypal\Controller\Express\AbstractExpress
-            ) {
-                $this->_customerSession
-                    ->setBeforeAuthUrl($this->_url->getUrl('persistent/index/expressCheckout'));
-            }
+        if (!$controllerAction instanceof \Magento\Checkout\Controller\ExpressRedirectInterface) {
+            return;
+        }
+
+        $this->messageManager->addNotice(__('To check out, please log in using your email address.'));
+        $controllerAction->redirectLogin();
+
+        if ($controllerAction->supportsCustomerBeforeAuthUrl()) {
+            $this->_customerSession
+                ->setBeforeAuthUrl($this->_url->getUrl('persistent/index/expressCheckout'));
         }
     }
 

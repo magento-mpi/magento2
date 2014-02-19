@@ -20,6 +20,7 @@ use Magento\App\RequestInterface;
 use Magento\Multishipping\Model\Checkout\Type\Multishipping\State;
 
 class Checkout extends \Magento\Checkout\Controller\Action
+    implements  \Magento\Checkout\Controller\ExpressRedirectInterface
 {
     /**
      * Retrieve checkout model
@@ -518,5 +519,14 @@ class Checkout extends \Magento\Checkout\Controller\Action
         );
 
         $this->_actionFlag->set('', 'redirectLogin', true);
+    }
+
+    /**
+     * Does method supports before auth url for redirect
+     * @return bool
+     */
+    public function supportsCustomerBeforeAuthUrl()
+    {
+        return false;
     }
 }

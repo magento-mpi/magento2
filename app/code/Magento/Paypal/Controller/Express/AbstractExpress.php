@@ -14,6 +14,7 @@ namespace Magento\Paypal\Controller\Express;
  * Abstract Express Checkout Controller
  */
 abstract class AbstractExpress extends \Magento\App\Action\Action
+    implements  \Magento\Checkout\Controller\ExpressRedirectInterface
 {
     /**
      * @var \Magento\Paypal\Model\Express\Checkout
@@ -531,4 +532,14 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
             )
         );
     }
+
+    /**
+     * Does method supports before auth url for redirect
+     * @return bool
+     */
+    public function supportsCustomerBeforeAuthUrl()
+    {
+        return true;
+    }
+
 }
