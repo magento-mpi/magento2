@@ -8,6 +8,8 @@
 
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 
+use Magento\Customer\Controller\Adminhtml\Index;
+
 /**
  * Test for Account
  *
@@ -40,7 +42,7 @@ class AccountTest extends \PHPUnit_Framework_TestCase
     {
         $this->objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->coreRegistry = $this->objectManager->get('Magento\Core\Model\Registry');
-        $this->coreRegistry->register('current_customer_id', 1);
+        $this->coreRegistry->register(Index::REGISTRY_CURRENT_CUSTOMER_ID, 1);
 
         $this->storeManager = $this->objectManager->get('Magento\Core\Model\StoreManager');
         $this->backendSession = $this->objectManager->get('Magento\Backend\Model\Session');
@@ -67,7 +69,7 @@ class AccountTest extends \PHPUnit_Framework_TestCase
             ->setWebsiteId($websiteId)
             ->loadByEmail('customer@example.com');
 
-        $this->coreRegistry->register('current_customer', $customer);
+        $this->coreRegistry->register(Index::REGISTRY_CURRENT_CUSTOMER, $customer);
 
         /** @var Magento\Customer\Service\V1\CustomerServiceInterface $customerService */
         $this->customerService = $this->objectManager->get('Magento\Customer\Service\V1\CustomerServiceInterface');
@@ -75,8 +77,8 @@ class AccountTest extends \PHPUnit_Framework_TestCase
 
     public function tearDown()
     {
-        $this->coreRegistry->unregister('current_customer_id');
-        $this->coreRegistry->unregister('current_customer');
+        $this->coreRegistry->unregister(Index::REGISTRY_CURRENT_CUSTOMER_ID);
+        $this->coreRegistry->unregister(Index::REGISTRY_CURRENT_CUSTOMER);
     }
 
     /**

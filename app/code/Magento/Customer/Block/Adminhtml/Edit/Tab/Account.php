@@ -63,11 +63,6 @@ class Account extends GenericMetadata
     protected $_customerBuilder;
 
     /**
-     * @var array
-     */
-    protected $_additionalCustomerData;
-
-    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
@@ -179,7 +174,7 @@ class Account extends GenericMetadata
 
         if ($customerId) {
             $accountData = array_merge(
-                $this->_addEditCustomerFormFields($form, $fieldset, $customerDto, $accountData),
+                $this->_addEditCustomerFormFields($form, $fieldset, $customerDto),
                 $accountData
             );
         } else {
@@ -377,11 +372,10 @@ class Account extends GenericMetadata
         // Prepare customer confirmation control (only for existing customers)
         $confirmationStatus = $this->_customerAccountService->getConfirmationStatus($customerDto->getCustomerId());
         $confirmationKey = $customerDto->getConfirmation();
-        if ($confirmationStatus == CustomerAccountServiceInterface::ACCOUNT_CONFIRMATION_REQUIRED
-            || $confirmationStatus == CustomerAccountServiceInterface::ACCOUNT_CONFIRMATION_NOT_REQUIRED) {
+        if ($confirmationStatus != CustomerAccountServiceInterface::ACCOUNT_CONFIRMED) {
             $confirmationAttr = $this->_customerMetadataService->getCustomerAttributeMetadata('confirmation');
             if (!$confirmationKey) {
-                $confirmationKey = md5(uniqid());
+                $confirmationKey = $this->getRandomConfirmationKey();
             }
 
             $element = $fieldset->addField('confirmation', 'select', array(
@@ -443,5 +437,15 @@ class Account extends GenericMetadata
         $field->setRenderer(
             $this->getLayout()->createBlock('Magento\Customer\Block\Adminhtml\Edit\Renderer\Newpass')
         );
+    }
+
+    /**
+     * Called when account needs confirmation and does not have a confirmation key.
+     *
+     * @return string confirmation key
+     */
+    protected function _getRandomConfirmationKey()
+    {
+        return md5(uniqid());
     }
 }

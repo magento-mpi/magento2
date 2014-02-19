@@ -72,13 +72,12 @@ class GenericMetadata extends \Magento\Backend\Block\Widget\Form\Generic
         $element,
         \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata $attribute
     ) {
-        // getAllOptions($withEmpty = true, $defaultValues = false)
         switch ($inputType) {
             case 'select':
-                $element->setValues($this->convertOptionsToArray($attribute->getOptions())); //true, true));
+                $element->setValues($this->convertOptionsToArray($attribute->getOptions()));
                 break;
             case 'multiselect':
-                $element->setValues($attribute->getSource()->getAllOptions()); // false, true));
+                $element->setValues($attribute->getSource()->getAllOptions());
                 $element->setCanBeEmpty(true);
                 break;
             case 'date':
