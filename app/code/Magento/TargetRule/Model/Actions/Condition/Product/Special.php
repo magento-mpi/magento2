@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\TargetRule\Model\Actions\Condition\Product;
 
 /**
  * TargetRule Action Special Product Attributes Condition Model
@@ -15,8 +15,6 @@
  * @category   Magento
  * @package    Magento_TargetRule
  */
-namespace Magento\TargetRule\Model\Actions\Condition\Product;
-
 class Special
     extends \Magento\Rule\Model\Condition\Product\AbstractProduct
 {
