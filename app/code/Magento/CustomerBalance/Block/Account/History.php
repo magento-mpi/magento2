@@ -7,18 +7,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerBalance\Block\Account;
 
 /**
  * Customer balance history block
  */
-namespace Magento\CustomerBalance\Block\Account;
-
 class History extends \Magento\View\Element\Template
 {
     /**
      * Balance history action names
      *
-     * @var array
+     * @var array|null
      */
     protected $_actionNames = null;
 
@@ -63,7 +62,7 @@ class History extends \Magento\View\Element\Template
     /**
      * Retrieve history events collection
      *
-     * @return mixed
+     * @return $this|false
      */
     public function getEvents()
     {
@@ -98,7 +97,7 @@ class History extends \Magento\View\Element\Template
     /**
      * Retrieve action label
      *
-     * @param mixed $action
+     * @param string $action
      * @return string
      */
     public function getActionLabel($action)

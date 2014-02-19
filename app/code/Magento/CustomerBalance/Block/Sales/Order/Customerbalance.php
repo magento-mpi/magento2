@@ -7,13 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerBalance\Block\Sales\Order;
 
 /**
  * Customer balance block for order
  *
  */
-namespace Magento\CustomerBalance\Block\Sales\Order;
-
 class Customerbalance extends \Magento\View\Element\Template
 {
     /**
@@ -38,6 +37,9 @@ class Customerbalance extends \Magento\View\Element\Template
         return $this->getParentBlock()->getOrder();
     }
 
+    /**
+     * @return mixed
+     */
     public function getSource()
     {
         return $this->getParentBlock()->getSource();
@@ -46,7 +48,7 @@ class Customerbalance extends \Magento\View\Element\Template
     /**
      * Initialize customer balance order total
      *
-     * @return \Magento\CustomerBalance\Block\Sales\Order\Customerbalance
+     * @return $this
      */
     public function initTotals()
     {
@@ -66,11 +68,17 @@ class Customerbalance extends \Magento\View\Element\Template
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getLabelProperties()
     {
         return $this->getParentBlock()->getLabelProperties();
     }
 
+    /**
+     * @return string
+     */
     public function getValueProperties()
     {
         return $this->getParentBlock()->getValueProperties();

@@ -7,15 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * Controller for Customer account -> Store Credit ajax tab and all its contents
- *
- */
 namespace Magento\CustomerBalance\Controller\Adminhtml;
 
 use Magento\Backend\App\Action;
 
+/**
+ * Controller for Customer account -> Store Credit ajax tab and all its contents
+ */
 class Customerbalance extends \Magento\Backend\App\Action
 {
     /**
@@ -73,6 +71,8 @@ class Customerbalance extends \Magento\Backend\App\Action
 
     /**
      * Customer balance form
+     *
+     * @return void
      */
     public function formAction()
     {
@@ -84,6 +84,7 @@ class Customerbalance extends \Magento\Backend\App\Action
     /**
      * Customer balance grid
      *
+     * @return void
      */
     public function gridHistoryAction()
     {
@@ -99,6 +100,7 @@ class Customerbalance extends \Magento\Backend\App\Action
     /**
      * Delete orphan balances
      *
+     * @return void
      */
     public function deleteOrphanBalancesAction()
     {
@@ -112,6 +114,7 @@ class Customerbalance extends \Magento\Backend\App\Action
      * Instantiate customer model
      *
      * @param string $idFieldName
+     * @return void
      * @throws \Magento\Core\Exception
      */
     protected function _initCustomer($idFieldName = 'id')
