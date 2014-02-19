@@ -23,16 +23,6 @@ class RowTest extends \PHPUnit_Framework_TestCase
     protected $_product;
 
     /**
-     * @var \Magento\Catalog\Model\Category
-     */
-    protected $_category;
-
-    /**
-     * @var \Magento\Catalog\Helper\Product\Price
-     */
-    protected $_helper;
-
-    /**
      * @var \Magento\Catalog\Model\Indexer\Product\Price\Processor
      */
     protected $_processor;
@@ -41,10 +31,6 @@ class RowTest extends \PHPUnit_Framework_TestCase
     {
         $this->_product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Catalog\Model\Product');
-        $this->_category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Category');
-        $this->_helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Helper\Product\Price');
         $this->_processor = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Catalog\Model\Indexer\Product\Price\Processor');
     }
