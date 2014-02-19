@@ -1,6 +1,8 @@
 * Fixed bugs:
   * Fixed an issue with "Add to Cart" button on MAP popup of compound products
   * Fixed an issue where the Add Address button for Customer in Admin was broken
+  * Fixed a Typo in Region of Austria (GitHub #134)
+  * Fixed issue where predefined data are not loaded for Newsletter after try to put it in a Queue
 * Indexer implementation:
   * Implemented new optimized Catalog Product Flat Indexer
 * Modularity improvements:

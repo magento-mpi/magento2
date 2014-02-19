@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\VersionsCms\Model\Resource\Hierarchy;
 
 /**
  * Hierarchy Lock Resource Model
@@ -20,13 +20,12 @@
 /**
  * @deprecated since 1.12.0.0
  */
-namespace Magento\VersionsCms\Model\Resource\Hierarchy;
-
 class Lock extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Initialize connection and define main table and field
      *
+     * @return void
      */
     protected function _construct()
     {

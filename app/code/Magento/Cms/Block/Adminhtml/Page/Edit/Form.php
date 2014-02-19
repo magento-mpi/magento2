@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Cms\Block\Adminhtml\Page\Edit;
 
 /**
  * Adminhtml cms page edit form block
@@ -16,11 +16,14 @@
  * @package    Magento_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Cms\Block\Adminhtml\Page\Edit;
-
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
 
+    /**
+     * Prepare form
+     *
+     * @return $this
+     */
     protected function _prepareForm()
     {
         /** @var \Magento\Data\Form $form */

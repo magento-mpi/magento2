@@ -46,13 +46,14 @@ class Widget
      */
     protected $_escaper;
 
-    /** @var  array */
+    /**
+     * @var array
+     */
     protected $_widgetsArray = array();
 
     /**
      * @param \Magento\Escaper $escaper
      * @param \Magento\Widget\Model\Config\Data $dataStorage
-     * @param \Magento\View\Url $viewUrl
      * @param \Magento\View\Url $viewUrl
      * @param \Magento\View\FileSystem $viewFileSystem
      */
@@ -81,8 +82,9 @@ class Widget
         foreach ($widgets as $widget) {
             if (isset($widget['@'])) {
                 if (isset($widget['@']['type'])) {
-                    if ($type === $widget['@']['type'])
+                    if ($type === $widget['@']['type']) {
                         return $widget;
+                    }
                 }
             }
         }
@@ -281,7 +283,7 @@ class Widget
     /**
      * Get a list of URLs of WYSIWYG placeholder images
      *
-     * array(<type> => <url>)
+     * Returns array(<type> => <url>)
      *
      * @return array
      */
@@ -304,8 +306,8 @@ class Widget
     /**
      * Remove attributes from widget array so that emulates how \Magento\Simplexml\Element::asCanonicalArray works
      *
-     * @param $inputArray
-     * @return mixed
+     * @param array $inputArray
+     * @return array
      */
     protected function _getAsCanonicalArray($inputArray)
     {
@@ -338,7 +340,7 @@ class Widget
      *
      * @param array $firstElement
      * @param array $secondElement
-     * @return boolean
+     * @return bool
      */
     protected function _sortWidgets($firstElement, $secondElement)
     {
