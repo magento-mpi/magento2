@@ -85,7 +85,7 @@ class Balance extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Get customer orphan balances count
      *
      * @param int $customerId
-     * @return $this
+     * @return string
      */
     public function getOrphanBalancesCount($customerId)
     {

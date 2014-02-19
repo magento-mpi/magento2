@@ -9,6 +9,8 @@
  */
 namespace Magento\CustomerBalance\Block\Account;
 
+use Magento\Core\Model\Resource\Db\Collection\AbstractCollection;
+
 /**
  * Customer balance history block
  */
@@ -62,7 +64,7 @@ class History extends \Magento\View\Element\Template
     /**
      * Retrieve history events collection
      *
-     * @return $this|false
+     * @return AbstractCollection|false
      */
     public function getEvents()
     {
