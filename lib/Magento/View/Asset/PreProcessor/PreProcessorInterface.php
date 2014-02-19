@@ -10,7 +10,7 @@ namespace Magento\View\Asset\PreProcessor;
 
 /**
  * The pre-processors which implement this interface are supposed to publish processed content to the $targetDirectory
- * and return the path to the published file.
+ * and return publisher file object with updated path to the published file.
  */
 interface PreProcessorInterface
 {
