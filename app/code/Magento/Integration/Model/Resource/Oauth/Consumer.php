@@ -5,7 +5,6 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento\Integration\Model\Resource\Oauth;
 
 class Consumer extends \Magento\Core\Model\Resource\Db\AbstractDb
@@ -39,7 +38,7 @@ class Consumer extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Set updated_at automatically before saving
      *
      * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Integration\Model\Resource\Oauth\Consumer
+     * @return $this
      */
     public function _beforeSave(\Magento\Core\Model\AbstractModel $object)
     {
@@ -51,7 +50,7 @@ class Consumer extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Delete all Nonce entries associated with the consumer
      *
      * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Integration\Model\Resource\Oauth\Consumer
+     * @return $this
      */
     public function _afterDelete(\Magento\Core\Model\AbstractModel $object)
     {
