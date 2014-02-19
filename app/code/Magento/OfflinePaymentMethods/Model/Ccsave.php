@@ -9,7 +9,7 @@
  */
 
 
-namespace Magento\Payment\Model\Method;
+namespace Magento\OfflinePaymentMethods\Model;
 
 class Ccsave extends \Magento\Payment\Model\Method\Cc
 {

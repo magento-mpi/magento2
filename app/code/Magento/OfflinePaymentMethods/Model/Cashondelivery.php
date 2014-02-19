@@ -11,7 +11,7 @@
 /**
  * Cash on delivery payment method model
  */
-namespace Magento\Payment\Model\Method;
+namespace Magento\OfflinePaymentMethods\Model;
 
 class Cashondelivery extends \Magento\Payment\Model\Method\AbstractMethod
 {

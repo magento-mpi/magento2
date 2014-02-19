@@ -11,7 +11,7 @@
 /**
  * Block for Bank Transfer payment method form
  */
-namespace Magento\Payment\Block\Form;
+namespace Magento\OfflinePaymentMethods\Block\Form;
 
 class Banktransfer extends \Magento\Payment\Block\Form
 {

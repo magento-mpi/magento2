@@ -9,7 +9,7 @@
  */
 
 
-namespace Magento\Payment\Model\Method;
+namespace Magento\OfflinePaymentMethods\Model;
 
 class Checkmo extends \Magento\Payment\Model\Method\AbstractMethod
 {

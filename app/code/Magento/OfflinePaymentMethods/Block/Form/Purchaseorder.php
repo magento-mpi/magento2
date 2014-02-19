@@ -9,7 +9,7 @@
  */
 
 
-namespace Magento\Payment\Block\Form;
+namespace Magento\OfflinePaymentMethods\Block\Form;
 
 class Purchaseorder extends \Magento\Payment\Block\Form
 {

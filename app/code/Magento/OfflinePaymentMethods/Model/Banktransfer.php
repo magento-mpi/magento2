@@ -11,7 +11,7 @@
 /**
  * Bank Transfer payment method model
  */
-namespace Magento\Payment\Model\Method;
+namespace Magento\OfflinePaymentMethods\Model;
 
 class Banktransfer extends \Magento\Payment\Model\Method\AbstractMethod
 {

@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Payment\Block\Info;
+namespace Magento\OfflinePaymentMethods\Block\Info;
 
 class Ccsave extends \Magento\Payment\Block\Info\Cc
 {
