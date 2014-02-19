@@ -8,6 +8,8 @@
  * @license     {license_link}
  */
 
+namespace Magento\Core\Model;
+
 /**
  * Core Website model
  *
@@ -28,8 +30,6 @@
  * @method int getIsDefault()
  * @method \Magento\Core\Model\Website setIsDefault(int $value)
  */
-namespace Magento\Core\Model;
-
 class Website extends \Magento\Core\Model\AbstractModel
 {
     const ENTITY    = 'core_website';

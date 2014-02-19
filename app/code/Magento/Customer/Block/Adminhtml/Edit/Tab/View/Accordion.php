@@ -36,11 +36,19 @@ class Accordion extends \Magento\Backend\Block\Widget\Accordion
      */
     protected $_itemsFactory;
 
+    /** @var \Magento\Customer\Model\Config\Share  */
+    protected $_shareConfig;
+
+    /** @var \Magento\Customer\Service\V1\CustomerServiceInterface  */
+    protected $_customerService;
+
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Wishlist\Model\Resource\Item\CollectionFactory $itemsFactory
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Customer\Model\Config\Share $shareConfig
+     * @param \Magento\Customer\Service\V1\CustomerServiceInterface $customerService
      * @param array $data
      */
     public function __construct(
@@ -48,18 +56,20 @@ class Accordion extends \Magento\Backend\Block\Widget\Accordion
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Wishlist\Model\Resource\Item\CollectionFactory $itemsFactory,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Customer\Model\Config\Share $shareConfig,
+        \Magento\Customer\Service\V1\CustomerServiceInterface $customerService,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
         $this->_quoteFactory = $quoteFactory;
         $this->_itemsFactory = $itemsFactory;
+        $this->_shareConfig = $shareConfig;
+        $this->_customerService = $customerService;
         parent::__construct($context, $data);
     }
 
     protected function _prepareLayout()
     {
-        $customer = $this->_coreRegistry->registry('current_customer');
-
         $this->setId('customerViewAccordion');
 
         $this->addItem('lastOrders', array(
@@ -68,19 +78,22 @@ class Accordion extends \Magento\Backend\Block\Widget\Accordion
             'content_url' => $this->getUrl('customer/*/lastOrders', array('_current' => true)),
         ));
 
+        $customerId = $this->_coreRegistry->registry('current_customer_id'); // TODO Use constant here
+        $customer = $this->_customerService->getCustomer($customerId);
+        $websiteIds = $this->getSharedWebsiteIds($customer->getWebsiteId());
         // add shopping cart block of each website
-        foreach ($this->_coreRegistry->registry('current_customer')->getSharedWebsiteIds() as $websiteId) {
+        foreach ($websiteIds as $websiteId) {
             $website = $this->_storeManager->getWebsite($websiteId);
 
             // count cart items
             $cartItemsCount = $this->_quoteFactory->create()
-                ->setWebsite($website)->loadByCustomer($customer)
+                ->setWebsite($website)->loadByCustomer($customerId)
                 ->getItemsCollection(false)
                 ->addFieldToFilter('parent_item_id', array('null' => true))
                 ->getSize();
             // prepare title for cart
             $title = __('Shopping Cart - %1 item(s)', $cartItemsCount);
-            if (count($customer->getSharedWebsiteIds()) > 1) {
+            if (count($websiteIds) > 1) {
                 $title = __('Shopping Cart of %1 - %2 item(s)', $website->getName(), $cartItemsCount);
             }
 
@@ -94,7 +107,7 @@ class Accordion extends \Magento\Backend\Block\Widget\Accordion
 
         // count wishlist items
         $wishlistCount = $this->_itemsFactory->create()
-            ->addCustomerIdFilter($customer->getId())
+            ->addCustomerIdFilter($customerId)
             ->addStoreData()
             ->getSize();
         // add wishlist ajax accordion
@@ -103,5 +116,24 @@ class Accordion extends \Magento\Backend\Block\Widget\Accordion
             'ajax'  => true,
             'content_url' => $this->getUrl('customer/*/viewWishlist', array('_current' => true)),
         ));
+    }
+
+    /**
+     * Returns shared website Ids.
+     *
+     * @param int $websiteId the ID to use if website scope is on
+     * @return int[]
+     */
+    protected function getSharedWebsiteIds($websiteId)
+    {
+        $ids = [];
+        if ((bool)$this->_shareConfig->isWebsiteScope()) {
+            $ids[] = $websiteId;
+        } else {
+            foreach ($this->_storeManager->getWebsites() as $website) {
+                $ids[] = $website->getId();
+            }
+        }
+        return $ids;
     }
 }
