@@ -11,6 +11,9 @@ namespace Magento\Css\PreProcessor\Cache\Plugin;
 use Magento\App\Filesystem;
 use Magento\Css\PreProcessor\Cache\Import\Map\Storage;
 
+/**
+ * Plugin for cache flushing from admin panel
+ */
 class ImportCleaner
 {
     /**
