@@ -60,7 +60,7 @@ class Edit extends \Magento\Customer\Block\Account\Dashboard
     }
 
     /**
-     * Restore entity data from session
+     * Restore entity data from session.
      * Entity and form code must be defined for the form
      *
      * @param \Magento\Customer\Model\Metadata\Form $form
