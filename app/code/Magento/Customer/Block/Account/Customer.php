@@ -17,18 +17,30 @@ class Customer extends \Magento\View\Element\Template
      */
     protected $_customerSession;
 
+    /** @var \Magento\Customer\Model\Converter */
+    private $_converter;
+
+    /** @var \Magento\Customer\Service\V1\CustomerServiceInterface */
+    protected $_customerService;
+
     /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $session
+     * @param \Magento\Customer\Model\Converter $converter
+     * @param \Magento\Customer\Service\V1\CustomerServiceInterface $customerService
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Customer\Model\Session $session,
+        \Magento\Customer\Model\Converter $converter,
+        \Magento\Customer\Service\V1\CustomerServiceInterface $customerService,
         array $data = array()
     ) {
         parent::__construct($context, $data);
         $this->_customerSession = $session;
+        $this->_converter = $converter;
+        $this->_customerService = $customerService;
         $this->_isScopePrivate = true;
     }
 
@@ -44,10 +56,16 @@ class Customer extends \Magento\View\Element\Template
     }
 
     /**
+     * @throws \Magento\Exception\NoSuchEntityException If customer is not found.
      * @return string
      */
     public function getCustomerName()
     {
-        return $this->escapeHtml($this->_customerSession->getCustomer()->getName());
+        try {
+            $customerModel = $this->_converter->getCustomerModel($this->_customerSession->getCustomerId());
+            return $this->escapeHtml($customerModel->getName());
+        } catch (\Magento\Exception\NoSuchEntityException $e) {
+            return null;
+        }
     }
 }
