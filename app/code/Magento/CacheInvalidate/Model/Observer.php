@@ -12,8 +12,6 @@ namespace Magento\CacheInvalidate\Model;
 
 /**
  * Class Observer
- *
- * @package Magento\CacheInvalidate\Model
  */
 class Observer
 {
