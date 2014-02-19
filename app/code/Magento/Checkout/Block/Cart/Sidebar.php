@@ -110,6 +110,7 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart
     /**
      * Get array of last added items
      *
+     * @param int $count
      * @return array
      */
     public function getRecentItems($count = null)
@@ -153,7 +154,7 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart
      * It will include tax, if required by config settings.
      *
      * @param   bool $skipTax flag for getting price with tax or not. Ignored in case when we display just subtotal incl.tax
-     * @return  decimal
+     * @return  float
      */
     public function getSubtotal($skipTax = true)
     {
@@ -182,7 +183,7 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart
      * Get subtotal, including tax.
      * Will return > 0 only if appropriate config settings are enabled.
      *
-     * @return decimal
+     * @return float
      */
     public function getSubtotalInclTax()
     {
@@ -225,7 +226,7 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart
     /**
      * Get shopping cart items qty based on configuration (summary qty or items qty)
      *
-     * @return int | float
+     * @return int|float
      */
     public function getSummaryCount()
     {
@@ -291,7 +292,7 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart
         return parent::getItems();
     }
 
-    /*
+    /**
      * Return totals from custom quote if needed
      *
      * @return array
@@ -338,7 +339,7 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart
     }
 
     /**
-     * Deserialize renders from string
+     * De-serialize renders from string
      *
      * @param string $renders
      * @return $this
