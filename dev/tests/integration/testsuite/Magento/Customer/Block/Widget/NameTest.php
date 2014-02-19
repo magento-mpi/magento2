@@ -40,8 +40,14 @@ class NameTest extends \PHPUnit_Framework_TestCase
         $this->assertContains('value="Jane"', $html);
         $this->assertContains('title="Last Name"', $html);
         $this->assertContains('value="Doe"', $html);
+        $this->assertNotContains('title="Middle Name/Initial"', $html);
+        $this->assertNotContains('title="Prefix"', $html);
+        $this->assertNotContains('title="Suffix"', $html);
     }
 
+    /**
+     * @magentoDataFixture Magento/Customer/_files/attribute_user_fullname.php
+     */
     public function testToHtmlFancyName()
     {
         /** @var \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerBuilder */

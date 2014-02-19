@@ -76,15 +76,6 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEmpty($expectAttrsWithVals);
     }
 
-    public function testAttributeMetadataCached()
-    {
-        $firstCallMetadata = $this->_service->getAddressAttributeMetadata('firstname');
-        $secondCallMetadata = $this->_service->getAddressAttributeMetadata('firstname');
-
-        $this->assertSame($firstCallMetadata, $secondCallMetadata);
-
-    }
-
     public function testGetAddressAttributeMetadata()
     {
         $vatValidMetadata = $this->_service->getAddressAttributeMetadata('vat_is_valid');
