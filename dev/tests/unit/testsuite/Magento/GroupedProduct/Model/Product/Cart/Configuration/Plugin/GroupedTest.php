@@ -36,7 +36,7 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
         $this->subjectMock =
             $this->getMock('Magento\Catalog\Model\Product\CartConfiguration', array(), array(), '', false);
         $this->closureMock = function () {
-          return 'Expected';
+            return 'Expected';
         };
         $this->groupedPlugin = new \Magento\GroupedProduct\Model\Product\Cart\Configuration\Plugin\Grouped();
     }
@@ -60,7 +60,7 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('getTypeId')
             ->will($this->returnValue('product'));;
-       $this->assertEquals('Expected',
+        $this->assertEquals('Expected',
            $this->groupedPlugin->aroundIsProductConfigured( $this->subjectMock, $this->closureMock,
                $this->productMock, $config));
     }

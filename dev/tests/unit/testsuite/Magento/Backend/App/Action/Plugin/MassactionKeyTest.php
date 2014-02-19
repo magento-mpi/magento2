@@ -32,7 +32,7 @@ class MassactionKeyTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->closureMock = function() {
+        $this->closureMock = function () {
             return 'Expected';
         };
         $this->subjectMock = $this->getMock('Magento\Backend\App\AbstractAction', array(), array(), '', false);

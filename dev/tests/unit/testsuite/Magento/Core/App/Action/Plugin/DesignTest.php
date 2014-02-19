@@ -14,7 +14,7 @@ class DesignTest extends \PHPUnit_Framework_TestCase
         $subjectMock = $this->getMock('Magento\App\Action\Action', array(), array(), '', false);
         $designLoaderMock = $this->getMock('Magento\View\DesignLoader', array(), array(), '', false);
         $closureMock = function () {
-          return 'Expected';
+            return 'Expected';
         };
         $requestMock = $this->getMock('Magento\App\RequestInterface');
         $plugin = new \Magento\Core\App\Action\Plugin\Design($designLoaderMock);

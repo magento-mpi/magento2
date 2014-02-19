@@ -47,7 +47,7 @@ class QuoteItemTest extends \PHPUnit_Framework_TestCase
         $this->subjectMock = $this->getMock('Magento\Sales\Model\Convert\Quote', array(), array(), '', false);
         $orderItems = $this->orderItemMock;
         $this->closureMock = function () use ($orderItems) {
-          return $orderItems;
+            return $orderItems;
         };
         $this->model = new \Magento\GiftRegistry\Model\Plugin\QuoteItem();
     }

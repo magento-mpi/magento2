@@ -15,7 +15,7 @@ use Magento\Config\CacheInterface;
 use Magento\Config\Data\Scoped;
 use Magento\Interception\Definition;
 use Magento\Interception\PluginList as InterceptionPluginList;
-use Magento\ObjectManager\Config;
+use Magento\Interception\ObjectManager\Config;
 use Magento\ObjectManager\Relations;
 use Magento\ObjectManager\Definition\Compiled;
 use Magento\ObjectManager;

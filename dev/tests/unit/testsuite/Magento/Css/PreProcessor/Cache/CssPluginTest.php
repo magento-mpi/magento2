@@ -12,7 +12,7 @@ use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 class CssPluginTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Magento\Css\PreProcessor\Cache\Plugin */
+    /** @var \Magento\Css\PreProcessor\Cache\CssPlugin */
     protected $plugin;
 
     /** @var ObjectManagerHelper */
@@ -86,7 +86,12 @@ class CssPluginTest extends \PHPUnit_Framework_TestCase
 
             }
         }
-        $this->assertEquals($expected, $this->plugin->aroundProcess($this->subjectMock, $closureMock, 'css\style.less', array(), $this->targetDirMock, $arguments));
+        $this->assertEquals(
+            $expected,
+            $this->plugin->aroundProcess(
+                $this->subjectMock, $closureMock, 'css\style.less', array(), $this->targetDirMock, $arguments
+            )
+        );
     }
 
     /**
