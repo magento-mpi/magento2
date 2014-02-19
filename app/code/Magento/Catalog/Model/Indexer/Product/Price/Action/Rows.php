@@ -28,8 +28,5 @@ class Rows extends \Magento\Catalog\Model\Indexer\Product\Price\AbstractAction
         if (empty($ids)) {
             throw new \Magento\Core\Exception(__('Bad value was supplied.'));
         }
-        foreach ($this->_storeManager->getStores() as $store) {
-            $this->_logger->log('Rows reindex for store - ' . $store->getId() . ' and products - ' . implode(",", $ids) . '');
-        }
     }
 }
