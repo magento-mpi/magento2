@@ -42,6 +42,8 @@ class QuoteItem
     ) {
         /** @var $orderItem \Magento\Sales\Model\Order\Item */
         $orderItem = $proceed($item);
+        /** @var $quoteItem \Magento\Sales\Model\Quote\Item */
+        $quoteItem = $item;
 
         $keys = array(
             'giftcard_sender_name',

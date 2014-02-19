@@ -106,7 +106,7 @@ class Generator
         $generatorClass = $this->_generatedEntities[$entity];
         $generator = new $generatorClass($entityName, $className, $this->_ioObject);
         if (!$generator->generate()) {
-            $errors = $this->_generator->getErrors();
+            $errors = $generator->getErrors();
             throw new \Magento\Exception(implode(' ', $errors));
         }
 

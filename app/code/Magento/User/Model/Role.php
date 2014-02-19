@@ -35,6 +35,11 @@ class Role extends \Magento\Core\Model\AbstractModel
     protected $_userRolesFactory;
 
     /**
+     * @var string
+     */
+    protected $_eventPrefix = 'admin_roles';
+
+    /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\User\Model\Resource\Role\User\CollectionFactory $userRolesFactory
@@ -74,11 +79,6 @@ class Role extends \Magento\Core\Model\AbstractModel
         $this->_resource = $objectManager->get('Magento\User\Model\Resource\Role');
         $this->_resourceCollection = $objectManager->get('Magento\User\Model\Resource\Role\Collection');
     }
-
-    /**
-     * @var string
-     */
-    protected $_eventPrefix = 'admin_roles';
 
     /**
      * Class constructor

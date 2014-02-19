@@ -58,10 +58,17 @@ class Mysql extends \Magento\TestFramework\Db\AbstractDb
      */
     public function storeDbDump()
     {
-        $this->_shell->execute(
-            'mysqldump --host=%s --user=%s --password=%s %s > %s',
-            array($this->_host, $this->_user, $this->_password, $this->_schema, $this->getSetupDbDumpFilename())
-        );
+        if ($this->_password) {
+            $this->_shell->execute(
+                'mysqldump --host=%s --user=%s --password=%s %s > %s',
+                array($this->_host, $this->_user, $this->_password, $this->_schema, $this->getSetupDbDumpFilename())
+            );
+        } else {
+            $this->_shell->execute(
+                'mysqldump --host=%s --user=%s %s > %s',
+                array($this->_host, $this->_user, $this->_schema, $this->getSetupDbDumpFilename())
+            );
+        }
     }
 
     /**
