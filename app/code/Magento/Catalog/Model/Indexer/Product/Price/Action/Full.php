@@ -20,17 +20,25 @@ class Full extends \Magento\Catalog\Model\Indexer\Product\Price\AbstractAction
     /**
      * Execute Full reindex
      *
-     * @param null|array $ids
-     * @throws \Magento\Core\Exception
+     * @param array|int|null $ids
+     * @throws \Magento\Catalog\Exception
      */
     public function execute($ids = null)
     {
         try {
-            foreach ($this->_storeManager->getStores() as $store) {
-                $this->_logger->log('Full reindex for store - ' . $store->getId() . '');
+            $this->_useIdxTable(true);
+            $this->_emptyTable($this->_getIdxTable());
+            $this->_prepareWebsiteDateTable();
+            $this->_prepareTierPriceIndex();
+            $this->_prepareGroupPriceIndex();
+
+            foreach ($this->getTypeIndexers() as $indexer) {
+                $indexer->reindexAll();
             }
+            $this->_syncData();
+
         } catch (\Exception $e) {
-            throw new \Magento\Core\Exception($e->getMessage(), $e->getCode(), $e);
+            throw new \Magento\Catalog\Exception($e->getMessage(), $e->getCode(), $e);
         }
     }
 }

@@ -10,6 +10,7 @@
 <config>
     <preference for="Magento\Catalog\Model\ProductTypes\ConfigInterface" type="Magento\Catalog\Model\ProductTypes\Config" />
     <preference for="Magento\Catalog\Model\ProductOptions\ConfigInterface" type="Magento\Catalog\Model\ProductOptions\Config" />
+    <preference for="Magento\Catalog\Model\Resource\Product\Indexer\Price\PriceInterface" type="Magento\Catalog\Model\Resource\Product\Indexer\Price\DefaultPrice" />
     <type name="Magento\Log\Model\Resource\Log">
         <plugin name="catalogLog" type="Magento\Catalog\Model\Plugin\Log" />
     </type>
@@ -146,6 +147,25 @@
     </type>
     <type name="Magento\Core\Model\Resource\Store\Group">
         <plugin name="storeGroupResourceAroundSave" type="Magento\Catalog\Model\Indexer\Category\Flat\Plugin\StoreGroup"/>
+    </type>
+    <type name="Magento\Customer\Model\Group">
+        <plugin name="invalidatePriceIndexerOnCustomerGroupDelete" type="Magento\Catalog\Model\Indexer\Product\Price\Plugin\CustomerGroup"/>
+    </type>
+    <type name="Magento\Customer\Model\Group">
+        <plugin name="invalidatePriceIndexerOnCustomerGroupCreate" type="Magento\Catalog\Model\Indexer\Product\Price\Plugin\CustomerGroup"/>
+    </type>
+    <type name="Magento\Catalog\Model\Indexer\Product\Price\Plugin\AbstractPlugin">
+        <param name="indexer">
+            <instance type="Magento\Indexer\Model\IndexerInterface" shared="false"/>
+        </param>
+    </type>
+    <type name="Magento\Catalog\Model\Indexer\Product\Price\System\Config\PriceScope">
+        <param name="indexer">
+            <instance type="Magento\Indexer\Model\IndexerInterface" shared="false"/>
+        </param>
+    </type>
+    <type name="Magento\ImportExport\Model\Import">
+        <plugin name="invalidatePriceIndexerOnImport" type="\Magento\Catalog\Model\Indexer\Product\Price\Plugin\Import" />
     </type>
     <type name="Magento\Catalog\Model\Indexer\Category\Flat\Plugin\AbstractStore">
         <param name="indexer">
