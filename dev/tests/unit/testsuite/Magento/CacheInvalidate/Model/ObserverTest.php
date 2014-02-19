@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\CacheInvalidate;
+namespace Magento\CacheInvalidate\Model;
 
 class ObserverTest extends \PHPUnit_Framework_TestCase
 {
@@ -37,7 +37,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->_url = 'http://mangento.index.php';
+        $this->_url = 'http://site';
         $this->_configMock = $this->getMock('Magento\PageCache\Model\Config', ['getType'], [], '', false);
         $this->_helperMock = $this->getMock('Magento\PageCache\Helper\Data', ['getUrl'], [], '', false);
         $this->_curlMock = $this->getMock(
@@ -47,7 +47,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->_model = new \Magento\CacheInvalidate\Model\Observer(
+        $this->_model = new Observer(
             $this->_configMock,
             $this->_helperMock,
             $this->_curlMock
@@ -57,7 +57,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_helperMock->expects($this->any())
             ->method('getUrl')
             ->with($this->equalTo('*'), array())
-            ->will($this->returnValue('http://mangento.index.php'));
+            ->will($this->returnValue('http://site'));
     }
 
     /**
@@ -103,7 +103,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     protected function sendPurgeRequest($tags = array())
     {
         $httpVersion = '1.1';
-        $headers = "X-Magento-Tags-Pattern: {$tags}";
+        $headers = array("X-Magento-Tags-Pattern: {$tags}");
         $this->_curlMock->expects($this->once())
             ->method('setOptions')
             ->with(array(CURLOPT_CUSTOMREQUEST => 'PURGE'));
