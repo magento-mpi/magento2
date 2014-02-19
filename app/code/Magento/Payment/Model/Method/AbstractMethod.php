@@ -33,8 +33,7 @@ abstract class AbstractMethod extends \Magento\Object
     const CHECK_USE_CHECKOUT          = 4;
     const CHECK_USE_INTERNAL          = 16;
     const CHECK_ORDER_TOTAL_MIN_MAX   = 32;
-    const CHECK_RECURRING_PROFILES    = 64;
-    const CHECK_ZERO_TOTAL            = 128;
+    const CHECK_ZERO_TOTAL            = 64;
 
     /**
      * @var string
@@ -69,7 +68,6 @@ abstract class AbstractMethod extends \Magento\Object
     protected $_isInitializeNeeded          = false;
     protected $_canFetchTransactionInfo     = false;
     protected $_canReviewPayment            = false;
-    protected $_canCreateBillingAgreement   = false;
     protected $_canManageRecurringProfiles  = true;
     /**#@-*/
 
@@ -251,16 +249,6 @@ abstract class AbstractMethod extends \Magento\Object
     }
 
     /**
-     * Check whether payment method instance can create billing agreements
-     *
-     * @return bool
-     */
-    public function canCreateBillingAgreement()
-    {
-        return $this->_canCreateBillingAgreement;
-    }
-
-    /**
      * Fetch transaction info
      *
      * @param \Magento\Payment\Model\Info $payment
@@ -322,27 +310,6 @@ abstract class AbstractMethod extends \Magento\Object
     public function canUseForCurrency($currencyCode)
     {
         return true;
-    }
-
-    /**
-     * Check manage billing agreements availability
-     *
-     * @return bool
-     */
-    public function canManageBillingAgreements()
-    {
-        return ($this instanceof \Magento\Payment\Model\Billing\Agreement\MethodInterface);
-    }
-
-    /**
-     * Whether can manage recurring profiles
-     *
-     * @return bool
-     */
-    public function canManageRecurringProfiles()
-    {
-        return $this->_canManageRecurringProfiles
-               && ($this instanceof \Magento\Payment\Model\Recurring\Profile\MethodInterface);
     }
 
     /**
@@ -674,9 +641,6 @@ abstract class AbstractMethod extends \Magento\Object
             'quote'           => $quote,
         ));
 
-        if ($checkResult->isAvailable && $quote) {
-            $checkResult->isAvailable = $this->isApplicableToQuote($quote, self::CHECK_RECURRING_PROFILES);
-        }
         return $checkResult->isAvailable;
     }
 
@@ -718,16 +682,10 @@ abstract class AbstractMethod extends \Magento\Object
                 return false;
             }
         }
-        if ($checksBitMask & self::CHECK_RECURRING_PROFILES) {
-            if (!$this->canManageRecurringProfiles() && $quote->hasRecurringItems()) {
-                return false;
-            }
-        }
+
         if ($checksBitMask & self::CHECK_ZERO_TOTAL) {
             $total = $quote->getBaseSubtotal() + $quote->getShippingAddress()->getBaseShippingAmount();
-            if ($total < 0.0001 && $this->getCode() != 'free'
-                && !($this->canManageRecurringProfiles() && $quote->hasRecurringItems())
-            ) {
+            if ($total < 0.0001 && $this->getCode() != 'free') {
                 return false;
             }
         }

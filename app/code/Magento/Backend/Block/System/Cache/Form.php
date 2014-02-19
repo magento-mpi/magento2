@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Backend\Block\System\Cache;
 
 /**
  * Cache management form page
@@ -16,8 +16,6 @@
  * @package     Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Backend\Block\System\Cache;
-
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
@@ -26,10 +24,10 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_coreData;
 
     /**
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
      * @param array $data
      */
     public function __construct(
@@ -46,7 +44,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Initialize cache management form
      *
-     * @return \Magento\Backend\Block\System\Cache\Form
+     * @return $this
      */
     public function initForm()
     {

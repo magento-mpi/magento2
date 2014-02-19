@@ -16,6 +16,8 @@ class AbstractRenderer
     extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
+     * Rma item status
+     *
      * @var \Magento\Rma\Model\Item\Status
      */
     protected $_itemStatus;

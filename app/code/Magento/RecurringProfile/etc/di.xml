@@ -21,4 +21,7 @@
     <type name="Magento\Downloadable\Model\Product\Type">
         <plugin name="recurringprofile_product_type" type="Magento\RecurringProfile\Model\ProductType\Plugin"/>
     </type>
+    <type name="Magento\Checkout\Block\Onepage\Payment">
+        <plugin name="recurringprofile" type="Magento\RecurringProfile\Block\Plugin\Payment" />
+    </type>
 </config>

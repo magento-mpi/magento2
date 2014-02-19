@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <event name="sales_order_payment_place_end">
+        <observer name="paypal" instance="Magento\Paypal\Model\Observer" method="addBillingAgreementToSession" />
+    </event>
+</config>

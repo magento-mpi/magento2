@@ -76,7 +76,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             '\Magento\Checkout\Model\Session', ['setLastRecurringProfileIds'], [], '', false
         );
         $this->_quote = $this->getMock(
-            '\Magento\RecurringProfile\Model\Quote',
+            '\Magento\RecurringProfile\Model\QuoteImporter',
             ['prepareRecurringPaymentProfiles'],
             [],
             '',
@@ -91,7 +91,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             'fields' => $this->_fieldsBlock,
             'profileFactory' => $this->_profileFactory,
             'checkoutSession' => $this->_checkoutSession,
-            'quote' => $this->_quote
+            'quoteImporter' => $this->_quote
         ]);
 
         $this->_event = $this->getMock(

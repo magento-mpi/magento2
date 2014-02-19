@@ -4,8 +4,6 @@
  *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -23,14 +21,14 @@ class Image extends File
      */
     protected function _validateByRules($value)
     {
-        $label  = __($this->getAttribute()->getStoreLabel());
+        $label  = $value['name'];
         $rules  = $this->getAttribute()->getValidationRules();
 
         $imageProp = @getimagesize($value['tmp_name']);
 
-        if (!is_uploaded_file($value['tmp_name']) || !$imageProp) {
+        if (!$this->_isUploadedFile($value['tmp_name']) || !$imageProp) {
             return array(
-                __('"%1" is not a valid file', $label)
+                __('"%1" is not a valid file.', $label)
             );
         }
 
@@ -42,7 +40,7 @@ class Image extends File
 
         if (!isset($allowImageTypes[$imageProp[2]])) {
             return array(
-                __('"%1" is not a valid image format', $label)
+                __('"%1" is not a valid image format.', $label)
             );
         }
 

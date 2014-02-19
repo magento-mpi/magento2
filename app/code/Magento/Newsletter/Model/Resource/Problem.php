@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Newsletter\Model\Resource;
 
 /**
  * Newsletter problem resource model
@@ -16,13 +16,12 @@
  * @package     Magento_Newsletter
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Newsletter\Model\Resource;
-
 class Problem extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Define main table
      *
+     * @return void
      */
     protected function _construct()
     {

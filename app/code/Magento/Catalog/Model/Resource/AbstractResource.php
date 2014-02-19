@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Catalog\Model\Resource;
 
 /**
  * Catalog entity abstract model
@@ -16,8 +16,6 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Model\Resource;
-
 abstract class AbstractResource extends \Magento\Eav\Model\Entity\AbstractEntity
 {
     /**
@@ -126,8 +124,6 @@ abstract class AbstractResource extends \Magento\Eav\Model\Entity\AbstractEntity
         return parent::_isCallableAttributeInstance($instance, $method, $args);
     }
 
-
-
     /**
      * Retrieve select object for loading entity attributes values
      * Join attribute store value
@@ -188,7 +184,7 @@ abstract class AbstractResource extends \Magento\Eav\Model\Entity\AbstractEntity
      *
      * @param \Magento\Catalog\Model\AbstractModel $object
      * @param array $valueRow
-     * @return \Magento\Catalog\Model\Resource\AbstractResource
+     * @return $this
      */
     protected function _setAttributeValue($object, $valueRow)
     {
@@ -228,7 +224,7 @@ abstract class AbstractResource extends \Magento\Eav\Model\Entity\AbstractEntity
      * @param \Magento\Catalog\Model\AbstractModel $object
      * @param \Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute
      * @param mixed $value
-     * @return \Magento\Catalog\Model\Resource\AbstractResource
+     * @return $this
      */
     protected function _saveAttributeValue($object, $attribute, $value)
     {
@@ -290,7 +286,7 @@ abstract class AbstractResource extends \Magento\Eav\Model\Entity\AbstractEntity
      * @param \Magento\Object $object
      * @param \Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute
      * @param mixed $value
-     * @return \Magento\Catalog\Model\Resource\AbstractResource
+     * @return $this
      */
     protected function _insertAttribute($object, $attribute, $value)
     {
@@ -332,7 +328,7 @@ abstract class AbstractResource extends \Magento\Eav\Model\Entity\AbstractEntity
      * @param \Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute
      * @param mixed $valueId
      * @param mixed $value
-     * @return \Magento\Catalog\Model\Resource\AbstractResource
+     * @return $this
      */
     protected function _updateAttribute($object, $attribute, $valueId, $value)
     {
@@ -346,7 +342,7 @@ abstract class AbstractResource extends \Magento\Eav\Model\Entity\AbstractEntity
      * @param object $attribute
      * @param mixed $value
      * @param int $storeId
-     * @return \Magento\Catalog\Model\Resource\AbstractResource
+     * @return $this
      */
     protected function _updateAttributeForStore($object, $attribute, $value, $storeId)
     {
@@ -395,7 +391,7 @@ abstract class AbstractResource extends \Magento\Eav\Model\Entity\AbstractEntity
      * @param \Magento\Object $object
      * @param string $table
      * @param array $info
-     * @return \Magento\Catalog\Model\Resource\AbstractResource
+     * @return $this
      */
     protected function _deleteAttributes($object, $table, $info)
     {
@@ -495,7 +491,7 @@ abstract class AbstractResource extends \Magento\Eav\Model\Entity\AbstractEntity
      *
      * @param \Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute
      * @param mixed $value New value of the attribute.
-     * @param array $origData
+     * @param array &$origData
      * @return bool
      */
     protected function _canUpdateAttribute(
@@ -634,7 +630,7 @@ abstract class AbstractResource extends \Magento\Eav\Model\Entity\AbstractEntity
      * @param \Magento\Object $object
      * @param integer $entityId
      * @param array|null $attributes
-     * @return \Magento\Catalog\Model\Resource\AbstractResource
+     * @return $this
      */
     public function load($object, $entityId, $attributes = array())
     {

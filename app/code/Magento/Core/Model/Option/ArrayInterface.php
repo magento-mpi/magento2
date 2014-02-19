@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Core\Model\Option;
 
 /**
  * Option array interface
@@ -15,8 +16,6 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Core\Model\Option;
-
 interface ArrayInterface
 {
     /**

@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Email\Block\Adminhtml\Template;
 
 /**
  * Adminhtml system template edit block
@@ -16,8 +17,6 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  * @method array getTemplateOptions()
  */
-namespace Magento\Email\Block\Adminhtml\Template;
-
 class Edit extends \Magento\Backend\Block\Widget
 {
     /**
@@ -89,7 +88,7 @@ class Edit extends \Magento\Backend\Block\Widget
     /**
      * Prepare layout
      *
-     * @return \Magento\View\Element\AbstractBlock
+     * @return $this
      */
     protected function _prepareLayout()
     {
@@ -190,7 +189,7 @@ class Edit extends \Magento\Backend\Block\Widget
     /**
      * Collect, sort and set template options
      *
-     * @return \Magento\Email\Block\Adminhtml\Template\Edit
+     * @return $this
      */
     protected function _beforeToHtml()
     {
@@ -447,9 +446,9 @@ class Edit extends \Magento\Backend\Block\Widget
     /**
      * Convert xml config paths to decorated names
      *
-     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @param array $paths
      * @return array
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     protected function _getSystemConfigPathsParts($paths)
     {

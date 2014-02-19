@@ -7,21 +7,20 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Model\Translate\Inline;
 
 /**
  * Backend Inline Translation config factory
  */
-namespace Magento\Backend\Model\Translate\Inline;
-
-class ConfigFactory extends \Magento\Core\Model\Translate\Inline\ConfigFactory
+class ConfigFactory extends \Magento\Translate\Inline\ConfigFactory
 {
     /**
-     * Create instance of inline translate config
+     * Get instance of inline translate config
      *
-     * @return \Magento\Core\Model\Translate\Inline\ConfigInterface
+     * @return \Magento\Translate\Inline\ConfigFactory
      */
-    public function create()
+    public function get()
     {
-        return $this->_objectManager->create('Magento\Backend\Model\Translate\Inline\Config');
+        return $this->_objectManager->get('Magento\Backend\Model\Translate\Inline\Config');
     }
 }

@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Invitation\Block\Adminhtml\Report\Invitation;
 
 /**
  * Backend invitation general report page content block
@@ -14,11 +15,12 @@
  * @category   Magento
  * @package    Magento_Invitation
  */
-namespace Magento\Invitation\Block\Adminhtml\Report\Invitation;
-
 class General
     extends \Magento\Backend\Block\Widget\Grid\Container
 {
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_controller = 'adminhtml_report_invitation_general';

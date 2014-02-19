@@ -109,6 +109,7 @@ abstract class AbstractType
      * Delete data specific for this product type
      *
      * @param \Magento\Catalog\Model\Product $product
+     * @return void
      */
     abstract public function deleteTypeSpecificData(\Magento\Catalog\Model\Product $product);
 
@@ -468,7 +469,7 @@ abstract class AbstractType
     /**
      * Process File Queue
      *
-     * @return \Magento\Catalog\Model\Product\Type\AbstractType
+     * @return $this
      * @throws \Magento\Core\Exception
      */
     public function processFileQueue()
@@ -489,7 +490,8 @@ abstract class AbstractType
                         $path = dirname($dst);
 
                         try {
-                            $this->_filesystem->getDirectoryWrite(\Magento\App\Filesystem::ROOT_DIR)->create($path);
+                            $rootDir = $this->_filesystem->getDirectoryWrite(\Magento\App\Filesystem::ROOT_DIR);
+                            $rootDir->create($rootDir->getRelativePath($path));
                         } catch (\Magento\Filesystem\FilesystemException $e) {
                             throw new \Magento\Core\Exception(
                                 __("We can't create writeable directory \"%1\".", $path)
@@ -525,6 +527,7 @@ abstract class AbstractType
      *                              (eg. ['operation'=>'move',
      *                                    'src_name'=>'filename',
      *                                    'dst_name'=>'filename2'])
+     * @return void
      */
     public function addFileQueue($queueOptions)
     {
@@ -592,7 +595,7 @@ abstract class AbstractType
      * Check if product can be bought
      *
      * @param  \Magento\Catalog\Model\Product $product
-     * @return \Magento\Catalog\Model\Product\Type\AbstractType
+     * @return $this
      * @throws \Magento\Core\Exception
      */
     public function checkProductBuyState($product)
@@ -670,7 +673,7 @@ abstract class AbstractType
      * Save type related data
      *
      * @param \Magento\Catalog\Model\Product $product
-     * @return \Magento\Catalog\Model\Product\Type\AbstractType
+     * @return $this
      */
     public function save($product)
     {
@@ -688,6 +691,7 @@ abstract class AbstractType
      * Remove don't applicable attributes data
      *
      * @param \Magento\Catalog\Model\Product $product
+     * @return void
      */
     protected function _removeNotApplicableAttributes($product)
     {
@@ -705,7 +709,7 @@ abstract class AbstractType
      * Before save type related data
      *
      * @param \Magento\Catalog\Model\Product $product
-     * @return \Magento\Catalog\Model\Product\Type\AbstractType
+     * @return $this
      */
     public function beforeSave($product)
     {
@@ -802,7 +806,7 @@ abstract class AbstractType
      * Default action to get weight of product
      *
      * @param \Magento\Catalog\Model\Product $product
-     * @return decimal
+     * @return float
      */
     public function getWeight($product)
     {
@@ -831,10 +835,10 @@ abstract class AbstractType
      *
      * @param array $options
      * @param \Magento\Object $option
-     * @param mixed $value
+     * @param int|float|null $value
      * @param \Magento\Catalog\Model\Product $product
      *
-     * @return \Magento\Catalog\Model\Product\Type\AbstractType
+     * @return $this
      */
     public function updateQtyOption($options, \Magento\Object $option, $value, $product)
     {
@@ -872,7 +876,7 @@ abstract class AbstractType
      *
      * @param $store int|\Magento\Core\Model\Store
      * @param \Magento\Catalog\Model\Product $product
-     * @return \Magento\Catalog\Model\Product\Type\AbstractType
+     * @return $this
      */
     public function setStoreFilter($store, $product)
     {
@@ -896,7 +900,7 @@ abstract class AbstractType
     /**
      * Prepare Quote Item Quantity
      *
-     * @param mixed $qty
+     * @param int|float $qty
      * @param \Magento\Catalog\Model\Product $product
      * @return float
      */
@@ -912,7 +916,7 @@ abstract class AbstractType
      * @param \Magento\Catalog\Model\Product $optionProduct
      * @param \Magento\Sales\Model\Quote\Item\Option $option
      * @param \Magento\Catalog\Model\Product $product
-     * @return \Magento\Catalog\Model\Product\Type\AbstractType
+     * @return $this
      */
     public function assignProductToOption($optionProduct, $option, $product)
     {
@@ -929,7 +933,7 @@ abstract class AbstractType
      * Setting specified product type variables
      *
      * @param array $config
-     * @return \Magento\Catalog\Model\Product\Type\AbstractType
+     * @return $this
      */
     public function setConfig($config)
     {
@@ -1047,7 +1051,7 @@ abstract class AbstractType
      * Set image for product without image if possible
      *
      * @param \Magento\Catalog\Model\Product $product
-     * @return \Magento\Catalog\Model\Product\Type\AbstractType
+     * @return $this
      */
     public function setImageFromChildProduct(\Magento\Catalog\Model\Product $product)
     {

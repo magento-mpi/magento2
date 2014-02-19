@@ -68,8 +68,8 @@ class Index extends \Magento\App\Action\Action
         }
         $post = $this->getRequest()->getPost();
         if ($post) {
-            $translate = $this->_objectManager->get('Magento\Core\Model\Translate');
-            /* @var $translate \Magento\Core\Model\Translate */
+            $translate = $this->_objectManager->get('Magento\TranslateInterface');
+            /* @var $translate \Magento\TranslateInterface */
             $translate->setTranslateInline(false);
             try {
                 $postObject = new \Magento\Object();
@@ -126,7 +126,7 @@ class Index extends \Magento\App\Action\Action
                 return;
             } catch (\Exception $e) {
                 $translate->setTranslateInline(true);
-                $this->messageManager->addError(__('Something went wrong submitting your request.'));
+                $this->messageManager->addError(__('We can\'t process your request right now. Sorry, that\'s all we know.'));
                 $this->_redirect('*/*/');
                 return;
             }

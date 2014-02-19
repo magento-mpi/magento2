@@ -183,6 +183,7 @@ class Factory implements \Magento\ObjectManager\Factory
      * Set application arguments
      *
      * @param array $arguments
+     * @return void
      */
     public function setArguments($arguments)
     {

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Catalog\Model\Config\Source;
 
 /**
  * Catalog products per page on Grid mode source
@@ -16,16 +16,18 @@
  * @package    Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Model\Config\Source;
-
 class GridPerPage implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
+     * Options
+     *
      * @var array
      */
     protected $_options;
 
     /**
+     * Constructor
+     *
      * @param string $perPageValues
      */
     public function __construct($perPageValues)
@@ -33,6 +35,9 @@ class GridPerPage implements \Magento\Core\Model\Option\ArrayInterface
         $this->_options = explode(',', $perPageValues);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function toOptionArray()
     {
         $result = array();

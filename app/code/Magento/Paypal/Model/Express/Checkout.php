@@ -111,7 +111,7 @@ class Checkout
     /**
      * Billing agreement that might be created during order placing
      *
-     * @var \Magento\Sales\Model\Billing\Agreement
+     * @var \Magento\Paypal\Model\Billing\Agreement
      */
     protected $_billingAgreement;
 
@@ -194,7 +194,7 @@ class Checkout
     protected $_serviceQuoteFactory;
 
     /**
-     * @var \Magento\Sales\Model\Billing\AgreementFactory
+     * @var \Magento\Paypal\Model\Billing\AgreementFactory
      */
     protected $_agreementFactory;
 
@@ -209,9 +209,14 @@ class Checkout
     protected $_objectCopyService;
 
     /**
+     * @var \Magento\Checkout\Model\Session
+     */
+    protected $_checkoutSession;
+
+    /**
      * @var \Magento\RecurringProfile\Model\Quote
      */
-    protected $_quoteRecurring;
+    protected $_quoteImporter;
 
     /**
      * Set config, session and quote instances
@@ -230,10 +235,11 @@ class Checkout
      * @param \Magento\Core\Model\Log\AdapterFactory $logFactory
      * @param \Magento\Checkout\Model\Type\OnepageFactory $onepageFactory
      * @param \Magento\Sales\Model\Service\QuoteFactory $serviceQuoteFactory
-     * @param \Magento\Sales\Model\Billing\AgreementFactory $agreementFactory
+     * @param \Magento\Paypal\Model\Billing\AgreementFactory $agreementFactory
      * @param \Magento\Paypal\Model\Api\Type\Factory $apiTypeFactory
      * @param \Magento\Object\Copy $objectCopyService
-     * @param \Magento\RecurringProfile\Model\Quote $quoteRecurring
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\RecurringProfile\Model\QuoteImporter $quoteImporter
      * @param array $params
      * @throws \Exception
      */
@@ -252,10 +258,11 @@ class Checkout
         \Magento\Core\Model\Log\AdapterFactory $logFactory,
         \Magento\Checkout\Model\Type\OnepageFactory $onepageFactory,
         \Magento\Sales\Model\Service\QuoteFactory $serviceQuoteFactory,
-        \Magento\Sales\Model\Billing\AgreementFactory $agreementFactory,
+        \Magento\Paypal\Model\Billing\AgreementFactory $agreementFactory,
         \Magento\Paypal\Model\Api\Type\Factory $apiTypeFactory,
         \Magento\Object\Copy $objectCopyService,
-        \Magento\RecurringProfile\Model\Quote $quoteRecurring,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\RecurringProfile\Model\QuoteImporter $quoteImporter,
         $params = array()
     ) {
         $this->_customerData = $customerData;
@@ -275,7 +282,8 @@ class Checkout
         $this->_agreementFactory = $agreementFactory;
         $this->_apiTypeFactory = $apiTypeFactory;
         $this->_objectCopyService = $objectCopyService;
-        $this->_quoteRecurring = $quoteRecurring;
+        $this->_checkoutSession = $checkoutSession;
+        $this->_quoteImporter = $quoteImporter;
 
         if (isset($params['config']) && $params['config'] instanceof \Magento\Paypal\Model\Config) {
             $this->_config = $params['config'];
@@ -443,13 +451,14 @@ class Checkout
         }
 
         // add line items
-        $parameters = array('params' => array($this->_quote));
-        $paypalCart = $this->_cartFactory->create($parameters);
-        $this->_api->setPaypalCart($paypalCart)
+        /** @var $cart \Magento\Payment\Model\Cart */
+        $cart = $this->_cartFactory->create(array('salesModel' => $this->_quote));
+        $this->_api->setPaypalCart($cart)
             ->setIsLineItemsEnabled($this->_config->lineItemsEnabled);
 
         // add shipping options if needed and line items are available
-        if ($this->_config->lineItemsEnabled && $this->_config->transferShippingOptions && $paypalCart->getItems()) {
+        $cartItems = $cart->getAllItems();
+        if ($this->_config->lineItemsEnabled && $this->_config->transferShippingOptions && !empty($cartItems)) {
             if (!$this->_quote->getIsVirtual() && !$this->_quote->hasNominalItems()) {
                 $options = $this->_prepareShippingOptions($address, true);
                 if ($options) {
@@ -463,7 +472,7 @@ class Checkout
         }
 
         // add recurring payment profiles information
-        $profiles = $this->_quoteRecurring->prepareRecurringPaymentProfiles($this->_quote);
+        $profiles = $this->_quoteImporter->prepareRecurringPaymentProfiles($this->_quote);
         if ($profiles) {
             foreach ($profiles as $profile) {
                 $profile->setMethodCode(\Magento\Paypal\Model\Config::METHOD_WPP_EXPRESS);
@@ -705,7 +714,6 @@ class Checkout
         if (!$order) {
             return;
         }
-        $this->_billingAgreement = $order->getPayment()->getBillingAgreement();
 
         // commence redirecting to finish payment, if paypal requires it
         if ($order->getPayment()->getAdditionalInformation(
@@ -758,7 +766,7 @@ class Checkout
     /**
      * Get created billing agreement
      *
-     * @return \Magento\Sales\Model\Billing\Agreement|null
+     * @return \Magento\Paypal\Model\Billing\Agreement|null
      */
     public function getBillingAgreement()
     {

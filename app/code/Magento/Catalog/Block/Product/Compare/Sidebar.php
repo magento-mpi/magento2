@@ -29,7 +29,6 @@ class Sidebar extends \Magento\Catalog\Block\Product\Compare\AbstractCompare
 
     /**
      * Initialize block
-     *
      */
     protected function _construct()
     {

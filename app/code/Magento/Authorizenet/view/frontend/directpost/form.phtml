@@ -76,10 +76,10 @@ $_orderUrl = $this->helper('Magento\Authorizenet\Helper\Data')->getPlaceOrderFro
             <div class="control">
                 <input type="number" title="<?php echo __('Card Verification Number') ?>" data-container="cc-cvv" class="input-text cvv" id="<?php echo $_code ?>_cc_cid" name="payment[cc_cid]" value="" data-validate='{required:true, "validate-cc-cvn":"#<?php echo $_code ?>_cc_type"}' autocomplete="off"/>
                 <div class="note">
-                    <a href="#" id="directpost-cvv-what-is-this" class="action cvv" data-mage-init='{toggleAdvanced: {toggleContainers:"#directpost-tool-tip"}}'><span><?php echo __('What is this?') ?></span></a>
+                    <a href="#" id="directpost-cvv-what-is-this" class="action cvv" data-mage-init='{"toggleAdvanced": {"toggleContainers":"#directpost-tool-tip"}}'><span><?php echo __('What is this?') ?></span></a>
                 </div>
                 <div class="tooltip hidden" id="directpost-tool-tip">
-                    <a href="#" id="directpost-tool-tip-close" title="<?php echo __('Close') ?>" data-mage-init='{toggleAdvanced: {toggleContainers:"#directpost-tool-tip"}}' class="action close">
+                    <a href="#" id="directpost-tool-tip-close" title="<?php echo __('Close') ?>" data-mage-init='{"toggleAdvanced": {"toggleContainers":"#directpost-tool-tip"}}' class="action close">
                         <span><?php echo __('Close') ?></span>
                     </a>
                     <div class="content"><img src="<?php echo $this->getViewFileUrl('Magento_Checkout::cvv.gif') ?>" alt="<?php echo __('Card Verification Number Visual Reference') ?>" title="<?php echo __('Card Verification Number Visual Reference') ?>" /></div>

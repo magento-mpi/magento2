@@ -912,7 +912,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
     /**
      * Get array of all items what can be display directly
      *
-     * @return array
+     * @return \Magento\Sales\Model\Quote\Item[]
      */
     public function getAllVisibleItems()
     {
@@ -1985,21 +1985,6 @@ class Quote extends \Magento\Core\Model\AbstractModel
         ));
 
         return $this;
-    }
-
-    /**
-     * Whether there are recurring items
-     *
-     * @return bool
-     */
-    public function hasRecurringItems()
-    {
-        foreach ($this->getAllVisibleItems() as $item) {
-            if ($item->getProduct() && $item->getProduct()->isRecurring()) {
-                return true;
-            }
-        }
-        return false;
     }
 
     /**

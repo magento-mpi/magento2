@@ -7,8 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\Connect\Command;
 
 final class Install
@@ -17,10 +15,12 @@ extends \Magento\Connect\Command
 
     /**
      * Install action callback
+     *
      * @param string $command
      * @param array $options
-     * @param array $params
-     * @return void
+     * @param string[] $params
+     * @param array $objects
+     * @return array
      */
     public function doInstall($command, $options, $params, $objects = array())
     {
@@ -320,10 +320,11 @@ extends \Magento\Connect\Command
 
     /**
      * Upgrade action callback
+     *
      * @param string $command
      * @param array $options
      * @param array $params
-     * @return void
+     * @return array
      */
     public function doUpgrade($command, $options, $params)
     {
@@ -333,10 +334,11 @@ extends \Magento\Connect\Command
 
     /**
      * Updgrade action callback
+     *
      * @param string $command
      * @param array $options
      * @param array $params
-     * @return void
+     * @return array
      */
     public function doUpgradeAll($command, $options, $params)
     {
@@ -346,10 +348,11 @@ extends \Magento\Connect\Command
 
     /**
      * Uninstall package callback
+     *
      * @param string $command
      * @param array $options
      * @param array $params
-     * @return unknown_type
+     * @return void
      */
     public function doUninstall($command, $options, $params)
     {

@@ -19,7 +19,7 @@ class CollectionFilter
      *
      * @param \Magento\Core\Model\Resource\Db\Collection\AbstractCollection $collection
      * @param array|int $ids
-     * @return \Magento\RecurringProfile\Model\Resource\Order\Collection
+     * @return \Magento\Sales\Model\Resource\Order\Collection
      */
     public function byIds($collection, $ids)
     {

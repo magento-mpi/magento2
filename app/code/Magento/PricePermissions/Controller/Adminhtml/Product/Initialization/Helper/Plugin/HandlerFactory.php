@@ -11,6 +11,8 @@ namespace Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\H
 class HandlerFactory
 {
     /**
+     * Object manager
+     *
      * @var \Magento\ObjectManager
      */
     protected $objectManager;

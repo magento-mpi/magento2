@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Eav\Model;
 
 /**
  * EAV entity model
@@ -15,8 +15,6 @@
  * @category   Magento
  * @package    Magento_Eav
  */
-namespace Magento\Eav\Model;
-
 class Entity extends \Magento\Eav\Model\Entity\AbstractEntity
 {
     const DEFAULT_ENTITY_MODEL      = 'Magento\Eav\Model\Entity';

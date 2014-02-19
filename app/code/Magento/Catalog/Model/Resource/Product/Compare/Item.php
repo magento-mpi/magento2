@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Catalog\Model\Resource\Product\Compare;
 
 /**
  * Catalog compare item resource model
@@ -16,13 +16,12 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Model\Resource\Product\Compare;
-
 class Item extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Initialize connection
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -32,8 +31,8 @@ class Item extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Load object by product
      *
-     * @param \Magento\Core\Model\AbstractModel $object
-     * @param mixed $product
+     * @param \Magento\Catalog\Model\Product\Compare\Item $object
+     * @param \Magento\Catalog\Model\Product|int $product
      * @return bool
      */
     public function loadByProduct(\Magento\Catalog\Model\Product\Compare\Item $object, $product)
@@ -87,7 +86,7 @@ class Item extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Clean compare table
      *
-     * @return \Magento\Catalog\Model\Resource\Product\Compare\Item
+     * @return $this
      */
     public function clean()
     {
@@ -120,7 +119,7 @@ class Item extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Purge visitor data after customer logout
      *
      * @param \Magento\Catalog\Model\Product\Compare\Item $object
-     * @return \Magento\Catalog\Model\Resource\Product\Compare\Item
+     * @return $this
      */
     public function purgeVisitorByCustomer($object)
     {
@@ -143,7 +142,7 @@ class Item extends \Magento\Core\Model\Resource\Db\AbstractDb
      * After Login process
      *
      * @param \Magento\Catalog\Model\Product\Compare\Item $object
-     * @return \Magento\Catalog\Model\Resource\Product\Compare\Item
+     * @return $this
      */
     public function updateCustomerFromVisitor($object)
     {
@@ -211,7 +210,7 @@ class Item extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param int $visitorId
      * @param int $customerId
-     * @return \Magento\Catalog\Model\Resource\Product\Compare\Item
+     * @return $this
      */
     public function clearItems($visitorId = null, $customerId = null)
     {

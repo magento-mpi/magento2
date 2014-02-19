@@ -52,7 +52,7 @@ class Observer
     /**
      * @var Quote
      */
-    protected $_quote;
+    protected $_quoteImporter;
 
     /**
      * @param \Magento\Core\Model\LocaleInterface $locale
@@ -61,7 +61,7 @@ class Observer
      * @param \Magento\View\Element\BlockFactory $blockFactory
      * @param \Magento\RecurringProfile\Block\Fields $fields
      * @param \Magento\Checkout\Model\Session $checkoutSession
-     * @param Quote $quote
+     * @param QuoteImporter $quoteImporter
      */
     public function __construct(
         \Magento\Core\Model\LocaleInterface $locale,
@@ -70,7 +70,7 @@ class Observer
         \Magento\View\Element\BlockFactory $blockFactory,
         \Magento\RecurringProfile\Block\Fields $fields,
         \Magento\Checkout\Model\Session $checkoutSession,
-        \Magento\RecurringProfile\Model\Quote $quote
+        \Magento\RecurringProfile\Model\QuoteImporter $quoteImporter
     ) {
         $this->_locale = $locale;
         $this->_storeManager = $storeManager;
@@ -78,7 +78,7 @@ class Observer
         $this->_blockFactory = $blockFactory;
         $this->_fields = $fields;
         $this->_checkoutSession = $checkoutSession;
-        $this->_quote = $quote;
+        $this->_quoteImporter = $quoteImporter;
     }
 
     /**
@@ -166,7 +166,7 @@ class Observer
      */
     public function submitRecurringPaymentProfiles($observer)
     {
-        $profiles = $this->_quote->prepareRecurringPaymentProfiles($observer->getEvent()->getQuote());
+        $profiles = $this->_quoteImporter->prepareRecurringPaymentProfiles($observer->getEvent()->getQuote());
         foreach ($profiles as $profile) {
             if (!$profile->isValid()) {
                 throw new \Magento\Core\Exception($profile->getValidationErrors());
@@ -182,7 +182,7 @@ class Observer
      */
     public function addRecurringProfileIdsToSession($observer)
     {
-        $profiles = $this->_quote->prepareRecurringPaymentProfiles($observer->getEvent()->getQuote());
+        $profiles = $this->_quoteImporter->prepareRecurringPaymentProfiles($observer->getEvent()->getQuote());
         if ($profiles) {
             $ids = array();
             foreach ($profiles as $profile) {
