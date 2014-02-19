@@ -36,7 +36,7 @@ class FileAbstractTest extends \PHPUnit_Framework_TestCase
      * @param null|string $sourcePath
      * @param null|string $fallback
      */
-    protected function getModelMock($filePath, $viewParams, $sourcePath = null, $fallback = null)
+    protected function initModelMock($filePath, $viewParams, $sourcePath = null, $fallback = null)
     {
         $this->rootDirectory = $this->getMock('Magento\Filesystem\Directory\WriteInterface');
 
@@ -82,7 +82,7 @@ class FileAbstractTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetExtension($filePath, $expected)
     {
-        $this->getModelMock($filePath, ['some', 'array']);
+        $this->initModelMock($filePath, ['some', 'array']);
         $this->assertSame($expected, $this->fileAbstract->getExtension());
     }
 
@@ -108,7 +108,7 @@ class FileAbstractTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsSourceFileExists($filePath, $isExist, $sourcePath, $fallback, $expected)
     {
-        $this->getModelMock($filePath, ['some', 'array'], $sourcePath, $fallback);
+        $this->initModelMock($filePath, ['some', 'array'], $sourcePath, $fallback);
         if ($fallback) {
             $this->rootDirectory->expects($this->once())
                 ->method('isExist')
@@ -159,20 +159,20 @@ class FileAbstractTest extends \PHPUnit_Framework_TestCase
     public function testGetFilePath()
     {
         $filePath = 'test\me';
-        $this->getModelMock($filePath, ['some', 'array']);
+        $this->initModelMock($filePath, ['some', 'array']);
         $this->assertSame($filePath, $this->fileAbstract->getFilePath());
     }
 
     public function testGetViewParams()
     {
         $viewParams = ['some', 'array'];
-        $this->getModelMock('some\file', $viewParams);
+        $this->initModelMock('some\file', $viewParams);
         $this->assertSame($viewParams, $this->fileAbstract->getViewParams());
     }
 
     public function testBuildPublicViewFilename()
     {
-        $this->getModelMock('some\file', []);
+        $this->initModelMock('some\file', []);
         $this->serviceMock->expects($this->once())
             ->method('getPublicDir')->will($this->returnValue('/some/pub/dir'));
 
@@ -193,7 +193,7 @@ class FileAbstractTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetSourcePath($filePath, $isExist, $sourcePath, $fallback, $expected)
     {
-        $this->getModelMock($filePath, ['some', 'array'], $sourcePath, $fallback);
+        $this->initModelMock($filePath, ['some', 'array'], $sourcePath, $fallback);
         if ($fallback) {
             $this->rootDirectory->expects($this->once())
                 ->method('isExist')
@@ -246,7 +246,7 @@ class FileAbstractTest extends \PHPUnit_Framework_TestCase
      */
     public function test__sleep($expected)
     {
-        $this->getModelMock('some\file', []);
+        $this->initModelMock('some\file', []);
         $this->assertEquals($expected, $this->fileAbstract->__sleep());
     }
 
