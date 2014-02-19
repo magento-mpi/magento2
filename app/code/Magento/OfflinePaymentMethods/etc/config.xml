@@ -11,7 +11,7 @@
 -->
 <config>
     <default>
-        <offlinepaymentmethods>
+        <payment>
             <ccsave>
                 <active>0</active>
                 <cctypes>AE,VI,MC,DI</cctypes>
@@ -25,7 +25,7 @@
                 <active>1</active>
                 <model>Magento\OfflinePaymentMethods\Model\Checkmo</model>
                 <order_status>pending</order_status>
-                <title>Check / Money order</title>
+                <title>Check / Money ordera</title>
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
             </checkmo>
@@ -62,6 +62,6 @@
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
             </cashondelivery>
-        </offlinepaymentmethods>
+        </payment>
     </default>
 </config>

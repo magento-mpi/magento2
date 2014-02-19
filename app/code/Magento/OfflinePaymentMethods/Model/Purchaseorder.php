@@ -14,14 +14,14 @@ namespace Magento\OfflinePaymentMethods\Model;
 class Purchaseorder extends \Magento\Payment\Model\Method\AbstractMethod
 {
     protected $_code  = 'purchaseorder';
-    protected $_formBlockType = 'Magento\Payment\Block\Form\Purchaseorder';
-    protected $_infoBlockType = 'Magento\Payment\Block\Info\Purchaseorder';
+    protected $_formBlockType = 'Magento\OfflinePaymentMethods\Block\Form\Purchaseorder';
+    protected $_infoBlockType = 'Magento\OfflinePaymentMethods\Block\Info\Purchaseorder';
 
     /**
      * Assign data to info model instance
      *
      * @param   mixed $data
-     * @return  \Magento\Payment\Model\Method\Purchaseorder
+     * @return  \Magento\OfflinePaymentMethods\Model\Purchaseorder
      */
     public function assignData($data)
     {
