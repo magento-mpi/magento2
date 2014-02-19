@@ -9,8 +9,8 @@
  * @license     {license_link}
  */
 -->
-<offlinepaymentmethods xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="../../../Magento/OfflinePaymentMethods/etc/offlinepaymentmethods.xsd">
+<payment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="../../../Magento/Payment/etc/payment.xsd">
     <credit_cards>
         <type id="AE" order="0">
             <label>American Express</label>
@@ -68,4 +68,4 @@
             <allow_multiple_with_3dsecure>1</allow_multiple_with_3dsecure>
         </method>
     </methods>
-</offlinepaymentmethods>
+</payment>
