@@ -79,7 +79,7 @@ try {
         null,
         $generationDir
     );
-    $generator = new \Magento\Code\Generator(null, null, $generatorIo, null, array(
+    $generator = new \Magento\Code\Generator(null, null, $generatorIo, array(
         \Magento\Interception\Code\Generator\Interceptor::ENTITY_TYPE
             => 'Magento\Interception\Code\Generator\Interceptor',
         \Magento\ObjectManager\Code\Generator\Proxy::ENTITY_TYPE
