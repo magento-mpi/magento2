@@ -13,5 +13,5 @@ namespace Magento\OfflinePaymentMethods\Block\Form;
 
 class Checkmo extends \Magento\Payment\Block\Form
 {
-    protected $_template = 'Magento_Payment::form/checkmo.phtml';
+    protected $_template = 'Magento_OfflinePaymentMethods::form/checkmo.phtml';
 }
