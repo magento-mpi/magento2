@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\PageCache;
+namespace Magento\PageCache\Model;
 
 class ObserverTest extends \PHPUnit_Framework_TestCase
 {
