@@ -205,7 +205,10 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
             ->setDataModel($attribute->getDataModel())
             ->setOptions($options)
             ->setFrontendClass($attribute->getFrontend()->getClass())
+            ->setFrontendInputType($attribute->getFrontend()->getInputType())
+            ->setFrontendInputRendererClass($attribute->getFrontend()->getInputRendererClass())
             ->setFrontendLabel($attribute->getFrontendLabel())
+            ->setNote($attribute->getNote())
             ->setIsSystem($attribute->getIsSystem())
             ->setIsUserDefined($attribute->getIsUserDefined())
             ->setSortOrder($attribute->getSortOrder());

@@ -7,6 +7,7 @@
  */
 
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
+use Magento\Customer\Service\V1\Dto\Eav\Option;
 
 /**
  * Generic block that uses customer metatdata attributes.
@@ -74,7 +75,7 @@ class GenericMetadata extends \Magento\Backend\Block\Widget\Form\Generic
         // getAllOptions($withEmpty = true, $defaultValues = false)
         switch ($inputType) {
             case 'select':
-                $element->setValues($attribute->getOptions()); //true, true));
+                $element->setValues($this->convertOptionsToArray($attribute->getOptions())); //true, true));
                 break;
             case 'multiselect':
                 $element->setValues($attribute->getSource()->getAllOptions()); // false, true));
@@ -90,5 +91,20 @@ class GenericMetadata extends \Magento\Backend\Block\Widget\Form\Generic
             default:
                 break;
         }
+    }
+
+    /**
+     * Converts an array of Option DTOs into an array of value => label pairs
+     *
+     * @param Option[] $options
+     * @return array
+     */
+    private function convertOptionsToArray(array $options)
+    {
+        $result = [];
+        foreach ($options as $option) {
+            $result[$option->getValue()] = $option->getLabel();
+        }
+        return $result;
     }
 }

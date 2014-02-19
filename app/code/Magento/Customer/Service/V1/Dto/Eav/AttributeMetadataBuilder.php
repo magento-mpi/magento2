@@ -121,6 +121,24 @@ class AttributeMetadataBuilder extends \Magento\Service\Entity\AbstractDtoBuilde
     }
 
     /**
+     * @param $frontendInputType
+     * @return AttributeMetadataBuilder
+     */
+    public function setFrontendInputType($frontendInputType)
+    {
+        return $this->_set(AttributeMetadata::FRONTEND_INPUT_TYPE, $frontendInputType);
+    }
+
+    /**
+     * @param $frontendInputRendererClass
+     * @return AttributeMetadataBuilder
+     */
+    public function setFrontendInputRendererClass($frontendInputRendererClass)
+    {
+        return $this->_set(AttributeMetadata::FRONTEND_INPUT_RENDERER_CLASS, $frontendInputRendererClass);
+    }
+
+    /**
      * @param bool $isUserDefined
      * @return AttributeMetadataBuilder
      */
@@ -155,4 +173,15 @@ class AttributeMetadataBuilder extends \Magento\Service\Entity\AbstractDtoBuilde
     {
         return $this->_set(AttributeMetadata::IS_SYSTEM, $isSystem);
     }
+
+    /**
+     * @param string $note
+     * @return AttributeMetadataBuilder
+     */
+    public function setNote($note)
+    {
+        return $this->_set(AttributeMetadata::NOTE, $note);
+    }
+
+
 }

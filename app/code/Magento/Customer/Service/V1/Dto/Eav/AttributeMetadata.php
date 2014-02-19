@@ -29,6 +29,9 @@ class AttributeMetadata extends \Magento\Service\Entity\AbstractDto
     const SORT_ORDER = 'sort_order';
     const FRONTEND_LABEL = 'frontend_label';
     const IS_SYSTEM = 'is_system';
+    const FRONTEND_INPUT_TYPE = 'frontend_input_type';
+    const FRONTEND_INPUT_RENDERER_CLASS = 'frontend_input_renderer_class';
+    const NOTE = 'note';
     /**#@-*/
 
     /**
@@ -142,6 +145,26 @@ class AttributeMetadata extends \Magento\Service\Entity\AbstractDto
     }
 
     /**
+     * Get type which is used to display the attribute on frontend.
+     *
+     * @return string
+     */
+    public function getFrontendInputType()
+    {
+        return $this->_get(self::FRONTEND_INPUT_TYPE);
+    }
+
+    /**
+     * Get class which is used to render the attribute on frontend.
+     *
+     * @return string
+     */
+    public function getFrontendInputRendererClass()
+    {
+        return $this->_get(self::FRONTEND_INPUT_RENDERER_CLASS);
+    }
+
+    /**
      * Whether current attribute has been defined by a user.
      *
      * @return bool
@@ -169,6 +192,16 @@ class AttributeMetadata extends \Magento\Service\Entity\AbstractDto
     public function getFrontendLabel()
     {
         return $this->_get(self::FRONTEND_LABEL);
+    }
+
+    /**
+     * Get the note attribute for the element.
+     *
+     * @return string
+     */
+    public function getNote()
+    {
+        return $this->_get(self::NOTE);
     }
 
     /**
