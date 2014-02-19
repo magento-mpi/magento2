@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Form;
 
 /**
  * Checkout coupon code form
@@ -15,8 +16,6 @@
  * @package    Magento_AdvancedCheckout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Form;
-
 class Coupon extends \Magento\Backend\Block\Template
 {
     /**
@@ -51,7 +50,7 @@ class Coupon extends \Magento\Backend\Block\Template
     }
 
     /**
-     * Return current quote from regisrty
+     * Return current quote from registry
      *
      * @return \Magento\Sales\Model\Quote
      */
@@ -79,6 +78,8 @@ class Coupon extends \Magento\Backend\Block\Template
 
     /**
      * Apply admin acl
+     *
+     * @return string
      */
     protected function _toHtml()
     {

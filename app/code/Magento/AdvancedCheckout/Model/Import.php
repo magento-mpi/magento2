@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\AdvancedCheckout\Model;
+
+use Magento\Core\Exception;
 
 /**
  * Import data from file
@@ -14,8 +17,6 @@
  * @category   Magento
  * @package    Magento_AdvancedCheckout
  */
-namespace Magento\AdvancedCheckout\Model;
-
 class Import extends \Magento\Object
 {
     /**
@@ -33,7 +34,7 @@ class Import extends \Magento\Object
     /**
      * Allowed file name extensions to upload
      *
-     * @var array
+     * @var string[]
      */
     protected $_allowedExtensions = array(
         'csv'
@@ -94,7 +95,7 @@ class Import extends \Magento\Object
     /**
      * Upload file
      *
-     * @throws \Magento\Core\Exception
+     * @throws Exception
      * @return void
      */
     public function uploadFile()
@@ -104,14 +105,14 @@ class Import extends \Magento\Object
         $uploader->setAllowedExtensions($this->_allowedExtensions);
         $uploader->skipDbProcessing(true);
         if (!$uploader->checkAllowedExtension($uploader->getFileExtension())) {
-            throw new \Magento\Core\Exception($this->_getFileTypeMessageText());
+            throw new Exception($this->_getFileTypeMessageText());
         }
 
         try {
             $result = $uploader->save($this->varDirectory->getAbsolutePath($this->uploadPath));
             $this->_uploadedFile = $this->varDirectory->getRelativePath($result['path'] . $result['file']);
         } catch (\Exception $e) {
-            throw new \Magento\Core\Exception(
+            throw new Exception(
                 $this->_checkoutData->getFileGeneralErrorText()
             );
         }
@@ -120,8 +121,8 @@ class Import extends \Magento\Object
     /**
      * Get rows from file
      *
-     * @throws \Magento\Core\Exception
      * @return array
+     * @throws Exception
      */
     public function getRows()
     {
@@ -131,19 +132,19 @@ class Import extends \Magento\Object
             return $this->$method();
         }
 
-        throw new \Magento\Core\Exception($this->_getFileTypeMessageText());
+        throw new Exception($this->_getFileTypeMessageText());
     }
 
     /**
      * Get rows from CSV file
      *
-     * @throws \Magento\Core\Exception
      * @return array
+     * @throws Exception
      */
     public function getDataFromCsv()
     {
         if (!$this->_uploadedFile || !($this->varDirectory->isExist($this->_uploadedFile))) {
-            throw new \Magento\Core\Exception(
+            throw new Exception(
                 $this->_checkoutData->getFileGeneralErrorText()
             );
         }
@@ -167,7 +168,7 @@ class Import extends \Magento\Object
                     if (false !== $found) {
                         $requiredColumnsPositions[] = $found;
                     } else {
-                        throw new \Magento\Core\Exception(
+                        throw new Exception(
                             $this->_checkoutData->getSkuEmptyDataMessageText()
                         );
                     }
@@ -187,7 +188,7 @@ class Import extends \Magento\Object
                 $fileHandler->close();
             }
         } catch (\Exception $e) {
-            throw new \Magento\Core\Exception(__('The file is corrupt.'));
+            throw new Exception(__('The file is corrupt.'));
         }
         return $csvData;
     }
@@ -196,7 +197,7 @@ class Import extends \Magento\Object
      * Get Method to load data by file extension
      *
      * @param string $extension
-     * @throws \Magento\Core\Exception
+     * @throws Exception
      * @return string
      */
     protected function _getMethodByExtension($extension)
@@ -207,7 +208,7 @@ class Import extends \Magento\Object
             }
         }
 
-        throw new \Magento\Core\Exception($this->_getFileTypeMessageText());
+        throw new Exception($this->_getFileTypeMessageText());
     }
 
     /**

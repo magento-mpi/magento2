@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Store;
 
 /**
  * Store switcher for shopping cart management
@@ -15,8 +16,6 @@
  * @package    Magento_AdvancedCheckout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Store;
-
 class Switcher extends \Magento\Backend\Block\Store\Switcher
 {
     /**
@@ -53,6 +52,8 @@ class Switcher extends \Magento\Backend\Block\Store\Switcher
 
     /**
      * Add website filter
+     *
+     * @return void
      */
     protected function _construct()
     {

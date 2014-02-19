@@ -7,6 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\AdvancedCheckout\Controller\Adminhtml;
+
+use Magento\AdvancedCheckout\Exception as AdvancedCheckoutException;
+use Magento\Backend\App\Action;
+use Magento\Core\Exception;
 
 /**
  * Admin Checkout index controller
@@ -15,11 +20,6 @@
  * @package    Magento_AdvancedCheckout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\AdvancedCheckout\Controller\Adminhtml;
-
-
-use Magento\Backend\App\Action;
-
 class Index extends \Magento\Backend\App\Action
 {
     /**
@@ -67,16 +67,15 @@ class Index extends \Magento\Backend\App\Action
      *
      * @param bool $useRedirects
      *
-     * @throws \Magento\Core\Exception
-     * @throws \Magento\AdvancedCheckout\Exception
-     * @return \Magento\AdvancedCheckout\Controller\Adminhtml\Index
+     * @return $this
+     * @throws AdvancedCheckoutException
      */
     protected function _initData($useRedirects = true)
     {
         $customerId = $this->getRequest()->getParam('customer');
         $customer = $this->_objectManager->create('Magento\Customer\Model\Customer')->load($customerId);
         if (!$customer->getId()) {
-            throw new \Magento\AdvancedCheckout\Exception(__('Customer not found'));
+            throw new AdvancedCheckoutException(__('Customer not found'));
         }
 
         $storeManager = $this->_objectManager->get('Magento\Core\Model\StoreManager');
@@ -91,7 +90,7 @@ class Index extends \Magento\Backend\App\Action
                 $this->_redirectFlag = true;
                 return $this;
             } else {
-                throw new \Magento\AdvancedCheckout\Exception(
+                throw new AdvancedCheckoutException(
                     __('Shopping cart management is disabled for this customer.')
                 );
             }
@@ -123,7 +122,7 @@ class Index extends \Magento\Backend\App\Action
                 $this->_redirectFlag = true;
                 return $this;
             } else {
-                throw new \Magento\AdvancedCheckout\Exception(__('We could not find this store.'));
+                throw new AdvancedCheckoutException(__('We could not find this store.'));
             }
         } else {
             // try to find quote for selected store
@@ -160,7 +159,7 @@ class Index extends \Magento\Backend\App\Action
     /**
      * Renderer for page title
      *
-     * @return \Magento\Backend\App\Action
+     * @return $this
      */
     protected function _initTitle()
     {
@@ -181,6 +180,8 @@ class Index extends \Magento\Backend\App\Action
 
     /**
      * Empty page for final errors occurred
+     *
+     * @return void
      */
     public function errorAction()
     {
@@ -191,6 +192,8 @@ class Index extends \Magento\Backend\App\Action
 
     /**
      * Manage shopping cart layout
+     *
+     * @return void
      */
     public function indexAction()
     {
@@ -203,7 +206,7 @@ class Index extends \Magento\Backend\App\Action
             $this->_initTitle();
             $this->_view->renderLayout();
             return;
-        } catch (\Magento\Core\Exception $e) {
+        } catch (Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->_objectManager->get('Magento\Logger')->logException($e);
@@ -217,6 +220,8 @@ class Index extends \Magento\Backend\App\Action
 
     /**
      * Quote items grid ajax callback
+     *
+     * @return void
      */
     public function cartAction()
     {
@@ -235,6 +240,8 @@ class Index extends \Magento\Backend\App\Action
     /**
      * Add products to quote, ajax
      * Currently not used, as all requests now go through loadBlock action
+     *
+     * @return void
      */
     public function addToCartAction()
     {
@@ -308,6 +315,8 @@ class Index extends \Magento\Backend\App\Action
     /**
      * Mass update quote items, ajax
      * Currently not used, as all requests now go through loadBlock action
+     *
+     * @return void
      */
     public function updateItemsAction()
     {
@@ -329,6 +338,8 @@ class Index extends \Magento\Backend\App\Action
 
     /**
      * Apply/cancel coupon code in quote, ajax
+     *
+     * @return void
      */
     public function applyCouponAction()
     {
@@ -358,6 +369,8 @@ class Index extends \Magento\Backend\App\Action
 
     /**
      * Coupon code block builder
+     *
+     * @return void
      */
     public function couponAction()
     {
@@ -366,6 +379,8 @@ class Index extends \Magento\Backend\App\Action
 
     /**
      * Common action for accordion grids, ajax
+     *
+     * @return void
      */
     public function accordionAction()
     {
@@ -383,11 +398,14 @@ class Index extends \Magento\Backend\App\Action
 
     /**
      * Redirect to order creation page based on current quote
+     *
+     * @return void
+     * @throws Exception
      */
     public function createOrderAction()
     {
         if (!$this->_authorization->isAllowed('Magento_Sales::create')) {
-            throw new \Magento\Core\Exception(__('You do not have access to this.'));
+            throw new Exception(__('You do not have access to this.'));
         }
         try {
             $this->_initData();
@@ -408,7 +426,7 @@ class Index extends \Magento\Backend\App\Action
                 'store_id' => $this->_registry->registry('checkout_current_store')->getId(),
             ));
             return;
-        } catch (\Magento\Core\Exception $e) {
+        } catch (Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->_objectManager->get('Magento\Logger')->logException($e);
@@ -421,6 +439,8 @@ class Index extends \Magento\Backend\App\Action
 
     /**
      * Catalog products accordion grid callback
+     *
+     * @return void
      */
     public function productsAction()
     {
@@ -429,6 +449,8 @@ class Index extends \Magento\Backend\App\Action
 
     /**
      * Wishlist accordion grid callback
+     *
+     * @return void
      */
     public function viewWishlistAction()
     {
@@ -437,6 +459,8 @@ class Index extends \Magento\Backend\App\Action
 
     /**
      * Compared products accordion grid callback
+     *
+     * @return void
      */
     public function viewComparedAction()
     {
@@ -445,6 +469,8 @@ class Index extends \Magento\Backend\App\Action
 
     /**
      * Recently compared products accordion grid callback
+     *
+     * @return void
      */
     public function viewRecentlyComparedAction()
     {
@@ -453,6 +479,8 @@ class Index extends \Magento\Backend\App\Action
 
     /**
      * Recently viewed products accordion grid callback
+     *
+     * @return void
      */
     public function viewRecentlyViewedAction()
     {
@@ -461,6 +489,8 @@ class Index extends \Magento\Backend\App\Action
 
     /**
      * Last ordered items accordion grid callback
+     *
+     * @return void
      */
     public function viewOrderedAction()
     {
@@ -470,7 +500,7 @@ class Index extends \Magento\Backend\App\Action
     /**
      * Ajax handler to response configuration fieldset of composite product in order
      *
-     * @return \Magento\AdvancedCheckout\Controller\Adminhtml\Index
+     * @return void
      */
     public function configureProductToAddAction()
     {
@@ -499,7 +529,7 @@ class Index extends \Magento\Backend\App\Action
     /**
      * Ajax handler to configure item in wishlist
      *
-     * @return \Magento\AdvancedCheckout\Controller\Adminhtml\Index
+     * @return void
      */
     public function configureWishlistItemAction()
     {
@@ -515,13 +545,13 @@ class Index extends \Magento\Backend\App\Action
 
             $itemId = (int)$this->getRequest()->getParam('id');
             if (!$itemId) {
-                throw new \Magento\Core\Exception(__('The wish list item id is not received.'));
+                throw new Exception(__('The wish list item id is not received.'));
             }
 
             $item = $this->_objectManager->create('Magento\Wishlist\Model\Item')
                 ->loadWithOptions($itemId, 'info_buyRequest');
             if (!$item->getId()) {
-                throw new \Magento\Core\Exception(__('The wish list item is not loaded.'));
+                throw new Exception(__('The wish list item is not loaded.'));
             }
 
             $configureResult->setOk(true)
@@ -543,7 +573,7 @@ class Index extends \Magento\Backend\App\Action
     /**
      * Ajax handler to configure item in wishlist
      *
-     * @return \Magento\AdvancedCheckout\Controller\Adminhtml\Index
+     * @return void
      */
     public function configureOrderedItemAction()
     {
@@ -559,13 +589,13 @@ class Index extends \Magento\Backend\App\Action
 
             $itemId = (int) $this->getRequest()->getParam('id');
             if (!$itemId) {
-                throw new \Magento\Core\Exception(__('Ordered item id is not received.'));
+                throw new Exception(__('Ordered item id is not received.'));
             }
 
             $item = $this->_objectManager->create('Magento\Sales\Model\Order\Item')
                 ->load($itemId);
             if (!$item->getId()) {
-                throw new \Magento\Core\Exception(__('Ordered item is not loaded.'));
+                throw new Exception(__('Ordered item is not loaded.'));
             }
 
             $configureResult->setOk(true)
@@ -588,10 +618,11 @@ class Index extends \Magento\Backend\App\Action
      * Process exceptions in ajax requests
      *
      * @param \Exception $e
+     * @return void
      */
     protected function _processException(\Exception $e)
     {
-        if ($e instanceof \Magento\Core\Exception) {
+        if ($e instanceof Exception) {
             $result = array('error' => $e->getMessage());
         } elseif ($e instanceof \Exception) {
             $this->_objectManager->get('Magento\Logger')->logException($e);
@@ -605,20 +636,20 @@ class Index extends \Magento\Backend\App\Action
     /**
      * Acl check for quote modifications
      *
-     * @throws \Magento\Core\Exception
-     * @return boolean
+     * @return void
+     * @throws Exception
      */
     protected function _isModificationAllowed()
     {
         if (!$this->_authorization->isAllowed('Magento_AdvancedCheckout::update')) {
-            throw new \Magento\Core\Exception(__('You do not have access to this.'));
+            throw new Exception(__('You do not have access to this.'));
         }
     }
 
     /**
      * Acl check for admin
      *
-     * @return boolean
+     * @return bool
      */
     protected function _isAllowed()
     {
@@ -629,7 +660,8 @@ class Index extends \Magento\Backend\App\Action
     /**
      * Configure quote items
      *
-     * @return \Magento\AdvancedCheckout\Controller\Adminhtml\Index
+     * @return void
+     * @throws Exception
      */
     public function configureQuoteItemsAction()
     {
@@ -641,12 +673,12 @@ class Index extends \Magento\Backend\App\Action
             $quoteItemId = (int) $this->getRequest()->getParam('id');
 
             if (!$quoteItemId) {
-                throw new \Magento\Core\Exception(__('Quote item id is not received.'));
+                throw new Exception(__('Quote item id is not received.'));
             }
 
             $quoteItem = $this->_objectManager->create('Magento\Sales\Model\Quote\Item')->load($quoteItemId);
             if (!$quoteItem->getId()) {
-                throw new \Magento\Core\Exception(__('Quote item is not loaded.'));
+                throw new Exception(__('Quote item is not loaded.'));
             }
 
             $configureResult->setOk(true);
@@ -673,7 +705,7 @@ class Index extends \Magento\Backend\App\Action
     /**
      * Reload quote
      *
-     * @return \Magento\AdvancedCheckout\Controller\Adminhtml\Index
+     * @return $this
      */
     protected function _reloadQuote()
     {
@@ -684,16 +716,18 @@ class Index extends \Magento\Backend\App\Action
 
     /**
      * Loading page block
+     *
+     * @return void
      */
     public function loadBlockAction()
     {
         $criticalException = false;
         try {
             $this->_initData(false)->_processData();
-        } catch (\Magento\AdvancedCheckout\Exception $e) {
+        } catch (AdvancedCheckoutException $e) {
             $this->messageManager->addError($e->getMessage());
             $criticalException = true;
-        } catch (\Magento\Core\Exception $e) {
+        } catch (Exception $e) {
             $this->_reloadQuote();
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
@@ -780,12 +814,13 @@ class Index extends \Magento\Backend\App\Action
     /**
      * Wrapper for _getListItemInfo() - extends with additional list types. New method has been created to leave
      * definition of original method unchanged (add_by_sku list type utilizes additional parameter - $info).
-     * @see _getListItemInfo() for return format
      *
      * @param string $listType
      * @param int    $itemId
      * @param array  $info
      * @return \Magento\Object|false
+     *
+     * @see _getListItemInfo() for return format
      */
     protected function _getInfoForListItem($listType, $itemId, $info)
     {
@@ -815,7 +850,7 @@ class Index extends \Magento\Backend\App\Action
     /**
      * Processing request data
      *
-     * @return \Magento\AdvancedCheckout\Controller\Adminhtml\Index
+     * @return $this
      */
     protected function _processData()
     {
@@ -909,7 +944,7 @@ class Index extends \Magento\Backend\App\Action
                     } else {
                         try {
                             $this->getCartModel()->addProduct($itemInfo->getProductId(), $config);
-                        } catch (\Magento\Core\Exception $e){
+                        } catch (Exception $e){
                             $this->messageManager->addError($e->getMessage());
                         } catch (\Exception $e){
                             $this->_objectManager->get('Magento\Logger')->logException($e);
@@ -975,6 +1010,7 @@ class Index extends \Magento\Backend\App\Action
      * Show item update result from loadBlockAction
      * to prevent popup alert with resend data question
      *
+     * @return void|false
      */
     public function showUpdateResultAction()
     {
@@ -990,12 +1026,14 @@ class Index extends \Magento\Backend\App\Action
 
     /**
      * Upload and parse CSV file with SKUs and quantity
+     *
+     * @return void
      */
     public function uploadSkuCsvAction()
     {
         try {
             $this->_initData();
-        } catch (\Magento\Core\Exception $e) {
+        } catch (Exception $e) {
             $this->_objectManager->get('Magento\Logger')->logException($e);
             $this->_redirect('customer/index');
             $this->_redirectFlag = true;

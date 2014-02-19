@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion;
 
 /**
  * Accordion grid for recently ordered products
@@ -15,10 +16,7 @@
  * @package    Magento_AdvancedCheckout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion;
-
-class Ordered
-    extends \Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\AbstractAccordion
+class Ordered extends AbstractAccordion
 {
     /**
      * Collection field name for using in controls
@@ -28,11 +26,15 @@ class Ordered
 
     /**
      * Javascript list type name for this grid
+     *
+     * @var string
      */
     protected $_listType = 'ordered';
 
     /**
      * Url to configure this grid's items
+     *
+     * @var string
      */
     protected $_configureRoute = '*/checkout/configureOrderedItem';
 
@@ -47,7 +49,6 @@ class Ordered
     protected $_productFactory;
 
     /**
-     * @param \Magento\Data\CollectionFactory $collectionFactory
      * @var \Magento\Catalog\Model\Config
      */
     protected $_catalogConfig;
@@ -99,6 +100,7 @@ class Ordered
     /**
      * Initialize Grid
      *
+     * @return void
      */
     protected function _construct()
     {
