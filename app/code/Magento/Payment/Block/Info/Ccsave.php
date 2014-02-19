@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Payment\Block\Info;
 
 class Ccsave extends \Magento\Payment\Block\Info\Cc
@@ -18,6 +17,7 @@ class Ccsave extends \Magento\Payment\Block\Info\Cc
      * Expiration date and full number will show up only in secure mode (only for admin, not in emails or pdfs)
      *
      * @param \Magento\Object|array $transport
+     * @return \Magento\Object
      */
     protected function _prepareSpecificInformation($transport = null)
     {

@@ -5,12 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Cms\Model\Resource;
 
 /**
  * Cms resource setup
  */
-namespace Magento\Cms\Model\Resource;
-
 class Setup extends \Magento\Core\Model\Resource\Setup\Generic
 {
     /**
@@ -27,6 +26,14 @@ class Setup extends \Magento\Core\Model\Resource\Setup\Generic
      */
     protected $_pageFactory;
 
+    /**
+     * @param \Magento\Core\Model\Resource\Setup\Context $context
+     * @param string $resourceName
+     * @param \Magento\Cms\Model\BlockFactory $blockFactory
+     * @param \Magento\Cms\Model\PageFactory $pageFactory
+     * @param string $moduleName
+     * @param string $connectionName
+     */
     public function __construct(
         \Magento\Core\Model\Resource\Setup\Context $context,
         $resourceName,

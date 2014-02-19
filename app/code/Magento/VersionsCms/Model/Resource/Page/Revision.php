@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\VersionsCms\Model\Resource\Page;
 
 /**
  * Cms page revision resource model
@@ -16,8 +16,6 @@
  * @package     Magento_VersionsCms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\VersionsCms\Model\Resource\Page;
-
 class Revision extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
@@ -50,6 +48,8 @@ class Revision extends \Magento\Core\Model\Resource\Db\AbstractDb
 
     /**
      * Resource initialization. Define the table names and its aliases.
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -65,7 +65,7 @@ class Revision extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Process page data before saving
      *
      * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\VersionsCms\Model\Resource\Page\Revision
+     * @return $this
      */
     protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
     {
@@ -90,7 +90,7 @@ class Revision extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Process data after save
      *
      * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\VersionsCms\Model\Resource\Page\Revision
+     * @return $this
      */
     protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
     {
@@ -104,7 +104,7 @@ class Revision extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Validate if this revision can be removed
      *
      * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\VersionsCms\Model\Resource\Page\Revision
+     * @return $this
      */
     protected function _afterDelete(\Magento\Core\Model\AbstractModel $object)
     {
@@ -135,7 +135,7 @@ class Revision extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Aggregate data for version
      *
      * @param int $versionId
-     * @return \Magento\VersionsCms\Model\Resource\Page\Revision
+     * @return $this
      */
     protected function _aggregateVersionData($versionId)
     {
@@ -163,7 +163,7 @@ class Revision extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param \Magento\VersionsCms\Model\Page\Revision $object
      * @param int $targetId
-     * @return \Magento\VersionsCms\Model\Resource\Page\Revision
+     * @return $this
      */
     public function publish(\Magento\VersionsCms\Model\Page\Revision $object, $targetId)
     {
@@ -178,11 +178,11 @@ class Revision extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Loading revision's data with extra access level checking.
      *
      * @param \Magento\VersionsCms\Model\Page\Revision $object
-     * @param array|string $accessLevel
+     * @param string|string[] $accessLevel
      * @param int $userId
      * @param int|string $value
      * @param string|null $field
-     * @return \Magento\VersionsCms\Model\Resource\Page\Revision
+     * @return $this
      */
     public function loadWithRestrictions($object, $accessLevel, $userId, $value, $field)
     {
@@ -232,9 +232,9 @@ class Revision extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param \Magento\VersionsCms\Model\Page\Revision $object
      * @param int $versionId
      * @param int $pageId
-     * @param array|string $accessLevel
+     * @param string|string[] $accessLevel
      * @param int $userId
-     * @return \Magento\VersionsCms\Model\Resource\Page\Revision
+     * @return $this
      */
     public function loadByVersionPageWithRestrictions($object, $versionId, $pageId, $accessLevel, $userId)
     {
@@ -279,7 +279,7 @@ class Revision extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Preparing array of conditions based on user id and version's access level.
      *
-     * @param array|string $accessLevel
+     * @param string|string[] $accessLevel
      * @param int $userId
      * @return string
      */

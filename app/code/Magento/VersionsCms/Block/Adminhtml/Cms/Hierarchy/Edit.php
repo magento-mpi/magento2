@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy;
 
 /**
  * Cms Page Tree Edit Form Container Block
  */
-namespace Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy;
-
 class Edit extends \Magento\Backend\Block\Widget\Form\Container
 {
     /**
@@ -39,6 +38,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     /**
      * Initialize Form Container
      *
+     * @return void
      */
     protected function _construct()
     {

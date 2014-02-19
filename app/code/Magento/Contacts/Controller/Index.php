@@ -44,6 +44,8 @@ class Index extends \Magento\App\Action\Action
 
     /**
      * Show Contact Us page
+     *
+     * @return void
      */
     public function indexAction()
     {
@@ -58,6 +60,7 @@ class Index extends \Magento\App\Action\Action
     /**
      * Post user question
      *
+     * @return void
      * @throws \Exception
      */
     public function postAction()
