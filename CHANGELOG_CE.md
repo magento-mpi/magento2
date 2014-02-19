@@ -1,5 +1,6 @@
 * Fixed bugs:
   * Fixed an issue with Backup module feature not possible to store files
+  * Fixed an issue with "Add to Cart" button on MAP popup of compound products
 * Indexer implementation:
   * Implemented new optimized Catalog Category Flat Indexer
   * Implemented new optimized Catalog Product Flat Indexer
