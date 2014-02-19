@@ -22,8 +22,13 @@ namespace Magento\Wishlist\Model;
  * @method string getUpdatedAt()
  * @method \Magento\Wishlist\Model\Wishlist setUpdatedAt(string $value)
  */
-class Wishlist extends \Magento\Core\Model\AbstractModel
+class Wishlist extends \Magento\Core\Model\AbstractModel implements \Magento\Object\IdentityInterface
 {
+    /**
+     * Cache tag
+     */
+    const CACHE_TAG = 'wishlist';
+
     /**
      * Prefix of model events names
      *
@@ -651,5 +656,15 @@ class Wishlist extends \Magento\Core\Model\AbstractModel
     {
         $this->_hasDataChanges = true;
         return parent::save();
+    }
+
+    /**
+     * Return unique ID(s) for each object in system
+     *
+     * @return array
+     */
+    public function getIdentities()
+    {
+        return array(self::CACHE_TAG . '_' . $this->getId());
     }
 }

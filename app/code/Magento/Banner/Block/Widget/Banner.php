@@ -19,7 +19,7 @@ namespace Magento\Banner\Block\Widget;
 
 class Banner
     extends \Magento\View\Element\Template
-    implements \Magento\Widget\Block\BlockInterface
+    implements \Magento\Widget\Block\BlockInterface, \Magento\View\Block\IdentityInterface
 {
     /**
      * Display mode "fixed" flag
@@ -463,4 +463,17 @@ class Banner
         return $result;
     }
 
+    /**
+     * Return identifiers for produced content
+     *
+     * @return array
+     */
+    public function getIdentities()
+    {
+        $identities = array();
+        foreach ($this->getBannerIds() as $bannerId) {
+            $identities[] = \Magento\Banner\Model\Banner::CACHE_TAG . '_' . $bannerId;
+        }
+        return $identities;
+    }
 }

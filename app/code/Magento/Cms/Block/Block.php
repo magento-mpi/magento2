@@ -20,7 +20,7 @@ namespace Magento\Cms\Block;
 
 use Magento\View\Element\AbstractBlock;
 
-class Block extends \Magento\View\Element\AbstractBlock
+class Block extends \Magento\View\Element\AbstractBlock implements \Magento\View\Block\IdentityInterface
 {
     /**
      * @var \Magento\Cms\Model\Template\FilterProvider
@@ -83,5 +83,15 @@ class Block extends \Magento\View\Element\AbstractBlock
             }
         }
         return $html;
+    }
+
+    /**
+     * Return identifiers for produced content
+     *
+     * @return array
+     */
+    public function getIdentities()
+    {
+        return array(\Magento\Cms\Model\Block::CACHE_TAG . '_' . $this->getBlockId());
     }
 }

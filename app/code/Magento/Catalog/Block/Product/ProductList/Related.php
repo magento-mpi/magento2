@@ -15,7 +15,7 @@ namespace Magento\Catalog\Block\Product\ProductList;
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Related extends \Magento\Catalog\Block\Product\AbstractProduct
+class Related extends \Magento\Catalog\Block\Product\AbstractProduct implements \Magento\View\Block\IdentityInterface
 {
     /**
      * Default MAP renderer type
@@ -145,5 +145,19 @@ class Related extends \Magento\Catalog\Block\Product\AbstractProduct
     public function getItems()
     {
         return $this->_itemCollection;
+    }
+
+    /**
+     * Return identifiers for produced content
+     *
+     * @return array
+     */
+    public function getIdentities()
+    {
+        $identities = array();
+        foreach ($this->getItems() as $item) {
+            $identities[] = $item->getIdentities();
+        }
+        return $identities;
     }
 }

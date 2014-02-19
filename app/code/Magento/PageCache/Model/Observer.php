@@ -66,9 +66,9 @@ class Observer
             $block = $layout->getBlock($name);
             $transport = $event->getTransport();
             if ($block instanceof \Magento\View\Element\AbstractBlock) {
-                $output = $transport->getData('output');
                 $blockTtl = $block->getTtl();
-                $varnishIsEnabledFlag = ($this->_config->getType() == \Magento\PageCache\Model\Config::VARNISH);
+                $varnishIsEnabledFlag = $this->_config->getType() == \Magento\PageCache\Model\Config::VARNISH;
+                $output = $transport->getData('output');
                 if ($varnishIsEnabledFlag && isset($blockTtl)) {
                     $output = $this->_wrapEsi($block);
                 } elseif ($block->isScopePrivate()) {
@@ -115,6 +115,18 @@ class Observer
             if($this->_config->getType() == \Magento\PageCache\Model\Config::BUILT_IN) {
                 $this->_cache->clean($object->getIdentities());
             }
+        }
+    }
+
+    /**
+     * Flash Built-In cache
+     *
+     * @param \Magento\Event\Observer $observer
+     */
+    public function flushAllCache(\Magento\Event\Observer $observer)
+    {
+        if($this->_config->getType() == \Magento\PageCache\Model\Config::BUILT_IN) {
+            $this->_cache->clean();
         }
     }
 }

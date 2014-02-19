@@ -44,6 +44,6 @@ class AccordionTest extends \PHPUnit_Framework_TestCase
      */
     public function testToHtml()
     {
-        $this->assertContains('Wishlist - 0 item(s)', $this->_block->toHtml());
+        $this->assertContains('tab_content_customerViewAccordion', $this->_block->toHtml());
     }
 }

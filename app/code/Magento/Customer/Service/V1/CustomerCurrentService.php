@@ -46,24 +46,27 @@ class CustomerCurrentService implements \Magento\Customer\Service\V1\CustomerCur
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\View\LayoutInterface $layout
      * @param Dto\CustomerBuilder $customerBuilder
-     * @param CustomerService $customerService
+     * @param CustomerServiceInterface $customerService
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\Module\Manager $moduleManager
+     * @param \Magento\App\ViewInterface $view
      */
     public function __construct(
-        \Magento\Customer\Model\Session                     $customerSession,
-        \Magento\View\LayoutInterface                       $layout,
-        \Magento\Customer\Service\V1\Dto\CustomerBuilder    $customerBuilder,
-        \Magento\Customer\Service\V1\CustomerService        $customerService,
-        \Magento\App\RequestInterface                       $request,
-        \Magento\Module\Manager                             $moduleManager
-    ){
+        \Magento\Customer\Model\Session                         $customerSession,
+        \Magento\View\LayoutInterface                           $layout,
+        \Magento\Customer\Service\V1\Dto\CustomerBuilder        $customerBuilder,
+        \Magento\Customer\Service\V1\CustomerServiceInterface   $customerService,
+        \Magento\App\RequestInterface                           $request,
+        \Magento\Module\Manager                                 $moduleManager,
+        \Magento\App\ViewInterface                              $view
+    ) {
         $this->customerSession  = $customerSession;
         $this->layout           = $layout;
         $this->customerBuilder  = $customerBuilder;
         $this->customerService  = $customerService;
         $this->request          = $request;
         $this->moduleManager    = $moduleManager;
+        $this->view             = $view;
     }
 
     /**
@@ -95,8 +98,9 @@ class CustomerCurrentService implements \Magento\Customer\Service\V1\CustomerCur
     {
         if ($this->moduleManager->isEnabled('Magento_PageCache')
             && !$this->request->isAjax()
+            && $this->view->isLayoutLoaded()
             && $this->layout->isCacheable()
-        ){
+        ) {
             return $this->getDepersonalizedCustomer();
         } else {
             return $this->getCustomerFromService();

@@ -43,7 +43,7 @@ class LayoutPluginTest extends \PHPUnit_Framework_TestCase
         );
         $this->responseMock = $this->getMock(
             '\Magento\App\Response\Http',
-            ['setPublicHeaders', 'setNoCacheHeaders'],
+            [],
             [],
             '',
             false
@@ -65,12 +65,17 @@ class LayoutPluginTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testAfterGenerateXmlLayoutIsCacheable()
+    /**
+     * @param $layoutIsCacheable
+     * @dataProvider afterGenerateXmlDataProvider
+     */
+    public function testAfterGenerateXml($layoutIsCacheable)
     {
         $maxAge = 180;
         $this->layoutMock->expects($this->once())
             ->method('isCacheable')
-            ->will($this->returnValue(true));
+            ->will($this->returnValue($layoutIsCacheable));
+        if ($layoutIsCacheable) {
             $this->configMock->expects($this->once())
                 ->method('getValue')
                 ->with(\Magento\PageCache\Model\Config::XML_PAGECACHE_TTL)
@@ -78,16 +83,48 @@ class LayoutPluginTest extends \PHPUnit_Framework_TestCase
             $this->responseMock->expects($this->once())
                 ->method('setPublicHeaders')
                 ->with($maxAge);
-        $this->model->afterGenerateXml();
+        } else {
+            $this->responseMock->expects($this->never())
+                ->method('setPublicHeaders');
+        }
+
+        $this->assertEquals($this->layoutMock, $this->model->afterGenerateXml($this->layoutMock));
     }
 
-    public function testAfterGenerateXmlLayoutIsNotCacheable()
+    public function afterGenerateXmlDataProvider()
     {
+        return [
+            'Layout is cache-able' => [true],
+            'Layout is not cache-able' => [false]
+        ];
+    }
+
+    /**
+     * @param bool $layoutIsCacheable
+     * @dataProvider afterGetOutputDataProvider
+     */
+    public function testAfterGetOutput($layoutIsCacheable)
+    {
+        $html = 'html';
         $this->layoutMock->expects($this->once())
             ->method('isCacheable')
-            ->will($this->returnValue(false));
-        $this->responseMock->expects($this->never())
-            ->method('setPublicHeaders');
-        $this->model->afterGenerateXml();
+            ->will($this->returnValue($layoutIsCacheable));
+        if ($layoutIsCacheable) {
+            $this->responseMock->expects($this->once())
+                ->method('setHeader')
+                ->with('X-Magento-Tags');
+        } else {
+            $this->responseMock->expects($this->never())
+                ->method('setHeader');
+        }
+        $this->assertEquals($html, $this->model->afterGetOutput($html));
     }
-}
+
+    public function afterGetOutputDataProvider()
+    {
+        return [
+            'Layout is cache-able' => [true],
+            'Layout is not cache-able' => [false]
+        ];
+    }
+} 
