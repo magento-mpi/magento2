@@ -277,7 +277,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
             $autoloader,
             $this->_generationDir
         );
-        $generator = new \Magento\Code\Generator(null, $autoloader, $generatorIo, array(
+        $generator = new \Magento\Code\Generator($autoloader, $generatorIo, array(
             \Magento\ObjectManager\Code\Generator\Factory::ENTITY_TYPE
                 => 'Magento\ObjectManager\Code\Generator\Factory',
         ));
@@ -292,24 +292,6 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
             $this->_phpClassesDataProvider()
         );
         spl_autoload_unregister(array($autoloader, 'load'));
-    }
-
-    /**
-     * Test DI compiler
-     *
-     * @depends testConfigurationOfInstanceParameters
-     * @depends testConstructorIntegrity
-     */
-    public function testCompiler()
-    {
-        try {
-            $this->_shell->execute(
-                $this->_command,
-                array($this->_generationDir, $this->_compilationDir)
-            );
-        } catch (\Magento\Exception $exception) {
-            $this->fail($exception->getPrevious()->getMessage());
-        }
     }
 
     /**
@@ -369,4 +351,25 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
 
         return $plugins;
     }
+
+    /**
+     * Test DI compiler
+     *
+     * @depends testConfigurationOfInstanceParameters
+     * @depends testConstructorIntegrity
+     * @depends testPluginInterfaces
+     */
+    public function testCompiler()
+    {
+        try {
+            $this->_shell->execute(
+                $this->_command,
+                array($this->_generationDir, $this->_compilationDir)
+            );
+        } catch (\Magento\Exception $exception) {
+            $this->fail($exception->getPrevious()->getMessage());
+        }
+    }
+
+
 }

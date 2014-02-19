@@ -17,11 +17,6 @@ class Generator
     const GENERATION_SKIP = 'skip';
 
     /**
-     * @var \Magento\Code\Generator\EntityAbstract
-     */
-    protected $_generator;
-
-    /**
      * @var \Magento\Autoload\IncludePath
      */
     protected $_autoloader;
@@ -37,7 +32,6 @@ class Generator
     protected $_generatedEntities;
 
     /**
-     * @param Generator\EntityAbstract $generator
      * @param \Magento\Autoload\IncludePath $autoloader
      * @param Generator\Io $ioObject
      * @param array $generatedEntities
