@@ -38,15 +38,13 @@ class QuoteItem
     ) {
         /** @var $orderItem \Magento\Sales\Model\Order\Item */
         $orderItem = $proceed($item);
-        $quoteItem = reset($arguments);
-
         $isAvailable = $this->_helper->isMessagesAvailable(
             'item',
-            $quoteItem,
-            $quoteItem->getStoreId()
+            $item,
+            $item->getStoreId()
         );
 
-        $orderItem->setGiftMessageId($quoteItem->getGiftMessageId());
+        $orderItem->setGiftMessageId($item->getGiftMessageId());
         $orderItem->setGiftMessageAvailable($isAvailable);
         return $orderItem;
     }

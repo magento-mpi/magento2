@@ -26,13 +26,11 @@ class QuoteItem
     ) {
         /** @var $orderItem \Magento\Sales\Model\Order\Item */
         $orderItem = $proceed($item);
-        /** @var $quoteItem \Magento\Sales\Model\Quote\Item */
-        $quoteItem = reset($arguments);
 
-        if ($quoteItem instanceof \Magento\Sales\Model\Quote\Address\Item) {
-            $registryItemId = $quoteItem->getQuoteItem()->getGiftregistryItemId();
+        if ($item instanceof \Magento\Sales\Model\Quote\Address\Item) {
+            $registryItemId = $item->getQuoteItem()->getGiftregistryItemId();
         } else {
-            $registryItemId = $quoteItem->getGiftregistryItemId();
+            $registryItemId = $item->getGiftregistryItemId();
         }
 
         if ($registryItemId) {

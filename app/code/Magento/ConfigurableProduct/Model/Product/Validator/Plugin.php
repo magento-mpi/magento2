@@ -10,7 +10,6 @@
 namespace Magento\ConfigurableProduct\Model\Product\Validator;
 
 use Magento\App\RequestInterface;
-use Magento\App\ResponseInterface;
 use Magento\Catalog\Model\Product;
 use Magento\Catalog\Model\ProductFactory;
 use Magento\Event\Manager;

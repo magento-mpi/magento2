@@ -48,12 +48,12 @@ class IndexerConfigData
 
         if (!$this->_helper->isEnabled()) {
             $indexerId = \Magento\Catalog\Model\Indexer\Product\Flat\Processor::INDEXER_ID;
-            if ((!isset($arguments['path']) || !$arguments['path']) && isset($data[$indexerId])) {
+            if ((!isset($path) || !$path) && isset($data[$indexerId])) {
                 unset($data[$indexerId]);
-            } elseif (isset($arguments['path'])) {
-                list($firstKey, ) = explode('/', $arguments['path']);
+            } elseif (isset($path)) {
+               list($firstKey, ) = explode('/', $path);
                 if ($firstKey == $indexerId) {
-                    $data = isset($arguments['default']) ? $arguments['default'] : null;
+                    $data = isset($default) ? $default : null;
                 }
             }
         }

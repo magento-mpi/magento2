@@ -26,10 +26,8 @@ class QuoteItem
     ) {
         /** @var $orderItem \Magento\Sales\Model\Order\Item */
         $orderItem = $proceed($item);
-        /** @var $quoteItem \Magento\Sales\Model\Quote\Item */
-        $quoteItem = reset($arguments);
 
-        if ($attributes = $quoteItem->getProduct()->getCustomOption('bundle_selection_attributes')) {
+        if ($attributes = $item->getProduct()->getCustomOption('bundle_selection_attributes')) {
             $productOptions = $orderItem->getProductOptions();
             $productOptions['bundle_selection_attributes'] = $attributes->getValue();
             $orderItem->setProductOptions($productOptions);

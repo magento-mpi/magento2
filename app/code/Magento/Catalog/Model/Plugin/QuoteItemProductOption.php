@@ -24,14 +24,12 @@ class QuoteItemProductOption
     ) {
         /** @var $orderItem \Magento\Sales\Model\Order\Item */
         $orderItem = $proceed($item);
-        /** @var $quoteItem \Magento\Sales\Model\Quote\Item */
-        $quoteItem = reset($arguments);
 
-        if (is_array($quoteItem->getOptions())) {
-            foreach ($quoteItem->getOptions() as $itemOption) {
+        if (is_array($item->getOptions())) {
+            foreach ($item->getOptions() as $itemOption) {
                 $code = explode('_', $itemOption->getCode());
                 if (isset($code[1]) && is_numeric($code[1])) {
-                    $option = $quoteItem->getProduct()->getOptionById($code[1]);
+                    $option = $item->getProduct()->getOptionById($code[1]);
                     if ($option && $option->getType() == \Magento\Catalog\Model\Product\Option::OPTION_TYPE_FILE) {
                         try {
                             $option->groupFactory($option->getType())
