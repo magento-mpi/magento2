@@ -10,7 +10,7 @@ namespace Magento\Css\PreProcessor\Cache;
 
 use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
-class CssPluginTest extends \PHPUnitin_Framework_TestCase
+class CssPluginTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Css\PreProcessor\Cache\Plugin */
     protected $plugin;
