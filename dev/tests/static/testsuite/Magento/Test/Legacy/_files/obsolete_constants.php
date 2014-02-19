@@ -500,7 +500,7 @@ return array(
     ),
     array(
         'USE_PARENT_IMAGE',
-        'Magento\Checkout\Block\Cart\Item\Renderer\Configurable',
+        'Magento\ConfigurableProduct\Block\Cart\Item\Renderer\Configurable',
         'Magento\Catalog\Model\Config\Source\Product\Thumbnail::OPTION_USE_PARENT_IMAGE'
     ),
     array(
@@ -510,8 +510,8 @@ return array(
     ),
     array(
         'CONFIGURABLE_PRODUCT_IMAGE',
-        'Magento\Checkout\Block\Cart\Item\Renderer\Configurable',
-        'Magento\Checkout\Block\Cart\Item\Renderer\Configurable::CONFIG_THUMBNAIL_SOURCE'
+        'Magento\ConfigurableProduct\Block\Cart\Item\Renderer\Configurable',
+        'Magento\ConfigurableProduct\Block\Cart\Item\Renderer\Configurable::CONFIG_THUMBNAIL_SOURCE'
     ),
     array(
         'GROUPED_PRODUCT_IMAGE',
@@ -574,6 +574,11 @@ return array(
     array('GENERATION', '\Magento\Filesystem', '\Magento\App\Filesystem::GENERATION_DIR'),
     array('UPLOAD', '\Magento\Filesystem', '\Magento\App\Filesystem::UPLOAD_DIR'),
     array('SYS_TMP', '\Magento\Filesystem', '\Magento\App\Filesystem::SYS_TMP_DIR'),
+    array(
+        'TYPE_CONFIGURABLE',
+        '\Magento\Catalog\Model\Product\Type',
+        '\Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE'
+    ),
     array('LIB_DIR', '\Magento\App\Filesystem', '\Magento\App\Filesystem::LIB_INTERNAL'),
     ['PERIOD_UNIT_DAY', '\Magento\Payment\Model\Recurring\Profile', '\Magento\RecurringProfile\Model\PeriodUnits::DAY'],
     [

@@ -8,7 +8,7 @@
 
 namespace Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\ProductType;
 
-use Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\HandlerInterface;
+use Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\HandlerInterface;
 use Magento\Catalog\Model\Product;
 
 class Downloadable implements HandlerInterface

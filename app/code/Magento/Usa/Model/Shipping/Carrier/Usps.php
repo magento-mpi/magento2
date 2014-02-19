@@ -7,18 +7,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Usa\Model\Shipping\Carrier;
 
+use Magento\Shipping\Model\Rate\Result;
 
 /**
  * USPS shipping rates estimation
  *
  * @link       http://www.usps.com/webtools/htm/Development-Guide-v3-0b.htm
- * @category   Magento
- * @package    Magento_Usa
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Usa\Model\Shipping\Carrier;
-
 class Usps
     extends \Magento\Usa\Model\Shipping\Carrier\AbstractCarrier
     implements \Magento\Shipping\Model\Carrier\CarrierInterface
@@ -89,7 +87,7 @@ class Usps
     /**
      * Rate result data
      *
-     * @var \Magento\Shipping\Model\Rate\Result|null
+     * @var Result|null
      */
     protected $_result = null;
 
@@ -103,7 +101,7 @@ class Usps
     /**
      * Container types that could be customized for USPS carrier
      *
-     * @var array
+     * @var string[]
      */
     protected $_customizableContainerTypes = array('VARIABLE', 'RECTANGULAR', 'NONRECTANGULAR');
 
@@ -189,7 +187,7 @@ class Usps
      * Collect and get rates
      *
      * @param \Magento\Sales\Model\Quote\Address\RateRequest $request
-     * @return \Magento\Shipping\Model\Rate\Result|bool|null
+     * @return Result|bool|null
      */
     public function collectRates(\Magento\Sales\Model\Quote\Address\RateRequest $request)
     {
@@ -210,7 +208,7 @@ class Usps
      * Prepare and set request to this instance
      *
      * @param \Magento\Sales\Model\Quote\Address\RateRequest $request
-     * @return \Magento\Usa\Model\Shipping\Carrier\Usps
+     * @return $this
      */
     public function setRequest(\Magento\Sales\Model\Quote\Address\RateRequest $request)
     {
@@ -334,17 +332,17 @@ class Usps
     /**
      * Get result of request
      *
-     * @return mixed
+     * @return Result|null
      */
     public function getResult()
     {
-       return $this->_result;
+        return $this->_result;
     }
 
     /**
      * Get quotes
      *
-     * @return \Magento\Shipping\Model\Rate\Result
+     * @return Result
      */
     protected function _getQuotes()
     {
@@ -354,7 +352,7 @@ class Usps
     /**
      * Set free method request
      *
-     * @param  $freeMethod
+     * @param string $freeMethod
      * @return void
      */
     protected function _setFreeMethodRequest($freeMethod)
@@ -371,14 +369,14 @@ class Usps
      * Build RateV3 request, send it to USPS gateway and retrieve quotes in XML format
      *
      * @link http://www.usps.com/webtools/htm/Rate-Calculators-v2-3.htm
-     * @return \Magento\Shipping\Model\Rate\Result
+     * @return Result
      */
     protected function _getXmlQuotes()
     {
         $r = $this->_rawRequest;
 
         // The origin address(shipper) must be only in USA
-        if(!$this->_isUSCountry($r->getOrigCountryId())){
+        if (!$this->_isUSCountry($r->getOrigCountryId())) {
             $responseBody = '';
             return $this->_parseXmlResponse($responseBody);
         }
@@ -492,9 +490,9 @@ class Usps
     /**
      * Parse calculated rates
      *
-     * @link http://www.usps.com/webtools/htm/Rate-Calculators-v2-3.htm
      * @param string $response
-     * @return \Magento\Shipping\Model\Rate\Result
+     * @return Result
+     * @link http://www.usps.com/webtools/htm/Rate-Calculators-v2-3.htm
      */
     protected function _parseXmlResponse($response)
     {
@@ -591,7 +589,7 @@ class Usps
      *
      * @param string $type
      * @param string $code
-     * @return array|bool
+     * @return array|false
      */
     public function getCode($type, $code='')
     {
@@ -967,8 +965,8 @@ class Usps
     /**
      * Get tracking
      *
-     * @param mixed $trackings
-     * @return mixed
+     * @param string|string[] $trackings
+     * @return Result|null
      */
     public function getTracking($trackings)
     {
@@ -986,7 +984,7 @@ class Usps
     /**
      * Set tracking request
      *
-     * @return null
+     * @return void
      */
     protected function setTrackingReqeust()
     {
@@ -1001,27 +999,27 @@ class Usps
     /**
      * Send request for tracking
      *
-     * @param array $tracking
-     * @return null
+     * @param string[] $trackings
+     * @return void
      */
     protected function _getXmlTracking($trackings)
     {
-         $r = $this->_rawTrackRequest;
+        $r = $this->_rawTrackRequest;
 
-         foreach ($trackings as $tracking) {
-             $xml = $this->_xmlElFactory->create(
-                 array('data' => '<?xml version = "1.0" encoding = "UTF-8"?><TrackRequest/>')
-             );
-             $xml->addAttribute('USERID', $r->getUserId());
+        foreach ($trackings as $tracking) {
+            $xml = $this->_xmlElFactory->create(
+                array('data' => '<?xml version = "1.0" encoding = "UTF-8"?><TrackRequest/>')
+            );
+            $xml->addAttribute('USERID', $r->getUserId());
 
-             $trackid = $xml->addChild('TrackID');
-             $trackid->addAttribute('ID',$tracking);
+            $trackid = $xml->addChild('TrackID');
+            $trackid->addAttribute('ID', $tracking);
 
-             $api = 'TrackV2';
-             $request = $xml->asXML();
-             $debugData = array('request' => $request);
+            $api = 'TrackV2';
+            $request = $xml->asXML();
+            $debugData = array('request' => $request);
 
-             try {
+            try {
                 $url = $this->getConfigData('gateway_url');
                 if (!$url) {
                     $url = $this->_defaultGatewayUrl;
@@ -1042,15 +1040,15 @@ class Usps
 
             $this->_debug($debugData);
             $this->_parseXmlTrackingResponse($tracking, $responseBody);
-         }
+        }
     }
 
     /**
      * Parse xml tracking response
      *
-     * @param array $trackingvalue
+     * @param string $trackingvalue
      * @param string $response
-     * @return null
+     * @return void
      */
     protected function _parseXmlTrackingResponse($trackingvalue, $response)
     {
@@ -1072,8 +1070,8 @@ class Usps
                         $errorTitle = __('Sorry, something went wrong. Please try again or contact us and we\'ll try to help.');
                     }
 
-                    if(isset($xml->TrackInfo) && isset($xml->TrackInfo->TrackSummary)){
-                       $resultArr['tracksummary'] = (string)$xml->TrackInfo->TrackSummary;
+                    if (isset($xml->TrackInfo) && isset($xml->TrackInfo->TrackSummary)) {
+                        $resultArr['tracksummary'] = (string)$xml->TrackInfo->TrackSummary;
 
                     }
                 }
@@ -1092,14 +1090,14 @@ class Usps
              $tracking->setTracking($trackingvalue);
              $tracking->setTrackSummary($resultArr['tracksummary']);
              $this->_result->append($tracking);
-         } else {
+        } else {
             $error = $this->_trackErrorFactory->create();
             $error->setCarrier('usps');
             $error->setCarrierTitle($this->getConfigData('title'));
             $error->setTracking($trackingvalue);
             $error->setErrorMessage($errorTitle);
             $this->_result->append($error);
-         }
+        }
     }
 
     /**
@@ -1113,7 +1111,7 @@ class Usps
         if ($this->_result instanceof \Magento\Shipping\Model\Tracking\Result) {
             if ($trackings = $this->_result->getAllTrackings()) {
                 foreach ($trackings as $tracking) {
-                    if($data = $tracking->getAllData()) {
+                    if ($data = $tracking->getAllData()) {
                         if (!empty($data['track_summary'])) {
                             $statuses .= __($data['track_summary']);
                         } else {
@@ -1475,6 +1473,7 @@ class Usps
      * @param \Magento\Object $request
      * @param string $serviceType
      * @return string
+     * @throws \Exception
      */
     protected function _formUsSignatureConfirmationShipmentRequest(\Magento\Object $request, $serviceType)
     {
@@ -1557,7 +1556,7 @@ class Usps
      * Convert decimal weight into pound-ounces format
      *
      * @param float $weightInPounds
-     * @return array
+     * @return float[]
      */
     protected function _convertPoundOunces($weightInPounds)
     {
@@ -1704,7 +1703,7 @@ class Usps
                 $xml->addChild('FirstClassMailType', 'LETTER');
             } else if (stripos($shippingMethod, 'Flat') !== false) {
                 $xml->addChild('FirstClassMailType', 'FLAT');
-            } else{
+            } else {
                 $xml->addChild('FirstClassMailType', 'PARCEL');
             }
         }
@@ -1871,7 +1870,7 @@ class Usps
             } else if ($recipientUSCountry) {
                 $labelContent = base64_decode((string) $response->SignatureConfirmationLabel);
                 $trackingNumber = (string) $response->SignatureConfirmationNumber;
-            } else  {
+            } else {
                 $labelContent = base64_decode((string) $response->LabelImage);
                 $trackingNumber = (string) $response->BarcodeNumber;
             }
@@ -1980,7 +1979,7 @@ class Usps
      *
      * @param string $zipString
      * @param bool $returnFull
-     * @return array
+     * @return string[]
      */
     protected function _parseZip($zipString, $returnFull = false)
     {

@@ -22,11 +22,15 @@ class UrlResolver implements PreProcessorInterface
     const TMP_RESOLVER_DIR   = 'resolver';
 
     /**
+     * Root directory
+     *
      * @var WriteInterface
      */
     protected $rootDirectory;
 
     /**
+     * Related file
+     *
      * @var \Magento\View\RelatedFile
      */
     protected $relatedFile;
@@ -44,11 +48,15 @@ class UrlResolver implements PreProcessorInterface
     protected $viewUrl;
 
     /**
+     * Logger
+     *
      * @var \Magento\Logger
      */
     protected $logger;
 
     /**
+     * Publisher file factory
+     *
      * @var \Magento\View\Publisher\FileFactory
      */
     protected $fileFactory;

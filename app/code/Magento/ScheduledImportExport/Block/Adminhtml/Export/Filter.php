@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ScheduledImportExport\Block\Adminhtml\Export;
 
 /**
  * Export filter block
@@ -15,8 +16,6 @@
  * @package     Magento_ScheduledImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\ScheduledImportExport\Block\Adminhtml\Export;
-
 class Filter
     extends \Magento\ImportExport\Block\Adminhtml\Export\Filter
 {

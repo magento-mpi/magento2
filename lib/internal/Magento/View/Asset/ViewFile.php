@@ -14,6 +14,8 @@ namespace Magento\View\Asset;
 class ViewFile implements MergeableInterface
 {
     /**
+     * View URL
+     *
      * @var \Magento\View\Url
      */
     protected $viewUrl;
@@ -24,16 +26,22 @@ class ViewFile implements MergeableInterface
     protected $resolver;
 
     /**
+     * File
+     *
      * @var string
      */
     protected $file;
 
     /**
+     * Content type
+     *
      * @var string
      */
     protected $contentType;
 
     /**
+     * Constructor
+     *
      * @param \Magento\View\Url $viewUrl
      * @param \Magento\View\FileResolver $source
      * @param string $file

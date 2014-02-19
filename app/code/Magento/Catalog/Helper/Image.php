@@ -393,12 +393,21 @@ class Image extends AbstractHelper
                 $url = $model->saveFile()->getUrl();
             }
         } catch (\Exception $e) {
-            try {
-                $url = $this->_viewUrl->getViewFileUrl($this->getPlaceholder());
-            } catch (\Exception $e) {
-                $this->_logger->logException($e);
-                $url = $this->_urlBuilder->getUrl('', array('_direct' => 'core/index/notfound'));
-            }
+            $url = $this->getDefaultPlaceholderUrl();
+        }
+        return $url;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getDefaultPlaceholderUrl()
+    {
+        try {
+            $url = $this->_viewUrl->getViewFileUrl($this->getPlaceholder());
+        } catch (\Exception $e) {
+            $this->_logger->logException($e);
+            $url = $this->_urlBuilder->getUrl('', array('_direct' => 'core/index/notfound'));
         }
         return $url;
     }

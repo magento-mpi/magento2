@@ -33,6 +33,10 @@ class Url
      */
     protected $baseUrl;
 
+    /**
+     * @param Service $service
+     * @param UrlInterface $baseUrl
+     */
     public function __construct(Service $service, \Magento\UrlInterface $baseUrl)
     {
         $this->service = $service;

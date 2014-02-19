@@ -19,11 +19,14 @@ class PublicFile implements LocalInterface
     protected $resolver;
 
     /**
+     * File
+     *
      * @var string
      */
     protected $file;
 
     /**
+     * Content type
      * @var string
      */
     protected $contentType;

@@ -23,21 +23,29 @@ class MagentoImport implements PreProcessorInterface
     const REPLACE_PATTERN = '#//@magento_import\s+[\'\"](?P<path>(?![/\\\]|\w:[/\\\])[^\"\']+)[\'\"]\s*?;#';
 
     /**
+     * Layout file source
+     *
      * @var \Magento\View\Layout\File\SourceInterface
      */
     protected $fileSource;
 
     /**
+     * Pre-processor error handler
+     *
      * @var PreProcessor\ErrorHandlerInterface
      */
     protected $errorHandler;
 
     /**
+     * Related file
+     *
      * @var \Magento\View\RelatedFile
      */
     protected $relatedFile;
 
     /**
+     * View service
+     *
      * @var \Magento\View\Service
      */
     protected $viewService;

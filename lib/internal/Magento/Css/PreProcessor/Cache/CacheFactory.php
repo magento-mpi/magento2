@@ -8,6 +8,8 @@
 
 namespace Magento\Css\PreProcessor\Cache;
 
+use Magento\Css\PreProcessor\Cache\Import\Cache;
+
 /**
  * Cache manager factory
  */
@@ -17,7 +19,7 @@ class CacheFactory
      * @var array
      */
     protected $cacheTypes = [
-        \Magento\Css\PreProcessor\Cache\Import\Cache::IMPORT_CACHE => 'Magento\Css\PreProcessor\Cache\Import\Cache'
+        Cache::IMPORT_CACHE => 'Magento\Css\PreProcessor\Cache\Import\Cache'
     ];
 
     /**
@@ -47,12 +49,12 @@ class CacheFactory
             );
         }
 
-        /** @var \Magento\Css\PreProcessor\Cache\CacheInterface $cacheManager */
+        /** @var CacheInterface $cacheManager */
         $cacheManager = $this->objectManager->create(
             $this->cacheTypes[$cacheType], array('publisherFile' => $publisherFile)
         );
 
-        if (!$cacheManager instanceof \Magento\Css\PreProcessor\Cache\CacheInterface) {
+        if (!$cacheManager instanceof CacheInterface) {
             throw new \InvalidArgumentException(
                 'Cache Manager does not implement \Magento\Css\PreProcessor\Cache\CacheInterface'
             );

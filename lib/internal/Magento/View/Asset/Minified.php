@@ -13,23 +13,30 @@ namespace Magento\View\Asset;
  */
 class Minified implements MergeableInterface
 {
-
     /**
+     * LocalInterface
+     *
      * @var LocalInterface
      */
     protected $originalAsset;
 
     /**
+     * Minfier
+     *
      * @var \Magento\Code\Minifier
      */
     protected $minifier;
 
     /**
+     * File
+     *
      * @var string
      */
     protected $file;
 
     /**
+     * URL
+     *
      * @var string
      */
     protected $url;
@@ -40,11 +47,15 @@ class Minified implements MergeableInterface
     protected $resolver;
 
     /**
+     * Logger
+     *
      * @var \Magento\Logger
      */
     protected $logger;
 
     /**
+     * Constructor
+     *
      * @param LocalInterface $asset
      * @param \Magento\Code\Minifier $minifier
      * @param \Magento\View\UrlResolver $source
@@ -94,6 +105,8 @@ class Minified implements MergeableInterface
 
     /**
      * Minify content of child asset
+     *
+     * @return void
      */
     protected function process()
     {

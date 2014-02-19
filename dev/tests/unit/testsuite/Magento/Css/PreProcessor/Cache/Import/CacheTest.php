@@ -103,11 +103,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
         $this->assertEmpty($property->getValue($this->cache));
         $property->setValue(
             $this->cache,
-            [
-                'filePath' => 'cached_file_path',
-                'viewParams' => [],
-                'sourcePath' => 'cached_source_path'
-            ]
+            $this->getMock('Magento\View\Publisher\CssFile', [], [], '', false)
         );
         $this->assertInstanceOf('\Magento\View\Publisher\CssFile', $this->cache->get());
     }
@@ -193,6 +189,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @param \Magento\View\Publisher\CssFile $cssFile
      * @param string $uniqueFileKey
      * @param array $expected
      * @dataProvider saveCacheDataProvider
@@ -216,29 +213,20 @@ class CacheTest extends \PHPUnit_Framework_TestCase
      */
     public function saveCacheDataProvider()
     {
-        $cssFile = $this->getMock('Magento\View\Publisher\CssFile', [], [], '', false);
-        $cssFile->expects($this->once())
-            ->method('getViewParams')
-            ->will($this->returnValue([]));
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $arguments = $objectManager->getConstructArguments(
+            'Magento\View\Publisher\CssFile',
+            ['viewParams' => ['area' => 'frontend']]
+        );
 
-        $cssFile->expects($this->once())
-            ->method('getFilePath')
-            ->will($this->returnValue('file_path'));
-
-        $cssFile->expects($this->once())
-            ->method('getSourcePath')
-            ->will($this->returnValue('source_path'));
+        $cssFile = $objectManager->getObject('Magento\View\Publisher\CssFile', $arguments);
 
         return [
             [
                 $cssFile,
                 'Magento_Core::style.css|frontend|en_US|some_theme',
                 [
-                    'cached_file' => [
-                        'filePath' => 'file_path',
-                        'viewParams' => [],
-                        'sourcePath' => 'source_path'
-                    ],
+                    'cached_file' => $cssFile,
                     'imports' => ['import1', 'import2', 'import3']
                 ]
             ]

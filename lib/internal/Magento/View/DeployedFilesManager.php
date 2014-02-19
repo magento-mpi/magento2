@@ -14,12 +14,16 @@ namespace Magento\View;
 class DeployedFilesManager implements \Magento\View\PublicFilesManagerInterface
 {
     /**
-     * @var Service
+     * View service
+     *
+     * @var \Magento\View\Service
      */
     protected $_viewService;
 
     /**
-     * @param Service $viewService
+     * Constructor
+     *
+     * @param \Magento\View\Service $viewService
      */
     public function __construct(Service $viewService)
     {

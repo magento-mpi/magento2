@@ -29,16 +29,22 @@ class Import implements PreProcessorInterface
     protected $fileList;
 
     /**
+     * Pre-processor file factory
+     *
      * @var PreProcessor\File\LessFactory
      */
     protected $fileFactory;
 
     /**
+     * Pre-processor error handler
+     *
      * @var PreProcessor\ErrorHandlerInterface
      */
     protected $errorHandler;
 
     /**
+     * Related file
+     *
      * @var View\RelatedFile
      */
     protected $relatedFile;

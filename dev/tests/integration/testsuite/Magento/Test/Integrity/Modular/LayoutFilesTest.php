@@ -89,7 +89,7 @@ class LayoutFilesTest extends \PHPUnit_Framework_TestCase
             || isset($argument['value']['object'])
                 && in_array($argument['value']['object'], array(
                     'Magento\GroupedProduct\Model\Resource\Product\Type\Grouped\AssociatedProductsCollection',
-                    'Magento\Catalog\Model\Resource\Product\Collection\AssociatedProduct',
+                    'Magento\ConfigurableProduct\Model\Resource\Product\Collection\AssociatedProduct',
                     'Magento\Search\Model\Resource\Search\Grid\Collection',
                     'Magento\Wishlist\Model\Resource\Item\Collection\Grid',
                     'Magento\CustomerSegment\Model\Resource\Segment\Report\Detail\Collection',
