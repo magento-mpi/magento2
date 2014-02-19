@@ -44,7 +44,7 @@ class Csv implements WriterInterface
     public function write(Phrase $phrase)
     {
         $fields = array($phrase->getPhrase(), $phrase->getTranslation());
-        $encloseQuote = $phrase->getQuote() == 'double' ? '"' : "'";
+        $encloseQuote = $phrase->getQuote() == Phrase::QUOTE_DOUBLE ? Phrase::QUOTE_DOUBLE : Phrase::QUOTE_SINGLE;
         $fields[0] = $this->_compileString($fields[0], $encloseQuote);
         $fields[1] = $this->_compileString($fields[1], $encloseQuote);
         if (($contextType = $phrase->getContextType()) && ($contextValue = $phrase->getContextValueAsString())) {
@@ -64,7 +64,7 @@ class Csv implements WriterInterface
      */
     protected function _compileString($string, $encloseQuote)
     {
-        $evalString = 'return '.$encloseQuote . $string . $encloseQuote.';';
+        $evalString = 'return ' . $encloseQuote . $string . $encloseQuote . ';';
         $result = @eval($evalString);
         return is_string($result) ? $result : $string;
     }

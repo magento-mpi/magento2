@@ -14,6 +14,20 @@ namespace Magento\Tools\I18n\Code\Dictionary;
 class Phrase
 {
     /**
+     * Single quote that enclose the phrase
+     *
+     * @var string
+     */
+    const QUOTE_SINGLE = "'";
+
+    /**
+     * Double quote that enclose the phrase
+     *
+     * @var string
+     */
+    const QUOTE_DOUBLE = '"';
+
+    /**
      * Phrase
      *
      * @var string
@@ -97,7 +111,9 @@ class Phrase
      */
     public function setQuote($quote)
     {
-        $this->_quote = $quote;
+        if (in_array($quote, [self::QUOTE_SINGLE, self::QUOTE_DOUBLE])) {
+            $this->_quote = $quote;
+        }
     }
 
     /**
