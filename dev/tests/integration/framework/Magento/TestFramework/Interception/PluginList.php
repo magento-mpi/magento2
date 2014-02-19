@@ -26,6 +26,8 @@ class PluginList extends \Magento\Interception\PluginList\PluginList
      * @param array $scopePriorityScheme
      * @param string $cacheId
      * @param \Magento\ObjectManager\Definition\Compiled $classDefinitions
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Config\ReaderInterface $reader,

@@ -40,6 +40,7 @@ class Plugin
      *
      * @return \Magento\Catalog\Model\Product
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function aroundBuild(
         \Magento\Catalog\Controller\Adminhtml\Product\Builder $subject,

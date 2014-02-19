@@ -55,7 +55,7 @@ class FulltextIndexRebuild
      * @param \Magento\CatalogSearch\Model\Fulltext $subject
      * @param int|null $storeId Store View Id
      * @param int|array|null $productIds Product Entity Id
-
+     *
      * @return void
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */

@@ -360,7 +360,8 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
                 $badClasses = $this->removeSpecialCases($badClasses, $file, $contents, $namespacePath);
                 $this->_assertClassReferences($badClasses, $file);
             },
-            \Magento\TestFramework\Utility\Files::init()->getClassFiles()
+            array(array('C:\wamp\www\magento2\dev\tests\integration\testsuite\Magento\Interception\GeneralTest.php'))
+            //\Magento\TestFramework\Utility\Files::init()->getClassFiles()
         );
     }
 

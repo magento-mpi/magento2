@@ -20,7 +20,7 @@ class InterfacePlugin
      */
     public function aroundC(InterceptedInterface $subject, \Closure $next, $param1)
     {
-        return '<IP::C>' . $next($param1) . '</IP::C>';
+        return '<IP:C>' . $next($param1) . '</IP:C>';
     }
 
     /**
@@ -31,21 +31,21 @@ class InterfacePlugin
      */
     public function aroundF(InterceptedInterface $subject, \Closure $next, $param1)
     {
-        return '<IP::F>' . $subject->D($next($subject->C($param1))) . '</IP::F>';
+        return '<IP:F>' . $subject->D($next($subject->C($param1))) . '</IP:F>';
     }
 
     public function beforeG(InterceptedInterface $subject, $param1)
     {
-        return array('<IP::bG>' . $param1 . '</IP::bG>');
+        return array('<IP:bG>' . $param1 . '</IP:bG>');
     }
 
     public function aroundG(InterceptedInterface $subject, \Closure $next, $param1)
     {
-        return $next('<IP::G>' . $param1 . '</IP::G>');
+        return $next('<IP:G>' . $param1 . '</IP:G>');
     }
 
     public function afterG(InterceptedInterface $subject, $result)
     {
-        return '<IP::aG>' . $result . '</IP::aG>';
+        return '<IP:aG>' . $result . '</IP:aG>';
     }
 } 

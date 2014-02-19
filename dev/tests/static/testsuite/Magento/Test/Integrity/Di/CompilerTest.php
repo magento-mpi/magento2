@@ -277,7 +277,10 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
             $autoloader,
             $this->_generationDir
         );
-        $generator = new \Magento\Code\Generator(null, $autoloader, $generatorIo);
+        $generator = new \Magento\Code\Generator(null, $autoloader, $generatorIo, array(
+            \Magento\ObjectManager\Code\Generator\Factory::ENTITY_TYPE
+                => 'Magento\ObjectManager\Code\Generator\Factory',
+        ));
         $autoloader = new \Magento\Code\Generator\Autoloader($generator);
         spl_autoload_register(array($autoloader, 'load'));
 

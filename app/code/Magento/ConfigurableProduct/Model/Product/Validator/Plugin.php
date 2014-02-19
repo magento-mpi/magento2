@@ -54,6 +54,7 @@ class Plugin
      * @param \Magento\Object $response
      *
      * @return bool
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function aroundValidate(
         \Magento\Catalog\Model\Product\Validator $subject,

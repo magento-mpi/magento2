@@ -8,8 +8,6 @@
  */
 namespace Magento\Interception;
 
-use Magento\ObjectManager;
-
 class GeneralTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -25,10 +23,10 @@ class GeneralTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $classReader = new \Magento\Code\Reader\ClassReader();
-        $relations = new ObjectManager\Relations\Runtime($classReader);
-        $definitions = new ObjectManager\Definition\Runtime($classReader);
+        $relations = new \Magento\ObjectManager\Relations\Runtime($classReader);
+        $definitions = new \Magento\ObjectManager\Definition\Runtime($classReader);
         $config = new \Magento\Interception\ObjectManager\Config($relations, $definitions);
-        $factory = new ObjectManager\Factory\Factory($config, null, $definitions);
+        $factory = new \Magento\ObjectManager\Factory\Factory($config, null, $definitions);
 
         $this->_configReader = $this->getMock('Magento\Config\ReaderInterface');
         $this->_configReader->expects($this->any())->method('read')->will($this->returnValue(array(
@@ -55,7 +53,7 @@ class GeneralTest extends \PHPUnit_Framework_TestCase
             $this->_configReader, $configScope, $cache, $relations, $config
         );
         $interceptionDefinitions = new Definition\Runtime();
-        $this->_objectManager = new ObjectManager\ObjectManager(
+        $this->_objectManager = new \Magento\ObjectManager\ObjectManager(
             $factory, $config, array(
                 'Magento\Config\CacheInterface' => $cache,
                 'Magento\Config\ScopeInterface' => $configScope,
@@ -75,14 +73,14 @@ class GeneralTest extends \PHPUnit_Framework_TestCase
     public function testMethodCanBePluginized()
     {
         $subject = $this->_objectManager->create('Magento\Interception\Fixture\Intercepted');
-        $this->assertEquals('<P::D>1: <D>test</D></P::D>', $subject->D('test'));
+        $this->assertEquals('<P:D>1: <D>test</D></P:D>', $subject->D('test'));
     }
 
     public function testPluginCanCallOnlyNextMethodOnNext()
     {
         $subject = $this->_objectManager->create('Magento\Interception\Fixture\Intercepted');
         $this->assertEquals(
-            '<IP::aG><P::aG><G><P::G><P::bG><IP::G><IP::bG>test</IP::bG></IP::G></P::bG></P::G></G></P::aG></IP::aG>',
+            '<IP:aG><P:aG><G><P:G><P:bG><IP:G><IP:bG>test</IP:bG></IP:G></P:bG></P:G></G></P:aG></IP:aG>',
             $subject->G('test')
         );
     }
@@ -91,8 +89,8 @@ class GeneralTest extends \PHPUnit_Framework_TestCase
     {
         $subject = $this->_objectManager->create('Magento\Interception\Fixture\Intercepted');
         $this->assertEquals(
-            '<IP::F><P::D>1: <D>prefix_<F><IP::C><P::C><C>test</C></P::C>'
-            . '</IP::C></F></D></P::D></IP::F>',
+            '<IP:F><P:D>1: <D>prefix_<F><IP:C><P:C><C>test</C></P:C>'
+            . '</IP:C></F></D></P:D></IP:F>',
             $subject->A('prefix_')->F('test')
         );
     }
@@ -101,8 +99,8 @@ class GeneralTest extends \PHPUnit_Framework_TestCase
     {
         $subject = $this->_objectManager->create('Magento\Interception\Fixture\Intercepted');
         $this->assertEquals(
-            '<P::K><IP::F><P::D>1: <D>prefix_<F><IP::C><P::C><C><IP::C><P::C><C>test'
-                . '</C></P::C></IP::C></C></P::C></IP::C></F></D></P::D></IP::F></P::K>',
+            '<P:K><IP:F><P:D>1: <D>prefix_<F><IP:C><P:C><C><IP:C><P:C><C>test'
+                . '</C></P:C></IP:C></C></P:C></IP:C></F></D></P:D></IP:F></P:K>',
             $subject->A('prefix_')->K('test')
         );
     }
@@ -110,33 +108,33 @@ class GeneralTest extends \PHPUnit_Framework_TestCase
     public function testInterfacePluginsAreInherited()
     {
         $subject = $this->_objectManager->create('Magento\Interception\Fixture\Intercepted');
-        $this->assertEquals('<IP::C><P::C><C>test</C></P::C></IP::C>', $subject->C('test'));
+        $this->assertEquals('<IP:C><P:C><C>test</C></P:C></IP:C>', $subject->C('test'));
     }
 
     public function testInternalMethodCallsAreIntercepted()
     {
         $subject = $this->_objectManager->create('Magento\Interception\Fixture\Intercepted');
-        $this->assertEquals('<B>12<IP::C><P::C><C>1</C></P::C></IP::C></B>', $subject->B('1', '2'));
+        $this->assertEquals('<B>12<IP:C><P:C><C>1</C></P:C></IP:C></B>', $subject->B('1', '2'));
     }
 
     public function testChainedMethodsAreIntercepted()
     {
         $subject = $this->_objectManager->create('Magento\Interception\Fixture\Intercepted');
-        $this->assertEquals('<P::D>1: <D>prefix_test</D></P::D>', $subject->A('prefix_')->D('test'));
+        $this->assertEquals('<P:D>1: <D>prefix_test</D></P:D>', $subject->A('prefix_')->D('test'));
     }
 
     public function testFinalMethodWorks()
     {
         $subject = $this->_objectManager->create('Magento\Interception\Fixture\Intercepted');
-        $this->assertEquals('<P::D>1: <D>prefix_test</D></P::D>', $subject->A('prefix_')->D('test'));
+        $this->assertEquals('<P:D>1: <D>prefix_test</D></P:D>', $subject->A('prefix_')->D('test'));
         $this->assertEquals('<E>prefix_final</E>', $subject->E('final'));
-        $this->assertEquals('<P::D>2: <D>prefix_test</D></P::D>', $subject->D('test'));
+        $this->assertEquals('<P:D>2: <D>prefix_test</D></P:D>', $subject->D('test'));
     }
 
     public function testObjectKeepsStateBetweenInvocations()
     {
         $subject = $this->_objectManager->create('Magento\Interception\Fixture\Intercepted');
-        $this->assertEquals('<P::D>1: <D>test</D></P::D>', $subject->D('test'));
-        $this->assertEquals('<P::D>2: <D>test</D></P::D>', $subject->D('test'));
+        $this->assertEquals('<P:D>1: <D>test</D></P:D>', $subject->D('test'));
+        $this->assertEquals('<P:D>2: <D>test</D></P:D>', $subject->D('test'));
     }
 }

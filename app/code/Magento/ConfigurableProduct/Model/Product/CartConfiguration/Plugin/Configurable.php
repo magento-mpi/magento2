@@ -21,6 +21,7 @@ class Configurable
      * @param array $config
      *
      * @return bool
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function aroundIsProductConfigured(
         \Magento\Catalog\Model\Product\CartConfiguration $subject,
