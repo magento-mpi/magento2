@@ -2,17 +2,16 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftRegistry
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftRegistry\Block;
+
+use Magento\Customer\Service\V1\CustomerServiceInterface as CustomerService;
 
 /**
  * Front end helper block to show giftregistry items
  */
-namespace Magento\GiftRegistry\Block;
-
 class Items extends \Magento\Checkout\Block\Cart
 {
     /**
@@ -61,8 +60,9 @@ class Items extends \Magento\Checkout\Block\Cart
      * @param \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
+     * @param CustomerService $customerService
      * @param array $data
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -77,6 +77,7 @@ class Items extends \Magento\Checkout\Block\Cart
         \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory,
         \Magento\Core\Model\Registry $registry,
         \Magento\Tax\Helper\Data $taxData,
+        CustomerService $customerService,
         array $data = array()
     ) {
         $this->_cartHelper = $cartHelper;
@@ -92,6 +93,7 @@ class Items extends \Magento\Checkout\Block\Cart
             $checkoutSession,
             $catalogUrlBuilder,
             $cartHelper,
+            $customerService,
             $data
         );
     }

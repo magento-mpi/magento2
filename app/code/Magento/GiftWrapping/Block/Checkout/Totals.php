@@ -37,6 +37,7 @@ class Totals extends \Magento\Checkout\Block\Total\DefaultTotal
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Sales\Model\Config $salesConfig
      * @param \Magento\GiftWrapping\Helper\Data $giftWrappingData
+     * @param CustomerService $customerService
      * @param array $data
      */
     public function __construct(
@@ -46,10 +47,19 @@ class Totals extends \Magento\Checkout\Block\Total\DefaultTotal
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Sales\Model\Config $salesConfig,
         \Magento\GiftWrapping\Helper\Data $giftWrappingData,
+        CustomerService $customerService,
         array $data = array()
     ) {
         $this->_giftWrappingData = $giftWrappingData;
-        parent::__construct($context, $catalogData, $customerSession, $checkoutSession, $salesConfig, $data);
+        parent::__construct(
+            $context,
+            $catalogData,
+            $customerSession,
+            $checkoutSession,
+            $salesConfig,
+            $customerService,
+            $data
+        );
         $this->_isScopePrivate = true;
     }
 

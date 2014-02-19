@@ -2,13 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftCardAccount
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftCardAccount\Block\Checkout\Cart;
+
+use Magento\Customer\Service\V1\CustomerServiceInterface as CustomerService;
 
 class Total extends \Magento\Checkout\Block\Total\DefaultTotal
 {
@@ -26,6 +25,7 @@ class Total extends \Magento\Checkout\Block\Total\DefaultTotal
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Sales\Model\Config $salesConfig
      * @param \Magento\GiftCardAccount\Helper\Data $giftCardAccountData
+     * @param CustomerService $customerService
      * @param array $data
      */
     public function __construct(
@@ -35,10 +35,19 @@ class Total extends \Magento\Checkout\Block\Total\DefaultTotal
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Sales\Model\Config $salesConfig,
         \Magento\GiftCardAccount\Helper\Data $giftCardAccountData,
+        CustomerService $customerService,
         array $data = array()
     ) {
         $this->_giftCardAccountData = $giftCardAccountData;
-        parent::__construct($context, $catalogData, $customerSession, $checkoutSession, $salesConfig, $data);
+        parent::__construct(
+            $context,
+            $catalogData,
+            $customerSession,
+            $checkoutSession,
+            $salesConfig,
+            $customerService,
+            $data
+        );
         $this->_isScopePrivate = true;
     }
 
