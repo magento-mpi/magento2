@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Formtype;
 
 /**
  * Create New Form Type Block
@@ -15,8 +15,6 @@
  * @category   Magento
  * @package    Magento_CustomerCustomAttributes
  */
-namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Formtype;
-
 class Edit extends \Magento\Backend\Block\Widget\Form\Container
 {
     /**
@@ -53,6 +51,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     /**
      * Initialize Form Container
      *
+     * @return void
      */
     protected function _construct()
     {

@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerCustomAttributes\Model\Resource\Sales\Address;
 
 /**
  * Customer Sales Address abstract resource
  */
-namespace Magento\CustomerCustomAttributes\Model\Resource\Sales\Address;
-
 abstract class AbstractAddress
     extends \Magento\CustomerCustomAttributes\Model\Resource\Sales\AbstractSales
 {
@@ -26,8 +25,8 @@ abstract class AbstractAddress
     /**
      * Attach data to models
      *
-     * @param array $entities
-     * @return \Magento\CustomerCustomAttributes\Model\Resource\Sales\Address\AbstractAddress
+     * @param \Magento\Object[] $entities
+     * @return $this
      */
     public function attachDataToEntities(array $entities)
     {

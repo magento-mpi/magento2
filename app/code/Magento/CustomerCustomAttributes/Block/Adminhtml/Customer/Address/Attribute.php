@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Address;
 
 /**
  * Customer address attributes Grid Container
@@ -16,14 +16,13 @@
  * @package     Magento_CustomerCustomAttributes
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Address;
-
 class Attribute
     extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**
      * Define controller, block and labels
      *
+     * @return void
      */
     protected function _construct()
     {
