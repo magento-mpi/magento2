@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\CacheInvalidate;
+namespace Magento\CacheInvalidate\Model;
 
 class ObserverTest extends \PHPUnit_Framework_TestCase
 {
