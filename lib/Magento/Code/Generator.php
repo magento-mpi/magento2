@@ -43,12 +43,10 @@ class Generator
      * @param array $generatedEntities
      */
     public function __construct(
-        \Magento\Code\Generator\EntityAbstract $generator = null,
         \Magento\Autoload\IncludePath $autoloader = null,
         \Magento\Code\Generator\Io $ioObject = null,
         array $generatedEntities = array()
     ) {
-        $this->_generator  = $generator;
         $this->_autoloader = $autoloader ? : new \Magento\Autoload\IncludePath();
         $this->_ioObject   = $ioObject ? : new \Magento\Code\Generator\Io(
             new \Magento\Filesystem\Driver\File(),
