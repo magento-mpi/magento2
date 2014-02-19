@@ -71,7 +71,7 @@ class InjectableParallelTests extends \PHPUnit_Framework_TestSuite
     /**
      * Prepare test suite and apply application state
      *
-     * @return \Mtf\TestSuite\AppState
+     * @return \Mtf\TestSuite\AppStateParallel
      */
     public function prepareSuite()
     {
