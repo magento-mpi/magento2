@@ -26,9 +26,9 @@ class MinifiedTest extends \PHPUnit_Framework_TestCase
     protected $_minifier;
 
     /**
-     * @var \Magento\View\FileResolver|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\View\UrlResolver|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_fileResolver;
+    protected $_urlResolver;
 
     /**
      * @var \Magento\Logger|\PHPUnit_Framework_MockObject_MockObject
@@ -49,10 +49,10 @@ class MinifiedTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->_minifier = $this->getMock('\Magento\Code\Minifier', array('getMinifiedFile'), array(), '', false);
-        $this->_fileResolver = $this->getMock('\Magento\View\FileResolver', array(), array(), '', false);
+        $this->_urlResolver = $this->getMock('\Magento\View\UrlResolver', array(), array(), '', false);
         $this->_logger = $this->getMock('\Magento\Logger', array(), array(), '', false);
 
-        $this->_model = new \Magento\View\Asset\Minified($this->_asset, $this->_minifier, $this->_fileResolver,
+        $this->_model = new \Magento\View\Asset\Minified($this->_asset, $this->_minifier, $this->_urlResolver,
             $this->_logger
         );
     }
@@ -61,7 +61,7 @@ class MinifiedTest extends \PHPUnit_Framework_TestCase
     {
         $this->_asset = null;
         $this->_minifier = null;
-        $this->_fileResolver = null;
+        $this->_urlResolver = null;
         $this->_logger = null;
         $this->_model = null;
     }
@@ -89,7 +89,7 @@ class MinifiedTest extends \PHPUnit_Framework_TestCase
             ->method('getMinifiedFile')
             ->with(self::ORIG_SOURCE_FILE)
             ->will($this->returnValue(self::MINIFIED_SOURCE_FILE));
-        $this->_fileResolver->expects($this->any())
+        $this->_urlResolver->expects($this->any())
             ->method('getPublicFileUrl')
             ->with(self::MINIFIED_SOURCE_FILE)
             ->will($this->returnValue(self::MINIFIED_URL));
@@ -109,7 +109,7 @@ class MinifiedTest extends \PHPUnit_Framework_TestCase
             ->with(self::ORIG_SOURCE_FILE)
             ->will($this->throwException(new \Exception('Error')));
 
-        $this->_fileResolver->expects($this->never())
+        $this->_urlResolver->expects($this->never())
             ->method('getPublicFileUrl');
 
         $this->assertSame(self::ORIGINAL_URL, $this->_model->getUrl());

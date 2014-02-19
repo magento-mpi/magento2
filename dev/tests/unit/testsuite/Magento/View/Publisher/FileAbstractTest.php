@@ -75,6 +75,32 @@ class FileAbstractTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @param string $fileId
+     * @param string $module
+     * @param string $expected
+     * @dataProvider buildUniquePathDataProvider
+     */
+    public function testBuildUniquePath($fileId, $module, $expected)
+    {
+        $theme = $this->getMockForAbstractClass('\Magento\View\Design\ThemeInterface');
+        $theme->expects($this->once())->method('getThemePath')->will($this->returnValue('t'));
+        $this->getModelMock($fileId, ['area' => 'a', 'themeModel' => $theme, 'locale' => 'e', 'module' => $module]);
+        $this->assertEquals($expected, $this->fileAbstract->buildUniquePath());
+    }
+
+    /**
+     * @return array
+     */
+    public function buildUniquePathDataProvider()
+    {
+        return [
+            ['file.ext', 'module', 'a/t/e/module/file.ext'],
+            ['anotherModule::file.ext', 'module', 'a/t/e/anotherModule/file.ext'],
+            ['module::file.ext', '', 'a/t/e/module/file.ext'],
+        ];
+    }
+
+    /**
      * @param string $filePath
      * @param string $expected
      * @dataProvider getExtensionDataProvider
@@ -171,14 +197,12 @@ class FileAbstractTest extends \PHPUnit_Framework_TestCase
 
     public function testBuildPublicViewFilename()
     {
-        $this->getModelMock('some\file', []);
+        $theme = $this->getMockForAbstractClass('\Magento\View\Design\ThemeInterface');
+        $theme->expects($this->once())->method('getThemePath')->will($this->returnValue('t'));
+        $this->getModelMock('some\file', ['area' => 'a', 'themeModel' => $theme, 'locale' => 'e']);
         $this->serviceMock->expects($this->once())
             ->method('getPublicDir')->will($this->returnValue('/some/pub/dir'));
-
-        $this->fileAbstract->expects($this->once())
-            ->method('buildUniquePath')
-            ->will($this->returnValue('some/path/to/file'));
-        $this->assertSame('/some/pub/dir/some/path/to/file', $this->fileAbstract->buildPublicViewFilename());
+        $this->assertSame('/some/pub/dir/a/t/e/some\\file', $this->fileAbstract->buildPublicViewFilename());
     }
 
     /**

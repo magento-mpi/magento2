@@ -125,12 +125,18 @@ abstract class FileAbstract implements FileInterface
      */
     public function buildUniquePath()
     {
+        $module = isset($this->viewParams['module']) ? $this->viewParams['module'] : '';
+        $fileId = $this->getFilePath();
+        list($overrideModule, $fileId) = \Magento\View\Service::extractModule($fileId);
+        if ($overrideModule) {
+            $module = $overrideModule;
+        }
         return \Magento\View\Url::getPathUsingTheme(
-            $this->getFilePath(),
-            $this->getViewParams()['area'],
-            $this->getViewParams()['themeModel'],
-            $this->getViewParams()['locale'],
-            $this->getViewParams()['module']
+            $fileId,
+            $this->viewParams['area'],
+            $this->viewParams['themeModel'],
+            $this->viewParams['locale'],
+            $module
         );
     }
 

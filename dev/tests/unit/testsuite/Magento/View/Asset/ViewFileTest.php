@@ -66,7 +66,7 @@ class ViewFileTest extends \PHPUnit_Framework_TestCase
         $sourcePath = '/source_dir/test/script.js';
         $this->_fileResolver
             ->expects($this->once())
-            ->method('getViewFilePublicPath')
+            ->method('getPublicViewFile')
             ->with('test/script.js')
             ->will($this->returnValue($sourcePath))
         ;

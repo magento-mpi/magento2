@@ -19,20 +19,20 @@ class PublicFileTest extends \PHPUnit_Framework_TestCase
     protected $_object;
 
     /**
-     * @var \Magento\View\FileResolver|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\View\UrlResolver|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_fileResolver;
+    protected $_urlResolver;
 
     protected function setUp()
     {
-        $this->_fileResolver = $this->getMock('\Magento\View\FileResolver', array(), array(), '', false);
-        $this->_object = new \Magento\View\Asset\PublicFile($this->_fileResolver, 'test/style.css', 'css');
+        $this->_urlResolver = $this->getMock('\Magento\View\UrlResolver', array(), array(), '', false);
+        $this->_object = new \Magento\View\Asset\PublicFile($this->_urlResolver, 'test/style.css', 'css');
     }
 
     public function testGetUrl()
     {
         $url = 'http://127.0.0.1/magento/test/style.css';
-        $this->_fileResolver
+        $this->_urlResolver
             ->expects($this->once())
             ->method('getPublicFileUrl')
             ->with('test/style.css')

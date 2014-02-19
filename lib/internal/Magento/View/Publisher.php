@@ -102,16 +102,16 @@ class Publisher implements PublicFilesManagerInterface
      *
      * @param string $file
      * @param array $params
-     * @return Publisher\FileInterface|null
+     * @return Publisher\FileInterface
      * @throws \Magento\Exception
      */
     protected function getSourceFileContainer($file, array $params = array())
     {
         $fileContainer = $this->fileFactory->create($file, $params);
 
-        /** If $filePath points to file with protected extension - no publishing, return null */
-        if (!$this->isAllowedExtension($fileContainer->getExtension())) {
-            return null;
+        $extension = $fileContainer->getExtension();
+        if (!$this->isAllowedExtension($extension)) {
+            throw new \Magento\Exception("Files with extension '{$extension}' may not be published.");
         }
 
         $readyFile = $this->preProcessor->process($fileContainer, $this->tmpDirectory);

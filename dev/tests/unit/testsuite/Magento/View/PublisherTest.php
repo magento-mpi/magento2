@@ -88,6 +88,10 @@ class PublisherTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    /**
+     * @expectedException \Magento\Exception
+     * @expectedExceptionMessage Files with extension 'php' may not be published.
+     */
     public function testGetPublicViewFileNotAllowedExtension()
     {
         $filePath = 'some/file/path.php';
@@ -101,8 +105,7 @@ class PublisherTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->with($this->equalTo($filePath), $this->equalTo($params))
             ->will($this->returnValue($this->publisherFileMock));
-
-        $this->assertSame(null, $this->publisher->getPublicViewFile($filePath, $params));
+        $this->publisher->getPublicViewFile($filePath, $params);
     }
 
     /**
