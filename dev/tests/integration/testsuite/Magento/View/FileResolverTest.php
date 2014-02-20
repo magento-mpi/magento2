@@ -21,20 +21,20 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
         $this->object = $objectManager->create('Magento\View\FileResolver');
     }
 
-    public function testGetPublicFileUrl()
+    public function testGetPublicViewFile()
     {
-        $pubLibFile = $this->object->getViewFilePublicPath('jquery/jquery.js');
-        $actualResult = $this->object->getPublicFileUrl($pubLibFile);
+        $pubLibFile = $this->object->getPublicViewFile('jquery/jquery.js');
+        $actualResult = $this->object->getViewFile($pubLibFile);
         $this->assertStringEndsWith('/jquery/jquery.js', $actualResult);
     }
 
     /**
      * @magentoConfigFixture current_store dev/static/sign 1
      */
-    public function testGetPublicFileUrlSigned()
+    public function testGetViewFileSigned()
     {
-        $pubLibFile = $this->object->getViewFilePublicPath('jquery/jquery.js');
-        $actualResult = $this->object->getPublicFileUrl($pubLibFile);
+        $pubLibFile = $this->object->getPublicViewFile('jquery/jquery.js');
+        $actualResult = $this->object->getViewFile($pubLibFile);
         $this->assertStringMatchesFormat('%a/jquery/jquery.js?%d', $actualResult);
 
         $lastModified = array();

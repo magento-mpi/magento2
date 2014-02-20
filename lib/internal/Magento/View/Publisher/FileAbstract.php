@@ -247,7 +247,6 @@ abstract class FileAbstract implements FileInterface
             'extension',
             'viewParams',
             'sourcePath',
-            'allowDuplication',
             'isPublicationAllowed',
             'isFallbackUsed',
             'isSourcePathProvided'

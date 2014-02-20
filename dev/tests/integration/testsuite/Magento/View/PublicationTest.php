@@ -49,7 +49,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
 
     protected function tearDown()
     {
-        /** @var Filesystem $filesystem */
+        /** @var \Magento\App\Filesystem $filesystem */
         $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\App\Filesystem');
         $publicDir = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::STATIC_VIEW_DIR);
         $publicDir->delete('adminhtml');
@@ -62,7 +62,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetPublicDir()
     {
-        /** @var $filesystem Filesystem */
+        /** @var \Magento\App\Filesystem $filesystem */
         $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Filesystem');
         $expectedPublicDir = $filesystem->getPath(\Magento\App\Filesystem::STATIC_VIEW_DIR);
         $this->assertEquals($expectedPublicDir, $this->viewService->getPublicDir());
@@ -636,27 +636,28 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
      * @param string $expectedFile
      * @magentoDataFixture Magento/Core/Model/_files/design/themes.php
      * @magentoAppIsolation enabled
-     * @dataProvider getPublicFilePathDataProvider
+     * @dataProvider getPublicViewFileDataProvider
+     * @see testGetPublicViewFile
      */
-    public function testGetViewFilePublicPath($file, $designParams, $expectedFile)
+    public function testGetPublicViewFile2($file, $designParams, $expectedFile)
     {
         $this->_initTestTheme();
 
         $expectedFile = $this->viewService->getPublicDir() . '/' . $expectedFile;
 
         $this->assertFileNotExists($expectedFile, 'Please verify isolation from previous test(s).');
-        $this->fileResolver->getViewFilePublicPath($file, $designParams);
+        $this->fileResolver->getPublicViewFile($file, $designParams);
         $this->assertFileExists($expectedFile);
     }
 
-    public function testGetViewFilePublicPathExistingFile()
+    public function testGetPublicViewFileExistingFile()
     {
         $filePath = 'mage/mage.js';
         $expectedFile = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Filesystem')
                 ->getPath(\Magento\App\Filesystem::LIB_WEB) . '/' . $filePath;
         $this->assertFileExists($expectedFile, 'Please verify existence of the library file ' . $filePath);
 
-        $actualFile = $this->fileResolver->getViewFilePublicPath($filePath);
+        $actualFile = $this->fileResolver->getPublicViewFile($filePath);
         $this->assertFileEquals($expectedFile, $actualFile);
     }
 }
