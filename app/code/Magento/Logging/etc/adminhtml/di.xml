@@ -7,14 +7,14 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <type name="Magento\Logging\Model\Event\Changes">
-        <param name="skipFields">
-            <array>
-                <item key="updateDate"><value>updated_at</value></item>
-                <item key="formKey"><value>form_key</value></item>
-            </array>
-        </param>
+        <arguments>
+            <argument name="skipFields" xsi:type="array">
+                <item name="updateDate" xsi:type="string">updated_at</item>
+                <item name="formKey" xsi:type="string">form_key</item>
+            </argument>
+        </arguments>
     </type>
     <type name="Magento\App\ActionInterface">
         <plugin name="log" type="Magento\Logging\App\Action\Plugin\Log" sortOrder="95"/>

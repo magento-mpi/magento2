@@ -7,37 +7,35 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <type name="Magento\Rma\Helper\Data">
-        <param name="customerSession">
-            <instance type="Magento\Customer\Model\Session\Proxy" />
-        </param>
-        <param name="authSession">
-            <instance type="Magento\Backend\Model\Auth\Session\Proxy" />
-        </param>
+        <arguments>
+            <argument name="customerSession" xsi:type="object">Magento\Customer\Model\Session\Proxy</argument>
+            <argument name="authSession" xsi:type="object">Magento\Backend\Model\Auth\Session\Proxy</argument>
+        </arguments>
     </type>
     <type name="Magento\Rma\Model\Rma\Status\History">
-        <param name="translate">
-            <instance type="Magento\Translate" />
-        </param>
+        <arguments>
+            <argument name="translate" xsi:type="object">Magento\Translate</argument>
+        </arguments>
     </type>
     <type name="Magento\Module\Updater\SetupFactory">
-        <param name="resourceTypes">
-            <array>
-                <item key="rma_setup"><value>Magento\Rma\Model\Resource\Setup</value></item>
-            </array>
-        </param>
+        <arguments>
+            <argument name="resourceTypes" xsi:type="array">
+                <item name="rma_setup" xsi:type="string">Magento\Rma\Model\Resource\Setup</item>
+            </argument>
+        </arguments>
     </type>
     <type name="Magento\Rma\Model\Rma">
-        <param name="translate">
-            <instance type="Magento\Translate" />
-        </param>
+        <arguments>
+            <argument name="translate" xsi:type="object">Magento\Translate</argument>
+        </arguments>
     </type>
     <type name="Magento\Eav\Model\Entity\Setup\PropertyMapper\Composite">
-        <param name="propertyMappers">
-            <array>
-                <item key="rma"><value>Magento\Rma\Model\Resource\Setup\PropertyMapper</value></item>
-            </array>
-        </param>
+        <arguments>
+            <argument name="propertyMappers" xsi:type="array">
+                <item name="rma" xsi:type="string">Magento\Rma\Model\Resource\Setup\PropertyMapper</item>
+            </argument>
+        </arguments>
     </type>
 </config>
