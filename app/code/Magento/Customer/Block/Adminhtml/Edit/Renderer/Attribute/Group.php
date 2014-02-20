@@ -70,7 +70,7 @@ class Group
      */
     public function getDisableAutoGroupChangeCheckboxLabel()
     {
-        return __($this->getDisableAutoGroupChangeAttribute()->getFrontend()->getLabel());
+        return __($this->getDisableAutoGroupChangeAttribute()->getFrontendLabel());
     }
 
     /**

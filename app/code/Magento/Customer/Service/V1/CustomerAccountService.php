@@ -332,7 +332,6 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         return true;
     }
 
-
     /**
      * Validate the Reset Password Token for a customer.
      *
