@@ -7,15 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\VersionsCms\Model\Source\Hierarchy;
 
 class Visibility implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
-     * Retrieve options array
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function toOptionArray()
     {

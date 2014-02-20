@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <type name="Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper">
         <plugin name="configurable" type="Magento\ConfigurableProduct\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Configurable" sortOrder="50" />
     </type>
@@ -18,15 +18,15 @@
         <plugin name="configurable" type="Magento\ConfigurableProduct\Model\Product\Validator\Plugin" sortOrder="50" />
     </type>
     <type name="Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\Composite">
-        <param name="handlers">
-            <array>
-                <item key="configurableProducts"><value>Magento\ConfigurableProduct\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\ProductType\Configurable</value></item>
-            </array>
-        </param>
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="configurableProducts" xsi:type="string">Magento\ConfigurableProduct\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\ProductType\Configurable</item>
+            </argument>
+        </arguments>
     </type>
     <type name="Magento\ConfigurableProduct\Block\Adminhtml\Product\Attribute\Edit\Tab\Variations\Main">
-        <param name="inputTypeFactory">
-            <instance type="Magento\Catalog\Model\System\Config\Source\InputtypeFactory" />
-        </param>
+        <arguments>
+            <argument name="inputTypeFactory" xsi:type="object">Magento\Catalog\Model\System\Config\Source\InputtypeFactory</argument>
+        </arguments>
     </type>
 </config>

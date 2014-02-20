@@ -2,24 +2,13 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_MultipleWishlist
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\MultipleWishlist\Model\Resource\Item\Collection;
 
-use Magento\Core\Model\Layout\Argument\UpdaterInterface;
-use Magento\Data\Collection\Db;
-
-/**
- * Multiple wishlist item resource collection
- *
- * @category    Magento
- * @package     Magento_MultipleWishlist
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-class Updater implements UpdaterInterface
+class Updater implements \Magento\View\Layout\Argument\UpdaterInterface
 {
     /**
      * Wishlist data
@@ -39,8 +28,8 @@ class Updater implements UpdaterInterface
     /**
      * Add filtration by customer id
      *
-     * @param Db $argument
-     * @return Db
+     * @param \Magento\Data\Collection\Db $argument
+     * @return \Magento\Data\Collection\Db
      */
     public function update($argument)
     {

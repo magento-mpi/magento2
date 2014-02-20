@@ -30,27 +30,11 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $fixtureBasePath = __DIR__ . '/..';
-        $fileResolverMock = $this->getMock('Magento\Config\FileResolverInterface');
-        $fileResolverMock->expects($this->any())
-            ->method('get')
-            ->will($this->returnValueMap(array(
-                array(
-                    'di.xml',
-                    'global',
-                    array(file_get_contents($fixtureBasePath . '/Custom/Module/etc/di.xml'))
-                ),
-                array(
-                    'di.xml',
-                    'backend',
-                    array(file_get_contents($fixtureBasePath . '/Custom/Module/etc/backend/di.xml'))
-                ),
-                array(
-                    'di.xml',
-                    'frontend',
-                    array(file_get_contents($fixtureBasePath . '/Custom/Module/etc/frontend/di.xml'))
-                ),
-            )));
+        $readerMap = include(__DIR__ . '/../_files/reader_mock_map.php');
+        $readerMock = $this->getMock('\Magento\ObjectManager\Config\Reader\Dom', array(), array(), '', false);
+        $readerMock->expects($this->any())
+            ->method('read')
+            ->will($this->returnValueMap($readerMap));
 
         $validationStateMock = $this->getMock('Magento\Config\ValidationStateInterface');
         $validationStateMock->expects($this->any())

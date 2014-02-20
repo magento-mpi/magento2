@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit;
 
 /**
  * Tab control for revision edit page
@@ -16,10 +16,11 @@
  * @package     Magento_VersionsCms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit;
-
 class Tabs extends \Magento\Backend\Block\Widget\Tabs
 {
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();

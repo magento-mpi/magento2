@@ -49,6 +49,8 @@ class Design
 
     /**
      * Prepare form tab configuration
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -59,7 +61,7 @@ class Design
     /**
      * Initialise form fields
      *
-     * @return \Magento\Cms\Block\Adminhtml\Page\Edit\Tab\Design
+     * @return $this
      */
     protected function _prepareForm()
     {
@@ -179,9 +181,7 @@ class Design
     }
 
     /**
-     * Returns status flag about this tab can be showen or not
-     *
-     * @return true
+     * {@inheritdoc}
      */
     public function canShowTab()
     {
@@ -189,9 +189,7 @@ class Design
     }
 
     /**
-     * Returns status flag about this tab hidden or not
-     *
-     * @return true
+     * {@inheritdoc}
      */
     public function isHidden()
     {

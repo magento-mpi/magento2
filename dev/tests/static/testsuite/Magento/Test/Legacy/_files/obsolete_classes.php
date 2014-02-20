@@ -2068,6 +2068,25 @@ return array(
     ['Magento\Payment\Model\Recurring\Profile', 'Magento\RecurringProfile\Model\RecurringProfile'],
     ['Magento\Validator\Composite\VarienObject', 'Magento\Validator\Object'],
     array('Magento\GoogleShopping\Helper\Price', 'Magento\Catalog\Model\Product\CatalogPrice'),
+    array('Magento\Core\Model\Layout\Argument\Handler\ArrayHandler', 'Magento\Data\Argument\Interpreter\ArrayType'),
+    array('Magento\Core\Model\Layout\Argument\Handler\String', 'Magento\Data\Argument\Interpreter\String'),
+    array('Magento\Core\Model\Layout\Argument\Handler\Number', 'Magento\Data\Argument\Interpreter\Number'),
+    array('Magento\Core\Model\Layout\Argument\Handler\Boolean', 'Magento\Data\Argument\Interpreter\Boolean'),
+    array('Magento\Core\Model\Layout\Argument\Handler\Object', 'Magento\View\Layout\Argument\Interpreter\Object'),
+    array('Magento\Core\Model\Layout\Argument\Handler\Options', 'Magento\View\Layout\Argument\Interpreter\Options'),
+    array('Magento\Core\Model\Layout\Argument\Handler\Url', 'Magento\View\Layout\Argument\Interpreter\Url'),
+    array('Magento\Core\Model\Layout\Argument\Handler\Helper', 'Magento\View\Layout\Argument\Interpreter\HelperMethod'),
+    array(
+        'Magento\Core\Model\Layout\Argument\AbstractHandler',
+        'Magento\View\Layout\Argument\Interpreter\Decorator\Updater'
+    ),
+    array('Magento\Core\Model\Layout\Argument\Processor', 'Magento\View\Layout\Argument\Interpreter\Decorator\Updater'),
+    array('Magento\Core\Model\Layout\Argument\Updater', 'Magento\View\Layout\Argument\Interpreter\Decorator\Updater'),
+    array('Magento\Core\Model\Layout\Argument\UpdaterInterface', 'Magento\View\Layout\Argument\UpdaterInterface'),
+    array('Magento\View\Layout\Argument\HandlerInterface', 'Magento\Data\Argument\InterpreterInterface'),
+    array('Magento\View\Layout\Argument\HandlerFactory', 'Magento\Data\Argument\Interpreter\Composite'),
+    array('Magento\Phrase\Renderer\Factory'),
+    array('Magento\Core\Model\Layout\Factory', 'Magento\DesignEditor\Model\AreaEmulator'),
     array(
         'Magento\CatalogInventory\Block\Stockqty\Type\Configurable',
         'Magento\ConfigurableProduct\Block\Stockqty\Type\Configurable'

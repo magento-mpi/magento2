@@ -136,7 +136,8 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
     /**
      * Add special attributes
      *
-     * @param array $attributes
+     * @param array &$attributes
+     * @return void
      */
     protected function _addSpecialAttributes(array &$attributes)
     {
@@ -147,7 +148,7 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
     /**
      * Load attribute options
      *
-     * @return \Magento\CatalogRule\Model\Rule\Condition\Product
+     * @return $this
      */
     public function loadAttributeOptions()
     {
@@ -178,7 +179,7 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
      *  'value_select_options' - normal select array: array(array('value' => $value, 'label' => $label), ...)
      *  'value_option' - hashed array: array($value => $label, ...),
      *
-     * @return \Magento\CatalogRule\Model\Rule\Condition\Product
+     * @return $this
      */
     protected function _prepareValueOptions()
     {
@@ -233,7 +234,7 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
     /**
      * Retrieve value by option
      *
-     * @param mixed $option
+     * @param string|null $option
      * @return string
      */
     public function getValueOption($option = null)
@@ -293,7 +294,7 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
      * Collect validated attributes
      *
      * @param \Magento\Catalog\Model\Resource\Product\Collection $productCollection
-     * @return \Magento\CatalogRule\Model\Rule\Condition\Product
+     * @return $this
      */
     public function collectValidatedAttributes($productCollection)
     {
@@ -447,7 +448,7 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
      * Load array
      *
      * @param array $arr
-     * @return \Magento\CatalogRule\Model\Rule\Condition\Product
+     * @return $this
      */
     public function loadArray($arr)
     {

@@ -7,12 +7,12 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <type name="Magento\CatalogRule\Model\Rule">
-        <param name="relatedCacheTypes">
-            <array>
-                <item key="blockCache"><value>block_html</value></item>
-            </array>
-        </param>
+        <arguments>
+            <argument name="relatedCacheTypes" xsi:type="array">
+                <item name="blockCache" xsi:type="string">block_html</item>
+            </argument>
+        </arguments>
     </type>
 </config>
