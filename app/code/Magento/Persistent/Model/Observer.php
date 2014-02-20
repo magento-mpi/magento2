@@ -125,6 +125,11 @@ class Observer
     protected $messageManager;
 
     /**
+     * @var \Magento\Checkout\Helper\ExpressRedirect
+     */
+    protected $_expressRedirectHelper;
+
+    /**
      * Construct
      *
      * @param \Magento\Event\ManagerInterface $eventManager
@@ -142,6 +147,7 @@ class Observer
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Escaper $escaper
      * @param \Magento\Message\ManagerInterface $messageManager
+     * @param \Magento\Checkout\Helper\ExpressRedirect $expressRedirectHelper
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -160,7 +166,8 @@ class Observer
         \Magento\App\RequestInterface $requestHttp,
         \Magento\View\LayoutInterface $layout,
         \Magento\Escaper $escaper,
-        \Magento\Message\ManagerInterface $messageManager
+        \Magento\Message\ManagerInterface $messageManager,
+        \Magento\Checkout\Helper\ExpressRedirect $expressRedirectHelper
     ) {
         $this->_eventManager = $eventManager;
         $this->_persistentSession = $persistentSession;
@@ -177,6 +184,7 @@ class Observer
         $this->_layout = $layout;
         $this->_escaper = $escaper;
         $this->messageManager = $messageManager;
+        $this->_expressRedirectHelper = $expressRedirectHelper;
     }
 
     /**
@@ -460,25 +468,25 @@ class Observer
      * @param \Magento\Event\Observer $observer
      * @return void
      */
-    public function preventExpressCheckout($observer)
+    public function preventExpressCheckout(\Magento\Event\Observer $observer)
     {
         if (!$this->_isLoggedOut()) {
             return;
         }
 
-        /** @var $controllerAction \Magento\App\Action\Action */
+        /** @var $controllerAction \Magento\Checkout\Controller\Express\RedirectLoginInterface*/
         $controllerAction = $observer->getEvent()->getControllerAction();
-        if (!$controllerAction instanceof \Magento\Checkout\Controller\ExpressRedirectInterface) {
+        if (!$controllerAction
+            || !$controllerAction instanceof \Magento\Checkout\Controller\Express\RedirectLoginInterface
+            || $controllerAction->getLoginUrl() != $controllerAction->getRequest()->getActionName()
+        ) {
             return;
         }
 
         $this->messageManager->addNotice(__('To check out, please log in using your email address.'));
-        $controllerAction->redirectLogin();
+        $customerBeforeAuthUrl = $this->_url->getUrl('persistent/index/expressCheckout');
 
-        if ($controllerAction->supportsCustomerBeforeAuthUrl()) {
-            $this->_customerSession
-                ->setBeforeAuthUrl($this->_url->getUrl('persistent/index/expressCheckout'));
-        }
+        $this->_expressRedirectHelper->redirectLogin($controllerAction, $customerBeforeAuthUrl);
     }
 
     /**

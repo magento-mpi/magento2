@@ -20,7 +20,7 @@ use Magento\App\RequestInterface;
 use Magento\Multishipping\Model\Checkout\Type\Multishipping\State;
 
 class Checkout extends \Magento\Checkout\Controller\Action
-    implements  \Magento\Checkout\Controller\ExpressRedirectInterface
+    implements  \Magento\Checkout\Controller\RedirectLoginInterface
 {
     /**
      * Retrieve checkout model
@@ -501,32 +501,41 @@ class Checkout extends \Magento\Checkout\Controller\Action
     }
 
     /**
-     * Redirect to login page
-     *
+     * Returns before_auth_url redirect parameter for customer session
+     * @return string
      */
-    public function redirectLogin()
+    public function getCustomerBeforeAuthUrl()
     {
-        $this->_actionFlag->set('', 'no-dispatch', true);
-        $url = $this->_objectManager->create('Magento\UrlInterface')
+        return $this->_objectManager->create('Magento\UrlInterface')
             ->getUrl('*/*', array('_secure' => true));
-        $this->_objectManager->get('Magento\Customer\Model\Session')->setBeforeAuthUrl($url);
-
-        $this->getResponse()->setRedirect(
-            $this->_objectManager->get('Magento\Core\Helper\Url')->addRequestParam(
-                $this->_getHelper()->getMSLoginUrl(),
-                array('context' => 'checkout')
-            )
-        );
-
-        $this->_actionFlag->set('', 'redirectLogin', true);
     }
 
     /**
-     * Does method supports before auth url for redirect
-     * @return bool
+     * Returns a list of action flags [flag_key] => boolean
+     * @return array
      */
-    public function supportsCustomerBeforeAuthUrl()
+    public function getActionFlagList()
     {
-        return false;
+        return array(
+            'redirectLogin' => true
+        );
+    }
+
+    /**
+     * Returns login url parameter for redirect
+     * @return string
+     */
+    public function getLoginUrl()
+    {
+        return $this->_getHelper()->getMSLoginUrl();
+    }
+
+    /**
+     * Returns action name which requires redirect
+     * @return string|null
+     */
+    public function getRedirectActionName()
+    {
+        return 'index';
     }
 }

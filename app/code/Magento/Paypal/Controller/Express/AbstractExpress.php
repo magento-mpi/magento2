@@ -14,7 +14,7 @@ namespace Magento\Paypal\Controller\Express;
  * Abstract Express Checkout Controller
  */
 abstract class AbstractExpress extends \Magento\App\Action\Action
-    implements  \Magento\Checkout\Controller\ExpressRedirectInterface
+    implements  \Magento\Checkout\Controller\RedirectLoginInterface
 {
     /**
      * @var \Magento\Paypal\Model\Express\Checkout
@@ -519,27 +519,38 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
     }
 
     /**
-     * Redirect to login page
-     *
+     * Returns before_auth_url redirect parameter for customer session
+     * @return null
      */
-    public function redirectLogin()
+    public function getCustomerBeforeAuthUrl()
     {
-        $this->_actionFlag->set('', 'no-dispatch', true);
-        $this->getResponse()->setRedirect(
-            $this->_objectManager->get('Magento\Core\Helper\Url')->addRequestParam(
-                $this->_objectManager->get('Magento\Customer\Helper\Data')->getLoginUrl(),
-                array('context' => 'checkout')
-            )
-        );
+        return;
     }
 
     /**
-     * Does method supports before auth url for redirect
-     * @return bool
+     * Returns a list of action flags [flag_key] => boolean
+     * @return array
      */
-    public function supportsCustomerBeforeAuthUrl()
+    public function getActionFlagList()
     {
-        return true;
+        return array();
     }
 
+    /**
+     * Returns login url parameter for redirect
+     * @return string
+     */
+    public function getLoginUrl()
+    {
+        return $this->_objectManager->get('Magento\Customer\Helper\Data')->getLoginUrl();
+    }
+
+    /**
+     * Returns action name which requires redirect
+     * @return string|null
+     */
+    public function getRedirectActionName()
+    {
+        return 'start';
+    }
 }

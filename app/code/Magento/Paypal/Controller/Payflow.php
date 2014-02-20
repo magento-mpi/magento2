@@ -116,6 +116,7 @@ class Payflow extends \Magento\App\Action\Action
     public function formAction()
     {
         $this->_view->loadLayout(false)->renderLayout();
+        $layout = $this->_view->getLayout();
     }
 
     /**

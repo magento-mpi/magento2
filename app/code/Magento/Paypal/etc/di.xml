@@ -17,7 +17,7 @@
     </type>
     <virtualType name="Magento\Paypal\Model\PayflowadvancedFactory" type="Magento\Paypal\Model\PayflowlinkFactory">
         <param name="instanceName">
-            <value>Magento\Paypal\Model\Payflowlink</value>
+            <value>Magento\Paypal\Model\Payflowadvanced</value>
         </param>
     </virtualType>
     <type name="Magento\Paypal\Controller\Payflowadvanced">
