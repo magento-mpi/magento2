@@ -615,13 +615,21 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
         if ($allowDuplication !== null) {
             $objectManager->configure(array(
                 'Magento\View\Publisher\CssFile' => array(
-                    'parameters' => array(
-                        'allowDuplication' => $allowDuplication
+                    'arguments' => array(
+                        'allowDuplication' => array(
+                            'name' => 'allowDuplication',
+                            \Magento\ObjectManager\Config\Reader\Dom::TYPE_ATTRIBUTE => 'boolean',
+                            'value' => $allowDuplication
+                        )
                     )
                 ),
                 'Magento\View\Publisher\File' => array(
-                    'parameters' => array(
-                        'allowDuplication' => $allowDuplication
+                    'arguments' => array(
+                        'allowDuplication' => array(
+                            'name' => 'allowDuplication',
+                            \Magento\ObjectManager\Config\Reader\Dom::TYPE_ATTRIBUTE => 'boolean',
+                            'value' => $allowDuplication
+                        )
                     )
                 ),
             ));
