@@ -2,21 +2,17 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * Adminhtml customer recent orders grid block
- *
- * @category   Magento
- * @package    Magento_Customer
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab\View;
 
+use Magento\Customer\Controller\Adminhtml\Index;
+
+/**
+ * Adminhtml customer recent orders grid block
+ */
 class Accordion extends \Magento\Backend\Block\Widget\Accordion
 {
     /**
@@ -78,9 +74,9 @@ class Accordion extends \Magento\Backend\Block\Widget\Accordion
             'content_url' => $this->getUrl('customer/*/lastOrders', array('_current' => true)),
         ));
 
-        $customerId = $this->_coreRegistry->registry('current_customer_id'); // TODO Use constant here
+        $customerId = $this->_coreRegistry->registry(Index::REGISTRY_CURRENT_CUSTOMER_ID);
         $customer = $this->_customerService->getCustomer($customerId);
-        $websiteIds = $this->getSharedWebsiteIds($customer->getWebsiteId());
+        $websiteIds = $this->_shareConfig->getSharedWebsiteIds($customer->getWebsiteId());
         // add shopping cart block of each website
         foreach ($websiteIds as $websiteId) {
             $website = $this->_storeManager->getWebsite($websiteId);
@@ -116,24 +112,5 @@ class Accordion extends \Magento\Backend\Block\Widget\Accordion
             'ajax'  => true,
             'content_url' => $this->getUrl('customer/*/viewWishlist', array('_current' => true)),
         ));
-    }
-
-    /**
-     * Returns shared website Ids.
-     *
-     * @param int $websiteId the ID to use if website scope is on
-     * @return int[]
-     */
-    protected function getSharedWebsiteIds($websiteId)
-    {
-        $ids = [];
-        if ((bool)$this->_shareConfig->isWebsiteScope()) {
-            $ids[] = $websiteId;
-        } else {
-            foreach ($this->_storeManager->getWebsites() as $website) {
-                $ids[] = $website->getId();
-            }
-        }
-        return $ids;
     }
 }
