@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 namespace Magento\Checkout\Block\Onepage;
+use Magento\Message\Collection;
 
 /**
  * One page checkout status
@@ -83,7 +84,7 @@ class Login extends \Magento\Checkout\Block\Onepage\AbstractOnepage
     }
 
     /**
-     * @return \Magento\Message\Collection
+     * @return Collection
      */
     public function getMessages()
     {

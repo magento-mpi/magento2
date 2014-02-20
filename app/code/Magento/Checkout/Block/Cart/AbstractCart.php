@@ -27,12 +27,12 @@ class AbstractCart extends \Magento\View\Element\Template
     const DEFAULT_TYPE = 'default';
 
     /**
-     * @var Customer
+     * @var Customer|null
      */
     protected $_customer = null;
 
     /**
-     * @var Quote
+     * @var Quote|null
      */
     protected $_quote    = null;
 

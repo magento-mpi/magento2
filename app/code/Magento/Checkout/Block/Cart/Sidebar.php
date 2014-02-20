@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Checkout\Block\Cart;
 
 /**
  * Wishlist sidebar block
@@ -16,8 +16,6 @@
  * @package     Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Checkout\Block\Cart;
-
 class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart
 {
     const XML_PATH_CHECKOUT_SIDEBAR_COUNT   = 'checkout/sidebar/count';
@@ -110,7 +108,7 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart
     /**
      * Get array of last added items
      *
-     * @param int $count
+     * @param int|null $count
      * @return array
      */
     public function getRecentItems($count = null)

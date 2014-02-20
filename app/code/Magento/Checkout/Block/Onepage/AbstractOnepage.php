@@ -11,7 +11,7 @@ namespace Magento\Checkout\Block\Onepage;
 
 use Magento\Customer\Model\Customer;
 use Magento\Directory\Model\Resource\Country\Collection;
-use Magento\Directory\Model\Resource\Region\Collection as regionCollection;
+use Magento\Directory\Model\Resource\Region\Collection as RegionCollection;
 use Magento\Sales\Model\Quote;
 
 /**
@@ -42,7 +42,7 @@ abstract class AbstractOnepage extends \Magento\View\Element\Template
     protected $_countryCollection;
 
     /**
-     * @var regionCollection
+     * @var RegionCollection
      */
     protected $_regionCollection;
 
@@ -168,7 +168,7 @@ abstract class AbstractOnepage extends \Magento\View\Element\Template
     }
 
     /**
-     * @return $this|regionCollection
+     * @return RegionCollection
      */
     public function getRegionCollection()
     {

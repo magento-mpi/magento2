@@ -10,11 +10,12 @@
 namespace Magento\Checkout\Block\Cart;
 
 use Magento\View\Element\BlockInterface;
+use Magento\Widget\Model\Widget\Instance;
 
 class Totals extends \Magento\Checkout\Block\Cart\AbstractCart
 {
     /**
-     * @var
+     * @var array
      */
     protected $_totalRenderers;
 
@@ -78,7 +79,7 @@ class Totals extends \Magento\Checkout\Block\Cart\AbstractCart
 
     /**
      * @param string $code
-     * @return bool|BlockInterface
+     * @return BlockInterface
      */
     protected function _getTotalRenderer($code)
     {
@@ -102,8 +103,8 @@ class Totals extends \Magento\Checkout\Block\Cart\AbstractCart
     }
 
     /**
-     * @param $total
-     * @param null $area
+     * @param Instance $total
+     * @param int|null $area
      * @param int $colspan
      * @return string
      */
