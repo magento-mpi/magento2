@@ -14,12 +14,6 @@ namespace Magento\Customer\Service\V1;
 interface CustomerAddressServiceInterface
 {
     /**
-     * Possible customer address types
-     */
-    const TYPE_BILLING  = 'billing';
-    const TYPE_SHIPPING = 'shipping';
-
-    /**
      * Retrieve all Customer Addresses
      *
      * @param int $customerId

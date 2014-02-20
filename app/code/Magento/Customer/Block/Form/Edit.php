@@ -44,15 +44,15 @@ class Edit extends \Magento\Customer\Block\Account\Dashboard
      *
      * @return \Magento\Object
      */
-    public function getFormData()
+    protected function getFormData()
     {
         $data = $this->getData('form_data');
         if (is_null($data)) {
             $formData = $this->_customerSession->getCustomerFormData(true);
-            $data = new \Magento\Object();
+            $data = [];
             if ($formData) {
-                $data->addData($formData);
-                $data->setCustomerData(1);
+                $data['data'] = $formData;
+                $data['customer_data'] = 1;
             }
             $this->setData('form_data', $data);
         }
@@ -68,8 +68,9 @@ class Edit extends \Magento\Customer\Block\Account\Dashboard
      */
     public function restoreSessionData(\Magento\Customer\Model\Metadata\Form $form, $scope = null)
     {
-        if ($this->getFormData()->getCustomerData()) {
-            $request = $form->prepareRequest($this->getFormData()->getData());
+        $formData = $this->getFormData();
+        if (isset($formData['customer_data']) && $formData['customer_data']) {
+            $request = $form->prepareRequest($formData['data']);
             $data    = $form->extractData($request, $scope, false);
             $form->restoreData($data);
         }
