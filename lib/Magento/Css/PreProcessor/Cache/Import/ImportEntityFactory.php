@@ -27,7 +27,7 @@ class ImportEntityFactory
     }
 
     /**
-     * @param \Magento\Less\PreProcessor\File\Less $lessFile $lessFile
+     * @param \Magento\Less\PreProcessor\File\Less $lessFile
      * @return ImportEntityInterface
      * @throws \InvalidArgumentException
      */
