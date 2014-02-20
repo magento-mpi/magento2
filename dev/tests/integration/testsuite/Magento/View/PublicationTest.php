@@ -630,28 +630,6 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
             ->create('Magento\View\Design\ThemeInterface'));
     }
 
-    /**
-     * Publication of view files in development mode
-     *
-     * @param string $file
-     * @param $designParams
-     * @param string $expectedFile
-     * @magentoDataFixture Magento/Core/Model/_files/design/themes.php
-     * @magentoAppIsolation enabled
-     * @dataProvider getPublicViewFileDataProvider
-     * @see testGetPublicViewFile
-     */
-    public function testGetPublicViewFile2($file, $designParams, $expectedFile)
-    {
-        $this->_initTestTheme();
-
-        $expectedFile = $this->viewService->getPublicDir() . '/' . $expectedFile;
-
-        $this->assertFileNotExists($expectedFile, 'Please verify isolation from previous test(s).');
-        $this->fileResolver->getPublicViewFile($file, $designParams);
-        $this->assertFileExists($expectedFile);
-    }
-
     public function testGetPublicViewFileExistingFile()
     {
         $filePath = 'mage/mage.js';
