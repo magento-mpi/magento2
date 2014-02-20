@@ -67,9 +67,9 @@ class Addresses extends GenericMetadata
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Core\Model\System\Store $systemStore,
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Customer\Model\Renderer\RegionFactory $regionFactory
      * @param \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory
@@ -87,9 +87,9 @@ class Addresses extends GenericMetadata
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Data\FormFactory $formFactory,
         \Magento\Core\Model\System\Store $systemStore,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Data\FormFactory $formFactory,
         \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Customer\Model\Renderer\RegionFactory $regionFactory,
         \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory,
