@@ -1,6 +1,8 @@
 * Fixed bugs:
   * Fixed an issue with "Add to Cart" button on MAP popup of compound products
   * Fixed an issue where the Add Address button for Customer in Admin was broken
+  * Fixed a Typo in Region of Austria (GitHub #134)
+  * Fixed issue where predefined data are not loaded for Newsletter after try to put it in a Queue
 * Indexer implementation:
   * Implemented new optimized Catalog Product Flat Indexer
 * Modularity improvements:
@@ -11,7 +13,9 @@
 * Customer Service usage:
  * Updated Customer Group Grid to use Customer Service for retrieving data and filtering
  * Updated CustomerMetadataService::getAttributeMetadata to throw an exception if invalid code provided
-
+* Unified format of specifying arguments for class constructors in DI and in Layout configuration
+  * Common xsd schema is being used for defining simple types. Layout and DI customize common types with their specific ones
+  * Arguments processing is unified and moved to library
 
 2.0.0.0-dev65
 =============

@@ -7,35 +7,35 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <type name="Magento\Sales\Model\Convert\Quote">
         <plugin name="append_gift_card_data_to_order" type="Magento\GiftCard\Model\Plugin\QuoteItem"/>
     </type>
     <virtualType name="Magento\GiftCard\Model\Resource\Helper" type="Magento\Eav\Model\Resource\Helper">
-        <param name="modulePrefix">
-            <value>Eav</value>
-        </param>
+        <arguments>
+            <argument name="modulePrefix" xsi:type="string">Eav</argument>
+        </arguments>
     </virtualType>
     <type name="Magento\GiftCard\Model\Source\Open">
-        <param name="resourceHelper">
-            <instance type="Magento\GiftCard\Model\Resource\Helper" />
-        </param>
+        <arguments>
+            <argument name="resourceHelper" xsi:type="object">Magento\GiftCard\Model\Resource\Helper</argument>
+        </arguments>
     </type>
     <type name="Magento\Module\Updater\SetupFactory">
-        <param name="resourceTypes">
-            <array>
-                <item key="giftcard_setup"><value>Magento\Catalog\Model\Resource\Setup</value></item>
-            </array>
-        </param>
+        <arguments>
+            <argument name="resourceTypes" xsi:type="array">
+                <item name="giftcard_setup" xsi:type="string">Magento\Catalog\Model\Resource\Setup</item>
+            </argument>
+        </arguments>
     </type>
     <type name="Magento\Catalog\Model\Product\CartConfiguration">
         <plugin name="GiftCard" type="Magento\GiftCard\Model\Product\CartConfiguration\Plugin\GiftCard" />
     </type>
     <type name="Magento\Catalog\Model\Product\CatalogPrice">
-        <param name="priceModelPool">
-            <array>
-                <item key="giftcard"><value>Magento\GiftCard\Model\Product\CatalogPrice</value></item>
-            </array>
-        </param>
+        <arguments>
+            <argument name="priceModelPool" xsi:type="array">
+                <item name="giftcard" xsi:type="string">Magento\GiftCard\Model\Product\CatalogPrice</item>
+            </argument>
+        </arguments>
     </type>
 </config>

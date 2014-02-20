@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Authorizenet\Controller\Authorizenet;
 
 class Payment extends \Magento\App\Action\Action
@@ -33,7 +32,9 @@ class Payment extends \Magento\App\Action\Action
 
 
     /**
-     * Cancel active partail authorizations
+     * Cancel active partial authorizations
+     *
+     * @return void
      */
     public function cancelAction()
     {

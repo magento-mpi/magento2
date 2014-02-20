@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\VersionsCms\Helper;
 
 /**
  * Base helper
  */
-namespace Magento\VersionsCms\Helper;
-
 class Data extends \Magento\App\Helper\AbstractHelper
 {
     /**
@@ -84,6 +83,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Data\Form\AbstractForm $container
      * @param string $onChange
      * @param string|array $excludeTypes
+     * @return void
      */
     public function addOnChangeToFormElements($container, $onChange, $excludeTypes = array('hidden'))
     {

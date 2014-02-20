@@ -14,6 +14,8 @@ class Integration extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**
      * Define actions available on the integrations grid page.
+     *
+     * @return void
      */
     protected function _construct()
     {

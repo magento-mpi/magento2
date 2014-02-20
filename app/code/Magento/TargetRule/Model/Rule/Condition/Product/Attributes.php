@@ -7,8 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\TargetRule\Model\Rule\Condition\Product;
 
 class Attributes
@@ -25,7 +23,7 @@ class Attributes
      * Target rule codes that do not allowed to select
      * Products with status 'disabled' cannot be shown as related/cross-sells/up-sells thus rule code is useless
      *
-     * @var array
+     * @var string[]
      */
     protected $_disabledTargetRuleCodes = array('status');
 

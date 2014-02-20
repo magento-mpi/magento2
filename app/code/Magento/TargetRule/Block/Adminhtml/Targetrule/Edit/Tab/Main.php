@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\TargetRule\Block\Adminhtml\Targetrule\Edit\Tab;
 
 /**
  * Main target rules properties edit form
@@ -15,8 +16,6 @@
  * @package    Magento_TargetRule
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\TargetRule\Block\Adminhtml\Targetrule\Edit\Tab;
-
 class Main
     extends \Magento\Backend\Block\Widget\Form\Generic
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
@@ -48,7 +47,7 @@ class Main
     /**
      * Prepare Mail Target Rule Edit form
      *
-     * @return \Magento\TargetRule\Block\Adminhtml\Targetrule\Edit\Tab\Main
+     * @return $this
      */
     protected function _prepareForm()
     {
