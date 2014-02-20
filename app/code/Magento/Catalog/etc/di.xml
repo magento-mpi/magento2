@@ -143,6 +143,7 @@
         <arguments>
             <argument name="indexer" xsi:type="object" shared="false">Magento\Indexer\Model\IndexerInterface</argument>
         </arguments>
+    </type>
     <type name="Magento\Catalog\Model\Indexer\Category\Product\Plugin\StoreGroup">
         <arguments>
             <argument name="indexer" xsi:type="object" shared="false">Magento\Indexer\Model\IndexerInterface</argument>
