@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Cms\Model\Wysiwyg\Images\Storage;
 
 namespace Magento\Cms\Model\Wysiwyg\Images\Storage;
 

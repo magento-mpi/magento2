@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Cms\Model\Config\Source\Wysiwyg;
 
 namespace Magento\Cms\Model\Config\Source\Wysiwyg;
 
@@ -15,6 +16,9 @@ namespace Magento\Cms\Model\Config\Source\Wysiwyg;
  */
 class Enabled implements \Magento\Core\Model\Option\ArrayInterface
 {
+    /**
+     * {@inheritdoc}
+     */
     public function toOptionArray()
     {
         return array(

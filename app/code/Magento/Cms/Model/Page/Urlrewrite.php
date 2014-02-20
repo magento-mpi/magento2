@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Cms\Model\Page;
 
 namespace Magento\Cms\Model\Page;
 
@@ -24,6 +25,7 @@ class Urlrewrite extends \Magento\Core\Model\AbstractModel
     /**
      * Initialize resource model
      *
+     * @return void
      */
     protected function _construct()
     {

@@ -10,6 +10,8 @@
 
 namespace Magento\TargetRule\Model;
 
+use Magento\TargetRule\Model\Resource\Rule\CollectionFactory;
+
 /**
  * TargetRule Product Index by Rule Product List Type Model
  *
@@ -91,6 +93,9 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
      */
     protected $_locale;
 
+    /**
+     * @var CollectionFactory
+     */
     protected $_ruleCollectionFactory;
 
     /**
@@ -101,7 +106,7 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
     /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\TargetRule\Model\Resource\Rule\CollectionFactory $ruleFactory
+     * @param CollectionFactory $ruleFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Index\Model\Indexer $indexer
@@ -109,13 +114,13 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
      * @param \Magento\TargetRule\Helper\Data $targetRuleData
      * @param \Magento\TargetRule\Model\Resource\Index $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory,
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
-        \Magento\TargetRule\Model\Resource\Rule\CollectionFactory $ruleFactory,
+        CollectionFactory $ruleFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Index\Model\Indexer $indexer,
@@ -139,6 +144,7 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
     /**
      * Initialize resource model
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -159,7 +165,7 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
      * Set Catalog Product List identifier
      *
      * @param int $type
-     * @return \Magento\TargetRule\Model\Index
+     * @return $this
      */
     public function setType($type)
     {
@@ -185,7 +191,7 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
      * Set store scope
      *
      * @param int $storeId
-     * @return \Magento\TargetRule\Model\Index
+     * @return $this
      */
     public function setStoreId($storeId)
     {
@@ -210,7 +216,7 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
      * Set customer group identifier
      *
      * @param int $customerGroupId
-     * @return \Magento\TargetRule\Model\Index
+     * @return $this
      */
     public function setCustomerGroupId($customerGroupId)
     {
@@ -235,7 +241,7 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
      * Set result limit
      *
      * @param int $limit
-     * @return \Magento\TargetRule\Model\Index
+     * @return $this
      */
     public function setLimit($limit)
     {
@@ -260,7 +266,7 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
      * Set Product data object
      *
      * @param \Magento\Object $product
-     * @return \Magento\TargetRule\Model\Index
+     * @return $this
      */
     public function setProduct(\Magento\Object $product)
     {
@@ -270,8 +276,8 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
     /**
      * Retrieve Product data object
      *
-     * @throws \Magento\Core\Exception
      * @return \Magento\Object
+     * @throws \Magento\Core\Exception
      */
     public function getProduct()
     {
@@ -286,7 +292,7 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
      * Set product ids list be excluded
      *
      * @param int|array $productIds
-     * @return \Magento\TargetRule\Model\Index
+     * @return $this
      */
     public function setExcludeProductIds($productIds)
     {
@@ -352,6 +358,7 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
      * Run processing by cron
      * Check store datetime and every day per store clean index cache
      *
+     * @return void
      */
     public function cron()
     {
@@ -389,6 +396,7 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
      * Register indexer required data inside event object
      *
      * @param \Magento\Index\Model\Event $event
+     * @return void
      */
     protected function _registerEvent(\Magento\Index\Model\Event $event)
     {
@@ -414,6 +422,7 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
      * Process event based on event state data
      *
      * @param \Magento\Index\Model\Event $event
+     * @return void
      */
     protected function _processEvent(\Magento\Index\Model\Event $event)
     {
@@ -446,7 +455,7 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
      * Reindex targetrules
      *
      * @param \Magento\Object $product
-     * @return \Magento\TargetRule\Model\Index
+     * @return $this
      */
     protected function _reindex($product)
     {
@@ -475,7 +484,7 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
      *
      * @param int|null $typeId
      * @param \Magento\Core\Model\Store|int|array|null $store
-     * @return \Magento\TargetRule\Model\Index
+     * @return $this
      */
     protected function _cleanIndex($typeId = null, $store = null)
     {

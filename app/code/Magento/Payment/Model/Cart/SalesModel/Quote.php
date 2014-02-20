@@ -5,12 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Payment\Model\Cart\SalesModel;
 
 /**
  * Wrapper for \Magento\Sales\Model\Quote sales model
  */
-namespace Magento\Payment\Model\Cart\SalesModel;
-
 class Quote implements \Magento\Payment\Model\Cart\SalesModel\SalesModelInterface
 {
     /**
@@ -36,9 +35,7 @@ class Quote implements \Magento\Payment\Model\Cart\SalesModel\SalesModelInterfac
     }
 
     /**
-     * Get all items from shopping sales model
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function getAllItems()
     {
@@ -58,7 +55,7 @@ class Quote implements \Magento\Payment\Model\Cart\SalesModel\SalesModelInterfac
     }
 
     /**
-     * @return float|null
+     * {@inheritdoc}
      */
     public function getBaseSubtotal()
     {
@@ -66,7 +63,7 @@ class Quote implements \Magento\Payment\Model\Cart\SalesModel\SalesModelInterfac
     }
 
     /**
-     * @return float|null
+     * {@inheritdoc}
      */
     public function getBaseTaxAmount()
     {
@@ -74,7 +71,7 @@ class Quote implements \Magento\Payment\Model\Cart\SalesModel\SalesModelInterfac
     }
 
     /**
-     * @return float|null
+     * {@inheritdoc}
      */
     public function getBaseShippingAmount()
     {
@@ -82,7 +79,7 @@ class Quote implements \Magento\Payment\Model\Cart\SalesModel\SalesModelInterfac
     }
 
     /**
-     * @return float|null
+     * {@inheritdoc}
      */
     public function getBaseDiscountAmount()
     {
@@ -90,11 +87,7 @@ class Quote implements \Magento\Payment\Model\Cart\SalesModel\SalesModelInterfac
     }
 
     /**
-     * Wrapper for \Magento\Object getDataUsingMethod method
-     *
-     * @param string $key
-     * @param mixed $args
-     * @return mixed
+     * {@inheritdoc}
      */
     public function getDataUsingMethod($key, $args = null)
     {
@@ -102,9 +95,7 @@ class Quote implements \Magento\Payment\Model\Cart\SalesModel\SalesModelInterfac
     }
 
     /**
-     * Return object that contains tax related fields
-     *
-     * @return \Magento\Sales\Model\Quote\Address
+     * {@inheritdoc}
      */
     public function getTaxContainer()
     {

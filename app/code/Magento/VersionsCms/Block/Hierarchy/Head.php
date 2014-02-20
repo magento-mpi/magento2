@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\VersionsCms\Block\Hierarchy;
 
 /**
  * Cms Hierarchy Head Block
@@ -15,8 +15,6 @@
  * @category   Magento
  * @package    Magento_VersionsCms
  */
-namespace Magento\VersionsCms\Block\Hierarchy;
-
 class Head extends \Magento\View\Element\AbstractBlock
 {
     /**
@@ -50,7 +48,7 @@ class Head extends \Magento\View\Element\AbstractBlock
     /**
      * Prepare Global Layout
      *
-     * @return \Magento\VersionsCms\Block\Hierarchy\Head
+     * @return $this
      */
     protected function _prepareLayout()
     {
