@@ -175,7 +175,71 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(0, $item->getDiscountPercent());
     }
 
-    public function testProcessAppliedRuleIdsAreSet()
+    public function testApplyRulesWhenRuleWithStopRulesProcessingIsUsed()
+    {
+        $positivePrice = 1;
+
+        // 1. Get mocks
+        /** @var \Magento\SalesRule\Model\Validator|\PHPUnit_Framework_MockObject_MockObject $validator */
+        $validator = $this->getMock(
+            'Magento\SalesRule\Model\Validator',
+            array('applyRule', 'setAppliedRuleIds', '_canProcessRule', '_getRules', '__wakeup'), array(), '', false
+        );
+        /** @var \Magento\Sales\Model\Quote\Address|\PHPUnit_Framework_MockObject_MockObject $address */
+        $address = $this->getMock(
+            'Magento\Sales\Model\Quote\Address', array('__wakeup'), array(), '', false
+        );
+        /** @var \Magento\Sales\Model\Quote\Item\AbstractItem|\PHPUnit_Framework_MockObject_MockObject $item */
+        $item = $this->getMock(
+            'Magento\Sales\Model\Quote\Item', array('getAddress', '__wakeup'), array(), '', false
+        );
+        /** @var \Magento\SalesRule\Model\Rule|\PHPUnit_Framework_MockObject_MockObject $ruleWithStopFurtherProcessing */
+        $ruleWithStopFurtherProcessing = $this->getMock(
+            'Magento\SalesRule\Model\Rule', array('__wakeup'), array(), '', false
+        );
+        /** @var \Magento\SalesRule\Model\Rule|\PHPUnit_Framework_MockObject_MockObject $ruleThatShouldNotBeRun */
+        $ruleThatShouldNotBeRun = $this->getMock('Magento\SalesRule\Model\Rule', array('__wakeup'), array(), '', false);
+
+        $item->expects($this->any())->method('getAddress')->will($this->returnValue($address));
+        $ruleWithStopFurtherProcessing->setName('ruleWithStopFurtherProcessing');
+        $ruleThatShouldNotBeRun->setName('ruleThatShouldNotBeRun');
+        $rules = array(
+            $ruleWithStopFurtherProcessing,
+            $ruleThatShouldNotBeRun,
+        );
+        $validator->expects($this->any())->method('_getRules')->will($this->returnValue($rules));
+
+        // 2. Set fixtures
+        $item->setDiscountCalculationPrice($positivePrice);
+        $item->setData('calculation_price', $positivePrice);
+        $validator->setSkipActionsValidation(true);
+        $validator->expects($this->any())->method('_canProcessRule')->will($this->returnValue(true));
+        $ruleWithStopFurtherProcessing->setStopRulesProcessing(true);
+
+        // 3. Set expectations
+        $callback = function($rule) use($ruleThatShouldNotBeRun) {
+            /** @var $rule \Magento\SalesRule\Model\Rule|\PHPUnit_Framework_MockObject_MockObject */
+            if ($rule->getName() == $ruleThatShouldNotBeRun->getName()) {
+                $this->fail('Rule should not be run after applying rule that stops further rules processing');
+            }
+
+            return true;
+        };
+        $validator->expects($this->any())
+            ->method('applyRule')
+            ->with($this->anything(), $this->callback($callback), $this->anything());
+
+        // 4. Run tested method
+        $validator->process($item);
+
+        // 5. Set new expectations
+        $validator->expects($this->never())->method('applyRule');   //No rules should be applied further
+
+        // 6. Run tested method again
+        $validator->process($item);
+    }
+
+    public function testSetAppliedRuleIds()
     {
         $positivePrice = 1;
         $previouslySetRuleIds = array(1, 2, 4);
@@ -188,22 +252,19 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
         $validator = $this->getMock(
             'Magento\SalesRule\Model\Validator', array('applyRules', '__wakeup'), array(), '', false
         );
-
         /** @var \Magento\Sales\Model\Quote\Item\AbstractItem|\PHPUnit_Framework_MockObject_MockObject $item */
         $item = $this->getMock(
             'Magento\Sales\Model\Quote\Item', array('getAddress', 'getQuote', '__wakeup'), array(), '', false
         );
-
         /** @var \Magento\Sales\Model\Quote\Address|\PHPUnit_Framework_MockObject_MockObject $address */
         $address = $this->getMock(
             'Magento\Sales\Model\Quote\Address', array('__wakeup'), array(), '', false
         );
-        $item->expects($this->any())->method('getAddress')->will($this->returnValue($address));
-
         /** @var \Magento\Sales\Model\Quote|\PHPUnit_Framework_MockObject_MockObject $quote */
         $quote = $this->getMock(
             'Magento\Sales\Model\Quote', array('__wakeup'), array(), '', false
         );
+        $item->expects($this->any())->method('getAddress')->will($this->returnValue($address));
         $item->expects($this->any())->method('getQuote')->will($this->returnValue($quote));
 
         // 2. Set fixtures
@@ -219,12 +280,21 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
         // 4. Check expected result
         $this->assertEquals($expectedRuleIds, $item->getAppliedRuleIds());
 
-        $arrayAddress = explode(',', $item->getAddress()->getAppliedRuleIds());
-        sort($arrayAddress);
-        $this->assertEquals($expectedMergedRuleIds, join(',', $arrayAddress));
+        $this->assertObjectHasRuleIdsSet($expectedMergedRuleIds, $item->getAddress());
+        $this->assertObjectHasRuleIdsSet($expectedMergedRuleIds, $item->getQuote());
+    }
 
-        $arrayQuote = explode(',', $item->getQuote()->getAppliedRuleIds());
-        sort($arrayQuote);
-        $this->assertEquals($expectedMergedRuleIds, join(',', $arrayQuote));
+    /**
+     * @param $expectedMergedRuleIds
+     * @param \Magento\Sales\Model\Quote\Address|\Magento\Sales\Model\Quote $object
+     * @return $this
+     */
+    protected function assertObjectHasRuleIdsSet($expectedMergedRuleIds, $object)
+    {
+        $array = explode(',', $object->getAppliedRuleIds());
+        sort($array);
+        $this->assertEquals($expectedMergedRuleIds, join(',', $array));
+
+        return $this;
     }
 }

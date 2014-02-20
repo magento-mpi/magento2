@@ -799,7 +799,7 @@ class Validator extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Sales\Model\Quote\Item\AbstractItem $item
      * @return array
      */
-    public function applyRules($item)
+    protected function applyRules($item)
     {
         $address = $item->getAddress();
 
@@ -818,31 +818,8 @@ class Validator extends \Magento\Core\Model\AbstractModel
                 continue;
             }
 
-            $qty = $this->_getItemQty($item, $rule);
-
-            $discountCalculator = $this->calculatorFactory->create($rule->getSimpleAction());
-            $qty = $discountCalculator->fixQuantity($qty, $rule);
-            $discountData = $discountCalculator->calculate($rule, $item, $qty);
-
-            $this->eventFix($discountData, $item, $rule, $qty);
-            $this->deltaRoundingFix($discountData, $item);
-
-            /**
-             * We can't use row total here because row total not include tax
-             * Discount can be applied on price included tax
-             */
-
-            $this->minFix($discountData, $item, $qty);
-
-            $item->setDiscountAmount($discountData->getAmount());
-            $item->setBaseDiscountAmount($discountData->getBaseAmount());
-            $item->setOriginalDiscountAmount($discountData->getOriginalAmount());
-            $item->setBaseOriginalDiscountAmount($discountData->getBaseOriginalAmount());
-
+            $this->applyRule($item, $rule, $address);
             $appliedRuleIds[$rule->getRuleId()] = $rule->getRuleId();
-
-            $this->_maintainAddressCouponCode($address, $rule);
-            $this->_addDiscountDescription($address, $rule);
 
             if ($rule->getStopRulesProcessing()) {
                 $this->_stopFurtherRules = true;
@@ -851,5 +828,40 @@ class Validator extends \Magento\Core\Model\AbstractModel
         }
 
         return $appliedRuleIds;
+    }
+
+    /**
+     * @param \Magento\Sales\Model\Quote\Item\AbstractItem $item
+     * @param \Magento\SalesRule\Model\Rule $rule
+     * @param \Magento\Sales\Model\Quote\Address $address
+     * @return $this
+     */
+    protected function applyRule($item, $rule, $address)
+    {
+        $qty = $this->_getItemQty($item, $rule);
+
+        $discountCalculator = $this->calculatorFactory->create($rule->getSimpleAction());
+        $qty = $discountCalculator->fixQuantity($qty, $rule);
+        $discountData = $discountCalculator->calculate($rule, $item, $qty);
+
+        $this->eventFix($discountData, $item, $rule, $qty);
+        $this->deltaRoundingFix($discountData, $item);
+
+        /**
+         * We can't use row total here because row total not include tax
+         * Discount can be applied on price included tax
+         */
+
+        $this->minFix($discountData, $item, $qty);
+
+        $item->setDiscountAmount($discountData->getAmount());
+        $item->setBaseDiscountAmount($discountData->getBaseAmount());
+        $item->setOriginalDiscountAmount($discountData->getOriginalAmount());
+        $item->setBaseOriginalDiscountAmount($discountData->getBaseOriginalAmount());
+
+        $this->_maintainAddressCouponCode($address, $rule);
+        $this->_addDiscountDescription($address, $rule);
+
+        return $this;
     }
 }
