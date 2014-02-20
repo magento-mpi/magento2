@@ -457,4 +457,17 @@ class IndexTest extends \Magento\Backend\Utility\Controller
             \Magento\Message\MessageInterface::TYPE_ERROR
         );
     }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer_sample.php
+     */
+    public function testCartAction()
+    {
+        $this->getRequest()->setParam('id', 1)
+            ->setParam('website_id', 1)
+            ->setPost('delete', 1);
+        $this->dispatch('backend/customer/index/cart');
+        $body = $this->getResponse()->getBody();
+        $this->assertContains('<div id="customer_cart_grid1">', $body);
+    }
 }
