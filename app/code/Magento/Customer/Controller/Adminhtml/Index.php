@@ -201,9 +201,9 @@ class Index extends \Magento\Backend\App\Action
         $customerData = [];
         $customerData['account'] = [];
         $customerData['address'] = [];
+        $customer = null;
         try {
             $customer = $this->_customerService->getCustomer($customerId);
-            $this->_title->add($this->_viewHelper->getCustomerName($customer));
             $customerData['account'] = $customer->getAttributes();
             $customerData['account']['id'] = $customerId;
             try {
@@ -219,7 +219,6 @@ class Index extends \Magento\Backend\App\Action
             $customerId = 0;
             $this->_coreRegistry->unregister(self::REGISTRY_CURRENT_CUSTOMER_ID);
             $this->_coreRegistry->register(self::REGISTRY_CURRENT_CUSTOMER_ID, 0);
-            $this->_title->add(__('New Customer'));
         }
         $customerData['customer_id'] = $customerId;
 
@@ -245,6 +244,7 @@ class Index extends \Magento\Backend\App\Action
                 );
                 $formData = $customerForm->extractData($request, 'account');
                 $customerData['account'] = $customerForm->restoreData($formData);
+                $customer = $this->_customerBuilder->populateWithArray($customerData['account'])->create();
             }
 
             if (isset($data['address']) && is_array($data['address'])) {
@@ -265,11 +265,11 @@ class Index extends \Magento\Backend\App\Action
                         $this->_addressBuilder->setCustomerId($customerId);
                     }
                     $this->_addressBuilder->setDefaultBilling(
-                    !empty($data['account']['default_billing'])
+                        !empty($data['account']['default_billing'])
                         && $data['account']['default_billing'] == $addressId
                     );
                     $this->_addressBuilder->setDefaultShipping(
-                    !empty($data['account']['default_shipping'])
+                        !empty($data['account']['default_shipping'])
                         && $data['account']['default_shipping'] == $addressId
                     );
                     $address = $this->_addressBuilder->create();
@@ -281,12 +281,18 @@ class Index extends \Magento\Backend\App\Action
                     );
                     $formData = $addressForm->extractData($request, $requestScope);
                     $customerData['address'][$addressId] = $addressForm->restoreData($formData);
+                    $customerData['address'][$addressId]['id'] = $addressId;
                 }
             }
         }
 
         $session->setCustomerData($customerData);
 
+        if (is_null($customer)) {
+            $this->_title->add(__('New Customer'));
+        } else {
+            $this->_title->add($this->_viewHelper->getCustomerName($customer));
+        }
         /**
          * Set active menu item
          */
@@ -839,7 +845,7 @@ class Index extends \Magento\Backend\App\Action
                 ->setWebsite(
                     $this->_objectManager->get('Magento\Core\Model\StoreManagerInterface')->getWebsite($websiteId)
                 )
-                ->loadByCustomer($this->_coreRegistry->registry(self::REGISTRY_CURRENT_CUSTOMER));
+                ->loadByCustomer($this->_coreRegistry->registry(self::REGISTRY_CURRENT_CUSTOMER_ID));
             $item = $quote->getItemById($deleteItemId);
             if ($item && $item->getId()) {
                 $quote->removeItem($deleteItemId);
@@ -885,7 +891,7 @@ class Index extends \Magento\Backend\App\Action
         $this->_initCustomer();
         $this->_view->loadLayout();
         $this->_view->getLayout()->getBlock('admin.customer.reviews')
-            ->setCustomerId($this->_coreRegistry->registry(self::REGISTRY_CURRENT_CUSTOMER)->getId())
+            ->setCustomerId($this->_coreRegistry->registry(self::REGISTRY_CURRENT_CUSTOMER_ID))
             ->setUseAjax(true);
         $this->_view->renderLayout();
     }

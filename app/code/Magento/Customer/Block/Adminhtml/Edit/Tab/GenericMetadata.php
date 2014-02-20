@@ -26,7 +26,7 @@ class GenericMetadata extends \Magento\Backend\Block\Widget\Form\Generic
     protected function _setFieldset($attributes, $fieldset, $exclude = array())
     {
         $this->_addElementTypes($fieldset);
-        /** @var \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata $attribute */
+
         foreach ($attributes as $attribute) {
             // Note, ignoring whether its visible or not,
             if (($inputType = $attribute->getFrontendInput())
@@ -67,7 +67,6 @@ class GenericMetadata extends \Magento\Backend\Block\Widget\Form\Generic
         $element,
         \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata $attribute
     ) {
-        // getAllOptions($withEmpty = true, $defaultValues = false)
         switch ($inputType) {
             case 'select':
                 $element->setValues($this->_getAttributeOptionsArray($attribute));
