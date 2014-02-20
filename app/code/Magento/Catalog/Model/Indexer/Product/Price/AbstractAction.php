@@ -515,7 +515,7 @@ abstract class AbstractAction
     /**
      * Copy relations product index from primary index to temporary index table by parent entity
      *
-     * @param array $parentIds
+     * @param null|array $parentIds
      * @param array $excludeIds
      * @return \Magento\Catalog\Model\Indexer\Product\Price\AbstractAction
      */
