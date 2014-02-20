@@ -66,6 +66,10 @@ class View
     protected $_groupService;
 
     /**
+     * @var \Magento\Customer\Service\V1\Dto\CustomerBuilder
+     */
+    protected $_customerBuilder;
+    /**
      * @var \Magento\Customer\Helper\Address
      */
     protected $_addressHelper;
@@ -86,6 +90,7 @@ class View
      * @param CustomerAccountServiceInterface $accountService
      * @param \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService
      * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService
+     * @param \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerBuilder
      * @param \Magento\Customer\Helper\Address $addressHelper
      * @param \Magento\Log\Model\CustomerFactory $logFactory
      * @param \Magento\Core\Model\Registry $registry
@@ -101,6 +106,7 @@ class View
         CustomerAccountServiceInterface $accountService,
         \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService,
         \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService,
+        \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerBuilder,
         \Magento\Customer\Helper\Address $addressHelper,
         \Magento\Log\Model\CustomerFactory $logFactory,
         \Magento\Core\Model\Registry $registry,
@@ -114,6 +120,7 @@ class View
         $this->_accountService = $accountService;
         $this->_addressService = $addressService;
         $this->_groupService = $groupService;
+        $this->_customerBuilder = $customerBuilder;
         $this->_addressHelper = $addressHelper;
         $this->_logFactory = $logFactory;
         $this->dateTime = $dateTime;
@@ -126,7 +133,9 @@ class View
     public function getCustomer()
     {
         if (!$this->_customer) {
-            $this->_customer = $this->_session->getCustomerDto();
+            $this->_customer = $this->_customerBuilder->populateWithArray(
+                $this->_backendSession->getCustomerData()['account']
+            )->create();
         }
         return $this->_customer;
     }
