@@ -283,7 +283,6 @@ class FileAbstractTest extends \PHPUnit_Framework_TestCase
             'extension',
             'viewParams',
             'sourcePath',
-            'allowDuplication',
             'isPublicationAllowed',
             'isFallbackUsed',
             'isSourcePathProvided'

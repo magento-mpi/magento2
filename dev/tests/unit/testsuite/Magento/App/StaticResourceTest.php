@@ -154,7 +154,8 @@ class StaticResourceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Requested path 'short/path.js' is wrong
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Requested path 'short/path.js' is wrong
      */
     public function testLaunchWrongPath()
     {
@@ -168,6 +169,10 @@ class StaticResourceTest extends \PHPUnit_Framework_TestCase
         $this->object->launch();
     }
 
+    /**
+     * @expectedException \UnexpectedValueException
+     * @expectedExceptionMessage Can't find theme 'nonexistent_theme' for area 'area'
+     */
     public function testLaunchNonexistentTheme()
     {
         $this->state->expects($this->once())

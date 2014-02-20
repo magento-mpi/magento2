@@ -46,7 +46,6 @@ class PreProcessorTest extends \PHPUnit_Framework_TestCase
             'Magento\View\Publisher\CssFile',
             [
                 'filePath'   => 'source/source.css',
-                'allowDuplication' => true,
                 'viewParams' => $designParams
             ]
         );

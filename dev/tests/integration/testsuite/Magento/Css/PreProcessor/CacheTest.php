@@ -55,7 +55,6 @@ class CacheTest extends \PHPUnit_Framework_TestCase
         $file = $this->objectManager->create('Magento\View\Publisher\CssFile',
             [
                 'filePath' => 'oyejorge.css',
-                'allowDuplication' => false,
                 'viewParams' => $this->getDesignParams()
             ]
         );
