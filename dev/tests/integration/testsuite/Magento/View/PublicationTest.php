@@ -9,6 +9,8 @@
 
 namespace Magento\View;
 
+use Magento\TestFramework\Helper\Bootstrap;
+
 class PublicationTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -38,11 +40,10 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $objectManager = Bootstrap::getObjectManager();
         $objectManager->get('Magento\App\State')->setAreaCode('frontend');
         $this->viewService = $objectManager->create('Magento\View\Service');
         $this->fileSystem = $objectManager->create('Magento\View\FileSystem');
-        $this->viewUrl = $objectManager->create('Magento\View\Url');
         $this->fileResolver = $objectManager->create('Magento\View\FileResolver');
         $this->model = $objectManager->get('Magento\View\DesignInterface');
     }
@@ -77,10 +78,10 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
     {
         $this->_initTestTheme();
 
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\LocaleInterface')
-            ->setLocale($locale);
-        $url = $this->viewUrl->getViewFileUrl($file);
-        $this->assertStringEndsWith($expectedUrl, $url);
+        Bootstrap::getObjectManager()->get('Magento\Core\Model\LocaleInterface')->setLocale($locale);
+        /** @var \Magento\View\Url $urlModel */
+        $urlModel = Bootstrap::getObjectManager()->create('Magento\View\Url');
+        $this->assertStringEndsWith($expectedUrl, $urlModel->getViewFileUrl($file));
         $viewFile = $this->fileSystem->getViewFile($file);
         $this->assertFileExists($viewFile);
     }
@@ -113,17 +114,17 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \Magento\Exception
-     * @dataProvider getViewUrlExceptionDataProvider
+     * @dataProvider getPublicViewFileExceptionDataProvider
      */
-    public function testGetViewUrlException($file)
+    public function testGetPublicViewFileException($file)
     {
-        $this->viewUrl->getViewFileUrl($file);
+        $this->fileResolver->getPublicViewFile($file);
     }
 
     /**
      * @return array
      */
-    public function getViewUrlExceptionDataProvider()
+    public function getPublicViewFileExceptionDataProvider()
     {
         return array(
             'non-existing theme file'  => array('path/to/non-existing-file.ext'),
@@ -134,18 +135,18 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
     /**
      * Test on vulnerability for protected files
      *
-     * @expectedException \Magento\Exception
-     * @expectedExceptionMessage because it does not reside in a public directory
      * @magentoDataFixture Magento/Core/Model/_files/design/themes.php
      * @magentoAppIsolation enabled
      * @dataProvider getProtectedFiles
      * @param array $designParams
      * @param string $filePath
+     * @param string $expectedExceptionMsg
      */
-    public function testTemplatePublicationVulnerability($designParams, $filePath)
+    public function testTemplatePublicationVulnerability($designParams, $filePath, $expectedExceptionMsg)
     {
         $this->_initTestTheme();
-        $this->viewUrl->getViewFileUrl($filePath, $designParams);
+        $this->setExpectedException('Magento\Exception', $expectedExceptionMsg);
+        $this->fileResolver->getPublicViewFile($filePath, $designParams);
     }
 
     /**
@@ -156,21 +157,25 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
     public function getProtectedFiles()
     {
         return array(
-            array(
+            'theme PHP file' => array(
                 array('area' => 'frontend', 'theme' => 'vendor_default'),
-                'access_violation.php'
+                'malicious_file.php',
+                "Files with extension 'php' may not be published"
             ),
-            array(
+            'theme XML file' => array(
                 array('area' => 'frontend', 'theme' => 'vendor_default'),
-                'theme.xml'
+                'malicious_file.xml',
+                "Files with extension 'xml' may not be published"
             ),
-            array(
+            'modular XML file' => array(
                 array('area' => 'frontend', 'theme' => 'test_default', 'module' => 'Magento_Catalog'),
-                'catalog_category_view.xml'
+                'malicious_file.xml',
+                "Files with extension 'xml' may not be published"
             ),
-            array(
+            'modular PHTML file' => array(
                 array('area' => 'frontend', 'theme' => 'test_default', 'module' => 'Magento_Core'),
-                'test.phtml'
+                'malicious_file.phtml',
+                "Files with extension 'phtml' may not be published"
             ),
         );
     }
@@ -196,9 +201,9 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
         $originalFile = $this->fileSystem->getViewFile($file, $designParams);
         $this->assertFileExists($originalFile);
 
-        // getViewUrl() will trigger publication in development mode
+        // trigger publication
         $this->assertFileNotExists($expectedFile, 'Please verify isolation from previous test(s).');
-        $this->viewUrl->getViewFileUrl($file, $designParams);
+        $this->fileResolver->getPublicViewFile($file, $designParams);
         $this->assertFileExists($expectedFile);
 
         // as soon as the files are published, they must have the same mtime as originals
@@ -245,9 +250,9 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
      * @param string $contentFile
      * @magentoDataFixture Magento/Core/Model/_files/design/themes.php
      * @magentoAppIsolation enabled
-     * @dataProvider getPublicFilePathLessDataProvider
+     * @dataProvider getPublicFileLessFormatDataProvider
      */
-    public function testGetPublicFilePathLess($file, $designParams, $expectedFile, $contentFile)
+    public function testGetPublicFileLessFormat($file, $designParams, $expectedFile, $contentFile)
     {
         $this->_initTestTheme();
 
@@ -257,9 +262,9 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
         $originalFile = $this->fileSystem->getViewFile($file, $designParams);
         $this->assertFileNotExists($originalFile);
 
-        // getViewUrl() will trigger publication in development mode
+        // trigger publication
         $this->assertFileNotExists($expectedFile, 'Please verify isolation from previous test(s).');
-        $this->viewUrl->getViewFileUrl($file, $designParams);
+        $this->fileResolver->getPublicViewFile($file, $designParams);
         $this->assertFileExists($expectedFile);
 
         $this->assertEquals(
@@ -268,7 +273,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function getPublicFilePathLessDataProvider()
+    public function getPublicFileLessFormatDataProvider()
     {
         $designParams = array(
             'area'    => 'frontend',
@@ -277,9 +282,9 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
         );
         return array(
             'view file' => array(
-                'source.css',
+                'source.css', // source.less is supposed to be found by this request
                 $designParams,
-                'frontend/test_default/en_US/source.css',
+                'frontend/test_default/en_US/source.css', // and then .less file will be converted into css
                 'result_source.css'
             )
         );
@@ -308,7 +313,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
         );
         $publishedDir = $this->viewService->getPublicDir() . '/frontend/vendor_default/en_US';
         $this->assertFileNotExists($publishedDir, 'Please verify isolation from previous test(s).');
-        $this->viewUrl->getViewFileUrl('css/file.css', array(
+        $this->fileResolver->getPublicViewFile('css/file.css', array(
             'theme'   => 'vendor_default',
             'locale'  => 'en_US'
         ));
@@ -329,14 +334,14 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
     ) {
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
             ->loadArea(\Magento\Core\Model\App\Area::AREA_FRONTEND);
-        $this->viewUrl->getViewFileUrl($cssViewFile, $designParams);
+        $this->fileResolver->getPublicViewFile($cssViewFile, $designParams);
 
         $expectedCssFile = $this->viewService->getPublicDir() . '/' . $expectedCssFile;
         $this->assertFileExists($expectedCssFile);
         $actualCssContent = file_get_contents($expectedCssFile);
 
         $this->assertNotRegExp(
-            '/url\(.*?' . \Magento\View\Service::SCOPE_SEPARATOR . '.*?\)/',
+            '/url\(.*?' . preg_quote(\Magento\View\Service::SCOPE_SEPARATOR, '/') . '.*?\)/',
             $actualCssContent,
             'Published CSS file must not contain scope separators in URLs.'
         );
@@ -438,19 +443,18 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\App\State')->setAreaCode('frontend');
 
-        $this->model = $objectManager->get('Magento\View\DesignInterface');
-        $this->model->setDesignTheme('test_default');
+        $model = $objectManager->get('Magento\View\DesignInterface');
+        $model->setDesignTheme('test_default');
 
-        $this->viewService = $objectManager->create('Magento\View\Service');
-        $this->fileSystem = $objectManager->create('Magento\View\FileSystem');
-        $this->viewUrl = $objectManager->create('Magento\View\Url');
+        $viewService = $objectManager->create('Magento\View\Service');
+        $fileResolver = $objectManager->create('Magento\View\FileResolver');
 
-        $themePath = $this->model->getDesignTheme()->getFullPath();
+        $themePath = $model->getDesignTheme()->getFullPath();
 
         $fixtureViewPath = "$appInstallDir/media_for_change/$themePath/";
-        $publishedPath = $this->viewService->getPublicDir() . "/$themePath/en_US/";
+        $publishedPath = $viewService->getPublicDir() . "/$themePath/en_US/";
 
-        $this->viewUrl->getViewFileUrl('style.css', array('locale' => 'en_US'));
+        $fileResolver->getPublicViewFile('style.css', array('locale' => 'en_US'));
 
         //It's added to make 'mtime' really different for source and origin files
         sleep(1);
@@ -466,7 +470,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
             '.sub2 {border: 1px solid magenta}',
             FILE_APPEND
         );
-        $this->viewUrl->getViewFileUrl('style.css', array('locale' => 'en_US'));
+        $fileResolver->getPublicViewFile('style.css', array('locale' => 'en_US'));
 
         $assertFileComparison = $expectedPublished ? 'assertFileEquals' : 'assertFileNotEquals';
         $this->$assertFileComparison($fixtureViewPath . 'style.css', $publishedPath . 'style.css');
@@ -530,18 +534,17 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\App\State')->setAreaCode('frontend');
 
-        $this->model = $objectManager->get('Magento\View\DesignInterface');
-        $this->model->setDesignTheme('test_default');
+        $model = $objectManager->get('Magento\View\DesignInterface');
+        $model->setDesignTheme('test_default');
 
-        $this->viewService = $objectManager->create('Magento\View\Service');
-        $this->fileSystem = $objectManager->create('Magento\View\FileSystem');
-        $this->viewUrl = $objectManager->create('Magento\View\Url');
+        $viewService = $objectManager->create('Magento\View\Service');
+        $fileResolver = $objectManager->create('Magento\View\FileResolver');
 
-        $themePath = $this->model->getDesignTheme()->getFullPath();
+        $themePath = $model->getDesignTheme()->getFullPath();
         $fixtureViewPath = "$appInstallDir/media_for_change/$themePath/";
-        $publishedPath = $this->viewService->getPublicDir() . "/$themePath/en_US/";
+        $publishedPath = $viewService->getPublicDir() . "/$themePath/en_US/";
 
-        $this->viewUrl->getViewFileUrl('style.css', array('locale' => 'en_US'));
+        $fileResolver->getPublicViewFile('style.css', array('locale' => 'en_US'));
 
         //It's added to make 'mtime' really different for source and origin files
         sleep(1);
@@ -555,7 +558,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
             FILE_APPEND
         );
 
-        $this->viewUrl->getViewFileUrl('style.css', array('locale' => 'en_US'));
+        $fileResolver->getPublicViewFile('style.css', array('locale' => 'en_US'));
 
         $assertFileComparison = $expectedPublished ? 'assertFileEquals' : 'assertFileNotEquals';
         $this->$assertFileComparison($fixtureViewPath . 'sub.css', $publishedPath . 'sub.css');
@@ -582,7 +585,6 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
 
         $this->viewService = $objectManager->create('Magento\View\Service');
         $this->fileSystem = $objectManager->create('Magento\View\FileSystem');
-        $this->viewUrl = $objectManager->create('Magento\View\Url');
     }
 
     /**
@@ -621,7 +623,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
         $filePath = $this->fileSystem->getViewFile('css/base64.css', $params);
 
         // publish static content
-        $this->viewUrl->getViewFileUrl('css/base64.css', $params);
+        $this->fileResolver->getPublicViewFile('css/base64.css', $params);
         $this->assertFileEquals($filePath, "{$publishedPath}/css/base64.css");
 
         $this->model->setDesignTheme(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
