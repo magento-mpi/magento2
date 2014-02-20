@@ -110,7 +110,7 @@ class IndexerConfigDataTest extends \PHPUnit_Framework_TestCase
                 'catalog_category_flat',
                 array(),
                 $flatIndexerData,
-                array(),
+                null,
             ),
             // flat is disabled, path is other indexer, nothing is being changed
             array(
