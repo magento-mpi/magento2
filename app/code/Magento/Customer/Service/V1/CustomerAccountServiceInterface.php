@@ -22,10 +22,10 @@ interface CustomerAccountServiceInterface
     const NEW_ACCOUNT_EMAIL_CONFIRMED = 'confirmed';       // welcome email, when confirmation is enabled
     const NEW_ACCOUNT_EMAIL_CONFIRMATION = 'confirmation'; // email with confirmation link
 
-    // Constants for confirmation status
-    const ACCOUNT_CONFIRMED = 'confirmed';
-    const ACCOUNT_CONFIRMATION_REQUIRED = 'required';
-    const ACCOUNT_CONFIRMATION_NOT_REQUIRED = 'not_required';
+    // Constants for confirmation statuses
+    const ACCOUNT_CONFIRMED = 'account_confirmed';
+    const ACCOUNT_CONFIRMATION_REQUIRED = 'account_confirmation_required';
+    const ACCOUNT_CONFIRMATION_NOT_REQUIRED = 'account_confirmation_not_required';
 
     /**
      * Create Customer Account
@@ -148,5 +148,4 @@ interface CustomerAccountServiceInterface
      * @return array|bool
      */
     public function validateCustomerData(Dto\Customer $customer, array $attributes);
-
 }

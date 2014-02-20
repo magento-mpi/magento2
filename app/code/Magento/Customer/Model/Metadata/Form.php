@@ -133,6 +133,21 @@ class Form
     }
 
     /**
+     * Return attribute instance by code or false
+     *
+     * @param string $attributeCode
+     * @return \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata|false
+     */
+    public function getAttribute($attributeCode)
+    {
+        $attributes = $this->getAttributes();
+        if (isset($attributes[$attributeCode])) {
+            return $attributes[$attributeCode];
+        }
+        return false;
+    }
+
+    /**
      * Retrieve user defined attributes
      *
      * @return \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata[]
@@ -173,8 +188,7 @@ class Form
     {
         $attributes = $this->getAttributes();
         foreach ($attributes as $attributeCode => $attribute) {
-            if (
-                $this->_ignoreInvisible && !$attribute->isVisible()
+            if ($this->_ignoreInvisible && !$attribute->isVisible()
                 || in_array($attribute->getAttributeCode(), $this->_filterAttributes)
             ) {
                 unset($attributes[$attributeCode]);

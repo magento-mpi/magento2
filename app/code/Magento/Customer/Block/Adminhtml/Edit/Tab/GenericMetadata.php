@@ -21,24 +21,20 @@ class GenericMetadata extends \Magento\Backend\Block\Widget\Form\Generic
      * @param \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata[] $attributes attributes that are to be added
      * @param \Magento\Data\Form\Element\Fieldset $fieldset
      * @param array $exclude attributes that should be skipped
+     * @return void
      */
     protected function _setFieldset($attributes, $fieldset, $exclude = array())
     {
         $this->_addElementTypes($fieldset);
+        /** @var \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata $attribute */
         foreach ($attributes as $attribute) {
             // Note, ignoring whether its visible or not,
-            if (($inputType = $attribute->getFrontendInputType())
+            if (($inputType = $attribute->getFrontendInput())
                 && !in_array($attribute->getAttributeCode(), $exclude)
                 && (('media_image' != $inputType) || ($attribute->getAttributeCode() == 'image'))
             ) {
 
                 $fieldType      = $inputType;
-                $rendererClass  = $attribute->getFrontendInputRendererClass();
-                if (!empty($rendererClass)) {
-                    $fieldType  = $inputType . '_' . $attribute->getAttributeCode();
-                    $fieldset->addType($fieldType, $rendererClass);
-                }
-
                 $element = $fieldset->addField(
                     $attribute->getAttributeCode(),
                     $fieldType,
@@ -49,8 +45,7 @@ class GenericMetadata extends \Magento\Backend\Block\Widget\Form\Generic
                         'required'  => $attribute->isRequired(),
                         'note'      => $attribute->getNote(),
                     )
-                )
-                    ->setEntityAttribute($attribute);
+                );
 
                 $element->setAfterElementHtml($this->_getAdditionalElementHtml($element));
 
@@ -65,6 +60,7 @@ class GenericMetadata extends \Magento\Backend\Block\Widget\Form\Generic
      * @param string $inputType
      * @param \Magento\Data\Form\Element\AbstractElement $element
      * @param \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata $attribute
+     * @return void
      */
     protected function _applyTypeSpecificConfigCustomer(
         $inputType,
@@ -74,10 +70,10 @@ class GenericMetadata extends \Magento\Backend\Block\Widget\Form\Generic
         // getAllOptions($withEmpty = true, $defaultValues = false)
         switch ($inputType) {
             case 'select':
-                $element->setValues($attribute->getOptions()); //true, true));
+                $element->setValues($this->_getAttributeOptionsArray($attribute));
                 break;
             case 'multiselect':
-                $element->setValues($attribute->getSource()->getAllOptions()); // false, true));
+                $element->setValues($this->_getAttributeOptionsArray($attribute));
                 $element->setCanBeEmpty(true);
                 break;
             case 'date':
@@ -90,5 +86,15 @@ class GenericMetadata extends \Magento\Backend\Block\Widget\Form\Generic
             default:
                 break;
         }
+    }
+
+    protected function _getAttributeOptionsArray(\Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata $attribute)
+    {
+        $options = $attribute->getOptions();
+        $result = [];
+        foreach ($options as $option) {
+            $result[] = $option->__toArray();
+        }
+        return $result;
     }
 }
