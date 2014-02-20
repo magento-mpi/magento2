@@ -11,10 +11,6 @@ namespace Magento\Cms\Block\Adminhtml\Block\Edit;
 
 /**
  * Adminhtml cms block edit form
- *
- * @category   Magento
- * @package    Magento_Cms
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {

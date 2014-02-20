@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Cms\Model\Resource\Page;
 
 namespace Magento\Cms\Model\Resource\Page;
 

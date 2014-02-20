@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Cms\Model\Config\Source\Wysiwyg;
 
 namespace Magento\Cms\Model\Config\Source\Wysiwyg;
 

@@ -10,7 +10,6 @@
 
 namespace Magento\Cms\Model;
 
-
 /**
  * CMS Observer model
  */
