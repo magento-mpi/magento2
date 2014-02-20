@@ -195,7 +195,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     /**
      * @param string $filePath
      * @param array $viewParams
-     * @return \PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\Less\PreProcessor\File\Less|\PHPUnit_Framework_MockObject_MockObject
      */
     protected function getLessFile($filePath, $viewParams)
     {
