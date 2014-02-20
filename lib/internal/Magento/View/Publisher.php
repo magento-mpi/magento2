@@ -97,7 +97,14 @@ class Publisher implements PublicFilesManagerInterface
      */
     public function getPublicViewFile($filePath, array $params)
     {
-        return $this->getPublishedFilePath($filePath, $params);
+        $sourceFile = $this->getSourceFileContainer($filePath, $params);
+
+        if (!$sourceFile->isPublicationAllowed()) {
+            return $sourceFile->getSourcePath();
+        }
+
+        $this->publishFile($sourceFile);
+        return $sourceFile->buildPublicViewFilename();
     }
 
     /**
@@ -150,28 +157,6 @@ class Publisher implements PublicFilesManagerInterface
             return false;
         }
         return true;
-    }
-
-    /**
-     * Get published file path
-     *
-     * Check, if requested theme file has public access, and move it to public folder, if the file has no public access
-     *
-     * @param string $file
-     * @param array $params
-     * @throws \Magento\Exception
-     * @return string|null
-     */
-    protected function getPublishedFilePath($file, $params)
-    {
-        $sourceFile = $this->getSourceFileContainer($file, $params);
-
-        if (!$sourceFile->isPublicationAllowed()) {
-            return $sourceFile->getSourcePath();
-        }
-
-        $this->publishFile($sourceFile);
-        return $sourceFile->buildPublicViewFilename();
     }
 
     /**

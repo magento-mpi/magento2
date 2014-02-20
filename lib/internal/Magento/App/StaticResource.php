@@ -151,6 +151,6 @@ class StaticResource implements \Magento\LauncherInterface
      */
     protected function isModule($name)
     {
-        return isset($this->moduleList->getModules()[$name]);
+        return null !== $this->moduleList->getModule($name);
     }
 }

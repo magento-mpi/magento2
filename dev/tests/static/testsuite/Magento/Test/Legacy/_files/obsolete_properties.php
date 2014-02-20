@@ -271,4 +271,5 @@ return array(
     array('fileIteratorFactory', 'Magento\Core\Model\Theme\Collection'),
     array('_allowDuplication', 'Magento\View\Publisher'),
     array('_modulesReader', 'Magento\View\Publisher'),
+    ['_mimeTypes', 'Magento\File\Transfer\Adapter\Http', '\Magento\File\Mime::$mimeTypes'],
 );

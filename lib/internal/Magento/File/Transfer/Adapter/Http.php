@@ -41,24 +41,25 @@ class Http
      * Send the file to the client (Download)
      *
      * @param  string|array $options Options for the file(s) to send
-     * @throws \Exception
+     * @throws \UnexpectedValueException
+     * @throws \InvalidArgumentException
      * @return void
      */
     public function send($options = null)
     {
         if (is_string($options)) {
             $filepath = $options;
-        } else if (is_array($options)) {
+        } else if (is_array($options) && isset($options['filepath'])) {
             $filepath = $options['filepath'];
         } else {
-            throw new \Exception("Filename is not set.");
+            throw new \InvalidArgumentException("Filename is not set.");
         }
 
         if (!is_file($filepath) || !is_readable($filepath)) {
-            throw new \Exception("File '{$filepath}' does not exists.");
+            throw new \InvalidArgumentException("File '{$filepath}' does not exists.");
         }
 
-        $mimeType = $this->_detectMimeType($filepath);
+        $mimeType = $this->mime->getMimeType($filepath);
 
         $this->response->setHeader('Content-length', filesize($filepath));
         $this->response->setHeader('Content-Type', $mimeType);
@@ -71,23 +72,9 @@ class Http
                 echo $buffer;
             }
             if (!feof($handle)) {
-                throw new \Exception("Error: unexpected fgets() fail.");
+                throw new \UnexpectedValueException("Unexpected end of file");
             }
             fclose($handle);
         }
-    }
-
-    /**
-     * Internal method to detect the mime type of a file
-     *
-     * @param  string $file
-     * @return string|null Mime type of given file
-     */
-    protected function _detectMimeType($file)
-    {
-        if (file_exists($file)) {
-            return $this->mime->getMimeType($file);
-        }
-        return null;
     }
 }

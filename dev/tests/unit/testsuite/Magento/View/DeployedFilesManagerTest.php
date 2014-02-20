@@ -22,6 +22,45 @@ class DeployedFilesManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetPublicViewFile($pubDir, $area, $themePath, $module, $filePath, $expected)
     {
+        $this->_testGetFile('getPublicViewFile', $pubDir, $area, $themePath, $module, $filePath, $expected);
+    }
+
+    /**
+     * @return array
+     */
+    public static function getPublicViewFileDataProvider()
+    {
+        return array(
+            'no module' => array('/dir', 'f', 'magento_demo', null, 'file.ext', '/dir/f/magento_demo/file.ext'),
+            'with module' => array('/dir', 'b', 'theme', 'm', 'file.ext', '/dir/b/theme/m/file.ext'),
+        );
+    }
+
+    /**
+     * @param string $pubDir
+     * @param string $area
+     * @param string $themePath
+     * @param string $module
+     * @param string $filePath
+     * @param string $expected
+     * @dataProvider getPublicViewFileDataProvider
+     */
+    public function testGetViewFile($pubDir, $area, $themePath, $module, $filePath, $expected)
+    {
+        $this->_testGetFile('getViewFile', $pubDir, $area, $themePath, $module, $filePath, $expected);
+    }
+
+    /**
+     * @param string $method
+     * @param string $pubDir
+     * @param string $area
+     * @param string $themePath
+     * @param string $module
+     * @param string $filePath
+     * @param string $expected
+     */
+    protected function _testGetFile($method, $pubDir, $area, $themePath, $module, $filePath, $expected)
+    {
         $viewService = $this->getMock('\Magento\View\Service', array('getPublicDir'), array(), '', false);
         $viewService->expects($this->once())->method('getPublicDir')->will($this->returnValue($pubDir));
 
@@ -34,18 +73,7 @@ class DeployedFilesManagerTest extends \PHPUnit_Framework_TestCase
         $params = array('themeModel' => $theme, 'area' => $area, 'module' => $module);
 
         $model = new DeployedFilesManager($viewService);
-        $result = $model->getPublicViewFile($filePath, $params);
+        $result = $model->$method($filePath, $params);
         $this->assertStringEndsWith($expected, $result);
-    }
-
-    /**
-     * @return array
-     */
-    public static function getPublicViewFileDataProvider()
-    {
-        return array(
-            'no module' => array('/dir', 'f', 'magento_demo', null, 'file.ext', '/dir/f/magento_demo/file.ext'),
-            'with module' => array('/dir', 'b', 'theme', 'm', 'file.ext', '/dir/b/theme/m/file.ext'),
-        );
     }
 }

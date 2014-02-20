@@ -15,7 +15,7 @@ class Mime
      *
      * @var array
      */
-    protected $_mimeTypes = array(
+    protected $mimeTypes = array(
         'txt'  => 'text/plain',
         'htm'  => 'text/html',
         'html' => 'text/html',
@@ -74,8 +74,8 @@ class Mime
         }
 
         $extension = pathinfo($file, PATHINFO_EXTENSION);
-        if (isset($this->_mimeTypes[$extension])) {
-            $result = $this->_mimeTypes[$extension];
+        if (isset($this->mimeTypes[$extension])) {
+            $result = $this->mimeTypes[$extension];
         }
 
         if (empty($result) && (function_exists('mime_content_type') && ini_get('mime_magic.magicfile'))) {

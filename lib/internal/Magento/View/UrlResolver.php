@@ -9,7 +9,7 @@
 namespace Magento\View;
 
 /**
- * Class for resolving file resources to URLs for them
+ * Class for resolving URLs by file paths
  */
 class UrlResolver
 {

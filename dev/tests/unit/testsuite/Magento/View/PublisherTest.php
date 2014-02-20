@@ -333,4 +333,22 @@ class PublisherTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo($this->publisherFileMock), $this->equalTo($this->tmpDirectory))
             ->will($this->returnValue($this->publisherFileMock));
     }
+
+    public function testGetViewFile()
+    {
+        $filePath = '/some/file.js';
+        $params = array('param1' => 'param 1', 'param2' => 'param 2');
+        $expectedResult = 'result';
+
+        $this->publisherFileMock->expects($this->once())
+            ->method('getSourcePath')
+            ->will($this->returnValue($expectedResult));
+        $this->publisherFileMock->expects($this->once())
+            ->method('isSourceFileExists')
+            ->will($this->returnValue(true));
+        $this->prepareCommonMocks($filePath, $params);
+
+        $actualResult = $this->publisher->getViewFile($filePath, $params);
+        $this->assertSame($expectedResult, $actualResult);
+    }
 }

@@ -1289,4 +1289,36 @@ return array(
         'Magento\Catalog\Model\Resource\Attribute',
         'Magento\ConfigurableProduct\Model\Attribute\LockValidator::validate'
     ),
+    ['_detectMimeType', 'Magento\File\Transfer\Adapter\Http', '\Magento\File\Mime::getMimeType()'],
+    ['getPublishedFilePath', 'Magento\View\Publisher'],
+    [
+        'getPublicFilePath',
+        'Magento\View\DeployedFilesManager',
+        'Magento\View\DeployedFilesManager::getPublicViewFile()'
+    ],
+    [
+        'getViewFilePublicPath',
+        'Magento\View\FileResolver',
+        'Magento\View\FileResolver::getPublicViewFile()',
+    ],
+    [
+        'getPublicFileUrl',
+        'Magento\View\FileResolver',
+        'Magento\View\UrlResolver::getPublicFileUrl()',
+    ],
+    [
+        '_isStaticFilesSigned',
+        'Magento\View\FileResolver',
+        'Magento\View\UrlResolver::_isStaticFilesSigned()',
+    ],
+    [
+        'getPublicFilePath',
+        'Magento\View\PublicFilesManagerInterface',
+        'Magento\View\PublicFilesManagerInterface::getPublicViewFile()',
+    ],
+    [
+        'getPublicFilePath',
+        'Magento\View\Publisher',
+        'Magento\View\Publisher::getPublicViewFile()',
+    ],
 );
