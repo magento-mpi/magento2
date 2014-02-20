@@ -26,9 +26,6 @@ class AccountTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Core\Model\Registry */
     protected $coreRegistry;
 
-    /** @var \Magento\Core\Model\StoreManagerInterface */
-    protected $storeManager;
-
     /** @var \Magento\Backend\Model\Session */
     protected $backendSession;
 
@@ -43,14 +40,12 @@ class AccountTest extends \PHPUnit_Framework_TestCase
         $this->objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->coreRegistry = $this->objectManager->get('Magento\Core\Model\Registry');
         $this->coreRegistry->register(Index::REGISTRY_CURRENT_CUSTOMER_ID, 1);
-
-        $this->storeManager = $this->objectManager->get('Magento\Core\Model\StoreManager');
         $this->backendSession = $this->objectManager->get('Magento\Backend\Model\Session');
 
         $this->context = $this->objectManager
             ->get(
                 'Magento\Backend\Block\Template\Context',
-                ['storeManager' => $this->storeManager, 'backendSession' => $this->backendSession]
+                ['backendSession' => $this->backendSession]
             );
 
         $this->accountBlock = $this->objectManager->get('Magento\View\LayoutInterface')
@@ -69,8 +64,6 @@ class AccountTest extends \PHPUnit_Framework_TestCase
             ->setWebsiteId($websiteId)
             ->loadByEmail('customer@example.com');
 
-        $this->coreRegistry->register(Index::REGISTRY_CURRENT_CUSTOMER, $customer);
-
         /** @var Magento\Customer\Service\V1\CustomerServiceInterface $customerService */
         $this->customerService = $this->objectManager->get('Magento\Customer\Service\V1\CustomerServiceInterface');
     }
@@ -78,7 +71,6 @@ class AccountTest extends \PHPUnit_Framework_TestCase
     public function tearDown()
     {
         $this->coreRegistry->unregister(Index::REGISTRY_CURRENT_CUSTOMER_ID);
-        $this->coreRegistry->unregister(Index::REGISTRY_CURRENT_CUSTOMER);
     }
 
     /**

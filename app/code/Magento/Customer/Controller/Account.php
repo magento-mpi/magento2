@@ -87,7 +87,7 @@ class Account extends \Magento\App\Action\Action
     /** @var CustomerServiceInterface  */
     protected $_customerService;
 
-    /** @var CustomerGroupV1Interface */
+    /** @var CustomerGroupServiceInterface */
     protected $_groupService;
 
     /** @var CustomerAccountServiceInterface  */
@@ -298,7 +298,8 @@ class Account extends \Magento\App\Action\Action
     protected function _loginPostRedirect()
     {
         $lastCustomerId = $this->_getSession()->getLastCustomerId();
-        if (isset($lastCustomerId) && $this->_getSession()->isLoggedIn() && $lastCustomerId != $this->_getSession()->getId()) {
+        if (isset($lastCustomerId) && $this->_getSession()->isLoggedIn() &&
+            $lastCustomerId != $this->_getSession()->getId()) {
             $this->_getSession()->unsBeforeAuthUrl()
                 ->setLastCustomerId($this->_getSession()->getId());
         }
@@ -496,7 +497,6 @@ class Account extends \Magento\App\Action\Action
         $customerForm = $this->_createForm('customer', $formCode);
         $allowedAttributes = $customerForm->getAllowedAttributes();
         $isGroupIdEmpty = true;
-        /** @var $attribute \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata */
         $customerData = [];
         foreach ($allowedAttributes as $attribute) {
             $attributeCode = $attribute->getAttributeCode();
@@ -550,7 +550,7 @@ class Account extends \Magento\App\Action\Action
             $configAddressType = $this->_addressHelper->getTaxCalculationAddressType();
             $editAddersUrl = $this->_createUrl()->getUrl('customer/address/edit');
             switch ($configAddressType) {
-                case \Magento\Customer\Service\V1\CustomerAddressServiceInterface::TYPE_SHIPPING:
+                case \Magento\Customer\Helper\Address::TYPE_SHIPPING:
                     $userPrompt = __(
                         'If you are a registered VAT customer, please click <a href="%1">here</a> to enter you shipping address for proper VAT calculation',
                         $editAddersUrl

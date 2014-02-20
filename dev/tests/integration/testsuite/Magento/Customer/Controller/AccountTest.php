@@ -385,8 +385,32 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
     public function testEditAction()
     {
         $this->_login();
+        $this->dispatch('customer/account/edit');
+
+        $this->assertEquals(200, $this->getResponse()->getHttpResponseCode());
+
+        $body = $this->getResponse()->getBody();
+        $this->assertContains('<div class="field name firstname required">', $body);
+        // Verify the password check box is not checked
+        $this->assertContains('<input type="checkbox" name="change_password" id="change-password" value="1" ' .
+            'title="Change Password" class="checkbox"/>', $body);
+    }
+
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     */
+    public function testChangePasswordEditAction()
+    {
+        $this->_login();
         $this->dispatch('customer/account/edit/changepass/1');
 
         $this->assertEquals(200, $this->getResponse()->getHttpResponseCode());
+
+        $body = $this->getResponse()->getBody();
+        $this->assertContains('<div class="field name firstname required">', $body);
+        // Verify the password check box is checked
+        $this->assertContains('<input type="checkbox" name="change_password" id="change-password" value="1" ' .
+            'title="Change Password" checked="checked" class="checkbox"/>', $body);
     }
 }
