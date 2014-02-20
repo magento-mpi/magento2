@@ -36,17 +36,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             ->method('read')
             ->will($this->returnValueMap($readerMap));
 
-        $validationStateMock = $this->getMock('Magento\Config\ValidationStateInterface');
-        $validationStateMock->expects($this->any())
-            ->method('isValidated')
-            ->will($this->returnValue(true));
-
-        $reader = new \Magento\ObjectManager\Config\Reader\Dom(
-            $fileResolverMock,
-            new \Magento\ObjectManager\Config\Mapper\Dom(),
-            new \Magento\ObjectManager\Config\SchemaLocator(),
-            $validationStateMock
-        );
         $this->configScopeMock = $this->getMock('Magento\Config\ScopeListInterface');
         $this->configScopeMock->expects($this->any())
             ->method('getAllScopes')
@@ -62,7 +51,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             ->method('getOriginalInstanceType')
             ->will($this->returnArgument(0));
         $this->model = new \Magento\Interception\Config\Config(
-            $reader,
+            $readerMock,
             $this->configScopeMock,
             $cacheMock,
             new \Magento\ObjectManager\Relations\Runtime(),
