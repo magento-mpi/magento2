@@ -83,6 +83,16 @@ class CustomerService implements CustomerServiceInterface
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function deleteCustomer($customerId)
+    {
+        $customerModel = $this->_converter->getCustomerModel($customerId);
+        $customerModel->delete();
+        unset($this->_cache[$customerModel->getId()]);
+    }
+
+    /**
      * Validate customer attribute values.
      *
      * @param CustomerModel $customerModel

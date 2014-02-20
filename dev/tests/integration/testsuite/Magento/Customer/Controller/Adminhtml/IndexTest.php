@@ -429,4 +429,32 @@ class IndexTest extends \Magento\Backend\Utility\Controller
         $this->assertNotContains($addressStr . 'item1-firstname"', $body);
         $this->assertContains($addressStr . 'template-firstname"  value=""', $body);
     }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer_sample.php
+     */
+    public function testDeleteAction()
+    {
+        $this->getRequest()->setParam('id', 1);
+        $this->dispatch('backend/customer/index/delete');
+        $this->assertRedirect($this->stringContains('customer/index'));
+        $this->assertSessionMessages(
+            $this->equalTo(['You deleted the customer.']),
+            \Magento\Message\MessageInterface::TYPE_SUCCESS
+        );
+    }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer_sample.php
+     */
+    public function testNotExistingCustomerDeleteAction()
+    {
+        $this->getRequest()->setParam('id', 2);
+        $this->dispatch('backend/customer/index/delete');
+        $this->assertRedirect($this->stringContains('customer/index'));
+        $this->assertSessionMessages(
+            $this->equalTo(['No such entity with customerId = 2']),
+            \Magento\Message\MessageInterface::TYPE_ERROR
+        );
+    }
 }

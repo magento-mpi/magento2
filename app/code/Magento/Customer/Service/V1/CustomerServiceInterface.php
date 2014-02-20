@@ -36,6 +36,17 @@ interface CustomerServiceInterface
      */
     public function getCustomer($customerId);
 
+
+    /**
+     * Delete Customer
+     *
+     * @param int $customerId
+     * @throws \Magento\Customer\Exception If something goes wrong during delete
+     * @throws NoSuchEntityException If customer with customerId is not found.
+     * @return void
+     */
+    public function deleteCustomer($customerId);
+
     /**
      * Indicates if the Customer for the provided customerId is restricted to being read only
      * for the currently logged in user.

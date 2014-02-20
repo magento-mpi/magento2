@@ -309,10 +309,10 @@ class Index extends \Magento\Backend\App\Action
     public function deleteAction()
     {
         $this->_initCustomer();
-        $customer = $this->_coreRegistry->registry(self::REGISTRY_CURRENT_CUSTOMER);
-        if ($customer->getId()) {
+        $customerId = $this->_coreRegistry->registry(self::REGISTRY_CURRENT_CUSTOMER_ID);
+        if (!empty($customerId)) {
             try {
-                $customer->delete();
+                $this->_customerService->deleteCustomer($customerId);
                 $this->messageManager->addSuccess(
                     __('You deleted the customer.'));
             } catch (\Exception $exception){
