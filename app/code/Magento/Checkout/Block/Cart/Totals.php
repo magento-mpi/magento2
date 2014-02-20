@@ -10,7 +10,6 @@
 namespace Magento\Checkout\Block\Cart;
 
 use Magento\View\Element\BlockInterface;
-use Magento\Widget\Model\Widget\Instance;
 
 class Totals extends \Magento\Checkout\Block\Cart\AbstractCart
 {
@@ -103,7 +102,7 @@ class Totals extends \Magento\Checkout\Block\Cart\AbstractCart
     }
 
     /**
-     * @param Instance $total
+     * @param mixed $total
      * @param int|null $area
      * @param int $colspan
      * @return string
