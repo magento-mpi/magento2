@@ -61,21 +61,25 @@ class ImportEntityTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo(\Magento\App\Filesystem::ROOT_DIR))
             ->will($this->returnValue($this->rootDirectory));
 
-        $this->fileSystemMock = $this->getMock('Magento\View\FileSystem', [], [], '', false);
-        $this->fileSystemMock->expects($this->once())
-            ->method('getViewFile')
-            ->with($this->equalTo($filePath), $this->equalTo($params))
+        $this->objectManagerHelper = new ObjectManagerHelper($this);
+
+        $lessFile = $this->getMock('Magento\Less\PreProcessor\File\Less', [], [], '', false);
+
+        $lessFile->expects($this->any())
+            ->method('getFilePath')
+            ->will($this->returnValue($filePath));
+
+        $lessFile->expects($this->any())
+            ->method('getSourcePath')
             ->will($this->returnValue($this->absoluteFilePath));
 
-        $this->objectManagerHelper = new ObjectManagerHelper($this);
         /** @var \Magento\Css\PreProcessor\Cache\Import\ImportEntity importEntity */
         $this->importEntity = $this->objectManagerHelper->getObject(
             'Magento\Css\PreProcessor\Cache\Import\ImportEntity',
             [
                 'filesystem' => $this->filesystemMock,
                 'viewFileSystem' => $this->fileSystemMock,
-                'filePath' => $filePath,
-                'params' => $params
+                'lessFile' => $lessFile
             ]
         );
         $rootDirectoryProperty = new \ReflectionProperty($this->importEntity, 'rootDirectory');

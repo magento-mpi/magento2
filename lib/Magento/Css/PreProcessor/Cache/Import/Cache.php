@@ -66,7 +66,7 @@ class Cache implements \Magento\Css\PreProcessor\Cache\CacheInterface
         $this->storage = $storage;
         $this->fileFactory = $fileFactory;
         $this->importEntityFactory = $importEntityFactory;
-        $this->uniqueFileKey = $this->prepareKey($publisherFile->getFilePath(), $publisherFile->getViewParams());
+        $this->uniqueFileKey = $this->prepareKey($publisherFile);
 
         $this->loadImportEntities();
     }
@@ -94,14 +94,13 @@ class Cache implements \Magento\Css\PreProcessor\Cache\CacheInterface
     }
 
     /**
-     * @param array $data
+     * @param \Magento\Less\PreProcessor\File\Less $lessFile
      * @return $this
      */
-    public function add($data)
+    public function add($lessFile)
     {
-        list($filePath, $params) = $data;
-        $fileKey = $this->prepareKey($filePath, $params);
-        $this->importEntities[$fileKey] = $this->importEntityFactory->create($filePath, $params);
+        $fileKey = $this->prepareKey($lessFile);
+        $this->importEntities[$fileKey] = $this->importEntityFactory->create($lessFile);
         return $this;
     }
 
@@ -116,18 +115,18 @@ class Cache implements \Magento\Css\PreProcessor\Cache\CacheInterface
     }
 
     /**
-     * @param string $filePath
-     * @param string $params
+     * @param \Magento\Less\PreProcessor\File\Less|\Magento\View\Publisher\FileInterface $lessFile
      * @return string
      */
-    protected function prepareKey($filePath, $params)
+    protected function prepareKey($lessFile)
     {
+        $params = $lessFile->getViewParams();
         if (!empty($params['themeModel'])) {
             $themeModel = $params['themeModel'];
             $params['themeModel'] = $themeModel->getId() ?: md5($themeModel->getThemePath());
         }
         ksort($params);
-        return $filePath . '|' . implode('|', $params);
+        return $lessFile->getFilePath() . '|' . implode('|', $params);
     }
 
     /**

@@ -51,12 +51,12 @@ class CacheManager
 
     /**
      * @param string $cacheType
-     * @param array $data
+     * @param \Magento\Less\PreProcessor\File\Less $lessFile
      * @return $this
      */
-    public function addToCache($cacheType, $data)
+    public function addToCache($cacheType, $lessFile)
     {
-        !$this->isCacheInitialized($cacheType) ?: $this->cacheByType[$cacheType]->add($data);
+        !$this->isCacheInitialized($cacheType) ?: $this->cacheByType[$cacheType]->add($lessFile);
         return $this;
     }
 

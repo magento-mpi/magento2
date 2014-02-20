@@ -8,6 +8,8 @@
 
 namespace Magento\Less;
 
+use Magento\Css\PreProcessor\Cache\CacheManager;
+
 /**
  * LESS instruction preprocessor
  */
@@ -36,21 +38,29 @@ class PreProcessor
     protected $preProcessors;
 
     /**
+     * @var CacheManager
+     */
+    protected $cacheManager;
+
+    /**
      * @param PreProcessor\InstructionFactory $instructionFactory
      * @param PreProcessor\File\FileListFactory $fileListFactory
      * @param PreProcessor\File\LessFactory $fileFactory
+     * @param CacheManager $cacheManager
      * @param array $preProcessors
      */
     public function __construct(
         PreProcessor\InstructionFactory $instructionFactory,
         PreProcessor\File\FileListFactory $fileListFactory,
         PreProcessor\File\LessFactory $fileFactory,
+        CacheManager $cacheManager,
         array $preProcessors = array()
     ) {
         $this->instructionFactory = $instructionFactory;
         $this->fileListFactory = $fileListFactory;
         $this->fileFactory = $fileFactory;
         $this->preProcessors = $preProcessors;
+        $this->cacheManager = $cacheManager;
     }
 
     /**
@@ -99,6 +109,7 @@ class PreProcessor
      */
     public function publishProcessedContent(array $preProcessors, PreProcessor\File\Less $lessFile)
     {
+        $this->cacheManager->addToCache(\Magento\Css\PreProcessor\Cache\Import\Cache::IMPORT_CACHE, $lessFile);
         $lessContent = $lessFile->getContent();
         foreach ($preProcessors as $processor) {
             $lessContent = $processor->process($lessFile, $lessContent);

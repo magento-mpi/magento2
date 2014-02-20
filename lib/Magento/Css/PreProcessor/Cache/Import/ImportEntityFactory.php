@@ -27,17 +27,15 @@ class ImportEntityFactory
     }
 
     /**
-     * @param string $filePath
-     * @param array $params
-     * @return \Magento\Css\PreProcessor\Cache\Import\ImportEntityInterface
+     * @param \Magento\Less\PreProcessor\File\Less $lessFile $lessFile
+     * @return ImportEntityInterface
      * @throws \InvalidArgumentException
      */
-    public function create($filePath, $params)
+    public function create($lessFile)
     {
         /** @var \Magento\Css\PreProcessor\Cache\Import\ImportEntityInterface $importEntity */
         $importEntity = $this->objectManager->create(
-            'Magento\Css\PreProcessor\Cache\Import\ImportEntity',
-            array('filePath' => $filePath, 'params' => $params)
+            'Magento\Css\PreProcessor\Cache\Import\ImportEntity', array('lessFile' => $lessFile)
         );
 
         if (!$importEntity instanceof \Magento\Css\PreProcessor\Cache\Import\ImportEntityInterface) {

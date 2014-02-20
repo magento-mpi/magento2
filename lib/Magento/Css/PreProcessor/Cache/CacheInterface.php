@@ -24,9 +24,9 @@ interface CacheInterface
     public function get();
 
     /**
-     * @param array $data
+     * @param \Magento\Less\PreProcessor\File\Less $lessFile
      */
-    public function add($data);
+    public function add($lessFile);
 
     /**
      * @param \Magento\View\Publisher\FileInterface $cachedFile

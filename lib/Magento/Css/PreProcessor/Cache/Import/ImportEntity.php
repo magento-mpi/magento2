@@ -32,20 +32,14 @@ class ImportEntity implements ImportEntityInterface
 
     /**
      * @param Filesystem $filesystem
-     * @param \Magento\View\FileSystem $viewFileSystem
-     * @param string $filePath
-     * @param array $params
+     * @param \Magento\Less\PreProcessor\File\Less $lessFile
      */
     public function __construct(
         Filesystem $filesystem,
-        \Magento\View\FileSystem $viewFileSystem,
-        $filePath,
-        array $params
+        $lessFile
     ) {
         $this->initRootDir($filesystem);
-
-        $absoluteFilePath = $viewFileSystem->getViewFile($filePath, $params);
-        $relativePath = $this->rootDirectory->getRelativePath($absoluteFilePath);
+        $relativePath = $this->rootDirectory->getRelativePath($lessFile->getSourcePath());
 
         $this->originalFile = $relativePath;
         $this->originalMtime = $this->rootDirectory->stat($relativePath)['mtime'];

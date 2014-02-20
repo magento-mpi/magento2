@@ -119,12 +119,16 @@ class CacheTest extends \PHPUnit_Framework_TestCase
         $importEntitiesProperty->setAccessible(true);
         $this->assertEquals([], $importEntitiesProperty->getValue($this->cache));
 
-        $this->importEntityFactoryMock->expects($this->any())->method('create')
-            ->with($this->anything(), $this->anything())->will($this->returnValue('entity_object_here'));
+        $this->importEntityFactoryMock
+            ->expects($this->any())
+            ->method('create')
+            ->with($this->isInstanceOf('Magento\Less\PreProcessor\File\Less'))
+            ->will($this->returnValue('entity_object_here'));
+
         foreach ($params as $value) {
             $this->assertEquals(
                 $this->cache,
-                $this->cache->add(array($value['filePath'], $value['viewParams']))
+                $this->cache->add($value)
             );
         }
         $this->assertEquals($expectedResult, $importEntitiesProperty->getValue($this->cache));
@@ -143,42 +147,42 @@ class CacheTest extends \PHPUnit_Framework_TestCase
         return [
             'one import' => [
                 'params' => [
-                    [
-                        'filePath' => 'css\some_file.css',
-                        'viewParams' => ['theme' => 'other_theme', 'area' => 'backend', 'locale' => 'fr_FR']
-                    ]
+                    $this->getLessFile(
+                        'css\some_file.css',
+                        ['theme' => 'other_theme', 'area' => 'backend', 'locale' => 'fr_FR']
+                    )
                 ],
                 'expectedResult' => ['css\some_file.css|backend|fr_FR|other_theme' => 'entity_object_here']
             ],
             'one import with theme id' => [
                 'params' => [
-                    [
-                        'filePath' => 'css\theme_id\some_file.css',
-                        'viewParams' => ['themeModel' => $themeModelMockId, 'area' => 'backend', 'locale' => 'en_En']
-                    ]
+                    $this->getLessFile(
+                        'css\theme_id\some_file.css',
+                        ['themeModel' => $themeModelMockId, 'area' => 'backend', 'locale' => 'en_En']
+                    )
                 ],
                 'expectedResult' => ['css\theme_id\some_file.css|backend|en_En|1' => 'entity_object_here']
             ],
             'one import with theme path' => [
                 'params' => [
-                    [
-                        'filePath' => 'css\some_file.css',
-                        'viewParams' => ['themeModel' => $themeModelMockPath, 'area' => 'frontend']
-                    ]
+                    $this->getLessFile(
+                        'css\some_file.css',
+                        ['themeModel' => $themeModelMockPath, 'area' => 'frontend']
+                    )
                 ],
                 'expectedResult' => ['css\some_file.css|frontend|088d309371332feb12bad4dbf93cfb5d'
                     => 'entity_object_here']
             ],
             'list of imports' => [
                 'params' => [
-                    [
-                        'filePath' => 'Magento_Core::folder\file.css',
-                        'viewParams' => ['theme' => 'theme_path', 'area' => 'backend']
-                    ],
-                    [
-                        'filePath' => 'calendar\button.css',
-                        'viewParams' => ['theme' => 'theme_path', 'area' => 'backend', 'locale' => 'en_US']
-                    ],
+                    $this->getLessFile(
+                        'Magento_Core::folder\file.css',
+                        ['theme' => 'theme_path', 'area' => 'backend']
+                    ),
+                    $this->getLessFile(
+                        'calendar\button.css',
+                        ['theme' => 'theme_path', 'area' => 'backend', 'locale' => 'en_US']
+                    )
                 ],
                 'expectedResult' => [
                     'Magento_Core::folder\file.css|backend|theme_path' => 'entity_object_here',
@@ -186,6 +190,26 @@ class CacheTest extends \PHPUnit_Framework_TestCase
                 ]
             ],
         ];
+    }
+
+    /**
+     * @param string $filePath
+     * @param array $viewParams
+     * @return \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected function getLessFile($filePath, $viewParams)
+    {
+        $lessFile = $this->getMock('Magento\Less\PreProcessor\File\Less', [], [], '', false);
+
+        $lessFile->expects($this->any())
+            ->method('getFilePath')
+            ->will($this->returnValue($filePath));
+
+        $lessFile->expects($this->any())
+            ->method('getViewParams')
+            ->will($this->returnValue($viewParams));
+
+        return $lessFile;
     }
 
     /**
