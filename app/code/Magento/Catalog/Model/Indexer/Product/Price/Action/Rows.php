@@ -28,5 +28,10 @@ class Rows extends \Magento\Catalog\Model\Indexer\Product\Price\AbstractAction
         if (empty($ids)) {
             throw new \Magento\Core\Exception(__('Bad value was supplied.'));
         }
+        try {
+            $this->_reindexRows($ids);
+        } catch (\Exception $e) {
+            throw new \Magento\Catalog\Exception($e->getMessage(), $e->getCode(), $e);
+        }
     }
 }
