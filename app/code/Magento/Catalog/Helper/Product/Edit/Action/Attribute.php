@@ -54,11 +54,12 @@ class Attribute extends \Magento\Backend\Helper\Data
     /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\App\Route\Config $routeConfig
-     * @param \Magento\AppInterface $app
+     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Backend\Model\UrlInterface $backendUrl
      * @param \Magento\Backend\Model\Auth $auth
      * @param \Magento\Backend\App\Area\FrontNameResolver $frontNameResolver
      * @param \Magento\Math\Random $mathRandom
+     * @param \Magento\App\RequestInterface $request
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Backend\Model\Session $session
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productsFactory
@@ -66,11 +67,12 @@ class Attribute extends \Magento\Backend\Helper\Data
     public function __construct(
         \Magento\App\Helper\Context $context,
         \Magento\App\Route\Config $routeConfig,
-        \Magento\AppInterface $app,
+        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Backend\Model\UrlInterface $backendUrl,
         \Magento\Backend\Model\Auth $auth,
         \Magento\Backend\App\Area\FrontNameResolver $frontNameResolver,
         \Magento\Math\Random $mathRandom,
+        \Magento\App\RequestInterface $request,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Backend\Model\Session $session,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productsFactory
@@ -78,7 +80,9 @@ class Attribute extends \Magento\Backend\Helper\Data
         $this->_eavConfig = $eavConfig;
         $this->_session = $session;
         $this->_productsFactory = $productsFactory;
-        parent::__construct($context, $routeConfig, $app, $backendUrl, $auth, $frontNameResolver, $mathRandom);
+        parent::__construct(
+            $context, $routeConfig, $locale, $backendUrl, $auth, $frontNameResolver, $mathRandom, $request
+        );
     }
 
     /**

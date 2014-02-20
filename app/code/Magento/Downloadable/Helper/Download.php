@@ -102,11 +102,6 @@ class Download extends \Magento\App\Helper\AbstractHelper
     protected $_coreStoreConfig;
 
     /**
-     * @var \Magento\Core\Model\App
-     */
-    protected $_app;
-
-    /**
      * @var \Magento\App\Filesystem
      */
     protected $_filesystem;
