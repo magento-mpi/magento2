@@ -49,15 +49,15 @@ class Customer extends \Magento\View\Element\Template
      *
      * @return bool
      */
-
     public function customerLoggedIn()
     {
         return (bool)$this->_customerSession->isLoggedIn();
     }
 
     /**
-     * @throws \Magento\Exception\NoSuchEntityException If customer is not found.
-     * @return string
+     * Return the full name of the customer currently logged in
+     *
+     * @return string|null
      */
     public function getCustomerName()
     {
