@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <type name="Magento\CatalogSearch\Block\Layer">
-        <param name="catalogLayer">
-            <instance type="Magento\CatalogSearch\Model\Layer\Proxy" />
-        </param>
+        <arguments>
+            <argument name="catalogLayer" xsi:type="object">Magento\CatalogSearch\Model\Layer\Proxy</argument>
+        </arguments>
     </type>
 </config>
