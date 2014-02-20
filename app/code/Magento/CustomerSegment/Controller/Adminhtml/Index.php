@@ -7,15 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * Customer segments grid and edit controller
- */
 namespace Magento\CustomerSegment\Controller\Adminhtml;
 
 use Magento\Backend\App\Action;
 
-class Index extends \Magento\Backend\App\Action
+/**
+ * Customer segments grid and edit controller
+ */
+class Index extends Action
 {
     /**
      * Core registry
@@ -49,8 +48,8 @@ class Index extends \Magento\Backend\App\Action
      *
      * @param string $requestParam
      * @param bool $requireValidId
-     * @throws \Magento\Core\Exception
      * @return \Magento\CustomerSegment\Model\Segment
+     * @throws \Magento\Core\Exception
      */
     protected function _initSegment($requestParam = 'id', $requireValidId = false)
     {
@@ -82,6 +81,8 @@ class Index extends \Magento\Backend\App\Action
 
     /**
      * Create new customer segment
+     *
+     * @return void
      */
     public function newAction()
     {
@@ -91,6 +92,8 @@ class Index extends \Magento\Backend\App\Action
 
     /**
      * Edit customer segment
+     *
+     * @return void
      */
     public function editAction()
     {
@@ -136,6 +139,8 @@ class Index extends \Magento\Backend\App\Action
 
     /**
      * Match segment customers action
+     *
+     * @return void
      */
     public function matchAction()
     {
@@ -161,7 +166,7 @@ class Index extends \Magento\Backend\App\Action
     /**
      * Init active menu and set breadcrumb
      *
-     * @return \Magento\CustomerSegment\Controller\Adminhtml\Index
+     * @return $this
      */
     protected function _initAction()
     {
@@ -176,6 +181,8 @@ class Index extends \Magento\Backend\App\Action
 
     /**
      * Add new condition
+     *
+     * @return void
      */
     public function newConditionHtmlAction()
     {
@@ -206,6 +213,8 @@ class Index extends \Magento\Backend\App\Action
 
     /**
      * Save customer segment
+     *
+     * @return void
      */
     public function saveAction()
     {
@@ -270,6 +279,8 @@ class Index extends \Magento\Backend\App\Action
 
     /**
      * Delete customer segment
+     *
+     * @return void
      */
     public function deleteAction()
     {
@@ -291,7 +302,7 @@ class Index extends \Magento\Backend\App\Action
     /**
      * Check the permission to run it
      *
-     * @return boolean
+     * @return bool
      */
     protected function _isAllowed()
     {
@@ -302,6 +313,8 @@ class Index extends \Magento\Backend\App\Action
 
     /**
      * Date range chooser action
+     *
+     * @return void
      */
     public function chooserDaterangeAction()
     {
@@ -320,6 +333,8 @@ class Index extends \Magento\Backend\App\Action
 
     /**
      * Grid ajax action
+     *
+     * @return void
      */
     public function gridAction()
     {
@@ -329,6 +344,8 @@ class Index extends \Magento\Backend\App\Action
 
     /**
      * Grid ajax action in chooser mode
+     *
+     * @return void
      */
     public function chooserGridAction()
     {
