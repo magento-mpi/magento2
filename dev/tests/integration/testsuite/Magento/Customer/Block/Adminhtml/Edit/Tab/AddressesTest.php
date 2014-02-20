@@ -32,9 +32,6 @@ class AddressesTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Backend\Model\Session */
     private $_backendSession;
 
-    /** @var  \PHPUnit_Framework_MockObject_MockObject | Addresses */
-    private $_block;
-
     /** @var  \Magento\Customer\Service\V1\Dto\AddressBuilder */
     private $_addressBuilder;
 
@@ -76,7 +73,7 @@ class AddressesTest extends \PHPUnit_Framework_TestCase
         ];
         $this->_customerData['account']['id'] = $customer->getCustomerId();
         $addresses = $this->_addressService->getAddresses(1);
-        foreach($addresses as $addressDto) {
+        foreach ($addresses as $addressDto) {
             $this->_customerData['address'][$addressDto->getId()] = $addressDto->getAttributes();
             $this->_customerData['address'][$addressDto->getId()]['id'] = $addressDto->getId();
         }
