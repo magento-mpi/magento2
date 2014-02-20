@@ -301,7 +301,6 @@
     <type name="Magento\View\Publisher">
         <arguments>
             <argument name="preProcessor" xsi:type="object">Magento\View\Asset\PreProcessor\Composite</argument>
-            <argument name="allowDuplication" xsi:type="boolean">true</argument>
         </arguments>
     </type>
     <type name="Magento\View\Publisher\CssFile">
