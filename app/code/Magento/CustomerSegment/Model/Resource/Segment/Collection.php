@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\CustomerSegment\Model\Resource\Segment;
 
 /**
  * Enterprise CustomerSegment Model Resource Segment Collection
@@ -16,8 +16,6 @@
  * @package     Magento_CustomerSegment
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\CustomerSegment\Model\Resource\Segment;
-
 class Collection
     extends \Magento\Rule\Model\Resource\Rule\Collection\AbstractCollection
 {
@@ -49,14 +47,15 @@ class Collection
     /**
      * Store flag which determines if customer count data was added
      *
-     * @deprecated after 1.11.2.0 - use $this->getFlag('is_customer_count_added') instead
-     *
      * @var bool
+     * @deprecated after 1.11.2.0 - use $this->getFlag('is_customer_count_added') instead
      */
     protected $_customerCountAdded = false;
 
     /**
      * Set resource model
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -67,7 +66,7 @@ class Collection
      * Limit segments collection by event name
      *
      * @param string $eventName
-     * @return \Magento\CustomerSegment\Model\Resource\Segment\Collection
+     * @return $this
      */
     public function addEventFilter($eventName)
     {
@@ -88,9 +87,8 @@ class Collection
      * Provide support for customer count filter
      *
      * @param string $field
-     * @param mixed $condition
-     *
-     * @return \Magento\CustomerSegment\Model\Resource\Segment\Collection
+     * @param int|null $condition
+     * @return $this
      */
     public function addFieldToFilter($field, $condition = null)
     {
@@ -134,7 +132,7 @@ class Collection
     /**
      * Aggregate customer count by each segment
      *
-     * @return \Magento\CustomerSegment\Model\Resource\Segment\Collection
+     * @return $this
      */
     public function addCustomerCountToSelect()
     {
@@ -157,9 +155,8 @@ class Collection
     /**
      * Add customer count filter
      *
-     * @param integer $customerCount
-     *
-     * @return \Magento\CustomerSegment\Model\Resource\Segment\Collection
+     * @param int $customerCount
+     * @return $this
      */
     public function addCustomerCountFilter($customerCount)
     {
