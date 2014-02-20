@@ -14,7 +14,7 @@
         <payment>
             <free>
                 <active>1</active>
-                <model>Magento\Payment\Model\Free</model>
+                <model>Magento\Payment\Model\Method\Free</model>
                 <order_status>pending</order_status>
                 <title>No Payment Information Required</title>
                 <allowspecific>0</allowspecific>
