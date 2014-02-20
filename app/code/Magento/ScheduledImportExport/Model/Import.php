@@ -23,7 +23,7 @@ class Import extends \Magento\ImportExport\Model\Import
     /**
      * Reindex indexes by process codes.
      *
-     * @return \Magento\ScheduledImportExport\Model\Import
+     * @return $this
      */
     public function reindexAll()
     {
@@ -75,7 +75,7 @@ class Import extends \Magento\ImportExport\Model\Import
      * Initialize import instance from scheduled operation
      *
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation $operation
-     * @return \Magento\ScheduledImportExport\Model\Import
+     * @return $this
      */
     public function initialize(\Magento\ScheduledImportExport\Model\Scheduled\Operation $operation)
     {

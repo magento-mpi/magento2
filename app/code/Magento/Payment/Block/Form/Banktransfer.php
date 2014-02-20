@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Payment\Block\Form;
 
 /**
  * Block for Bank Transfer payment method form
  */
-namespace Magento\Payment\Block\Form;
-
 class Banktransfer extends \Magento\Payment\Block\Form
 {
 
@@ -23,6 +22,11 @@ class Banktransfer extends \Magento\Payment\Block\Form
      */
     protected $_instructions;
 
+    /**
+     * Bank transfer template
+     *
+     * @var string
+     */
     protected $_template = 'form/banktransfer.phtml';
 
     /**

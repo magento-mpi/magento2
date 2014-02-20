@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <type name="Magento\Sitemap\Model\Sitemap">
-        <param name="resource">
-            <instance type="Magento\Sitemap\Model\Resource\Sitemap" />
-        </param>
+        <arguments>
+            <argument name="resource" xsi:type="object">Magento\Sitemap\Model\Resource\Sitemap</argument>
+        </arguments>
     </type>
 </config>

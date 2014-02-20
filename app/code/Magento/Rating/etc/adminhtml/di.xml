@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <type name="Magento\Rating\Block\Adminhtml\Edit\Tab\Form">
-        <param name="session">
-            <instance type="Magento\Backend\Model\Session" />
-        </param>
+        <arguments>
+            <argument name="session" xsi:type="object">Magento\Backend\Model\Session</argument>
+        </arguments>
     </type>
 </config>

@@ -13,6 +13,8 @@
  */
 namespace Magento\Theme\Controller\Adminhtml\System\Design\Wysiwyg;
 
+use Magento\App\ResponseInterface;
+
 class Files extends \Magento\Backend\App\Action
 {
     /**
@@ -34,6 +36,8 @@ class Files extends \Magento\Backend\App\Action
     
     /**
      * Index action
+     *
+     * @return void
      */
     public function indexAction()
     {
@@ -43,6 +47,8 @@ class Files extends \Magento\Backend\App\Action
 
     /**
      * Tree json action
+     *
+     * @return void
      */
     public function treeJsonAction()
     {
@@ -59,6 +65,8 @@ class Files extends \Magento\Backend\App\Action
 
     /**
      * New folder action
+     *
+     * @return void
      */
     public function newFolderAction()
     {
@@ -77,6 +85,8 @@ class Files extends \Magento\Backend\App\Action
 
     /**
      * Delete folder action
+     *
+     * @return void
      */
     public function deleteFolderAction()
     {
@@ -91,6 +101,8 @@ class Files extends \Magento\Backend\App\Action
 
     /**
      * Contents action
+     *
+     * @return void
      */
     public function contentsAction()
     {
@@ -110,6 +122,8 @@ class Files extends \Magento\Backend\App\Action
 
     /**
      * Files upload action
+     *
+     * @return void
      */
     public function uploadAction()
     {
@@ -124,6 +138,8 @@ class Files extends \Magento\Backend\App\Action
 
     /**
      * Preview image action
+     *
+     * @return ResponseInterface|void
      */
     public function previewImageAction()
     {
@@ -147,6 +163,8 @@ class Files extends \Magento\Backend\App\Action
 
     /**
      * Delete file from media storage
+     *
+     * @return void
      * @throws \Exception
      */
     public function deleteFilesAction()
@@ -169,6 +187,8 @@ class Files extends \Magento\Backend\App\Action
 
     /**
      * Fire when select image
+     *
+     * @return void
      */
     public function onInsertAction()
     {

@@ -7,15 +7,15 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <type name="Magento\Sales\Model\Convert\Quote">
         <plugin name="gift_registry_item_from_quote_item" type="Magento\GiftRegistry\Model\Plugin\QuoteItem"/>
     </type>
     <type name="Magento\Module\Updater\SetupFactory">
-        <param name="resourceTypes">
-            <array>
-                <item key="giftregistry_setup"><value>Magento\GiftRegistry\Model\Resource\Setup</value></item>
-            </array>
-        </param>
+        <arguments>
+            <argument name="resourceTypes" xsi:type="array">
+                <item name="giftregistry_setup" xsi:type="string">Magento\GiftRegistry\Model\Resource\Setup</item>
+            </argument>
+        </arguments>
     </type>
 </config>

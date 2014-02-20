@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model;
 
 class Observer
@@ -126,7 +125,7 @@ class Observer
      * Checking whether the using static urls in WYSIWYG allowed event
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\Catalog\Model\Observer
+     * @return void
      */
     public function catalogCheckIsUsingStaticUrlsAllowed(\Magento\Event\Observer $observer)
     {
@@ -139,6 +138,7 @@ class Observer
      * Cron job method for product prices to reindex
      *
      * @param \Magento\Cron\Model\Schedule $schedule
+     * @return void
      */
     public function reindexProductPrices(\Magento\Cron\Model\Schedule $schedule)
     {
@@ -152,6 +152,7 @@ class Observer
      * Adds catalog categories to top menu
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function addCatalogToTopmenuItems(\Magento\Event\Observer $observer)
     {
@@ -166,6 +167,7 @@ class Observer
      *
      * @param \Magento\Data\Tree\Node\Collection|array $categories
      * @param \Magento\Data\Tree\Node $parentCategoryNode
+     * @return void
      */
     protected function _addCategoriesToMenu($categories, $parentCategoryNode)
     {
@@ -215,30 +217,5 @@ class Observer
 
         $categoryPathIds = explode(',', $currentCategory->getPathInStore());
         return in_array($category->getId(), $categoryPathIds);
-    }
-
-    /**
-     * Change product type on the fly depending on selected options
-     *
-     * @param \Magento\Event\Observer $observer
-     */
-    public function transitionProductType(\Magento\Event\Observer $observer)
-    {
-        $switchableTypes = array(
-            \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE,
-            \Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL,
-            \Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE,
-        );
-        $product = $observer->getProduct();
-        $attributes = $observer->getRequest()->getParam('attributes');
-        if (!empty($attributes)) {
-            $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE);
-        } elseif (in_array($product->getTypeId(), $switchableTypes)) {
-            $product->setTypeInstance(null);
-            $product->setTypeId($product->hasIsVirtual()
-                ? \Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL
-                : \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE
-            );
-        }
     }
 }

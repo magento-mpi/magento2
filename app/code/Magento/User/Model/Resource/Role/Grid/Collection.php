@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\User\Model\Resource\Role\Grid;
 
 use Magento\User\Model\Acl\Role\Group as RoleGroup;
@@ -17,6 +16,8 @@ class Collection extends \Magento\User\Model\Resource\Role\Collection
 {
     /**
      * Prepare select for load
+     *
+     * @return $this
      */
     protected function _initSelect()
     {

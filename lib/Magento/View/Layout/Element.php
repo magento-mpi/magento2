@@ -40,7 +40,9 @@ class Element extends \Magento\Simplexml\Element
     /**#@-*/
 
     /**
-     * @return Element
+     * Prepare the element
+     *
+     * @return $this
      *
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
@@ -74,6 +76,8 @@ class Element extends \Magento\Simplexml\Element
     }
 
     /**
+     * Get block name
+     *
      * @return bool|string
      */
     public function getBlockName()
@@ -134,7 +138,7 @@ class Element extends \Magento\Simplexml\Element
     /**
      * Add parent element name to parent attribute
      *
-     * @return Element
+     * @return $this
      */
     public function prepareBlock()
     {
@@ -147,7 +151,9 @@ class Element extends \Magento\Simplexml\Element
     }
 
     /**
-     * @return Element
+     * Prepare references
+     *
+     * @return $this
      */
     public function prepareReference()
     {
@@ -157,7 +163,7 @@ class Element extends \Magento\Simplexml\Element
     /**
      * Add parent element name to block attribute
      *
-     * @return Element
+     * @return $this
      */
     public function prepareAction()
     {
@@ -168,7 +174,9 @@ class Element extends \Magento\Simplexml\Element
     }
 
     /**
-     * @return Element
+     * Prepare action argument
+     *
+     * @return $this
      */
     public function prepareActionArgument()
     {

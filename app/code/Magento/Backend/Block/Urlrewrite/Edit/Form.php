@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Block\Urlrewrite\Edit;
 
 /**
  * URL rewrites edit form
@@ -18,10 +19,7 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  *
- */
-namespace Magento\Backend\Block\Urlrewrite\Edit;
-
-/**
+ *
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
@@ -108,6 +106,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Set form id and title
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -120,7 +119,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      * Initialize form values
      * Set form data either from model values or from session
      *
-     * @return \Magento\Backend\Block\Urlrewrite\Edit\Form
+     * @return $this
      */
     protected function _initFormValues()
     {
@@ -149,7 +148,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Prepare the form layout
      *
-     * @return \Magento\Backend\Block\Urlrewrite\Edit\Form
+     * @return $this
      */
     protected function _prepareForm()
     {
@@ -239,6 +238,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      * Prepare store element
      *
      * @param \Magento\Data\Form\Element\Fieldset $fieldset
+     * @return void
      */
     protected function _prepareStoreElement($fieldset)
     {
@@ -270,7 +270,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      * Form post init
      *
      * @param \Magento\Data\Form $form
-     * @return \Magento\Backend\Block\Urlrewrite\Edit\Form
+     * @return $this
      */
     protected function _formPostInit($form)
     {

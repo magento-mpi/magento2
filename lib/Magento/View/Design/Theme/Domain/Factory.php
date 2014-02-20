@@ -16,11 +16,15 @@ use \Magento\View\Design\ThemeInterface;
 class Factory
 {
     /**
+     * Object manager
+     *
      * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
+     * Types
+     *
      * @var array
      */
     protected $_types = array(
@@ -30,6 +34,8 @@ class Factory
     );
 
     /**
+     * Constructor
+     *
      * @param \Magento\ObjectManager $objectManager
      */
     public function __construct(\Magento\ObjectManager $objectManager)

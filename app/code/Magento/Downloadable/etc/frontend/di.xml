@@ -7,13 +7,13 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <type name="Magento\Core\Model\Url\SecurityInfo">
-        <param name="secureUrlList">
-            <array>
-                <item key="downloadable"><value>/downloadable/customer/</value></item>
-                <item key="downloadable_download"><value>/downloadable/download/</value></item>
-            </array>
-        </param>
+        <arguments>
+            <argument name="secureUrlList" xsi:type="array">
+                <item name="downloadable" xsi:type="string">/downloadable/customer/</item>
+                <item name="downloadable_download" xsi:type="string">/downloadable/download/</item>
+            </argument>
+        </arguments>
     </type>
 </config>

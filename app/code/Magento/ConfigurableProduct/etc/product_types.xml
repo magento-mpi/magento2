@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="configurable" label="Configurable Product" modelInstance="Magento\ConfigurableProduct\Model\Product\Type\Configurable" composite='true' indexPriority="30">
+        <priceModel instance="Magento\ConfigurableProduct\Model\Product\Type\Configurable\Price" />
+        <indexerModel instance="Magento\ConfigurableProduct\Model\Resource\Product\Indexer\Price\Configurable" />
+        <stockIndexerModel instance="Magento\ConfigurableProduct\Model\Resource\Indexer\Stock\Configurable" />
+        <customAttributes>
+            <attribute name="refundable" value="true"/>
+        </customAttributes>
+    </type>
+</config>

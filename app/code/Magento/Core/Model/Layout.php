@@ -7,10 +7,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model;
 
-use Magento\View\Element\BlockFactory;
 use Magento\View\Layout\Element;
 
 /**
@@ -129,9 +127,14 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     protected $_nameIncrement = array();
 
     /**
-     * @var \Magento\Core\Model\Layout\Argument\Processor
+     * @var \Magento\View\Layout\Argument\Parser
      */
-    protected $_argumentProcessor;
+    protected $argumentParser;
+
+    /**
+     * @var \Magento\Data\Argument\InterpreterInterface
+     */
+    protected $argumentInterpreter;
 
     /**
      * @var \Magento\Core\Model\Layout\ScheduledStructure
@@ -165,7 +168,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
-    
+
     /**
      * @var \Magento\Logger $logger
      */
@@ -198,16 +201,17 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
 
     /**
      * @param \Magento\View\Layout\ProcessorFactory $processorFactory
-     * @param Resource\Theme\CollectionFactory $themeFactory
+     * @param \Magento\Core\Model\Resource\Theme\CollectionFactory $themeFactory
      * @param \Magento\Logger $logger
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\View\DesignInterface $design
-     * @param BlockFactory $blockFactory
+     * @param \Magento\View\Element\BlockFactory $blockFactory
      * @param \Magento\Data\Structure $structure
-     * @param Layout\Argument\Processor $argumentProcessor
-     * @param Layout\ScheduledStructure $scheduledStructure
-     * @param Store\Config $coreStoreConfig
+     * @param \Magento\View\Layout\Argument\Parser $argumentParser
+     * @param \Magento\Data\Argument\InterpreterInterface $argumentInterpreter
+     * @param \Magento\Core\Model\Layout\ScheduledStructure $scheduledStructure
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\App\State $appState
      * @param \Magento\Message\ManagerInterface $messageManager
      * @param string $area
@@ -221,7 +225,8 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
         \Magento\View\DesignInterface $design,
         \Magento\View\Element\BlockFactory $blockFactory,
         \Magento\Data\Structure $structure,
-        \Magento\Core\Model\Layout\Argument\Processor $argumentProcessor,
+        \Magento\View\Layout\Argument\Parser $argumentParser,
+        \Magento\Data\Argument\InterpreterInterface $argumentInterpreter,
         \Magento\Core\Model\Layout\ScheduledStructure $scheduledStructure,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\App\State $appState,
@@ -236,7 +241,8 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
         $this->_appState = $appState;
         $this->_area = $area;
         $this->_structure = $structure;
-        $this->_argumentProcessor = $argumentProcessor;
+        $this->argumentParser = $argumentParser;
+        $this->argumentInterpreter = $argumentInterpreter;
         $this->_elementClass = 'Magento\View\Layout\Element';
         $this->setXml(simplexml_load_string('<layout/>', $this->_elementClass));
         $this->_renderingOutput = new \Magento\Object;
@@ -281,7 +287,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      * Retrieve instance of a theme currently used in an area
      *
      * @param string $area
-     * @return \Magento\Core\Model\Theme
+     * @return Theme
      */
     protected function _getThemeInstance($area)
     {
@@ -313,8 +319,9 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     /**
      * Set area code
      *
-     * @deprecated
      * @param string $areaCode
+     * @return void
+     * @deprecated
      */
     public function setArea($areaCode)
     {
@@ -324,7 +331,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     /**
      * Layout xml generation
      *
-     * @return \Magento\Core\Model\Layout
+     * @return $this
      */
     public function generateXml()
     {
@@ -336,6 +343,8 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
 
     /**
      * Create structure of elements from the loaded XML configuration
+     *
+     * @return void
      * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function generateElements()
@@ -387,7 +396,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      *
      * @param string $elementName
      * @param bool $isChild
-     * @return \Magento\Core\Model\Layout
+     * @return $this
      */
     protected function _removeElement($elementName, $isChild = false)
     {
@@ -409,7 +418,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      * Move element in scheduled structure
      *
      * @param string $element
-     * @return \Magento\Core\Model\Layout
+     * @return $this
      */
     protected function _moveElementInStructure($element)
     {
@@ -426,6 +435,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      * Traverse through all elements of specified XML-node and schedule structural elements of it
      *
      * @param \Magento\View\Layout\Element $parent
+     * @return void
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     protected function _readStructure($parent)
@@ -487,6 +497,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      * Merge Container attributes
      *
      * @param \Magento\View\Layout\Element $node
+     * @return void
      */
     protected function _mergeContainerAttributes(\Magento\View\Layout\Element $node)
     {
@@ -528,33 +539,35 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     }
 
     /**
-     * Parse argument nodes and create prepared array of items
+     * Parse argument nodes and return their array representation
      *
      * @param \Magento\View\Layout\Element $node
      * @return array
      */
     protected function _parseArguments(\Magento\View\Layout\Element $node)
     {
-        $arguments = array();
-        foreach ($node->xpath('argument') as $argument) {
-            /** @var $argument \Magento\View\Layout\Element */
-            $argumentName = (string)$argument['name'];
-            $arguments[$argumentName] = $this->_argumentProcessor->parse($argument);
+        $nodeDom = dom_import_simplexml($node);
+        $result = array();
+        foreach ($nodeDom->childNodes as $argumentNode) {
+            if ($argumentNode instanceof \DOMElement && $argumentNode->nodeName == 'argument') {
+                $argumentName = $argumentNode->getAttribute('name');
+                $result[$argumentName] = $this->argumentParser->parse($argumentNode);
+            }
         }
-        return $arguments;
+        return $result;
     }
 
     /**
-     * Process arguments
+     * Compute and return argument values
      *
      * @param array $arguments
      * @return array
      */
-    protected function _processArguments(array $arguments)
+    protected function _evaluateArguments(array $arguments)
     {
         $result = array();
-        foreach ($arguments as $name => $argument) {
-            $result[$name] = $this->_argumentProcessor->process($argument);
+        foreach ($arguments as $argumentName => $argumentData) {
+            $result[$argumentName] = $this->argumentInterpreter->evaluate($argumentData);
         }
         return $result;
     }
@@ -564,7 +577,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      *
      * @param \Magento\View\Layout\Element $node
      * @throws \Magento\Exception
-     * @return \Magento\Core\Model\Layout
+     * @return $this
      */
     protected function _scheduleMove($node)
     {
@@ -588,6 +601,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      *
      * @param \Magento\View\Layout\Element $node
      * @param \Magento\View\Layout\Element $parent
+     * @return void
      * @see _scheduleElement() where the _scheduledStructure is used
      */
     protected function _scheduleStructure($node, $parent)
@@ -665,6 +679,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      *
      * @param string $name
      * @param string $path
+     * @return void
      */
     protected function _overrideElementWorkaround($name, $path)
     {
@@ -685,9 +700,10 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      * Since layout updates could come in arbitrary order, a case is possible where an element is declared in reference,
      * while referenced element itself is not declared yet.
      *
+     * @param string $key in _scheduledStructure represent element name
+     * @return void
      * @SuppressWarnings(PHPMD.NPathComplexity)
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
-     * @param string $key in _scheduledStructure represent element name
      */
     protected function _scheduleElement($key)
     {
@@ -788,7 +804,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      * Creates block object based on xml node data and add it to the layout
      *
      * @param string $elementName
-     * @return \Magento\View\Element\AbstractBlock
+     * @return \Magento\View\Element\AbstractBlock|void
      * @throws \Magento\Exception
      */
     protected function _generateBlock($elementName)
@@ -813,7 +829,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
         // create block
         $className = (string)$node['class'];
 
-        $arguments = $this->_processArguments($args);
+        $arguments = $this->_evaluateArguments($args);
 
         $block = $this->_createBlock($className, $elementName,
             array('data' => $arguments));
@@ -840,7 +856,8 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      * @param string $name
      * @param string $label
      * @param array $options
-     * @throws \Magento\Exception if any of arguments are invalid
+     * @return void
+     * @throws \Magento\Exception If any of arguments are invalid
      */
     protected function _generateContainer($name, $label, array $options)
     {
@@ -872,6 +889,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      *
      * @param \Magento\View\Layout\Element $node
      * @param \Magento\View\Layout\Element $parent
+     * @return void
      */
     protected function _generateAction($node, $parent)
     {
@@ -892,7 +910,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
         $block = $this->getBlock($parentName);
         if (!empty($block)) {
             $args = $this->_parseArguments($node);
-            $args = $this->_processArguments($args);
+            $args = $this->_evaluateArguments($args);
             call_user_func_array(array($block, $method), $args);
         }
 
@@ -921,7 +939,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      * @param string $parentName
      * @param string $elementName
      * @param string $alias
-     * @return \Magento\Core\Model\Layout
+     * @return $this
      */
     public function setChild($parentName, $elementName, $alias)
     {
@@ -940,6 +958,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      * @param string $childName
      * @param string|int|null $offsetOrSibling
      * @param bool $after
+     * @return void
      */
     public function reorderChild($parentName, $childName, $offsetOrSibling, $after = true)
     {
@@ -992,7 +1011,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      *
      * @param string $parentName
      * @param string $alias
-     * @return \Magento\Core\Model\Layout
+     * @return $this
      */
     public function unsetChild($parentName, $alias)
     {
@@ -1208,7 +1227,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      *
      * @param string $name
      * @param \Magento\View\Element\AbstractBlock $block
-     * @return \Magento\Core\Model\Layout
+     * @return $this
      */
     public function setBlock($name, $block)
     {
@@ -1220,7 +1239,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      * Remove block from registry
      *
      * @param string $name
-     * @return \Magento\Core\Model\Layout
+     * @return $this
      */
     public function unsetElement($name)
     {
@@ -1303,6 +1322,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      * @param array $options
      * @param string $parent
      * @param string $alias
+     * @return void
      */
     public function addContainer($name, $label, array $options = array(), $parent = '', $alias = '')
     {
@@ -1410,7 +1430,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      * Add an element to output
      *
      * @param string $name
-     * @return \Magento\Core\Model\Layout
+     * @return $this
      */
     public function addOutputElement($name)
     {
@@ -1422,7 +1442,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      * Remove an element from output
      *
      * @param string $name
-     * @return \Magento\Core\Model\Layout
+     * @return $this
      */
     public function removeOutputElement($name)
     {
@@ -1497,11 +1517,11 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     }
 
     /**
-     * @param $namespace
-     * @param $staticType
-     * @param $dynamicType
-     * @param $type
-     * @param $template
+     * @param string $namespace
+     * @param string $staticType
+     * @param string $dynamicType
+     * @param string $type
+     * @param string $template
      * @param array $data
      * @return $this
      */
@@ -1523,10 +1543,10 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     }
 
     /**
-     * @param $namespace
-     * @param $staticType
-     * @param $dynamicType
-     * @return null
+     * @param string $namespace
+     * @param string $staticType
+     * @param string $dynamicType
+     * @return array|null
      */
     public function getRendererOptions($namespace, $staticType, $dynamicType)
     {
@@ -1543,10 +1563,11 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     }
 
     /**
-     * @param $namespace
-     * @param $staticType
-     * @param $dynamicType
-     * @param $data
+     * @param string $namespace
+     * @param string $staticType
+     * @param string $dynamicType
+     * @param array $data
+     * @return void
      */
     public function executeRenderer($namespace, $staticType, $dynamicType, $data = array())
     {
@@ -1566,8 +1587,9 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     /**
      * Init messages by message storage(s), loading and adding messages to layout messages block
      *
-     * @throws \UnexpectedValueException
      * @param string|array $messageGroups
+     * @return void
+     * @throws \UnexpectedValueException
      */
     public function initMessages($messageGroups = array())
     {

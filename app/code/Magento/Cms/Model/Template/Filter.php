@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Cms\Model\Template;
 
 /**
  * Cms Template Filter Model
@@ -16,8 +16,6 @@
  * @package     Magento_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Cms\Model\Template;
-
 class Filter extends \Magento\Email\Model\Template\Filter
 {
     /**
@@ -31,7 +29,7 @@ class Filter extends \Magento\Email\Model\Template\Filter
      * Setter whether SID is allowed in store directive
      *
      * @param bool $flag
-     * @return \Magento\Cms\Model\Template\Filter
+     * @return $this
      */
     public function setUseSessionInUrl($flag)
     {

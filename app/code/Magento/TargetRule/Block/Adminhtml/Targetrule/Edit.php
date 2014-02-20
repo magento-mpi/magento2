@@ -7,16 +7,21 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\TargetRule\Block\Adminhtml\Targetrule;
 
 /**
  * Target rule edit form block
  */
-
-namespace Magento\TargetRule\Block\Adminhtml\Targetrule;
-
 class Edit extends \Magento\Backend\Block\Widget\Form\Container
 {
+    /**
+     * @var string
+     */
     protected $_blockGroup = 'Magento_TargetRule';
+
+    /**
+     * @var string
+     */
     protected $_controller = 'adminhtml_targetrule';
 
     /**
@@ -44,6 +49,8 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
      * Initialize form
      * Add standard buttons
      * Add "Save and Continue" button
+     *
+     * @return void
      */
     protected function _construct()
     {

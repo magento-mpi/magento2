@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Controller\Adminhtml\System;
+
+use Magento\Backend\App\Action;
 
 /**
  * Adminhtml account controller
@@ -15,11 +18,11 @@
  * @package    Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Backend\Controller\Adminhtml\System;
-
-class Account extends \Magento\Backend\App\Action
+class Account extends Action
 {
+    /**
+     * @return void
+     */
     public function indexAction()
     {
         $this->_title->add(__('My Account'));
@@ -30,6 +33,8 @@ class Account extends \Magento\Backend\App\Action
 
     /**
      * Saving edited user information
+     *
+     * @return void
      */
     public function saveAction()
     {
@@ -77,6 +82,9 @@ class Account extends \Magento\Backend\App\Action
         $this->getResponse()->setRedirect($this->getUrl("*/*/"));
     }
 
+    /**
+     * @return bool
+     */
     protected function _isAllowed()
     {
         return $this->_authorization->isAllowed('Magento_Adminhtml::myaccount');

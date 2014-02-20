@@ -21,7 +21,7 @@ class Grid
     extends \Magento\Backend\Block\Widget\Grid
 {
     /**
-     * @return \Magento\Backend\Block\Widget\Grid
+     * @return $this
      */
     protected function _prepareCollection()
     {
