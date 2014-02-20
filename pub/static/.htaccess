@@ -2,6 +2,7 @@
 php_flag engine 0
 </IfModule>
 <IfModule mod_rewrite.c>
+    RewriteEngine On
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-l
 
