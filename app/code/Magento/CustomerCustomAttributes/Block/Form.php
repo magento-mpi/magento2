@@ -75,4 +75,9 @@ class Form extends \Magento\CustomAttribute\Block\Form
         }
         return $this->_metadataForm;
     }
+
+    public function getChangePassword()
+    {
+        return $this->_customerSession->getChangePassword();
+    }
 }
