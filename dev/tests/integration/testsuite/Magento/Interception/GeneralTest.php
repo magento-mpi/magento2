@@ -26,7 +26,9 @@ class GeneralTest extends \PHPUnit_Framework_TestCase
         $relations = new \Magento\ObjectManager\Relations\Runtime($classReader);
         $definitions = new \Magento\ObjectManager\Definition\Runtime($classReader);
         $config = new \Magento\Interception\ObjectManager\Config($relations, $definitions);
-        $factory = new \Magento\ObjectManager\Factory\Factory($config, null, $definitions);
+        $argInterpreter = new \Magento\Data\Argument\Interpreter\Composite(array(), 'type');
+        $argObjectFactory = new \Magento\ObjectManager\Config\Argument\ObjectFactory($config);
+        $factory = new \Magento\ObjectManager\Factory\Factory($config, $argInterpreter, $argObjectFactory, $definitions);
 
         $this->_configReader = $this->getMock('Magento\Config\ReaderInterface');
         $this->_configReader->expects($this->any())->method('read')->will($this->returnValue(array(
@@ -63,6 +65,7 @@ class GeneralTest extends \PHPUnit_Framework_TestCase
                 'Magento\Interception\Definition' => $interceptionDefinitions
             )
         );
+        $argObjectFactory->setObjectManager($this->_objectManager);
         $config->setInterceptionConfig($interceptionConfig);
         $config->extend(array('preferences' => array(
             'Magento\Interception\PluginList' => 'Magento\Interception\PluginList\PluginList',
