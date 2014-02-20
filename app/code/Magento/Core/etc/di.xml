@@ -503,11 +503,6 @@
             <instance type="Magento\Backend\Model\UrlInterface\Proxy" />
         </param>
     </type>
-    <type name="Magento\Core\Model\App">
-        <param name="frontController">
-            <instance type="Magento\App\FrontController\Proxy" />
-        </param>
-    </type>
     <type name="Magento\Core\Model\App\Area">
         <param name="translator">
             <instance type="Magento\Translate" />

@@ -20,11 +20,6 @@ namespace Magento\Core\Model\App;
 class Emulation extends \Magento\Object
 {
     /**
-     * @var \Magento\Core\Model\App
-     */
-    protected $_app;
-
-    /**
      * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
@@ -62,7 +57,6 @@ class Emulation extends \Magento\Object
     protected $_configFactory;
 
     /**
-     * @param \Magento\Core\Model\App $app
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\View\DesignInterface $viewDesign
      * @param \Magento\Core\Model\Design $design
@@ -74,7 +68,6 @@ class Emulation extends \Magento\Object
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\App $app,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\View\DesignInterface $viewDesign,
         \Magento\Core\Model\Design $design,
@@ -87,7 +80,6 @@ class Emulation extends \Magento\Object
     ) {
         $this->_locale = $locale;
         parent::__construct($data);
-        $this->_app = $app;
         $this->_storeManager = $storeManager;
         $this->_viewDesign = $viewDesign;
         $this->_design = $design;
@@ -249,7 +241,7 @@ class Emulation extends \Magento\Object
      */
     protected function _restoreInitialLocale($initialLocaleCode, $initialArea = \Magento\Core\Model\App\Area::AREA_ADMIN)
     {
-        $this->_app->getLocale()->setLocaleCode($initialLocaleCode);
+        $this->_locale->setLocaleCode($initialLocaleCode);
         $this->_helperTranslate->initTranslate($initialLocaleCode, true);
         return $this;
     }

@@ -156,6 +156,9 @@
         <param name="cache">
             <instance type="Magento\App\Cache\Type\Translate" />
         </param>
+        <param name="locale">
+            <instance type="Magento\Core\Model\Locale\Proxy" />
+        </param>
     </type>
     <type name="Magento\Data\Structure" shared="false" />
     <type name="Magento\Core\Model\View\Design">

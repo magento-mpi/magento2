@@ -76,7 +76,6 @@ class Context extends \Magento\View\Element\Context
      * @param \Magento\View\ConfigInterface $viewConfig
      * @param \Magento\App\Cache\StateInterface $cacheState
      * @param \Magento\Logger $logger
-     * @param \Magento\Core\Model\App $app
      * @param \Magento\Escaper $escaper
      * @param \Magento\Filter\FilterManager $filterManager
      * @param \Magento\Core\Model\LocaleInterface $locale
@@ -104,7 +103,6 @@ class Context extends \Magento\View\Element\Context
         \Magento\View\ConfigInterface $viewConfig,
         \Magento\App\Cache\StateInterface $cacheState,
         \Magento\Logger $logger,
-        \Magento\Core\Model\App $app,
         \Magento\Escaper $escaper,
         \Magento\Filter\FilterManager $filterManager,
         \Magento\Core\Model\LocaleInterface $locale,
@@ -130,7 +128,6 @@ class Context extends \Magento\View\Element\Context
             $viewConfig,
             $cacheState,
             $logger,
-            $app,
             $escaper,
             $filterManager,
             $locale,

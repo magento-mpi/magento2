@@ -183,7 +183,6 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
         $this->_viewConfig      = $context->getViewConfig();
         $this->_cacheState      = $context->getCacheState();
         $this->_logger          = $context->getLogger();
-        $this->_app             = $context->getApp();
         $this->_escaper         = $context->getEscaper();
         $this->filterManager    = $context->getFilterManager();
         $this->_locale          = $context->getLocale();

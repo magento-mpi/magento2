@@ -36,6 +36,7 @@ class IndexerConfigData
      *
      * @return mixed|null
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     *
      */
     public function aroundGet(
         \Magento\Indexer\Model\Config\Data $subject,

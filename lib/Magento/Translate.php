@@ -154,9 +154,9 @@ class Translate implements \Magento\TranslateInterface
     protected $_translateResource;
 
     /**
-     * @var \Magento\AppInterface
+     * @var \Magento\Core\Model\Locale
      */
-    protected $_app;
+    protected $_locale;
 
     /**
      * @var \Magento\App\State
@@ -184,7 +184,7 @@ class Translate implements \Magento\TranslateInterface
      * @param \Magento\Module\Dir\Reader $modulesReader
      * @param \Magento\BaseScopeResolverInterface $scopeResolver
      * @param \Magento\Translate\ResourceInterface $translate
-     * @param \Magento\AppInterface $app
+     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\App\State $appState
      * @param \Magento\App\Filesystem $filesystem
      *
@@ -201,7 +201,7 @@ class Translate implements \Magento\TranslateInterface
         \Magento\Module\Dir\Reader $modulesReader,
         \Magento\BaseScopeResolverInterface $scopeResolver,
         \Magento\Translate\ResourceInterface $translate,
-        \Magento\AppInterface $app,
+        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\App\State $appState,
         \Magento\App\Filesystem $filesystem
     ) {
@@ -215,7 +215,7 @@ class Translate implements \Magento\TranslateInterface
         $this->_modulesReader = $modulesReader;
         $this->_scopeResolver = $scopeResolver;
         $this->_translateResource = $translate;
-        $this->_app = $app;
+        $this->_locale = $locale;
         $this->_appState = $appState;
         $this->filesystem = $filesystem;
         $this->directory = $filesystem->getDirectoryRead(\Magento\App\Filesystem::ROOT_DIR);
@@ -491,7 +491,7 @@ class Translate implements \Magento\TranslateInterface
     protected function getLocale()
     {
         if (null === $this->_localeCode) {
-            $this->_localeCode = $this->_app->getLocale()->getLocaleCode();
+            $this->_localeCode = $this->_locale->getLocaleCode();
         }
         return $this->_localeCode;
     }

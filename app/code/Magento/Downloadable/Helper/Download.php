@@ -137,7 +137,6 @@ class Download extends \Magento\App\Helper\AbstractHelper
         $this->_downloadableFile = $downloadableFile;
         $this->_coreFileStorageDb = $coreFileStorageDb;
         $this->_coreStoreConfig = $coreStoreConfig;
-        $this->_app = $context->getApp();
         $this->_filesystem = $filesystem;
 
         parent::__construct($context);

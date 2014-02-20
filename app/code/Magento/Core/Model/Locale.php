@@ -83,11 +83,6 @@ class Locale implements LocaleInterface
     protected $_config;
 
     /**
-     * @var App
-     */
-    protected $_app;
-
-    /**
      * @var \Magento\Stdlib\DateTime
      */
     protected $dateTime;
@@ -96,6 +91,13 @@ class Locale implements LocaleInterface
      * @var Date
      */
     protected $_dateModel;
+
+    /**
+     * Cache object
+     *
+     * @var \Magento\App\CacheInterface
+     */
+    protected $_cache;
 
     /**
      * @var string[]
@@ -110,11 +112,11 @@ class Locale implements LocaleInterface
     /**
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Helper\Translate $translate
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param Store\Config $coreStoreConfig
      * @param \Magento\App\State $appState
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Locale\Config $config
-     * @param \Magento\Core\Model\App $app
+     * @param StoreManagerInterface $storeManager
+     * @param Locale\Config $config
+     * @param \Magento\App\CacheInterface $cache
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Core\Model\Date $dateModel
      * @param string $locale
@@ -126,7 +128,7 @@ class Locale implements LocaleInterface
         \Magento\App\State $appState,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Locale\Config $config,
-        \Magento\Core\Model\App $app,
+        \Magento\App\CacheInterface $cache,
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Core\Model\Date $dateModel,
         $locale = null
@@ -137,7 +139,7 @@ class Locale implements LocaleInterface
         $this->_appState = $appState;
         $this->_storeManager = $storeManager;
         $this->_config = $config;
-        $this->_app = $app;
+        $this->_cache = $cache;
         $this->dateTime = $dateTime;
         $this->_dateModel = $dateModel;
         $this->setLocale($locale);
@@ -226,7 +228,7 @@ class Locale implements LocaleInterface
     public function getLocale()
     {
         if (!$this->_locale) {
-            \Zend_Locale_Data::setCache($this->_app->getCache()->getLowLevelFrontend());
+            \Zend_Locale_Data::setCache($this->_cache->getFrontend()->getLowLevelFrontend());
             $this->_locale = new \Zend_Locale($this->getLocaleCode());
         } elseif ($this->_locale->__toString() != $this->_localeCode) {
             $this->setLocale($this->_localeCode);
