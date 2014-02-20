@@ -7,12 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\VersionsCms\Model\Backend;
+
+use Magento\Event\Observer as EventObserver;
 
 /**
  * Versions cms page observer for backend area
  */
-namespace Magento\VersionsCms\Model\Backend;
-
 class Observer
 {
     /**
@@ -178,8 +179,8 @@ class Observer
     /**
      * Making changes to main tab regarding to custom logic
      *
-     * @param \Magento\Event\Observer $observer
-     * @return \Magento\VersionsCms\Model\Backend\Observer
+     * @param EventObserver $observer
+     * @return $this
      */
     public function onMainTabPrepareForm($observer)
     {
@@ -258,10 +259,10 @@ class Observer
     /**
      * Processing extra data after cms page saved
      *
-     * @param \Magento\Event\Observer $observer
-     * @return \Magento\VersionsCms\Model\Backend\Observer
+     * @param EventObserver $observer
+     * @return $this
      */
-    public function cmsPageSaveAfter(\Magento\Event\Observer $observer)
+    public function cmsPageSaveAfter(EventObserver $observer)
     {
         /* @var $page \Magento\Cms\Model\Page */
         $page = $observer->getEvent()->getObject();
@@ -322,10 +323,10 @@ class Observer
     /**
      * Preparing cms page object before it will be saved
      *
-     * @param \Magento\Event\Observer $observer
-     * @return \Magento\VersionsCms\Model\Backend\Observer
+     * @param EventObserver $observer
+     * @return $this
      */
-    public function cmsPageSaveBefore(\Magento\Event\Observer $observer)
+    public function cmsPageSaveBefore(EventObserver $observer)
     {
         /* @var \Magento\Cms\Model\Page $page */
         $page = $observer->getEvent()->getObject();
@@ -381,7 +382,7 @@ class Observer
     /**
      * Clean up private versions after user deleted.
      *
-     * @return \Magento\VersionsCms\Model\Backend\Observer
+     * @return $this
      */
     public function adminUserDeleteAfter()
     {
@@ -402,10 +403,10 @@ class Observer
     /**
      * Clean up hierarchy tree that belongs to website.
      *
-     * @param \Magento\Event\Observer $observer
-     * @return \Magento\VersionsCms\Model\Backend\Observer
+     * @param EventObserver $observer
+     * @return $this
      */
-    public function deleteWebsite(\Magento\Event\Observer $observer)
+    public function deleteWebsite(EventObserver $observer)
     {
         /* @var $store \Magento\Core\Model\Website */
         $website = $observer->getEvent()->getWebsite();
@@ -423,10 +424,10 @@ class Observer
     /**
      * Clean up hierarchy tree that belongs to store.
      *
-     * @param \Magento\Event\Observer $observer
-     * @return \Magento\VersionsCms\Model\Backend\Observer
+     * @param EventObserver $observer
+     * @return $this
      */
-    public function deleteStore(\Magento\Event\Observer $observer)
+    public function deleteStore(EventObserver $observer)
     {
         $storeId = $observer->getEvent()->getStore()->getId();
         $this->_cleanStoreFootprints($storeId);
@@ -437,6 +438,7 @@ class Observer
      * Clean up information about deleted store from the widgets and hierarchy nodes
      *
      * @param int $storeId
+     * @return void
      */
     private function _cleanStoreFootprints($storeId)
     {
@@ -473,6 +475,7 @@ class Observer
      * level to protected if we can't remove it.
      *
      * @param array $args
+     * @return void
      */
     public function removeVersionCallback($args)
     {
@@ -494,10 +497,10 @@ class Observer
     /**
      * Removing unneeded data from increment table for removed page.
      *
-     * @param $observer
-     * @return \Magento\VersionsCms\Model\Backend\Observer
+     * @param EventObserver $observer
+     * @return $this
      */
-    public function cmsPageDeleteAfter(\Magento\Event\Observer $observer)
+    public function cmsPageDeleteAfter(EventObserver $observer)
     {
         /* @var $page \Magento\Cms\Model\Page */
         $page = $observer->getEvent()->getObject();

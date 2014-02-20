@@ -7,16 +7,16 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <preference for="Magento\AdvancedCheckout\Model\Cart" type="Magento\AdvancedCheckout\Model\Backend\Cart" />
     <type name="Magento\AdvancedCheckout\Model\Backend\Cart">
-        <param name="itemFailedStatus">
-            <value type="const">Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_WEBSITE</value>
-        </param>
+        <arguments>
+            <argument name="itemFailedStatus" xsi:type="const">Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_WEBSITE</argument>
+        </arguments>
     </type>
     <type name="Magento\AdvancedCheckout\Helper\Data">
-        <param name="session">
-            <instance type="Magento\Backend\Model\Session\Proxy"/>
-        </param>
+        <arguments>
+            <argument name="session" xsi:type="object">Magento\Backend\Model\Session\Proxy</argument>
+        </arguments>
     </type>
 </config>

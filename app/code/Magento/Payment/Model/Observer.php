@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Payment\Model;
 
 /**
  * Payment Observer
  */
-namespace Magento\Payment\Model;
-
 class Observer
 {
     /**
@@ -50,7 +49,7 @@ class Observer
      * Set forced canCreditmemo flag
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\Payment\Model\Observer
+     * @return $this
      */
     public function salesOrderBeforeSave($observer)
     {
@@ -94,6 +93,7 @@ class Observer
 
     /**
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function updateOrderStatusForPaymentMethods(\Magento\Event\Observer $observer)
     {

@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\VersionsCms\Block\Hierarchy;
 
 /**
  * Cms Widget Pagination Block
  */
-namespace Magento\VersionsCms\Block\Hierarchy;
-
 class Pagination extends \Magento\View\Element\Template
 {
     /**
@@ -54,6 +53,7 @@ class Pagination extends \Magento\View\Element\Template
     /**
      * Define default template and settings
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -77,7 +77,7 @@ class Pagination extends \Magento\View\Element\Template
     /**
      * Add context menu params to block data
      *
-     * @return \Magento\View\Element\Template
+     * @return void
      */
     protected function _loadNodePaginationParams()
     {
