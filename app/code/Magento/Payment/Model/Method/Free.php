@@ -11,7 +11,7 @@
 /**
  * Free payment method
  */
-namespace Magento\OfflinePaymentMethods\Model;
+namespace Magento\Payment\Model\Method;
 
 class Free extends \Magento\Payment\Model\Method\AbstractMethod
 {

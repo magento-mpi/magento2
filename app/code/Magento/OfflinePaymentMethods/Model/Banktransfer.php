@@ -30,7 +30,7 @@ class Banktransfer extends \Magento\Payment\Model\Method\AbstractMethod
      * @var string
      */
     protected $_formBlockType = 'Magento\OfflinePaymentMethods\Block\Form\Banktransfer';
-    protected $_infoBlockType = 'Magento\OfflinePaymentMethods\Block\Info\Instructions';
+    protected $_infoBlockType = 'Magento\Payment\Block\Info\Instructions';
 
     /**
      * Get instructions text from config

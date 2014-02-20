@@ -37,4 +37,10 @@
             <label>Other</label>
         </type>
     </credit_cards>
+    <methods>
+        <method name="free">
+            <allow_multiple_address>1</allow_multiple_address>
+            <allow_multiple_with_3dsecure>1</allow_multiple_with_3dsecure>
+        </method>
+    </methods>
 </payment>
