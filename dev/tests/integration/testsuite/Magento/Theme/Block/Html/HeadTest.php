@@ -121,35 +121,6 @@ class HeadTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @magentoAppIsolation enabled
-     */
-    public function testGetCssJsHtmlBadLink()
-    {
-
-        $this->_block->addChild(
-            'ui.css',
-            'Magento\Theme\Block\Html\Head\Css',
-            array(
-                'file' => 'not_exist_folder/wrong_bad_file2.xyz',
-            )
-        );
-        $this->_block->addChild(
-            'jjs',
-            'Magento\Theme\Block\Html\Head\Script',
-            array(
-                'file' => 'not_exist_folder/wrong_bad_file.xyz',
-            )
-        );
-        $this->assertEquals(
-            '<link rel="stylesheet" type="text/css" media="all"'
-                . ' href="http://localhost/index.php/core/index/notfound" />' . "\n"
-                . '<script type="text/javascript" src="http://localhost/index.php/core/index/notfound"></script>'
-                . "\n",
-            $this->_block->getCssJsHtml()
-        );
-    }
-
-    /**
      * Both existing and non-existent JS and CSS links are specified
      * @magentoAppIsolation enabled
      * @magentoConfigFixture current_store dev/js/merge_files 0
