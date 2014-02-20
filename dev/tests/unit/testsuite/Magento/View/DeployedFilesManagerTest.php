@@ -18,22 +18,11 @@ class DeployedFilesManagerTest extends \PHPUnit_Framework_TestCase
      * @param string $module
      * @param string $filePath
      * @param string $expected
-     * @dataProvider getPublicViewFileDataProvider
+     * @dataProvider getViewFileDataProvider
      */
     public function testGetPublicViewFile($pubDir, $area, $themePath, $module, $filePath, $expected)
     {
         $this->_testGetFile('getPublicViewFile', $pubDir, $area, $themePath, $module, $filePath, $expected);
-    }
-
-    /**
-     * @return array
-     */
-    public static function getPublicViewFileDataProvider()
-    {
-        return array(
-            'no module' => array('/dir', 'f', 'magento_demo', null, 'file.ext', '/dir/f/magento_demo/file.ext'),
-            'with module' => array('/dir', 'b', 'theme', 'm', 'file.ext', '/dir/b/theme/m/file.ext'),
-        );
     }
 
     /**
@@ -43,11 +32,36 @@ class DeployedFilesManagerTest extends \PHPUnit_Framework_TestCase
      * @param string $module
      * @param string $filePath
      * @param string $expected
-     * @dataProvider getPublicViewFileDataProvider
+     * @dataProvider getViewFileDataProvider
+     */
+    public function testGetPublicViewFilePath($pubDir, $area, $themePath, $module, $filePath, $expected)
+    {
+        $this->_testGetFile('getPublicViewFilePath', $pubDir, $area, $themePath, $module, $filePath, $expected);
+    }
+
+    /**
+     * @param string $pubDir
+     * @param string $area
+     * @param string $themePath
+     * @param string $module
+     * @param string $filePath
+     * @param string $expected
+     * @dataProvider getViewFileDataProvider
      */
     public function testGetViewFile($pubDir, $area, $themePath, $module, $filePath, $expected)
     {
         $this->_testGetFile('getViewFile', $pubDir, $area, $themePath, $module, $filePath, $expected);
+    }
+
+    /**
+     * @return array
+     */
+    public static function getViewFileDataProvider()
+    {
+        return array(
+            'no module' => array('/dir', 'f', 'magento_demo', null, 'file.ext', '/dir/f/magento_demo/file.ext'),
+            'with module' => array('/dir', 'b', 'theme', 'm', 'file.ext', '/dir/b/theme/m/file.ext'),
+        );
     }
 
     /**

@@ -43,9 +43,9 @@ class UrlResolver implements PreProcessorInterface
     protected $cssUrlResolver;
 
     /**
-     * @var \Magento\View\Publisher
+     * @var \Magento\View\FileResolver
      */
-    protected $publisher;
+    protected $fileResolver;
 
     /**
      * Logger
@@ -65,7 +65,7 @@ class UrlResolver implements PreProcessorInterface
      * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\View\RelatedFile $relatedFile
      * @param \Magento\View\Url\CssResolver $cssUrlResolver
-     * @param \Magento\View\Publisher $publisher
+     * @param \Magento\View\FileResolver $fileResolver
      * @param \Magento\Logger $logger
      * @param \Magento\View\Publisher\FileFactory $fileFactory
      */
@@ -73,14 +73,14 @@ class UrlResolver implements PreProcessorInterface
         \Magento\App\Filesystem $filesystem,
         \Magento\View\RelatedFile $relatedFile,
         \Magento\View\Url\CssResolver $cssUrlResolver,
-        \Magento\View\Publisher $publisher,
+        \Magento\View\FileResolver $fileResolver,
         \Magento\Logger $logger,
         \Magento\View\Publisher\FileFactory $fileFactory
     ) {
         $this->rootDirectory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::ROOT_DIR);
         $this->relatedFile = $relatedFile;
         $this->cssUrlResolver = $cssUrlResolver;
-        $this->publisher = $publisher;
+        $this->fileResolver = $fileResolver;
         $this->logger = $logger;
         $this->fileFactory = $fileFactory;
     }
@@ -103,7 +103,7 @@ class UrlResolver implements PreProcessorInterface
         $params = $publisherFile->getViewParams();
 
         $callback = function ($fileId) use ($filePath, $params) {
-            $relatedPathPublic = $this->publishRelatedViewFile($fileId, $filePath, $params);
+            $relatedPathPublic = $this->getRelatedViewFilePath($fileId, $filePath, $params);
             return $relatedPathPublic;
         };
         try {
@@ -131,16 +131,16 @@ class UrlResolver implements PreProcessorInterface
     }
 
     /**
-     * Publish file identified by $fileId basing on information about parent file path and name.
+     * Get path to file identified by $fileId basing on information about parent file path and name.
      *
      * @param string $fileId URL to the file that was extracted from $parentFilePath
      * @param string $parentFileName original file name identifier that was requested for processing
      * @param array $params theme/module parameters array
      * @return string
      */
-    protected function publishRelatedViewFile($fileId, $parentFileName, $params)
+    protected function getRelatedViewFilePath($fileId, $parentFileName, $params)
     {
         $relativeFilePath = $this->relatedFile->buildPath($fileId, $parentFileName, $params);
-        return $this->publisher->getPublicViewFile($relativeFilePath, $params);
+        return $this->fileResolver->getPublicViewFilePath($relativeFilePath, $params);
     }
 }

@@ -110,6 +110,15 @@ class Publisher implements PublicFilesManagerInterface
     /**
      * {@inheritdoc}
      */
+    public function getPublicViewFilePath($filePath, array $params)
+    {
+        $sourceFile = $this->getSourceFileContainer($filePath, $params);
+        return $sourceFile->buildPublicViewFilename();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getViewFile($file, array $params = array())
     {
         $readyFile = $this->getSourceFileContainer($file, $params);
