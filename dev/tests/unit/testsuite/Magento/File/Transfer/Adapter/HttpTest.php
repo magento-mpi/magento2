@@ -28,17 +28,16 @@ class HttpTest extends \PHPUnit_Framework_TestCase
     public function testSend()
     {
         $file = __DIR__ . '/../../_files/javascript.js';
-        $fileSize = 15;
 
         $this->response->expects($this->at(0))
             ->method('setHeader')
-            ->with('Content-length', $fileSize);
+            ->with('Content-length', filesize($file));
         $this->response->expects($this->at(1))
             ->method('setHeader')
             ->with('Content-Type', 'application/javascript');
         $this->response->expects($this->once())
             ->method('sendHeaders');
-        $this->expectOutputString("var test = 10;\n");
+        $this->expectOutputString(file_get_contents($file));
 
         $this->object->send($file);
     }
