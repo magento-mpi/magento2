@@ -50,5 +50,6 @@
                 </field>
                 <field id="model"></field>
             </group>
+        </section>
     </system>
 </config>
