@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Cms\Block\Adminhtml\Block;
 
 /**
  * CMS block edit form container
@@ -15,8 +16,6 @@
  * @package    Magento_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Cms\Block\Adminhtml\Block;
-
 class Edit extends \Magento\Backend\Block\Widget\Form\Container
 {
     /**
@@ -40,6 +39,9 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
         parent::__construct($context, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_objectId = 'block_id';
@@ -81,8 +83,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     {
         if ($this->_coreRegistry->registry('cms_block')->getId()) {
             return __("Edit Block '%1'", $this->escapeHtml($this->_coreRegistry->registry('cms_block')->getTitle()));
-        }
-        else {
+        } else {
             return __('New Block');
         }
     }

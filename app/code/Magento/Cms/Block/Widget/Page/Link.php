@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Cms\Block\Widget\Page;
 
 /**
  * Widget to display link to CMS page
@@ -15,9 +16,6 @@
  * @package    Magento_Cms
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Cms\Block\Widget\Page;
-
 class Link
     extends \Magento\View\Element\Html\Link
     implements \Magento\Widget\Block\BlockInterface

@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Payment\Block\Form;
 
 /**
  * Block for Cash On Delivery payment method form
  */
-namespace Magento\Payment\Block\Form;
-
 class Cashondelivery extends \Magento\Payment\Block\Form
 {
 
@@ -23,6 +22,11 @@ class Cashondelivery extends \Magento\Payment\Block\Form
      */
     protected $_instructions;
 
+    /**
+     * Cash on delivery template
+     *
+     * @var string
+     */
     protected $_template = 'form/cashondelivery.phtml';
 
     /**

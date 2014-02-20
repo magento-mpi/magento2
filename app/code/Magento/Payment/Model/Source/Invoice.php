@@ -7,16 +7,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Payment\Model\Source;
 
 /**
  * Automatic invoice create source model
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Payment\Model\Source;
-
 class Invoice implements \Magento\Core\Model\Option\ArrayInterface
 {
+    /**
+     * {@inheritdoc}
+     */
     public function toOptionArray()
     {
         return array(

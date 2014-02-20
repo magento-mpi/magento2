@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Payment\Model\Config\Source;
 
 class Allmethods implements \Magento\Core\Model\Option\ArrayInterface
@@ -28,6 +27,9 @@ class Allmethods implements \Magento\Core\Model\Option\ArrayInterface
         $this->_paymentData = $paymentData;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function toOptionArray()
     {
         return $this->_paymentData->getPaymentMethodList(true, true, true);

@@ -7,26 +7,26 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <type name="Magento\Module\Manager">
-        <param name="outputConfigPaths">
-            <array>
-                <item key="Magento_Reward"><value>Magento\Reward\Helper\Data::XML_PATH_ENABLED</value></item>
-            </array>
-        </param>
+        <arguments>
+            <argument name="outputConfigPaths" xsi:type="array">
+                <item name="Magento_Reward" xsi:type="string">Magento\Reward\Helper\Data::XML_PATH_ENABLED</item>
+            </argument>
+        </arguments>
     </type>
     <type name="Magento\Module\Updater\SetupFactory">
-        <param name="resourceTypes">
-            <array>
-                <item key="reward_setup"><value>Magento\Reward\Model\Resource\Setup</value></item>
-            </array>
-        </param>
+        <arguments>
+            <argument name="resourceTypes" xsi:type="array">
+                <item name="reward_setup" xsi:type="string">Magento\Reward\Model\Resource\Setup</item>
+            </argument>
+        </arguments>
     </type>
     <type name="Magento\Eav\Model\Entity\Setup\PropertyMapper\Composite">
-        <param name="propertyMappers">
-            <array>
-                <item key="reward"><value>Magento\Reward\Model\Resource\Setup\PropertyMapper</value></item>
-            </array>
-        </param>
+        <arguments>
+            <argument name="propertyMappers" xsi:type="array">
+                <item name="reward" xsi:type="string">Magento\Reward\Model\Resource\Setup\PropertyMapper</item>
+            </argument>
+        </arguments>
     </type>
 </config>

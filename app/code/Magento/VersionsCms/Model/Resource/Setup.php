@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\VersionsCms\Model\Resource;
 
 /**
  * Resource Setup Model
  */
-namespace Magento\VersionsCms\Model\Resource;
-
 class Setup extends \Magento\Core\Model\Resource\Setup
 {
     /**
