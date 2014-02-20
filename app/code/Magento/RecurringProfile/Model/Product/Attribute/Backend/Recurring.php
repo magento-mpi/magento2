@@ -23,7 +23,7 @@ extends \Magento\Eav\Model\Entity\Attribute\Backend\Serialized
     public function beforeSave($product)
     {
         if ($product->hasIsRecurring()) {
-            if ($product->getIsRecurring() == '1') {
+            if ($product->getIsRecurring()) {
                 parent::beforeSave($product);
             } else {
                 $product->unsRecurringProfile();
@@ -40,7 +40,7 @@ extends \Magento\Eav\Model\Entity\Attribute\Backend\Serialized
     protected function _unserialize(\Magento\Object $product)
     {
         if ($product->hasIsRecurring()) {
-            if ($product->$product->getIsRecurring() == '1') {
+            if ($product->getIsRecurring()) {
                 parent::_unserialize($product);
             } else {
                 $product->unsRecurringProfile();

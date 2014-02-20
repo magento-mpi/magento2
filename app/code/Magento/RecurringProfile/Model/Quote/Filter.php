@@ -23,7 +23,7 @@ class Filter
     public function hasRecurringItems(Quote $quote)
     {
         foreach ($quote->getAllVisibleItems() as $item) {
-            if ($item->getProduct() && $item->getProduct()->getIsRecurring() == '1') {
+            if ($item->getProduct() && $item->getProduct()->getIsRecurring()) {
                 return true;
             }
         }

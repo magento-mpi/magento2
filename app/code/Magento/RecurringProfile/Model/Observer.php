@@ -93,7 +93,7 @@ class Observer
         $product = $observer->getEvent()->getProduct();
         $buyRequest = $observer->getEvent()->getBuyRequest();
 
-        if (!$product->getIsRecurring() == '1') {
+        if (!$product->getIsRecurring()) {
             return;
         }
 
@@ -202,7 +202,7 @@ class Observer
         $collection = $observer->getEvent()->getCollection();
 
         foreach ($collection as $product) {
-            if ($product->getIsRecurring() == '1' && $profile = $product->getRecurringProfile()) {
+            if ($product->getIsRecurring() && $profile = $product->getRecurringProfile()) {
                 $product->setRecurringProfile(unserialize($profile));
             }
         }

@@ -17,7 +17,7 @@ class Plugin
     public function aroundHasOptions(array $arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
     {
         $product = $arguments['product'];
-        if ($product->getIsRecurring() == '1') {
+        if ($product->getIsRecurring()) {
             return true;
         }
         return $invocationChain->proceed($arguments);

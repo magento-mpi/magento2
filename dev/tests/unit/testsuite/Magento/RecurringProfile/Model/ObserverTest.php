@@ -133,7 +133,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_recurringProfileFactory->expects($this->once())->method('create')->will($this->returnValue($profile));
 
         $product = $this->getMock('Magento\Object', ['getIsRecurring', 'addCustomOption'], [], '', false);
-        $product->expects($this->once())->method('getIsRecurring')->will($this->returnValue('1'));
+        $product->expects($this->once())->method('getIsRecurring')->will($this->returnValue(true));
 
         $infoOptions = [
             ['label' => 'Field Label', 'value' => 'date'],
@@ -203,7 +203,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $product = $this->getMock('Magento\RecurringProfile\Model\Profile', [
             'getIsRecurring', '__sleep', '__wakeup'
         ], [], '', false);
-        $product->expects($this->any())->method('getIsRecurring')->will($this->returnValue('1'));
+        $product->expects($this->any())->method('getIsRecurring')->will($this->returnValue(true));
 
         $this->_profile = $this->getMock('Magento\RecurringProfile\Model\Profile', [
             '__sleep', '__wakeup', 'isValid', 'importQuote', 'importQuoteItem', 'submit', 'getId', 'setMethodCode'

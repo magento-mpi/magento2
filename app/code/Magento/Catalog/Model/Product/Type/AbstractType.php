@@ -821,10 +821,7 @@ abstract class AbstractType
      */
     public function hasOptions($product)
     {
-        if ($product->getHasOptions()) {
-            return true;
-        }
-        return false;
+        return $product->getHasOptions();
     }
 
     /**

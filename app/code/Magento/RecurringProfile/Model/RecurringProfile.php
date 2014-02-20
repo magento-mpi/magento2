@@ -255,7 +255,7 @@ class RecurringProfile extends \Magento\Core\Model\AbstractModel
      */
     public function importProduct(\Magento\Catalog\Model\Product $product)
     {
-        if ($product->getIsRecurring() == '1' && is_array($product->getRecurringProfile())) {
+        if ($product->getIsRecurring() && is_array($product->getRecurringProfile())) {
             // import recurring profile data
             $this->addData($product->getRecurringProfile());
 

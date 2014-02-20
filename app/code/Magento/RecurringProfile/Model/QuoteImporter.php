@@ -42,7 +42,7 @@ class QuoteImporter
         $result = [];
         foreach ($quote->getAllVisibleItems() as $item) {
             $product = $item->getProduct();
-            if (is_object($product) && ($product->getIsRecurring() == '1')
+            if (is_object($product) && ($product->getIsRecurring())
                 && $profile = $this->_profileFactory->create()->importProduct($product)
             ) {
                 $profile->importQuote($quote);
