@@ -18,30 +18,35 @@ use Magento\Customer\Controller\Adminhtml\Index;
  */
 class AccordionTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var \Magento\Customer\Block\Adminhtml\Edit\Tab\View\Accordion
-     */
-    protected $_block;
+    /** @var \Magento\Core\Model\Layout */
+    protected $layout;
+
+    /** @var \Magento\Core\Model\Registry */
+    protected $registry;
+
+    /** @var \Magento\Customer\Service\V1\CustomerServiceInterface */
+    protected $customerService;
+
+    /** @var \Magento\Backend\Model\Session */
+    protected $backendSession;
 
     protected function setUp()
     {
         parent::setUp();
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $objectManager->get('Magento\Core\Model\Registry')->register(Index::REGISTRY_CURRENT_CUSTOMER_ID, 1);
-        /** @var $layout \Magento\View\LayoutInterface */
-        $layout = $objectManager->create(
+        $this->registry = $objectManager->get('Magento\Core\Model\Registry');
+        $this->customerService = $objectManager->get('Magento\Customer\Service\V1\CustomerServiceInterface');
+        $this->backendSession = $objectManager->get('Magento\Backend\Model\Session');
+        $this->layout = $objectManager->create(
             'Magento\Core\Model\Layout',
             array('area' => \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE)
         );
-        $this->_block = $layout->createBlock('Magento\Customer\Block\Adminhtml\Edit\Tab\View\Accordion');
     }
 
     protected function tearDown()
     {
-        /** @var $objectManager \Magento\TestFramework\ObjectManager */
-        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $objectManager->get('Magento\Core\Model\Registry')->unregister(Index::REGISTRY_CURRENT_CUSTOMER_ID);
+        $this->registry->unregister(Index::REGISTRY_CURRENT_CUSTOMER_ID);
     }
 
     /**
@@ -50,7 +55,10 @@ class AccordionTest extends \PHPUnit_Framework_TestCase
      */
     public function testToHtmlEmptyWebsiteShare()
     {
-        $html = $this->_block->toHtml();
+        $this->registry->register(Index::REGISTRY_CURRENT_CUSTOMER_ID, 1);
+        $block = $this->layout->createBlock('Magento\Customer\Block\Adminhtml\Edit\Tab\View\Accordion');
+
+        $html = $block->toHtml();
         
         $this->assertContains('Wishlist - 0 item(s)', $html);
         $this->assertContains('Shopping Cart - 0 item(s)', $html);
@@ -61,13 +69,31 @@ class AccordionTest extends \PHPUnit_Framework_TestCase
      * @magentoDataFixture Magento/Core/_files/second_third_store.php
      * @magentoConfigFixture current_store customer/account_share/scope 0
      */
-    public function testToHtmlEmptyGlobalShare()
+    public function testToHtmlEmptyGlobalShareAndSessionData()
     {
-        $html = $this->_block->toHtml();
+        $this->registry->register(Index::REGISTRY_CURRENT_CUSTOMER_ID, 1);
+        $customer = $this->customerService->getCustomer(1);
+        $this->backendSession->setCustomerData(['account' => $customer->__toArray()]);
+        $block = $this->layout->createBlock('Magento\Customer\Block\Adminhtml\Edit\Tab\View\Accordion');
+
+        $html = $block->toHtml();
 
         $this->assertContains('Wishlist - 0 item(s)', $html);
         $this->assertContains('Shopping Cart of Main Website - 0 item(s)', $html);
         $this->assertContains('Shopping Cart of Second Website - 0 item(s)', $html);
         $this->assertContains('Shopping Cart of Third Website - 0 item(s)', $html);
+    }
+
+    /**
+     * @magentoConfigFixture customer/account_share/scope 1
+     */
+    public function testToHtmlEmptyWebsiteShareNewCustomer()
+    {
+        $block = $this->layout->createBlock('Magento\Customer\Block\Adminhtml\Edit\Tab\View\Accordion');
+
+        $html = $block->toHtml();
+
+        $this->assertContains('Wishlist - 0 item(s)', $html);
+        $this->assertContains('Shopping Cart - 0 item(s)', $html);
     }
 }

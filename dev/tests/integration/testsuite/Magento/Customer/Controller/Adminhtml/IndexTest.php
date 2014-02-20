@@ -408,9 +408,6 @@ class IndexTest extends \Magento\Backend\Utility\Controller
         $this->assertContains($addressStr . 'template-firstname"  value=""', $body);
     }
 
-    /**
-     * @magentoDataFixture Magento/Customer/_files/customer_sample.php
-     */
     public function testNewAction()
     {
         $this->dispatch('backend/customer/index/edit');
