@@ -21,6 +21,8 @@ namespace Magento\Sales\Model\AdminOrder;
  */
 class Random
 {
+    const RANDOM_METHOD = 'checkmo';
+
     /**
      * Quote model object
      *
@@ -167,7 +169,7 @@ class Random
                 $this->_quote->addCatalogProduct($product);
             }
         }
-        $this->_quote->getPayment()->setMethod('checkmo');
+        $this->_quote->getPayment()->setMethod(self::RANDOM_METHOD);
 
         $this->_quote->getShippingAddress()->setShippingMethod('freeshipping_freeshipping');//->collectTotals()->save();
         $this->_quote->getShippingAddress()->setCollectShippingRates(true);

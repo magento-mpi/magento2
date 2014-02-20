@@ -77,22 +77,6 @@ class Observer
     }
 
     /**
-     * Sets current instructions for bank transfer account
-     *
-     * @param \Magento\Event\Observer $observer
-     * @return void
-     */
-    public function beforeOrderPaymentSave(\Magento\Event\Observer $observer)
-    {
-        /** @var \Magento\Sales\Model\Order\Payment $payment */
-        $payment = $observer->getEvent()->getPayment();
-        if($payment->getMethod() === \Magento\OfflinePaymentMethods\Model\Banktransfer::PAYMENT_METHOD_BANKTRANSFER_CODE) {
-            $payment->setAdditionalInformation('instructions',
-                $payment->getMethodInstance()->getInstructions());
-        }
-    }
-
-    /**
      * @param \Magento\Event\Observer $observer
      */
     public function updateOrderStatusForPaymentMethods(\Magento\Event\Observer $observer)
