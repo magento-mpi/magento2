@@ -55,8 +55,28 @@ class AddressBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
      */
     public function populateWithArray(array $data)
     {
-        if (isset($data['region'])) {
-            $data['region'] = new Region($data['region']);
+        $regionData = [];
+        if (!empty($data['region'])) {
+            if (is_array($data['region'])) {
+                $regionData = $data['region'];
+            } else {
+                $regionData['region'] = $data['region'];
+            }
+        }
+        unset($data['region']);
+
+        if (!empty($data['region_id'])) {
+            $regionData['region_id'] = $data['region_id'];
+        }
+        unset($data['region_id']);
+
+        if (!empty($data['region_code'])) {
+            $regionData['region_code'] = $data['region_code'];
+        }
+        unset($data['region_code']);
+
+        if (!empty($regionData)) {
+            $data['region'] = new Region($regionData);
         }
 
         return parent::populateWithArray($data);

@@ -10,7 +10,7 @@
 
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 
-use \Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Controller\Adminhtml\Index;
 use Magento\Exception\NoSuchEntityException;
 
@@ -51,7 +51,7 @@ class View
     protected $_customerService;
 
     /**
-     * @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface
+     * @var CustomerAccountServiceInterface
      */
     protected $_accountService;
 
@@ -83,7 +83,7 @@ class View
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Customer\Service\V1\CustomerServiceInterface $customerService
-     * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $accountService
+     * @param CustomerAccountServiceInterface $accountService
      * @param \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService
      * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService
      * @param \Magento\Customer\Helper\Address $addressHelper
@@ -98,7 +98,7 @@ class View
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Customer\Service\V1\CustomerServiceInterface $customerService,
-        \Magento\Customer\Service\V1\CustomerAccountServiceInterface $accountService,
+        CustomerAccountServiceInterface $accountService,
         \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService,
         \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService,
         \Magento\Customer\Helper\Address $addressHelper,
@@ -126,11 +126,17 @@ class View
     public function getCustomer()
     {
         if (!$this->_customer) {
-            $this->_customer = $this->_customerService->getCustomer(
-                $this->_coreRegistry->registry(Index::REGISTRY_CURRENT_CUSTOMER_ID)
-            );
+            $this->_customer = $this->_session->getCustomerDto();
         }
         return $this->_customer;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getCustomerId()
+    {
+        return $this->_coreRegistry->registry(Index::REGISTRY_CURRENT_CUSTOMER_ID);
     }
 
     /**
@@ -172,7 +178,7 @@ class View
     {
         if (!$this->_customerLog) {
             $this->_customerLog = $this->_logFactory->create()
-                ->loadByCustomer($this->getCustomer()->getCustomerId());
+                ->loadByCustomer($this->getCustomerId());
         }
         return $this->_customerLog;
     }
@@ -281,7 +287,7 @@ class View
      */
     public function getIsConfirmedStatus()
     {
-        $id = $this->getCustomer()->getCustomerId();
+        $id = $this->getCustomerId();
         switch($this->_accountService->getConfirmationStatus($id)) {
             case CustomerAccountServiceInterface::ACCOUNT_CONFIRMED:
                 return __('Confirmed');
@@ -290,6 +296,7 @@ class View
             case CustomerAccountServiceInterface::ACCOUNT_CONFIRMATION_NOT_REQUIRED:
                 return __('Confirmation Not Required');
         }
+        return __('Indeterminate');
     }
 
     /**
@@ -357,7 +364,7 @@ class View
      */
     public function canShowTab()
     {
-        if ($this->getCustomer()->getCustomerId()) {
+        if ($this->getCustomerId()) {
             return true;
         }
         return false;
@@ -368,7 +375,7 @@ class View
      */
     public function isHidden()
     {
-        if ($this->getCustomer()->getCustomerId()) {
+        if ($this->getCustomerId()) {
             return false;
         }
         return true;

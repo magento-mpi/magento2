@@ -828,10 +828,7 @@ class Account extends \Magento\App\Action\Action
             array_merge($customerData, $data);
         }
         $this->_getSession()->setCustomerDto($this->_customerBuilder->populateWithArray($customerData)->create());
-
-        if ($this->getRequest()->getParam('changepass') == 1) {
-            $this->_getSession()->setChangePassword(true);
-        }
+        $this->_getSession()->setChangePassword($this->getRequest()->getParam('changepass') == 1);
 
         $this->_view->getLayout()->getBlock('head')->setTitle(__('Account Information'));
         $this->_view->getLayout()->getBlock('messages')->setEscapeMessageFlag(true);

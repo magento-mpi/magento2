@@ -32,12 +32,11 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $viewHelperMock->expects($this->any())->method('getCustomerName')->will($this->returnValue($customerName));
 
-        $escapedName = new \stdClass();
         $escaperMock = $this->getMockBuilder('Magento\Escaper')
             ->disableOriginalConstructor()
             ->getMock();
         $escaperMock->expects($this->any())->method('escapeHtml')->with($customerName)
-            ->will($this->returnValue($escapedName));
+            ->will($this->returnValue($customerName));
 
         $contextMock = $this->getMockBuilder('Magento\View\Element\Template\Context')
             ->disableOriginalConstructor()
@@ -47,6 +46,6 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         $block = new \Magento\Customer\Block\Account\Customer($contextMock, $sessionMock, $customerServiceMock,
             $viewHelperMock);
 
-        $this->assertSame($escapedName, $block->getCustomerName());
+        $this->assertSame($customerName, $block->getCustomerName());
     }
 }

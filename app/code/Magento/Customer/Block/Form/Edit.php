@@ -60,8 +60,7 @@ class Edit extends \Magento\Customer\Block\Account\Dashboard
     }
 
     /**
-     * Restore entity data from session.
-     * Entity and form code must be defined for the form
+     * Restore entity data from session. Entity and form code must be defined for the form.
      *
      * @param \Magento\Customer\Model\Metadata\Form $form
      * @param null $scope
@@ -76,5 +75,10 @@ class Edit extends \Magento\Customer\Block\Account\Dashboard
         }
 
         return $this;
+    }
+
+    public function getChangePassword()
+    {
+        return $this->_customerSession->getChangePassword();
     }
 }

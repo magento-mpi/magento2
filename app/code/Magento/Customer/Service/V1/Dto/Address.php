@@ -17,7 +17,7 @@ class Address extends \Magento\Service\Entity\AbstractDto implements Eav\EntityI
     /**
      * @var array
      */
-    private static $_nonAttributes = ['id', 'customer_id', 'region', 'default_billing', 'default_shipping'];
+    private static $_nonAttributes = ['id', 'customer_id', 'default_billing', 'default_shipping'];
 
     /**
      * @return int|null
@@ -50,13 +50,29 @@ class Address extends \Magento\Service\Entity\AbstractDto implements Eav\EntityI
     {
         $attributes = $this->_data;
         foreach (self::$_nonAttributes as $keyName) {
-            unset ($attributes[$keyName]);
+            unset($attributes[$keyName]);
         }
 
         /** This triggers some code in _updateAddressModel in CustomerV1 Service */
         if (!is_null($this->getRegion())) {
-            $attributes['region']['region_id'] = $this->getRegion()->getRegionId();
-            $attributes['region']['region'] = $this->getRegion()->getRegion();
+            $region = $this->getRegion();
+            if (!is_null($region->getRegionId())) {
+                $attributes['region_id'] = $region->getRegionId();
+            } else {
+                unset($attributes['region_id']);
+            }
+            if (!is_null($region->getRegion())) {
+                $attributes['region'] = $region->getRegion();
+            } else {
+                unset($attributes['region']);
+            }
+            if (!is_null($region->getRegionCode())) {
+                $attributes['region_code'] = $region->getRegionCode();
+            } else {
+                unset($attributes['region_code']);
+            }
+        } else {
+            unset($attributes['region']);
         }
 
         return $attributes;
@@ -93,7 +109,7 @@ class Address extends \Magento\Service\Entity\AbstractDto implements Eav\EntityI
     }
 
     /**
-     * @return \string[]|null
+     * @return string[]|null
      */
     public function getStreet()
     {

@@ -23,7 +23,7 @@ interface CustomerAccountServiceInterface
     const NEW_ACCOUNT_EMAIL_CONFIRMATION = 'confirmation'; // email with confirmation link
 
     // Constants for confirmation status
-    const ACCOUNT_CONFIRMED = 'comfirmed';
+    const ACCOUNT_CONFIRMED = 'confirmed';
     const ACCOUNT_CONFIRMATION_REQUIRED = 'required';
     const ACCOUNT_CONFIRMATION_NOT_REQUIRED = 'not_required';
 
