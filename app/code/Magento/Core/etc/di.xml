@@ -491,9 +491,9 @@
         </arguments>
     </type>
     <type name="Magento\Less\PreProcessor\Instruction\Import">
-        <param name="preProcessor">
-            <instance type="Magento\Less\PreProcessor\Proxy" />
-        </param>
+        <arguments>
+            <argument name="preProcessor" xsi:type="object">Magento\Less\PreProcessor\Proxy</argument>
+        </arguments>
     </type>
     <type name="Magento\Less\File\Source\Aggregated">
         <arguments>

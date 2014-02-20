@@ -50,6 +50,21 @@
     <preference for="Magento\Message\ManagerInterface" type="Magento\Message\Manager" />
     <preference for="Magento\App\Config\ValueInterface" type="Magento\Core\Model\Config\Value" />
     <preference for="Magento\Interception\Chain" type="Magento\Interception\Chain\Chain" />
+    <preference for="Magento\Module\Output\ConfigInterface" type="Magento\Core\Model\Module\Output\Config" />
+    <preference for="Magento\View\Design\Theme\CustomizationInterface" type="Magento\View\Design\Theme\Customization" />
+    <preference for="Magento\Image\Adapter\ConfigInterface" type="Magento\Core\Model\Image\Adapter\Config" />
+    <preference for="Magento\View\Design\Theme\Image\PathInterface" type="Magento\Core\Model\Theme\Image\Path" />
+    <preference for="Magento\Session\Config\ConfigInterface" type="Magento\Core\Model\Session\Config" />
+    <preference for="Magento\Session\SidResolverInterface" type="Magento\Core\Model\Session\SidResolver\Proxy" />
+    <preference for="Magento\TranslateInterface" type="Magento\Translate" />
+    <preference for="Magento\Config\ScopeListInterface" type="interceptionConfigScope" />
+    <preference for="Magento\View\Design\Theme\Label\ListInterface" type="Magento\Core\Model\Resource\Theme\Collection" />
+    <preference for="Magento\Mview\ConfigInterface" type="Magento\Mview\Config" />
+    <preference for="Magento\Mview\ViewInterface" type="Magento\Mview\View" />
+    <preference for="Magento\Mview\ProcessorInterface" type="Magento\Mview\Processor" />
+    <preference for="Magento\Mview\View\CollectionInterface" type="Magento\Mview\View\Collection" />
+    <preference for="Magento\Mview\View\SubscriptionInterface" type="Magento\Mview\View\Subscription" />
+    <preference for="Magento\Mview\View\ChangelogInterface" type="Magento\Mview\View\Changelog" />
     <type name="Magento\Message\Manager">
         <arguments>
             <argument name="session" xsi:type="object">Magento\Message\Session\Proxy</argument>
@@ -75,15 +90,6 @@
             </argument>
         </arguments>
     </type>
-    <preference for="Magento\Module\Output\ConfigInterface" type="Magento\Core\Model\Module\Output\Config" />
-    <preference for="Magento\View\Design\Theme\CustomizationInterface" type="Magento\View\Design\Theme\Customization" />
-    <preference for="Magento\Image\Adapter\ConfigInterface" type="Magento\Core\Model\Image\Adapter\Config" />
-    <preference for="Magento\View\Design\Theme\Image\PathInterface" type="Magento\Core\Model\Theme\Image\Path" />
-    <preference for="Magento\Session\Config\ConfigInterface" type="Magento\Core\Model\Session\Config" />
-    <preference for="Magento\Session\SidResolverInterface" type="Magento\Core\Model\Session\SidResolver\Proxy" />
-    <preference for="Magento\TranslateInterface" type="Magento\Translate" />
-    <preference for="Magento\Config\ScopeListInterface" type="interceptionConfigScope" />
-    <preference for="Magento\View\Design\Theme\Label\ListInterface" type="Magento\Core\Model\Resource\Theme\Collection" />
     <virtualType name="interceptionConfigScope" type="Magento\Config\Scope">
         <arguments>
             <argument name="defaultScope" xsi:type="string">global</argument>
@@ -245,19 +251,6 @@
             <argument name="fileWriteFactory" xsi:type="object">Magento\Filesystem\File\WriteFactory</argument>
         </arguments>
     </type>
-    <type name="Magento\View\Layout\Argument\HandlerFactory">
-        <param name="handlerFactories">
-            <array>
-                <item key="object"><value>Magento\Core\Model\Layout\Argument\Handler\Object</value></item>
-                <item key="options"><value>Magento\Core\Model\Layout\Argument\Handler\Options</value></item>
-                <item key="url"><value>Magento\Core\Model\Layout\Argument\Handler\Url</value></item>
-                <item key="array"><value>Magento\Core\Model\Layout\Argument\Handler\ArrayHandler</value></item>
-                <item key="boolean"><value>Magento\Core\Model\Layout\Argument\Handler\Boolean</value></item>
-                <item key="helper"><value>Magento\Core\Model\Layout\Argument\Handler\Helper</value></item>
-                <item key="number"><value>Magento\Core\Model\Layout\Argument\Handler\Number</value></item>
-                <item key="string"><value>Magento\Core\Model\Layout\Argument\Handler\String</value></item>
-            </array>
-        </param>
     <type name="Magento\App\FrontController">
         <plugin name="install" type="Magento\Module\FrontController\Plugin\Install" sortOrder="40"/>
     </type>
@@ -311,12 +304,6 @@
             <argument name="argumentInterpreter" xsi:type="object">layoutArgumentInterpreter</argument>
         </arguments>
     </type>
-    <preference for="Magento\Mview\ConfigInterface" type="Magento\Mview\Config" />
-    <preference for="Magento\Mview\ViewInterface" type="Magento\Mview\View" />
-    <preference for="Magento\Mview\ProcessorInterface" type="Magento\Mview\Processor" />
-    <preference for="Magento\Mview\View\CollectionInterface" type="Magento\Mview\View\Collection" />
-    <preference for="Magento\Mview\View\SubscriptionInterface" type="Magento\Mview\View\Subscription" />
-    <preference for="Magento\Mview\View\ChangelogInterface" type="Magento\Mview\View\Changelog" />
     <type name="Magento\Mview\View">
         <arguments>
             <argument name="state" xsi:type="object" shared="false">Magento\Core\Model\Mview\View\State</argument>
@@ -336,12 +323,10 @@
     <type name="Magento\Code\Generator">
         <arguments>
             <argument name="generatedEntities" xsi:type="array">
-                <array>
-                    <item key="factory"><value>\Magento\ObjectManager\Code\Generator\Factory</value></item>
-                    <item key="proxy"><value>\Magento\ObjectManager\Code\Generator\Proxy</value></item>
-                    <item key="interceptor"><value>\Magento\Interception\Code\Generator\Interceptor</value></item>
-                    <item key="decorator"><value>\Magento\Interception\Code\Generator\Decorator</value></item>
-                </array>
+                <item name="factory" xsi:type="string">\Magento\ObjectManager\Code\Generator\Factory</item>
+                <item name="proxy" xsi:type="string">\Magento\ObjectManager\Code\Generator\Proxy</item>
+                <item name="interceptor" xsi:type="string">\Magento\Interception\Code\Generator\Interceptor</item>
+                <item name="decorator" xsi:type="string">\Magento\Interception\Code\Generator\Decorator</item>
             </argument>
         </arguments>
     </type>

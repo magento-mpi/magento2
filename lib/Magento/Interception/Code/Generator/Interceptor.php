@@ -83,7 +83,7 @@ class Interceptor extends \Magento\Code\Generator\EntityAbstract
         return array(
             'name'       => '__construct',
             'parameters' => array_merge(array(
-                array('name' => 'pluginLocator', 'type' => '\Magento\ObjectManager\ObjectManager'),
+                array('name' => 'pluginLocator', 'type' => '\Magento\ObjectManager'),
                 array('name' => 'pluginList', 'type' => '\Magento\Interception\PluginList'),
                 array('name' => 'chain', 'type' => '\Magento\Interception\Chain'),
             ), $parameters),
