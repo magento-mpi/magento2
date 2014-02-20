@@ -10,6 +10,13 @@
 namespace Magento\Customer\Controller\Adminhtml;
 
 use Magento\App\Action\NotFoundException;
+use Magento\Customer\Service\V1\Dto\Customer;
+use Magento\Customer\Service\V1\Dto\CustomerBuilder;
+use Magento\Customer\Service\V1\Dto\AddressBuilder;
+use Magento\Customer\Service\V1\Dto\Address;
+use Magento\Customer\Service\V1\CustomerServiceInterface;
+use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
+use Magento\Exception\NoSuchEntityException;
 
 class Index extends \Magento\Backend\App\Action
 {
@@ -35,6 +42,11 @@ class Index extends \Magento\Backend\App\Action
      */
     protected $_customerFactory = null;
 
+    /** @var  CustomerBuilder */
+    protected $_customerBuilder;
+
+    /** @var  AddressBuilder */
+    protected $_addressBuilder;
     /**
      * @var \Magento\Customer\Model\AddressFactory
      */
@@ -44,6 +56,20 @@ class Index extends \Magento\Backend\App\Action
      * @var \Magento\Customer\Helper\Data
      */
     protected $_dataHelper = null;
+
+    /**
+     * @var \Magento\Customer\Model\Metadata\FormFactory
+     */
+    protected $_formFactory;
+
+    /** @var  CustomerServiceInterface */
+    protected $_customerService;
+
+    /** @var CustomerAddressServiceInterface */
+    protected $_addressService;
+
+    /** @var  \Magento\Customer\Helper\View */
+    protected $_viewHelper;
 
     /**
      * Registry key where current customer DTO stored
@@ -62,6 +88,12 @@ class Index extends \Magento\Backend\App\Action
      * @param \Magento\App\Response\Http\FileFactory $fileFactory
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Customer\Model\AddressFactory $addressFactory
+     * @param \Magento\Customer\Model\Metadata\FormFactory $formFactory
+     * @param CustomerBuilder $customerBuilder
+     * @param AddressBuilder $addressBuilder
+     * @param CustomerServiceInterface $customerService
+     * @param CustomerAddressServiceInterface $addressService
+     * @param \Magento\Customer\Helper\View $viewHelper
      * @param \Magento\Customer\Helper\Data $helper
      */
     public function __construct(
@@ -70,13 +102,25 @@ class Index extends \Magento\Backend\App\Action
         \Magento\App\Response\Http\FileFactory $fileFactory,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Customer\Model\AddressFactory $addressFactory,
+        \Magento\Customer\Model\Metadata\FormFactory $formFactory,
+        CustomerBuilder $customerBuilder,
+        AddressBuilder $addressBuilder,
+        CustomerServiceInterface $customerService,
+        CustomerAddressServiceInterface $addressService,
+        \Magento\Customer\Helper\View $viewHelper,
         \Magento\Customer\Helper\Data $helper
     ) {
         $this->_fileFactory = $fileFactory;
         $this->_coreRegistry = $coreRegistry;
         $this->_customerFactory = $customerFactory;
+        $this->_customerBuilder = $customerBuilder;
+        $this->_addressBuilder = $addressBuilder;
         $this->_addressFactory = $addressFactory;
         $this->_dataHelper = $helper;
+        $this->_formFactory = $formFactory;
+        $this->_customerService = $customerService;
+        $this->_addressService = $addressService;
+        $this->_viewHelper = $viewHelper;
         parent::__construct($context);
     }
 
@@ -84,7 +128,7 @@ class Index extends \Magento\Backend\App\Action
      * Customer initialization
      *
      * @param string $idFieldName
-     * @return \Magento\Customer\Controller\Adminhtml\Index
+     * @return string customer id
      */
     protected function _initCustomer($idFieldName = 'id')
     {
@@ -98,8 +142,8 @@ class Index extends \Magento\Backend\App\Action
         }
 
         $this->_coreRegistry->register(self::REGISTRY_CURRENT_CUSTOMER, $customer);
-        $this->_coreRegistry->register(self::REGISTRY_CURRENT_CUSTOMER_ID, $customer->getId());
-        return $this;
+        $this->_coreRegistry->register(self::REGISTRY_CURRENT_CUSTOMER_ID, $customerId);
+        return $customerId;
     }
 
     /**
@@ -150,65 +194,98 @@ class Index extends \Magento\Backend\App\Action
      */
     public function editAction()
     {
-        $this->_initCustomer();
+        $customerId = $this->_initCustomer();
         $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Customer::customer_manage');
 
-        /* @var $customer \Magento\Customer\Model\Customer */
-        $customer = $this->_coreRegistry->registry(self::REGISTRY_CURRENT_CUSTOMER);
+        $customerData = [];
+        $customerData['account'] = [];
+        $customerData['address'] = [];
+        try {
+            $customer = $this->_customerService->getCustomer($customerId);
+            $this->_title->add($this->_viewHelper->getCustomerName($customer));
+            $customerData['account'] = $customer->getAttributes();
+            $customerData['account']['id'] = $customerId;
+            try {
+                $addresses = $this->_addressService->getAddresses($customerId);
+                foreach ($addresses as $address) {
+                    $customerData['address'][$address->getId()] = $address->getAttributes();
+                    $customerData['address'][$address->getId()]['id'] = $address->getId();
+                }
+            } catch (NoSuchEntityException $e) {
+                //do nothing
+            }
+        } catch (NoSuchEntityException $e) {
+            $customerId = 0;
+            $this->_coreRegistry->unregister(self::REGISTRY_CURRENT_CUSTOMER_ID);
+            $this->_coreRegistry->register(self::REGISTRY_CURRENT_CUSTOMER_ID, 0);
+            $this->_title->add(__('New Customer'));
+        }
+        $customerData['customer_id'] = $customerId;
 
         // set entered data if was error when we do save
-        $data = $this->_objectManager->get('Magento\Backend\Model\Session')->getCustomerData(true);
+        $session = $this->_objectManager->get('Magento\Backend\Model\Session');
+        $data = $session->getCustomerData(true);
 
         // restore data from SESSION
-        if ($data) {
+        if ($data && (
+                !isset($data['customer_id']) ||
+                (isset($data['customer_id']) && $data['customer_id'] == $customerId)
+            )
+        ) {
             $request = clone $this->getRequest();
             $request->setParams($data);
 
             if (isset($data['account'])) {
-                /* @var $customerForm \Magento\Customer\Model\Form */
-                $customerForm = $this->_objectManager->create('Magento\Customer\Model\Form');
-                $customerForm->setEntity($customer)
-                    ->setFormCode('adminhtml_customer')
-                    ->setIsAjaxRequest(true);
+                $customerForm = $this->_formFactory->create(
+                    'customer',
+                    'adminhtml_customer',
+                    $customerData['account'],
+                    true
+                );
                 $formData = $customerForm->extractData($request, 'account');
-                $customerForm->restoreData($formData);
+                $customerData['account'] = $customerForm->restoreData($formData);
             }
 
             if (isset($data['address']) && is_array($data['address'])) {
-                /* @var $addressForm \Magento\Customer\Model\Form */
-                $addressForm = $this->_objectManager->create('Magento\Customer\Model\Form');
-                $addressForm->setFormCode('adminhtml_customer_address');
-
                 foreach (array_keys($data['address']) as $addressId) {
                     if ($addressId == '_template_') {
                         continue;
                     }
 
-                    $address = $customer->getAddressItemById($addressId);
-                    if (!$address) {
-                        $address = $this->_objectManager->create('Magento\Customer\Model\Address');
-                        $address->setId($addressId);
-                        $customer->addAddress($address);
+                    try {
+                        $address = $this->_addressService->getAddressById($addressId);
+                        if (!empty($customerId) && $address->getCustomerId() == $customerId) {
+                            $this->_addressBuilder->populate($address);
+                        }
+                    } catch (NoSuchEntityException $e) {
+                        $this->_addressBuilder->setId($addressId);
                     }
-
-                    $requestScope = sprintf('address/%s', $addressId);
-                    $formData = $addressForm->setEntity($address)
-                        ->extractData($request, $requestScope);
-                    $customer->setDefaultBilling(
-                        !empty($data['account']['default_billing'])
+                    if (!empty($customerId)) {
+                        $this->_addressBuilder->setCustomerId($customerId);
+                    }
+                    $this->_addressBuilder->setDefaultBilling(
+                    !empty($data['account']['default_billing'])
                         && $data['account']['default_billing'] == $addressId
                     );
-                    $customer->setDefaultShipping(
-                        !empty($data['account']['default_shipping'])
+                    $this->_addressBuilder->setDefaultShipping(
+                    !empty($data['account']['default_shipping'])
                         && $data['account']['default_shipping'] == $addressId
                     );
-                    $addressForm->restoreData($formData);
+                    $address = $this->_addressBuilder->create();
+                    $requestScope = sprintf('address/%s', $addressId);
+                    $addressForm = $this->_formFactory->create(
+                        'customer_address',
+                        'adminhtml_customer_address',
+                        $address->getAttributes()
+                    );
+                    $formData = $addressForm->extractData($request, $requestScope);
+                    $customerData['address'][$addressId] = $addressForm->restoreData($formData);
                 }
             }
         }
 
-        $this->_title->add($customer->getId() ? $customer->getName() : __('New Customer'));
+        $session->setCustomerData($customerData);
 
         /**
          * Set active menu item
@@ -276,22 +353,24 @@ class Index extends \Magento\Backend\App\Action
 
                 // Before save
                 foreach ($customerData as $property => $value) {
-                        $customer->setDataUsingMethod($property, $value);
+                    $customer->setDataUsingMethod($property, $value);
                 }
                 $this->_prepareCustomerAddressesForSave($customer, $addressesData);
                 $this->_eventManager->dispatch('adminhtml_customer_prepare_save', array(
-                    'customer'  => $customer,
-                    'request'   => $request
-                ));
+                        'customer' => $customer,
+                        'request' => $request
+                    )
+                );
 
                 // Save customer
                 $customer->save();
 
                 // After save
                 $this->_eventManager->dispatch('adminhtml_customer_save_after', array(
-                    'customer' => $customer,
-                    'request'  => $request
-                ));
+                        'customer' => $customer,
+                        'request' => $request
+                    )
+                );
                 $this->_sendWelcomeEmail($customer, $customerData);
                 if ($isExistingCustomer) {
                     $this->_changePassword($customer, $customerData);
