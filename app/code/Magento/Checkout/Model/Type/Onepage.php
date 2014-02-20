@@ -610,11 +610,6 @@ class Onepage
             return array('error' => -1, 'message' => __('Invalid data'));
         }
         $quote = $this->getQuote();
-        if ($quote->isVirtual()) {
-            $quote->getBillingAddress()->setPaymentMethod(isset($data['method']) ? $data['method'] : null);
-        } else {
-            $quote->getShippingAddress()->setPaymentMethod(isset($data['method']) ? $data['method'] : null);
-        }
 
         // shipping totals may be affected by payment method
         if (!$quote->isVirtual() && $quote->getShippingAddress()) {
