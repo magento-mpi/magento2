@@ -99,7 +99,7 @@ class Available extends \Magento\Checkout\Block\Onepage\AbstractOnepage
 
     /**
      * @param string $carrierCode
-     * @return null|string
+     * @return string
      */
     public function getCarrierName($carrierCode)
     {

@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 namespace Magento\Checkout\Block\Onepage;
+
 use Magento\Message\Collection;
 
 /**
