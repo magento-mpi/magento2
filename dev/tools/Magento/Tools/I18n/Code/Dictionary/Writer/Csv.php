@@ -61,6 +61,8 @@ class Csv implements WriterInterface
      * @param string $string
      * @param string $encloseQuote
      * @return string
+     *
+     * @SuppressWarnings(PHPMD.EvalExpression)
      */
     protected function _compileString($string, $encloseQuote)
     {
