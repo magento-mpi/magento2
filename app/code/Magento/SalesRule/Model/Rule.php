@@ -67,6 +67,7 @@ namespace Magento\SalesRule\Model;
  * @method string getCouponCode()
  * @method \Magento\SalesRule\Model\Rule setCouponCode(string $value)
  * @method int getRuleId()
+ * @method \Magento\SalesRule\Model\Rule setRuleId(int $ruleId)
  */
 class Rule extends \Magento\Rule\Model\AbstractModel
 {

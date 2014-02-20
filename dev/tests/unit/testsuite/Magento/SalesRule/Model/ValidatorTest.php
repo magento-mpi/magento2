@@ -209,7 +209,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
         );
         $validator->expects($this->any())->method('_getRules')->will($this->returnValue($rules));
 
-        // 2. Set fixtures
+        // 2. Set fixtures, provide tested code isolation
         $item->setDiscountCalculationPrice($positivePrice);
         $item->setData('calculation_price', $positivePrice);
         $validator->setSkipActionsValidation(true);
@@ -236,6 +236,51 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
         $validator->expects($this->never())->method('applyRule');   //No rules should be applied further
 
         // 6. Run tested method again
+        $validator->process($item);
+    }
+
+    public function testApplyRulesThatAppliedRuleIdsAreCollected()
+    {
+        $positivePrice = 1;
+        $ruleId1 = 123;
+        $ruleId2 = 234;
+        $expectedRuleIds = array(
+            $ruleId1 => $ruleId1,
+            $ruleId2 => $ruleId2
+        );
+
+        // 1. Get mocks
+        /** @var \Magento\SalesRule\Model\Validator|\PHPUnit_Framework_MockObject_MockObject $validator */
+        $validator = $this->getMock(
+            'Magento\SalesRule\Model\Validator',
+            array('applyRule', '_getRules', '_canProcessRule', 'setAppliedRuleIds', '__wakeup'), array(), '', false
+        );
+        /** @var \Magento\Sales\Model\Quote\Item\AbstractItem|\PHPUnit_Framework_MockObject_MockObject $item */
+        $item = $this->getMock(
+            'Magento\Sales\Model\Quote\Item', array('getAddress', '__wakeup'), array(), '', false
+        );
+        /** @var \Magento\SalesRule\Model\Rule|\PHPUnit_Framework_MockObject_MockObject $rule */
+        $rule = $this->getMock('Magento\SalesRule\Model\Rule', array('__wakeup'), array(), '', false);
+        $rule->setRuleId($ruleId1);
+        /** @var \Magento\SalesRule\Model\Rule|\PHPUnit_Framework_MockObject_MockObject $rule2 */
+        $rule2 = $this->getMock('Magento\SalesRule\Model\Rule', array('__wakeup'), array(), '', false);
+        $rule2->setRuleId($ruleId2);
+        $rules = array(
+            $rule,
+            $rule2,
+        );
+        $validator->expects($this->any())->method('_getRules')->will($this->returnValue($rules));
+
+        // 2. Set fixtures, provide tested code isolation
+        $item->setDiscountCalculationPrice($positivePrice);
+        $item->setData('calculation_price', $positivePrice);
+        $validator->setSkipActionsValidation(true);
+        $validator->expects($this->any())->method('_canProcessRule')->will($this->returnValue(true));
+
+        // 3. Set expectations
+        $validator->expects($this->once())->method('setAppliedRuleIds')->with($this->anything(), $expectedRuleIds);
+
+        // 4. Run tested method again
         $validator->process($item);
     }
 
