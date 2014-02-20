@@ -28,7 +28,7 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
             'Magento\View\Design\Theme\FlyweightFactory', array(), array(), '', false
         );
         $filesystem = $this->getMock('Magento\App\Filesystem', array(), array(), '', false);
-        $this->object = new Service($appState, $design, $this->themeFactory, $filesystem);
+        $this->object = new \Magento\View\Service($appState, $design, $this->themeFactory, $filesystem);
     }
 
     public function testExtractScope()

@@ -56,7 +56,9 @@ class Url
     {
         list($module, $filePath) = Service::extractModule($fileId);
         $this->service->updateDesignParams($params);
-        $relPath = self::getPathUsingTheme($filePath, $params['area'], $params['themeModel'], $params['locale'], $module);
+        $relPath = self::getPathUsingTheme(
+            $filePath, $params['area'], $params['themeModel'], $params['locale'], $module
+        );
         $isSecure = isset($params['_secure']) ? (bool) $params['_secure'] : null;
         $baseUrl = $this->baseUrl->getBaseUrl(array('_type' => UrlInterface::URL_TYPE_STATIC, '_secure' => $isSecure));
         return $baseUrl . $relPath;
