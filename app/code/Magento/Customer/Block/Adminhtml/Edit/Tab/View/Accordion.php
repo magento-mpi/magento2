@@ -10,6 +10,7 @@ namespace Magento\Customer\Block\Adminhtml\Edit\Tab\View;
 
 use Magento\Customer\Controller\Adminhtml\Index;
 use Magento\Customer\Service\V1\Dto\Customer;
+use Magento\Exception\NoSuchEntityException;
 
 /**
  * Adminhtml customer recent orders grid block
@@ -49,6 +50,7 @@ class Accordion extends \Magento\Backend\Block\Widget\Accordion
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Customer\Model\Config\Share $shareConfig
      * @param \Magento\Customer\Service\V1\CustomerServiceInterface $customerService
+     * @param \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerBuilder
      * @param array $data
      */
     public function __construct(
@@ -70,6 +72,9 @@ class Accordion extends \Magento\Backend\Block\Widget\Accordion
         parent::__construct($context, $data);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function _prepareLayout()
     {
         $this->setId('customerViewAccordion');
@@ -103,7 +108,8 @@ class Accordion extends \Magento\Backend\Block\Widget\Accordion
             $this->addItem('shopingCart' . $websiteId, array(
                 'title'   => $title,
                 'ajax'    => true,
-                'content_url' => $this->getUrl('customer/*/viewCart', array('_current' => true, 'website_id' => $websiteId)),
+                'content_url' => $this->getUrl('customer/*/viewCart',
+                        array('_current' => true, 'website_id' => $websiteId)),
             ));
         }
 
@@ -125,6 +131,7 @@ class Accordion extends \Magento\Backend\Block\Widget\Accordion
      *
      * @param int|null $customerId possible customer ID from DB
      * @return Customer
+     * @throws NoSuchEntityException
      */
     protected function getCustomer($customerId)
     {

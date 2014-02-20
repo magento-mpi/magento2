@@ -19,7 +19,7 @@ $groupId = $website->getDefaultGroupId();
 /** @var \Magento\Core\Model\Store $store */
 $store = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
     ->create('Magento\Core\Model\Store');
-$store->setCode('secondstore') // fixture_store conflicts with "current_store" notation
+$store->setCode('secondstore')
     ->setName('Second Store')
     ->setSortOrder(10)
     ->setIsActive(1);
@@ -39,7 +39,7 @@ $groupId = $website->getDefaultGroupId();
 /** @var \Magento\Core\Model\Store $store */
 $store = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
     ->create('Magento\Core\Model\Store');
-$store->setCode('thirdstore') // fixture_store conflicts with "current_store" notation
+$store->setCode('thirdstore')
     ->setName('Third Store')
     ->setSortOrder(10)
     ->setIsActive(1);
