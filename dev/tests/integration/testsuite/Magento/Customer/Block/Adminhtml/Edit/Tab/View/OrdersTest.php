@@ -65,8 +65,7 @@ class OrdersTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetRowUrl()
     {
-        $row = new \Magento\Object();
-        $row->setId(1);
+        $row = new \Magento\Object(['id' => 1]);
         $this->assertContains('sales/order/view/order_id/1', $this->block->getRowUrl($row));
     }
 
@@ -90,10 +89,26 @@ class OrdersTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Check the grid Html.
+     * Check the empty grid Html.
      */
-    public function testToHtml()
+    public function testToHtmlEmptyOrders()
     {
+        $this->assertEquals(0, $this->block->getCollection()->getSize());
         $this->assertContains("We couldn't find any records.", $this->block->toHtml());
+    }
+
+    /**
+     * Verify the contents of the grid Html when there is a sales order.
+     *
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     * @magentoDataFixture Magento/Sales/_files/order.php
+     * @magentoDataFixture Magento/Customer/_files/sales_order.php
+     */
+    public function testToHtmlWithOrders()
+    {
+        $html = $this->block->toHtml();
+        $this->assertContains('100000001', $html);
+        $this->assertContains('firstname lastname', $html);
+        $this->assertEquals(1, $this->block->getCollection()->getSize());
     }
 }

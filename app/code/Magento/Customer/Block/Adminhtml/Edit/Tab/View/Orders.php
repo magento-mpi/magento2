@@ -89,52 +89,52 @@ class Orders extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareColumns()
     {
-        $this->addColumn('increment_id', array(
+        $this->addColumn('increment_id', [
             'header'    => __('Order'),
             'align'     => 'center',
             'index'     => 'increment_id',
             'width'     => '100px',
-        ));
+        ]);
 
-        $this->addColumn('created_at', array(
+        $this->addColumn('created_at', [
             'header'    => __('Purchase Date'),
             'index'     => 'created_at',
             'type'      => 'datetime',
-        ));
+        ]);
 
-        $this->addColumn('billing_name', array(
+        $this->addColumn('billing_name', [
             'header'    => __('Bill-to Name'),
             'index'     => 'billing_name',
-        ));
+        ]);
 
-        $this->addColumn('shipping_name', array(
+        $this->addColumn('shipping_name', [
             'header'    => __('Shipped-to Name'),
             'index'     => 'shipping_name',
-        ));
+        ]);
 
-        $this->addColumn('grand_total', array(
+        $this->addColumn('grand_total', [
             'header'    => __('Grand Total'),
             'index'     => 'grand_total',
             'type'      => 'currency',
             'currency'  => 'order_currency_code',
-        ));
+        ]);
 
         if (!$this->_storeManager->isSingleStoreMode()) {
-            $this->addColumn('store_id', array(
+            $this->addColumn('store_id', [
                 'header'    => __('Purchase Point'),
                 'index'     => 'store_id',
                 'type'      => 'store',
                 'store_view' => true,
-            ));
+            ]);
         }
 
-        $this->addColumn('action', array(
+        $this->addColumn('action', [
             'header'    =>  ' ',
             'filter'    =>  false,
             'sortable'  =>  false,
             'width'     => '100px',
             'renderer'  =>  'Magento\Sales\Block\Adminhtml\Reorder\Renderer\Action'
-        ));
+        ]);
 
         return parent::_prepareColumns();
     }

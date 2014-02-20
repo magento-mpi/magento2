@@ -14,32 +14,33 @@ namespace Magento\Customer\Block\Widget;
  */
 class TaxvatTest extends \PHPUnit_Framework_TestCase
 {
-    /* Constants used in the unit tests */
-    const CUSTOMER_ENTITY_TYPE = 'customer';
-    const TAXVAT_ATTRIBUTE_CODE = 'taxvat';
 
-    public function testGetDateFormat()
+    public function testToHtml()
     {
-        $attribute
-            = $this->getMock('Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata', [], [], '', false);
-        $attribute->expects($this->any())
-            ->method('isRequired')
-            ->will($this->returnValue(true));
+        /** @var \Magento\Customer\Block\Widget\Taxvat $block */
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Block\Widget\Taxvat');
 
-        $attributeMetadata
-            = $this->getMockForAbstractClass(
-            'Magento\Customer\Service\V1\CustomerMetadataServiceInterface',
-            [],
-            '',
-            false
-        );
-        $attributeMetadata->expects($this->any())->method('getAttributeMetadata')
-            ->with(self::CUSTOMER_ENTITY_TYPE, self::TAXVAT_ATTRIBUTE_CODE)
-            ->will($this->returnValue($attribute));
+        $this->assertContains('title="Tax/VAT number"', $block->toHtml());
+        $this->assertNotContains('required', $block->toHtml());
+    }
+
+    /**
+     * @magentoDbIsolation enabled
+     */
+    public function testToHtmlRequired()
+    {
+        /** @var \Magento\Customer\Model\Attribute $model */
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Attribute');
+        $model->loadByCode('customer', 'taxvat')->setIsRequired(true);
+        $model->save();
 
         /** @var \Magento\Customer\Block\Widget\Taxvat $block */
         $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Customer\Block\Widget\Taxvat', ['attributeMetadata' => $attributeMetadata]);
-        $this->assertContains('<div class="field taxvat required">', $block->toHtml());
+            ->create('Magento\Customer\Block\Widget\Taxvat');
+
+        $this->assertContains('title="Tax/VAT number"', $block->toHtml());
+        $this->assertContains('required', $block->toHtml());
     }
 }
