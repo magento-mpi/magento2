@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Model;
 
 /**
  * PayPal Direct Module
  */
-namespace Magento\Paypal\Model;
-
 class Direct extends \Magento\Payment\Model\Method\Cc
 {
     /**
@@ -25,22 +24,87 @@ class Direct extends \Magento\Payment\Model\Method\Cc
      */
     protected $_infoBlockType = 'Magento\Paypal\Block\Payment\Info';
 
-    /**#@+
-     * Availability options
+    /**
+     * Availability option
+     *
+     * @var bool
      */
     protected $_isGateway               = true;
+
+    /**
+     * Availability option
+     *
+     * @var bool
+     */
     protected $_canAuthorize            = true;
+
+    /**
+     * Availability option
+     *
+     * @var bool
+     */
     protected $_canCapture              = true;
+
+    /**
+     * Availability option
+     *
+     * @var bool
+     */
     protected $_canCapturePartial       = true;
+
+    /**
+     * Availability option
+     *
+     * @var bool
+     */
     protected $_canRefund               = true;
+
+    /**
+     * Availability option
+     *
+     * @var bool
+     */
     protected $_canRefundInvoicePartial = true;
+
+    /**
+     * Availability option
+     *
+     * @var bool
+     */
     protected $_canVoid                 = true;
+
+    /**
+     * Availability option
+     *
+     * @var bool
+     */
     protected $_canUseInternal          = true;
+
+    /**
+     * Availability option
+     *
+     * @var bool
+     */
     protected $_canUseCheckout          = true;
+
+    /**
+     * Availability option
+     *
+     * @var bool
+     */
     protected $_canSaveCc = false;
+
+    /**
+     * @var bool
+     */
     protected $_canFetchTransactionInfo = true;
+
+    /**
+     * Availability option
+     *
+     * @var bool
+     */
     protected $_canReviewPayment        = true;
-    /**#@-*/
 
     /**
      * Website Payments Pro instance
@@ -200,7 +264,7 @@ class Direct extends \Magento\Payment\Model\Method\Cc
 
     /**
      * Check whether payment method can be used
-     * @param \Magento\Sales\Model\Quote
+     * @param \Magento\Sales\Model\Quote $quote
      * @return bool
      */
     public function isAvailable($quote = null)
@@ -216,7 +280,7 @@ class Direct extends \Magento\Payment\Model\Method\Cc
      *
      * @param string $field
      * @param int $storeId
-     * @return mixed
+     * @return null|string
      */
     public function getConfigData($field, $storeId = null)
     {
@@ -237,7 +301,7 @@ class Direct extends \Magento\Payment\Model\Method\Cc
      *
      * @param \Magento\Object|\Magento\Sales\Model\Order\Payment $payment
      * @param float $amount
-     * @return \Magento\Paypal\Model\Direct
+     * @return $this
      */
     public function authorize(\Magento\Object $payment, $amount)
     {
@@ -248,7 +312,7 @@ class Direct extends \Magento\Payment\Model\Method\Cc
      * Void payment
      *
      * @param \Magento\Object|\Magento\Sales\Model\Order\Payment $payment
-     * @return \Magento\Paypal\Model\Direct
+     * @return $this
      */
     public function void(\Magento\Object $payment)
     {
@@ -261,7 +325,7 @@ class Direct extends \Magento\Payment\Model\Method\Cc
      *
      * @param \Magento\Object|\Magento\Sales\Model\Order\Payment $payment
      * @param float $amount
-     * @return \Magento\Paypal\Model\Direct
+     * @return $this
      */
     public function capture(\Magento\Object $payment, $amount)
     {
@@ -276,7 +340,7 @@ class Direct extends \Magento\Payment\Model\Method\Cc
      *
      * @param \Magento\Object|\Magento\Sales\Model\Order\Payment $payment
      * @param float $amount
-     * @return \Magento\Paypal\Model\Direct
+     * @return $this
      */
     public function refund(\Magento\Object $payment, $amount)
     {
@@ -288,7 +352,7 @@ class Direct extends \Magento\Payment\Model\Method\Cc
      * Cancel payment
      *
      * @param \Magento\Object|\Magento\Sales\Model\Order\Payment $payment
-     * @return \Magento\Paypal\Model\Direct
+     * @return $this
      */
     public function cancel(\Magento\Object $payment)
     {
@@ -363,7 +427,7 @@ class Direct extends \Magento\Payment\Model\Method\Cc
      *
      * @param \Magento\Sales\Model\Order\Payment $payment
      * @param float $amount
-     * @return \Magento\Paypal\Model\Direct
+     * @return $this
      */
     protected function _placeOrder(\Magento\Sales\Model\Order\Payment $payment, $amount)
     {
@@ -438,8 +502,9 @@ class Direct extends \Magento\Payment\Model\Method\Cc
     /**
      * Import direct payment results to payment
      *
-     * @param \Magento\Paypal\Model\Api\Nvp
-     * @param \Magento\Sales\Model\Order\Payment
+     * @param \Magento\Paypal\Model\Api\Nvp $api
+     * @param \Magento\Sales\Model\Order\Payment $payment
+     * @return void
      */
     protected function _importResultToPayment($api, $payment)
     {

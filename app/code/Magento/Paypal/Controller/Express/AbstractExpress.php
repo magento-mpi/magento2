@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Paypal\Controller\Express;
 
 /**
@@ -119,6 +118,8 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
 
     /**
      * Start Express Checkout by requesting initial token and dispatching customer to PayPal
+     *
+     * @return void
      */
     public function startAction()
     {
@@ -172,6 +173,8 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
 
     /**
      * Return shipping options items for shipping address from request
+     *
+     * @return void
      */
     public function shippingOptionsCallbackAction()
     {
@@ -188,6 +191,8 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
 
     /**
      * Cancel Express Checkout
+     *
+     * @return void
      */
     public function cancelAction()
     {
@@ -220,6 +225,8 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
 
     /**
      * Return from PayPal and dispatch customer to order review page
+     *
+     * @return void
      */
     public function returnAction()
     {
@@ -239,6 +246,8 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
 
     /**
      * Review order after returning from PayPal
+     *
+     * @return void
      */
     public function reviewAction()
     {
@@ -268,6 +277,8 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
 
     /**
      * Dispatch customer back to PayPal for editing payment information
+     *
+     * @return void
      */
     public function editAction()
     {
@@ -281,6 +292,8 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
 
     /**
      * Update shipping method (combined action for ajax and regular request)
+     *
+     * @return void
      */
     public function saveShippingMethodAction()
     {
@@ -311,6 +324,8 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
 
     /**
      * Update Order (combined action for ajax and regular request)
+     *
+     * @return void
      */
     public function updateShippingMethodsAction()
     {
@@ -335,6 +350,8 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
 
     /**
      * Update Order (combined action for ajax and regular request)
+     *
+     * @return void
      */
     public function updateOrderAction()
     {
@@ -366,6 +383,7 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
     /**
      * Submit the order
      *
+     * @return void
      * @throws \Magento\Core\Exception
      */
     public function placeOrderAction()
@@ -429,6 +447,7 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
     /**
      * Instantiate quote and checkout
      *
+     * @return void
      * @throws \Magento\Core\Exception
      */
     private function _initCheckout()
@@ -520,6 +539,7 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
     /**
      * Redirect to login page
      *
+     * @return void
      */
     public function redirectLogin()
     {

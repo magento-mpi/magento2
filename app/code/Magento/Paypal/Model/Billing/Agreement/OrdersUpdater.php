@@ -5,12 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Model\Billing\Agreement;
 
 /**
  * Orders grid massaction items updater
  */
-namespace Magento\Paypal\Model\Billing\Agreement;
-
 class OrdersUpdater implements \Magento\Core\Model\Layout\Argument\UpdaterInterface
 {
     /**

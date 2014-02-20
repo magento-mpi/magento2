@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Model;
 
 /**
  * PayPal specific model for certificate based authentication
  */
-namespace Magento\Paypal\Model;
-
 use Magento\Filesystem\Directory\WriteInterface;
 
 class Cert extends \Magento\Core\Model\AbstractModel
@@ -57,6 +56,8 @@ class Cert extends \Magento\Core\Model\AbstractModel
 
     /**
      * Initialize resource model
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -68,7 +69,7 @@ class Cert extends \Magento\Core\Model\AbstractModel
      *
      * @param int $websiteId
      * @param bool $strictLoad
-     * @return \Magento\Paypal\Model\Cert
+     * @return $this
      */
     public function loadByWebsite($websiteId, $strictLoad = true)
     {
@@ -102,6 +103,7 @@ class Cert extends \Magento\Core\Model\AbstractModel
      * Create physical certificate file based on DB data
      *
      * @param string $file
+     * @return void
      */
     protected function _createCertFile($file)
     {
@@ -128,7 +130,7 @@ class Cert extends \Magento\Core\Model\AbstractModel
     /**
      * Delete assigned certificate file after delete object
      *
-     * @return \Magento\Paypal\Model\Cert
+     * @return $this
      */
     protected function _afterDelete()
     {

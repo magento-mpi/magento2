@@ -7,15 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Model\Api;
+
+use Magento\Payment\Model\Cart;
 
 /**
  * NVP API wrappers model
  * @TODO: move some parts to abstract, don't hesitate to throw exceptions on api calls
  */
-namespace Magento\Paypal\Model\Api;
-
-use Magento\Payment\Model\Cart;
-
 class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
 {
     /**
@@ -38,11 +37,17 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
     const PENDING_TRANSACTION_DENY = 'Deny';
 
     /**
-     * Capture types (make authorization close or remain open)
+     * Capture type (make authorization close or remain open)
      *
      * @var string
      */
     protected $_captureTypeComplete = 'Complete';
+
+    /**
+     * Capture type (make authorization close or remain open)
+     *
+     * @var string
+     */
     protected $_captureTypeNotcomplete = 'NotComplete';
 
     /**
@@ -177,7 +182,7 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
     );
 
     /**
-     * Filter callbacks for preparing internal amounts to NVP request
+     * Filter callback for preparing internal amounts to NVP request
      *
      * @var array
      */
@@ -189,7 +194,7 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
         'TAXAMT'      => '_filterAmount',
         'INITAMT'     => '_filterAmount',
         'CREDITCARDTYPE' => '_filterCcType',
-//        'PROFILESTARTDATE' => '_filterToPaypalDate',
+        //        'PROFILESTARTDATE' => '_filterToPaypalDate',
         'AUTOBILLAMT' => '_filterBillFailedLater',
         'BILLINGPERIOD' => '_filterPeriodUnit',
         'TRIALBILLINGPERIOD' => '_filterPeriodUnit',
@@ -198,6 +203,11 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
         'NOSHIPPING' => '_filterInt',
     );
 
+    /**
+     * Filter callback for preparing internal amounts to NVP request
+     *
+     * @var array
+     */
     protected $_importFromRequestFilters = array(
         'REDIRECTREQUIRED'  => '_filterToBool',
         'SUCCESSPAGEREDIRECTREQUESTED'  => '_filterToBool',
@@ -207,14 +217,14 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
     /**
      * Request map for each API call
      *
-     * @var array
+     * @var string[]
      */
     protected $_eachCallRequest = array('VERSION', 'USER', 'PWD', 'SIGNATURE', 'BUTTONSOURCE',);
 
     /**
-     * SetExpressCheckout request/response map
+     * SetExpressCheckout request map
      *
-     * @var array
+     * @var string[]
      */
     protected $_setExpressCheckoutRequest = array(
         'PAYMENTACTION', 'AMT', 'CURRENCYCODE', 'RETURNURL', 'CANCELURL', 'INVNUM', 'SOLUTIONTYPE', 'NOSHIPPING',
@@ -222,31 +232,44 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
         'PAGESTYLE', 'HDRIMG', 'HDRBORDERCOLOR', 'HDRBACKCOLOR', 'PAYFLOWCOLOR', 'LOCALECODE',
         'BILLINGTYPE', 'SUBJECT', 'ITEMAMT', 'SHIPPINGAMT', 'TAXAMT', 'REQBILLINGADDRESS',
     );
+
+    /**
+     * SetExpressCheckout response map
+     *
+     * @var string[]
+     */
     protected $_setExpressCheckoutResponse = array('TOKEN');
 
     /**
-     * GetExpressCheckoutDetails request/response map
-     * @var array
+     * GetExpressCheckoutDetails request map
+     *
+     * @var string[]
      */
     protected $_getExpressCheckoutDetailsRequest = array('TOKEN', 'SUBJECT',);
 
     /**
-     * DoExpressCheckoutPayment request/response map
+     * DoExpressCheckoutPayment request map
      *
-     * @var array
+     * @var string[]
      */
     protected $_doExpressCheckoutPaymentRequest = array(
         'TOKEN', 'PAYERID', 'PAYMENTACTION', 'AMT', 'CURRENCYCODE', 'IPADDRESS', 'BUTTONSOURCE', 'NOTIFYURL',
         'RETURNFMFDETAILS', 'SUBJECT', 'ITEMAMT', 'SHIPPINGAMT', 'TAXAMT',
     );
+
+    /**
+     * DoExpressCheckoutPayment response map
+     *
+     * @var string[]
+     */
     protected $_doExpressCheckoutPaymentResponse = array(
         'TRANSACTIONID', 'AMT', 'PAYMENTSTATUS', 'PENDINGREASON', 'REDIRECTREQUIRED'
     );
 
     /**
-     * DoDirectPayment request/response map
+     * DoDirectPayment request map
      *
-     * @var array
+     * @var string[]
      */
     protected $_doDirectPaymentRequest = array(
         'PAYMENTACTION', 'IPADDRESS', 'RETURNFMFDETAILS',
@@ -254,82 +277,124 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
         'CREDITCARDTYPE', 'ACCT', 'EXPDATE', 'CVV2', 'STARTDATE', 'ISSUENUMBER',
         'AUTHSTATUS3DS', 'MPIVENDOR3DS', 'CAVV', 'ECI3DS', 'XID',
     );
+
+    /**
+     * DoDirectPayment response map
+     *
+     * @var string[]
+     */
     protected $_doDirectPaymentResponse = array(
         'TRANSACTIONID', 'AMT', 'AVSCODE', 'CVV2MATCH', 'VPAS', 'ECISUBMITTED3DS'
     );
 
     /**
-     * DoReauthorization request/response map
+     * DoReauthorization request map
      *
-     * @var array
+     * @var string[]
      */
     protected $_doReauthorizationRequest = array('AUTHORIZATIONID', 'AMT', 'CURRENCYCODE');
+
+    /**
+     * DoReauthorization response map
+     *
+     * @var string[]
+     */
     protected $_doReauthorizationResponse = array(
         'AUTHORIZATIONID', 'PAYMENTSTATUS', 'PENDINGREASON', 'PROTECTIONELIGIBILITY'
     );
 
     /**
-     * DoCapture request/response map
+     * DoCapture request map
      *
-     * @var array
+     * @var string[]
      */
     protected $_doCaptureRequest = array('AUTHORIZATIONID', 'COMPLETETYPE', 'AMT', 'CURRENCYCODE', 'NOTE', 'INVNUM',);
+
+    /**
+     * DoCapture response map
+     *
+     * @var string[]
+     */
     protected $_doCaptureResponse = array('TRANSACTIONID', 'CURRENCYCODE', 'AMT', 'PAYMENTSTATUS', 'PENDINGREASON',);
 
 
     /**
-     * DoAuthorization request/response map
+     * DoAuthorization request map
      *
-     * @var array
+     * @var string[]
      */
     protected $_doAuthorizationRequest = array('TRANSACTIONID', 'AMT', 'CURRENCYCODE');
+
+    /**
+     * DoAuthorization response map
+     *
+     * @var string[]
+     */
     protected $_doAuthorizationResponse = array('TRANSACTIONID', 'AMT');
 
     /**
      * DoVoid request map
      *
-     * @var array
+     * @var string[]
      */
     protected $_doVoidRequest = array('AUTHORIZATIONID', 'NOTE',);
 
     /**
      * GetTransactionDetailsRequest
      *
-     * @var array
+     * @var string[]
      */
     protected $_getTransactionDetailsRequest = array('TRANSACTIONID');
+
+    /**
+     * GetTransactionDetailsResponse
+     *
+     * @var string[]
+     */
     protected $_getTransactionDetailsResponse = array(
         'PAYERID', 'FIRSTNAME', 'LASTNAME', 'TRANSACTIONID', 'PARENTTRANSACTIONID', 'CURRENCYCODE', 'AMT',
         'PAYMENTSTATUS', 'PENDINGREASON',
     );
 
     /**
-     * RefundTransaction request/response map
+     * RefundTransaction request map
      *
-     * @var array
+     * @var string[]
      */
     protected $_refundTransactionRequest = array('TRANSACTIONID', 'REFUNDTYPE', 'CURRENCYCODE', 'NOTE',);
+
+    /**
+     * RefundTransaction response map
+     *
+     * @var string[]
+     */
     protected $_refundTransactionResponse = array('REFUNDTRANSACTIONID', 'GROSSREFUNDAMT',);
 
     /**
-     * ManagePendingTransactionStatus request/response map
+     * ManagePendingTransactionStatus request map
      *
-     * @var array
+     * @var string[]
      */
     protected $_managePendingTransactionStatusRequest = array('TRANSACTIONID', 'ACTION');
+
+    /**
+     * ManagePendingTransactionStatus response map
+     *
+     * @var string[]
+     */
     protected $_managePendingTransactionStatusResponse = array('TRANSACTIONID', 'STATUS');
 
     /**
      * GetPalDetails response map
      *
-     * @var array
+     * @var string[]
      */
     protected $_getPalDetailsResponse = array('PAL');
 
     /**
      * CreateRecurringPaymentsProfile request map
      *
-     * @var array
+     * @var string[]
      */
     protected $_createRecurringPaymentsProfileRequest = array(
         'TOKEN', 'SUBSCRIBERNAME', 'PROFILESTARTDATE', 'PROFILEREFERENCE', 'DESC', 'MAXFAILEDPAYMENTS', 'AUTOBILLAMT',
@@ -340,7 +405,7 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
     /**
      * CreateRecurringPaymentsProfile response map
      *
-     * @var array
+     * @var string[]
      */
     protected $_createRecurringPaymentsProfileResponse = array(
         'PROFILEID', 'PROFILESTATUS'
@@ -349,26 +414,27 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
     /**
      * Request/response for ManageRecurringPaymentsProfileStatus map
      *
-     * @var array
+     * @var string[]
      */
     protected $_manageRecurringPaymentsProfileStatusRequest = array('PROFILEID', 'ACTION');
 
     /**
      * Request for GetRecurringPaymentsProfileDetails
      *
-     * @var array
+     * @var string[]
      */
     protected $_getRecurringPaymentsProfileDetailsRequest = array('PROFILEID');
 
     /**
      * Response for GetRecurringPaymentsProfileDetails
      *
-     * @var array
+     * @var string[]
      */
     protected $_getRecurringPaymentsProfileDetailsResponse = array('STATUS', /* TODO: lot of other stuff */);
 
     /**
      * Map for billing address import/export
+     *
      * @var array
      */
     protected $_billingAddressMap = array (
@@ -428,7 +494,7 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
 
     /**
      * Payment information response specifically to be collected after some requests
-     * @var array
+     * @var string[]
      */
     protected $_paymentInformationResponse = array(
         'PAYERID', 'PAYERSTATUS', 'CORRELATIONID', 'ADDRESSID', 'ADDRESSSTATUS',
@@ -444,6 +510,11 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
         Cart::AMOUNT_TAX      => 'TAXAMT',
         Cart::AMOUNT_SHIPPING => 'SHIPPINGAMT',
     );
+
+    /**
+     * Line items export mapping settings
+     * @var array
+     */
     protected $_lineItemExportItemsFormat = array(
         'id'     => 'L_NUMBER%d',
         'name'   => 'L_NAME%d',
@@ -464,54 +535,87 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
     );
 
     /**
-     * init Billing Agreement request/response map
-     * @var array
+     * init Billing Agreement request map
+     *
+     * @var string[]
      */
     protected $_customerBillingAgreementRequest = array('RETURNURL', 'CANCELURL', 'BILLINGTYPE');
+
+    /**
+     * init Billing Agreement response map
+     *
+     * @var string[]
+     */
     protected $_customerBillingAgreementResponse = array('TOKEN');
 
     /**
-     * Billing Agreement details request/response map
-     * @var array
+     * Billing Agreement details request map
+     *
+     * @var string[]
      */
     protected $_billingAgreementCustomerDetailsRequest = array('TOKEN');
+
+    /**
+     * Billing Agreement details response map
+     *
+     * @var string[]
+     */
     protected $_billingAgreementCustomerDetailsResponse = array('EMAIL', 'PAYERID', 'PAYERSTATUS', 'SHIPTOCOUNTRYCODE',
         'PAYERBUSINESS'
     );
 
     /**
-     * Create Billing Agreement request/response map
-     * @var array
+     * Create Billing Agreement request map
+     *
+     * @var string[]
      */
     protected $_createBillingAgreementRequest = array('TOKEN');
+
+    /**
+     * Create Billing Agreement response map
+     *
+     * @var string[]
+     */
     protected $_createBillingAgreementResponse = array('BILLINGAGREEMENTID');
 
     /**
-     * Update Billing Agreement request/response map
+     * Update Billing Agreement request map
      *
-     * @var array
+     * @var string[]
      */
     protected $_updateBillingAgreementRequest = array(
         'REFERENCEID', 'BILLINGAGREEMENTDESCRIPTION', 'BILLINGAGREEMENTSTATUS', 'BILLINGAGREEMENTCUSTOM'
     );
+
+    /**
+     * Update Billing Agreement response map
+     *
+     * @var string[]
+     */
     protected $_updateBillingAgreementResponse = array(
         'REFERENCEID', 'BILLINGAGREEMENTDESCRIPTION', 'BILLINGAGREEMENTSTATUS', 'BILLINGAGREEMENTCUSTOM'
     );
 
     /**
-     * Do Reference Transaction request/response map
+     * Do Reference Transaction request map
      *
-     * @var array
+     * @var string[]
      */
     protected $_doReferenceTransactionRequest = array('REFERENCEID', 'PAYMENTACTION', 'AMT', 'ITEMAMT', 'SHIPPINGAMT',
         'TAXAMT', 'INVNUM', 'NOTIFYURL', 'CURRENCYCODE'
     );
+
+    /**
+     * Do Reference Transaction response map
+     *
+     * @var string[]
+     */
     protected $_doReferenceTransactionResponse = array('BILLINGAGREEMENTID', 'TRANSACTIONID');
 
     /**
      * Fields that should be replaced in debug with '***'
      *
-     * @var array
+     * @var string[]
      */
     protected $_debugReplacePrivateDataKeys = array(
         'ACCT', 'EXPDATE', 'CVV2', 'CARDISSUE', 'CARDSTART', 'CREDITCARDTYPE', 'USER', 'PWD', 'SIGNATURE'
@@ -617,8 +721,11 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
 
     /**
      * SetExpressCheckout call
+     *
      * @link https://cms.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=developer/e_howto_api_nvp_r_SetExpressCheckout
      * TODO: put together style and giropay settings
+     *
+     * @return void
      */
     public function callSetExpressCheckout()
     {
@@ -652,7 +759,10 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
 
     /**
      * GetExpressCheckoutDetails call
+     *
      * @link https://cms.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=developer/e_howto_api_nvp_r_GetExpressCheckoutDetails
+     *
+     * @return void
      */
     function callGetExpressCheckoutDetails()
     {
@@ -665,7 +775,10 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
 
     /**
      * DoExpressCheckout call
+     *
      * @link https://cms.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=developer/e_howto_api_nvp_r_DoExpressCheckoutPayment
+     *
+     * @return void
      */
     public function callDoExpressCheckoutPayment()
     {
@@ -686,6 +799,8 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
 
     /**
      * Process a credit card payment
+     *
+     * @return void
      */
     public function callDoDirectPayment()
     {
@@ -700,7 +815,10 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
 
     /**
      * Do Reference Transaction call
+     *
      * @link https://cms.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=developer/e_howto_api_nvp_r_DoReferenceTransaction
+     *
+     * @return void
      */
     public function callDoReferenceTransaction()
     {
@@ -722,6 +840,8 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
 
     /**
      * Made additional request to paypal to get autharization id
+     *
+     * @return void
      */
     public function callDoReauthorization()
     {
@@ -732,7 +852,10 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
 
     /**
      * DoCapture call
+     *
      * @link https://cms.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=developer/e_howto_api_nvp_r_DoCapture
+     *
+     * @return void
      */
     public function callDoCapture()
     {
@@ -747,7 +870,8 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
      * DoAuthorization call
      *
      * @link https://cms.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=developer/e_howto_api_nvp_r_DoAuthorization
-     * @return \Magento\Paypal\Model\Api\Nvp
+     *
+     * @return $this
      */
     public function callDoAuthorization()
     {
@@ -762,7 +886,10 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
 
     /**
      * DoVoid call
+     *
      * @link https://cms.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=developer/e_howto_api_nvp_r_DoVoid
+     *
+     * @return void
      */
     public function callDoVoid()
     {
@@ -772,7 +899,10 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
 
     /**
      * GetTransactionDetails
+     *
      * @link https://cms.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=developer/e_howto_api_nvp_r_GetTransactionDetails
+     *
+     * @return void
      */
     public function callGetTransactionDetails()
     {
@@ -783,7 +913,10 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
 
     /**
      * RefundTransaction call
+     *
      * @link https://cms.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=developer/e_howto_api_nvp_r_RefundTransaction
+     *
+     * @return void
      */
     public function callRefundTransaction()
     {
@@ -797,7 +930,10 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
 
     /**
      * ManagePendingTransactionStatus
+     *
      * @link https://cms.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=developer/e_howto_api_nvp_r_ManagePendingTransactionStatus
+     *
+     * @return void
      */
     public function callManagePendingTransactionStatus()
     {
@@ -810,9 +946,12 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
     }
 
     /**
-     * getPalDetails call
+     * GetPalDetails call
+     *
      * @link https://www.x.com/docs/DOC-1300
      * @link https://cms.paypal.com/us/cgi-bin/?cmd=_render-content&content_ID=developer/e_howto_api_ECButtonIntegration
+     *
+     * @return void
      */
     public function callGetPalDetails()
     {
@@ -824,6 +963,8 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
      * Set Customer BillingA greement call
      *
      * @link https://cms.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=developer/e_howto_api_nvp_r_SetCustomerBillingAgreement
+     *
+     * @return void
      */
     public function callSetCustomerBillingAgreement()
     {
@@ -836,6 +977,8 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
      * Get Billing Agreement Customer Details call
      *
      * @link https://cms.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=developer/e_howto_api_nvp_r_GetBillingAgreementCustomerDetails
+     *
+     * @return void
      */
     public function callGetBillingAgreementCustomerDetails()
     {
@@ -847,6 +990,7 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
     /**
      * Create Billing Agreement call
      *
+     * @return void
      */
     public function callCreateBillingAgreement()
     {
@@ -858,6 +1002,7 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
     /**
      * Billing Agreement Update call
      *
+     * @return void
      */
     public function callUpdateBillingAgreement()
     {
@@ -875,6 +1020,8 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
 
     /**
      * CreateRecurringPaymentsProfile call
+     *
+     * @return void
      */
     public function callCreateRecurringPaymentsProfile()
     {
@@ -887,6 +1034,7 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
     /**
      * ManageRecurringPaymentsProfileStatus call
      *
+     * @return void
      * @throws \Magento\Core\Exception
      */
     public function callManageRecurringPaymentsProfileStatus()
@@ -912,6 +1060,9 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
 
     /**
      * GetRecurringPaymentsProfileDetails call
+     *
+     * @param \Magento\Object $result
+     * @return void
      */
     public function callGetRecurringPaymentsProfileDetails(\Magento\Object $result)
     {
@@ -978,7 +1129,6 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
      * Additional response processing.
      *
      * @param  array $response
-     *
      * @return array
      */
     protected function _postProcessResponse($response)
@@ -1071,7 +1221,7 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
      * Setter for 'raw response needed' flag
      *
      * @param bool $flag
-     * @return \Magento\Paypal\Model\Api\Nvp
+     * @return $this
      */
     public function setRawResponseNeeded($flag)
     {
@@ -1114,7 +1264,7 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
     /**
      * Catch success calls and collect warnings
      *
-     * @param array
+     * @param array $response
      * @return bool success flag
      */
     protected function _isCallSuccessful($response)
