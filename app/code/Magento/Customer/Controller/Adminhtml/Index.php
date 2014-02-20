@@ -52,6 +52,9 @@ class Index extends \Magento\Backend\App\Action
      */
     protected $_addressFactory = null;
 
+    /** @var \Magento\Newsletter\Model\SubscriberFactory */
+    protected $_subscriberFactory;
+
     /**
      * @var \Magento\Customer\Helper\Data
      */
@@ -89,6 +92,7 @@ class Index extends \Magento\Backend\App\Action
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Customer\Model\AddressFactory $addressFactory
      * @param \Magento\Customer\Model\Metadata\FormFactory $formFactory
+     * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
      * @param CustomerBuilder $customerBuilder
      * @param AddressBuilder $addressBuilder
      * @param CustomerServiceInterface $customerService
@@ -103,6 +107,7 @@ class Index extends \Magento\Backend\App\Action
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Customer\Model\AddressFactory $addressFactory,
         \Magento\Customer\Model\Metadata\FormFactory $formFactory,
+        \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
         CustomerBuilder $customerBuilder,
         AddressBuilder $addressBuilder,
         CustomerServiceInterface $customerService,
@@ -116,6 +121,7 @@ class Index extends \Magento\Backend\App\Action
         $this->_customerBuilder = $customerBuilder;
         $this->_addressBuilder = $addressBuilder;
         $this->_addressFactory = $addressFactory;
+        $this->_subscriberFactory = $subscriberFactory;
         $this->_dataHelper = $helper;
         $this->_formFactory = $formFactory;
         $this->_customerService = $customerService;
@@ -1019,15 +1025,19 @@ class Index extends \Magento\Backend\App\Action
         if (!is_array($customersIds)) {
             $this->messageManager->addError(__('Please select customer(s).'));
         } else {
-            try {
-                foreach ($customersIds as $customerId) {
-                    $customer = $this->_objectManager->create('Magento\Customer\Model\Customer')->load($customerId);
-                    $customer->setIsSubscribed(true);
-                    $customer->save();
+            $customersUpdated = 0;
+            foreach ($customersIds as $customerId) {
+                try {
+                    // Verify customer exists
+                    $this->_customerService->getCustomer($customerId);
+                    $this->_subscriberFactory->create()->updateSubscription($customerId, true);
+                    $customersUpdated++;
+                } catch (\Exception $exception) {
+                    $this->messageManager->addError($exception->getMessage());
                 }
-                $this->messageManager->addSuccess(__('A total of %1 record(s) were updated.', count($customersIds)));
-            } catch (\Exception $exception) {
-                $this->messageManager->addError($exception->getMessage());
+            }
+            if ($customersUpdated) {
+                $this->messageManager->addSuccess(__('A total of %1 record(s) were updated.', $customersUpdated));
             }
         }
         $this->_redirect('customer/*/index');
