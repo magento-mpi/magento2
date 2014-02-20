@@ -230,7 +230,7 @@ class Account extends GenericMetadata
      */
     protected function _initCustomerForm(\Magento\Customer\Service\V1\Dto\Customer $customer)
     {
-        return $this->_customerFormFactory->create('customer', 'adminhtml_customer', $customer->__toArray());
+        return $this->_customerFormFactory->create('customer', 'adminhtml_customer', $customer->getAttributes());
     }
 
     /**

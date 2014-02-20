@@ -121,24 +121,6 @@ class AttributeMetadataBuilder extends \Magento\Service\Entity\AbstractDtoBuilde
     }
 
     /**
-     * @param string $frontendInputType
-     * @return $this
-     */
-    public function setFrontendInputType($frontendInputType)
-    {
-        return $this->_set(AttributeMetadata::FRONTEND_INPUT_TYPE, $frontendInputType);
-    }
-
-    /**
-     * @param string $frontendInputRendererClass
-     * @return $this
-     */
-    public function setFrontendInputRendererClass($frontendInputRendererClass)
-    {
-        return $this->_set(AttributeMetadata::FRONTEND_INPUT_RENDERER_CLASS, $frontendInputRendererClass);
-    }
-
-    /**
      * @param bool $isUserDefined
      * @return $this
      */

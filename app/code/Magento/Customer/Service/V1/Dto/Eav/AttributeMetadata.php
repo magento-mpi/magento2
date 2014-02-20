@@ -29,8 +29,6 @@ class AttributeMetadata extends \Magento\Service\Entity\AbstractDto
     const SORT_ORDER = 'sort_order';
     const FRONTEND_LABEL = 'frontend_label';
     const IS_SYSTEM = 'is_system';
-    const FRONTEND_INPUT_TYPE = 'frontend_input_type';
-    const FRONTEND_INPUT_RENDERER_CLASS = 'frontend_input_renderer_class';
     const NOTE = 'note';
     /**#@-*/
 
@@ -142,26 +140,6 @@ class AttributeMetadata extends \Magento\Service\Entity\AbstractDto
     public function getFrontendClass()
     {
         return $this->_get(self::FRONTEND_CLASS);
-    }
-
-    /**
-     * Get type which is used to display the attribute on frontend.
-     *
-     * @return string
-     */
-    public function getFrontendInputType()
-    {
-        return $this->_get(self::FRONTEND_INPUT_TYPE);
-    }
-
-    /**
-     * Get class which is used to render the attribute on frontend.
-     *
-     * @return string
-     */
-    public function getFrontendInputRendererClass()
-    {
-        return $this->_get(self::FRONTEND_INPUT_RENDERER_CLASS);
     }
 
     /**
