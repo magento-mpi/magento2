@@ -16,13 +16,13 @@
         </arguments>
     </type>
     <virtualType name="Magento\Paypal\Model\PayflowadvancedFactory" type="Magento\Paypal\Model\PayflowlinkFactory">
-        <param name="instanceName">
-            <value>Magento\Paypal\Model\Payflowadvanced</value>
-        </param>
+        <arguments>
+            <argument name="instanceName" xsi:type="string">Magento\Paypal\Model\Payflowadvanced</argument>
+        </arguments>
     </virtualType>
     <type name="Magento\Paypal\Controller\Payflowadvanced">
-        <param name="payflowModelFactory">
-            <instance type="Magento\Paypal\Model\PayflowadvancedFactory" />
-        </param>
+        <arguments>
+            <argument name="payflowModelFactory" xsi:type="object">Magento\Paypal\Model\PayflowadvancedFactory</argument>
+        </arguments>
     </type>
 </config>
