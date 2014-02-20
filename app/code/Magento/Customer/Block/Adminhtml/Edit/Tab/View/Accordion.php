@@ -136,7 +136,7 @@ class Accordion extends \Magento\Backend\Block\Widget\Accordion
     protected function getCustomer($customerId)
     {
         $customerData = $this->_backendSession->getCustomerData();
-        if (!is_null($customerData['account'])) {
+        if (!empty($customerData['account'])) {
             return $this->_customerBuilder->populateWithArray($customerData['account'])->create();
         } elseif ($customerId) {
             return $this->_customerService->getCustomer($customerId);
