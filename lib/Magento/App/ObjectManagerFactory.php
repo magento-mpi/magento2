@@ -33,7 +33,7 @@ class ObjectManagerFactory
      *
      * @var string
      */
-    protected $_configClassName = '\Magento\Interception\ObjectManager\Config';
+    protected $_configClassName = 'Magento\Interception\ObjectManager\Config';
 
     /**
      * Create object manager
@@ -95,6 +95,7 @@ class ObjectManagerFactory
             'Magento\ObjectManager\Config' => $diConfig,
             'Magento\ObjectManager\Definition' => $definitions,
             'Magento\Stdlib\BooleanUtils' => $booleanUtils,
+            $configClass => $diConfig,
         ));
 
         $argFactory->setObjectManager($objectManager);

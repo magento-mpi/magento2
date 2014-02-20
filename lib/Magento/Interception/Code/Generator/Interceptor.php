@@ -57,7 +57,7 @@ class Interceptor extends \Magento\Code\Generator\EntityAbstract
                 'docblock' => array(
                     'shortDescription' => 'Invocation chain',
                     'tags' => array(
-                        array('name' => 'var', 'description' => 'Magento\Interception\Chain')
+                        array('name' => 'var', 'description' => '\Magento\Interception\Chain')
                     )
                 ),
             ),
