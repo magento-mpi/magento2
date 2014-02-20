@@ -157,11 +157,7 @@ class Billing extends \Magento\Checkout\Block\Onepage\AbstractOnepage
      */
     public function getFirstname()
     {
-        $firstname = $this->getAddress()->getFirstname();
-        if (empty($firstname) && $this->getQuote()->getCustomerData()) {
-            return $this->getQuote()->getCustomerData()->getFirstname();
-        }
-        return $firstname;
+        return $this->getAddress()->getFirstname();
     }
 
     /**
@@ -172,11 +168,7 @@ class Billing extends \Magento\Checkout\Block\Onepage\AbstractOnepage
      */
     public function getLastname()
     {
-        $lastname = $this->getAddress()->getLastname();
-        if (empty($lastname) && $this->getQuote()->getCustomerData()) {
-            return $this->getQuote()->getCustomerData()->getLastname();
-        }
-        return $lastname;
+        return $this->getAddress()->getLastname();
     }
 
     /**
