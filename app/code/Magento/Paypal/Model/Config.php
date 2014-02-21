@@ -438,8 +438,7 @@ class Config
         if ($key == 'payment_action'
             && $value != self::PAYMENT_ACTION_SALE
             && $this->_methodCode == self::METHOD_WPP_EXPRESS
-            && $this->shouldUseUnilateralPayments())
-        {
+            && $this->shouldUseUnilateralPayments()) {
             return self::PAYMENT_ACTION_SALE;
         }
         return $value;

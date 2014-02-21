@@ -9,6 +9,10 @@
  */
 namespace Magento\Paypal\Model;
 
+use Magento\RecurringProfile\Model\RecurringProfile;
+use Magento\Paypal\Model\Api\AbstractApi;
+use Magento\Payment\Model\Info;
+
 /**
  * PayPal Website Payments Pro implementation for payment method instances
  * This model was created because right now PayPal Direct and PayPal Express payment methods cannot have same abstract
@@ -179,11 +183,11 @@ class Pro
     /**
      * Transfer transaction/payment information from API instance to order payment
      *
-     * @param \Magento\Object|\Magento\Paypal\Model\Api\AbstractApi $from
-     * @param \Magento\Payment\Model\Info $to
+     * @param \Magento\Object|AbstractApi $from
+     * @param Info $to
      * @return $this
      */
-    public function importPaymentInfo(\Magento\Object $from, \Magento\Payment\Model\Info $to)
+    public function importPaymentInfo(\Magento\Object $from, Info $to)
     {
         // update PayPal-specific payment information in the payment object
         $this->getInfo()->importToPayment($from, $to);
@@ -301,10 +305,10 @@ class Pro
     /**
      * Check whether can do payment review
      *
-     * @param \Magento\Payment\Model\Info $payment
+     * @param Info $payment
      * @return bool
      */
-    public function canReviewPayment(\Magento\Payment\Model\Info $payment)
+    public function canReviewPayment(Info $payment)
     {
         $pendingReason = $payment->getAdditionalInformation(\Magento\Paypal\Model\Info::PENDING_REASON_GLOBAL);
         return $this->_isPaymentReviewRequired($payment)
@@ -314,10 +318,10 @@ class Pro
     /**
      * Check whether payment review is required
      *
-     * @param \Magento\Payment\Model\Info $payment
+     * @param Info $payment
      * @return bool
      */
-    protected function _isPaymentReviewRequired(\Magento\Payment\Model\Info $payment)
+    protected function _isPaymentReviewRequired(Info $payment)
     {
         return \Magento\Paypal\Model\Info::isPaymentReviewRequired($payment);
     }
@@ -325,11 +329,11 @@ class Pro
     /**
      * Perform the payment review
      *
-     * @param \Magento\Payment\Model\Info $payment
+     * @param Info $payment
      * @param string $action
      * @return bool
      */
-    public function reviewPayment(\Magento\Payment\Model\Info $payment, $action)
+    public function reviewPayment(Info $payment, $action)
     {
         $api = $this->getApi()->setTransactionId($payment->getLastTransId());
 
@@ -350,11 +354,11 @@ class Pro
     /**
      * Fetch transaction details info
      *
-     * @param \Magento\Payment\Model\Info $payment
+     * @param Info $payment
      * @param string $transactionId
      * @return array
      */
-    public function fetchTransactionInfo(\Magento\Payment\Model\Info $payment, $transactionId)
+    public function fetchTransactionInfo(Info $payment, $transactionId)
     {
         $api = $this->getApi()
             ->setTransactionId($transactionId)
@@ -368,11 +372,11 @@ class Pro
     /**
      * Validate RP data
      *
-     * @param \Magento\RecurringProfile\Model\RecurringProfile $profile
+     * @param RecurringProfile $profile
      * @return void
      * @throws \Magento\Core\Exception
      */
-    public function validateRecurringProfile(\Magento\RecurringProfile\Model\RecurringProfile $profile)
+    public function validateRecurringProfile(RecurringProfile $profile)
     {
         $errors = array();
         if (strlen($profile->getSubscriberName()) > 32) { // up to 32 single-byte chars
@@ -394,13 +398,13 @@ class Pro
     /**
      * Submit RP to the gateway
      *
-     * @param \Magento\RecurringProfile\Model\RecurringProfile $profile
-     * @param \Magento\Payment\Model\Info $paymentInfo
+     * @param RecurringProfile $profile
+     * @param Info $paymentInfo
      * @return void
      * @throws \Magento\Core\Exception
      */
-    public function submitRecurringProfile(\Magento\RecurringProfile\Model\RecurringProfile $profile,
-        \Magento\Payment\Model\Info $paymentInfo
+    public function submitRecurringProfile(RecurringProfile $profile,
+        Info $paymentInfo
     ) {
         $api = $this->getApi();
         \Magento\Object\Mapper::accumulateByMap($profile, $api, array(
@@ -439,10 +443,10 @@ class Pro
     /**
      * Update RP data
      *
-     * @param \Magento\RecurringProfile\Model\RecurringProfile $profile
+     * @param RecurringProfile $profile
      * @return void
      */
-    public function updateRecurringProfile(\Magento\RecurringProfile\Model\RecurringProfile $profile)
+    public function updateRecurringProfile(RecurringProfile $profile)
     {
 
     }
@@ -450,10 +454,10 @@ class Pro
     /**
      * Manage status
      *
-     * @param \Magento\RecurringProfile\Model\RecurringProfile $profile
+     * @param RecurringProfile $profile
      * @return void
      */
-    public function updateRecurringProfileStatus(\Magento\RecurringProfile\Model\RecurringProfile $profile)
+    public function updateRecurringProfileStatus(RecurringProfile $profile)
     {
         $api = $this->getApi();
         $action = null;

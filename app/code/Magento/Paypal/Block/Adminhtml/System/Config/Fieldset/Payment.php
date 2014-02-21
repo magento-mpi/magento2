@@ -130,7 +130,7 @@ class Payment
      * Get collapsed state on-load
      *
      * @param \Magento\Data\Form\Element\AbstractElement $element
-     * @return bool
+     * @return false
      */
     protected function _isCollapseState($element)
     {

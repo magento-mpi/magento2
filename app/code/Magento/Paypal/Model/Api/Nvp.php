@@ -1233,6 +1233,7 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
      * Handle logical errors
      *
      * @param array $response
+     * @return void
      * @throws \Magento\Core\Exception
      */
     protected function _handleCallErrors($response)
@@ -1330,7 +1331,7 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
             //decoding the respose
             $nvpArray[urldecode($keyval)] = urldecode( $valval);
             $nvpstr = substr($nvpstr, $valuepos + 1, strlen($nvpstr));
-         }
+        }
         return $nvpArray;
     }
 
@@ -1352,7 +1353,9 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
 
     /**
      * Create billing and shipping addresses basing on response data
+     *
      * @param array $data
+     * @return void
      */
     protected function _exportAddressses($data)
     {
@@ -1387,7 +1390,8 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
     /**
      * Adopt specified address object to be compatible with Magento
      *
-     * @param \Magento\Object $address
+     * @param \Magento\Object
+     * @return void
      */
     protected function _applyStreetAndRegionWorkarounds(\Magento\Object $address)
     {
@@ -1415,6 +1419,7 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
      * Puerto Rico should be as state of USA and not as a country
      *
      * @param array $request
+     * @return void
      */
     protected function _applyCountryWorkarounds(&$request)
     {
@@ -1476,7 +1481,7 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
      * Filter for true/false values (converts to boolean)
      *
      * @param mixed $value
-     * @return mixed
+     * @return bool|mixed
      */
     protected function _filterToBool($value)
     {
@@ -1635,6 +1640,7 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
      *
      * @param string $value
      * @param \Magento\Object $result
+     * @return void
      */
     protected function _analyzeRecurringProfileStatus($value, \Magento\Object $result)
     {
@@ -1696,6 +1702,7 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
      * Check the EC request against unilateral payments mode and remove the SUBJECT if needed
      *
      * @param &array $requestFields
+     * @return void
      */
     protected function _prepareExpressCheckoutCallRequest(&$requestFields)
     {
@@ -1706,4 +1713,4 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
             }
         }
     }
-}
+

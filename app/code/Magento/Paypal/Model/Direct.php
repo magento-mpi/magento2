@@ -9,6 +9,8 @@
  */
 namespace Magento\Paypal\Model;
 
+use Magento\Payment\Model\Info;
+use Magento\Sales\Model\Order\Payment;
 /**
  * PayPal Direct Module
  */
@@ -264,6 +266,7 @@ class Direct extends \Magento\Payment\Model\Method\Cc
 
     /**
      * Check whether payment method can be used
+     *
      * @param \Magento\Sales\Model\Quote $quote
      * @return bool
      */
@@ -299,7 +302,7 @@ class Direct extends \Magento\Payment\Model\Method\Cc
     /**
      * Authorize payment
      *
-     * @param \Magento\Object|\Magento\Sales\Model\Order\Payment $payment
+     * @param \Magento\Object|Payment $payment
      * @param float $amount
      * @return $this
      */
@@ -311,7 +314,7 @@ class Direct extends \Magento\Payment\Model\Method\Cc
     /**
      * Void payment
      *
-     * @param \Magento\Object|\Magento\Sales\Model\Order\Payment $payment
+     * @param \Magento\Object|Payment $payment
      * @return $this
      */
     public function void(\Magento\Object $payment)
@@ -323,7 +326,7 @@ class Direct extends \Magento\Payment\Model\Method\Cc
     /**
      * Capture payment
      *
-     * @param \Magento\Object|\Magento\Sales\Model\Order\Payment $payment
+     * @param \Magento\Object|Payment $payment
      * @param float $amount
      * @return $this
      */
@@ -338,7 +341,7 @@ class Direct extends \Magento\Payment\Model\Method\Cc
     /**
      * Refund capture
      *
-     * @param \Magento\Object|\Magento\Sales\Model\Order\Payment $payment
+     * @param \Magento\Object|Payment $payment
      * @param float $amount
      * @return $this
      */
@@ -351,7 +354,7 @@ class Direct extends \Magento\Payment\Model\Method\Cc
     /**
      * Cancel payment
      *
-     * @param \Magento\Object|\Magento\Sales\Model\Order\Payment $payment
+     * @param \Magento\Object|Payment $payment
      * @return $this
      */
     public function cancel(\Magento\Object $payment)
@@ -364,10 +367,10 @@ class Direct extends \Magento\Payment\Model\Method\Cc
     /**
      * Whether payment can be reviewed
      *
-     * @param \Magento\Payment\Model\Info|\Magento\Sales\Model\Order\Payment $payment
+     * @param Info|Payment $payment
      * @return bool
      */
-    public function canReviewPayment(\Magento\Payment\Model\Info $payment)
+    public function canReviewPayment(Info $payment)
     {
         return parent::canReviewPayment($payment) && $this->_pro->canReviewPayment($payment);
     }
@@ -375,10 +378,10 @@ class Direct extends \Magento\Payment\Model\Method\Cc
     /**
      * Attempt to accept a pending payment
      *
-     * @param \Magento\Payment\Model\Info|\Magento\Sales\Model\Order\Payment $payment
+     * @param Info|Payment $payment
      * @return bool
      */
-    public function acceptPayment(\Magento\Payment\Model\Info $payment)
+    public function acceptPayment(Info $payment)
     {
         parent::acceptPayment($payment);
         return $this->_pro->reviewPayment($payment, \Magento\Paypal\Model\Pro::PAYMENT_REVIEW_ACCEPT);
@@ -387,10 +390,10 @@ class Direct extends \Magento\Payment\Model\Method\Cc
     /**
      * Attempt to deny a pending payment
      *
-     * @param \Magento\Payment\Model\Info|\Magento\Sales\Model\Order\Payment $payment
+     * @param Info|Payment $payment
      * @return bool
      */
-    public function denyPayment(\Magento\Payment\Model\Info $payment)
+    public function denyPayment(Info $payment)
     {
         parent::denyPayment($payment);
         return $this->_pro->reviewPayment($payment, \Magento\Paypal\Model\Pro::PAYMENT_REVIEW_DENY);
@@ -413,11 +416,11 @@ class Direct extends \Magento\Payment\Model\Method\Cc
     /**
      * Fetch transaction details info
      *
-     * @param \Magento\Payment\Model\Info $payment
+     * @param Info $payment
      * @param string $transactionId
      * @return array
      */
-    public function fetchTransactionInfo(\Magento\Payment\Model\Info $payment, $transactionId)
+    public function fetchTransactionInfo(Info $payment, $transactionId)
     {
         return $this->_pro->fetchTransactionInfo($payment, $transactionId);
     }
@@ -425,11 +428,11 @@ class Direct extends \Magento\Payment\Model\Method\Cc
     /**
      * Place an order with authorization or capture action
      *
-     * @param \Magento\Sales\Model\Order\Payment $payment
+     * @param Payment $payment
      * @param float $amount
      * @return $this
      */
-    protected function _placeOrder(\Magento\Sales\Model\Order\Payment $payment, $amount)
+    protected function _placeOrder(Payment $payment, $amount)
     {
         $order = $payment->getOrder();
         $api = $this->_pro->getApi()
@@ -503,7 +506,7 @@ class Direct extends \Magento\Payment\Model\Method\Cc
      * Import direct payment results to payment
      *
      * @param \Magento\Paypal\Model\Api\Nvp $api
-     * @param \Magento\Sales\Model\Order\Payment $payment
+     * @param Payment $payment
      * @return void
      */
     protected function _importResultToPayment($api, $payment)
@@ -515,8 +518,8 @@ class Direct extends \Magento\Payment\Model\Method\Cc
     /**
      * Check void availability
      *
-     * @param   \Magento\Object $payment
-     * @return  bool
+     * @param \Magento\Object $payment
+     * @return bool
      */
     public function canVoid(\Magento\Object $payment)
     {

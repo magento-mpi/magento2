@@ -9,6 +9,9 @@
  */
 namespace Magento\Paypal\Model\Express;
 
+use Magento\Sales\Model\Quote\Address;
+use Magento\Customer\Model\Customer;
+
 /**
  * Wrapper that performs Paypal Express and Checkout communication
  * Use current Paypal Express method instance
@@ -366,7 +369,7 @@ class Checkout
     /**
      * Setter for customer
      *
-     * @param \Magento\Customer\Model\Customer $customer
+     * @param Customer $customer
      * @return $this
      */
     public function setCustomer($customer)
@@ -379,9 +382,9 @@ class Checkout
     /**
      * Setter for customer with billing and shipping address changing ability
      *
-     * @param  \Magento\Customer\Model\Customer   $customer
-     * @param  \Magento\Sales\Model\Quote\Address $billingAddress
-     * @param  \Magento\Sales\Model\Quote\Address $shippingAddress
+     * @param Customer $customer
+     * @param Address $billingAddress
+     * @param Address $shippingAddress
      * @return $this
      */
     public function setCustomerWithAddressChange($customer, $billingAddress = null, $shippingAddress = null)
@@ -830,7 +833,7 @@ class Checkout
     /**
      * Sets address data from exported address
      *
-     * @param \Magento\Sales\Model\Quote\Address $address
+     * @param Address $address
      * @param array $exportedAddress
      * @return void
      */
@@ -897,13 +900,13 @@ class Checkout
      * Returns empty array if it was impossible to obtain any shipping rate
      * If there are shipping rates obtained, the method must return one of them as default.
      *
-     * @param \Magento\Sales\Model\Quote\Address $address
+     * @param Address $address
      * @param bool $mayReturnEmpty
      * @param bool $calculateTax
      * @return array|false
      */
     protected function _prepareShippingOptions(
-        \Magento\Sales\Model\Quote\Address $address,
+        Address $address,
         $mayReturnEmpty = false, $calculateTax = false
     ) {
         $options = array(); $i = 0; $iMin = false; $min = false;
@@ -993,11 +996,11 @@ class Checkout
      * If in future the issue is fixed, we don't need to attempt to match it. It would be enough to set the method code
      * before collecting shipping rates
      *
-     * @param \Magento\Sales\Model\Quote\Address $address
+     * @param Address $address
      * @param string $selectedCode
      * @return string
      */
-    protected function _matchShippingMethodCode(\Magento\Sales\Model\Quote\Address $address, $selectedCode)
+    protected function _matchShippingMethodCode(Address $address, $selectedCode)
     {
         $options = $this->_prepareShippingOptions($address, false);
         foreach ($options as $option) {
@@ -1040,7 +1043,7 @@ class Checkout
         $shipping   = $quote->isVirtual() ? null : $quote->getShippingAddress();
 
         $customer = $quote->getCustomer();
-        /** @var $customer \Magento\Customer\Model\Customer */
+        /** @var $customer Customer */
         $customerBilling = $billing->exportCustomerAddress();
         $customer->addAddress($customerBilling);
         $billing->setCustomerAddress($customerBilling);

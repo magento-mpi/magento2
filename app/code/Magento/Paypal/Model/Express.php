@@ -137,6 +137,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
 
     /**
      * Payment additional information key for payment action
+     *
      * @var string
      */
     protected $_isOrderPaymentActionKey = 'is_order_action';

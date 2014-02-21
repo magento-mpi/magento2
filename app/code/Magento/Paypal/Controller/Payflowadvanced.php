@@ -159,7 +159,7 @@ class Payflowadvanced extends \Magento\Paypal\Controller\Express\AbstractExpress
      * Cancel order, return quote to customer
      *
      * @param string $errorMsg
-     * @return bool|string
+     * @return false|string
      */
     protected function _cancelPayment($errorMsg = '')
     {

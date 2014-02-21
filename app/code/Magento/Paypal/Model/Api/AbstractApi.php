@@ -504,6 +504,7 @@ abstract class AbstractApi extends \Magento\Object
 
     /**
      * Filter amounts in API calls
+     *
      * @param float|string $value
      * @return string
      */

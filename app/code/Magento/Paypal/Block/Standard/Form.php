@@ -49,7 +49,7 @@ class Form extends \Magento\Payment\Block\Form
     /**
      * Set template and redirect message
      *
-     * @return void
+     * @return null
      */
     protected function _construct()
     {

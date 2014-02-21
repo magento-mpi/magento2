@@ -56,7 +56,7 @@ class Form extends \Magento\Paypal\Block\Standard\Form
     /**
      * Set template and redirect message
      *
-     * @return void
+     * @return null
      */
     protected function _construct()
     {

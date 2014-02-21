@@ -130,7 +130,7 @@ class Info
     /**
      * Map of payment information available to customer
      *
-     * @var array
+     * @var string[]
      */
     protected $_paymentPublicMap = array(
         'paypal_payer_email',

@@ -131,7 +131,7 @@ class Hostedpro extends \Magento\Paypal\Model\Direct
      * Return available CC types for gateway based on merchant country.
      * We do not have to check the availability of card types.
      *
-     * @return bool
+     * @return true
      */
     public function getAllowedCcTypes()
     {
@@ -152,7 +152,7 @@ class Hostedpro extends \Magento\Paypal\Model\Direct
     /**
      * Do not validate payment form using server methods
      *
-     * @return bool
+     * @return true
      */
     public function validate()
     {

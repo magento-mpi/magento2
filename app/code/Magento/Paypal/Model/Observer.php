@@ -128,7 +128,7 @@ class Observer
      * Clean unfinished transaction
      *
      * @deprecated since 1.6.2.0
-     * @return \Magento\Paypal\Model\Observer
+     * @return $this
      */
     public function cleanTransactions()
     {
@@ -139,7 +139,7 @@ class Observer
      * Save order into registry to use it in the overloaded controller.
      *
      * @param EventObserver $observer
-     * @return \Magento\Paypal\Model\Observer
+     * @return $this
      */
     public function saveOrderAfterSubmit(EventObserver $observer)
     {
@@ -154,7 +154,7 @@ class Observer
      * Set data for response of frontend saveOrder action
      *
      * @param EventObserver $observer
-     * @return \Magento\Paypal\Model\Observer
+     * @return $this
      */
     public function setResponseAfterSaveOrder(EventObserver $observer)
     {

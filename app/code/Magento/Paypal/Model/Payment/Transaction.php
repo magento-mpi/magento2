@@ -87,6 +87,7 @@ class Transaction extends \Magento\Core\Model\AbstractModel
 
     /**
      * Transaction ID setter
+     *
      * @param string $txnId
      * @return $this
      */
@@ -164,6 +165,7 @@ class Transaction extends \Magento\Core\Model\AbstractModel
 
     /**
      * Getter for entire additional_information value or one of its element by key
+     * 
      * @param string $key
      * @return array|null|mixed
      */

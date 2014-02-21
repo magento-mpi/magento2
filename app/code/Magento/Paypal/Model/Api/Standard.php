@@ -109,6 +109,7 @@ class Standard extends \Magento\Paypal\Model\Api\AbstractApi
 
     /**
      * Address export to request map
+     *
      * @var array
      */
     protected $_addressMap = array(

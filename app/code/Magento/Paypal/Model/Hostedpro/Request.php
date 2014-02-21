@@ -98,7 +98,7 @@ class Request extends \Magento\Object
      * Append payment data to request
      *
      * @param \Magento\Paypal\Model\Hostedpro $paymentMethod
-     * @return \Magento\Paypal\Model\Hostedpro\Request
+     * @return $this
      */
     public function setPaymentMethod($paymentMethod)
     {
@@ -113,7 +113,7 @@ class Request extends \Magento\Object
      * Append order data to request
      *
      * @param \Magento\Sales\Model\Order $order
-     * @return \Magento\Paypal\Model\Hostedpro\Request
+     * @return $this
      */
     public function setOrder($order)
     {
