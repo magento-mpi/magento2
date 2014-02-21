@@ -24,7 +24,7 @@ $product->setTypeId(\Magento\GiftCard\Model\Catalog\Product\Type\Giftcard::TYPE_
     ->setMetaKeyword('gift meta keyword')
     ->setMetaDescription('gift meta description')
     ->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH)
-    ->setStatus(\Magento\Catalog\Model\Product\Status::STATUS_ENABLED)
+    ->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED)
     ->setCategoryIds(array(2))
     ->setStockData(
         array(

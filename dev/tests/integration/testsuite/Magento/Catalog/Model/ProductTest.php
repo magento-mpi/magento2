@@ -68,7 +68,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             ->setName('Simple Product')->setSku(uniqid())->setPrice(10)
             ->setMetaTitle('meta title')->setMetaKeyword('meta keyword')->setMetaDescription('meta description')
             ->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH)
-            ->setStatus(\Magento\Catalog\Model\Product\Status::STATUS_ENABLED)
+            ->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED)
         ;
         $crud = new \Magento\TestFramework\Entity($this->_model, array('sku' => uniqid()));
         $crud->testCrud();
@@ -139,7 +139,10 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             $this->assertNotEmpty($duplicate->getId());
             $this->assertNotEquals($duplicate->getId(), $this->_model->getId());
             $this->assertNotEquals($duplicate->getSku(), $this->_model->getSku());
-            $this->assertEquals(\Magento\Catalog\Model\Product\Status::STATUS_DISABLED, $duplicate->getStatus());
+            $this->assertEquals(
+                \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED,
+                $duplicate->getStatus()
+            );
             $this->assertEquals(\Magento\Core\Model\Store::DEFAULT_STORE_ID, $duplicate->getStoreId());
             $this->_undo($duplicate);
         } catch (\Exception $e) {
@@ -184,16 +187,18 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     public function testVisibilityApi()
     {
         $this->assertEquals(
-            array(\Magento\Catalog\Model\Product\Status::STATUS_ENABLED), $this->_model->getVisibleInCatalogStatuses()
+            array(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED),
+            $this->_model->getVisibleInCatalogStatuses()
         );
         $this->assertEquals(
-            array(\Magento\Catalog\Model\Product\Status::STATUS_ENABLED), $this->_model->getVisibleStatuses()
+            array(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED),
+            $this->_model->getVisibleStatuses()
         );
 
-        $this->_model->setStatus(\Magento\Catalog\Model\Product\Status::STATUS_DISABLED);
+        $this->_model->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
         $this->assertFalse($this->_model->isVisibleInCatalog());
 
-        $this->_model->setStatus(\Magento\Catalog\Model\Product\Status::STATUS_ENABLED);
+        $this->_model->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
         $this->assertTrue($this->_model->isVisibleInCatalog());
 
         $this->assertEquals(array(
@@ -391,7 +396,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             ->setSku(uniqid('', true) . uniqid('', true) . uniqid('', true))->setPrice(10)->setMetaTitle('meta title')
             ->setMetaKeyword('meta keyword')->setMetaDescription('meta description')
             ->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH)
-            ->setStatus(\Magento\Catalog\Model\Product\Status::STATUS_ENABLED)
+            ->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED)
             ->setCollectExceptionMessages(true)
         ;
         $validationResult = $this->_model->validate();

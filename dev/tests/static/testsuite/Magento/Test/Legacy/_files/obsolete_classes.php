@@ -2087,6 +2087,11 @@ return array(
     array('Magento\View\Layout\Argument\HandlerFactory', 'Magento\Data\Argument\Interpreter\Composite'),
     array('Magento\Phrase\Renderer\Factory'),
     array('Magento\Core\Model\Layout\Factory', 'Magento\DesignEditor\Model\AreaEmulator'),
+    array('Magento\Catalog\Model\Category\Indexer\Product'),
+    array('Magento\Catalog\Model\Resource\Category\Indexer\Product'),
+    array('Magento\Catalog\Model\Index'),
+    array('Magento\Catalog\Model\Product\Status', 'Magento\Catalog\Model\Product\Attribute\Source\Status'),
+    array('Magento\Catalog\Model\Resource\Product\Status'),
     array(
         'Magento\CatalogInventory\Block\Stockqty\Type\Configurable',
         'Magento\ConfigurableProduct\Block\Stockqty\Type\Configurable'

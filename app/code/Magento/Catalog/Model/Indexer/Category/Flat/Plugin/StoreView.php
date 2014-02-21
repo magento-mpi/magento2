@@ -7,27 +7,16 @@
  */
 namespace Magento\Catalog\Model\Indexer\Category\Flat\Plugin;
 
-class StoreView extends AbstractStore
+class StoreView extends StoreGroup
 {
     /**
-     * @param \Magento\Core\Model\Resource\Store $subject
-     * @param callable $proceed
-     * @param \Magento\Core\Model\AbstractModel $store
+     * Validate changes for invalidating indexer
      *
-     * @return \Magento\Core\Model\Resource\Db\AbstractDb
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @param \Magento\Core\Model\AbstractModel $store
+     * @return bool
      */
-    public function aroundSave(
-        \Magento\Core\Model\Resource\Store $subject,
-        \Closure $proceed,
-        \Magento\Core\Model\AbstractModel $store
-    ) {
-        $needInvalidating = $store->isObjectNew() || $store->dataHasChangedFor('group_id');
-        $objectResource = $proceed($store);
-        if ($needInvalidating) {
-            $this->invalidateIndexer();
-        }
-
-        return $objectResource;
+    protected function validate(\Magento\Core\Model\AbstractModel $store)
+    {
+        return $store->isObjectNew() || $store->dataHasChangedFor('group_id');
     }
 }
