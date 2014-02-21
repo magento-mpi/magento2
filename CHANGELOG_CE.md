@@ -1,7 +1,10 @@
+2.0.0.0-dev66
+=============
+* GitHub requests:
+  * [#134] (https://github.com/magento/magento2/pull/134) Fixed a typo in "Vorarlberg" region of Austria (was Voralberg)
 * Fixed bugs:
   * Fixed an issue with "Add to Cart" button on MAP popup of compound products
   * Fixed an issue where the Add Address button for Customer in Admin was broken
-  * Fixed a Typo in Region of Austria (GitHub #134)
   * Fixed issue where predefined data are not loaded for Newsletter after try to put it in a Queue
 * Indexer implementation:
   * Implemented new optimized Catalog Category Product Indexer

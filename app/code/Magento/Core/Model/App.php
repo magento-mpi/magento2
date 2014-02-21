@@ -34,7 +34,7 @@ class App implements \Magento\AppInterface
     /**
      * Magento version
      */
-    const VERSION = '2.0.0.0-dev65';
+    const VERSION = '2.0.0.0-dev66';
 
     /**
      * Application run code
@@ -500,7 +500,7 @@ class App implements \Magento\AppInterface
             'revision'  => '0',
             'patch'     => '0',
             'stability' => 'dev',
-            'number'    => '65',
+            'number'    => '66',
         );
     }
 }
