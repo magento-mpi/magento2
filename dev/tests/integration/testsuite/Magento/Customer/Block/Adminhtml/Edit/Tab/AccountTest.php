@@ -32,7 +32,7 @@ class AccountTest extends \PHPUnit_Framework_TestCase
     /** @var  \Magento\Backend\Block\Template\Context */
     protected $context;
 
-    /** @var Magento\Customer\Service\V1\CustomerServiceInterface */
+    /** @var \Magento\Customer\Service\V1\CustomerServiceInterface */
     protected $customerService;
 
     public function setUp()
@@ -55,16 +55,6 @@ class AccountTest extends \PHPUnit_Framework_TestCase
                 ['context' => $this->context]
             );
 
-        $websiteId = $this->objectManager
-            ->get('Magento\Core\Model\StoreManagerInterface')
-            ->getStore()
-            ->getWebsiteId();
-        $customer = $this->objectManager
-            ->create('Magento\Customer\Model\Customer')
-            ->setWebsiteId($websiteId)
-            ->loadByEmail('customer@example.com');
-
-        /** @var Magento\Customer\Service\V1\CustomerServiceInterface $customerService */
         $this->customerService = $this->objectManager->get('Magento\Customer\Service\V1\CustomerServiceInterface');
     }
 
@@ -144,7 +134,8 @@ class AccountTest extends \PHPUnit_Framework_TestCase
                 'account' => $this->customerService->getCustomer(1)->__toArray(),
             ]
         );
-        $result = $this->accountBlock->initForm()->toHtml();
+
+        $this->accountBlock->initForm()->toHtml();
         $element = $this->accountBlock->getForm()->getElement('firstname');
 
         // Make sure readonly has not been set (is null) or set to false
