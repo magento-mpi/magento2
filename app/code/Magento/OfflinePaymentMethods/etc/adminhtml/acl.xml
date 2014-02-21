@@ -4,7 +4,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Paypal
+ * @package     Magento_Payment
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,7 +16,7 @@
                 <resource id="Magento_Adminhtml::stores">
                     <resource id="Magento_Adminhtml::stores_settings">
                         <resource id="Magento_Adminhtml::config">
-                            <resource id="Magento_OfflinePaymentMethods::payment" title="Payment Methods Section" />
+                            <resource id="Magento_OfflinePaymentMethods::payment" module="Magento_Payment" title="Payment Methods Section" />
                         </resource>
                     </resource>
                 </resource>

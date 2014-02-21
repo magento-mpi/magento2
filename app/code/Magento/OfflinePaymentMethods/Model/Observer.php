@@ -1,25 +1,18 @@
 <?php
-    /**
-     * {license_notice}
-     *
-     * @category    Magento
-     * @package     Magento_Payment
-     * @copyright   {copyright}
-     * @license     {license_link}
-     */
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 
-    /**
-     * Payment Observer
-     */
+/**
+ * OfflinePaymentMethods Observer
+ */
 namespace Magento\OfflinePaymentMethods\Model;
 
 class Observer
 {
-    /**
-     * Construct
-     */
-    public function __construct() { }
-
     /**
      * Sets current instructions for bank transfer account
      *

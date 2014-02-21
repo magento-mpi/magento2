@@ -2,12 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Payment
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 
 namespace Magento\OfflinePaymentMethods\Model;
 
@@ -21,7 +18,7 @@ class Checkmo extends \Magento\Payment\Model\Method\AbstractMethod
      * Assign data to info model instance
      *
      * @param   mixed $data
-     * @return  \Magento\Payment\Model\Method\Checkmo
+     * @return  \Magento\OfflinePaymentMethods\Model\Checkmo
      */
     public function assignData($data)
     {

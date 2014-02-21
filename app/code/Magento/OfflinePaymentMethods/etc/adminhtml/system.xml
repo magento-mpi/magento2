@@ -14,7 +14,7 @@
         <section id="payment" translate="label" type="text" sortOrder="400" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Payment Methods</label>
             <tab>sales</tab>
-            <resource>Magento_OfflinePaymentMethods::offlinepaymentmethods</resource>
+            <resource>Magento_OfflinePaymentMethods::payment</resource>
             <group id="ccsave" translate="label" type="text" sortOrder="27" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Saved CC++</label>
                 <field id="active" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
