@@ -474,9 +474,9 @@ class Error_Processor
         $this->_setReportUrl();
 
         if (headers_sent()) {
-            print '<script type="text/javascript">';
-            print "window.location.href = '{$this->reportUrl}';";
-            print '</script>';
+            echo '<script type="text/javascript">';
+            echo "window.location.href = '{$this->reportUrl}';";
+            echo '</script>';
             exit;
         }
     }

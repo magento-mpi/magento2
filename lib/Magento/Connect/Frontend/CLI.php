@@ -87,7 +87,7 @@ extends \Magento\Connect\Frontend
         $methodMap = array(
             'list-upgrades'=> 'outputUpgrades',
             'list-available' => 'outputChannelsPackages',
-            'list-installed' => 'writeInstalledList',   
+            'list-installed' => 'writeInstalledList',
             'package-dependencies' => 'outputPackageDeps',
             'list-files' => 'outputPackageContents',
             'config-help' => 'outputConfigHelp',
@@ -113,9 +113,9 @@ extends \Magento\Connect\Frontend
     public function outputDeleted($data)
     {
         if(!count($data['data'])) {
-            return;            
-        }        
-        $this->writeln($data['title']);        
+            return;
+        }
+        $this->writeln($data['title']);
         foreach($data['data'] as $row) {
             $this->writeln("$row[0]/$row[1]");
         }
@@ -138,7 +138,7 @@ extends \Magento\Connect\Frontend
             $this->writeln();
             $this->writeln($data['title_aliases']);
             foreach($aliases as $k=>$v) {
-                $this->writeln("$k => $v");                       
+                $this->writeln("$k => $v");
             }
         }
 
@@ -308,7 +308,7 @@ extends \Magento\Connect\Frontend
         foreach($data['data'] as $channel=>$packages) {
             $title = sprintf($data['channel-title'], $channel);
             $c = count($packages);
-            $totalCount += $c;          
+            $totalCount += $c;
             if(!$c) {
                 continue;
             }
@@ -403,7 +403,7 @@ extends \Magento\Connect\Frontend
         if($this->isSilent()) {
             return;
         }
-        print $data;
+        echo $data;
     }
 
     /**
