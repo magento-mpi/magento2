@@ -93,6 +93,15 @@ sub vcl_fetch {
 }
 
 sub vcl_deliver {
+    if (resp.http.X-Magento-Cache-Control) {
+        if (obj.hits > 0) {
+            set resp.http.X-Magento-Cache-Debug = "HIT";
+        } else {
+            set resp.http.X-Magento-Cache-Debug = "MISS";
+        }
+    } else {
+        unset resp.http.Age;
+    }
     unset resp.http.X-Magento-Tags;
     unset resp.http.X-Powered-By;
     unset resp.http.Server;

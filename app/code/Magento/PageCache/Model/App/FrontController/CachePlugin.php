@@ -28,18 +28,26 @@ class CachePlugin
     protected $kernel;
 
     /**
+     * @var \Magento\App\State
+     */
+    protected $state;
+
+    /**
      * @param \Magento\PageCache\Model\Config $config
      * @param \Magento\App\PageCache\Version $version
      * @param \Magento\App\PageCache\Kernel $kernel
+     * @param \Magento\App\State $state
      */
     public function __construct(
         \Magento\PageCache\Model\Config $config,
         \Magento\App\PageCache\Version $version,
-        \Magento\App\PageCache\Kernel $kernel
+        \Magento\App\PageCache\Kernel $kernel,
+        \Magento\App\State $state
     ) {
         $this->config = $config;
         $this->version = $version;
         $this->kernel = $kernel;
+        $this->state = $state;
     }
 
     /**
@@ -56,11 +64,31 @@ class CachePlugin
             $response = $this->kernel->load();
             if ($response === false) {
                 $response = $invocationChain->proceed($arguments);
+                if ($this->isDebug()) {
+                    $response->setHeader('X-Magento-Cache-Control', $response->getHeader('Cache-Control')['value']);
+                }
                 $this->kernel->process($response);
+                if ($this->isDebug()) {
+                    $response->setHeader('X-Magento-Cache-Debug', 'MISS');
+                }
+            } elseif ($this->isDebug()) {
+                $response->setHeader('X-Magento-Cache-Debug', 'HIT');
             }
         } else {
             $response = $invocationChain->proceed($arguments);
+            if ($this->isDebug()) {
+                $response->setHeader('X-Magento-Cache-Control', $response->getHeader('Cache-Control')['value']);
+            }
         }
+
         return $response;
+    }
+
+    /**
+     * @return bool
+     */
+    protected function isDebug()
+    {
+        return $this->state->getMode() == \Magento\App\State::MODE_DEVELOPER;
     }
 }
