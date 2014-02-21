@@ -311,10 +311,22 @@ class Quote
                     '',
                     $quote->getStoreId()
                 );
-                //Update quote with new customer and address data
                 $customerDto = $this->_customerService->getCustomer($this->_createCustomerResponse->getCustomerId());
                 $addresses = $this->_customerAddressService->getAddresses(
-                    $this->_createCustomerResponse->getCustomerId());
+                    $this->_createCustomerResponse->getCustomerId()
+                );
+                //Update quote address information
+                foreach ($addresses as $address) {
+                    if ($address->isDefaultBilling()) {
+                        $quote->getBillingAddress()->setCustomerAddressData($address);
+                    } else if ($address->isDefaultShipping()) {
+                        $quote->getShippingAddress()->setCustomerAddressData($address);
+                    }
+                }
+                if ($quote->getShippingAddress() && $quote->getShippingAddress()->getSameAsBilling()) {
+                    $quote->getShippingAddress()->setCustomerAddressData(
+                        $quote->getBillingAddress()->getCustomerAddressData());
+                }
             }
 
             $quote->setCustomerData($customerDto)->setCustomerAddressData($addresses);

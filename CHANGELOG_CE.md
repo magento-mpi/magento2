@@ -1,4 +1,3 @@
-* Sales module refactoring to use customer service layer
 * Fixed bugs:
   * Fixed an issue with "Add to Cart" button on MAP popup of compound products
   * Fixed an issue where the Add Address button for Customer in Admin was broken
@@ -17,6 +16,8 @@
 * Customer Service usage:
  * Updated Customer Group Grid to use Customer Service for retrieving data and filtering
  * Updated CustomerMetadataService::getAttributeMetadata to throw an exception if invalid code provided
+ * Sales module refactoring to use customer service layer
+ * Checkout module refactoring to use customer service layer
 * Unified format of specifying arguments for class constructors in DI and in Layout configuration
   * Common xsd schema is being used for defining simple types. Layout and DI customize common types with their specific ones
   * Arguments processing is unified and moved to library

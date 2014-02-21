@@ -11,7 +11,8 @@
 namespace Magento\Multishipping\Block\Checkout\Address;
 
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
-use \Magento\Customer\Helper\Address as CustomerAddressHelper;
+use Magento\Customer\Helper\Address as CustomerAddressHelper;
+use Magento\Exception\NoSuchEntityException;
 
 /**
  * Multishipping checkout select billing address
@@ -71,9 +72,13 @@ class Select extends \Magento\Multishipping\Block\Checkout\AbstractMultishipping
     {
         $addresses = $this->getData('address_collection');
         if (is_null($addresses)) {
-            $addresses = $this->_customerAddressService->getAddresses(
-                $this->_multishipping->getCustomer()->getCustomerId()
-            );
+            try{
+                $addresses = $this->_customerAddressService->getAddresses(
+                    $this->_multishipping->getCustomer()->getCustomerId()
+                );
+            } catch (NoSuchEntityException $e) {
+                return [];
+            }
             $this->setData('address_collection', $addresses);
         }
         return $addresses;
@@ -92,7 +97,7 @@ class Select extends \Magento\Multishipping\Block\Checkout\AbstractMultishipping
         if ($formatTypeRenderer) {
             $result = $formatTypeRenderer->renderArray($addressData->getAttributes());
         }
-        return $this->escapeHtml($result);
+        return $result;
     }
 
     /**

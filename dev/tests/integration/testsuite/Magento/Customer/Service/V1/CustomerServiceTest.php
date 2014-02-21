@@ -691,4 +691,40 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('Tested', $customer->getFirstname());
         $this->assertEquals($lastname, $customer->getLastname());
     }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     */
+    public function testGetCustomerByEmail()
+    {
+        $websiteId = 1;
+        /** _files/customer.php sets the customer with id = 1 and email = customer@example.com */
+        $customer = $this->_service->getCustomerByEmail('customer@example.com', $websiteId);
+        $this->assertEquals(1, $customer->getCustomerId());
+    }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     * @expectedException \Magento\Core\Exception
+     * @expectedExceptionMessage Customer website ID must be specified when using the website scope
+     */
+    public function testGetCustomerByEmailNoWebsiteSpecified()
+    {
+        /** _files/customer.php sets the customer with id = 1 and email = customer@example.com */
+        $this->_service->getCustomerByEmail('customer@example.com');
+    }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     * @expectedException \Magento\Exception\NoSuchEntityException
+     * @expectedExceptionMessage No such entity with email = nonexistent@example.com
+     */
+    public function testGetCustomerByEmailNonExistentEmail()
+    {
+        $websiteId = 1;
+        /** _files/customer.php sets the customer with id = 1 and email = customer@example.com */
+        $customer = $this->_service->getCustomerByEmail('nonexistent@example.com', $websiteId);
+        assertEquals(null, $customer->getCustomerId());
+    }
 }
+

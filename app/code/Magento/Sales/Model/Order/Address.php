@@ -168,6 +168,8 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         // Init customer address id if customer address is assigned
         if ($this->getCustomerAddress()) {
             $this->setCustomerAddressId($this->getCustomerAddress()->getId());
+        } else if ($this->getCustomerAddressData()) {
+            $this->setCustomerAddressId($this->getCustomerAddressData()->getId());
         }
 
         return $this;

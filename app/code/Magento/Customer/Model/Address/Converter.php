@@ -137,7 +137,7 @@ class Converter
             Address::KEY_REGION => [
                 Region::KEY_REGION => $addressModel->getRegion(),
                 Region::KEY_REGION_ID => $addressModel->getRegionId(),
-                Region::KEY_REGION_CODE =>$addressModel->getRegionCode()
+                Region::KEY_REGION_CODE => $addressModel->getRegionCode()
             ]
         ]));
 

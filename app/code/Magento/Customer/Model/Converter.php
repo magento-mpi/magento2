@@ -58,6 +58,8 @@ class Converter
 
 
     /**
+     * Retrieve customer model by his ID.
+     *
      * @param int $customerId
      * @throws NoSuchEntityException If customer with customerId is not found.
      * @return Customer
@@ -74,6 +76,27 @@ class Converter
         }
     }
 
+    /**
+     * Retrieve customer model by his email.
+     *
+     * @param string $customerEmail
+     * @param int $websiteId
+     * @throws NoSuchEntityException If customer with the specified customer email not found.
+     * @return Customer
+     */
+    public function getCustomerModelByEmail($customerEmail, $websiteId = null)
+    {
+        $customer = $this->_customerFactory->create();
+        if (isset($websiteId)) {
+            $customer->setWebsiteId($websiteId);
+        }
+        $customer->loadByEmail($customerEmail);
+        if (!$customer->getId()) {
+            throw new NoSuchEntityException('email', $customerEmail);
+        } else {
+            return $customer;
+        }
+    }
 
     /**
      * Creates a customer model from a customer entity.

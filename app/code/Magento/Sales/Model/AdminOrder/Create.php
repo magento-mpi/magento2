@@ -1202,7 +1202,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
                 $address->setData($addressForm->compactData($addressData));
             }
         } else {
-            $address->setData($addressForm->restoreData($addressData));
+            $address->addData($addressForm->restoreData($addressData));
         }
         return $this;
     }
