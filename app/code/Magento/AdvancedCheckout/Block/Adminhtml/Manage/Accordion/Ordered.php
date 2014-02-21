@@ -118,7 +118,7 @@ class Ordered extends AbstractAccordion
     /**
      * Returns custom last ordered products renderer for price column content
      *
-     * @return null|string
+     * @return string
      */
     protected function _getPriceRenderer()
     {

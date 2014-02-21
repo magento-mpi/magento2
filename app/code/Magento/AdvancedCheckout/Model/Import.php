@@ -197,8 +197,8 @@ class Import extends \Magento\Object
      * Get Method to load data by file extension
      *
      * @param string $extension
-     * @throws Exception
      * @return string
+     * @throws Exception
      */
     protected function _getMethodByExtension($extension)
     {

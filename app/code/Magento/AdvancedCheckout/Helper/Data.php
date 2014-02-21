@@ -9,6 +9,8 @@
  */
 namespace Magento\AdvancedCheckout\Helper;
 
+use Magento\Sales\Model\Quote\Item;
+
 /**
  * Enterprise Checkout Helper
  *
@@ -21,14 +23,14 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Items for requiring attention grid (doesn't include sku-failed items)
      *
-     * @var null|\Magento\Sales\Model\Quote\Item[]
+     * @var null|Item[]
      */
     protected $_items;
 
     /**
      * Items for requiring attention grid (including sku-failed items)
      *
-     * @var null|\Magento\Sales\Model\Quote\Item[]
+     * @var null|Item[]
      */
     protected $_itemsAll;
 
@@ -369,7 +371,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * Get add by SKU failed items
      *
      * @param bool $all whether sku-failed items should be retrieved
-     * @return \Magento\Sales\Model\Quote\Item[]
+     * @return Item[]
      */
     public function getFailedItems($all = true)
     {

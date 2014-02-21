@@ -779,8 +779,7 @@ class Index extends \Magento\Backend\App\Action
      *
      * @param string $listType
      * @param int    $itemId
-     *
-     * @return \Magento\Object|false
+     * @return \Magento\Object
      */
     protected function _getListItemInfo($listType, $itemId)
     {

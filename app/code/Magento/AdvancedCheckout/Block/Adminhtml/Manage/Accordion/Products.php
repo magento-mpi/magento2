@@ -9,6 +9,8 @@
  */
 namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion;
 
+use Magento\Backend\Block\Widget\Grid\Column;
+
 /**
  * Accordion grid for catalog salable products
  *
@@ -180,7 +182,7 @@ class Products extends AbstractAccordion
     /**
      * Search by selected products
      *
-     * @param \Magento\Backend\Block\Widget\Grid\Column $column
+     * @param Column $column
      * @return $this
      */
     protected function _addColumnFilterToCollection($column)

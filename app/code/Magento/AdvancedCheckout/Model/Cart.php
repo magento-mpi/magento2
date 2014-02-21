@@ -10,6 +10,7 @@
 namespace Magento\AdvancedCheckout\Model;
 
 use Magento\Catalog\Model\Product;
+use Magento\Message\MessageInterface;
 
 /**
  * Admin Checkout processing model
@@ -911,7 +912,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      *
      * @param string $sku
      * @param array $config
-     * @return bool|Product
+     * @return Product|false
      */
     protected function _loadProductWithOptionsBySku($sku, $config = array())
     {
@@ -1451,7 +1452,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     /**
      * Retrieve info message
      *
-     * @return \Magento\Message\MessageInterface[]
+     * @return MessageInterface[]
      */
     public function getMessages()
     {
@@ -1475,13 +1476,13 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
             $message = ($addedItemsCount == 1)
                     ? __('You added %1 product to your shopping cart.', $addedItemsCount)
                     : __('You added %1 products to your shopping cart.', $addedItemsCount);
-            $messages[] = $this->messageFactory->create(\Magento\Message\MessageInterface::TYPE_SUCCESS, $message);
+            $messages[] = $this->messageFactory->create(MessageInterface::TYPE_SUCCESS, $message);
         }
         if ($failedItemsCount) {
             $warning = ($failedItemsCount == 1)
                     ? __('%1 product requires your attention.', $failedItemsCount)
                     : __('%1 products require your attention.', $failedItemsCount);
-            $messages[] = $this->messageFactory->create(\Magento\Message\MessageInterface::TYPE_ERROR, $warning);
+            $messages[] = $this->messageFactory->create(MessageInterface::TYPE_ERROR, $warning);
         }
         return $messages;
     }

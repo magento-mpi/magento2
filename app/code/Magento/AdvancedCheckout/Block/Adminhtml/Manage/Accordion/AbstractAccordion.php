@@ -134,7 +134,7 @@ abstract class AbstractAccordion
     /**
      * Returns special renderer for price column content
      *
-     * @return null|string
+     * @return null
      */
     protected function _getPriceRenderer()
     {
@@ -144,7 +144,7 @@ abstract class AbstractAccordion
     /**
      * Prepare Grid columns
      *
-     * @return \Magento\Backend\Block\Widget\Grid\Extended
+     * @return $this
      */
     protected function _prepareColumns()
     {
@@ -252,7 +252,7 @@ abstract class AbstractAccordion
     /**
      * Returns additional javascript to init this grid
      *
-     * @return \Magento\Core\Model\Store
+     * @return string
      */
     public function getAdditionalJavaScript ()
     {
