@@ -141,6 +141,6 @@ class UrlResolver implements PreProcessorInterface
     protected function getRelatedViewFilePath($fileId, $parentFileName, $params)
     {
         $relativeFilePath = $this->relatedFile->buildPath($fileId, $parentFileName, $params);
-        return $this->fileResolver->getPublicViewFilePath($relativeFilePath, $params);
+        return $this->fileResolver->getPublicViewFile($relativeFilePath, $params);
     }
 }
