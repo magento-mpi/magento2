@@ -7,7 +7,7 @@
  */
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab\View;
 
-use Magento\Customer\Controller\Adminhtml\Index;
+use Magento\Customer\Controller\RegistryConstants;
 use Magento\Directory\Model\Currency;
 
 /**
@@ -84,7 +84,7 @@ class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
         if ($this->getWebsiteId()) {
             $quote->setWebsite($this->_storeManager->getWebsite($this->getWebsiteId()));
         }
-        $quote->loadByCustomer($this->_coreRegistry->registry(Index::REGISTRY_CURRENT_CUSTOMER_ID));
+        $quote->loadByCustomer($this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID));
 
         if ($quote) {
             $collection = $quote->getItemsCollection(false);

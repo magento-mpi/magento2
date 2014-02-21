@@ -8,7 +8,7 @@
 
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 
-use Magento\Customer\Controller\Adminhtml\Index;
+use Magento\Customer\Controller\RegistryConstants;
 
 /**
  * Test for Account
@@ -39,7 +39,7 @@ class AccountTest extends \PHPUnit_Framework_TestCase
     {
         $this->objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->coreRegistry = $this->objectManager->get('Magento\Core\Model\Registry');
-        $this->coreRegistry->register(Index::REGISTRY_CURRENT_CUSTOMER_ID, 1);
+        $this->coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER_ID, 1);
         $this->backendSession = $this->objectManager->get('Magento\Backend\Model\Session');
 
         $this->context = $this->objectManager
@@ -60,7 +60,7 @@ class AccountTest extends \PHPUnit_Framework_TestCase
 
     public function tearDown()
     {
-        $this->coreRegistry->unregister(Index::REGISTRY_CURRENT_CUSTOMER_ID);
+        $this->coreRegistry->unregister(RegistryConstants::CURRENT_CUSTOMER_ID);
     }
 
     /**

@@ -7,7 +7,7 @@
  */
 namespace Magento\Customer\Block\Adminhtml\Edit;
 
-use Magento\Customer\Controller\Adminhtml\Index;
+use Magento\Customer\Controller\RegistryConstants;
 
 /**
  * Admin customer left menu
@@ -63,7 +63,7 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
             'label'     => __('Account Information'),
             'content'   => $this->getLayout()
                 ->createBlock('Magento\Customer\Block\Adminhtml\Edit\Tab\Account')->initForm()->toHtml(),
-            'active'    => $this->_coreRegistry->registry(Index::REGISTRY_CURRENT_CUSTOMER_ID) ? false : true
+            'active'    => $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID) ? false : true
         ));
 
         $this->addTab('addresses', array(
@@ -74,7 +74,7 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
 
         // load: Orders, Shopping Cart, Wishlist, Product Reviews, Product Tags - with ajax
 
-        if ($this->_coreRegistry->registry(Index::REGISTRY_CURRENT_CUSTOMER_ID)) {
+        if ($this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID)) {
 
             if ($this->_authorization->isAllowed('Magento_Sales::actions_view')) {
                 $this->addTab('orders', array(

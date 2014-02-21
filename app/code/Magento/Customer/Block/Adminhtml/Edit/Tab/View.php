@@ -10,8 +10,8 @@
 
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 
+use Magento\Customer\Controller\RegistryConstants;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
-use Magento\Customer\Controller\Adminhtml\Index;
 use Magento\Exception\NoSuchEntityException;
 
 /**
@@ -145,7 +145,7 @@ class View
      */
     public function getCustomerId()
     {
-        return $this->_coreRegistry->registry(Index::REGISTRY_CURRENT_CUSTOMER_ID);
+        return $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID);
     }
 
     /**

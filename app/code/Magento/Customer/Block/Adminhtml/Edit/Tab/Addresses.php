@@ -8,6 +8,7 @@
 
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 
+use Magento\Customer\Controller\RegistryConstants;
 use Magento\Customer\Service\V1\Dto\Eav\AttributeMetadataBuilder;
 use Magento\Customer\Service\V1\Dto\Address;
 use Magento\Exception\NoSuchEntityException;
@@ -17,10 +18,6 @@ use Magento\Exception\NoSuchEntityException;
  */
 class Addresses extends GenericMetadata
 {
-    /**
-     * Registry key where current customer ID is stored
-     */
-    const REGISTRY_CURRENT_CUSTOMER_ID = 'current_customer_id';
 
     /** Default street line count */
     const DEFAULT_STREET_LINES_COUNT = 2;
@@ -158,7 +155,7 @@ class Addresses extends GenericMetadata
     {
         try {
             return $this->_customerService->isReadonly(
-                $this->_coreRegistry->registry(self::REGISTRY_CURRENT_CUSTOMER_ID)
+                $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID)
             );
         } catch (NoSuchEntityException $e) {
             return false;

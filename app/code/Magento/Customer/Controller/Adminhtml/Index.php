@@ -10,6 +10,7 @@
 namespace Magento\Customer\Controller\Adminhtml;
 
 use Magento\App\Action\NotFoundException;
+use Magento\Customer\Controller\RegistryConstants;
 use Magento\Customer\Service\V1\Dto\Customer;
 use Magento\Customer\Service\V1\Dto\CustomerBuilder;
 use Magento\Customer\Service\V1\Dto\AddressBuilder;
@@ -72,17 +73,6 @@ class Index extends \Magento\Backend\App\Action
     protected $_viewHelper;
 
     /**
-     * Registry key where current customer DTO stored
-     * @todo switch to use ID instead and remove after refactoring of all occurrences
-     */
-    const REGISTRY_CURRENT_CUSTOMER = 'current_customer';
-
-    /**
-     * Registry key where current customer ID is stored
-     */
-    const REGISTRY_CURRENT_CUSTOMER_ID = 'current_customer_id';
-
-    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\App\Response\Http\FileFactory $fileFactory
@@ -141,8 +131,8 @@ class Index extends \Magento\Backend\App\Action
             $customer->load($customerId);
         }
 
-        $this->_coreRegistry->register(self::REGISTRY_CURRENT_CUSTOMER, $customer);
-        $this->_coreRegistry->register(self::REGISTRY_CURRENT_CUSTOMER_ID, $customerId);
+        $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER, $customer);
+        $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER_ID, $customerId);
         return $customerId;
     }
 
@@ -316,7 +306,7 @@ class Index extends \Magento\Backend\App\Action
     public function deleteAction()
     {
         $this->_initCustomer();
-        $customerId = $this->_coreRegistry->registry(self::REGISTRY_CURRENT_CUSTOMER_ID);
+        $customerId = $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID);
         if (!empty($customerId)) {
             try {
                 $this->_customerService->deleteCustomer($customerId);
@@ -385,9 +375,9 @@ class Index extends \Magento\Backend\App\Action
 
                 // Done Saving customer, finish save action
                 $this->_objectManager->get('Magento\Core\Model\Registry')
-                    ->register(self::REGISTRY_CURRENT_CUSTOMER, $customer);
+                    ->register(RegistryConstants::CURRENT_CUSTOMER, $customer);
                 $this->_objectManager->get('Magento\Core\Model\Registry')
-                    ->register(self::REGISTRY_CURRENT_CUSTOMER_ID, $customer->getId());
+                    ->register(RegistryConstants::CURRENT_CUSTOMER_ID, $customer->getId());
 
                 $this->messageManager->addSuccess(__('You saved the customer.'));
 
@@ -790,7 +780,7 @@ class Index extends \Magento\Backend\App\Action
     public function newsletterAction()
     {
         $this->_initCustomer();
-        $customerId = $this->_coreRegistry->registry(self::REGISTRY_CURRENT_CUSTOMER_ID);
+        $customerId = $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID);
         $subscriber = $this->_objectManager->create('Magento\Newsletter\Model\Subscriber')
             ->loadByCustomer($customerId);
 
@@ -801,7 +791,7 @@ class Index extends \Magento\Backend\App\Action
     public function wishlistAction()
     {
         $this->_initCustomer();
-        $customerId = $this->_coreRegistry->registry(self::REGISTRY_CURRENT_CUSTOMER_ID);
+        $customerId = $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID);
         $itemId = (int)$this->getRequest()->getParam('delete');
         if ($customerId && $itemId) {
             try {
@@ -846,7 +836,7 @@ class Index extends \Magento\Backend\App\Action
                 ->setWebsite(
                     $this->_objectManager->get('Magento\Core\Model\StoreManagerInterface')->getWebsite($websiteId)
                 )
-                ->loadByCustomer($this->_coreRegistry->registry(self::REGISTRY_CURRENT_CUSTOMER_ID));
+                ->loadByCustomer($this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID));
             $item = $quote->getItemById($deleteItemId);
             if ($item && $item->getId()) {
                 $quote->removeItem($deleteItemId);
@@ -892,7 +882,7 @@ class Index extends \Magento\Backend\App\Action
         $this->_initCustomer();
         $this->_view->loadLayout();
         $this->_view->getLayout()->getBlock('admin.customer.reviews')
-            ->setCustomerId($this->_coreRegistry->registry(self::REGISTRY_CURRENT_CUSTOMER_ID))
+            ->setCustomerId($this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID))
             ->setUseAjax(true);
         $this->_view->renderLayout();
     }
