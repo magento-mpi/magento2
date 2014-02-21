@@ -5,17 +5,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Pbridge\Model\Payment\Method\Payflow;
-
-use Magento\Paypal\Model\Api\Nvp;
-use Magento\Pbridge\Model\Payment\Method\Paypal;
-use Magento\Sales\Model\Order\Payment;
 
 /**
- * Payflow Pro implementation for payment method instances
+ * PayPal Website Payments Pro implementation for payment method instaces
  * This model was created because right now PayPal Direct and PayPal Express payment methods cannot have same abstract
  */
-class Pro extends \Magento\Paypal\Model\Payflow\Pro
+namespace Magento\PbridgePaypal\Model\Payment\Method\Paypal;
+
+use Magento\PbridgePaypal\Model\Payment\Method\PaypalDirect;
+use Magento\Payment\Model\Method as PaymentMethod;
+
+class Pro extends \Magento\Paypal\Model\Pro
 {
     /**
      * Payment Bridge Payment Method Instance
@@ -27,7 +27,7 @@ class Pro extends \Magento\Paypal\Model\Payflow\Pro
     /**
      * Paypal pbridge payment method
      *
-     * @var Paypal
+     * @var PaypalDirect
      */
     protected $_pbridgePaymentMethod;
 
@@ -46,8 +46,6 @@ class Pro extends \Magento\Paypal\Model\Payflow\Pro
     protected $_infoFactory;
 
     /**
-     * Construct
-     *
      * @param \Magento\Paypal\Model\Config\Factory $configFactory
      * @param \Magento\Paypal\Model\Api\Type\Factory $apiFactory
      * @param \Magento\Paypal\Model\InfoFactory $infoFactory
@@ -59,6 +57,7 @@ class Pro extends \Magento\Paypal\Model\Payflow\Pro
         \Magento\Paypal\Model\InfoFactory $infoFactory,
         \Magento\Payment\Helper\Data $paymentData
     ) {
+        $this->_infoFactory = $infoFactory;
         $this->_paymentData = $paymentData;
         parent::__construct($configFactory, $apiFactory, $infoFactory);
     }
@@ -66,7 +65,7 @@ class Pro extends \Magento\Paypal\Model\Payflow\Pro
     /**
      * Pbridge payment method setter
      *
-     * @param Paypal $pbridgePaymentMethod
+     * @param PaypalDirect $pbridgePaymentMethod
      * @return void
      */
     public function setPaymentMethod($pbridgePaymentMethod)
@@ -75,30 +74,16 @@ class Pro extends \Magento\Paypal\Model\Payflow\Pro
     }
 
     /**
-     * Return Payment Bridge method instance
-     *
-     * @return \Magento\Pbridge\Model\Payment\Method\Pbridge
-     */
-    public function getPbridgeMethodInstance()
-    {
-        if ($this->_pbridgeMethodInstance === null) {
-            $this->_pbridgeMethodInstance = $this->_paymentData->getMethodInstance('pbridge');
-            $this->_pbridgeMethodInstance->setOriginalMethodInstance($this->_pbridgePaymentMethod);
-        }
-        return $this->_pbridgeMethodInstance;
-    }
-
-    /**
      * Attempt to capture payment
      * Will return false if the payment is not supposed to be captured
      *
      * @param \Magento\Object $payment
      * @param float $amount
-     * @return false|null
+     * @return array|bool|PaymentMethod|\Magento\Object
      */
     public function capture(\Magento\Object $payment, $amount)
     {
-        $result = $this->getPbridgeMethodInstance()->capture($payment, $amount);
+        $result = $this->_pbridgePaymentMethod->getPbridgeMethodInstance()->capture($payment, $amount);
         if (false !== $result) {
             $result = new \Magento\Object($result);
             $this->_importCaptureResultToPayment($result, $payment);
@@ -116,10 +101,11 @@ class Pro extends \Magento\Paypal\Model\Payflow\Pro
      */
     public function refund(\Magento\Object $payment, $amount)
     {
-        $result = $this->getPbridgeMethodInstance()->refund($payment, $amount);
+        $result = $this->_pbridgePaymentMethod->getPbridgeMethodInstance()->refund($payment, $amount);
 
         if ($result) {
             $result = new \Magento\Object($result);
+            $result->setRefundTransactionId($result->getTransactionId());
             $canRefundMore = $payment->getOrder()->canCreditmemo();
             $this->_importRefundResultToPayment($result, $payment, $canRefundMore);
         }
@@ -135,7 +121,7 @@ class Pro extends \Magento\Paypal\Model\Payflow\Pro
      */
     public function void(\Magento\Object $payment)
     {
-        $result = $this->getPbridgeMethodInstance()->void($payment);
+        $result = $this->_pbridgePaymentMethod->getPbridgeMethodInstance()->void($payment);
         $this->_infoFactory->create()->importToPayment(new \Magento\Object($result), $payment);
         return $result;
     }
@@ -149,55 +135,8 @@ class Pro extends \Magento\Paypal\Model\Payflow\Pro
     public function cancel(\Magento\Object $payment)
     {
         if (!$payment->getOrder()->getInvoiceCollection()->count()) {
-            $result = $this->getPbridgeMethodInstance()->void($payment);
+            $result = $this->_pbridgePaymentMethod->getPbridgeMethodInstance()->void($payment);
             $this->_infoFactory->create()->importToPayment(new \Magento\Object($result), $payment);
         }
-    }
-
-    /**
-     * Parent transaction id getter
-     *
-     * @param \Magento\Object $payment
-     * @return string
-     */
-    protected function _getParentTransactionId(\Magento\Object $payment)
-    {
-        return $payment->getParentTransactionId();
-    }
-
-
-    /**
-     * Import capture results to payment
-     *
-     * @param Nvp $api
-     * @param Payment $payment
-     * @return void
-     */
-    protected function _importCaptureResultToPayment($api, $payment)
-    {
-        $payment->setTransactionId($api->getTransactionId())->setIsTransactionClosed(false);
-        $payment->setPreparedMessage(
-            __('Payflow PNREF: #%1.', $api->getData(self::TRANSPORT_PAYFLOW_TXN_ID))
-        );
-        $this->_infoFactory->create()->importToPayment($api, $payment);
-    }
-
-    /**
-     * Import refund results to payment
-     *
-     * @param Nvp $api
-     * @param Payment $payment
-     * @param bool $canRefundMore
-     * @return void
-     */
-    protected function _importRefundResultToPayment($api, $payment, $canRefundMore)
-    {
-        $payment->setTransactionId($api->getTransactionId())
-                ->setIsTransactionClosed(1) // refund initiated by merchant
-                ->setShouldCloseParentTransaction(!$canRefundMore)
-                ->setTransactionAdditionalInfo(self::TRANSPORT_PAYFLOW_TXN_ID, $api->getPayflowTrxid());
-
-        $payment->setPreparedMessage(__('Payflow PNREF: #%1.', $api->getData(self::TRANSPORT_PAYFLOW_TXN_ID)));
-        $this->_infoFactory->create()->importToPayment($api, $payment);
     }
 }

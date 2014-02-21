@@ -438,6 +438,9 @@ $CONFIG['translates'] = array(
         'app/design/frontend/enterprise/default/layout/pbridge.xml',
         'app/design/frontend/enterprise/default/template/pbridge/'
     ),
+    'Magento_PbridgePaypal' => array(
+        'app/code/Magento/PbridgePaypal/',
+    ),
     'Magento_Pci' => array(
         'app/code/Magento/Pci/',
         'app/design/adminhtml/default/default/layout/enterprise/pci.xml',

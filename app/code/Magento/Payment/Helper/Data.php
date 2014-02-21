@@ -9,7 +9,6 @@ namespace Magento\Payment\Helper;
 
 use Magento\Sales\Model\Quote;
 use Magento\Core\Model\Store;
-use Magento\Payment\Model\Method\AbstractMethod;
 use Magento\Payment\Block\Form;
 use Magento\Payment\Model\Info;
 use Magento\View\Element\Template;
@@ -102,7 +101,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * Retrieve method model object
      *
      * @param string $code
-     * @return AbstractMethod|false
+     * @return \Magento\Payment\Model\Method|false
      */
     public function getMethodInstance($code)
     {
@@ -164,10 +163,10 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Retrieve payment method form html
      *
-     * @param AbstractMethod $method
+     * @param \Magento\Payment\Model\Method $method
      * @return Form
      */
-    public function getMethodFormBlock(AbstractMethod $method)
+    public function getMethodFormBlock(\Magento\Payment\Model\Method $method)
     {
         $block = false;
         $blockType = $method->getFormBlockType();

@@ -16,7 +16,7 @@ abstract class AbstractAgreement extends \Magento\Core\Model\AbstractModel
     /**
      * Payment method instance
      *
-     * @var \Magento\Payment\Model\Method\AbstractMethod
+     * @var \Magento\Payment\Model\Method
      */
     protected $_paymentMethodInstance = null;
 
@@ -81,7 +81,7 @@ abstract class AbstractAgreement extends \Magento\Core\Model\AbstractModel
     /**
      * Retrieve payment method instance
      *
-     * @return \Magento\Payment\Model\Method\AbstractMethod
+     * @return \Magento\Payment\Model\Method
      */
     public function getPaymentMethodInstance()
     {

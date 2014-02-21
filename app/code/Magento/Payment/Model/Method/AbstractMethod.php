@@ -12,7 +12,7 @@ use Magento\Sales\Model\Order\Payment;
 /**
  * Payment method abstract model
  */
-abstract class AbstractMethod extends \Magento\Object
+abstract class AbstractMethod extends \Magento\Object implements \Magento\Payment\Model\Method
 {
     const ACTION_ORDER             = 'order';
     const ACTION_AUTHORIZE         = 'authorize';

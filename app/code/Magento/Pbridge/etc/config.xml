@@ -17,14 +17,6 @@
                 <title>Payment Bridge</title>
                 <debug>0</debug>
             </pbridge>
-            <pbridge_paypal_direct>
-                <model>Magento\Pbridge\Model\Payment\Method\Paypal</model>
-                <active>1</active>
-            </pbridge_paypal_direct>
-            <pbridge_payflow_direct>
-                <model>Magento\Pbridge\Model\Payment\Method\PayflowDirect</model>
-                <active>1</active>
-            </pbridge_payflow_direct>
             <pbridge_authorizenet>
                 <model>Magento\Pbridge\Model\Payment\Method\Authorizenet</model>
                 <enabled>1</enabled>
@@ -47,10 +39,6 @@
                 <order_status>processing</order_status>
                 <allowspecific>0</allowspecific>
             </eway_direct>
-            <pbridge_payflowpro>
-                <model>Magento\Pbridge\Model\Payment\Method\Payflowpro</model>
-                <enabled>1</enabled>
-            </pbridge_payflowpro>
             <pbridge_ogone_direct>
                 <model>Magento\Pbridge\Model\Payment\Method\Ogone</model>
                 <title>Ogone Direct Link</title>

@@ -293,12 +293,12 @@ class Config
     /**
      * Method code setter
      *
-     * @param string|\Magento\Payment\Model\Method\AbstractMethod $method
+     * @param string|\Magento\Payment\Model\Method $method
      * @return \Magento\Paypal\Model\Config
      */
     public function setMethod($method)
     {
-        if ($method instanceof \Magento\Payment\Model\Method\AbstractMethod) {
+        if ($method instanceof \Magento\Payment\Model\Method) {
             $this->_methodCode = $method->getCode();
         } elseif (is_string($method)) {
             $this->_methodCode = $method;

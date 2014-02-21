@@ -152,7 +152,7 @@ class Hostedpro extends \Magento\Paypal\Model\Direct
      *
      * @param string $paymentAction
      * @param \Magento\Object $stateObject
-     * @return \Magento\Payment\Model\Method\AbstractMethod|void
+     * @return \Magento\Payment\Model\Method|void
      */
     public function initialize($paymentAction, $stateObject)
     {

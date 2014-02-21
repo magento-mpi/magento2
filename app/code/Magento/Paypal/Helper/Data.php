@@ -94,27 +94,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
     }
 
     /**
-     * Retrieve all billing agreement methods (code and label)
-     *
-     * @return array
-     */
-    public function getAllBillingAgreementMethods()
-    {
-        $result = array();
-        $interface = 'Magento\Paypal\Model\Billing\Agreement\MethodInterface';
-        foreach ($this->_paymentData->getPaymentMethods() as $code => $data) {
-            if (!isset($data['model'])) {
-                continue;
-            }
-            $method = $data['model'];
-            if (in_array($interface, class_implements($method))) {
-                $result[$code] = $data['title'];
-            }
-        }
-        return $result;
-    }
-
-    /**
      * Check whether payment method can manage billing agreements or not
      *
      * @param mixed $methodInstance

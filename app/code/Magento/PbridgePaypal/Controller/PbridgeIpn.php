@@ -2,28 +2,21 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Pbridge
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-
 /**
- * Index controller
- *
- * @category    Magento
- * @package     Magento_Pbridge
- * @author      Magento Core Team <core@magentocommerce.com>
+ * Ipn controller
  */
-namespace Magento\Pbridge\Controller;
+namespace Magento\PbridgePaypal\Controller;
 
 class PbridgeIpn extends \Magento\App\Action\Action
 {
     /**
      * Pbridge ipn factory
      *
-     * @var \Magento\Pbridge\Model\Payment\Method\Pbridge\IpnFactory
+     * @var \Magento\PbridgePaypal\Model\Payment\Method\Pbridge\IpnFactory
      */
     protected $_pbridgeIpnFactory;
 
@@ -31,11 +24,11 @@ class PbridgeIpn extends \Magento\App\Action\Action
      * Construct
      *
      * @param \Magento\App\Action\Context $context
-     * @param \Magento\Pbridge\Model\Payment\Method\Pbridge\IpnFactory $pbridgeIpnFactory
+     * @param \Magento\PbridgePaypal\Model\Payment\Method\Pbridge\IpnFactory $pbridgeIpnFactory
      */
     public function __construct(
         \Magento\App\Action\Context $context,
-        \Magento\Pbridge\Model\Payment\Method\Pbridge\IpnFactory $pbridgeIpnFactory
+        \Magento\PbridgePaypal\Model\Payment\Method\Pbridge\IpnFactory $pbridgeIpnFactory
     ) {
         $this->_pbridgeIpnFactory = $pbridgeIpnFactory;
         parent::__construct($context);
@@ -49,12 +42,11 @@ class PbridgeIpn extends \Magento\App\Action\Action
      */
     public function indexAction()
     {
-        /** @var \Magento\Pbridge\Model\Payment\Method\Pbridge\Ipn $ipn */
+        /** @var \Magento\PbridgePaypal\Model\Payment\Method\Pbridge\Ipn $ipn */
         $ipn = $this->_pbridgeIpnFactory->create();
 
         $ipn->setIpnFormData($this->getRequest()->getPost())
             ->processIpnRequest();
         exit;
     }
-
 }

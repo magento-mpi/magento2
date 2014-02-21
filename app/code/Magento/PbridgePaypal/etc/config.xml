@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <default>
+        <payment>
+            <pbridge_paypal_direct>
+                <model>Magento\PbridgePaypal\Model\Payment\Method\Paypal\PaypalDirect</model>
+                <active>1</active>
+            </pbridge_paypal_direct>
+            <pbridge_payflow_direct>
+                <model>Magento\PbridgePaypal\Model\Payment\Method\Paypal\PayflowDirect</model>
+                <active>1</active>
+            </pbridge_payflow_direct>
+            <pbridge_payflowpro>
+                <model>Magento\PbridgePaypal\Model\Payment\Method\Paypal\Payflowpro</model>
+                <enabled>1</enabled>
+            </pbridge_payflowpro>
+        </payment>
+    </default>
+</config>

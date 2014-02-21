@@ -2,14 +2,11 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Pbridge
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-namespace Magento\Pbridge\Model\Payment\Method;
+namespace Magento\PbridgePaypal\Model\Payment\Method;
 
 class PayflowproTest extends \PHPUnit_Framework_TestCase
 {
@@ -25,13 +22,19 @@ class PayflowproTest extends \PHPUnit_Framework_TestCase
             'authorize',
             'refund'
         ), array(), '', false);
-        $paymentData = $this->getMock('Magento\Payment\Helper\Data', array('getMethodInstance'), array(), '', false);
-        $paymentData->expects($this->once())
-            ->method('getMethodInstance')
+        $paypal = $this->getMock(
+            'Magento\PbridgePaypal\Model\Payment\Method\Paypal',
+            array('getPbridgeMethodInstance'),
+            array(),
+            '',
+            false
+        );
+        $paypal->expects($this->any())
+            ->method('getPbridgeMethodInstance')
             ->will($this->returnValue($pbridgeMethod));
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_model = $helper->getObject('Magento\Pbridge\Model\Payment\Method\Payflowpro', array(
-            'paymentData' => $paymentData
+        $this->_model = $helper->getObject('Magento\PbridgePaypal\Model\Payment\Method\Payflowpro', array(
+            'paypal' => $paypal
         ));
     }
 

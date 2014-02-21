@@ -81,7 +81,7 @@ class Info extends \Magento\Core\Model\AbstractModel
     /**
      * Retrieve payment method model object
      *
-     * @return \Magento\Payment\Model\Method\AbstractMethod
+     * @return \Magento\Payment\Model\Method
      * @throws \Magento\Core\Exception
      */
     public function getMethodInstance()

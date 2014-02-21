@@ -14,18 +14,6 @@
             <allow_multiple_address>1</allow_multiple_address>
             <allow_multiple_with_3dsecure>1</allow_multiple_with_3dsecure>
         </method>
-        <method name="pbridge_paypal_direct">
-            <allow_multiple_address>1</allow_multiple_address>
-            <allow_multiple_with_3dsecure>1</allow_multiple_with_3dsecure>
-        </method>
-        <method name="pbridge_payflow_direct">
-            <allow_multiple_address>1</allow_multiple_address>
-            <allow_multiple_with_3dsecure>1</allow_multiple_with_3dsecure>
-        </method>
-        <method name="pbridge_payflowpro">
-            <allow_multiple_address>1</allow_multiple_address>
-            <allow_multiple_with_3dsecure>1</allow_multiple_with_3dsecure>
-        </method>
         <method name="braintree_basic">
             <allow_multiple_address>1</allow_multiple_address>
             <allow_multiple_with_3dsecure>1</allow_multiple_with_3dsecure>
@@ -47,10 +35,6 @@
             <allow_multiple_with_3dsecure>1</allow_multiple_with_3dsecure>
         </method>
         <method name="paybox_direct">
-            <allow_multiple_address>1</allow_multiple_address>
-            <allow_multiple_with_3dsecure>1</allow_multiple_with_3dsecure>
-        </method>
-        <method name="pbridge">
             <allow_multiple_address>1</allow_multiple_address>
             <allow_multiple_with_3dsecure>1</allow_multiple_with_3dsecure>
         </method>

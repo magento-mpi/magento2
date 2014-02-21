@@ -6,13 +6,12 @@
  * @license     {license_link}
  */
 
-
 /**
  * Payflow Direct payment block
  */
-namespace Magento\Pbridge\Block\Adminhtml\Sales\Order\Create;
+namespace Magento\PbridgePaypal\Block\Checkout\Payment;
 
-class PayflowDirect extends \Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Paypal
+class PayflowDirect extends \Magento\PbridgePaypal\Block\Checkout\Payment\PaypalDirect
 {
     /**
      * Payflow Direct payment code

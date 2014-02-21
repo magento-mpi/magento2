@@ -2,12 +2,10 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Pbridge
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Pbridge\Model\Payment\Method\Pbridge;
+namespace Magento\PbridgePaypal\Model\Payment\Method\Pbridge;
 
 use Magento\Paypal\Model\Config;
 use Magento\Sales\Model\Order;

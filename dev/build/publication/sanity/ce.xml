@@ -50,6 +50,7 @@
         <word>Magento_Logging</word>
         <word>MultipleWishlist</word>
         <word>Pbridge</word>
+        <word>PbridgePaypal</word>
         <word>Magento/Pci</word>
         <word>Magento\Pci</word>
         <word>Magento_Pci</word>
@@ -199,6 +200,7 @@
             <word>Magento_Logging</word>
             <word>MultipleWishlist</word>
             <word>Pbridge</word>
+            <word>PbridgePaypal</word>
             <word>Magento/Pci</word>
             <word>Magento\Pci</word>
             <word>Magento_Pci</word>
@@ -342,6 +344,7 @@
             <word>CustomerSegment</word>
             <word>Magento\Logging</word>
             <word>Pbridge</word>
+            <word>PbridgePaypal</word>
             <word>Magento\Search</word>
             <path>dev/tests/integration/testsuite/Magento/Test/Integrity/Modular/LayoutFilesTest.php</path>
         </item>
@@ -371,6 +374,7 @@
         <item>
             <!-- Incorrect dependency: EE functionality mentioned in fixture used with CE test -->
             <word>Pbridge</word>
+            <word>PbridgePaypal</word>
             <path>dev/tests/functional/tests/app/Magento/Core/Test/Repository/Config.php</path>
         </item>
         <item>

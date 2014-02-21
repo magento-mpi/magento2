@@ -30,7 +30,7 @@ class MethodsTest extends \PHPUnit_Framework_TestCase
             ->get('Magento\View\Element\BlockFactory');
         $storeId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Core\Model\StoreManagerInterface')->getStore()->getId();
-        /** @var $model \Magento\Payment\Model\Method\AbstractMethod */
+        /** @var $model \Magento\Payment\Model\Method */
         if (empty($methodClass)) {
             /**
              * Note that $code is not whatever the payment method getCode() returns

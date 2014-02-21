@@ -6,16 +6,15 @@
  * @license     {license_link}
  */
 
-
 /**
  * Payflow Pro payment block
  */
-namespace Magento\Pbridge\Block\Adminhtml\Sales\Order\Create;
+namespace Magento\PbridgePaypal\Block\Checkout\Payment;
 
-class Payflowpro extends \Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\AbstractCreate
+class Payflowpro extends \Magento\Pbridge\Block\Payment\Form\AbstractForm
 {
     /**
-     * Payflow Pro payment code
+     * Paypal payment code
      *
      * @var string
      */

@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <type name="Magento\PbridgePaypal\Model\Payment\Method\Paypal">
+        <arguments>
+            <argument name="pbridgeData" xsi:type="object">Magento\PbridgePaypal\Helper\Data</argument>
+        </arguments>
+    </type>
+    <virtualType name="magentoPaypalCartFactory" type="Magento\Payment\Model\CartFactory">
+        <arguments>
+            <argument name="instanceName" xsi:type="string">Magento\Paypal\Model\Cart</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\PbridgePaypal\Helper\Data" type="Magento\Pbridge\Helper\Data">
+        <arguments>
+            <argument name="cartFactory" xsi:type="object">magentoPaypalCartFactory</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\PbridgePaypal\Model\Payment\Method\Paypal\PayflowDirect" type="Magento\PbridgePaypal\Model\Payment\Method\Paypal">
+        <arguments>
+            <argument name="paypalClassName" xsi:type="string">Magento\PbridgePaypal\Model\Payment\Method\PayflowDirect</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\PbridgePaypal\Model\Payment\Method\Paypal\Payflowpro" type="Magento\PbridgePaypal\Model\Payment\Method\Paypal">
+        <arguments>
+            <argument name="paypalClassName" xsi:type="string">Magento\PbridgePaypal\Model\Payment\Method\Payflowpro</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\PbridgePaypal\Model\Payment\Method\Paypal\PaypalDirect" type="Magento\PbridgePaypal\Model\Payment\Method\Paypal">
+        <arguments>
+            <argument name="paypalClassName" xsi:type="string">Magento\PbridgePaypal\Model\Payment\Method\PaypalDirect</argument>
+        </arguments>
+    </virtualType>
+</config>
