@@ -610,4 +610,27 @@ class IndexTest extends \Magento\Backend\Utility\Controller
             \Magento\Message\MessageInterface::TYPE_ERROR
         );
     }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/two_customers.php
+     */
+    public function testMassAssignGroupActionPartialUpdate()
+    {
+        $this->assertEquals(1, $this->customerService->getCustomer(1)->getGroupId());
+        $this->assertEquals(1, $this->customerService->getCustomer(2)->getGroupId());
+
+        $this->getRequest()->setParam('group', 0)->setPost('customer', [1, 4200, 2]);
+        $this->dispatch('backend/customer/index/massAssignGroup');
+        $this->assertSessionMessages(
+            $this->equalTo(['A total of 2 record(s) were updated.']),
+            \Magento\Message\MessageInterface::TYPE_SUCCESS
+        );
+        $this->assertSessionMessages(
+            $this->equalTo(['No such entity with customerId = 4200']),
+            \Magento\Message\MessageInterface::TYPE_ERROR
+        );
+
+        $this->assertEquals(0, $this->customerService->getCustomer(1)->getGroupId());
+        $this->assertEquals(0, $this->customerService->getCustomer(2)->getGroupId());
+    }
 }

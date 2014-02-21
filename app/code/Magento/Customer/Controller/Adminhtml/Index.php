@@ -1092,17 +1092,21 @@ class Index extends \Magento\Backend\App\Action
         if (!is_array($customersIds)) {
             $this->messageManager->addError(__('Please select customer(s).'));
         } else {
-            try {
-                foreach ($customersIds as $customerId) {
+            $customersUpdated = 0;
+            foreach ($customersIds as $customerId) {
+                try {
                     $customer = $this->_customerService->getCustomer($customerId);
                     $this->_customerBuilder->populate($customer);
                     $customer = $this->_customerBuilder
                         ->setGroupId($this->getRequest()->getParam('group'))->create();
                     $this->_customerService->saveCustomer($customer);
+                    $customersUpdated++;
+                } catch (\Exception $exception) {
+                    $this->messageManager->addError($exception->getMessage());
                 }
-                $this->messageManager->addSuccess(__('A total of %1 record(s) were updated.', count($customersIds)));
-            } catch (\Exception $exception) {
-                $this->messageManager->addError($exception->getMessage());
+            }
+            if ($customersUpdated) {
+                $this->messageManager->addSuccess(__('A total of %1 record(s) were updated.', $customersUpdated));
             }
         }
 
