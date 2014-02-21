@@ -8,10 +8,10 @@
 
 namespace Magento\PageCache\Model\App\FrontController;
 
-class CachePluginTest extends \PHPUnit_Framework_TestCase
+class BuiltinPluginTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\PageCache\Model\App\FrontController\CachePlugin
+     * @var \Magento\PageCache\Model\App\FrontController\BuiltinPlugin
      */
     protected $plugin;
 
@@ -54,7 +54,7 @@ class CachePluginTest extends \PHPUnit_Framework_TestCase
         $this->versionMock = $this->getMock('Magento\App\PageCache\Version', array(), array(), '', false);
         $this->kernelMock = $this->getMock('Magento\App\PageCache\Kernel', array(), array(), '', false);
         $this->stateMock = $this->getMock('Magento\App\State', array(), array(), '', false);
-        $this->plugin = new CachePlugin($this->configMock, $this->versionMock, $this->kernelMock, $this->stateMock);
+        $this->plugin = new BuiltinPlugin($this->configMock, $this->versionMock, $this->kernelMock, $this->stateMock);
 
         $this->responseMock = $this->getMock('Magento\App\Response\Http', array(), array(), '', false);
         $this->invocationChainMock =
@@ -64,15 +64,15 @@ class CachePluginTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider dataProvider
      */
-    public function testAroundDispatchProcessIfCacheMissedForBuiltIn($state)
+    public function testAroundDispatchProcessIfCacheMissed($state)
     {
-        $this->versionMock
-            ->expects($this->once())
-            ->method('process');
         $this->configMock
             ->expects($this->once())
             ->method('getType')
             ->will($this->returnValue(\Magento\PageCache\Model\Config::BUILT_IN));
+        $this->versionMock
+            ->expects($this->once())
+            ->method('process');
         $this->kernelMock
             ->expects($this->once())
             ->method('load')
@@ -105,15 +105,15 @@ class CachePluginTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider dataProvider
      */
-    public function testAroundDispatchReturnsCacheForBuiltIn($state)
+    public function testAroundDispatchReturnsCache($state)
     {
-        $this->versionMock
-            ->expects($this->once())
-            ->method('process');
         $this->configMock
             ->expects($this->once())
             ->method('getType')
             ->will($this->returnValue(\Magento\PageCache\Model\Config::BUILT_IN));
+        $this->versionMock
+            ->expects($this->once())
+            ->method('process');
         $this->kernelMock
             ->expects($this->once())
             ->method('load')
@@ -139,15 +139,15 @@ class CachePluginTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider dataProvider
      */
-    public function testAroundDispatchVarnish($state)
+    public function testAroundDispatchDisabled($state)
     {
-        $this->versionMock
-            ->expects($this->once())
-            ->method('process');
         $this->configMock
             ->expects($this->once())
             ->method('getType')
-            ->will($this->returnValue(\Magento\PageCache\Model\Config::VARNISH));
+            ->will($this->returnValue(null));
+        $this->versionMock
+            ->expects($this->never())
+            ->method('process');
         $this->invocationChainMock
             ->expects($this->once())
             ->method('proceed')
@@ -155,14 +155,8 @@ class CachePluginTest extends \PHPUnit_Framework_TestCase
         $this->stateMock->expects($this->any())
             ->method('getMode')
             ->will($this->returnValue($state));
-        if ($state == \Magento\App\State::MODE_DEVELOPER) {
-            $this->responseMock->expects($this->once())
-                ->method('setHeader')
-                ->with('X-Magento-Cache-Control');
-        } else {
-            $this->responseMock->expects($this->never())
-                ->method('setHeader');
-        }
+        $this->responseMock->expects($this->never())
+            ->method('setHeader');
         $this->plugin->aroundDispatch(array(), $this->invocationChainMock);
     }
 
