@@ -8,6 +8,9 @@
 
 namespace Magento\Customer\Service\V1\Dto\Eav;
 
+use Magento\Customer\Service\V1\Dto\Eav\Attribute;
+use Magento\Customer\Service\V1\Dto\Eav\AttributeBuilder;
+
 class AttributeTest extends \PHPUnit_Framework_TestCase
 {
     const ATTRIBUTE_CODE = 'ATTRIBUTE_CODE';
@@ -16,10 +19,8 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
 
     public function testConstructorAndGetters()
     {
-        $attribute = new \Magento\Customer\Service\V1\Dto\Eav\Attribute([
-            'attribute_code' => self::ATTRIBUTE_CODE,
-            'value' => self::VALUE
-        ]);
+        $attributeBuilder = (new AttributeBuilder())->setAttributeCode(self::ATTRIBUTE_CODE)->setValue(self::VALUE);
+        $attribute = new Attribute($attributeBuilder);
 
         $this->assertSame(self::ATTRIBUTE_CODE, $attribute->getAttributeCode());
         $this->assertSame(self::VALUE, $attribute->getValue());

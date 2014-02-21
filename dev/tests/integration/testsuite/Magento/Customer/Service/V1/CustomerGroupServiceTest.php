@@ -120,11 +120,7 @@ class CustomerGroupServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateGroup()
     {
-        $group = new Dto\CustomerGroup([
-          'id' => null,
-          'code' => 'Test Group',
-          'tax_class_id' => 4
-        ]);
+        $group = (new Dto\CustomerGroupBuilder())->setId(null)->setCode('Test Group')->setTaxClassId(4)->create();
         $groupId = $this->_groupService->saveGroup($group);
         $this->assertNotNull($groupId);
 
@@ -136,11 +132,7 @@ class CustomerGroupServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testUpdateGroup()
     {
-        $group = new Dto\CustomerGroup([
-          'id' => null,
-          'code' => 'New Group',
-          'tax_class_id' => 4
-        ]);
+        $group = (new Dto\CustomerGroupBuilder())->setId(null)->setCode('New Group')->setTaxClassId(4)->create();
         $groupId = $this->_groupService->saveGroup($group);
         $this->assertNotNull($groupId);
 
@@ -149,11 +141,8 @@ class CustomerGroupServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($group->getCode(), $newGroup->getCode());
         $this->assertEquals($group->getTaxClassId(), $newGroup->getTaxClassId());
 
-        $updates = new Dto\CustomerGroup([
-          'id' => $groupId,
-          'code' => 'Updated Group',
-          'tax_class_id' => 2
-        ]);
+        $updates = (new Dto\CustomerGroupBuilder())->setId($groupId)->setCode('Updated Group')->setTaxClassId(2)
+            ->create();
         $newId = $this->_groupService->saveGroup($updates);
         $this->assertEquals($newId, $groupId);
         $updatedGroup = $this->_groupService->getGroup($groupId);

@@ -9,6 +9,7 @@ namespace Magento\Customer\Service\V1;
 
 use Magento\Exception\InputException;
 use Magento\Exception\NoSuchEntityException;
+use Magento\Customer\Service\V1\Dto\RegionBuilder;
 
 /**
  * Integration test for service layer \Magento\Customer\Service\V1\CustomerService
@@ -57,11 +58,9 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
             ->setDefaultBilling(true)
             ->setDefaultShipping(true)
             ->setPostcode('75477')
-            ->setRegion(new Dto\Region([
-                'region_code' => 'AL',
-                'region' => 'Alabama',
-                'region_id' => 1
-            ]))
+            ->setRegion(
+                (new RegionBuilder())->setRegionCode('AL')->setRegion('Alabama')->setRegionId(1)->create()
+            )
             ->setStreet(['Green str, 67'])
             ->setTelephone('3468676')
             ->setCity('CityM')
@@ -76,11 +75,9 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
             ->setDefaultBilling(false)
             ->setDefaultShipping(false)
             ->setPostcode('47676')
-            ->setRegion(new Dto\Region([
-                'region_code' => 'AL',
-                'region' => 'Alabama',
-                'region_id' => 1
-            ]))
+            ->setRegion(
+                (new RegionBuilder())->setRegionCode('AL')->setRegion('Alabama')->setRegionId(1)->create()
+            )
             ->setStreet(['Black str, 48'])
             ->setCity('CityX')
             ->setTelephone('3234676')

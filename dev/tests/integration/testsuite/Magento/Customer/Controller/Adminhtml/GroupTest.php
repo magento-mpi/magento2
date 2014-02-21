@@ -9,6 +9,9 @@ namespace Magento\Customer\Controller\Adminhtml;
 
 use Magento\Message\MessageInterface;
 use Magento\TestFramework\Helper\Bootstrap;
+use Magento\Customer\Service\V1\Dto\CustomerGroupBuilder;
+use Magento\Customer\Service\V1\Dto\CustomerGroup;
+use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 
 /**
  * @magentoAppArea adminhtml
@@ -22,21 +25,18 @@ class GroupTest extends \Magento\Backend\Utility\Controller
 
     public static function setUpBeforeClass()
     {
-        /** @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService */
+        /** @var CustomerGroupServiceInterface $groupService */
         $groupService = Bootstrap::getObjectManager()
             ->get('Magento\Customer\Service\V1\CustomerGroupServiceInterface');
 
-        $group = new \Magento\Customer\Service\V1\Dto\CustomerGroup([
-          'id' => null,
-          'code' => self::CUSTOMER_GROUP_CODE,
-          'tax_class_id' => self::TAX_CLASS_ID
-        ]);
+        $customerGroupBuilder = (new CustomerGroupBuilder())->setId(null)->setCode('custom_group')->setTaxClassId(3);
+        $group = new CustomerGroup($customerGroupBuilder);
         self::$_customerGroupId = $groupService->saveGroup($group);;
     }
 
     public static function tearDownAfterClass()
     {
-        /** @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService */
+        /** @var CustomerGroupServiceInterface $groupService */
         $groupService = Bootstrap::getObjectManager()
             ->get('Magento\Customer\Service\V1\CustomerGroupServiceInterface');
         $groupService->deleteGroup(self::$_customerGroupId);
@@ -96,7 +96,7 @@ class GroupTest extends \Magento\Backend\Utility\Controller
             $this->equalTo(['The customer group has been saved.']), MessageInterface::TYPE_SUCCESS
         );
 
-        /** @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService */
+        /** @var CustomerGroupServiceInterface $groupService */
         $groupService = Bootstrap::getObjectManager()
             ->get('Magento\Customer\Service\V1\CustomerGroupServiceInterface');
         $customerGroupData = $groupService->getGroup(self::$_customerGroupId)->__toArray();
@@ -127,7 +127,7 @@ class GroupTest extends \Magento\Backend\Utility\Controller
             $this->equalTo(['The customer group has been saved.']), MessageInterface::TYPE_SUCCESS
         );
 
-        /** @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService */
+        /** @var CustomerGroupServiceInterface $groupService */
         $groupService = Bootstrap::getObjectManager()
             ->get('Magento\Customer\Service\V1\CustomerGroupServiceInterface');
 
@@ -146,7 +146,7 @@ class GroupTest extends \Magento\Backend\Utility\Controller
         $this->getRequest()->setParam('id', self::$_customerGroupId);
         $this->dispatch('backend/customer/group/save');
 
-        /** @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService */
+        /** @var CustomerGroupServiceInterface $groupService */
         $groupService = Bootstrap::getObjectManager()
             ->get('Magento\Customer\Service\V1\CustomerGroupServiceInterface');
         $customerGroupCode = $groupService->getGroup(self::$_customerGroupId)->getCode();

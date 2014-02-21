@@ -10,6 +10,7 @@ namespace Magento\Customer\Service\V1;
 
 use Magento\Exception\InputException;
 use Magento\Exception\NoSuchEntityException;
+use Magento\Customer\Service\V1\Dto\RegionBuilder;
 
 /**
  * \Magento\Customer\Service\V1\CustomerAddressService
@@ -420,11 +421,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->_addressBuilder->setFirstname('John')
             ->setLastname(self::LASTNAME)
-            ->setRegion(new Dto\Region([
-                'region_id' => self::REGION_ID,
-                'region_code' => '',
-                'region' => self::REGION
-            ]))
+            ->setRegion((new Dto\RegionBuilder())->setRegionId(self::REGION_ID)->setRegion(self::REGION)->create())
             ->setStreet([self::STREET])
             ->setTelephone(self::TELEPHONE)
             ->setCity(self::CITY)
@@ -464,11 +461,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         $this->_addressBuilder->setId(1)
             ->setFirstname('Jane')
             ->setLastname(self::LASTNAME)
-            ->setRegion(new Dto\Region([
-                'region_id' => self::REGION_ID,
-                'region_code' => '',
-                'region' => self::REGION
-            ]))
+            ->setRegion((new RegionBuilder())->setRegionId(self::REGION_ID)->setRegion(self::REGION)->create())
             ->setStreet([self::STREET])
             ->setTelephone(self::TELEPHONE)
             ->setCity(self::CITY)
@@ -530,11 +523,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         $this->_addressBuilder->setId(1)
             ->setFirstname('John')
             ->setLastname(self::LASTNAME)
-            ->setRegion(new Dto\Region([
-                'region_id' => self::REGION_ID,
-                'region_code' => '',
-                'region' => self::REGION
-            ]))
+            ->setRegion((new Dto\RegionBuilder())->setRegionId(self::REGION_ID)->setRegion(self::REGION)->create())
             ->setStreet([self::STREET])
             ->setTelephone(self::TELEPHONE)
             ->setCity(self::CITY)
@@ -566,11 +555,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         $customerService = $this->_createService();
         $this->_addressBuilder->setFirstname('John')
             ->setLastname(self::LASTNAME)
-            ->setRegion(new Dto\Region([
-                'region_id' => self::REGION_ID,
-                'region_code' => '',
-                'region' => self::REGION
-            ]))
+            ->setRegion((new RegionBuilder())->setRegionId(self::REGION_ID)->setRegion(self::REGION)->create())
             ->setStreet([self::STREET])
             ->setTelephone(self::TELEPHONE)
             ->setCity(self::CITY)
@@ -667,11 +652,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->_addressBuilder->setFirstname('John')
             ->setLastname(self::LASTNAME)
-            ->setRegion(new Dto\Region([
-                'region_id' => self::REGION_ID,
-                'region_code' => '',
-                'region' => self::REGION
-            ]))
+            ->setRegion((new Dto\RegionBuilder())->setRegionId(self::REGION_ID)->setRegion(self::REGION)->create())
             ->setStreet([self::STREET])
             ->setTelephone(self::TELEPHONE)
             ->setCity(self::CITY)

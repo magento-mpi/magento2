@@ -21,12 +21,11 @@ abstract class AbstractDto
     /**
      * Initialize internal storage
      *
-     * @param array $data
-     * @throws \InvalidArgumentException
+     * @param AbstractDtoBuilder $builder
      */
-    public function __construct($data)
+    public function __construct(AbstractDtoBuilder $builder)
     {
-        $this->_data = $data;
+        $this->_data = $builder->getData();
     }
 
     /**

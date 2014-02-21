@@ -21,9 +21,9 @@ abstract class AbstractFilterGroup extends AbstractDto implements FilterGroupInt
     /**
      * {@inheritdoc}
      */
-    public function __construct(array $data)
+    public function __construct(AbstractFilterGroupBuilder $filterGroupBuilder)
     {
-        parent::__construct($data);
+        parent::__construct($filterGroupBuilder);
         $this->_data['group_type'] = $this->getGroupType();
     }
 

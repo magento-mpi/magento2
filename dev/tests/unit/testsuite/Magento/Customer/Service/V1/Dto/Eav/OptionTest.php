@@ -8,6 +8,9 @@
 
 namespace Magento\Customer\Service\V1\Dto\Eav;
 
+use Magento\Customer\Service\V1\Dto\Eav\Option;
+use Magento\Customer\Service\V1\Dto\Eav\OptionBuilder;
+
 class OptionTest extends \PHPUnit_Framework_TestCase
 {
     const LABEL = 'LABEL';
@@ -16,11 +19,8 @@ class OptionTest extends \PHPUnit_Framework_TestCase
 
     public function testConstructorAndGetters()
     {
-        $option = new \Magento\Customer\Service\V1\Dto\Eav\Option([
-            'label' => self::LABEL,
-            'value' => self::VALUE
-        ]);
-
+        $optionBuilder = (new OptionBuilder())->setLabel(self::LABEL)->setValue(self::VALUE);
+        $option = new Option($optionBuilder);
         $this->assertSame(self::LABEL, $option->getLabel());
         $this->assertSame(self::VALUE, $option->getValue());
     }

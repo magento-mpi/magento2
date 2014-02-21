@@ -11,7 +11,7 @@
 namespace Magento\Customer\Model\Metadata\Form;
 
 use Magento\Customer\Model\Metadata\ElementFactory;
-use Magento\Customer\Service\V1\Dto\Eav\Option;
+use Magento\Customer\Service\V1\Dto\Eav\OptionBuilder;
 
 class MultiselectTest extends AbstractFormTestCase
 {
@@ -193,8 +193,8 @@ class MultiselectTest extends AbstractFormTestCase
             ->expects($this->any())
             ->method('getOptions')
             ->will($this->returnValue([
-                new Option(['value' => '14', 'label' => 'fourteen']),
-                new Option(['value' => 'some key', 'label' => 'some string']),
+                (new OptionBuilder())->setValue('14')->setLabel('fourteen')->create(),
+                (new OptionBuilder())->setValue('some key')->setLabel('some string')->create(),
             ]));
         $multiselect = $this->getClass($value);
         $actual = $multiselect->outputValue($format);

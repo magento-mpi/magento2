@@ -9,6 +9,7 @@
 namespace Magento\Customer\Block\Widget;
 
 use Magento\Customer\Service\V1\Dto\Customer;
+use Magento\Customer\Service\V1\Dto\CustomerBuilder;
 use Magento\Exception\NoSuchEntityException;
 use Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata;
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
@@ -160,7 +161,8 @@ class NameTest extends \PHPUnit_Framework_TestCase
          * Added some padding so that the trim() call on Customer::getPrefix() will remove it. Also added
          * special characters so that the escapeHtml() method returns a htmlspecialchars translated value.
          */
-        $customer = new Customer([Customer::PREFIX => '  <' . self::PREFIX . '>  ']);
+        $customer = (new CustomerBuilder())->setPrefix('  <' . self::PREFIX . '>  ')->create();
+
         $this->_block->setObject($customer);
 
         $prefixOptions = [
@@ -182,7 +184,7 @@ class NameTest extends \PHPUnit_Framework_TestCase
 
     public function testGetPrefixOptionsEmpty()
     {
-        $customer = new Customer([Customer::PREFIX => self::PREFIX]);
+        $customer = (new CustomerBuilder())->setPrefix(self::PREFIX)->create();
         $this->_block->setObject($customer);
 
         $this->_customerHelper
@@ -197,7 +199,7 @@ class NameTest extends \PHPUnit_Framework_TestCase
          * Added padding and special characters to show that trim() works on Customer::getSuffix() and that
          * a properly htmlspecialchars translated value is returned.
          */
-        $customer = new Customer([Customer::SUFFIX => '  <' . self::SUFFIX . '>  ']);
+        $customer = (new CustomerBuilder())->setSuffix('  <' . self::SUFFIX . '>  ')->create();
         $this->_block->setObject($customer);
 
         $suffixOptions = [
@@ -217,7 +219,7 @@ class NameTest extends \PHPUnit_Framework_TestCase
 
     public function testGetSuffixOptionsEmpty()
     {
-        $customer = new Customer([Customer::SUFFIX => self::SUFFIX]);
+        $customer = (new CustomerBuilder())->setSuffix('  <' . self::SUFFIX . '>  ')->create();
         $this->_block->setObject($customer);
 
         $this->_customerHelper
@@ -322,7 +324,7 @@ class NameTest extends \PHPUnit_Framework_TestCase
      */
     private function _setUpShowAttribute(array $data)
     {
-        $customer = new Customer($data);
+        $customer = (new CustomerBuilder())->populateWithArray($data)->create();
 
         /**
          * These settings cause the first code path in Name::_getAttribute() to be executed, which

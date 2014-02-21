@@ -92,7 +92,7 @@ abstract class AbstractDtoBuilder
     public function create()
     {
         $dtoType = $this->_getDtoType();
-        $retObj = new $dtoType($this->_data);
+        $retObj = new $dtoType($this);
         $this->_data = array();
         return $retObj;
     }
@@ -133,5 +133,15 @@ abstract class AbstractDtoBuilder
             $output .= ucfirst($segment);
         }
         return $output;
+    }
+
+    /**
+     * Return DTO data.
+     *
+     * @return array
+     */
+    public function getData()
+    {
+        return $this->_data;
     }
 }

@@ -8,6 +8,9 @@
 
 namespace Magento\Customer\Service\V1\Dto\Eav;
 
+use Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata;
+use Magento\Customer\Service\V1\Dto\Eav\AttributeMetadataBuilder;
+
 class AttributeMetadataTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -23,14 +26,17 @@ class AttributeMetadataTest extends \PHPUnit_Framework_TestCase
     {
         $options = array('OPTION_ONE', 'OPTION_TWO');
 
-        $attributeMetadata = new \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata([
-            'attribute_code' => self::ATTRIBUTE_CODE,
-            'front_end_input' => self::FRONT_END_INPUT,
-            'input_filter' => self::INPUT_FILTER,
-            'store_label' => self::STORE_LABEL,
-            'validation_rules' => self::VALIDATION_RULES,
-            'options' => $options
-        ]);
+        $attributeMetadataBuilder = (new AttributeMetadataBuilder())->populateWithArray(
+            [
+                'attribute_code' => self::ATTRIBUTE_CODE,
+                'front_end_input' => self::FRONT_END_INPUT,
+                'input_filter' => self::INPUT_FILTER,
+                'store_label' => self::STORE_LABEL,
+                'validation_rules' => self::VALIDATION_RULES,
+                'options' => $options
+            ]
+        );
+        $attributeMetadata = new AttributeMetadata($attributeMetadataBuilder);
 
         $this->assertSame(self::ATTRIBUTE_CODE, $attributeMetadata->getAttributeCode());
         $this->assertSame(self::FRONT_END_INPUT, $attributeMetadata->getFrontendInput());

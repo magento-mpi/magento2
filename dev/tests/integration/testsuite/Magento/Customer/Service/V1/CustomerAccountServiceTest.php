@@ -52,11 +52,9 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             ->setDefaultBilling(true)
             ->setDefaultShipping(true)
             ->setPostcode('75477')
-            ->setRegion(new V1\Dto\Region([
-                'region_code' => 'AL',
-                'region' => 'Alabama',
-                'region_id' => 1
-            ]))
+            ->setRegion(
+                (new V1\Dto\RegionBuilder())->setRegionCode('AL')->setRegion('Alabama')->setRegionId(1)->create()
+            )
             ->setStreet(['Green str, 67'])
             ->setTelephone('3468676')
             ->setCity('CityM')
@@ -70,11 +68,9 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             ->setDefaultBilling(false)
             ->setDefaultShipping(false)
             ->setPostcode('47676')
-            ->setRegion(new V1\Dto\Region([
-                'region_code' => 'AL',
-                'region' => 'Alabama',
-                'region_id' => 1
-            ]))
+            ->setRegion(
+                (new V1\Dto\RegionBuilder())->setRegionCode('AL')->setRegion('Alabama')->setRegionId(1)->create()
+            )
             ->setStreet(['Black str, 48'])
             ->setCity('CityX')
             ->setTelephone('3234676')
