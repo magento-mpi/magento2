@@ -11,6 +11,7 @@ namespace Magento\Customer\Service\V1\Dto;
 
 use Magento\Service\Entity\AbstractDto;
 use Magento\Service\Entity\AbstractDtoBuilder;
+use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
 
 /**
  * @method Address create()
@@ -21,12 +22,16 @@ class AddressBuilder extends AbstractDtoBuilder
     /** @var RegionBuilder */
     protected $_regionBuilder;
 
+    /** @var CustomerMetadataServiceInterface */
+    protected $_metadataService;
+
     /**
      * @param RegionBuilder $regionBuilder
      */
-    public function __construct(RegionBuilder $regionBuilder)
+    public function __construct(RegionBuilder $regionBuilder, CustomerMetadataServiceInterface $metadataService)
     {
         parent::__construct();
+        $this->_metadataService = $metadataService;
         $this->_regionBuilder = $regionBuilder;
         $this->_data[Address::KEY_REGION] = $regionBuilder->create();
     }
@@ -80,6 +85,18 @@ class AddressBuilder extends AbstractDtoBuilder
         }
 
         return parent::populateWithArray($data);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCustomAttributeCodes()
+    {
+        $attributeCodes = [];
+        foreach ($this->_metadataService->getCustomAddressAttributeMetadata() as $attribute) {
+            $attributeCodes[] = $attribute->getAttributeCode();
+        }
+        return $attributeCodes;
     }
 
     /**

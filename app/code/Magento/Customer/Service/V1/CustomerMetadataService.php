@@ -198,6 +198,20 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
     /**
      * @inheritdoc
      */
+    public function getCustomCustomerAttributeMetadata()
+    {
+        $customAttributes = [];
+        foreach ($this->getAllCustomerAttributeMetadata() as $attributeMetadata) {
+            if ($attributeMetadata->isUserDefined()) {
+                $customAttributes[] = $attributeMetadata;
+            }
+        }
+        return $customAttributes;
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function getAddressAttributeMetadata($attributeCode)
     {
         return $this->getAttributeMetadata('customer_address', $attributeCode);
@@ -211,6 +225,19 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
         return $this->getAllAttributeSetMetadata('customer_address', self::ATTRIBUTE_SET_ID_ADDRESS);
     }
 
+    /**
+     * @inheritdoc
+     */
+    public function getCustomAddressAttributeMetadata()
+    {
+        $customAttributes = [];
+        foreach ($this->getAllAddressAttributeMetadata() as $attributeMetadata) {
+            if ($attributeMetadata->isUserDefined()) {
+                $customAttributes[] = $attributeMetadata;
+            }
+        }
+        return $customAttributes;
+    }
 
     /**
      * Helper for getting access to an entity types DTO cache.

@@ -59,11 +59,18 @@ interface CustomerMetadataServiceInterface
     public function getCustomerAttributeMetadata($attributeCode);
 
     /**
-     * Returns all attribute metadata for customers
+     * Get all attribute metadata for customers
      *
      * @return Dto\Eav\AttributeMetadata[]
      */
     public function getAllCustomerAttributeMetadata();
+
+    /**
+     * Get custom attribute metadata for customer.
+     *
+     * @return Dto\Eav\AttributeMetadata[]
+     */
+    public function getCustomCustomerAttributeMetadata();
 
     /**
      * Retrieve Customer Addresses EAV attribute metadata
@@ -75,10 +82,16 @@ interface CustomerMetadataServiceInterface
     public function getAddressAttributeMetadata($attributeCode);
 
     /**
-     * Returns all attribute metadata for Addresses
+     * Get all attribute metadata for Addresses
      *
      * @return Dto\Eav\AttributeMetadata[]
      */
     public function getAllAddressAttributeMetadata();
 
+    /**
+     * Get custom attribute metadata for customer address.
+     *
+     * @return Dto\Eav\AttributeMetadata[]
+     */
+    public function getCustomAddressAttributeMetadata();
 }

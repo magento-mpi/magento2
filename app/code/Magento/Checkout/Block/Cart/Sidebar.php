@@ -2,22 +2,16 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Checkout
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Checkout\Block\Cart;
 
+use Magento\Customer\Service\V1\CustomerServiceInterface as CustomerService;
 
 /**
  * Wishlist sidebar block
- *
- * @category    Magento
- * @package     Magento_Checkout
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Checkout\Block\Cart;
-
 class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart
 {
     const XML_PATH_CHECKOUT_SIDEBAR_COUNT   = 'checkout/sidebar/count';
@@ -65,8 +59,9 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart
      * @param \Magento\Checkout\Model\Cart $checkoutCart
      * @param \Magento\Checkout\Helper\Data $checkoutHelper
      * @param \Magento\Checkout\Helper\Url $urlHelper
+     * @param CustomerService $customerService
      * @param array $data
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -80,6 +75,7 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart
         \Magento\Checkout\Model\Cart $checkoutCart,
         \Magento\Checkout\Helper\Data $checkoutHelper,
         \Magento\Checkout\Helper\Url $urlHelper,
+        CustomerService $customerService,
         array $data = array()
     ) {
         $this->_urlHelper = $urlHelper;
@@ -88,7 +84,7 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart
         $this->_catalogUrl = $catalogUrl;
         $this->_taxConfig = $taxConfig;
         $this->_checkoutCart = $checkoutCart;
-        parent::__construct($context, $catalogData, $customerSession, $checkoutSession, $data);
+        parent::__construct($context, $catalogData, $customerSession, $checkoutSession, $customerService, $data);
         $this->_isScopePrivate = true;
     }
 

@@ -80,33 +80,19 @@ class Address extends \Magento\Service\Entity\AbstractDto implements Eav\EntityI
     }
 
     /**
-     * Retrieve array of all attributes, in the form of 'attribute code' => <attribute value'
+     * Get an attribute value.
      *
-     * @return array
-     */
-    public function getAttributes()
-    {
-        $unvalidatedData = $this->__toArray();
-        $validData = [];
-        foreach ($this->_validAttributes as $attributeCode) {
-            if (isset($unvalidatedData[$attributeCode])) {
-                $validData[$attributeCode] = $unvalidatedData[$attributeCode];
-            }
-        }
-        return $validData;
-    }
-
-    /**
      * @param string $attributeCode
      * @return string|null
      */
     public function getAttribute($attributeCode)
     {
-        $attributes = $this->getAttributes();
-        if (isset($attributes[$attributeCode])) {
+        $attributes = \Magento\Convert\ConvertArray::toFlatArray($this->__toArray());
+        if (array_key_exists($attributeCode, $attributes)) {
             return $attributes[$attributeCode];
+        } else {
+            return null;
         }
-        return null;
     }
 
     /**

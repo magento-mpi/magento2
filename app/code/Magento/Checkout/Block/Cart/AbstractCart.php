@@ -2,21 +2,16 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Checkout
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Checkout\Block\Cart;
+
+use Magento\Customer\Service\V1\CustomerServiceInterface as CustomerService;
 
 /**
  * Shopping cart abstract block
- *
- * @category    Magento
- * @package     Magento_Checkout
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Checkout\Block\Cart;
-
 class AbstractCart extends \Magento\View\Element\Template
 {
     /**
@@ -24,6 +19,9 @@ class AbstractCart extends \Magento\View\Element\Template
      */
     const DEFAULT_TYPE = 'default';
 
+    /**
+     * @var \Magento\Customer\Service\V1\Dto\Customer
+     */
     protected $_customer = null;
     protected $_quote    = null;
     protected $_totals;
@@ -45,12 +43,17 @@ class AbstractCart extends \Magento\View\Element\Template
      * @var \Magento\Customer\Model\Session
      */
     protected $_checkoutSession;
+    /**
+     * @var CustomerService
+     */
+    protected $_customerService;
 
     /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param CustomerService $customerService
      * @param array $data
      */
     public function __construct(
@@ -58,6 +61,7 @@ class AbstractCart extends \Magento\View\Element\Template
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Checkout\Model\Session $checkoutSession,
+        CustomerService $customerService,
         array $data = array()
     ) {
         $this->_customerSession = $customerSession;
@@ -65,6 +69,7 @@ class AbstractCart extends \Magento\View\Element\Template
         $this->_catalogData = $catalogData;
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
+        $this->_customerService = $customerService;
     }
 
     /**
@@ -96,6 +101,20 @@ class AbstractCart extends \Magento\View\Element\Template
         $overriddenTemplates = $this->getOverriddenTemplates() ?: array();
         $template = isset($overriddenTemplates[$type]) ? $overriddenTemplates[$type] : $this->getRendererTemplate();
         return $rendererList->getRenderer($type, self::DEFAULT_TYPE, $template);
+    }
+
+    /**
+     * Get logged in customer
+     *
+     * @return \Magento\Customer\Service\V1\Dto\Customer
+     */
+    public function getCustomer()
+    {
+        if (null === $this->_customer) {
+            $this->_customer = $this->_customerService->getCustomer($this->_customerSession->getCustomerId());
+        }
+
+        return $this->_customer;
     }
 
     /**

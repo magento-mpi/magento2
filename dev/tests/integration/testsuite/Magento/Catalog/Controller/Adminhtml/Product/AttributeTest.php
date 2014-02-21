@@ -31,7 +31,7 @@ class AttributeTest extends \Magento\Backend\Utility\Controller
     }
 
     /**
-     * @magentoDataFixture Magento/Catalog/controllers/_files/attribute_user_defined.php
+     * @magentoDataFixture Magento/Catalog/controllers/_files/attribute_user_defined_address.php
      */
     public function testSaveActionApplyToDataUserDefinedAttribute()
     {

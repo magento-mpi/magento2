@@ -10,6 +10,8 @@ namespace Magento\Service\Entity;
 
 abstract class AbstractDtoBuilder
 {
+    const CUSTOM_ATTRIBUTES_KEY = 'custom_attributes';
+
     /**
      * @var array
      */
@@ -95,6 +97,16 @@ abstract class AbstractDtoBuilder
         $retObj = new $dtoType($this);
         $this->_data = array();
         return $retObj;
+    }
+
+    /**
+     * Retrieve a list of custom attributes codes. Default implementation.
+     *
+     * @return array
+     */
+    public function getCustomAttributeCodes()
+    {
+        return [];
     }
 
     /**

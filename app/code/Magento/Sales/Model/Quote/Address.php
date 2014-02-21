@@ -507,7 +507,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         $this->_objectCopyService->copyFieldsetToTarget(
             'customer_address',
             'to_quote_address',
-            $address->getAttributes(),
+            \Magento\Convert\ConvertArray::toFlatArray($address->__toArray()),
             $this
         );
         $region = $this->getRegion();

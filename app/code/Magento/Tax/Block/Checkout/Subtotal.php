@@ -2,17 +2,16 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Tax
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Tax\Block\Checkout;
+
+use Magento\Customer\Service\V1\CustomerServiceInterface as CustomerService;
 
 /**
  * Subtotal Total Row Renderer
  */
-namespace Magento\Tax\Block\Checkout;
-
 class Subtotal extends \Magento\Checkout\Block\Total\DefaultTotal
 {
     /**
@@ -34,6 +33,7 @@ class Subtotal extends \Magento\Checkout\Block\Total\DefaultTotal
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Sales\Model\Config $salesConfig
      * @param \Magento\Tax\Model\Config $taxConfig
+     * @param CustomerService $customerService
      * @param array $data
      */
     public function __construct(
@@ -43,10 +43,19 @@ class Subtotal extends \Magento\Checkout\Block\Total\DefaultTotal
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Sales\Model\Config $salesConfig,
         \Magento\Tax\Model\Config $taxConfig,
+        CustomerService $customerService,
         array $data = array()
     ) {
         $this->_taxConfig = $taxConfig;
-        parent::__construct($context, $catalogData, $customerSession, $checkoutSession, $salesConfig, $data);
+        parent::__construct(
+            $context,
+            $catalogData,
+            $customerSession,
+            $checkoutSession,
+            $salesConfig,
+            $customerService,
+            $data
+        );
         $this->_isScopePrivate = true;
     }
 

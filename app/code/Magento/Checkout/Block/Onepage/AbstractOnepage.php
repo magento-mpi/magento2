@@ -2,19 +2,18 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Checkout
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Checkout\Block\Onepage;
+
+use Magento\Customer\Service\V1\CustomerServiceInterface as CustomerService;
+use Magento\Customer\Service\V1\CustomerAddressServiceInterface as CustomerAddressService;
+use Magento\Customer\Model\Address\Config as AddressConfig;
 
 /**
  * One page common functionality block
- *
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Checkout\Block\Onepage;
-
 abstract class AbstractOnepage extends \Magento\View\Element\Template
 {
     /**
@@ -49,6 +48,20 @@ abstract class AbstractOnepage extends \Magento\View\Element\Template
     protected $_coreData;
 
     /**
+     * @var CustomerService
+     */
+    protected $_customerService;
+
+    /**
+     * @var CustomerAddressService
+     */
+    protected $_customerAddressService;
+    /**
+     * @var \Magento\Customer\Model\Address\Config
+     */
+    private $_addressConfig;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\App\Cache\Type\Config $configCacheType
@@ -56,6 +69,9 @@ abstract class AbstractOnepage extends \Magento\View\Element\Template
      * @param \Magento\Checkout\Model\Session $resourceSession
      * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory
      * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory
+     * @param CustomerService $customerService
+     * @param CustomerAddressService $customerAddressService
+     * @param AddressConfig $addressConfig
      * @param array $data
      */
     public function __construct(
@@ -66,6 +82,9 @@ abstract class AbstractOnepage extends \Magento\View\Element\Template
         \Magento\Checkout\Model\Session $resourceSession,
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory,
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory,
+        CustomerService $customerService,
+        CustomerAddressService $customerAddressService,
+        AddressConfig $addressConfig,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
@@ -76,6 +95,9 @@ abstract class AbstractOnepage extends \Magento\View\Element\Template
         $this->_regionCollectionFactory = $regionCollectionFactory;
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
+        $this->_customerService = $customerService;
+        $this->_customerAddressService = $customerAddressService;
+        $this->_addressConfig = $addressConfig;
     }
 
     /**
@@ -92,12 +114,12 @@ abstract class AbstractOnepage extends \Magento\View\Element\Template
     /**
      * Get logged in customer
      *
-     * @return \Magento\Customer\Model\Customer
+     * @return \Magento\Customer\Service\V1\Dto\Customer
      */
     public function getCustomer()
     {
         if (empty($this->_customer)) {
-            $this->_customer = $this->_customerSession->getCustomer();
+            $this->_customer = $this->_customerService->getCustomer($this->_customerSession->getCustomerId());
         }
         return $this->_customer;
     }
@@ -150,26 +172,34 @@ abstract class AbstractOnepage extends \Magento\View\Element\Template
 
     public function customerHasAddresses()
     {
-        return count($this->getCustomer()->getAddresses());
+        return count($this->_customerAddressService->getAddresses($this->getCustomer()->getCustomerId()));
     }
 
     public function getAddressesHtmlSelect($type)
     {
         if ($this->isCustomerLoggedIn()) {
-            $options = array();
-            foreach ($this->getCustomer()->getAddresses() as $address) {
-                $options[] = array(
+            $customerId = $this->getCustomer()->getCustomerId();
+            $options = [];
+            $addresses = $this->_customerAddressService->getAddresses($customerId);
+            foreach ($addresses as $address) {
+                /** @var \Magento\Customer\Service\V1\Dto\Address $address */
+                $label = $this->_addressConfig
+                    ->getFormatByCode(AddressConfig::DEFAULT_ADDRESS_FORMAT)
+                    ->getRenderer()
+                    ->renderArray($address->__toArray());
+
+                $options[] = [
                     'value' => $address->getId(),
-                    'label' => $address->format('oneline')
-                );
+                    'label' => $label
+                ];
             }
 
             $addressId = $this->getAddress()->getCustomerAddressId();
             if (empty($addressId)) {
-                if ($type=='billing') {
-                    $address = $this->getCustomer()->getPrimaryBillingAddress();
+                if ($type == 'billing') {
+                    $address = $this->_customerAddressService->getDefaultBillingAddress($customerId);
                 } else {
-                    $address = $this->getCustomer()->getPrimaryShippingAddress();
+                    $address = $this->_customerAddressService->getDefaultShippingAddress($customerId);
                 }
                 if ($address) {
                     $addressId = $address->getId();
@@ -177,8 +207,8 @@ abstract class AbstractOnepage extends \Magento\View\Element\Template
             }
 
             $select = $this->getLayout()->createBlock('Magento\View\Element\Html\Select')
-                ->setName($type.'_address_id')
-                ->setId($type.'-address-select')
+                ->setName($type . '_address_id')
+                ->setId($type . '-address-select')
                 ->setClass('address-select')
                 //->setExtraParams('onchange="'.$type.'.newAddress(!this.value)"')
                 // temp disable inline javascript, need to clean this later

@@ -2,17 +2,18 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Checkout
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Checkout\Block\Onepage;
+
+use Magento\Customer\Service\V1\CustomerServiceInterface as CustomerService;
+use Magento\Customer\Service\V1\CustomerAddressServiceInterface as CustomerAddressService;
+use Magento\Customer\Model\Address\Config as AddressConfig;
 
 /**
  * One page checkout status
  */
-namespace Magento\Checkout\Block\Onepage;
-
 class Shipping extends \Magento\Checkout\Block\Onepage\AbstractOnepage
 {
     /**
@@ -36,6 +37,9 @@ class Shipping extends \Magento\Checkout\Block\Onepage\AbstractOnepage
      * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory
      * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory
      * @param \Magento\Sales\Model\Quote\AddressFactory $addressFactory
+     * @param CustomerService $customerService
+     * @param CustomerAddressService $customerAddressService
+     * @param AddressConfig $addressConfig
      * @param array $data
      */
     public function __construct(
@@ -47,6 +51,9 @@ class Shipping extends \Magento\Checkout\Block\Onepage\AbstractOnepage
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory,
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory,
         \Magento\Sales\Model\Quote\AddressFactory $addressFactory,
+        CustomerService $customerService,
+        CustomerAddressService $customerAddressService,
+        AddressConfig $addressConfig,
         array $data = array()
     ) {
         $this->_addressFactory = $addressFactory;
@@ -58,6 +65,9 @@ class Shipping extends \Magento\Checkout\Block\Onepage\AbstractOnepage
             $resourceSession,
             $countryCollectionFactory,
             $regionCollectionFactory,
+            $customerService,
+            $customerAddressService,
+            $addressConfig,
             $data
         );
         $this->_isScopePrivate = true;

@@ -663,7 +663,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
     {
         /* @TODO: remove model usage in favor of DTO in scope of MAGETWO-19930 */
         $customer = $this->_customerFactory->create();
-        $customer->setData($customerData->getAttributes());
+        $customer->setData(\Magento\Convert\ConvertArray::toFlatArray($customerData->__toArray()));
         $customer->setId($customerData->getCustomerId());
         $this->setCustomer($customer);
         return $this;

@@ -8,6 +8,8 @@
 
 namespace Magento\Customer\Service\V1\Dto;
 
+use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
+
 /**
  * Class Customer. Uses array to hold data, setters return $this so they can be chained.
  *
@@ -15,6 +17,32 @@ namespace Magento\Customer\Service\V1\Dto;
  */
 class CustomerBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
 {
+    /** @var CustomerMetadataServiceInterface */
+    protected $_metadataService;
+
+    /**
+     * Initialize dependencies.
+     *
+     * @param CustomerMetadataServiceInterface $metadataService
+     */
+    public function __construct(CustomerMetadataServiceInterface $metadataService)
+    {
+        parent::__construct();
+        $this->_metadataService = $metadataService;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCustomAttributeCodes()
+    {
+        $attributeCodes = [];
+        foreach ($this->_metadataService->getCustomCustomerAttributeMetadata() as $attribute) {
+            $attributeCodes[] = $attribute->getAttributeCode();
+        }
+        return $attributeCodes;
+    }
+
     /**
      * @param string $confirmation
      * @return CustomerBuilder

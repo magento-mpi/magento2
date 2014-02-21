@@ -34,7 +34,7 @@ class Address extends \Magento\View\Element\Template
      * @var \Magento\Customer\Model\Address\Config
      */
     protected $_addressConfig;
-    
+
     /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
@@ -146,7 +146,7 @@ class Address extends \Magento\View\Element\Template
     {
         /** @var \Magento\Customer\Block\Address\Renderer\RendererInterface $renderer */
         $renderer = $this->_addressConfig->getFormatByCode('html')->getRenderer();
-        return $renderer->renderArray($address->getAttributes());
+        return $renderer->renderArray(\Magento\Convert\ConvertArray::toFlatArray($address->__toArray()));
     }
 }
 

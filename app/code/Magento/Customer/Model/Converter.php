@@ -108,7 +108,7 @@ class Converter
     {
         $customerModel = $this->_customerFactory->create();
 
-        $attributes = $customer->getAttributes();
+        $attributes = \Magento\Convert\ConvertArray::toFlatArray($customer->__toArray());
         foreach ($attributes as $attributeCode => $attributeValue) {
             // avoid setting password through set attribute
             if ($attributeCode == 'password') {

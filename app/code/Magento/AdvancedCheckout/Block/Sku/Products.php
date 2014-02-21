@@ -2,21 +2,16 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_AdvancedCheckout
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\AdvancedCheckout\Block\Sku;
 
+use Magento\Customer\Service\V1\CustomerServiceInterface as CustomerService;
 
 /**
  * SKU failed products Block
- *
- * @category   Magento
- * @package    Magento_AdvancedCheckout
  */
-namespace Magento\AdvancedCheckout\Block\Sku;
-
 class Products extends \Magento\Checkout\Block\Cart
 {
     /**
@@ -44,6 +39,7 @@ class Products extends \Magento\Checkout\Block\Cart
      * @param \Magento\AdvancedCheckout\Model\Cart $cart
      * @param \Magento\Core\Helper\Url $coreUrl
      * @param \Magento\AdvancedCheckout\Helper\Data $checkoutData
+     * @param CustomerService $customerService
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -58,6 +54,7 @@ class Products extends \Magento\Checkout\Block\Cart
         \Magento\AdvancedCheckout\Model\Cart $cart,
         \Magento\Core\Helper\Url $coreUrl,
         \Magento\AdvancedCheckout\Helper\Data $checkoutData,
+        CustomerService $customerService,
         array $data = array()
     ) {
         $this->_cart = $cart;
@@ -70,6 +67,7 @@ class Products extends \Magento\Checkout\Block\Cart
             $checkoutSession,
             $catalogUrlBuilder,
             $cartHelper,
+            $customerService,
             $data
         );
         $this->_isScopePrivate = true;
