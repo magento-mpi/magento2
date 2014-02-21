@@ -2,12 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Controller;
 
 use Magento\App\RequestInterface;
@@ -22,13 +19,17 @@ use Magento\Exception\StateException;
 
 /**
  * Customer account controller
+ *
+ * @SuppressWarnings(PHPMD.TooManyFields)
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Account extends \Magento\App\Action\Action
 {
     /**
      * List of actions that are allowed for not authorized users
      *
-     * @var array
+     * @var string[]
      */
     protected $_openActions = array(
         'create',
@@ -123,6 +124,8 @@ class Account extends \Magento\App\Action\Action
      * @param \Magento\Customer\Service\V1\Dto\RegionBuilder $regionBuilder
      * @param \Magento\Customer\Service\V1\Dto\AddressBuilder $addressBuilder
      * @param \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerBuilder
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\App\Action\Context $context,
@@ -247,6 +250,7 @@ class Account extends \Magento\App\Action\Action
 
     /**
      * Login post action
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function loginPostAction()
     {
@@ -294,6 +298,7 @@ class Account extends \Magento\App\Action\Action
 
     /**
      * Define target URL and redirect customer after logging in
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     protected function _loginPostRedirect()
     {
@@ -378,6 +383,7 @@ class Account extends \Magento\App\Action\Action
 
     /**
      * Create customer account action
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function createPostAction()
     {
@@ -587,6 +593,7 @@ class Account extends \Magento\App\Action\Action
 
     /**
      * Confirm customer account by id and confirmation key
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function confirmAction()
     {
@@ -837,6 +844,7 @@ class Account extends \Magento\App\Action\Action
 
     /**
      * Change customer password action
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function editPostAction()
     {
@@ -860,9 +868,9 @@ class Account extends \Magento\App\Action\Action
                     if ($newPass == $confPass) {
                         try {
                             $this->_customerAccountService->updateAccount($customer, $currPass, $newPass);
-                        } catch (\Magento\Exception\AuthenticationException $e) {
+                        } catch (AuthenticationException $e) {
                             $this->messageManager->addError($e->getMessage());
-                        } catch (\Magento\Exception\InputException $e) {
+                        } catch (InputException $e) {
                             $this->messageManager->addException($e, __('Invalid input'));
                         } catch (\Exception $e) {
                             $this->messageManager->addException($e, __('Cannot save the customer.'));
@@ -873,13 +881,12 @@ class Account extends \Magento\App\Action\Action
                 } else {
                     $this->messageManager->addError(__('New password field cannot be empty.'));
                 }
-            }
-            else {
+            } else {
                 try {
                     $this->_customerAccountService->updateAccount($customer);
-                } catch (\Magento\Exception\AuthenticationException $e) {
+                } catch (AuthenticationException $e) {
                     $this->messageManager->addError($e->getMessage());
-                } catch (\Magento\Exception\InputException $e) {
+                } catch (InputException $e) {
                     $this->messageManager->addException($e, __('Invalid input'));
                 } catch (\Exception $e) {
                     $this->messageManager->addException($e, __('Cannot save the customer.') . $e->getMessage() . '<pre>' . $e->getTraceAsString() . '</pre>');
