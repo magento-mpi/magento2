@@ -153,10 +153,14 @@ class Addresses extends GenericMetadata
      */
     public function isReadonly()
     {
+        $customerId = $this->_coreRegistry->registry(self::REGISTRY_CURRENT_CUSTOMER_ID);
+
+        if (empty($customerId)) {
+            return false;
+        }
+
         try {
-            return $this->_customerService->isReadonly(
-                $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID)
-            );
+            return $this->_customerService->isReadonly($customerId);
         } catch (NoSuchEntityException $e) {
             return false;
         }
