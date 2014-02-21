@@ -1067,11 +1067,8 @@ class Index extends \Magento\Backend\App\Action
             $this->messageManager->addError(__('Please select customer(s).'));
         } else {
             try {
-                $customer = $this->_objectManager->create('Magento\Customer\Model\Customer');
                 foreach ($customersIds as $customerId) {
-                    $customer->reset()
-                        ->load($customerId)
-                        ->delete();
+                    $this->_customerService->deleteCustomer($customerId);
                 }
                 $this->messageManager->addSuccess(__('A total of %1 record(s) were deleted.', count($customersIds)));
             } catch (\Exception $exception) {

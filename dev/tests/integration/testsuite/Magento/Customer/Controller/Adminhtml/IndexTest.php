@@ -482,6 +482,30 @@ class IndexTest extends \Magento\Backend\Utility\Controller
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
      */
+    public function testMassDeleteAction()
+    {
+        $this->getRequest()->setPost('customer', [1]);
+        $this->dispatch('backend/customer/index/massDelete');
+        $this->assertSessionMessages(
+            $this->equalTo(['A total of 1 record(s) were deleted.']),
+            \Magento\Message\MessageInterface::TYPE_SUCCESS
+        );
+        $this->assertRedirect($this->stringContains('customer/index'));
+    }
+
+    public function testInvalidIdMassDeleteAction()
+    {
+        $this->getRequest()->setPost('customer', [1]);
+        $this->dispatch('backend/customer/index/massDelete');
+        $this->assertSessionMessages(
+            $this->equalTo(['No such entity with customerId = 1']),
+            \Magento\Message\MessageInterface::TYPE_ERROR
+        );
+    }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     */
     public function testMassAssignGroupAction()
     {
         $this->getRequest()->setParam('group', 0)->setPost('customer', [1]);
