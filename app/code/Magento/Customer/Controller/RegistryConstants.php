@@ -8,14 +8,9 @@
 namespace Magento\Customer\Controller;
 
 /**
- * Customer reviews controller
+ * Declarations of core registry keys used by the Customer module
  *
- * @category   Magento
- * @package    Magento_Customer
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-
 class RegistryConstants
 {
     /**
@@ -33,5 +28,4 @@ class RegistryConstants
      * Registry key where current CustomerGroup ID is stored
      */
     const CURRENT_GROUP_ID = 'current_group_id';
-
 }

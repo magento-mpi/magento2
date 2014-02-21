@@ -9,7 +9,6 @@ namespace Magento\Customer\Block\Adminhtml\Edit;
 
 use Magento\Customer\Controller\RegistryConstants;
 use Magento\Customer\Service\V1\CustomerServiceInterface;
-use Magento\GiftRegistry\Block\Wishlist\Item\Column\Registry;
 
 /**
  * Adminhtml customer edit form block

@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
-use Magento\Customer\Controller\Adminhtml\Index;
 use Magento\Customer\Controller\RegistryConstants;
 
 /**

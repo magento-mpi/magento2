@@ -9,7 +9,6 @@ namespace Magento\Customer\Block\Adminhtml\Edit\Tab\View;
 
 use Magento\Customer\Controller\RegistryConstants;
 use Magento\TestFramework\Helper\Bootstrap;
-use Magento\Customer\Controller\Adminhtml\Index;
 
 /**
  * Class SalesTest
