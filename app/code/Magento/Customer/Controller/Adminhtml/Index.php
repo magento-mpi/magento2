@@ -219,7 +219,7 @@ class Index extends \Magento\Backend\App\Action
             } catch (NoSuchEntityException $e) {
                 $this->messageManager->addException($e, __('An error occurred while editing the customer.'));
                 $this->_redirect('customer/*/index');
-                return:
+                return;
             }
         }
         $customerData['customer_id'] = $customerId;
