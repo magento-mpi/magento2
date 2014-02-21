@@ -8,18 +8,20 @@
  * @license     {license_link}
  */
 
+namespace Magento\SalesRule\Model;
 
 /**
  * SalesRule Validator Model
  *
  * Allows dispatching before and after events for each controller action
  *
- * @category   Magento
- * @package    Magento_SalesRule
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @method mixed getCouponCode()
+ * @method \Magento\SalesRule\Model\Validator setCouponCode($code)
+ * @method mixed getWebsiteId()
+ * @method \Magento\SalesRule\Model\Validator setWebsiteId($id)
+ * @method mixed getCustomerGroupId()
+ * @method \Magento\SalesRule\Model\Validator setCustomerGroupId($id)
  */
-namespace Magento\SalesRule\Model;
-
 class Validator extends \Magento\Core\Model\AbstractModel
 {
     /**
@@ -182,6 +184,7 @@ class Validator extends \Magento\Core\Model\AbstractModel
         if ($rule->getCouponType() != \Magento\SalesRule\Model\Rule::COUPON_TYPE_NO_COUPON) {
             $couponCode = $address->getQuote()->getCouponCode();
             if (strlen($couponCode)) {
+                /** @var \Magento\SalesRule\Model\Coupon $coupon */
                 $coupon = $this->_couponFactory->create();
                 $coupon->load($couponCode, 'code');
                 if ($coupon->getId()) {
@@ -614,7 +617,8 @@ class Validator extends \Magento\Core\Model\AbstractModel
     protected function _getItemQty($item, $rule)
     {
         $qty = $item->getTotalQty();
-        return $rule->getDiscountQty() ? min($qty, $rule->getDiscountQty()) : $qty;
+        $discountQty = $rule->getDiscountQty();
+        return $discountQty ? min($qty, $discountQty) : $qty;
     }
 
     /**
@@ -838,6 +842,22 @@ class Validator extends \Magento\Core\Model\AbstractModel
      */
     protected function applyRule($item, $rule, $address)
     {
+        $discountData = $this->getDiscountData($item, $rule);
+        $this->setDiscountData($discountData, $item);
+
+        $this->_maintainAddressCouponCode($address, $rule);
+        $this->_addDiscountDescription($address, $rule);
+
+        return $this;
+    }
+
+    /**
+     * @param \Magento\Sales\Model\Quote\Item\AbstractItem $item
+     * @param \Magento\SalesRule\Model\Rule $rule
+     * @return Rule\Action\Discount\Data
+     */
+    protected function getDiscountData($item, $rule)
+    {
         $qty = $this->_getItemQty($item, $rule);
 
         $discountCalculator = $this->calculatorFactory->create($rule->getSimpleAction());
@@ -854,13 +874,20 @@ class Validator extends \Magento\Core\Model\AbstractModel
 
         $this->minFix($discountData, $item, $qty);
 
+        return $discountData;
+    }
+
+    /**
+     * @param Rule\Action\Discount\Data $discountData
+     * @param \Magento\Sales\Model\Quote\Item\AbstractItem $item
+     * @return $this
+     */
+    protected function setDiscountData($discountData, $item)
+    {
         $item->setDiscountAmount($discountData->getAmount());
         $item->setBaseDiscountAmount($discountData->getBaseAmount());
         $item->setOriginalDiscountAmount($discountData->getOriginalAmount());
         $item->setBaseOriginalDiscountAmount($discountData->getBaseOriginalAmount());
-
-        $this->_maintainAddressCouponCode($address, $rule);
-        $this->_addDiscountDescription($address, $rule);
 
         return $this;
     }
