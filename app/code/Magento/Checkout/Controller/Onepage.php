@@ -160,6 +160,8 @@ class Onepage extends \Magento\Checkout\Controller\Action
      */
     protected function _getPaymentMethodsHtml()
     {
+        $this->_eventManager->dispatch('set_method_template',
+            array('block' => $this->_view->getLayout()->getBlock('payment_method')));
         return $this->_getHtmlByHandle('checkout_onepage_paymentmethod');
     }
 
