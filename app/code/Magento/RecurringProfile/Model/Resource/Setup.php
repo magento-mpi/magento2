@@ -23,9 +23,10 @@ class Setup extends \Magento\Catalog\Model\Resource\Setup
     /**
      * Default entites and attributes
      *
+     * @param null $entities
      * @return array
      */
-    public function installEntities()
+    public function installEntities($entities = null)
     {
         $attributes = [
             'is_recurring'       => [
