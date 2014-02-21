@@ -23,7 +23,7 @@ class Setup extends \Magento\Catalog\Model\Resource\Setup
     /**
      * Default entites and attributes
      *
-     * @param null $entities
+     * @param array|null $entities
      * @return array
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
