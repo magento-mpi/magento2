@@ -7,7 +7,6 @@
  */
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab\View;
 
-use Magento\Customer\Controller\Adminhtml\Index;
 use Magento\Customer\Controller\RegistryConstants;
 
 /**
