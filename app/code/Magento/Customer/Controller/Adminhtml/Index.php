@@ -1095,8 +1095,8 @@ class Index extends \Magento\Backend\App\Action
             try {
                 foreach ($customersIds as $customerId) {
                     $customer = $this->_customerService->getCustomer($customerId);
-                    $customerBuilder = (new CustomerBuilder())->populate($customer);
-                    $customer = $customerBuilder
+                    $this->_customerBuilder->populate($customer);
+                    $customer = $this->_customerBuilder
                         ->setGroupId($this->getRequest()->getParam('group'))->create();
                     $this->_customerService->saveCustomer($customer);
                 }

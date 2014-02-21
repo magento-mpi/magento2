@@ -570,6 +570,9 @@ class IndexTest extends \Magento\Backend\Utility\Controller
      */
     public function testMassAssignGroupAction()
     {
+        $customer = $this->customerService->getCustomer(1);
+        $this->assertEquals(1, $customer->getGroupId());
+
         $this->getRequest()->setParam('group', 0)->setPost('customer', [1]);
         $this->dispatch('backend/customer/index/massAssignGroup');
         $this->assertSessionMessages(
@@ -577,6 +580,9 @@ class IndexTest extends \Magento\Backend\Utility\Controller
             \Magento\Message\MessageInterface::TYPE_SUCCESS
         );
         $this->assertRedirect($this->stringContains('customer/index'));
+
+        $customer = $this->customerService->getCustomer(1);
+        $this->assertEquals(0, $customer->getGroupId());
     }
 
     /**
