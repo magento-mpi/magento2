@@ -14,7 +14,7 @@
 <project name="Core Development Functional Tests" basedir="../../../../" default="run">
     <import file="../util.xml"/>
 
-    <target name="run" depends="_server_info" description="Deploy multiple Magento instances and run functional tests on each of them simultaneously">
+    <target name="run-ee" depends="_server_info" description="Deploy multiple Magento instances and run functional tests on each of them simultaneously">
         <script language="javascript"><![CDATA[
             if (project.getProperty('env.bamboo_desired_agent')
                 && project.getProperty('env.bamboo_desired_agent') != ''
@@ -80,7 +80,7 @@
 
         <fail if="error_message" message="${error_message}"/>
 
-        <property name="dir.build_directory" location="${env.deploy_directory}/${env.build_key}"/>
+        <property name="dir.build_directory" location="${env.deploy_directory}/${env.build.key}"/>
         <delete dir="${dir.build_directory}"/>
 
         <antcall target="_product_edition">
@@ -187,7 +187,7 @@
 
         <fail if="error_message" message="${error_message}"/>
 
-        <property name="dir.build_directory" location="${env.deploy_directory}/${env.build_key}"/>
+        <property name="dir.build_directory" location="${env.deploy_directory}/${env.build.key}"/>
         <delete dir="${dir.build_directory}"/>
 
         <antcall target="_product_edition">
@@ -252,8 +252,8 @@
             <replacefilter token="{{db_name}}" value="${env.db_name_prefix}${instanceIndex}"/>
             <replacefilter token="{{db_user}}" value="${env.db_user}"/>
             <replacefilter token="{{db_password}}" value="${env.db_password}"/>
-            <replacefilter token="{{url}}" value="${env.http_host}${env.build_key}/instance-${instanceIndex}"/>
-            <replacefilter token="{{secure_url}}" value="${env.http_host}${env.build_key}/instance-${instanceIndex}"/>
+            <replacefilter token="{{url}}" value="${env.http_host}${env.build.key}/instance-${instanceIndex}"/>
+            <replacefilter token="{{secure_url}}" value="${env.http_host}${env.build.key}/instance-${instanceIndex}"/>
         </replace>
 
         <replace file="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional/config/server.yml.dist">
@@ -264,8 +264,8 @@
         </replace>
 
         <replace file="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional/phpunit.xml">
-            <replacefilter token="{{admin_url}}" value="${env.http_host}${env.build_key}/instance-${instanceIndex}/backend/"/>
-            <replacefilter token="{{url}}" value="${env.http_host}${env.build_key}/instance-${instanceIndex}"/>
+            <replacefilter token="{{admin_url}}" value="${env.http_host}${env.build.key}/instance-${instanceIndex}/backend/"/>
+            <replacefilter token="{{url}}" value="${env.http_host}${env.build.key}/instance-${instanceIndex}"/>
         </replace>
 
         <exec executable="php" dir="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional/" failonerror="true">
