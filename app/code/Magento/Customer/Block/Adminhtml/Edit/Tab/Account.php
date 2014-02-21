@@ -121,7 +121,7 @@ class Account extends GenericMetadata
         ));
 
         $customerData = $this->_backendSession->getCustomerData();
-        $customerId = $customerData['customer_id'];
+        $customerId = isset($customerData['customer_id']) ? $customerData['customer_id'] : false;
         $accountData = $customerData['account'];
         $customerDto = $this->_customerBuilder->populateWithArray($accountData)->create();
 

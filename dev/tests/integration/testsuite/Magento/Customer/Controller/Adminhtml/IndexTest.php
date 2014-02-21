@@ -10,6 +10,8 @@
  */
 
 namespace Magento\Customer\Controller\Adminhtml;
+use Magento\Customer\Controller\RegistryConstants;
+use Magento\TestFramework\Helper\Bootstrap;
 
 /**
  * @magentoAppArea adminhtml
@@ -23,10 +25,15 @@ class IndexTest extends \Magento\Backend\Utility\Controller
      */
     protected $_baseControllerUrl;
 
+    /** @var \Magento\Customer\Service\V1\CustomerServiceInterface */
+    protected $customerService;
+
     protected function setUp()
     {
         parent::setUp();
         $this->_baseControllerUrl = 'http://localhost/index.php/backend/customer/index/';
+        $this->customerService = Bootstrap::getObjectManager()
+            ->get('Magento\Customer\Service\V1\CustomerServiceInterface');
     }
 
     protected function tearDown()
@@ -34,13 +41,13 @@ class IndexTest extends \Magento\Backend\Utility\Controller
         /**
          * Unset customer data
          */
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Backend\Model\Session')
+        Bootstrap::getObjectManager()->get('Magento\Backend\Model\Session')
             ->setCustomerData(null);
 
         /**
          * Unset messages
          */
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Backend\Model\Session')
+        Bootstrap::getObjectManager()->get('Magento\Backend\Model\Session')
             ->getMessages(true);
     }
 
@@ -73,7 +80,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
          */
         $this->assertEquals(
             $post,
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            Bootstrap::getObjectManager()
                 ->get('Magento\Backend\Model\Session')->getCustomerData()
         );
         $this->assertRedirect($this->stringStartsWith($this->_baseControllerUrl . 'new'));
@@ -110,7 +117,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
          */
         $this->assertEquals(
             $post,
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            Bootstrap::getObjectManager()
                 ->get('Magento\Backend\Model\Session')->getCustomerData()
         );
         $this->assertRedirect($this->stringStartsWith($this->_baseControllerUrl . 'new'));
@@ -122,7 +129,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
     public function testSaveActionWithValidCustomerDataAndValidAddressData()
     {
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
-        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $objectManager = Bootstrap::getObjectManager();
 
         $post = array(
             'account' => array(
@@ -173,7 +180,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
          * Check that customer id set and addresses saved
          */
         $registry = $objectManager->get('Magento\Core\Model\Registry');
-        $customer = $registry->registry('current_customer');
+        $customer = $registry->registry(RegistryConstants::CURRENT_CUSTOMER);
         $this->assertInstanceOf('Magento\Customer\Model\Customer', $customer);
         $this->assertCount(1, $customer->getAddressesCollection());
 
@@ -247,12 +254,12 @@ class IndexTest extends \Magento\Backend\Utility\Controller
         );
 
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
-        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $objectManager = Bootstrap::getObjectManager();
 
         /**
          * Check that customer id set and addresses saved
          */
-        $customer = $objectManager->get('Magento\Core\Model\Registry')->registry('current_customer');
+        $customer = $objectManager->get('Magento\Core\Model\Registry')->registry(RegistryConstants::CURRENT_CUSTOMER);
         $this->assertInstanceOf('Magento\Customer\Model\Customer', $customer);
 
         /**
@@ -265,7 +272,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
         $this->assertCount(2, $customer->getAddressesCollection());
 
         /** @var $savedCustomer \Magento\Customer\Model\Customer */
-        $savedCustomer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+        $savedCustomer = Bootstrap::getObjectManager()
             ->create('Magento\Customer\Model\Customer');
         $savedCustomer->load($customer->getId());
         /**
@@ -304,7 +311,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
         );
         $this->assertEquals(
             $post,
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            Bootstrap::getObjectManager()
                 ->get('Magento\Backend\Model\Session')->getCustomerData()
         );
         $this->assertRedirect($this->stringStartsWith($this->_baseControllerUrl . 'new/key/'));
@@ -363,7 +370,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
         /**
          * set customer data
          */
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Backend\Model\Session')
+        Bootstrap::getObjectManager()->get('Magento\Backend\Model\Session')
             ->setCustomerData($customerData);
         $this->getRequest()->setParam('id', 1);
         $this->dispatch('backend/customer/index/edit');
@@ -480,6 +487,86 @@ class IndexTest extends \Magento\Backend\Utility\Controller
     }
 
     /**
+     * @magentoDataFixture Magento/Customer/_files/two_customers.php
+     */
+    public function testMassSubscriberAction()
+    {
+        // Pre-condition
+        /** @var \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory */
+        $subscriberFactory = Bootstrap::getObjectManager()->get('Magento\Newsletter\Model\SubscriberFactory');
+        $this->assertFalse((bool)$subscriberFactory->create()->loadByCustomer(1)->getSubscriberStatus());
+        $this->assertFalse((bool)$subscriberFactory->create()->loadByCustomer(2)->getSubscriberStatus());
+        // Setup
+        $this->getRequest()->setParam('customer', [1, 2]);
+
+        // Test
+        $this->dispatch('backend/customer/index/massSubscribe');
+
+        // Assertions
+        $this->assertRedirect($this->stringContains('customer/index'));
+        $this->assertSessionMessages(
+            $this->equalTo(['A total of 2 record(s) were updated.']),
+            \Magento\Message\MessageInterface::TYPE_SUCCESS
+        );
+        $this->assertTrue((bool)$subscriberFactory->create()->loadByCustomer(1)->getSubscriberStatus());
+        $this->assertTrue((bool)$subscriberFactory->create()->loadByCustomer(2)->getSubscriberStatus());
+    }
+
+    public function testMassSubscriberActionNoSelection()
+    {
+        $this->dispatch('backend/customer/index/massSubscribe');
+
+        $this->assertRedirect($this->stringContains('customer/index'));
+        $this->assertSessionMessages(
+            $this->equalTo(['Please select customer(s).']),
+            \Magento\Message\MessageInterface::TYPE_ERROR
+        );
+    }
+
+    public function testMassSubscriberActionInvalidId()
+    {
+        $this->getRequest()->setParam('customer', [4200]);
+
+        $this->dispatch('backend/customer/index/massSubscribe');
+
+        $this->assertRedirect($this->stringContains('customer/index'));
+        $this->assertSessionMessages(
+            $this->equalTo(['No such entity with customerId = 4200']),
+            \Magento\Message\MessageInterface::TYPE_ERROR
+        );
+    }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/two_customers.php
+     */
+    public function testMassSubscriberActionPartialUpdate()
+    {
+        // Pre-condition
+        /** @var \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory */
+        $subscriberFactory = Bootstrap::getObjectManager()->get('Magento\Newsletter\Model\SubscriberFactory');
+        $this->assertFalse((bool)$subscriberFactory->create()->loadByCustomer(1)->getSubscriberStatus());
+        $this->assertFalse((bool)$subscriberFactory->create()->loadByCustomer(2)->getSubscriberStatus());
+        // Setup
+        $this->getRequest()->setParam('customer', [1, 4200, 2]);
+
+        // Test
+        $this->dispatch('backend/customer/index/massSubscribe');
+
+        // Assertions
+        $this->assertRedirect($this->stringContains('customer/index'));
+        $this->assertSessionMessages(
+            $this->equalTo(['A total of 2 record(s) were updated.']),
+            \Magento\Message\MessageInterface::TYPE_SUCCESS
+        );
+        $this->assertSessionMessages(
+            $this->equalTo(['No such entity with customerId = 4200']),
+            \Magento\Message\MessageInterface::TYPE_ERROR
+        );
+        $this->assertTrue((bool)$subscriberFactory->create()->loadByCustomer(1)->getSubscriberStatus());
+        $this->assertTrue((bool)$subscriberFactory->create()->loadByCustomer(2)->getSubscriberStatus());
+    }
+
+    /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
      */
     public function testMassDeleteAction()
@@ -508,6 +595,9 @@ class IndexTest extends \Magento\Backend\Utility\Controller
      */
     public function testMassAssignGroupAction()
     {
+        $customer = $this->customerService->getCustomer(1);
+        $this->assertEquals(1, $customer->getGroupId());
+
         $this->getRequest()->setParam('group', 0)->setPost('customer', [1]);
         $this->dispatch('backend/customer/index/massAssignGroup');
         $this->assertSessionMessages(
@@ -515,6 +605,9 @@ class IndexTest extends \Magento\Backend\Utility\Controller
             \Magento\Message\MessageInterface::TYPE_SUCCESS
         );
         $this->assertRedirect($this->stringContains('customer/index'));
+
+        $customer = $this->customerService->getCustomer(1);
+        $this->assertEquals(0, $customer->getGroupId());
     }
 
     /**
@@ -541,5 +634,108 @@ class IndexTest extends \Magento\Backend\Utility\Controller
             $this->equalTo(['Please select customer(s).']),
             \Magento\Message\MessageInterface::TYPE_ERROR
         );
+    }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/two_customers.php
+     */
+    public function testMassAssignGroupActionPartialUpdate()
+    {
+        $this->assertEquals(1, $this->customerService->getCustomer(1)->getGroupId());
+        $this->assertEquals(1, $this->customerService->getCustomer(2)->getGroupId());
+
+        $this->getRequest()->setParam('group', 0)->setPost('customer', [1, 4200, 2]);
+        $this->dispatch('backend/customer/index/massAssignGroup');
+        $this->assertSessionMessages(
+            $this->equalTo(['A total of 2 record(s) were updated.']),
+            \Magento\Message\MessageInterface::TYPE_SUCCESS
+        );
+        $this->assertSessionMessages(
+            $this->equalTo(['No such entity with customerId = 4200']),
+            \Magento\Message\MessageInterface::TYPE_ERROR
+        );
+
+        $this->assertEquals(0, $this->customerService->getCustomer(1)->getGroupId());
+        $this->assertEquals(0, $this->customerService->getCustomer(2)->getGroupId());
+    }
+
+
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/two_customers.php
+     */
+    public function testMassUnsubscriberAction()
+    {
+        // Setup
+        /** @var \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory */
+        $subscriberFactory = Bootstrap::getObjectManager()->get('Magento\Newsletter\Model\SubscriberFactory');
+        $subscriberFactory->create()->updateSubscription(1, true);
+        $subscriberFactory->create()->updateSubscription(2, true);
+        $this->getRequest()->setParam('customer', [1, 2]);
+
+        // Test
+        $this->dispatch('backend/customer/index/massUnsubscribe');
+
+        // Assertions
+        $this->assertRedirect($this->stringContains('customer/index'));
+        $this->assertSessionMessages(
+            $this->equalTo(['A total of 2 record(s) were updated.']),
+            \Magento\Message\MessageInterface::TYPE_SUCCESS
+        );
+        $this->assertFalse((bool)$subscriberFactory->create()->loadByCustomer(1)->getSubscriberStatus());
+        $this->assertFalse((bool)$subscriberFactory->create()->loadByCustomer(2)->getSubscriberStatus());
+    }
+
+    public function testMassUnsubscriberActionNoSelection()
+    {
+        $this->dispatch('backend/customer/index/massUnsubscribe');
+
+        $this->assertRedirect($this->stringContains('customer/index'));
+        $this->assertSessionMessages(
+            $this->equalTo(['Please select customer(s).']),
+            \Magento\Message\MessageInterface::TYPE_ERROR
+        );
+    }
+
+    public function testMassUnsubscriberActionInvalidId()
+    {
+        $this->getRequest()->setParam('customer', [4200]);
+
+        $this->dispatch('backend/customer/index/massUnsubscribe');
+
+        $this->assertRedirect($this->stringContains('customer/index'));
+        $this->assertSessionMessages(
+            $this->equalTo(['No such entity with customerId = 4200']),
+            \Magento\Message\MessageInterface::TYPE_ERROR
+        );
+    }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/two_customers.php
+     */
+    public function testMassUnsubscriberActionPartialUpdate()
+    {
+        // Setup
+        /** @var \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory */
+        $subscriberFactory = Bootstrap::getObjectManager()->get('Magento\Newsletter\Model\SubscriberFactory');
+        $subscriberFactory->create()->updateSubscription(1, true);
+        $subscriberFactory->create()->updateSubscription(2, true);
+        $this->getRequest()->setParam('customer', [1, 4200, 2]);
+
+        // Test
+        $this->dispatch('backend/customer/index/massUnsubscribe');
+
+        // Assertions
+        $this->assertRedirect($this->stringContains('customer/index'));
+        $this->assertSessionMessages(
+            $this->equalTo(['A total of 2 record(s) were updated.']),
+            \Magento\Message\MessageInterface::TYPE_SUCCESS
+        );
+        $this->assertSessionMessages(
+            $this->equalTo(['No such entity with customerId = 4200']),
+            \Magento\Message\MessageInterface::TYPE_ERROR
+        );
+        $this->assertFalse((bool)$subscriberFactory->create()->loadByCustomer(1)->getSubscriberStatus());
+        $this->assertFalse((bool)$subscriberFactory->create()->loadByCustomer(2)->getSubscriberStatus());
     }
 }

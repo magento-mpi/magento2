@@ -7,6 +7,7 @@
  */
 namespace Magento\Customer\Controller\Adminhtml;
 
+use Magento\Customer\Controller\RegistryConstants;
 use Magento\Exception\NoSuchEntityException;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 use Magento\Customer\Service\V1\Dto\CustomerGroup;
@@ -17,9 +18,6 @@ use Magento\Customer\Service\V1\Dto\CustomerGroupBuilder;
  */
 class Group extends \Magento\Backend\App\Action
 {
-    /** Registry key for the current CustomerGroup Dto */
-    const REGISTRY_CURRENT_GROUP_ID = 'current_group_id';
-
     /**
      * Core registry
      *
@@ -67,7 +65,7 @@ class Group extends \Magento\Backend\App\Action
         $this->_title->add(__('Customer Groups'));
 
         $groupId = $this->getRequest()->getParam('id');
-        $this->_coreRegistry->register(self::REGISTRY_CURRENT_GROUP_ID, $groupId);
+        $this->_coreRegistry->register(RegistryConstants::CURRENT_GROUP_ID, $groupId);
 
         return $groupId;
     }
@@ -159,7 +157,7 @@ class Group extends \Magento\Backend\App\Action
             } catch (\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
                 if ($customerGroup != null) {
-                    $this->_coreRegistry->register(self::REGISTRY_CURRENT_GROUP_ID, $id);
+                    $this->_coreRegistry->register(RegistryConstants::CURRENT_GROUP_ID, $id);
                 }
                 $this->getResponse()->setRedirect($this->getUrl('customer/group/edit', ['id' => $id]));
                 return;

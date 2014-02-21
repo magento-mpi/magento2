@@ -7,8 +7,8 @@
  */
 namespace Magento\Customer\Block\Adminhtml;
 
+use Magento\Customer\Controller\RegistryConstants;
 use Magento\TestFramework\Helper\Bootstrap;
-use Magento\Customer\Controller\Adminhtml\Index;
 use Magento\Customer\Service\V1\Dto\Customer;
 
 /**
@@ -66,7 +66,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
         $objectManager->get('Magento\App\State')->setAreaCode('adminhtml');
 
         $this->coreRegistry = $objectManager->get('Magento\Core\Model\Registry');
-        $this->coreRegistry->register(Index::REGISTRY_CURRENT_CUSTOMER_ID, self::$customerId);
+        $this->coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER_ID, self::$customerId);
 
         $this->block = $objectManager->get('Magento\View\LayoutInterface')
             ->createBlock(
@@ -81,7 +81,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
      */
     public function tearDown()
     {
-        $this->coreRegistry->unregister(Index::REGISTRY_CURRENT_CUSTOMER_ID);
+        $this->coreRegistry->unregister(RegistryConstants::CURRENT_CUSTOMER_ID);
     }
 
     /**
@@ -107,7 +107,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetHeaderTextNewCustomer()
     {
-        $this->coreRegistry->unregister(Index::REGISTRY_CURRENT_CUSTOMER_ID);
+        $this->coreRegistry->unregister(RegistryConstants::CURRENT_CUSTOMER_ID);
         $this->assertEquals('New Customer', $this->block->getHeaderText());
     }
 

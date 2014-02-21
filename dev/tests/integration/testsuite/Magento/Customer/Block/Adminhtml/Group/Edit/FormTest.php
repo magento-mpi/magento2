@@ -9,6 +9,7 @@
 namespace Magento\Customer\Block\Adminhtml\Group\Edit;
 
 use Magento\Backend\App\Area\FrontNameResolver;
+use Magento\Customer\Controller\RegistryConstants;
 use Magento\Customer\Service\V1\Dto\CustomerGroup;
 use Magento\Customer\Service\V1\Dto\Filter;
 use Magento\Customer\Service\V1\Dto\SearchCriteria;
@@ -56,7 +57,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
      */
     public function tearDown()
     {
-        $this->registry->unregister('current_group_id');
+        $this->registry->unregister(RegistryConstants::CURRENT_GROUP_ID);
     }
 
     /**
@@ -65,7 +66,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
     public function testGetForm()
     {
         $this->registry
-            ->register('current_group_id', $this->customerGroupService->getDefaultGroup(0)->getId());
+            ->register(RegistryConstants::CURRENT_GROUP_ID, $this->customerGroupService->getDefaultGroup(0)->getId());
 
         /** @var $block Form */
         $block = $this->layout->createBlock('Magento\Customer\Block\Adminhtml\Group\Edit\Form', 'block');
@@ -99,7 +100,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
         ]);
         /** @var CustomerGroup $customerGroup */
         $customerGroup = $this->customerGroupService->searchGroups($searchCriteria)->getItems()[0];
-        $this->registry->register('current_group_id', $customerGroup->getId());
+        $this->registry->register(RegistryConstants::CURRENT_GROUP_ID, $customerGroup->getId());
 
         /** @var $block Form */
         $block = $this->layout->createBlock('Magento\Customer\Block\Adminhtml\Group\Edit\Form', 'block');

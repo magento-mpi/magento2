@@ -7,7 +7,7 @@
  */
 namespace Magento\Customer\Block\Adminhtml;
 
-use Magento\Customer\Controller\Adminhtml\Index;
+use Magento\Customer\Controller\RegistryConstants;
 use Magento\Customer\Service\V1\CustomerServiceInterface;
 
 /**
@@ -115,7 +115,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
      */
     public function getCustomerId()
     {
-        $customerId = $this->_coreRegistry->registry(Index::REGISTRY_CURRENT_CUSTOMER_ID);
+        $customerId = $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID);
         return $customerId;
     }
 

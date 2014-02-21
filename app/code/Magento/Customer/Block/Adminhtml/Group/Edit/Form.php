@@ -7,7 +7,7 @@
  */
 namespace Magento\Customer\Block\Adminhtml\Group\Edit;
 
-use Magento\Customer\Controller\Adminhtml\Group;
+use Magento\Customer\Controller\RegistryConstants;
 
 /**
  * Adminhtml customer groups edit form
@@ -63,7 +63,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
 
-        $groupId = $this->_coreRegistry->registry(Group::REGISTRY_CURRENT_GROUP_ID);
+        $groupId = $this->_coreRegistry->registry(RegistryConstants::CURRENT_GROUP_ID);
         if (is_null($groupId)) {
             $customerGroup = $this->_groupBuilder->create();
         } else {

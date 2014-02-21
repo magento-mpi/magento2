@@ -8,9 +8,9 @@
 
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab\View;
 
-use Magento\Customer\Controller\Adminhtml\Index;
 use Magento\Customer\Service\V1\Dto\Customer;
 use Magento\Exception\NoSuchEntityException;
+use Magento\Customer\Controller\RegistryConstants;
 
 /**
  * Adminhtml customer recent orders grid block
@@ -85,7 +85,7 @@ class Accordion extends \Magento\Backend\Block\Widget\Accordion
             'content_url' => $this->getUrl('customer/*/lastOrders', array('_current' => true)),
         ));
 
-        $customerId = $this->_coreRegistry->registry(Index::REGISTRY_CURRENT_CUSTOMER_ID);
+        $customerId = $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID);    
         $customer = $this->getCustomer($customerId);
         $websiteIds = $this->_shareConfig->getSharedWebsiteIds($customer->getWebsiteId());
         // add shopping cart block of each website

@@ -7,6 +7,7 @@
  */
 namespace Magento\Customer\Controller\Adminhtml;
 
+use Magento\Customer\Controller\RegistryConstants;
 use Magento\Message\MessageInterface;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\Customer\Service\V1\Dto\CustomerGroup;
@@ -181,7 +182,7 @@ class GroupTest extends \Magento\Backend\Utility\Controller
 
         /** @var \Magento\Core\Model\Registry $coreRegistry */
         $coreRegistry = Bootstrap::getObjectManager()->get('Magento\Core\Model\Registry');
-        $this->assertNull($coreRegistry->registry(Group::REGISTRY_CURRENT_GROUP_ID));
+        $this->assertNull($coreRegistry->registry(RegistryConstants::CURRENT_GROUP_ID));
 
         $this->assertRedirect($this->stringStartsWith(self::BASE_CONTROLLER_URL . 'edit/id/10000'));
     }

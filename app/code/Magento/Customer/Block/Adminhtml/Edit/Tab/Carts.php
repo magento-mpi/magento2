@@ -48,7 +48,7 @@ class Carts extends \Magento\Backend\Block\Template
      */
     protected function _prepareLayout()
     {
-        $sharedWebsiteIds = $this->_shareConfig->getSharedWebsiteIds($this->getCustomer()->getWebsiteId());
+        $sharedWebsiteIds = $this->_shareConfig->getSharedWebsiteIds($this->_getCustomer()->getWebsiteId());
         $isShared = count($sharedWebsiteIds) > 1;
         foreach ($sharedWebsiteIds as $websiteId) {
             $blockName = 'customer_cart_' . $websiteId;
@@ -80,7 +80,7 @@ class Carts extends \Magento\Backend\Block\Template
     /**
      * @return \Magento\Customer\Service\V1\Dto\Customer
      */
-    protected function getCustomer()
+    protected function _getCustomer()
     {
         return $this->_customerBuilder
             ->populateWithArray($this->_backendSession->getCustomerData()['account'])->create();

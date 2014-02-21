@@ -7,8 +7,8 @@
  */
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab\View;
 
+use Magento\Customer\Controller\RegistryConstants;
 use Magento\TestFramework\Helper\Bootstrap;
-use Magento\Customer\Controller\Adminhtml\Index;
 
 /**
  * Class SalesTest
@@ -49,7 +49,7 @@ class SalesTest extends \PHPUnit_Framework_TestCase
         $objectManager->get('Magento\App\State')->setAreaCode('adminhtml');
 
         $this->coreRegistry = $objectManager->get('Magento\Core\Model\Registry');
-        $this->coreRegistry->register(Index::REGISTRY_CURRENT_CUSTOMER_ID, 1);
+        $this->coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER_ID, 1);
 
         $this->block = $objectManager->get('Magento\View\LayoutInterface')
             ->createBlock(
@@ -66,7 +66,7 @@ class SalesTest extends \PHPUnit_Framework_TestCase
      */
     public function tearDown()
     {
-        $this->coreRegistry->unregister(Index::REGISTRY_CURRENT_CUSTOMER_ID);
+        $this->coreRegistry->unregister(RegistryConstants::CURRENT_CUSTOMER_ID);
         $this->html = '';
     }
 

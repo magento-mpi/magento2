@@ -10,6 +10,7 @@
 namespace Magento\Customer\Controller\Adminhtml;
 
 use Magento\App\Action\NotFoundException;
+use Magento\Customer\Controller\RegistryConstants;
 use Magento\Customer\Service\V1\Dto\Customer;
 use Magento\Customer\Service\V1\Dto\CustomerBuilder;
 use Magento\Customer\Service\V1\Dto\AddressBuilder;
@@ -52,6 +53,9 @@ class Index extends \Magento\Backend\App\Action
      */
     protected $_addressFactory = null;
 
+    /** @var \Magento\Newsletter\Model\SubscriberFactory */
+    protected $_subscriberFactory;
+
     /**
      * @var \Magento\Customer\Helper\Data
      */
@@ -72,23 +76,13 @@ class Index extends \Magento\Backend\App\Action
     protected $_viewHelper;
 
     /**
-     * Registry key where current customer DTO stored
-     * @todo switch to use ID instead and remove after refactoring of all occurrences
-     */
-    const REGISTRY_CURRENT_CUSTOMER = 'current_customer';
-
-    /**
-     * Registry key where current customer ID is stored
-     */
-    const REGISTRY_CURRENT_CUSTOMER_ID = 'current_customer_id';
-
-    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\App\Response\Http\FileFactory $fileFactory
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Customer\Model\AddressFactory $addressFactory
      * @param \Magento\Customer\Model\Metadata\FormFactory $formFactory
+     * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
      * @param CustomerBuilder $customerBuilder
      * @param AddressBuilder $addressBuilder
      * @param CustomerServiceInterface $customerService
@@ -103,6 +97,7 @@ class Index extends \Magento\Backend\App\Action
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Customer\Model\AddressFactory $addressFactory,
         \Magento\Customer\Model\Metadata\FormFactory $formFactory,
+        \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
         CustomerBuilder $customerBuilder,
         AddressBuilder $addressBuilder,
         CustomerServiceInterface $customerService,
@@ -116,6 +111,7 @@ class Index extends \Magento\Backend\App\Action
         $this->_customerBuilder = $customerBuilder;
         $this->_addressBuilder = $addressBuilder;
         $this->_addressFactory = $addressFactory;
+        $this->_subscriberFactory = $subscriberFactory;
         $this->_dataHelper = $helper;
         $this->_formFactory = $formFactory;
         $this->_customerService = $customerService;
@@ -141,8 +137,8 @@ class Index extends \Magento\Backend\App\Action
             $customer->load($customerId);
         }
 
-        $this->_coreRegistry->register(self::REGISTRY_CURRENT_CUSTOMER, $customer);
-        $this->_coreRegistry->register(self::REGISTRY_CURRENT_CUSTOMER_ID, $customerId);
+        $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER, $customer);
+        $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER_ID, $customerId);
         return $customerId;
     }
 
@@ -202,29 +198,30 @@ class Index extends \Magento\Backend\App\Action
         $customerData['account'] = [];
         $customerData['address'] = [];
         $customer = null;
-        try {
-            $customer = $this->_customerService->getCustomer($customerId);
-            $customerData['account'] = $customer->getAttributes();
-            $customerData['account']['id'] = $customerId;
+        if (!empty($customerId)) {
             try {
-                $addresses = $this->_addressService->getAddresses($customerId);
-                foreach ($addresses as $address) {
-                    $customerData['address'][$address->getId()] = $address->getAttributes();
-                    $customerData['address'][$address->getId()]['id'] = $address->getId();
+                $customer = $this->_customerService->getCustomer($customerId);
+                $customerData['account'] = $customer->getAttributes();
+                $customerData['account']['id'] = $customerId;
+                try {
+                    $addresses = $this->_addressService->getAddresses($customerId);
+                    foreach ($addresses as $address) {
+                        $customerData['address'][$address->getId()] = $address->getAttributes();
+                        $customerData['address'][$address->getId()]['id'] = $address->getId();
+                    }
+                } catch (NoSuchEntityException $e) {
+                    //do nothing
                 }
             } catch (NoSuchEntityException $e) {
-                //do nothing
+                $this->messageManager->addException($e, __('An error occurred while editing the customer.'));
+                $this->_redirect('customer/*/index');
+                return;
             }
-        } catch (NoSuchEntityException $e) {
-            $customerId = 0;
-            $this->_coreRegistry->unregister(self::REGISTRY_CURRENT_CUSTOMER_ID);
-            $this->_coreRegistry->register(self::REGISTRY_CURRENT_CUSTOMER_ID, 0);
         }
         $customerData['customer_id'] = $customerId;
 
         // set entered data if was error when we do save
-        $session = $this->_objectManager->get('Magento\Backend\Model\Session');
-        $data = $session->getCustomerData(true);
+        $data = $this->_getSession()->getCustomerData(true);
 
         // restore data from SESSION
         if ($data && (
@@ -286,7 +283,7 @@ class Index extends \Magento\Backend\App\Action
             }
         }
 
-        $session->setCustomerData($customerData);
+        $this->_getSession()->setCustomerData($customerData);
 
         if (is_null($customer)) {
             $this->_title->add(__('New Customer'));
@@ -315,7 +312,7 @@ class Index extends \Magento\Backend\App\Action
     public function deleteAction()
     {
         $this->_initCustomer();
-        $customerId = $this->_coreRegistry->registry(self::REGISTRY_CURRENT_CUSTOMER_ID);
+        $customerId = $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID);
         if (!empty($customerId)) {
             try {
                 $this->_customerService->deleteCustomer($customerId);
@@ -384,9 +381,9 @@ class Index extends \Magento\Backend\App\Action
 
                 // Done Saving customer, finish save action
                 $this->_objectManager->get('Magento\Core\Model\Registry')
-                    ->register(self::REGISTRY_CURRENT_CUSTOMER, $customer);
+                    ->register(RegistryConstants::CURRENT_CUSTOMER, $customer);
                 $this->_objectManager->get('Magento\Core\Model\Registry')
-                    ->register(self::REGISTRY_CURRENT_CUSTOMER_ID, $customer->getId());
+                    ->register(RegistryConstants::CURRENT_CUSTOMER_ID, $customer->getId());
 
                 $this->messageManager->addSuccess(__('You saved the customer.'));
 
@@ -789,7 +786,7 @@ class Index extends \Magento\Backend\App\Action
     public function newsletterAction()
     {
         $this->_initCustomer();
-        $customerId = $this->_coreRegistry->registry(self::REGISTRY_CURRENT_CUSTOMER_ID);
+        $customerId = $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID);
         $subscriber = $this->_objectManager->create('Magento\Newsletter\Model\Subscriber')
             ->loadByCustomer($customerId);
 
@@ -800,7 +797,7 @@ class Index extends \Magento\Backend\App\Action
     public function wishlistAction()
     {
         $this->_initCustomer();
-        $customerId = $this->_coreRegistry->registry(self::REGISTRY_CURRENT_CUSTOMER_ID);
+        $customerId = $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID);
         $itemId = (int)$this->getRequest()->getParam('delete');
         if ($customerId && $itemId) {
             try {
@@ -845,7 +842,7 @@ class Index extends \Magento\Backend\App\Action
                 ->setWebsite(
                     $this->_objectManager->get('Magento\Core\Model\StoreManagerInterface')->getWebsite($websiteId)
                 )
-                ->loadByCustomer($this->_coreRegistry->registry(self::REGISTRY_CURRENT_CUSTOMER_ID));
+                ->loadByCustomer($this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID));
             $item = $quote->getItemById($deleteItemId);
             if ($item && $item->getId()) {
                 $quote->removeItem($deleteItemId);
@@ -891,7 +888,7 @@ class Index extends \Magento\Backend\App\Action
         $this->_initCustomer();
         $this->_view->loadLayout();
         $this->_view->getLayout()->getBlock('admin.customer.reviews')
-            ->setCustomerId($this->_coreRegistry->registry(self::REGISTRY_CURRENT_CUSTOMER_ID))
+            ->setCustomerId($this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID))
             ->setUseAjax(true);
         $this->_view->renderLayout();
     }
@@ -1015,21 +1012,11 @@ class Index extends \Magento\Backend\App\Action
      */
     public function massSubscribeAction()
     {
-        $customersIds = $this->getRequest()->getParam('customer');
-        if (!is_array($customersIds)) {
-            $this->messageManager->addError(__('Please select customer(s).'));
-        } else {
-            try {
-                foreach ($customersIds as $customerId) {
-                    $customer = $this->_objectManager->create('Magento\Customer\Model\Customer')->load($customerId);
-                    $customer->setIsSubscribed(true);
-                    $customer->save();
-                }
-                $this->messageManager->addSuccess(__('A total of %1 record(s) were updated.', count($customersIds)));
-            } catch (\Exception $exception) {
-                $this->messageManager->addError($exception->getMessage());
-            }
-        }
+        $this->massCustomerChangeAction(function($customerId) {
+            // Verify customer exists
+            $this->_customerService->getCustomer($customerId);
+            $this->_subscriberFactory->create()->updateSubscription($customerId, true);
+        });
         $this->_redirect('customer/*/index');
     }
 
@@ -1038,22 +1025,11 @@ class Index extends \Magento\Backend\App\Action
      */
     public function massUnsubscribeAction()
     {
-        $customersIds = $this->getRequest()->getParam('customer');
-        if (!is_array($customersIds)) {
-            $this->messageManager->addError(__('Please select customer(s).'));
-        } else {
-            try {
-                foreach ($customersIds as $customerId) {
-                    $customer = $this->_objectManager->create('Magento\Customer\Model\Customer')->load($customerId);
-                    $customer->setIsSubscribed(false);
-                    $customer->save();
-                }
-                $this->messageManager->addSuccess(__('A total of %1 record(s) were updated.', count($customersIds)));
-            } catch (\Exception $exception) {
-                $this->messageManager->addError($exception->getMessage());
-            }
-        }
-
+        $this->massCustomerChangeAction(function($customerId) {
+            // Verify customer exists
+            $this->_customerService->getCustomer($customerId);
+            $this->_subscriberFactory->create()->updateSubscription($customerId, false);
+        });
         $this->_redirect('customer/*/index');
     }
 
@@ -1084,25 +1060,41 @@ class Index extends \Magento\Backend\App\Action
      */
     public function massAssignGroupAction()
     {
+        $this->massCustomerChangeAction(function($customerId) {
+            // Verify customer exists
+            $customer = $this->_customerService->getCustomer($customerId);
+            $this->_customerBuilder->populate($customer);
+            $customer = $this->_customerBuilder
+                ->setGroupId($this->getRequest()->getParam('group'))->create();
+            $this->_customerService->saveCustomer($customer);
+        });
+        $this->_redirect('customer/*/index');
+    }
+
+    /**
+     * Helper function that handles mass actions by taking in a callable for handling a single action.
+     *
+     * @param callable $singleAction that takes a customer ID as input
+     */
+    protected function massCustomerChangeAction(callable $singleAction)
+    {
         $customersIds = $this->getRequest()->getParam('customer');
         if (!is_array($customersIds)) {
             $this->messageManager->addError(__('Please select customer(s).'));
         } else {
-            try {
-                foreach ($customersIds as $customerId) {
-                    $customer = $this->_customerService->getCustomer($customerId);
-                    $customerBuilder = (new CustomerBuilder())->populate($customer);
-                    $customer = $customerBuilder
-                        ->setGroupId($this->getRequest()->getParam('group'))->create();
-                    $this->_customerService->saveCustomer($customer);
+            $customersUpdated = 0;
+            foreach ($customersIds as $customerId) {
+                try {
+                    $singleAction($customerId);
+                    $customersUpdated++;
+                } catch (\Exception $exception) {
+                    $this->messageManager->addError($exception->getMessage());
                 }
-                $this->messageManager->addSuccess(__('A total of %1 record(s) were updated.', count($customersIds)));
-            } catch (\Exception $exception) {
-                $this->messageManager->addError($exception->getMessage());
+            }
+            if ($customersUpdated) {
+                $this->messageManager->addSuccess(__('A total of %1 record(s) were updated.', $customersUpdated));
             }
         }
-
-        $this->_redirect('customer/*/index');
     }
 
     /**

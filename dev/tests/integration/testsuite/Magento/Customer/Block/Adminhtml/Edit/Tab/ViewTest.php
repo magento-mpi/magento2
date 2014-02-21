@@ -8,8 +8,8 @@
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 
 use Magento\Core\Model\LocaleInterface;
+use Magento\Customer\Controller\RegistryConstants;
 use Magento\Customer\Service\V1\Dto\Customer;
-use Magento\Customer\Controller\Adminhtml\Index;
 
 /**
  * Magento\Customer\Block\Adminhtml\Edit\Tab\View
@@ -69,7 +69,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
 
     public function tearDown()
     {
-        $this->_coreRegistry->unregister(Index::REGISTRY_CURRENT_CUSTOMER_ID);
+        $this->_coreRegistry->unregister(RegistryConstants::CURRENT_CUSTOMER_ID);
     }
 
     /**
@@ -154,7 +154,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
             ->setEmail('email@email.com')
             ->create();
         $id = $this->_customerService->saveCustomer($customer);
-        $this->_coreRegistry->register(Index::REGISTRY_CURRENT_CUSTOMER_ID, $id);
+        $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER_ID, $id);
         $this->assertEquals('Confirmation Not Required', $this->_block->getIsConfirmedStatus());
     }
 
@@ -259,7 +259,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         $customer = $this->_customerService->getCustomer(1);
         $data = ['account' => $customer->__toArray()];
         $this->_context->getBackendSession()->setCustomerData($data);
-        $this->_coreRegistry->register(Index::REGISTRY_CURRENT_CUSTOMER_ID, $customer->getCustomerId());
+        $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER_ID, $customer->getCustomerId());
         return $customer;
     }
 
