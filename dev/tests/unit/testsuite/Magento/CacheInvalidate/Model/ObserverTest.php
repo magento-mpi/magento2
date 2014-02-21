@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\CacheInvalidate;
+namespace Magento\CacheInvalidate\Model;
 
 class ObserverTest extends \PHPUnit_Framework_TestCase
 {
@@ -29,15 +29,11 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Object\ */
     protected $_observerObject;
 
-    /** @var string */
-    protected $_url;
-
     /**
      * Set up all mocks and data for test
      */
     public function setUp()
     {
-        $this->_url = 'http://mangento.index.php';
         $this->_configMock = $this->getMock('Magento\PageCache\Model\Config', ['getType'], [], '', false);
         $this->_helperMock = $this->getMock('Magento\PageCache\Helper\Data', ['getUrl'], [], '', false);
         $this->_curlMock = $this->getMock(
@@ -54,10 +50,6 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         );
         $this->_observerMock = $this->getMock('Magento\Event\Observer', ['getEvent'], [], '', false);
         $this->_observerObject = $this->getMock('\Magento\Core\Model\Store',[], [], '', false);
-        $this->_helperMock->expects($this->any())
-            ->method('getUrl')
-            ->with($this->equalTo('*'), array())
-            ->will($this->returnValue('http://mangento.index.php'));
     }
 
     /**
@@ -102,14 +94,19 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      */
     protected function sendPurgeRequest($tags = array())
     {
+        $url = 'http://mangento.index.php';
         $httpVersion = '1.1';
-        $headers = "X-Magento-Tags-Pattern: {$tags}";
+        $headers = array("X-Magento-Tags-Pattern: {$tags}");
+        $this->_helperMock->expects($this->any())
+            ->method('getUrl')
+            ->with($this->equalTo('*'), array())
+            ->will($this->returnValue($url));
         $this->_curlMock->expects($this->once())
             ->method('setOptions')
             ->with(array(CURLOPT_CUSTOMREQUEST => 'PURGE'));
         $this->_curlMock->expects($this->once())
             ->method('write')
-            ->with($this->equalTo(''), $this->equalTo($this->_url), $httpVersion, $headers);
+            ->with($this->equalTo(''), $this->equalTo($url), $httpVersion, $this->equalTo($headers));
         $this->_curlMock->expects($this->once())
             ->method('read');
         $this->_curlMock->expects($this->once())
