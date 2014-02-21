@@ -7,6 +7,8 @@
  */
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 
+use Magento\Customer\Controller\RegistryConstants;
+
 /**
  * Test Magento\Customer\Block\Adminhtml\Edit\Tab\Addresses
  *
@@ -15,8 +17,6 @@ namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
  */
 class AddressesTest extends \PHPUnit_Framework_TestCase
 {
-    const CURRENT_CUSTOMER_ID = 'current_customer_id';
-
     /** @var \Magento\Customer\Service\V1\CustomerServiceInterface */
     private $_customerService;
 
@@ -63,7 +63,7 @@ class AddressesTest extends \PHPUnit_Framework_TestCase
             'Magento\Customer\Service\V1\Dto\AddressBuilder'
         );
 
-        $this->_coreRegistry->register(self::CURRENT_CUSTOMER_ID, 1);
+        $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER_ID, 1);
 
         /** @var \Magento\Customer\Service\V1\Dto\Customer $customer */
         $customer = $this->_customerService->getCustomer(1);
@@ -83,7 +83,7 @@ class AddressesTest extends \PHPUnit_Framework_TestCase
     public function tearDown()
     {
         $this->_backendSession->unsCustomerData();
-        $this->_coreRegistry->unregister(self::CURRENT_CUSTOMER_ID);
+        $this->_coreRegistry->unregister(RegistryConstants::CURRENT_CUSTOMER_ID);
     }
 
     public function testInitForm()

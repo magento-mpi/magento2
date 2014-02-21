@@ -7,7 +7,7 @@
  */
 namespace Magento\Customer\Block\Adminhtml\Group;
 
-use Magento\Customer\Controller\Adminhtml\Group;
+use Magento\Customer\Controller\RegistryConstants;
 
 /**
  * Customer group edit block
@@ -63,7 +63,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
         $this->_updateButton('save', 'label', __('Save Customer Group'));
         $this->_updateButton('delete', 'label', __('Delete Customer Group'));
 
-        $groupId = $this->_coreRegistry->registry(Group::REGISTRY_CURRENT_GROUP_ID);
+        $groupId = $this->_coreRegistry->registry(RegistryConstants::CURRENT_GROUP_ID);
         if (!$groupId || !$this->_groupService->canDelete($groupId)) {
             $this->_removeButton('delete');
         }
@@ -76,7 +76,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
      */
     public function getHeaderText()
     {
-        $groupId = $this->_coreRegistry->registry(Group::REGISTRY_CURRENT_GROUP_ID);
+        $groupId = $this->_coreRegistry->registry(RegistryConstants::CURRENT_GROUP_ID);
         if (is_null($groupId)) {
             return __('New Customer Group');
         } else {

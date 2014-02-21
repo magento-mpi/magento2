@@ -29,4 +29,9 @@ class RegistryConstants
      */
     const CURRENT_CUSTOMER_ID = 'current_customer_id';
 
+    /**
+     * Registry key where current CustomerGroup ID is stored
+     */
+    const CURRENT_GROUP_ID = 'current_group_id';
+
 }

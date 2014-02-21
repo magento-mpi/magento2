@@ -10,6 +10,7 @@
  */
 
 namespace Magento\Customer\Controller\Adminhtml;
+use Magento\Customer\Controller\RegistryConstants;
 use Magento\TestFramework\Helper\Bootstrap;
 
 /**
@@ -179,7 +180,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
          * Check that customer id set and addresses saved
          */
         $registry = $objectManager->get('Magento\Core\Model\Registry');
-        $customer = $registry->registry('current_customer');
+        $customer = $registry->registry(RegistryConstants::CURRENT_CUSTOMER);
         $this->assertInstanceOf('Magento\Customer\Model\Customer', $customer);
         $this->assertCount(1, $customer->getAddressesCollection());
 
@@ -258,7 +259,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
         /**
          * Check that customer id set and addresses saved
          */
-        $customer = $objectManager->get('Magento\Core\Model\Registry')->registry('current_customer');
+        $customer = $objectManager->get('Magento\Core\Model\Registry')->registry(RegistryConstants::CURRENT_CUSTOMER);
         $this->assertInstanceOf('Magento\Customer\Model\Customer', $customer);
 
         /**
