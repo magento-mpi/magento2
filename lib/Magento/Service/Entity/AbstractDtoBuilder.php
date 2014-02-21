@@ -100,6 +100,16 @@ abstract class AbstractDtoBuilder
     }
 
     /**
+     * Retrieve a list of custom attributes codes. Default implementation.
+     *
+     * @return array
+     */
+    public function getCustomAttributeCodes()
+    {
+        return [];
+    }
+
+    /**
      * @param string $key
      * @param mixed $value
      *

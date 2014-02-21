@@ -11,8 +11,12 @@
 
 $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
     ->create('Magento\Customer\Model\Attribute');
-$model->setName('user_attribute')
+$model->setName('address_user_attribute')
     ->setEntityTypeId(2)
+    ->setAttributeSetId(2)
+    ->setAttributeGroupId(1)
+    ->setFrontendInput('text')
+    ->setFrontendLabel('Address user attribute')
     ->setIsUserDefined(1);
 $model->save();
 
