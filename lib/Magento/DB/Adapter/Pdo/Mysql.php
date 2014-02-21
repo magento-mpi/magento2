@@ -3377,6 +3377,61 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
     }
 
     /**
+     * Get insert queries in array for insert by range with step parameter
+     *
+     * @param string $rangeField
+     * @param \Magento\DB\Select $select
+     * @param int $stepCount
+     * @return \Magento\DB\Select[]
+     * @throws \Magento\DB\DBException
+     */
+    public function selectsByRange($rangeField, \Magento\DB\Select $select, $stepCount = 100)
+    {
+        $fromSelect = $select->getPart(\Magento\DB\Select::FROM);
+        if (empty($fromSelect)) {
+            throw new \Magento\DB\DBException('Select object must have correct "FROM" part');
+        }
+
+        $tableName = array();
+        $correlationName = '';
+        foreach ($fromSelect as $correlationName => $formPart) {
+            if ($formPart['joinType'] == \Magento\DB\Select::FROM) {
+                $tableName = $formPart['tableName'];
+                break;
+            }
+        }
+
+        $selectRange = $this->select()
+            ->from(
+                $tableName,
+                [
+                    new \Zend_Db_Expr('MIN(' . $this->quoteIdentifier($rangeField) . ') AS min'),
+                    new \Zend_Db_Expr('MAX(' . $this->quoteIdentifier($rangeField) . ') AS max'),
+                ]
+            );
+
+        $rangeResult = $this->fetchRow($selectRange);
+        $min = $rangeResult['min'];
+        $max = $rangeResult['max'];
+
+        $queries = [];
+        while ($min <= $max) {
+            $partialSelect = clone $select;
+            $partialSelect->where(
+                    $this->quoteIdentifier($correlationName) . '.'
+                        . $this->quoteIdentifier($rangeField) . ' >= ?', $min
+                )
+                ->where(
+                    $this->quoteIdentifier($correlationName) . '.'
+                        . $this->quoteIdentifier($rangeField) . ' < ?', $min + $stepCount
+                );
+            $queries[] = $partialSelect;
+            $min += $stepCount;
+        }
+        return $queries;
+    }
+
+    /**
      * Get update table query using select object for join and update
      *
      * @param Select $select

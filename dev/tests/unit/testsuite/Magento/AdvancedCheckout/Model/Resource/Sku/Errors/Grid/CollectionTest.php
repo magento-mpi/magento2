@@ -99,9 +99,9 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     {
         $inventoryMock = $this->getMock('Magento\CatalogInventory\Model\Stock\Status', array(), array(), '', false);
         $inventoryMock->disableOriginalConstructor();
-        $inventoryMock->setMethods(array('getProductStatus'));
+        $inventoryMock->setMethods(array('getProductStockStatus'));
         $inventoryMock->expects($this->any())
-            ->method('getProductStatus')
+            ->method('getProductStockStatus')
             ->will($this->returnValue(array()));
 
         return $inventoryMock;

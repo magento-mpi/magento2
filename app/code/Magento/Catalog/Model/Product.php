@@ -180,7 +180,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     /**
      * Catalog product status
      *
-     * @var Product\Status
+     * @var \Magento\Catalog\Model\Product\Attribute\Source\Status
      */
     protected $_catalogProductStatus;
 
@@ -227,6 +227,11 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     protected $_filesystem;
 
     /**
+     * @var \Magento\Indexer\Model\IndexerInterface
+     */
+    protected $categoryIndexer;
+
+    /**
      * @var \Magento\Catalog\Model\Indexer\Product\Flat\Processor
      */
     protected $_productFlatIndexerProcessor;
@@ -243,7 +248,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param Product\Option $catalogProductOption
      * @param Product\Visibility $catalogProductVisibility
-     * @param Product\Status $catalogProductStatus
+     * @param \Magento\Catalog\Model\Product\Attribute\Source\Status $catalogProductStatus
      * @param Product\Media\Config $catalogProductMediaConfig
      * @param \Magento\Index\Model\Indexer $indexIndexer
      * @param Product\Type $catalogProductType
@@ -254,6 +259,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      * @param Resource\Product\Collection $resourceCollection
      * @param \Magento\Data\CollectionFactory $collectionFactory
      * @param \Magento\App\Filesystem $filesystem
+     * @param \Magento\Indexer\Model\IndexerInterface $categoryIndexer
      * @param Indexer\Product\Flat\Processor $productFlatIndexerProcessor
      * @param array $data
      *
@@ -269,10 +275,10 @@ class Product extends \Magento\Catalog\Model\AbstractModel
         \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
-        Product\Option $catalogProductOption,
-        Product\Visibility $catalogProductVisibility,
-        Product\Status $catalogProductStatus,
-        Product\Media\Config $catalogProductMediaConfig,
+        \Magento\Catalog\Model\Product\Option $catalogProductOption,
+        \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
+        \Magento\Catalog\Model\Product\Attribute\Source\Status $catalogProductStatus,
+        \Magento\Catalog\Model\Product\Media\Config $catalogProductMediaConfig,
         \Magento\Index\Model\Indexer $indexIndexer,
         Product\Type $catalogProductType,
         \Magento\Catalog\Helper\Image $catalogImage,
@@ -282,6 +288,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
         Resource\Product\Collection $resourceCollection,
         \Magento\Data\CollectionFactory $collectionFactory,
         \Magento\App\Filesystem $filesystem,
+        \Magento\Indexer\Model\IndexerInterface $categoryIndexer,
         \Magento\Catalog\Model\Indexer\Product\Flat\Processor $productFlatIndexerProcessor,
         array $data = array()
     ) {
@@ -302,6 +309,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
         $this->_urlModel = $url;
         $this->_linkInstance = $productLink;
         $this->_filesystem = $filesystem;
+        $this->categoryIndexer = $categoryIndexer;
         $this->_productFlatIndexerProcessor = $productFlatIndexerProcessor;
         parent::__construct($context, $registry, $storeManager, $resource, $resourceCollection, $data);
     }
@@ -314,6 +322,19 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     protected function _construct()
     {
         $this->_init('Magento\Catalog\Model\Resource\Product');
+    }
+
+    /**
+     * Return product category indexer object
+     *
+     * @return \Magento\Indexer\Model\IndexerInterface
+     */
+    protected function getCategoryIndexer()
+    {
+        if (!$this->categoryIndexer->getId()) {
+            $this->categoryIndexer->load(Indexer\Product\Category::INDEXER_ID);
+        }
+        return $this->categoryIndexer;
     }
 
     /**
@@ -419,7 +440,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     public function getStatus()
     {
         if (is_null($this->_getData('status'))) {
-            $this->setData('status', Product\Status::STATUS_ENABLED);
+            $this->setData('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
         }
         return $this->_getData('status');
     }
@@ -678,8 +699,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel
         $this->getLinkInstance()->saveProductRelations($this);
         $this->getTypeInstance()->save($this);
 
-        $this->_getResource()->addCommitCallback(array($this, 'reindexCallback'));
-
         /**
          * Product Options
          */
@@ -691,18 +710,22 @@ class Product extends \Magento\Catalog\Model\AbstractModel
         $this->_indexIndexer->processEntityAction(
             $this, self::ENTITY, \Magento\Index\Model\Event::TYPE_SAVE
         );
+        $this->_getResource()->addCommitCallback(array($this, 'reindex'));
         return $result;
     }
 
+
     /**
-     * Callback for entity reindex
+     * Init indexing process after product save
      *
      * @return $this
      */
-    public function reindexCallback()
+    public function reindex()
     {
         $this->_productFlatIndexerProcessor->reindexRow($this->getEntityId());
-        return $this;
+        if (!$this->getCategoryIndexer()->isScheduled()) {
+            $this->getCategoryIndexer()->reindexRow($this->getId());
+        }
     }
 
     /**
@@ -728,7 +751,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      */
     protected function _afterDeleteCommit()
     {
-        $this->_productFlatIndexerProcessor->reindexRow($this->getId());
+        $this->reindex();
         parent::_afterDeleteCommit();
         $this->_indexIndexer->indexEvents(
             self::ENTITY, \Magento\Index\Model\Event::TYPE_DELETE
@@ -1348,7 +1371,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      */
     public function isInStock()
     {
-        return $this->getStatus() == Product\Status::STATUS_ENABLED;
+        return $this->getStatus() == \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED;
     }
 
     /**
@@ -1983,7 +2006,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      */
     public function isDisabled()
     {
-        return $this->getStatus() == Product\Status::STATUS_DISABLED;
+        return $this->getStatus() == \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED;
     }
 
     /**

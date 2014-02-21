@@ -670,7 +670,7 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'type'                       => 'int',
                         'label'                      => 'Status',
                         'input'                      => 'select',
-                        'source'                     => 'Magento\Catalog\Model\Product\Status',
+                        'source'                     => 'Magento\Catalog\Model\Product\Attribute\Source\Status',
                         'sort_order'                 => 9,
                         'global'                     => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_WEBSITE,
                         'searchable'                 => true,
