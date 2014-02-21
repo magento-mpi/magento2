@@ -47,7 +47,7 @@ class Agreement extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Method to run before save
      *
      * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Core\Model\Resource\Db\AbstractDb
+     * @return $this
      */
     protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
     {
@@ -68,7 +68,7 @@ class Agreement extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Method to run after save
      *
      * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Core\Model\Resource\Db\AbstractDb
+     * @return $this
      */
     protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
     {
@@ -89,7 +89,7 @@ class Agreement extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Method to run after load
      *
      * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Core\Model\Resource\Db\AbstractDb
+     * @return $this
      */
     protected function _afterLoad(\Magento\Core\Model\AbstractModel $object)
     {

@@ -554,7 +554,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     }
 
     /**
-     * @return array|null
+     * @return int[]
      */
     public function getProductIds()
     {
