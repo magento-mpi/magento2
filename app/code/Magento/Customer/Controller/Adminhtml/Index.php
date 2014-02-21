@@ -202,29 +202,30 @@ class Index extends \Magento\Backend\App\Action
         $customerData['account'] = [];
         $customerData['address'] = [];
         $customer = null;
-        try {
-            $customer = $this->_customerService->getCustomer($customerId);
-            $customerData['account'] = $customer->getAttributes();
-            $customerData['account']['id'] = $customerId;
+        if (!empty($customerId)) {
             try {
-                $addresses = $this->_addressService->getAddresses($customerId);
-                foreach ($addresses as $address) {
-                    $customerData['address'][$address->getId()] = $address->getAttributes();
-                    $customerData['address'][$address->getId()]['id'] = $address->getId();
+                $customer = $this->_customerService->getCustomer($customerId);
+                $customerData['account'] = $customer->getAttributes();
+                $customerData['account']['id'] = $customerId;
+                try {
+                    $addresses = $this->_addressService->getAddresses($customerId);
+                    foreach ($addresses as $address) {
+                        $customerData['address'][$address->getId()] = $address->getAttributes();
+                        $customerData['address'][$address->getId()]['id'] = $address->getId();
+                    }
+                } catch (NoSuchEntityException $e) {
+                    //do nothing
                 }
             } catch (NoSuchEntityException $e) {
-                //do nothing
+                $this->messageManager->addException($e, __('An error occurred while editing the customer.'));
+                $this->_redirect('customer/*/index');
+                return:
             }
-        } catch (NoSuchEntityException $e) {
-            $customerId = 0;
-            $this->_coreRegistry->unregister(self::REGISTRY_CURRENT_CUSTOMER_ID);
-            $this->_coreRegistry->register(self::REGISTRY_CURRENT_CUSTOMER_ID, 0);
         }
         $customerData['customer_id'] = $customerId;
 
         // set entered data if was error when we do save
-        $session = $this->_objectManager->get('Magento\Backend\Model\Session');
-        $data = $session->getCustomerData(true);
+        $data = $this->_session->getCustomerData(true);
 
         // restore data from SESSION
         if ($data && (
