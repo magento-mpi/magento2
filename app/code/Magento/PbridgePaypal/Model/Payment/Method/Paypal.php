@@ -173,12 +173,11 @@ class Paypal implements \Magento\Payment\Model\Method
      * Store id setter, also set storeId to helper
      *
      * @param int|string|\Magento\Core\Model\Store $store
-     *
      * @return $this
      */
     public function setStore($store)
     {
-        $this->setData('store', $store);
+        $this->_paypalMethodInstance->setData('store', $store);
         $this->_pbridgeData->setStoreId(is_object($store) ? $store->getId() : $store);
         $this->_paypalMethodInstance->setStore($store);
 
