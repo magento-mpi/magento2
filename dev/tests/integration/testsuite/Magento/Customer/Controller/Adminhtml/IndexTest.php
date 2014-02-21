@@ -478,4 +478,44 @@ class IndexTest extends \Magento\Backend\Utility\Controller
         $body = $this->getResponse()->getBody();
         $this->assertContains('<div id="reviwGrid">', $body);
     }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     */
+    public function testMassAssignGroupAction()
+    {
+        $this->getRequest()->setParam('group', 0)->setPost('customer', [1]);
+        $this->dispatch('backend/customer/index/massAssignGroup');
+        $this->assertSessionMessages(
+            $this->equalTo(['A total of 1 record(s) were updated.']),
+            \Magento\Message\MessageInterface::TYPE_SUCCESS
+        );
+        $this->assertRedirect($this->stringContains('customer/index'));
+    }
+
+    /**
+     * Valid group Id but no data fixture so no customer exists with customer Id = 1
+     */
+    public function testMassAssignGroupActionInvalidCustomerId()
+    {
+        $this->getRequest()->setParam('group', 0)->setPost('customer', [1]);
+        $this->dispatch('backend/customer/index/massAssignGroup');
+        $this->assertSessionMessages(
+            $this->equalTo(['No such entity with customerId = 1']),
+            \Magento\Message\MessageInterface::TYPE_ERROR
+        );
+    }
+
+    /**
+     * Valid group Id but no customer Ids specified
+     */
+    public function testMassAssignGroupActionNoCustomerIds()
+    {
+        $this->getRequest()->setParam('group', 0);
+        $this->dispatch('backend/customer/index/massAssignGroup');
+        $this->assertSessionMessages(
+            $this->equalTo(['Please select customer(s).']),
+            \Magento\Message\MessageInterface::TYPE_ERROR
+        );
+    }
 }

@@ -1093,9 +1093,11 @@ class Index extends \Magento\Backend\App\Action
         } else {
             try {
                 foreach ($customersIds as $customerId) {
-                    $customer = $this->_objectManager->create('Magento\Customer\Model\Customer')->load($customerId);
-                    $customer->setGroupId($this->getRequest()->getParam('group'));
-                    $customer->save();
+                    $customer = $this->_customerService->getCustomer($customerId);
+                    $customerBuilder = (new CustomerBuilder())->populate($customer);
+                    $customer = $customerBuilder
+                        ->setGroupId($this->getRequest()->getParam('group'))->create();
+                    $this->_customerService->saveCustomer($customer);
                 }
                 $this->messageManager->addSuccess(__('A total of %1 record(s) were updated.', count($customersIds)));
             } catch (\Exception $exception) {
