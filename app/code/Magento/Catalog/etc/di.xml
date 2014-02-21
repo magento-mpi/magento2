@@ -16,6 +16,23 @@
     <type name="Magento\Log\Model\Resource\Log">
         <plugin name="catalogLog" type="Magento\Catalog\Model\Plugin\Log" />
     </type>
+    <type name="Magento\Indexer\Model\Indexer\State">
+        <plugin name="setStatusForIndexer" type="Magento\Catalog\Model\Indexer\Category\Product\Plugin\IndexerState" />
+    </type>
+    <type name="Magento\Mview\View\StateInterface">
+        <plugin name="setStatusForMview" type="Magento\Catalog\Model\Indexer\Category\Product\Plugin\MviewState" />
+    </type>
+    <type name="Magento\Catalog\Model\Indexer\Category\Product\Plugin\IndexerState">
+        <arguments>
+            <argument name="state" xsi:type="object" shared="false">Magento\Indexer\Model\Indexer\State</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Catalog\Model\Indexer\Category\Product\Plugin\MviewState">
+        <arguments>
+            <argument name="state" xsi:type="object" shared="false">Magento\Mview\View\StateInterface</argument>
+            <argument name="changelog" xsi:type="object" shared="false">Magento\Mview\View\ChangelogInterface</argument>
+        </arguments>
+    </type>
     <type name="Magento\Catalog\Helper\Product">
         <arguments>
             <argument name="typeSwitcherLabel" xsi:type="string">Virtual</argument>
@@ -24,7 +41,8 @@
     </type>
     <type name="Magento\Catalog\Model\Product">
         <arguments>
-            <argument name="catalogProductStatus" xsi:type="object">Magento\Catalog\Model\Product\Status\Proxy</argument>
+            <argument name="catalogProductStatus" xsi:type="object">Magento\Catalog\Model\Product\Attribute\Source\Status\Proxy</argument>
+            <argument name="categoryIndexer" xsi:type="object" shared="false">Magento\Indexer\Model\IndexerInterface</argument>
         </arguments>
     </type>
     <type name="Magento\Catalog\Model\Resource\Product\Collection">
@@ -99,6 +117,7 @@
     <type name="Magento\Catalog\Model\Category">
         <arguments>
             <argument name="flatIndexer" xsi:type="object" shared="false">Magento\Indexer\Model\IndexerInterface</argument>
+            <argument name="productIndexer" xsi:type="object" shared="false">Magento\Indexer\Model\IndexerInterface</argument>
         </arguments>
     </type>
     <type name="Magento\Catalog\Model\Indexer\Category\Flat\System\Config\Mode">
@@ -109,21 +128,23 @@
     <type name="Magento\Core\Model\Resource\Store">
         <plugin name="storeViewResourceAroundSave" type="Magento\Catalog\Model\Indexer\Category\Flat\Plugin\StoreView"/>
         <plugin name="catalogProductFlatIndexerStore" type="Magento\Catalog\Model\Indexer\Product\Flat\Plugin\Store" />
+        <plugin name="categoryStoreAroundSave" type="Magento\Catalog\Model\Indexer\Category\Product\Plugin\StoreView"/>
     </type>
     <type name="Magento\Core\Model\Resource\Store\Group">
         <plugin name="storeGroupResourceAroundSave" type="Magento\Catalog\Model\Indexer\Category\Flat\Plugin\StoreGroup"/>
         <plugin name="catalogProductFlatIndexerStoreGroup" type="Magento\Catalog\Model\Indexer\Product\Flat\Plugin\StoreGroup" />
+        <plugin name="categoryStoreGroupAroundSave" type="Magento\Catalog\Model\Indexer\Category\Product\Plugin\StoreGroup"/>
     </type>
-    <type name="Magento\Catalog\Model\Indexer\Category\Flat\Plugin\AbstractStore">
+    <type name="Magento\Indexer\Model\Config\Data">
+        <plugin name="indexerCategoryFlat" type="Magento\Catalog\Model\Indexer\Category\Flat\Plugin\IndexerConfigData"/>
+        <plugin name="indexerProductFlat" type="Magento\Catalog\Model\Indexer\Product\Flat\Plugin\IndexerConfigData"/>
+    </type>
+    <type name="Magento\Catalog\Model\Indexer\Category\Flat">
         <arguments>
             <argument name="indexer" xsi:type="object" shared="false">Magento\Indexer\Model\IndexerInterface</argument>
         </arguments>
     </type>
-    <type name="Magento\Indexer\Model\Config\Data">
-        <plugin name="indexerConfigGet" type="Magento\Catalog\Model\Indexer\Category\Flat\Plugin\IndexerConfigData"/>
-        <plugin name="indexerConfigGet" type="Magento\Catalog\Model\Indexer\Product\Flat\Plugin\IndexerConfigData"/>
-    </type>
-    <type name="Magento\Catalog\Model\Indexer\Category\Flat">
+    <type name="Magento\Catalog\Model\Indexer\Category\Product\Plugin\StoreGroup">
         <arguments>
             <argument name="indexer" xsi:type="object" shared="false">Magento\Indexer\Model\IndexerInterface</argument>
         </arguments>
@@ -141,6 +162,16 @@
             <argument name="flatAttributeGroups" xsi:type="array">
                 <item name="catalog_product" xsi:type="string">catalog_product</item>
             </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Catalog\Model\Indexer\Category\Product">
+        <arguments>
+            <argument name="indexer" xsi:type="object" shared="false">Magento\Indexer\Model\IndexerInterface</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Catalog\Model\Indexer\Product\Category">
+        <arguments>
+            <argument name="indexer" xsi:type="object" shared="false">Magento\Indexer\Model\IndexerInterface</argument>
         </arguments>
     </type>
     <type name="Magento\Catalog\Model\Product\LinkTypeProvider">
@@ -165,6 +196,11 @@
             <argument name="propertyMappers" xsi:type="array">
                 <item name="catalog" xsi:type="string">Magento\Catalog\Model\Resource\Setup\PropertyMapper</item>
             </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Catalog\Model\Product\Action">
+        <arguments>
+            <argument name="categoryIndexer" xsi:type="object" shared="false">Magento\Indexer\Model\IndexerInterface</argument>
         </arguments>
     </type>
 </config>
