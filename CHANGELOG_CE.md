@@ -18,7 +18,7 @@
   * Finalized the work on resolving dependencies between the Multishipping module, and all other modules. Module can be removed without any impact on the system
 * Customer Service usage:
  * Updated Customer Group Grid to use Customer Service for data retrieving and filtering
- * Updated CustomerMetadataService::getAttributeMetadata to throw an exception if invalid code provided
+ * Updated CustomerMetadataService::getAttributeMetadata to throw an exception if invalid code is provided
 * Unified the format of specifying arguments for class constructors in DI and in Layout configuration:
   * A common xsd schema is being used for defining simple types. Layout and DI customize common types with their specific ones
   * Argument processing is unified, and moved to library
