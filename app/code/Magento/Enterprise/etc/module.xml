@@ -32,7 +32,6 @@
             <module name="Magento_GiftRegistry"/>
             <module name="Magento_GiftWrapping"/>
             <module name="Magento_ScheduledImportExport"/>
-            <module name="Magento_FullPageCache"/>
             <module name="Magento_PricePermissions"/>
             <module name="Magento_PromotionPermissions"/>
             <module name="Magento_SalesArchive"/>

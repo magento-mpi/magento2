@@ -36,7 +36,6 @@
         <word>CustomerSegment</word>
         <word>CustomerBalance</word>
         <word>Enterprise</word>
-        <word>FullPageCache</word>
         <!-- GiftCard and GiftCardAccount modules -->
         <word>GiftCard</word>
         <word>GiftRegistry</word>
@@ -188,7 +187,6 @@
             <word>CustomerSegment</word>
             <word>CustomerBalance</word>
             <word>Enterprise</word>
-            <word>FullPageCache</word>
             <!-- GiftCard and GiftCardAccount modules -->
             <word>GiftCard</word>
             <word>GiftRegistry</word>

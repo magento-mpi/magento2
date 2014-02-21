@@ -8,29 +8,6 @@
  */
 -->
 <config>
-    <preference for="Magento\FullPageCache\Model\Processor\RestrictionInterface" type="Magento\FullPageCache\Model\Processor\Restriction" />
-    <preference for="Magento\FullPageCache\Model\Placeholder\ConfigInterface" type="Magento\FullPageCache\Model\Placeholder\Config" />
-    <type name="Magento\FullPageCache\Model\Request\Identifier">
-        <param name="scopeCode">
-            <value type="argument">Magento\Core\Model\App::PARAM_RUN_CODE</value>
-        </param>
-    </type>
-    <type name="Magento\FullPageCache\Model\Processor">
-        <param name="storeManager">
-            <instance type="Magento\Core\Model\StoreManager\Proxy" />
-        </param>
-        <param name="metadata">
-            <instance type="Magento\FullPageCache\Model\Metadata\Proxy" />
-        </param>
-        <param name="requestIdentifier">
-            <instance type="Magento\FullPageCache\Model\Request\Identifier\Proxy" />
-        </param>
-    </type>
-    <type name="Magento\FullPageCache\Model\DesignPackage\Rules">
-        <param name="designChange">
-            <instance type="Magento\Core\Model\Design\Proxy" />
-        </param>
-    </type>
     <type name="Magento\App\Cache\Frontend\Pool">
         <param name="frontendSettings">
             <array>
