@@ -1563,4 +1563,5 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
             unset($this->_itemsById[$this->_items[$key]->getId()]);
         }
         return parent::removeItemByKey($key);
-    }}
+    }
+}
