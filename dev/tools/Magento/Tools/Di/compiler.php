@@ -140,7 +140,7 @@ try {
     }
 
     //2.1.2 Compile definitions for Proxy/Interceptor classes
-    $directoryCompiler->compile($generationDir);
+    $directoryCompiler->compile($generationDir, false);
 
     list($definitions, $relations) = $directoryCompiler->getResult();
 
