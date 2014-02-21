@@ -1268,5 +1268,20 @@ return array(
     array('addPriceBlockType', 'Magento\Rss\Block\Catalog\AbstractCatalog'),
     array('getAttributeDisabledTypes', 'Magento\Catalog\Helper\Data'),
     array('cleanAction', 'Magento\PageCache\Controller\Adminhtml\PageCache'),
-    array('_isAllowed', 'Magento\PageCache\Controller\Adminhtml\PageCache')
+    array('_isAllowed', 'Magento\PageCache\Controller\Adminhtml\PageCache'),
+    [
+        '_downloadFileAction',
+        'Magento\Sales\Controller\Download',
+        '\Magento\Sales\Model\Download::downloadFile'
+    ],
+    [
+        '_processDatabaseFile',
+        'Magento\Sales\Controller\Download',
+        '\Magento\Sales\Model\Download::_processDatabaseFile'
+    ],
+    [
+        'downloadProfileCustomOptionAction',
+        'Magento\Sales\Controller\Download',
+        '\Magento\RecurringProfile\Controller\Download::downloadProfileCustomOptionAction'
+    ],
 );
