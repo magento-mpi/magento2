@@ -126,10 +126,10 @@ class Agreement extends \Magento\Paypal\Model\Payment\Method\Billing\AbstractAgr
     /**
      * Init billing agreement
      *
-     * @param \Magento\Payment\Model\Billing\AbstractAgreement $agreement
+     * @param \Magento\Paypal\Model\Billing\AbstractAgreement $agreement
      * @return \Magento\Paypal\Model\Method\Agreement
      */
-    public function initBillingAgreementToken(\Magento\Payment\Model\Billing\AbstractAgreement $agreement)
+    public function initBillingAgreementToken(\Magento\Paypal\Model\Billing\AbstractAgreement $agreement)
     {
         $api = $this->_pro->getApi()
             ->setReturnUrl($agreement->getReturnUrl())

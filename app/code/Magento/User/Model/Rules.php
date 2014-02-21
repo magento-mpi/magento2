@@ -28,8 +28,8 @@ class Rules extends \Magento\Core\Model\AbstractModel
     /**
      * Class constructor
      *
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param Resource\Rules $resource
      * @param Resource\Permissions\Collection $resourceCollection
      * @param array $data

@@ -8,14 +8,8 @@
 namespace Magento\Option;
 
 /**
- * Option array interface
+ * @todo Remove in favor of the ancestor interface
  */
-interface ArrayInterface
+interface ArrayInterface extends \Magento\Data\OptionSourceInterface
 {
-    /**
-     * Return option array
-     *
-     * @return array
-     */
-    public function toOptionArray();
 }
