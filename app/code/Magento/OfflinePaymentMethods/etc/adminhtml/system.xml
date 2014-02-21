@@ -3,8 +3,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Payment
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,7 +14,7 @@
             <tab>sales</tab>
             <resource>Magento_OfflinePaymentMethods::payment</resource>
             <group id="ccsave" translate="label" type="text" sortOrder="27" showInDefault="1" showInWebsite="1" showInStore="1">
-                <label>Saved CC++</label>
+                <label>Saved CC</label>
                 <field id="active" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Enabled</label>
                     <comment>Enabling this method will store credit card information in the database, which may increase your security or compliance requirements.</comment>
