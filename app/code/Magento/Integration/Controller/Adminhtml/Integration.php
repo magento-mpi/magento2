@@ -87,6 +87,8 @@ class Integration extends Action
 
     /**
      * Integrations grid.
+     *
+     * @return void
      */
     public function indexAction()
     {
@@ -99,6 +101,8 @@ class Integration extends Action
 
     /**
      * AJAX integrations grid.
+     *
+     * @return void
      */
     public function gridAction()
     {
@@ -118,6 +122,8 @@ class Integration extends Action
 
     /**
      * New integration action.
+     *
+     * @return void
      */
     public function newAction()
     {
@@ -136,6 +142,8 @@ class Integration extends Action
 
     /**
      * Edit integration action.
+     *
+     * @return void
      */
     public function editAction()
     {
@@ -183,7 +191,8 @@ class Integration extends Action
     /**
      * Save integration action.
      *
-     * TODO: Fix cyclomatic complexity.
+     * @return void
+     * @todo: Fix cyclomatic complexity.
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function saveAction()
@@ -255,6 +264,8 @@ class Integration extends Action
 
     /**
      * Show permissions popup.
+     *
+     * @return void
      */
     public function permissionsDialogAction()
     {
@@ -294,6 +305,8 @@ class Integration extends Action
 
     /**
      * Delete the integration.
+     *
+     * @return void
      */
     public function deleteAction()
     {
@@ -337,6 +350,8 @@ class Integration extends Action
 
     /**
      * Show tokens popup for simple tokens
+     *
+     * @return void
      */
     public function tokensDialogAction()
     {
@@ -370,6 +385,8 @@ class Integration extends Action
 
     /**
      * Post consumer credentials for Oauth integration.
+     *
+     * @return void
      */
     public function tokensExchangeAction()
     {
@@ -411,6 +428,8 @@ class Integration extends Action
 
     /**
      * Close window after callback has succeeded
+     *
+     * @return void
      */
     public function loginSuccessCallbackAction()
     {
@@ -419,6 +438,8 @@ class Integration extends Action
 
     /**
      * Redirect merchant to 'Edit integration' or 'New integration' if error happened during integration save.
+     *
+     * @return void
      */
     protected function _redirectOnSaveError()
     {
@@ -454,6 +475,7 @@ class Integration extends Action
      *
      * @param boolean $isReauthorize Is a re-authorization flow
      * @param string $integrationName Integration name
+     * @return void
      */
     protected function _setActivationSuccessMsg($isReauthorize, $integrationName)
     {
@@ -467,6 +489,7 @@ class Integration extends Action
      *
      * @param bool   $isReauthorize
      * @param string $integrationName
+     * @return void
      */
     protected function _setActivationFailedMsg($isReauthorize, $integrationName)
     {
@@ -480,6 +503,7 @@ class Integration extends Action
      *
      * @param bool   $isReauthorize
      * @param string $integrationName
+     * @return void
      */
     protected function _setActivationInProcessMsg($isReauthorize, $integrationName)
     {

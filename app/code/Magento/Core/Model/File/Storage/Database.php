@@ -32,7 +32,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
     /**
      * Collect errors during sync process
      *
-     * @var array
+     * @var string[]
      */
     protected $_errors = array();
 
@@ -105,7 +105,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
     /**
      * Create tables for file and directory storages
      *
-     * @return \Magento\Core\Model\File\Storage\Database
+     * @return $this
      */
     public function init()
     {
@@ -129,7 +129,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
      * Load object data by filename
      *
      * @param  string $filePath
-     * @return \Magento\Core\Model\File\Storage\Database
+     * @return $this
      */
     public function loadByFilename($filePath)
     {
@@ -152,7 +152,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
     /**
      * Clear files and directories in storage
      *
-     * @return \Magento\Core\Model\File\Storage\Database
+     * @return $this
      */
     public function clear()
     {
@@ -168,7 +168,8 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
      * @param  int $count
      * @return bool|array
      */
-    public function exportDirectories($offset = 0, $count = 100) {
+    public function exportDirectories($offset = 0, $count = 100)
+    {
         return $this->getDirectoryModel()->exportDirectories($offset, $count);
     }
 
@@ -178,7 +179,8 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
      * @param  array $dirs
      * @return \Magento\Core\Model\File\Storage\Directory\Database
      */
-    public function importDirectories($dirs) {
+    public function importDirectories($dirs)
+    {
         return $this->getDirectoryModel()->importDirectories($dirs);
     }
 
@@ -206,7 +208,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
      * Import files list
      *
      * @param  array $files
-     * @return \Magento\Core\Model\File\Storage\Database
+     * @return $this
      */
     public function importFiles($files)
     {
@@ -241,7 +243,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
      * Store file into database
      *
      * @param  string $filename
-     * @return \Magento\Core\Model\File\Storage\Database
+     * @return $this
      */
     public function saveFile($filename)
     {
@@ -276,7 +278,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
      *
      * @param  string $oldFilePath
      * @param  string $newFilePath
-     * @return \Magento\Core\Model\File\Storage\Database
+     * @return $this
      */
     public function copyFile($oldFilePath, $newFilePath)
     {
@@ -295,7 +297,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
      *
      * @param  string $oldFilePath
      * @param  string $newFilePath
-     * @return \Magento\Core\Model\File\Storage\Database
+     * @return $this
      */
     public function renameFile($oldFilePath, $newFilePath)
     {
@@ -325,7 +327,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
      * Return directory listing
      *
      * @param string $directory
-     * @return mixed
+     * @return array
      */
     public function getDirectoryFiles($directory)
     {
@@ -337,7 +339,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
      * Delete file from database
      *
      * @param string $path
-     * @return \Magento\Core\Model\File\Storage\Database
+     * @return $this
      */
     public function deleteFile($path)
     {

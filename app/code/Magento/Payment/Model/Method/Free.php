@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Payment\Model\Method;
 
 /**
  * Free payment method
  */
-namespace Magento\Payment\Model\Method;
-
 class Free extends \Magento\Payment\Model\Method\AbstractMethod
 {
     /**
@@ -24,6 +23,7 @@ class Free extends \Magento\Payment\Model\Method\AbstractMethod
 
     /**
      * Payment Method features
+     *
      * @var bool
      */
     protected $_canAuthorize = true;

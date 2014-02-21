@@ -67,7 +67,7 @@ class Wishlist
     /**
      * Prepare Grid columns
      *
-     * @return \Magento\MultipleWishlist\Block\Adminhtml\Manage\Accordion\Wishlist
+     * @return $this
      */
     protected function _prepareColumns()
     {

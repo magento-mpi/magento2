@@ -77,7 +77,7 @@ abstract class AbstractSource
     }
 
     /**
-     * @param $value string
+     * @param string $value
      * @return null|string
      */
     public function getOptionId($value)

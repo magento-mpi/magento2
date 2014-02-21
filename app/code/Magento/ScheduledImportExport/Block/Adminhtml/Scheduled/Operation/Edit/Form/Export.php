@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit\Form;
 
 // @codingStandardsIgnoreStart
 /**
@@ -21,8 +22,6 @@
  * @method \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit\Form\Export setEmailSettingsLabel() setEmailSettingsLabel(string $value)
  */
 // @codingStandardsIgnoreEnd
-namespace Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit\Form;
-
 class Export
     extends \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit\Form
 {
@@ -83,7 +82,7 @@ class Export
     /**
      * Prepare form for export operation
      *
-     * @return \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit\Form\Export
+     * @return $this
      */
     protected function _prepareForm()
     {

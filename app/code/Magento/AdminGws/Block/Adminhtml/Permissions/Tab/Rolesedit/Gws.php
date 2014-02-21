@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\AdminGws\Block\Adminhtml\Permissions\Tab\Rolesedit;
 
 /**
  * Websites fieldset for admin roles edit tab
  */
-namespace Magento\AdminGws\Block\Adminhtml\Permissions\Tab\Rolesedit;
-
 class Gws extends \Magento\Backend\Block\Template
 {
     /**

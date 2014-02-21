@@ -58,7 +58,7 @@ class Active extends \Magento\Core\Model\Config\Value
     /**
      * Cleanup blocks HTML cache if value has been changed
      *
-     * @return \Magento\WebsiteRestriction\Model\System\Config\Backend\Active
+     * @return $this
      */
     protected function _afterSave()
     {

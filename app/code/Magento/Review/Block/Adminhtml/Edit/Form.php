@@ -23,16 +23,22 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_reviewData = null;
 
     /**
+     * Customer model factory
+     *
      * @var \Magento\Customer\Model\CustomerFactory
      */
     protected $_customerFactory;
 
     /**
+     * Catalog product factory
+     *
      * @var \Magento\Catalog\Model\ProductFactory
      */
     protected $_productFactory;
 
     /**
+     * Core system store model
+     *
      * @var \Magento\Core\Model\System\Store
      */
     protected $_systemStore;
@@ -65,6 +71,8 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     }
 
     /**
+     * Prepare edit review form
+     *
      * @return $this
      */
     protected function _prepareForm()

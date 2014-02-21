@@ -138,7 +138,7 @@ class CatalogProductItem
     /**
      * Saves informational cache, containing parameters used to show lists.
      *
-     * @return \Magento\FullPageCache\Model\Container\CatalogProductItem
+     * @return $this
      */
     protected function _saveInfoCache()
     {
@@ -195,8 +195,8 @@ class CatalogProductItem
      * Set shared info param
      *
      * @param string $key
-     * @param mixed $value
-     * @return \Magento\FullPageCache\Model\Container\CatalogProductItem
+     * @param bool|array $value
+     * @return $this
      */
     protected function _setSharedParam($key, $value)
     {
@@ -299,7 +299,7 @@ class CatalogProductItem
     /**
      * Generate and apply container content in controller after application is initialized
      *
-     * @param string $content
+     * @param string &$content
      * @return bool
      */
     public function applyInApp(&$content)
@@ -312,7 +312,7 @@ class CatalogProductItem
     /**
      * Check if could be applied without application
      *
-     * @param string $content
+     * @param string &$content
      * @return bool
      */
     public function applyWithoutApp(&$content)

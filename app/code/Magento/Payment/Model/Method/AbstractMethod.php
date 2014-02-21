@@ -5,12 +5,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Payment\Model\Method;
+use Magento\Sales\Model\Order\Invoice;
+use Magento\Sales\Model\Order\Payment;
 
 /**
  * Payment method abstract model
  */
-namespace Magento\Payment\Model\Method;
-
 abstract class AbstractMethod extends \Magento\Object
 {
     const ACTION_ORDER             = 'order';
@@ -51,27 +52,103 @@ abstract class AbstractMethod extends \Magento\Object
      */
     protected $_infoBlockType = 'Magento\Payment\Block\Info';
 
-    /**#@+
-     * Payment Method features
+    /**
+     * Payment Method feature
      *
      * @var bool
      */
     protected $_isGateway                   = false;
+
+    /**
+     * Payment Method feature
+     *
+     * @var bool
+     */
     protected $_canOrder                    = false;
+
+    /**
+     * Payment Method feature
+     *
+     * @var bool
+     */
     protected $_canAuthorize                = false;
+
+    /**
+     * Payment Method feature
+     *
+     * @var bool
+     */
     protected $_canCapture                  = false;
+
+    /**
+     * Payment Method feature
+     *
+     * @var bool
+     */
     protected $_canCapturePartial           = false;
+
+    /**
+     * Payment Method feature
+     *
+     * @var bool
+     */
     protected $_canRefund                   = false;
+
+    /**
+     * Payment Method feature
+     *
+     * @var bool
+     */
     protected $_canRefundInvoicePartial     = false;
+
+    /**
+     * Payment Method feature
+     *
+     * @var bool
+     */
     protected $_canVoid                     = false;
+
+    /**
+     * Payment Method feature
+     *
+     * @var bool
+     */
     protected $_canUseInternal              = true;
+
+    /**
+     * Payment Method feature
+     *
+     * @var bool
+     */
     protected $_canUseCheckout              = true;
+
+    /**
+     * Payment Method feature
+     *
+     * @var bool
+     */
     protected $_isInitializeNeeded          = false;
+
+    /**
+     * Payment Method feature
+     *
+     * @var bool
+     */
     protected $_canFetchTransactionInfo     = false;
+
+    /**
+     * Payment Method feature
+     *
+     * @var bool
+     */
     protected $_canReviewPayment            = false;
-    protected $_canCreateBillingAgreement   = false;
+
+    /**
+     * Payment Method feature
+     *
+     * @var bool
+     */
     protected $_canManageRecurringProfiles  = true;
-    /**#@-*/
 
     /**
      * TODO: whether a captured transaction may be voided by this gateway
@@ -251,16 +328,6 @@ abstract class AbstractMethod extends \Magento\Object
     }
 
     /**
-     * Check whether payment method instance can create billing agreements
-     *
-     * @return bool
-     */
-    public function canCreateBillingAgreement()
-    {
-        return $this->_canCreateBillingAgreement;
-    }
-
-    /**
      * Fetch transaction info
      *
      * @param \Magento\Payment\Model\Info $payment
@@ -283,7 +350,7 @@ abstract class AbstractMethod extends \Magento\Object
     }
 
     /**
-     * flag if we need to run payment initialize while order place
+     * Flag if we need to run payment initialize while order place
      *
      * @return bool
      */
@@ -317,21 +384,11 @@ abstract class AbstractMethod extends \Magento\Object
      * Check method for processing with base currency
      *
      * @param string $currencyCode
-     * @return boolean
+     * @return bool
      */
     public function canUseForCurrency($currencyCode)
     {
         return true;
-    }
-
-    /**
-     * Check manage billing agreements availability
-     *
-     * @return bool
-     */
-    public function canManageBillingAgreements()
-    {
-        return ($this instanceof \Magento\Payment\Model\Billing\Agreement\MethodInterface);
     }
 
     /**
@@ -397,7 +454,7 @@ abstract class AbstractMethod extends \Magento\Object
     /**
      * Validate payment method information object
      *
-     * @return \Magento\Payment\Model\Method\AbstractMethod
+     * @return $this
      * @throws \Magento\Core\Exception
      */
     public function validate()
@@ -406,7 +463,7 @@ abstract class AbstractMethod extends \Magento\Object
           * to validate payment method is allowed for billing country or not
           */
          $paymentInfo = $this->getInfoInstance();
-         if ($paymentInfo instanceof \Magento\Sales\Model\Order\Payment) {
+         if ($paymentInfo instanceof Payment) {
              $billingCountry = $paymentInfo->getOrder()->getBillingAddress()->getCountryId();
          } else {
              $billingCountry = $paymentInfo->getQuote()->getBillingAddress()->getCountryId();
@@ -425,7 +482,7 @@ abstract class AbstractMethod extends \Magento\Object
      * @param \Magento\Object $payment
      * @param float $amount
      *
-     * @return \Magento\Payment\Model\Method\AbstractMethod
+     * @return $this
      * @throws \Magento\Core\Exception
      */
     public function order(\Magento\Object $payment, $amount)
@@ -442,7 +499,7 @@ abstract class AbstractMethod extends \Magento\Object
      * @param \Magento\Object $payment
      * @param float $amount
      *
-     * @return \Magento\Payment\Model\Method\AbstractMethod
+     * @return $this
      * @throws \Magento\Core\Exception
      */
     public function authorize(\Magento\Object $payment, $amount)
@@ -459,7 +516,7 @@ abstract class AbstractMethod extends \Magento\Object
      * @param \Magento\Object $payment
      * @param float $amount
      *
-     * @return \Magento\Payment\Model\Method\AbstractMethod
+     * @return $this
      * @throws \Magento\Core\Exception
      */
     public function capture(\Magento\Object $payment, $amount)
@@ -476,9 +533,9 @@ abstract class AbstractMethod extends \Magento\Object
      *
      * Candidate to be deprecated
      *
-     * @param \Magento\Sales\Model\Order\Invoice $invoice
-     * @param \Magento\Sales\Model\Order\Payment $payment
-     * @return \Magento\Payment\Model\Method\AbstractMethod
+     * @param Invoice $invoice
+     * @param Payment $payment
+     * @return $this
      */
     public function processInvoice($invoice, $payment)
     {
@@ -491,9 +548,9 @@ abstract class AbstractMethod extends \Magento\Object
      * Candidate to be deprecated:
      * there can be multiple refunds per payment, thus payment.refund_transaction_id doesn't make big sense
      *
-     * @param \Magento\Sales\Model\Order\Invoice $invoice
-     * @param \Magento\Sales\Model\Order\Payment $payment
-     * @return \Magento\Payment\Model\Method\AbstractMethod
+     * @param Invoice $invoice
+     * @param Payment $payment
+     * @return $this
      */
     public function processBeforeRefund($invoice, $payment)
     {
@@ -506,8 +563,7 @@ abstract class AbstractMethod extends \Magento\Object
      *
      * @param \Magento\Object $payment
      * @param float $amount
-     *
-     * @return \Magento\Payment\Model\Method\AbstractMethod
+     * @return $this
      * @throws \Magento\Core\Exception
      */
     public function refund(\Magento\Object $payment, $amount)
@@ -521,8 +577,8 @@ abstract class AbstractMethod extends \Magento\Object
     /**
      * Set transaction ID into creditmemo for informational purposes
      * @param \Magento\Sales\Model\Order\Creditmemo $creditmemo
-     * @param \Magento\Sales\Model\Order\Payment $payment
-     * @return \Magento\Payment\Model\Method\AbstractMethod
+     * @param Payment $payment
+     * @return $this
      */
     public function processCreditmemo($creditmemo, $payment)
     {
@@ -535,7 +591,7 @@ abstract class AbstractMethod extends \Magento\Object
      *
      * @param \Magento\Object $payment
      *
-     * @return \Magento\Payment\Model\Method\AbstractMethod
+     * @return $this
      */
     public function cancel(\Magento\Object $payment)
     {
@@ -546,8 +602,7 @@ abstract class AbstractMethod extends \Magento\Object
      * Void payment abstract method
      *
      * @param \Magento\Object $payment
-     *
-     * @return \Magento\Payment\Model\Method\AbstractMethod
+     * @return $this
      * @throws \Magento\Core\Exception
      */
     public function void(\Magento\Object $payment)
@@ -562,7 +617,6 @@ abstract class AbstractMethod extends \Magento\Object
      * Whether this method can accept or deny payment
      *
      * @param \Magento\Payment\Model\Info $payment
-     *
      * @return bool
      */
     public function canReviewPayment(\Magento\Payment\Model\Info $payment)
@@ -574,7 +628,7 @@ abstract class AbstractMethod extends \Magento\Object
      * Attempt to accept a payment that us under review
      *
      * @param \Magento\Payment\Model\Info $payment
-     * @return bool
+     * @return false
      * @throws \Magento\Core\Exception
      */
     public function acceptPayment(\Magento\Payment\Model\Info $payment)
@@ -589,7 +643,7 @@ abstract class AbstractMethod extends \Magento\Object
      * Attempt to deny a payment that us under review
      *
      * @param \Magento\Payment\Model\Info $payment
-     * @return bool
+     * @return false
      * @throws \Magento\Core\Exception
      */
     public function denyPayment(\Magento\Payment\Model\Info $payment)
@@ -630,15 +684,14 @@ abstract class AbstractMethod extends \Magento\Object
     /**
      * Assign data to info model instance
      *
-     * @param   mixed $data
-     * @return  \Magento\Payment\Model\Info
+     * @param array|\Magento\Object $data
+     * @return $this
      */
     public function assignData($data)
     {
         if (is_array($data)) {
             $this->getInfoInstance()->addData($data);
-        }
-        elseif ($data instanceof \Magento\Object) {
+        } elseif ($data instanceof \Magento\Object) {
             $this->getInfoInstance()->addData($data->getData());
         }
         return $this;
@@ -647,7 +700,7 @@ abstract class AbstractMethod extends \Magento\Object
     /**
      * Prepare info instance for save
      *
-     * @return \Magento\Payment\Model\Method\AbstractMethod
+     * @return $this
      */
     public function prepareSave()
     {
@@ -741,7 +794,7 @@ abstract class AbstractMethod extends \Magento\Object
      * @param string $paymentAction
      * @param object $stateObject
      *
-     * @return \Magento\Payment\Model\Method\AbstractMethod
+     * @return $this
      */
     public function initialize($paymentAction, $stateObject)
     {
@@ -763,6 +816,7 @@ abstract class AbstractMethod extends \Magento\Object
      * Log debug data to file
      *
      * @param mixed $debugData
+     * @return void
      */
     protected function _debug($debugData)
     {
@@ -788,6 +842,7 @@ abstract class AbstractMethod extends \Magento\Object
      * Used to call debug method from not Payment Method context
      *
      * @param mixed $debugData
+     * @return void
      */
     public function debugData($debugData)
     {

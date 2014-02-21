@@ -13,6 +13,9 @@ namespace Magento\Backend\Model\Config\Source\Date;
 
 class Short implements \Magento\Option\ArrayInterface
 {
+    /**
+     * @return array
+     */
     public function toOptionArray()
     {
         $arr = array();

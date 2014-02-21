@@ -56,7 +56,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Prepare form before rendering HTML
      *
-     * @return \Magento\Newsletter\Block\Adminhtml\Template\Edit\Form
+     * @return $this
      */
     protected function _prepareForm()
     {

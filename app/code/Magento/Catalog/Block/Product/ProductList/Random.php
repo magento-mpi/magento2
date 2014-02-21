@@ -92,6 +92,9 @@ class Random extends \Magento\Catalog\Block\Product\ListProduct
         );
     }
 
+    /**
+     * @return \Magento\Catalog\Model\Resource\Product\Collection
+     */
     protected function _getProductCollection()
     {
         if (is_null($this->_productCollection)) {

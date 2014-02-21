@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\TargetRule\Block\Adminhtml;
 
 class Product extends \Magento\Backend\Block\Widget
@@ -27,7 +26,6 @@ class Product extends \Magento\Backend\Block\Widget
     protected $_targetRuleData = null;
 
     /**
-     * @param \Magento\TargetRule\Helper\Data $targetRuleData
      * Core registry
      *
      * @var \Magento\Registry
@@ -62,7 +60,7 @@ class Product extends \Magento\Backend\Block\Widget
     /**
      * Retrieve Product List Type by current Form Prefix
      *
-     * @return int
+     * @return string|int
      */
     protected function _getProductListType()
     {
@@ -129,7 +127,7 @@ class Product extends \Magento\Backend\Block\Widget
     /**
      * Get value from Product model
      *
-     * @param string $var
+     * @param string $field
      * @return mixed
      */
     protected function _getValue($field)

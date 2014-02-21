@@ -40,21 +40,30 @@ class Grid
     protected $_rmaData;
 
     /**
-     * Core registry
+     * Registry
      *
      * @var \Magento\Registry
      */
-    protected $_coreRegistry;
+    protected $registry;
 
     /**
+     * Rma item factory
+     *
      * @var \Magento\Rma\Model\Resource\ItemFactory
      */
     protected $_itemFactory;
 
     /**
+     * Catalog product model
+     *
      * @var \Magento\Catalog\Model\ProductFactory
      */
     protected $_productFactory;
+
+    /**
+     * @var \Magento\Sales\Model\Order\Admin\Item
+     */
+    protected $adminOrderItem;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
@@ -62,7 +71,8 @@ class Grid
      * @param \Magento\Rma\Model\Resource\ItemFactory $itemFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Rma\Helper\Data $rmaData
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Registry $registry
+     * @param \Magento\Sales\Model\Order\Admin\Item $adminOrderItem
      * @param array $data
      */
     public function __construct(
@@ -71,18 +81,22 @@ class Grid
         \Magento\Rma\Model\Resource\ItemFactory $itemFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Rma\Helper\Data $rmaData,
-        \Magento\Registry $coreRegistry,
+        \Magento\Registry $registry,
+        \Magento\Sales\Model\Order\Admin\Item $adminOrderItem,
         array $data = array()
     ) {
         $this->_itemFactory = $itemFactory;
         $this->_productFactory = $productFactory;
         $this->_rmaData = $rmaData;
-        $this->_coreRegistry = $coreRegistry;
+        $this->registry = $registry;
+        $this->adminOrderItem = $adminOrderItem;
         parent::__construct($context, $backendHelper, $data);
     }
 
     /**
      * Block constructor
+     *
+     * @return void
      */
     public function _construct()
     {
@@ -100,7 +114,7 @@ class Grid
      */
     protected function _prepareCollection()
     {
-        $orderId = $this->_coreRegistry->registry('current_order')->getId();
+        $orderId = $this->registry->registry('current_order')->getId();
         /** @var $resourceItem \Magento\Rma\Model\Resource\Item */
         $resourceItem = $this->_itemFactory->create();
         $orderItemsCollection = $resourceItem->getOrderItemsCollection($orderId);
@@ -111,14 +125,13 @@ class Grid
     /**
      * After load collection processing.
      *
-     * Filter items collection due to RMA needs. Remove forbidden items, non-applicable
-     * bundles (and their children) and configurables
+     * Filter items collection due to RMA needs. Remove forbidden items
      *
      * @return $this
      */
     protected function _afterLoadCollection()
     {
-        $orderId = $this->_coreRegistry->registry('current_order')->getId();
+        $orderId = $this->registry->registry('current_order')->getId();
         /** @var $resourceItem \Magento\Rma\Model\Resource\Item */
         $resourceItem = $this->_itemFactory->create();
         $itemsInActiveRmaArray = $resourceItem->getItemsIdsByOrder($orderId);
@@ -145,7 +158,7 @@ class Grid
             if ($allowed === true) {
                 $product->reset();
                 $product->setStoreId($item->getStoreId());
-                $product->load($item->getProductId());
+                $product->load($this->adminOrderItem->getProductId($item));
 
                 if (!$this->_rmaData->canReturnProduct($product, $item->getStoreId())) {
                     $allowed = false;
@@ -177,16 +190,6 @@ class Grid
             ) {
                 $this->getCollection()->removeItemByKey($item->getId());
                 continue;
-            }
-
-            if ($item->getProductType() == \Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE) {
-                $productOptions     = $item->getProductOptions();
-                $product->reset();
-                $product->load($product->getIdBySku($productOptions['simple_sku']));
-                if (!$this->_rmaData->canReturnProduct($product, $item->getStoreId())) {
-                    $this->getCollection()->removeItemByKey($item->getId());
-                    continue;
-                }
             }
 
             $item->setName($this->_rmaData->getAdminProductName($item));

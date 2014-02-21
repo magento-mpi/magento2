@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Cms\Block\Adminhtml\Page\Edit\Tab;
 
 /**
  * Cms page edit form main tab
  */
-namespace Magento\Cms\Block\Adminhtml\Page\Edit\Tab;
-
 class Main
     extends \Magento\Backend\Block\Widget\Form\Generic
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
@@ -40,6 +39,11 @@ class Main
         parent::__construct($context, $registry, $formFactory, $data);
     }
 
+    /**
+     * Prepare form
+     *
+     * @return $this
+     */
     protected function _prepareForm()
     {
         /* @var $model \Magento\Cms\Model\Page */
@@ -150,9 +154,7 @@ class Main
     }
 
     /**
-     * Returns status flag about this tab can be shown or not
-     *
-     * @return true
+     * {@inheritdoc}
      */
     public function canShowTab()
     {
@@ -160,9 +162,7 @@ class Main
     }
 
     /**
-     * Returns status flag about this tab hidden or not
-     *
-     * @return true
+     * {@inheritdoc}
      */
     public function isHidden()
     {

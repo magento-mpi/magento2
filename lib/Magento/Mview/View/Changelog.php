@@ -35,11 +35,17 @@ class Changelog implements ChangelogInterface
     protected $viewId;
 
     /**
+     * @var \Magento\App\Resource
+     */
+    protected $resource;
+
+    /**
      * @param \Magento\App\Resource $resource
      */
     public function __construct(\Magento\App\Resource $resource)
     {
         $this->write = $resource->getConnection('core_write');
+        $this->resource = $resource;
         $this->checkConnection();
     }
 
@@ -62,7 +68,7 @@ class Changelog implements ChangelogInterface
      */
     public function create()
     {
-        $changelogTableName = $this->write->getTableName($this->getName());
+        $changelogTableName = $this->resource->getTableName($this->getName());
         if ($this->write->isTableExists($changelogTableName)) {
             throw new \Exception("Table {$changelogTableName} already exist");
         }
@@ -90,7 +96,7 @@ class Changelog implements ChangelogInterface
      */
     public function drop()
     {
-        $changelogTableName = $this->write->getTableName($this->getName());
+        $changelogTableName = $this->resource->getTableName($this->getName());
         if (!$this->write->isTableExists($changelogTableName)) {
             throw new \Exception("Table {$changelogTableName} does not exist");
         }
@@ -107,7 +113,7 @@ class Changelog implements ChangelogInterface
      */
     public function clear($versionId)
     {
-        $changelogTableName = $this->write->getTableName($this->getName());
+        $changelogTableName = $this->resource->getTableName($this->getName());
         if (!$this->write->isTableExists($changelogTableName)) {
             throw new \Exception("Table {$changelogTableName} does not exist");
         }
@@ -127,7 +133,7 @@ class Changelog implements ChangelogInterface
      */
     public function getList($fromVersionId, $toVersionId)
     {
-        $changelogTableName = $this->write->getTableName($this->getName());
+        $changelogTableName = $this->resource->getTableName($this->getName());
         if (!$this->write->isTableExists($changelogTableName)) {
             throw new \Exception("Table {$changelogTableName} does not exist");
         }
@@ -149,15 +155,16 @@ class Changelog implements ChangelogInterface
      */
     public function getVersion()
     {
-        $changelogTableName = $this->write->getTableName($this->getName());
+        $changelogTableName = $this->resource->getTableName($this->getName());
         if (!$this->write->isTableExists($changelogTableName)) {
             throw new \Exception("Table {$changelogTableName} does not exist");
         }
-
-        $select = $this->write->select()
-            ->from($changelogTableName, new \Zend_Db_Expr('MAX(`version_id`)'));
-
-        return (int)$this->write->fetchOne($select);
+        $row = $this->write->fetchRow('SHOW TABLE STATUS LIKE ?', array($changelogTableName));
+        if (isset($row['Auto_increment'])) {
+            return (int)$row['Auto_increment'] - 1;
+        } else {
+            throw new \Exception("Table status for `{$changelogTableName}` is incorrect. Can`t fetch version id.");
+        }
     }
 
     /**
@@ -190,10 +197,12 @@ class Changelog implements ChangelogInterface
      * Set view's identifier
      *
      * @param string $viewId
+     * @return Changelog
      */
     public function setViewId($viewId)
     {
         $this->viewId = $viewId;
+        return $this;
     }
 
     /**

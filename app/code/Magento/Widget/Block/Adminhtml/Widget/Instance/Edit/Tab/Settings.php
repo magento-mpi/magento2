@@ -51,6 +51,9 @@ class Settings
         parent::__construct($context, $registry, $formFactory, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -110,7 +113,7 @@ class Settings
     /**
      * Prepare form before rendering HTML
      *
-     * @return \Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab\Settings
+     * @return $this
      */
     protected function _prepareForm()
     {

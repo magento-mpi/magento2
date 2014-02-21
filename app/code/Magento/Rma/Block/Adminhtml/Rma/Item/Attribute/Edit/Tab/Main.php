@@ -301,7 +301,7 @@ class Main
     /**
      * Can show tab in tabs
      *
-     * @return true
+     * @return bool
      */
     public function canShowTab()
     {
@@ -311,7 +311,7 @@ class Main
     /**
      * Tab is hidden
      *
-     * @return false
+     * @return bool
      */
     public function isHidden()
     {

@@ -28,7 +28,7 @@ class OptionsFactory
     /**
      * Create new action object
      *
-     * @param $type
+     * @param string $type
      * @param array $data
      * @return \Magento\Option\ArrayInterface
      */

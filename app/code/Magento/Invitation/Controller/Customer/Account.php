@@ -8,8 +8,11 @@
  * @license     {license_link}
  */
 namespace Magento\Invitation\Controller\Customer;
+
 use Magento\App\Action\NotFoundException;
 use Magento\App\RequestInterface;
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 
 /**
  * Invitation customer account frontend controller
@@ -37,11 +40,16 @@ class Account extends \Magento\Customer\Controller\Account
      * @param \Magento\UrlFactory $urlFactory
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Customer\Model\FormFactory $formFactory
-     * @param \Magento\Customer\Model\AddressFactory $addressFactory
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
+     * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Escaper $escaper
+     * @param CustomerGroupServiceInterface $customerGroupService
+     * @param CustomerAccountServiceInterface $customerAccountService
+     * @param \Magento\Customer\Service\V1\Dto\RegionBuilder $regionBuilder
+     * @param \Magento\Customer\Service\V1\Dto\AddressBuilder $addressBuilder
+     * @param \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerBuilder
      * @param \Magento\Invitation\Model\Config $config
      * @param \Magento\Invitation\Model\InvitationFactory $invitationFactory
      */
@@ -52,11 +60,16 @@ class Account extends \Magento\Customer\Controller\Account
         \Magento\UrlFactory $urlFactory,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Customer\Model\FormFactory $formFactory,
-        \Magento\Customer\Model\AddressFactory $addressFactory,
         \Magento\Stdlib\String $string,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
+        \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Escaper $escaper,
+        CustomerGroupServiceInterface $customerGroupService,
+        CustomerAccountServiceInterface $customerAccountService,
+        \Magento\Customer\Service\V1\Dto\RegionBuilder $regionBuilder,
+        \Magento\Customer\Service\V1\Dto\AddressBuilder $addressBuilder,
+        \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerBuilder,
         \Magento\Invitation\Model\Config $config,
         \Magento\Invitation\Model\InvitationFactory $invitationFactory
     ) {
@@ -67,11 +80,16 @@ class Account extends \Magento\Customer\Controller\Account
             $urlFactory,
             $customerFactory,
             $formFactory,
-            $addressFactory,
             $string,
             $formKeyValidator,
+            $subscriberFactory,
             $storeManager,
-            $escaper
+            $escaper,
+            $customerGroupService,
+            $customerAccountService,
+            $regionBuilder,
+            $addressBuilder,
+            $customerBuilder
         );
         $this->_config = $config;
         $this->_invitationFactory = $invitationFactory;
@@ -112,8 +130,8 @@ class Account extends \Magento\Customer\Controller\Account
             $invitation = $this->_invitationFactory->create();
             $invitation
                 ->loadByInvitationCode($this->_objectManager->get('Magento\Core\Helper\Data')->urlDecode(
-                    $this->getRequest()->getParam('invitation', false)
-                ))
+                        $this->getRequest()->getParam('invitation', false)
+                    ))
                 ->makeSureCanBeAccepted();
             $this->_coreRegistry->register('current_invitation', $invitation);
         }
@@ -202,7 +220,7 @@ class Account extends \Magento\Customer\Controller\Account
     /**
      * @param \Magento\Customer\Model\Customer $customer
      * @param mixed $key
-     * @return true|void
+     * @return bool|null
      * @throws \Exception
      */
     protected function _checkCustomerActive($customer, $key)

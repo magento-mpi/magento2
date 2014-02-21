@@ -13,6 +13,8 @@
  */
 namespace Magento\VersionsCms\Model;
 
+use Magento\Event\Observer as EventObserver;
+
 class Observer
 {
     /**
@@ -76,10 +78,10 @@ class Observer
     /**
      * Add Hierarchy Menu layout handle to Cms page rendering
      *
-     * @param $observer
-     * @return \Magento\VersionsCms\Model\Observer
+     * @param EventObserver $observer
+     * @return $this
      */
-    public function affectCmsPageRender(\Magento\Event\Observer $observer)
+    public function affectCmsPageRender(EventObserver $observer)
     {
         if (!is_object($this->_coreRegistry->registry('current_cms_hierarchy_node'))
             || !$this->_cmsHierarchy->isEnabled()
@@ -118,9 +120,10 @@ class Observer
     /**
      * Adds CMS hierarchy menu item to top menu
      *
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
+     * @return void
      */
-    public function addCmsToTopmenuItems(\Magento\Event\Observer $observer)
+    public function addCmsToTopmenuItems(EventObserver $observer)
     {
         /**
          * @var $topMenuRootNode \Magento\Data\Tree\Node
@@ -179,10 +182,10 @@ class Observer
     /**
      * Validate and render Cms hierarchy page
      *
-     * @param \Magento\Event\Observer $observer
-     * @return \Magento\VersionsCms\Model\Observer
+     * @param EventObserver $observer
+     * @return $this
      */
-    public function cmsControllerRouterMatchBefore(\Magento\Event\Observer $observer)
+    public function cmsControllerRouterMatchBefore(EventObserver $observer)
     {
         if (!$this->_cmsHierarchy->isEnabled()) {
             return $this;

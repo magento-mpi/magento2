@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\DesignEditor\Model\Editor\Tools\Controls;
 
 /**
@@ -148,7 +147,7 @@ class Configuration
     /**
      * Prepare list of control links
      *
-     * @param array $controls
+     * @param array &$controls
      * @return $this
      */
     protected function _prepareControlList(array &$controls)
@@ -165,7 +164,7 @@ class Configuration
     /**
      * Load data item values and default values from the view configuration
      *
-     * @param array $control
+     * @param array &$control
      * @param string $paramName
      * @param \Magento\Config\View $viewConfiguration
      * @return $this

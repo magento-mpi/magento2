@@ -1,21 +1,21 @@
 <?php
 /**
- * Shell scripts abstract class
- *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Core\Model;
 
-namespace Magento\App;
-
+/**
+ * Shell scripts abstract class
+ */
 abstract class AbstractShell
 {
     /**
      * Raw arguments, that should be parsed
      *
-     * @var array
+     * @var string[]
      */
     protected $_rawArgs     = array();
 
@@ -61,7 +61,7 @@ abstract class AbstractShell
     /**
      * Sets raw arguments to be parsed
      *
-     * @param array $args
+     * @param string[] $args
      * @return $this
      */
     public function setRawArgs($args)

@@ -7,17 +7,13 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
+namespace Magento\Pbridge\Block\Adminhtml\Customer\Edit\Tab\Payment;
 
 /**
  * Customer Account Payment Profiles form block
  *
- * @category    Magento
- * @package     Magento_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Pbridge\Block\Adminhtml\Customer\Edit\Tab\Payment;
-
 class Profile
     extends \Magento\Pbridge\Block\Iframe\AbstractIframe
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
@@ -44,6 +40,8 @@ class Profile
 
     /**
      * Core registry
+     *
+     * @var \Magento\Registry|null
      */
     protected $_coreRegistry = null;
 

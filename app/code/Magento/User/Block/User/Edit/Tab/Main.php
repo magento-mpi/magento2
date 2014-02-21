@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\User\Block\User\Edit\Tab;
 
 /**
@@ -156,6 +155,7 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic
      * @param string $passwordLabel
      * @param string $confirmationLabel
      * @param bool $isRequired
+     * @return void
      */
     protected function _addPasswordFields(
         \Magento\Data\Form\Element\Fieldset $fieldset, $passwordLabel, $confirmationLabel, $isRequired = false

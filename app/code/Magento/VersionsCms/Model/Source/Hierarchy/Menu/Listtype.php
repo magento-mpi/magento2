@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\VersionsCms\Model\Source\Hierarchy\Menu;
 
 /**
  * CMS Hierarchy Navigation Menu source model for list type
@@ -15,14 +15,10 @@
  * @category   Magento
  * @package    Magento_VersionsCms
  */
-namespace Magento\VersionsCms\Model\Source\Hierarchy\Menu;
-
 class Listtype implements \Magento\Option\ArrayInterface
 {
     /**
-     * Retrieve options array
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function toOptionArray()
     {

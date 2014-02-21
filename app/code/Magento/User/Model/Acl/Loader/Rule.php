@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\User\Model\Acl\Loader;
 
 class Rule implements \Magento\Acl\LoaderInterface
@@ -34,6 +33,7 @@ class Rule implements \Magento\Acl\LoaderInterface
      * Populate ACL with rules from external storage
      *
      * @param \Magento\Acl $acl
+     * @return void
      */
     public function populateAcl(\Magento\Acl $acl)
     {

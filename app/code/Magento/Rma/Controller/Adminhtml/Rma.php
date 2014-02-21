@@ -23,16 +23,22 @@ class Rma extends \Magento\Backend\App\Action
     protected $_coreRegistry;
 
     /**
+     * Application filesystem
+     *
      * @var \Magento\App\Filesystem
      */
     protected $filesystem;
 
     /**
+     * Read directory
+     *
      * @var \Magento\Filesystem\Directory\Read
      */
     protected $readDirectory;
 
     /**
+     * Http response file factory
+     *
      * @var \Magento\App\Response\Http\FileFactory
      */
     protected $_fileFactory;
@@ -437,7 +443,8 @@ class Rma extends \Magento\Backend\App\Action
      *
      * @return void
      */
-    public function closeAction(){
+    public function closeAction()
+    {
         $entityId = $this->getRequest()->getParam('entity_id');
         if ($entityId) {
             $entityId = intval($entityId);
@@ -612,7 +619,7 @@ class Rma extends \Magento\Backend\App\Action
     /**
      * Generate PDF form of RMA
      *
-     * @return void
+     * @return void|\Magento\App\ResponseInterface
      */
     public function printAction()
     {
@@ -964,7 +971,7 @@ class Rma extends \Magento\Backend\App\Action
     /**
      * Shows available shipping methods
      *
-     * @return \Zend_Controller_Response_Abstract
+     * @return void|\Zend_Controller_Response_Abstract
      * @throws \Magento\Core\Exception
      */
     public function pslAction()
@@ -1242,7 +1249,7 @@ class Rma extends \Magento\Backend\App\Action
     /**
      * Print label for one specific shipment
      *
-     * @return \Magento\Backend\App\Action
+     * @return void|\Magento\Backend\App\Action
      * @throws \Magento\Core\Exception
      */
     public function printLabelAction()
@@ -1287,7 +1294,7 @@ class Rma extends \Magento\Backend\App\Action
     /**
      * Create pdf document with information about packages
      *
-     * @return void
+     * @return void|\Magento\App\ResponseInterface
      */
     public function printPackageAction()
     {

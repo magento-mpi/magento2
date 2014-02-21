@@ -21,11 +21,15 @@ use Magento\Review\Model\Resource\Review\Collection as ReviewCollection;
 class View extends \Magento\Catalog\Block\Product\View
 {
     /**
+     * Review collection
+     *
      * @var ReviewCollection
      */
     protected $_reviewsCollection;
 
     /**
+     * Review resource model
+     *
      * @var \Magento\Review\Model\Resource\Review\CollectionFactory
      */
     protected $_reviewsColFactory;
@@ -120,7 +124,7 @@ class View extends \Magento\Catalog\Block\Product\View
      * Reviews collection count will be jerked here
      *
      * @param \Magento\Catalog\Model\Product $product
-     * @param string $templateType
+     * @param bool $templateType
      * @param bool $displayIfNoReviews
      * @return string
      */
@@ -141,6 +145,8 @@ class View extends \Magento\Catalog\Block\Product\View
     }
 
     /**
+     * Get collection of reviews
+     *
      * @return ReviewCollection
      */
     public function getReviewsCollection()
@@ -158,7 +164,7 @@ class View extends \Magento\Catalog\Block\Product\View
     /**
      * Force product view page behave like without options
      *
-     * @return false
+     * @return bool
      */
     public function hasOptions()
     {

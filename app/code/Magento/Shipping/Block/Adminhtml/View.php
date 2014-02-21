@@ -7,16 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Shipping\Block\Adminhtml;
 
 /**
  * Adminhtml shipment create
  *
- * @category   Magento
- * @package    Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Shipping\Block\Adminhtml;
-
 class View extends \Magento\Backend\Block\Widget\Form\Container
 {
     /**
@@ -40,6 +37,9 @@ class View extends \Magento\Backend\Block\Widget\Form\Container
         parent::__construct($context, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_objectId = 'shipment_id';
@@ -86,6 +86,9 @@ class View extends \Magento\Backend\Block\Widget\Form\Container
         return $this->_coreRegistry->registry('current_shipment');
     }
 
+    /**
+     * @return string
+     */
     public function getHeaderText()
     {
         if ($this->getShipment()->getEmailSent()) {
@@ -101,6 +104,9 @@ class View extends \Magento\Backend\Block\Widget\Form\Container
         );
     }
 
+    /**
+     * @return string
+     */
     public function getBackUrl()
     {
         return $this->getUrl(
@@ -112,11 +118,17 @@ class View extends \Magento\Backend\Block\Widget\Form\Container
         );
     }
 
+    /**
+     * @return string
+     */
     public function getEmailUrl()
     {
         return $this->getUrl('adminhtml/order_shipment/email', array('shipment_id' => $this->getShipment()->getId()));
     }
 
+    /**
+     * @return string
+     */
     public function getPrintUrl()
     {
         return $this->getUrl(
@@ -127,6 +139,10 @@ class View extends \Magento\Backend\Block\Widget\Form\Container
         );
     }
 
+    /**
+     * @param bool $flag
+     * @return $this
+     */
     public function updateBackButtonUrl($flag)
     {
         if ($flag) {

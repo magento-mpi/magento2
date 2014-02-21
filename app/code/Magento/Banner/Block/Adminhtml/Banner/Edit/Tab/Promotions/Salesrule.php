@@ -10,6 +10,8 @@
 
 namespace Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Promotions;
 
+use Magento\Backend\Block\Widget\Grid\Column;
+
 class Salesrule extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
@@ -41,6 +43,7 @@ class Salesrule extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Initialize grid, set defaults
      *
+     * @return void
      */
     public function _construct()
     {
@@ -59,8 +62,8 @@ class Salesrule extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Set custom filter for in banner salesrule flag
      *
-     * @param string $column
-     * @return \Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Promotions\Salesrule
+     * @param Column $column
+     * @return $this
      */
     protected function _addColumnFilterToCollection($column)
     {
@@ -85,7 +88,7 @@ class Salesrule extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Create grid columns
      *
-     * @return \Magento\Backend\Block\Widget\Grid\Extended
+     * @return $this
      */
     protected function _prepareColumns()
     {
@@ -145,6 +148,7 @@ class Salesrule extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Ajax grid URL getter
      *
+     * @return string
      */
     public function getGridUrl()
     {

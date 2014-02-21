@@ -77,7 +77,7 @@ class History extends \Magento\Core\Model\AbstractModel
     /**
      * Set additional data before saving
      *
-     * @return \Magento\Invitation\Model\Invitation\History
+     * @return $this
      */
     protected function _beforeSave()
     {

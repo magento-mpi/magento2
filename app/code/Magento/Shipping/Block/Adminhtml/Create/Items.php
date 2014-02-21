@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Shipping\Block\Adminhtml\Create;
 
 /**
  * Adminhtml shipment items grid
  */
-namespace Magento\Shipping\Block\Adminhtml\Create;
-
 class Items extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
 {
     /**
@@ -61,7 +60,7 @@ class Items extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
     /**
      * Retrieve source
      *
-     * @return \Magento\Sales\Model\Order\Invoice
+     * @return \Magento\Sales\Model\Order\Shipment
      */
     public function getSource()
     {
@@ -80,6 +79,8 @@ class Items extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
 
     /**
      * Prepare child blocks
+     *
+     * @return string
      */
     protected function _beforeToHtml()
     {

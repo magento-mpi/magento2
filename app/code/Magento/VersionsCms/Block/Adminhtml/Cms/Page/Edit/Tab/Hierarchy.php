@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Edit\Tab;
 
 /**
  * Cms Page Edit Hierarchy Tab Block
  */
-namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Edit\Tab;
-
 class Hierarchy
     extends \Magento\Backend\Block\Template
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
@@ -104,7 +103,8 @@ class Hierarchy
      *
      * @return array
      */
-    public function getNodes() {
+    public function getNodes()
+    {
         if (is_null($this->_nodes)) {
             $this->_nodes = array();
             try{
@@ -182,7 +182,7 @@ class Hierarchy
      * Forced nodes setter
      *
      * @param array $nodes New nodes array
-     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Page\Edit\Tab\Hierarchy
+     * @return $this
      */
     public function setNodes($nodes)
     {

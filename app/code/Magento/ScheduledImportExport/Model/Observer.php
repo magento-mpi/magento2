@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ScheduledImportExport\Model;
+
+use Magento\Filesystem\FilesystemException;
 
 /**
  * ImportExport module observer
@@ -15,16 +18,12 @@
  * @package     Magento_ScheduledImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\ScheduledImportExport\Model;
-
-use Magento\Filesystem\FilesystemException;
-
 class Observer
 {
     /**
      * Cron tab expression path
      */
-    const CRON_STRING_PATH = 'crontab/jobs/magento_scheduled_import_export_log_clean/schedule/cron_expr';
+    const CRON_STRING_PATH = 'crontab/default/jobs/magento_scheduled_import_export_log_clean/schedule/cron_expr';
 
     /**
      * Configuration path of log status
@@ -82,7 +81,7 @@ class Observer
      * @param \Magento\ScheduledImportExport\Model\Scheduled\OperationFactory $operationFactory
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager,
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\Filesystem $filesystem
      */
     public function __construct(
@@ -104,7 +103,7 @@ class Observer
      *
      * @param \Magento\Cron\Model\Schedule $schedule
      * @param bool $forceRun
-     * @return bool
+     * @return bool|void
      */
     public function scheduledLogClean($schedule, $forceRun = false)
     {
@@ -159,7 +158,7 @@ class Observer
      *
      * @param string $logPath
      * @param int $level
-     * @return array
+     * @return string[]
      */
     protected function _getDirectoryList($logPath, $level = 1)
     {
@@ -205,7 +204,7 @@ class Observer
      * Send email notification
      *
      * @param array $vars
-     * @return \Magento\ScheduledImportExport\Model\Observer
+     * @return $this
      */
     protected function _sendEmailNotification($vars)
     {

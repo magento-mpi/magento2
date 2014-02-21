@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ImportExport\Model;
 
 /**
  * Operation abstract class
@@ -15,14 +16,12 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\ImportExport\Model;
-
 abstract class AbstractModel extends \Magento\Object
 {
     /**
      * Enable loging
      *
-     * @var boolean
+     * @var bool
      */
     protected $_debugMode = false;
 
@@ -35,14 +34,14 @@ abstract class AbstractModel extends \Magento\Object
     /**
      * Fields that should be replaced in debug with '***'
      *
-     * @var array
+     * @var string[]
      */
     protected $_debugReplacePrivateDataKeys = array();
 
     /**
      * Contains all log information
      *
-     * @var array
+     * @var string[]
      */
     protected $_logTrace = array();
 
@@ -84,7 +83,7 @@ abstract class AbstractModel extends \Magento\Object
      * Log file dir: var/log/import_export/%Y/%m/%d/%time%_%operation_type%_%entity_type%.log
      *
      * @param mixed $debugData
-     * @return \Magento\ImportExport\Model\AbstractModel
+     * @return $this
      */
     public function addLogComment($debugData)
     {
@@ -120,7 +119,7 @@ abstract class AbstractModel extends \Magento\Object
     /**
      * Return human readable debug trace.
      *
-     * @return array
+     * @return string
      */
     public function getFormatedLogTrace()
     {

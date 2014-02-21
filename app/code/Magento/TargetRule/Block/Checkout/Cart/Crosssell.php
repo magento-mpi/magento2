@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\TargetRule\Block\Checkout\Cart;
 
 /**
@@ -34,7 +33,7 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
     protected $_products;
 
     /**
-     * object of just added product to cart
+     * Object of just added product to cart
      *
      * @var \Magento\Catalog\Model\Product
      */
@@ -348,7 +347,7 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
      * Retrieve Product Ids from Cross-sell rules based products index by product object
      *
      * @param \Magento\Catalog\Model\Product $product
-     * @param int $limit
+     * @param int $count
      * @param array $excludeProductIds
      * @return array
      */
@@ -384,7 +383,6 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
     /**
      * Retrieve Product Ids from Cross-sell rules based products index by products in shopping cart
      *
-     * @param \Magento\Catalog\Model\Product $product
      * @param int $limit
      * @param array $excludeProductIds
      * @return array

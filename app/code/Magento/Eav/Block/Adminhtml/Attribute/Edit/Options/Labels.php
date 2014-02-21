@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Eav\Block\Adminhtml\Attribute\Edit\Options;
 
 /**
  * Attribute add/edit form options tab
@@ -15,15 +16,15 @@
  * @package    Magento_Eav
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Eav\Block\Adminhtml\Attribute\Edit\Options;
-
 class Labels extends \Magento\Backend\Block\Template
 {
-    /** @var \Magento\Registry */
+    /**
+     * @var \Magento\Registry
+     */
     protected $_registry;
 
     /**
-     * @inheritdoc
+     * @var string
      */
     protected $_template = 'Magento_Catalog::catalog/product/attribute/labels.phtml';
 

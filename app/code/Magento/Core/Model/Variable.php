@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Core\Model;
 
 /**
  * Custom variable model
@@ -22,13 +23,14 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Core\Model;
-
 class Variable extends \Magento\Core\Model\AbstractModel
 {
     const TYPE_TEXT = 'text';
     const TYPE_HTML = 'html';
 
+    /**
+     * @var int
+     */
     protected $_storeId = 0;
 
     /**
@@ -58,6 +60,8 @@ class Variable extends \Magento\Core\Model\AbstractModel
 
     /**
      * Internal Constructor
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -69,7 +73,7 @@ class Variable extends \Magento\Core\Model\AbstractModel
      * Setter
      *
      * @param integer $storeId
-     * @return \Magento\Core\Model\Variable
+     * @return $this
      */
     public function setStoreId($storeId)
     {
@@ -91,7 +95,7 @@ class Variable extends \Magento\Core\Model\AbstractModel
      * Load variable by code
      *
      * @param string $code
-     * @return \Magento\Core\Model\Variable
+     * @return $this
      */
     public function loadByCode($code)
     {
@@ -124,7 +128,7 @@ class Variable extends \Magento\Core\Model\AbstractModel
     /**
      * Validation of object data. Checking for unique variable code
      *
-     * @return boolean | string
+     * @return bool|string
      */
     public function validate()
     {
@@ -141,7 +145,7 @@ class Variable extends \Magento\Core\Model\AbstractModel
     /**
      * Retrieve variables option array
      *
-     * @param boolean $withValues
+     * @param bool $withGroup
      * @return array
      */
     public function getVariablesOptionArray($withGroup = false)

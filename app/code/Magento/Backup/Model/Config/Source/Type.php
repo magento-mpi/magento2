@@ -7,16 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backup\Model\Config\Source;
 
 /**
  * Backups types' source model for system configuration
  *
- * @category   Magento
- * @package    Magento_Backup
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Backup\Model\Config\Source;
-
 class Type implements \Magento\Option\ArrayInterface
 {
     /**
@@ -36,9 +33,7 @@ class Type implements \Magento\Option\ArrayInterface
     }
 
     /**
-     * return possible options
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function toOptionArray()
     {

@@ -21,7 +21,7 @@ namespace Magento\CurrencySymbol\Block\Adminhtml\System\Currency\Rate;
 class Services extends \Magento\Backend\Block\Template
 {
     /**
-     * @inherit
+     * @var string
      */
     protected $_template = 'system/currency/rate/services.phtml';
 

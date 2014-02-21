@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Integration\Block\Adminhtml\Integration;
 
 use Magento\Integration\Block\Adminhtml\Integration\Edit\Tab\Info;
@@ -47,6 +46,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     /**
      * Initialize Integration edit page
      *
+     * @return void
      */
     protected function _construct()
     {

@@ -7,20 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Sitemap\Model;
 
 /**
  * Sitemap module observer
  *
- * @category   Magento
- * @package    Magento_Sitemap
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sitemap\Model;
-
 class Observer
 {
-
     /**
      * Enable/disable configuration
      */
@@ -29,7 +24,7 @@ class Observer
     /**
      * Cronjob expression configuration
      */
-    const XML_PATH_CRON_EXPR = 'crontab/jobs/generate_sitemaps/schedule/cron_expr';
+    const XML_PATH_CRON_EXPR = 'crontab/default/jobs/generate_sitemaps/schedule/cron_expr';
 
     /**
      * Error email template configuration
@@ -98,6 +93,7 @@ class Observer
      * Generate sitemaps
      *
      * @param \Magento\Cron\Model\Schedule $schedule
+     * @return void
      */
     public function scheduledGenerateSitemaps($schedule)
     {

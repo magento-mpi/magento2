@@ -11,16 +11,22 @@ namespace Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\H
 class PricePermissions 
 {
     /**
+     * Backend authorization session
+     *
      * @var \Magento\Backend\Model\Auth\Session
      */
     protected $authSession;
 
     /**
+     * Helper data
+     *
      * @var \Magento\PricePermissions\Helper\Data
      */
     protected $pricePermData;
 
     /**
+     * Handler interface
+     *
      * @var HandlerInterface
      */
     protected $productHandler;
@@ -28,12 +34,12 @@ class PricePermissions
     /**
      * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param \Magento\PricePermissions\Helper\Data $pricePermData
-     * @param HandlerInterface $productHandler
+     * @param \Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\HandlerInterface $productHandler
      */
     public function __construct(
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\PricePermissions\Helper\Data $pricePermData,
-        HandlerInterface $productHandler
+        \Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\HandlerInterface $productHandler
     ) {
         $this->pricePermData = $pricePermData;
         $this->authSession = $authSession;

@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model;
 
 use Magento\View\Design\ThemeInterface;
@@ -38,7 +37,7 @@ use Magento\View\Design\ThemeInterface;
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Theme extends \Magento\Core\Model\AbstractModel implements ThemeInterface
+class Theme extends AbstractModel implements ThemeInterface
 {
     /**
      * Filename of view configuration
@@ -97,15 +96,15 @@ class Theme extends \Magento\Core\Model\AbstractModel implements ThemeInterface
     /**
      * Initialize dependencies
      *
-     * @param Context $context
-     * @param Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\View\Design\Theme\FlyweightFactory $themeFactory
      * @param \Magento\View\Design\Theme\Domain\Factory $domainFactory
      * @param \Magento\View\Design\Theme\ImageFactory $imageFactory
      * @param \Magento\View\Design\Theme\Validator $validator
      * @param \Magento\View\Design\Theme\CustomizationFactory $customizationFactory
-     * @param Resource\Theme $resource
-     * @param Resource\Theme\Collection $resourceCollection
+     * @param \Magento\Core\Model\Resource\Theme $resource
+     * @param \Magento\Core\Model\Resource\Theme\Collection $resourceCollection
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -134,6 +133,8 @@ class Theme extends \Magento\Core\Model\AbstractModel implements ThemeInterface
 
     /**
      * Init resource model
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -227,7 +228,7 @@ class Theme extends \Magento\Core\Model\AbstractModel implements ThemeInterface
     /**
      * Retrieve theme instance representing the latest changes to a theme
      *
-     * @return \Magento\Core\Model\Theme|null
+     * @return Theme|null
      */
     public function getStagingVersion()
     {
@@ -323,7 +324,7 @@ class Theme extends \Magento\Core\Model\AbstractModel implements ThemeInterface
     /**
      * Validate theme data
      *
-     * @return \Magento\Core\Model\Theme
+     * @return $this
      * @throws \Magento\Core\Exception
      */
     protected function _validate()
@@ -338,7 +339,7 @@ class Theme extends \Magento\Core\Model\AbstractModel implements ThemeInterface
     /**
      * Before theme save
      *
-     * @return \Magento\Core\Model\Theme
+     * @return $this
      */
     protected function _beforeSave()
     {
@@ -364,7 +365,7 @@ class Theme extends \Magento\Core\Model\AbstractModel implements ThemeInterface
     /**
      * Return the full theme inheritance sequence, from the root theme till a specified one
      *
-     * @return ThemeInterface[] Format: array([<root_theme>, ..., <parent_theme>,] <current_theme>)
+     * @return ThemeInterface[]
      */
     public function getInheritedThemes()
     {

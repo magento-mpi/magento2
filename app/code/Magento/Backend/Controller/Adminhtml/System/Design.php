@@ -7,10 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Controller\Adminhtml\System;
 
-class Design extends \Magento\Backend\App\Action
+use Magento\Backend\App\Action;
+
+class Design extends Action
 {
     /**
      * Core registry
@@ -39,6 +40,9 @@ class Design extends \Magento\Backend\App\Action
         parent::__construct($context);
     }
 
+    /**
+     * @return void
+     */
     public function indexAction()
     {
         $this->_title->add(__('Store Design'));
@@ -47,17 +51,26 @@ class Design extends \Magento\Backend\App\Action
         $this->_view->renderLayout();
     }
 
+    /**
+     * @return void
+     */
     public function gridAction()
     {
         $this->_view->loadLayout(false);
         $this->_view->renderLayout();
     }
 
+    /**
+     * @return void
+     */
     public function newAction()
     {
         $this->_forward('edit');
     }
 
+    /**
+     * @return void
+     */
     public function editAction()
     {
         $this->_title->add(__('Store Design'));
@@ -85,6 +98,9 @@ class Design extends \Magento\Backend\App\Action
         $this->_view->renderLayout();
     }
 
+    /**
+     * @return void
+     */
     public function saveAction()
     {
         $data = $this->getRequest()->getPost();
@@ -116,6 +132,9 @@ class Design extends \Magento\Backend\App\Action
         $this->_redirect('adminhtml/*/');
     }
 
+    /**
+     * @return void
+     */
     public function deleteAction()
     {
         $id = $this->getRequest()->getParam('id');
@@ -134,6 +153,9 @@ class Design extends \Magento\Backend\App\Action
         $this->getResponse()->setRedirect($this->getUrl('adminhtml/*/'));
     }
 
+    /**
+     * @return bool
+     */
     protected function _isAllowed()
     {
         return $this->_authorization->isAllowed('Magento_Adminhtml::design');
@@ -142,8 +164,8 @@ class Design extends \Magento\Backend\App\Action
     /**
      * Filtering posted data. Converting localized data if needed
      *
-     * @param array
-     * @return array
+     * @param array $data
+     * @return array|null
      */
     protected function _filterPostData($data)
     {

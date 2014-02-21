@@ -35,6 +35,8 @@ class Other extends \Magento\View\Element\Template
     }
 
     /**
+     * Get product object
+     *
      * @return \Magento\Catalog\Model\Product
      */
     public function getProduct()

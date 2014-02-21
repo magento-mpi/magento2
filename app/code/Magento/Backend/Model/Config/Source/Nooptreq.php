@@ -11,6 +11,9 @@ namespace Magento\Backend\Model\Config\Source;
 
 class Nooptreq implements \Magento\Option\ArrayInterface
 {
+    /**
+     * @return array
+     */
     public function toOptionArray()
     {
         return array(

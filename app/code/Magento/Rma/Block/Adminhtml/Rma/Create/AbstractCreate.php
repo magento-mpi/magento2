@@ -19,7 +19,7 @@ namespace Magento\Rma\Block\Adminhtml\Rma\Create;
  */
 abstract class AbstractCreate extends \Magento\Backend\Block\Widget
 {
-     /**
+    /**
      * Core registry
      *
      * @var \Magento\Registry
@@ -115,7 +115,7 @@ abstract class AbstractCreate extends \Magento\Backend\Block\Widget
      * Set Order Id
      *
      * @param int $id
-     * @return void
+     * @return mixed
      */
     public function setOrderId($id)
     {

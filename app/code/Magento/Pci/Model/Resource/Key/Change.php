@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Pci\Model\Resource\Key;
 
 /**
  * Encryption key changer resource model
@@ -17,21 +17,25 @@
  * @package     Magento_Pci
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Pci\Model\Resource\Key;
-
 class Change extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
+     * Encryptor interface
+     *
      * @var \Magento\Encryption\EncryptorInterface
      */
     protected $_encryptor;
 
     /**
+     * Filesystem directory write interface
+     *
      * @var \Magento\Filesystem\Directory\WriteInterface
      */
     protected $_directory;
 
     /**
+     * System configuration structure
+     *
      * @var \Magento\Backend\Model\Config\Structure
      */
     protected $_structure;
@@ -57,6 +61,7 @@ class Change extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Initialize
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -96,9 +101,9 @@ class Change extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Change encryption key
      *
+     * @param string|null $key
+     * @return null|string
      * @throws \Exception
-     * @param string $key
-     * @return string
      */
     public function changeEncryptionKey($key = null)
     {

@@ -12,6 +12,9 @@ namespace Magento\Backend\Block;
 
 class Dashboard extends \Magento\Backend\Block\Template
 {
+    /**
+     * @var \Magento\Core\Model\LocaleInterface
+     */
     protected $_locale;
 
     /**
@@ -19,8 +22,14 @@ class Dashboard extends \Magento\Backend\Block\Template
      */
     const XML_PATH_ENABLE_CHARTS = 'admin/dashboard/enable_charts';
 
+    /**
+     * @var string
+     */
     protected $_template = 'dashboard/index.phtml';
 
+    /**
+     * @return void
+     */
     protected function _prepareLayout()
     {
         $this->addChild('lastOrders', 'Magento\Backend\Block\Dashboard\Orders\Grid');
@@ -47,6 +56,9 @@ class Dashboard extends \Magento\Backend\Block\Template
         parent::_prepareLayout();
     }
 
+    /**
+     * @return string
+     */
     public function getSwitchUrl()
     {
         if ($url = $this->getData('switch_url')) {

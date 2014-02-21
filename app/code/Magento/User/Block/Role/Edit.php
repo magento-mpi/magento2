@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\User\Block\Role;
 
 class Edit extends \Magento\Backend\Block\Widget\Tabs
@@ -37,6 +36,11 @@ class Edit extends \Magento\Backend\Block\Widget\Tabs
         parent::__construct($context, $jsonEncoder, $authSession, $data);
     }
 
+    /**
+     * Class constructor
+     *
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -45,6 +49,9 @@ class Edit extends \Magento\Backend\Block\Widget\Tabs
         $this->setTitle(__('Role Information'));
     }
 
+    /**
+     * @return $this
+     */
     protected function _prepareLayout()
     {
         $role = $this->_coreRegistry->registry('current_role');

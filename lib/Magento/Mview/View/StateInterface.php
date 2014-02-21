@@ -22,13 +22,14 @@ interface StateInterface
      */
     const STATUS_IDLE = 'idle';
     const STATUS_WORKING = 'working';
+    const STATUS_SUSPENDED = 'suspended';
     /**#@-*/
 
     /**
      * Fill object with state data by view ID
      *
      * @param string $viewId
-     * @return \Magento\Mview\View\StateInterface
+     * @return $this
      */
     public function loadByView($viewId);
 

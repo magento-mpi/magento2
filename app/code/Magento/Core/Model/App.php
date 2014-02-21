@@ -7,16 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Core\Model;
 
 /**
  * Application model
  *
  * Application should have: areas, store, locale, translator, design package
  */
-namespace Magento\Core\Model;
-
-use Magento\App\CacheInterface;
-
 class App implements \Magento\AppInterface
 {
     /**#@+
@@ -37,8 +34,7 @@ class App implements \Magento\AppInterface
     /**
      * Magento version
      */
-    const VERSION = '2.0.0.0-dev63';
-
+    const VERSION = '2.0.0.0-dev65';
 
     /**
      * Application run code
@@ -75,7 +71,7 @@ class App implements \Magento\AppInterface
     /**
      * Application location object
      *
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var LocaleInterface
      */
     protected $_locale;
 
@@ -180,6 +176,7 @@ class App implements \Magento\AppInterface
     /**
      * Throw an exception, if the application has not been installed yet
      *
+     * @return void
      * @throws \Magento\Exception
      */
     public function requireInstalledInstance()
@@ -203,7 +200,7 @@ class App implements \Magento\AppInterface
      * Re-declare custom error handler
      *
      * @param   string $handler
-     * @return  \Magento\Core\Model\App
+     * @return  $this
      */
     public function setErrorHandler($handler)
     {
@@ -216,7 +213,7 @@ class App implements \Magento\AppInterface
      *
      * @param   string $area
      * @param   string $part
-     * @return  \Magento\Core\Model\App
+     * @return  $this
      */
     public function loadAreaPart($area, $part)
     {
@@ -254,7 +251,7 @@ class App implements \Magento\AppInterface
     /**
      * Retrieve application locale object
      *
-     * @return \Magento\Core\Model\LocaleInterface
+     * @return LocaleInterface
      */
     public function getLocale()
     {
@@ -328,7 +325,7 @@ class App implements \Magento\AppInterface
      * Loading cache data
      *
      * @param   string $cacheId
-     * @return  mixed
+     * @return  string
      */
     public function loadCache($cacheId)
     {
@@ -342,7 +339,7 @@ class App implements \Magento\AppInterface
      * @param string $cacheId
      * @param array $tags
      * @param bool $lifeTime
-     * @return \Magento\Core\Model\App
+     * @return $this
      */
     public function saveCache($data, $cacheId, $tags = array(), $lifeTime = false)
     {
@@ -354,7 +351,7 @@ class App implements \Magento\AppInterface
      * Remove cache
      *
      * @param   string $cacheId
-     * @return  \Magento\Core\Model\App
+     * @return  $this
      */
     public function removeCache($cacheId)
     {
@@ -366,7 +363,7 @@ class App implements \Magento\AppInterface
      * Cleaning cache
      *
      * @param   array $tags
-     * @return  \Magento\Core\Model\App
+     * @return  $this
      */
     public function cleanCache($tags = array())
     {
@@ -377,7 +374,7 @@ class App implements \Magento\AppInterface
     /**
      * Deletes all session files
      *
-     * @return \Magento\Core\Model\App
+     * @return $this
      */
     public function cleanAllSessions()
     {
@@ -409,7 +406,7 @@ class App implements \Magento\AppInterface
      * Request setter
      *
      * @param \Magento\App\RequestInterface $request
-     * @return \Magento\Core\Model\App
+     * @return $this
      */
     public function setRequest(\Magento\App\RequestInterface $request)
     {
@@ -435,7 +432,7 @@ class App implements \Magento\AppInterface
      * Response setter
      *
      * @param \Magento\App\ResponseInterface $response
-     * @return \Magento\Core\Model\App
+     * @return $this
      */
     public function setResponse(\Magento\App\ResponseInterface $response)
     {
@@ -468,6 +465,7 @@ class App implements \Magento\AppInterface
      * Set edition
      *
      * @param string $edition
+     * @return void
      */
     public function setEdition($edition)
     {
@@ -502,7 +500,7 @@ class App implements \Magento\AppInterface
             'revision'  => '0',
             'patch'     => '0',
             'stability' => 'dev',
-            'number'    => '63',
+            'number'    => '65',
         );
     }
 }

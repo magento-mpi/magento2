@@ -5,7 +5,6 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento\Integration\Model;
 
 /**
@@ -97,7 +96,7 @@ class Integration extends \Magento\Core\Model\AbstractModel
     /**
      * Prepare data to be saved to database
      *
-     * @return Integration
+     * @return $this
      */
     protected function _beforeSave()
     {
@@ -113,7 +112,7 @@ class Integration extends \Magento\Core\Model\AbstractModel
      * Load integration by oAuth consumer ID.
      *
      * @param int $consumerId
-     * @return Integration
+     * @return $this
      */
     public function loadByConsumerId($consumerId)
     {

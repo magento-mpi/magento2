@@ -73,7 +73,7 @@ class Template extends \Magento\Core\Model\Template implements  \Magento\Mail\Te
     /**
      * Email template filter
      *
-     * @var Filter
+     * @var FilterTemplate
      */
     protected $_templateFilter;
 
@@ -104,6 +104,10 @@ class Template extends \Magento\Core\Model\Template implements  \Magento\Mail\Te
      * @var string
      */
     protected $_replyTo = '';
+
+    /**
+     * @var array
+     */
     protected $_vars = array();
 
     /**
@@ -200,8 +204,7 @@ class Template extends \Magento\Core\Model\Template implements  \Magento\Mail\Te
     }
 
     /**
-     * Return logo URL for emails
-     * Take logo from theme if custom logo is undefined
+     * Return logo URL for emails. Take logo from theme if custom logo is undefined
      *
      * @param  \Magento\Core\Model\Store|int|string $store
      * @return string
@@ -345,7 +348,7 @@ class Template extends \Magento\Core\Model\Template implements  \Magento\Mail\Te
      * Set id of template
      *
      * @param int $value
-     * @return \Magento\Email\Model\Template
+     * @return $this
      */
     public function setId($value)
     {
@@ -578,7 +581,7 @@ class Template extends \Magento\Core\Model\Template implements  \Magento\Mail\Te
      * Validate email template code
      *
      * @throws \Magento\Mail\Exception
-     * @return \Magento\Email\Model\Template
+     * @return $this
      */
     protected function _beforeSave()
     {

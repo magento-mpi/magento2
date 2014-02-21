@@ -41,7 +41,7 @@ class Operation extends \Magento\Backend\App\Action
     /**
      * Initialize layout.
      *
-     * @return \Magento\ScheduledImportExport\Controller\Adminhtml\Scheduled\Operation
+     * @return $this
      */
     protected function _initAction()
     {

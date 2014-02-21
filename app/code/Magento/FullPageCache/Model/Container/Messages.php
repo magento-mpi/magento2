@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\FullPageCache\Model\Container;
 
 /**
  * Cart sidebar container
  */
-namespace Magento\FullPageCache\Model\Container;
-
 class Messages extends \Magento\FullPageCache\Model\Container\AbstractContainer
 {
     /**
@@ -75,7 +74,7 @@ class Messages extends \Magento\FullPageCache\Model\Container\AbstractContainer
     /**
      * Redirect to content processing on new message
      *
-     * @param string $content
+     * @param string &$content
      * @return bool
      */
     public function applyWithoutApp(&$content)
@@ -112,6 +111,7 @@ class Messages extends \Magento\FullPageCache\Model\Container\AbstractContainer
      *
      * @param string $messagesGroup
      * @param \Magento\View\Element\Messages $block
+     * @return void
      */
     protected function _addMessagesToBlock($messagesGroup, \Magento\View\Element\Messages $block)
     {

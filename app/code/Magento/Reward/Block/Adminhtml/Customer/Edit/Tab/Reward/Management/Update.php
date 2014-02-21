@@ -7,21 +7,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management;
 
 /**
  * Reward update points form
  *
- * @category    Magento
- * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management;
-
 class Update
     extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
+     * Core system store model
+     *
      * @var \Magento\Core\Model\System\StoreFactory
      */
     protected $_storeFactory;

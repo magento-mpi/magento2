@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Catalog\Model\Product\Indexer;
 
 /**
  * Catalog Product Eav Indexer Model
@@ -26,8 +26,6 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Model\Product\Indexer;
-
 class Eav extends \Magento\Index\Model\Indexer\AbstractIndexer
 {
     /**
@@ -94,6 +92,7 @@ class Eav extends \Magento\Index\Model\Indexer\AbstractIndexer
     /**
      * Initialize resource model
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -104,6 +103,7 @@ class Eav extends \Magento\Index\Model\Indexer\AbstractIndexer
      * Register data required by process in event object
      *
      * @param \Magento\Index\Model\Event $event
+     * @return void
      */
     protected function _registerEvent(\Magento\Index\Model\Event $event)
     {
@@ -152,7 +152,7 @@ class Eav extends \Magento\Index\Model\Indexer\AbstractIndexer
      * Register data required by process in event object
      *
      * @param \Magento\Index\Model\Event $event
-     * @return \Magento\Catalog\Model\Product\Indexer\Eav
+     * @return $this
      */
     protected function _registerCatalogProductSaveEvent(\Magento\Index\Model\Event $event)
     {
@@ -179,7 +179,7 @@ class Eav extends \Magento\Index\Model\Indexer\AbstractIndexer
      * Register data required by process in event object
      *
      * @param \Magento\Index\Model\Event $event
-     * @return \Magento\Catalog\Model\Product\Indexer\Eav
+     * @return $this
      */
     protected function _registerCatalogProductDeleteEvent(\Magento\Index\Model\Event $event)
     {
@@ -198,7 +198,7 @@ class Eav extends \Magento\Index\Model\Indexer\AbstractIndexer
      * Register data required by process in event object
      *
      * @param \Magento\Index\Model\Event $event
-     * @return \Magento\Catalog\Model\Product\Indexer\Eav
+     * @return $this
      */
     protected function _registerCatalogProductMassActionEvent(\Magento\Index\Model\Event $event)
     {
@@ -234,7 +234,7 @@ class Eav extends \Magento\Index\Model\Indexer\AbstractIndexer
      * Register data required by process attribute save in event object
      *
      * @param \Magento\Index\Model\Event $event
-     * @return \Magento\Catalog\Model\Product\Indexer\Eav
+     * @return $this
      */
     protected function _registerCatalogAttributeSaveEvent(\Magento\Index\Model\Event $event)
     {
@@ -262,6 +262,7 @@ class Eav extends \Magento\Index\Model\Indexer\AbstractIndexer
      * Process event
      *
      * @param \Magento\Index\Model\Event $event
+     * @return void
      */
     protected function _processEvent(\Magento\Index\Model\Event $event)
     {

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Log\Model\Resource;
 
 /**
  * Customer log resource
@@ -16,9 +16,6 @@
  * @package    Magento_Log
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Log\Model\Resource;
-
 class Customer extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
@@ -65,6 +62,8 @@ class Customer extends \Magento\Core\Model\Resource\Db\AbstractDb
 
     /**
      * Resource initialization
+     *
+     * @return void
      */
     protected function _construct()
     {

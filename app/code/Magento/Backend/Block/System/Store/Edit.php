@@ -7,13 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Block\System\Store;
 
 /**
  * Adminhtml store edit
  */
-
-namespace Magento\Backend\Block\System\Store;
-
 class Edit extends \Magento\Backend\Block\Widget\Form\Container
 {
     /**
@@ -40,6 +38,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     /**
      * Init class
      *
+     * @return void
      */
     protected function _construct()
     {

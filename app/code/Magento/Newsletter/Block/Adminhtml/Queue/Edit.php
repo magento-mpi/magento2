@@ -7,15 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * Newsletter queue edit block
- */
 namespace Magento\Newsletter\Block\Adminhtml\Queue;
 
 use Magento\View\Element\AbstractBlock;
 use Magento\Newsletter\Model\Queue as ModelQueue;
 
+/**
+ * Newsletter queue edit block
+ */
 class Edit extends \Magento\Backend\Block\Template
 {
     /**
@@ -52,6 +51,9 @@ class Edit extends \Magento\Backend\Block\Template
         parent::__construct($context, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();

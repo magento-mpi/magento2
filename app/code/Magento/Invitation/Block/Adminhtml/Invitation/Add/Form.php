@@ -67,7 +67,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Prepare invitation form
      *
-     * @return \Magento\Invitation\Block\Adminhtml\Invitation\Add\Form
+     * @return $this
      */
     protected function _prepareForm()
     {

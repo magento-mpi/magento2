@@ -30,6 +30,8 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     protected $_coreRegistry = null;
 
     /**
+     * Review model factory
+     *
      * @var \Magento\Review\Model\ReviewFactory
      */
     protected $_reviewFactory;
@@ -54,6 +56,11 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
         parent::__construct($context, $data);
     }
 
+    /**
+     * Initialize edit review
+     *
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -198,6 +205,8 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     }
 
     /**
+     * Get edit review header text
+     *
      * @return string
      */
     public function getHeaderText()

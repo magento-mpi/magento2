@@ -7,8 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Usa\Model\Shipping\Carrier;
+
+use Magento\Shipping\Model\Rate\Result;
+use Magento\Usa\Model\Simplexml\Element;
 
 /**
  * DHL shipping implementation
@@ -49,14 +51,14 @@ class Dhl
     /**
      * Rate result data
      *
-     * @var \Magento\Shipping\Model\Rate\Result|null
+     * @var Result|null
      */
     protected $_result = null;
 
     /**
      * Errors placeholder
      *
-     * @var array
+     * @var string[]
      */
     protected $_errors = array();
 
@@ -77,7 +79,7 @@ class Dhl
     /**
      * Container types that could be customized
      *
-     * @var array
+     * @var string[]
      */
     protected $_customizableContainerTypes = array('P');
 
@@ -235,7 +237,7 @@ class Dhl
      * Collect and get rates
      *
      * @param \Magento\Sales\Model\Quote\Address\RateRequest $request
-     * @return bool|\Magento\Shipping\Model\Rate\Result|null
+     * @return bool|Result|null
      */
     public function collectRates(\Magento\Sales\Model\Quote\Address\RateRequest $request)
     {
@@ -297,7 +299,7 @@ class Dhl
      * Prepare and set request in property of current instance
      *
      * @param \Magento\Object $request
-     * @return \Magento\Usa\Model\Shipping\Carrier\Dhl
+     * @return $this
      */
     public function setRequest(\Magento\Object $request)
     {
@@ -509,7 +511,7 @@ class Dhl
     /**
      * Get result of request
      *
-     * @return mixed
+     * @return Result|null
      */
     public function getResult()
     {
@@ -519,7 +521,7 @@ class Dhl
     /**
      * Get quotes
      *
-     * @return \Magento\Shipping\Model\Rate\Result
+     * @return Result
      */
     protected function _getQuotes()
     {
@@ -529,7 +531,7 @@ class Dhl
     /**
      * Set free method request
      *
-     * @param  $freeMethod
+     * @param string $freeMethod
      * @return void
      */
     protected function _setFreeMethodRequest($freeMethod)
@@ -556,7 +558,7 @@ class Dhl
     /**
      * Do rate request and handle errors
      *
-     * @return \Magento\Shipping\Model\Rate\Result|\Magento\Object
+     * @return Result|\Magento\Object
      */
     protected function _doRequest()
     {
@@ -687,8 +689,8 @@ class Dhl
     /**
      * Create shipment xml
      *
-     * @param  $shipment
-     * @param  $shipKey
+     * @param Element $shipment
+     * @param string $shipKey
      * @return void
      */
     protected function _createShipmentXml($shipment, $shipKey)
@@ -808,7 +810,6 @@ class Dhl
             $extendedService->addChild('Code', $r->getExtendedService());
         }
 
-
         /*
         * R = Receiver (if receiver, need AccountNbr)
         * S = Sender
@@ -868,7 +869,7 @@ class Dhl
      * Parse xml response and return result
      *
      * @param string $response
-     * @return \Magento\Shipping\Model\Rate\Result|\Magento\Object
+     * @return Result|\Magento\Object
      */
     protected function _parseXmlResponse($response)
     {
@@ -963,8 +964,8 @@ class Dhl
     /**
      * Parse xml object
      *
-     * @param mixed $shipXml
-     * @return \Magento\Usa\Model\Shipping\Carrier\Dhl
+     * @param \SimpleXMLElement $shipXml
+     * @return $this
      */
     protected function _parseXmlObject($shipXml)
     {
@@ -999,7 +1000,7 @@ class Dhl
      *
      * @param string $type
      * @param string $code
-     * @return array|bool
+     * @return array|false
      */
     public function getCode($type, $code = '')
     {
@@ -1037,7 +1038,6 @@ class Dhl
 
         );
 
-
         if (!isset($codes[$type])) {
             return false;
         } elseif ('' === $code) {
@@ -1054,7 +1054,7 @@ class Dhl
     /**
      * Parse xml and add rates to instance property
      *
-     * @param mixed $shipXml
+     * @param \SimpleXMLElement $shipXml
      * @return void
      */
     protected function _addRate($shipXml)
@@ -1091,8 +1091,8 @@ class Dhl
     /**
      * Get tracking
      *
-     * @param mixed $trackings
-     * @return mixed
+     * @param string|string[] $trackings
+     * @return Result|null
      */
     public function getTracking($trackings)
     {
@@ -1109,7 +1109,7 @@ class Dhl
     /**
      * Set tracking request
      *
-     * @return null
+     * @return void
      */
     protected function setTrackingReqeust()
     {
@@ -1127,7 +1127,8 @@ class Dhl
     /**
      * Send request for tracking
      *
-     * @param array $trackings
+     * @param string[] $trackings
+     * @return void
      */
     protected function _getXMLTracking($trackings)
     {
@@ -1188,8 +1189,9 @@ class Dhl
     /**
      * Parse xml tracking response
      *
-     * @param array $trackings value
+     * @param string[] $trackings value
      * @param string $response
+     * @return void
      */
     protected function _parseXmlTrackingResponse($trackings, $response)
     {
@@ -1231,8 +1233,9 @@ class Dhl
                                         * Code 0== airbill  found
                                         */
                                         $rArr['service'] = (string)$txml->Service->Desc;
-                                        if (isset($txml->Weight))
+                                        if (isset($txml->Weight)) {
                                             $rArr['weight'] = (string)$txml->Weight . " lbs";
+                                        }
                                         if (isset($txml->Delivery)) {
                                             $rArr['deliverydate'] = (string)$txml->Delivery->Date;
                                             $rArr['deliverytime'] = (string)$txml->Delivery->Time . ':00';
@@ -1296,10 +1299,11 @@ class Dhl
                                         $resultArr[$tracknum] = $rArr;
                                     } else {
                                         $description = (string)$txml->Result->Desc;
-                                        if ($description)
+                                        if ($description) {
                                             $errorArr[$tracknum] = __('Error #%1: %2', $code, $description);
-                                        else
+                                        } else {
                                             $errorArr[$tracknum] = __('Unable to retrieve tracking');
+                                        }
                                     }
                                 } else {
                                     $errorArr[$tracknum] = __('Unable to retrieve tracking');
@@ -1433,7 +1437,7 @@ class Dhl
      * Map request to shipment
      *
      * @param \Magento\Object $request
-     * @return null
+     * @return void
      */
     protected function _mapRequestToShipment(\Magento\Object $request)
     {
@@ -1472,7 +1476,7 @@ class Dhl
      * Do shipment request to carrier web service, obtain Print Shipping Labels and process errors in response
      *
      * @param \Magento\Object $request
-     * @return \Magento\Object
+     * @return \Magento\Object|Result
      */
     protected function _doShipmentRequest(\Magento\Object $request)
     {

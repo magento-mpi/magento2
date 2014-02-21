@@ -7,8 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Block\Product\ProductList;
+
+use Magento\Catalog\Model\Resource\Product\Collection;
+use Magento\View\Element\AbstractBlock;
 
 /**
  * Catalog product related items block
@@ -24,6 +26,9 @@ class Related extends \Magento\Catalog\Block\Product\AbstractProduct
      */
     protected $_mapRenderer = 'msrp_noform';
 
+    /**
+     * @var Collection
+     */
     protected $_itemCollection;
 
     /**
@@ -106,6 +111,9 @@ class Related extends \Magento\Catalog\Block\Product\AbstractProduct
         $this->_isScopePrivate = true;
     }
 
+    /**
+     * @return $this
+     */
     protected function _prepareData()
     {
         $product = $this->_coreRegistry->registry('product');
@@ -136,12 +144,18 @@ class Related extends \Magento\Catalog\Block\Product\AbstractProduct
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     protected function _beforeToHtml()
     {
         $this->_prepareData();
         return parent::_beforeToHtml();
     }
 
+    /**
+     * @return Collection
+     */
     public function getItems()
     {
         return $this->_itemCollection;

@@ -16,11 +16,15 @@ class History
     extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\AbstractGeneral
 {
     /**
+     * Rma config model
+     *
      * @var \Magento\Rma\Model\Config
      */
     protected $_rmaConfig;
 
     /**
+     * Rma status history collection
+     *
      * @var \Magento\Rma\Model\Resource\Rma\Status\History\CollectionFactory
      */
     protected $_collectionFactory;
@@ -96,6 +100,8 @@ class History
     }
 
     /**
+     * Get comments
+     *
      * @return \Magento\Rma\Model\Resource\Rma\Status\History\Collection
      */
     public function getComments()

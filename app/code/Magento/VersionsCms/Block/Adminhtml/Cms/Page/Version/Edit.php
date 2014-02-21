@@ -7,17 +7,27 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Version;
 
 /**
  * Edit version page
  */
-namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Version;
-
 class Edit
     extends \Magento\Backend\Block\Widget\Form\Container
 {
+    /**
+     * @var string
+     */
     protected $_objectId   = 'version_id';
+
+    /**
+     * @var string
+     */
     protected $_blockGroup = 'Magento_VersionsCms';
+
+    /**
+     * @var string
+     */
     protected $_controller = 'adminhtml_cms_page_version';
 
     /**
@@ -52,6 +62,7 @@ class Edit
     /**
      * Constructor
      *
+     * @return void
      */
     protected function _construct()
     {

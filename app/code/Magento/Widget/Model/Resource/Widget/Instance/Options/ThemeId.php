@@ -32,6 +32,9 @@ class ThemeId implements \Magento\Option\ArrayInterface
         $this->_resourceModel = $widgetResourceModel;
     }
 
+    /**
+     * @return array
+     */
     public function toOptionArray()
     {
         return $this->_resourceModel->toOptionHash();

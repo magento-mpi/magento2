@@ -39,6 +39,8 @@ class Grid
     protected $_coreRegistry;
 
     /**
+     * Rma item collection
+     *
      * @var \Magento\Rma\Model\Resource\Item\CollectionFactory
      */
     protected $_collectionFactory;
@@ -67,6 +69,8 @@ class Grid
 
     /**
      * Block constructor
+     *
+     * @return void
      */
     public function _construct()
     {

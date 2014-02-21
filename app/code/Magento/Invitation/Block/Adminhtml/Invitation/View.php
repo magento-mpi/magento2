@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Invitation\Block\Adminhtml\Invitation;
 
 /**
  * Invitation view block
@@ -14,8 +15,6 @@
  * @category   Magento
  * @package    Magento_Invitation
  */
-namespace Magento\Invitation\Block\Adminhtml\Invitation;
-
 class View extends \Magento\Backend\Block\Widget\Container
 {
     /**
@@ -42,7 +41,7 @@ class View extends \Magento\Backend\Block\Widget\Container
     /**
      * Set header text, add some buttons
      *
-     * @return \Magento\Invitation\Block\Adminhtml\Invitation\View
+     * @return void
      */
     protected function _prepareLayout()
     {

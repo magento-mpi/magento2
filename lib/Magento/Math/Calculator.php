@@ -1,7 +1,5 @@
 <?php
 /**
- * Calculations library
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -9,6 +7,9 @@
  */
 namespace Magento\Math;
 
+/**
+ * Calculations Library
+ */
 class Calculator
 {
     /**
@@ -21,7 +22,7 @@ class Calculator
     /**
      * Store instance
      *
-     * @var \Magento\BaseScopeInterface
+     * @var \Magento\BaseScopeInterface|null
      */
     protected $_scope = null;
 

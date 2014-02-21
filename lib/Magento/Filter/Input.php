@@ -177,8 +177,8 @@ class Input implements \Zend_Filter_Interface
     /**
      * Get filters
      *
-     * @param string|null $name     Get filter for selected name
-     * @return array
+     * @param string|null $name Get filter for selected name
+     * @return array|\Zend_Filter_Interface
      */
     public function getFilters($name = null)
     {
@@ -193,7 +193,7 @@ class Input implements \Zend_Filter_Interface
      * Filter data
      *
      * @param array $data
-     * @return array    Return filtered data
+     * @return array Return filtered data
      */
     public function filter($data)
     {
@@ -266,8 +266,8 @@ class Input implements \Zend_Filter_Interface
     /**
      * Try to create Magento helper for filtration based on $filterData. Return false on failure
      *
-     * @param $filterData
-     * @return bool|\Magento\App\Helper\AbstractHelper
+     * @param \Zend_Filter_Interface|array $filterData
+     * @return false|\Magento\App\Helper\AbstractHelper
      * @throws \Exception
      */
     protected function _getFiltrationHelper($filterData)
@@ -287,8 +287,8 @@ class Input implements \Zend_Filter_Interface
     /**
      * Try to create Zend filter based on $filterData. Return false on failure
      *
-     * @param $filterData
-     * @return bool|\Zend_Filter_Interface
+     * @param \Zend_Filter_Interface|array $filterData
+     * @return false|\Zend_Filter_Interface
      */
     protected function _getZendFilter($filterData)
     {
@@ -332,7 +332,7 @@ class Input implements \Zend_Filter_Interface
     /**
      * Get native \Zend_Filter
      *
-     * @param $filterData
+     * @param array $filterData
      * @return \Zend_Filter_Interface
      * @throws \Exception
      */

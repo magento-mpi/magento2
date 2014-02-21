@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Shipping\Block\Tracking;
 
 class Popup extends \Magento\View\Element\Template
@@ -99,11 +98,17 @@ class Popup extends \Magento\View\Element\Template
         return (bool) $this->_storeConfig->getConfig('contacts/contacts/enabled');
     }
 
+    /**
+     * @return string
+     */
     public function getStoreSupportEmail()
     {
         return $this->_storeConfig->getConfig('trans_email/ident_support/email');
     }
 
+    /**
+     * @return string
+     */
     public function getContactUs()
     {
         return $this->getUrl('contacts');

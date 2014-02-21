@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Block\System\Account\Edit;
 
 /**
  * Adminhtml edit admin user account form
@@ -15,9 +16,6 @@
  * @package    Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Backend\Block\System\Account\Edit;
-
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
@@ -51,6 +49,9 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         parent::__construct($context, $registry, $formFactory, $data);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function _prepareForm()
     {
         $userId = $this->_authSession->getUser()->getId();

@@ -13,7 +13,7 @@ use Magento\App\RequestInterface;
 
 /**
  * GoogleShopping Admin Item Types Controller
-*/
+ */
 class Types extends \Magento\Backend\App\Action
 {
     /**

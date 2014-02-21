@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Block\Urlrewrite\Catalog\Category;
 
 /**
  * Block for Catalog Category URL rewrites
@@ -19,8 +20,6 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Backend\Block\Urlrewrite\Catalog\Category;
-
 class Edit
     extends \Magento\Backend\Block\Urlrewrite\Edit
 {
@@ -49,6 +48,8 @@ class Edit
 
     /**
      * Prepare layout for URL rewrite creating for category
+     *
+     * @return void
      */
     protected function _prepareLayoutFeatures()
     {
@@ -83,6 +84,8 @@ class Edit
 
     /**
      * Add child category link block
+     *
+     * @return void
      */
     private function _addCategoryLinkBlock()
     {
@@ -95,6 +98,8 @@ class Edit
 
     /**
      * Add child category tree block
+     *
+     * @return void
      */
     private function _addCategoryTreeBlock()
     {

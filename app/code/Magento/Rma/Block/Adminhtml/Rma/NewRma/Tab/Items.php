@@ -12,8 +12,6 @@ namespace Magento\Rma\Block\Adminhtml\Rma\NewRma\Tab;
 /**
  * Items Tab in Edit RMA form
  *
- * @category   Magento
- * @package    Magento_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Items extends \Magento\Backend\Block\Widget\Form\Generic
@@ -33,6 +31,8 @@ class Items extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_coreRegistry;
 
     /**
+     * Rma item form
+     *
      * @var \Magento\Rma\Model\Item\FormFactory
      */
     protected $_itemFormFactory;
@@ -62,6 +62,7 @@ class Items extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Class constructor
      *
+     * @return void
      */
     public function _construct()
     {
@@ -236,7 +237,7 @@ class Items extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Returns status flag about this tab can be showen or not
      *
-     * @return true
+     * @return bool
      */
     public function canShowTab()
     {
@@ -246,7 +247,7 @@ class Items extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Returns status flag about this tab hidden or not
      *
-     * @return true
+     * @return bool
      */
     public function isHidden()
     {

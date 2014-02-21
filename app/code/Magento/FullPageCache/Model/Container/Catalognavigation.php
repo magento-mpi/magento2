@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\FullPageCache\Model\Container;
 
 /**
  * Placeholder container for catalog top navigation block
  */
-namespace Magento\FullPageCache\Model\Container;
-
 class Catalognavigation extends \Magento\FullPageCache\Model\Container\AbstractContainer
 {
     /**
@@ -20,6 +19,16 @@ class Catalognavigation extends \Magento\FullPageCache\Model\Container\AbstractC
      */
     protected $_categoryFactory;
 
+    /**
+     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\FullPageCache\Model\Cache $fpcCache
+     * @param \Magento\FullPageCache\Model\Container\Placeholder $placeholder
+     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\FullPageCache\Helper\Url $urlHelper
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\View\LayoutInterface $layout
+     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
+     */
     public function __construct(
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\FullPageCache\Model\Cache $fpcCache,
@@ -61,7 +70,7 @@ class Catalognavigation extends \Magento\FullPageCache\Model\Container\AbstractC
     /**
      * Generate placeholder content before application was initialized and apply to page content if possible
      *
-     * @param string $content
+     * @param string &$content
      * @return bool
      */
     public function applyWithoutApp(&$content)
@@ -90,7 +99,7 @@ class Catalognavigation extends \Magento\FullPageCache\Model\Container\AbstractC
      * Save rendered block content to cache storage
      *
      * @param string $blockContent
-     * @return \Magento\FullPageCache\Model\Container\AbstractContainer
+     * @return $this
      */
     public function saveCache($blockContent)
     {

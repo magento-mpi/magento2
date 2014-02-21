@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\User\Model;
 
 /**
@@ -73,7 +72,7 @@ class User
     /**
      * Available resources flag
      *
-     * @var boolean
+     * @var bool
      */
     protected $_hasResources = true;
 
@@ -170,12 +169,17 @@ class User
 
     /**
      * Initialize user model
+     *
+     * @return void
      */
     protected function _construct()
     {
         $this->_init('Magento\User\Model\Resource\User');
     }
 
+    /**
+     * @return string[]
+     */
     public function __sleep()
     {
         $properties = parent::__sleep();
@@ -191,6 +195,9 @@ class User
         ));
     }
 
+    /**
+     * @return void
+     */
     public function __wakeup()
     {
         parent::__wakeup();
@@ -209,7 +216,7 @@ class User
     /**
      * Processing data before model save
      *
-     * @return \Magento\User\Model\User
+     * @return $this
      */
     protected function _beforeSave()
     {
@@ -297,6 +304,7 @@ class User
      * Add validation rules for the password management fields
      *
      * @param \Magento\Validator\Object $validator
+     * @return void
      */
     protected function _addPasswordValidation(\Magento\Validator\Object $validator)
     {
@@ -334,7 +342,7 @@ class User
     /**
      * Process data after model is saved
      *
-     * @return \Magento\Core\Model\AbstractModel
+     * @return $this
      */
     protected function _afterSave()
     {
@@ -346,7 +354,7 @@ class User
      * Save admin user extra data (like configuration sections state)
      *
      * @param   array $data
-     * @return  \Magento\User\Model\User
+     * @return  $this
      */
     public function saveExtra($data)
     {
@@ -387,7 +395,7 @@ class User
     /**
      * Unassign user from his current role
      *
-     * @return \Magento\User\Model\User
+     * @return $this
      */
     public function deleteFromRole()
     {
@@ -398,7 +406,7 @@ class User
     /**
      * Check if such combination role/user exists
      *
-     * @return boolean
+     * @return bool
      */
     public function roleUserExists()
     {
@@ -409,7 +417,7 @@ class User
     /**
      * Send email with reset password confirmation link
      *
-     * @return \Magento\User\Model\User
+     * @return $this
      */
     public function sendPasswordResetConfirmationEmail()
     {
@@ -433,7 +441,7 @@ class User
     /**
      * Send email to when password is resetting
      *
-     * @return \Magento\User\Model\User
+     * @return $this
      */
     public function sendPasswordResetNotificationEmail()
     {
@@ -489,7 +497,7 @@ class User
      *
      * @param string $username
      * @param string $password
-     * @return boolean
+     * @return bool
      * @throws \Magento\Core\Exception
      * @throws \Magento\Backend\Model\Auth\Exception
      * @throws \Magento\Backend\Model\Auth\Plugin\Exception
@@ -546,7 +554,7 @@ class User
      *
      * @param   string $username
      * @param   string $password
-     * @return  \Magento\User\Model\User
+     * @return  $this
      */
     public function login($username, $password)
     {
@@ -559,7 +567,7 @@ class User
     /**
      * Reload current user
      *
-     * @return \Magento\User\Model\User
+     * @return $this
      */
     public function reload()
     {
@@ -573,7 +581,7 @@ class User
      * Load user by its username
      *
      * @param string $username
-     * @return \Magento\User\Model\User
+     * @return $this
      */
     public function loadByUsername($username)
     {
@@ -588,7 +596,7 @@ class User
      * Check if user is assigned to any role
      *
      * @param int|\Magento\User\Model\User $user
-     * @return null|boolean|array
+     * @return null|array
      */
     public function hasAssigned2Role($user)
     {
@@ -612,7 +620,7 @@ class User
      * Stores new reset password link token and its creation time
      *
      * @param string $newToken
-     * @return \Magento\User\Model\User
+     * @return $this
      * @throws \Magento\Core\Exception
      */
     public function changeResetPasswordLinkToken($newToken)
@@ -629,7 +637,7 @@ class User
     /**
      * Check if current reset password link token is expired
      *
-     * @return boolean
+     * @return bool
      */
     public function isResetPasswordLinkTokenExpired()
     {
@@ -670,7 +678,7 @@ class User
      * Set user has available resources
      *
      * @param bool $hasResources
-     * @return \Magento\User\Model\User
+     * @return $this
      */
     public function setHasAvailableResources($hasResources)
     {

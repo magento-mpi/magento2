@@ -42,7 +42,7 @@ class Index extends \Magento\Backend\App\Action
     protected $_storeManager;
 
     /**
-     * @param Action\Context $context
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Registry $coreRegistry
      * @param \Magento\Invitation\Model\InvitationFactory $invitationFactory
      * @param \Magento\Invitation\Model\Config $config
@@ -65,7 +65,7 @@ class Index extends \Magento\Backend\App\Action
     /**
      * Invitation list
      *
-     * @retun void
+     * @return void
      */
     public function indexAction()
     {
@@ -97,7 +97,7 @@ class Index extends \Magento\Backend\App\Action
     /**
      * Invitation view action
      *
-     * @return AbstractAction
+     * @return void
      */
     public function viewAction()
     {
@@ -127,7 +127,7 @@ class Index extends \Magento\Backend\App\Action
     /**
      * Create & send new invitations
      *
-     * @return AbstractAction
+     * @return void
      */
     public function saveAction()
     {
@@ -205,7 +205,7 @@ class Index extends \Magento\Backend\App\Action
     /**
      * Edit invitation's information
      *
-     * @return AbstractAction
+     * @return AbstractAction|void
      */
     public function saveInvitationAction()
     {
@@ -241,7 +241,7 @@ class Index extends \Magento\Backend\App\Action
     /**
      * Action for mass-resending invitations
      *
-     * @return AbstractAction
+     * @return void
      * @throws \Magento\Core\Exception
      */
     public function massResendAction()
@@ -300,7 +300,7 @@ class Index extends \Magento\Backend\App\Action
     /**
      * Action for mass-cancelling invitations
      *
-     * @return AbstractAction
+     * @return void
      * @throws \Magento\Core\Exception
      */
     public function massCancelAction()
@@ -345,7 +345,7 @@ class Index extends \Magento\Backend\App\Action
     /**
      * Acl admin user check
      *
-     * @return boolean
+     * @return bool
      */
     protected function _isAllowed()
     {

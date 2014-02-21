@@ -7,17 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management\Balance;
 
 /**
  * Reward points balance grid
  *
- * @category    Magento
- * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management\Balance;
-
 class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
@@ -42,11 +38,15 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     protected $_coreRegistry;
 
     /**
+     * Reward collection
+     *
      * @var \Magento\Reward\Model\Resource\Reward\CollectionFactory
      */
     protected $_rewardsFactory;
 
     /**
+     * Reward website factory
+     *
      * @var \Magento\Reward\Model\Source\WebsiteFactory
      */
     protected $_websitesFactory;
@@ -79,6 +79,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Internal constructor
      *
+     * @return void
      */
     protected function _construct()
     {

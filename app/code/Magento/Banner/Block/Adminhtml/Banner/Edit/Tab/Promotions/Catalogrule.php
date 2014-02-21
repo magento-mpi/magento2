@@ -10,6 +10,8 @@
 
 namespace Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Promotions;
 
+use Magento\Backend\Block\Widget\Grid\Column;
+
 class Catalogrule
   extends \Magento\Backend\Block\Widget\Grid\Extended
 {
@@ -42,6 +44,7 @@ class Catalogrule
     /**
      * Initialize grid, set defaults
      *
+     * @return void
      */
     public function _construct()
     {
@@ -60,8 +63,8 @@ class Catalogrule
     /**
      * Set custom filter for in banner catalog flag
      *
-     * @param string $column
-     * @return \Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Promotions\Salesrule
+     * @param Column $column
+     * @return $this
      */
     protected function _addColumnFilterToCollection($column)
     {
@@ -86,7 +89,7 @@ class Catalogrule
     /**
      * Create grid columns
      *
-     * @return \Magento\Backend\Block\Widget\Grid\Extended
+     * @return $this
      */
     protected function _prepareColumns()
     {
@@ -147,12 +150,16 @@ class Catalogrule
     /**
      * Ajax grid URL getter
      *
+     * @return string
      */
     public function getGridUrl()
     {
         return $this->getUrl('adminhtml/*/catalogRuleGrid', array('_current'=>true));
     }
 
+    /**
+     * @return array
+     */
     protected function _getSelectedRules()
     {
         $rules = $this->getSelectedCatalogRules();

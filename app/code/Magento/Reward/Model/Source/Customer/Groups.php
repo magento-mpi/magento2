@@ -7,20 +7,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Reward\Model\Source\Customer;
 
 /**
  * Reward Customer Groups source model
  *
- * @category    Magento
- * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Reward\Model\Source\Customer;
-
 class Groups implements \Magento\Option\ArrayInterface
 {
     /**
+     * Customer collection
+     *
      * @var \Magento\Customer\Model\Resource\Group\CollectionFactory
      */
     protected $_groupsFactory;

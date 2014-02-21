@@ -61,21 +61,29 @@ class History extends \Magento\Core\Model\AbstractModel
     protected $_rewardData = null;
 
     /**
+     * Core model store manager interface
+     *
      * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
+     * Reward model
+     *
      * @var \Magento\Reward\Model\Reward
      */
     protected $_reward;
 
     /**
+     * Date time formatter
+     *
      * @var \Magento\Stdlib\DateTime
      */
     protected $dateTime;
 
     /**
+     * Reward rate model
+     *
      * @var Rate
      */
     protected $rewardRate;
@@ -114,6 +122,8 @@ class History extends \Magento\Core\Model\AbstractModel
 
     /**
      * Internal constructor
+     *
+     * @return void
      */
     protected function _construct()
     {

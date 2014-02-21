@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\TargetRule\Block\Adminhtml\Targetrule\Edit\Tab;
 
 /**
  * TargetRule Adminhtml Edit Tab Conditions Block
@@ -15,8 +15,6 @@
  * @category   Magento
  * @package    Magento_TargetRule
  */
-namespace Magento\TargetRule\Block\Adminhtml\Targetrule\Edit\Tab;
-
 class Conditions
     extends \Magento\Backend\Block\Widget\Form\Generic
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
@@ -56,7 +54,7 @@ class Conditions
     /**
      * Prepare target rule actions form before rendering HTML
      *
-     * @return \Magento\TargetRule\Block\Adminhtml\Targetrule\Edit\Tab\Conditions
+     * @return $this
      */
     protected function _prepareForm()
     {

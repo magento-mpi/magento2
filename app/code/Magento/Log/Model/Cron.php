@@ -94,7 +94,7 @@ class Cron extends \Magento\Core\Model\AbstractModel
     /**
      * Send Log Clean Warnings
      *
-     * @return \Magento\Log\Model\Cron
+     * @return $this
      */
     protected function _sendLogCleanEmail()
     {
@@ -127,7 +127,7 @@ class Cron extends \Magento\Core\Model\AbstractModel
     /**
      * Clean logs
      *
-     * @return \Magento\Log\Model\Cron
+     * @return $this
      */
     public function logClean()
     {

@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\VersionsCms\Model\Page;
 
 /**
  * Cms page version model
@@ -28,8 +29,6 @@
  * @method string getCreatedAt()
  * @method \Magento\VersionsCms\Model\Page\Version setCreatedAt(string $value)
  */
-namespace Magento\VersionsCms\Model\Page;
-
 class Version extends \Magento\Core\Model\AbstractModel
 {
     /**
@@ -115,6 +114,8 @@ class Version extends \Magento\Core\Model\AbstractModel
 
     /**
      * Constructor
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -125,7 +126,7 @@ class Version extends \Magento\Core\Model\AbstractModel
     /**
      * Preparing data before save
      *
-     * @return \Magento\VersionsCms\Model\Page\Version
+     * @return $this
      * @throws \Magento\Core\Exception
      */
     protected function _beforeSave()
@@ -165,7 +166,7 @@ class Version extends \Magento\Core\Model\AbstractModel
     /**
      * Processing some data after version saved
      *
-     * @return \Magento\VersionsCms\Model\Page\Version
+     * @return $this
      */
     protected function _afterSave()
     {
@@ -196,7 +197,7 @@ class Version extends \Magento\Core\Model\AbstractModel
     /**
      * Checking some moments before we can actually delete version
      *
-     * @return \Magento\VersionsCms\Model\Page\Version
+     * @return $this
      * @throws \Magento\Core\Exception
      */
     protected function _beforeDelete()
@@ -223,7 +224,7 @@ class Version extends \Magento\Core\Model\AbstractModel
     /**
      * Removing unneeded data from increment table after version was removed.
      *
-     * @return \Magento\VersionsCms\Model\Page\Version
+     * @return $this
      */
     protected function _afterDelete()
     {
@@ -253,7 +254,7 @@ class Version extends \Magento\Core\Model\AbstractModel
      * @param int $userId
      * @param int|string $value
      * @param string|null $field
-     * @return \Magento\VersionsCms\Model\Page\Version
+     * @return $this
      */
     public function loadWithRestrictions($accessLevel, $userId, $value, $field = null)
     {

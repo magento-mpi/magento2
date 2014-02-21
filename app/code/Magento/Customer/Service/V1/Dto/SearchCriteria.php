@@ -1,7 +1,5 @@
 <?php
 /**
- * Customer Service Address Interface
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -9,15 +7,18 @@
  */
 namespace Magento\Customer\Service\V1\Dto;
 
-use Magento\Customer\Service\V1\Dto\Filter;
+use Magento\Service\Entity\AbstractDto;
 
-class SearchCriteria extends \Magento\Service\Entity\AbstractDto
+/**
+ * DTO for SearchCriteria
+ */
+class SearchCriteria extends AbstractDto
 {
     const SORT_ASC = 1;
     const SORT_DESC = -1;
 
     /**
-     * @return Filter[]
+     * @return \Magento\Customer\Service\V1\Dto\Search\FilterGroupInterface
      */
     public function getFilters()
     {
@@ -46,5 +47,16 @@ class SearchCriteria extends \Magento\Service\Entity\AbstractDto
     public function getCurrentPage()
     {
         return $this->_get('current_page');
+    }
+
+    /**
+     * Create Array
+     *
+     * @todo to be implemented in MAGETWO-18201
+     *
+     * @return array
+     */
+    private function _createArray()
+    {
     }
 }

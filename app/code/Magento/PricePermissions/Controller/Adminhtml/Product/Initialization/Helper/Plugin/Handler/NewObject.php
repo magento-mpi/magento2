@@ -9,17 +9,21 @@
 namespace Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler;
 
 use Magento\Core\Model\StoreManagerInterface;
-use Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\HandlerInterface;
+use Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\HandlerInterface;
 use Magento\Catalog\Model\Product;
 
 class NewObject implements HandlerInterface
 {
     /**
+     * Request interface
+     *
      * @var \Magento\App\RequestInterface
      */
     protected $request;
 
     /**
+     * Store manager interface
+     *
      * @var StoreManagerInterface
      */
     protected $storeManager;
@@ -47,6 +51,8 @@ class NewObject implements HandlerInterface
     }
 
     /**
+     * Handle new object
+     *
      * @param Product $product
      * @return void
      */

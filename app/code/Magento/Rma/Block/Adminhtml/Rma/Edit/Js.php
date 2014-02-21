@@ -33,6 +33,11 @@ class Js extends \Magento\Backend\Block\Template
         parent::__construct($context, $data);
     }
 
+    /**
+     * Initialize current rma
+     *
+     * @return void
+     */
     public function _construct()
     {
         parent::_construct();

@@ -28,6 +28,19 @@ class DefaultRouter extends \Magento\Core\App\Router\Base
     protected $_coreConfig;
 
     /**
+     * List of required request parameters
+     * Order sensitive
+     *
+     * @var string[]
+     */
+    protected $_requiredParams = array(
+        'areaFrontName',
+        'moduleFrontName',
+        'controllerName',
+        'actionName',
+    );
+
+    /**
      * @param \Magento\App\ActionFactory $actionFactory
      * @param \Magento\App\DefaultPathInterface $defaultPath
      * @param \Magento\App\ResponseFactory $responseFactory
@@ -76,18 +89,6 @@ class DefaultRouter extends \Magento\Core\App\Router\Base
         $this->_backendConfig = $backendConfig;
         $this->_url = $url;
     }
-
-    /**
-     * List of required request parameters
-     * Order sensitive
-     * @var array
-     */
-    protected $_requiredParams = array(
-        'areaFrontName',
-        'moduleFrontName',
-        'controllerName',
-        'actionName',
-    );
 
     /**
      * Get router default request path
@@ -153,13 +154,6 @@ class DefaultRouter extends \Magento\Core\App\Router\Base
      */
     public function getControllerClassName($module, $controller)
     {
-        /**
-         * TODO: Delete these lines after adminhtml module is removed
-         */
-        if ($module == 'Magento_Adminhtml') {
-            return parent::getControllerClassName($module, $controller);
-        }
-
         $parts = explode('_', $module);
         $parts = array_splice($parts, 0, 2);
         $parts[] = 'Controller';

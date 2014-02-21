@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Invitation\Block\Adminhtml\Invitation\View\Tab;
 
 /**
  * Invitation view status history tab block
@@ -14,14 +15,12 @@
  * @category   Magento
  * @package    Magento_Invitation
  */
-namespace Magento\Invitation\Block\Adminhtml\Invitation\View\Tab;
-
 class History
     extends \Magento\Backend\Block\Template
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
-     * @inheritdoc
+     * @var string
      */
     protected $_template = 'view/tab/history.phtml';
 

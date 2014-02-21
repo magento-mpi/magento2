@@ -14,11 +14,15 @@ namespace Magento\Rma\Block\Order;
 class Link extends \Magento\Sales\Block\Order\Link
 {
     /**
+     * Rma data
+     *
      * @var \Magento\Rma\Helper\Data
      */
     protected $_rmaHelper;
 
     /**
+     * Rma grid collection
+     *
      * @var \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory
      */
     protected $_collectionFactory;

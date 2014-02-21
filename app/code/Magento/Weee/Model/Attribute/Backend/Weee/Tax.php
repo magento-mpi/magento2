@@ -7,8 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Weee\Model\Attribute\Backend\Weee;
+
+use Magento\Core\Exception;
 
 class Tax extends \Magento\Catalog\Model\Product\Attribute\Backend\Price
 {
@@ -51,6 +52,9 @@ class Tax extends \Magento\Catalog\Model\Product\Attribute\Backend\Price
         parent::__construct($logger, $currencyFactory, $storeManager, $catalogData, $config);
     }
 
+    /**
+     * @return string
+     */
     public static function getBackendModelName()
     {
         return 'Magento\Weee\Model\Attribute\Backend\Weee\Tax';
@@ -60,7 +64,8 @@ class Tax extends \Magento\Catalog\Model\Product\Attribute\Backend\Price
      * Validate data
      *
      * @param   \Magento\Catalog\Model\Product $object
-     * @return  this
+     * @return  $this
+     * @throws  Exception
      */
     public function validate($object)
     {
@@ -79,7 +84,7 @@ class Tax extends \Magento\Catalog\Model\Product\Attribute\Backend\Price
             $key1 = implode('-', array($tax['website_id'], $tax['country'], $state));
 
             if (!empty($dup[$key1])) {
-                throw new \Magento\Core\Exception(
+                throw new Exception(
                     __('We found a duplicate website, country, and state tax.')
                 );
             }
@@ -92,7 +97,7 @@ class Tax extends \Magento\Catalog\Model\Product\Attribute\Backend\Price
      * Assign WEEE taxes to product data
      *
      * @param   \Magento\Catalog\Model\Product $object
-     * @return  \Magento\Catalog\Model\Product\Attribute\Backend\Weee
+     * @return  $this
      */
     public function afterLoad($object)
     {
@@ -116,6 +121,9 @@ class Tax extends \Magento\Catalog\Model\Product\Attribute\Backend\Price
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function afterSave($object)
     {
         $orig = $object->getOrigData($this->getAttribute()->getName());
@@ -155,12 +163,18 @@ class Tax extends \Magento\Catalog\Model\Product\Attribute\Backend\Price
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function afterDelete($object)
     {
         $this->_attributeTax->deleteProductData($object, $this->getAttribute());
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getTable()
     {
         return $this->_attributeTax->getTable('weee_tax');

@@ -16,79 +16,68 @@ namespace Magento\Rma\Model\Resource;
 class Setup extends \Magento\Sales\Model\Resource\Setup
 {
     /**
+     * Catalog model setup factory
+     *
      * @var \Magento\Catalog\Model\Resource\SetupFactory
      */
     protected $_catalogSetupFactory;
 
     /**
+     * Enterprise setup migration factory
+     *
      * @var \Magento\Enterprise\Model\Resource\Setup\MigrationFactory
      */
     protected $_entMigrationFactory;
 
     /**
-     * @var \Magento\Rma\Model\RefundableList
+     * Rma refundable list
+     * 
+     * @var \Magento\Catalog\Model\ProductTypes\ConfigInterface
      */
-    protected $refundableList;
+    protected $productTypeConfig;
 
     /**
-     * @param \Magento\Core\Model\Resource\Setup\Context $context
+     * @param \Magento\Eav\Model\Entity\Setup\Context $context
      * @param string $resourceName
      * @param \Magento\App\CacheInterface $cache
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGroupCollectionFactory
      * @param \Magento\App\ConfigInterface $config
      * @param \Magento\Catalog\Model\Resource\SetupFactory $catalogSetupFactory
      * @param \Magento\Enterprise\Model\Resource\Setup\MigrationFactory $entMigrationFactory
-     * @param \Magento\Rma\Model\RefundableList $refundableList
+     * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig
      * @param string $moduleName
      * @param string $connectionName
      */
     public function __construct(
-        \Magento\Core\Model\Resource\Setup\Context $context,
+        \Magento\Eav\Model\Entity\Setup\Context $context,
         $resourceName,
         \Magento\App\CacheInterface $cache,
         \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGroupCollectionFactory,
         \Magento\App\ConfigInterface $config,
         \Magento\Catalog\Model\Resource\SetupFactory $catalogSetupFactory,
         \Magento\Enterprise\Model\Resource\Setup\MigrationFactory $entMigrationFactory,
-        \Magento\Rma\Model\RefundableList $refundableList,
+        \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig,
         $moduleName = 'Magento_Rma',
         $connectionName = ''
     ) {
         $this->_catalogSetupFactory = $catalogSetupFactory;
         $this->_entMigrationFactory = $entMigrationFactory;
-        $this->refundableList = $refundableList;
+        $this->productTypeConfig = $productTypeConfig;
         parent::__construct(
             $context, $resourceName, $cache, $attrGroupCollectionFactory, $config, $moduleName, $connectionName
         );
     }
 
     /**
-     * Prepare RMA item attribute values to save in additional table
+     * Get refundable product types
      *
-     * @param array $attr
-     * @return array
-     */
-    protected function _prepareValues($attr)
-    {
-        $data = parent::_prepareValues($attr);
-        $data = array_merge($data, array(
-            'is_visible'                => $this->_getValue($attr, 'visible', 1),
-            'is_system'                 => $this->_getValue($attr, 'system', 1),
-            'input_filter'              => $this->_getValue($attr, 'input_filter', null),
-            'multiline_count'           => $this->_getValue($attr, 'multiline_count', 0),
-            'validate_rules'            => $this->_getValue($attr, 'validate_rules', null),
-            'data_model'                => $this->_getValue($attr, 'data', null),
-            'sort_order'                => $this->_getValue($attr, 'position', 0)
-        ));
-        return $data;
-    }
-
-    /**
      * @return array
      */
     public function getRefundableProducts()
     {
-        return $this->refundableList->getItem();
+        return array_diff(
+            $this->productTypeConfig->filter('refundable'), $this->productTypeConfig->filter('is_product_set')
+        );
     }
 
     /**
@@ -271,6 +260,8 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
     }
 
     /**
+     * Get catalog setup
+     *
      * @param array $data
      * @return \Magento\Catalog\Model\Resource\Setup
      */

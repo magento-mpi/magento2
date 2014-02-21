@@ -17,6 +17,8 @@ class Notice extends \Magento\Backend\Block\Template
 {
     /**
      * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 

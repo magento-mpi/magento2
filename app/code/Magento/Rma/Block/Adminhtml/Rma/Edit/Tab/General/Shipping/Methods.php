@@ -27,6 +27,8 @@ class Methods extends \Magento\View\Element\Template
     protected $_coreRegistry = null;
 
     /**
+     * Json encoder interface
+     *
      * @var \Magento\Json\EncoderInterface
      */
     protected $_jsonEncoder;
@@ -51,6 +53,11 @@ class Methods extends \Magento\View\Element\Template
         parent::__construct($context, $data);
     }
 
+    /**
+     * Constructor
+     *
+     * @return void
+     */
     public function _construct()
     {
         parent::_construct();
@@ -60,6 +67,8 @@ class Methods extends \Magento\View\Element\Template
     }
 
     /**
+     * Get shipping price
+     *
      * @param float $price
      * @return float
      */
@@ -78,6 +87,9 @@ class Methods extends \Magento\View\Element\Template
     }
 
     /**
+     * Get rma shipping data in json format
+     *
+     * @param array $method
      * @return string
      */
     public function jsonData($method)

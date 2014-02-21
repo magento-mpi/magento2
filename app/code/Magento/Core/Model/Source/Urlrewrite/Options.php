@@ -47,7 +47,7 @@ class Options implements \Magento\Option\ArrayInterface
     /**
      * Get options list (redirects only)
      *
-     * @return array
+     * @return string[]
      */
     public function getRedirectOptions()
     {

@@ -5,12 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento;
 
 /**
  * Registry model. Used to manage values in registry
  */
-namespace Magento;
-
 class Registry
 {
     /**
@@ -40,6 +39,7 @@ class Registry
      * @param string $key
      * @param mixed $value
      * @param bool $graceful
+     * @return void
      * @throws \RuntimeException
      */
     public function register($key, $value, $graceful = false)
@@ -57,6 +57,7 @@ class Registry
      * Unregister a variable from register by key
      *
      * @param string $key
+     * @return void
      */
     public function unregister($key)
     {

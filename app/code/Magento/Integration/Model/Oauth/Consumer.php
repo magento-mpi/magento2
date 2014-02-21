@@ -5,7 +5,6 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento\Integration\Model\Oauth;
 
 use Magento\Oauth\ConsumerInterface;
@@ -78,7 +77,7 @@ class Consumer extends \Magento\Core\Model\AbstractModel implements ConsumerInte
     /**
      * BeforeSave actions
      *
-     * @return Consumer
+     * @return $this
      */
     protected function _beforeSave()
     {
@@ -131,7 +130,7 @@ class Consumer extends \Magento\Core\Model\AbstractModel implements ConsumerInte
      * Load consumer data by consumer key.
      *
      * @param string $key
-     * @return Consumer
+     * @return $this
      */
     public function loadByKey($key)
     {

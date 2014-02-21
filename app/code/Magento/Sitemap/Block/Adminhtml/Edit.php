@@ -7,16 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sitemap\Block\Adminhtml;
 
 /**
  * Sitemap edit form container
  *
- * @category   Magento
- * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sitemap\Block\Adminhtml;
-
 class Edit extends \Magento\Backend\Block\Widget\Form\Container
 {
     /**
@@ -42,6 +39,8 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
 
     /**
      * Init container
+     *
+     * @return void
      */
     protected function _construct()
     {

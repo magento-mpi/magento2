@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Index\Model;
+
+use Magento\Index\Model\Indexer;
 
 /**
  * @method \Magento\Index\Model\Resource\Event _getResource()
@@ -25,10 +28,6 @@
  * @package     Magento_Index
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Index\Model;
-
-use Magento\Index\Model\Indexer;
-
 class Event extends \Magento\Core\Model\AbstractModel
 {
     /**
@@ -94,6 +93,8 @@ class Event extends \Magento\Core\Model\AbstractModel
 
     /**
      * Initialize resource
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -260,9 +261,10 @@ class Event extends \Magento\Core\Model\AbstractModel
     /**
      * Get event old data array
      *
-     * @deprecated since 1.6.2.0
      * @param bool $useNamespace
      * @return array
+     *
+     * @deprecated since 1.6.2.0
      */
     public function getOldData($useNamespace = true)
     {
@@ -292,10 +294,11 @@ class Event extends \Magento\Core\Model\AbstractModel
     /**
      * Add new values to old data array (overwrite if value with same key exist)
      *
-     * @deprecated since 1.6.2.0
      * @param array|string $key
      * @param null|mixed $value
      * @return $this
+     *
+     * @deprecated since 1.6.2.0
      */
     public function addOldData($key, $value = null)
     {

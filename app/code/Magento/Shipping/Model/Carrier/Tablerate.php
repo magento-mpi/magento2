@@ -7,15 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\Shipping\Model\Carrier;
 
 class Tablerate
     extends \Magento\Shipping\Model\Carrier\AbstractCarrier
     implements \Magento\Shipping\Model\Carrier\CarrierInterface
 {
-
     /**
      * @var string
      */
@@ -53,9 +50,9 @@ class Tablerate
 
     /**
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Shipping\Model\Rate\ResultFactory $rateResultFactory
      * @param \Magento\Sales\Model\Quote\Address\RateResult\ErrorFactory $rateErrorFactory
      * @param \Magento\Logger\AdapterFactory $logAdapterFactory
+     * @param \Magento\Shipping\Model\Rate\ResultFactory $rateResultFactory
      * @param \Magento\Sales\Model\Quote\Address\RateResult\MethodFactory $resultMethodFactory
      * @param \Magento\Shipping\Model\Resource\Carrier\TablerateFactory $tablerateFactory
      * @param array $data

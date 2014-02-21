@@ -61,7 +61,7 @@ class Tabs
     /**
      * Add tab sections
      *
-     * @return \Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tabs
+     * @return $this
      */
     protected function _beforeToHtml()
     {

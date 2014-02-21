@@ -55,6 +55,7 @@ class Main
     /**
      * Internal constructor
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -115,7 +116,7 @@ class Main
     /**
      * Prepare form before rendering HTML
      *
-     * @return \Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab\Main
+     * @return $this
      */
     protected function _prepareForm()
     {
@@ -193,7 +194,7 @@ class Main
             'note' => __('Sort Order of widget instances in the same container')
         ));
 
-        /* @var $layoutBlock \Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab\Main_Layout */
+        /* @var $layoutBlock \Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab\Main\Layout */
         $layoutBlock = $this->getLayout()
             ->createBlock('Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab\Main\Layout')
             ->setWidgetInstance($widgetInstance);
@@ -221,7 +222,7 @@ class Main
     /**
      * Initialize form fileds values
      *
-     * @return \Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab\Main
+     * @return $this
      */
     protected function _initFormValues()
     {

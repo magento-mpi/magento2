@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Version\Edit;
 
 /**
  * Form for version edit page
  */
-namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Version\Edit;
-
 class Form
     extends \Magento\Backend\Block\Widget\Form\Generic
 {
@@ -57,7 +56,7 @@ class Form
     /**
      * Preparing from for version page
      *
-     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit\Form
+     * @return $this
      */
     protected function _prepareForm()
     {

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\VersionsCms\Model\Hierarchy;
 
 /**
  * Cms Hierarchy Pages Lock Model
@@ -25,8 +25,6 @@
  *
  * @deprecated since 1.12.0.0
  */
-namespace Magento\VersionsCms\Model\Hierarchy;
-
 class Lock extends \Magento\Core\Model\AbstractModel
 {
     /**
@@ -80,6 +78,8 @@ class Lock extends \Magento\Core\Model\AbstractModel
 
     /**
      * Resource model initializing
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -90,7 +90,7 @@ class Lock extends \Magento\Core\Model\AbstractModel
      * Setter for session instance
      *
      * @param \Magento\Session\SessionManagerInterface $session
-     * @return \Magento\VersionsCms\Model\Hierarchy\Lock
+     * @return $this
      */
     public function setSession(\Magento\Session\SessionManagerInterface $session)
     {
@@ -114,7 +114,7 @@ class Lock extends \Magento\Core\Model\AbstractModel
     /**
      * Load lock data
      *
-     * @return \Magento\VersionsCms\Model\Hierarchy\Lock
+     * @return $this
      */
     public function loadLockData()
     {
@@ -159,7 +159,7 @@ class Lock extends \Magento\Core\Model\AbstractModel
     /**
      * Revalidate lock data
      *
-     * @return \Magento\VersionsCms\Model\Hierarchy\Lock
+     * @return $this
      */
     public function revalidate()
     {
@@ -215,7 +215,7 @@ class Lock extends \Magento\Core\Model\AbstractModel
     /**
      * Create lock for page, previously deleting existing lock
      *
-     * @return \Magento\VersionsCms\Model\Hierarchy\Lock
+     * @return $this
      */
     public function lock()
     {

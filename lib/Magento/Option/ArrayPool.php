@@ -1,7 +1,5 @@
 <?php
 /**
- * Array optioned object factory
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -9,6 +7,9 @@
  */
 namespace Magento\Option;
 
+/**
+ * Array optioned object factory
+ */
 class ArrayPool
 {
     /**

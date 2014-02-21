@@ -84,8 +84,8 @@ class Grid extends \Magento\Backend\Block\Template
     /**
      * Format price
      *
-     * @param   decimal $value
-     * @return  double
+     * @param float $value
+     * @return string
      */
     public function formatPrice($value)
     {

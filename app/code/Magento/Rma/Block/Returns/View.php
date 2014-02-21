@@ -44,31 +44,43 @@ class View extends \Magento\Rma\Block\Form
     protected $_coreRegistry = null;
 
     /**
+     * Rma item collection
+     *
      * @var \Magento\Rma\Model\Resource\Item\CollectionFactory
      */
     protected $_itemsFactory;
 
     /**
+     * Rma status history collection
+     *
      * @var \Magento\Rma\Model\Resource\Rma\Status\History\CollectionFactory
      */
     protected $_historiesFactory;
 
     /**
+     * Rma item factory
+     *
      * @var \Magento\Rma\Model\ItemFactory
      */
     protected $_itemFactory;
 
     /**
-     * @var \Magento\Eav\Model\Form\Factory
+     * Eav model form factory
+     *
+     * @var \Magento\Rma\Model\Item\FormFactory
      */
     protected $_itemFormFactory;
 
     /**
+     * Customer session model
+     *
      * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
+     * Eav configuration model
+     *
      * @var \Magento\Eav\Model\Config
      */
     protected $_eavConfig;
@@ -113,9 +125,13 @@ class View extends \Magento\Rma\Block\Form
         $this->_customerSession = $customerSession;
         $this->_eavConfig = $eavConfig;
         parent::__construct($context, $modelFactory, $formFactory, $eavConfig, $data);
-        $this->_isScopePrivate = true;
     }
 
+    /**
+     * Initialize rma return
+     *
+     * @return void
+     */
     public function _construct()
     {
         parent::_construct();
@@ -181,7 +197,7 @@ class View extends \Magento\Rma\Block\Form
     /**
      * Gets values for each visible attribute
      *
-     * $excludeAttr is optional array of attribute codes to
+     * Parameter $excludeAttr is optional array of attribute codes to
      * exclude them from additional data array
      *
      * @param string[] $excludeAttr
@@ -293,6 +309,8 @@ class View extends \Magento\Rma\Block\Form
     }
 
     /**
+     * Get sales order view url
+     *
      * @param Rma $rma
      * @return string
      */
@@ -302,6 +320,8 @@ class View extends \Magento\Rma\Block\Form
     }
 
     /**
+     * Get rma returns back url
+     *
      * @return string
      */
     public function getBackUrl()
@@ -314,6 +334,8 @@ class View extends \Magento\Rma\Block\Form
     }
 
     /**
+     * Get return address
+     *
      * @return string
      */
     public function getAddress()
@@ -322,6 +344,8 @@ class View extends \Magento\Rma\Block\Form
     }
 
     /**
+     * Get add comment submit url
+     *
      * @return string
      */
     public function getSubmitUrl()
@@ -330,6 +354,8 @@ class View extends \Magento\Rma\Block\Form
     }
 
     /**
+     * Get customer name
+     *
      * @return string
      */
     public function getCustomerName()
@@ -364,7 +390,7 @@ class View extends \Magento\Rma\Block\Form
      */
     public function getTrackingInfo()
     {
-       return $this->getBlockHtml('rma.returns.tracking');
+        return $this->getBlockHtml('rma.returns.tracking');
     }
 
     /**

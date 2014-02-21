@@ -19,7 +19,7 @@ class StoreOptionHash implements \Magento\Option\ArrayInterface
     protected $_systemStore;
 
     /**
-     * @param \Magento\Core\Model\System\Store
+     * @param \Magento\Core\Model\System\Store $systemStore
      */
     public function __construct(\Magento\Core\Model\System\Store $systemStore)
     {

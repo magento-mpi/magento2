@@ -45,6 +45,8 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
     /**
      * Form with widget to select
+     *
+     * @return void
      */
     protected function _prepareForm()
     {
@@ -135,7 +137,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Return array of widgets disabled for selection
      *
-     * @return array
+     * @return string[]
      */
     protected function _getSkippedWidgets()
     {

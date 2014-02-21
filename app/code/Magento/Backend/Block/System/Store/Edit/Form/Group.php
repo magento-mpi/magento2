@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Block\System\Store\Edit\Form;
 
 /**
  * Adminhtml store edit form for group
@@ -14,10 +15,7 @@
  * @category    Magento
  * @package     Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
- */
-namespace Magento\Backend\Block\System\Store\Edit\Form;
-
-/**
+ *
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 class Group
@@ -66,6 +64,7 @@ class Group
      * Prepare group specific fieldset
      *
      * @param \Magento\Data\Form $form
+     * @return void
      */
     protected function _prepareStoreFieldset(\Magento\Data\Form $form)
     {

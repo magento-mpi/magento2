@@ -14,6 +14,9 @@ namespace Magento\Cms\Model\Config\Source;
  */
 class Page implements \Magento\Option\ArrayInterface
 {
+    /**
+     * @var array
+     */
     protected $_options;
 
     /**

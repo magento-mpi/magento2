@@ -23,6 +23,8 @@ class Tracking extends \Magento\App\Action\Action
     protected $_coreRegistry;
 
     /**
+     * Http response file factory
+     *
      * @var \Magento\App\Response\Http\FileFactory
      */
     protected $_fileResponseFactory;
@@ -111,7 +113,7 @@ class Tracking extends \Magento\App\Action\Action
      * Try to load valid rma by entity_id and register it
      *
      * @param int $entityId
-     * @return bool
+     * @return bool|void
      */
     protected function _loadValidRma($entityId = null)
     {
@@ -144,8 +146,8 @@ class Tracking extends \Magento\App\Action\Action
     /**
      * Print label for one specific shipment
      *
-     * @return void
-     * @throws NotFoundException
+     * @return \Magento\App\ResponseInterface|void
+     * @throws \Magento\App\Action\NotFoundException
      */
     public function printLabelAction()
     {

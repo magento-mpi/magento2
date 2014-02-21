@@ -67,6 +67,7 @@ class Cache implements \Magento\Acl\CacheInterface
      * Save ACL object to cache
      *
      * @param \Magento\Acl $acl
+     * @return void
      */
     public function save(\Magento\Acl $acl)
     {
@@ -76,6 +77,8 @@ class Cache implements \Magento\Acl\CacheInterface
 
     /**
      * Clear ACL instance cache
+     *
+     * @return void
      */
     public function clean()
     {

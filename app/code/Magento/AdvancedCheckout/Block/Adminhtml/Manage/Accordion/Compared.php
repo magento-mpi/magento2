@@ -17,6 +17,8 @@
  */
 namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion;
 
+use \Magento\Catalog\Model\Product\Attribute\Source\Status as ProductStatus;
+
 class Compared
     extends \Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\AbstractAccordion
 {
@@ -101,7 +103,7 @@ class Compared
                 ->addStoreFilter($this->_getStore()->getId())
                 ->setCustomerId($this->_getCustomer()->getId())
                 ->addAttributeToSelect($attributes)
-                ->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Status::STATUS_ENABLED);
+                ->addAttributeToFilter('status', ProductStatus::STATUS_ENABLED);
             $this->_catalogStockStatus->addIsInStockFilterToCollection($collection);
             $collection = $this->_adminhtmlSales->applySalableProductTypesFilter($collection);
             $collection->addOptionsToResult();

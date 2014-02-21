@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\TargetRule\Model\Resource;
 
 /**
@@ -130,6 +129,7 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
     /**
      * Initialize connection and define main table
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -149,7 +149,7 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
     /**
      * Retrieve array of defined product list type id
      *
-     * @return array
+     * @return int[]
      */
     public function getTypeIds()
     {
@@ -279,7 +279,7 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
      * @param \Magento\TargetRule\Model\Index $object
      * @param int $limit
      * @param array $excludeProductIds
-     * @return mixed
+     * @return array
      */
     protected function _getProductIdsByRule($rule, $object, $limit, $excludeProductIds = array())
     {
@@ -369,7 +369,8 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
      * Save index flag by index object data
      *
      * @param \Magento\TargetRule\Model\Index $object
-     * @return \Magento\TargetRule\Model\Resource\Index
+     * @param int|null $segmentId
+     * @return $this
      */
     public function saveFlag($object, $segmentId = null)
     {
@@ -549,7 +550,7 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
      *
      * @param int|null $typeId
      * @param \Magento\Core\Model\Store|int|array|null $store
-     * @return \Magento\TargetRule\Model\Resource\Index
+     * @return $this
      */
     public function cleanIndex($typeId = null, $store = null)
     {
@@ -582,8 +583,8 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
      * Remove index by product ids and type
      *
      * @param int|array|\Magento\DB\Select $productIds
-     * @param int $typeId
-     * @return \Magento\TargetRule\Model\Resource\Index
+     * @param int|null $typeId
+     * @return $this
      */
     public function removeIndexByProductIds($productIds, $typeId = null)
     {
@@ -610,10 +611,9 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
     /**
      * Remove target rule matched product index data by product id or/and rule id
      *
-     * @param int $productId
+     * @param int|null $productId
      * @param array|int|string $ruleIds
-     *
-     * @return \Magento\TargetRule\Model\Resource\Index
+     * @return $this
      */
     public function removeProductIndex($productId = null, $ruleIds = array())
     {
@@ -625,8 +625,7 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
      * Bind target rule to specified product
      *
      * @param \Magento\TargetRule\Model\Rule $object
-     *
-     * @return \Magento\TargetRule\Model\Resource\Index
+     * @return $this
      */
     public function saveProductIndex($object)
     {
@@ -638,8 +637,8 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
      * Adds order by random to select object
      *
      * @param \Magento\DB\Select $select
-     * @param null $field
-     * @return \Magento\TargetRule\Model\Resource\Index
+     * @param string|null $field
+     * @return $this
      */
     public function orderRand(\Magento\DB\Select $select, $field = null)
     {

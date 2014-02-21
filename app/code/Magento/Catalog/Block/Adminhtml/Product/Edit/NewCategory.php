@@ -56,6 +56,8 @@ class NewCategory extends \Magento\Backend\Block\Widget\Form\Generic
 
     /**
      * Form preparation
+     *
+     * @return void
      */
     protected function _prepareForm()
     {

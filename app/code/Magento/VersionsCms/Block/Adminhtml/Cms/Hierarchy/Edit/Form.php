@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Edit;
 
 /**
  * Cms Pages Tree Edit Form Block
  */
-namespace Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Edit;
-
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
@@ -79,9 +78,9 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy
      * @param \Magento\Backend\Model\Config\Source\Yesno $sourceYesno
      * @param \Magento\VersionsCms\Model\Source\Hierarchy\Menu\Listmode $menuListmode
@@ -129,7 +128,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Prepare form before rendering HTML
      *
-     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Edit\Form
+     * @return $this
      */
     protected function _prepareForm()
     {
@@ -646,7 +645,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Check if node can be previewed
      *
-     * @return boolean
+     * @return bool
      */
     public function isNodePreviewAvailable()
     {

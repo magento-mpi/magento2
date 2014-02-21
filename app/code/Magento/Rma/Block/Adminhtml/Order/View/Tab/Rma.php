@@ -7,12 +7,11 @@
  * @copyright {copyright}
  * @license {license_link}
  */
+namespace Magento\Rma\Block\Adminhtml\Order\View\Tab;
 
 /**
  * Order RMA Grid
  */
-namespace Magento\Rma\Block\Adminhtml\Order\View\Tab;
-
 class Rma
     extends \Magento\Rma\Block\Adminhtml\Rma\Grid
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
@@ -44,6 +43,11 @@ class Rma
         parent::__construct($context, $backendHelper, $collectionFactory, $rmaFactory, $data);
     }
 
+    /**
+     * Initialize order rma
+     *
+     * @return void
+     */
     public function _construct()
     {
         parent::_construct();
@@ -54,7 +58,7 @@ class Rma
     /**
      * Configuring and setting collection
      *
-     * @return \Magento\Rma\Block\Adminhtml\Order\View\Tab\Rma
+     * @return $this
      */
     protected function _beforePrepareCollection()
     {
@@ -77,7 +81,7 @@ class Rma
     /**
      * Prepare grid columns
      *
-     * @return \Magento\Rma\Block\Adminhtml\Rma\Grid
+     * @return \Magento\Rma\Block\Adminhtml\Rma\Grid|void
      */
     protected function _prepareColumns()
     {

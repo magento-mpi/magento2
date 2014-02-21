@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General;
 
 /**
  * Shipping Method Block at RMA page
  */
-namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General;
-
 class Shippingmethod
     extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\AbstractGeneral
 {
@@ -45,6 +44,8 @@ class Shippingmethod
     protected $_taxData;
 
     /**
+     * Rma shipping factory
+     *
      * @var \Magento\Rma\Model\ShippingFactory
      */
     protected $_shippingFactory;
@@ -71,6 +72,11 @@ class Shippingmethod
         parent::__construct($context, $registry, $data);
     }
 
+    /**
+     * Constructor
+     *
+     * @return void
+     */
     public function _construct()
     {
         $buttonStatus       = \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shippingmethod::PSL_DISALLOWED;
@@ -126,7 +132,7 @@ class Shippingmethod
      * Return price according to store
      *
      * @param  string $price
-     * @return double
+     * @return float
      */
     public function getShippingPrice($price)
     {

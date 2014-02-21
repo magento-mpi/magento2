@@ -35,7 +35,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
     protected $_customerSession;
 
     /**
-     * @var \Magento\Wishlist\Model\WishlistFactory
+     * @var WishlistFactory
      */
     protected $_wishlistFactory;
 
@@ -50,7 +50,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Wishlist\Helper\Data $wishlistData
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
+     * @param WishlistFactory $wishlistFactory
      * @param \Magento\Message\ManagerInterface $messageManager
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
@@ -62,7 +62,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
         \Magento\Wishlist\Helper\Data $wishlistData,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
+        WishlistFactory $wishlistFactory,
         \Magento\Message\ManagerInterface $messageManager,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
@@ -80,7 +80,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
      * Get customer wishlist model instance
      *
      * @param   int $customerId
-     * @return  \Magento\Wishlist\Model\Wishlist || false
+     * @return  Wishlist|false
      */
     protected function _getWishlist($customerId)
     {
@@ -94,7 +94,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
      * Check move quote item to wishlist request
      *
      * @param   \Magento\Event\Observer $observer
-     * @return  \Magento\Wishlist\Model\Observer
+     * @return  $this
      */
     public function processCartUpdateBefore($observer)
     {
@@ -134,6 +134,10 @@ class Observer extends \Magento\Core\Model\AbstractModel
         return $this;
     }
 
+    /**
+     * @param \Magento\Event\Observer $observer
+     * @return void
+     */
     public function processAddToCart($observer)
     {
         $request = $observer->getEvent()->getRequest();
@@ -188,7 +192,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
      * Customer login processing
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\Wishlist\Model\Observer
+     * @return $this
      */
     public function customerLogin(\Magento\Event\Observer $observer)
     {
@@ -201,7 +205,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
      * Customer logout processing
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\Wishlist\Model\Observer
+     * @return $this
      */
     public function customerLogout(\Magento\Event\Observer $observer)
     {

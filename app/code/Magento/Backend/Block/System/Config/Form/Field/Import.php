@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Backend\Block\System\Config\Form\Field;
 
 /**
  * Custom import CSV file field for shipping table rates
@@ -16,11 +16,11 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Backend\Block\System\Config\Form\Field;
-
 class Import extends \Magento\Data\Form\Element\AbstractElement
 {
-
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();

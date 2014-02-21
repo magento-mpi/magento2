@@ -17,7 +17,7 @@ class NameBuilder
      * Split every part into pieces by _ and \ and uppercase every piece
      * Then join them back using \
      *
-     * @param $parts
+     * @param string[] $parts
      * @return string
      */
     public function buildClassName($parts)

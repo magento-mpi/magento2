@@ -1,7 +1,5 @@
 <?php
 /**
- * Option array interface
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -9,10 +7,14 @@
  */
 namespace Magento\Option;
 
+/**
+ * Option array interface
+ */
 interface ArrayInterface
 {
     /**
      * Return option array
+     *
      * @return array
      */
     public function toOptionArray();

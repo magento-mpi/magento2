@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\TargetRule\Block\Product;
 
 /**
  * TargetRule abstract Products Block
@@ -15,8 +15,6 @@
  * @category   Magento
  * @package    Magento_TargetRule
  */
-namespace Magento\TargetRule\Block\Product;
-
 abstract class AbstractProduct extends \Magento\Catalog\Block\Product\AbstractProduct
 {
     /**
@@ -140,7 +138,7 @@ abstract class AbstractProduct extends \Magento\Catalog\Block\Product\AbstractPr
     /**
      * Return the behavior positions applicable to products based on the rule(s)
      *
-     * @return array
+     * @return int[]
      */
     public function getRuleBasedBehaviorPositions()
     {
@@ -153,7 +151,7 @@ abstract class AbstractProduct extends \Magento\Catalog\Block\Product\AbstractPr
     /**
      * Retrieve the behavior positions applicable to selected products
      *
-     * @return array
+     * @return int[]
      */
     public function getSelectedBehaviorPositions()
     {
@@ -266,7 +264,7 @@ abstract class AbstractProduct extends \Magento\Catalog\Block\Product\AbstractPr
     /**
      * Slice items to limit
      *
-     * @return \Magento\TargetRule\Block\Product\AbstractProduct
+     * @return $this
      */
     protected function _sliceItems()
     {

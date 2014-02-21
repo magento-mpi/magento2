@@ -77,7 +77,7 @@ class Content extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Returns status flag about this tab can be showen or not
      *
-     * @return true
+     * @return bool
      */
     public function canShowTab()
     {
@@ -87,7 +87,7 @@ class Content extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Returns status flag about this tab hidden or not
      *
-     * @return true
+     * @return bool
      */
     public function isHidden()
     {
@@ -97,7 +97,7 @@ class Content extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Prepare Banners Content Tab form, define Editor settings
      *
-     * @return \Magento\Backend\Block\Widget\Form
+     * @return $this
      */
     protected function _prepareForm()
     {

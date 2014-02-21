@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Widget\Model\Widget;
 
 /**
  * Widget Instance Model
@@ -26,8 +27,6 @@
  * @package     Magento_Widget
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Widget\Model\Widget;
-
 class Instance extends \Magento\Core\Model\AbstractModel
 {
     const SPECIFIC_ENTITIES = 'specific';
@@ -41,9 +40,14 @@ class Instance extends \Magento\Core\Model\AbstractModel
     const NOTANCHOR_CATEGORY_LAYOUT_HANDLE = 'catalog_category_view_type_default';
     const SINGLE_CATEGORY_LAYOUT_HANDLE    = 'catalog_category_view_{{ID}}';
 
+    /**
+     * @var array
+     */
     protected $_layoutHandles = array();
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $_specificEntitiesLayoutHandles = array();
 
     /**
@@ -63,7 +67,9 @@ class Instance extends \Magento\Core\Model\AbstractModel
      */
     protected $_viewFileSystem;
 
-    /** @var  \Magento\Widget\Model\Widget */
+    /**
+     * @var \Magento\Widget\Model\Widget
+     */
     protected $_widgetModel;
 
     /**
@@ -77,7 +83,7 @@ class Instance extends \Magento\Core\Model\AbstractModel
     protected $_cacheTypeList;
 
     /**
-     * @var array
+     * @var string[]
      */
     protected $_relatedCacheTypes;
 
@@ -110,7 +116,7 @@ class Instance extends \Magento\Core\Model\AbstractModel
      * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
-     * @param array $relatedCacheTypes
+     * @param string[] $relatedCacheTypes
      * @param array $data
      */
     public function __construct(
@@ -145,6 +151,8 @@ class Instance extends \Magento\Core\Model\AbstractModel
 
     /**
      * Internal Constructor
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -171,7 +179,7 @@ class Instance extends \Magento\Core\Model\AbstractModel
     /**
      * Processing object before save data
      *
-     * @return \Magento\Widget\Model\Widget\Instance
+     * @return $this
      */
     protected function _beforeSave()
     {
@@ -272,7 +280,7 @@ class Instance extends \Magento\Core\Model\AbstractModel
      * 'code' is used in Magento\Widget\Model\Widget->getWidgetsArray when the array of widgets is created.
      *
      * @param string $code
-     * @return \Magento\Widget\Model\Widget\Instance
+     * @return $this
      */
     public function setCode($code)
     {
@@ -285,7 +293,7 @@ class Instance extends \Magento\Core\Model\AbstractModel
      * Prepare widget type
      *
      * @param string $type
-     * @return \Magento\Widget\Model\Widget\Instance
+     * @return $this
      */
     public function setType($type)
     {
@@ -352,7 +360,7 @@ class Instance extends \Magento\Core\Model\AbstractModel
     /**
      * Retrieve option array of widget types
      *
-     * @param string
+     * @param string $value
      * @return array
      */
     public function getWidgetsOptionArray($value = 'code')
@@ -371,10 +379,10 @@ class Instance extends \Magento\Core\Model\AbstractModel
     /**
      * Get the widget reference (code or namespace\class name) for the passed in type or code.
      *
-     * @param $matchParam
-     * @param $value
-     * @param $requestedParam
-     * @return null
+     * @param string $matchParam
+     * @param string $value
+     * @param string $requestedParam
+     * @return string|null
      */
     public function getWidgetReference($matchParam, $value, $requestedParam)
     {
@@ -556,7 +564,7 @@ class Instance extends \Magento\Core\Model\AbstractModel
     /**
      * Invalidate related cache types
      *
-     * @return \Magento\Widget\Model\Widget\Instance
+     * @return $this
      */
     protected function _invalidateCache()
     {
@@ -568,6 +576,8 @@ class Instance extends \Magento\Core\Model\AbstractModel
 
     /**
      * Invalidate related cache if instance contain layout updates
+     *
+     * @return $this
      */
     protected function _afterSave()
     {
@@ -579,6 +589,8 @@ class Instance extends \Magento\Core\Model\AbstractModel
 
     /**
      * Invalidate related cache if instance contain layout updates
+     *
+     * @return $this
      */
     protected function _beforeDelete()
     {

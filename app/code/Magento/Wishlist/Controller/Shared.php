@@ -18,7 +18,7 @@
  */
 namespace Magento\Wishlist\Controller;
 
-class Shared extends \Magento\Wishlist\Controller\AbstractController
+class Shared extends AbstractController
 {
     /**
      * Core registry
@@ -66,6 +66,7 @@ class Shared extends \Magento\Wishlist\Controller\AbstractController
     /**
      * Shared wishlist view page
      *
+     * @return void
      */
     public function indexAction()
     {
@@ -92,6 +93,7 @@ class Shared extends \Magento\Wishlist\Controller\AbstractController
      * If Product has required options - redirect
      * to product view page with message about needed defined required options
      *
+     * @return \Zend_Controller_Response_Abstract
      */
     public function cartAction()
     {

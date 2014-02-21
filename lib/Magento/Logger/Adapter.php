@@ -1,7 +1,5 @@
 <?php
 /**
- * Logger Adapter
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -9,6 +7,9 @@
  */
 namespace Magento\Logger;
 
+/**
+ * Log Adapter
+ */
 class Adapter
 {
 
@@ -109,7 +110,7 @@ class Adapter
      * Recursive filter data by private conventions
      *
      * @param mixed $debugData
-     * @return mixed
+     * @return string|array
      */
     protected function _filterDebugData($debugData)
     {

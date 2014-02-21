@@ -13,8 +13,8 @@
  */
 namespace Magento\Paypal\Model\Method;
 
-class Agreement extends \Magento\Sales\Model\Payment\Method\Billing\AbstractAgreement
-    implements \Magento\Payment\Model\Billing\Agreement\MethodInterface
+class Agreement extends \Magento\Paypal\Model\Payment\Method\Billing\AbstractAgreement
+    implements \Magento\Paypal\Model\Billing\Agreement\MethodInterface
 {
     /**
      * Method code
@@ -64,9 +64,9 @@ class Agreement extends \Magento\Sales\Model\Payment\Method\Billing\AbstractAgre
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\Logger\AdapterFactory $logAdapterFactory
+     * @param \Magento\Paypal\Model\Billing\AgreementFactory $agreementFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Paypal\Model\Method\ProTypeFactory $proTypeFactory
-     * @param \Magento\Sales\Model\Billing\AgreementFactory $agreementFactory
      * @param \Magento\UrlInterface $urlBuilder
      * @param \Magento\Paypal\Model\CartFactory $cartFactory
      * @param array $data
@@ -78,7 +78,7 @@ class Agreement extends \Magento\Sales\Model\Payment\Method\Billing\AbstractAgre
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\Logger\AdapterFactory $logAdapterFactory,
-        \Magento\Sales\Model\Billing\AgreementFactory $agreementFactory,
+        \Magento\Paypal\Model\Billing\AgreementFactory $agreementFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Paypal\Model\Method\ProTypeFactory $proTypeFactory,
         \Magento\UrlInterface $urlBuilder,
@@ -146,10 +146,10 @@ class Agreement extends \Magento\Sales\Model\Payment\Method\Billing\AbstractAgre
     /**
      * Retrieve billing agreement customer details by token
      *
-     * @param \Magento\Payment\Model\Billing\AbstractAgreement $agreement
+     * @param \Magento\Paypal\Model\Billing\AbstractAgreement $agreement
      * @return array
      */
-    public function getBillingAgreementTokenInfo(\Magento\Payment\Model\Billing\AbstractAgreement $agreement)
+    public function getBillingAgreementTokenInfo(\Magento\Paypal\Model\Billing\AbstractAgreement $agreement)
     {
         $api = $this->_pro->getApi()
             ->setToken($agreement->getToken());
@@ -167,10 +167,10 @@ class Agreement extends \Magento\Sales\Model\Payment\Method\Billing\AbstractAgre
     /**
      * Create billing agreement by token specified in request
      *
-     * @param \Magento\Payment\Model\Billing\AbstractAgreement $agreement
+     * @param \Magento\Paypal\Model\Billing\AbstractAgreement $agreement
      * @return \Magento\Paypal\Model\Method\Agreement
      */
-    public function placeBillingAgreement(\Magento\Payment\Model\Billing\AbstractAgreement $agreement)
+    public function placeBillingAgreement(\Magento\Paypal\Model\Billing\AbstractAgreement $agreement)
     {
         $api = $this->_pro->getApi()
             ->setToken($agreement->getToken());
@@ -182,11 +182,11 @@ class Agreement extends \Magento\Sales\Model\Payment\Method\Billing\AbstractAgre
     /**
      * Update billing agreement status
      *
-     * @param \Magento\Payment\Model\Billing\AbstractAgreement $agreement
+     * @param \Magento\Paypal\Model\Billing\AbstractAgreement $agreement
      * @return \Magento\Paypal\Model\Method\Agreement
      * @throws \Exception|\Magento\Core\Exception
      */
-    public function updateBillingAgreementStatus(\Magento\Payment\Model\Billing\AbstractAgreement $agreement)
+    public function updateBillingAgreementStatus(\Magento\Paypal\Model\Billing\AbstractAgreement $agreement)
     {
         $targetStatus = $agreement->getStatus();
         $api = $this->_pro->getApi()
@@ -196,7 +196,7 @@ class Agreement extends \Magento\Sales\Model\Payment\Method\Billing\AbstractAgre
             $api->callUpdateBillingAgreement();
         } catch (\Magento\Core\Exception $e) {
             // when BA was already canceled, just pretend that the operation succeeded
-            if (!(\Magento\Sales\Model\Billing\Agreement::STATUS_CANCELED == $targetStatus
+            if (!(\Magento\Paypal\Model\Billing\Agreement::STATUS_CANCELED == $targetStatus
                 && $api->getIsBillingAgreementAlreadyCancelled())) {
                 throw $e;
             }
@@ -325,10 +325,10 @@ class Agreement extends \Magento\Sales\Model\Payment\Method\Billing\AbstractAgre
     protected function _placeOrder(\Magento\Sales\Model\Order\Payment $payment, $amount)
     {
         $order = $payment->getOrder();
-        /** @var \Magento\Sales\Model\Billing\Agreement $billingAgreement */
+        /** @var \Magento\Paypal\Model\Billing\Agreement $billingAgreement */
         $billingAgreement = $this->_agreementFactory->create()->load(
             $payment->getAdditionalInformation(
-                \Magento\Sales\Model\Payment\Method\Billing\AbstractAgreement::TRANSPORT_BILLING_AGREEMENT_ID
+                \Magento\Paypal\Model\Payment\Method\Billing\AbstractAgreement::TRANSPORT_BILLING_AGREEMENT_ID
             )
         );
 

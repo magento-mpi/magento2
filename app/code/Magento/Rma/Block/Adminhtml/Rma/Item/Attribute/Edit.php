@@ -13,8 +13,6 @@ namespace Magento\Rma\Block\Adminhtml\Rma\Item\Attribute;
 /**
  * RMA Item Attributes Edit container
  *
- * @category    Magento
- * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Edit
@@ -54,6 +52,7 @@ class Edit
     /**
      * Initialize Customer Address Attribute Edit Container
      *
+     * @return void
      */
     protected function _construct()
     {

@@ -20,11 +20,15 @@ use Magento\Rating\Model\Resource\Rating\Option\Vote\Collection as VoteCollectio
 class Detailed extends \Magento\Backend\Block\Template
 {
     /**
+     * Vote collection
+     *
      * @var VoteCollection
      */
     protected $_voteCollection = false;
 
     /**
+     * Rating detail template name
+     *
      * @var string
      */
     protected $_template = 'Magento_Rating::rating/detailed.phtml';
@@ -37,11 +41,15 @@ class Detailed extends \Magento\Backend\Block\Template
     protected $_coreRegistry = null;
 
     /**
+     * Rating resource model
+     *
      * @var \Magento\Rating\Model\Resource\Rating\CollectionFactory
      */
     protected $_ratingsFactory;
 
     /**
+     * Rating resource option model
+     *
      * @var \Magento\Rating\Model\Resource\Rating\Option\Vote\CollectionFactory
      */
     protected $_votesFactory;
@@ -66,6 +74,11 @@ class Detailed extends \Magento\Backend\Block\Template
         parent::__construct($context, $data);
     }
 
+    /**
+     * Initialize review data
+     *
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -76,6 +89,8 @@ class Detailed extends \Magento\Backend\Block\Template
     }
 
     /**
+     * Get collection of ratings
+     *
      * @return RatingCollection
      */
     public function getRating()
@@ -129,6 +144,8 @@ class Detailed extends \Magento\Backend\Block\Template
     }
 
     /**
+     * Set independent mode
+     *
      * @return $this
      */
     public function setIndependentMode()
@@ -138,6 +155,8 @@ class Detailed extends \Magento\Backend\Block\Template
     }
 
     /**
+     * Indicator of whether or not a rating is selected
+     *
      * @param Option $option
      * @param Rating $rating
      * @return bool

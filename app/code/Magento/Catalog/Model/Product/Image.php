@@ -18,30 +18,103 @@
 namespace Magento\Catalog\Model\Product;
 
 use Magento\Core\Model\Store;
+use Magento\Image as MagentoImage;
 
 class Image extends \Magento\Core\Model\AbstractModel
 {
+    /**
+     * @var int
+     */
     protected $_width;
+
+    /**
+     * @var int
+     */
     protected $_height;
+
+    /**
+     * @var int
+     */
     protected $_quality = 90;
 
+    /**
+     * @var bool
+     */
     protected $_keepAspectRatio  = true;
+
+    /**
+     * @var bool
+     */
     protected $_keepFrame        = true;
+
+    /**
+     * @var bool
+     */
     protected $_keepTransparency = true;
+
+    /**
+     * @var bool
+     */
     protected $_constrainOnly    = false;
+
+    /**
+     * @var int[]
+     */
     protected $_backgroundColor  = array(255, 255, 255);
 
+    /**
+     * @var string
+     */
     protected $_baseFile;
+
+    /**
+     * @var bool
+     */
     protected $_isBaseFilePlaceholder;
+
+    /**
+     * @var string|bool
+     */
     protected $_newFile;
+
+    /**
+     * @var MagentoImage
+     */
     protected $_processor;
+
+    /**
+     * @var string
+     */
     protected $_destinationSubdir;
+
+    /**
+     * @var int
+     */
     protected $_angle;
 
+    /**
+     * @var string
+     */
     protected $_watermarkFile;
+
+    /**
+     * @var int
+     */
     protected $_watermarkPosition;
+
+    /**
+     * @var int
+     */
     protected $_watermarkWidth;
+
+    /**
+     * @var int
+     */
     protected $_watermarkHeigth;
+
+    /**
+     * @var int
+     */
     protected $_watermarkImageOpacity = 70;
 
     /**
@@ -135,8 +208,8 @@ class Image extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * @param $width
-     * @return \Magento\Catalog\Model\Product\Image
+     * @param int $width
+     * @return $this
      */
     public function setWidth($width)
     {
@@ -144,13 +217,17 @@ class Image extends \Magento\Core\Model\AbstractModel
         return $this;
     }
 
+    /**
+     * @return int
+     */
     public function getWidth()
     {
         return $this->_width;
     }
 
     /**
-     * @return \Magento\Catalog\Model\Product\Image
+     * @param int $height
+     * @return $this
      */
     public function setHeight($height)
     {
@@ -158,6 +235,9 @@ class Image extends \Magento\Core\Model\AbstractModel
         return $this;
     }
 
+    /**
+     * @return int
+     */
     public function getHeight()
     {
         return $this->_height;
@@ -167,7 +247,7 @@ class Image extends \Magento\Core\Model\AbstractModel
      * Set image quality, values in percentage from 0 to 100
      *
      * @param int $quality
-     * @return \Magento\Catalog\Model\Product\Image
+     * @return $this
      */
     public function setQuality($quality)
     {
@@ -186,7 +266,8 @@ class Image extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * @return \Magento\Catalog\Model\Product\Image
+     * @param bool $keep
+     * @return $this
      */
     public function setKeepAspectRatio($keep)
     {
@@ -195,7 +276,8 @@ class Image extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * @return \Magento\Catalog\Model\Product\Image
+     * @param bool $keep
+     * @return $this
      */
     public function setKeepFrame($keep)
     {
@@ -204,7 +286,8 @@ class Image extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * @return \Magento\Catalog\Model\Product\Image
+     * @param bool $keep
+     * @return $this
      */
     public function setKeepTransparency($keep)
     {
@@ -213,7 +296,8 @@ class Image extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * @return \Magento\Catalog\Model\Product\Image
+     * @param bool $flag
+     * @return $this
      */
     public function setConstrainOnly($flag)
     {
@@ -222,7 +306,8 @@ class Image extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * @return \Magento\Catalog\Model\Product\Image
+     * @param int[] $rgbArray
+     * @return $this
      */
     public function setBackgroundColor(array $rgbArray)
     {
@@ -231,7 +316,8 @@ class Image extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * @return \Magento\Catalog\Model\Product\Image
+     * @param string $size
+     * @return $this
      */
     public function setSize($size)
     {
@@ -250,12 +336,19 @@ class Image extends \Magento\Core\Model\AbstractModel
         return $this;
     }
 
+    /**
+     * @param string|null $file
+     * @return bool
+     */
     protected function _checkMemory($file = null)
     {
         return $this->_getMemoryLimit() > ($this->_getMemoryUsage() + $this->_getNeedMemoryForFile($file))
             || $this->_getMemoryLimit() == -1;
     }
 
+    /**
+     * @return string
+     */
     protected function _getMemoryLimit()
     {
         $memoryLimit = trim(strtoupper(ini_get('memory_limit')));
@@ -276,6 +369,9 @@ class Image extends \Magento\Core\Model\AbstractModel
         return $memoryLimit;
     }
 
+    /**
+     * @return int
+     */
     protected function _getMemoryUsage()
     {
         if (function_exists('memory_get_usage')) {
@@ -284,6 +380,10 @@ class Image extends \Magento\Core\Model\AbstractModel
         return 0;
     }
 
+    /**
+     * @param string|null $file
+     * @return float|int
+     */
     protected function _getNeedMemoryForFile($file = null)
     {
         $file = is_null($file) ? $this->getBaseFile() : $file;
@@ -316,7 +416,7 @@ class Image extends \Magento\Core\Model\AbstractModel
     /**
      * Convert array of 3 items (decimal r, g, b) to string of their hex values
      *
-     * @param array $rgbArray
+     * @param int[] $rgbArray
      * @return string
      */
     protected function _rgbToString($rgbArray)
@@ -336,7 +436,8 @@ class Image extends \Magento\Core\Model\AbstractModel
      * Set filenames for base file and new file
      *
      * @param string $file
-     * @return \Magento\Catalog\Model\Product\Image
+     * @return $this
+     * @throws \Exception
      */
     public function setBaseFile($file)
     {
@@ -417,18 +518,25 @@ class Image extends \Magento\Core\Model\AbstractModel
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getBaseFile()
     {
         return $this->_baseFile;
     }
 
+    /**
+     * @return bool|string
+     */
     public function getNewFile()
     {
         return $this->_newFile;
     }
 
     /**
-     * @return \Magento\Catalog\Model\Product\Image
+     * @param MagentoImage $processor
+     * @return $this
      */
     public function setImageProcessor($processor)
     {
@@ -437,7 +545,7 @@ class Image extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * @return \Magento\Image
+     * @return MagentoImage
      */
     public function getImageProcessor()
     {
@@ -456,7 +564,7 @@ class Image extends \Magento\Core\Model\AbstractModel
 
     /**
      * @see \Magento\Image\Adapter\AbstractAdapter
-     * @return \Magento\Catalog\Model\Product\Image
+     * @return $this
      */
     public function resize()
     {
@@ -468,7 +576,8 @@ class Image extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * @return \Magento\Catalog\Model\Product\Image
+     * @param int $angle
+     * @return $this
      */
     public function rotate($angle)
     {
@@ -483,7 +592,7 @@ class Image extends \Magento\Core\Model\AbstractModel
      * This func actually affects only the cache filename.
      *
      * @param int $angle
-     * @return \Magento\Catalog\Model\Product\Image
+     * @return $this
      */
     public function setAngle($angle)
     {
@@ -501,7 +610,7 @@ class Image extends \Magento\Core\Model\AbstractModel
      * @param int $width
      * @param int $heigth
      * @param int $imageOpacity
-     * @return \Magento\Catalog\Model\Product\Image
+     * @return $this
      */
     public function setWatermark($file, $position=null, $size=null, $width=null, $heigth=null, $imageOpacity=null)
     {
@@ -545,7 +654,7 @@ class Image extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * @return \Magento\Catalog\Model\Product\Image
+     * @return $this
      */
     public function saveFile()
     {
@@ -575,7 +684,8 @@ class Image extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * @return \Magento\Catalog\Model\Product\Image
+     * @param string $dir
+     * @return $this
      */
     public function setDestinationSubdir($dir)
     {
@@ -591,6 +701,9 @@ class Image extends \Magento\Core\Model\AbstractModel
         return $this->_destinationSubdir;
     }
 
+    /**
+     * @return bool|void
+     */
     public function isCached()
     {
         if (is_string($this->_newFile)) {
@@ -602,7 +715,7 @@ class Image extends \Magento\Core\Model\AbstractModel
      * Set watermark file name
      *
      * @param string $file
-     * @return \Magento\Catalog\Model\Product\Image
+     * @return $this
      */
     public function setWatermarkFile($file)
     {
@@ -661,7 +774,7 @@ class Image extends \Magento\Core\Model\AbstractModel
      * Set watermark position
      *
      * @param string $position
-     * @return \Magento\Catalog\Model\Product\Image
+     * @return $this
      */
     public function setWatermarkPosition($position)
     {
@@ -683,7 +796,7 @@ class Image extends \Magento\Core\Model\AbstractModel
      * Set watermark image opacity
      *
      * @param int $imageOpacity
-     * @return \Magento\Catalog\Model\Product\Image
+     * @return $this
      */
     public function setWatermarkImageOpacity($imageOpacity)
     {
@@ -705,7 +818,7 @@ class Image extends \Magento\Core\Model\AbstractModel
      * Set watermark size
      *
      * @param array $size
-     * @return \Magento\Catalog\Model\Product\Image
+     * @return $this
      */
     public function setWatermarkSize($size)
     {
@@ -720,7 +833,7 @@ class Image extends \Magento\Core\Model\AbstractModel
      * Set watermark width
      *
      * @param int $width
-     * @return \Magento\Catalog\Model\Product\Image
+     * @return $this
      */
     public function setWatermarkWidth($width)
     {
@@ -739,14 +852,14 @@ class Image extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * Set watermark heigth
+     * Set watermark height
      *
-     * @param int $heigth
-     * @return \Magento\Catalog\Model\Product\Image
+     * @param int $height
+     * @return $this
      */
-    public function setWatermarkHeight($heigth)
+    public function setWatermarkHeight($height)
     {
-        $this->_watermarkHeigth = $heigth;
+        $this->_watermarkHeigth = $height;
         return $this;
     }
 
@@ -760,6 +873,9 @@ class Image extends \Magento\Core\Model\AbstractModel
         return $this->_watermarkHeigth;
     }
 
+    /**
+     * @return void
+     */
     public function clearCache()
     {
         $directory = $this->_catalogProductMediaConfig->getBaseMediaPath() . '/cache';

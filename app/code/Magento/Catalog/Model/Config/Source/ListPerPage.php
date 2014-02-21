@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Catalog\Model\Config\Source;
 
 /**
  * Catalog products per page on List mode source
@@ -16,16 +16,18 @@
  * @package    Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Model\Config\Source;
-
 class ListPerPage implements \Magento\Option\ArrayInterface
 {
     /**
+     * Pager Options
+     *
      * @var array
      */
     protected $_pagerOptions;
 
     /**
+     * Constructor
+     *
      * @param string $options
      */
     public function __construct($options)
@@ -33,6 +35,9 @@ class ListPerPage implements \Magento\Option\ArrayInterface
         $this->_pagerOptions = explode(',', $options);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function toOptionArray()
     {
         $output = array();

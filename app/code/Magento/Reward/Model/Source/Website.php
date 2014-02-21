@@ -7,19 +7,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reward\Model\Source;
 
 /**
  * Source model for websites, including "All" option
  *
- * @category    Magento
- * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Reward\Model\Source;
-
 class Website implements \Magento\Option\ArrayInterface
 {
     /**
+     * Core system store model
+     *
      * @var \Magento\Core\Model\System\Store
      */
     protected $_store;

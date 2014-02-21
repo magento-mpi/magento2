@@ -7,15 +7,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Block\System\Config\System\Storage\Media;
 
 /**
  * Synchronize button renderer
  */
-namespace Magento\Backend\Block\System\Config\System\Storage\Media;
-
 class Synchronize
     extends \Magento\Backend\Block\System\Config\Form\Field
 {
+    /**
+     * @var string
+     */
     protected $_template = 'Magento_Backend::system/config/system/storage/media/synchronize.phtml';
 
     /**

@@ -51,7 +51,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_shell = new \Magento\Shell();
+        $this->_shell = new \Magento\Shell(new \Magento\OSInfo());
         $basePath = \Magento\TestFramework\Utility\Files::init()->getPathToSource();
         $basePath = str_replace('\\', '/', $basePath);
 
@@ -67,7 +67,10 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
 
         $this->_command = 'php ' . $basePath
             . '/dev/tools/Magento/Tools/Di/compiler.php --generation=%s --di=%s';
-        $this->_mapper = new \Magento\ObjectManager\Config\Mapper\Dom();
+        $this->_mapper = new \Magento\ObjectManager\Config\Mapper\Dom(
+            new \Magento\Stdlib\BooleanUtils(),
+            new \Magento\ObjectManager\Config\Mapper\ArgumentParser()
+        );
         $this->_validator = new \Magento\Code\Validator();
         $this->_validator->add(new \Magento\Code\Validator\ConstructorIntegrity());
         $this->_validator->add(new \Magento\Code\Validator\ContextAggregation());

@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Cms\Helper\Wysiwyg;
 
 /**
  * Wysiwyg Images Helper
  */
-namespace Magento\Cms\Helper\Wysiwyg;
-
 class Images extends \Magento\App\Helper\AbstractHelper
 {
 
@@ -86,12 +85,11 @@ class Images extends \Magento\App\Helper\AbstractHelper
         $this->_directory->create(\Magento\Cms\Model\Wysiwyg\Config::IMAGE_DIRECTORY);
     }
 
-
     /**
      * Set a specified store ID value
      *
      * @param int $store
-     * @return \Magento\Cms\Helper\Wysiwyg\Images
+     * @return $this
      */
     public function setStoreId($store)
     {
@@ -155,11 +153,11 @@ class Images extends \Magento\App\Helper\AbstractHelper
             return $this->getStorageRoot() . $this->idDecode($id);
         }
     }
-    
-    /*
+
+    /**
      * Check whether using static URLs is allowed
      *
-     * @return boolean
+     * @return bool
      */
     public function isUsingStaticUrlsAllowed()
     {

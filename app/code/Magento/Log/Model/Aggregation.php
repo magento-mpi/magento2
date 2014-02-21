@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Log\Model;
 
 /**
  * Log Aggregation Model
@@ -18,8 +19,6 @@
  * @package    Magento_Log
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Log\Model;
-
 class Aggregation extends \Magento\Core\Model\AbstractModel
 {
     /**
@@ -56,6 +55,8 @@ class Aggregation extends \Magento\Core\Model\AbstractModel
 
     /**
      * Init model
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -64,6 +65,7 @@ class Aggregation extends \Magento\Core\Model\AbstractModel
 
     /**
      * Run action
+     *
      * @return void
      */
     public function run()
@@ -78,7 +80,7 @@ class Aggregation extends \Magento\Core\Model\AbstractModel
      * Remove empty records before $lastDate
      *
      * @param  string $lastDate
-     * @return void
+     * @return null|void
      */
     private function _removeEmpty($lastDate)
     {

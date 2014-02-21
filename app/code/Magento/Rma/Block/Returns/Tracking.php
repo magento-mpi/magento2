@@ -20,6 +20,8 @@ class Tracking extends \Magento\View\Element\Template
     protected $_isRmaAvailableForPrintLabel;
 
     /**
+     * Return tracking template name
+     *
      * @var string
      */
     protected $_template = 'return/tracking.phtml';
@@ -48,6 +50,8 @@ class Tracking extends \Magento\View\Element\Template
 
     /**
      * Class constructor
+     *
+     * @return void
      */
     protected function _construct()
     {

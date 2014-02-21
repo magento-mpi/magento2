@@ -40,6 +40,8 @@ class Request extends \Magento\App\Action\Action
 
     /**
      * Request processing action
+     *
+     * @return void
      */
     public function processAction()
     {

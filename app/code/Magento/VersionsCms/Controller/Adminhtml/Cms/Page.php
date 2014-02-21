@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\VersionsCms\Controller\Adminhtml\Cms;
 
 /**
  * Cms manage pages controller
  */
-namespace Magento\VersionsCms\Controller\Adminhtml\Cms;
-
 class Page extends \Magento\Cms\Controller\Adminhtml\Page
 {
     /**
@@ -68,7 +67,7 @@ class Page extends \Magento\Cms\Controller\Adminhtml\Page
     /**
      * Init actions
      *
-     * @return \Magento\VersionsCms\Controller\Adminhtml\Cms\Page
+     * @return $this
      */
     protected function _initAction()
     {
@@ -119,6 +118,8 @@ class Page extends \Magento\Cms\Controller\Adminhtml\Page
 
     /**
      * Edit CMS page
+     *
+     * @return void
      */
     public function editAction()
     {
@@ -150,7 +151,7 @@ class Page extends \Magento\Cms\Controller\Adminhtml\Page
     /**
      * Action for versions ajax tab
      *
-     * @return \Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Revision
+     * @return void
      */
     public function versionsAction()
     {
@@ -163,6 +164,7 @@ class Page extends \Magento\Cms\Controller\Adminhtml\Page
     /**
      * Mass deletion for versions
      *
+     * @return void
      */
     public function massDeleteVersionsAction()
     {
@@ -197,7 +199,7 @@ class Page extends \Magento\Cms\Controller\Adminhtml\Page
     /**
      * Check the permission to run action.
      *
-     * @return boolean
+     * @return bool
      */
     protected function _isAllowed()
     {

@@ -7,8 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\Filter\Input;
 
 class MaliciousCode implements \Zend_Filter_Interface
@@ -16,7 +14,7 @@ class MaliciousCode implements \Zend_Filter_Interface
     /**
      * Regular expressions for cutting malicious code
      *
-     * @var array
+     * @var string[]
      */
     protected $_expressions = array(
         //comments, must be first
@@ -41,7 +39,7 @@ class MaliciousCode implements \Zend_Filter_Interface
      * Filter value
      *
      * @param string|array $value
-     * @return string|array         Filtered value
+     * @return string|array Filtered value
      */
     public function filter($value)
     {

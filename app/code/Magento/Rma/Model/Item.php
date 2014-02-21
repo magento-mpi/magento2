@@ -55,26 +55,36 @@ class Item extends \Magento\Core\Model\AbstractModel
     const ITEM_IMAGE_URL    = 'rma_item';
 
     /**
+     * Rma factory
+     *
      * @var \Magento\Rma\Model\RmaFactory
      */
     protected $_rmaFactory;
 
     /**
+     * Rma item attribute status factory
+     *
      * @var \Magento\Rma\Model\Item\Attribute\Source\StatusFactory
      */
     protected $_statusFactory;
 
     /**
+     * Sales order item factory
+     *
      * @var \Magento\Sales\Model\Order\ItemFactory
      */
     protected $_itemFactory;
 
     /**
+     * Rma item form factory
+     *
      * @var \Magento\Rma\Model\Item\FormFactory
      */
     protected $_formFactory;
 
     /**
+     * Application request factory
+     *
      * @var \Magento\App\RequestFactory
      */
     protected $_requestFactory;
@@ -113,6 +123,8 @@ class Item extends \Magento\Core\Model\AbstractModel
 
     /**
      * Init resource model
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -165,7 +177,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     /**
      * Prepare data before save
      *
-     * @return \Magento\Rma\Model\Item
+     * @return $this|void
      */
     protected function _beforeSave()
     {
@@ -187,7 +199,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     /**
      * Prepare data before save
      *
-     * @return \Magento\Rma\Model\Item
+     * @return $this|void
      */
     protected function _afterSave()
     {

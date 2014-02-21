@@ -38,6 +38,9 @@ class User extends \Magento\Backend\App\AbstractAction
         $this->_userFactory = $userFactory;
     }
 
+    /**
+     * @return $this
+     */
     protected function _initAction()
     {
         $this->_view->loadLayout();
@@ -49,6 +52,9 @@ class User extends \Magento\Backend\App\AbstractAction
         return $this;
     }
 
+    /**
+     * @return void
+     */
     public function indexAction()
     {
         $this->_title->add(__('Users'));
@@ -56,11 +62,17 @@ class User extends \Magento\Backend\App\AbstractAction
         $this->_view->renderLayout();
     }
 
+    /**
+     * @return void
+     */
     public function newAction()
     {
         $this->_forward('edit');
     }
 
+    /**
+     * @return void
+     */
     public function editAction()
     {
         $this->_title->add(__('Users'));
@@ -99,6 +111,9 @@ class User extends \Magento\Backend\App\AbstractAction
         $this->_view->renderLayout();
     }
 
+    /**
+     * @return void
+     */
     public function saveAction()
     {
         $userId = (int)$this->getRequest()->getParam('user_id');
@@ -157,6 +172,9 @@ class User extends \Magento\Backend\App\AbstractAction
         return $data;
     }
 
+    /**
+     * @return void
+     */
     public function deleteAction()
     {
         $currentUser = $this->_objectManager->get('Magento\Backend\Model\Auth\Session')->getUser();
@@ -186,6 +204,9 @@ class User extends \Magento\Backend\App\AbstractAction
         $this->_redirect('adminhtml/*/');
     }
 
+    /**
+     * @return void
+     */
     public function rolesGridAction()
     {
         $userId = $this->getRequest()->getParam('user_id');
@@ -200,12 +221,18 @@ class User extends \Magento\Backend\App\AbstractAction
         $this->_view->renderLayout();
     }
 
+    /**
+     * @return void
+     */
     public function roleGridAction()
     {
         $this->_view->loadLayout(false);
         $this->_view->renderLayout();
     }
 
+    /**
+     * @return bool
+     */
     protected function _isAllowed()
     {
         return $this->_authorization->isAllowed('Magento_User::acl_users');

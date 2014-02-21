@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ImportExport\Model\Source\Import;
 
 /**
  * Source import behavior model
@@ -15,8 +16,6 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\ImportExport\Model\Source\Import;
-
 abstract class AbstractBehavior implements \Magento\Option\ArrayInterface
 {
     /**

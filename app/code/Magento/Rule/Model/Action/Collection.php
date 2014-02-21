@@ -11,7 +11,7 @@
 
 namespace Magento\Rule\Model\Action;
 
-class Collection extends \Magento\Rule\Model\Action\AbstractAction
+class Collection extends AbstractAction
 {
     /**
      * @var \Magento\Rule\Model\ActionFactory
@@ -62,6 +62,10 @@ class Collection extends \Magento\Rule\Model\Action\AbstractAction
         return $out;
     }
 
+    /**
+     * @param array $arr
+     * @return $this
+     */
     public function loadArray(array $arr)
     {
         if (!empty($arr['actions']) && is_array($arr['actions'])) {
@@ -77,7 +81,11 @@ class Collection extends \Magento\Rule\Model\Action\AbstractAction
         return $this;
     }
 
-    public function addAction(\Magento\Rule\Model\Action\ActionInterface $action)
+    /**
+     * @param ActionInterface $action
+     * @return $this
+     */
+    public function addAction(ActionInterface $action)
     {
         $actions = $this->getActions();
 
@@ -92,6 +100,9 @@ class Collection extends \Magento\Rule\Model\Action\AbstractAction
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function asHtml()
     {
         $html = $this->getTypeElement()->toHtml().'Perform following actions: ';
@@ -101,6 +112,9 @@ class Collection extends \Magento\Rule\Model\Action\AbstractAction
         return $html;
     }
 
+    /**
+     * @return $this
+     */
     public function getNewChildElement()
     {
         return $this->getForm()->addField('action:' . $this->getId() . ':new_child', 'select', array(
