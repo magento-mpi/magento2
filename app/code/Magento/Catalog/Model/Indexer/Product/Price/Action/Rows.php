@@ -21,12 +21,12 @@ class Rows extends \Magento\Catalog\Model\Indexer\Product\Price\AbstractAction
      * Execute Rows reindex
      *
      * @param array $ids
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Catalog\Exception
      */
     public function execute($ids)
     {
         if (empty($ids)) {
-            throw new \Magento\Core\Exception(__('Bad value was supplied.'));
+            throw new \Magento\Catalog\Exception(__('Bad value was supplied.'));
         }
         try {
             $this->_reindexRows($ids);
