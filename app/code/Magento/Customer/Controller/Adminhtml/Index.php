@@ -208,29 +208,30 @@ class Index extends \Magento\Backend\App\Action
         $customerData['account'] = [];
         $customerData['address'] = [];
         $customer = null;
-        try {
-            $customer = $this->_customerService->getCustomer($customerId);
-            $customerData['account'] = $customer->getAttributes();
-            $customerData['account']['id'] = $customerId;
+        if (!empty($customerId)) {
             try {
-                $addresses = $this->_addressService->getAddresses($customerId);
-                foreach ($addresses as $address) {
-                    $customerData['address'][$address->getId()] = $address->getAttributes();
-                    $customerData['address'][$address->getId()]['id'] = $address->getId();
+                $customer = $this->_customerService->getCustomer($customerId);
+                $customerData['account'] = $customer->getAttributes();
+                $customerData['account']['id'] = $customerId;
+                try {
+                    $addresses = $this->_addressService->getAddresses($customerId);
+                    foreach ($addresses as $address) {
+                        $customerData['address'][$address->getId()] = $address->getAttributes();
+                        $customerData['address'][$address->getId()]['id'] = $address->getId();
+                    }
+                } catch (NoSuchEntityException $e) {
+                    //do nothing
                 }
             } catch (NoSuchEntityException $e) {
-                //do nothing
+                $this->messageManager->addException($e, __('An error occurred while editing the customer.'));
+                $this->_redirect('customer/*/index');
+                return;
             }
-        } catch (NoSuchEntityException $e) {
-            $customerId = 0;
-            $this->_coreRegistry->unregister(self::REGISTRY_CURRENT_CUSTOMER_ID);
-            $this->_coreRegistry->register(self::REGISTRY_CURRENT_CUSTOMER_ID, 0);
         }
         $customerData['customer_id'] = $customerId;
 
         // set entered data if was error when we do save
-        $session = $this->_objectManager->get('Magento\Backend\Model\Session');
-        $data = $session->getCustomerData(true);
+        $data = $this->_getSession()->getCustomerData(true);
 
         // restore data from SESSION
         if ($data && (
@@ -292,7 +293,7 @@ class Index extends \Magento\Backend\App\Action
             }
         }
 
-        $session->setCustomerData($customerData);
+        $this->_getSession()->setCustomerData($customerData);
 
         if (is_null($customer)) {
             $this->_title->add(__('New Customer'));
@@ -1103,9 +1104,11 @@ class Index extends \Magento\Backend\App\Action
         } else {
             try {
                 foreach ($customersIds as $customerId) {
-                    $customer = $this->_objectManager->create('Magento\Customer\Model\Customer')->load($customerId);
-                    $customer->setGroupId($this->getRequest()->getParam('group'));
-                    $customer->save();
+                    $customer = $this->_customerService->getCustomer($customerId);
+                    $customerBuilder = (new CustomerBuilder())->populate($customer);
+                    $customer = $customerBuilder
+                        ->setGroupId($this->getRequest()->getParam('group'))->create();
+                    $this->_customerService->saveCustomer($customer);
                 }
                 $this->messageManager->addSuccess(__('A total of %1 record(s) were updated.', count($customersIds)));
             } catch (\Exception $exception) {

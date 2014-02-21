@@ -14,6 +14,7 @@ use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
  * Customer account form block
  *
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Account extends GenericMetadata
 {
@@ -75,6 +76,8 @@ class Account extends GenericMetadata
      * @param \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $customerMetadataService
      * @param \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerBuilder
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,

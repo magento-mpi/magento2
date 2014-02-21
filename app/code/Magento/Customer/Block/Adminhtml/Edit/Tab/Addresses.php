@@ -10,6 +10,8 @@ namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 
 use Magento\Customer\Service\V1\Dto\Eav\AttributeMetadataBuilder;
 use Magento\Customer\Service\V1\Dto\Address;
+use Magento\Exception\NoSuchEntityException;
+
 /**
  * Customer addresses forms
  */
@@ -42,9 +44,6 @@ class Addresses extends GenericMetadata
 
     /** @var \Magento\Customer\Helper\Address */
     protected $_addressHelper;
-
-    /** @var \Magento\Backend\Model\Session */
-    protected $_backendSession;
 
     /** @var  \Magento\Customer\Model\Metadata\FormFactory */
     protected $_metadataFormFactory;
@@ -114,7 +113,6 @@ class Addresses extends GenericMetadata
         $this->_addressBuilder = $addressBuilder;
         $this->_customerBuilder = $customerBuilder;
         $this->_attributeMetadataBuilder = $attributeMetadataBuilder;
-        $this->_backendSession = $context->getBackendSession();
         parent::__construct($context, $registry, $formFactory, $data);
     }
 
@@ -158,9 +156,13 @@ class Addresses extends GenericMetadata
      */
     public function isReadonly()
     {
-        return $this->_customerService->isReadonly(
-            $this->_coreRegistry->registry(self::REGISTRY_CURRENT_CUSTOMER_ID)
-        );
+        try {
+            return $this->_customerService->isReadonly(
+                $this->_coreRegistry->registry(self::REGISTRY_CURRENT_CUSTOMER_ID)
+            );
+        } catch (NoSuchEntityException $e) {
+            return false;
+        }
     }
 
     public function getDeleteButtonHtml()
@@ -185,12 +187,14 @@ class Addresses extends GenericMetadata
         );
 
         $account = $customerData['account'];
-        $this->_addressBuilder->populateWithArray([])
-            ->setCountryId(
-                $this->_coreData->getDefaultCountry(
+        $this->_addressBuilder->populateWithArray([]);
+        if (!empty($account) && isset($account['store_id'])) {
+            $this->_addressBuilder->setCountryId(
+            $this->_coreData->getDefaultCountry(
                     $this->_storeManager->getStore($account['store_id'])
                 )
             );
+        }
         $address = $this->_addressBuilder->create();
 
         $addressForm = $this->_metadataFormFactory->create(
@@ -241,7 +245,7 @@ class Addresses extends GenericMetadata
         }
 
         $customerStoreId = null;
-        if (isset($account['id']) && isset($account['website_id'])) {
+        if (!empty($account) && isset($account['id']) && isset($account['website_id'])) {
             $customerStoreId = $this->_storeManager->getWebsite($account['website_id'])
                 ->getDefaultStore()
                 ->getId();
