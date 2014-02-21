@@ -10,6 +10,8 @@ namespace Magento\Service\Entity;
 
 abstract class AbstractDtoBuilder
 {
+    const CUSTOM_ATTRIBUTES_KEY = 'custom_attributes';
+
     /**
      * @var array
      */

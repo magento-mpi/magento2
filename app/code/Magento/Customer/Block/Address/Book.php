@@ -136,7 +136,7 @@ class Book extends \Magento\View\Element\Template
         if (!is_null($address)) {
             /** @var \Magento\Customer\Block\Address\Renderer\RendererInterface $renderer */
             $renderer = $this->_addressConfig->getFormatByCode('html')->getRenderer();
-            return $renderer->renderArray($address->getAttributes());
+            return $renderer->renderArray(\Magento\Convert\ConvertArray::toFlatArray($address->__toArray()));
         }
         return '';
     }

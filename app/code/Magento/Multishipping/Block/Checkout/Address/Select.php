@@ -95,7 +95,9 @@ class Select extends \Magento\Multishipping\Block\Checkout\AbstractMultishipping
         $formatTypeRenderer = $this->_customerAddressHelper->getFormatTypeRenderer('html');
         $result = '';
         if ($formatTypeRenderer) {
-            $result = $formatTypeRenderer->renderArray($addressData->getAttributes());
+            $result = $formatTypeRenderer->renderArray(
+                \Magento\Convert\ConvertArray::toFlatArray($addressData->__toArray())
+            );
         }
         return $result;
     }

@@ -7,6 +7,8 @@
  */
 namespace Magento\Service\Entity;
 
+use Magento\Service\Entity\AbstractDtoBuilder;
+
 /**
  * Class AbstractDto
  * @SuppressWarnings(PHPMD.NumberOfChildren)
@@ -27,6 +29,18 @@ abstract class AbstractDto
     public function __construct($data)
     {
         $this->_data = $data;
+    }
+
+    /**
+     * Retrieve custom attributes values as an associative array.
+     *
+     * @return array
+     */
+    public function getCustomAttributes()
+    {
+        return isset($this->_data[AbstractDtoBuilder::CUSTOM_ATTRIBUTES_KEY])
+            ? $this->_data[AbstractDtoBuilder::CUSTOM_ATTRIBUTES_KEY]
+            : [];
     }
 
     /**

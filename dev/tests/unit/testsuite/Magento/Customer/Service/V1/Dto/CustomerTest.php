@@ -85,7 +85,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         /** @var Customer $customer */
         $customer = $customerBuilder->create();
 
-        $actualAttributes = $customer->getAttributes();
+        $actualAttributes = \Magento\Convert\ConvertArray::toFlatArray($customer->__toArray());
         $this->assertEquals(
             [
                 'id' => self::ID,
@@ -107,6 +107,20 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             ],
             $actualAttributes
         );
+    }
+
+    public function testGetCustomAttributes()
+    {
+        $customAttributes = [
+            'custom_attribute1' => 'value1',
+            'custom_attribute2' => 'value2'
+        ];
+        $customerData = [
+            'attribute1' => 'value1',
+            \Magento\Service\Entity\AbstractDtoBuilder::CUSTOM_ATTRIBUTES_KEY => $customAttributes
+        ];
+        $customerDto = new \Magento\Customer\Service\V1\Dto\Customer($customerData);
+        $this->assertEquals($customAttributes, $customerDto->getCustomAttributes(), 'Invalid custom attributes.');
     }
 
     public function testPopulateFromPrototypeVsArray()

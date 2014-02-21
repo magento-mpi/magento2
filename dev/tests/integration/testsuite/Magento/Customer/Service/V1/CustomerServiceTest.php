@@ -194,8 +194,8 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
             'aPassword',
             true
         );
-        $attributesBefore = $customerBefore->getAttributes();
-        $attributesAfter = $customerAfter->getAttributes();
+        $attributesBefore = \Magento\Convert\ConvertArray::toFlatArray($customerBefore->__toArray());
+        $attributesAfter = \Magento\Convert\ConvertArray::toFlatArray($customerAfter->__toArray());
         // ignore 'updated_at'
         unset($attributesBefore['updated_at']);
         unset($attributesAfter['updated_at']);
@@ -251,8 +251,8 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
             'password',
             true
         );
-        $attributesBefore = $customerBefore->getAttributes();
-        $attributesAfter = $customerAfter->getAttributes();
+        $attributesBefore = \Magento\Convert\ConvertArray::toFlatArray($customerBefore->__toArray());
+        $attributesAfter = \Magento\Convert\ConvertArray::toFlatArray($customerAfter->__toArray());
         // ignore 'updated_at'
         unset($attributesBefore['updated_at']);
         unset($attributesAfter['updated_at']);
@@ -317,8 +317,8 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
             'password',
             true
         );
-        $attributesBefore = $customerBefore->getAttributes();
-        $attributesAfter = $customerAfter->getAttributes();
+        $attributesBefore = \Magento\Convert\ConvertArray::toFlatArray($customerBefore->__toArray());
+        $attributesAfter = \Magento\Convert\ConvertArray::toFlatArray($customerAfter->__toArray());
         // ignore 'updated_at'
         unset($attributesBefore['updated_at']);
         unset($attributesAfter['updated_at']);
@@ -419,8 +419,8 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
             'aPassword',
             true
         );
-        $attributesBefore = $existingCustomer->getAttributes();
-        $attributesAfter = $customerAfter->getAttributes();
+        $attributesBefore = \Magento\Convert\ConvertArray::toFlatArray($existingCustomer->__toArray());
+        $attributesAfter = \Magento\Convert\ConvertArray::toFlatArray($customerAfter->__toArray());
         // ignore 'updated_at'
         unset($attributesBefore['updated_at']);
         unset($attributesAfter['updated_at']);
@@ -486,7 +486,7 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
         $customerId = $this->_service->saveCustomer($newCustomerEntity, $password);
         $this->assertNotNull($customerId);
         $savedCustomer = $this->_service->getCustomer($customerId);
-        $dataInService = $savedCustomer->getAttributes();
+        $dataInService = \Magento\Convert\ConvertArray::toFlatArray($savedCustomer->__toArray());
         $expectedDifferences = ['created_at', 'updated_at', 'email', 'is_active', 'entity_id', 'entity_type_id',
             'password_hash', 'attribute_set_id', 'disable_auto_group_change', 'confirmation'];
         foreach ($dataInModel as $key => $value) {

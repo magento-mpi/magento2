@@ -127,7 +127,7 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
             $addressForm = $this->_customerFormFactory->create(
                 'customer_address',
                 'adminhtml_customer_address',
-                $addressDto->getAttributes()
+                \Magento\Convert\ConvertArray::toFlatArray($addressDto->__toArray())
             );
             $data[$addressDto->getId()] = $addressForm->outputData(
                 \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_JSON
@@ -261,7 +261,9 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
         $formatTypeRenderer = $this->_addressHelper->getFormatTypeRenderer('oneline');
         $result = '';
         if ($formatTypeRenderer) {
-            $result = $formatTypeRenderer->renderArray($addressData->getAttributes());
+            $result = $formatTypeRenderer->renderArray(
+                \Magento\Convert\ConvertArray::toFlatArray($addressData->__toArray())
+            );
         }
         return $this->escapeHtml($result);
     }

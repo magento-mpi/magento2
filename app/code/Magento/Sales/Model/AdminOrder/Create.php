@@ -1139,7 +1139,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         $customerForm = $this->_metadataFormFactory->create(
             \Magento\Customer\Service\V1\CustomerMetadataServiceInterface::ENTITY_TYPE_CUSTOMER,
             'adminhtml_checkout',
-            $customerDto->getAttributes(),
+            \Magento\Convert\ConvertArray::toFlatArray($customerDto->__toArray()),
             CustomerForm::DONT_IGNORE_INVISIBLE
         );
 

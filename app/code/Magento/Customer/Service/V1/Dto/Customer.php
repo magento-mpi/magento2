@@ -69,23 +69,6 @@ class Customer extends \Magento\Service\Entity\AbstractDto implements Eav\Entity
     ];
 
     /**
-     * Retrieve array of all attributes, in the form of 'attribute code' => 'attribute value'
-     *
-     * @return array
-     */
-    public function getAttributes()
-    {
-        $unvalidatedData = $this->__toArray();
-        $validData = [];
-        foreach ($this->_validAttributes as $attributeCode) {
-            if (array_key_exists($attributeCode, $unvalidatedData)) {
-                $validData[$attributeCode] = $unvalidatedData[$attributeCode];
-            }
-        }
-        return $validData;
-    }
-
-    /**
      * Get an attribute value.
      *
      * @param string $attributeCode
@@ -93,8 +76,9 @@ class Customer extends \Magento\Service\Entity\AbstractDto implements Eav\Entity
      */
     public function getAttribute($attributeCode)
     {
-        if (in_array($attributeCode, $this->_validAttributes) && isset($this->_data[$attributeCode])) {
-            return $this->_data[$attributeCode];
+        $attributes = \Magento\Convert\ConvertArray::toFlatArray($this->__toArray());
+        if (array_key_exists($attributeCode, $attributes)) {
+            return $attributes[$attributeCode];
         } else {
             return null;
         }

@@ -82,7 +82,8 @@ class Converter
     public function updateAddressModel(AddressModel $addressModel, Address $address)
     {
         // Set all attributes
-        foreach ($address->getAttributes() as $attributeCode => $attributeData) {
+        $attributes = \Magento\Convert\ConvertArray::toFlatArray($address->__toArray());
+        foreach ($attributes as $attributeCode => $attributeData) {
             if (Address::KEY_REGION == $attributeCode && $address->getRegion() instanceof Region) {
                 $addressModel->setDataUsingMethod(Address::KEY_REGION, $address->getRegion()->getRegion());
                 $addressModel->setDataUsingMethod('region_code', $address->getRegion()->getRegionCode());
