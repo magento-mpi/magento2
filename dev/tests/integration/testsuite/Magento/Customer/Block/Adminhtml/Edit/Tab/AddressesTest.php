@@ -93,9 +93,9 @@ class AddressesTest extends \PHPUnit_Framework_TestCase
                 [
                     'context' => $this->_context,
                     'registry' => $this->_coreRegistry,
+                    'formFactory' => $this->_objectManager->get('Magento\Data\FormFactory'),
                     'systemStore' => $this->_objectManager->get('Magento\Core\Model\System\Store'),
                     'coreData' => $this->_objectManager->get('Magento\Core\Helper\Data'),
-                    'formFactory' => $this->_objectManager->get('Magento\Data\FormFactory'),
                     'jsonEncoder' => $this->_objectManager->get('Magento\Json\EncoderInterface'),
                     'regionFactory' => $this->_objectManager->get(
                             'Magento\Customer\Model\Renderer\RegionFactory'
