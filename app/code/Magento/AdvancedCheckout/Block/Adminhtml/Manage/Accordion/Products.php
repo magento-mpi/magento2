@@ -116,7 +116,7 @@ class Products extends AbstractAccordion
                 ->addAttributeToSelect($attributes)
                 ->addAttributeToSelect('sku')
                 ->addAttributeToFilter('type_id', $this->_salesConfig->getAvailableProductTypes())
-                ->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Status::STATUS_ENABLED)
+                ->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED)
                 ->addStoreFilter($this->_getStore());
             $this->_catalogStockStatus->addIsInStockFilterToCollection($collection);
             $this->setData('items_collection', $collection);

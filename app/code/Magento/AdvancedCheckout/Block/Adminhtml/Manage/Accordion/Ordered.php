@@ -9,6 +9,8 @@
  */
 namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion;
 
+use \Magento\Catalog\Model\Product\Attribute\Source\Status as ProductStatus;
+
 /**
  * Accordion grid for recently ordered products
  *
@@ -166,7 +168,7 @@ class Ordered extends AbstractAccordion
                         ->addAttributeToSelect($attributes)
                         ->addAttributeToSelect('sku')
                         ->addAttributeToFilter('type_id', $this->_salesConfig->getAvailableProductTypes())
-                        ->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Status::STATUS_ENABLED)
+                        ->addAttributeToFilter('status', ProductStatus::STATUS_ENABLED)
                         ->addStoreFilter($this->_getStore())
                         ->addIdFilter($productIds);
                     $this->_stockStatus->addIsInStockFilterToCollection($products);

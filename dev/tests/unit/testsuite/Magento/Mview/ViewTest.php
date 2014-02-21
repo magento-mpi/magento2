@@ -39,11 +39,6 @@ class ViewTest extends \PHPUnit_Framework_TestCase
      */
     protected $subscriptionFactoryMock;
 
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\App\Resource
-     */
-    protected $resourceMock;
-
     protected function setUp()
     {
         $this->configMock = $this->getMockForAbstractClass(
@@ -70,14 +65,12 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         $this->subscriptionFactoryMock = $this->getMock(
             'Magento\Mview\View\SubscriptionFactory', array('create'), array(), '', false
         );
-        $this->resourceMock = $this->getMock('Magento\App\Resource', array('getTableName'), array(), '', false);
         $this->model = new View(
             $this->configMock,
             $this->actionFactoryMock,
             $this->stateMock,
             $this->changelogMock,
-            $this->subscriptionFactoryMock,
-            $this->resourceMock
+            $this->subscriptionFactoryMock
         );
     }
 
@@ -107,10 +100,6 @@ class ViewTest extends \PHPUnit_Framework_TestCase
 
     public function testSubscribe()
     {
-        $this->resourceMock->expects($this->once())
-            ->method('getTableName')
-            ->with('some_entity')
-            ->will($this->returnArgument(0));
         $this->stateMock->expects($this->once())
             ->method('getMode')
             ->will($this->returnValue('disabled'));
@@ -132,10 +121,6 @@ class ViewTest extends \PHPUnit_Framework_TestCase
 
     public function testUnsubscribe()
     {
-        $this->resourceMock->expects($this->once())
-            ->method('getTableName')
-            ->with('some_entity')
-            ->will($this->returnArgument(0));
         $this->stateMock->expects($this->once())
             ->method('getMode')
             ->will($this->returnValue('enabled'));

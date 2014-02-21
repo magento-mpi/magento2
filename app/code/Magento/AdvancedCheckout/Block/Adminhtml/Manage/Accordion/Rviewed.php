@@ -9,6 +9,8 @@
  */
 namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion;
 
+use \Magento\Catalog\Model\Product\Attribute\Source\Status as ProductStatus;
+
 /**
  * Accordion grid for recently viewed products
  *
@@ -125,7 +127,7 @@ class Rviewed extends AbstractAccordion
                     ->addStoreFilter($this->_getStore()->getId())
                     ->addAttributeToSelect($attributes)
                     ->addIdFilter($productIds)
-                    ->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Status::STATUS_ENABLED);
+                    ->addAttributeToFilter('status', ProductStatus::STATUS_ENABLED);
 
                 $this->_catalogStockStatus->addIsInStockFilterToCollection($productCollection);
                 $productCollection = $this->_adminhtmlSales
