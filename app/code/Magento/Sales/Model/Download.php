@@ -50,7 +50,7 @@ class Download
     /**
      * Custom options downloader
      *
-     * @param mixed $info
+     * @param array $info
      * @throws \Exception
      */
     public function downloadFile($info)
@@ -74,11 +74,15 @@ class Download
         );
     }
 
+    /**
+     * @param string $relativePath
+     * @return bool
+     */
     protected function _isCanProcessed($relativePath)
     {
         $filePath = $this->_rootDir->getAbsolutePath($relativePath);
         return (!$this->_rootDir->isFile($relativePath) || !$this->_rootDir->isReadable($relativePath))
-        && !$this->_processDatabaseFile($filePath);
+            && !$this->_processDatabaseFile($filePath);
     }
 
     /**

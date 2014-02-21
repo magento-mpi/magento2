@@ -76,12 +76,10 @@ class Observer
         '_setCanEditReadPriceFalse' => array(
             'catalog.product.edit.tab.downloadable.links',
             'adminhtml.catalog.product.bundle.edit.tab.attributes.price'),
-        '_setTabEditReadFalse' => array('product_tabs'),
         '_setOptionsEditReadFalse' => array('admin.product.options'),
         '_setCanEditReadDefaultPrice' => array('adminhtml.catalog.product.bundle.edit.tab.attributes.price'),
         '_setCanEditReadChildBlock' => array('adminhtml.catalog.product.edit.tab.bundle.option'),
-        '_hidePriceElements' => array('adminhtml.catalog.product.edit.tab.attributes'),
-        '_setFormElementAttributes' => array('catalog.product.edit.tab.super.config.simple')
+        '_hidePriceElements' => array('adminhtml.catalog.product.edit.tab.attributes')
     );
 
     /**
@@ -257,22 +255,6 @@ class Observer
     }
 
     /**
-     * Set edit and read tab to false
-     *
-     * @param Template $block
-     * @return void
-     */
-    protected function _setTabEditReadFalse($block)
-    {
-        if (!$this->_canEditProductPrice) {
-            $block->setTabData('configurable', 'can_edit_price', false);
-        }
-        if (!$this->_canReadProductPrice) {
-            $block->setTabData('configurable', 'can_read_price', false);
-        }
-    }
-
-    /**
      * Set edit and read price in child block to false
      *
      * @param Template $block
@@ -325,28 +307,6 @@ class Observer
             $block->setCanEditPrice(false);
             if (!is_null($selectionTemplateBlock)) {
                 $selectionTemplateBlock->setCanEditPrice(false);
-            }
-        }
-    }
-
-    /**
-     * Set form element value and readonly
-     *
-     * @param Template $block
-     * @return void
-     */
-    protected function _setFormElementAttributes($block)
-    {
-        // Handle quick creation of simple product in configurable product
-        /** @var $form \Magento\Data\Form */
-        $form = $block->getForm();
-        if (!is_null($form)) {
-            if (!$this->_canEditProductStatus) {
-                $statusElement = $form->getElement('simple_product_status');
-                if (!is_null($statusElement)) {
-                    $statusElement->setValue(\Magento\Catalog\Model\Product\Status::STATUS_DISABLED);
-                    $statusElement->setReadonly(true, true);
-                }
             }
         }
     }
@@ -498,7 +458,7 @@ class Observer
         /** @var $product \Magento\Catalog\Model\Product */
         $product = $observer->getEvent()->getDataObject();
         if ($product->isObjectNew() && !$this->_canEditProductStatus) {
-            $product->setStatus(\Magento\Catalog\Model\Product\Status::STATUS_DISABLED);
+            $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
         }
     }
 
@@ -518,7 +478,7 @@ class Observer
             if (!$this->_canEditProductStatus) {
                 $statusElement = $form->getElement('status');
                 if (!is_null($statusElement)) {
-                    $statusElement->setValue(\Magento\Catalog\Model\Product\Status::STATUS_DISABLED);
+                    $statusElement->setValue(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
                     $statusElement->setReadonly(true, true);
                 }
             }

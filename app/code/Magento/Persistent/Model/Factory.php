@@ -5,12 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Persistent\Model;
 
 /**
  * Persistent Factory
  */
-namespace Magento\Persistent\Model;
-
 class Factory
 {
     /**

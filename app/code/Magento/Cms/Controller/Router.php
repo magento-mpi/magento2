@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Cms\Controller;
 
 /**
  * Cms Controller Router
@@ -16,8 +16,6 @@
  * @package     Magento_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Cms\Controller;
-
 class Router extends \Magento\App\Router\AbstractRouter
 {
     /**

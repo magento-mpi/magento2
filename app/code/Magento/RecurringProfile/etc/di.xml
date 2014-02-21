@@ -7,13 +7,13 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <type name="Magento\Module\Updater\SetupFactory">
-        <param name="resourceTypes">
-            <array>
-                <item key="recurringprofile_setup"><value>Magento\RecurringProfile\Model\Resource\Setup</value></item>
-            </array>
-        </param>
+        <arguments>
+            <argument name="resourceTypes" xsi:type="array">
+                <item name="recurringprofile_setup" xsi:type="string">Magento\RecurringProfile\Model\Resource\Setup</item>
+            </argument>
+        </arguments>
     </type>
     <type name="Magento\Catalog\Model\Product\Type\AbstractType">
         <plugin name="recurringprofile_product_type" type="Magento\RecurringProfile\Model\ProductType\Plugin"/>

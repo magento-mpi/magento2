@@ -7,11 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Authorizenet\Helper;
 
 /**
- * Authorizenet Data Helper
+ * Authorize.net Data Helper
  */
 class Data extends \Magento\App\Helper\AbstractHelper implements HelperInterface
 {
@@ -89,9 +88,9 @@ class Data extends \Magento\App\Helper\AbstractHelper implements HelperInterface
     }
 
     /**
-     * Retrieve redirect ifrmae url
+     * Retrieve redirect iframe url
      *
-     * @param array params
+     * @param array $params
      * @return string
      */
     public function getRedirectIframeUrl($params)
@@ -122,7 +121,7 @@ class Data extends \Magento\App\Helper\AbstractHelper implements HelperInterface
     /**
      * Retrieve place order url
      *
-     * @param array params
+     * @param array $params
      * @return  string
      */
     public function getSuccessOrderUrl($params)
@@ -146,6 +145,7 @@ class Data extends \Magento\App\Helper\AbstractHelper implements HelperInterface
      * Needed for Admin area.
      *
      * @param \Magento\Sales\Model\Order $order
+     * @return void
      */
     public function updateOrderEditIncrements(\Magento\Sales\Model\Order $order)
     {
