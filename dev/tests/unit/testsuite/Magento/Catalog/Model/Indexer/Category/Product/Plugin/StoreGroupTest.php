@@ -20,21 +20,26 @@ class StoreGroupTest extends \PHPUnit_Framework_TestCase
     protected $pluginMock;
 
     /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $subject;
+
+    /**
      * @var StoreView
      */
     protected $model;
 
     protected function setUp()
     {
-        $this->pluginMock = $this->getMock(
-            'Magento\Code\Plugin\InvocationChain', array('proceed'), array(), '', false
-        );
         $this->indexerMock = $this->getMockForAbstractClass(
             'Magento\Indexer\Model\IndexerInterface',
             array(), '', false, false, true, array('getId', 'getState', '__wakeup')
         );
         $this->model = new StoreGroup(
             $this->indexerMock
+        );
+        $this->subject = $this->getMock(
+            'Magento\Core\Model\Resource\Store\Group', array(), array(), '', false
         );
     }
 
@@ -55,9 +60,8 @@ class StoreGroupTest extends \PHPUnit_Framework_TestCase
             ->method('isObjectNew')
             ->will($this->returnValue(false));
 
-        $arguments = array($groupMock);
-        $this->mockPluginProceed($arguments);
-        $this->assertFalse($this->model->aroundSave($arguments, $this->pluginMock));
+        $proceed = $this->mockPluginProceed();
+        $this->assertFalse($this->model->aroundSave($this->subject, $proceed, $groupMock));
     }
 
     /**
@@ -76,9 +80,8 @@ class StoreGroupTest extends \PHPUnit_Framework_TestCase
             ->method('isObjectNew')
             ->will($this->returnValue(true));
 
-        $arguments = array($groupMock);
-        $this->mockPluginProceed($arguments);
-        $this->assertFalse($this->model->aroundSave($arguments, $this->pluginMock));
+        $proceed = $this->mockPluginProceed();
+        $this->assertFalse($this->model->aroundSave($this->subject, $proceed, $groupMock));
     }
 
     public function changedDataProvider()
@@ -109,10 +112,8 @@ class StoreGroupTest extends \PHPUnit_Framework_TestCase
         $groupMock->expects($this->never())
             ->method('isObjectNew');
 
-        $arguments = array($groupMock);
-        $this->mockPluginProceed($arguments);
-        $this->assertFalse($this->model->aroundSave($arguments, $this->pluginMock));
-
+        $proceed = $this->mockPluginProceed();
+        $this->assertFalse($this->model->aroundSave($this->subject, $proceed, $groupMock));
     }
 
     protected function mockIndexerMethods()
@@ -124,11 +125,10 @@ class StoreGroupTest extends \PHPUnit_Framework_TestCase
             ->method('invalidate');
     }
 
-    protected function mockPluginProceed($arguments, $returnValue = false)
+    protected function mockPluginProceed($returnValue = false)
     {
-        $this->pluginMock->expects($this->once())
-            ->method('proceed')
-            ->with($arguments)
-            ->will($this->returnValue($returnValue));
+        return function() use ($returnValue) {
+            return $returnValue;
+        };
     }
 }
