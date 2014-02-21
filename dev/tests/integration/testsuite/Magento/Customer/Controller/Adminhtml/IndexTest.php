@@ -634,4 +634,84 @@ class IndexTest extends \Magento\Backend\Utility\Controller
         $this->assertEquals(0, $this->customerService->getCustomer(1)->getGroupId());
         $this->assertEquals(0, $this->customerService->getCustomer(2)->getGroupId());
     }
+
+
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/two_customers.php
+     */
+    public function testMassUnsubscriberAction()
+    {
+        // Setup
+        /** @var \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory */
+        $subscriberFactory = Bootstrap::getObjectManager()->get('Magento\Newsletter\Model\SubscriberFactory');
+        $subscriberFactory->create()->updateSubscription(1, true);
+        $subscriberFactory->create()->updateSubscription(2, true);
+        $this->getRequest()->setParam('customer', [1, 2]);
+
+        // Test
+        $this->dispatch('backend/customer/index/massUnsubscribe');
+
+        // Assertions
+        $this->assertRedirect($this->stringContains('customer/index'));
+        $this->assertSessionMessages(
+            $this->equalTo(['A total of 2 record(s) were updated.']),
+            \Magento\Message\MessageInterface::TYPE_SUCCESS
+        );
+        $this->assertFalse((bool)$subscriberFactory->create()->loadByCustomer(1)->getSubscriberStatus());
+        $this->assertFalse((bool)$subscriberFactory->create()->loadByCustomer(2)->getSubscriberStatus());
+    }
+
+    public function testMassUnsubscriberActionNoSelection()
+    {
+        $this->dispatch('backend/customer/index/massUnsubscribe');
+
+        $this->assertRedirect($this->stringContains('customer/index'));
+        $this->assertSessionMessages(
+            $this->equalTo(['Please select customer(s).']),
+            \Magento\Message\MessageInterface::TYPE_ERROR
+        );
+    }
+
+    public function testMassUnsubscriberActionInvalidId()
+    {
+        $this->getRequest()->setParam('customer', [4200]);
+
+        $this->dispatch('backend/customer/index/massUnsubscribe');
+
+        $this->assertRedirect($this->stringContains('customer/index'));
+        $this->assertSessionMessages(
+            $this->equalTo(['No such entity with customerId = 4200']),
+            \Magento\Message\MessageInterface::TYPE_ERROR
+        );
+    }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/two_customers.php
+     */
+    public function testMassUnsubscriberActionPartialUpdate()
+    {
+        // Setup
+        /** @var \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory */
+        $subscriberFactory = Bootstrap::getObjectManager()->get('Magento\Newsletter\Model\SubscriberFactory');
+        $subscriberFactory->create()->updateSubscription(1, true);
+        $subscriberFactory->create()->updateSubscription(2, true);
+        $this->getRequest()->setParam('customer', [1, 4200, 2]);
+
+        // Test
+        $this->dispatch('backend/customer/index/massUnsubscribe');
+
+        // Assertions
+        $this->assertRedirect($this->stringContains('customer/index'));
+        $this->assertSessionMessages(
+            $this->equalTo(['A total of 2 record(s) were updated.']),
+            \Magento\Message\MessageInterface::TYPE_SUCCESS
+        );
+        $this->assertSessionMessages(
+            $this->equalTo(['No such entity with customerId = 4200']),
+            \Magento\Message\MessageInterface::TYPE_ERROR
+        );
+        $this->assertFalse((bool)$subscriberFactory->create()->loadByCustomer(1)->getSubscriberStatus());
+        $this->assertFalse((bool)$subscriberFactory->create()->loadByCustomer(2)->getSubscriberStatus());
+    }
 }

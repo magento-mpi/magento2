@@ -1012,25 +1012,11 @@ class Index extends \Magento\Backend\App\Action
      */
     public function massSubscribeAction()
     {
-        $customersIds = $this->getRequest()->getParam('customer');
-        if (!is_array($customersIds)) {
-            $this->messageManager->addError(__('Please select customer(s).'));
-        } else {
-            $customersUpdated = 0;
-            foreach ($customersIds as $customerId) {
-                try {
-                    // Verify customer exists
-                    $this->_customerService->getCustomer($customerId);
-                    $this->_subscriberFactory->create()->updateSubscription($customerId, true);
-                    $customersUpdated++;
-                } catch (\Exception $exception) {
-                    $this->messageManager->addError($exception->getMessage());
-                }
-            }
-            if ($customersUpdated) {
-                $this->messageManager->addSuccess(__('A total of %1 record(s) were updated.', $customersUpdated));
-            }
-        }
+        $this->massCustomerChangeAction(function($customerId) {
+            // Verify customer exists
+            $this->_customerService->getCustomer($customerId);
+            $this->_subscriberFactory->create()->updateSubscription($customerId, true);
+        });
         $this->_redirect('customer/*/index');
     }
 
@@ -1039,22 +1025,11 @@ class Index extends \Magento\Backend\App\Action
      */
     public function massUnsubscribeAction()
     {
-        $customersIds = $this->getRequest()->getParam('customer');
-        if (!is_array($customersIds)) {
-            $this->messageManager->addError(__('Please select customer(s).'));
-        } else {
-            try {
-                foreach ($customersIds as $customerId) {
-                    $customer = $this->_objectManager->create('Magento\Customer\Model\Customer')->load($customerId);
-                    $customer->setIsSubscribed(false);
-                    $customer->save();
-                }
-                $this->messageManager->addSuccess(__('A total of %1 record(s) were updated.', count($customersIds)));
-            } catch (\Exception $exception) {
-                $this->messageManager->addError($exception->getMessage());
-            }
-        }
-
+        $this->massCustomerChangeAction(function($customerId) {
+            // Verify customer exists
+            $this->_customerService->getCustomer($customerId);
+            $this->_subscriberFactory->create()->updateSubscription($customerId, false);
+        });
         $this->_redirect('customer/*/index');
     }
 
@@ -1088,6 +1063,24 @@ class Index extends \Magento\Backend\App\Action
      */
     public function massAssignGroupAction()
     {
+        $this->massCustomerChangeAction(function($customerId) {
+            // Verify customer exists
+            $customer = $this->_customerService->getCustomer($customerId);
+            $this->_customerBuilder->populate($customer);
+            $customer = $this->_customerBuilder
+                ->setGroupId($this->getRequest()->getParam('group'))->create();
+            $this->_customerService->saveCustomer($customer);
+        });
+        $this->_redirect('customer/*/index');
+    }
+
+    /**
+     * Helper function that handles mass actions by taking in a callable for handling a single action.
+     *
+     * @param callable $singleAction that takes a customer ID as input
+     */
+    protected function massCustomerChangeAction(callable $singleAction)
+    {
         $customersIds = $this->getRequest()->getParam('customer');
         if (!is_array($customersIds)) {
             $this->messageManager->addError(__('Please select customer(s).'));
@@ -1095,11 +1088,7 @@ class Index extends \Magento\Backend\App\Action
             $customersUpdated = 0;
             foreach ($customersIds as $customerId) {
                 try {
-                    $customer = $this->_customerService->getCustomer($customerId);
-                    $this->_customerBuilder->populate($customer);
-                    $customer = $this->_customerBuilder
-                        ->setGroupId($this->getRequest()->getParam('group'))->create();
-                    $this->_customerService->saveCustomer($customer);
+                    $singleAction($customerId);
                     $customersUpdated++;
                 } catch (\Exception $exception) {
                     $this->messageManager->addError($exception->getMessage());
@@ -1109,8 +1098,6 @@ class Index extends \Magento\Backend\App\Action
                 $this->messageManager->addSuccess(__('A total of %1 record(s) were updated.', $customersUpdated));
             }
         }
-
-        $this->_redirect('customer/*/index');
     }
 
     /**
