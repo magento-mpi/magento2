@@ -73,17 +73,6 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider getViewFileDataProvider
      */
-    public function testGetPublicViewFilePath($fileOperationsAllowed,  $manager)
-    {
-        $this->_testGetFile('getPublicViewFilePath', $fileOperationsAllowed, $manager);
-    }
-
-    /**
-     * @param bool $fileOperationsAllowed
-     * @param string $manager
-     *
-     * @dataProvider getViewFileDataProvider
-     */
     public function testGetViewFile($fileOperationsAllowed,  $manager)
     {
         $this->_testGetFile('getViewFile', $fileOperationsAllowed, $manager);

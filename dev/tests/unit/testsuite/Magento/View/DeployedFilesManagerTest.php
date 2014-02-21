@@ -34,20 +34,6 @@ class DeployedFilesManagerTest extends \PHPUnit_Framework_TestCase
      * @param string $expected
      * @dataProvider getViewFileDataProvider
      */
-    public function testGetPublicViewFilePath($pubDir, $area, $themePath, $module, $filePath, $expected)
-    {
-        $this->_testGetFile('getPublicViewFilePath', $pubDir, $area, $themePath, $module, $filePath, $expected);
-    }
-
-    /**
-     * @param string $pubDir
-     * @param string $area
-     * @param string $themePath
-     * @param string $module
-     * @param string $filePath
-     * @param string $expected
-     * @dataProvider getViewFileDataProvider
-     */
     public function testGetViewFile($pubDir, $area, $themePath, $module, $filePath, $expected)
     {
         $this->_testGetFile('getViewFile', $pubDir, $area, $themePath, $module, $filePath, $expected);

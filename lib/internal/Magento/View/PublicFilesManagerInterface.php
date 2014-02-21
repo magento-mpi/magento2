@@ -23,15 +23,6 @@ interface PublicFilesManagerInterface
     public function getPublicViewFile($filePath, array $params);
 
     /**
-     * Get public file path without any publication
-     *
-     * @param string $filePath
-     * @param array $params
-     * @return string
-     */
-    public function getPublicViewFilePath($filePath, array $params);
-
-    /**
      * Get path to requested file
      *
      * @param string $filePath

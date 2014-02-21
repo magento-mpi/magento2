@@ -41,14 +41,6 @@ class DeployedFilesManager implements \Magento\View\PublicFilesManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function getPublicViewFilePath($filePath, array $params)
-    {
-        return $this->_getDeployedFilePath($filePath, $params);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getViewFile($filePath, array $params)
     {
         return $this->getPublicViewFile($filePath, $params);

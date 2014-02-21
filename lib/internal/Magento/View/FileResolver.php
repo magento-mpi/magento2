@@ -65,20 +65,6 @@ class FileResolver
     }
 
     /**
-     * @param string $fileId
-     * @param array $params
-     * @return string
-     */
-    public function getPublicViewFilePath($fileId, array $params = array())
-    {
-        $this->viewService->updateDesignParams($params);
-        $filePath = $this->viewService->extractScope($this->viewFileSystem->normalizePath($fileId), $params);
-        $publicFilePath = $this->getFilesManager()->getPublicViewFilePath($filePath, $params);
-
-        return $publicFilePath;
-    }
-
-    /**
      * Get path to file
      *
      * @param string $fileId

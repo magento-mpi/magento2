@@ -334,30 +334,6 @@ class PublisherTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->publisherFileMock));
     }
 
-    public function testGetPublicViewFilePath()
-    {
-        $filePath = '/some/file.js';
-        $params = array('param1' => 'param 1', 'param2' => 'param 2');
-        $expectedResult = 'result';
-
-        $this->publisherFileMock->expects($this->once())
-            ->method('buildPublicViewFilename')
-            ->will($this->returnValue($expectedResult));
-        $this->publisherFileMock->expects($this->once())
-            ->method('isSourceFileExists')
-            ->will($this->returnValue(true));
-        $this->rootDirectory->expects($this->never())
-            ->method('copy');
-        $this->pubDirectory->expects($this->never())
-            ->method('touch');
-        $this->pubDirectory->expects($this->never())
-            ->method('create');
-        $this->prepareCommonMocks($filePath, $params);
-
-        $actualResult = $this->publisher->getPublicViewFilePath($filePath, $params);
-        $this->assertSame($expectedResult, $actualResult);
-    }
-
     public function testGetViewFile()
     {
         $filePath = '/some/file.js';
