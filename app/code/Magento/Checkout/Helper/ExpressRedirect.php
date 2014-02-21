@@ -60,7 +60,7 @@ class ExpressRedirect extends \Magento\App\Helper\AbstractHelper
             $this->_actionFlag->set('', $actionKey, $actionFlag);
         }
 
-        $this->getResponse()->setRedirect(
+        $expressRedirect->getResponse()->setRedirect(
             $this->_objectManager->get('Magento\Core\Helper\Url')->addRequestParam(
                 $expressRedirect->getLoginUrl(),
                 array('context' => 'checkout')

@@ -33,4 +33,11 @@ interface RedirectLoginInterface
      * @return string|null
      */
     public function getRedirectActionName();
+
+    /**
+     * Retrieve response object
+     *
+     * @return \Magento\App\ResponseInterface
+     */
+    public function getResponse();
 } 

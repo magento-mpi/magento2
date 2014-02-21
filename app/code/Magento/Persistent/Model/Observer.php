@@ -478,7 +478,7 @@ class Observer
         $controllerAction = $observer->getEvent()->getControllerAction();
         if (!$controllerAction
             || !$controllerAction instanceof \Magento\Checkout\Controller\Express\RedirectLoginInterface
-            || $controllerAction->getLoginUrl() != $controllerAction->getRequest()->getActionName()
+            || $controllerAction->getRedirectActionName() != $controllerAction->getRequest()->getActionName()
         ) {
             return;
         }
