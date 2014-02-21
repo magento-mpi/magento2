@@ -32,9 +32,9 @@ class Packaging extends \Magento\Backend\Block\Template
     /**
      * Usa data
      *
-     * @var \Magento\Usa\Helper\Data
+     * @var \Magento\UspsCarrier\Helper\Data
      */
-    protected $_usaData = null;
+    protected $_uspsData;
     
     /**
      * Core registry
@@ -59,7 +59,7 @@ class Packaging extends \Magento\Backend\Block\Template
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Usa\Helper\Data $usaData
+     * @param \Magento\UspsCarrier\Helper\Data $uspsData
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
@@ -68,7 +68,7 @@ class Packaging extends \Magento\Backend\Block\Template
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Usa\Helper\Data $usaData,
+        \Magento\UspsCarrier\Helper\Data $uspsData,
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Core\Model\Registry $registry,
         \Magento\Sales\Model\OrderFactory $orderFactory,
@@ -76,7 +76,7 @@ class Packaging extends \Magento\Backend\Block\Template
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
-        $this->_usaData = $usaData;
+        $this->_uspsData = $uspsData;
         $this->_rmaData = $rmaData;
         $this->_orderFactory = $orderFactory;
         $this->_sizeFactory = $sizeFactory;
@@ -222,7 +222,7 @@ class Packaging extends \Magento\Backend\Block\Template
         $code       = $this->getRequest()->getParam('method');
         $girth      = false;
         if (!empty($code)) {
-            $girth = ($this->_usaData->displayGirthValue($code) && $this->isGirthAllowed()) ? 1 : 0;
+            $girth = ($this->_uspsData->displayGirthValue($code) && $this->isGirthAllowed()) ? 1 : 0;
         }
 
         return $girth;

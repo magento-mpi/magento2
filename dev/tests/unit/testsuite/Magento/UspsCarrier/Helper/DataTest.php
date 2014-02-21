@@ -5,19 +5,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Usa\Helper;
 
+namespace Magento\UspsCarrier\Helper;
 
 class DataTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Usa\Helper\Data
+     * @var \Magento\UspsCarrier\Helper\Data
      */
     protected $_helperData;
 
-    /**
-     *
-     */
     protected function setUp()
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
@@ -26,11 +23,11 @@ class DataTest extends \PHPUnit_Framework_TestCase
             'locale' => $this->getMock('Magento\Core\Model\Locale', array(), array(), '', false)
         );
 
-        $this->_helperData = $helper->getObject('Magento\Usa\Helper\Data', $arguments);
+        $this->_helperData = $helper->getObject('Magento\UspsCarrier\Helper\Data', $arguments);
     }
 
     /**
-     * @covers \Magento\Usa\Helper\Data::displayGirthValue
+     * @covers \Magento\UspsCarrier\Helper\Data::displayGirthValue
      * @dataProvider shippingMethodDataProvider
      */
     public function testDisplayGirthValue($shippingMethod)
@@ -39,7 +36,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Usa\Helper\Data::displayGirthValue
+     * @covers \Magento\UspsCarrier\Helper\Data::displayGirthValue
      */
     public function testDisplayGirthValueFalse()
     {
