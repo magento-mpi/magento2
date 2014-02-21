@@ -649,6 +649,7 @@ class PayflowNvp extends \Magento\Paypal\Model\Api\Nvp
      * Puerto Rico should be as state of USA and not as a country
      *
      * @param array $request
+     * @return void
      */
     protected function _applyCountryWorkarounds(&$request)
     {

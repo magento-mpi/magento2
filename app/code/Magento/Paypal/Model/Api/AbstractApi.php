@@ -407,6 +407,7 @@ abstract class AbstractApi extends \Magento\Object
      *
      * @param array $privateResponseMap
      * @param array $response
+     * @return void
      */
     protected function _importFromResponse(array $privateResponseMap, array $response)
     {

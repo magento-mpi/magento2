@@ -81,9 +81,9 @@ class Transaction extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Load cell/row by specified unique key parts
      *
      * @param string $txnId
-     * @param mixed (array|string|object) $columns
+     * @param array|string|object $columns
      * @param bool $isRow
-     * @return mixed (array|string)
+     * @return array|string
      */
     private function _lookupByTxnId($txnId, $columns, $isRow = false)
     {

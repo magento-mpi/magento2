@@ -658,6 +658,7 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
      *
      * @deprecated since 1.6.2.0
      * @param mixed|null $token
+     * @return void
      * @throws \Magento\Core\Exception
      */
     public function prepareOrderReview($token = null)

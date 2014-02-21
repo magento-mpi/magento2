@@ -133,7 +133,7 @@ class Row extends \Magento\Core\Model\AbstractModel
      * Return description of "Debit or Credit" value
      * If no code specified, return full list of codes with their description
      *
-     * @param string code
+     * @param string|null $code
      * @return string|array
      */
     public function getDebitCreditText($code = null)
