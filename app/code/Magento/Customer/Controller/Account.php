@@ -873,8 +873,7 @@ class Account extends \Magento\App\Action\Action
                 } else {
                     $this->messageManager->addError(__('New password field cannot be empty.'));
                 }
-            }
-            else {
+            } else {
                 try {
                     $this->_customerAccountService->updateAccount($customer);
                 } catch (\Magento\Exception\AuthenticationException $e) {

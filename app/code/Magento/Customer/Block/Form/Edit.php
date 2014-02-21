@@ -42,7 +42,7 @@ class Edit extends \Magento\Customer\Block\Account\Dashboard
     /**
      * Retrieve form data
      *
-     * @return \Magento\Object
+     * @return array
      */
     protected function getFormData()
     {
