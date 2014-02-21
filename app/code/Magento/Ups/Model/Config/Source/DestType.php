@@ -2,16 +2,16 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Usa
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
+namespace Magento\Ups\Model\Config\Source;
 
-namespace Magento\Usa\Model\Shipping\Carrier\Ups\Source;
-
-class DestType extends \Magento\Usa\Model\Shipping\Carrier\Ups\Source\Generic
+/**
+ * Class DestType
+ */
+class DestType extends \Magento\Ups\Model\Config\Source\Generic
 {
     /**
      * Carrier code

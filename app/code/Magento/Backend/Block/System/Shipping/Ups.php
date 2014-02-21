@@ -16,9 +16,11 @@ namespace Magento\Backend\Block\System\Shipping;
 class Ups extends \Magento\Backend\Block\Template
 {
     /**
-     * @var \Magento\Usa\Model\Shipping\Carrier\Ups
+     * Shipping carrier config
+     *
+     * @var \Magento\Ups\Helper\Config
      */
-    protected $_shippingModel;
+    protected $carrierConfig;
 
     /**
      * @var \Magento\Core\Model\Website
@@ -27,17 +29,17 @@ class Ups extends \Magento\Backend\Block\Template
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Usa\Model\Shipping\Carrier\Ups $shippingModel
+     * @param \Magento\Ups\Helper\Config $carrierConfig
      * @param \Magento\Core\Model\Website $websiteModel
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Usa\Model\Shipping\Carrier\Ups $shippingModel,
+        \Magento\Ups\Helper\Config $carrierConfig,
         \Magento\Core\Model\Website $websiteModel,
         array $data = array()
     ) {
-        $this->_shippingModel = $shippingModel;
+        $this->carrierConfig = $carrierConfig;
         $this->_websiteModel = $websiteModel;
         parent::__construct($context, $data);
     }
@@ -45,11 +47,11 @@ class Ups extends \Magento\Backend\Block\Template
     /**
      * Get shipping model
      *
-     * @return \Magento\Usa\Model\Shipping\Carrier\Ups
+     * @return \Magento\Ups\Helper\Config
      */
-    public function getShippingModel()
+    public function getCarrierConfig()
     {
-        return $this->_shippingModel;
+        return $this->carrierConfig;
     }
 
     /**

@@ -2,20 +2,15 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Usa
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- *
- * Usa Ups type action Dropdown source
- *
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-namespace Magento\Usa\Model\Shipping\Carrier\Ups\Source;
+namespace Magento\Ups\Model\Config\Source;
 
+/**
+ * Class Type
+ */
 class Type implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**

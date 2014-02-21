@@ -2,26 +2,22 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Usa
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Usa\Model\Shipping\Carrier;
+namespace Magento\Ups\Model;
 
 use Magento\Sales\Model\Quote\Address\RateRequest;
 use Magento\Shipping\Model\Rate\Result;
 use Magento\Usa\Model\Shipping\Carrier\AbstractCarrier;
 use Magento\Usa\Model\Simplexml\Element;
+use Magento\Shipping\Model\Carrier\CarrierInterface;
 
 /**
  * UPS shipping implementation
  */
-class Ups
-    extends AbstractCarrier
-    implements \Magento\Shipping\Model\Carrier\CarrierInterface
+class Carrier extends AbstractCarrier implements CarrierInterface
 {
-
     /**
      * Code of the carrier
      *
@@ -121,6 +117,8 @@ class Ups
      */
     protected $_logger;
 
+    protected $configHelper;
+
     /**
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Sales\Model\Quote\Address\RateResult\ErrorFactory $rateErrorFactory
@@ -137,6 +135,7 @@ class Ups
      * @param \Magento\Directory\Helper\Data $directoryData
      * @param \Magento\Logger $logger
      * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Ups\Helper\Config $configHelper,
      * @param array $data
      * 
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -157,10 +156,12 @@ class Ups
         \Magento\Directory\Helper\Data $directoryData,
         \Magento\Logger $logger,
         \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Ups\Helper\Config $configHelper,
         array $data = array()
     ) {
         $this->_logger = $logger;
         $this->_locale = $locale;
+        $this->configHelper = $configHelper;
         parent::__construct(
             $coreStoreConfig,
             $rateErrorFactory,
@@ -213,10 +214,10 @@ class Ups
         $rowRequest = new \Magento\Object();
 
         if ($request->getLimitMethod()) {
-            $rowRequest->setAction($this->getCode('action', 'single'));
+            $rowRequest->setAction($this->configHelper->getCode('action', 'single'));
             $rowRequest->setProduct($request->getLimitMethod());
         } else {
-            $rowRequest->setAction($this->getCode('action', 'all'));
+            $rowRequest->setAction($this->configHelper->getCode('action', 'all'));
             $rowRequest->setProduct('GND' . $this->getConfigData('dest_type'));
         }
 
@@ -225,21 +226,21 @@ class Ups
         } else {
             $pickup = $this->getConfigData('pickup');
         }
-        $rowRequest->setPickup($this->getCode('pickup', $pickup));
+        $rowRequest->setPickup($this->configHelper->getCode('pickup', $pickup));
 
         if ($request->getUpsContainer()) {
             $container = $request->getUpsContainer();
         } else {
             $container = $this->getConfigData('container');
         }
-        $rowRequest->setContainer($this->getCode('container', $container));
+        $rowRequest->setContainer($this->configHelper->getCode('container', $container));
 
         if ($request->getUpsDestType()) {
             $destType = $request->getUpsDestType();
         } else {
             $destType = $this->getConfigData('dest_type');
         }
-        $rowRequest->setDestType($this->getCode('dest_type', $destType));
+        $rowRequest->setDestType($this->configHelper->getCode('dest_type', $destType));
 
         if ($request->getOrigCountry()) {
             $origCountry = $request->getOrigCountry();
@@ -403,7 +404,7 @@ class Ups
         $weight = $this->getTotalNumOfBoxes($r->getFreeMethodWeight());
         $weight = $this->_getCorrectWeight($weight);
         $r->setWeight($weight);
-        $r->setAction($this->getCode('action', 'single'));
+        $r->setAction($this->configHelper->getCode('action', 'single'));
         $r->setProduct($freeMethod);
     }
 
@@ -477,7 +478,7 @@ class Ups
         if ($origin === null) {
             $origin = $this->getConfigData('origin_shipment');
         }
-        $arr = $this->getCode('originShipment', $origin);
+        $arr = $this->configHelper->getCode('originShipment', $origin);
         if (isset($arr[$code])) {
             return $arr[$code];
         } else {
@@ -542,7 +543,7 @@ class Ups
                 $rate->setCarrier('ups');
                 $rate->setCarrierTitle($this->getConfigData('title'));
                 $rate->setMethod($method);
-                $methodArray = $this->getCode('method', $method);
+                $methodArray = $this->configHelper->getCode('method', $method);
                 $rate->setMethodTitle($methodArray);
                 $rate->setCost($costArr[$method]);
                 $rate->setPrice($price);
@@ -551,302 +552,6 @@ class Ups
         }
 
         return $result;
-    }
-
-    /**
-     * Get configuration data of carrier
-     *
-     * @param string $type
-     * @param string $code
-     * @return array|false
-     */
-    public function getCode($type, $code = '')
-    {
-        $codes = array(
-            'action' => array(
-                'single' => '3',
-                'all' => '4',
-            ),
-            'originShipment' => array(
-                // United States Domestic Shipments
-                'United States Domestic Shipments' => array(
-                    '01' => __('UPS Next Day Air'),
-                    '02' => __('UPS Second Day Air'),
-                    '03' => __('UPS Ground'),
-                    '07' => __('UPS Worldwide Express'),
-                    '08' => __('UPS Worldwide Expedited'),
-                    '11' => __('UPS Standard'),
-                    '12' => __('UPS Three-Day Select'),
-                    '13' => __('UPS Next Day Air Saver'),
-                    '14' => __('UPS Next Day Air Early A.M.'),
-                    '54' => __('UPS Worldwide Express Plus'),
-                    '59' => __('UPS Second Day Air A.M.'),
-                    '65' => __('UPS Saver'),
-                ),
-                // Shipments Originating in United States
-                'Shipments Originating in United States' => array(
-                    '01' => __('UPS Next Day Air'),
-                    '02' => __('UPS Second Day Air'),
-                    '03' => __('UPS Ground'),
-                    '07' => __('UPS Worldwide Express'),
-                    '08' => __('UPS Worldwide Expedited'),
-                    '11' => __('UPS Standard'),
-                    '12' => __('UPS Three-Day Select'),
-                    '14' => __('UPS Next Day Air Early A.M.'),
-                    '54' => __('UPS Worldwide Express Plus'),
-                    '59' => __('UPS Second Day Air A.M.'),
-                    '65' => __('UPS Worldwide Saver'),
-                ),
-                // Shipments Originating in Canada
-                'Shipments Originating in Canada' => array(
-                    '01' => __('UPS Express'),
-                    '02' => __('UPS Expedited'),
-                    '07' => __('UPS Worldwide Express'),
-                    '08' => __('UPS Worldwide Expedited'),
-                    '11' => __('UPS Standard'),
-                    '12' => __('UPS Three-Day Select'),
-                    '14' => __('UPS Express Early A.M.'),
-                    '65' => __('UPS Saver'),
-                ),
-                // Shipments Originating in the European Union
-                'Shipments Originating in the European Union' => array(
-                    '07' => __('UPS Express'),
-                    '08' => __('UPS Expedited'),
-                    '11' => __('UPS Standard'),
-                    '54' => __('UPS Worldwide Express PlusSM'),
-                    '65' => __('UPS Saver'),
-                ),
-                // Polish Domestic Shipments
-                'Polish Domestic Shipments' => array(
-                    '07' => __('UPS Express'),
-                    '08' => __('UPS Expedited'),
-                    '11' => __('UPS Standard'),
-                    '54' => __('UPS Worldwide Express Plus'),
-                    '65' => __('UPS Saver'),
-                    '82' => __('UPS Today Standard'),
-                    '83' => __('UPS Today Dedicated Courrier'),
-                    '84' => __('UPS Today Intercity'),
-                    '85' => __('UPS Today Express'),
-                    '86' => __('UPS Today Express Saver'),
-                ),
-                // Puerto Rico Origin
-                'Puerto Rico Origin' => array(
-                    '01' => __('UPS Next Day Air'),
-                    '02' => __('UPS Second Day Air'),
-                    '03' => __('UPS Ground'),
-                    '07' => __('UPS Worldwide Express'),
-                    '08' => __('UPS Worldwide Expedited'),
-                    '14' => __('UPS Next Day Air Early A.M.'),
-                    '54' => __('UPS Worldwide Express Plus'),
-                    '65' => __('UPS Saver'),
-                ),
-                // Shipments Originating in Mexico
-                'Shipments Originating in Mexico' => array(
-                    '07' => __('UPS Express'),
-                    '08' => __('UPS Expedited'),
-                    '54' => __('UPS Express Plus'),
-                    '65' => __('UPS Saver'),
-                ),
-                // Shipments Originating in Other Countries
-                'Shipments Originating in Other Countries' => array(
-                    '07' => __('UPS Express'),
-                    '08' => __('UPS Worldwide Expedited'),
-                    '11' => __('UPS Standard'),
-                    '54' => __('UPS Worldwide Express Plus'),
-                    '65' => __('UPS Saver')
-                )
-            ),
-
-            'method'=>array(
-                '1DM'    => __('Next Day Air Early AM'),
-                '1DML'   => __('Next Day Air Early AM Letter'),
-                '1DA'    => __('Next Day Air'),
-                '1DAL'   => __('Next Day Air Letter'),
-                '1DAPI'  => __('Next Day Air Intra (Puerto Rico)'),
-                '1DP'    => __('Next Day Air Saver'),
-                '1DPL'   => __('Next Day Air Saver Letter'),
-                '2DM'    => __('2nd Day Air AM'),
-                '2DML'   => __('2nd Day Air AM Letter'),
-                '2DA'    => __('2nd Day Air'),
-                '2DAL'   => __('2nd Day Air Letter'),
-                '3DS'    => __('3 Day Select'),
-                'GND'    => __('Ground'),
-                'GNDCOM' => __('Ground Commercial'),
-                'GNDRES' => __('Ground Residential'),
-                'STD'    => __('Canada Standard'),
-                'XPR'    => __('Worldwide Express'),
-                'WXS'    => __('Worldwide Express Saver'),
-                'XPRL'   => __('Worldwide Express Letter'),
-                'XDM'    => __('Worldwide Express Plus'),
-                'XDML'   => __('Worldwide Express Plus Letter'),
-                'XPD'    => __('Worldwide Expedited'),
-            ),
-
-            'pickup'=>array(
-                'RDP'    => array("label"=>'Regular Daily Pickup',"code"=>"01"),
-                'OCA'    => array("label"=>'On Call Air',"code"=>"07"),
-                'OTP'    => array("label"=>'One Time Pickup',"code"=>"06"),
-                'LC'     => array("label"=>'Letter Center',"code"=>"19"),
-                'CC'     => array("label"=>'Customer Counter',"code"=>"03"),
-            ),
-
-            'container'=>array(
-                'CP'     => '00', // Customer Packaging
-                'ULE'    => '01', // UPS Letter Envelope
-                'CSP'    => '02', // Customer Supplied Package
-                'UT'     => '03', // UPS Tube
-                'PAK'    => '04', // PAK
-                'UEB'    => '21', // UPS Express Box
-                'UW25'   => '24', // UPS Worldwide 25 kilo
-                'UW10'   => '25', // UPS Worldwide 10 kilo
-                'PLT'    => '30', // Pallet
-                'SEB'    => '2a', // Small Express Box
-                'MEB'    => '2b', // Medium Express Box
-                'LEB'    => '2c', // Large Express Box
-            ),
-
-            'container_description'=>array(
-                'CP'     => __('Customer Packaging'),
-                'ULE'    => __('UPS Letter Envelope'),
-                'CSP'    => __('Customer Supplied Package'),
-                'UT'     => __('UPS Tube'),
-                'PAK'    => __('PAK'),
-                'UEB'    => __('UPS Express Box'),
-                'UW25'   => __('UPS Worldwide 25 kilo'),
-                'UW10'   => __('UPS Worldwide 10 kilo'),
-                'PLT'    => __('Pallet'),
-                'SEB'    => __('Small Express Box'),
-                'MEB'    => __('Medium Express Box'),
-                'LEB'    => __('Large Express Box'),
-            ),
-
-            'dest_type'=>array(
-                'RES'    => '01', // Residential
-                'COM'    => '02', // Commercial
-            ),
-
-            'dest_type_description'=>array(
-                'RES'    => __('Residential'),
-                'COM'    => __('Commercial'),
-            ),
-
-            'unit_of_measure'=>array(
-                'LBS'   =>  __('Pounds'),
-                'KGS'   =>  __('Kilograms'),
-            ),
-            'containers_filter' => array(
-                array(
-                    'containers' => array('00'), // Customer Packaging
-                    'filters'    => array(
-                        'within_us' => array(
-                            'method' => array(
-                                '01', // Next Day Air
-                                '13', // Next Day Air Saver
-                                '12', // 3 Day Select
-                                '59', // 2nd Day Air AM
-                                '03', // Ground
-                                '14', // Next Day Air Early AM
-                                '02', // 2nd Day Air
-                            )
-                        ),
-                        'from_us' => array(
-                            'method' => array(
-                                '07', // Worldwide Express
-                                '54', // Worldwide Express Plus
-                                '08', // Worldwide Expedited
-                                '65', // Worldwide Saver
-                                '11', // Standard
-                            )
-                        )
-                    )
-                ),
-                array(
-                    // Small Express Box, Medium Express Box, Large Express Box, UPS Tube
-                    'containers' => array('2a', '2b', '2c', '03'),
-                    'filters'    => array(
-                        'within_us' => array(
-                            'method' => array(
-                                '01', // Next Day Air
-                                '13', // Next Day Air Saver
-                                '14', // Next Day Air Early AM
-                                '02', // 2nd Day Air
-                                '59', // 2nd Day Air AM
-                                '13', // Next Day Air Saver
-                            )
-                        ),
-                        'from_us' => array(
-                            'method' => array(
-                                '07', // Worldwide Express
-                                '54', // Worldwide Express Plus
-                                '08', // Worldwide Expedited
-                                '65', // Worldwide Saver
-                            )
-                        )
-                    )
-                ),
-                array(
-                    'containers' => array('24', '25'), // UPS Worldwide 25 kilo, UPS Worldwide 10 kilo
-                    'filters'    => array(
-                        'within_us' => array(
-                            'method' => array()
-                        ),
-                        'from_us' => array(
-                            'method' => array(
-                                '07', // Worldwide Express
-                                '54', // Worldwide Express Plus
-                                '65', // Worldwide Saver
-                            )
-                        )
-                    )
-                ),
-                array(
-                    'containers' => array('01', '04'), // UPS Letter, UPS PAK
-                    'filters'    => array(
-                        'within_us' => array(
-                            'method' => array(
-                                '01', // Next Day Air
-                                '14', // Next Day Air Early AM
-                                '02', // 2nd Day Air
-                                '59', // 2nd Day Air AM
-                                '13', // Next Day Air Saver
-                            )
-                        ),
-                        'from_us' => array(
-                            'method' => array(
-                                '07', // Worldwide Express
-                                '54', // Worldwide Express Plus
-                                '65', // Worldwide Saver
-                            )
-                        )
-                    )
-                ),
-                array(
-                    'containers' => array('04'), // UPS PAK
-                    'filters'    => array(
-                        'within_us' => array(
-                            'method' => array()
-                        ),
-                        'from_us' => array(
-                            'method' => array(
-                                '08', // Worldwide Expedited
-                            )
-                        )
-                    )
-                ),
-            )
-        );
-
-        if (!isset($codes[$type])) {
-            return false;
-        } elseif ('' === $code) {
-            return $codes[$type];
-        }
-
-        if (!isset($codes[$type][$code])) {
-            return false;
-        } else {
-            return $codes[$type][$code];
-        }
     }
 
     /**
@@ -1405,7 +1110,7 @@ XMLAuth;
         $arr = array();
         $isByCode = $this->getConfigData('type') == 'UPS_XML';
         foreach ($allowed as $code) {
-            $arr[$code] = $isByCode ? $this->getShipmentByCode($code) : $this->getCode('method', $code);
+            $arr[$code] = $isByCode ? $this->getShipmentByCode($code) : $this->configHelper->getCode('method', $code);
         }
         return $arr;
     }
@@ -1593,7 +1298,7 @@ XMLAuth;
             ->addChild('BillShipper')
             ->addChild('AccountNumber', $this->getConfigData('shipper_number'));
 
-        if ($request->getPackagingType() != $this->getCode('container', 'ULE')
+        if ($request->getPackagingType() != $this->configHelper->getCode('container', 'ULE')
             && $request->getShipperAddressCountryCode() == AbstractCarrier::USA_COUNTRY_ID
             && ($request->getRecipientAddressCountryCode() == 'CA' //Canada
                 || $request->getRecipientAddressCountryCode() == 'PR') //Puerto Rico
@@ -1821,8 +1526,8 @@ XMLAuth;
      */
     public function getContainerTypesAll()
     {
-        $codes        = $this->getCode('container');
-        $descriptions = $this->getCode('container_description');
+        $codes        = $this->configHelper->getCode('container');
+        $descriptions = $this->configHelper->getCode('container_description');
         $result       = array();
         foreach ($codes as $key => &$code) {
             $result[$code] = $descriptions[$key];
@@ -1838,7 +1543,7 @@ XMLAuth;
      */
     public function getContainerTypesFilter()
     {
-        return $this->getCode('containers_filter');
+        return $this->configHelper->getCode('containers_filter');
     }
 
     /**
@@ -1881,7 +1586,7 @@ XMLAuth;
     public function getCustomizableContainerTypes()
     {
         $result = array();
-        $containerTypes = $this->getCode('container');
+        $containerTypes = $this->configHelper->getCode('container');
         foreach (parent::getCustomizableContainerTypes() as $containerType) {
             $result[$containerType] = $containerTypes[$containerType];
         }

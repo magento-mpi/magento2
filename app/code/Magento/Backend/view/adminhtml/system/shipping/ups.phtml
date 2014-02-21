@@ -8,11 +8,11 @@
  * @license     {license_link}
  */
 
-/** @var $upsModel \Magento\Usa\Model\Shipping\Carrier\Ups */
+/** @var $upsModel \Magento\Ups\Helper\Config */
 /** @var $this \Magento\Backend\Block\System\Shipping\Ups */
-$upsModel = $this->getShippingModel();
-$orShipArr = $upsModel->getCode('originShipment');
-$defShipArr = $upsModel->getCode('method');
+$upsCarrierConfig = $this->getCarrierConfig();
+$orShipArr = $upsCarrierConfig->getCode('originShipment');
+$defShipArr = $upsCarrierConfig->getCode('method');
 
 /** @var $this \Magento\Backend\Block\Template */
 $sectionCode = $this->getRequest()->getParam('section');

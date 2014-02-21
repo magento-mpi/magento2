@@ -5,14 +5,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Usa\Model\Shipping\Carrier\Ups\Source;
 
+namespace Magento\Ups\Model\Config\Source;
+
+/**
+ * Class Generic
+ */
 class Generic implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
-     * @var \Magento\Usa\Model\Shipping\Carrier\Ups
+     * @var \Magento\Ups\Helper\Config
      */
-    protected $_shippingUps;
+    protected $carrierConfig;
 
     /**
      * Carrier code
@@ -22,11 +26,11 @@ class Generic implements \Magento\Core\Model\Option\ArrayInterface
     protected $_code = '';
 
     /**
-     * @param \Magento\Usa\Model\Shipping\Carrier\Ups $shippingUps
+     * @param \Magento\Ups\Helper\Config $carrierConfig
      */
-    public function __construct(\Magento\Usa\Model\Shipping\Carrier\Ups $shippingUps)
+    public function __construct(\Magento\Ups\Helper\Config $carrierConfig)
     {
-        $this->_shippingUps = $shippingUps;
+        $this->carrierConfig = $carrierConfig;
     }
 
     /**
@@ -36,7 +40,7 @@ class Generic implements \Magento\Core\Model\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        $configData = $this->_shippingUps->getCode($this->_code);
+        $configData = $this->carrierConfig->getCode($this->_code);
         $arr = array();
         foreach ($configData as $code => $title) {
             $arr[] = array('value' => $code, 'label' => __($title));

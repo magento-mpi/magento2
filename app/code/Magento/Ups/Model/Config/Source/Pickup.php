@@ -2,16 +2,16 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Usa
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
+namespace Magento\Ups\Model\Config\Source;
 
-namespace Magento\Usa\Model\Shipping\Carrier\Ups\Source;
-
-class Pickup extends \Magento\Usa\Model\Shipping\Carrier\Ups\Source\Generic
+/**
+ * Class Pickup
+ */
+class Pickup extends \Magento\Ups\Model\Config\Source\Generic
 {
     /**
      * Carrier code
@@ -25,7 +25,7 @@ class Pickup extends \Magento\Usa\Model\Shipping\Carrier\Ups\Source\Generic
      */
     public function toOptionArray()
     {
-        $ups = $this->_shippingUps->getCode($this->_code);
+        $ups = $this->carrierConfig->getCode($this->_code);
         $arr = array();
         foreach ($ups as $k => $v) {
             $arr[] = array('value'=>$k, 'label'=>__($v['label']));

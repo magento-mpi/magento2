@@ -2,16 +2,16 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Usa
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
+namespace Magento\Ups\Model\Config\Source;
 
-namespace Magento\Usa\Model\Shipping\Carrier\Ups\Source;
-
-class Container extends \Magento\Usa\Model\Shipping\Carrier\Ups\Source\Generic
+/**
+ * Class Container
+ */
+class Container extends \Magento\Ups\Model\Config\Source\Generic
 {
     /**
      * Carrier code

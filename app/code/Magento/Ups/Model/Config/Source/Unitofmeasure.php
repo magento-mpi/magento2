@@ -2,16 +2,16 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Usa
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
+namespace Magento\Ups\Model\Config\Source;
 
-namespace Magento\Usa\Model\Shipping\Carrier\Ups\Source;
-
-class Unitofmeasure extends \Magento\Usa\Model\Shipping\Carrier\Ups\Source\Generic
+/**
+ * Class Unitofmeasure
+ */
+class Unitofmeasure extends \Magento\Ups\Model\Config\Source\Generic
 {
     /**
      * Carrier code
@@ -25,7 +25,7 @@ class Unitofmeasure extends \Magento\Usa\Model\Shipping\Carrier\Ups\Source\Gener
      */
     public function toOptionArray()
     {
-        $unitArr = $this->_shippingUps->getCode($this->_code);
+        $unitArr = $this->carrierConfig->getCode($this->_code);
         $returnArr = array();
         foreach ($unitArr as $key => $val) {
             $returnArr[] = array('value'=>$key,'label'=>$key);

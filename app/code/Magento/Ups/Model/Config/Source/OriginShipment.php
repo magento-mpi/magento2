@@ -2,21 +2,16 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Usa
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- *
- * Usa Ups type action Dropdown source
- *
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-namespace Magento\Usa\Model\Shipping\Carrier\Ups\Source;
+namespace Magento\Ups\Model\Config\Source;
 
-class OriginShipment extends \Magento\Usa\Model\Shipping\Carrier\Ups\Source\Generic
+/**
+ * Class OriginShipment
+ */
+class OriginShipment extends \Magento\Ups\Model\Config\Source\Generic
 {
     /**
      * Carrier code
@@ -30,7 +25,7 @@ class OriginShipment extends \Magento\Usa\Model\Shipping\Carrier\Ups\Source\Gene
      */
     public function toOptionArray()
     {
-        $orShipArr = $this->_shippingUps->getCode($this->_code);
+        $orShipArr = $this->carrierConfig->getCode($this->_code);
         $returnArr = array();
         foreach ($orShipArr as $key => $val) {
             $returnArr[] = array('value' => $key,'label' => $key);
