@@ -12,6 +12,7 @@
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab\View;
 
 use Magento\Customer\Controller\Adminhtml\Index;
+use Magento\Customer\Controller\RegistryConstants;
 
 /**
  * @magentoAppArea adminhtml
@@ -46,7 +47,7 @@ class AccordionTest extends \PHPUnit_Framework_TestCase
 
     protected function tearDown()
     {
-        $this->registry->unregister(Index::REGISTRY_CURRENT_CUSTOMER_ID);
+        $this->registry->unregister(RegistryConstants::CURRENT_CUSTOMER_ID);
     }
 
     /**
@@ -55,7 +56,7 @@ class AccordionTest extends \PHPUnit_Framework_TestCase
      */
     public function testToHtmlEmptyWebsiteShare()
     {
-        $this->registry->register(Index::REGISTRY_CURRENT_CUSTOMER_ID, 1);
+        $this->registry->register(RegistryConstants::CURRENT_CUSTOMER_ID, 1);
         $block = $this->layout->createBlock('Magento\Customer\Block\Adminhtml\Edit\Tab\View\Accordion');
 
         $html = $block->toHtml();
@@ -71,7 +72,7 @@ class AccordionTest extends \PHPUnit_Framework_TestCase
      */
     public function testToHtmlEmptyGlobalShareAndSessionData()
     {
-        $this->registry->register(Index::REGISTRY_CURRENT_CUSTOMER_ID, 1);
+        $this->registry->register(RegistryConstants::CURRENT_CUSTOMER_ID, 1);
         $customer = $this->customerService->getCustomer(1);
         $this->backendSession->setCustomerData(['account' => $customer->__toArray()]);
         $block = $this->layout->createBlock('Magento\Customer\Block\Adminhtml\Edit\Tab\View\Accordion');

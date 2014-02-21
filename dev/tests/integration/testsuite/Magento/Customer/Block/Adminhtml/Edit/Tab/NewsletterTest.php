@@ -7,8 +7,8 @@
  */
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 
+use Magento\Customer\Controller\RegistryConstants;
 use Magento\TestFramework\Helper\Bootstrap;
-use Magento\Customer\Controller\Adminhtml\Index;
 
 /**
  * Class NewsletterTest
@@ -54,7 +54,7 @@ class NewsletterTest extends \PHPUnit_Framework_TestCase
      */
     public function tearDown()
     {
-        $this->coreRegistry->unregister(Index::REGISTRY_CURRENT_CUSTOMER_ID);
+        $this->coreRegistry->unregister(RegistryConstants::CURRENT_CUSTOMER_ID);
     }
 
     /**
@@ -62,7 +62,7 @@ class NewsletterTest extends \PHPUnit_Framework_TestCase
      */
     public function testToHtml()
     {
-        $this->coreRegistry->register(Index::REGISTRY_CURRENT_CUSTOMER_ID, 1);
+        $this->coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER_ID, 1);
         $html = $this->block->initForm()->toHtml();
 
         $this->assertStringStartsWith("<div class=\"entry-edit\">", $html);

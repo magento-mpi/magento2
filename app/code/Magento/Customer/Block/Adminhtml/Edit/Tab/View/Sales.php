@@ -7,7 +7,7 @@
  */
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab\View;
 
-use Magento\Customer\Controller\Adminhtml\Index;
+use Magento\Customer\Controller\RegistryConstants;
 use Magento\Directory\Model\Currency;
 use Magento\Sales\Model\Order;
 
@@ -101,7 +101,7 @@ class Sales extends \Magento\Backend\Block\Template
             ->load($this->_storeConfig->getConfig(Currency::XML_PATH_CURRENCY_BASE));
 
         $this->_collection = $this->_collectionFactory->create()
-            ->setCustomerIdFilter($this->_coreRegistry->registry(Index::REGISTRY_CURRENT_CUSTOMER_ID))
+            ->setCustomerIdFilter($this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID))
             ->setOrderStateFilter(Order::STATE_CANCELED, true)
             ->load();
 

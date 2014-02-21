@@ -7,7 +7,7 @@
  */
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 
-use Magento\Customer\Controller\Adminhtml\Index;
+use Magento\Customer\Controller\RegistryConstants;
 
 /**
  * Customer account form block
@@ -62,7 +62,7 @@ class Newsletter extends \Magento\Backend\Block\Widget\Form\Generic
         /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('_newsletter');
-        $customerId = $this->_coreRegistry->registry(Index::REGISTRY_CURRENT_CUSTOMER_ID);
+        $customerId = $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID);
         $subscriber = $this->_subscriberFactory->create()->loadByCustomer($customerId);
         $this->_coreRegistry->register('subscriber', $subscriber);
 

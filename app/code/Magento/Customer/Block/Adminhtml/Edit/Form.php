@@ -7,8 +7,9 @@
  */
 namespace Magento\Customer\Block\Adminhtml\Edit;
 
-use Magento\Customer\Controller\Adminhtml\Index;
+use Magento\Customer\Controller\RegistryConstants;
 use Magento\Customer\Service\V1\CustomerServiceInterface;
+use Magento\GiftRegistry\Block\Wishlist\Item\Column\Registry;
 
 /**
  * Adminhtml customer edit form block
@@ -59,7 +60,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             ]
         ]);
 
-        $customerId = $this->_coreRegistry->registry(Index::REGISTRY_CURRENT_CUSTOMER_ID);
+        $customerId = $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID);
 
         if ($customerId) {
             $form->addField('entity_id', 'hidden', [

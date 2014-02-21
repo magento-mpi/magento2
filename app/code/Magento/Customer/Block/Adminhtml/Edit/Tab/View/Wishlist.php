@@ -7,7 +7,7 @@
  */
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab\View;
 
-use Magento\Customer\Controller\Adminhtml\Index;
+use Magento\Customer\Controller\RegistryConstants;
 
 /**
  * Adminhtml customer view wishlist block
@@ -72,7 +72,7 @@ class Wishlist extends \Magento\Backend\Block\Widget\Grid\Extended
     protected function _prepareCollection()
     {
         $collection = $this->_collectionFactory->create()
-            ->addCustomerIdFilter($this->_coreRegistry->registry(Index::REGISTRY_CURRENT_CUSTOMER_ID))
+            ->addCustomerIdFilter($this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID))
             ->addDaysInWishlist()
             ->addStoreData()
             ->setInStockFilter(true);
