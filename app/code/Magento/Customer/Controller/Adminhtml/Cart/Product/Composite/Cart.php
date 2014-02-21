@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Controller\Adminhtml\Cart\Product\Composite;
+
+use Magento\Core\Exception;
 
 /**
  * Catalog composite product configuration controller
@@ -15,8 +18,6 @@
  * @package     Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Controller\Adminhtml\Cart\Product\Composite;
-
 class Cart extends \Magento\Backend\App\Action
 {
     /**
@@ -44,12 +45,13 @@ class Cart extends \Magento\Backend\App\Action
      * Loads customer, quote and quote item by request params
      *
      * @return \Magento\Customer\Controller\Adminhtml\Cart\Product\Composite\Cart
+     * @throws Exception
      */
     protected function _initData()
     {
         $customerId = (int) $this->getRequest()->getParam('customer_id');
         if (!$customerId) {
-            throw new \Magento\Core\Exception(__('No customer ID defined.'));
+            throw new Exception(__('No customer ID defined.'));
         }
 
         $this->_customer = $this->_objectManager->create('Magento\Customer\Model\Customer')
@@ -64,7 +66,7 @@ class Cart extends \Magento\Backend\App\Action
 
         $this->_quoteItem = $this->_quote->getItemById($quoteItemId);
         if (!$this->_quoteItem) {
-            throw new \Magento\Core\Exception(__('Please correct the quote items and try again.'));
+            throw new Exception(__('Please correct the quote items and try again.'));
         }
 
         return $this;
@@ -73,7 +75,7 @@ class Cart extends \Magento\Backend\App\Action
     /**
      * Ajax handler to response configuration fieldset of composite product in customer's cart
      *
-     * @return \Magento\Customer\Controller\Adminhtml\Cart\Product\Composite\Cart
+     * @return void
      */
     public function configureAction()
     {
@@ -105,7 +107,7 @@ class Cart extends \Magento\Backend\App\Action
     /**
      * IFrame handler for submitted configuration for quote item
      *
-     * @return \Magento\Customer\Controller\Adminhtml\Cart\Product\Composite\Cart
+     * @return void
      */
     public function updateAction()
     {

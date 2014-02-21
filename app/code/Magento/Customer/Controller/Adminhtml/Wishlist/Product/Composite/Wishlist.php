@@ -7,6 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Controller\Adminhtml\Wishlist\Product\Composite;
+
+use Exception;
+use Magento\Core\Exception as CoreException;
 
 /**
  * Catalog composite product configuration controller
@@ -15,16 +19,14 @@
  * @package     Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Controller\Adminhtml\Wishlist\Product\Composite;
-
 class Wishlist
     extends \Magento\Backend\App\Action
 {
      /**
-     * Wishlist we're working with
-     *
-     * @var \Magento\Wishlist\Model\Wishlist
-     */
+      * Wishlist we're working with
+      *
+      * @var \Magento\Wishlist\Model\Wishlist
+      */
     protected $_wishlist = null;
 
     /**
@@ -37,13 +39,14 @@ class Wishlist
     /**
      * Loads wishlist and wishlist item
      *
-     * @return \Magento\Customer\Controller\Adminhtml\Wishlist\Product\Composite\Wishlist
+     * @return $this
+     * @throws CoreException
      */
     protected function _initData()
     {
         $wishlistItemId = (int) $this->getRequest()->getParam('id');
         if (!$wishlistItemId) {
-            throw new \Magento\Core\Exception(__('No wishlist item ID is defined.'));
+            throw new CoreException(__('No wishlist item ID is defined.'));
         }
 
         /* @var $wishlistItem \Magento\Wishlist\Model\Item */
@@ -51,7 +54,7 @@ class Wishlist
             ->loadWithOptions($wishlistItemId);
 
         if (!$wishlistItem->getWishlistId()) {
-            throw new \Magento\Core\Exception(__('Please load the wish list item.'));
+            throw new CoreException(__('Please load the wish list item.'));
         }
 
         $this->_wishlist = $this->_objectManager->create('Magento\Wishlist\Model\Wishlist')
@@ -65,7 +68,7 @@ class Wishlist
     /**
      * Ajax handler to response configuration fieldset of composite product in customer's wishlist
      *
-     * @return \Magento\Customer\Controller\Adminhtml\Wishlist\Product\Composite\Wishlist
+     * @return void
      */
     public function configureAction()
     {
@@ -79,7 +82,7 @@ class Wishlist
             $configureResult->setCurrentCustomerId($this->_wishlist->getCustomerId());
 
             $configureResult->setOk(true);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $configureResult->setError(true);
             $configureResult->setMessage($e->getMessage());
         }
@@ -107,7 +110,7 @@ class Wishlist
                 ->save();
 
             $updateResult->setOk(true);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $updateResult->setError(true);
             $updateResult->setMessage($e->getMessage());
         }

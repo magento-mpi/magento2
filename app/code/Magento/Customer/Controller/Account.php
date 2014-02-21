@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Controller;
 
 use Magento\App\RequestInterface;
@@ -27,7 +26,7 @@ class Account extends \Magento\App\Action\Action
     /**
      * List of actions that are allowed for not authorized users
      *
-     * @var array
+     * @var string[]
      */
     protected $_openActions = array(
         'create',
@@ -78,10 +77,14 @@ class Account extends \Magento\App\Action\Action
      */
     protected $string;
 
-    /** @var CustomerAccountServiceInterface  */
+    /**
+     * @var CustomerAccountServiceInterface
+     */
     protected $_customerAccountService;
 
-    /** @var CustomerGroupV1Interface */
+    /**
+     * @var CustomerGroupV1Interface
+     */
     protected $_groupService;
 
     /**
@@ -126,8 +129,8 @@ class Account extends \Magento\App\Action\Action
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Escaper $escaper
-     * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService
-     * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
+     * @param CustomerGroupServiceInterface $customerGroupService
+     * @param CustomerAccountServiceInterface $customerAccountService
      * @param \Magento\Customer\Service\V1\Dto\RegionBuilder $regionBuilder
      * @param \Magento\Customer\Service\V1\Dto\AddressBuilder $addressBuilder
      * @param \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerBuilder
@@ -181,7 +184,7 @@ class Account extends \Magento\App\Action\Action
     /**
      * Get list of actions that are allowed for not authorized users
      *
-     * @return array
+     * @return string[]
      */
     protected function _getAllowedActions()
     {
@@ -221,6 +224,8 @@ class Account extends \Magento\App\Action\Action
 
     /**
      * Default customer account page
+     *
+     * @return void
      */
     public function indexAction()
     {
@@ -232,6 +237,8 @@ class Account extends \Magento\App\Action\Action
 
     /**
      * Customer login form page
+     *
+     * @return void
      */
     public function loginAction()
     {
@@ -247,6 +254,8 @@ class Account extends \Magento\App\Action\Action
 
     /**
      * Login post action
+     *
+     * @return void
      */
     public function loginPostAction()
     {
@@ -295,6 +304,8 @@ class Account extends \Magento\App\Action\Action
 
     /**
      * Define target URL and redirect customer after logging in
+     *
+     * @return void
      */
     protected function _loginPostRedirect()
     {
@@ -341,6 +352,8 @@ class Account extends \Magento\App\Action\Action
 
     /**
      * Customer logout action
+     *
+     * @return void
      */
     public function logoutAction()
     {
@@ -354,6 +367,8 @@ class Account extends \Magento\App\Action\Action
 
     /**
      * Logout success page
+     *
+     * @return void
      */
     public function logoutSuccessAction()
     {
@@ -363,6 +378,8 @@ class Account extends \Magento\App\Action\Action
 
     /**
      * Customer register form page
+     *
+     * @return void
      */
     public function createAction()
     {
@@ -378,6 +395,8 @@ class Account extends \Magento\App\Action\Action
 
     /**
      * Create customer account action
+     *
+     * @return void
      */
     public function createPostAction()
     {
@@ -543,6 +562,8 @@ class Account extends \Magento\App\Action\Action
 
     /**
      * Adds a welcome message to the session
+     *
+     * @return void
      */
     protected function _addWelcomeMessage()
     {
@@ -573,9 +594,9 @@ class Account extends \Magento\App\Action\Action
     }
 
     /**
-     * load customer by id (try/catch in case if it throws exceptions)
+     * Load customer by id (try/catch in case if it throws exceptions)
      *
-     * @param $customerId
+     * @param int $customerId
      * @return \Magento\Customer\Model\Customer
      * @throws \Exception
      */
@@ -595,6 +616,7 @@ class Account extends \Magento\App\Action\Action
 
     /**
      * @param \Magento\Customer\Model\Customer $customer
+     * @return void
      * @throws \Exception
      */
     protected function _activateCustomer($customer)
@@ -609,6 +631,8 @@ class Account extends \Magento\App\Action\Action
 
     /**
      * Confirm customer account by id and confirmation key
+     *
+     * @return void
      */
     public function confirmAction()
     {
@@ -657,6 +681,7 @@ class Account extends \Magento\App\Action\Action
     /**
      * @param \Magento\Customer\Model\Customer $customer
      * @param string $email
+     * @return void
      */
     protected function _confirmByEmail($customer, $email)
     {
@@ -683,6 +708,8 @@ class Account extends \Magento\App\Action\Action
 
     /**
      * Send confirmation link to specified email
+     *
+     * @return void
      */
     public function confirmationAction()
     {
@@ -700,14 +727,14 @@ class Account extends \Magento\App\Action\Action
             } catch (StateException $e) {
                 $this->messageManager->addSuccess(__('This email does not require confirmation.'));
             } catch (\Exception $e) {
-				$this->messageManager->addException($e, __('Wrong email.'));
-				$this->getResponse()->setRedirect(
-					$this->_createUrl()->getUrl(
-						'*/*/*',
-						array('email' => $email, '_secure' => true)
-					)
-				);
-				return;
+                $this->messageManager->addException($e, __('Wrong email.'));
+                $this->getResponse()->setRedirect(
+                    $this->_createUrl()->getUrl(
+                        '*/*/*',
+                        array('email' => $email, '_secure' => true)
+                    )
+                );
+                return;
             }
             $this->_getSession()->setUsername($email);
             $this->getResponse()->setRedirect($this->_createUrl()->getUrl('*/*/index', array('_secure' => true)));
@@ -726,6 +753,8 @@ class Account extends \Magento\App\Action\Action
 
     /**
      * Forgot customer password page
+     *
+     * @return void
      */
     public function forgotPasswordAction()
     {
@@ -742,6 +771,8 @@ class Account extends \Magento\App\Action\Action
 
     /**
      * Forgot customer password action
+     *
+     * @return void
      */
     public function forgotPasswordPostAction()
     {
@@ -782,6 +813,7 @@ class Account extends \Magento\App\Action\Action
      *
      * User is redirected on this action when he clicks on the corresponding link in password reset confirmation email
      *
+     * @return void
      */
     public function resetPasswordAction()
     {
@@ -790,6 +822,8 @@ class Account extends \Magento\App\Action\Action
 
     /**
      * Resetting password handler
+     *
+     * @return void
      */
     public function createPasswordAction()
     {
@@ -814,6 +848,7 @@ class Account extends \Magento\App\Action\Action
      *
      * Used to handle data received from reset forgotten password form
      *
+     * @return void
      */
     public function resetPasswordPostAction()
     {
@@ -858,6 +893,8 @@ class Account extends \Magento\App\Action\Action
 
     /**
      * Forgot customer account information page
+     *
+     * @return void
      */
     public function editAction()
     {
@@ -884,6 +921,8 @@ class Account extends \Magento\App\Action\Action
 
     /**
      * Change customer password action
+     *
+     * @return void
      */
     public function editPostAction()
     {

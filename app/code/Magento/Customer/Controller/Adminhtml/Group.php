@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Controller\Adminhtml;
 
 use Magento\Exception\NoSuchEntityException;
@@ -28,7 +27,7 @@ class Group extends \Magento\Backend\App\Action
      * @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface
      */
     protected $_groupService;
-    
+
     /**
      * @var \Magento\Customer\Service\V1\Dto\CustomerGroupBuilder
      */
@@ -52,6 +51,9 @@ class Group extends \Magento\Backend\App\Action
         parent::__construct($context);
     }
 
+    /**
+     * @return void
+     */
     protected function _initGroup()
     {
         $this->_title->add(__('Customer Groups'));
@@ -68,6 +70,8 @@ class Group extends \Magento\Backend\App\Action
 
     /**
      * Customer groups list.
+     *
+     * @return void
      */
     public function indexAction()
     {
@@ -82,6 +86,8 @@ class Group extends \Magento\Backend\App\Action
 
     /**
      * Edit or create customer group.
+     *
+     * @return void
      */
     public function newAction()
     {
@@ -110,6 +116,8 @@ class Group extends \Magento\Backend\App\Action
 
     /**
      * Edit customer group action. Forward to new action.
+     *
+     * @return void
      */
     public function editAction()
     {
@@ -118,6 +126,8 @@ class Group extends \Magento\Backend\App\Action
 
     /**
      * Create or save customer group.
+     *
+     * @return void
      */
     public function saveAction()
     {
@@ -158,6 +168,8 @@ class Group extends \Magento\Backend\App\Action
 
     /**
      * Delete customer group action
+     *
+     * @return void
      */
     public function deleteAction()
     {
@@ -190,6 +202,9 @@ class Group extends \Magento\Backend\App\Action
         $this->_redirect('customer/group');
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function _isAllowed()
     {
         return $this->_authorization->isAllowed('Magento_Customer::group');

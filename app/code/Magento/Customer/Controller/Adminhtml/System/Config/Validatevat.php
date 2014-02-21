@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Controller\Adminhtml\System\Config;
 
 /**
  * VAT validation controller
@@ -15,8 +16,6 @@
  * @package    Magento_Customer
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Controller\Adminhtml\System\Config;
-
 class Validatevat extends \Magento\Backend\App\Action
 {
     /**

@@ -1,7 +1,5 @@
 <?php
 /**
- * Customer admin controller
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -10,7 +8,11 @@
 namespace Magento\Customer\Controller\Adminhtml;
 
 use Magento\App\Action\NotFoundException;
+use Magento\Message\Error;
 
+/**
+ * Customer admin controller
+ */
 class Index extends \Magento\Backend\App\Action
 {
     /**
@@ -84,7 +86,7 @@ class Index extends \Magento\Backend\App\Action
      * Customer initialization
      *
      * @param string $idFieldName
-     * @return \Magento\Customer\Controller\Adminhtml\Index
+     * @return $this
      */
     protected function _initCustomer($idFieldName = 'id')
     {
@@ -103,6 +105,8 @@ class Index extends \Magento\Backend\App\Action
 
     /**
      * Customers list action
+     *
+     * @return void
      */
     public function indexAction()
     {
@@ -137,6 +141,8 @@ class Index extends \Magento\Backend\App\Action
 
     /**
      * Customer grid action
+     *
+     * @return void
      */
     public function gridAction()
     {
@@ -146,6 +152,8 @@ class Index extends \Magento\Backend\App\Action
 
     /**
      * Customer edit action
+     *
+     * @return void
      */
     public function editAction()
     {
@@ -219,6 +227,8 @@ class Index extends \Magento\Backend\App\Action
 
     /**
      * Create new customer action
+     *
+     * @return void
      */
     public function newAction()
     {
@@ -227,6 +237,8 @@ class Index extends \Magento\Backend\App\Action
 
     /**
      * Delete customer action
+     *
+     * @return void
      */
     public function deleteAction()
     {
@@ -246,6 +258,8 @@ class Index extends \Magento\Backend\App\Action
 
     /**
      * Save customer action
+     *
+     * @return void
      */
     public function saveAction()
     {
@@ -357,6 +371,7 @@ class Index extends \Magento\Backend\App\Action
      *
      * @param \Magento\Customer\Model\Customer $customer
      * @param array $addressesData
+     * @return void
      * @throws \Magento\Core\Exception
      */
     private function _prepareCustomerAddressesForSave($customer, array $addressesData)
@@ -407,6 +422,7 @@ class Index extends \Magento\Backend\App\Action
      *
      * @param \Magento\Customer\Model\Customer $customer
      * @param array $customerData
+     * @return void
      */
     private function _sendWelcomeEmail($customer, array $customerData)
     {
@@ -445,6 +461,7 @@ class Index extends \Magento\Backend\App\Action
      *
      * @param \Magento\Customer\Model\Customer $customer
      * @param array $customerData
+     * @return void
      */
     private function _changePassword($customer, array $customerData)
     {
@@ -480,6 +497,7 @@ class Index extends \Magento\Backend\App\Action
      *
      * @param \Magento\Customer\Model\Customer $customer
      * @param array $customerData
+     * @return void
      */
     private function _preparePasswordForSave($customer, array $customerData)
     {
@@ -493,6 +511,8 @@ class Index extends \Magento\Backend\App\Action
 
     /**
      * Reset password handler
+     *
+     * @return \Magento\App\ResponseInterface
      */
     public function resetPasswordAction()
     {
@@ -538,7 +558,8 @@ class Index extends \Magento\Backend\App\Action
     /**
      * Add errors messages to session.
      *
-     * @param array|string $messages
+     * @param Error[]|string[]|array $messages
+     * @return void
      */
     protected function _addSessionErrorMessages($messages)
     {
@@ -546,8 +567,8 @@ class Index extends \Magento\Backend\App\Action
         $session = $this->_getSession();
 
         $callback = function ($error) use ($session) {
-            if (!($error instanceof \Magento\Message\Error)) {
-                $error = new \Magento\Message\Error($error);
+            if (!($error instanceof Error)) {
+                $error = new Error($error);
             }
             $this->messageManager->addMessage($error);
         };
@@ -638,7 +659,8 @@ class Index extends \Magento\Backend\App\Action
     /**
      * Generate password if auto generated password was requested
      *
-     * @param array $customerData
+     * @param array &$customerData
+     * @return void
      * @throws \Magento\Core\Exception
      */
     protected function _processCustomerPassword(&$customerData)
@@ -655,6 +677,8 @@ class Index extends \Magento\Backend\App\Action
 
     /**
      * Export customer grid to CSV format
+     *
+     * @return \Magento\App\ResponseInterface
      */
     public function exportCsvAction()
     {
@@ -666,6 +690,8 @@ class Index extends \Magento\Backend\App\Action
 
     /**
      * Export customer grid to XML format
+     *
+     * @return \Magento\App\ResponseInterface
      */
     public function exportXmlAction()
     {
@@ -676,6 +702,8 @@ class Index extends \Magento\Backend\App\Action
 
     /**
      * Customer orders grid
+     *
+     * @return void
      */
     public function ordersAction()
     {
@@ -686,6 +714,8 @@ class Index extends \Magento\Backend\App\Action
 
     /**
      * Customer last orders grid for ajax
+     *
+     * @return void
      */
     public function lastOrdersAction()
     {
@@ -696,6 +726,8 @@ class Index extends \Magento\Backend\App\Action
 
     /**
      * Customer newsletter grid
+     *
+     * @return void
      */
     public function newsletterAction()
     {
@@ -707,6 +739,9 @@ class Index extends \Magento\Backend\App\Action
         $this->_view->loadLayout()->renderLayout();
     }
 
+    /**
+     * @return void
+     */
     public function wishlistAction()
     {
         $this->_initCustomer();
@@ -730,6 +765,8 @@ class Index extends \Magento\Backend\App\Action
 
     /**
      * Customer last view wishlist for ajax
+     *
+     * @return void
      */
     public function viewWishlistAction()
     {
@@ -739,9 +776,9 @@ class Index extends \Magento\Backend\App\Action
     }
 
     /**
-     * [Handle and then] get a cart grid contents
+     * Handle and then get a cart grid contents
      *
-     * @return string
+     * @return void
      */
     public function cartAction()
     {
@@ -771,6 +808,7 @@ class Index extends \Magento\Backend\App\Action
     /**
      * Get shopping cart to view only
      *
+     * @return void
      */
     public function viewCartAction()
     {
@@ -784,6 +822,7 @@ class Index extends \Magento\Backend\App\Action
     /**
      * Get shopping carts from all websites for specified client
      *
+     * @return void
      */
     public function cartsAction()
     {
@@ -795,6 +834,7 @@ class Index extends \Magento\Backend\App\Action
     /**
      * Get customer's product reviews list
      *
+     * @return void
      */
     public function productReviewsAction()
     {
@@ -808,6 +848,8 @@ class Index extends \Magento\Backend\App\Action
 
     /**
      * AJAX customer validation action
+     *
+     * @return void
      */
     public function validateAction()
     {
@@ -867,7 +909,7 @@ class Index extends \Magento\Backend\App\Action
             $customer->addData($data);
             $errors = $customer->validate();
         } catch (\Magento\Core\Exception $exception) {
-            /* @var $error \Magento\Message\Error */
+            /* @var $error Error */
             foreach ($exception->getMessages(\Magento\Message\MessageInterface::TYPE_ERROR) as $error) {
                 $errors[] = $error->getText();
             }
@@ -888,6 +930,7 @@ class Index extends \Magento\Backend\App\Action
      *
      * @param \Magento\Object $response
      * @param \Magento\Customer\Model\Customer $customer
+     * @return void
      */
     protected function _validateCustomerAddress($response, $customer)
     {
@@ -922,6 +965,8 @@ class Index extends \Magento\Backend\App\Action
 
     /**
      * Customer mass subscribe action
+     *
+     * @return void
      */
     public function massSubscribeAction()
     {
@@ -945,6 +990,8 @@ class Index extends \Magento\Backend\App\Action
 
     /**
      * Customer mass unsubscribe action
+     *
+     * @return void
      */
     public function massUnsubscribeAction()
     {
@@ -969,6 +1016,8 @@ class Index extends \Magento\Backend\App\Action
 
     /**
      * Customer mass delete action
+     *
+     * @return void
      */
     public function massDeleteAction()
     {
@@ -994,6 +1043,8 @@ class Index extends \Magento\Backend\App\Action
 
     /**
      * Customer mass assign group action
+     *
+     * @return void
      */
     public function massAssignGroupAction()
     {
@@ -1019,6 +1070,7 @@ class Index extends \Magento\Backend\App\Action
     /**
      * Customer view file action
      *
+     * @return void
      * @throws NotFoundException
      */
     public function viewfileAction()
@@ -1097,6 +1149,7 @@ class Index extends \Magento\Backend\App\Action
 
     /**
      * Customer access rights checking
+     *
      * @return bool
      */
     protected function _isAllowed()

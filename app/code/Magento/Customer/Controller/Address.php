@@ -26,7 +26,9 @@ class Address extends \Magento\App\Action\Action
     protected $_formKeyValidator;
 
 
-    /** @var \Magento\Customer\Service\V1\CustomerAddressServiceInterface */
+    /**
+     * @var \Magento\Customer\Service\V1\CustomerAddressServiceInterface
+     */
     protected $_addressService;
 
     /**
@@ -100,6 +102,8 @@ class Address extends \Magento\App\Action\Action
 
     /**
      * Customer addresses list
+     *
+     * @return void
      */
     public function indexAction()
     {
@@ -118,11 +122,17 @@ class Address extends \Magento\App\Action\Action
         }
     }
 
+    /**
+     * @return void
+     */
     public function editAction()
     {
         $this->_forward('form');
     }
 
+    /**
+     * @return void
+     */
     public function newAction()
     {
         $this->_forward('form');
@@ -130,6 +140,8 @@ class Address extends \Magento\App\Action\Action
 
     /**
      * Address book form
+     *
+     * @return void
      */
     public function formAction()
     {
@@ -217,6 +229,9 @@ class Address extends \Magento\App\Action\Action
             ->create();
     }
 
+    /**
+     * @return void
+     */
     public function deleteAction()
     {
         $addressId = $this->getRequest()->getParam('id', false);
