@@ -20,7 +20,7 @@ use Magento\App\RequestInterface;
 use Magento\Multishipping\Model\Checkout\Type\Multishipping\State;
 
 class Checkout extends \Magento\Checkout\Controller\Action
-    implements  \Magento\Checkout\Controller\RedirectLoginInterface
+    implements  \Magento\Checkout\Controller\Express\RedirectLoginInterface
 {
     /**
      * Retrieve checkout model
