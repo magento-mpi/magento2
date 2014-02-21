@@ -373,11 +373,11 @@ class Installer extends \Magento\Object
          */
         $locale = $this->getDataModel()->getLocaleData();
         if (!empty($locale['locale'])) {
-            $setupModel->setConfigData(\Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_LOCALE,
+            $setupModel->setConfigData(\Magento\LocaleInterface::XML_PATH_DEFAULT_LOCALE,
                 $locale['locale']);
         }
         if (!empty($locale['timezone'])) {
-            $setupModel->setConfigData(\Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_TIMEZONE,
+            $setupModel->setConfigData(\Magento\LocaleInterface::XML_PATH_DEFAULT_TIMEZONE,
                 $locale['timezone']);
         }
         if (!empty($locale['currency'])) {

@@ -71,7 +71,7 @@ class Directpost extends \Magento\Authorizenet\Model\Authorizenet
      * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
      * @param \Magento\Logger $logger
      * @param \Magento\Module\ModuleListInterface $moduleList
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\LocaleInterface $locale
      * @param \Magento\Centinel\Model\Service $centinelService
      * @param \Magento\Authorizenet\Model\Authorizenet\CardsFactory $cardsFactory
      * @param \Magento\Authorizenet\Model\Authorizenet\RequestFactory $requestFactory
@@ -95,7 +95,7 @@ class Directpost extends \Magento\Authorizenet\Model\Authorizenet
         \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
         \Magento\Logger $logger,
         \Magento\Module\ModuleListInterface $moduleList,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\LocaleInterface $locale,
         \Magento\Centinel\Model\Service $centinelService,
         \Magento\Authorizenet\Model\Authorizenet\CardsFactory $cardsFactory,
         \Magento\Authorizenet\Model\Authorizenet\RequestFactory $requestFactory,

@@ -134,7 +134,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     /**
      * Locale
      *
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\LocaleInterface
      */
     protected $_locale;
 
@@ -157,7 +157,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\Logger $logger
      * @param \Magento\Escaper $escaper
      * @param \Magento\Filter\FilterManager $filterManager
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\LocaleInterface $locale
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -180,7 +180,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\Logger $logger,
         \Magento\Escaper $escaper,
         \Magento\Filter\FilterManager $filterManager,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\LocaleInterface $locale,
         array $data = array()
     ) {
         $this->_request         = $request;
@@ -365,7 +365,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     /**
      * Get locale
      *
-     * @return \Magento\Core\Model\LocaleInterface
+     * @return \Magento\LocaleInterface
      */
     public function getLocale()
     {

@@ -26,7 +26,7 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_appConfig = $this->getMock('Magento\App\ConfigInterface');
-        $this->_locale = $this->getMock('Magento\Core\Model\LocaleInterface', array(), array(), '', false);
+        $this->_locale = $this->getMock('Magento\LocaleInterface', array(), array(), '', false);
         $data = array(
             'applicationConfig' => $this->_appConfig,
             'locale' => $this->_locale,

@@ -38,7 +38,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
     /**
      * Locale instance
      *
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\LocaleInterface
      */
     protected $_locale;
 
@@ -69,7 +69,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @param \Magento\Logger $logger
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\LocaleInterface $locale
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param array $data
      * 
@@ -88,7 +88,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
         \Magento\Logger $logger,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\LocaleInterface $locale,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         array $data = array()
     ) {

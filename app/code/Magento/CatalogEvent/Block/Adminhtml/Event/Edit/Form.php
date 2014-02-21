@@ -17,7 +17,7 @@ use Magento\Backend\Helper\Data;
 use Magento\Catalog\Model\Category as ModelCategory;
 use Magento\Catalog\Model\CategoryFactory;
 use Magento\CatalogEvent\Model\Event;
-use Magento\Core\Model\LocaleInterface;
+use Magento\LocaleInterface;
 use Magento\Core\Model\Registry;
 use Magento\Data\FormFactory;
 

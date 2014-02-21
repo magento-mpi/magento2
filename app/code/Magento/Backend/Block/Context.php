@@ -39,7 +39,7 @@ class Context extends \Magento\View\Element\Context
      * @param \Magento\Logger $logger
      * @param \Magento\Escaper $escaper
      * @param \Magento\Filter\FilterManager $filterManager
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\LocaleInterface $locale
      * @param \Magento\AuthorizationInterface $authorization
      * @param array $data
      *
@@ -62,7 +62,7 @@ class Context extends \Magento\View\Element\Context
         \Magento\Logger $logger,
         \Magento\Escaper $escaper,
         \Magento\Filter\FilterManager $filterManager,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\LocaleInterface $locale,
         \Magento\AuthorizationInterface $authorization,
         array $data = array()
     ) {

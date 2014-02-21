@@ -43,7 +43,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 
         $eventManager = $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false);
         $stringHelper = $this->getMock('Magento\Core\Helper\String', array(), array(), '', false);
-        $localeMock = $this->getMock('Magento\Core\Model\LocaleInterface');
+        $localeMock = $this->getMock('Magento\LocaleInterface');
         $localeMock->expects($this->any())->method('getCountryTranslation')->will($this->returnArgument(0));
 
         $fetchStrategy = $this->getMockForAbstractClass('Magento\Data\Collection\Db\FetchStrategyInterface');

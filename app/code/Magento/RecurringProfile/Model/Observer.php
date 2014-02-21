@@ -16,7 +16,7 @@ class Observer
     /**
      * Locale model
      *
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\LocaleInterface
      */
     protected $_locale;
 
@@ -45,14 +45,14 @@ class Observer
     protected $_fields;
 
     /**
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\LocaleInterface $locale
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\RecurringProfile\Model\RecurringProfileFactory $profileFactory
      * @param \Magento\View\Element\BlockFactory $blockFactory
      * @param \Magento\RecurringProfile\Block\Fields $fields
      */
     public function __construct(
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\LocaleInterface $locale,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\RecurringProfile\Model\RecurringProfileFactory $profileFactory,
         \Magento\View\Element\BlockFactory $blockFactory,

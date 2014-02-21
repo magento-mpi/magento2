@@ -41,7 +41,7 @@ class Currency
     /**
      * Locale
      *
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\LocaleInterface
      */
     protected $_locale;
 

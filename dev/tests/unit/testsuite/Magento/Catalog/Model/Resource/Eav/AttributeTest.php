@@ -74,7 +74,7 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
             $this->getMock('Magento\Core\Model\StoreManagerInterface', array(), array(), '', false),
             $this->getMock('Magento\Eav\Model\Resource\Helper', array(), array(), '', false),
             $this->getMock('Magento\Validator\UniversalFactory', array(), array(), '', false),
-            $this->getMock('Magento\Core\Model\LocaleInterface', array(), array(), '', false),
+            $this->getMock('Magento\LocaleInterface', array(), array(), '', false),
             $this->getMock('Magento\Catalog\Model\ProductFactory', array(), array(), '', false),
             $this->getMock('Magento\Index\Model\Indexer', array(), array(), '', false),
             $this->_processor,

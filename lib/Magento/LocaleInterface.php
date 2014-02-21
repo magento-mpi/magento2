@@ -1,19 +1,15 @@
 <?php
 /**
+ * Locale model interface
+ *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento;
 
-/**
- * Locale model interface
- *
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-namespace Magento\Core\Model;
+use Magento\Core\Model\Store;
 
 interface LocaleInterface
 {
@@ -343,7 +339,7 @@ interface LocaleInterface
      * @return string
      */
     public function formatDate(
-        $date = null, $format = \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT, $showTime = false
+        $date = null, $format = \Magento\LocaleInterface::FORMAT_TYPE_SHORT, $showTime = false
     );
 
     /**
@@ -355,7 +351,7 @@ interface LocaleInterface
      * @return string
      */
     public function formatTime(
-        $time = null, $format = \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT, $showDate = false
+        $time = null, $format = \Magento\LocaleInterface::FORMAT_TYPE_SHORT, $showDate = false
     );
 
     /**

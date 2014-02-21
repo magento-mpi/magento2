@@ -23,7 +23,7 @@
     <preference for="Magento\View\DesignInterface" type="Magento\Core\Model\View\Design\Proxy" />
     <preference for="Magento\View\Design\ThemeInterface" type="Magento\Core\Model\Theme" />
     <preference for="Magento\View\ConfigInterface" type="Magento\View\Config" />
-    <preference for="Magento\Core\Model\LocaleInterface" type="Magento\Core\Model\Locale" />
+    <preference for="Magento\LocaleInterface" type="Magento\Core\Model\Locale" />
     <preference for="Magento\UrlInterface" type="Magento\Url" />
     <preference for="Magento\Data\Collection\Db\FetchStrategyInterface" type="Magento\Data\Collection\Db\FetchStrategy\Query" />
     <preference for="Magento\Config\ScopeInterface" type="Magento\Config\Scope" />

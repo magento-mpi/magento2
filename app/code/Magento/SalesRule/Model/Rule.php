@@ -195,7 +195,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\LocaleInterface $locale
      * @param \Magento\SalesRule\Model\CouponFactory $couponFactory
      * @param \Magento\SalesRule\Model\Coupon\CodegeneratorFactory $codegenFactory
      * @param \Magento\SalesRule\Model\Rule\Condition\CombineFactory $condCombineFactory
@@ -210,7 +210,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\LocaleInterface $locale,
         \Magento\SalesRule\Model\CouponFactory $couponFactory,
         \Magento\SalesRule\Model\Coupon\CodegeneratorFactory $codegenFactory,
         \Magento\SalesRule\Model\Rule\Condition\CombineFactory $condCombineFactory,

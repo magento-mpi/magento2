@@ -48,7 +48,7 @@ class FaultTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $this->_soapServerMock->expects($this->any())->method('generateUri')->will($this->returnValue(self::WSDL_URL));
 
-        $this->_localeMock = $this->getMock('Magento\Core\Model\LocaleInterface');
+        $this->_localeMock = $this->getMock('Magento\LocaleInterface');
         $this->_localeMock->expects($this->any())
             ->method('getLocale')
             ->will($this->returnValue(new \Zend_Locale('en_US')));

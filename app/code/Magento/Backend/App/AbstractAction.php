@@ -67,7 +67,7 @@ abstract class AbstractAction extends \Magento\App\Action\Action
     protected $_backendUrl;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\LocaleInterface
      */
     protected $_locale;
 

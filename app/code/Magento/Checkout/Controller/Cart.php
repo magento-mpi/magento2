@@ -136,7 +136,7 @@ class Cart
             if (!$this->_getQuote()->validateMinimumAmount()) {
                 $currencyCode = $this->_objectManager->get('Magento\Core\Model\StoreManagerInterface')->getStore()
                     ->getCurrentCurrencyCode();
-                $minimumAmount = $this->_objectManager->get('Magento\Core\Model\LocaleInterface')
+                $minimumAmount = $this->_objectManager->get('Magento\LocaleInterface')
                     ->currency($currencyCode)
                     ->toCurrency($this->_storeConfig->getConfig('sales/minimum_order/amount'));
 
@@ -186,7 +186,7 @@ class Cart
         try {
             if (isset($params['qty'])) {
                 $filter = new \Zend_Filter_LocalizedToNormalized(
-                    array('locale' => $this->_objectManager->get('Magento\Core\Model\LocaleInterface')->getLocaleCode())
+                    array('locale' => $this->_objectManager->get('Magento\LocaleInterface')->getLocaleCode())
                 );
                 $params['qty'] = $filter->filter($params['qty']);
             }
@@ -335,7 +335,7 @@ class Cart
         try {
             if (isset($params['qty'])) {
                 $filter = new \Zend_Filter_LocalizedToNormalized(
-                    array('locale' => $this->_objectManager->get('Magento\Core\Model\LocaleInterface')->getLocaleCode())
+                    array('locale' => $this->_objectManager->get('Magento\LocaleInterface')->getLocaleCode())
                 );
                 $params['qty'] = $filter->filter($params['qty']);
             }
@@ -435,7 +435,7 @@ class Cart
             $cartData = $this->getRequest()->getParam('cart');
             if (is_array($cartData)) {
                 $filter = new \Zend_Filter_LocalizedToNormalized(
-                    array('locale' => $this->_objectManager->get('Magento\Core\Model\LocaleInterface')->getLocaleCode())
+                    array('locale' => $this->_objectManager->get('Magento\LocaleInterface')->getLocaleCode())
                 );
                 foreach ($cartData as $index => $data) {
                     if (isset($data['qty'])) {

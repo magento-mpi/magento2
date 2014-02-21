@@ -40,7 +40,6 @@ app/code/Magento/Core/Model/Config
 app/code/Magento/Core/Model/Design.php
 app/code/Magento/Core/Model/Layout/Update.php
 app/code/Magento/Core/Model/Locale/Validator.php
-app/code/Magento/Core/Model/LocaleInterface.php
 app/code/Magento/Core/Model/Resource/Theme
 app/code/Magento/Core/Model/Resource/Theme.php
 app/code/Magento/Core/Model/Session/Validator.php
@@ -139,3 +138,4 @@ lib/Magento/ObjectManager
 lib/Magento/Service
 lib/Magento/Url/SecurityInfoInterface.php
 lib/Magento/View
+lib/Magento/LocaleInterface.php

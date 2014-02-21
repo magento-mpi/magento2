@@ -175,7 +175,7 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
     protected $_errorInfos;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\LocaleInterface
      */
     protected $_locale;
 
@@ -189,7 +189,7 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Sales\Model\Status\ListFactory $statusListFactory
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\LocaleInterface $locale
      * @param \Magento\Sales\Model\Quote\Item\OptionFactory $itemOptionFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
@@ -202,7 +202,7 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
         \Magento\Core\Model\Registry $registry,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Sales\Model\Status\ListFactory $statusListFactory,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\LocaleInterface $locale,
         \Magento\Sales\Model\Quote\Item\OptionFactory $itemOptionFactory,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,

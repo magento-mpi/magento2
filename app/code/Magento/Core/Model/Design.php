@@ -61,7 +61,7 @@ class Design extends AbstractModel
     /**
      * @param Context $context
      * @param Registry $registry
-     * @param LocaleInterface $locale
+     * @param \Magento\LocaleInterface $locale
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
@@ -70,7 +70,7 @@ class Design extends AbstractModel
     public function __construct(
         Context $context,
         Registry $registry,
-        LocaleInterface $locale,
+        \Magento\LocaleInterface $locale,
         \Magento\Stdlib\DateTime $dateTime,
         AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,

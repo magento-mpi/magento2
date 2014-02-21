@@ -15,7 +15,7 @@
     <preference for="Magento\Authorization\Policy" type="Magento\Authorization\Policy\DefaultPolicy" />
     <preference for="Magento\Authorization\RoleLocator" type="Magento\Authorization\RoleLocator\DefaultRoleLocator" />
     <preference for="Magento\Session\SessionManagerInterface" type="Magento\Core\Model\Session" />
-    <preference for="Magento\Core\Model\LocaleInterface" type="Magento\Core\Model\Locale" />
+    <preference for="Magento\LocaleInterface" type="Magento\Core\Model\Locale" />
     <preference for="Magento\Core\Model\DataService\ConfigInterface" type="Magento\Core\Model\DataService\Config" />
     <preference for="Magento\App\ConfigInterface" type="Magento\App\Config" />
     <preference for="Magento\App\ReinitableConfigInterface" type="Magento\App\ReinitableConfig" />
