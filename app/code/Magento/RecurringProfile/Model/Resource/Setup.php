@@ -25,6 +25,8 @@ class Setup extends \Magento\Catalog\Model\Resource\Setup
      *
      * @param null $entities
      * @return array
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function installEntities($entities = null)
     {

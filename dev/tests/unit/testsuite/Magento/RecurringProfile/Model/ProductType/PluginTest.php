@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler;
+namespace Magento\RecurringProfile\Model\ProductType;
 
 class PluginTest extends \PHPUnit_Framework_TestCase
 {
