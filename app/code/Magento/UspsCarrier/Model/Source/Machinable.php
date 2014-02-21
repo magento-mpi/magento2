@@ -9,14 +9,14 @@
  */
 
 
-namespace Magento\Usa\Model\Shipping\Carrier\Usps\Source;
+namespace Magento\UspsCarrier\Model\Source;
 
-class Method extends \Magento\Usa\Model\Shipping\Carrier\Usps\Source\Generic
+class Machinable extends Generic
 {
     /**
      * Carrier code
      *
      * @var string
      */
-    protected $_code = 'method';
+    protected $code = 'machinable';
 }

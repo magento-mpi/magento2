@@ -13,7 +13,7 @@ namespace Magento\Shipping\Block\Adminhtml\Order;
 class Packaging extends \Magento\Backend\Block\Template
 {
     /**
-     * @var \Magento\Usa\Model\Shipping\Carrier\Usps\Source\Size
+     * @var \Magento\UspsCarrier\Model\Source\Size
      */
     protected $_sourceSizeModel;
 
@@ -37,7 +37,7 @@ class Packaging extends \Magento\Backend\Block\Template
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Json\EncoderInterface $jsonEncoder
-     * @param \Magento\Usa\Model\Shipping\Carrier\Usps\Source\Size $sourceSizeModel
+     * @param \Magento\UspsCarrier\Model\Source\Size $sourceSizeModel
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Shipping\Model\CarrierFactory $carrierFactory
      * @param array $data
@@ -45,7 +45,7 @@ class Packaging extends \Magento\Backend\Block\Template
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Json\EncoderInterface $jsonEncoder,
-        \Magento\Usa\Model\Shipping\Carrier\Usps\Source\Size $sourceSizeModel,
+        \Magento\UspsCarrier\Model\Source\Size $sourceSizeModel,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Shipping\Model\CarrierFactory $carrierFactory,
         array $data = array()
@@ -391,7 +391,7 @@ class Packaging extends \Magento\Backend\Block\Template
     /**
      * Get Usps source size model
      *
-     * @return \Magento\Usa\Model\Shipping\Carrier\Usps\Source\Size
+     * @return \Magento\UspsCarrier\Model\Source\Size
      */
     public function getSourceSizeModel()
     {

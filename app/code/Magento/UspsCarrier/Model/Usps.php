@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Usa\Model\Shipping\Carrier;
+namespace Magento\UspsCarrier\Model;
 
 use Magento\Shipping\Model\Rate\Result;
 

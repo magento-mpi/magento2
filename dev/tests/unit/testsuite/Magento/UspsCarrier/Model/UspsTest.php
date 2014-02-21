@@ -6,13 +6,13 @@
  * @license     {license_link}
  */
 
-namespace Magento\Usa\Model\Shipping\Carrier;
+namespace Magento\UspsCarrier\Model;
 
 class UspsTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
-     * @var \Magento\Usa\Model\Shipping\Carrier\Usps
+     * @var \Magento\UspsCarrier\Model\Usps
      */
     protected $_model;
 
@@ -123,7 +123,7 @@ class UspsTest extends \PHPUnit_Framework_TestCase
             'data' => $data
         );
 
-        $this->_model = $this->_helper->getObject('\Magento\Usa\Model\Shipping\Carrier\Usps', $arguments);
+        $this->_model = $this->_helper->getObject('Magento\UspsCarrier\Model\Usps', $arguments);
     }
 
     /**

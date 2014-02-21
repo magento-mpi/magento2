@@ -9,14 +9,14 @@
  */
 
 
-namespace Magento\Usa\Model\Shipping\Carrier\Usps\Source;
+namespace Magento\UspsCarrier\Model\Source;
 
-class Size extends \Magento\Usa\Model\Shipping\Carrier\Usps\Source\Generic
+class Container extends Generic
 {
     /**
      * Carrier code
      *
      * @var string
      */
-    protected $_code = 'size';
+    protected $code = 'container';
 }

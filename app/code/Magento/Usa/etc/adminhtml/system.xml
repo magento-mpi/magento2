@@ -447,11 +447,11 @@
                 </field>
                 <field id="container" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Container</label>
-                    <source_model>Magento\Usa\Model\Shipping\Carrier\Usps\Source\Container</source_model>
+                    <source_model>Magento\UspsCarrier\Model\Source\Container</source_model>
                 </field>
                 <field id="size" translate="label" type="select" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Size</label>
-                    <source_model>Magento\Usa\Model\Shipping\Carrier\Usps\Source\Size</source_model>
+                    <source_model>Magento\UspsCarrier\Model\Source\Size</source_model>
                 </field>
                 <field id="width" translate="label" type="text" sortOrder="73" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Width</label>
@@ -479,7 +479,7 @@
                 </field>
                 <field id="machinable" translate="label" type="select" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Machinable</label>
-                    <source_model>Magento\Usa\Model\Shipping\Carrier\Usps\Source\Machinable</source_model>
+                    <source_model>Magento\UspsCarrier\Model\Source\Machinable</source_model>
                 </field>
                 <field id="max_package_weight" translate="label" type="text" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Maximum Package Weight (Please consult your shipping carrier for maximum supported shipping weight)</label>
@@ -499,13 +499,13 @@
                 </field>
                 <field id="allowed_methods" translate="label" type="multiselect" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Allowed Methods</label>
-                    <source_model>Magento\Usa\Model\Shipping\Carrier\Usps\Source\Method</source_model>
+                    <source_model>Magento\UspsCarrier\Model\Source\Method</source_model>
                     <can_be_empty>1</can_be_empty>
                 </field>
                 <field id="free_method" translate="label" type="select" sortOrder="140" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Free Method</label>
                     <frontend_class>free-method</frontend_class>
-                    <source_model>Magento\Usa\Model\Shipping\Carrier\Usps\Source\Freemethod</source_model>
+                    <source_model>Magento\UspsCarrier\Model\Source\Freemethod</source_model>
                 </field>
                 <field id="free_shipping_enable" translate="label" type="select" sortOrder="1500" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Free Shipping Amount Threshold</label>
