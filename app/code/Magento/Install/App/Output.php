@@ -10,31 +10,15 @@ namespace Magento\Install\App;
 class Output
 {
     /**
-     * @param array $data
-     * @return int longest key length
-     */
-    protected function getLongestKey(array $data)
-    {
-        $longest = 0;
-        $keys = array_keys($data);
-        foreach($keys as $key) {
-            if (strlen($key) > $longest) {
-                $longest = strlen($key);
-            }
-        }
-        return $longest;
-    }
-
-    /**
      * Make array keys aligned to the longest
      *
-     * @param $data
+     * @param array $data
      * @return array
      */
-    public function alignKeys($data)
+    public function alignArrayKeys(array $data)
     {
         $formattedData = array();
-        $length = $this->getLongestKey($data);
+        $length = max(array_map('strlen', array_keys($data)));
         foreach($data as $key => $value) {
             $formattedData[str_pad($key, $length, ' ', STR_PAD_RIGHT)] = $value;
         }
@@ -58,7 +42,7 @@ class Output
             $keyValData[$item['value']] = $item['label'];
         }
 
-        return $this->alignKeys($keyValData);
+        return $this->alignArrayKeys($keyValData);
     }
 
     /**
@@ -77,7 +61,7 @@ class Output
                     } else {
                         echo $eol . $key . ' -- ' . $value;
                     }
-                    $eol = ',' . PHP_EOL;
+                    $eol = PHP_EOL;
                 }
                 echo PHP_EOL;
                 break;

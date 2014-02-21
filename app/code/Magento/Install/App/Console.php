@@ -154,10 +154,10 @@ class Console implements \Magento\LauncherInterface
         } elseif (isset($this->_arguments['show_timezones'])) {
             $this->_output->readableOutput($this->_output->prepareArray($installer->getAvailableTimezones()));
         } elseif (isset($this->_arguments['show_install_options'])) {
-            $this->_output->readableOutput(PHP_EOL . 'Required options:');
-            $this->_output->readableOutput($this->_output->alignKeys($installer->getRequiredOptions()));
-            $this->_output->readableOutput(PHP_EOL . 'Non-required options:');
-            $this->_output->readableOutput($this->_output->alignKeys($installer->getOtherOptions()));
+            $this->_output->readableOutput(PHP_EOL . 'Required parameters:');
+            $this->_output->readableOutput($this->_output->alignArrayKeys($installer->getRequiredParams()));
+            $this->_output->readableOutput(PHP_EOL . 'Optional parameters:');
+            $this->_output->readableOutput($this->_output->alignArrayKeys($installer->getOptionalParams()));
             $this->_output->readableOutput(PHP_EOL . 'Flag values are considered positive if set to 1, y, true or yes.'
                 . 'Any other value is considered as negative.' . PHP_EOL);
         } else {

@@ -27,14 +27,14 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
      *
      * @var array
      */
-    protected $_installOptions = array();
+    protected $installParameters = array();
 
     /**
-     * Required options with descriptions
+     * Required parameters with descriptions
      *
      * @var array
      */
-    protected $requiredOptions = array(
+    protected $requiredParameters = array(
         'license_agreement_accepted' => 'Accept licence. See LICENSE*.txt. Flag value.',
         'locale'                     => 'Locale to use. Run with --show_locales for full list',
         'timezone'                   => 'Time zone to use. Run with --show_timezones for full list',
@@ -55,11 +55,11 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
     );
 
     /**
-     * Non-required options with descriptions
+     * Optional parameters with descriptions
      *
      * @var array
      */
-    protected $otherOptions = array(
+    protected $optionalParameters = array(
         'db_model'                   => 'DB driver. "mysql4" is default and the only supported now',
         'db_pass'                    => 'DB password. Empty by default',
         'db_prefix'                  => 'Use prefix for tables of this installation. Empty by default',
@@ -157,7 +157,7 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
         $this->_appState = $appState;
         $this->_locale = $locale;
         $this->_objectManager = $objectManager;
-        $this->_installOptions = array_keys($this->requiredOptions + $this->otherOptions);
+        $this->installParameters = array_keys($this->requiredParameters + $this->optionalParameters);
     }
 
     /**
@@ -171,9 +171,9 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
         /**
          * Check required options
          */
-        foreach (array_keys($this->requiredOptions) as $optionName) {
+        foreach (array_keys($this->requiredParameters) as $optionName) {
             if (!isset($options[$optionName])) {
-                $this->addError("ERROR: installation option '$optionName' is required.");
+                $this->addError("ERROR: installation parameter '$optionName' is required.");
             }
         }
 
@@ -192,7 +192,7 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
         }
 
         $result = array();
-        foreach ($this->_installOptions as $optionName) {
+        foreach ($this->installParameters as $optionName) {
             $result[$optionName] = isset($options[$optionName]) ? $options[$optionName] : '';
         }
 
@@ -446,22 +446,22 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
     }
 
     /**
-     * Retrieve required installation options
+     * Retrieve required installation params
      *
      * @return array
      */
-    public function getRequiredOptions()
+    public function getRequiredParams()
     {
 
-        return $this->requiredOptions;
+        return $this->requiredParameters;
     }
 
     /**
-     * Non-required options
+     * Get optional installation parameters
      * @return array
      */
-    public function getOtherOptions()
+    public function getOptionalParams()
     {
-        return $this->otherOptions;
+        return $this->optionalParameters;
     }
 }
