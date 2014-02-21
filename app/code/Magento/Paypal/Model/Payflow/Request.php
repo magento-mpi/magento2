@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Model\Payflow;
 
 /**
  * Payflow Link request model
@@ -15,22 +16,19 @@
  * @package     Magento_Paypal
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Paypal\Model\Payflow;
-
 class Request extends \Magento\Object
 {
     /**
      * Set/Get attribute wrapper
      * Also add length path if key contains = or &
      *
-     * @param   string $method
-     * @param   array $args
-     * @return  mixed
+     * @param string $method
+     * @param array $args
+     * @return mixed
      */
     public function __call($method, $args)
     {
-        $key = $this->_underscore(substr($method,3));
+        $key = $this->_underscore(substr($method, 3));
         if (isset($args[0]) && (strstr($args[0], '=') || strstr($args[0], '&'))) {
             $key .= '[' . strlen($args[0]) . ']';
         }
@@ -58,6 +56,6 @@ class Request extends \Magento\Object
                 //\Magento\Profiler::stop('HAS: '.get_class($this).'::'.$method);
                 return isset($this->_data[$key]);
         }
-        throw new \Magento\Exception("Invalid method ".get_class($this)."::".$method."(".print_r($args,1).")");
+        throw new \Magento\Exception("Invalid method ".get_class($this)."::".$method."(".print_r($args, 1).")");
     }
 }

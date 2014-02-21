@@ -5,13 +5,23 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Paypal\Model;
 
 class PayflowExpress extends \Magento\Paypal\Model\Express
 {
+    /**
+     * @var string
+     */
     protected $_code = \Magento\Paypal\Model\Config::METHOD_WPP_PE_EXPRESS;
+
+    /**
+     * @var string
+     */
     protected $_formBlockType = 'Magento\Paypal\Block\PayflowExpress\Form';
+
+    /**
+     * @var bool
+     */
     protected $_canManageRecurringProfiles = false;
 
     /**
@@ -95,8 +105,9 @@ class PayflowExpress extends \Magento\Paypal\Model\Express
     /**
      * Import payment info to payment
      *
-     * @param \Magento\Paypal\Model\Api\Nvp
-     * @param \Magento\Sales\Model\Order\Payment
+     * @param \Magento\Paypal\Model\Api\Nvp $api
+     * @param \Magento\Sales\Model\Order\Payment $payment
+     * @return void
      */
     protected function _importToPayment($api, $payment)
     {

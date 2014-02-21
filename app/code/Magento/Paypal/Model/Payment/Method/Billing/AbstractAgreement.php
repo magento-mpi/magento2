@@ -5,12 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Model\Payment\Method\Billing;
 
 /**
  * Billing Agreement Payment Method Abstract model
  */
-namespace Magento\Paypal\Model\Payment\Method\Billing;
-
 abstract class AbstractAgreement
     extends \Magento\Payment\Model\Method\AbstractMethod
 {
@@ -20,7 +19,14 @@ abstract class AbstractAgreement
     const TRANSPORT_BILLING_AGREEMENT_ID = 'ba_agreement_id';
     const PAYMENT_INFO_REFERENCE_ID      = 'ba_reference_id';
 
+    /**
+     * @var string
+     */
     protected $_infoBlockType = 'Magento\Paypal\Block\Payment\Info\Billing\Agreement';
+
+    /**
+     * @var string
+     */
     protected $_formBlockType = 'Magento\Paypal\Block\Payment\Form\Billing\Agreement';
 
     /**
@@ -81,8 +87,8 @@ abstract class AbstractAgreement
     /**
      * Assign data to info model instance
      *
-     * @param   mixed $data
-     * @return  \Magento\Payment\Model\Info
+     * @param mixed $data
+     * @return \Magento\Payment\Model\Info
      */
     public function assignData($data)
     {
@@ -108,6 +114,7 @@ abstract class AbstractAgreement
 
     /**
      * @param object $quote
+     * @return void
      */
     abstract protected function _isAvailable($quote);
 }

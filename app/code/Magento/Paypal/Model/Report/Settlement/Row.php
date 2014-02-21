@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Model\Report\Settlement;
 
 /*
  * Model for report rows
@@ -51,8 +52,6 @@
  * @package     Magento_Paypal
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Paypal\Model\Report\Settlement;
-
 class Row extends \Magento\Core\Model\AbstractModel
 {
     /**
@@ -71,6 +70,8 @@ class Row extends \Magento\Core\Model\AbstractModel
 
     /**
      * Initialize resource model
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -81,7 +82,7 @@ class Row extends \Magento\Core\Model\AbstractModel
      * Return description of Reference ID Type
      * If no code specified, return full list of codes with their description
      *
-     * @param string code
+     * @param string $code
      * @return string|array
      */
     public function getReferenceType($code = null)
@@ -105,7 +106,7 @@ class Row extends \Magento\Core\Model\AbstractModel
     /**
      * Get native description for transaction code
      *
-     * @param string code
+     * @param string $code
      * @return string
      */
     public function getTransactionEvent($code)
@@ -172,6 +173,7 @@ class Row extends \Magento\Core\Model\AbstractModel
      *
      * @param string $key
      * @param string $creditKey
+     * @return void
      */
     public function _castAmount($key, $creditKey)
     {
@@ -191,6 +193,8 @@ class Row extends \Magento\Core\Model\AbstractModel
 
     /**
      * Fill/translate and sort all event codes/labels
+     *
+     * @return void
      */
     protected function _generateEventLabels()
     {

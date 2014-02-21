@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Model\Hostedpro;
 
 /**
  *  Website Payments Pro Hosted Solution request model to get token.
@@ -15,9 +16,6 @@
  * @package     Magento_Paypal
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Paypal\Model\Hostedpro;
-
 class Request extends \Magento\Object
 {
     /**
@@ -44,7 +42,7 @@ class Request extends \Magento\Object
     /**
      * Request Parameters which dont have to wrap as button vars
      *
-     * @var array
+     * @var string
      */
     protected $_notButtonVars = array (
         'METHOD', 'BUTTONCODE', 'BUTTONTYPE');
@@ -247,7 +245,7 @@ class Request extends \Magento\Object
      * Format price string
      *
      * @param mixed $string
-     * @return mixed
+     * @return string
      */
     protected function _formatPrice($string)
     {

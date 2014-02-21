@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Model;
 
 /**
  * PayPal Standard Checkout Module
  */
-namespace Magento\Paypal\Model;
-
 class Standard extends \Magento\Payment\Model\Method\AbstractMethod
 {
     /**
@@ -30,7 +29,14 @@ class Standard extends \Magento\Payment\Model\Method\AbstractMethod
      */
     protected $_infoBlockType = 'Magento\Paypal\Block\Payment\Info';
 
+    /**
+     * @var bool
+     */
     protected $_isInitializeNeeded      = true;
+
+    /**
+     * @var bool
+     */
     protected $_canUseInternal          = false;
 
     /**
@@ -167,6 +173,8 @@ class Standard extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Create main block for standard form
      *
+     * @param string $name
+     * @return \Magento\View\Element\AbstractBlock
      */
     public function createFormBlock($name)
     {
@@ -185,7 +193,7 @@ class Standard extends \Magento\Payment\Model\Method\AbstractMethod
      */
     public function getOrderPlaceRedirectUrl()
     {
-          return $this->_urlBuilder->getUrl('paypal/standard/redirect', array('_secure' => true));
+        return $this->_urlBuilder->getUrl('paypal/standard/redirect', array('_secure' => true));
     }
 
     /**
@@ -231,7 +239,7 @@ class Standard extends \Magento\Payment\Model\Method\AbstractMethod
      *
      * @param string $paymentAction
      * @param object $stateObject
-     * @return \Magento\Payment\Model\Method\AbstractMethod|void
+     * @return void
      */
     public function initialize($paymentAction, $stateObject)
     {
@@ -260,7 +268,7 @@ class Standard extends \Magento\Payment\Model\Method\AbstractMethod
 
     /**
      * Check whether payment method can be used
-     * @param \Magento\Sales\Model\Quote
+     * @param \Magento\Sales\Model\Quote $quote
      * @return bool
      */
     public function isAvailable($quote = null)

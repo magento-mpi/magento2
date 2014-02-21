@@ -7,13 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Model;
 
 /**
  * PayPal Website Payments Pro implementation for payment method instances
  * This model was created because right now PayPal Direct and PayPal Express payment methods cannot have same abstract
  */
-namespace Magento\Paypal\Model;
-
 class Pro
 {
     /**
@@ -155,7 +154,7 @@ class Pro
     /**
      * Destroy existing NVP Api object
      *
-     * @return \Magento\Paypal\Model\Pro
+     * @return $this
      */
     public function resetApi()
     {
@@ -182,7 +181,7 @@ class Pro
      *
      * @param \Magento\Object|\Magento\Paypal\Model\Api\AbstractApi $from
      * @param \Magento\Payment\Model\Info $to
-     * @return \Magento\Paypal\Model\Pro
+     * @return $this
      */
     public function importPaymentInfo(\Magento\Object $from, \Magento\Payment\Model\Info $to)
     {
@@ -214,6 +213,7 @@ class Pro
      * Void transaction
      *
      * @param \Magento\Object $payment
+     * @return void
      * @throws \Magento\Core\Exception
      */
     public function void(\Magento\Object $payment)
@@ -259,6 +259,7 @@ class Pro
      *
      * @param \Magento\Object $payment
      * @param float $amount
+     * @return void
      * @throws \Magento\Core\Exception
      */
     public function refund(\Magento\Object $payment, $amount)
@@ -288,6 +289,7 @@ class Pro
      * Cancel payment
      *
      * @param \Magento\Object $payment
+     * @return void
      */
     public function cancel(\Magento\Object $payment)
     {
@@ -367,6 +369,7 @@ class Pro
      * Validate RP data
      *
      * @param \Magento\RecurringProfile\Model\RecurringProfile $profile
+     * @return void
      * @throws \Magento\Core\Exception
      */
     public function validateRecurringProfile(\Magento\RecurringProfile\Model\RecurringProfile $profile)
@@ -393,6 +396,7 @@ class Pro
      *
      * @param \Magento\RecurringProfile\Model\RecurringProfile $profile
      * @param \Magento\Payment\Model\Info $paymentInfo
+     * @return void
      * @throws \Magento\Core\Exception
      */
     public function submitRecurringProfile(\Magento\RecurringProfile\Model\RecurringProfile $profile,
@@ -422,6 +426,7 @@ class Pro
      *
      * @param string $referenceId
      * @param \Magento\Object $result
+     * @return void
      */
     public function getRecurringProfileDetails($referenceId, \Magento\Object $result)
     {
@@ -435,6 +440,7 @@ class Pro
      * Update RP data
      *
      * @param \Magento\RecurringProfile\Model\RecurringProfile $profile
+     * @return void
      */
     public function updateRecurringProfile(\Magento\RecurringProfile\Model\RecurringProfile $profile)
     {
@@ -445,6 +451,7 @@ class Pro
      * Manage status
      *
      * @param \Magento\RecurringProfile\Model\RecurringProfile $profile
+     * @return void
      */
     public function updateRecurringProfileStatus(\Magento\RecurringProfile\Model\RecurringProfile $profile)
     {
@@ -468,8 +475,9 @@ class Pro
     /**
      * Import capture results to payment
      *
-     * @param \Magento\Paypal\Model\Api\Nvp
-     * @param \Magento\Sales\Model\Order\Payment
+     * @param \Magento\Paypal\Model\Api\Nvp $api
+     * @param \Magento\Sales\Model\Order\Payment $payment
+     * @return void
      */
     protected function _importCaptureResultToPayment($api, $payment)
     {
@@ -480,9 +488,10 @@ class Pro
     /**
      * Import refund results to payment
      *
-     * @param \Magento\Paypal\Model\Api\Nvp
-     * @param \Magento\Sales\Model\Order\Payment
+     * @param \Magento\Paypal\Model\Api\Nvp $api
+     * @param \Magento\Sales\Model\Order\Payment $payment
      * @param bool $canRefundMore
+     * @return void
      */
     protected function _importRefundResultToPayment($api, $payment, $canRefundMore)
     {

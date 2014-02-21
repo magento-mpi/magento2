@@ -66,12 +66,24 @@ class Checkout
     protected $_methodType = \Magento\Paypal\Model\Config::METHOD_WPP_EXPRESS;
 
     /**
-     * State helper variables
+     * State helper variable
      *
      * @var string
      */
     protected $_redirectUrl = '';
+
+    /**
+     * State helper variable
+     *
+     * @var string
+     */
     protected $_pendingPaymentMessage = '';
+
+    /**
+     * State helper variable
+     *
+     * @var string
+     */
     protected $_checkoutRedirectUrl = '';
 
     /**
@@ -493,6 +505,7 @@ class Checkout
      * export shipping address in case address absence
      *
      * @param string $token
+     * @return void
      */
     public function returnFromPaypal($token)
     {
@@ -554,7 +567,8 @@ class Checkout
     /**
      * Check whether order review has enough data to initialize
      *
-     * @param $token
+     * @param string|null $token
+     * @return void
      * @throws \Magento\Core\Exception
      */
     public function prepareOrderReview($token = null)
@@ -615,7 +629,9 @@ class Checkout
 
     /**
      * Set shipping method to quote, if needed
+     *
      * @param string $methodCode
+     * @return void
      */
     public function updateShippingMethod($methodCode)
     {
@@ -632,6 +648,7 @@ class Checkout
      * Update order data
      *
      * @param array $data
+     * @return void
      */
     public function updateOrder($data)
     {
@@ -665,6 +682,7 @@ class Checkout
      *
      * @param string $token
      * @param string $shippingMethodCode
+     * @return void
      */
     public function place($token, $shippingMethodCode = null)
     {
@@ -735,6 +753,8 @@ class Checkout
 
     /**
      * Make sure addresses will be saved without validation errors
+     *
+     * @return void
      */
     private function _ignoreAddressValidation()
     {
@@ -812,6 +832,7 @@ class Checkout
      *
      * @param \Magento\Sales\Model\Quote\Address $address
      * @param array $exportedAddress
+     * @return void
      */
     protected function _setExportedAddressData($address, $exportedAddress)
     {
@@ -819,8 +840,8 @@ class Checkout
             $oldData = $address->getDataUsingMethod($key);
             $isEmpty = null;
             if (is_array($oldData)) {
-                foreach($oldData as $val) {
-                    if(!empty($val)) {
+                foreach ($oldData as $val) {
+                    if (!empty($val)) {
                         $isEmpty = false;
                         break;
                     }

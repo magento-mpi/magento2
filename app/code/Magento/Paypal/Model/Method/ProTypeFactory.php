@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Model\Method;
 
 /**
  * Factory class for payment method model
  */
-namespace Magento\Paypal\Model\Method;
-
 class ProTypeFactory
 {
     /**

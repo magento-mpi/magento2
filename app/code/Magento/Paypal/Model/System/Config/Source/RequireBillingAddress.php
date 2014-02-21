@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Model\System\Config\Source;
 
 /**
  * Source model for Require Billing Address
  */
-namespace Magento\Paypal\Model\System\Config\Source;
-
 class RequireBillingAddress
     implements \Magento\Core\Model\Option\ArrayInterface
 {
@@ -30,9 +29,7 @@ class RequireBillingAddress
     }
 
     /**
-     * Options getter
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function toOptionArray()
     {
