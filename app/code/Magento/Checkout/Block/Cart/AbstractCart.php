@@ -99,19 +99,6 @@ class AbstractCart extends \Magento\View\Element\Template
     }
 
     /**
-     * Get logged in customer
-     *
-     * @return \Magento\Customer\Model\Customer
-     */
-    public function getCustomer()
-    {
-        if (null === $this->_customer) {
-            $this->_customer = $this->_customerSession->getCustomer();
-        }
-        return $this->_customer;
-    }
-
-    /**
      * Get active quote
      *
      * @return \Magento\Sales\Model\Quote
