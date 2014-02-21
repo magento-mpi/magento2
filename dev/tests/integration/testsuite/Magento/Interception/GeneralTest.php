@@ -8,6 +8,11 @@
  */
 namespace Magento\Interception;
 
+/**
+ * Class GeneralTest
+ * @package Magento\Interception
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class GeneralTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -28,7 +33,9 @@ class GeneralTest extends \PHPUnit_Framework_TestCase
         $config = new \Magento\Interception\ObjectManager\Config($relations, $definitions);
         $argInterpreter = new \Magento\Data\Argument\Interpreter\Composite(array(), 'type');
         $argObjectFactory = new \Magento\ObjectManager\Config\Argument\ObjectFactory($config);
-        $factory = new \Magento\ObjectManager\Factory\Factory($config, $argInterpreter, $argObjectFactory, $definitions);
+        $factory = new \Magento\ObjectManager\Factory\Factory(
+            $config, $argInterpreter, $argObjectFactory, $definitions
+        );
 
         $this->_configReader = $this->getMock('Magento\Config\ReaderInterface');
         $this->_configReader->expects($this->any())->method('read')->will($this->returnValue(array(
