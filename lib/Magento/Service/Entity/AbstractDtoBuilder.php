@@ -28,9 +28,14 @@ abstract class AbstractDtoBuilder
      *
      * @param AbstractDto $prototype the prototype to base on
      * @return $this
+     * @throws \LogicException If $prototype object class is not the same type as object that is constructed
      */
     public function populate(AbstractDto $prototype)
     {
+        $dtoType = substr(get_class($this), 0, -7);
+        if (get_class($prototype) != $dtoType) {
+            throw new \LogicException('Wrong prototype object');
+        }
         return $this->populateWithArray($prototype->__toArray());
     }
 
