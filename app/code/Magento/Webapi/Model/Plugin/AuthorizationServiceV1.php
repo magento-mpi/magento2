@@ -63,7 +63,7 @@ class AuthorizationServiceV1
         /** @var UserIdentifier $userIdentifierObject */
         $userIdentifierObject = $userIdentifier ?: $this->_userIdentifier;
 
-        if ($userIdentifier->getUserType() !== UserIdentifier::USER_TYPE_INTEGRATION) {
+        if ($userIdentifierObject->getUserType() !== UserIdentifier::USER_TYPE_INTEGRATION) {
             return $proceed($resources, $userIdentifier);
         }
 
