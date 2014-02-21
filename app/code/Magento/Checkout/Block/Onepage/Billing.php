@@ -135,11 +135,11 @@ class Billing extends \Magento\Checkout\Block\Onepage\AbstractOnepage
         if (is_null($this->_address)) {
             if ($this->isCustomerLoggedIn()) {
                 $this->_address = $this->getQuote()->getBillingAddress();
-                if(!$this->_address->getFirstname()) {
-                    $this->_address->setFirstname($this->getQuote()->getCustomer()->getFirstname());
+                if (!$this->_address->getFirstname()) {
+                    $this->_address->setFirstname($this->getQuote()->getCustomerData()->getFirstname());
                 }
-                if(!$this->_address->getLastname()) {
-                    $this->_address->setLastname($this->getQuote()->getCustomer()->getLastname());
+                if (!$this->_address->getLastname()) {
+                    $this->_address->setLastname($this->getQuote()->getCustomerData()->getLastname());
                 }
             } else {
                 $this->_address = $this->_addressFactory->create();
@@ -158,8 +158,8 @@ class Billing extends \Magento\Checkout\Block\Onepage\AbstractOnepage
     public function getFirstname()
     {
         $firstname = $this->getAddress()->getFirstname();
-        if (empty($firstname) && $this->getQuote()->getCustomer()) {
-            return $this->getQuote()->getCustomer()->getFirstname();
+        if (empty($firstname) && $this->getQuote()->getCustomerData()) {
+            return $this->getQuote()->getCustomerData()->getFirstname();
         }
         return $firstname;
     }
@@ -173,8 +173,8 @@ class Billing extends \Magento\Checkout\Block\Onepage\AbstractOnepage
     public function getLastname()
     {
         $lastname = $this->getAddress()->getLastname();
-        if (empty($lastname) && $this->getQuote()->getCustomer()) {
-            return $this->getQuote()->getCustomer()->getLastname();
+        if (empty($lastname) && $this->getQuote()->getCustomerData()) {
+            return $this->getQuote()->getCustomerData()->getLastname();
         }
         return $lastname;
     }
