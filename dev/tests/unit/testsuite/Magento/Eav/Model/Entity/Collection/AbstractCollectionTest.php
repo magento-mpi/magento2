@@ -7,7 +7,6 @@
  */
 namespace Magento\Eav\Model\Entity\Collection;
 
-
 class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -126,6 +125,19 @@ class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->with('test_entity_model')// see \Magento\Eav\Model\Entity\Collection\AbstractCollectionStub
             ->will($this->returnValue($entityMock));
+
+        $this->model = new \Magento\Eav\Model\Entity\Collection\AbstractCollectionStub(
+            $this->coreEntityFactoryMock,
+            $this->loggerMock,
+            $this->fetchStrategyMock,
+            $this->eventManagerMock,
+            $this->configMock,
+            $this->coreResourceMock,
+            $this->entityFactoryMock,
+            $this->resourceHelperMock,
+            $this->validatorFactoryMock,
+            null
+        );
     }
 
     public function tearDown()
@@ -142,18 +154,6 @@ class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
             ->method('fetchAll')
             ->will($this->returnValue($values));
 
-        $this->model = new \Magento\Eav\Model\Entity\Collection\AbstractCollectionStub(
-            $this->coreEntityFactoryMock,
-            $this->loggerMock,
-            $this->fetchStrategyMock,
-            $this->eventManagerMock,
-            $this->configMock,
-            $this->coreResourceMock,
-            $this->entityFactoryMock,
-            $this->resourceHelperMock,
-            $this->validatorFactoryMock,
-            null
-        );
         $testId = array_pop($values)['id'];
         $this->assertCount($count, $this->model->getItems());
         $this->assertNotNull($this->model->getItemById($testId));
@@ -170,18 +170,6 @@ class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
             ->method('fetchAll')
             ->will($this->returnValue($values));
 
-        $this->model = new \Magento\Eav\Model\Entity\Collection\AbstractCollectionStub(
-            $this->coreEntityFactoryMock,
-            $this->loggerMock,
-            $this->fetchStrategyMock,
-            $this->eventManagerMock,
-            $this->configMock,
-            $this->coreResourceMock,
-            $this->entityFactoryMock,
-            $this->resourceHelperMock,
-            $this->validatorFactoryMock,
-            null
-        );
         $testId = array_pop($values)['id'];
         $this->assertCount($count, $this->model->getItems());
         $this->assertNotNull($this->model->getItemById($testId));
@@ -198,18 +186,6 @@ class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
             ->method('fetchAll')
             ->will($this->returnValue($values));
 
-        $this->model = new \Magento\Eav\Model\Entity\Collection\AbstractCollectionStub(
-            $this->coreEntityFactoryMock,
-            $this->loggerMock,
-            $this->fetchStrategyMock,
-            $this->eventManagerMock,
-            $this->configMock,
-            $this->coreResourceMock,
-            $this->entityFactoryMock,
-            $this->resourceHelperMock,
-            $this->validatorFactoryMock,
-            null
-        );
         $testId = array_pop($values)['id'];
         $this->assertCount($count, $this->model->getItems());
         $this->assertNotNull($this->model->getItemById($testId));

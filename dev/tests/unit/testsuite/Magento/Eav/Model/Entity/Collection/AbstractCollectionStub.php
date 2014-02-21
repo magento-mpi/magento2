@@ -7,7 +7,6 @@
 */
 namespace Magento\Eav\Model\Entity\Collection;
 
-
 class AbstractCollectionStub extends \Magento\Eav\Model\Entity\Collection\AbstractCollection
 {
     public function getItemById($id)
