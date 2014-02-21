@@ -87,7 +87,7 @@ class Collection
      * Provide support for customer count filter
      *
      * @param string $field
-     * @param int|null $condition
+     * @param int|string|array|null $condition
      * @return $this
      */
     public function addFieldToFilter($field, $condition = null)
