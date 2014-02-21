@@ -9,6 +9,8 @@
  */
 namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Formtype\Edit\Tab;
 
+use Magento\Core\Model\Store;
+
 /**
  * Form Type Edit General Tab Block
  */
@@ -117,7 +119,7 @@ class Tree
     /**
      * Retrieve all store objects
      *
-     * @return \Magento\Core\Model\Store[]
+     * @return Store[]
      */
     public function getStores()
     {
