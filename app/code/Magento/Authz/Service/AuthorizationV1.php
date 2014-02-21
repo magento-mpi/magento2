@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Authz\Service;
 
 use Magento\Acl\Builder as AclBuilder;
@@ -29,28 +28,44 @@ use Magento\Core\Model\Acl\RootResource as RootAclResource;
  */
 class AuthorizationV1 implements AuthorizationV1Interface
 {
-    /** @var AclBuilder */
+    /**
+     * @var AclBuilder
+     */
     protected $_aclBuilder;
 
-    /** @var UserIdentifier */
+    /**
+     * @var UserIdentifier
+     */
     protected $_userIdentifier;
 
-    /** @var RoleFactory */
+    /**
+     * @var RoleFactory
+     */
     protected $_roleFactory;
 
-    /** @var RoleCollectionFactory */
+    /**
+     * @var RoleCollectionFactory
+     */
     protected $_roleCollectionFactory;
 
-    /** @var RulesFactory */
+    /**
+     * @var RulesFactory
+     */
     protected $_rulesFactory;
 
-    /** @var RulesCollectionFactory */
+    /**
+     * @var RulesCollectionFactory
+     */
     protected $_rulesCollectionFactory;
 
-    /** @var Logger */
+    /**
+     * @var Logger
+     */
     protected $_logger;
 
-    /** @var RootAclResource */
+    /**
+     * @var RootAclResource
+     */
     protected $_rootAclResource;
 
     /**
@@ -267,6 +282,7 @@ class AuthorizationV1 implements AuthorizationV1Interface
      *
      * @param Role $role
      * @param string[] $resources
+     * @return void
      */
     protected function _associateResourcesWithRole($role, array $resources)
     {

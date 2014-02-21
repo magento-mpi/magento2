@@ -459,7 +459,7 @@ class Observer
         /** @var $product \Magento\Catalog\Model\Product */
         $product = $observer->getEvent()->getDataObject();
         if ($product->isObjectNew() && !$this->_canEditProductStatus) {
-            $product->setStatus(\Magento\Catalog\Model\Product\Status::STATUS_DISABLED);
+            $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
         }
     }
 
@@ -479,7 +479,7 @@ class Observer
             if (!$this->_canEditProductStatus) {
                 $statusElement = $form->getElement('status');
                 if (!is_null($statusElement)) {
-                    $statusElement->setValue(\Magento\Catalog\Model\Product\Status::STATUS_DISABLED);
+                    $statusElement->setValue(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
                     $statusElement->setReadonly(true, true);
                 }
             }

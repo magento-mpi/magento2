@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Cms\Model\Wysiwyg\Images\Storage;
 
 /**
  * Wysiwyg Images storage collection
@@ -15,8 +16,6 @@
  * @package     Magento_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Cms\Model\Wysiwyg\Images\Storage;
-
 class Collection extends \Magento\Data\Collection\Filesystem
 {
     /**
@@ -34,6 +33,12 @@ class Collection extends \Magento\Data\Collection\Filesystem
         parent::__construct($entityFactory);
     }
 
+    /**
+     * Generate row
+     *
+     * @param string $filename
+     * @return array
+     */
     protected function _generateRow($filename)
     {
         $filename = preg_replace('~[/\\\]+~', '/', $filename);

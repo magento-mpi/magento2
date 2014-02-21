@@ -64,6 +64,11 @@ class Multishipping extends \Magento\Checkout\Model\Type\AbstractType
     /**
      * Initialize dependencies.
      *
+     * @var \Magento\Multishipping\Helper\Data
+     */
+    protected $helper;
+
+    /**
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
@@ -75,6 +80,7 @@ class Multishipping extends \Magento\Checkout\Model\Type\AbstractType
      * @param \Magento\Sales\Model\Convert\Quote $quote
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Payment\Model\Method\SpecificationInterface $paymentSpecification
+     * @param \Magento\Multishipping\Helper\Data $helper
      * @param array $data
      */
     public function __construct(
@@ -89,6 +95,7 @@ class Multishipping extends \Magento\Checkout\Model\Type\AbstractType
         \Magento\Sales\Model\Convert\Quote $quote,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Payment\Model\Method\SpecificationInterface $paymentSpecification,
+        \Magento\Multishipping\Helper\Data $helper,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
@@ -98,6 +105,7 @@ class Multishipping extends \Magento\Checkout\Model\Type\AbstractType
         $this->_quote = $quote;
         $this->_storeManager = $storeManager;
         $this->paymentSpecification = $paymentSpecification;
+        $this->helper = $helper;
         parent::__construct($checkoutSession, $customerSession, $orderFactory, $customerAddressService, $data);
         $this->_init();
     }
@@ -275,7 +283,7 @@ class Multishipping extends \Magento\Checkout\Model\Type\AbstractType
                 }
             }
 
-            $maxQty = (int)$this->_coreStoreConfig->getConfig('shipping/option/checkout_multiple_maximum_qty');
+            $maxQty = $this->helper->getMaximumQty();
             if ($allQty > $maxQty) {
                 throw new \Magento\Core\Exception(__('Maximum qty allowed for Shipping to multiple addresses is %1', $maxQty));
             }

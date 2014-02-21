@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\TargetRule\Block\Adminhtml\Targetrule\Edit\Tab;
 
 /**
  * TargetRule Adminhtml Edit Tab Actions Block
@@ -15,8 +15,6 @@
  * @category   Magento
  * @package    Magento_TargetRule
  */
-namespace Magento\TargetRule\Block\Adminhtml\Targetrule\Edit\Tab;
-
 class Actions
     extends \Magento\Backend\Block\Widget\Form\Generic
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
@@ -56,7 +54,7 @@ class Actions
     /**
      * Prepare target rule actions form before rendering HTML
      *
-     * @return \Magento\TargetRule\Block\Adminhtml\Targetrule\Edit\Tab\Actions
+     * @return $this
      */
     protected function _prepareForm()
     {

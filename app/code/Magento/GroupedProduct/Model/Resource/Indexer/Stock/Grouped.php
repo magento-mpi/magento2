@@ -18,6 +18,8 @@
  */
 namespace Magento\GroupedProduct\Model\Resource\Indexer\Stock;
 
+use \Magento\Catalog\Model\Product\Attribute\Source\Status as ProductStatus;
+
 class Grouped extends \Magento\CatalogInventory\Model\Resource\Indexer\Stock\DefaultStock
 {
     /**
@@ -65,7 +67,7 @@ class Grouped extends \Magento\CatalogInventory\Model\Resource\Indexer\Stock\Def
         // add limitation of status
         $productStatusExpr = $this->_addAttributeToSelect($select, 'status', 'e.entity_id', 'cs.store_id');
         $productStatusCond = $adapter->quoteInto(
-            $productStatusExpr . '=?', \Magento\Catalog\Model\Product\Status::STATUS_ENABLED
+            $productStatusExpr . '=?', ProductStatus::STATUS_ENABLED
         );
 
         if ($this->_isManageStock()) {
