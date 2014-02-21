@@ -9,10 +9,10 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <type name="Magento\GiftCard\Model\Observer">
-        <param name="urlModel">
-            <instance type="Magento\Backend\Model\UrlInterface" />
-        </param>
+        <arguments>
+            <argument name="urlModel" xsi:type="object">Magento\Backend\Model\UrlInterface</argument>
+        </arguments>
     </type>
 </config>

@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\WebsiteRestriction\Controller;
 
 /**
  * Website stub controller
@@ -15,10 +16,11 @@
  * @package     Magento_WebsiteRestriction
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\WebsiteRestriction\Controller;
-
 class Index extends \Magento\App\Action\Action
 {
+    /**
+     * @var string
+     */
     protected $_stubPageIdentifier = \Magento\WebsiteRestriction\Model\Config::XML_PATH_RESTRICTION_LANDING_PAGE;
 
     /**
@@ -26,10 +28,15 @@ class Index extends \Magento\App\Action\Action
      */
     protected $_configCacheType;
 
+    /**
+     * @var string
+     */
     protected $_cacheKey;
 
     /**
      * Prefix for cache id
+     *
+     * @var string
      */
     protected $_cacheKeyPrefix = 'RESTRICTION_LANGING_PAGE_';
 
@@ -91,6 +98,7 @@ class Index extends \Magento\App\Action\Action
     /**
      * Display a pre-cached CMS-page if we have such or generate new one
      *
+     * @return void
      */
     public function stubAction()
     {

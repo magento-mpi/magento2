@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\VersionsCms\App\Action\Plugin;
 
 class Design
@@ -58,6 +57,8 @@ class Design
 
     /**
      * Callback for init design from outside (need to substitute area code)
+     *
+     * @return void
      */
     public function emulateDesignCallback()
     {

@@ -81,9 +81,7 @@ class Collection extends \Magento\Data\Collection
                     $productId = $affectedItem['item']['id'];
                     $item->setProductId($productId);
                     $product->load($productId);
-                    /* @var $stockStatus \Magento\CatalogInventory\Model\Stock\Status */
-                    $stockStatus = $this->_inventoryModel;
-                    $status = $stockStatus->getProductStatus($productId, $this->getWebsiteId());
+                    $status = $this->_inventoryModel->getProductStockStatus($productId, $this->getWebsiteId());
                     if (!empty($status[$productId])) {
                         $product->setIsSalable($status[$productId]);
                     }

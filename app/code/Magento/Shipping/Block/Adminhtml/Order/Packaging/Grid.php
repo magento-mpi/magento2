@@ -5,12 +5,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Shipping\Block\Adminhtml\Order\Packaging;
 
 class Grid extends \Magento\Backend\Block\Template
 {
-
+    /**
+     * @var string
+     */
     protected $_template = 'order/packaging/grid.phtml';
 
     /**
@@ -92,8 +93,8 @@ class Grid extends \Magento\Backend\Block\Template
     /**
      * Format price
      *
-     * @param   decimal $value
-     * @return  double
+     * @param   float $value
+     * @return  string
      */
     public function formatPrice($value)
     {

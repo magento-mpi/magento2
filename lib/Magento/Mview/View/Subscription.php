@@ -96,7 +96,7 @@ class Subscription implements SubscriptionInterface
     {
         foreach (\Magento\DB\Ddl\Trigger::getListOfEvents() as $event) {
             $triggerName = $this->getTriggerName(
-                $this->getTableName(),
+                $this->resource->getTableName($this->getTableName()),
                 \Magento\DB\Ddl\Trigger::TIME_AFTER,
                 $event
             );
@@ -106,7 +106,7 @@ class Subscription implements SubscriptionInterface
                 ->setName($triggerName)
                 ->setTime(\Magento\DB\Ddl\Trigger::TIME_AFTER)
                 ->setEvent($event)
-                ->setTable($this->getTableName());
+                ->setTable($this->resource->getTableName($this->getTableName()));
 
             $trigger->addStatement(
                 $this->buildStatement($event, $this->getView()->getChangelog())
@@ -136,7 +136,7 @@ class Subscription implements SubscriptionInterface
     {
         foreach (\Magento\DB\Ddl\Trigger::getListOfEvents() as $event) {
             $triggerName = $this->getTriggerName(
-                $this->getTableName(),
+                $this->resource->getTableName($this->getTableName()),
                 \Magento\DB\Ddl\Trigger::TIME_AFTER,
                 $event
             );
@@ -146,7 +146,7 @@ class Subscription implements SubscriptionInterface
                 ->setName($triggerName)
                 ->setTime(\Magento\DB\Ddl\Trigger::TIME_AFTER)
                 ->setEvent($event)
-                ->setTable($this->getTableName());
+                ->setTable($this->resource->getTableName($this->getTableName()));
 
             // Add statements for linked views
             foreach ($this->getLinkedViews() as $view) {

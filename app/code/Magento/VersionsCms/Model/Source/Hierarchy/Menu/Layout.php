@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\VersionsCms\Model\Source\Hierarchy\Menu;
 
 /**
  * CMS Hierarchy Menu source model for Layouts
  */
-namespace Magento\VersionsCms\Model\Source\Hierarchy\Menu;
-
 class Layout implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**

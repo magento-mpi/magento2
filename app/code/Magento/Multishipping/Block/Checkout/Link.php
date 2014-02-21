@@ -2,45 +2,35 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Checkout
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
+namespace Magento\Multishipping\Block\Checkout;
+
 /**
  * Multishipping cart link
  */
-namespace Magento\Multishipping\Block\Checkout;
-
 class Link extends \Magento\View\Element\Template
 {
     /**
-     * Checkout data
+     * Multishipping helper
      *
-     * @var \Magento\Checkout\Helper\Data
+     * @var \Magento\Multishipping\Helper\Data
      */
-    protected $_checkoutData;
-
-    /**
-     * @var \Magento\Checkout\Model\Session
-     */
-    protected $_checkoutSession;
+    protected $helper;
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Checkout\Helper\Data $checkoutData
-     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Multishipping\Helper\Data $helper
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Checkout\Helper\Data $checkoutData,
-        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Multishipping\Helper\Data $helper,
         array $data = array()
     ) {
-        $this->_checkoutData = $checkoutData;
-        $this->_checkoutSession = $checkoutSession;
+        $this->helper = $helper;
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
     }
@@ -58,7 +48,7 @@ class Link extends \Magento\View\Element\Template
      */
     public function getQuote()
     {
-        return $this->_checkoutSession->getQuote();
+        return $this->helper->getQuote();
     }
 
     /**
@@ -66,7 +56,7 @@ class Link extends \Magento\View\Element\Template
      */
     public function _toHtml()
     {
-        if (!$this->_checkoutData->isMultishippingCheckoutAvailable()) {
+        if (!$this->helper->isMultishippingCheckoutAvailable()) {
             return '';
         }
         return parent::_toHtml();

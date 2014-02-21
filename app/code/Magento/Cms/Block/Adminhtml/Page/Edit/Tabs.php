@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Cms\Block\Adminhtml\Page\Edit;
 
 /**
  * Admin page left menu
@@ -15,11 +16,12 @@
  * @package    Magento_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Cms\Block\Adminhtml\Page\Edit;
 
 class Tabs extends \Magento\Backend\Block\Widget\Tabs
 {
-
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();

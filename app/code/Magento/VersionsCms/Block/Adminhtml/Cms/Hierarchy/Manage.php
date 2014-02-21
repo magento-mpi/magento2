@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy;
 
 /**
  * Cms Hierarchy Copy Form Container Block
  */
-namespace Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy;
-
 class Manage extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
@@ -117,7 +116,7 @@ class Manage extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Prepare options for Manage select
      *
-     * @param boolean $all
+     * @param bool $all
      * @param string $excludeScopes
      * @return array
      */
