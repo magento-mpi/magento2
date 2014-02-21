@@ -31,18 +31,6 @@
             <instance type="Magento\Core\Model\Design\Proxy" />
         </param>
     </type>
-    <type name="Magento\FullPageCache\App\FrontController\Plugin">
-        <param name="requestProcessors">
-            <array>
-                <item key="ee">
-                    <array>
-                        <item key="class"><value>Magento\FullPageCache\Model\Processor</value></item>
-                        <item key="sortOrder"><value>50</value></item>
-                    </array>
-                </item>
-            </array>
-        </param>
-    </type>
     <type name="Magento\App\Cache\Frontend\Pool">
         <param name="frontendSettings">
             <array>

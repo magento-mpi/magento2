@@ -96,4 +96,11 @@ return array(
     array('Magento\Search\Model\Client\Solr\Factory'),
     array('Magento\Search\Model\Client\SolrClient\Factory'),
     array('Magento\License','Magento_License'),
+    array('Magento\FullPageCache\App\*'),
+    array('Magento\FullPageCache\Block\*'),
+    array('Magento\FullPageCache\Controller\Request'),
+    array('Magento\FullPageCache\Helper\*'),
+    array('Magento\FullPageCache\Helper\*'),
+    array('Magento\FullPageCache\Model\*'),
+    array('Magento\FullPageCache\Model\*'),
 );
