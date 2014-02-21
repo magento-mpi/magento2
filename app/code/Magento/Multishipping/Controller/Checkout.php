@@ -355,8 +355,9 @@ class Checkout extends \Magento\Checkout\Controller\Action
         }
 
         $this->_getState()->setActiveStep(State::STEP_BILLING);
-
         $this->_view->loadLayout();
+        $this->_eventManager->dispatch('set_method_template',
+            array('block' => $this->_view->getLayout()->getBlock('checkout_billing')));
         $this->_view->getLayout()->initMessages();
         $this->_view->renderLayout();
     }

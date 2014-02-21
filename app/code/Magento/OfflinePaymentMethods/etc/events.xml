@@ -11,4 +11,7 @@
     <event name="sales_order_payment_save_before">
         <observer name="payment_before_save" instance="Magento\OfflinePaymentMethods\Model\Observer" method="beforeOrderPaymentSave" />
     </event>
+    <event name="set_method_template">
+        <observer name="set_method_form_template" instance="Magento\OfflinePaymentMethods\Model\Observer" method="setMethodTemplate" />
+    </event>
 </config>
