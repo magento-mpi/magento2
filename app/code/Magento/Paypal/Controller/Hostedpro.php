@@ -15,8 +15,6 @@
  */
 namespace Magento\Paypal\Controller;
 
-use Magento\App\Action\Context;
-
 class Hostedpro extends \Magento\App\Action\Action
 {
     /**
@@ -25,7 +23,7 @@ class Hostedpro extends \Magento\App\Action\Action
     protected $_session;
 
     /**
-     * @param Context $context
+     * @param \Magento\App\Action\Context $context
      * @param \Magento\Checkout\Model\Session $session
      */
     public function __construct(\Magento\App\Action\Context $context, \Magento\Checkout\Model\Session $session)

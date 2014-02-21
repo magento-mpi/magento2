@@ -516,9 +516,7 @@ class Checkout extends \Magento\Checkout\Controller\Action
      */
     public function getActionFlagList()
     {
-        return array(
-            'redirectLogin' => true
-        );
+        return array('redirectLogin' => true);
     }
 
     /**
@@ -532,7 +530,7 @@ class Checkout extends \Magento\Checkout\Controller\Action
 
     /**
      * Returns action name which requires redirect
-     * @return string|null
+     * @return string
      */
     public function getRedirectActionName()
     {

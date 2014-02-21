@@ -51,9 +51,9 @@ class ExpressRedirect extends \Magento\App\Helper\AbstractHelper
     /**
      * Performs redirect to login for checkout
      * @param RedirectLoginInterface $expressRedirect
-     * @param null $customerBeforeAuthUrlDef
+     * @param string|null $customerBeforeAuthUrlDefault
      */
-    public function redirectLogin(RedirectLoginInterface $expressRedirect, $customerBeforeAuthUrlDef = null)
+    public function redirectLogin(RedirectLoginInterface $expressRedirect, $customerBeforeAuthUrlDefault = null)
     {
         $this->_actionFlag->set('', 'no-dispatch', true);
         foreach ($expressRedirect->getActionFlagList() as $actionKey => $actionFlag) {
@@ -67,7 +67,7 @@ class ExpressRedirect extends \Magento\App\Helper\AbstractHelper
             )
         );
 
-        $customerBeforeAuthUrl = $customerBeforeAuthUrlDef;
+        $customerBeforeAuthUrl = $customerBeforeAuthUrlDefault;
         if ($expressRedirect->getCustomerBeforeAuthUrl()) {
             $customerBeforeAuthUrl = $expressRedirect->getCustomerBeforeAuthUrl();
         }

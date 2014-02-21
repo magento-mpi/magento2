@@ -189,7 +189,7 @@ class Redirect extends \Magento\App\Action\Action
 
     /**
      * Returns action name which requires redirect
-     * @return string|null
+     * @return string
      */
     public function getRedirectActionName()
     {

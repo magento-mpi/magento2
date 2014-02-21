@@ -14,7 +14,7 @@ namespace Magento\Paypal\Controller\Express;
  * Abstract Express Checkout Controller
  */
 abstract class AbstractExpress extends \Magento\App\Action\Action
-    implements  \Magento\Checkout\Controller\RedirectLoginInterface
+    implements  \Magento\Checkout\Controller\Express\RedirectLoginInterface
 {
     /**
      * @var \Magento\Paypal\Model\Express\Checkout
@@ -547,7 +547,7 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
 
     /**
      * Returns action name which requires redirect
-     * @return string|null
+     * @return string
      */
     public function getRedirectActionName()
     {
