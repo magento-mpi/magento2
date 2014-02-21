@@ -225,7 +225,7 @@ class Index extends \Magento\Backend\App\Action
         $customerData['customer_id'] = $customerId;
 
         // set entered data if was error when we do save
-        $data = $this->_session->getCustomerData(true);
+        $data = $this->_getSession()->getCustomerData(true);
 
         // restore data from SESSION
         if ($data && (
@@ -287,7 +287,7 @@ class Index extends \Magento\Backend\App\Action
             }
         }
 
-        $session->setCustomerData($customerData);
+        $this->_getSession()->setCustomerData($customerData);
 
         if (is_null($customer)) {
             $this->_title->add(__('New Customer'));
