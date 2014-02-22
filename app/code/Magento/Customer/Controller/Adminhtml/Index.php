@@ -1009,56 +1009,77 @@ class Index extends \Magento\Backend\App\Action
 
     /**
      * Customer mass subscribe action
+     *
+     * @return void
      */
     public function massSubscribeAction()
     {
-        $this->massCustomerChangeAction(
+        $customerIds = $this->getRequest()->getParam('customer');
+        $customersUpdated = $this->actUponMultipleCustomers(
             function ($customerId) {
                 // Verify customer exists
                 $this->_customerService->getCustomer($customerId);
                 $this->_subscriberFactory->create()->updateSubscription($customerId, true);
             },
-            'A total of %1 record(s) were updated.'
+            $customerIds
         );
+        if ($customersUpdated) {
+            $this->messageManager->addSuccess(__('A total of %1 record(s) were updated.', $customersUpdated));
+        }
         $this->_redirect('customer/*/index');
     }
 
     /**
      * Customer mass unsubscribe action
+     *
+     * @return void
      */
     public function massUnsubscribeAction()
     {
-        $this->massCustomerChangeAction(
+        $customerIds = $this->getRequest()->getParam('customer');
+        $customersUpdated = $this->actUponMultipleCustomers(
             function ($customerId) {
                 // Verify customer exists
                 $this->_customerService->getCustomer($customerId);
                 $this->_subscriberFactory->create()->updateSubscription($customerId, false);
             },
-            'A total of %1 record(s) were updated.'
+            $customerIds
         );
+        if ($customersUpdated) {
+            $this->messageManager->addSuccess(__('A total of %1 record(s) were updated.', $customersUpdated));
+        }
         $this->_redirect('customer/*/index');
     }
 
     /**
      * Customer mass delete action
+     *
+     * @return void
      */
     public function massDeleteAction()
     {
-        $this->massCustomerChangeAction(
+        $customerIds = $this->getRequest()->getParam('customer');
+        $customersDeleted = $this->actUponMultipleCustomers(
             function ($customerId) {
                 $this->_customerService->deleteCustomer($customerId);
             },
-            'A total of %1 record(s) were deleted.'
+            $customerIds
         );
+        if ($customersDeleted) {
+            $this->messageManager->addSuccess(__('A total of %1 record(s) were deleted.', $customersDeleted));
+        }
         $this->_redirect('customer/*/index');
     }
 
     /**
      * Customer mass assign group action
+     *
+     * @return void
      */
     public function massAssignGroupAction()
     {
-        $this->massCustomerChangeAction(
+        $customerIds = $this->getRequest()->getParam('customer');
+        $customersUpdated = $this->actUponMultipleCustomers(
             function ($customerId) {
                 // Verify customer exists
                 $customer = $this->_customerService->getCustomer($customerId);
@@ -1067,36 +1088,37 @@ class Index extends \Magento\Backend\App\Action
                     ->setGroupId($this->getRequest()->getParam('group'))->create();
                 $this->_customerService->saveCustomer($customer);
             },
-            'A total of %1 record(s) were updated.'
+            $customerIds
         );
+        if ($customersUpdated) {
+            $this->messageManager->addSuccess(__('A total of %1 record(s) were updated.', $customersUpdated));
+        }
         $this->_redirect('customer/*/index');
     }
 
     /**
-     * Helper function that handles mass actions by taking in a callable for handling a single action.
+     * Helper function that handles mass actions by taking in a callable for handling a single customer action.
      *
-     * @param callable $singleAction that takes a customer ID as input
-     * @param string $successMessage 
+     * @param callable $singleAction A single action callable that takes a customer ID as input
+     * @param int[] $customerIds Array of customer Ids to perform the action upon
+     * @return int Number of customers successfully acted upon
      */
-    protected function massCustomerChangeAction(callable $singleAction, $successMessage)
+    protected function actUponMultipleCustomers(callable $singleAction, $customerIds)
     {
-        $customersIds = $this->getRequest()->getParam('customer');
-        if (!is_array($customersIds)) {
+        if (!is_array($customerIds)) {
             $this->messageManager->addError(__('Please select customer(s).'));
-        } else {
-            $customersUpdated = 0;
-            foreach ($customersIds as $customerId) {
-                try {
-                    $singleAction($customerId);
-                    $customersUpdated++;
-                } catch (\Exception $exception) {
-                    $this->messageManager->addError($exception->getMessage());
-                }
-            }
-            if ($customersUpdated) {
-                $this->messageManager->addSuccess(__($successMessage, $customersUpdated));
+            return 0;
+        }
+        $customersUpdated = 0;
+        foreach ($customerIds as $customerId) {
+            try {
+                $singleAction($customerId);
+                $customersUpdated++;
+            } catch (\Exception $exception) {
+                $this->messageManager->addError($exception->getMessage());
             }
         }
+        return $customersUpdated;
     }
 
     /**

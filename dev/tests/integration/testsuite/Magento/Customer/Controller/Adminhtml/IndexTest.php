@@ -495,8 +495,8 @@ class IndexTest extends \Magento\Backend\Utility\Controller
         // Pre-condition
         /** @var \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory */
         $subscriberFactory = Bootstrap::getObjectManager()->get('Magento\Newsletter\Model\SubscriberFactory');
-        $this->assertEquals(null, $subscriberFactory->create()->loadByCustomer(1)->getSubscriberStatus());
-        $this->assertEquals(null, $subscriberFactory->create()->loadByCustomer(2)->getSubscriberStatus());
+        $this->assertNull($subscriberFactory->create()->loadByCustomer(1)->getSubscriberStatus());
+        $this->assertNull($subscriberFactory->create()->loadByCustomer(2)->getSubscriberStatus());
         // Setup
         $this->getRequest()->setParam('customer', [1, 2]);
 
@@ -547,8 +547,8 @@ class IndexTest extends \Magento\Backend\Utility\Controller
         // Pre-condition
         /** @var \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory */
         $subscriberFactory = Bootstrap::getObjectManager()->get('Magento\Newsletter\Model\SubscriberFactory');
-        $this->assertEquals(null, $subscriberFactory->create()->loadByCustomer(1)->getSubscriberStatus());
-        $this->assertEquals(null, $subscriberFactory->create()->loadByCustomer(2)->getSubscriberStatus());
+        $this->assertNull($subscriberFactory->create()->loadByCustomer(1)->getSubscriberStatus());
+        $this->assertNull($subscriberFactory->create()->loadByCustomer(2)->getSubscriberStatus());
         // Setup
         $this->getRequest()->setParam('customer', [1, 4200, 2]);
 
