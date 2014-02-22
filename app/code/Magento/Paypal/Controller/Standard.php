@@ -8,6 +8,7 @@
 namespace Magento\Paypal\Controller;
 
 use Magento\Sales\Model\Order;
+
 /**
  * Paypal Standard Checkout Controller
  *

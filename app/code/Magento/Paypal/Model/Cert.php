@@ -9,11 +9,11 @@
  */
 namespace Magento\Paypal\Model;
 
+use Magento\Filesystem\Directory\WriteInterface;
+
 /**
  * PayPal specific model for certificate based authentication
  */
-use Magento\Filesystem\Directory\WriteInterface;
-
 class Cert extends \Magento\Core\Model\AbstractModel
 {
     /**

@@ -10,6 +10,7 @@
 namespace Magento\Paypal\Model;
 
 use Magento\Sales\Model\Order\Payment;
+
 /**
  * PayPal Direct Module
  */
