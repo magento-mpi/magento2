@@ -1013,7 +1013,7 @@ class Index extends \Magento\Backend\App\Action
     public function massSubscribeAction()
     {
         $this->massCustomerChangeAction(
-            function($customerId) {
+            function ($customerId) {
                 // Verify customer exists
                 $this->_customerService->getCustomer($customerId);
                 $this->_subscriberFactory->create()->updateSubscription($customerId, true);
@@ -1029,7 +1029,7 @@ class Index extends \Magento\Backend\App\Action
     public function massUnsubscribeAction()
     {
         $this->massCustomerChangeAction(
-            function($customerId) {
+            function ($customerId) {
                 // Verify customer exists
                 $this->_customerService->getCustomer($customerId);
                 $this->_subscriberFactory->create()->updateSubscription($customerId, false);
@@ -1045,7 +1045,7 @@ class Index extends \Magento\Backend\App\Action
     public function massDeleteAction()
     {
         $this->massCustomerChangeAction(
-            function($customerId) {
+            function ($customerId) {
                 $this->_customerService->deleteCustomer($customerId);
             },
             'A total of %1 record(s) were deleted.'
@@ -1059,7 +1059,7 @@ class Index extends \Magento\Backend\App\Action
     public function massAssignGroupAction()
     {
         $this->massCustomerChangeAction(
-            function($customerId) {
+            function ($customerId) {
                 // Verify customer exists
                 $customer = $this->_customerService->getCustomer($customerId);
                 $this->_customerBuilder->populate($customer);
@@ -1076,6 +1076,7 @@ class Index extends \Magento\Backend\App\Action
      * Helper function that handles mass actions by taking in a callable for handling a single action.
      *
      * @param callable $singleAction that takes a customer ID as input
+     * @param string $successMessage 
      */
     protected function massCustomerChangeAction(callable $singleAction, $successMessage)
     {
