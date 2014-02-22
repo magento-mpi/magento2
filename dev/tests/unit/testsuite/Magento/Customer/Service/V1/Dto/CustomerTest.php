@@ -62,19 +62,6 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(self::SUFFIX, $customer->getSuffix());
         $this->assertEquals(self::TAXVAT, $customer->getTaxvat());
         $this->assertEquals(self::WEBSITE_ID, $customer->getWebsiteId());
-        $attribute = $customer->getAttribute(self::ATTRIBUTE_CODE);
-        $this->assertNull($attribute, "Arbitrary attributes must not be available to DTO users.");
-    }
-
-    public function testGetAttributeNotExist()
-    {
-        $customerData = $this->_createCustomerData();
-        $customerBuilder = new CustomerBuilder();
-        $customerBuilder->populateWithArray($customerData);
-        /** @var Customer $customer */
-        $customer = $customerBuilder->create();
-
-        $this->assertNull($customer->getAttribute('A non existing attribute code'));
     }
 
     public function testGetAttributes()

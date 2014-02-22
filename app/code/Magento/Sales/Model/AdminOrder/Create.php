@@ -1405,9 +1405,11 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         $this->getQuote()->updateCustomerData($this->_customerBuilder->mergeDtoWithArray($customer, $data));
         $data = [];
 
+        $customerData = \Magento\Convert\ConvertArray::toFlatArray($customer->__toArray());
         foreach ($form->getAttributes() as $attribute) {
             $code = sprintf('customer_%s', $attribute->getAttributeCode());
-            $data[$code] = $customer->getAttribute($attribute->getAttributeCode());
+            $data[$code] = isset($customerData[$attribute->getAttributeCode()])
+                ? $customerData[$attribute->getAttributeCode()] : null;
         }
 
         if (isset($data['customer_group_id'])) {
@@ -1555,10 +1557,11 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         }
         $this->getQuote()->updateCustomerData($customerDto);
 
+        $customerData = \Magento\Convert\ConvertArray::toFlatArray($customerDto->__toArray());
         foreach ($this->_createCustomerForm($customerDto)->getUserAttributes() as $attribute) {
-            if (!is_null($customerDto->getAttribute($attribute->getAttributeCode()))) {
+            if (isset($customerData[$attribute->getAttributeCode()])) {
                 $quoteCode = sprintf('customer_%s', $attribute->getAttributeCode());
-                $this->getQuote()->setData($quoteCode, $customerDto->getAttribute($attribute->getAttributeCode()));
+                $this->getQuote()->setData($quoteCode, $customerData[$attribute->getAttributeCode()]);
             }
         }
         return $this;
