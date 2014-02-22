@@ -11,7 +11,6 @@ namespace Magento\Paypal\Model;
 
 use Magento\RecurringProfile\Model\RecurringProfile;
 use Magento\Paypal\Model\Api\AbstractApi;
-use Magento\Payment\Model\Info;
 
 /**
  * PayPal Website Payments Pro implementation for payment method instances
@@ -184,10 +183,10 @@ class Pro
      * Transfer transaction/payment information from API instance to order payment
      *
      * @param \Magento\Object|AbstractApi $from
-     * @param Info $to
+     * @param \Magento\Payment\Model\Info $to
      * @return $this
      */
-    public function importPaymentInfo(\Magento\Object $from, Info $to)
+    public function importPaymentInfo(\Magento\Object $from, \Magento\Payment\Model\Info $to)
     {
         // update PayPal-specific payment information in the payment object
         $this->getInfo()->importToPayment($from, $to);
@@ -305,10 +304,10 @@ class Pro
     /**
      * Check whether can do payment review
      *
-     * @param Info $payment
+     * @param \Magento\Payment\Model\Info $payment
      * @return bool
      */
-    public function canReviewPayment(Info $payment)
+    public function canReviewPayment(\Magento\Payment\Model\Info $payment)
     {
         $pendingReason = $payment->getAdditionalInformation(\Magento\Paypal\Model\Info::PENDING_REASON_GLOBAL);
         return $this->_isPaymentReviewRequired($payment)
@@ -318,10 +317,10 @@ class Pro
     /**
      * Check whether payment review is required
      *
-     * @param Info $payment
+     * @param \Magento\Payment\Model\Info $payment
      * @return bool
      */
-    protected function _isPaymentReviewRequired(Info $payment)
+    protected function _isPaymentReviewRequired(\Magento\Payment\Model\Info $payment)
     {
         return \Magento\Paypal\Model\Info::isPaymentReviewRequired($payment);
     }
@@ -329,11 +328,11 @@ class Pro
     /**
      * Perform the payment review
      *
-     * @param Info $payment
+     * @param \Magento\Payment\Model\Info $payment
      * @param string $action
      * @return bool
      */
-    public function reviewPayment(Info $payment, $action)
+    public function reviewPayment(\Magento\Payment\Model\Info $payment, $action)
     {
         $api = $this->getApi()->setTransactionId($payment->getLastTransId());
 
@@ -354,11 +353,11 @@ class Pro
     /**
      * Fetch transaction details info
      *
-     * @param Info $payment
+     * @param \Magento\Payment\Model\Info $payment
      * @param string $transactionId
      * @return array
      */
-    public function fetchTransactionInfo(Info $payment, $transactionId)
+    public function fetchTransactionInfo(\Magento\Payment\Model\Info $payment, $transactionId)
     {
         $api = $this->getApi()
             ->setTransactionId($transactionId)
@@ -399,12 +398,12 @@ class Pro
      * Submit RP to the gateway
      *
      * @param RecurringProfile $profile
-     * @param Info $paymentInfo
+     * @param \Magento\Payment\Model\Info $paymentInfo
      * @return void
      * @throws \Magento\Core\Exception
      */
     public function submitRecurringProfile(RecurringProfile $profile,
-        Info $paymentInfo
+        \Magento\Payment\Model\Info $paymentInfo
     ) {
         $api = $this->getApi();
         \Magento\Object\Mapper::accumulateByMap($profile, $api, array(
