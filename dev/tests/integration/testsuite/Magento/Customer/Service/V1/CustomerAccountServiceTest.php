@@ -209,12 +209,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testValidateResetPasswordLinkToken()
     {
-        $this->_customerBuilder->populateWithArray(array_merge($this->_customerService->getCustomer(1)->__toArray(), [
-            'rp_token' => 'token',
-            'rp_token_created_at' => date('Y-m-d')
-        ]));
-        $this->_customerService->saveCustomer($this->_customerBuilder->create());
-
+        $this->setResetPasswordData('token', 'Y-m-d');
         $this->_service->validateResetPasswordLinkToken(1, 'token');
     }
 
@@ -227,14 +222,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     public function testValidateResetPasswordLinkTokenExpired()
     {
         $resetToken = 'lsdj579slkj5987slkj595lkj';
-
-        $this->_customerBuilder->populateWithArray(array_merge($this->_customerService->getCustomer(1)->__toArray(), [
-            'rp_token' => $resetToken,
-            'rp_token_created_at' => '1970-01-01',
-        ]));
-        $customerData = $this->_customerBuilder->create();
-        $this->_customerService->saveCustomer($customerData);
-
+        $this->setResetPasswordData($resetToken, '1970-01-01');
         $this->_service->validateResetPasswordLinkToken(1, $resetToken);
     }
 
@@ -246,13 +234,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     {
         $resetToken = 'lsdj579slkj5987slkj595lkj';
         $invalidToken = 0;
-
-        $this->_customerBuilder->populateWithArray(array_merge($this->_customerService->getCustomer(1)->__toArray(), [
-            'rp_token' => $resetToken,
-            'rp_token_created_at' => date('Y-m-d')
-        ]));
-        $this->_customerService->saveCustomer($this->_customerBuilder->create());
-
+        $this->setResetPasswordData($resetToken, 'Y-m-d');
         try {
             $this->_service->validateResetPasswordLinkToken(1, $invalidToken);
             $this->fail('Expected exception not thrown.');
@@ -346,12 +328,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     {
         $resetToken = 'lsdj579slkj5987slkj595lkj';
         $password = 'password_secret';
-
-        $this->_customerBuilder->populateWithArray(array_merge($this->_customerService->getCustomer(1)->__toArray(), [
-            'rp_token' => $resetToken,
-            'rp_token_created_at' => date('Y-m-d')
-        ]));
-        $this->_customerService->saveCustomer($this->_customerBuilder->create());
+        $this->setResetPasswordData($resetToken, 'Y-m-d');
 
         $this->_service->resetPassword(1, $password, $resetToken);
     }
@@ -366,12 +343,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     {
         $resetToken = 'lsdj579slkj5987slkj595lkj';
         $password = 'password_secret';
-
-        $this->_customerBuilder->populateWithArray(array_merge($this->_customerService->getCustomer(1)->__toArray(), [
-            'rp_token' => $resetToken,
-            'rp_token_created_at' => '1970-01-01',
-        ]));
-        $this->_customerService->saveCustomer($this->_customerBuilder->create());
+        $this->setResetPasswordData($resetToken, '1970-01-01');
 
         $this->_service->resetPassword(1, $password, $resetToken);
     }
@@ -385,12 +357,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $resetToken = 'lsdj579slkj5987slkj595lkj';
         $invalidToken = 0;
         $password = 'password_secret';
-
-        $this->_customerBuilder->populateWithArray(array_merge($this->_customerService->getCustomer(1)->__toArray(), [
-            'rp_token' => $resetToken,
-            'rp_token_created_at' => date('Y-m-d')
-        ]));
-        $this->_customerService->saveCustomer($this->_customerBuilder->create());
+        $this->setResetPasswordData($resetToken, 'Y-m-d');
 
         try {
             $this->_service->resetPassword(1, $password, $invalidToken);
@@ -414,12 +381,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     {
         $resetToken = 'lsdj579slkj5987slkj595lkj';
         $password = 'password_secret';
+        $this->setResetPasswordData($resetToken, 'Y-m-d');
 
-        $this->_customerBuilder->populateWithArray(array_merge($this->_customerService->getCustomer(1)->__toArray(), [
-            'rp_token' => $resetToken,
-            'rp_token_created_at' => date('Y-m-d')
-        ]));
-        $this->_customerService->saveCustomer($this->_customerBuilder->create());
         try {
             $this->_service->resetPassword(4200, $password, $resetToken);
             $this->fail('Expected exception not thrown.');
@@ -438,12 +401,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     {
         $resetToken = 'lsdj579slkj5987slkj595lkj';
         $password = 'password_secret';
+        $this->setResetPasswordData($resetToken, 'Y-m-d');
 
-        $this->_customerBuilder->populateWithArray(array_merge($this->_customerService->getCustomer(1)->__toArray(), [
-            'rp_token' => $resetToken,
-            'rp_token_created_at' => date('Y-m-d')
-        ]));
-        $this->_customerService->saveCustomer($this->_customerBuilder->create());
         try {
             $this->_service->resetPassword(0, $password, $resetToken);
             $this->fail('Expected exception not thrown.');
@@ -496,5 +455,22 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     public function testSendConfirmationNotNeeded()
     {
         $this->_service->sendConfirmation('customer@example.com');
+    }
+
+    /**
+     * Set Rp data to Customer in fixture
+     *
+     * @param $resetToken
+     * @param $date
+     */
+    protected function setResetPasswordData($resetToken, $date)
+    {
+        $customerIdFromFixture = 1;
+        /** @var \Magento\Customer\Model\Customer $customerModel */
+        $customerModel = $this->_objectManager->create('Magento\Customer\Model\Customer');
+        $customerModel->load($customerIdFromFixture);
+        $customerModel->setRpToken($resetToken);
+        $customerModel->setRpTokenCreatedAt(date($date));
+        $customerModel->save();
     }
 }

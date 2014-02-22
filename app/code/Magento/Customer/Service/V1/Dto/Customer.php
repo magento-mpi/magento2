@@ -13,7 +13,7 @@ namespace Magento\Customer\Service\V1\Dto;
  *
  * @package Magento\Customer\Service\V1\Dto
  */
-class Customer extends \Magento\Service\Entity\AbstractDto
+class Customer extends \Magento\Service\Entity\AbstractDto implements Eav\EntityInterface
 {
     /**#@+
      * constants defined for keys of array, makes typos less likely
@@ -36,8 +36,6 @@ class Customer extends \Magento\Service\Entity\AbstractDto
     const WEBSITE_ID = 'website_id';
     const DEFAULT_BILLING = 'default_billing';
     const DEFAULT_SHIPPING = 'default_shipping';
-    const RP_TOKEN = 'rp_token';
-    const RP_TOKEN_CREATED_AT = 'rp_token_created_at';
     /**#@-*/
 
     /**
@@ -211,21 +209,5 @@ class Customer extends \Magento\Service\Entity\AbstractDto
     public function getWebsiteId()
     {
         return (int)$this->_get(self::WEBSITE_ID);
-    }
-
-    /**
-     * @return string
-     */
-    public function getRpToken()
-    {
-        return $this->_get(self::RP_TOKEN);
-    }
-
-    /**
-     * @return string
-     */
-    public function getRpTokenCreatedAt()
-    {
-        return $this->_get(self::RP_TOKEN_CREATED_AT);
     }
 }
