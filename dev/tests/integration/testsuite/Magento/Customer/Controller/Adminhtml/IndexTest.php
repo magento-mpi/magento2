@@ -11,6 +11,7 @@
 
 namespace Magento\Customer\Controller\Adminhtml;
 use Magento\Customer\Controller\RegistryConstants;
+use Magento\Newsletter\Model\Subscriber;
 use Magento\TestFramework\Helper\Bootstrap;
 
 /**
@@ -494,8 +495,8 @@ class IndexTest extends \Magento\Backend\Utility\Controller
         // Pre-condition
         /** @var \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory */
         $subscriberFactory = Bootstrap::getObjectManager()->get('Magento\Newsletter\Model\SubscriberFactory');
-        $this->assertFalse((bool)$subscriberFactory->create()->loadByCustomer(1)->getSubscriberStatus());
-        $this->assertFalse((bool)$subscriberFactory->create()->loadByCustomer(2)->getSubscriberStatus());
+        $this->assertEquals(null, $subscriberFactory->create()->loadByCustomer(1)->getSubscriberStatus());
+        $this->assertEquals(null, $subscriberFactory->create()->loadByCustomer(2)->getSubscriberStatus());
         // Setup
         $this->getRequest()->setParam('customer', [1, 2]);
 
@@ -508,8 +509,10 @@ class IndexTest extends \Magento\Backend\Utility\Controller
             $this->equalTo(['A total of 2 record(s) were updated.']),
             \Magento\Message\MessageInterface::TYPE_SUCCESS
         );
-        $this->assertTrue((bool)$subscriberFactory->create()->loadByCustomer(1)->getSubscriberStatus());
-        $this->assertTrue((bool)$subscriberFactory->create()->loadByCustomer(2)->getSubscriberStatus());
+        $this->assertEquals(Subscriber::STATUS_SUBSCRIBED,
+            $subscriberFactory->create()->loadByCustomer(1)->getSubscriberStatus());
+        $this->assertEquals(Subscriber::STATUS_SUBSCRIBED,
+            $subscriberFactory->create()->loadByCustomer(2)->getSubscriberStatus());
     }
 
     public function testMassSubscriberActionNoSelection()
@@ -544,8 +547,8 @@ class IndexTest extends \Magento\Backend\Utility\Controller
         // Pre-condition
         /** @var \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory */
         $subscriberFactory = Bootstrap::getObjectManager()->get('Magento\Newsletter\Model\SubscriberFactory');
-        $this->assertFalse((bool)$subscriberFactory->create()->loadByCustomer(1)->getSubscriberStatus());
-        $this->assertFalse((bool)$subscriberFactory->create()->loadByCustomer(2)->getSubscriberStatus());
+        $this->assertEquals(null, $subscriberFactory->create()->loadByCustomer(1)->getSubscriberStatus());
+        $this->assertEquals(null, $subscriberFactory->create()->loadByCustomer(2)->getSubscriberStatus());
         // Setup
         $this->getRequest()->setParam('customer', [1, 4200, 2]);
 
@@ -562,8 +565,10 @@ class IndexTest extends \Magento\Backend\Utility\Controller
             $this->equalTo(['No such entity with customerId = 4200']),
             \Magento\Message\MessageInterface::TYPE_ERROR
         );
-        $this->assertTrue((bool)$subscriberFactory->create()->loadByCustomer(1)->getSubscriberStatus());
-        $this->assertTrue((bool)$subscriberFactory->create()->loadByCustomer(2)->getSubscriberStatus());
+        $this->assertEquals(Subscriber::STATUS_SUBSCRIBED,
+            $subscriberFactory->create()->loadByCustomer(1)->getSubscriberStatus());
+        $this->assertEquals(Subscriber::STATUS_SUBSCRIBED,
+            $subscriberFactory->create()->loadByCustomer(2)->getSubscriberStatus());
     }
 
     /**
@@ -682,8 +687,10 @@ class IndexTest extends \Magento\Backend\Utility\Controller
             $this->equalTo(['A total of 2 record(s) were updated.']),
             \Magento\Message\MessageInterface::TYPE_SUCCESS
         );
-        $this->assertFalse((bool)$subscriberFactory->create()->loadByCustomer(1)->getSubscriberStatus());
-        $this->assertFalse((bool)$subscriberFactory->create()->loadByCustomer(2)->getSubscriberStatus());
+        $this->assertEquals(Subscriber::STATUS_UNSUBSCRIBED,
+            $subscriberFactory->create()->loadByCustomer(1)->getSubscriberStatus());
+        $this->assertEquals(Subscriber::STATUS_UNSUBSCRIBED,
+            $subscriberFactory->create()->loadByCustomer(2)->getSubscriberStatus());
     }
 
     public function testMassUnsubscriberActionNoSelection()
@@ -735,7 +742,9 @@ class IndexTest extends \Magento\Backend\Utility\Controller
             $this->equalTo(['No such entity with customerId = 4200']),
             \Magento\Message\MessageInterface::TYPE_ERROR
         );
-        $this->assertFalse((bool)$subscriberFactory->create()->loadByCustomer(1)->getSubscriberStatus());
-        $this->assertFalse((bool)$subscriberFactory->create()->loadByCustomer(2)->getSubscriberStatus());
+        $this->assertEquals(Subscriber::STATUS_UNSUBSCRIBED,
+            $subscriberFactory->create()->loadByCustomer(1)->getSubscriberStatus());
+        $this->assertEquals(Subscriber::STATUS_UNSUBSCRIBED,
+            $subscriberFactory->create()->loadByCustomer(2)->getSubscriberStatus());
     }
 }
