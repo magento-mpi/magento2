@@ -1,0 +1,20 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php /** @var $this \Magento\RecurringProfile\Block\Checkout\Onepage\Success */ ?>
+<?php if ($profiles = $this->getRecurringProfiles()): ?>
+    <p><?php echo __('Your recurring payment profiles:'); ?></p>
+    <ul>
+    <?php foreach ($profiles as $profile): ?>
+        <?php $profileIdHtml = $this->getCanViewProfiles()
+            ? sprintf('<a href="%s">%s</a>', $this->escapeHtml($this->getProfileUrl($profile)), $this->escapeHtml($this->getObjectData($profile, 'reference_id')))
+            : $this->escapeHtml($this->getObjectData($profile, 'reference_id')); ?>
+        <li><?php echo __('Payment profile # %1: "%2".', $profileIdHtml, $this->escapeHtml($this->getObjectData($profile, 'schedule_description'))) ?></li>
+    <?php endforeach; ?>
+    </ul>
+<?php endif; ?>
