@@ -33,28 +33,6 @@ class Address extends \Magento\Service\Entity\AbstractDto
     const KEY_SUFFIX = 'suffix';
     const KEY_VAT_ID = 'vat_id';
 
-    protected $_validAttributes = [
-        self::KEY_COUNTRY_ID,
-        self::KEY_DEFAULT_BILLING,
-        self::KEY_DEFAULT_SHIPPING,
-        self::KEY_ID,
-        self::KEY_CUSTOMER_ID,
-        self::KEY_REGION,
-        self::KEY_REGION_ID,
-        self::KEY_STREET,
-        self::KEY_COMPANY,
-        self::KEY_TELEPHONE,
-        self::KEY_FAX,
-        self::KEY_POSTCODE,
-        self::KEY_CITY,
-        self::KEY_FIRSTNAME,
-        self::KEY_LASTNAME,
-        self::KEY_MIDDLENAME,
-        self::KEY_PREFIX,
-        self::KEY_SUFFIX,
-        self::KEY_VAT_ID
-    ];
-
     /**
      * @return int|null
      */

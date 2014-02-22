@@ -41,34 +41,6 @@ class Customer extends \Magento\Service\Entity\AbstractDto
     /**#@-*/
 
     /**
-     * A list of valid customer DTO attributes.
-     *
-     * @var string[]
-     */
-    protected $_validAttributes = [
-        self::ID,
-        self::CONFIRMATION,
-        self::CREATED_AT,
-        self::CREATED_IN,
-        self::DOB,
-        self::EMAIL,
-        self::FIRSTNAME,
-        self::GENDER,
-        self::GROUP_ID,
-        self::LASTNAME,
-        self::MIDDLENAME,
-        self::PREFIX,
-        self::STORE_ID,
-        self::SUFFIX,
-        self::TAXVAT,
-        self::WEBSITE_ID,
-        self::DEFAULT_BILLING,
-        self::DEFAULT_SHIPPING,
-        self::RP_TOKEN,
-        self::RP_TOKEN_CREATED_AT,
-    ];
-
-    /**
      * Get an attribute value.
      *
      * @param string $attributeCode
