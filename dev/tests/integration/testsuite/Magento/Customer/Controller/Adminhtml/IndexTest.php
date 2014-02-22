@@ -596,6 +596,35 @@ class IndexTest extends \Magento\Backend\Utility\Controller
     }
 
     /**
+     * Valid group Id but no customer Ids specified
+     */
+    public function testMassDeleteActionNoCustomerIds()
+    {
+        $this->dispatch('backend/customer/index/massDelete');
+        $this->assertSessionMessages(
+            $this->equalTo(['Please select customer(s).']),
+            \Magento\Message\MessageInterface::TYPE_ERROR
+        );
+    }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/two_customers.php
+     */
+    public function testMassDeleteActionPartialUpdate()
+    {
+        $this->getRequest()->setPost('customer', [1, 999, 2, 9999]);
+        $this->dispatch('backend/customer/index/massDelete');
+        $this->assertSessionMessages(
+            $this->equalTo(['A total of 2 record(s) were deleted.']),
+            \Magento\Message\MessageInterface::TYPE_SUCCESS
+        );
+        $this->assertSessionMessages(
+            $this->equalTo(['No such entity with customerId = 999', 'No such entity with customerId = 9999']),
+            \Magento\Message\MessageInterface::TYPE_ERROR
+        );
+    }
+
+    /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
      */
     public function testMassAssignGroupAction()
