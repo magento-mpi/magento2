@@ -10,7 +10,6 @@
 namespace Magento\Paypal\Model;
 
 use Magento\Paypal\Model\Api\Nvp;
-use Magento\Payment\Model\Info;
 use Magento\RecurringProfile\Model\RecurringProfile;
 use Magento\Sales\Model\Order\Payment;
 use Magento\Sales\Model\Order\Payment\Transaction;
@@ -519,10 +518,10 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Whether payment can be reviewed
      *
-     * @param Info|Payment $payment
+     * @param \Magento\Payment\Model\Info|Payment $payment
      * @return bool
      */
-    public function canReviewPayment(Info $payment)
+    public function canReviewPayment(\Magento\Payment\Model\Info $payment)
     {
         return parent::canReviewPayment($payment) && $this->_pro->canReviewPayment($payment);
     }
@@ -530,10 +529,10 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Attempt to accept a pending payment
      *
-     * @param Info|Payment $payment
+     * @param \Magento\Payment\Model\Info|Payment $payment
      * @return bool
      */
-    public function acceptPayment(Info $payment)
+    public function acceptPayment(\Magento\Payment\Model\Info $payment)
     {
         parent::acceptPayment($payment);
         return $this->_pro->reviewPayment($payment, \Magento\Paypal\Model\Pro::PAYMENT_REVIEW_ACCEPT);
@@ -542,10 +541,10 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Attempt to deny a pending payment
      *
-     * @param Info|Payment $payment
+     * @param \Magento\Payment\Model\Info|Payment $payment
      * @return bool
      */
-    public function denyPayment(Info $payment)
+    public function denyPayment(\Magento\Payment\Model\Info $payment)
     {
         parent::denyPayment($payment);
         return $this->_pro->reviewPayment($payment, \Magento\Paypal\Model\Pro::PAYMENT_REVIEW_DENY);
@@ -566,11 +565,11 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Fetch transaction details info
      *
-     * @param Info $payment
+     * @param \Magento\Payment\Model\Info $payment
      * @param string $transactionId
      * @return array
      */
-    public function fetchTransactionInfo(Info $payment, $transactionId)
+    public function fetchTransactionInfo(\Magento\Payment\Model\Info $payment, $transactionId)
     {
         return $this->_pro->fetchTransactionInfo($payment, $transactionId);
     }
@@ -590,11 +589,11 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
      * Submit RP to the gateway
      *
      * @param RecurringProfile $profile
-     * @param Info $paymentInfo
+     * @param \Magento\Payment\Model\Info $paymentInfo
      * @return void
      */
     public function submitRecurringProfile(RecurringProfile $profile,
-        Info $paymentInfo
+        \Magento\Payment\Model\Info $paymentInfo
     ) {
         $token = $paymentInfo->getAdditionalInformation(
             \Magento\Paypal\Model\Express\Checkout::PAYMENT_INFO_TRANSPORT_TOKEN
@@ -651,7 +650,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
      * Assign data to info model instance
      *
      * @param array|\Magento\Object $data
-     * @return Info
+     * @return \Magento\Payment\Model\Info
      */
     public function assignData($data)
     {

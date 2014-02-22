@@ -9,7 +9,6 @@
  */
 namespace Magento\Paypal\Model;
 
-use Magento\Payment\Model\Info;
 use Magento\Sales\Model\Order\Payment;
 /**
  * PayPal Direct Module
@@ -367,10 +366,10 @@ class Direct extends \Magento\Payment\Model\Method\Cc
     /**
      * Whether payment can be reviewed
      *
-     * @param Info|Payment $payment
+     * @param \Magento\Payment\Model\Info|Payment $payment
      * @return bool
      */
-    public function canReviewPayment(Info $payment)
+    public function canReviewPayment(\Magento\Payment\Model\Info $payment)
     {
         return parent::canReviewPayment($payment) && $this->_pro->canReviewPayment($payment);
     }
@@ -378,10 +377,10 @@ class Direct extends \Magento\Payment\Model\Method\Cc
     /**
      * Attempt to accept a pending payment
      *
-     * @param Info|Payment $payment
+     * @param \Magento\Payment\Model\Info|Payment $payment
      * @return bool
      */
-    public function acceptPayment(Info $payment)
+    public function acceptPayment(\Magento\Payment\Model\Info $payment)
     {
         parent::acceptPayment($payment);
         return $this->_pro->reviewPayment($payment, \Magento\Paypal\Model\Pro::PAYMENT_REVIEW_ACCEPT);
@@ -390,10 +389,10 @@ class Direct extends \Magento\Payment\Model\Method\Cc
     /**
      * Attempt to deny a pending payment
      *
-     * @param Info|Payment $payment
+     * @param \Magento\Payment\Model\Info|Payment $payment
      * @return bool
      */
-    public function denyPayment(Info $payment)
+    public function denyPayment(\Magento\Payment\Model\Info $payment)
     {
         parent::denyPayment($payment);
         return $this->_pro->reviewPayment($payment, \Magento\Paypal\Model\Pro::PAYMENT_REVIEW_DENY);
@@ -416,11 +415,11 @@ class Direct extends \Magento\Payment\Model\Method\Cc
     /**
      * Fetch transaction details info
      *
-     * @param Info $payment
+     * @param \Magento\Payment\Model\Info $payment
      * @param string $transactionId
      * @return array
      */
-    public function fetchTransactionInfo(Info $payment, $transactionId)
+    public function fetchTransactionInfo(\Magento\Payment\Model\Info $payment, $transactionId)
     {
         return $this->_pro->fetchTransactionInfo($payment, $transactionId);
     }
