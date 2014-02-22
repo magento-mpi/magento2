@@ -117,7 +117,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         ];
         $customerData = [
             'attribute1' => 'value1',
-            \Magento\Service\Entity\AbstractDtoBuilder::CUSTOM_ATTRIBUTES_KEY => $customAttributes
+            Customer::CUSTOM_ATTRIBUTES_KEY => $customAttributes
         ];
         $customerDto = new \Magento\Customer\Service\V1\Dto\Customer($customerData);
         $this->assertEquals($customAttributes, $customerDto->getCustomAttributes(), 'Invalid custom attributes.');

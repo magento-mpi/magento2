@@ -10,8 +10,6 @@ namespace Magento\Service\Entity;
 
 abstract class AbstractDtoBuilder
 {
-    const CUSTOM_ATTRIBUTES_KEY = 'custom_attributes';
-
     /**
      * @var array
      */
@@ -42,6 +40,16 @@ abstract class AbstractDtoBuilder
     }
 
     /**
+     * Template method used to configure the attribute codes for the custom attributes
+     *
+     * @return array
+     */
+    public function getCustomAttributesCodes()
+    {
+        return [];
+    }
+
+    /**
      * Populates the fields with data from the array.
      *
      * Keys for the map are snake_case attribute/field names.
@@ -52,16 +60,15 @@ abstract class AbstractDtoBuilder
     public function populateWithArray(array $data)
     {
         $this->_data = [];
-        $dtoMethods = get_class_methods(get_class($this));
+        $dataObjectMethods = get_class_methods($this->_getDataObjectType());
         foreach ($data as $key => $value) {
-            $method = 'set' . $this->_snakeCaseToCamelCase($key);
-            if (in_array($method, $dtoMethods)) {
-                $this->$method($value);
-            } else {
+            $method = 'get' . $this->_snakeCaseToCamelCase($key);
+            if (in_array($method, $dataObjectMethods)) {
                 $this->_data[$key] = $value;
+            } elseif (in_array($key, $this->getCustomAttributesCodes())) {
+                $this->_data[AbstractDto::CUSTOM_ATTRIBUTES_KEY][$key] = $value;
             }
         }
-
         return $this;
     }
 
@@ -98,10 +105,10 @@ abstract class AbstractDtoBuilder
      */
     public function create()
     {
-        $dtoType = $this->_getDtoType();
-        $retObj = new $dtoType($this);
+        $dataObjectType = $this->_getDataObjectType();
+        $dataObject = new $dataObjectType($this);
         $this->_data = array();
-        return $retObj;
+        return $dataObject;
     }
 
     /**
@@ -131,7 +138,7 @@ abstract class AbstractDtoBuilder
      *
      * @return string
      */
-    protected function _getDtoType()
+    private function _getDataObjectType()
     {
         return substr(get_class($this), 0, -7);
     }
@@ -142,7 +149,7 @@ abstract class AbstractDtoBuilder
      * @param string $input
      * @return string
      */
-    protected function _snakeCaseToCamelCase($input)
+    private function _snakeCaseToCamelCase($input)
     {
         $output = '';
         $segments = explode('_', $input);

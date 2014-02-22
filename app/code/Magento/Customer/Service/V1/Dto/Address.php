@@ -9,7 +9,7 @@
  */
 namespace Magento\Customer\Service\V1\Dto;
 
-class Address extends \Magento\Service\Entity\AbstractDto implements Eav\EntityInterface
+class Address extends \Magento\Service\Entity\AbstractDto
 {
     const ADDRESS_TYPE_BILLING = 'billing';
     const ADDRESS_TYPE_SHIPPING = 'shipping';
@@ -83,16 +83,29 @@ class Address extends \Magento\Service\Entity\AbstractDto implements Eav\EntityI
      * Get an attribute value.
      *
      * @param string $attributeCode
-     * @return string|null
+     * @return string|null The attribute value or null if the attribute has not been set
      */
-    public function getAttribute($attributeCode)
+    public function getCustomAttribute($attributeCode)
     {
-        $attributes = \Magento\Convert\ConvertArray::toFlatArray($this->__toArray());
-        if (array_key_exists($attributeCode, $attributes)) {
-            return $attributes[$attributeCode];
+        if (isset($this->_data[self::CUSTOM_ATTRIBUTES_KEY])
+            && array_key_exists($attributeCode, $this->_data[self::CUSTOM_ATTRIBUTES_KEY]))
+        {
+            return $this->_data[self::CUSTOM_ATTRIBUTES_KEY][$attributeCode];
         } else {
             return null;
         }
+    }
+
+    /**
+     * Retrieve custom attributes values as an associative array.
+     *
+     * @return string[]
+     */
+    public function getCustomAttributes()
+    {
+        return isset($this->_data[self::CUSTOM_ATTRIBUTES_KEY])
+            ? $this->_data[self::CUSTOM_ATTRIBUTES_KEY]
+            : [];
     }
 
     /**

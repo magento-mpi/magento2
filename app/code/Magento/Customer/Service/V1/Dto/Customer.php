@@ -13,7 +13,7 @@ namespace Magento\Customer\Service\V1\Dto;
  *
  * @package Magento\Customer\Service\V1\Dto
  */
-class Customer extends \Magento\Service\Entity\AbstractDto implements Eav\EntityInterface
+class Customer extends \Magento\Service\Entity\AbstractDto
 {
     /**#@+
      * constants defined for keys of array, makes typos less likely
@@ -72,16 +72,29 @@ class Customer extends \Magento\Service\Entity\AbstractDto implements Eav\Entity
      * Get an attribute value.
      *
      * @param string $attributeCode
-     * @return mixed The attribute value or null if the attribute has not been set
+     * @return string|null The attribute value or null if the attribute has not been set
      */
-    public function getAttribute($attributeCode)
+    public function getCustomAttribute($attributeCode)
     {
-        $attributes = \Magento\Convert\ConvertArray::toFlatArray($this->__toArray());
-        if (array_key_exists($attributeCode, $attributes)) {
-            return $attributes[$attributeCode];
+        if (isset($this->_data[self::CUSTOM_ATTRIBUTES_KEY])
+            && array_key_exists($attributeCode, $this->_data[self::CUSTOM_ATTRIBUTES_KEY]))
+        {
+            return $this->_data[self::CUSTOM_ATTRIBUTES_KEY][$attributeCode];
         } else {
             return null;
         }
+    }
+
+    /**
+     * Retrieve custom attributes values as an associative array.
+     *
+     * @return string[]
+     */
+    public function getCustomAttributes()
+    {
+        return isset($this->_data[self::CUSTOM_ATTRIBUTES_KEY])
+            ? $this->_data[self::CUSTOM_ATTRIBUTES_KEY]
+            : [];
     }
 
     /**

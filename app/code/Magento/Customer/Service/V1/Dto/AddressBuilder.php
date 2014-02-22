@@ -37,6 +37,33 @@ class AddressBuilder extends AbstractDtoBuilder
     }
 
     /**
+     * Set array of custom attributes
+     *
+     * @param $attributes
+     * @return $this
+     */
+    public function setCustomAttributes($attributes)
+    {
+        $this->populateWithArray($attributes);
+        return $this;
+    }
+
+    /**
+     * Set custom attribute value
+     *
+     * @param $attributeCode
+     * @param $attributeValue
+     * @return $this
+     */
+    public function setCustomAttribute($attributeCode, $attributeValue)
+    {
+        if (in_array($attributeCode, $this->getCustomAttributesCodes())) {
+            $this->_data[AbstractDto::CUSTOM_ATTRIBUTES_KEY][$attributeCode] = $attributeValue;
+        }
+        return $this;
+    }
+
+    /**
      * @param int $id
      * @return $this
      */
