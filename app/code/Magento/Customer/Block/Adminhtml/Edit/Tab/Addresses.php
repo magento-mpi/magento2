@@ -153,7 +153,7 @@ class Addresses extends GenericMetadata
      */
     public function isReadonly()
     {
-        $customerId = $this->_coreRegistry->registry(self::REGISTRY_CURRENT_CUSTOMER_ID);
+        $customerId = $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID);
 
         if (empty($customerId)) {
             return false;
