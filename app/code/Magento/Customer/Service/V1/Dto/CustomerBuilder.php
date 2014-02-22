@@ -213,22 +213,4 @@ class CustomerBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
     {
         return $this->_set(Customer::WEBSITE_ID, $websiteId);
     }
-
-    /**
-     * @param string
-     * @return CustomerBuilder
-     */
-    public function getRpToken($rpToken)
-    {
-        return $this->_set(self::RP_TOKEN, $rpToken);
-    }
-
-    /**
-     * @param string
-     * @return CustomerBuilder
-     */
-    public function getRpTokenCreatedAt($rpTokenCreatedAt)
-    {
-        return $this->_set(self::RP_TOKEN_CREATED_AT, $rpTokenCreatedAt);
-    }
 }

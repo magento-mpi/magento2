@@ -567,33 +567,6 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @magentoDataFixture Magento/Customer/_files/customer.php
-     */
-    public function testSaveCustomerRpToken()
-    {
-        $this->_customerBuilder->populateWithArray(array_merge($this->_service->getCustomer(1)->__toArray(), [
-            'rp_token' => 'token',
-            'rp_token_created_at' => '2013-11-05'
-        ]));
-        $customer = $this->_customerBuilder->create();
-        $this->_service->saveCustomer($customer);
-
-        // Empty current reset password token i.e. invalidate it
-        $this->_customerBuilder->populateWithArray(array_merge($this->_service->getCustomer(1)->__toArray(), [
-            'rp_token' => null,
-            'rp_token_created_at' => null
-        ]));
-        $this->_customerBuilder->setConfirmation(null);
-        $customer = $this->_customerBuilder->create();
-
-        $this->_service->saveCustomer($customer, 'password');
-
-        $customer = $this->_service->getCustomer(1);
-        $this->assertEquals('Firstname', $customer->getFirstname());
-        $this->assertNull($customer->getAttribute('rp_token'));
-    }
-
-    /**
      * @magentoAppArea adminhtml
      * @magentoDataFixture Magento/Customer/_files/customer.php
      * @magentoAppIsolation enabled
