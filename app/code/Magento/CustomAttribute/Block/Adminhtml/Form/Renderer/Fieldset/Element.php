@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomAttribute\Block\Adminhtml\Form\Renderer\Fieldset;
 
 /**
  * EAV entity attribute form fieldset element renderer
@@ -14,8 +15,6 @@
  * @category   Magento
  * @package    Magento_CustomAttribute
  */
-namespace Magento\CustomAttribute\Block\Adminhtml\Form\Renderer\Fieldset;
-
 class Element
     extends \Magento\Backend\Block\Widget\Form\Renderer\Fieldset\Element
 {
@@ -64,7 +63,7 @@ class Element
     /**
      * Disable field in default value using case
      *
-     * @return \Magento\CustomAttribute\Block\Adminhtml\Form\Renderer\Fieldset\Element
+     * @return $this
      */
     public function checkFieldDisable()
     {

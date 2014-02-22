@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftCard\Block\Adminhtml\Sales\Items\Column\Name;
 
 class Giftcard
@@ -17,7 +16,7 @@ class Giftcard
      * Prepare custom option for display, returns false if there's no value
      *
      * @param string $code
-     * @return mixed
+     * @return string|false
      */
     protected function _prepareCustomOption($code)
     {

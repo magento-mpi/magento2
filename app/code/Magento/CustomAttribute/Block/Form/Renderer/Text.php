@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\CustomAttribute\Block\Form\Renderer;
 
 /**
  * EAV Entity Attribute Form Renderer Block for Text
@@ -16,8 +16,6 @@
  * @package     Magento_CustomAttribute
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\CustomAttribute\Block\Form\Renderer;
-
 class Text extends \Magento\CustomAttribute\Block\Form\Renderer\AbstractRenderer
 {
     /**

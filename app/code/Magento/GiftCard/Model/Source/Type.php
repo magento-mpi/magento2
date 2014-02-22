@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftCard\Model\Source;
 
 class Type extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
@@ -60,7 +59,7 @@ class Type extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
      * Get option text
      *
      * @param int|string $value
-     * @return bool|null|string
+     * @return null|string
      */
     public function getOptionText($value)
     {

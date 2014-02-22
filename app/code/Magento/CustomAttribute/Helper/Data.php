@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\CustomAttribute\Helper;
 
 /**
  * Enterprise EAV Data Helper
@@ -15,8 +15,6 @@
  * @category   Magento
  * @package    Magento_CustomAttribute
  */
-namespace Magento\CustomAttribute\Helper;
-
 class Data extends \Magento\App\Helper\AbstractHelper
 {
     /**
@@ -347,7 +345,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * Return default value field name by attribute input type
      *
      * @param string $inputType
-     * @return string
+     * @return string|false
      */
     public function getAttributeDefaultValueByInput($inputType)
     {
@@ -488,8 +486,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * Filter post data
      *
      * @param array $data
-     * @throws \Magento\Core\Exception
      * @return array
+     * @throws \Magento\Core\Exception
      */
     public function filterPostData($data)
     {

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\CustomAttribute\Block\Form\Renderer;
 
 /**
  * EAV Entity Attribute Form Renderer Block for Text area
@@ -16,8 +16,6 @@
  * @package     Magento_CustomAttribute
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\CustomAttribute\Block\Form\Renderer;
-
 class Textarea extends \Magento\CustomAttribute\Block\Form\Renderer\Text
 {
 }

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\CustomAttribute\Block\Form\Renderer;
 
 /**
  * EAV entity Attribute Form Renderer Block for Image File
@@ -16,8 +16,6 @@
  * @package     Magento_CustomAttribute
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\CustomAttribute\Block\Form\Renderer;
-
 class Image extends \Magento\CustomAttribute\Block\Form\Renderer\File
 {
 }

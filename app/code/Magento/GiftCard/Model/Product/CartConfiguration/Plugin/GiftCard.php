@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftCard\Model\Product\CartConfiguration\Plugin;
 
 class GiftCard
@@ -17,7 +16,7 @@ class GiftCard
      *
      * @param array $arguments
      * @param \Magento\Code\Plugin\InvocationChain $invocationChain
-     * @return bool
+     * @return mixed
      */
     public function aroundIsProductConfigured(array $arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
     {

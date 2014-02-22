@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\CustomAttribute\Block\Form\Renderer;
 
 /**
  * EAV Entity Attribute Form Renderer Block for Date
@@ -16,8 +16,6 @@
  * @package     Magento_CustomAttribute
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\CustomAttribute\Block\Form\Renderer;
-
 class Date extends \Magento\CustomAttribute\Block\Form\Renderer\AbstractRenderer
 {
     /**
@@ -67,6 +65,7 @@ class Date extends \Magento\CustomAttribute\Block\Form\Renderer\AbstractRenderer
      *
      * @param string $code
      * @param string $html
+     * @return void
      */
     public function setDateInput($code, $html)
     {
@@ -193,7 +192,7 @@ class Date extends \Magento\CustomAttribute\Block\Form\Renderer\AbstractRenderer
      * Return minimal or maximal date range value
      *
      * @param string $borderName
-     * @return string
+     * @return int|null
      */
     protected function _getBorderDateRange($borderName = self::MIN_DATE_RANGE_KEY)
     {

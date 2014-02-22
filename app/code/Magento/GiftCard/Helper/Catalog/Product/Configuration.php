@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftCard\Helper\Catalog\Product;
 
 /**
  * Helper for fetching properties by product configurational item
@@ -15,15 +16,13 @@
  * @package    Magento_GiftCard
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GiftCard\Helper\Catalog\Product;
-
 class Configuration extends \Magento\App\Helper\AbstractHelper
     implements \Magento\Catalog\Helper\Product\Configuration\ConfigurationInterface
 {
     /**
      * Catalog product configuration
      *
-     * @var \Magento\Catalog\Helper\Product\Configuration
+     * @var \Magento\Catalog\Helper\Product\Configuration|null
      */
     protected $_ctlgProdConfigur = null;
 
@@ -52,7 +51,7 @@ class Configuration extends \Magento\App\Helper\AbstractHelper
      *
      * @param \Magento\Catalog\Model\Product\Configuration\Item\ItemInterface $item
      * @param $code
-     * @return bool|mixed
+     * @return string|false
      */
     public function prepareCustomOption(\Magento\Catalog\Model\Product\Configuration\Item\ItemInterface $item, $code)
     {

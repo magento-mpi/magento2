@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\GiftCard\Model\Resource\Indexer;
 
 /**
  * GiftCard product price indexer resource model
@@ -16,14 +16,13 @@
  * @package     Magento_GiftCard
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GiftCard\Model\Resource\Indexer;
-
 class Price extends \Magento\Catalog\Model\Resource\Product\Indexer\Price\DefaultPrice
 {
     /**
      * Register data required by product type process in event object
      *
      * @param \Magento\Index\Model\Event $event
+     * @return void
      */
     public function registerEvent(\Magento\Index\Model\Event $event)
     {
@@ -83,7 +82,7 @@ class Price extends \Magento\Catalog\Model\Resource\Product\Indexer\Price\Defaul
      * Prepare giftCard products prices in temporary index table
      *
      * @param int|array $entityIds  the entity ids limitation
-     * @return \Magento\GiftCard\Model\Resource\Indexer\Price
+     * @return $this
      */
     protected function _prepareFinalPriceData($entityIds = null)
     {

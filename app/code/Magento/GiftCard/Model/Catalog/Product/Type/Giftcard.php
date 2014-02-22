@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftCard\Model\Catalog\Product\Type;
 
 class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
@@ -235,7 +234,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @param \Magento\Object $buyRequest
      * @param \Magento\Catalog\Model\Product $product
      * @param bool $processMode
-     * @return double|float|mixed
+     * @return mixed
      */
     private function _validate(\Magento\Object $buyRequest, $product, $processMode)
     {
@@ -289,7 +288,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
     /**
      * Get custom amount if null
      *
-     * @param $amount
+     * @param mixed $amount
      * @param array $allowedAmounts
      * @return mixed|null
      */
@@ -309,6 +308,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @param \Magento\Object $buyRequest
      * @param \Magento\Catalog\Model\Product $product
      * @param bool $isStrictProcessMode
+     * @return void
      */
     protected function _checkFields($buyRequest, $product, $isStrictProcessMode)
     {
@@ -369,7 +369,8 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @param \Magento\Catalog\Model\Product $product
      * @param int $customAmount
      * @param bool $isStrict
-     * @return int|void
+     * @return int
+     * @throws \Magento\Core\Exception
      */
     protected function _getAmountWithinConstraints($product, $customAmount, $isStrict)
     {
@@ -398,6 +399,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @param \Magento\Object $buyRequest
      * @param bool $isPhysical
      * @param int $amount
+     * @return void
      */
     protected function _checkGiftcardFields($buyRequest, $isPhysical, $amount)
     {
@@ -454,7 +456,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
      * Check if product can be bought
      *
      * @param  \Magento\Catalog\Model\Product $product
-     * @return \Magento\Catalog\Model\Product\Type\AbstractType
+     * @return $this
      * @throws \Magento\Core\Exception
      */
     public function checkProductBuyState($product)
@@ -474,7 +476,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
      * has some required options, at least - recipient name
      *
      * @param \Magento\Catalog\Model\Product $product
-     * @return \Magento\GiftCard\Model\Catalog\Product\Type\Giftcard
+     * @return $this
      */
     public function beforeSave($product)
     {
@@ -510,6 +512,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
      * Delete data specific for Gift Card product type
      *
      * @param \Magento\Catalog\Model\Product $product
+     * @return void
      */
     public function deleteTypeSpecificData(\Magento\Catalog\Model\Product $product)
     {

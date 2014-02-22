@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\GiftCard\Model\Resource\Attribute\Backend\Giftcard;
 
 /**
  * Giftcard Amount Backend Model
@@ -16,8 +16,6 @@
  * @package     Magento_GiftCard
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GiftCard\Model\Resource\Attribute\Backend\Giftcard;
-
 class Amount extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
@@ -43,6 +41,7 @@ class Amount extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Define main table and primary key
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -86,7 +85,7 @@ class Amount extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param \Magento\Catalog\Model\Product $product
      * @param \Magento\Eav\Model\Entity\Attribute $attribute
-     * @return \Magento\GiftCard\Model\Resource\Attribute\Backend\Giftcard\Amount
+     * @return $this
      */
     public function deleteProductData($product, $attribute)
     {
@@ -110,7 +109,7 @@ class Amount extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param \Magento\Catalog\Model\Product $product
      * @param array $data
-     * @return \Magento\GiftCard\Model\Resource\Attribute\Backend\Giftcard\Amount
+     * @return $this
      */
     public function insertProductData($product, $data)
     {
