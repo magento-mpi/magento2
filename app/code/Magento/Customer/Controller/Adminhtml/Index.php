@@ -16,6 +16,7 @@ use Magento\Customer\Service\V1\Dto\CustomerBuilder;
 use Magento\Customer\Service\V1\Dto\AddressBuilder;
 use Magento\Customer\Service\V1\Dto\Address;
 use Magento\Customer\Service\V1\CustomerServiceInterface;
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 use Magento\Exception\NoSuchEntityException;
 
@@ -69,6 +70,9 @@ class Index extends \Magento\Backend\App\Action
     /** @var  CustomerServiceInterface */
     protected $_customerService;
 
+    /** @var CustomerAccountServiceInterface */
+    protected $_accountService;
+
     /** @var CustomerAddressServiceInterface */
     protected $_addressService;
 
@@ -86,6 +90,7 @@ class Index extends \Magento\Backend\App\Action
      * @param CustomerBuilder $customerBuilder
      * @param AddressBuilder $addressBuilder
      * @param CustomerServiceInterface $customerService
+     * @param CustomerAccountServiceInterface $accountService
      * @param CustomerAddressServiceInterface $addressService
      * @param \Magento\Customer\Helper\View $viewHelper
      * @param \Magento\Customer\Helper\Data $helper
@@ -101,6 +106,7 @@ class Index extends \Magento\Backend\App\Action
         CustomerBuilder $customerBuilder,
         AddressBuilder $addressBuilder,
         CustomerServiceInterface $customerService,
+        CustomerAccountServiceInterface $accountService,
         CustomerAddressServiceInterface $addressService,
         \Magento\Customer\Helper\View $viewHelper,
         \Magento\Customer\Helper\Data $helper
@@ -115,6 +121,7 @@ class Index extends \Magento\Backend\App\Action
         $this->_dataHelper = $helper;
         $this->_formFactory = $formFactory;
         $this->_customerService = $customerService;
+        $this->_accountService = $accountService;
         $this->_addressService = $addressService;
         $this->_viewHelper = $viewHelper;
         parent::__construct($context);
@@ -918,7 +925,7 @@ class Index extends \Magento\Backend\App\Action
      * Customer validation
      *
      * @param \Magento\Object $response
-     * @return \Magento\Customer\Model\Customer|null
+     * @return \Magento\Customer\Service\V1\Dto\Customer|null
      */
     protected function _validateCustomer($response)
     {
@@ -926,33 +933,29 @@ class Index extends \Magento\Backend\App\Action
         $errors = null;
 
         try {
-            /** @var \Magento\Customer\Model\Customer $customer */
-            $customer = $this->_objectManager->create('Magento\Customer\Model\Customer');
+            /** @var \Magento\Customer\Service\V1\Dto\Customer $customer */
+            $customer = $this->_customerBuilder->create();
             $customerId = $this->getRequest()->getParam('id');
             if ($customerId) {
-                $customer->load($customerId);
+                $customer = $this->_customerService->getCustomer($customerId);
             }
 
-            /* @var $customerForm \Magento\Customer\Model\Form */
-            $customerForm = $this->_objectManager->get('Magento\Customer\Model\Form');
-            $customerForm->setEntity($customer)
-                ->setFormCode('adminhtml_customer')
-                ->setIsAjaxRequest(true)
-                ->ignoreInvisible(false);
+            $customerForm = $this->_formFactory->create(
+                'customer',
+                'adminhtml_customer',
+                $customer->getAttributes(),
+                true,
+                false
+            );
+
             $data = $customerForm->extractData($this->getRequest(), 'account');
-            $accountData = $this->getRequest()->getPost('account');
-            $data['password'] = isset($accountData['password']) ? $accountData['password'] : '';
-            if (!$customer->getId()) {
-                $data['password'] = $customer->generatePassword();
-            }
-            $data['confirmation'] = $data['password'];
 
             if ($customer->getWebsiteId()) {
                 unset($data['website_id']);
             }
 
-            $customer->addData($data);
-            $errors = $customer->validate();
+            $customer = $this->_customerBuilder->populateWithArray($data)->create();
+            $errors = $this->_accountService->validateCustomerData($customer, []);
         } catch (\Magento\Core\Exception $exception) {
             /* @var $error \Magento\Message\Error */
             foreach ($exception->getMessages(\Magento\Message\MessageInterface::TYPE_ERROR) as $error) {
@@ -974,27 +977,31 @@ class Index extends \Magento\Backend\App\Action
      * Customer address validation.
      *
      * @param \Magento\Object $response
-     * @param \Magento\Customer\Model\Customer $customer
+     * @param \Magento\Customer\Service\V1\Dto\Customer $customer
      */
     protected function _validateCustomerAddress($response, $customer)
     {
         $addressesData = $this->getRequest()->getParam('address');
         if (is_array($addressesData)) {
-            /* @var $addressForm \Magento\Customer\Model\Form */
-            $addressForm = $this->_objectManager->create('Magento\Customer\Model\Form');
-            $addressForm->setFormCode('adminhtml_customer_address')->ignoreInvisible(false);
+            $addressForm = $this->_formFactory->create(
+                'customer_address',
+                'adminhtml_customer_address',
+                [],
+                false,
+                false
+            );
+
             foreach (array_keys($addressesData) as $index) {
                 if ($index == '_template_') {
                     continue;
                 }
-                $address = $customer->getAddressItemById($index);
+                $address = $this->_addressService->getAddressById($index);
                 if (!$address) {
-                    $address   = $this->_objectManager->create('Magento\Customer\Model\Address');
+                    $address = $this->_addressBuilder->create();
                 }
 
                 $requestScope = sprintf('address/%s', $index);
-                $formData = $addressForm->setEntity($address)
-                    ->extractData($this->getRequest(), $requestScope);
+                $formData = $addressForm->extractData($this->getRequest(), $requestScope);
 
                 $errors = $addressForm->validateData($formData);
                 if ($errors !== true) {

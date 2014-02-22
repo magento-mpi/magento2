@@ -374,6 +374,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
         Bootstrap::getObjectManager()->get('Magento\Backend\Model\Session')
             ->setCustomerData($customerData);
         $this->getRequest()->setParam('id', 1);
+        $this->getRequest()->
         $this->dispatch('backend/customer/index/edit');
         $body = $this->getResponse()->getBody();
 
@@ -775,5 +776,114 @@ class IndexTest extends \Magento\Backend\Utility\Controller
             $subscriberFactory->create()->loadByCustomer(1)->getSubscriberStatus());
         $this->assertEquals(Subscriber::STATUS_UNSUBSCRIBED,
             $subscriberFactory->create()->loadByCustomer(2)->getSubscriberStatus());
+    }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     * @magentoDataFixture Magento/Customer/_files/customer_address.php
+     */
+    public function testValidateCustomerWithAddressSuccess()
+    {
+        $customerData = [
+            'id'      => '1',
+            'account' => [
+                'middlename'         => 'new middlename',
+                'group_id'           => 1,
+                'website_id'         => 1,
+                'firstname'          => 'new firstname',
+                'lastname'           => 'new lastname',
+                'email'              => 'exmaple@domain.com',
+                'default_shipping'   => '_item1',
+                'new_password'       => 'auto',
+                'sendemail_store_id' => '1',
+                'sendemail'          => '1',
+
+            ],
+            'address' => [
+                '1'          => array(
+                    'firstname'  => 'update firstname',
+                    'lastname'   => 'update lastname',
+                    'street'     => array('update street'),
+                    'city'       => 'update city',
+                    'country_id' => 'US',
+                    'postcode'   => '01001',
+                    'telephone'  => '+7000000001',
+                ),
+                '_template_' => [
+                    'firstname'  => '',
+                    'lastname'   => '',
+                    'street'     => array(),
+                    'city'       => '',
+                    'country_id' => 'US',
+                    'postcode'   => '',
+                    'telephone'  => '',
+                ]
+            ]
+        ];
+        /**
+         * set customer data
+         */
+        $this->getRequest()->setParams($customerData);
+        $this->dispatch('backend/customer/index/validate');
+        $body = $this->getResponse()->getBody();
+
+        /**
+         * Check that no errors were generated and set to session
+         */
+        $this->assertSessionMessages($this->isEmpty(), \Magento\Message\MessageInterface::TYPE_ERROR);
+
+        $this->assertEquals('{"error":0}', $body);
+    }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     * @magentoDataFixture Magento/Customer/_files/customer_address.php
+     */
+    public function testValidateCustomerWithAddressFailure()
+    {
+        $customerData = [
+            'id'      => '1',
+            'account' => [
+                'middlename'         => 'new middlename',
+                'group_id'           => 1,
+                'website_id'         => 1,
+                'lastname'           => 'new lastname',
+                'email'              => 'exmaple@domain.com',
+                'default_shipping'   => '_item1',
+                'new_password'       => 'auto',
+                'sendemail_store_id' => '1',
+                'sendemail'          => '1',
+
+            ],
+            'address' => [
+                '1'          => array(
+                    'lastname'   => 'update lastname',
+                    'street'     => array('update street'),
+                    'city'       => 'update city',
+                    'country_id' => 'US',
+                    'postcode'   => '01001',
+                    'telephone'  => '+7000000001',
+                ),
+                '_template_' => [
+                    'lastname'   => '',
+                    'street'     => array(),
+                    'city'       => '',
+                    'country_id' => 'US',
+                    'postcode'   => '',
+                    'telephone'  => '',
+                ]
+            ]
+        ];
+        /**
+         * set customer data
+         */
+        $this->getRequest()->setParams($customerData);
+        $this->dispatch('backend/customer/index/validate');
+        $body = $this->getResponse()->getBody();
+
+        $this->assertContains('{"error":1,', $body);
+        $this->assertContains('The first name cannot be empty.', $body);
+        $this->assertContains('\"First Name\" is a required value.', $body);
+        $this->assertContains('\"First Name\" length must be equal or greater than 1 characters', $body);
     }
 }
