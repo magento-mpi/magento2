@@ -10,6 +10,7 @@
 namespace Magento\Paypal\Model\Method;
 
 use Magento\Core\Model\Store;
+use Magento\Payment\Model\Info;
 use Magento\Sales\Model\Order\Payment;
 
 /**
@@ -28,70 +29,70 @@ class Agreement extends \Magento\Paypal\Model\Payment\Method\Billing\AbstractAgr
     /**
      * Method instance setting
      *
-     * @var string
+     * @var bool
      */
     protected $_canAuthorize            = true;
 
     /**
      * Method instance setting
      *
-     * @var string
+     * @var bool
      */
     protected $_canCapture              = true;
 
     /**
      * Method instance setting
      *
-     * @var string
+     * @var bool
      */
     protected $_canCapturePartial       = true;
 
     /**
      * Method instance setting
      *
-     * @var string
+     * @var bool
      */
     protected $_canRefund               = true;
 
     /**
      * Method instance setting
      *
-     * @var string
+     * @var bool
      */
     protected $_canRefundInvoicePartial = true;
 
     /**
      * Method instance setting
      *
-     * @var string
+     * @var bool
      */
     protected $_canVoid                 = true;
 
     /**
      * Method instance setting
      *
-     * @var string
+     * @var bool
      */
     protected $_canUseCheckout          = false;
 
     /**
      * Method instance setting
      *
-     * @var string
+     * @var bool
      */
     protected $_canUseInternal          = false;
 
     /**
      * Method instance setting
      *
-     * @var string
+     * @var bool
      */
     protected $_canFetchTransactionInfo = true;
 
     /**
      * Method instance setting
      *
-     * @var string
+     * @var bool
      */
     protected $_canReviewPayment        = true;
 
@@ -439,5 +440,4 @@ class Agreement extends \Magento\Paypal\Model\Payment\Method\Billing\AbstractAgr
     {
         return $this->_pro->getConfig()->getPaymentAction();
     }
-
 }
