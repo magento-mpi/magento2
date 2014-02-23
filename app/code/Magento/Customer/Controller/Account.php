@@ -401,26 +401,22 @@ class Account extends \Magento\App\Action\Action
         try {
             $customer = $this->_extractCustomer('customer_account_create');
             $address = $this->_extractAddress();
-            $result = $this->_customerAccountService->createAccount(
+            $customer = $this->_customerAccountService->createAccount(
                 $customer,
-                is_null($address) ? array() : array($address),
-                $this->getRequest()->getParam('password'),
-                $this->_getSession()->getBeforeAuthUrl(),
-                ''
+                is_null($address) ? [] : [$address],
+                $this->getRequest()->getParam('password')
             );
-            $this->_customerBuilder->populate($customer);
-            $this->_customerBuilder->setCustomerId($result->getCustomerId());
-            $customer = $this->_customerBuilder->create();
 
             if ($this->getRequest()->getParam('is_subscribed', false)) {
-                $this->_subscriberFactory->create()->updateSubscription($result->getCustomerId(), true);
+                $this->_subscriberFactory->create()->updateSubscription($customer->getCustomerId(), true);
             }
 
             $this->_eventManager->dispatch('customer_register_success',
                 array('account_controller' => $this, 'customer' => $customer)
             );
 
-            if ($result->getStatus() == CustomerAccountServiceInterface::ACCOUNT_CONFIRMATION) {
+            $confirmationStatus = $this->_customerAccountService->getConfirmationStatus($customer->getCustomerId());
+            if ($confirmationStatus === CustomerAccountServiceInterface::ACCOUNT_CONFIRMATION_REQUIRED) {
                 $email = $this->_customerHelperData->getEmailConfirmationUrl($customer->getEmail());
                 $this->messageManager->addSuccess(
                     __('Account confirmation is required. Please, check your email for the confirmation link. To resend the confirmation email please <a href="%1">click here</a>.', $email)
@@ -512,13 +508,14 @@ class Account extends \Magento\App\Action\Action
             $customerData[$attributeCode] = $this->getRequest()->getParam($attributeCode);
         }
         $this->_customerBuilder->populateWithArray($customerData);
-        $storeId = $this->_storeManager->getStore()->getId();
+        $store = $this->_storeManager->getStore();
         if ($isGroupIdEmpty) {
-            $this->_customerBuilder->setGroupId($this->_groupService->getDefaultGroup($storeId)->getId());
+            $this->_customerBuilder->setGroupId($this->_groupService->getDefaultGroup($store->getId())->getId());
         }
 
         $this->_customerBuilder->setConfirmation($this->getRequest()->getParam('confirmation'));
-        $this->_customerBuilder->setWebsiteId($this->_storeManager->getStore()->getWebsiteId());
+        $this->_customerBuilder->setWebsiteId($store->getWebsiteId());
+        $this->_customerBuilder->setStoreId($store->getId());
 
         return $this->_customerBuilder->create();
     }
@@ -854,9 +851,10 @@ class Account extends \Magento\App\Action\Action
         }
 
         if ($this->getRequest()->isPost()) {
+            $customerId = $this->_getSession()->getCustomerId();
             $customer = $this->_extractCustomer('customer_account_edit');
             $this->_customerBuilder->populate($customer);
-            $this->_customerBuilder->setCustomerId($this->_getSession()->getCustomerId());
+            $this->_customerBuilder->setCustomerId($customerId);
             $customer = $this->_customerBuilder->create();
 
             if ($this->getRequest()->getParam('change_password')) {
@@ -867,13 +865,12 @@ class Account extends \Magento\App\Action\Action
                 if (strlen($newPass)) {
                     if ($newPass == $confPass) {
                         try {
-                            $this->_customerAccountService->updateAccount($customer, $currPass, $newPass);
+                            $this->_customerAccountService->validatePassword($customerId, $currPass);
+                            $this->_customerAccountService->changePassword($customerId, $newPass);
                         } catch (AuthenticationException $e) {
                             $this->messageManager->addError($e->getMessage());
-                        } catch (InputException $e) {
-                            $this->messageManager->addException($e, __('Invalid input'));
                         } catch (\Exception $e) {
-                            $this->messageManager->addException($e, __('Cannot save the customer.'));
+                            $this->messageManager->addException($e, __('A problem was encountered trying to change password.'));
                         }
                     } else {
                         $this->messageManager->addError(__('Confirm your new password'));
@@ -881,16 +878,16 @@ class Account extends \Magento\App\Action\Action
                 } else {
                     $this->messageManager->addError(__('New password field cannot be empty.'));
                 }
-            } else {
-                try {
-                    $this->_customerAccountService->updateAccount($customer);
-                } catch (AuthenticationException $e) {
-                    $this->messageManager->addError($e->getMessage());
-                } catch (InputException $e) {
-                    $this->messageManager->addException($e, __('Invalid input'));
-                } catch (\Exception $e) {
-                    $this->messageManager->addException($e, __('Cannot save the customer.') . $e->getMessage() . '<pre>' . $e->getTraceAsString() . '</pre>');
-                }
+            }
+
+            try {
+                $this->_customerAccountService->updateAccount($customer);
+            } catch (AuthenticationException $e) {
+                $this->messageManager->addError($e->getMessage());
+            } catch (InputException $e) {
+                $this->messageManager->addException($e, __('Invalid input'));
+            } catch (\Exception $e) {
+                $this->messageManager->addException($e, __('Cannot save the customer.') . $e->getMessage() . '<pre>' . $e->getTraceAsString() . '</pre>');
             }
 
             if ($this->messageManager->getMessages()->getCount() > 0) {

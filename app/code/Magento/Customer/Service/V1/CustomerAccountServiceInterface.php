@@ -13,7 +13,7 @@ namespace Magento\Customer\Service\V1;
  */
 interface CustomerAccountServiceInterface
 {
-    /** account response status */
+    /** account response status @deprecated */
     const ACCOUNT_CONFIRMATION = "confirmation";
     const ACCOUNT_REGISTERED = "registered";
 
@@ -32,49 +32,47 @@ interface CustomerAccountServiceInterface
      *
      * @param Dto\Customer $customer
      * @param Dto\Address[] $addresses
-     * @param string $password
-     * @param string $confirmationBackUrl
-     * @param string $registeredBackUrl
-     * @param int $storeId
-     * @return Dto\Response\CreateCustomerAccountResponse
+     * @param string $password If null then a random password will be assigned
+     * @return Dto\Customer
      * @throws \Exception If something goes wrong during save
      * @throws \Magento\Exception\InputException If bad input is provided
      * @throws \Magento\Exception\StateException If the provided email is already used
      */
-    public function createAccount(
-        Dto\Customer $customer,
-        array $addresses,
-        $password = null,
-        $confirmationBackUrl = '',
-        $registeredBackUrl = '',
-        $storeId = 0
-    );
+    public function createAccount(Dto\Customer $customer, array $addresses, $password = null);
 
     /**
      * Update Customer Account
      *
      * @param Dto\Customer $customer
-     * @param string $currentPassword
-     * @param string $newPassword
-     * @return Dto\Response\CreateCustomerAccountResponse
-     * @throws \Exception If something goes wrong during save
-     * @throws \Magento\Exception\InputException If bad input is provided
-     * @throws \Magento\Exception\AuthenticationException If the provided password is incorrect
+     * @param Dto\Address[]|null $addresses Full array of addresses to associate with customer,
+     *                                      or null if no change to addresses
+     * @return void
      */
-    public function updateAccount($customer, $currentPassword = null, $newPassword = null);
+    public function updateAccount(Dto\Customer $customer, array $addresses = null);
 
     /**
      * Used to activate a customer account using a key that was sent in a confirmation e-mail.
      *
      * @param int $customerId
-     * @param string $key
      * @return Dto\Customer
+     * @throws \Magento\Exception\NoSuchEntityException If customer doesn't exist
+     * @throws \Magento\Exception\StateException
+     *      StateException::INVALID_STATE_CHANGE if account already active.
+     */
+    public function activateAccount($customerId);
+
+    /**
+     * Validate an account confirmation key matches expected value for customer
+     *
+     * @param int $customerId
+     * @param string $confirmationKey
+     * @return true if customer is valid
      * @throws \Magento\Exception\NoSuchEntityException If customer doesn't exist
      * @throws \Magento\Exception\StateException
      *      StateException::INPUT_MISMATCH if key doesn't match expected.
      *      StateException::INVALID_STATE_CHANGE if account already active.
      */
-    public function activateAccount($customerId, $key);
+    public function validateAccountConfirmationKey($customerId, $confirmationKey);
 
     /**
      * Login a customer account using username and password
@@ -82,9 +80,32 @@ interface CustomerAccountServiceInterface
      * @param string $username username in plain-text
      * @param string $password password in plain-text
      * @return Dto\Customer
-     * @throws \Magento\Exception\AuthenticationException if unable to authenticate
+     * @throws \Magento\Exception\AuthenticationException If unable to authenticate
      */
     public function authenticate($username, $password);
+
+    /**
+     * Checks if a given password matches the customer password.
+     *
+     * This function can be used instead of authenticate to re-verify that a logged in
+     * user knows the password for sensitive actions.
+     *
+     * @param int $customerId
+     * @param string $password
+     * @return true
+     * @throws \Magento\Exception\AuthenticationException
+     */
+    public function validatePassword($customerId, $password);
+
+    /**
+     * Change customer password.
+     *
+     * @param int $customerId
+     * @param string $newPassword
+     * @return void
+     * @throws \Magento\Exception\NoSuchEntityException If customer with customerId is not found.
+     */
+    public function changePassword($customerId, $newPassword);
 
     /**
      * Check if password reset token is valid
@@ -92,9 +113,9 @@ interface CustomerAccountServiceInterface
      * @param int $customerId
      * @param string $resetPasswordLinkToken
      * @return void
-     * @throws \Magento\Exception\StateException if token is expired or mismatched
-     * @throws \Magento\Exception\InputException if token or customer id is invalid
-     * @throws \Magento\Exception\NoSuchEntityException if customer doesn't exist
+     * @throws \Magento\Exception\StateException If token is expired or mismatched
+     * @throws \Magento\Exception\InputException If token or customer id is invalid
+     * @throws \Magento\Exception\NoSuchEntityException If customer doesn't exist
      */
     public function validateResetPasswordLinkToken($customerId, $resetPasswordLinkToken);
 
@@ -116,9 +137,10 @@ interface CustomerAccountServiceInterface
      * @param string $password
      * @param string $resetToken
      * @return void
-     * @throws \Magento\Exception\StateException if token is expired or mismatched
-     * @throws \Magento\Exception\InputException if token or customer id is invalid
-     * @throws \Magento\Exception\NoSuchEntityException if customer doesn't exist
+     * @throws \Magento\Exception\StateException If token is expired or mismatched
+     * @throws \Magento\Exception\InputException If token or customer id is invalid
+     * @throws \Magento\Exception\NoSuchEntityException If customer doesn't exist
+     * @deprecated Use changePassword and validateResetPasswordLinkToken instead
      */
     public function resetPassword($customerId, $password, $resetToken);
 
@@ -130,13 +152,13 @@ interface CustomerAccountServiceInterface
      */
     public function getConfirmationStatus($customerId);
 
-    /*
-     * Send Confirmation email
+    /**
+     * Send Confirmation email.
      *
      * @param string $email email address of customer
      * @return void
-     * @throws \Magento\Exception\NoSuchEntityException if no customer found for provided email
-     * @throws \Magento\Exception\StateException if confirmation is not needed
+     * @throws \Magento\Exception\NoSuchEntityException If no customer found for provided email
+     * @throws \Magento\Exception\StateException If confirmation is not needed
      */
     public function sendConfirmation($email);
 

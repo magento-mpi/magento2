@@ -135,7 +135,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         // Assert in just one test that the fixture is working
         $this->assertNotNull($customerModel->getConfirmation(), 'New customer needs to be confirmed');
 
-        $this->_service->activateAccount($customerModel->getId(), $customerModel->getConfirmation());
+        $this->_service->activateAccount($customerModel->getId());
 
         $customerModel = $this->_objectManager->create('Magento\Customer\Model\Customer');
         $customerModel->load(1);
@@ -144,11 +144,29 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @magentoDataFixture Magento/Customer/_files/inactive_customer.php
+     * @magentoAppArea frontend
+     */
+    public function testValidateAccountConfirmationKey()
+    {
+        /** @var \Magento\Customer\Model\Customer $customerModel */
+        $customerModel = $this->_objectManager->create('Magento\Customer\Model\Customer');
+        $customerModel->load(1);
+        // Assert in just one test that the fixture is working
+        $this->assertNotNull($customerModel->getConfirmation(), 'New customer needs to be confirmed');
+
+        $valid = $this->_service->validateAccountConfirmationKey($customerModel->getId(),
+            $customerModel->getConfirmation());
+
+        $this->assertTrue($valid);
+    }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/inactive_customer.php
      *
      * @expectedException \Magento\Exception\StateException
      * @expectedExceptionCode \Magento\Exception\StateException::INPUT_MISMATCH
      */
-    public function testActivateAccountWrongKey()
+    public function testValidateAccountConfirmationKeyWrongKey()
     {
         /** @var \Magento\Customer\Model\Customer $customerModel */
         $customerModel = $this->_objectManager->create('Magento\Customer\Model\Customer');
@@ -156,7 +174,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $key = $customerModel->getConfirmation();
 
         try {
-            $this->_service->activateAccount($customerModel->getId(), $key . $key);
+            $this->_service->validateAccountConfirmationKey($customerModel->getId(), $key . $key);
             $this->fail('Expected exception was not thrown');
         } catch (InputException $ie) {
             $expectedParams = [
@@ -178,9 +196,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Customer\Model\Customer $customerModel */
         $customerModel = $this->_objectManager->create('Magento\Customer\Model\Customer');
         $customerModel->load(1);
-        $key = $customerModel->getConfirmation();
         try {
-            $this->_service->activateAccount('1234' . $customerModel->getId(), $key);
+            $this->_service->activateAccount('1234' . $customerModel->getId());
             $this->fail('Expected exception not thrown.');
         } catch (NoSuchEntityException $nsee) {
             $expectedParams = [
@@ -202,10 +219,9 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Customer\Model\Customer $customerModel */
         $customerModel = $this->_objectManager->create('Magento\Customer\Model\Customer');
         $customerModel->load(1);
-        $key = $customerModel->getConfirmation();
-        $this->_service->activateAccount($customerModel->getId(), $key);
+        $this->_service->activateAccount($customerModel->getId());
 
-        $this->_service->activateAccount($customerModel->getId(), $key);
+        $this->_service->activateAccount($customerModel->getId());
     }
 
 

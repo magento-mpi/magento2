@@ -405,44 +405,6 @@ class Account extends GenericMetadata
     }
 
     /**
-     * Add Password management fieldset
-     *
-     * @param \Magento\Data\Form $form
-     * @param string $fieldLabel
-     * @param boolean $isNew whether we set initial password or change existing one
-     */
-    protected function _addPasswordManagementFieldset($form, $fieldLabel, $isNew)
-    {
-        // Add password management fieldset
-        $newFieldset = $form->addFieldset(
-            'password_fieldset',
-            array('legend' => __('Password Management'))
-        );
-        if ($isNew) {
-            // New customer password for existing customer
-            $elementId = 'new_password';
-            $elementClass = 'validate-new-password';
-        } else {
-            // Password field for newly generated customer
-            $elementId = 'password';
-            $elementClass = 'input-text required-entry validate-password';
-        }
-        $field = $newFieldset->addField(
-            $elementId,
-            'text',
-            array(
-                'label' => __($fieldLabel),
-                'name'  => $elementId,
-                'class' => $elementClass,
-                'required' => !$isNew,
-            )
-        );
-        $field->setRenderer(
-            $this->getLayout()->createBlock('Magento\Customer\Block\Adminhtml\Edit\Renderer\Newpass')
-        );
-    }
-
-    /**
      * Called when account needs confirmation and does not have a confirmation key.
      *
      * @return string confirmation key

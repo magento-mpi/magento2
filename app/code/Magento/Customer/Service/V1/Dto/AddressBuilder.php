@@ -217,4 +217,14 @@ class AddressBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
         /** XXX: (string) Needed for tests to pass */
         return $this->_set('customer_id', (string)$customerId);
     }
+
+    /**
+     * Builds the entity.
+     *
+     * @return Address
+     */
+    public function create()
+    {
+        return parent::create();
+    }
 }

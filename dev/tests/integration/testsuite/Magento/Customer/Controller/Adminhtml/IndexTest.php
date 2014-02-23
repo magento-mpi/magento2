@@ -29,12 +29,17 @@ class IndexTest extends \Magento\Backend\Utility\Controller
     /** @var \Magento\Customer\Service\V1\CustomerServiceInterface */
     protected $customerService;
 
+    /** @var \Magento\Customer\Service\V1\CustomerAddressServiceInterface */
+    protected $customerAddressService;
+
     protected function setUp()
     {
         parent::setUp();
         $this->_baseControllerUrl = 'http://localhost/index.php/backend/customer/index/';
         $this->customerService = Bootstrap::getObjectManager()
             ->get('Magento\Customer\Service\V1\CustomerServiceInterface');
+        $this->customerAddressService = Bootstrap::getObjectManager()
+            ->get('Magento\Customer\Service\V1\CustomerAddressServiceInterface');
     }
 
     protected function tearDown()
@@ -181,14 +186,18 @@ class IndexTest extends \Magento\Backend\Utility\Controller
          * Check that customer id set and addresses saved
          */
         $registry = $objectManager->get('Magento\Core\Model\Registry');
-        $customer = $registry->registry(RegistryConstants::CURRENT_CUSTOMER);
-        $this->assertInstanceOf('Magento\Customer\Model\Customer', $customer);
-        $this->assertCount(1, $customer->getAddressesCollection());
+        $customerId = $registry->registry(RegistryConstants::CURRENT_CUSTOMER_ID);
+        $customer = $this->customerService->getCustomer($customerId);
+        $this->assertEquals('test firstname', $customer->getFirstname());
+        $addresses = $this->customerAddressService->getAddresses($customerId);
+        $this->assertEquals(1, count($addresses));
+        $this->assertNotEquals(0, $customer->getDefaultBilling());
+        $this->assertNull($customer->getDefaultShipping());
 
         $this->assertRedirect(
             $this->stringStartsWith(
                 $this->_baseControllerUrl
-                . 'edit/id/' . $customer->getId() . '/back/1'
+                . 'edit/id/' . $customerId . '/back/1'
             )
         );
     }
@@ -224,10 +233,10 @@ class IndexTest extends \Magento\Backend\Utility\Controller
                     'telephone' => '+7000000001',
                 ),
                 '_item1' => array(
-                    'firstname' => 'test firstname',
-                    'lastname' => 'test lastname',
-                    'street' => array('test street'),
-                    'city' => 'test city',
+                    'firstname' => 'new firstname',
+                    'lastname' => 'new lastname',
+                    'street' => array('new street'),
+                    'city' => 'new city',
                     'country_id' => 'US',
                     'postcode' => '01001',
                     'telephone' => '+7000000001',
@@ -260,8 +269,10 @@ class IndexTest extends \Magento\Backend\Utility\Controller
         /**
          * Check that customer id set and addresses saved
          */
-        $customer = $objectManager->get('Magento\Core\Model\Registry')->registry(RegistryConstants::CURRENT_CUSTOMER);
-        $this->assertInstanceOf('Magento\Customer\Model\Customer', $customer);
+        $registry = $objectManager->get('Magento\Core\Model\Registry');
+        $customerId = $registry->registry(RegistryConstants::CURRENT_CUSTOMER_ID);
+        $customer = $this->customerService->getCustomer($customerId);
+        $this->assertEquals('test firstname', $customer->getFirstname());
 
         /**
          * Addresses should be removed by \Magento\Customer\Model\Resource\Customer::_saveAddresses during _afterSave
@@ -270,17 +281,12 @@ class IndexTest extends \Magento\Backend\Utility\Controller
          * addressThree - removed
          * _item1 - new address
          */
-        $this->assertCount(2, $customer->getAddressesCollection());
-
-        /** @var $savedCustomer \Magento\Customer\Model\Customer */
-        $savedCustomer = Bootstrap::getObjectManager()
-            ->create('Magento\Customer\Model\Customer');
-        $savedCustomer->load($customer->getId());
-        /**
-         * addressOne - updated
-         * _item1 - new address
-         */
-        $this->assertCount(2, $savedCustomer->getAddressesCollection());
+        $addresses = $this->customerAddressService->getAddresses($customerId);
+        $this->assertEquals(2, count($addresses));
+        $updatedAddress = $this->customerAddressService->getAddressById(1);
+        $this->assertEquals('update firstname', $updatedAddress->getFirstname());
+        $newAddress = $this->customerAddressService->getDefaultShippingAddress($customerId);
+        $this->assertEquals('new firstname', $newAddress->getFirstname());
 
         $this->assertRedirect($this->stringStartsWith($this->_baseControllerUrl . 'index/key/'));
     }

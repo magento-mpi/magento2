@@ -49,7 +49,7 @@ class Validator extends \Magento\Eav\Model\Validator\Attribute\Data
      * @param string                                                   $entityType
      * @return bool
      */
-    public function validateData($data, $attributes, $entityType)
+    public function validateData(array $data, array $attributes, $entityType)
     {
         foreach ($attributes as $attribute) {
             $attributeCode = $attribute->getAttributeCode();

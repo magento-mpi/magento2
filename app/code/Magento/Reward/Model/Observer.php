@@ -69,6 +69,9 @@ class Observer
      */
     protected $_rateFactory;
 
+    /** @var \Magento\Customer\Model\Converter */
+    protected $_customerConverter;
+
     /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Reward\Helper\Data $rewardData
@@ -93,7 +96,8 @@ class Observer
         \Magento\Reward\Model\Resource\Reward\History\CollectionFactory $historyCollectionFactory,
         \Magento\Reward\Model\Resource\Reward\HistoryFactory $historyItemFactory,
         \Magento\Reward\Model\Resource\RewardFactory $rewardResourceFactory,
-        \Magento\Reward\Model\Reward\RateFactory $rateFactory
+        \Magento\Reward\Model\Reward\RateFactory $rateFactory,
+        \Magento\Customer\Model\Converter $customerConverter
     ) {
         $this->_coreData = $coreData;
         $this->_rewardData = $rewardData;
@@ -106,6 +110,7 @@ class Observer
         $this->_historyItemFactory = $historyItemFactory;
         $this->_rewardResourceFactory = $rewardResourceFactory;
         $this->_rateFactory = $rateFactory;
+        $this->_customerConverter = $customerConverter;
     }
 
     /**
@@ -123,7 +128,7 @@ class Observer
         $request = $observer->getEvent()->getRequest();
         $data = $request->getPost('reward');
         if ($data && !empty($data['points_delta'])) {
-            /** @var $customer \Magento\Customer\Model\Customer */
+            /** @var \Magento\Customer\Service\V1\Dto\Customer $customer */
             $customer = $observer->getEvent()->getCustomer();
 
             if (!isset($data['store_id'])) {
@@ -133,15 +138,16 @@ class Observer
                     $data['store_id'] = $customer->getStoreId();
                 }
             }
+            $customerModel = $this->_customerConverter->getCustomerModel($customer->getCustomerId());
             /** @var $reward \Magento\Reward\Model\Reward */
             $reward = $this->_getRewardModel();
-            $reward->setCustomer($customer)
+            $reward->setCustomer($customerModel)
                 ->setWebsiteId($this->_storeManager->getStore($data['store_id'])->getWebsiteId())
                 ->loadByCustomer();
 
             $reward->addData($data);
             $reward->setAction(\Magento\Reward\Model\Reward::REWARD_ACTION_ADMIN)
-                ->setActionEntity($customer)
+                ->setActionEntity($customerModel)
                 ->updateRewardPoints();
         }
         return $this;
@@ -151,27 +157,34 @@ class Observer
      * Update reward notifications for customer
      *
      * @param \Magento\Event\Observer $observer
-     * @return $this|null
+     * @return $this
      */
     public function saveRewardNotifications($observer)
     {
         if (!$this->_rewardData->isEnabled()) {
-            return;
+            return $this;
         }
 
         $request = $observer->getEvent()->getRequest();
-        $customer = $observer->getEvent()->getCustomer();
+        /** @var \Magento\Customer\Service\V1\Dto\CustomerBuilder $customer */
+        $customerBuilder = $observer->getEvent()->getCustomer();
+        // FIXME: This is an ugly use case
+        $customer = $customerBuilder->create();
+        $customerBuilder->populate($customer);
 
         $data = $request->getPost('reward');
-        $subscribeByDefault = (int)$this->_rewardData
-            ->getNotificationConfig('subscribe_by_default', (int)$customer->getWebsiteId());
-        if ($customer->isObjectNew()) {
+        // If new customer
+        if (!$customer->getCustomerId()) {
+            $subscribeByDefault = (int)$this->_rewardData
+                ->getNotificationConfig('subscribe_by_default', (int)$customer->getWebsiteId());
             $data['reward_update_notification']  = $subscribeByDefault;
             $data['reward_warning_notification'] = $subscribeByDefault;
         }
 
-        $customer->setRewardUpdateNotification(!empty($data['reward_update_notification']) ? 1 : 0);
-        $customer->setRewardWarningNotification(!empty($data['reward_warning_notification']) ? 1 : 0);
+        $customerBuilder->setCustomAttribute('set_reward_update_notification',
+            (!empty($data['reward_update_notification']) ? 1 : 0));
+        $customerBuilder->setCustomAttribute('set_reward_warning_notification',
+            (!empty($data['reward_warning_notification']) ? 1 : 0));
 
         return $this;
     }

@@ -56,11 +56,6 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     private $_validator;
 
     /**
-     * @var Dto\Response\CreateCustomerAccountResponseBuilder
-     */
-    private $_createCustomerAccountResponseBuilder;
-
-    /**
      * @var CustomerServiceInterface
      */
     private $_customerService;
@@ -79,7 +74,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
      * @param Random $mathRandom
      * @param Converter $converter
      * @param Validator $validator
-     * @param Dto\Response\CreateCustomerAccountResponseBuilder $createCustomerAccountResponseBuilder
+     * @param Dto\CustomerBuilder $customerBuilder
      * @param CustomerServiceInterface $customerService
      * @param CustomerAddressServiceInterface $customerAddressService
      */
@@ -90,7 +85,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         Random $mathRandom,
         Converter $converter,
         Validator $validator,
-        Dto\Response\CreateCustomerAccountResponseBuilder $createCustomerAccountResponseBuilder,
+        Dto\CustomerBuilder $customerBuilder,
         CustomerServiceInterface $customerService,
         CustomerAddressServiceInterface $customerAddressService
     ) {
@@ -100,7 +95,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         $this->_mathRandom = $mathRandom;
         $this->_converter = $converter;
         $this->_validator = $validator;
-        $this->_createCustomerAccountResponseBuilder = $createCustomerAccountResponseBuilder;
+        $this->_customerBuilder = $customerBuilder;
         $this->_customerService = $customerService;
         $this->_customerAddressService = $customerAddressService;
     }
@@ -127,25 +122,39 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function activateAccount($customerId, $key)
+    public function activateAccount($customerId)
     {
         // load customer by id
         $customer = $this->_converter->getCustomerModel($customerId);
 
         // check if customer is inactive
-        if ($customer->getConfirmation()) {
-            if ($customer->getConfirmation() !== $key) {
-                throw new StateException('Invalid confirmation token', StateException::INPUT_MISMATCH);
-            }
-            // activate customer
-            $customer->setConfirmation(null);
-            $customer->save();
-            $customer->sendNewAccountEmail('confirmed', '', $this->_storeManager->getStore()->getId());
-        } else {
+        if (!$customer->getConfirmation()) {
             throw new StateException('Account already active', StateException::INVALID_STATE);
         }
 
+        // activate customer
+        $customer->setConfirmation(null);
+        $customer->save();
+        $customer->sendNewAccountEmail('confirmed', '', $this->_storeManager->getStore()->getId());
+
         return $this->_converter->createCustomerFromModel($customer);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function validateAccountConfirmationKey($customerId, $confirmationKey)
+    {
+        // load customer by id
+        $customer = $this->_converter->getCustomerModel($customerId);
+
+        // check if customer is inactive
+        if (!$customer->getConfirmation()) {
+            throw new StateException('Account already active', StateException::INVALID_STATE);
+        } elseif ($customer->getConfirmation() !== $confirmationKey) {
+            throw new StateException('Invalid confirmation token', StateException::INPUT_MISMATCH);
+        }
+        return true;
     }
 
     /**
@@ -174,6 +183,19 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         $this->_eventManager->dispatch('customer_login', array('customer'=>$customerModel));
 
         return $this->_converter->createCustomerFromModel($customerModel);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function validatePassword($customerId, $password)
+    {
+        $customerModel = $this->_converter->getCustomerModel($customerId);
+        if (!$customerModel->validatePassword($password)) {
+            throw new AuthenticationException(__('Invalid current password.'),
+                AuthenticationException::INVALID_EMAIL_OR_PASSWORD);
+        }
+        return true;
     }
 
     /**
@@ -234,25 +256,30 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     public function createAccount(
         Dto\Customer $customer,
         array $addresses,
-        $password = null,
-        $confirmationBackUrl = '',
-        $registeredBackUrl = '',
-        $storeId = 0
+        $password = null
     ) {
-        $customerId = $customer->getCustomerId();
-        if ($customerId) {
-            $customerModel = $this->_converter->getCustomerModel($customerId);
-            if ($customerModel->isInStore($storeId)) {
-                return $this->_createCustomerAccountResponseBuilder->setCustomerId($customerId)
-                    ->setStatus('')
-                    ->create();
-            }
+        if ($customer->getCustomerId()) {
+            $customer = $this->_customerBuilder->populate($customer)
+                ->setCustomerId(null)
+                ->create();
         }
+        if (!$customer->getStoreId()) {
+            if ($customer->getWebsiteId()) {
+                $storeId = $this->_storeManager->getWebsite($customer->getWebsiteId())->getDefaultStore()->getId();
+            } else {
+                $storeId = $this->_storeManager->getStore()->getId();
+            }
+            $customer = $this->_customerBuilder->populate($customer)
+                ->setStoreId($storeId)
+                ->create();
+        }
+
         try {
             $customerId = $this->_customerService->saveCustomer($customer, $password);
         } catch (\Magento\Customer\Exception $e) {
             if ($e->getCode() === CustomerModel::EXCEPTION_EMAIL_EXISTS) {
-                throw new StateException('Provided email already exists.', StateException::INPUT_MISMATCH);
+                throw new StateException(__('Customer with the same email already exists in associated website.'),
+                    StateException::INPUT_MISMATCH);
             }
             throw $e;
         }
@@ -264,41 +291,50 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         $newLinkToken = $this->_mathRandom->getUniqueHash();
         $customerModel->changeResetPasswordLinkToken($newLinkToken);
 
-        if (!$storeId) {
-            $storeId = $this->_storeManager->getStore()->getId();
-        }
-
         if ($customerModel->isConfirmationRequired()) {
-            $customerModel->sendNewAccountEmail('confirmation', $confirmationBackUrl, $storeId);
-            return $this->_createCustomerAccountResponseBuilder->setCustomerId($customerId)
-                ->setStatus(self::ACCOUNT_CONFIRMATION)
-                ->create();
+            $customerModel->sendNewAccountEmail('confirmation', '', $customer->getStoreId());
         } else {
-            $customerModel->sendNewAccountEmail('registered', $registeredBackUrl, $storeId);
-            return $this->_createCustomerAccountResponseBuilder->setCustomerId($customerId)
-                ->setStatus(self::ACCOUNT_REGISTERED)
-                ->create();
+            $customerModel->sendNewAccountEmail('registered', '', $customer->getStoreId());
+        }
+        return $this->_converter->createCustomerFromModel($customerModel);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function updateAccount(Dto\Customer $customer, array $addresses = null)
+    {
+        // Making this call first will ensure the customer already exists.
+        $this->_customerService->getCustomer($customer->getCustomerId());
+        $this->_customerService->saveCustomer($customer);
+
+        if ($addresses != null) {
+            $existingAddresses = $this->_customerAddressService->getAddresses($customer->getCustomerId());
+            /** @var Dto\Address[] $deletedAddresses */
+            $deletedAddresses = array_udiff($existingAddresses, $addresses,
+                function (Dto\Address $existing, Dto\Address $replacement) {
+                    return $existing->getId() - $replacement->getId();
+                }
+            );
+            foreach ($deletedAddresses as $address) {
+                $this->_customerAddressService->deleteAddress($address->getId());
+            }
+            $this->_customerAddressService->saveAddresses($customer->getCustomerId(), $addresses);
         }
     }
 
     /**
      * {@inheritdoc}
      */
-    public function updateAccount($customer, $currentPassword = null, $newPassword = null)
+    public function changePassword($customerId, $newPassword)
     {
-        $customerModel = $this->_converter->getCustomerModel($customer->getCustomerId());
-
-        if ($currentPassword && $newPassword) {
-            if ($customerModel->validatePassword($currentPassword)) {
-                $customerId = $this->_customerService->saveCustomer($customer, $newPassword);
-                $customerModel->sendPasswordResetNotificationEmail();
-            } else {
-                throw new AuthenticationException(__('Invalid current password.'),
-                    AuthenticationException::INVALID_EMAIL_OR_PASSWORD);
-            }
-        } else {
-            $customerId = $this->_customerService->saveCustomer($customer);
-        }
+        $customerModel = $this->_converter->getCustomerModel($customerId);
+        $customerModel->setRpToken(null);
+        $customerModel->setRpTokenCreatedAt(null);
+        $customerModel->setPassword($newPassword);
+        $customerModel->save();
+        // FIXME: Are we using the proper template here?
+        $customerModel->sendPasswordResetNotificationEmail();
     }
 
     /**
@@ -335,8 +371,8 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     /**
      * Validate the Reset Password Token for a customer.
      *
-     * @param $customerId
-     * @param $resetPasswordLinkToken
+     * @param int $customerId
+     * @param string $resetPasswordLinkToken
      * @return CustomerModel
      * @throws \Magento\Exception\StateException if token is expired or mismatched
      * @throws \Magento\Exception\InputException if token or customer id is invalid
