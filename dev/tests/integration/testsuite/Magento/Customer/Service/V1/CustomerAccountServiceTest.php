@@ -112,8 +112,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @magentoDataFixture Magento/Customer/_files/customer.php
-     *
      * @expectedException \Magento\Exception\AuthenticationException
      * @expectedExceptionMessage Invalid login or password
      */
@@ -121,6 +119,38 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     {
         // Customer e-mail and password are pulled from the fixture customer.php
         $this->_service->authenticate('non_existing_user', 'password', true);
+    }
+
+
+    /**
+     * @magentoAppArea frontend
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     */
+    public function testValidatePassword()
+    {
+        // Customer e-mail and password are pulled from the fixture customer.php
+        $this->_service->validatePassword(1, 'password');
+    }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     *
+     * @expectedException \Magento\Exception\AuthenticationException
+     * @expectedExceptionMessage Password doesn't match for this account
+     */
+    public function testValidatePasswordWrongPassword()
+    {
+        // Customer e-mail and password are pulled from the fixture customer.php
+        $this->_service->validatePassword(1, 'wrongPassword');
+    }
+
+    /**
+     * @expectedException \Magento\Exception\NoSuchEntityException
+     */
+    public function testValidatePasswordWrongUser()
+    {
+        // Customer e-mail and password are pulled from the fixture customer.php
+        $this->_service->validatePassword(4200, 'password');
     }
 
     /**
@@ -362,7 +392,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
      */
-    public function testResetPassword()
+    public function testChangePassword()
     {
         $resetToken = 'lsdj579slkj5987slkj595lkj';
         $password = 'password_secret';
@@ -373,58 +403,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         ]));
         $this->_customerService->saveCustomer($this->_customerBuilder->create());
 
-        $this->_service->resetPassword(1, $password, $resetToken);
-    }
-
-    /**
-     * @magentoDataFixture Magento/Customer/_files/customer.php
-     *
-     * @expectedException \Magento\Exception\StateException
-     * @expectedExceptionCode \Magento\Exception\StateException::EXPIRED
-     */
-    public function testResetPasswordTokenExpired()
-    {
-        $resetToken = 'lsdj579slkj5987slkj595lkj';
-        $password = 'password_secret';
-
-        $this->_customerBuilder->populateWithArray(array_merge($this->_customerService->getCustomer(1)->__toArray(), [
-            'rp_token' => $resetToken,
-            'rp_token_created_at' => '1970-01-01',
-        ]));
-        $this->_customerService->saveCustomer($this->_customerBuilder->create());
-
-        $this->_service->resetPassword(1, $password, $resetToken);
-    }
-
-    /**
-     * @magentoDataFixture Magento/Customer/_files/customer.php
-     *
-     */
-    public function testResetPasswordTokenInvalid()
-    {
-        $resetToken = 'lsdj579slkj5987slkj595lkj';
-        $invalidToken = 0;
-        $password = 'password_secret';
-
-        $this->_customerBuilder->populateWithArray(array_merge($this->_customerService->getCustomer(1)->__toArray(), [
-            'rp_token' => $resetToken,
-            'rp_token_created_at' => date('Y-m-d')
-        ]));
-        $this->_customerService->saveCustomer($this->_customerBuilder->create());
-
-        try {
-            $this->_service->resetPassword(1, $password, $invalidToken);
-            $this->fail('Expected exception not thrown.');
-        } catch (InputException $ie) {
-            $expectedParams = [
-                [
-                    'value' => $invalidToken,
-                    'fieldName' => 'resetPasswordLinkToken',
-                    'code' => InputException::INVALID_FIELD_VALUE,
-                ]
-            ];
-            $this->assertEquals($expectedParams, $ie->getParams());
-        }
+        $this->_service->changePassword(1, $password);
     }
 
     /**
@@ -441,7 +420,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         ]));
         $this->_customerService->saveCustomer($this->_customerBuilder->create());
         try {
-            $this->_service->resetPassword(4200, $password, $resetToken);
+            $this->_service->changePassword(4200, $password);
             $this->fail('Expected exception not thrown.');
         } catch (NoSuchEntityException $nsee) {
             $expectedParams = [
@@ -449,35 +428,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             ];
             $this->assertEquals($expectedParams, $nsee->getParams());
         }
-    }
-
-    /**
-     * @magentoDataFixture Magento/Customer/_files/customer.php
-     */
-    public function testResetPasswordTokenInvalidUserId()
-    {
-        $resetToken = 'lsdj579slkj5987slkj595lkj';
-        $password = 'password_secret';
-
-        $this->_customerBuilder->populateWithArray(array_merge($this->_customerService->getCustomer(1)->__toArray(), [
-            'rp_token' => $resetToken,
-            'rp_token_created_at' => date('Y-m-d')
-        ]));
-        $this->_customerService->saveCustomer($this->_customerBuilder->create());
-        try {
-            $this->_service->resetPassword(0, $password, $resetToken);
-            $this->fail('Expected exception not thrown.');
-        } catch (InputException $ie) {
-            $expectedParams = [
-                [
-                    'value' => 0,
-                    'fieldName' => 'customerId',
-                    'code' => InputException::INVALID_FIELD_VALUE,
-                ]
-            ];
-            $this->assertEquals($expectedParams, $ie->getParams());
-        }
-
     }
 
     /**

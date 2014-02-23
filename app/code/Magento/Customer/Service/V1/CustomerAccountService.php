@@ -192,7 +192,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     {
         $customerModel = $this->_converter->getCustomerModel($customerId);
         if (!$customerModel->validatePassword($password)) {
-            throw new AuthenticationException(__('Invalid current password.'),
+            throw new AuthenticationException(__("Password doesn't match for this account."),
                 AuthenticationException::INVALID_EMAIL_OR_PASSWORD);
         }
         return true;

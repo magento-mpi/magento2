@@ -795,7 +795,8 @@ class Account extends \Magento\App\Action\Action
         }
 
         try {
-            $this->_customerAccountService->resetPassword($customerId, $password, $resetPasswordToken);
+            $this->_customerAccountService->validateResetPasswordLinkToken($customerId, $resetPasswordToken);
+            $this->_customerAccountService->changePassword($customerId, $password);
             $this->messageManager->addSuccess(
                 __('Your password has been updated.')
             );

@@ -136,6 +136,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
                     'isResetPasswordLinkTokenExpired',
                     'changeResetPasswordLinkToken',
                     'sendPasswordResetConfirmationEmail',
+                    'sendPasswordResetNotificationEmail',
+                    'validatePassword',
                 )
             )
             ->getMock();
@@ -436,6 +438,58 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $customerService->authenticate(self::EMAIL, self::PASSWORD, self::WEBSITE_ID);
     }
 
+    public function testValidatePassword()
+    {
+        $this->_mockReturnValue(
+            $this->_customerModelMock,
+            array(
+                'getId' => self::ID,
+                'authenticate' => true,
+                'load' => $this->_customerModelMock,
+                'getAttributes' => array(),
+                'validatePassword' => true,
+            )
+        );
+
+        $this->_customerFactoryMock->expects($this->any())
+            ->method('create')
+            ->will($this->returnValue($this->_customerModelMock));
+
+        $customerService = $this->_createService();
+
+        $result = $customerService->validatePassword(self::ID, self::PASSWORD);
+
+        $this->assertTrue($result);
+    }
+
+    /**
+     * @expectedException \Magento\Exception\AuthenticationException
+     * @expectedExceptionMessage Password doesn't match for this account.
+     */
+    public function testValidatePasswordWithException()
+    {
+        $this->_mockReturnValue(
+            $this->_customerModelMock,
+            array(
+                'getId' => self::ID,
+                'load' => $this->_customerModelMock,
+                'validatePassword' => false,
+            )
+        );
+
+        $this->_customerModelMock->expects($this->any())
+            ->method('authenticate')
+            ->will($this->throwException(new \Magento\Core\Exception('exception message') ));
+
+        $this->_customerFactoryMock->expects($this->any())
+            ->method('create')
+            ->will($this->returnValue($this->_customerModelMock));
+
+        $customerService = $this->_createService();
+
+        $customerService->validatePassword(self::ID, self::PASSWORD);
+    }
+
     public function testValidateResetPasswordLinkToken()
     {
         $resetToken = 'lsdj579slkj5987slkj595lkj';
@@ -664,7 +718,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $customerService->sendPasswordResetLink($email, self::WEBSITE_ID);
     }
 
-    public function testResetPassword()
+    public function testChangePassword()
     {
         $resetToken = 'lsdj579slkj5987slkj595lkj';
         $password = 'password_secret';
@@ -697,10 +751,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         $customerService = $this->_createService();
 
-        $customerService->resetPassword(self::ID, $password, $resetToken);
+        $customerService->changePassword(self::ID, $password);
     }
 
-    public function testResetPasswordShortPassword()
+    public function testChangePasswordShortPassword()
     {
         $resetToken = 'lsdj579slkj5987slkj595lkj';
         $password = '';
@@ -733,79 +787,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         $customerService = $this->_createService();
 
-        $customerService->resetPassword(self::ID, $password, $resetToken);
+        $customerService->changePassword(self::ID, $password);
     }
 
-    /**
-     * @expectedException \Magento\Exception\StateException
-     * @expectedExceptionCode \Magento\Exception\StateException::EXPIRED
-     */
-    public function testResetPasswordTokenExpired()
-    {
-        $resetToken = 'lsdj579slkj5987slkj595lkj';
-        $password = 'password_secret';
-
-        $this->_mockReturnValue(
-            $this->_customerModelMock,
-            array(
-                'getId' => self::ID,
-                'load' => $this->_customerModelMock,
-                'getRpToken' => $resetToken,
-                'isResetPasswordLinkTokenExpired' => true,
-            )
-        );
-        $this->_customerFactoryMock->expects($this->any())
-            ->method('create')
-            ->will($this->returnValue($this->_customerModelMock));
-
-        $this->_customerModelMock->expects($this->never())
-            ->method('setRpToken');
-        $this->_customerModelMock->expects($this->never())
-            ->method('setRpTokenCreatedAt');
-        $this->_customerModelMock->expects($this->never())
-            ->method('setPassword');
-
-        $customerService = $this->_createService();
-
-        $customerService->resetPassword(self::ID, $password, $resetToken);
-    }
-
-    /**
-     * @expectedException \Magento\Exception\StateException
-     * @expectedExceptionCode \Magento\Exception\StateException::INPUT_MISMATCH
-     */
-    public function testResetPasswordTokenInvalid()
-    {
-        $resetToken = 'lsdj579slkj5987slkj595lkj';
-        $invalidToken = $resetToken . 'invalid';
-        $password = 'password_secret';
-
-        $this->_mockReturnValue(
-            $this->_customerModelMock,
-            array(
-                'getId' => self::ID,
-                'load' => $this->_customerModelMock,
-                'getRpToken' => $resetToken,
-                'isResetPasswordLinkTokenExpired' => false,
-            )
-        );
-        $this->_customerFactoryMock->expects($this->any())
-            ->method('create')
-            ->will($this->returnValue($this->_customerModelMock));
-
-        $this->_customerModelMock->expects($this->never())
-            ->method('setRpToken');
-        $this->_customerModelMock->expects($this->never())
-            ->method('setRpTokenCreatedAt');
-        $this->_customerModelMock->expects($this->never())
-            ->method('setPassword');
-
-        $customerService = $this->_createService();
-
-        $customerService->resetPassword(self::ID, $password, $invalidToken);
-    }
-
-    public function testResetPasswordTokenWrongUser()
+    public function testChangePasswordWrongUser()
     {
         $resetToken = 'lsdj579slkj5987slkj595lkj';
         $password = 'password_secret';
@@ -833,7 +818,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $customerService = $this->_createService();
 
         try {
-            $customerService->resetPassword(4200, $password, $resetToken);
+            $customerService->changePassword(4200, $password);
             $this->fail("Expected NoSuchEntityException not caught");
         } catch (\Magento\Exception\NoSuchEntityException $nsee) {
             $this->assertSame($nsee->getCode(), \Magento\Exception\NoSuchEntityException::NO_SUCH_ENTITY);
@@ -843,48 +828,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
                     'customerId' => 4200,
                 ]
             );
-        }
-    }
-
-    public function testResetPasswordTokenInvalidUserId()
-    {
-        $resetToken = 'lsdj579slkj5987slkj595lkj';
-        $password = 'password_secret';
-
-        $this->_mockReturnValue(
-            $this->_customerModelMock,
-            array(
-                'getId' => 0,
-                'load' => $this->_customerModelMock,
-                'getRpToken' => $resetToken,
-                'isResetPasswordLinkTokenExpired' => false,
-            )
-        );
-        $this->_customerFactoryMock->expects($this->any())
-            ->method('create')
-            ->will($this->returnValue($this->_customerModelMock));
-
-        $this->_customerModelMock->expects($this->never())
-            ->method('setRpToken');
-        $this->_customerModelMock->expects($this->never())
-            ->method('setRpTokenCreatedAt');
-        $this->_customerModelMock->expects($this->never())
-            ->method('setPassword');
-
-        $customerService = $this->_createService();
-
-        try {
-            $customerService->resetPassword(0, $password, $resetToken);
-            $this->fail('Expected exception not thrown.');
-        } catch ( InputException $e) {
-            $expectedParams = [
-                [
-                    'code' => InputException::INVALID_FIELD_VALUE,
-                    'fieldName' => 'customerId',
-                    'value' => 0,
-                ]
-            ];
-            $this->assertEquals($expectedParams, $e->getParams());
         }
     }
 
