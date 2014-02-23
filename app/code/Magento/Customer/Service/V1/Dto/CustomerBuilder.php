@@ -167,7 +167,7 @@ class CustomerBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
      * @param string|int $value
      * @return $this
      */
-    public function setCustomAttribute($attributeCode, $value)
+    public function setAttribute($attributeCode, $value)
     {
         return $this->_set($attributeCode, $value);
     }

@@ -181,10 +181,10 @@ class Observer
             $data['reward_warning_notification'] = $subscribeByDefault;
         }
 
-        $customerBuilder->setCustomAttribute('set_reward_update_notification',
-            (!empty($data['reward_update_notification']) ? 1 : 0));
-        $customerBuilder->setCustomAttribute('set_reward_warning_notification',
-            (!empty($data['reward_warning_notification']) ? 1 : 0));
+        $customerBuilder->setAttribute('set_reward_update_notification',
+            (empty($data['reward_update_notification']) ? 0 : 1));
+        $customerBuilder->setAttribute('set_reward_warning_notification',
+            (empty($data['reward_warning_notification']) ? 0 : 1));
 
         return $this;
     }

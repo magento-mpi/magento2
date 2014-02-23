@@ -80,26 +80,6 @@ class Observer
     }
 
     /**
-     * Prepare customer balance POST data
-     *
-     * @param \Magento\Event\Observer $observer
-     */
-    public function prepareCustomerBalanceSave($observer)
-    {
-//        if (!$this->_customerBalanceData->isEnabled()) {
-//            return;
-//        }
-//        /* @var $customer \Magento\Customer\Service\V1\Dto\Customer */
-//        $customer = $observer->getCustomer();
-//        /* @var $request \Magento\App\RequestInterface */
-//        $request = $observer->getRequest();
-//        $data = $request->getPost('customerbalance');
-//        if ($data) {
-//            $customer->setCustomerBalanceData($data);
-//        }
-    }
-
-    /**
      * Customer balance update after save
      *
      * @param \Magento\Event\Observer $observer

@@ -60,7 +60,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param \Magento\Customer\Model\Customer $customer
+     * @param Customer $customer
      * @param mixed $pointsDelta
      */
     protected function _saveRewardPoints(Customer $customer, $pointsDelta = '')
