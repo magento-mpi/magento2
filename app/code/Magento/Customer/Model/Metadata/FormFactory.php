@@ -32,19 +32,22 @@ class FormFactory
      * @param string $formCode
      * @param array $attributeValues
      * @param bool $isAjax
+     * @param bool $ignoreVisible
      * @return \Magento\Customer\Model\Metadata\Form
      */
     public function create(
         $entityType,
         $formCode,
         $attributeValues = [],
-        $isAjax = false
+        $isAjax = false,
+        $ignoreVisible = true
     ) {
         $params = [
             'entityType' => $entityType,
             'formCode' => $formCode,
             'attributeValues' => $attributeValues,
             'isAjax' => $isAjax,
+            'ignoreVisible' => $ignoreVisible
         ];
         return $this->_objectManager->create('Magento\Customer\Model\Metadata\Form', $params);
     }

@@ -14,10 +14,9 @@ use Magento\Customer\Controller\RegistryConstants;
 use Magento\Customer\Service\V1\Dto\Customer;
 use Magento\Customer\Service\V1\Dto\CustomerBuilder;
 use Magento\Customer\Service\V1\Dto\AddressBuilder;
-use Magento\Customer\Service\V1\Dto\Address;
 use Magento\Customer\Service\V1\CustomerServiceInterface;
-use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 use Magento\Exception\NoSuchEntityException;
 
 class Index extends \Magento\Backend\App\Action
@@ -73,8 +72,8 @@ class Index extends \Magento\Backend\App\Action
     /** @var CustomerAddressServiceInterface */
     protected $_addressService;
 
-    /** @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface */
-    protected $_customerAccountService;
+    /** @var CustomerAccountServiceInterface */
+    protected $_accountService;
 
     /** @var  \Magento\Customer\Helper\View */
     protected $_viewHelper;
@@ -94,7 +93,7 @@ class Index extends \Magento\Backend\App\Action
      * @param AddressBuilder $addressBuilder
      * @param CustomerServiceInterface $customerService
      * @param CustomerAddressServiceInterface $addressService
-     * @param CustomerAccountServiceInterface $customerAccountService
+     * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $accountService
      * @param \Magento\Customer\Helper\View $viewHelper
      * @param \Magento\Customer\Helper\Data $helper
      * @param \Magento\Math\Random $random
@@ -111,7 +110,7 @@ class Index extends \Magento\Backend\App\Action
         AddressBuilder $addressBuilder,
         CustomerServiceInterface $customerService,
         CustomerAddressServiceInterface $addressService,
-        CustomerAccountServiceInterface $customerAccountService,
+        CustomerAccountServiceInterface $accountService,
         \Magento\Customer\Helper\View $viewHelper,
         \Magento\Customer\Helper\Data $helper,
         \Magento\Math\Random $random
@@ -127,7 +126,7 @@ class Index extends \Magento\Backend\App\Action
         $this->_formFactory = $formFactory;
         $this->_customerService = $customerService;
         $this->_addressService = $addressService;
-        $this->_customerAccountService = $customerAccountService;
+        $this->_accountService = $accountService;
         $this->_viewHelper = $viewHelper;
         $this->_random = $random;
         parent::__construct($context);
@@ -150,6 +149,7 @@ class Index extends \Magento\Backend\App\Action
             $customer->load($customerId);
         }
 
+        // TODO: Investigate if any piece of code still relies on this; remove if not.
         $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER, $customer);
         $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER_ID, $customerId);
         return $customerId;
@@ -340,6 +340,8 @@ class Index extends \Magento\Backend\App\Action
 
     /**
      * Save customer action
+     *
+     * @return void
      */
     public function saveAction()
     {
@@ -380,9 +382,9 @@ class Index extends \Magento\Backend\App\Action
 
                 // Save customer
                 if ($isExistingCustomer) {
-                    $this->_customerAccountService->updateAccount($customer, $addresses);
+                    $this->_accountService->updateAccount($customer, $addresses);
                 } else {
-                    $customer = $this->_customerAccountService->createAccount($customer, $addresses);
+                    $customer = $this->_accountService->createAccount($customer, $addresses);
                 }
 
                 if ($customerData['is_subscribed']) {
@@ -436,17 +438,6 @@ class Index extends \Magento\Backend\App\Action
         } else {
             $this->_redirect('customer/index');
         }
-    }
-
-    /**
-     * Check if password should be generated automatically
-     *
-     * @param array $customerData
-     * @return bool
-     */
-    private function _isAutogeneratePassword(array $customerData)
-    {
-        return !empty($customerData['autogenerate_password']);
     }
 
     /**
@@ -519,10 +510,9 @@ class Index extends \Magento\Backend\App\Action
      */
     protected function _extractCustomerData()
     {
-        $customerData = array();
+        $customerData = [];
         if ($this->getRequest()->getPost('account')) {
-            $serviceAttributes = array(
-               'default_billing', 'default_shipping', 'confirmation', 'sendemail');
+            $serviceAttributes = ['default_billing', 'default_shipping', 'confirmation', 'sendemail'];
 
             /** @var \Magento\Customer\Model\Customer $customerEntity */
             $customerEntity = $this->_objectManager->get('Magento\Customer\Model\CustomerFactory')->create();
@@ -679,7 +669,7 @@ class Index extends \Magento\Backend\App\Action
     }
 
     /**
-     * [Handle and then] get a cart grid contents
+     * Handle and then get cart grid contents
      *
      * @return string
      */
@@ -771,7 +761,7 @@ class Index extends \Magento\Backend\App\Action
      * Customer validation
      *
      * @param \Magento\Object $response
-     * @return \Magento\Customer\Model\Customer|null
+     * @return Customer|null
      */
     protected function _validateCustomer($response)
     {
@@ -779,33 +769,29 @@ class Index extends \Magento\Backend\App\Action
         $errors = null;
 
         try {
-            /** @var \Magento\Customer\Model\Customer $customer */
-            $customer = $this->_objectManager->create('Magento\Customer\Model\Customer');
+            /** @var Customer $customer */
+            $customer = $this->_customerBuilder->create();
             $customerId = $this->getRequest()->getParam('id');
             if ($customerId) {
-                $customer->load($customerId);
+                $customer = $this->_customerService->getCustomer($customerId);
             }
 
-            /* @var $customerForm \Magento\Customer\Model\Form */
-            $customerForm = $this->_objectManager->get('Magento\Customer\Model\Form');
-            $customerForm->setEntity($customer)
-                ->setFormCode('adminhtml_customer')
-                ->setIsAjaxRequest(true)
-                ->ignoreInvisible(false);
+            $customerForm = $this->_formFactory->create(
+                'customer',
+                'adminhtml_customer',
+                $customer->getAttributes(),
+                true,
+                false
+            );
+
             $data = $customerForm->extractData($this->getRequest(), 'account');
-            $accountData = $this->getRequest()->getPost('account');
-            $data['password'] = isset($accountData['password']) ? $accountData['password'] : '';
-            if (!$customer->getId()) {
-                $data['password'] = $customer->generatePassword();
-            }
-            $data['confirmation'] = $data['password'];
 
             if ($customer->getWebsiteId()) {
                 unset($data['website_id']);
             }
 
-            $customer->addData($data);
-            $errors = $customer->validate();
+            $customer = $this->_customerBuilder->populateWithArray($data)->create();
+            $errors = $this->_accountService->validateCustomerData($customer, []);
         } catch (\Magento\Core\Exception $exception) {
             /* @var $error \Magento\Message\Error */
             foreach ($exception->getMessages(\Magento\Message\MessageInterface::TYPE_ERROR) as $error) {
@@ -827,27 +813,31 @@ class Index extends \Magento\Backend\App\Action
      * Customer address validation.
      *
      * @param \Magento\Object $response
-     * @param \Magento\Customer\Model\Customer $customer
+     * @param Customer $customer
      */
     protected function _validateCustomerAddress($response, $customer)
     {
         $addressesData = $this->getRequest()->getParam('address');
         if (is_array($addressesData)) {
-            /* @var $addressForm \Magento\Customer\Model\Form */
-            $addressForm = $this->_objectManager->create('Magento\Customer\Model\Form');
-            $addressForm->setFormCode('adminhtml_customer_address')->ignoreInvisible(false);
+            $addressForm = $this->_formFactory->create(
+                'customer_address',
+                'adminhtml_customer_address',
+                [],
+                false,
+                false
+            );
+
             foreach (array_keys($addressesData) as $index) {
                 if ($index == '_template_') {
                     continue;
                 }
-                $address = $customer->getAddressItemById($index);
+                $address = $this->_addressService->getAddressById($index);
                 if (!$address) {
-                    $address   = $this->_objectManager->create('Magento\Customer\Model\Address');
+                    $address = $this->_addressBuilder->create();
                 }
 
                 $requestScope = sprintf('address/%s', $index);
-                $formData = $addressForm->setEntity($address)
-                    ->extractData($this->getRequest(), $requestScope);
+                $formData = $addressForm->extractData($this->getRequest(), $requestScope);
 
                 $errors = $addressForm->validateData($formData);
                 if ($errors !== true) {
