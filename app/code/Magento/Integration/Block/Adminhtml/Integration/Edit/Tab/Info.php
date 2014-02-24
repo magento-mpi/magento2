@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Integration\Block\Adminhtml\Integration\Edit\Tab;
 
 use Magento\Integration\Controller\Adminhtml\Integration;
@@ -38,7 +37,7 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Set form id prefix, declare fields for integration info
      *
-     * @return \Magento\Integration\Block\Adminhtml\Integration\Edit\Tab\Info
+     * @return $this
      */
     protected function _prepareForm()
     {
@@ -98,6 +97,7 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
      *
      * @param \Magento\Data\Form $form
      * @param array $integrationData
+     * @return void
      */
     protected function _addGeneralFieldset($form, $integrationData)
     {
@@ -167,6 +167,7 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
      *
      * @param \Magento\Data\Form $form
      * @param array $integrationData
+     * @return void
      */
     protected function _addDetailsFieldset($form, $integrationData)
     {

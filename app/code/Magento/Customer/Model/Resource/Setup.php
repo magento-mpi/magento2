@@ -1,20 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Magento
- * @package     Magento_Customer
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-
-/**
  * Customer resource setup model
  *
- * @category    Magento
- * @package     Magento_Customer
- * @author      Magento Core Team <core@magentocommerce.com>
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 namespace Magento\Customer\Model\Resource;
 
@@ -26,8 +17,8 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
     protected $_eavConfig;
 
     /**
-     * @param \Magento\Core\Model\Resource\Setup\Context $context
-     * @param string $resourceName
+     * @param \Magento\Eav\Model\Entity\Setup\Context $context
+     * @param $resourceName
      * @param \Magento\App\CacheInterface $cache
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGroupCollectionFactory
      * @param \Magento\Eav\Model\Config $eavConfig
@@ -35,7 +26,7 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
      * @param string $connectionName
      */
     public function __construct(
-        \Magento\Core\Model\Resource\Setup\Context $context,
+        \Magento\Eav\Model\Entity\Setup\Context $context,
         $resourceName,
         \Magento\App\CacheInterface $cache,
         \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGroupCollectionFactory,
@@ -44,29 +35,9 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
         $connectionName = ''
     ) {
         $this->_eavConfig = $eavConfig;
-        parent::__construct($context, $resourceName, $cache, $attrGroupCollectionFactory, $moduleName, $connectionName);
-    }
-
-    /**
-     * Prepare customer attribute values to save in additional table
-     *
-     * @param array $attr
-     * @return array
-     */
-    protected function _prepareValues($attr)
-    {
-        $data = parent::_prepareValues($attr);
-        $data = array_merge($data, array(
-            'is_visible'                => $this->_getValue($attr, 'visible', 1),
-            'is_system'                 => $this->_getValue($attr, 'system', 1),
-            'input_filter'              => $this->_getValue($attr, 'input_filter', null),
-            'multiline_count'           => $this->_getValue($attr, 'multiline_count', 0),
-            'validate_rules'            => $this->_getValue($attr, 'validate_rules', null),
-            'data_model'                => $this->_getValue($attr, 'data', null),
-            'sort_order'                => $this->_getValue($attr, 'position', 0)
-        ));
-
-        return $data;
+        parent::__construct(
+            $context, $resourceName, $cache, $attrGroupCollectionFactory, $moduleName, $connectionName
+        );
     }
 
     /**

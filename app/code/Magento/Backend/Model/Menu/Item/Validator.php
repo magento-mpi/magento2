@@ -14,7 +14,7 @@ class Validator
     /**
      * The list of required params
      *
-     * @var array
+     * @var string[]
      */
     protected $_required = array(
         'id', 'title', 'resource'
@@ -63,10 +63,12 @@ class Validator
         $this->_validators['dependsOnConfig'] = $configDepValidator;
         $this->_validators['toolTip'] = $tooltipValidator;
     }
+
     /**
      * Validate menu item params
      *
      * @param $data
+     * @return void
      * @throws \InvalidArgumentException
      * @throws \BadMethodCallException
      */
@@ -101,6 +103,7 @@ class Validator
      *
      * @param string $param
      * @param mixed $value
+     * @return void
      * @throws \InvalidArgumentException
      */
     public function validateParam($param, $value)

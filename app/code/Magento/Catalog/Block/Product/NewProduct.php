@@ -26,7 +26,7 @@ class NewProduct extends \Magento\Catalog\Block\Product\AbstractProduct
     /**
      * Products count
      *
-     * @var null
+     * @var int
      */
     protected $_productsCount;
 
@@ -204,8 +204,8 @@ class NewProduct extends \Magento\Catalog\Block\Product\AbstractProduct
     /**
      * Set how much product should be displayed at once.
      *
-     * @param $count
-     * @return \Magento\Catalog\Block\Product\NewProduct
+     * @param int $count
+     * @return $this
      */
     public function setProductsCount($count)
     {

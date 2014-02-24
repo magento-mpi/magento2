@@ -7,7 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\App\PageCache;
+namespace Magento\PageCache\Model;
+
+use Magento\App\Request\Http;
+use Magento\Stdlib\Cookie;
 
 /**
  * Class Version
@@ -29,20 +32,24 @@ class Version
     /**
      * Cookie
      *
-     * @var \Magento\Stdlib\Cookie
+     * @var Cookie
      */
     protected $cookie;
 
     /**
      * Request
      *
-     * @var \Magento\App\Request\Http
+     * @var Http
      */
     protected $request;
 
+    /**
+     * @param Cookie $cookie
+     * @param Http $request
+     */
     public function __construct(
-        \Magento\Stdlib\Cookie $cookie,
-        \Magento\App\Request\Http $request
+        Cookie $cookie,
+        Http $request
     ) {
         $this->cookie = $cookie;
         $this->request = $request;
@@ -63,6 +70,8 @@ class Version
      * Set cookie if it is not set.
      * Increment version on post requests.
      * In all other cases do nothing.
+     *
+     * @return void
      */
     public function process()
     {

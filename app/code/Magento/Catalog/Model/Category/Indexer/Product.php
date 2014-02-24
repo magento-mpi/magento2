@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Catalog\Model\Category\Indexer;
 
 /**
  * Category products indexer model.
@@ -35,8 +36,6 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Model\Category\Indexer;
-
 class Product extends \Magento\Index\Model\Indexer\AbstractIndexer
 {
     /**
@@ -65,6 +64,8 @@ class Product extends \Magento\Index\Model\Indexer\AbstractIndexer
 
     /**
      * Initialize resource
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -137,6 +138,7 @@ class Product extends \Magento\Index\Model\Indexer\AbstractIndexer
      * Check if category ids was changed
      *
      * @param \Magento\Index\Model\Event $event
+     * @return $this
      */
     protected function _registerEvent(\Magento\Index\Model\Event $event)
     {
@@ -164,6 +166,7 @@ class Product extends \Magento\Index\Model\Indexer\AbstractIndexer
      * Register event data during product save process
      *
      * @param \Magento\Index\Model\Event $event
+     * @return void
      */
     protected function _registerProductEvent(\Magento\Index\Model\Event $event)
     {
@@ -210,6 +213,7 @@ class Product extends \Magento\Index\Model\Indexer\AbstractIndexer
      * Register event data during category save process
      *
      * @param \Magento\Index\Model\Event $event
+     * @return void
      */
     protected function _registerCategoryEvent(\Magento\Index\Model\Event $event)
     {
@@ -232,6 +236,7 @@ class Product extends \Magento\Index\Model\Indexer\AbstractIndexer
      * Process event data and save to index
      *
      * @param \Magento\Index\Model\Event $event
+     * @return void
      */
     protected function _processEvent(\Magento\Index\Model\Event $event)
     {

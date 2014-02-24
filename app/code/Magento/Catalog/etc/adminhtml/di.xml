@@ -8,6 +8,7 @@
  */
 -->
 <config>
+    <preference for="Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\HandlerInterface" type="Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\Composite" />
     <type name="Magento\Catalog\Controller\Adminhtml\Product\Attribute">
         <param name="attributeLabelCache">
             <instance type="Magento\App\Cache\Type\Translate" />
@@ -52,9 +53,6 @@
         <param name="isAvailable">
             <value type="bool">false</value>
         </param>
-    </type>
-    <type name="Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper">
-        <plugin name="configurable" type="Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Configurable" sortOrder="50" />
     </type>
     <type name="Magento\Catalog\Model\Product\CopyConstructor\Composite">
         <param name="constructors">

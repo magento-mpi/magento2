@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Catalog\Model\Resource\Product\Option;
 
 /**
  * Catalog product custom option resource model
@@ -16,8 +16,6 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Model\Resource\Product\Option;
-
 class Value extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
@@ -64,6 +62,7 @@ class Value extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Define main table and initialize connection
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -89,6 +88,7 @@ class Value extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Save option value price data
      *
      * @param \Magento\Core\Model\AbstractModel $object
+     * @return void
      */
     protected function _saveValuePrices(\Magento\Core\Model\AbstractModel $object)
     {
@@ -198,6 +198,7 @@ class Value extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Save option value title data
      *
      * @param \Magento\Core\Model\AbstractModel $object
+     * @return void
      */
     protected function _saveValueTitles(\Magento\Core\Model\AbstractModel $object)
     {
@@ -268,7 +269,7 @@ class Value extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Delete values by option id
      *
      * @param int $optionId
-     * @return \Magento\Catalog\Model\Resource\Product\Option\Value
+     * @return $this
      */
     public function deleteValue($optionId)
     {
@@ -296,6 +297,7 @@ class Value extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Delete values by option type
      *
      * @param int $optionTypeId
+     * @return void
      */
     public function deleteValues($optionTypeId)
     {

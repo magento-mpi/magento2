@@ -18,13 +18,15 @@ class Datetime
 {
     /**
      * Date format string
+     *
+     * @var string
      */
     protected static $_format = null;
 
     /**
      * Retrieve datetime format
      *
-     * @return unknown
+     * @return string|null
      */
     protected function _getFormat()
     {

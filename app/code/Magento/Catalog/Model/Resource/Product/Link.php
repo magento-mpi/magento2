@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Catalog\Model\Resource\Product;
 
 /**
  * Catalog product link resource model
@@ -16,8 +16,6 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Model\Resource\Product;
-
 class Link extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
@@ -30,17 +28,17 @@ class Link extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Catalog product relation
      *
-     * @var \Magento\Catalog\Model\Resource\Product\Relation
+     * @var Relation
      */
     protected $_catalogProductRelation;
 
     /**
      * @param \Magento\App\Resource $resource
-     * @param \Magento\Catalog\Model\Resource\Product\Relation $catalogProductRelation
+     * @param Relation $catalogProductRelation
      */
     public function __construct(
         \Magento\App\Resource $resource,
-        \Magento\Catalog\Model\Resource\Product\Relation $catalogProductRelation
+        Relation $catalogProductRelation
     ) {
         $this->_catalogProductRelation = $catalogProductRelation;
         parent::__construct($resource);
@@ -48,6 +46,8 @@ class Link extends \Magento\Core\Model\Resource\Db\AbstractDb
 
     /**
      * Define main table name and attributes table
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -61,7 +61,7 @@ class Link extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param \Magento\Catalog\Model\Product $product
      * @param array $data
      * @param int $typeId
-     * @return \Magento\Catalog\Model\Resource\Product\Link
+     * @return $this
      */
     public function saveProductLinks($product, $data, $typeId)
     {
@@ -219,7 +219,7 @@ class Link extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param int|array $childId
      * @param int $typeId
-     * @return array
+     * @return string[]
      */
     public function getParentIdsByChild($childId, $typeId)
     {

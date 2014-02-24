@@ -7,15 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Controller\Adminhtml;
+
+use Magento\App\Action\NotFoundException;
+use Magento\Backend\App\AbstractAction;
 
 /**
  * Index backend controller
  */
-namespace Magento\Backend\Controller\Adminhtml;
-
-use Magento\App\Action\NotFoundException;
-
-class Index extends \Magento\Backend\App\AbstractAction
+class Index extends AbstractAction
 {
     /**
      * Search modules list
@@ -38,6 +38,8 @@ class Index extends \Magento\Backend\App\AbstractAction
 
     /**
      * Global Search Action
+     *
+     * @return void
      */
     public function globalSearchAction()
     {
@@ -91,7 +93,7 @@ class Index extends \Magento\Backend\App\AbstractAction
     /**
      * Check if user has permissions to access this controller
      *
-     * @return boolean
+     * @return bool
      */
     protected function _isAllowed()
     {
@@ -101,6 +103,8 @@ class Index extends \Magento\Backend\App\AbstractAction
     /**
      * Admin area entry point
      * Always redirects to the startup page url
+     *
+     * @return void
      */
     public function indexAction()
     {

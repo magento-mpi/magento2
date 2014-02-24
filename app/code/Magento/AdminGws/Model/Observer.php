@@ -9,6 +9,8 @@
  */
 namespace Magento\AdminGws\Model;
 
+use Magento\Core\Exception;
+
 class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
 {
     const ACL_WEBSITE_LEVEL = 'website';
@@ -18,7 +20,15 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * @var \Magento\Core\Model\Resource\Store\Group\Collection
      */
     protected $_storeGroupCollection;
-    protected $_callbacks      = array();
+
+    /**
+     * @var array
+     */
+    protected $_callbacks = array();
+
+    /**
+     * @var array|null
+     */
     protected $_controllersMap = null;
 
     /**
@@ -114,6 +124,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * If only websites selected, all their store groups and stores will be set as well
      *
      * @param \Magento\User\Model\Role $object
+     * @return void
      */
     protected function _assignRolePermissions(\Magento\User\Model\Role $object)
     {
@@ -177,6 +188,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * Assign websites/stores permissions data after loading admin role
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function addDataAfterRoleLoad(\Magento\Event\Observer $observer)
     {
@@ -185,6 +197,8 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
 
     /**
      * Refresh group/website/store permissions of the current admin user's role
+     *
+     * @return void
      */
     public function refreshRolePermissions()
     {
@@ -208,7 +222,8 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * Transform array of website ids and array of store group ids into comma-separated strings
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\AdminGws\Model\Observer
+     * @return $this
+     * @throws Exception
      */
     public function setDataBeforeRoleSave($observer)
     {
@@ -218,13 +233,13 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
 
         // validate specified data
         if ($object->getGwsIsAll() === 0 && empty($websiteIds) && empty($storeGroupIds)) {
-            throw new \Magento\Core\Exception(
+            throw new Exception(
                 __('Please specify at least one website or one store group.')
             );
         }
         if (!$this->_role->getIsAll()) {
             if ($object->getGwsIsAll()) {
-                throw new \Magento\Core\Exception(
+                throw new Exception(
                     __('You need more permissions to set All Scopes to a Role.')
                 );
             }
@@ -239,12 +254,12 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
             $allWebsiteIds = array_keys($this->_storeManager->getWebsites());
             foreach ($websiteIds as $websiteId) {
                 if (!in_array($websiteId, $allWebsiteIds)) {
-                    throw new \Magento\Core\Exception(__('Incorrect website ID: %1', $websiteId));
+                    throw new Exception(__('Incorrect website ID: %1', $websiteId));
                 }
                 // prevent granting disallowed websites
                 if (!$this->_role->getIsAll()) {
                     if (!$this->_role->hasWebsiteAccess($websiteId, true)) {
-                        throw new \Magento\Core\Exception(
+                        throw new Exception(
                             __('You need more permissions to access website "%1".', $this->_storeManager->getWebsite($websiteId)->getName())
                         );
                     }
@@ -263,11 +278,11 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
             }
             foreach ($storeGroupIds as $storeGroupId) {
                 if (!array($storeGroupId, $allStoreGroups)) {
-                    throw new \Magento\Core\Exception(__('Incorrect store ID: %1', $storeGroupId));
+                    throw new Exception(__('Incorrect store ID: %1', $storeGroupId));
                 }
                 // prevent granting disallowed store group
                 if (count(array_diff($storeGroupIds, $this->_role->getStoreGroupIds()))) {
-                    throw new \Magento\Core\Exception(
+                    throw new Exception(
                         __('You need more permissions to save this setting.')
                     );
                 }
@@ -284,7 +299,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * Prepare role object permissions data before saving
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\AdminGws\Model\Observer
+     * @return $this
      */
     public function prepareRoleSave($observer)
     {
@@ -306,6 +321,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * Copy permission scopes to new specified website
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function copyWebsiteCopyPermissions($observer)
     {
@@ -331,6 +347,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * Reinit stores only with allowed scopes
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function adminControllerPredispatch($observer)
     {
@@ -363,7 +380,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * Check access to massaction status block
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\AdminGws\Model\Observer
+     * @return $this
      */
     public function catalogProductPrepareMassAction($observer)
     {
@@ -390,7 +407,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * Deny acl level rules.
      *
      * @param string $level
-     * @return \Magento\AdminGws\Model\Observer
+     * @return $this
      */
     protected function _denyAclLevelRules($level)
     {
@@ -404,6 +421,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * Limit a collection
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function limitCollection($observer)
     {
@@ -420,7 +438,8 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Validate / update a model before saving it
      *
-     * @param unknown_type $observer
+     * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function validateModelSaveBefore($observer)
     {
@@ -475,6 +494,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * Validate page by current request (module, controller, action)
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function validateControllerPredispatch($observer)
     {
@@ -526,6 +546,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * Apply restrictions to misc blocks before html
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function restrictBlocks($observer)
     {
@@ -547,7 +568,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
      *
      * @param string $callbackGroup (collection, model)
      * @param object $instance
-     * @return string
+     * @return void|string|bool
      */
     public function _pickCallback($callbackGroup, $instance)
     {
@@ -620,6 +641,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * @param string|array $callback
      * @param string $defaultFactoryClassName
      * @param object $passThroughObject
+     * @return void
      */
     protected function _invokeCallback($callback, $defaultFactoryClassName, $passThroughObject)
     {
@@ -635,7 +657,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * Update store list which is available for role
      *
      * @param \Magento\Event\Observer $observer
-     * @return $this \Magento\AdminGws\Model\Observer
+     * @return $this
      */
     public function updateRoleStores($observer)
     {

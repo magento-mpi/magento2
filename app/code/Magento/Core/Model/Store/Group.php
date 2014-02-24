@@ -22,11 +22,16 @@
  */
 namespace Magento\Core\Model\Store;
 
+use Magento\Core\Model\Website;
+
 class Group extends \Magento\Core\Model\AbstractModel implements \Magento\Object\IdentityInterface
 {
     const ENTITY         = 'store_group';
     const CACHE_TAG      = 'store_group';
 
+    /**
+     * @var bool
+     */
     protected $_cacheTag = true;
 
     /**
@@ -42,21 +47,21 @@ class Group extends \Magento\Core\Model\AbstractModel implements \Magento\Object
     /**
      * Group Store collection array
      *
-     * @var array
+     * @var \Magento\Core\Model\Resource\Store\Collection[]
      */
     protected $_stores;
 
     /**
      * Group store ids array
      *
-     * @var array
+     * @var int[]
      */
     protected $_storeIds = array();
 
     /**
      * Group store codes array
      *
-     * @var array
+     * @var string[]
      */
     protected $_storeCodes = array();
 
@@ -122,8 +127,9 @@ class Group extends \Magento\Core\Model\AbstractModel implements \Magento\Object
 
 
     /**
-     * init model
+     * Init model
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -133,6 +139,7 @@ class Group extends \Magento\Core\Model\AbstractModel implements \Magento\Object
     /**
      * Load store collection and set internal data
      *
+     * @return void
      */
     protected function _loadStores()
     {
@@ -152,7 +159,8 @@ class Group extends \Magento\Core\Model\AbstractModel implements \Magento\Object
     /**
      * Set website stores
      *
-     * @param array $stores
+     * @param \Magento\Core\Model\Store[] $stores
+     * @return void
      */
     public function setStores($stores)
     {
@@ -184,7 +192,7 @@ class Group extends \Magento\Core\Model\AbstractModel implements \Magento\Object
     /**
      * Retrieve website store objects
      *
-     * @return array
+     * @return \Magento\Core\Model\Resource\Store\Collection[]
      */
     public function getStores()
     {
@@ -197,7 +205,7 @@ class Group extends \Magento\Core\Model\AbstractModel implements \Magento\Object
     /**
      * Retrieve website store ids
      *
-     * @return array
+     * @return int[]
      */
     public function getStoreIds()
     {
@@ -220,6 +228,9 @@ class Group extends \Magento\Core\Model\AbstractModel implements \Magento\Object
         return $this->_storeCodes;
     }
 
+    /**
+     * @return int
+     */
     public function getStoresCount()
     {
         if (is_null($this->_stores)) {
@@ -269,8 +280,8 @@ class Group extends \Magento\Core\Model\AbstractModel implements \Magento\Object
     /**
      * Retrieve list of stores with given locale
      *
-     * @param $locale
-     * @return array
+     * @param string $locale
+     * @return \Magento\Core\Model\Store[]
      */
     public function getStoresByLocale($locale)
     {
@@ -287,9 +298,10 @@ class Group extends \Magento\Core\Model\AbstractModel implements \Magento\Object
     /**
      * Set relation to the website
      *
-     * @param \Magento\Core\Model\Website $website
+     * @param Website $website
+     * @return void
      */
-    public function setWebsite(\Magento\Core\Model\Website $website)
+    public function setWebsite(Website $website)
     {
         $this->setWebsiteId($website->getId());
     }
@@ -297,7 +309,7 @@ class Group extends \Magento\Core\Model\AbstractModel implements \Magento\Object
     /**
      * Retrieve website model
      *
-     * @return \Magento\Core\Model\Website|bool
+     * @return Website|bool
      */
     public function getWebsite()
     {
@@ -321,21 +333,33 @@ class Group extends \Magento\Core\Model\AbstractModel implements \Magento\Object
         return $this->getWebsite()->getDefaultGroupId() != $this->getId();
     }
 
+    /**
+     * @return mixed
+     */
     public function getDefaultStoreId()
     {
         return $this->_getData('default_store_id');
     }
 
+    /**
+     * @return mixed
+     */
     public function getRootCategoryId()
     {
         return $this->_getData('root_category_id');
     }
 
+    /**
+     * @return mixed
+     */
     public function getWebsiteId()
     {
         return $this->_getData('website_id');
     }
 
+    /**
+     * @return $this
+     */
     protected function _beforeDelete()
     {
         $this->_protectFromNonAdmin();

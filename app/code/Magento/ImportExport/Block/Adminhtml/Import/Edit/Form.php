@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ImportExport\Block\Adminhtml\Import\Edit;
 
 /**
  * Import edit form block
@@ -15,8 +16,6 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\ImportExport\Block\Adminhtml\Import\Edit;
-
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
@@ -63,7 +62,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Add fieldsets
      *
-     * @return \Magento\ImportExport\Block\Adminhtml\Import\Edit\Form
+     * @return $this
      */
     protected function _prepareForm()
     {

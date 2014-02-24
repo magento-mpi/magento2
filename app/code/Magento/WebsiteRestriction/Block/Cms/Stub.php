@@ -52,7 +52,6 @@ class Stub extends \Magento\Cms\Block\Page
      *
      * @return \Magento\Cms\Model\Page
      */
-
     public function getPage()
     {
         if (!$this->hasData('page')) {
@@ -65,6 +64,9 @@ class Stub extends \Magento\Cms\Block\Page
         return $this->getData('page');
     }
 
+    /**
+     * @return void
+     */
     protected function _prepareLayout()
     {
         $page = $this->getPage();

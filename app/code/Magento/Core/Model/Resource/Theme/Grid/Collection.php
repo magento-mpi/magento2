@@ -7,19 +7,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Core\Model\Resource\Theme\Grid;
 
 /**
  * Theme grid collection
  */
-namespace Magento\Core\Model\Resource\Theme\Grid;
-
 class Collection extends \Magento\Core\Model\Resource\Theme\Collection
 {
     /**
      * Add area filter
      *
-     * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection|
-     *  \Magento\Core\Model\Resource\Theme\Grid\Collection
+     * @return $this
      */
     protected function _initSelect()
     {

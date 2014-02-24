@@ -35,7 +35,7 @@ class Media implements LauncherInterface
     /**
      * Authorization function
      *
-     * @var callable
+     * @var \Closure
      */
     protected $_isAllowed;
 
@@ -87,12 +87,12 @@ class Media implements LauncherInterface
      * @param ObjectManager $objectManager
      * @param Request $request
      * @param Response $response
-     * @param callable $isAllowed
-     * @param $workingDirectory
-     * @param $mediaDirectory
-     * @param $configCacheFile
-     * @param $relativeFileName
-     * @param \Magento\App\Filesystem $filesytem
+     * @param \Closure $isAllowed
+     * @param string $workingDirectory
+     * @param string $mediaDirectory
+     * @param string $configCacheFile
+     * @param string $relativeFileName
+     * @param \Magento\App\Filesystem $filesystem
      */
     public function __construct(
         State $applicationState,

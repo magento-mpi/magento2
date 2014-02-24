@@ -8,6 +8,8 @@
 
 namespace Magento\Customer\Service\V1;
 
+use Magento\Exception\NoSuchEntityException;
+
 /**
  * Manipulate Customer Metadata Attributes *
  */
@@ -22,6 +24,7 @@ interface CustomerMetadataServiceInterface
      * @param   mixed $entityType
      * @param   mixed $attributeCode
      * @return Dto\Eav\AttributeMetadata
+     * @throws NoSuchEntityException
      */
     public function getAttributeMetadata($entityType, $attributeCode);
 
@@ -49,6 +52,7 @@ interface CustomerMetadataServiceInterface
      *
      * @param string $attributeCode
      * @return Dto\Eav\AttributeMetadata
+     * @throws NoSuchEntityException
      */
     public function getCustomerAttributeMetadata($attributeCode);
 
@@ -64,6 +68,7 @@ interface CustomerMetadataServiceInterface
      *
      * @param string $attributeCode
      * @return Dto\Eav\AttributeMetadata
+     * @throws NoSuchEntityException
      */
     public function getAddressAttributeMetadata($attributeCode);
 
