@@ -422,9 +422,11 @@ class Account extends \Magento\App\Action\Action
             $confirmationStatus = $this->_customerAccountService->getConfirmationStatus($customer->getCustomerId());
             if ($confirmationStatus === CustomerAccountServiceInterface::ACCOUNT_CONFIRMATION_REQUIRED) {
                 $email = $this->_customerHelperData->getEmailConfirmationUrl($customer->getEmail());
+                // @codingStandardsIgnoreStart
                 $this->messageManager->addSuccess(
                     __('Account confirmation is required. Please, check your email for the confirmation link. To resend the confirmation email please <a href="%1">click here</a>.', $email)
                 );
+                // @codingStandardsIgnoreEnd
                 $url = $this->_createUrl()->getUrl('*/*/index', array('_secure' => true));
                 $this->getResponse()->setRedirect($this->_redirect->success($url));
             } else {
@@ -435,7 +437,9 @@ class Account extends \Magento\App\Action\Action
             return;
         } catch (StateException $e) {
             $url = $this->_createUrl()->getUrl('customer/account/forgotpassword');
+            // @codingStandardsIgnoreStart
             $message = __('There is already an account with this email address. If you are sure that it is your email address, <a href="%1">click here</a> to get your password and access your account.', $url);
+            // @codingStandardsIgnoreEnd
             $this->messageManager->addError($message);
         } catch (InputException $e) {
             foreach ($e->getErrors() as $error) {
@@ -561,16 +565,16 @@ class Account extends \Magento\App\Action\Action
             $editAddersUrl = $this->_createUrl()->getUrl('customer/address/edit');
             switch ($configAddressType) {
                 case \Magento\Customer\Helper\Address::TYPE_SHIPPING:
-                    $userPrompt = __(
-                        'If you are a registered VAT customer, please click <a href="%1">here</a> to enter you shipping address for proper VAT calculation',
-                        $editAddersUrl
-                    );
+                    // @codingStandardsIgnoreStart
+                    $userPrompt =
+                        __('If you are a registered VAT customer, please click <a href="%1">here</a> to enter you shipping address for proper VAT calculation', $editAddersUrl);
+                    // @codingStandardsIgnoreEnd
                     break;
                 default:
-                    $userPrompt = __(
-                        'If you are a registered VAT customer, please click <a href="%1">here</a> to enter you billing address for proper VAT calculation',
-                        $editAddersUrl
-                    );
+                    // @codingStandardsIgnoreStart
+                    $userPrompt =
+                        __('If you are a registered VAT customer, please click <a href="%1">here</a> to enter you billing address for proper VAT calculation', $editAddersUrl);
+                    // @codingStandardsIgnoreEnd
                     break;
             }
             $this->messageManager->addSuccess($userPrompt);
@@ -721,7 +725,8 @@ class Account extends \Magento\App\Action\Action
                     ->sendPasswordResetLink(
                         $email,
                         $this->_storeManager->getStore()->getWebsiteId(),
-                        CustomerAccountServiceInterface::EMAIL_RESET);
+                        CustomerAccountServiceInterface::EMAIL_RESET
+                    );
             } catch (NoSuchEntityException $e) {
                 // Do nothing, we don't want anyone to use this action to determine which email accounts are registered.
             } catch (\Exception $exception) {
@@ -730,9 +735,11 @@ class Account extends \Magento\App\Action\Action
                 return;
             }
             $email = $this->escaper->escapeHtml($email);
+            // @codingStandardsIgnoreStart
             $this->messageManager->addSuccess(
                 __('If there is an account associated with %1 you will receive an email with a link to reset your password.', $email)
             );
+            // @codingStandardsIgnoreEnd
             $this->_redirect('*/*/');
             return;
         } else {
@@ -881,7 +888,8 @@ class Account extends \Magento\App\Action\Action
                         } catch (AuthenticationException $e) {
                             $this->messageManager->addError($e->getMessage());
                         } catch (\Exception $e) {
-                            $this->messageManager->addException($e, __('A problem was encountered trying to change password.'));
+                            $this->messageManager
+                                ->addException($e, __('A problem was encountered trying to change password.'));
                         }
                     } else {
                         $this->messageManager->addError(__('Confirm your new password'));
@@ -898,7 +906,10 @@ class Account extends \Magento\App\Action\Action
             } catch (InputException $e) {
                 $this->messageManager->addException($e, __('Invalid input'));
             } catch (\Exception $e) {
-                $this->messageManager->addException($e, __('Cannot save the customer.') . $e->getMessage() . '<pre>' . $e->getTraceAsString() . '</pre>');
+                $this->messageManager
+                    ->addException(
+                        $e, __('Cannot save the customer.') .
+                        $e->getMessage() . '<pre>' . $e->getTraceAsString() . '</pre>');
             }
 
             if ($this->messageManager->getMessages()->getCount() > 0) {
