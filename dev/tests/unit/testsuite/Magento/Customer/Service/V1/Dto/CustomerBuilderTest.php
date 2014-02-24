@@ -90,8 +90,11 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function testPopulateException()
     {
-        $sampleDtoObj = (new SampleDtoBuilder())->create();
-        $this->_customerBuilder->populate($sampleDtoObj);
+        $customerMetadataService = $this->_objectManager->getObject(
+            'Magento\Customer\Service\V1\CustomerMetadataService'
+        );
+        $addressData = (new AddressBuilder(new RegionBuilder(), $customerMetadataService))->create();
+        $this->_customerBuilder->populate($addressData);
     }
 
     public function testPopulate()
@@ -113,14 +116,4 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
         //Verify if email is set correctly
         $this->assertEquals($email, $customerBuilder2->create()->getEmail());
     }
-}
-
-class SampleDto extends AbstractDto
-{
-
-}
-
-class SampleDtoBuilder extends AbstractDtoBuilder
-{
-
 }
