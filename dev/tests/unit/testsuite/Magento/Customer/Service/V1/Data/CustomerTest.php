@@ -140,8 +140,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             Customer::FIRSTNAME => self::FIRSTNAME,
             Customer::LASTNAME  => self::LASTNAME,
             Customer::EMAIL     => self::EMAIL,
-            'customer_id'        => self::ID,
-            'entity_id'         => self::ID,
+            Customer::ID        => self::ID,
         ]);
         /** @var Customer $customer */
         $customer = $builder->create();

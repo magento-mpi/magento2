@@ -62,10 +62,12 @@ abstract class AbstractDtoBuilder
         $this->_data = [];
         $dataObjectMethods = get_class_methods($this->_getDataObjectType());
         foreach ($data as $key => $value) {
-            $method = 'get' . $this->_snakeCaseToCamelCase($key);
-            if (in_array($method, $dataObjectMethods)) {
+            /* First, verify is there any getter for the key on the Service Data Object */
+            $possibleMethods = ['get' . $this->_snakeCaseToCamelCase($key), 'is' . $this->_snakeCaseToCamelCase($key)];
+            if (array_intersect($possibleMethods, $dataObjectMethods)) {
                 $this->_data[$key] = $value;
             } elseif (in_array($key, $this->getCustomAttributesCodes())) {
+                /* If key corresponds to custom attribute code, populate custom attributes */
                 $this->_data[AbstractDto::CUSTOM_ATTRIBUTES_KEY][$key] = $value;
             }
         }
