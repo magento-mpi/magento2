@@ -1,4 +1,6 @@
 * Fixed bugs:
+  * Unexistent store views flat tables cleanuper drops catalog_category_flat_cl table
+  * Product flat indexer must use State instead of helpers logic
   * Fixed an issue with "Add to Cart" button on MAP popup of compound products
   * Fixed an issue where the Add Address button for Customer in Admin was broken
   * Fixed a Typo in Region of Austria (GitHub #134)
