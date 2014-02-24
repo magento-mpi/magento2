@@ -251,7 +251,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
                 $customer->sendPasswordResetConfirmationEmail();
                 break;
             default:
-                throw new InputException(__('Invalid email type.', InputException::INVALID_FIELD_VALUE));
+                throw new InputException(__('Invalid email type.'), InputException::INVALID_FIELD_VALUE);
         }
     }
 
