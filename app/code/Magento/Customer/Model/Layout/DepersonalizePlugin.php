@@ -53,6 +53,11 @@ class DepersonalizePlugin
     protected $moduleManager;
 
     /**
+     * @var \Magento\App\Http\Context
+     */
+    protected $httpContext;
+
+    /**
      * @var int
      */
     protected $customerGroupId;
@@ -70,6 +75,7 @@ class DepersonalizePlugin
      * @param \Magento\Event\Manager $eventManager
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\Module\Manager $moduleManager
+     * @param \Magento\App\Http\Context $httpContext
      */
     public function __construct(
         \Magento\View\LayoutInterface $layout,
@@ -78,16 +84,46 @@ class DepersonalizePlugin
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Event\Manager $eventManager,
         \Magento\App\RequestInterface $request,
-        \Magento\Module\Manager $moduleManager
+        \Magento\Module\Manager $moduleManager,
+        \Magento\App\Http\Context $httpContext
     ) {
-        $this->layout = $layout;
-        $this->session = $session;
-        $this->customerSession = $customerSession;
-        $this->customer = $customerFactory->create();
-        $this->eventManager = $eventManager;
-        $this->request = $request;
-        $this->moduleManager = $moduleManager;
+        $this->layout           = $layout;
+        $this->session          = $session;
+        $this->customerSession  = $customerSession;
+        $this->customer         = $customerFactory->create();
+        $this->eventManager     = $eventManager;
+        $this->request          = $request;
+        $this->moduleManager    = $moduleManager;
+        $this->httpContext      = $httpContext;
 
+    }
+
+    /**
+     * Actions before session_write_close
+     *
+     * @return $this
+     */
+    protected function beforeSessionWriteClose()
+    {
+        $this->customerGroupId = $this->customerSession->getCustomerGroupId();
+        $this->formKey = $this->session->getData(\Magento\Data\Form\FormKey::FORM_KEY);
+        return $this;
+    }
+
+    /**
+     * Actions after session_write_close
+     *
+     * @return $this
+     */
+    protected function afterSessionWriteClose()
+    {
+        $this->session->clearStorage();
+        $this->customerSession->clearStorage();
+        $this->session->setData(\Magento\Data\Form\FormKey::FORM_KEY, $this->formKey);
+        $this->customerSession->setCustomerGroupId($this->customerGroupId);
+        $this->customer->setGroupId($this->customerGroupId);
+        $this->customerSession->setCustomer($this->customer);
+        return $this;
     }
 
     /**
@@ -102,16 +138,10 @@ class DepersonalizePlugin
             && !$this->request->isAjax()
             && $this->layout->isCacheable()
         ) {
-            $this->customerGroupId = $this->customerSession->getCustomerGroupId();
-            $this->formKey = $this->session->getData(\Magento\Data\Form\FormKey::FORM_KEY);
+            $this->beforeSessionWriteClose();
             $this->eventManager->dispatch('before_session_write_close');
             session_write_close();
-            $this->session->clearStorage();
-            $this->customerSession->clearStorage();
-            $this->session->setData(\Magento\Data\Form\FormKey::FORM_KEY, $this->formKey);
-            $this->customerSession->setCustomerGroupId($this->customerGroupId);
-            $this->customer->setGroupId($this->customerGroupId);
-            $this->customerSession->setCustomer($this->customer);
+            $this->afterSessionWriteClose();
         }
         return $arguments;
     }

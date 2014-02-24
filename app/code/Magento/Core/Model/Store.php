@@ -925,7 +925,7 @@ class Store extends AbstractModel
      */
     public function setCurrentCurrency($currency)
     {
-        $this->_httpContext->setValue('current_currency', $currency->getCurrencyCode());
+        $this->_httpContext->setValue(\Magento\App\Http\Context::CURRENT_CURRENCY, $currency->getCurrencyCode());
         $this->setData('current_currency', $currency);
         return $this;
     }
