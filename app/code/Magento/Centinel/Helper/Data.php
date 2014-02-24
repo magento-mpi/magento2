@@ -147,7 +147,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Return centinel block for payment form with logos
      *
-     * @param \Magento\Payment\Model\Method $method
+     * @param \Magento\Payment\Model\MethodInterface $method
      * @return \Magento\Centinel\Block\Logo
      */
     public function getMethodFormBlock($method)

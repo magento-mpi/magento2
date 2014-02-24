@@ -11,7 +11,7 @@
  */
 namespace Magento\Payment\Model;
 
-interface Method
+interface MethodInterface
 {
     /**
      * Retrieve payment method code

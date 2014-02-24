@@ -10,7 +10,7 @@ namespace Magento\PbridgePaypal\Model\Payment\Method;
 /**
  * Paypal dummy payment method model
  */
-class Paypal implements \Magento\Payment\Model\Method
+class Paypal implements \Magento\Payment\Model\MethodInterface
 {
     /**
      * @var \Magento\Pbridge\Helper\Data

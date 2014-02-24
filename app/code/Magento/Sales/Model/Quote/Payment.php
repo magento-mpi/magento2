@@ -179,7 +179,7 @@ class Payment extends \Magento\Payment\Model\Info
     /**
      * Retrieve payment method model object
      *
-     * @return \Magento\Payment\Model\Method
+     * @return \Magento\Payment\Model\MethodInterface
      */
     public function getMethodInstance()
     {

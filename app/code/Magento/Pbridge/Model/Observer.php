@@ -118,12 +118,12 @@ class Observer
      * Return system config value by key for specified payment method
      *
      * @param string $key
-     * @param \Magento\Payment\Model\Method $method
+     * @param \Magento\Payment\Model\MethodInterface $method
      * @param int $storeId
      *
      * @return string
      */
-    protected function _getMethodConfigData($key, \Magento\Payment\Model\Method $method, $storeId = null)
+    protected function _getMethodConfigData($key, \Magento\Payment\Model\MethodInterface $method, $storeId = null)
     {
         if (!$method->getCode()) {
             return null;

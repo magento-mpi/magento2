@@ -44,7 +44,7 @@ class Info extends \Magento\View\Element\Template
     /**
      * Retrieve payment method model
      *
-     * @return \Magento\Payment\Model\Method
+     * @return \Magento\Payment\Model\MethodInterface
      */
     public function getMethod()
     {

@@ -119,7 +119,7 @@ class Config
      * @param string $code
      * @param string $config
      * @param null|string|bool|int|Store $store
-     * @return \Magento\Payment\Model\Method
+     * @return \Magento\Payment\Model\MethodInterface
      */
     protected function _getMethod($code, $config, $store = null)
     {

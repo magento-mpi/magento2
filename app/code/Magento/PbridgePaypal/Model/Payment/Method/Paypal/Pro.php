@@ -13,7 +13,7 @@
 namespace Magento\PbridgePaypal\Model\Payment\Method\Paypal;
 
 use Magento\PbridgePaypal\Model\Payment\Method\PaypalDirect;
-use Magento\Payment\Model\Method as PaymentMethod;
+use Magento\Payment\Model\MethodInterface as PaymentMethod;
 
 class Pro extends \Magento\Paypal\Model\Pro
 {

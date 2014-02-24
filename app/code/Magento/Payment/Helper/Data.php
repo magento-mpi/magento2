@@ -101,7 +101,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * Retrieve method model object
      *
      * @param string $code
-     * @return \Magento\Payment\Model\Method|false
+     * @return \Magento\Payment\Model\MethodInterface|false
      */
     public function getMethodInstance($code)
     {
@@ -163,10 +163,10 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Retrieve payment method form html
      *
-     * @param \Magento\Payment\Model\Method $method
+     * @param \Magento\Payment\Model\MethodInterface $method
      * @return Form
      */
-    public function getMethodFormBlock(\Magento\Payment\Model\Method $method)
+    public function getMethodFormBlock(\Magento\Payment\Model\MethodInterface $method)
     {
         $block = false;
         $blockType = $method->getFormBlockType();
