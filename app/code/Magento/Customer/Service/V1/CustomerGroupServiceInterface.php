@@ -9,6 +9,7 @@
  */
 namespace Magento\Customer\Service\V1;
 
+use Magento\Exception\InputException;
 use Magento\Exception\NoSuchEntityException;
 
 interface CustomerGroupServiceInterface
@@ -32,8 +33,8 @@ interface CustomerGroupServiceInterface
 
     /**
      * @param Dto\SearchCriteria $searchCriteria
-     *
-     * @return Dto\SearchResults
+     * @throws InputException if there is a problem with the input
+     * @return Dto\SearchResults containing Dto\CustomerGroup objects
      */
     public function searchGroups(Dto\SearchCriteria $searchCriteria);
 

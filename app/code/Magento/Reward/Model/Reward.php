@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reward\Model;
+
+use Magento\Core\Exception;
 
 /**
  * Reward model
@@ -23,10 +26,6 @@
  * @method \Magento\Reward\Model\Reward setAction() setAction(int $value)
  * @method \Magento\Reward\Model\Reward setComment() setComment(string $value)
  */
-namespace Magento\Reward\Model;
-
-use Magento\Core\Exception;
-
 class Reward extends \Magento\Core\Model\AbstractModel
 {
     const XML_PATH_BALANCE_UPDATE_TEMPLATE = 'magento_reward/notification/balance_update_template';
@@ -89,36 +88,50 @@ class Reward extends \Magento\Core\Model\AbstractModel
     protected $_rewardCustomer = null;
 
     /**
+     * Core model store manager interface
+     *
      * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
+     * Core model locale
+     *
      * @var \Magento\Core\Model\Locale
      */
     protected $_locale;
 
     /**
+     * Customer factory
+     *
      * @var \Magento\Customer\Model\CustomerFactory
      */
     protected $_customerFactory;
 
     /**
+     * Reward history factory
+     *
      * @var \Magento\Reward\Model\Reward\HistoryFactory
      */
     protected $_historyFactory;
 
     /**
+     * Reward rate factory
+     *
      * @var \Magento\Reward\Model\Reward\RateFactory
      */
     protected $_rateFactory;
 
     /**
+     * Email template factory
+     *
      * @var \Magento\Email\Model\TemplateFactory
      */
     protected $_templateFactory;
 
     /**
+     * Reward model
+     *
      * @var \Magento\Reward\Model\Reward
      */
     protected $_reward;
@@ -169,6 +182,8 @@ class Reward extends \Magento\Core\Model\AbstractModel
 
     /**
      * Internal constructor
+     *
+     * @return void
      */
     protected function _construct()
     {

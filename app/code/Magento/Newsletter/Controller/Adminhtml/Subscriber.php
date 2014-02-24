@@ -7,8 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Newsletter\Controller\Adminhtml;
+
+use Magento\App\ResponseInterface;
 
 /**
  * Newsletter subscribers controller
@@ -70,7 +71,7 @@ class Subscriber extends \Magento\Backend\App\Action
     /**
      * Export subscribers grid to CSV format
      *
-     * @return void
+     * @return ResponseInterface
      */
     public function exportCsvAction()
     {
@@ -88,7 +89,7 @@ class Subscriber extends \Magento\Backend\App\Action
     /**
      * Export subscribers grid to XML format
      *
-     * @return void
+     * @return ResponseInterface
      */
     public function exportXmlAction()
     {

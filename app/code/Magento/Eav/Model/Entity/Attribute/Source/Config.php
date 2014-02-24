@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Eav\Model\Entity\Attribute\Source;
 
 /**
  * Entity/Attribute/Model - attribute selection source from configuration
@@ -18,8 +18,6 @@
  * @package    Magento_Eav
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Eav\Model\Entity\Attribute\Source;
-
 class Config extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
 {
     /**

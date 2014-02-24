@@ -50,7 +50,7 @@ class Taxvat extends AbstractWidget
      */
     public function isEnabled()
     {
-        return (bool)$this->_getAttribute('taxvat')->isVisible();
+        return $this->_getAttribute('taxvat') ? (bool)$this->_getAttribute('taxvat')->isVisible() : false;
     }
 
     /**
@@ -60,6 +60,6 @@ class Taxvat extends AbstractWidget
      */
     public function isRequired()
     {
-        return (bool)$this->_getAttribute('taxvat')->isRequired();
+        return $this->_getAttribute('taxvat') ? (bool)$this->_getAttribute('taxvat')->isRequired() : false;
     }
 }

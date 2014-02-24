@@ -7,6 +7,8 @@
  */
 namespace Magento\Customer\Block\Widget;
 
+use Magento\Exception\NoSuchEntityException;
+
 class TaxvatTest extends \PHPUnit_Framework_TestCase
 {
     /** Constants used in the unit tests */
@@ -68,6 +70,15 @@ class TaxvatTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
+    public function testIsEnabledWithException()
+    {
+        $this->_attributeMetadata
+            ->expects($this->any())
+            ->method('getAttributeMetadata')
+            ->will($this->throwException(new \Magento\Exception\NoSuchEntityException('field', 'value')));
+        $this->assertSame(false, $this->_block->isEnabled());
+    }
+
     /**
      * @param bool $isRequired Determines whether the 'taxvat' attribute is required
      * @param bool $expectedValue The value we expect from Taxvat::isRequired()
@@ -90,5 +101,14 @@ class TaxvatTest extends \PHPUnit_Framework_TestCase
             [true, true],
             [false, false]
         ];
+    }
+
+    public function testIsRequiredWithException()
+    {
+        $this->_attributeMetadata
+            ->expects($this->any())
+            ->method('getAttributeMetadata')
+            ->will($this->throwException(new NoSuchEntityException('field', 'value')));
+        $this->assertSame(false, $this->_block->isRequired());
     }
 }

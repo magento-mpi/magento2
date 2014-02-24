@@ -38,7 +38,12 @@ class Addresses extends GenericMetadata
      * @var \Magento\Customer\Helper\Data
      */
     protected $_customerHelper;
-
+    
+    /**
+     * @var \Magento\Directory\Helper\Data
+     */
+    protected $_directoryHelper;
+    
     /** @var \Magento\Customer\Helper\Address */
     protected $_addressHelper;
 
@@ -60,6 +65,8 @@ class Addresses extends GenericMetadata
     /** @var  AttributeMetadataBuilder */
     protected $_attributeMetadataBuilder;
 
+
+
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
@@ -76,6 +83,7 @@ class Addresses extends GenericMetadata
      * @param \Magento\Customer\Service\V1\Dto\AddressBuilder $addressBuilder
      * @param \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerBuilder
      * @param AttributeMetadataBuilder $attributeMetadataBuilder;
+     * @param \Magento\Directory\Helper\Data $directoryHelper
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -96,6 +104,7 @@ class Addresses extends GenericMetadata
         \Magento\Customer\Service\V1\Dto\AddressBuilder $addressBuilder,
         \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerBuilder,
         AttributeMetadataBuilder $attributeMetadataBuilder,
+        \Magento\Directory\Helper\Data $directoryHelper,
         array $data = []
     ) {
         $this->_customerHelper = $customerHelper;
@@ -110,6 +119,7 @@ class Addresses extends GenericMetadata
         $this->_addressBuilder = $addressBuilder;
         $this->_customerBuilder = $customerBuilder;
         $this->_attributeMetadataBuilder = $attributeMetadataBuilder;
+        $this->_directoryHelper = $directoryHelper;
         parent::__construct($context, $registry, $formFactory, $data);
     }
 
@@ -310,14 +320,6 @@ class Addresses extends GenericMetadata
     }
 
     /**
-     * @return string
-     */
-    public function getTemplatePrefix()
-    {
-        return '_template_';
-    }
-
-    /**
      * Return predefined additional element types
      *
      * @return array
@@ -329,25 +331,6 @@ class Addresses extends GenericMetadata
             'image'     => 'Magento\Customer\Block\Adminhtml\Form\Element\Image',
             'boolean'   => 'Magento\Customer\Block\Adminhtml\Form\Element\Boolean',
         );
-    }
-
-    /**
-     * Return JSON object with countries associated to possible websites
-     *
-     * @return string
-     */
-    public function getDefaultCountriesJson()
-    {
-        $websites = $this->_systemStore->getWebsiteValuesForForm(false, true);
-        $result = array();
-        foreach ($websites as $website) {
-            $result[$website['value']] = $this->_storeManager->getWebsite($website['value'])
-                ->getConfig(
-                    \Magento\Core\Helper\Data::XML_PATH_DEFAULT_COUNTRY
-                );
-        }
-
-        return $this->_jsonEncoder->encode($result);
     }
 
     /**
@@ -376,6 +359,76 @@ class Addresses extends GenericMetadata
             $this->getForm()->getElement('suffix')->addElementValues($values);
         }
         return $this;
+    }
+
+    /**
+     * Returns the template prefix
+     *
+     * @return string
+     */
+    public function getTemplatePrefix()
+    {
+        return '_template_';
+    }
+
+    /**
+     * Return array with countries associated to possible websites
+     *
+     * @return array
+     */
+    public function getDefaultCountries()
+    {
+        $websites = $this->_systemStore->getWebsiteValuesForForm(false, true);
+        $result = array();
+        foreach ($websites as $website) {
+            $result[$website['value']] = $this->_storeManager->getWebsite($website['value'])
+                ->getConfig(
+                    \Magento\Core\Helper\Data::XML_PATH_DEFAULT_COUNTRY
+                );
+        }
+
+        return $result;
+    }
+
+    /**
+     * Return ISO2 country codes, which have optional Zip/Postal pre-configured
+     *
+     * @return array
+     */
+    public function getOptionalZipCountries()
+    {
+        return $this->_directoryHelper->getCountriesWithOptionalZip();
+    }
+
+    /**
+     * Returns the list of countries, for which region is required
+     *
+     * @return array
+     */
+    public function getRequiredStateForCountries()
+    {
+        return $this->_directoryHelper->getCountriesWithStatesRequired();
+    }
+
+    /**
+     * eturn, whether non-required state should be shown
+     *
+     * @return int 1 if should be shown, and 0 if not.
+     */
+    public function getShowAllRegions()
+    {
+        return (string)$this->_directoryHelper->isShowNonRequiredState() ? 1 : 0;
+    }
+
+    /**
+     * Encode the $data into JSON format.
+     *
+     * @param object|array $data
+     * @return string
+     */
+    public function jsonEncode($data)
+    {
+        return $this->_jsonEncoder->encode($data);
     }
 
     /**

@@ -8,6 +8,7 @@
 namespace Magento\Customer\Block\Widget;
 
 use Magento\Customer\Service\V1\Dto\Customer;
+use Magento\Exception\NoSuchEntityException;
 
 class GenderTest extends \PHPUnit_Framework_TestCase
 {
@@ -85,6 +86,15 @@ class GenderTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
+    public function testIsEnabledWithException()
+    {
+        $this->_attributeMetadata
+            ->expects($this->any())
+            ->method('getAttributeMetadata')
+            ->will($this->throwException(new NoSuchEntityException('field', 'value')));
+        $this->assertSame(false, $this->_block->isEnabled());
+    }
+
     /**
      * Test the Gender::isRequired() method.
      *
@@ -110,6 +120,15 @@ class GenderTest extends \PHPUnit_Framework_TestCase
             [true, true],
             [false, false]
         ];
+    }
+
+    public function testIsRequiredWithException()
+    {
+        $this->_attributeMetadata
+            ->expects($this->any())
+            ->method('getAttributeMetadata')
+            ->will($this->throwException(new NoSuchEntityException('field', 'value')));
+        $this->assertSame(false, $this->_block->isRequired());
     }
 
     /**

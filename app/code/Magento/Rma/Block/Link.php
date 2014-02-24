@@ -13,13 +13,13 @@ namespace Magento\Rma\Block;
 /**
  * RMA Return Block
  *
- * @category    Magento
- * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Link extends \Magento\View\Element\Html\Link\Current
 {
     /**
+     * Rma data
+     *
      * @var \Magento\Rma\Helper\Data
      */
     protected $_rmaHelper = null;
