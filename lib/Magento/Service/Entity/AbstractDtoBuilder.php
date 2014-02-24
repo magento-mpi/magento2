@@ -79,7 +79,7 @@ abstract class AbstractDtoBuilder
      * @param AbstractDto $secondDto
      * @return AbstractDto
      */
-    public function mergeDtos(AbstractDto $firstDto, AbstractDto $secondDto)
+    public function mergeDataObjects(AbstractDto $firstDto, AbstractDto $secondDto)
     {
         $this->_data = array_merge($firstDto->__toArray(), $secondDto->__toArray());
         return $this->create();

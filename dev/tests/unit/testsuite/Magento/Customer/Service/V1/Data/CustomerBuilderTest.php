@@ -28,12 +28,12 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
         parent::setUp();
     }
 
-    public function testMergeDtos()
+    public function testMergeDataObjects()
     {
         $firstname1 = 'Firstname1';
         $lastnam1 = 'Lastname1';
         $email1 = 'email1@example.com';
-        $firstDto = $this->_customerBuilder
+        $firstDataObject = $this->_customerBuilder
             ->setFirstname($firstname1)
             ->setLastname($lastnam1)
             ->setEmail($email1)
@@ -41,29 +41,30 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
 
         $lastname2 = 'Lastname2';
         $middlename2 = 'Middlename2';
-        $secondDto = $this->_customerBuilder
+        $secondDataObject = $this->_customerBuilder
             ->setLastname($lastname2)
             ->setMiddlename($middlename2)
             ->create();
 
-        $mergedDto = $this->_customerBuilder->mergeDtos($firstDto, $secondDto);
-        $this->assertNotSame($firstDto, $mergedDto, 'A new object must be created for merged DTO.');
-        $this->assertNotSame($secondDto, $mergedDto, 'A new object must be created for merged DTO.');
-        $expectedDtoData = [
+        $mergedDataObject = $this->_customerBuilder->mergeDataObjects($firstDataObject, $secondDataObject);
+        $this->assertNotSame($firstDataObject, $mergedDataObject, 'A new object must be created for merged DTO.');
+        $this->assertNotSame($secondDataObject, $mergedDataObject, 'A new object must be created for merged DTO.');
+        $expectedDataObject = [
             'firstname' => $firstname1,
             'lastname' => $lastname2,
             'middlename' => $middlename2,
             'email' => $email1
         ];
-        $this->assertEquals($expectedDtoData, $mergedDto->__toArray(), 'DTOs were merged incorrectly.');
+        $this->assertEquals($expectedDataObject, $mergedDataObject->__toArray(),
+            'Data Objects were merged incorrectly.');
     }
 
-    public function testMergeDtoWitArray()
+    public function testMergeDataObjectsWitArray()
     {
         $firstname1 = 'Firstname1';
         $lastnam1 = 'Lastname1';
         $email1 = 'email1@example.com';
-        $firstDto = $this->_customerBuilder
+        $firstDataObject = $this->_customerBuilder
             ->setFirstname($firstname1)
             ->setLastname($lastnam1)
             ->setEmail($email1)
@@ -73,15 +74,15 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
         $middlename2 = 'Middlename2';
         $dataForMerge = ['lastname' => $lastname2, 'middlename' => $middlename2];
 
-        $mergedDto = $this->_customerBuilder->mergeDtoWithArray($firstDto, $dataForMerge);
-        $this->assertNotSame($firstDto, $mergedDto, 'A new object must be created for merged DTO.');
-        $expectedDtoData = [
+        $mergedDataObject = $this->_customerBuilder->mergeDtoWithArray($firstDataObject, $dataForMerge);
+        $this->assertNotSame($firstDataObject, $mergedDataObject, 'A new object must be created for merged DTO.');
+        $expectedDataObject = [
             'firstname' => $firstname1,
             'lastname' => $lastname2,
             'middlename' => $middlename2,
             'email' => $email1
         ];
-        $this->assertEquals($expectedDtoData, $mergedDto->__toArray(), 'DTO with array were merged incorrectly.');
+        $this->assertEquals($expectedDataObject, $mergedDataObject->__toArray(), 'DTO with array were merged incorrectly.');
     }
 
     /**

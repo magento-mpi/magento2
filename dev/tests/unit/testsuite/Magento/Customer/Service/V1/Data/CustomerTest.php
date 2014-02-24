@@ -41,7 +41,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
     {
         $customerData = $this->_createCustomerData();
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $customerBuilder = $objectManager->getObject('Magento\Customer\Service\V1\Dto\CustomerBuilder');
+        $customerBuilder = $objectManager->getObject('Magento\Customer\Service\V1\Data\CustomerBuilder');
         $customerBuilder->populateWithArray($customerData);
 
         /** @var Customer $customer */
@@ -107,8 +107,8 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             'attribute1' => 'value1',
             Customer::CUSTOM_ATTRIBUTES_KEY => $customAttributes
         ];
-        $customerDto = new \Magento\Customer\Service\V1\Data\Customer($customerData);
-        $this->assertEquals($customAttributes, $customerDto->getCustomAttributes(), 'Invalid custom attributes.');
+        $customerDataObject = new \Magento\Customer\Service\V1\Data\Customer($customerData);
+        $this->assertEquals($customAttributes, $customerDataObject->getCustomAttributes(), 'Invalid custom attributes.');
     }
 
     public function testPopulateFromPrototypeVsArray()

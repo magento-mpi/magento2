@@ -187,7 +187,7 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(self::EMAIL, $actualCustomer->getEmail());
         $this->assertEquals(4, count($actualCustomer->getAttributes()));
         $attribute = $actualCustomer->getAttribute(self::ATTRIBUTE_CODE);
-        $this->assertNull($attribute, 'Arbitrary attributes must not be available do DTO users.');
+        $this->assertNull($attribute, 'Arbitrary attributes must not be available do Data Object users.');
     }
 
     public function testGetCustomerCached()

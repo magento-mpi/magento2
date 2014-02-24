@@ -1542,7 +1542,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         } else if (!$customerDto->getId()) {
             /** Create new customer */
             $customerBillingAddressDto = $this->getBillingAddress()->exportCustomerAddressData();
-            $customerDto = $this->_customerBuilder->mergeDtos($customerDto, $customerBillingAddressDto);
+            $customerDto = $this->_customerBuilder->mergeDataObjects($customerDto, $customerBillingAddressDto);
             $customerDto = $this->_customerBuilder->mergeDtoWithArray(
                 $customerDto,
                 [CustomerDto::STORE_ID => $store->getId(), CustomerDto::EMAIL => $this->_getNewCustomerEmail()]
@@ -1586,7 +1586,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
             /** Update existing address */
             $existingAddressDto = $this->_customerAddressService->getAddressById($quoteAddressId);
             /** Update customer address data */
-            $customerAddressDto = $this->_customerAddressBuilder->mergeDtos($existingAddressDto, $customerAddressDto);
+            $customerAddressDto = $this->_customerAddressBuilder->mergeDataObjects($existingAddressDto, $customerAddressDto);
         } else if ($addressType == CustomerAddressDto::ADDRESS_TYPE_SHIPPING ) {
             try {
                 $billingAddressDto = $this->_customerAddressService->getDefaultBillingAddress($customerId);
