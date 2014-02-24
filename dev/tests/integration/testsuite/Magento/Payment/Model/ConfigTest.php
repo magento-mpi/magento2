@@ -55,7 +55,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     public function testGetGroups()
     {
         $expected = array(
-            'paypal' => 'PayPal Payment Methods',
+            'any_payment' => 'Any Payment Methods',
             'offline' => 'Offline Payment Methods',
         );
         $groups = $this->_model->getGroups();
