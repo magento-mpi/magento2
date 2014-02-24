@@ -45,12 +45,24 @@ class StaticResource implements \Magento\LauncherInterface
     private $themeList;
 
     /**
+     * @var \Magento\ObjectManager
+     */
+    private $objectManager;
+
+    /**
+     * @var \Magento\App\ObjectManager\ConfigLoader
+     */
+    private $configLoader;
+
+    /**
      * @param State $state
      * @param Response\FileInterface $response
      * @param Request\Http $request
      * @param \Magento\View\FileResolver $resolver
      * @param \Magento\Module\ModuleList $moduleList
      * @param \Magento\View\Design\Theme\ListInterface $themeList
+     * @param \Magento\ObjectManager $objectManager
+     * @param ObjectManager\ConfigLoader $configLoader
      */
     public function __construct(
         State $state,
@@ -58,7 +70,9 @@ class StaticResource implements \Magento\LauncherInterface
         Request\Http $request,
         \Magento\View\FileResolver $resolver,
         \Magento\Module\ModuleList $moduleList,
-        \Magento\View\Design\Theme\ListInterface $themeList
+        \Magento\View\Design\Theme\ListInterface $themeList,
+        \Magento\ObjectManager $objectManager,
+        \Magento\App\ObjectManager\ConfigLoader $configLoader
     ) {
         $this->state = $state;
         $this->response = $response;
@@ -66,6 +80,8 @@ class StaticResource implements \Magento\LauncherInterface
         $this->fileResolver = $resolver;
         $this->moduleList = $moduleList;
         $this->themeList = $themeList;
+        $this->objectManager = $objectManager;
+        $this->configLoader = $configLoader;
     }
 
     /**
@@ -82,6 +98,7 @@ class StaticResource implements \Magento\LauncherInterface
             $path = $this->request->get('resource');
             $params = $this->parsePath($path);
             $this->state->setAreaCode($params['area']);
+            $this->objectManager->configure($this->configLoader->load($params['area']));
 
             $file = $params['file'];
             $params['themeModel'] = $this->getThemeModel($params['area'], $params['theme']);
