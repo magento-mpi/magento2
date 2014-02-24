@@ -89,7 +89,6 @@ class Observer
         if (!$this->_customerBalanceData->isEnabled()) {
             return;
         }
-//        $data = $observer->getCustomer()->getCustomerBalanceData();
         /* @var $request \Magento\App\RequestInterface */
         $request = $observer->getRequest();
         $data = $request->getPost('customerbalance');

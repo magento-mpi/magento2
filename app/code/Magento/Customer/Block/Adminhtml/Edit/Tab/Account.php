@@ -108,6 +108,9 @@ class Account extends GenericMetadata
      * Initialize form
      *
      * @return \Magento\Customer\Block\Adminhtml\Edit\Tab\Account
+     *
+     * @SuppressWarnings(PHPMD.NPathComplexity)
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function initForm()
     {
