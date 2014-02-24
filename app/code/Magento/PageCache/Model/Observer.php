@@ -116,8 +116,8 @@ class Observer
                 foreach ($tags as $tag) {
                     $tags[] = preg_replace("~_\\d+$~", '', $tag);
                 }
-                    $this->_cache->clean(array_unique($tags));
-                }
+                $this->_cache->clean(array_unique($tags));
+            }
         }
     }
 
