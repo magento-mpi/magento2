@@ -48,8 +48,8 @@
         </arguments>
     </virtualType>
     <type name="Magento\Catalog\Model\Indexer\Product\Flat\State">
-        <param name="isAvailable">
-            <value type="bool">true</value>
-        </param>
+        <arguments>
+            <argument name="isAvailable" xsi:type="boolean">true</argument>
+        </arguments>
     </type>
 </config>
