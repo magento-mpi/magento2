@@ -14,6 +14,8 @@
  */
 namespace Magento\GiftWrapping\Block\Checkout;
 
+use Magento\Customer\Service\V1\CustomerServiceInterface;
+
 class Totals extends \Magento\Checkout\Block\Total\DefaultTotal
 {
     /**
@@ -37,7 +39,7 @@ class Totals extends \Magento\Checkout\Block\Total\DefaultTotal
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Sales\Model\Config $salesConfig
      * @param \Magento\GiftWrapping\Helper\Data $giftWrappingData
-     * @param CustomerService $customerService
+     * @param CustomerServiceInterface $customerService
      * @param array $data
      */
     public function __construct(
@@ -47,7 +49,7 @@ class Totals extends \Magento\Checkout\Block\Total\DefaultTotal
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Sales\Model\Config $salesConfig,
         \Magento\GiftWrapping\Helper\Data $giftWrappingData,
-        CustomerService $customerService,
+        CustomerServiceInterface $customerService,
         array $data = array()
     ) {
         $this->_giftWrappingData = $giftWrappingData;
