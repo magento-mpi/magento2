@@ -146,3 +146,6 @@ dev/tests/static/testsuite/Magento/Test/Integrity/_files/dependency_test/tables_
 dev/tests/static/testsuite/Magento/Test/Integrity/Magento/Reward/LayoutTest.php
 dev/tools/xml/logging.xslt
 dev/tools/xml/transform_logging.php
+app/code/Magento/CacheInvalidate
+dev/tests/unit/testsuite/Magento/CacheInvalidate
+dev/tests/integration/testsuite/Magento/CacheInvalidate
