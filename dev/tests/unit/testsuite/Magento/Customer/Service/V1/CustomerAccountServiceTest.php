@@ -84,6 +84,11 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      */
     private $_customerAddressServiceMock;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\UrlInterface
+     */
+    private $_urlMock;
+
     public function setUp()
     {
         $this->_customerFactoryMock = $this->getMockBuilder('Magento\Customer\Model\CustomerFactory')
@@ -180,6 +185,12 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             $this->getMockBuilder('\Magento\Customer\Service\V1\CustomerAddressService')
             ->disableOriginalConstructor()
             ->getMock();
+
+        $this->_urlMock =
+            $this->getMockBuilder('\Magento\UrlInterface')
+                ->disableOriginalConstructor()
+                ->getMock();
+
     }
 
 
@@ -652,7 +663,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         $customerService = $this->_createService();
 
-        $customerService->sendPasswordResetLink($email, self::WEBSITE_ID);
+        $customerService->sendPasswordResetLink($email, self::WEBSITE_ID, CustomerAccountServiceInterface::EMAIL_RESET);
     }
 
     public function testSendPasswordResetLinkBadEmailOrWebsite()
@@ -676,7 +687,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $customerService = $this->_createService();
 
         try {
-            $customerService->sendPasswordResetLink($email, 0);
+            $customerService->sendPasswordResetLink($email, 0, CustomerAccountServiceInterface::EMAIL_RESET);
             $this->fail("Expected NoSuchEntityException not caught");
         } catch (\Magento\Exception\NoSuchEntityException $nsee) {
             $this->assertSame($nsee->getCode(), \Magento\Exception\NoSuchEntityException::NO_SUCH_ENTITY);
@@ -715,7 +726,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         $customerService = $this->_createService();
 
-        $customerService->sendPasswordResetLink($email, self::WEBSITE_ID);
+        $customerService->sendPasswordResetLink($email, self::WEBSITE_ID, CustomerAccountServiceInterface::EMAIL_RESET);
     }
 
     public function testChangePassword()
@@ -995,7 +1006,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             $this->_validator,
             new Dto\CustomerBuilder,
             $this->_customerServiceMock,
-            $this->_customerAddressServiceMock
+            $this->_customerAddressServiceMock,
+            $this->_urlMock
         );
         return $customerService;
     }

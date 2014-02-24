@@ -715,7 +715,10 @@ class Account extends \Magento\App\Action\Action
 
             try {
                 $this->_customerAccountService
-                    ->sendPasswordResetLink($email, $this->_storeManager->getStore()->getWebsiteId());
+                    ->sendPasswordResetLink(
+                        $email,
+                        $this->_storeManager->getStore()->getWebsiteId(),
+                        CustomerAccountServiceInterface::EMAIL_RESET);
             } catch (NoSuchEntityException $e) {
                 // Do nothing, we don't want anyone to use this action to determine which email accounts are registered.
             } catch (\Exception $exception) {

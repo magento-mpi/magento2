@@ -28,6 +28,14 @@ interface CustomerAccountServiceInterface
     const ACCOUNT_CONFIRMATION_NOT_REQUIRED = 'account_confirmation_not_required';
 
     /**
+     * Constants for types of emails to send out.
+     * pdl:
+     * forgot, remind, reset email templates
+     */
+    const EMAIL_REMINDER = 'email_reminder';
+    const EMAIL_RESET = 'email_reset';
+
+    /**
      * Create Customer Account
      *
      * @param Dto\Customer $customer
@@ -126,10 +134,11 @@ interface CustomerAccountServiceInterface
      *
      * @param string $email
      * @param int $websiteId
+     * @param string $template Type of email to send.  Must be one of the email constants.
      * @return void
      * @throws \Magento\Exception\NoSuchEntityException
      */
-    public function sendPasswordResetLink($email, $websiteId);
+    public function sendPasswordResetLink($email, $websiteId, $template);
 
 
     /**
