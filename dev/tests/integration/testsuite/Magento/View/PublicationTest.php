@@ -365,8 +365,12 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
         $objectManager->get('Magento\Core\Model\App')
             ->loadArea(\Magento\Core\Model\App\Area::AREA_FRONTEND);
         $objectManager->configure(
-            ['Magento\View\Design\Fallback\Factory' => ['parameters' => [
-                'filesystem' => $objectManager->get('Magento\View\MockedFilesystem')
+            ['Magento\View\Design\Fallback\Factory' => ['arguments' => [
+                'filesystem' => [
+                    'value' => 'Magento\View\MockedFilesystem',
+                    \Magento\ObjectManager\Config\Reader\Dom::TYPE_ATTRIBUTE => 'object'
+                ]
+
             ]]]
         );
         $this->_viewUrl->getViewFileUrl($cssViewFile, $designParams);
