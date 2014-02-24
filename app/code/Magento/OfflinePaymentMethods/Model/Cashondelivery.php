@@ -2,36 +2,33 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Payment
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Payment\Model\Method;
+namespace Magento\OfflinePaymentMethods\Model;
 
 /**
- * Bank Transfer payment method model
+ * Cash on delivery payment method model
  */
-class Banktransfer extends \Magento\Payment\Model\Method\AbstractMethod
+class Cashondelivery extends \Magento\Payment\Model\Method\AbstractMethod
 {
-    const PAYMENT_METHOD_BANKTRANSFER_CODE = 'banktransfer';
 
     /**
      * Payment method code
      *
      * @var string
      */
-    protected $_code = self::PAYMENT_METHOD_BANKTRANSFER_CODE;
+    protected $_code  = 'cashondelivery';
 
     /**
-     * Bank Transfer payment block paths
+     * Cash On Delivery payment block paths
      *
      * @var string
      */
-    protected $_formBlockType = 'Magento\Payment\Block\Form\Banktransfer';
+    protected $_formBlockType = 'Magento\OfflinePaymentMethods\Block\Form\Cashondelivery';
 
     /**
-     * Instructions block path
+     * Info instructions block path
      *
      * @var string
      */
@@ -46,4 +43,5 @@ class Banktransfer extends \Magento\Payment\Model\Method\AbstractMethod
     {
         return trim($this->getConfigData('instructions'));
     }
+
 }

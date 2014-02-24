@@ -2,12 +2,10 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Payment
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Payment\Block\Form;
+namespace Magento\OfflinePaymentMethods\Block\Form;
 
 class Purchaseorder extends \Magento\Payment\Block\Form
 {
@@ -16,6 +14,5 @@ class Purchaseorder extends \Magento\Payment\Block\Form
      *
      * @var string
      */
-    protected $_template = 'Magento_Payment::form/purchaseorder.phtml';
-
+    protected $_template = 'Magento_OfflinePaymentMethods::form/purchaseorder.phtml';
 }

@@ -2,12 +2,10 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Payment
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Payment\Model\Method;
+namespace Magento\OfflinePaymentMethods\Model;
 
 class Purchaseorder extends \Magento\Payment\Model\Method\AbstractMethod
 {
@@ -19,12 +17,12 @@ class Purchaseorder extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * @var string
      */
-    protected $_formBlockType = 'Magento\Payment\Block\Form\Purchaseorder';
+    protected $_formBlockType = 'Magento\OfflinePaymentMethods\Block\Form\Purchaseorder';
 
     /**
      * @var string
      */
-    protected $_infoBlockType = 'Magento\Payment\Block\Info\Purchaseorder';
+    protected $_infoBlockType = 'Magento\OfflinePaymentMethods\Block\Info\Purchaseorder';
 
     /**
      * Assign data to info model instance

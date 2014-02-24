@@ -2,12 +2,10 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Payment
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Payment\Block\Form;
+namespace Magento\OfflinePaymentMethods\Block\Form;
 
 /**
  * Block for Cash On Delivery payment method form

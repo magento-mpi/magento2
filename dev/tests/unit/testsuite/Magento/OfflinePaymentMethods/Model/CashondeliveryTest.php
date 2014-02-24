@@ -9,12 +9,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\Payment\Model\Method;
+namespace Magento\OfflinePaymentMethods\Model;
 
 class CashondeliveryTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Payment\Model\Method\Cashondelivery
+     * @var \Magento\OfflinePaymentMethods\Model\Cashondelivery
      */
     protected $_object;
 
@@ -28,7 +28,7 @@ class CashondeliveryTest extends \PHPUnit_Framework_TestCase
             array(), '', false);
 
         $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
-        $this->_object = $helper->getObject('Magento\Payment\Model\Method\Cashondelivery', array(
+        $this->_object = $helper->getObject('Magento\OfflinePaymentMethods\Model\Cashondelivery', array(
             'eventManager' => $eventManager,
             'paymentData' => $paymentDataMock,
             'coreStoreConfig' => $coreStoreConfig,

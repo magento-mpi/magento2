@@ -2,12 +2,10 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Payment
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Payment\Block\Info;
+namespace Magento\OfflinePaymentMethods\Block\Info;
 
 class Ccsave extends \Magento\Payment\Block\Info\Cc
 {

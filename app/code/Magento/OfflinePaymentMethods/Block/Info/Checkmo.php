@@ -2,12 +2,10 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Payment
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Payment\Block\Info;
+namespace Magento\OfflinePaymentMethods\Block\Info;
 
 class Checkmo extends \Magento\Payment\Block\Info
 {
@@ -25,7 +23,7 @@ class Checkmo extends \Magento\Payment\Block\Info
     /**
      * @var string
      */
-    protected $_template = 'Magento_Payment::info/checkmo.phtml';
+    protected $_template = 'Magento_OfflinePaymentMethods::info/checkmo.phtml';
 
     /**
      * Enter description here...
@@ -76,7 +74,7 @@ class Checkmo extends \Magento\Payment\Block\Info
      */
     public function toPdf()
     {
-        $this->setTemplate('Magento_Payment::info/pdf/checkmo.phtml');
+        $this->setTemplate('Magento_OfflinePaymentMethods::info/pdf/checkmo.phtml');
         return $this->toHtml();
     }
 

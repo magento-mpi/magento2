@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <event name="sales_order_payment_save_before">
+        <observer name="payment_before_save" instance="Magento\OfflinePaymentMethods\Model\Observer" method="beforeOrderPaymentSave" />
+    </event>
+</config>

@@ -221,6 +221,9 @@ $CONFIG['translates'] = array(
     'Magento_Authorizenet' => array(
         'app/code/Magento/Authorizenet/',
     ),
+    'Magento_OfflinePaymentMethods' => array(
+        'app/code/Magento/OfflinePaymentMethods/'
+    ),
     'Magento_Payment' => array(
         'app/code/Magento/Payment/',
         'app/design/frontend/base/default/template/payment/'
