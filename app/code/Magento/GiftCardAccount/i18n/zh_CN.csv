@@ -121,7 +121,7 @@
 "The gift card account has been saved.","该礼品卡帐户已保存。"
 "This Gift Card Account no longer exists.","该礼品卡帐户不存在。"
 "This gift card account is already in the quote.","该礼品卡帐户已经被使用。"
-"This gift card account wasn\'t found in the quote.","该礼品卡帐户的额度未找到。"
+"This gift card account wasn't found in the quote.","该礼品卡帐户的额度未找到。"
 "To add or remove gift cards, <a href=""%s"">click here</a>.","要添加或删除礼品卡，请 <a href=""%s"">点击这里</a>。"
 "Total of %d record(s) have been deleted.","总共%d记录已被删除。"
 "Unable to create full code pool size. Please check settings and try again.","无法创建完整代码池规模，请检查设置并重试。"
