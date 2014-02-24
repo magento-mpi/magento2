@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Rss\Block\Order;
 
 /**
  * Review form block
  */
-namespace Magento\Rss\Block\Order;
-
 class NewOrder extends \Magento\Backend\Block\AbstractBlock
 {
     /**
@@ -58,6 +57,9 @@ class NewOrder extends \Magento\Backend\Block\AbstractBlock
         parent::__construct($context, $data);
     }
 
+    /**
+     * @return string
+     */
     protected function _toHtml()
     {
         /** @var $order \Magento\Sales\Model\Order */
@@ -90,6 +92,9 @@ class NewOrder extends \Magento\Backend\Block\AbstractBlock
         return $rssObj->createRssXml();
     }
 
+    /**
+     * @param array $args
+     */
     public function addNewOrderXmlCallback($args)
     {
         /** @var $rssObj \Magento\Rss\Model\Rss */

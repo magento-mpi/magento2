@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Rss\Block\Catalog;
 
 /**
  * Review form block
  */
-namespace Magento\Rss\Block\Catalog;
-
 class Review extends \Magento\Backend\Block\AbstractBlock
 {
     /**
@@ -98,7 +97,7 @@ class Review extends \Magento\Backend\Block\AbstractBlock
      * Format single RSS element
      *
      * @param array $args
-     * @return null
+     * @return void
      */
     public function addReviewItemXmlCallback($args)
     {

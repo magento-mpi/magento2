@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Rss\Controller;
 
 /**
  * RSS Controller for Order feed
  */
-namespace Magento\Rss\Controller;
-
 class Order extends \Magento\App\Action\Action
 {
     /**
@@ -36,6 +35,8 @@ class Order extends \Magento\App\Action\Action
 
     /**
      * Order status action
+     *
+     * @return void
      */
     public function statusAction()
     {

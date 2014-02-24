@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Rss\Controller\Adminhtml;
 
 /**
  * RSS Controller with HTTP Basic authentication
  */
-namespace Magento\Rss\Controller\Adminhtml;
-
 use Magento\Backend\App\Action;
 
 class Authenticate extends \Magento\Backend\App\Action

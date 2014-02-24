@@ -7,16 +7,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Rss\Block;
 
 /**
  * Review form block
  */
-namespace Magento\Rss\Block;
-
 class ListBlock extends \Magento\View\Element\Template
 {
     const XML_PATH_RSS_METHODS = 'rss';
 
+    /**
+     * @var array
+     */
     protected $_rssFeeds = array();
 
     /**
@@ -50,7 +52,7 @@ class ListBlock extends \Magento\View\Element\Template
     /**
      * Add Link elements to head
      *
-     * @return \Magento\Rss\Block\ListBlock
+     * @return $this
      */
     protected function _prepareLayout()
     {
@@ -67,7 +69,7 @@ class ListBlock extends \Magento\View\Element\Template
     /**
      * Retrieve rss feeds
      *
-     * @return array
+     * @return bool|array
      */
     public function getRssFeeds()
     {
@@ -81,7 +83,7 @@ class ListBlock extends \Magento\View\Element\Template
      * @param string $label
      * @param array $param
      * @param bool $customerGroup
-     * @return  \Magento\App\Helper\AbstractHelper
+     * @return $this
      */
     public function addRssFeed($url, $label, $param = array(), $customerGroup = false)
     {
@@ -98,16 +100,31 @@ class ListBlock extends \Magento\View\Element\Template
         return $this;
     }
 
+    /**
+     * Rest rss feed
+     *
+     * @return void
+     */
     public function resetRssFeed()
     {
         $this->_rssFeeds = array();
     }
 
+    /**
+     * Get current store id
+     *
+     * @return int
+     */
     public function getCurrentStoreId()
     {
         return $this->_storeManager->getStore()->getId();
     }
 
+    /**
+     * Get current customer group id
+     *
+     * @return int
+     */
     public function getCurrentCustomerGroupId()
     {
         return $this->_customerSession->getCustomerGroupId();
@@ -118,7 +135,7 @@ class ListBlock extends \Magento\View\Element\Template
      *
      * array structure:
      *
-     * @return  array
+     * @return array
      */
     public function getRssCatalogFeeds()
     {
@@ -127,6 +144,11 @@ class ListBlock extends \Magento\View\Element\Template
         return $this->getRssFeeds();
     }
 
+    /**
+     * Get rss misc feeds
+     *
+     * @return array|bool
+     */
     public function getRssMiscFeeds()
     {
         $this->resetRssFeed();
@@ -136,6 +158,11 @@ class ListBlock extends \Magento\View\Element\Template
         return $this->getRssFeeds();
     }
 
+    /**
+     * New product rss feed
+     *
+     * @return void
+     */
     public function newProductRssFeed()
     {
         $path = self::XML_PATH_RSS_METHODS . '/catalog/new';
@@ -144,6 +171,11 @@ class ListBlock extends \Magento\View\Element\Template
         }
     }
 
+    /**
+     * Special product rss feed
+     *
+     * @return void
+     */
     public function specialProductRssFeed()
     {
         $path = self::XML_PATH_RSS_METHODS . '/catalog/special';
@@ -152,6 +184,11 @@ class ListBlock extends \Magento\View\Element\Template
         }
     }
 
+    /**
+     * Sales rule product rss feed
+     *
+     * @return void
+     */
     public function salesRuleProductRssFeed()
     {
         $path = self::XML_PATH_RSS_METHODS . '/catalog/salesrule';
@@ -160,6 +197,11 @@ class ListBlock extends \Magento\View\Element\Template
         }
     }
 
+    /**
+     * Categories rss feed
+     *
+     * @return void
+     */
     public function categoriesRssFeed()
     {
         $path = self::XML_PATH_RSS_METHODS . '/catalog/category';

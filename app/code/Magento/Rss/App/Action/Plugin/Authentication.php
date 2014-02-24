@@ -9,6 +9,9 @@
  */
 namespace Magento\Rss\App\Action\Plugin;
 
+use Magento\App\ResponseInterface;
+use Magento\Code\Plugin\InvocationChain;
+
 class Authentication extends \Magento\Backend\App\Action\Plugin\Authentication
 {
     /**
@@ -41,7 +44,7 @@ class Authentication extends \Magento\Backend\App\Action\Plugin\Authentication
     /**
      * @param \Magento\Backend\Model\Auth $auth
      * @param \Magento\Backend\Model\UrlInterface $url
-     * @param \Magento\App\ResponseInterface $response
+     * @param ResponseInterface $response
      * @param \Magento\App\ActionFlag $actionFlag
      * @param \Magento\Message\ManagerInterface $messageManager
      * @param \Magento\HTTP\Authentication $httpAuthentication
@@ -51,7 +54,7 @@ class Authentication extends \Magento\Backend\App\Action\Plugin\Authentication
     public function __construct(
         \Magento\Backend\Model\Auth $auth,
         \Magento\Backend\Model\UrlInterface $url,
-        \Magento\App\ResponseInterface $response,
+        ResponseInterface $response,
         \Magento\App\ActionFlag $actionFlag,
         \Magento\Message\ManagerInterface $messageManager,
         \Magento\HTTP\Authentication $httpAuthentication,
@@ -68,10 +71,10 @@ class Authentication extends \Magento\Backend\App\Action\Plugin\Authentication
      * Replace standard admin login form with HTTP Basic authentication
      *
      * @param array $arguments
-     * @param \Magento\Code\Plugin\InvocationChain $invocationChain
-     * @return mixed
+     * @param InvocationChain $invocationChain
+     * @return mixed|ResponseInterface
      */
-    public function aroundDispatch(array $arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
+    public function aroundDispatch(array $arguments, InvocationChain $invocationChain)
     {
         /** @var \Magento\App\RequestInterface $request */
         $request = $arguments[0];

@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Rss\Controller;
 
 use Magento\App\Action\NotFoundException;
@@ -48,6 +47,7 @@ class Index extends \Magento\App\Action\Action
     /**
      * Index action
      *
+     * @return void
      * @throws NotFoundException
      */
     public function indexAction()
@@ -62,6 +62,8 @@ class Index extends \Magento\App\Action\Action
 
     /**
      * Display feed not found message
+     *
+     * @return void
      */
     public function nofeedAction()
     {
@@ -76,7 +78,7 @@ class Index extends \Magento\App\Action\Action
      * Wishlist rss feed action
      * Show all public wishlists and private wishlists that belong to current user
      *
-     * @return mixed
+     * @return void
      */
     public function wishlistAction()
     {

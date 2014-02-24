@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Rss\Block\Catalog;
 
 /**
  * Review form block
  */
-namespace Magento\Rss\Block\Catalog;
-
 class Special extends \Magento\Rss\Block\Catalog\AbstractCatalog
 {
     /**
@@ -85,6 +84,9 @@ class Special extends \Magento\Rss\Block\Catalog\AbstractCatalog
         parent::__construct($context, $customerSession, $catalogData, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         /*
@@ -94,6 +96,9 @@ class Special extends \Magento\Rss\Block\Catalog\AbstractCatalog
         $this->setCacheLifetime(600);
     }
 
+    /**
+     * @return string
+     */
     protected function _toHtml()
     {
          //store id is store view id
@@ -193,6 +198,7 @@ class Special extends \Magento\Rss\Block\Catalog\AbstractCatalog
      * Preparing data and adding to rss object
      *
      * @param array $args
+     * @return void
      */
     public function addSpecialXmlCallback($args)
     {
@@ -225,13 +231,12 @@ class Special extends \Magento\Rss\Block\Catalog\AbstractCatalog
         $args['results'][] = $row;
     }
 
-
     /**
      * Function for comparing two items in collection
      *
-     * @param $a
-     * @param $b
-     * @return  boolean
+     * @param array $a
+     * @param array $b
+     * @return bool
      */
     public function sortByStartDate($a, $b)
     {

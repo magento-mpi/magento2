@@ -7,16 +7,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Rss\Controller\Adminhtml;
 
 /**
  * RSS Controller for Orders feed in Admin
  */
-namespace Magento\Rss\Controller\Adminhtml;
-
 class Order extends \Magento\Rss\Controller\Adminhtml\Authenticate
 {
     /**
      * New orders action
+     *
+     * @return void
      */
     public function newAction()
     {

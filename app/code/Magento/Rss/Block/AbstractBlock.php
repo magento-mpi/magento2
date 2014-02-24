@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Rss\Block;
 
 class AbstractBlock extends \Magento\View\Element\Template
@@ -54,7 +53,7 @@ class AbstractBlock extends \Magento\View\Element\Template
     protected function _getCustomerGroupId()
     {
         $customerGroupId =   (int) $this->getRequest()->getParam('cid');
-        if($customerGroupId == null) {
+        if ($customerGroupId == null) {
             $customerGroupId = $this->_customerSession->getCustomerGroupId();
         }
         return $customerGroupId;

@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Rss\Block;
 
 /**
  * Customer Shared Wishlist Rss Block
@@ -15,8 +16,6 @@
  * @package    Magento_Rss
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Rss\Block;
-
 class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
 {
     /**
@@ -279,6 +278,7 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
      * @param string $type Catalog Product Type
      * @param string $block Block Type
      * @param string $template Template
+     * @return void
      */
     public function addPriceBlockType($type, $block = '', $template = '')
     {
