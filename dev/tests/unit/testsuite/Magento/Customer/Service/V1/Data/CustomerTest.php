@@ -37,6 +37,14 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
     const ATTRIBUTE_CODE = 'attribute_code';
     const ATTRIBUTE_VALUE = 'attribute_value';
 
+    /** @var  \Magento\TestFramework\Helper\ObjectManager */
+    protected $_objectManager;
+
+    public function setUp()
+    {
+        $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+    }
+
     public function testSetters()
     {
         $customerData = $this->_createCustomerData();
@@ -68,9 +76,8 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
     public function testGetAttributes()
     {
         $customerData = $this->_createCustomerData();
-        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         /** @var \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder */
-        $customerBuilder = $objectManagerHelper->getObject('Magento\Customer\Service\V1\Data\CustomerBuilder');
+        $customerBuilder = $this->_objectManager->getObject('Magento\Customer\Service\V1\Data\CustomerBuilder');
         $customerBuilder->populateWithArray($customerData);
         /** @var Customer $customer */
         $customer = $customerBuilder->create();
@@ -109,15 +116,20 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             'attribute1' => 'value1',
             Customer::CUSTOM_ATTRIBUTES_KEY => $customAttributes
         ];
-        $customerDataObject = new \Magento\Customer\Service\V1\Data\Customer($customerData);
-        $this->assertEquals($customAttributes, $customerDataObject->getCustomAttributes(), 'Invalid custom attributes.');
+        /** @var $builder \Magento\Customer\Service\V1\Data\CustomerBuilder*/
+        $builder = $this->_objectManager->getObject('Magento\Customer\Service\V1\Data\CustomerBuilder');
+        $customerDataObject = $builder->populateWithArray($customerData)->create();
+        $this->assertEquals(
+            $customAttributes,
+            $customerDataObject->getCustomAttributes(),
+            'Invalid custom attributes.'
+        );
     }
 
     public function testPopulateFromPrototypeVsArray()
     {
-        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         /** @var \Magento\Customer\Service\V1\Data\CustomerBuilder $builder */
-        $builder = $objectManagerHelper->getObject('Magento\Customer\Service\V1\Data\CustomerBuilder');
+        $builder = $this->_objectManager->getObject('Magento\Customer\Service\V1\Data\CustomerBuilder');
         $builder->populateWithArray([
             Customer::FIRSTNAME => self::FIRSTNAME,
             Customer::LASTNAME  => self::LASTNAME,
@@ -133,9 +145,8 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
 
     public function testPopulateFromCustomerIdInArray()
     {
-        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         /** @var \Magento\Customer\Service\V1\Data\CustomerBuilder $builder */
-        $builder = $objectManagerHelper->getObject('Magento\Customer\Service\V1\Data\CustomerBuilder');
+        $builder = $this->_objectManager->getObject('Magento\Customer\Service\V1\Data\CustomerBuilder');
         $builder->populateWithArray([
             Customer::FIRSTNAME => self::FIRSTNAME,
             Customer::LASTNAME  => self::LASTNAME,
