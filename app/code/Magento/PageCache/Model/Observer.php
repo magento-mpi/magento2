@@ -109,11 +109,15 @@ class Observer
      */
     public function invalidateCache(\Magento\Event\Observer $observer)
     {
-        $object = $observer->getEvent()->getObject();
-        if($object instanceof \Magento\Object\IdentityInterface) {
-            if($this->_config->getType() == \Magento\PageCache\Model\Config::BUILT_IN) {
-                $this->_cache->clean($object->getIdentities());
-            }
+        if($this->_config->getType() == \Magento\PageCache\Model\Config::BUILT_IN) {
+            $object = $observer->getEvent()->getObject();
+            if($object instanceof \Magento\Object\IdentityInterface) {
+                $tags = $object->getIdentities();
+                foreach ($tags as $tag) {
+                    $tags[] = preg_replace("~_\\d+$~", '', $tag);
+                }
+                    $this->_cache->clean(array_unique($tags));
+                }
         }
     }
 

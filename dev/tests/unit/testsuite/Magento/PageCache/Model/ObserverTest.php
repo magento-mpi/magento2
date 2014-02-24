@@ -156,6 +156,9 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvalidateCache()
     {
+        $tags = array('cache_1', 'cache_group');
+        $expectedTags = array('cache_1', 'cache_group', 'cache');
+
         $eventMock = $this->getMock('Magento\Event', ['getObject'], [], '', false);
         $eventMock->expects($this->once())
             ->method('getObject')
@@ -166,14 +169,13 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_configMock->expects($this->once())
             ->method('getType')
             ->will($this->returnValue(0));
-        $tags = array('cache_1', 'cache_group');
         $this->_observerObject->expects($this->once())
             ->method('getIdentities')
             ->will($this->returnValue($tags));
 
         $this->_cacheMock->expects($this->once())
             ->method('clean')
-            ->with($this->equalTo($tags));
+            ->with($this->equalTo($expectedTags));
 
         $this->_model->invalidateCache($this->_observerMock);
     }
