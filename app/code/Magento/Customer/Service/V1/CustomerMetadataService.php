@@ -128,40 +128,6 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
     }
 
     /**
-     * @inheritdoc
-     */
-    public function getCustomerAttributeMetadata($attributeCode)
-    {
-        return $this->getAttributeMetadata('customer', $attributeCode);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getAllCustomerAttributeMetadata()
-    {
-        return $this->getAllAttributeSetMetadata('customer', self::CUSTOMER_ATTRIBUTE_SET_ID);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getAddressAttributeMetadata($attributeCode)
-    {
-        return $this->getAttributeMetadata('customer_address', $attributeCode);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getAllAddressAttributeMetadata()
-    {
-        return $this->getAllAttributeSetMetadata('customer_address', self::ADDRESS_ATTRIBUTE_SET_ID);
-    }
-
-
-
-    /**
      * Load collection with filters applied
      *
      * @param $entityType
@@ -212,6 +178,39 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
 
         return $this->_attributeMetadataBuilder->create();
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function getCustomerAttributeMetadata($attributeCode)
+    {
+        return $this->getAttributeMetadata('customer', $attributeCode);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAllCustomerAttributeMetadata()
+    {
+        return $this->getAllAttributeSetMetadata('customer', self::ATTRIBUTE_SET_ID_CUSTOMER);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAddressAttributeMetadata($attributeCode)
+    {
+        return $this->getAttributeMetadata('customer_address', $attributeCode);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAllAddressAttributeMetadata()
+    {
+        return $this->getAllAttributeSetMetadata('customer_address', self::ATTRIBUTE_SET_ID_ADDRESS);
+    }
+
 
     /**
      * Helper for getting access to an entity types DTO cache.
