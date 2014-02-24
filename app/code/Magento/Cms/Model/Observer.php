@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Cms\Model;
 
 /**
@@ -45,7 +44,7 @@ class Observer
      * Modify No Route Forward object
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\Cms\Model\Observer
+     * @return $this
      */
     public function noRoute(\Magento\Event\Observer $observer)
     {
@@ -61,7 +60,7 @@ class Observer
      * Modify no Cookies forward object
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\Cms\Model\Observer
+     * @return $this
      */
     public function noCookies(\Magento\Event\Observer $observer)
     {

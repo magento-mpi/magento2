@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Cms\Model\Resource;
 
 /**
@@ -47,6 +46,7 @@ class Block extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Initialize resource model
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -72,7 +72,7 @@ class Block extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Perform operations before object save
      *
      * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Cms\Model\Resource\Block
+     * @return $this
      * @throws \Magento\Core\Exception
      */
     protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
@@ -94,7 +94,7 @@ class Block extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Perform operations after object save
      *
      * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Cms\Model\Resource\Block
+     * @return $this
      */
     protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
     {
@@ -137,7 +137,7 @@ class Block extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param \Magento\Core\Model\AbstractModel $object
      * @param mixed $value
      * @param string $field
-     * @return \Magento\Cms\Model\Resource\Block
+     * @return $this
      */
     public function load(\Magento\Core\Model\AbstractModel $object, $value, $field = null)
     {
@@ -152,7 +152,7 @@ class Block extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Perform operations after object load
      *
      * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Cms\Model\Resource\Block
+     * @return $this
      */
     protected function _afterLoad(\Magento\Core\Model\AbstractModel $object)
     {

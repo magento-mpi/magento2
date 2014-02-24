@@ -43,10 +43,10 @@ class UrlResolverTest extends \PHPUnit_Framework_TestCase
     {
         $map = array(
             array('value' => '/root/magento/theme/lib', 'key' => 'theme/lib'),
-            array('value' => '/root/magento/pub/lib', 'key' => 'pub/lib'),
+            array('value' => '/root/magento/lib/web', 'key' => 'lib/web'),
         );
-        $file = '/root/magento/pub/lib/js/some.js';
-        $expectedKey = 'pub/lib';
+        $file = '/root/magento/lib/web/js/some.js';
+        $expectedKey = 'lib/web';
         $expectedUrl = 'http://base.url/js/some.js';
 
         $this->filesystem->expects($this->any())
@@ -76,10 +76,10 @@ class UrlResolverTest extends \PHPUnit_Framework_TestCase
     {
         $map = array(
             array('value' => '/root/magento/theme/lib', 'key' => 'theme/lib'),
-            array('value' => '/root/magento/pub/lib', 'key' => 'pub/lib'),
+            array('value' => '/root/magento/lib/web', 'key' => 'lib/web'),
         );
-        $file = '/root/magento/pub/lib/js/some.js';
-        $expectedKey = 'pub/lib';
+        $file = '/root/magento/lib/web/js/some.js';
+        $expectedKey = 'lib/web';
         $mTime = 123456;
         $expectedUrl = 'http://base.url/js/some.js?' . $mTime;
         $isSecure = 'is_secure';

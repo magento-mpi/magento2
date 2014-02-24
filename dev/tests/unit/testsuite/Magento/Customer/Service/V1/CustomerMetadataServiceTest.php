@@ -116,9 +116,10 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             ->method('getAllOptions')
             ->will($this->returnValue($allOptions));
 
-        $attributeColMock = $this->getMockBuilder('\Magento\Customer\Model\Resource\Form\Attribute\CollectionFactory')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $attributeColFactoryMock =
+            $this->getMockBuilder('\Magento\Customer\Model\Resource\Form\Attribute\CollectionFactory')
+                ->disableOriginalConstructor()
+                ->getMock();
         $storeManagerMock = $this->getMockBuilder('\Magento\Core\Model\StoreManager')
             ->disableOriginalConstructor()
             ->getMock();
@@ -127,7 +128,7 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
 
         $attributeMetadataBuilder = new \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadataBuilder();
 
-        $service = new CustomerMetadataService($this->_eavConfigMock, $attributeColMock, $storeManagerMock,
+        $service = new CustomerMetadataService($this->_eavConfigMock, $attributeColFactoryMock, $storeManagerMock,
             $optionBuilder, $attributeMetadataBuilder);
 
         $attributeMetadata = $service->getAttributeMetadata('entityCode', 'attributeId');
@@ -147,9 +148,10 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             ->method('getAttribute')
             ->will($this->returnValue(false));
 
-        $attributeColMock = $this->getMockBuilder('\Magento\Customer\Model\Resource\Form\Attribute\CollectionFactory')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $attributeColFactoryMock =
+            $this->getMockBuilder('\Magento\Customer\Model\Resource\Form\Attribute\CollectionFactory')
+                ->disableOriginalConstructor()
+                ->getMock();
         $storeManagerMock = $this->getMockBuilder('\Magento\Core\Model\StoreManager')
             ->disableOriginalConstructor()
             ->getMock();
@@ -158,7 +160,7 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
 
         $attributeMetadataBuilder = new \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadataBuilder();
 
-        $service = new CustomerMetadataService($this->_eavConfigMock, $attributeColMock, $storeManagerMock,
+        $service = new CustomerMetadataService($this->_eavConfigMock, $attributeColFactoryMock, $storeManagerMock,
             $optionBuilder, $attributeMetadataBuilder);
 
         try {
@@ -190,9 +192,10 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             ->method('getAllOptions')
             ->will($this->returnValue(array()));
 
-        $attributeColMock = $this->getMockBuilder('\Magento\Customer\Model\Resource\Form\Attribute\CollectionFactory')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $attributeColFactoryMock =
+            $this->getMockBuilder('\Magento\Customer\Model\Resource\Form\Attribute\CollectionFactory')
+                ->disableOriginalConstructor()
+                ->getMock();
         $storeManagerMock = $this->getMockBuilder('\Magento\Core\Model\StoreManager')
             ->disableOriginalConstructor()
             ->getMock();
@@ -201,7 +204,7 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
 
         $optionBuilder = new \Magento\Customer\Service\V1\Dto\Eav\OptionBuilder();
 
-        $service = new CustomerMetadataService($this->_eavConfigMock, $attributeColMock, $storeManagerMock,
+        $service = new CustomerMetadataService($this->_eavConfigMock, $attributeColFactoryMock, $storeManagerMock,
             $optionBuilder, $attributeMetadataBuilder);
 
         $attributeMetadata = $service->getAttributeMetadata('entityCode', 'attributeId');
@@ -221,9 +224,10 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             ->method('usesSource')
             ->will($this->returnValue(false));
 
-        $attributeColMock = $this->getMockBuilder('\Magento\Customer\Model\Resource\Form\Attribute\CollectionFactory')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $attributeColFactoryMock =
+            $this->getMockBuilder('\Magento\Customer\Model\Resource\Form\Attribute\CollectionFactory')
+                ->disableOriginalConstructor()
+                ->getMock();
         $storeManagerMock = $this->getMockBuilder('\Magento\Core\Model\StoreManager')
             ->disableOriginalConstructor()
             ->getMock();
@@ -232,7 +236,7 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
 
         $attributeMetadataBuilder = new \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadataBuilder();
 
-        $service = new CustomerMetadataService($this->_eavConfigMock, $attributeColMock, $storeManagerMock,
+        $service = new CustomerMetadataService($this->_eavConfigMock, $attributeColFactoryMock, $storeManagerMock,
             $optionBuilder, $attributeMetadataBuilder);
 
         $attributeMetadata = $service->getAttributeMetadata('entityCode', 'attributeId');
@@ -248,9 +252,10 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             ->method('getAttribute')
             ->will($this->returnValue(false));
 
-        $attributeColMock = $this->getMockBuilder('\Magento\Customer\Model\Resource\Form\Attribute\CollectionFactory')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $attributeColFactoryMock =
+            $this->getMockBuilder('\Magento\Customer\Model\Resource\Form\Attribute\CollectionFactory')
+                ->disableOriginalConstructor()
+                ->getMock();
         $storeManagerMock = $this->getMockBuilder('\Magento\Core\Model\StoreManager')
             ->disableOriginalConstructor()
             ->getMock();
@@ -259,7 +264,7 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
 
         $attributeMetadataBuilder = new \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadataBuilder();
 
-        $service = new CustomerMetadataService($this->_eavConfigMock, $attributeColMock, $storeManagerMock,
+        $service = new CustomerMetadataService($this->_eavConfigMock, $attributeColFactoryMock, $storeManagerMock,
             $optionBuilder, $attributeMetadataBuilder);
 
         try {
@@ -283,9 +288,10 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             ->method('getAttribute')
             ->will($this->returnValue(false));
 
-        $attributeColMock = $this->getMockBuilder('\Magento\Customer\Model\Resource\Form\Attribute\CollectionFactory')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $attributeColFactoryMock =
+            $this->getMockBuilder('\Magento\Customer\Model\Resource\Form\Attribute\CollectionFactory')
+                ->disableOriginalConstructor()
+                ->getMock();
         $storeManagerMock = $this->getMockBuilder('\Magento\Core\Model\StoreManager')
             ->disableOriginalConstructor()
             ->getMock();
@@ -294,7 +300,7 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
 
         $attributeMetadataBuilder = new \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadataBuilder();
 
-        $service = new CustomerMetadataService($this->_eavConfigMock, $attributeColMock, $storeManagerMock,
+        $service = new CustomerMetadataService($this->_eavConfigMock, $attributeColFactoryMock, $storeManagerMock,
             $optionBuilder, $attributeMetadataBuilder);
 
         try {
@@ -322,9 +328,10 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             ->method('getEntityAttributeCodes')
             ->will($this->returnValue(['bogus']));
 
-        $attributeColMock = $this->getMockBuilder('\Magento\Customer\Model\Resource\Form\Attribute\CollectionFactory')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $attributeColFactoryMock =
+            $this->getMockBuilder('\Magento\Customer\Model\Resource\Form\Attribute\CollectionFactory')
+                ->disableOriginalConstructor()
+                ->getMock();
 
         $storeManagerMock = $this->getMockBuilder('\Magento\Core\Model\StoreManager')
             ->disableOriginalConstructor()
@@ -334,7 +341,7 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
 
         $attributeMetadataBuilder = new \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadataBuilder();
 
-        $service = new CustomerMetadataService($this->_eavConfigMock, $attributeColMock, $storeManagerMock,
+        $service = new CustomerMetadataService($this->_eavConfigMock, $attributeColFactoryMock, $storeManagerMock,
             $optionBuilder, $attributeMetadataBuilder);
 
         $this->assertEquals([], $service->getAllAttributeSetMetadata('entityType', 0, 1));

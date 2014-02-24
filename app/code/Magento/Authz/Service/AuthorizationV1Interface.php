@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Authz\Service;
 
 use Magento\Authz\Model\UserIdentifier;
@@ -21,6 +20,7 @@ interface AuthorizationV1Interface
      *
      * @param UserIdentifier $userIdentifier
      * @param string[] $resources List of resources which should be available to the specified user.
+     * @return void
      * @throws ServiceException
      */
     public function grantPermissions(UserIdentifier $userIdentifier, array $resources);
@@ -29,6 +29,7 @@ interface AuthorizationV1Interface
      * Grant permissions to the user to access all resources available in the system.
      *
      * @param UserIdentifier $userIdentifier
+     * @return void
      * @throws ServiceException
      */
     public function grantAllPermissions(UserIdentifier $userIdentifier);
@@ -58,6 +59,7 @@ interface AuthorizationV1Interface
      * Remove user role and associated permissions.
      *
      * @param UserIdentifier $userIdentifier
+     * @return void
      * @throws ServiceException
      */
     public function removePermissions(UserIdentifier $userIdentifier);

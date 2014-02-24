@@ -50,7 +50,7 @@ class Setup extends \Magento\Catalog\Model\Resource\Setup
      * Create migration setup
      *
      * @param array $data
-     * @return \Magento\Enterprise\Model\Resource\Setup\Migration
+     * @return \Magento\Core\Model\Resource\Setup\Migration
      */
     public function createMigrationSetup(array $data = array())
     {

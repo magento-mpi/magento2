@@ -7,13 +7,11 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
+namespace Magento\Integration\Model\Resource\Oauth;
 
 /**
  * OAuth token resource model
  */
-
-namespace Magento\Integration\Model\Resource\Oauth;
-
 class Token extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
@@ -33,6 +31,8 @@ class Token extends \Magento\Core\Model\Resource\Db\AbstractDb
 
     /**
      * Initialize resource model
+     *
+     * @return void
      */
     protected function _construct()
     {

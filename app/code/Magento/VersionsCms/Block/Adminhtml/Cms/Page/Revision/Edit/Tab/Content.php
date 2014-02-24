@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit\Tab;
 
 /**
  * Main tab with cms page attributes and some modifications to CE version
  */
-namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit\Tab;
-
 class Content
     extends \Magento\Cms\Block\Adminhtml\Page\Edit\Tab\Content
 {
@@ -55,7 +54,7 @@ class Content
      * Preparing form by adding extra fields.
      * Adding on change js call.
      *
-     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit\Tab\Content
+     * @return $this
      */
     protected function _prepareForm()
     {

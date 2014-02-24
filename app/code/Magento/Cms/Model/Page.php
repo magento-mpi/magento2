@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Cms\Model;
 
 /**
@@ -64,6 +63,10 @@ class Page extends \Magento\Core\Model\AbstractModel
     const STATUS_DISABLED = 0;
 
     const CACHE_TAG              = 'cms_page';
+
+    /**
+     * @var string
+     */
     protected $_cacheTag         = 'cms_page';
 
     /**
@@ -76,6 +79,7 @@ class Page extends \Magento\Core\Model\AbstractModel
     /**
      * Initialize resource model
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -87,7 +91,7 @@ class Page extends \Magento\Core\Model\AbstractModel
      *
      * @param null|int $id
      * @param string $field
-     * @return \Magento\Cms\Model\Page
+     * @return $this
      */
     public function load($id, $field = null)
     {

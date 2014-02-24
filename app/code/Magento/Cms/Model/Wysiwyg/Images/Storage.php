@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Cms\Model\Wysiwyg\Images;
 
 use Magento\Cms\Helper\Wysiwyg\Images;
@@ -385,6 +384,7 @@ class Storage extends \Magento\Object
      * Delete by path
      *
      * @param string $path
+     * @return void
      */
     protected function _deleteByPath($path)
     {
@@ -399,7 +399,7 @@ class Storage extends \Magento\Object
      * Delete file (and its thumbnail if exists) from storage
      *
      * @param string $target File path to be deleted
-     * @return \Magento\Cms\Model\Wysiwyg\Images\Storage
+     * @return $this
      */
     public function deleteFile($target)
     {
@@ -463,8 +463,8 @@ class Storage extends \Magento\Object
      * Thumbnail path getter
      *
      * @param  string $filePath original file path
-     * @param  boolean $checkFile OPTIONAL is it necessary to check file availability
-     * @return string | false
+     * @param  bool $checkFile OPTIONAL is it necessary to check file availability
+     * @return string|false
      */
     public function getThumbnailPath($filePath, $checkFile = false)
     {
@@ -485,8 +485,8 @@ class Storage extends \Magento\Object
      * Thumbnail URL getter
      *
      * @param  string $filePath original file path
-     * @param  boolean $checkFile OPTIONAL is it necessary to check file availability
-     * @return string | false
+     * @param  bool $checkFile OPTIONAL is it necessary to check file availability
+     * @return string|false
      */
     public function getThumbnailUrl($filePath, $checkFile = false)
     {
@@ -543,7 +543,7 @@ class Storage extends \Magento\Object
     /**
      * Resize images on the fly in controller action
      *
-     * @param string File basename
+     * @param string $filename File basename
      * @return bool|string Thumbnail path or false for errors
      */
     public function resizeOnTheFly($filename)
@@ -659,6 +659,7 @@ class Storage extends \Magento\Object
      * Is path under storage root directory
      *
      * @param string $path
+     * @return void
      * @throws \Magento\Core\Exception
      */
     protected function _validatePath($path)

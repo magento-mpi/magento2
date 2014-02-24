@@ -440,6 +440,18 @@
             <word>CHANGELOG</word>
         </item>
         <item>
+            <path>app/code/Magento/Catalog/etc/di.xml</path>
+            <word>CHANGELOG</word>
+        </item>
+        <item>
+            <path>app/code/Magento/Catalog/Model/Indexer/Category/Product/Plugin/MviewState.php</path>
+            <word>CHANGELOG</word>
+        </item>
+        <item>
+            <path>dev/tests/unit/testsuite/Magento/Catalog/Model/Indexer/Category/Product/Plugin/MviewStateTest.php</path>
+            <word>CHANGELOG</word>
+        </item>
+        <item>
             <path>app/code/Magento/Bundle/etc/product_types.xml</path>
             <word>CustomAttribute</word>
         </item>

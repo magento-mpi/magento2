@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\TargetRule\Model\Actions\Condition\Product\Special;
 
 /**
  * TargetRule Action Product Price (percentage) Condition Model
@@ -15,8 +15,6 @@
  * @category   Magento
  * @package    Magento_TargetRule
  */
-namespace Magento\TargetRule\Model\Actions\Condition\Product\Special;
-
 class Price
     extends \Magento\TargetRule\Model\Actions\Condition\Product\Special
 {
@@ -62,7 +60,7 @@ class Price
     /**
      * Set operator options
      *
-     * @return \Magento\TargetRule\Model\Actions\Condition\Product\Special\Price
+     * @return $this
      */
     public function loadOperatorOptions()
     {
@@ -88,7 +86,7 @@ class Price
      *
      * @param \Magento\Catalog\Model\Resource\Product\Collection $collection
      * @param \Magento\TargetRule\Model\Index $object
-     * @param array $bind
+     * @param array &$bind
      * @return \Zend_Db_Expr
      */
     public function getConditionForCollection($collection, $object, &$bind)

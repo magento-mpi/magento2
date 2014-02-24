@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Cms\Model;
 
 /**
@@ -34,6 +33,10 @@ class Block extends \Magento\Core\Model\AbstractModel
      * CMS block cache tag
      */
     const CACHE_TAG = 'cms_block';
+
+    /**
+     * @var string
+     */
     protected $_cacheTag = 'cms_block';
 
     /**
@@ -43,6 +46,9 @@ class Block extends \Magento\Core\Model\AbstractModel
      */
     protected $_eventPrefix = 'cms_block';
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_init('Magento\Cms\Model\Resource\Block');
