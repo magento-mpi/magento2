@@ -181,7 +181,7 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
         $customerService = $this->_createService();
 
         $actualCustomer = $customerService->getCustomer(self::ID);
-        $this->assertEquals(self::ID, $actualCustomer->getCustomerId(), 'customer id does not match');
+        $this->assertEquals(self::ID, $actualCustomer->getId(), 'customer id does not match');
         $this->assertEquals(self::FIRSTNAME, $actualCustomer->getFirstName());
         $this->assertEquals(self::LASTNAME, $actualCustomer->getLastName());
         $this->assertEquals(self::EMAIL, $actualCustomer->getEmail());
