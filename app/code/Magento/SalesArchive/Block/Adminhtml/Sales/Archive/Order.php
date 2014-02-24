@@ -7,16 +7,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\SalesArchive\Block\Adminhtml\Sales\Archive;
 
 /**
  * Archive orders block
- *
  */
-
-namespace Magento\SalesArchive\Block\Adminhtml\Sales\Archive;
-
 class Order extends \Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order\Container
 {
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_controller = 'sales_order';

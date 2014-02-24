@@ -62,6 +62,7 @@ class Active
     /**
      * Clean cache, value was changed
      *
+     * @return $this
      */
     protected function _afterSave()
     {

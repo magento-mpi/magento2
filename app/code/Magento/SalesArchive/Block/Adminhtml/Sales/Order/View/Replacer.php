@@ -7,13 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\SalesArchive\Block\Adminhtml\Sales\Order\View;
 
 /**
  * Sales archive order view replacer for archive
- *
  */
-namespace Magento\SalesArchive\Block\Adminhtml\Sales\Order\View;
-
 class Replacer
     extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
 {
@@ -40,6 +38,9 @@ class Replacer
         parent::__construct($context, $registry, $adminHelper, $data);
     }
 
+    /**
+     * @return $this
+     */
     protected function _prepareLayout()
     {
         if ($this->getOrder()->getIsArchived()) {
@@ -86,6 +87,9 @@ class Replacer
         return $this;
     }
 
+    /**
+     * @return string
+     */
     protected function _toHtml()
     {
         return '';

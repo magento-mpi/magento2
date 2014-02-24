@@ -7,14 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\SalesArchive\Block\Adminhtml\Sales\Order\View\Tab;
 
 /**
  * Shipments tab
- *
  */
-
-namespace Magento\SalesArchive\Block\Adminhtml\Sales\Order\View\Tab;
-
 class Shipments
      extends \Magento\Sales\Block\Adminhtml\Order\View\Tab\Shipments
 {

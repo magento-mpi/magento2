@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\SalesArchive\Model\Resource;
 
 /**
  * Enterprise SalesArchive Mysql resource helper model
@@ -16,8 +16,6 @@
  * @package     Magento_SalesArchive
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\SalesArchive\Model\Resource;
-
 class Helper extends \Magento\Core\Model\Resource\Helper
 {
     /**
@@ -36,9 +34,9 @@ class Helper extends \Magento\Core\Model\Resource\Helper
      *
      * @param string $table
      * @param string $column
-     * @param boolean $after
-     * @param boolean $first
-     * @return \Magento\SalesArchive\Model\Resource\Helper
+     * @param bool $after
+     * @param bool $first
+     * @return $this
      */
     public function changeColumnPosition($table, $column, $after = false, $first = false)
     {

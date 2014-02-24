@@ -7,17 +7,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order;
 
 /**
  * Archive shipment block
- *
  */
-
-namespace Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order;
-
 class Creditmemo
     extends \Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order\Container
 {
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_controller = 'sales_creditmemo';

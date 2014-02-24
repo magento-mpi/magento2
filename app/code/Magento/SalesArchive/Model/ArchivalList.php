@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\SalesArchive\Model;
 
 /**
  * Sales archival model list
  */
-namespace Magento\SalesArchive\Model;
-
 class ArchivalList
 {
     /**
@@ -96,7 +95,7 @@ class ArchivalList
      * Return entity by object
      *
      * @param \Magento\Object $object
-     * @return string|boolean
+     * @return string|false
      */
     public function getEntityByObject($object)
     {

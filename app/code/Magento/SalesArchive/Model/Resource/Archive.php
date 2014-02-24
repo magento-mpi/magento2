@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\SalesArchive\Model\Resource;
 
 /**
  * Archive resource model
@@ -16,8 +16,6 @@
  * @package     Magento_SalesArchive
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\SalesArchive\Model\Resource;
-
 class Archive extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
@@ -76,6 +74,7 @@ class Archive extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Model initialization
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -86,7 +85,7 @@ class Archive extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Check archive entity existence
      *
      * @param string $archiveEntity
-     * @return boolean
+     * @return bool
      */
     public function isArchiveEntityExists($archiveEntity)
     {
@@ -97,7 +96,7 @@ class Archive extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Get archive entity table
      *
      * @param string $archiveEntity
-     * @return string
+     * @return false|string
      */
     public function getArchiveEntityTable($archiveEntity)
     {
@@ -111,7 +110,7 @@ class Archive extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Retrieve archive entity source table
      *
      * @param string $archiveEntity
-     * @return string
+     * @return false|string
      */
     public function getArchiveEntitySourceTable($archiveEntity)
     {
@@ -149,7 +148,7 @@ class Archive extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Retrieve order ids for archive
      *
      * @param array $orderIds
-     * @param boolean $useAge
+     * @param bool $useAge
      * @return array
      */
     public function getOrderIdsForArchive($orderIds = array(), $useAge = false)
@@ -217,7 +216,7 @@ class Archive extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param string $archiveEntity
      * @param string $conditionField
      * @param array $conditionValue
-     * @return \Magento\SalesArchive\Model\Resource\Archive
+     * @return $this
      */
     public function moveToArchive($archiveEntity, $conditionField, $conditionValue)
     {
@@ -248,7 +247,7 @@ class Archive extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param string $archiveEntity
      * @param string $conditionField
      * @param array $conditionValue
-     * @return \Magento\SalesArchive\Model\Resource\Archive
+     * @return $this
      */
     public function removeFromGrid($archiveEntity, $conditionField, $conditionValue)
     {
@@ -276,11 +275,10 @@ class Archive extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Remove records from archive
      *
-     * @param \Magento\SalesArchive\Model\Archive $archive
      * @param string $archiveEntity
      * @param string $conditionField
-     * @param array $conditionValue
-     * @return \Magento\SalesArchive\Model\Resource\Archive
+     * @param null $conditionValue
+     * @return $this
      */
     public function removeFromArchive($archiveEntity, $conditionField = '', $conditionValue = null)
     {
@@ -335,7 +333,7 @@ class Archive extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param string $archiveEntity
      * @param array $ids
-     * @return \Magento\SalesArchive\Model\Resource\Archive
+     * @return $this
      */
     public function updateGridRecords($archiveEntity, $ids)
     {

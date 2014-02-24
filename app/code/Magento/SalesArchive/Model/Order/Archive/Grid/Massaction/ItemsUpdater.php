@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\SalesArchive\Model\Order\Archive\Grid\Massaction;
 
 class ItemsUpdater
@@ -14,6 +13,7 @@ class ItemsUpdater
 {
     /**
      * Remove massaction items in case they disallowed for user
+     *
      * @param mixed $argument
      * @return mixed
      */

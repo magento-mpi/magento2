@@ -7,14 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order\Creditmemo;
 
 /**
  * Archive creditmemos grid block
- *
  */
-
-namespace Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order\Creditmemo;
-
 class Grid
     extends \Magento\Sales\Block\Adminhtml\Creditmemo\Grid
 {
@@ -45,6 +42,9 @@ class Grid
         parent::__construct($context, $backendHelper, $creditmemoFactory, $collectionFactory, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();

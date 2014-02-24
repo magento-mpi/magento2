@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\SalesArchive\Model\Resource\Order;
 
 /**
  * Order archive collection
@@ -16,13 +16,12 @@
  * @package     Magento_SalesArchive
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\SalesArchive\Model\Resource\Order;
-
 class Collection extends \Magento\Sales\Model\Resource\Order\Grid\Collection
 {
     /**
      * Collection initialization
      *
+     * @return void
      */
     protected function _construct()
     {

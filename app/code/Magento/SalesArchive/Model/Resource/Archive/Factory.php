@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\SalesArchive\Model\Resource\Archive;
 
 /**
  * Archive resource factory
  */
-namespace Magento\SalesArchive\Model\Resource\Archive;
-
 class Factory
 {
     /**

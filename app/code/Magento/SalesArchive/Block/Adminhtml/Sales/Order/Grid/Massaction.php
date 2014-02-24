@@ -7,13 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\SalesArchive\Block\Adminhtml\Sales\Order\Grid;
 
 /**
  *  Add sales archiving to order's grid view massaction
  *  @deprecated
  */
-namespace Magento\SalesArchive\Block\Adminhtml\Sales\Order\Grid;
-
 class Massaction
     extends \Magento\Backend\Block\Widget\Grid\Massaction\Extended
 {
@@ -44,7 +43,7 @@ class Massaction
     /**
      * Before rendering html operations
      *
-     * @return \Magento\SalesArchive\Block\Adminhtml\Sales\Order\Grid\Massaction
+     * @return $this
      */
     protected function _beforeToHtml()
     {

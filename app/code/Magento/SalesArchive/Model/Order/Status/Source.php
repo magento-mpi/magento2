@@ -7,13 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\SalesArchive\Model\Order\Status;
 
 /**
  * Order archive model
  *
  */
-namespace Magento\SalesArchive\Model\Order\Status;
-
 class Source extends \Magento\Sales\Model\Config\Source\Order\Status
 {
     /**

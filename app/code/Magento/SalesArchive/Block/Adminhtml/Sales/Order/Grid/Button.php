@@ -7,13 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\SalesArchive\Block\Adminhtml\Sales\Order\Grid;
 
 /**
  *  Add sales archiving to order's grid view massaction
- *
  */
-namespace Magento\SalesArchive\Block\Adminhtml\Sales\Order\Grid;
-
 class Button extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
 {
     /**
@@ -39,13 +37,16 @@ class Button extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
         parent::__construct($context, $registry, $adminHelper, $data);
     }
 
+    /**
+     * @return $this
+     */
     protected function _prepareLayout()
     {
         $ordersCount = $this->_orderCollection->getSize();
         $parent = $this->getLayout()->getBlock('sales_order.grid.container');
         if ($parent && $ordersCount) {
             $url = $this->getUrl('adminhtml/sales_archive/orders');
-            $parent->addButton('go_to_archive',  array(
+            $parent->addButton('go_to_archive', array(
                 'label'     => __('Go to Archive (%1 orders)', $ordersCount),
                 'onclick'   => 'setLocation(\'' . $url . '\')',
                 'class'     => 'go'
@@ -54,6 +55,9 @@ class Button extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
         return $this;
     }
 
+    /**
+     * @return string
+     */
     protected function _toHtml()
     {
         return '';

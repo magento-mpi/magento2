@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\SalesArchive\Model\Order\Grid\Massaction;
 
 class ItemsUpdater implements \Magento\View\Layout\Argument\UpdaterInterface

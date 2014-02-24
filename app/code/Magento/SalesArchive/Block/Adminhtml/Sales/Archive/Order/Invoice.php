@@ -7,16 +7,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order;
 
 /**
  * Archive invoice block
- *
  */
-
-namespace Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order;
-
 class Invoice extends \Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order\Container
 {
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_controller = 'sales_invoice';
