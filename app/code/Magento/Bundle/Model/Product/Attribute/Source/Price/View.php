@@ -69,7 +69,7 @@ class View
      * Get a text for option value
      *
      * @param string|integer $value
-     * @return string
+     * @return string|bool
      */
     public function getOptionText($value)
     {

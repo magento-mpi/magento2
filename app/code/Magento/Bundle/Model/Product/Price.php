@@ -74,7 +74,7 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
      * Return product base price
      *
      * @param \Magento\Catalog\Model\Product $product
-     * @return string
+     * @return float
      */
     public function getPrice($product)
     {
@@ -507,7 +507,7 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
      *
      * @param   float                    $qty
      * @param   \Magento\Catalog\Model\Product $product
-     * @return  float
+     * @return  float|array
      */
     public function getTierPrice($qty, $product)
     {
