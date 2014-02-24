@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Block\Adminhtml\Edit\Tab\Newsletter\Grid\Renderer;
 
 /**
  * Adminhtml newsletter queue grid block status item renderer
@@ -15,11 +16,11 @@
  * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Block\Adminhtml\Edit\Tab\Newsletter\Grid\Renderer;
-
 class Status extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
-
+    /**
+     * @var array
+     */
     protected static $_statuses;
 
     protected function _construct()
@@ -34,14 +35,22 @@ class Status extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abstract
         parent::_construct();
     }
 
+    /**
+     * @param \Magento\Object $row
+     * @return string
+     */
     public function render(\Magento\Object $row)
     {
         return __($this->getStatus($row->getQueueStatus()));
     }
 
-    public static function  getStatus($status)
+    /**
+     * @param string $status
+     * @return string
+     */
+    public static function getStatus($status)
     {
-        if(isset(self::$_statuses[$status])) {
+        if (isset(self::$_statuses[$status])) {
             return self::$_statuses[$status];
         }
 

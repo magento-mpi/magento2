@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Block\Adminhtml\Edit\Tab\Newsletter\Grid\Renderer;
 
 /**
  * Adminhtml newsletter queue grid block action item renderer
@@ -15,8 +16,6 @@
  * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Block\Adminhtml\Edit\Tab\Newsletter\Grid\Renderer;
-
 class Action extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
@@ -40,6 +39,10 @@ class Action extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abstract
         parent::__construct($context, $data);
     }
 
+    /**
+     * @param \Magento\Object $row
+     * @return string
+     */
     public function render(\Magento\Object $row)
     {
         $actions = array();
@@ -60,11 +63,19 @@ class Action extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abstract
         return $this->_actionsToHtml($actions);
     }
 
+    /**
+     * @param string $value
+     * @return string
+     */
     protected function _getEscapedValue($value)
     {
-        return addcslashes(htmlspecialchars($value),'\\\'');
+        return addcslashes(htmlspecialchars($value), '\\\'');
     }
 
+    /**
+     * @param array $actions
+     * @return string
+     */
     protected function _actionsToHtml(array $actions)
     {
         $html = array();

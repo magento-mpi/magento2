@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Block\Adminhtml\Edit\Tab\View;
+
+use Magento\Catalog\Model\Product;
 
 /**
  * Adminhtml customer view wishlist block
@@ -15,8 +18,6 @@
  * @package    Magento_Customer
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Block\Adminhtml\Edit\Tab\View;
-
 class Wishlist extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
@@ -68,7 +69,7 @@ class Wishlist extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Prepare collection
      *
-     * @return \Magento\Customer\Block\Adminhtml\Edit\Tab\View\Wishlist
+     * @return $this
      */
     protected function _prepareCollection()
     {
@@ -86,7 +87,7 @@ class Wishlist extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Prepare columns
      *
-     * @return \Magento\Customer\Block\Adminhtml\Edit\Tab\View\Wishlist
+     * @return $this
      */
     protected function _prepareColumns()
     {
@@ -142,7 +143,7 @@ class Wishlist extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Get row url
      *
-     * @param \Magento\Wishlist\Model\Item $item
+     * @param Product|\Magento\Object $row
      * @return string
      */
     public function getRowUrl($row)

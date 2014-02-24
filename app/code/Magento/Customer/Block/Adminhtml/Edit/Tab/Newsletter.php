@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 
 /**
  * Customer account form block
@@ -15,10 +16,11 @@
  * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
-
 class Newsletter extends \Magento\Backend\Block\Widget\Form\Generic
 {
+    /**
+     * @var string
+     */
     protected $_template = 'tab/newsletter.phtml';
 
     /**
@@ -44,9 +46,12 @@ class Newsletter extends \Magento\Backend\Block\Widget\Form\Generic
         parent::__construct($context, $registry, $formFactory, $data);
     }
 
+    /**
+     * @return $this
+     */
     public function initForm()
     {
-        /** @var \Magento\Data\Form $form */
+        /**@var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('_newsletter');
         $customer = $this->_coreRegistry->registry('current_customer');
@@ -81,10 +86,13 @@ class Newsletter extends \Magento\Backend\Block\Widget\Form\Generic
         return $this;
     }
 
+    /**
+     * @return string|void
+     */
     public function getStatusChangedDate()
     {
         $subscriber = $this->_coreRegistry->registry('subscriber');
-        if($subscriber->getChangeStatusAt()) {
+        if ($subscriber->getChangeStatusAt()) {
             return $this->formatDate(
                 $subscriber->getChangeStatusAt(), \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM, true
             );
@@ -93,6 +101,9 @@ class Newsletter extends \Magento\Backend\Block\Widget\Form\Generic
         return null;
     }
 
+    /**
+     * @return $this
+     */
     protected function _prepareLayout()
     {
         $this->setChild('grid',

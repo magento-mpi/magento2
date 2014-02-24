@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Block\Address;
+
+use Magento\Customer\Service\V1\Dto\Address;
 
 /**
  * Customer address book block
@@ -15,8 +18,6 @@
  * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Block\Address;
-
 class Book extends \Magento\View\Element\Template
 {
     /**
@@ -63,6 +64,9 @@ class Book extends \Magento\View\Element\Template
         $this->_isScopePrivate = true;
     }
 
+    /**
+     * @return $this
+     */
     protected function _prepareLayout()
     {
         $this->getLayout()->getBlock('head')
@@ -71,11 +75,17 @@ class Book extends \Magento\View\Element\Template
         return parent::_prepareLayout();
     }
 
+    /**
+     * @return string
+     */
     public function getAddAddressUrl()
     {
         return $this->getUrl('customer/address/new', array('_secure'=>true));
     }
 
+    /**
+     * @return string
+     */
     public function getBackUrl()
     {
         if ($this->getRefererUrl()) {
@@ -84,6 +94,9 @@ class Book extends \Magento\View\Element\Template
         return $this->getUrl('customer/account/', array('_secure'=>true));
     }
 
+    /**
+     * @return string
+     */
     public function getDeleteUrl()
     {
         return $this->getUrl('customer/address/delete');
@@ -107,7 +120,7 @@ class Book extends \Magento\View\Element\Template
     }
 
     /**
-     * @return \Magento\Customer\Service\V1\Dto\Address[]|bool
+     * @return Address[]|false
      */
     public function getAdditionalAddresses()
     {
@@ -128,10 +141,10 @@ class Book extends \Magento\View\Element\Template
     /**
      * Render an address as HTML and return the result
      *
-     * @param \Magento\Customer\Service\V1\Dto\Address $address
+     * @param Address $address
      * @return string
      */
-    public function getAddressHtml(\Magento\Customer\Service\V1\Dto\Address $address = null)
+    public function getAddressHtml(Address $address = null)
     {
         if (!is_null($address)) {
             /** @var \Magento\Customer\Block\Address\Renderer\RendererInterface $renderer */
@@ -159,7 +172,7 @@ class Book extends \Magento\View\Element\Template
     }
 
     /**
-     * @return int
+     * @return int|void
      */
     public function getDefaultBilling()
     {
@@ -173,7 +186,7 @@ class Book extends \Magento\View\Element\Template
 
     /**
      * @param int $addressId
-     * @return \Magento\Customer\Service\V1\Dto\Address|null
+     * @return Address|null
      */
     public function getAddressById($addressId)
     {
@@ -185,7 +198,7 @@ class Book extends \Magento\View\Element\Template
     }
 
     /**
-     * @return int
+     * @return int|void
      */
     public function getDefaultShipping()
     {

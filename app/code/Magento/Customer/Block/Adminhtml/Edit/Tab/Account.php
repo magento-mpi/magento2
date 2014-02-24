@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 
 /**
  * Customer account form block
@@ -15,11 +16,6 @@
  * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  *
- * @SuppressWarnings(PHPMD.DepthOfInheritance)
- */
-namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
-
-/**
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 class Account extends \Magento\Backend\Block\Widget\Form\Generic
@@ -79,7 +75,7 @@ class Account extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Initialize form
      *
-     * @return \Magento\Customer\Block\Adminhtml\Edit\Tab\Account
+     * @return $this
      */
     public function initForm()
     {
@@ -173,7 +169,7 @@ class Account extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Initialize attribute set
      *
-     * @param \Magento\Customer\Model\Form $customerFor
+     * @param \Magento\Customer\Model\Form $customerForm
      * @return \Magento\Eav\Model\Entity\Attribute[]
      */
     protected function _initCustomerAttributes(\Magento\Customer\Model\Form $customerForm)
@@ -210,6 +206,7 @@ class Account extends \Magento\Backend\Block\Widget\Form\Generic
      *
      * @param \Magento\Data\Form $form
      * @param \Magento\Customer\Model\Customer $customer
+     * @return void
      */
     protected function _handleReadOnlyCustomer($form, $customer)
     {
@@ -228,6 +225,7 @@ class Account extends \Magento\Backend\Block\Widget\Form\Generic
      * Make sendemail or sendmail_store_id disabled if website_id has an empty value
      *
      * @param \Magento\Data\Form $form
+     * @return void
      */
     protected function _disableSendEmailStoreForEmptyWebsite(\Magento\Data\Form $form)
     {
@@ -262,6 +260,7 @@ class Account extends \Magento\Backend\Block\Widget\Form\Generic
      *
      * @param \Magento\Data\Form $form
      * @param \Magento\Data\Form\Element\Fieldset $fieldset
+     * @return void
      */
     protected function _addNewCustomerFormFields($form, $fieldset)
     {
@@ -321,6 +320,7 @@ class Account extends \Magento\Backend\Block\Widget\Form\Generic
      * @param \Magento\Data\Form $form
      * @param \Magento\Data\Form\Element\Fieldset $fieldset
      * @param \Magento\Customer\Model\Customer $customer
+     * @return void
      */
     protected function _addEditCustomerFormFields($form, $fieldset, $customer)
     {
@@ -373,7 +373,8 @@ class Account extends \Magento\Backend\Block\Widget\Form\Generic
      *
      * @param \Magento\Data\Form $form
      * @param string $fieldLabel
-     * @param boolean $isNew whether we set initial password or change existing one
+     * @param bool $isNew Whether we set initial password or change existing one
+     * @return void
      */
     protected function _addPasswordManagementFieldset($form, $fieldLabel, $isNew)
     {
@@ -425,6 +426,7 @@ class Account extends \Magento\Backend\Block\Widget\Form\Generic
      * Set Customer Website Id in Single Store Mode
      *
      * @param \Magento\Customer\Model\Customer $customer
+     * @return void
      */
     protected function _setCustomerWebsiteId(\Magento\Customer\Model\Customer $customer)
     {

@@ -10,7 +10,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Block\Account\Dashboard;
 
 class Address extends \Magento\View\Element\Template
@@ -62,7 +61,7 @@ class Address extends \Magento\View\Element\Template
     /**
      * Get the logged in customer
      *
-     * @return \Magento\Customer\Service\V1\Dto\Customer
+     * @return \Magento\Customer\Service\V1\Dto\Customer|null
      */
     public function getCustomer()
     {
@@ -113,6 +112,9 @@ class Address extends \Magento\View\Element\Template
         }
     }
 
+    /**
+     * @return string
+     */
     public function getPrimaryShippingAddressEditUrl()
     {
         if (is_null($this->getCustomer())) {
@@ -122,6 +124,9 @@ class Address extends \Magento\View\Element\Template
         }
     }
 
+    /**
+     * @return string
+     */
     public function getPrimaryBillingAddressEditUrl()
     {
         if (is_null($this->getCustomer())) {
@@ -131,6 +136,9 @@ class Address extends \Magento\View\Element\Template
         }
     }
 
+    /**
+     * @return string
+     */
     public function getAddressBookUrl()
     {
         return $this->getUrl('customer/address/');

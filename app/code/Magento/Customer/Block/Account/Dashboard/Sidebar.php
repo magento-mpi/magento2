@@ -7,6 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Block\Account\Dashboard;
+
+use Magento\Wishlist\Model\Resource\Item\Collection;
+use Magento\Wishlist\Model\Wishlist;
 
 /**
  * Account dashboard sidebar
@@ -15,20 +19,23 @@
  * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Customer\Block\Account\Dashboard;
-
 class Sidebar extends \Magento\View\Element\Template
 {
+    /**
+     * @var int
+     */
     protected $_cartItemsCount;
 
     /**
      * Enter description here...
      *
-     * @var \Magento\Wishlist\Model\Wishlist
+     * @var Wishlist
      */
     protected $_wishlist;
 
+    /**
+     * @var int
+     */
     protected $_compareItems;
 
     /**
@@ -83,15 +90,20 @@ class Sidebar extends \Magento\View\Element\Template
         $this->_isScopePrivate = true;
     }
 
-
+    /**
+     * @return string
+     */
     public function getShoppingCartUrl()
     {
         return $this->_urlBuilder->getUrl('checkout/cart');
     }
 
+    /**
+     * @return int
+     */
     public function getCartItemsCount()
     {
-        if( !$this->_cartItemsCount ) {
+        if ( !$this->_cartItemsCount ) {
             $this->_cartItemsCount = $this->_createQuote()
                 ->setId($this->_checkoutSession->getQuote()->getId())
                 ->getItemsCollection()
@@ -101,9 +113,12 @@ class Sidebar extends \Magento\View\Element\Template
         return $this->_cartItemsCount;
     }
 
+    /**
+     * @return Collection
+     */
     public function getWishlist()
     {
-        if( !$this->_wishlist ) {
+        if ( !$this->_wishlist ) {
             $this->_wishlist = $this->_createWishList()->loadByCustomer($this->_customerSession->getCustomer());
             $this->_wishlist->getItemCollection()
                 ->addAttributeToSelect('name')
@@ -119,19 +134,29 @@ class Sidebar extends \Magento\View\Element\Template
         return $this->_wishlist->getItemCollection();
     }
 
+    /**
+     * @return int
+     */
     public function getWishlistCount()
     {
         return $this->getWishlist()->getSize();
     }
 
+    /**
+     * @param Wishlist $wishlistItem
+     * @return string
+     */
     public function getWishlistAddToCartLink($wishlistItem)
     {
         return $this->_urlBuilder->getUrl('wishlist/index/cart', array('item' => $wishlistItem->getId()));
     }
 
-    public function getCompareItems()
+    /**
+     * @return int
+     */
+    public function getCompaeItems()
     {
-        if( !$this->_compareItems ) {
+        if (!$this->_compareItems) {
             $this->_compareItems =
                 $this->_createProductCompareCollection()->setStoreId($this->_storeManager->getStore()->getId());
             $this->_compareItems->setCustomerId(
@@ -145,21 +170,33 @@ class Sidebar extends \Magento\View\Element\Template
         return $this->_compareItems;
     }
 
+    /**
+     * @return string
+     */
     public function getCompareJsObjectName()
     {
         return "dashboardSidebarCompareJsObject";
     }
 
+    /**
+     * @return string
+     */
     public function getCompareRemoveUrlTemplate()
     {
-        return $this->getUrl('catalog/product_compare/remove',array('product'=>'#{id}'));
+        return $this->getUrl('catalog/product_compare/remove', array('product'=>'#{id}'));
     }
 
+    /**
+     * @return string
+     */
     public function getCompareAddUrlTemplate()
     {
         return $this->getUrl('catalog/product_compare/add');
     }
 
+    /**
+     * @return string
+     */
     public function getCompareUrl()
     {
         return $this->getUrl('catalog/product_compare');
@@ -174,7 +211,7 @@ class Sidebar extends \Magento\View\Element\Template
     }
 
     /**
-     * @return \Magento\Wishlist\Model\Wishlist
+     * @return Wishlist
      */
     protected function _createWishList()
     {

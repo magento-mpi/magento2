@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Block\Adminhtml\Edit\Tab\Newsletter;
 
 /**
  * Adminhtml newsletter queue grid block
@@ -15,14 +16,12 @@
  * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Block\Adminhtml\Edit\Tab\Newsletter;
-
 class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Core\Model\Registry|null
      */
     protected $_coreRegistry = null;
 
@@ -50,6 +49,9 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         parent::__construct($context, $backendHelper, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -63,11 +65,17 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 
     }
 
+    /**
+     * @return string
+     */
     public function getGridUrl()
     {
         return $this->getUrl('customer/*/newsletter', array('_current' => true));
     }
 
+    /**
+     * @return $this
+     */
     protected function _prepareCollection()
     {
         /** @var $collection \Magento\Newsletter\Model\Resource\Queue\Collection */
@@ -80,6 +88,9 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         return parent::_prepareCollection();
     }
 
+    /**
+     * @return $this
+     */
     protected function _prepareColumns()
     {
         $this->addColumn('queue_id', array(

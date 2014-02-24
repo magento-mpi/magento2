@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Block\Widget;
 
 /**
  * Block to render customer's gender attribute
@@ -15,9 +16,7 @@
  * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Block\Widget;
-
-class Gender extends \Magento\Customer\Block\Widget\AbstractWidget
+class Gender extends AbstractWidget
 {
     /**
      * @var \Magento\Customer\Model\Session
@@ -47,12 +46,14 @@ class Gender extends \Magento\Customer\Block\Widget\AbstractWidget
     ) {
         $this->_customerSession = $customerSession;
         $this->_customerResource = $customerResource;
-        parent::__construct($context, $addressHelper,  $attributeMetadata, $data);
+        parent::__construct($context, $addressHelper, $attributeMetadata, $data);
         $this->_isScopePrivate = true;
     }
 
     /**
      * Initialize block
+     *
+     * @return void
      */
     public function _construct()
     {

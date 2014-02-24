@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Block\Adminhtml\Edit\Renderer\Attribute;
+
+use Magento\Backend\Block\Widget\Form\Renderer\Fieldset\Element;
 
 /**
  * Renderer for customer group ID
@@ -15,11 +18,11 @@
  * @package    Magento_Customer
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Block\Adminhtml\Edit\Renderer\Attribute;
-
-class Group
-    extends \Magento\Backend\Block\Widget\Form\Renderer\Fieldset\Element
+class Group extends Element
 {
+    /**
+     * @var string
+     */
     protected $_template = 'edit/tab/account/form/renderer/group.phtml';
 
     /**

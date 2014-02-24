@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Block\Form;
 
 /**
  * Customer edit form block
@@ -15,8 +16,6 @@
  * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Block\Form;
-
 class Edit extends \Magento\Customer\Block\Account\Dashboard
 {
     /**

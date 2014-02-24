@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Block\Adminhtml\Edit\Tab\View\Grid\Renderer;
+
+use Magento\Catalog\Model\Product;
 
 /**
  * Adminhtml customers wishlist grid item renderer for name/options cell
@@ -15,15 +18,12 @@
  * @package    Magento_Customer
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Block\Adminhtml\Edit\Tab\View\Grid\Renderer;
-
-class Item
-    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
+class Item extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * Catalog product configuration
      *
-     * @var \Magento\Catalog\Helper\Product\Configuration
+     * @var \Magento\Catalog\Helper\Product\Configuration|null
      */
     protected $_productConfig = null;
 
@@ -52,7 +52,7 @@ class Item
     /**
      * Returns helper for product type
      *
-     * @param \Magento\Catalog\Model\Product $product
+     * @param Product $product
      * @return \Magento\Catalog\Helper\Product\Configuration\ConfigurationInterface
      */
     protected function _getProductHelper($product)
@@ -83,11 +83,10 @@ class Item
         return $this->_productConfigPool->get($helperName);
     }
 
-    /*
+    /**
      * Returns product associated with this block
      *
-     * @param \Magento\Catalog\Model\Product $product
-     * @return string
+     * @return Product
      */
     public function getProduct()
     {
@@ -110,7 +109,7 @@ class Item
     /**
      * Returns formatted option value for an item
      *
-     * @param \Magento\Wishlist\Item\Option
+     * @param string|array $option
      * @return array
      */
     protected function getFormattedOptionValue($option)
@@ -124,7 +123,7 @@ class Item
     /**
      * Renders item product name and its configuration
      *
-     * @param \Magento\Catalog\Model\Product\Configuration\Item\ItemInterface $item
+     * @param \Magento\Object $item
      * @return string
      */
     public function render(\Magento\Object $item)
@@ -138,11 +137,11 @@ class Item
     /**
      * Render product item with options
      *
-     * @param \Magento\Catalog\Model\Product $product
+     * @param Product $product
      * @param array $options
      * @return string
      */
-    protected function _renderItemOptions(\Magento\Catalog\Model\Product $product, array $options)
+    protected function _renderItemOptions(Product $product, array $options)
     {
         $html = '<div class="bundle-product-options">'
             . '<strong>' . $this->escapeHtml($product->getName()) . '</strong>'

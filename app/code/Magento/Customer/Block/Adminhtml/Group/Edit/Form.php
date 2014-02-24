@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Block\Adminhtml\Group\Edit;
 
 /**
  * Adminhtml customer groups edit form
@@ -15,8 +16,6 @@
  * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Block\Adminhtml\Group\Edit;
-
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
@@ -44,6 +43,8 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
     /**
      * Prepare form for render
+     *
+     * @return void
      */
     protected function _prepareLayout()
     {

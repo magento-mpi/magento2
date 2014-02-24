@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Block\Adminhtml\Edit\Tab\View;
 
 /**
  * Adminhtml customer recent orders grid block
@@ -15,8 +16,6 @@
  * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Block\Adminhtml\Edit\Tab\View;
-
 class Accordion extends \Magento\Backend\Block\Widget\Accordion
 {
     /**
@@ -56,6 +55,9 @@ class Accordion extends \Magento\Backend\Block\Widget\Accordion
         parent::__construct($context, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _prepareLayout()
     {
         $customer = $this->_coreRegistry->registry('current_customer');

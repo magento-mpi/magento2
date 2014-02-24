@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Block\Account;
 
 /**
  * Customer account navigation sidebar
@@ -15,9 +16,6 @@
  * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Customer\Block\Account;
-
 class Forgotpassword extends \Magento\View\Element\Template
 {
     /**

@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 
 /**
  * Adminhtml customer orders grid block
@@ -15,8 +16,6 @@
  * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
-
 class Orders extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
@@ -60,6 +59,9 @@ class Orders extends \Magento\Backend\Block\Widget\Grid\Extended
         parent::__construct($context, $backendHelper, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -68,6 +70,9 @@ class Orders extends \Magento\Backend\Block\Widget\Grid\Extended
         $this->setUseAjax(true);
     }
 
+    /**
+     * @return $this
+     */
     protected function _prepareCollection()
     {
         $collection = $this->_collectionFactory->create()
@@ -87,6 +92,9 @@ class Orders extends \Magento\Backend\Block\Widget\Grid\Extended
         return parent::_prepareCollection();
     }
 
+    /**
+     * @return $this
+     */
     protected function _prepareColumns()
     {
         $this->addColumn('increment_id', array(
@@ -140,11 +148,18 @@ class Orders extends \Magento\Backend\Block\Widget\Grid\Extended
         return parent::_prepareColumns();
     }
 
+    /**
+     * @param \Magento\Object $row
+     * @return string
+     */
     public function getRowUrl($row)
     {
         return $this->getUrl('sales/order/view', array('order_id' => $row->getId()));
     }
 
+    /**
+     * @return string
+     */
     public function getGridUrl()
     {
         return $this->getUrl('customer/*/orders', array('_current' => true));

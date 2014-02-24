@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Block\Adminhtml\Edit\Tab\View;
 
 /**
  * Adminhtml customer view wishlist block
@@ -15,8 +16,6 @@
  * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Block\Adminhtml\Edit\Tab\View;
-
 class Sales extends \Magento\Backend\Block\Template
 {
 
@@ -27,7 +26,14 @@ class Sales extends \Magento\Backend\Block\Template
      */
     protected $_collection;
 
+    /**
+     * @var array
+     */
     protected $_groupedCollection;
+
+    /**
+     * @var int[]
+     */
     protected $_websiteCounts;
 
     /**
@@ -74,12 +80,18 @@ class Sales extends \Magento\Backend\Block\Template
         parent::__construct($context, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
         $this->setId('customer_view_sales_grid');
     }
 
+    /**
+     * @return $this
+     */
     public function _beforeToHtml()
     {
         $this->_currency = $this->_currencyFactory->create()
@@ -120,16 +132,26 @@ class Sales extends \Magento\Backend\Block\Template
         return parent::_beforeToHtml();
     }
 
+    /**
+     * @param int $websiteId
+     * @return int
+     */
     public function getWebsiteCount($websiteId)
     {
         return isset($this->_websiteCounts[$websiteId]) ? $this->_websiteCounts[$websiteId] : 0;
     }
 
+    /**
+     * @return array
+     */
     public function getRows()
     {
         return $this->_groupedCollection;
     }
 
+    /**
+     * @return \Magento\Object
+     */
     public function getTotals()
     {
         return $this->_collection->getTotals();

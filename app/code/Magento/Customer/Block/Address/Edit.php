@@ -7,23 +7,30 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * Customer address edit block
- */
 namespace Magento\Customer\Block\Address;
 
 use Magento\Customer\Service\V1\Dto\Address;
 use Magento\Customer\Service\V1\Dto\Customer;
 use Magento\Exception\NoSuchEntityException;
 
+/**
+ * Customer address edit block
+ */
 class Edit extends \Magento\Directory\Block\Data
 {
     /**
      * @var Address
      */
     protected $_address = null;
+
+    /**
+     * @var \Magento\Directory\Model\Resource\Country\CollectionFactory
+     */
     protected $_countryCollection;
+
+    /**
+     * @var \Magento\Directory\Model\Resource\Region\CollectionFactory
+     */
     protected $_regionCollection;
 
     /**
@@ -90,6 +97,9 @@ class Edit extends \Magento\Directory\Block\Data
         $this->_isScopePrivate = true;
     }
 
+    /**
+     * @return void
+     */
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
@@ -143,6 +153,9 @@ class Edit extends \Magento\Directory\Block\Data
         return $nameBlock->toHtml();
     }
 
+    /**
+     * @return string
+     */
     public function getTitle()
     {
         if ($title = $this->getData('title')) {
@@ -150,13 +163,15 @@ class Edit extends \Magento\Directory\Block\Data
         }
         if ($this->getAddress()->getId()) {
             $title = __('Edit Address');
-        }
-        else {
+        } else {
             $title = __('Add New Address');
         }
         return $title;
     }
 
+    /**
+     * @return string
+     */
     public function getBackUrl()
     {
         if ($this->getData('back_url')) {
@@ -170,6 +185,9 @@ class Edit extends \Magento\Directory\Block\Data
         }
     }
 
+    /**
+     * @return string
+     */
     public function getSaveUrl()
     {
         return $this->_urlBuilder->getUrl(
@@ -196,6 +214,9 @@ class Edit extends \Magento\Directory\Block\Data
         return isset($street[$lineNumber-1]) ? $street[$lineNumber-1] : '';
     }
 
+    /**
+     * @return int|null|string
+     */
     public function getCountryId()
     {
         if ($countryId = $this->getAddress()->getCountryId()) {
@@ -226,11 +247,17 @@ class Edit extends \Magento\Directory\Block\Data
         return is_null($region) ? 0 : $region->getRegionId();
     }
 
+    /**
+     * @return int
+     */
     public function getCustomerAddressCount()
     {
         return count($this->_customerSession->getCustomer()->getAddresses());
     }
 
+    /**
+     * @return bool|int
+     */
     public function canSetAsDefaultBilling()
     {
         if (!$this->getAddress()->getId()) {
@@ -239,6 +266,9 @@ class Edit extends \Magento\Directory\Block\Data
         return !$this->isDefaultBilling();
     }
 
+    /**
+     * @return bool|int
+     */
     public function canSetAsDefaultShipping()
     {
         if (!$this->getAddress()->getId()) {
@@ -247,11 +277,17 @@ class Edit extends \Magento\Directory\Block\Data
         return !$this->isDefaultShipping();
     }
 
+    /**
+     * @return bool
+     */
     public function isDefaultBilling()
     {
         return (bool)$this->getAddress()->isDefaultBilling();
     }
 
+    /**
+     * @return bool
+     */
     public function isDefaultShipping()
     {
         return (bool)$this->getAddress()->isDefaultShipping();
@@ -265,6 +301,9 @@ class Edit extends \Magento\Directory\Block\Data
         return $this->_customerService->getCustomer($this->_customerSession->getId());
     }
 
+    /**
+     * @return string
+     */
     public function getBackButtonUrl()
     {
         if ($this->getCustomerAddressCount()) {
@@ -278,7 +317,7 @@ class Edit extends \Magento\Directory\Block\Data
      * Get config
      *
      * @param string $path
-     * @return mixed
+     * @return string|null
      */
     public function getConfig($path)
     {

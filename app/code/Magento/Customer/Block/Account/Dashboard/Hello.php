@@ -7,8 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\Customer\Block\Account\Dashboard;
 
 class Hello extends \Magento\View\Element\Template
@@ -33,6 +31,9 @@ class Hello extends \Magento\View\Element\Template
         $this->_isScopePrivate = true;
     }
 
+    /**
+     * @return string
+     */
     public function getCustomerName()
     {
         return $this->_customerSession->getCustomer()->getName();

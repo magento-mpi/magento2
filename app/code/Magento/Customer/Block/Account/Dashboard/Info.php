@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Block\Account\Dashboard;
 
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
@@ -68,7 +67,7 @@ class Info extends \Magento\View\Element\Template
     /**
      * Returns the Magento Customer Model for this block
      *
-     * @return \Magento\Customer\Service\V1\Dto\Customer
+     * @return \Magento\Customer\Service\V1\Dto\Customer|void
      */
     public function getCustomer()
     {
@@ -107,6 +106,9 @@ class Info extends \Magento\View\Element\Template
         return $name;
     }
 
+    /**
+     * @return string
+     */
     public function getChangePasswordUrl()
     {
         return $this->_urlBuilder->getUrl('*/account/edit/changepass/1');
@@ -140,9 +142,9 @@ class Info extends \Magento\View\Element\Template
     }
 
     /**
-     *  Newsletter module availability
+     * Newsletter module availability
      *
-     *  @return	  boolean
+     * @return bool
      */
     public function isNewsletterEnabled()
     {
@@ -158,7 +160,7 @@ class Info extends \Magento\View\Element\Template
     }
 
     /**
-     * @param $attributeCode
+     * @param string $attributeCode
      * @return \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata|null
      */
     protected function _getAttributeMetadata($attributeCode)

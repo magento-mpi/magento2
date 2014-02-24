@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
+
+use Magento\Catalog\Model\Product;
 
 /**
  * Adminhtml customer orders grid block
@@ -14,10 +17,6 @@
  * @category   Magento
  * @package    Magento_Customer
  * @author     Magento Core Team <core@magentocommerce.com>
- */
-namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
-
-/**
  * @SuppressWarnings(PHPMD.LongVariable)
  */
 class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
@@ -61,6 +60,9 @@ class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
         parent::__construct($context, $backendHelper, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -80,6 +82,9 @@ class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
         parent::_prepareGrid();
     }
 
+    /**
+     * @return $this
+     */
     protected function _prepareCollection()
     {
         $customer = $this->_coreRegistry->registry('current_customer');
@@ -103,7 +108,7 @@ class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
     }
 
     /**
-     * @return \Magento\Backend\Block\Widget\Grid\Extended
+     * @return $this
      */
     protected function _prepareColumns()
     {
@@ -197,6 +202,10 @@ class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
         return $this->fetchView($templateName);
     }
 
+    /**
+     * @param Product|\Magento\Object $row
+     * @return string
+     */
     public function getRowUrl($row)
     {
         return $this->getUrl('catalog/product/edit', array('id' => $row->getProductId()));

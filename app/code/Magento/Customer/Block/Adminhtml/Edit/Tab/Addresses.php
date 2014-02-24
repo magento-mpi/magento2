@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 
 /**
  * Customer addresses forms
@@ -15,8 +16,6 @@
  * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
-
 class Addresses extends \Magento\Backend\Block\Widget\Form\Generic
 {
     protected $_template = 'tab/addresses.phtml';
@@ -24,7 +23,7 @@ class Addresses extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Adminhtml addresses
      *
-     * @var \Magento\Backend\Helper\Addresses
+     * @var \Magento\Backend\Helper\Addresses|null
      */
     protected $_adminhtmlAddresses = null;
 
@@ -92,11 +91,17 @@ class Addresses extends \Magento\Backend\Block\Widget\Form\Generic
         parent::__construct($context, $registry, $formFactory, $data);
     }
 
+    /**
+     * @return string
+     */
     public function getRegionsUrl()
     {
         return $this->getUrl('directory/json/countryRegion');
     }
 
+    /**
+     * @return $this
+     */
     protected function _prepareLayout()
     {
         $this->addChild('delete_button', 'Magento\Backend\Block\Widget\Button', array(
@@ -128,7 +133,7 @@ class Addresses extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Check block is readonly.
      *
-     * @return boolean
+     * @return bool
      */
     public function isReadonly()
     {
@@ -136,6 +141,9 @@ class Addresses extends \Magento\Backend\Block\Widget\Form\Generic
         return $customer->isReadonly();
     }
 
+    /**
+     * @return string
+     */
     public function getDeleteButtonHtml()
     {
         return $this->getChildHtml('delete_button');
@@ -144,7 +152,7 @@ class Addresses extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Initialize form object
      *
-     * @return \Magento\Customer\Block\Adminhtml\Edit\Tab\Addresses
+     * @return $this
      */
     public function initForm()
     {
@@ -246,11 +254,17 @@ class Addresses extends \Magento\Backend\Block\Widget\Form\Generic
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getCancelButtonHtml()
     {
         return $this->getChildHtml('cancel_button');
     }
 
+    /**
+     * @return string
+     */
     public function getAddNewButtonHtml()
     {
         return $this->getChildHtml('add_address_button');
@@ -274,7 +288,7 @@ class Addresses extends \Magento\Backend\Block\Widget\Form\Generic
      * Add specified values to name prefix element values
      *
      * @param string|int|array $values
-     * @return \Magento\Customer\Block\Adminhtml\Edit\Tab\Addresses
+     * @return $this
      */
     public function addValuesToNamePrefixElement($values)
     {
@@ -288,7 +302,7 @@ class Addresses extends \Magento\Backend\Block\Widget\Form\Generic
      * Add specified values to name suffix element values
      *
      * @param string|int|array $values
-     * @return \Magento\Customer\Block\Adminhtml\Edit\Tab\Addresses
+     * @return $this
      */
     public function addValuesToNameSuffixElement($values)
     {
@@ -330,7 +344,7 @@ class Addresses extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Return ISO2 country codes, which have optional Zip/Postal pre-configured
      *
-     * @return array
+     * @return array|string
      */
     public function getOptionalZipCountries()
     {
@@ -348,7 +362,7 @@ class Addresses extends \Magento\Backend\Block\Widget\Form\Generic
     }
 
     /**
-     * eturn, whether non-required state should be shown
+     * Return, whether non-required state should be shown
      *
      * @return int 1 if should be shown, and 0 if not.
      */

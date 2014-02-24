@@ -7,10 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Block\Widget;
 
-class Taxvat extends \Magento\Customer\Block\Widget\AbstractWidget
+use Magento\Customer\Model\Customer;
+
+class Taxvat extends AbstractWidget
 {
     /**
      * @var \Magento\Customer\Model\Resource\Customer
@@ -36,22 +37,34 @@ class Taxvat extends \Magento\Customer\Block\Widget\AbstractWidget
         $this->_isScopePrivate = true;
     }
 
+    /**
+     * @return void
+     */
     public function _construct()
     {
         parent::_construct();
         $this->setTemplate('widget/taxvat.phtml');
     }
 
+    /**
+     * @return bool
+     */
     public function isEnabled()
     {
         return $this->_getAttribute('taxvat') ? (bool)$this->_getAttribute('taxvat')->isVisible() : false;
     }
 
+    /**
+     * @return bool
+     */
     public function isRequired()
     {
         return $this->_getAttribute('taxvat') ? (bool)$this->_getAttribute('taxvat')->isRequired() : false;
     }
 
+    /**
+     * @return Customer
+     */
     public function getCustomer()
     {
         return $this->_customerSession->getCustomer();

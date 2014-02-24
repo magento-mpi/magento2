@@ -20,6 +20,9 @@ namespace Magento\Customer\Block;
 
 class Newsletter extends \Magento\Customer\Block\Account\Dashboard
 {
+    /**
+     * @var string
+     */
     protected $_template = 'form/newsletter.phtml';
 
     /**
@@ -38,11 +41,17 @@ class Newsletter extends \Magento\Customer\Block\Account\Dashboard
         $this->_isScopePrivate = true;
     }
 
+    /**
+     * @return bool
+     */
     public function getIsSubscribed()
     {
         return $this->getSubscriptionObject()->isSubscribed();
     }
 
+    /**
+     * @return string
+     */
     public function getAction()
     {
         return $this->getUrl('*/*/save');

@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Block\Adminhtml\Edit\Tab\View;
+
+use Magento\Catalog\Model\Product;
 
 /**
  * Adminhtml customer cart items grid block
@@ -14,10 +17,6 @@
  * @category   Magento
  * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
- */
-namespace Magento\Customer\Block\Adminhtml\Edit\Tab\View;
-
-/**
  * @SuppressWarnings(PHPMD.LongVariable)
  */
 class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
@@ -61,6 +60,9 @@ class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
         parent::__construct($context, $backendHelper, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -72,6 +74,9 @@ class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
         $this->setEmptyText(__('There are no items in customer\'s shopping cart at the moment'));
     }
 
+    /**
+     * @return $this
+     */
     protected function _prepareCollection()
     {
         $quote = $this->_quoteFactory->create();
@@ -93,6 +98,9 @@ class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
         return parent::_prepareCollection();
     }
 
+    /**
+     * @return $this
+     */
     protected function _prepareColumns()
     {
         $this->addColumn('product_id', array(
@@ -136,11 +144,18 @@ class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
         return parent::_prepareColumns();
     }
 
+    /**
+     * @param Product|\Magento\Object $row
+     * @return string
+     */
     public function getRowUrl($row)
     {
         return $this->getUrl('catalog/product/edit', array('id' => $row->getProductId()));
     }
 
+    /**
+     * @return bool
+     */
     public function getHeadersVisibility()
     {
         return ($this->getCollection()->getSize() >= 0);

@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Block\Form;
 
 /**
  * Customer login form block
@@ -15,10 +16,11 @@
  * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Block\Form;
-
 class Login extends \Magento\View\Element\Template
 {
+    /**
+     * @var int
+     */
     private $_username = -1;
 
     /**
@@ -49,6 +51,9 @@ class Login extends \Magento\View\Element\Template
         $this->_isScopePrivate = true;
     }
 
+    /**
+     * @return $this
+     */
     protected function _prepareLayout()
     {
         $this->getLayout()->getBlock('head')->setTitle(__('Customer Login'));

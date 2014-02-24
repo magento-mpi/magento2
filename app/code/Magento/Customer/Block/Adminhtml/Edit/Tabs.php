@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Block\Adminhtml\Edit;
 
 /**
  * Admin customer left menu
  */
-namespace Magento\Customer\Block\Adminhtml\Edit;
-
 class Tabs extends \Magento\Backend\Block\Widget\Tabs
 {
     /**
@@ -40,6 +39,9 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
         parent::__construct($context, $jsonEncoder, $authSession, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -48,6 +50,9 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
         $this->setTitle(__('Customer Information'));
     }
 
+    /**
+     * @return $this
+     */
     protected function _beforeToHtml()
     {
         \Magento\Profiler::start('customer/tabs');
@@ -112,6 +117,9 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
         return parent::_beforeToHtml();
     }
 
+    /**
+     * @return void
+     */
     protected function _updateActiveTab()
     {
         $tabId = $this->getRequest()->getParam('tab');

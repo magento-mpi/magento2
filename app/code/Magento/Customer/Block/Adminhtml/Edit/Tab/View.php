@@ -7,15 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 
 /**
  * Customer account form block
  */
-class View
-    extends \Magento\Backend\Block\Template
-    implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class View extends \Magento\Backend\Block\Template implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * @var \Magento\Customer\Model\Customer
@@ -93,7 +90,7 @@ class View
 
     /**
      * @param int $groupId
-     * @return \Magento\Customer\Service\V1\Dto\CustomerGroup|null
+     * @return \Magento\Customer\Service\V1\Dto\CustomerGroup|void
      */
     private function getGroup($groupId)
     {
@@ -106,7 +103,7 @@ class View
     }
 
     /**
-     * @return string|null
+     * @return string|void
      */
     public function getGroupName()
     {
@@ -265,6 +262,9 @@ class View
         return $this->getCustomer()->getStoreId();
     }
 
+    /**
+     * @return string|null
+     */
     public function getBillingAddressHtml()
     {
         $address = $this->getCustomer()->getPrimaryBillingAddress();

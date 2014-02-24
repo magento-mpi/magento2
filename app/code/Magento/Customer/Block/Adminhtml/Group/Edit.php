@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Block\Adminhtml\Group;
 
 /**
  * Customer group edit block
  */
-namespace Magento\Customer\Block\Adminhtml\Group;
-
 class Edit extends \Magento\Backend\Block\Widget\Form\Container
 {
     /**
@@ -44,6 +43,9 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
         parent::__construct($context, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -62,6 +64,9 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
         }
     }
 
+    /**
+     * @return string
+     */
     public function getHeaderText()
     {
         $currentGroup = $this->_coreRegistry->registry('current_group');
@@ -72,6 +77,9 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
         }
     }
 
+    /**
+     * @return string
+     */
     public function getHeaderCssClass()
     {
         return 'icon-head head-customer-groups';

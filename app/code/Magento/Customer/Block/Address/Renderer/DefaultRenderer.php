@@ -7,15 +7,15 @@
  */
 namespace Magento\Customer\Block\Address\Renderer;
 
+use Magento\Customer\Model\Address\AbstractAddress;
 use Magento\Eav\Model\AttributeDataFactory;
 use Magento\Customer\Model\Metadata\ElementFactory;
+use Magento\View\Element\AbstractBlock;
 
 /**
  * Address format renderer default
  */
-class DefaultRenderer
-    extends \Magento\View\Element\AbstractBlock
-    implements \Magento\Customer\Block\Address\Renderer\RendererInterface
+class DefaultRenderer extends AbstractBlock implements RendererInterface
 {
     /**
      * Format type object
@@ -92,7 +92,7 @@ class DefaultRenderer
      * Retrieve format type object
      *
      * @param  \Magento\Object $type
-     * @return \Magento\Customer\Block\Address\Renderer\DefaultRenderer
+     * @return $this
      */
     public function setType(\Magento\Object $type)
     {
@@ -101,11 +101,11 @@ class DefaultRenderer
     }
 
     /**
-     * @deprecated All new code should use renderArray based on Metadata service
-     * @param \Magento\Customer\Model\Address\AbstractAddress $address
+     * @param AbstractAddress|null $address
      * @return string
+     * @deprecated All new code should use renderArray based on Metadata service
      */
-    public function getFormat(\Magento\Customer\Model\Address\AbstractAddress $address = null)
+    public function getFormat(AbstractAddress $address = null)
     {
         $countryFormat = is_null($address)
             ? false
@@ -117,7 +117,7 @@ class DefaultRenderer
     /**
      * {@inheritdoc}
      */
-    public function render(\Magento\Customer\Model\Address\AbstractAddress $address, $format = null)
+    public function render(AbstractAddress $address, $format = null)
     {
         switch ($this->getType()->getCode()) {
             case 'html':

@@ -7,14 +7,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Block\Adminhtml\Edit;
 
 /**
  * Adminhtml customer edit form block
  */
-namespace Magento\Customer\Block\Adminhtml\Edit;
-
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
+    /**
+     * @return $this
+     */
     protected function _prepareForm()
     {
         /** @var \Magento\Data\Form $form */

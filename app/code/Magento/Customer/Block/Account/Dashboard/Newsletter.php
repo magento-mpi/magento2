@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Block\Account\Dashboard;
+
+use Magento\Newsletter\Model\Subscriber;
 
 /**
  * Dashboard neswletter info
@@ -15,13 +18,10 @@
  * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Customer\Block\Account\Dashboard;
-
 class Newsletter extends \Magento\View\Element\Template
 {
     /**
-     * @var \Magento\Newsletter\Model\Subscriber
+     * @var Subscriber
      */
     protected $_subscription;
 
@@ -53,16 +53,19 @@ class Newsletter extends \Magento\View\Element\Template
         $this->_isScopePrivate = true;
     }
 
+    /**
+     * @return Subscriber
+     */
     public function getSubscriptionObject()
     {
-        if(is_null($this->_subscription)) {
+        if (is_null($this->_subscription)) {
             $this->_subscription = $this->_createSubscriber()->loadByCustomer($this->_customerSession->getCustomer());
         }
         return $this->_subscription;
     }
 
     /**
-     * @return \Magento\Newsletter\Model\Subscriber
+     * @return \Magento\Newsletter\Model\SubscriberFactory
      */
     protected function _createSubscriber()
     {

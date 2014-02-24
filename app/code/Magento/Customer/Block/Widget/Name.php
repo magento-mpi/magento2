@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Block\Widget;
 
 use Magento\Customer\Service\V1\Dto\Customer;
 
-class Name extends \Magento\Customer\Block\Widget\AbstractWidget
+class Name extends AbstractWidget
 {
     /**
      * @var \Magento\Customer\Helper\Data
@@ -22,7 +21,7 @@ class Name extends \Magento\Customer\Block\Widget\AbstractWidget
     /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Customer\Helper\Address $addressHelper
-     * @param \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $attributeMetadata,
+     * @param \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $attributeMetadata
      * @param \Magento\Customer\Helper\Data $customerHelper
      * @param array $data
      */
@@ -38,6 +37,9 @@ class Name extends \Magento\Customer\Block\Widget\AbstractWidget
         $this->_isScopePrivate = true;
     }
 
+    /**
+     * @return void
+     */
     public function _construct()
     {
         parent::_construct();

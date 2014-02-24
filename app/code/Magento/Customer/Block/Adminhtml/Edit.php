@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Block\Adminhtml;
 
 /**
  * Customer edit block
@@ -15,8 +16,6 @@
  * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Block\Adminhtml;
-
 class Edit extends \Magento\Backend\Block\Widget\Form\Container
 {
     /**
@@ -40,6 +39,9 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
         parent::__construct($context, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_objectId = 'id';
@@ -79,17 +81,26 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
         }
     }
 
+    /**
+     * @return string
+     */
     public function getCreateOrderUrl()
     {
         return $this->getUrl('sales/order_create/start', array('customer_id' => $this->getCustomerId()));
     }
 
+    /**
+     * @return int|false
+     */
     public function getCustomerId()
     {
         $customer = $this->_coreRegistry->registry('current_customer');
         return $customer ? $customer->getId() : false;
     }
 
+    /**
+     * @return string
+     */
     public function getHeaderText()
     {
         if ($this->_coreRegistry->registry('current_customer')->getId()) {
@@ -112,11 +123,17 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
         return $html;
     }
 
+    /**
+     * @return string
+     */
     public function getValidationUrl()
     {
         return $this->getUrl('customer/*/validate', array('_current' => true));
     }
 
+    /**
+     * @return $this
+     */
     protected function _prepareLayout()
     {
         if (!$this->_coreRegistry->registry('current_customer')->isReadonly()) {
@@ -134,6 +151,9 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
         return parent::_prepareLayout();
     }
 
+    /**
+     * @return string
+     */
     protected function _getSaveAndContinueUrl()
     {
         return $this->getUrl('customer/index/save', array(

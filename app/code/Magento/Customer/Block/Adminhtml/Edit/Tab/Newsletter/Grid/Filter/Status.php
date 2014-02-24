@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Block\Adminhtml\Edit\Tab\Newsletter\Grid\Filter;
 
 /**
  * Adminhtml newsletter subscribers grid website filter
@@ -15,13 +16,16 @@
  * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Block\Adminhtml\Edit\Tab\Newsletter\Grid\Filter;
-
 class Status extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Select
 {
-
+    /**
+     * @var array
+     */
     protected static $_statuses;
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         self::$_statuses = array(
@@ -35,6 +39,9 @@ class Status extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Select
         parent::_construct();
     }
 
+    /**
+     * @return array
+     */
     protected function _getOptions()
     {
         $result = array();
@@ -45,9 +52,12 @@ class Status extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Select
         return $result;
     }
 
+    /**
+     * @return array|void
+     */
     public function getCondition()
     {
-        if(is_null($this->getValue())) {
+        if (is_null($this->getValue())) {
             return null;
         }
 
