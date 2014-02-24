@@ -19,6 +19,7 @@ use Magento\Exception\AuthenticationException;
 use Magento\Exception\NoSuchEntityException;
 use Magento\Exception\StateException;
 use Magento\Math\Random;
+use Magento\UrlInterface;
 
 /**
  *  Handle various customer account actions
@@ -66,6 +67,11 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     private $_customerAddressService;
 
     /**
+     * @var UrlInterface
+     */
+    private $_url;
+
+    /**
      * Constructor
      *
      * @param CustomerFactory $customerFactory
@@ -77,6 +83,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
      * @param Dto\CustomerBuilder $customerBuilder
      * @param CustomerServiceInterface $customerService
      * @param CustomerAddressServiceInterface $customerAddressService
+     * @param UrlInterface $url
      */
     public function __construct(
         CustomerFactory $customerFactory,
@@ -87,7 +94,8 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         Validator $validator,
         Dto\CustomerBuilder $customerBuilder,
         CustomerServiceInterface $customerService,
-        CustomerAddressServiceInterface $customerAddressService
+        CustomerAddressServiceInterface $customerAddressService,
+        UrlInterface $url
     ) {
         $this->_customerFactory = $customerFactory;
         $this->_eventManager = $eventManager;
@@ -98,6 +106,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         $this->_customerBuilder = $customerBuilder;
         $this->_customerService = $customerService;
         $this->_customerAddressService = $customerAddressService;
+        $this->_url = $url;
     }
 
 
@@ -209,7 +218,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function sendPasswordResetLink($email, $websiteId)
+    public function sendPasswordResetLink($email, $websiteId, $template)
     {
         $customer = $this->_customerFactory->create()
             ->setWebsiteId($websiteId)
@@ -220,7 +229,26 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         }
         $newPasswordToken = $this->_mathRandom->getUniqueHash();
         $customer->changeResetPasswordLinkToken($newPasswordToken);
-        $customer->sendPasswordResetConfirmationEmail();
+        $resetUrl = $this->_url
+            ->getUrl(
+                'customer/account/createPassword',
+                [
+                    '_query' => array('id' => $customer->getId(), 'token' => $newPasswordToken),
+                    '_store' => $customer->getStoreId()
+                ]
+            );
+
+        $customer->setResetPasswordUrl($resetUrl);
+        switch ($template) {
+            case CustomerAccountServiceInterface::EMAIL_REMINDER:
+                $customer->sendPasswordReminderEmail();
+                break;
+            case CustomerAccountServiceInterface::EMAIL_RESET:
+                $customer->sendPasswordResetConfirmationEmail();
+                break;
+            default:
+                throw new InputException(__('Invalid email type.', InputException::INVALID_FIELD_VALUE));
+        }
     }
 
     /**

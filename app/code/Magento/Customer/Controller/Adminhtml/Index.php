@@ -450,25 +450,15 @@ class Index extends \Magento\Backend\App\Action
             return $this->_redirect('customer/index');
         }
 
-        /** @var \Magento\Customer\Model\Customer $customer */
-        $customer = $this->_objectManager->create('Magento\Customer\Model\Customer');
-        $customer->load($customerId);
-        if (!$customer->getId()) {
-            return $this->_redirect('customer/index');
-        }
+        $customer = $this->_customerService->getCustomer($customerId);
 
         try {
-            $newPasswordToken = $this->_objectManager->get('Magento\Customer\Helper\Data')
-                ->generateResetPasswordLinkToken();
-            $customer->changeResetPasswordLinkToken($newPasswordToken);
-            $resetUrl = $this->_objectManager->create('Magento\UrlInterface')
-                ->getUrl('customer/account/createPassword', array(
-                        '_query' => array('id' => $customer->getId(), 'token' => $newPasswordToken),
-                        '_store' => $customer->getStoreId()
-                    )
-                );
-            $customer->setResetPasswordUrl($resetUrl);
-            $customer->sendPasswordReminderEmail();
+
+            $this->_accountService->sendPasswordResetLink(
+                $customer->getEmail(),
+                $customer->getWebsiteId(),
+                CustomerAccountServiceInterface::EMAIL_REMINDER
+            );
             $this->messageManager->addSuccess(__('Customer will receive an email with a link to reset password.'));
         } catch (\Magento\Core\Exception $exception) {
             $messages = $exception->getMessages(\Magento\Message\MessageInterface::TYPE_ERROR);
@@ -477,8 +467,10 @@ class Index extends \Magento\Backend\App\Action
             }
             $this->_addSessionErrorMessages($messages);
         } catch (\Exception $exception) {
-            $this->messageManager->addException($exception,
-                __('An error occurred while resetting customer password.'));
+            $this->messageManager->addException(
+                $exception,
+                __('An error occurred while resetting customer password.')
+            );
         }
 
         $this->_redirect('customer/*/edit', array('id' => $customerId, '_current' => true));

@@ -366,7 +366,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     {
         $email = 'customer@example.com';
 
-        $this->_service->sendPasswordResetLink($email, 1);
+        $this->_service->sendPasswordResetLink($email, 1, CustomerAccountServiceInterface::EMAIL_RESET);
     }
 
     /**
@@ -378,7 +378,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $email = 'foo@example.com';
 
         try {
-            $this->_service->sendPasswordResetLink($email, 0);
+            $this->_service->sendPasswordResetLink($email, 0, CustomerAccountServiceInterface::EMAIL_RESET);
             $this->fail('Expected exception not thrown.');
         } catch (NoSuchEntityException $nsee) {
             $expectedParams = [
