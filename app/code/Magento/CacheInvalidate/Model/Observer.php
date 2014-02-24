@@ -60,11 +60,13 @@ class Observer
         if($this->_config->getType() == \Magento\PageCache\Model\Config::VARNISH) {
             $object = $observer->getEvent()->getObject();
             if($object instanceof \Magento\Object\IdentityInterface) {
-                $tags = $object->getIdentities();
-                foreach ($tags as $tag) {
-                    $tags[] = preg_replace("~_\\d+$~", '', $tag);
+                $tags = array();
+                $pattern = "((^|,)%s(,|$))";
+                foreach ($object->getIdentities() as $tag) {
+                    $tags[] = sprintf($pattern, preg_replace("~_\\d+$~", '', $tag));
+                    $tags[] = sprintf($pattern, $tag);
                 }
-                $this->sendPurgeRequest(implode('|', array_unique($tags)));
+                $this->sendPurgeRequest(implode('|',array_unique($tags)));
             }
         }
     }
