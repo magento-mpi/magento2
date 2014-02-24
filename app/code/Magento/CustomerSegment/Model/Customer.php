@@ -239,8 +239,6 @@ class Customer extends \Magento\Core\Model\AbstractModel
             $segmentIds = $allSegments[$websiteId];
         }
 
-        $this->_eventManager->dispatch('magento_customersegment_ids_changed', array('segment_ids' => $segmentIds));
-
         return $this;
     }
 
