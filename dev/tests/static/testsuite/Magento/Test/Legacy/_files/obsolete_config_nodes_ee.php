@@ -21,5 +21,4 @@ return array(
     '/config/global/magento_search/supported_languages' =>
     'This configuration moved to Di configuration for \Magento\Search\Helper\Data class',
     '/config/system/page_cache' => 'Module is eliminated. Use PageCache module instead',
-    '/config/web/cookie/cookie_restriction' => 'Module is eliminated. Use PageCache module instead',
 );
