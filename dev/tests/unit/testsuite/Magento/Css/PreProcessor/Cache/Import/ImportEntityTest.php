@@ -35,13 +35,17 @@ class ImportEntityTest extends \PHPUnit_Framework_TestCase
     protected $absolutePath;
 
     /**
+     * @var string
+     */
+    protected $absoluteFilePath;
+
+    /**
      * @param string $relativePath
      * @param int $originalMtime
      */
     protected function createMock($relativePath, $originalMtime)
     {
         $filePath = 'someFile';
-        $params = ['some', 'params'];
         $this->absoluteFilePath = 'some_absolute_path';
 
         $this->rootDirectory = $this->getMock('Magento\Filesystem\Directory\ReadInterface', [], [], '', false);
