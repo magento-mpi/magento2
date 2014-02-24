@@ -57,6 +57,9 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvalidateVarnish()
     {
+        $tags = array('cache_1', 'cache_group');
+        $expectedTags = array('cache_1', 'cache_group', 'cache');
+
         $eventMock = $this->getMock('Magento\Event', ['getObject'], [], '', false);
         $eventMock->expects($this->once())
             ->method('getObject')
@@ -67,11 +70,10 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_configMock->expects($this->once())
             ->method('getType')
             ->will($this->returnValue(1));
-        $tags = array('cache_1', 'cache_group');
         $this->_observerObject->expects($this->once())
             ->method('getIdentities')
             ->will($this->returnValue($tags));
-        $this->sendPurgeRequest(implode('|', $tags));
+        $this->sendPurgeRequest(implode('|', $expectedTags));
 
         $this->_model->invalidateVarnish($this->_observerMock);
     }

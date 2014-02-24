@@ -57,10 +57,14 @@ class Observer
      */
     public function invalidateVarnish(\Magento\Event\Observer $observer)
     {
-        $object = $observer->getEvent()->getObject();
-        if($object instanceof \Magento\Object\IdentityInterface) {
-            if($this->_config->getType() == \Magento\PageCache\Model\Config::VARNISH) {
-                $this->sendPurgeRequest(implode('|', $object->getIdentities()));
+        if($this->_config->getType() == \Magento\PageCache\Model\Config::VARNISH) {
+            $object = $observer->getEvent()->getObject();
+            if($object instanceof \Magento\Object\IdentityInterface) {
+                $tags = $object->getIdentities();
+                foreach ($tags as $tag) {
+                    $tags[] = preg_replace("~_\\d+$~", '', $tag);
+                }
+                $this->sendPurgeRequest(implode('|', array_unique($tags)));
             }
         }
     }
