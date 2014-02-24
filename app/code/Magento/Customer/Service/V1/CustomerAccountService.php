@@ -84,6 +84,8 @@ class CustomerAccountService implements CustomerAccountServiceInterface
      * @param CustomerServiceInterface $customerService
      * @param CustomerAddressServiceInterface $customerAddressService
      * @param UrlInterface $url
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         CustomerFactory $customerFactory,
