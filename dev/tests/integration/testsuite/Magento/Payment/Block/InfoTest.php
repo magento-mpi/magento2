@@ -28,7 +28,7 @@ class InfoTest extends \PHPUnit_Framework_TestCase
         $paymentInfoBank = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Payment\Model\Info');
         $paymentInfoBank->setMethodInstance(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\OfflinePaymentMethods\Model\Method\Banktransfer'));
+            ->create('Magento\OfflinePaymentMethods\Model\Banktransfer'));
         /** @var $childBank \Magento\Payment\Block\Info\Instructions */
         $childBank = $layout->addBlock('Magento\Payment\Block\Info\Instructions', 'child.one', 'block');
         $childBank->setInfo($paymentInfoBank);
