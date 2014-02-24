@@ -58,9 +58,14 @@ class NameTest extends \PHPUnit_Framework_TestCase
         $context->expects($this->any())->method('getEscaper')->will($this->returnValue($this->_escaper));
 
         $addressHelper = $this->getMock('Magento\Customer\Helper\Address', [], [], '', false);
-        $this->_metadataService = $this->getMockForAbstractClass(
-            'Magento\Customer\Service\V1\CustomerMetadataServiceInterface', [], '', false
-        );
+
+        $this->_metadataService = $this->getMockBuilder('Magento\Customer\Service\V1\CustomerMetadataService')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->_metadataService->expects($this->any())
+            ->method('getCustomCustomerAttributeMetadata')
+            ->will($this->returnValue([]));
+
         $this->_customerHelper = $this->getMock('Magento\Customer\Helper\Data', [], [], '', false);
         $this->_attributeMetadata = $this->getMock(
             'Magento\Customer\Service\V1\Data\Eav\AttributeMetadata',
