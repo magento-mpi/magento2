@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ProductAlert\Block\Email;
 
 /**
  * Product Alert Abstract Email Block
@@ -15,8 +16,6 @@
  * @package    Magento_ProductAlert
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\ProductAlert\Block\Email;
-
 abstract class AbstractEmail extends \Magento\View\Element\Template
 {
     /**
@@ -37,7 +36,7 @@ abstract class AbstractEmail extends \Magento\View\Element\Template
      * Set Store scope
      *
      * @param int|string|\Magento\Core\Model\Website|\Magento\Core\Model\Store $store
-     * @return \Magento\ProductAlert\Block\Email\AbstractEmail
+     * @return $this
      */
     public function setStore($store)
     {
@@ -69,10 +68,10 @@ abstract class AbstractEmail extends \Magento\View\Element\Template
     /**
      * Convert price from default currency to current currency
      *
-     * @param double $price
+     * @param float $price
      * @param boolean $format             Format price to currency format
      * @param boolean $includeContainer   Enclose into <span class="price"><span>
-     * @return double
+     * @return float
      */
     public function formatPrice($price, $format = true, $includeContainer = true)
     {
@@ -82,6 +81,7 @@ abstract class AbstractEmail extends \Magento\View\Element\Template
     /**
      * Reset product collection
      *
+     * @return void
      */
     public function reset()
     {
@@ -92,6 +92,7 @@ abstract class AbstractEmail extends \Magento\View\Element\Template
      * Add product to collection
      *
      * @param \Magento\Catalog\Model\Product $product
+     * @return void
      */
     public function addProduct(\Magento\Catalog\Model\Product $product)
     {
@@ -111,7 +112,7 @@ abstract class AbstractEmail extends \Magento\View\Element\Template
     /**
      * Get store url params
      *
-     * @return string
+     * @return array
      */
     protected function _getUrlParams()
     {

@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ProductAlert\Model\Resource;
 
 /**
  * Product alert for back in stock resource model
  */
-namespace Magento\ProductAlert\Model\Resource;
-
 class Stock extends \Magento\ProductAlert\Model\Resource\AbstractResource
 {
     /**
@@ -35,6 +34,7 @@ class Stock extends \Magento\ProductAlert\Model\Resource\AbstractResource
     /**
      * Initialize connection
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -45,7 +45,7 @@ class Stock extends \Magento\ProductAlert\Model\Resource\AbstractResource
      * Before save action
      *
      * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Core\Model\Resource\Db\AbstractDb
+     * @return $this
      */
     protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
     {

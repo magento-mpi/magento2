@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\ProductAlert\Block\Email;
 
 /**
  * ProductAlert email price changed grid
@@ -16,10 +16,11 @@
  * @package    Magento_ProductAlert
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\ProductAlert\Block\Email;
-
 class Price extends \Magento\ProductAlert\Block\Email\AbstractEmail
 {
+    /**
+     * @var string
+     */
     protected $_template = 'email/price.phtml';
 
     /**

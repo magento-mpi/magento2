@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ProductAlert\Block\Product;
 
 /**
  * Product view price and stock alerts
  */
-namespace Magento\ProductAlert\Block\Product;
-
 class View extends \Magento\View\Element\Template
 {
     /**
@@ -54,7 +53,7 @@ class View extends \Magento\View\Element\Template
     /**
      * Get current product instance
      *
-     * @return \Magento\ProductAlert\Block\Product\View
+     * @return $this
      */
     protected function _prepareLayout()
     {

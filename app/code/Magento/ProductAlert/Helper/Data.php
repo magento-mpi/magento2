@@ -7,7 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ProductAlert\Helper;
 
+use Magento\Core\Model\Store;
+use Magento\Customer\Model\Session;
 
 /**
  * ProductAlert data helper
@@ -16,8 +19,6 @@
  * @package    Magento_ProductAlert
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\ProductAlert\Helper;
-
 class Data extends \Magento\Core\Helper\Url
 {
     /**
@@ -99,16 +100,25 @@ class Data extends \Magento\Core\Helper\Url
         return $this;
     }
 
+    /**
+     * @return Session
+     */
     public function getCustomer()
     {
         return $this->_session;
     }
 
+    /**
+     * @return Store
+     */
     public function getStore()
     {
         return $this->_storeManager->getStore();
     }
 
+    /**
+     * @return string
+     */
     public function getSaveUrl($type)
     {
         return $this->_getUrl('productalert/add/' . $type, array(

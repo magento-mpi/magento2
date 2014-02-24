@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\ProductAlert\Model;
 
 /**
  * ProductAlert for changed price model
@@ -35,8 +35,6 @@
  * @package     Magento_ProductAlert
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\ProductAlert\Model;
-
 class Price extends \Magento\Core\Model\AbstractModel
 {
     /**
@@ -64,16 +62,25 @@ class Price extends \Magento\Core\Model\AbstractModel
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_init('Magento\ProductAlert\Model\Resource\Price');
     }
 
+    /**
+     * @return mixed
+     */
     public function getCustomerCollection()
     {
         return $this->_customerColFactory->create();
     }
 
+    /**
+     * @return $this
+     */
     public function loadByParam()
     {
         if (!is_null($this->getProductId()) && !is_null($this->getCustomerId()) && !is_null($this->getWebsiteId())) {
@@ -82,6 +89,11 @@ class Price extends \Magento\Core\Model\AbstractModel
         return $this;
     }
 
+    /**
+     * @param int $customerId
+     * @param int $websiteId
+     * @return $this
+     */
     public function deleteCustomer($customerId, $websiteId = 0)
     {
         $this->getResource()->deleteCustomer($this, $customerId, $websiteId);

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\ProductAlert\Model\Resource\Price;
 
 /**
  * Product alert for changed price collection
@@ -16,8 +16,6 @@
  * @package     Magento_ProductAlert
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\ProductAlert\Model\Resource\Price;
-
 class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
@@ -33,7 +31,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Add customer filter
      *
      * @param mixed $customer
-     * @return \Magento\ProductAlert\Model\Resource\Price\Collection
+     * @return $this
      */
     public function addCustomerFilter($customer)
     {
@@ -52,7 +50,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Add website filter
      *
      * @param mixed $website
-     * @return \Magento\ProductAlert\Model\Resource\Price\Collection
+     * @return $this
      */
     public function addWebsiteFilter($website)
     {
@@ -74,7 +72,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Set order by customer
      *
      * @param string $sort
-     * @return \Magento\ProductAlert\Model\Resource\Price\Collection
+     * @return $this
      */
     public function setCustomerOrder($sort = 'ASC')
     {
