@@ -7,15 +7,15 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <type name="Magento\Cms\Block\Adminhtml\Page\Grid\Renderer\Action\Context">
-        <param name="urlBuilder">
-            <instance type="Magento\Url"/>
-        </param>
+        <arguments>
+            <argument name="urlBuilder" xsi:type="object">Magento\Url</argument>
+        </arguments>
     </type>
     <type name="Magento\Cms\Block\Adminhtml\Page\Grid\Renderer\Action">
-        <param name="context">
-            <instance type="Magento\Cms\Block\Adminhtml\Page\Grid\Renderer\Action\Context"/>
-        </param>
+        <arguments>
+            <argument name="context" xsi:type="object">Magento\Cms\Block\Adminhtml\Page\Grid\Renderer\Action\Context</argument>
+        </arguments>
     </type>
 </config>
