@@ -464,16 +464,16 @@ class Index extends \Magento\Backend\App\Action
             return $this->_redirect('customer/index');
         }
 
-        $customer = $this->_customerService->getCustomer($customerId);
-
         try {
-
+            $customer = $this->_customerService->getCustomer($customerId);
             $this->_accountService->sendPasswordResetLink(
                 $customer->getEmail(),
                 $customer->getWebsiteId(),
                 CustomerAccountServiceInterface::EMAIL_REMINDER
             );
             $this->messageManager->addSuccess(__('Customer will receive an email with a link to reset password.'));
+        } catch (NoSuchEntityException $exception) {
+            return $this->_redirect('customer/index');
         } catch (\Magento\Core\Exception $exception) {
             $messages = $exception->getMessages(\Magento\Message\MessageInterface::TYPE_ERROR);
             if (!count($messages)) {
