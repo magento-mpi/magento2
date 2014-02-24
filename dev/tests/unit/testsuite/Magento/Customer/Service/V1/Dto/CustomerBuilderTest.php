@@ -8,15 +8,23 @@
 
 namespace Magento\Customer\Service\V1\Dto;
 
+use Magento\Customer\Service\V1\CustomerMetadataService;
+use Magento\Customer\Service\V1\Dto\Eav\AttributeMetadataBuilder;
+use Magento\Service\Entity\AbstractDto;
+use Magento\Service\Entity\AbstractDtoBuilder;
+
 class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Customer\Service\V1\Dto\CustomerBuilder */
     protected $_customerBuilder;
 
+    /** @var \Magento\TestFramework\Helper\ObjectManager */
+    protected $_objectManager;
+
     protected function setUp()
     {
-        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_customerBuilder = $objectManager->getObject('Magento\Customer\Service\V1\Dto\CustomerBuilder');
+        $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->_customerBuilder = $this->_objectManager->getObject('Magento\Customer\Service\V1\Dto\CustomerBuilder');
         parent::setUp();
     }
 
@@ -75,4 +83,44 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
         ];
         $this->assertEquals($expectedDtoData, $mergedDto->__toArray(), 'DTO with array were merged incorrectly.');
     }
+
+    /**
+     * @expectedException \LogicException
+     * @expectedExceptionMessage Wrong prototype object given. It can only be of "Magento\Customer\Service\V1\Dto\Customer" type.
+     */
+    public function testPopulateException()
+    {
+        $sampleDtoObj = (new SampleDtoBuilder())->create();
+        $this->_customerBuilder->populate($sampleDtoObj);
+    }
+
+    public function testPopulate()
+    {
+        $email = 'test@example.com';
+        $customerMetadataService = $this->_objectManager->getObject(
+            'Magento\Customer\Service\V1\CustomerMetadataService'
+        );
+        $customerBuilder1 = (new CustomerBuilder($customerMetadataService));
+        $customerBuilder2 = (new CustomerBuilder($customerMetadataService));
+        $customer = $customerBuilder1->setEmail($email)->create();
+        $customerBuilder2
+            ->setFirstname('fname')
+            ->setLastname('lname')
+            ->create();
+        //Make sure email is not populated as yet
+        $this->assertEquals(null, $customerBuilder2->create()->getEmail());
+        $customerBuilder2->populate($customer);
+        //Verify if email is set correctly
+        $this->assertEquals($email, $customerBuilder2->create()->getEmail());
+    }
+}
+
+class SampleDto extends AbstractDto
+{
+
+}
+
+class SampleDtoBuilder extends AbstractDtoBuilder
+{
+
 }

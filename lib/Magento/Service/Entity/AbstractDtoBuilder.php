@@ -32,9 +32,9 @@ abstract class AbstractDtoBuilder
      */
     public function populate(AbstractDto $prototype)
     {
-        $dtoType = substr(get_class($this), 0, -7);
-        if (get_class($prototype) != $dtoType) {
-            throw new \LogicException('Wrong prototype object');
+        $objectType = $this->_getDataObjectType();
+        if (get_class($prototype) != $objectType) {
+            throw new \LogicException('Wrong prototype object given. It can only be of "' . $objectType . '" type.');
         }
         return $this->populateWithArray($prototype->__toArray());
     }
