@@ -17,4 +17,25 @@
     <event name="adminhtml_cache_flush_system">
         <observer name="flush_all_pagecache" instance="Magento\PageCache\Model\Observer" method="flushAllCache" />
     </event>
+    <event name="clean_media_cache_after">
+        <observer name="flush_all_pagecache" instance="Magento\PageCache\Model\Observer" method="flushAllCache" />
+    </event>
+    <event name="clean_catalog_images_cache_after">
+        <observer name="flush_all_pagecache" instance="Magento\PageCache\Model\Observer" method="flushAllCache" />
+    </event>
+    <event name="assigned_theme_changed">
+        <observer name="flush_all_pagecache" instance="Magento\PageCache\Model\Observer" method="invalidateCache" />
+    </event>
+    <event name="catalogrule_after_apply">
+        <observer name="flush_all_pagecache" instance="Magento\PageCache\Model\Observer" method="flushAllCache" />
+    </event>
+    <event name="adminhtml_cache_refresh_type">
+        <observer name="flush_all_pagecache" instance="Magento\PageCache\Model\Observer" method="flushAllCache" />
+    </event>
+    <event name="adminhtml_cache_flush_all">
+        <observer name="flush_all_pagecache" instance="Magento\PageCache\Model\Observer" method="flushAllCache" />
+    </event>
+    <event name="assign_theme_to_stores_after">
+        <observer name="flush_all_pagecache" instance="Magento\PageCache\Model\Observer" method="flushAllCache" />
+    </event>
 </config>
