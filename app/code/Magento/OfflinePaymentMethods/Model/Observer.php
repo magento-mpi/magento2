@@ -28,18 +28,4 @@ class Observer
             $payment->setAdditionalInformation('instructions', $payment->getMethodInstance()->getInstructions());
         }
     }
-
-    /**
-     * Sets current instructions for bank transfer account
-     *
-     * @param \Magento\Event\Observer $observer
-     * @return void
-     */
-    public function setMethodTemplate(\Magento\Event\Observer $observer)
-    {
-        $block = $observer->getEvent()->getBlock();
-        $method = 'purchaseorder';
-        $template = 'Magento_OfflinePaymentMethods::form/purchaseorder.phtml';
-        $block->setMethodFormTemplate($method, $template);
-    }
 }
