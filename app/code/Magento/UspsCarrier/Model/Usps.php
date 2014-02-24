@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Usa
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,9 +11,6 @@ use Magento\Shipping\Model\Rate\Result;
 
 /**
  * USPS shipping rates estimation
- *
- * @link       http://www.usps.com/webtools/htm/Development-Guide-v3-0b.htm
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Usps
     extends \Magento\Usa\Model\Shipping\Carrier\AbstractCarrier

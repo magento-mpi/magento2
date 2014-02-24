@@ -2,15 +2,15 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Usa
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-
 namespace Magento\UspsCarrier\Model\Source;
 
+/**
+* Method source
+*/
 class Method extends Generic
 {
     /**

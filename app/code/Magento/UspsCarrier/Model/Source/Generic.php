@@ -11,6 +11,9 @@ namespace Magento\UspsCarrier\Model\Source;
 use Magento\Core\Model\Option\ArrayInterface;
 use Magento\UspsCarrier\Model\Usps;
 
+/**
+ * Generic source
+ */
 class Generic implements ArrayInterface
 {
     /**
