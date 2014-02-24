@@ -20,7 +20,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->attrDataFactoryMock = $this->getMockBuilder('\Magento\Customer\Model\Metadata\ElementFactory')
+        $this->attrDataFactoryMock = $this->getMockBuilder('Magento\Customer\Model\Metadata\ElementFactory')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -60,7 +60,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
         $this->validator->setAttributes([$attribute]);
         $this->validator->setEntityType('ENTITY_TYPE');
         $this->validator->setData(['something']);
-        $this->assertTrue($this->validator->isValid('entity'));
+        $this->assertTrue($this->validator->isValid(['entity']));
         $this->validator->setData([]);
         $this->assertTrue($this->validator->isValid(new \Magento\Object([])));
     }
@@ -76,7 +76,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
         $this->validator->setAttributes([$attribute]);
         $this->validator->setEntityType('ENTITY_TYPE');
         $this->validator->setData(['something']);
-        $this->assertEquals($isValid, $this->validator->isValid('ENTITY'));
+        $this->assertEquals($isValid, $this->validator->isValid(['ENTITY']));
         $this->validator->setData([]);
         $this->assertEquals($isValid, $this->validator->isValid(new \Magento\Object([])));
     }
@@ -122,10 +122,9 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->with(
                 $this->equalTo($attribute),
-                $this->equalTo('ENTITY_TYPE'),
-                $this->equalTo(null)
+                $this->equalTo(null),
+                $this->equalTo('ENTITY_TYPE')
             )
             ->will($this->returnValue($dataModel));
     }
 }
- 

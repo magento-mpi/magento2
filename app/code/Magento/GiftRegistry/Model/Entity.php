@@ -297,7 +297,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
         if (is_array($itemsIds)) {
             $quote = $this->quoteFactory->create();
             $quote->setWebsite($this->storeManager->getWebsite($this->getWebsiteId()));
-            $quote->loadByCustomer($this->customerFactory->create()->load($this->getCustomerId()));
+            $quote->loadByCustomer($this->getCustomerId());
 
             foreach ($quote->getAllVisibleItems() as $item) {
                 if (in_array($item->getId(), $itemsIds)) {

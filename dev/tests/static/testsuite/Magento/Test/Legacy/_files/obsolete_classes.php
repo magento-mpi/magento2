@@ -1241,6 +1241,8 @@ return array(
     array('Magento\Core\Model\Db\UpdaterInterface'),
     array('Magento\Core\Model\Router\NoRouteHandlerInterface'),
     array('Magento\Core\Model\UrlInterface'),
+    array('Magento\Sales\Model\AdminOrder'),
+    array('Magento\Sales\Model\AdminOrder\Random'),
     array('Magento\Sales\Model\Resource\Order\Attribute\Backend\Parent'),
     array('Magento\Sales\Model\Resource\Order\Creditmemo\Attribute\Backend\Parent'),
     array('Magento\Sales\Model\Resource\Order\Invoice\Attribute\Backend\Parent'),
