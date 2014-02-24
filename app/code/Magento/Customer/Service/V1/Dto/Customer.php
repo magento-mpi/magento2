@@ -5,15 +5,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Customer\Service\V1\Dto;
 
 /**
- * Class Customer
- * Uses array to hold data, setters return $this so they can be chained.
+ * Class Customer. Uses array to hold data, setters return $this so they can be chained.
  *
  * @package Magento\Customer\Service\V1\Dto
  */
-class Customer extends \Magento\Service\Entity\AbstractDto implements Eav\EntityInterface
+class Customer extends \Magento\Service\Entity\AbstractDto
 {
     /**#@+
      * constants defined for keys of array, makes typos less likely
