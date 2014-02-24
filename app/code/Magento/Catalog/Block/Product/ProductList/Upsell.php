@@ -240,7 +240,7 @@ class Upsell extends \Magento\Catalog\Block\Product\AbstractProduct implements \
     {
         $identities = array();
         foreach ($this->getItems() as $item) {
-            $identities[] = $item->getIdentities();
+            $identities = array_merge($identities, $item->getIdentities());
         }
         return $identities;
     }
