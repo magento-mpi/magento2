@@ -9,6 +9,8 @@
  */
 namespace Magento\Customer\Model\Address;
 
+namespace Magento\Customer\Model\Address;
+
 /**
  * Address abstract model
  *
@@ -18,6 +20,10 @@ namespace Magento\Customer\Model\Address;
  * @method string getMiddlename()
  * @method string getLastname()
  * @method int getCountryId()
+ * @method string getCity()
+ * @method string getTelephone()
+ * @method string getPostcode()
+ * @method bool getShouldIgnoreValidation()
  */
 class AbstractAddress extends \Magento\Core\Model\AbstractModel
 {
@@ -445,7 +451,7 @@ class AbstractAddress extends \Magento\Core\Model\AbstractModel
     /**
      * Validate address attribute values
      *
-     * @return bool
+     * @return bool|array
      */
     public function validate()
     {

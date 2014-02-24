@@ -79,7 +79,7 @@ class Salesamount
     /**
      * Build query for matching orders amount
      *
-     * @param Customer|\Zend_Db_Expr $customer
+     * @param Customer| Zend_Db_Expr $customer
      * @param int|Zend_Db_Expr $website
      * @return \Magento\DB\Select
      */
