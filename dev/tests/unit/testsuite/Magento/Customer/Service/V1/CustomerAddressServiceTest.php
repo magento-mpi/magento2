@@ -175,7 +175,11 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_addressBuilder = $objectManagerHelper->getObject('Magento\Customer\Service\V1\Data\AddressBuilder');
+        $regionBuilder = $objectManagerHelper->getObject('Magento\Customer\Service\V1\Data\RegionBuilder');
+        $this->_addressBuilder = $objectManagerHelper->getObject(
+            'Magento\Customer\Service\V1\Data\AddressBuilder',
+            array('regionBuilder' => $regionBuilder)
+        );
 
         /** @var \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder */
         $customerBuilder = $objectManagerHelper->getObject('Magento\Customer\Service\V1\Data\CustomerBuilder');

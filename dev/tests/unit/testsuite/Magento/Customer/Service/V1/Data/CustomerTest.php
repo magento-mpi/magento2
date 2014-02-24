@@ -68,7 +68,9 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
     public function testGetAttributes()
     {
         $customerData = $this->_createCustomerData();
-        $customerBuilder = new CustomerBuilder();
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        /** @var \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder */
+        $customerBuilder = $objectManagerHelper->getObject('Magento\Customer\Service\V1\Data\CustomerBuilder');
         $customerBuilder->populateWithArray($customerData);
         /** @var Customer $customer */
         $customer = $customerBuilder->create();
@@ -113,7 +115,9 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
 
     public function testPopulateFromPrototypeVsArray()
     {
-        $builder = new CustomerBuilder();
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        /** @var \Magento\Customer\Service\V1\Data\CustomerBuilder $builder */
+        $builder = $objectManagerHelper->getObject('Magento\Customer\Service\V1\Data\CustomerBuilder');
         $builder->populateWithArray([
             Customer::FIRSTNAME => self::FIRSTNAME,
             Customer::LASTNAME  => self::LASTNAME,
@@ -122,7 +126,6 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             'entity_id'         => self::ID,
         ]);
         $customerFromArray = $builder->create();
-        $builder = new CustomerBuilder();
         $customerFromPrototype = $builder->populate($customerFromArray)->create();
 
         $this->assertEquals($customerFromArray->__toArray(), $customerFromPrototype->__toArray());
@@ -130,7 +133,9 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
 
     public function testPopulateFromCustomerIdInArray()
     {
-        $builder = new CustomerBuilder();
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        /** @var \Magento\Customer\Service\V1\Data\CustomerBuilder $builder */
+        $builder = $objectManagerHelper->getObject('Magento\Customer\Service\V1\Data\CustomerBuilder');
         $builder->populateWithArray([
             Customer::FIRSTNAME => self::FIRSTNAME,
             Customer::LASTNAME  => self::LASTNAME,

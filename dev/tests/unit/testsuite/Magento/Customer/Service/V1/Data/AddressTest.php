@@ -63,8 +63,11 @@ class AddressTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_addressBuilder = new \Magento\Customer\Service\V1\Data\AddressBuilder(
-            new RegionBuilder()
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $regionBuilder = $objectManagerHelper->getObject('Magento\Customer\Service\V1\Data\RegionBuilder');
+        $this->_addressBuilder = $objectManagerHelper->getObject(
+            'Magento\Customer\Service\V1\Data\AddressBuilder',
+            array('regionBuilder' => $regionBuilder)
         );
     }
 
@@ -129,7 +132,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     {
         $this->_fillAllFields($this->_addressBuilder);
         $expected = $this->_expectedValues;
-        $this->assertEquals($expected, $this->_addressBuilder->create()->getAttributes());
+        $this->assertEquals($expected, $this->_addressBuilder->create()->__toArray());
     }
 
     /**

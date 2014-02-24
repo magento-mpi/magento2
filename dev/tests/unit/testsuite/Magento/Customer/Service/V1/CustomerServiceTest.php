@@ -136,13 +136,13 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->_setupStoreMock();
 
-        $this->_customerBuilder = new Data\CustomerBuilder($this->_customerMetadataService);
-
-        $this->_converter = new \Magento\Customer\Model\Converter($this->_customerBuilder, $this->_customerFactoryMock);
-
         $this->_customerMetadataService = $this->getMockBuilder('Magento\Customer\Service\V1\CustomerMetadataService')
             ->disableOriginalConstructor()
             ->getMock();
+
+        $this->_customerBuilder = new Data\CustomerBuilder($this->_customerMetadataService);
+
+        $this->_converter = new \Magento\Customer\Model\Converter($this->_customerBuilder, $this->_customerFactoryMock);
     }
 
     public function testGetCustomer()
@@ -185,7 +185,7 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(self::FIRSTNAME, $actualCustomer->getFirstName());
         $this->assertEquals(self::LASTNAME, $actualCustomer->getLastName());
         $this->assertEquals(self::EMAIL, $actualCustomer->getEmail());
-        $this->assertEquals(4, count($actualCustomer->getAttributes()));
+        $this->assertEquals(4, count($actualCustomer->__toArray()));
         $attribute = $actualCustomer->getAttribute(self::ATTRIBUTE_CODE);
         $this->assertNull($attribute, 'Arbitrary attributes must not be available do Data Object users.');
     }
