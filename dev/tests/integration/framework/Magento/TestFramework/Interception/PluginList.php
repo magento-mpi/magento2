@@ -23,9 +23,9 @@ class PluginList extends \Magento\Interception\PluginList\PluginList
      * @param \Magento\ObjectManager\Config $omConfig
      * @param \Magento\Interception\Definition $definitions
      * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\ObjectManager\Definition $classDefinitions
      * @param array $scopePriorityScheme
      * @param string $cacheId
-     * @param \Magento\ObjectManager\Definition\Compiled $classDefinitions
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -37,12 +37,12 @@ class PluginList extends \Magento\Interception\PluginList\PluginList
         \Magento\ObjectManager\Config $omConfig,
         \Magento\Interception\Definition $definitions,
         \Magento\ObjectManager $objectManager,
+        \Magento\ObjectManager\Definition $classDefinitions,
         array $scopePriorityScheme,
-        $cacheId = 'plugins',
-        \Magento\ObjectManager\Definition\Compiled $classDefinitions = null
+        $cacheId = 'plugins'
     ) {
         parent::__construct($reader, $configScope, $cache, $relations, $omConfig,
-            $definitions, $objectManager, $scopePriorityScheme, $cacheId, $classDefinitions
+            $definitions, $objectManager, $classDefinitions, $scopePriorityScheme, $cacheId
         );
         $this->_originScopeScheme = $this->_scopePriorityScheme;
     }

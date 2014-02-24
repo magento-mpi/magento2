@@ -50,13 +50,15 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $omConfigMock->expects($this->any())
             ->method('getOriginalInstanceType')
             ->will($this->returnArgument(0));
+        $definitionMock = $this->getMock('Magento\ObjectManager\Definition');
+        $definitionMock->expects($this->any())->method('getClasses')->will($this->returnValue(array()));
         $this->model = new \Magento\Interception\Config\Config(
             $readerMock,
             $this->configScopeMock,
             $cacheMock,
             new \Magento\ObjectManager\Relations\Runtime(),
             $omConfigMock,
-            null,
+            $definitionMock,
             'interception'
         );
     }

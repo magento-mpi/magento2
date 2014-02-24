@@ -30,6 +30,7 @@ class ObjectManager extends \Magento\App\ObjectManager
         'Magento\ObjectManager\Relations',
         'Magento\ObjectManager\Config',
         'Magento\Interception\Definition',
+        'Magento\ObjectManager\Definition',
         'Magento\Core\Model\Session\Config'
     );
 

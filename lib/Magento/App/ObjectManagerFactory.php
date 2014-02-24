@@ -111,8 +111,7 @@ class ObjectManagerFactory
         );
         $objectManager->get('Magento\Config\ScopeInterface')->setCurrentScope('global');
         $objectManager->get('Magento\App\Resource')->setCache($objectManager->get('Magento\App\CacheInterface'));
-
-        $interceptionConfig = $objectManager->create('Magento\Interception\Config\Config');
+        $interceptionConfig = $objectManager->get('Magento\Interception\Config\Config');
         $diConfig->setInterceptionConfig($interceptionConfig);
 
         $this->configureDirectories($objectManager);

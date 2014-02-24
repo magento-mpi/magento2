@@ -15,7 +15,7 @@ class StoreGroupTest extends \PHPUnit_Framework_TestCase
     protected $indexerMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Code\Plugin\InvocationChain
+     * @var \PHPUnit_Framework_MockObject_MockObject|
      */
     protected $pluginMock;
 

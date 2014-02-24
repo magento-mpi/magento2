@@ -15,7 +15,7 @@ class StoreViewTest extends \PHPUnit_Framework_TestCase
     protected $indexerMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Code\Plugin\InvocationChain
+     * @var \PHPUnit_Framework_MockObject_MockObject|
      */
     protected $pluginMock;
 
@@ -31,9 +31,6 @@ class StoreViewTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->pluginMock = $this->getMock(
-            'Magento\Code\Plugin\InvocationChain', array('proceed'), array(), '', false
-        );
         $this->indexerMock = $this->getMockForAbstractClass(
             'Magento\Indexer\Model\IndexerInterface',
             array(), '', false, false, true, array('getId', 'getState', '__wakeup')

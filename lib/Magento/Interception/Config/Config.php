@@ -65,8 +65,8 @@ class Config implements \Magento\Interception\Config
      * @param \Magento\Config\ScopeListInterface $scopeList
      * @param \Magento\Cache\FrontendInterface $cache
      * @param \Magento\ObjectManager\Relations $relations
-     * @param \Magento\ObjectManager\Config $omConfig
-     * @param \Magento\ObjectManager\Definition\Compiled $classDefinitions
+     * @param \Magento\Interception\ObjectManager\Config $omConfig
+     * @param \Magento\ObjectManager\Definition $classDefinitions
      * @param string $cacheId
      */
     public function __construct(
@@ -75,7 +75,7 @@ class Config implements \Magento\Interception\Config
         \Magento\Cache\FrontendInterface $cache,
         \Magento\ObjectManager\Relations $relations,
         \Magento\Interception\ObjectManager\Config $omConfig,
-        \Magento\ObjectManager\Definition\Compiled $classDefinitions = null,
+        \Magento\ObjectManager\Definition $classDefinitions,
         $cacheId = 'interception'
     ) {
         $this->_omConfig = $omConfig;
@@ -93,15 +93,17 @@ class Config implements \Magento\Interception\Config
             foreach ($scopeList->getAllScopes() as $scope) {
                 $config = array_replace_recursive($config, $this->_reader->read($scope));
             }
+            unset($config['preferences']);
             foreach ($config as $typeName => $typeConfig) {
                 if (!empty($typeConfig['plugins'])) {
                     $this->_intercepted[$typeName] = true;
                 }
             }
-            if ($classDefinitions) {
-                foreach ($classDefinitions->getClasses() as $class) {
-                    $this->hasPlugins($class);
-                }
+            foreach ($config as $typeName => $typeConfig) {
+                $this->hasPlugins($typeName);
+            }
+            foreach ($classDefinitions->getClasses() as $class) {
+                $this->hasPlugins($class);
             }
             $this->_cache->save(serialize($this->_intercepted), $this->_cacheId);
         }
@@ -143,5 +145,4 @@ class Config implements \Magento\Interception\Config
     {
         return isset($this->_intercepted[$type]) ? $this->_intercepted[$type] : $this->_inheritInterception($type);
     }
-
 }

@@ -58,8 +58,9 @@ class GeneralTest extends \PHPUnit_Framework_TestCase
         $configScope = new \Magento\Config\Scope($areaList, 'global');
         $cache = $this->getMock('Magento\Config\CacheInterface');
         $cache->expects($this->any())->method('load')->will($this->returnValue(false));
+        $definitions = new \Magento\ObjectManager\Definition\Runtime();
         $interceptionConfig = new Config\Config(
-            $this->_configReader, $configScope, $cache, $relations, $config
+            $this->_configReader, $configScope, $cache, $relations, $config, $definitions
         );
         $interceptionDefinitions = new Definition\Runtime();
         $this->_objectManager = new \Magento\ObjectManager\ObjectManager(
@@ -69,6 +70,7 @@ class GeneralTest extends \PHPUnit_Framework_TestCase
                 'Magento\Config\ReaderInterface' => $this->_configReader,
                 'Magento\ObjectManager\Relations' => $relations,
                 'Magento\ObjectManager\Config' => $config,
+                'Magento\ObjectManager\Definition' => $definitions,
                 'Magento\Interception\Definition' => $interceptionDefinitions
             )
         );
