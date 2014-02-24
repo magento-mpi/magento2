@@ -1021,18 +1021,18 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'primary'   => true,
         'default'   => '0',
-        ), 'Product ID')
+    ), 'Product ID')
     ->addColumn('store_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'primary'   => true,
         'default'   => '0',
-        ), 'Store ID')
+    ), 'Store ID')
     ->addColumn('visibility', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
-        ), 'Visibility')
+    ), 'Visibility')
     ->addIndex($installer->getIdxName('catalog_product_enabled_index', array('store_id')),
         array('store_id'))
     ->addForeignKey(
@@ -2769,30 +2769,30 @@ $table = $installer->getConnection()
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
-        ), 'Category ID')
+    ), 'Category ID')
     ->addColumn('product_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
-        ), 'Product ID')
+    ), 'Product ID')
     ->addColumn('position', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'nullable'  => false,
         'default'   => '0',
-        ), 'Position')
+    ), 'Position')
     ->addColumn('is_parent', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
-        ), 'Is Parent')
+    ), 'Is Parent')
     ->addColumn('store_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
-        ), 'Store ID')
+    ), 'Store ID')
     ->addColumn('visibility', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
-        ), 'Visibility')
+    ), 'Visibility')
     ->addIndex(
         $installer->getIdxName(
             'catalog_category_product_index_idx',
@@ -2811,30 +2811,30 @@ $table = $installer->getConnection()
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
-        ), 'Category ID')
+    ), 'Category ID')
     ->addColumn('product_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
-        ), 'Product ID')
+    ), 'Product ID')
     ->addColumn('position', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'nullable'  => false,
         'default'   => '0',
-        ), 'Position')
+    ), 'Position')
     ->addColumn('is_parent', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
-        ), 'Is Parent')
+    ), 'Is Parent')
     ->addColumn('store_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
-        ), 'Store ID')
+    ), 'Store ID')
     ->addColumn('visibility', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
-        ), 'Visibility')
+    ), 'Visibility')
     ->setComment('Catalog Category Product Indexer Temp Table');
 $installer->getConnection()->createTable($table);
 
@@ -2847,12 +2847,12 @@ $table = $installer->getConnection()
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
-        ), 'Product ID')
+    ), 'Product ID')
     ->addColumn('visibility', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
-        ), 'Visibility')
+    ), 'Visibility')
     ->addIndex($installer->getIdxName('catalog_category_product_index_enbl_idx', array('product_id')),
         array('product_id'))
     ->setComment('Catalog Category Product Enabled Indexer Index Table');
@@ -2867,12 +2867,12 @@ $table = $installer->getConnection()
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
-        ), 'Product ID')
+    ), 'Product ID')
     ->addColumn('visibility', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
-        ), 'Visibility')
+    ), 'Visibility')
     ->addIndex($installer->getIdxName('catalog_category_product_index_enbl_tmp', array('product_id')),
         array('product_id'))
     ->setComment('Catalog Category Product Enabled Indexer Temp Table');
@@ -2887,11 +2887,11 @@ $table = $installer->getConnection()
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
-        ), 'Category ID')
+    ), 'Category ID')
     ->addColumn('path', \Magento\DB\Ddl\Table::TYPE_TEXT, 255, array(
         'nullable'  => true,
         'default'   => null,
-        ), 'Path')
+    ), 'Path')
     ->addIndex($installer->getIdxName('catalog_category_anc_categs_index_idx', array('category_id')),
         array('category_id'))
     ->setComment('Catalog Category Anchor Indexer Index Table');
@@ -2906,11 +2906,11 @@ $table = $installer->getConnection()
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
-        ), 'Category ID')
+    ), 'Category ID')
     ->addColumn('path', \Magento\DB\Ddl\Table::TYPE_TEXT, 255, array(
         'nullable'  => true,
         'default'   => null,
-        ), 'Path')
+    ), 'Path')
     ->addIndex($installer->getIdxName('catalog_category_anc_categs_index_tmp', array('category_id')),
         array('category_id'))
     ->setComment('Catalog Category Anchor Indexer Temp Table');
@@ -2925,15 +2925,15 @@ $table = $installer->getConnection()
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
-        ), 'Category ID')
+    ), 'Category ID')
     ->addColumn('product_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
-        ), 'Product ID')
+    ), 'Product ID')
     ->addColumn('position', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
-        ), 'Position')
+    ), 'Position')
     ->setComment('Catalog Category Anchor Product Indexer Index Table');
 $installer->getConnection()->createTable($table);
 
@@ -2946,19 +2946,17 @@ $table = $installer->getConnection()
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
-        ), 'Category ID')
+    ), 'Category ID')
     ->addColumn('product_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
-        ), 'Product ID')
+    ), 'Product ID')
     ->setComment('Catalog Category Anchor Product Indexer Temp Table');
 $installer->getConnection()->createTable($table);
 
-
 /**
  * Modify core/url_rewrite table
- *
  */
 $installer->getConnection()->addColumn($installer->getTable('core_url_rewrite'), 'category_id', array(
     'type'      => \Magento\DB\Ddl\Table::TYPE_INTEGER,

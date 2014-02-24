@@ -12,6 +12,12 @@ namespace Magento\Cms\Block\Adminhtml\Page\Grid\Renderer;
 
 class Action extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
+    /**
+     * Render action
+     *
+     * @param \Magento\Object $row
+     * @return string
+     */
     public function render(\Magento\Object $row)
     {
         $this->_urlBuilder->setScope($row->getData('_first_store_id'));

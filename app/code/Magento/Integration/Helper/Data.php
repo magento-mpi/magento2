@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Integration\Helper;
 
 use Magento\Integration\Model\Integration as IntegrationModel;
@@ -38,7 +37,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Check if integration is created using config file
      *
-     * @param $integrationData
+     * @param array $integrationData
      * @return bool true if integration is created using Config file
      */
     public function isConfigType($integrationData)

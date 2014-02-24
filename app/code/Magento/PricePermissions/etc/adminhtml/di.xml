@@ -7,24 +7,24 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <type name="Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper">
         <plugin name="PricePermissions" type="Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\PricePermissions" sortOrder="80" />
     </type>
     <type name="Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\PricePermissions">
-        <param name="productHandler">
-            <instance type="Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\Composite\Proxy" />
-        </param>
+        <arguments>
+            <argument name="productHandler" xsi:type="object">Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\Composite\Proxy</argument>
+        </arguments>
     </type>
     <type name="Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\Composite">
-        <param name="handlers">
-            <array>
-                <item key="customOptions"><value>Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\CustomOptions</value></item>
-                <item key="recurringProfile"><value>Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\RecurringProfile</value></item>
-                <item key="bundleProducts"><value>Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\ProductType\Bundle</value></item>
-                <item key="downloadableProducts"><value>Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\ProductType\Downloadable</value></item>
-                <item key="newObject"><value>Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\NewObject</value></item>
-            </array>
-        </param>
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="customOptions" xsi:type="string">Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\CustomOptions</item>
+                <item name="recurringProfile" xsi:type="string">Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\RecurringProfile</item>
+                <item name="bundleProducts" xsi:type="string">Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\ProductType\Bundle</item>
+                <item name="downloadableProducts" xsi:type="string">Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\ProductType\Downloadable</item>
+                <item name="newObject" xsi:type="string">Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\NewObject</item>
+            </argument>
+        </arguments>
     </type>
 </config>

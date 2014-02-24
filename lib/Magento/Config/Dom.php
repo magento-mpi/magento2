@@ -34,11 +34,16 @@ class Dom
     protected $_dom;
 
     /**
-     * List of id attributes for merge
-     *
-     * @var array
+     * @var Dom\NodeMergingConfig
      */
-    protected $_idAttributes;
+    protected $_nodeMergingConfig;
+
+    /**
+     * Name of attribute that specifies type of argument node
+     *
+     * @var string|null
+     */
+    protected $_typeAttributeName;
 
     /**
      * Schema validation file
@@ -69,14 +74,20 @@ class Dom
      *
      * @param string $xml
      * @param array $idAttributes
+     * @param string $typeAttributeName
      * @param string $schemaFile
      * @param string $errorFormat
      */
     public function __construct(
-        $xml, array $idAttributes = array(), $schemaFile = null, $errorFormat = self::ERROR_FORMAT_DEFAULT
+        $xml,
+        array $idAttributes = array(),
+        $typeAttributeName = null,
+        $schemaFile = null,
+        $errorFormat = self::ERROR_FORMAT_DEFAULT
     ) {
         $this->_schemaFile    = $schemaFile;
-        $this->_idAttributes  = $idAttributes;
+        $this->_nodeMergingConfig = new Dom\NodeMergingConfig(new Dom\NodePathMatcher, $idAttributes);
+        $this->_typeAttributeName = $typeAttributeName;
         $this->_errorFormat   = $errorFormat;
         $this->_dom           = $this->_initDom($xml);
         $this->_rootNamespace = $this->_dom->lookupNamespaceUri($this->_dom->namespaceURI);
@@ -114,6 +125,19 @@ class Dom
 
         /* Update matched node attributes and value */
         if ($matchedNode) {
+
+            //different node type
+            if ($this->_typeAttributeName
+                && $node->hasAttribute($this->_typeAttributeName)
+                && $matchedNode->hasAttribute($this->_typeAttributeName)
+                && ($node->getAttribute($this->_typeAttributeName)
+                    !== $matchedNode->getAttribute($this->_typeAttributeName))) {
+                $parentMatchedNode = $this->_getMatchedNode($parentPath);
+                $newNode = $this->_dom->importNode($node, true);
+                $parentMatchedNode->replaceChild($newNode, $matchedNode);
+                return;
+            }
+
             $this->_mergeAttributes($matchedNode, $node);
             if (!$node->hasChildNodes()) {
                 return;
@@ -154,7 +178,7 @@ class Dom
      * Merges attributes of the merge node to the base node
      *
      * @param \DOMElement $baseNode
-     * @param \DOMElement $mergeNode
+     * @param \DOMNode $mergeNode
      * @return void
      */
     protected function _mergeAttributes($baseNode, $mergeNode)
@@ -175,29 +199,11 @@ class Dom
     {
         $prefix = is_null($this->_rootNamespace) ? '' : self::ROOT_NAMESPACE_PREFIX . ':';
         $path = $parentPath . '/' . $prefix . $node->tagName;
-        $idAttribute = $this->_findIdAttribute($path);
+        $idAttribute = $this->_nodeMergingConfig->getIdAttribute($path);
         if ($idAttribute && $value = $node->getAttribute($idAttribute)) {
             $path .= "[@{$idAttribute}='{$value}']";
         }
         return $path;
-    }
-
-    /**
-     * Determine whether an XPath matches registered identifiable attribute
-     *
-     * @param string $xPath
-     * @return string|false
-     */
-    protected function _findIdAttribute($xPath)
-    {
-        $path = preg_replace('/\[@[^\]]+?\]/', '', $xPath);
-        $path = preg_replace('/\/[^:]+?\:/', '/', $path);
-        foreach ($this->_idAttributes as $pathPattern => $id) {
-            if (preg_match("#^$pathPattern$#", $path)) {
-                return $id;
-            }
-        }
-        return false;
     }
 
     /**

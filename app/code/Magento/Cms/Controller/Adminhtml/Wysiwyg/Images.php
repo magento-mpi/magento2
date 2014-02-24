@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Cms\Controller\Adminhtml\Wysiwyg;
 
 /**
  * Images manage controller for Cms WYSIWYG editor
@@ -15,8 +16,6 @@
  * @package     Magento_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Cms\Controller\Adminhtml\Wysiwyg;
-
 class Images extends \Magento\Backend\App\Action
 {
     /**
@@ -41,7 +40,7 @@ class Images extends \Magento\Backend\App\Action
     /**
      * Init storage
      *
-     * @return \Magento\Cms\Controller\Adminhtml\Wysiwyg\Images
+     * @return $this
      */
     protected function _initAction()
     {
@@ -49,6 +48,11 @@ class Images extends \Magento\Backend\App\Action
         return $this;
     }
 
+    /**
+     * Index action
+     *
+     * @return void
+     */
     public function indexAction()
     {
         $storeId = (int)$this->getRequest()->getParam('store');
@@ -67,6 +71,11 @@ class Images extends \Magento\Backend\App\Action
         $this->_view->renderLayout();
     }
 
+    /**
+     * Tree json action
+     *
+     * @return void
+     */
     public function treeJsonAction()
     {
         try {
@@ -81,6 +90,11 @@ class Images extends \Magento\Backend\App\Action
         }
     }
 
+    /**
+     * Contents action
+     *
+     * @return void
+     */
     public function contentsAction()
     {
         try {
@@ -93,6 +107,11 @@ class Images extends \Magento\Backend\App\Action
         }
     }
 
+    /**
+     * New folder action
+     *
+     * @return void
+     */
     public function newFolderAction()
     {
         try {
@@ -106,6 +125,11 @@ class Images extends \Magento\Backend\App\Action
         $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
     }
 
+    /**
+     * Delete folder action
+     *
+     * @return void
+     */
     public function deleteFolderAction()
     {
         try {
@@ -151,6 +175,8 @@ class Images extends \Magento\Backend\App\Action
 
     /**
      * Files upload processing
+     *
+     * @return void
      */
     public function uploadAction()
     {
@@ -167,6 +193,8 @@ class Images extends \Magento\Backend\App\Action
 
     /**
      * Fire when select image
+     *
+     * @return void
      */
     public function onInsertAction()
     {
@@ -186,6 +214,8 @@ class Images extends \Magento\Backend\App\Action
 
     /**
      * Generate image thumbnail on the fly
+     *
+     * @return void
      */
     public function thumbnailAction()
     {
@@ -219,7 +249,7 @@ class Images extends \Magento\Backend\App\Action
     /**
      * Save current path in session
      *
-     * @return \Magento\Cms\Controller\Adminhtml\Wysiwyg\Images
+     * @return $this
      */
     protected function _saveSessionCurrentPath()
     {

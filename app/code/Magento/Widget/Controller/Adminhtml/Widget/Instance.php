@@ -69,7 +69,7 @@ class Instance extends \Magento\Backend\App\Action
     /**
      * Load layout, set active menu and breadcrumbs
      *
-     * @return \Magento\Widget\Controller\Adminhtml\Widget\Instance
+     * @return $this
      */
     protected function _initAction()
     {
@@ -123,6 +123,7 @@ class Instance extends \Magento\Backend\App\Action
     /**
      * Widget Instances Grid
      *
+     * @return void
      */
     public function indexAction()
     {
@@ -135,6 +136,7 @@ class Instance extends \Magento\Backend\App\Action
     /**
      * New widget instance action (forward to edit action)
      *
+     * @return void
      */
     public function newAction()
     {
@@ -144,6 +146,7 @@ class Instance extends \Magento\Backend\App\Action
     /**
      * Edit widget instance action
      *
+     * @return void
      */
     public function editAction()
     {
@@ -163,7 +166,7 @@ class Instance extends \Magento\Backend\App\Action
      * Set body to response
      *
      * @param string $body
-     * @return null
+     * @return void
      */
     protected function setBody($body)
     {
@@ -175,6 +178,7 @@ class Instance extends \Magento\Backend\App\Action
     /**
      * Validate action
      *
+     * @return void
      */
     public function validateAction()
     {
@@ -193,6 +197,8 @@ class Instance extends \Magento\Backend\App\Action
 
     /**
      * Save action
+     *
+     * @return void
      */
     public function saveAction()
     {
@@ -233,6 +239,7 @@ class Instance extends \Magento\Backend\App\Action
     /**
      * Delete Action
      *
+     * @return void
      */
     public function deleteAction()
     {
@@ -254,6 +261,7 @@ class Instance extends \Magento\Backend\App\Action
     /**
      * Categories chooser Action (Ajax request)
      *
+     * @return void
      */
     public function categoriesAction()
     {
@@ -271,6 +279,7 @@ class Instance extends \Magento\Backend\App\Action
     /**
      * Products chooser Action (Ajax request)
      *
+     * @return void
      */
     public function productsAction()
     {
@@ -301,6 +310,7 @@ class Instance extends \Magento\Backend\App\Action
     /**
      * Blocks Action (Ajax request)
      *
+     * @return void
      */
     public function blocksAction()
     {
@@ -310,6 +320,8 @@ class Instance extends \Magento\Backend\App\Action
 
     /**
      * Render page containers
+     *
+     * @return void
      */
     public function renderPageContainers()
     {
@@ -330,6 +342,7 @@ class Instance extends \Magento\Backend\App\Action
     /**
      * Templates Chooser Action (Ajax request)
      *
+     * @return void
      */
     public function templateAction()
     {

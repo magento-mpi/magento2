@@ -5,11 +5,13 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\AdminNotification\Controller\Adminhtml\System;
 
 class Message extends \Magento\Backend\App\AbstractAction
 {
+    /**
+     * @return void
+     */
     public function listAction()
     {
         $severity = $this->getRequest()->getParam('severity');

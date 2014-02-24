@@ -2,24 +2,15 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_SalesArchive
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * Sales orders archive grid massaction items updater
- *
- * @category    Magento
- * @package     Magento_SalesArchive
- * @author     Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\SalesArchive\Model\Order\Archive\Grid\Massaction;
 
 class ItemsUpdater
     extends \Magento\SalesArchive\Model\Order\Grid\Massaction\ItemsUpdater
-    implements \Magento\Core\Model\Layout\Argument\UpdaterInterface
+    implements \Magento\View\Layout\Argument\UpdaterInterface
 {
     /**
      * Remove massaction items in case they disallowed for user

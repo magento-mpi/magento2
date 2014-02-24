@@ -587,7 +587,9 @@ abstract class AbstractAction
                 array('dstatus' => $status->getBackend()->getTable()),
                 implode(' AND ', $statusConditions),
                 array()
-            )->where($statusExpression . ' = ' . \Magento\Catalog\Model\Product\Status::STATUS_ENABLED);
+            )->where(
+                $statusExpression . ' = ' . \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED
+            );
 
         foreach ($tables as $tableName => $columns) {
             $columnValueNames        = array();

@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Cms\Block\Adminhtml\Page;
 
 /**
  * Admin CMS page
@@ -15,8 +16,6 @@
  * @package    Magento_Cms
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Cms\Block\Adminhtml\Page;
-
 class Edit extends \Magento\Backend\Block\Widget\Form\Container
 {
     /**
@@ -84,8 +83,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     {
         if ($this->_coreRegistry->registry('cms_page')->getId()) {
             return __("Edit Page '%1'", $this->escapeHtml($this->_coreRegistry->registry('cms_page')->getTitle()));
-        }
-        else {
+        } else {
             return __('New Page');
         }
     }

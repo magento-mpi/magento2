@@ -7,23 +7,23 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <type name="Magento\Customer\Helper\Data">
         <plugin name="invitation_customer_registration_plugin" type="Magento\Invitation\Model\Plugin\CustomerRegistration"/>
     </type>
     <type name="Magento\Core\Model\Url\SecurityInfo">
-        <param name="secureUrlList">
-            <array>
-                <item key="invitation"><value>/invitation/</value></item>
-            </array>
-        </param>
+        <arguments>
+            <argument name="secureUrlList" xsi:type="array">
+                <item name="invitation" xsi:type="string">/invitation/</item>
+            </argument>
+        </arguments>
     </type>
     <virtualType name="customerInvitationAccountInitSession" type="Magento\Core\App\Action\Plugin\Session">
-        <param name="cookieCheckActions">
-            <array>
-                <item key="customerInvitationCreate"><value>createPost</value></item>
-            </array>
-        </param>
+        <arguments>
+            <argument name="cookieCheckActions" xsi:type="array">
+                <item name="customerInvitationCreate" xsi:type="string">createPost</item>
+            </argument>
+        </arguments>
     </virtualType>
     <type name="Magento\Invitation\Controller\Customer\Account">
         <plugin name="sessionInitializer" type="customerInvitationAccountInitSession" />

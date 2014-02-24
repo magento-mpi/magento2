@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Cms\Block\Adminhtml\Wysiwyg\Images\Content;
 
 /**
  * New directory block for Wysiwyg Images
@@ -15,8 +16,6 @@
  * @package    Magento_Cms
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Cms\Block\Adminhtml\Wysiwyg\Images\Content;
-
 class Newfolder extends \Magento\Backend\Block\Template
 {
 
