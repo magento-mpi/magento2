@@ -24,49 +24,38 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Css\PreProcessor\Cache\Import\ImportEntityFactory|\PHPUnit_Framework_MockObject_MockObject */
     protected $importEntityFactoryMock;
 
+    /** @var \Magento\Filesystem\Directory\ReadInterface|\PHPUnit_Framework_MockObject_MockObject */
+    protected $rootDirectory;
+
     protected function setUp()
     {
         $this->storageMock = $this->getMock('Magento\Css\PreProcessor\Cache\Import\Map\Storage', [], [], '', false);
-        $this->importEntityFactoryMock = $this->getMock(
-            'Magento\Css\PreProcessor\Cache\Import\ImportEntityFactory',
-            [],
-            [],
-            '',
-            false
-        );
+        $this->rootDirectory = $this->getMock('Magento\Filesystem\Directory\ReadInterface', [], [], '', false);
+        $this->importEntityFactoryMock = $this->getMock('Magento\Css\PreProcessor\Cache\Import\ImportEntityFactory',
+            [], [], '', false);
 
         $cssFile = $this->getMock('Magento\View\Publisher\CssFile', [], [], '', false);
-
-        $cssFile->expects($this->once())
-            ->method('getFilePath')
-            ->will($this->returnValue('Magento_Core::style.css'));
-
+        $cssFile->expects($this->once())->method('getFilePath')->will($this->returnValue('Magento_Core::style.css'));
         $cssFile->expects($this->once())
             ->method('getViewParams')
             ->will($this->returnValue(['theme' => 'some_theme', 'area' => 'frontend', 'locale' => 'en_US']));
 
-        $fileFactory = $this->getMock(
-            'Magento\View\Publisher\FileFactory',
-            [],
-            [],
-            '',
-            false
-        );
-
+        $fileFactory = $this->getMock('Magento\View\Publisher\FileFactory', [], [], '', false);
         $fileFactory->expects($this->any())
             ->method('create')
             ->will($this->returnValue($cssFile));
 
+        $filesystem = $this->getMock('Magento\App\Filesystem', [], [], '', false);
+        $filesystem->expects($this->any())->method('getDirectoryRead')->will($this->returnValue($this->rootDirectory));
+
         $this->objectManagerHelper = new ObjectManagerHelper($this);
-        $this->cache = $this->objectManagerHelper->getObject(
-            'Magento\Css\PreProcessor\Cache\Import\Cache',
-            [
-                'storage' => $this->storageMock,
-                'importEntityFactory' => $this->importEntityFactoryMock,
-                'fileFactory' => $fileFactory,
-                'publisherFile' => $cssFile
-            ]
-        );
+        $this->cache = $this->objectManagerHelper->getObject('Magento\Css\PreProcessor\Cache\Import\Cache', [
+            'storage'             => $this->storageMock,
+            'importEntityFactory' => $this->importEntityFactoryMock,
+            'filesystem'          => $filesystem,
+            'fileFactory'         => $fileFactory,
+            'publisherFile'       => $cssFile
+        ]);
     }
 
     public function testClearCache()
@@ -146,70 +135,69 @@ class CacheTest extends \PHPUnit_Framework_TestCase
         $themeModelMockPath->expects($this->once())->method('getThemePath')->will($this->returnValue('mocked_path'));
         return [
             'one import' => [
-                'params' => [
-                    $this->getLessFile(
-                        'css\some_file.css',
-                        ['theme' => 'other_theme', 'area' => 'backend', 'locale' => 'fr_FR']
-                    )
-                ],
-                'expectedResult' => ['css\some_file.css|backend|fr_FR|other_theme' => 'entity_object_here']
+                'params' => $this->getLessFile([[
+                    'filePath' => 'css\some_file.css',
+                    'viewParams' => ['theme' => 'other_theme', 'area' => 'backend', 'locale' => 'fr_FR']
+                ]]),
+                'expectedResult' => ['file_id_1' => 'entity_object_here']
             ],
             'one import with theme id' => [
-                'params' => [
-                    $this->getLessFile(
-                        'css\theme_id\some_file.css',
-                        ['themeModel' => $themeModelMockId, 'area' => 'backend', 'locale' => 'en_En']
-                    )
-                ],
-                'expectedResult' => ['css\theme_id\some_file.css|backend|en_En|1' => 'entity_object_here']
+                'params' => $this->getLessFile([[
+                    'filePath' => 'css\theme_id\some_file.css',
+                    'viewParams' => ['themeModel' => $themeModelMockId, 'locale' => 'en_En']
+                ]]),
+                'expectedResult' => ['file_id_1' => 'entity_object_here']
             ],
             'one import with theme path' => [
-                'params' => [
-                    $this->getLessFile(
-                        'css\some_file.css',
-                        ['themeModel' => $themeModelMockPath, 'area' => 'frontend']
-                    )
-                ],
-                'expectedResult' => ['css\some_file.css|frontend|088d309371332feb12bad4dbf93cfb5d'
-                    => 'entity_object_here']
+                'params' => $this->getLessFile([[
+                    'filePath' => 'css\some_file.css',
+                    'viewParams' => ['themeModel' => $themeModelMockPath, 'area' => 'frontend']
+                ]]),
+                'expectedResult' => ['file_id_1' => 'entity_object_here']
             ],
             'list of imports' => [
-                'params' => [
-                    $this->getLessFile(
-                        'Magento_Core::folder\file.css',
-                        ['theme' => 'theme_path', 'area' => 'backend']
-                    ),
-                    $this->getLessFile(
-                        'calendar\button.css',
-                        ['theme' => 'theme_path', 'area' => 'backend', 'locale' => 'en_US']
-                    )
-                ],
+                'params' => $this->getLessFile([
+                    [
+                        'filePath' => 'Magento_Core::folder\file.css',
+                        'viewParams' => ['theme' => 'theme_path', 'area' => 'backend'],
+                    ],
+                    [
+                        'filePath' => 'calendar\button.css',
+                        'viewParams' => ['theme' => 'theme_path', 'area' => 'backend', 'locale' => 'en_US']
+                    ]
+                ]),
                 'expectedResult' => [
-                    'Magento_Core::folder\file.css|backend|theme_path' => 'entity_object_here',
-                    'calendar\button.css|backend|en_US|theme_path' => 'entity_object_here',
+                    'file_id_1' => 'entity_object_here',
+                    'file_id_2' => 'entity_object_here',
                 ]
             ],
         ];
     }
 
     /**
-     * @param string $filePath
-     * @param array $viewParams
+     * @param array $filesData
      * @return \Magento\Less\PreProcessor\File\Less|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected function getLessFile($filePath, $viewParams)
+    protected function getLessFile($filesData)
     {
-        $lessFile = $this->getMock('Magento\Less\PreProcessor\File\Less', [], [], '', false);
-
-        $lessFile->expects($this->any())
-            ->method('getFilePath')
-            ->will($this->returnValue($filePath));
-
-        $lessFile->expects($this->any())
-            ->method('getViewParams')
-            ->will($this->returnValue($viewParams));
-
-        return $lessFile;
+        $lessFiles = [];
+        $fileCounter = 0;
+        $fileCounterCallback = $this->returnCallback(function () use (&$fileCounter) {
+            return 'file_id_' . ++$fileCounter;
+        });
+        foreach ($filesData as $fileData) {
+            $readDirectory = $this->getMock('Magento\Filesystem\Directory\ReadInterface', [], [], '', false);
+            $readDirectory->expects($this->any())->method('stat')->with('file_path')
+                ->will($this->returnValue(isset($fileData['mtime']) ? $fileData['mtime'] : null));
+            $lessFile = $this->getMock('Magento\Less\PreProcessor\File\Less', [], [], '', false);
+            $lessFile->expects($this->any())->method('getFilePath')->will($this->returnValue($fileData['filePath']));
+            $lessFile->expects($this->any())->method('getViewParams')
+                ->will($this->returnValue($fileData['viewParams']));
+            $lessFile->expects($this->any())->method('getFileIdentifier')->will($fileCounterCallback);
+            $lessFile->expects($this->any())->method('getDirectoryRead')->will($this->returnValue($readDirectory));
+            $lessFiles[] = $lessFile;
+        }
+        return $lessFiles;
     }
 
     /**
@@ -258,21 +246,28 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param ImportEntity[] $importData
+     * @param array $filesData
+     * @param int $baseTime
      * @param bool $expected
      * @dataProvider isValidDataProvider
      */
-    public function testIsValid($importData, $expected)
+    public function testIsValid($filesData, $baseTime, $expected)
     {
-        $importEntitiesProperty = new \ReflectionProperty($this->cache, 'importEntities');
-        $importEntitiesProperty->setAccessible(true);
-        $this->assertEquals([], $importEntitiesProperty->getValue($this->cache));
-        $importEntitiesProperty->setValue($this->cache, $importData);
-
-        $method = new \ReflectionMethod('Magento\Css\PreProcessor\Cache\Import\Cache', 'isValid');
-        $method->setAccessible(true);
-
-        $this->assertEquals($expected, $method->invoke($this->cache));
+        $factoryCallback = $this->returnCallback(function ($lessFile) {
+            /** @var $lessFile \Magento\Less\PreProcessor\File\Less|\PHPUnit_Framework_MockObject_MockObject */
+            $importEntity = $this->getMock('Magento\Css\PreProcessor\Cache\Import\ImportEntity', [], [], '', false);
+            $changeTime = $lessFile->getDirectoryRead()->stat('file_path');
+            $importEntity->expects($this->atLeastOnce())->method('getOriginalMtime')
+                ->will($this->returnValue($changeTime));
+            return $importEntity;
+        });
+        $this->importEntityFactoryMock->expects($this->any())->method('create')->will($factoryCallback);
+        $files = $this->getLessFile($filesData);
+        foreach ($files as $file) {
+            $this->cache->add($file);
+        }
+        $this->rootDirectory->expects($this->any())->method('stat')->will($this->returnValue(['mtime' => $baseTime]));
+        $this->assertEquals($expected, $this->cache->isValid());
     }
 
     /**
@@ -280,15 +275,39 @@ class CacheTest extends \PHPUnit_Framework_TestCase
      */
     public function isValidDataProvider()
     {
-        $importEntityTrue = $this->getMock('Magento\Css\PreProcessor\Cache\Import\ImportEntity', [], [], '', false);
-        $importEntityTrue->expects($this->once())->method('isValid')->will($this->returnValue(true));
-
-        $importEntityFalse = $this->getMock('Magento\Css\PreProcessor\Cache\Import\ImportEntity', [], [], '', false);
-        $importEntityFalse->expects($this->once())->method('isValid')->will($this->returnValue(false));
         return [
-            [[$importEntityTrue], true],
-            [[$importEntityFalse], false],
-            [[], false]
+            [
+                'filesData' => [
+                    [
+                        'filePath' => 'Magento_Core::folder\file.css',
+                        'viewParams' => ['theme' => 'theme_path', 'area' => 'backend'],
+                        'mtime' => 12345
+                    ],
+                    [
+                        'filePath' => 'calendar\button.css',
+                        'viewParams' => ['theme' => 'theme_path', 'area' => 'backend', 'locale' => 'en_US'],
+                        'mtime' => 12345
+                    ]
+                ],
+                'baseTime' => 12345,
+                'expected' => true
+            ],
+            [
+                'filesData' => [
+                    [
+                        'filePath' => 'Magento_Core::folder\file.css',
+                        'viewParams' => ['theme' => 'theme_path', 'area' => 'backend'],
+                        'mtime' => 12345
+                    ],
+                ],
+                'baseTime' => 54321,
+                'expected' => false
+            ],
+            [
+                'filesData' => [],
+                'baseTime' => 12345,
+                'expected' => false
+            ]
         ];
     }
 }

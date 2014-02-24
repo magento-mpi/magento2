@@ -9,10 +9,10 @@
 namespace Magento\Css\PreProcessor\Cache\Import;
 
 use Magento\Exception;
-use Magento\Filesystem;
+use Magento\App\Filesystem;
 
 /**
- * Less cache manager
+ * File cache entity for entry file
  */
 class Cache implements \Magento\Css\PreProcessor\Cache\CacheInterface
 {
@@ -52,19 +52,27 @@ class Cache implements \Magento\Css\PreProcessor\Cache\CacheInterface
     protected $fileFactory;
 
     /**
+     * @var \Magento\Filesystem\Directory\ReadInterface
+     */
+    protected $readDirectory;
+
+    /**
      * @param Map\Storage $storage
      * @param ImportEntityFactory $importEntityFactory
+     * @param Filesystem $filesystem
      * @param \Magento\View\Publisher\FileInterface $publisherFile
      * @param \Magento\View\Publisher\FileFactory $fileFactory
      */
     public function __construct(
         Map\Storage $storage,
         ImportEntityFactory $importEntityFactory,
+        Filesystem $filesystem,
         \Magento\View\Publisher\FileInterface $publisherFile,
         \Magento\View\Publisher\FileFactory $fileFactory
     ) {
         $this->storage = $storage;
         $this->fileFactory = $fileFactory;
+        $this->readDirectory = $filesystem->getDirectoryRead(Filesystem::ROOT_DIR);
         $this->importEntityFactory = $importEntityFactory;
         $this->uniqueFileKey = $this->prepareKey($publisherFile);
 
@@ -72,6 +80,8 @@ class Cache implements \Magento\Css\PreProcessor\Cache\CacheInterface
     }
 
     /**
+     * Clear storage for current cached file
+     *
      * @return $this
      */
     public function clear()
@@ -83,6 +93,8 @@ class Cache implements \Magento\Css\PreProcessor\Cache\CacheInterface
     }
 
     /**
+     * Return cached file
+     *
      * @return null|\Magento\View\Publisher\FileInterface
      */
     public function get()
@@ -94,17 +106,20 @@ class Cache implements \Magento\Css\PreProcessor\Cache\CacheInterface
     }
 
     /**
+     * Add file to cache
+     *
      * @param \Magento\Less\PreProcessor\File\Less $lessFile
      * @return $this
      */
     public function add($lessFile)
     {
-        $fileKey = $this->prepareKey($lessFile);
-        $this->importEntities[$fileKey] = $this->importEntityFactory->create($lessFile);
+        $this->importEntities[$lessFile->getFileIdentifier()] = $this->importEntityFactory->create($lessFile);
         return $this;
     }
 
     /**
+     * Save state of files
+     *
      * @param \Magento\View\Publisher\FileInterface $cachedFile
      * @return $this
      */
@@ -115,7 +130,9 @@ class Cache implements \Magento\Css\PreProcessor\Cache\CacheInterface
     }
 
     /**
-     * @param \Magento\Less\PreProcessor\File\Less|\Magento\View\Publisher\FileInterface $lessFile
+     * Prepare cache key for publication file
+     *
+     * @param \Magento\View\Publisher\FileInterface $lessFile
      * @return string
      */
     protected function prepareKey($lessFile)
@@ -130,6 +147,8 @@ class Cache implements \Magento\Css\PreProcessor\Cache\CacheInterface
     }
 
     /**
+     * Load state of files
+     *
      * @return $this
      */
     protected function loadImportEntities()
@@ -144,25 +163,29 @@ class Cache implements \Magento\Css\PreProcessor\Cache\CacheInterface
     }
 
     /**
+     * Check file change time to make sure that file wasn't changed and it doesn't need of pre-processing
+     *
      * @return bool
      */
-    protected function isValid()
+    public function isValid()
     {
         if (empty($this->importEntities)) {
             return false;
         }
-
         /** @var ImportEntity $entity */
         foreach ($this->importEntities as $entity) {
-            if (!$entity->isValid()) {
+            $fileSourcePath = $entity->getOriginalFile();
+            $fileMtime = $this->readDirectory->stat($this->readDirectory->getRelativePath($fileSourcePath))['mtime'];
+            if ($fileMtime !== $entity->getOriginalMtime()) {
                 return false;
             }
         }
-
         return true;
     }
 
     /**
+     * Serialize data of files state
+     *
      * @param \Magento\View\Publisher\FileInterface $cachedFile
      * @return string
      */

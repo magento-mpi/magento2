@@ -33,6 +33,7 @@ class PreProcessorTest extends \PHPUnit_Framework_TestCase
      */
     public function testProcess()
     {
+        /** @var $lessPreProcessor \Magento\Css\PreProcessor\Less */
         $lessPreProcessor = $this->objectManager->create('Magento\Css\PreProcessor\Less');
         /** @var $filesystem \Magento\Filesystem */
         $filesystem = $this->objectManager->get('Magento\Filesystem');
@@ -42,14 +43,11 @@ class PreProcessorTest extends \PHPUnit_Framework_TestCase
         $viewService = $this->objectManager->get('Magento\View\Service');
         $viewService->updateDesignParams($designParams);
         /** @var $file \Magento\View\Publisher\CssFile */
-        $cssFile = $this->objectManager->create(
-            'Magento\View\Publisher\CssFile',
-            [
-                'filePath'   => 'source/source.css',
-                'allowDuplication' => true,
-                'viewParams' => $designParams
-            ]
-        );
+        $cssFile = $this->objectManager->create('Magento\View\Publisher\CssFile', [
+            'filePath'         => 'source/source.css',
+            'allowDuplication' => true,
+            'viewParams'       => $designParams
+        ]);
         $cssTargetFile = $lessPreProcessor->process($cssFile, $targetDirectory);
         /** @var $viewFilesystem \Magento\View\FileSystem */
         $viewFilesystem = $this->objectManager->get('Magento\View\FileSystem');
@@ -70,16 +68,9 @@ class PreProcessorTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\View\Service $viewService */
         $viewService = $this->objectManager->get('Magento\View\Service');
         $viewService->updateDesignParams($designParams);
-        /** @var $fileList \Magento\Less\PreProcessor\File\FileList */
-        $fileList = $this->objectManager->create('Magento\Less\PreProcessor\File\FileList');
-        $fileListFactoryMock = $this->getMock('Magento\Less\PreProcessor\File\FileListFactory',
-            ['create'], [], '', false);
-        $fileListFactoryMock->expects($this->once())->method('create')->will($this->returnValue($fileList));
         /** @var $preProcessor \Magento\Less\PreProcessor */
-        $preProcessor = $this->objectManager->create('Magento\Less\PreProcessor', [
-            'fileListFactory' => $fileListFactoryMock
-        ]);
-        $preProcessor->processLessInstructions('circular_dependency/import1.less', $designParams);
+        $preProcessor = $this->objectManager->create('Magento\Less\PreProcessor');
+        $fileList = $preProcessor->processLessInstructions('circular_dependency/import1.less', $designParams);
         $files = [];
         /** @var $lessFile \Magento\Less\PreProcessor\File\Less */
         foreach ($fileList as $lessFile) {

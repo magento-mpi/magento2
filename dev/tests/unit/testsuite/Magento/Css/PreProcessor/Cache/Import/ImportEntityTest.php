@@ -59,36 +59,17 @@ class ImportEntityTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo($relativePath))
             ->will($this->returnValue(['mtime' => $originalMtime]));
 
-        $this->filesystemMock = $this->getMock('Magento\Filesystem', [], [], '', false);
-        $this->filesystemMock->expects($this->once())
-            ->method('getDirectoryRead')
-            ->with($this->equalTo(\Magento\App\Filesystem::ROOT_DIR))
-            ->will($this->returnValue($this->rootDirectory));
-
         $this->objectManagerHelper = new ObjectManagerHelper($this);
 
         $lessFile = $this->getMock('Magento\Less\PreProcessor\File\Less', [], [], '', false);
-
-        $lessFile->expects($this->any())
-            ->method('getFilePath')
-            ->will($this->returnValue($filePath));
-
-        $lessFile->expects($this->any())
-            ->method('getSourcePath')
-            ->will($this->returnValue($this->absoluteFilePath));
+        $lessFile->expects($this->any())->method('getFilePath')->will($this->returnValue($filePath));
+        $lessFile->expects($this->any())->method('getSourcePath')->will($this->returnValue($this->absoluteFilePath));
+        $lessFile->expects($this->any())->method('getDirectoryRead')->will($this->returnValue($this->rootDirectory));
 
         /** @var \Magento\Css\PreProcessor\Cache\Import\ImportEntity importEntity */
         $this->importEntity = $this->objectManagerHelper->getObject(
-            'Magento\Css\PreProcessor\Cache\Import\ImportEntity',
-            [
-                'filesystem' => $this->filesystemMock,
-                'viewFileSystem' => $this->fileSystemMock,
-                'lessFile' => $lessFile
-            ]
+            'Magento\Css\PreProcessor\Cache\Import\ImportEntity', ['lessFile' => $lessFile]
         );
-        $rootDirectoryProperty = new \ReflectionProperty($this->importEntity, 'rootDirectory');
-        $rootDirectoryProperty->setAccessible(true);
-        $this->assertEquals($this->rootDirectory, $rootDirectoryProperty->getValue($this->importEntity));
     }
 
     public function testGetOriginalFile()
@@ -105,40 +86,5 @@ class ImportEntityTest extends \PHPUnit_Framework_TestCase
         $relativePath = '/some/relative/path/to/file2.less';
         $this->createMock($relativePath, $mtime);
         $this->assertEquals($mtime, $this->importEntity->getOriginalMtime());
-    }
-
-    /**
-     * @param bool $isFile
-     * @dataProvider isValidDataProvider
-     */
-    public function testIsValid($isFile)
-    {
-        $mtime = rand();
-        $relativePath = '/some/relative/path/to/file3.less';
-        $this->createMock($relativePath, $mtime);
-        $this->rootDirectory->expects($this->once())
-            ->method('isFile')
-            ->with($this->equalTo($relativePath))
-            ->will($this->returnValue($isFile));
-        $this->assertEquals($isFile, $this->importEntity->isValid());
-    }
-
-    /**
-     * @return array
-     */
-    public function isValidDataProvider()
-    {
-        return [
-            [true],
-            [false]
-        ];
-    }
-
-    public function test__sleep()
-    {
-        $mtime = rand();
-        $relativePath = '/some/relative/path/to/file3.less';
-        $this->createMock($relativePath, $mtime);
-        $this->assertEquals(['originalFile', 'originalMtime'], $this->importEntity->__sleep());
     }
 }

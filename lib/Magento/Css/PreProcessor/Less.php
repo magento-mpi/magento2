@@ -73,11 +73,11 @@ class Less implements PreProcessorInterface
         }
 
         try {
-            $preparedLessFileSourcePath = $this->lessPreProcessor->processLessInstructions(
+            $processedFiles = $this->lessPreProcessor->processLessInstructions(
                 $this->replaceExtension($publisherFile->getFilePath(), 'css', 'less'),
                 $publisherFile->getViewParams()
             );
-            $cssContent = $this->adapter->process($preparedLessFileSourcePath);
+            $cssContent = $this->adapter->process($processedFiles->getPublicationPath());
         } catch (\Magento\Filesystem\FilesystemException $e) {
             $this->logger->logException($e);
             return $publisherFile; // It has 'null' source path

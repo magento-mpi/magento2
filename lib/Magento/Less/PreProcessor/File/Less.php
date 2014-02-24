@@ -159,7 +159,8 @@ class Less
             ? 'base'
             : $this->viewParams['themeModel']->getFullPath();
         $module = empty($this->viewParams['module']) ? 'base' : $this->viewParams['module'];
-        return implode('|', [$this->filePath, $module, $themeIdentifier]);
+        $locale = empty($this->viewParams['locale']) ? 'base' : $this->viewParams['locale'];
+        return implode('|', [$this->filePath, $module, $themeIdentifier, $locale]);
     }
 
     /**

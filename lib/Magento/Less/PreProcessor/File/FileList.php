@@ -9,14 +9,67 @@
 namespace Magento\Less\PreProcessor\File;
 
 /**
- * Less file list
+ * Less file list container
  */
 class FileList implements \Iterator
 {
     /**
+     * @var LessFactory
+     */
+    protected $lessFactory;
+
+    /**
+     * Entry less file for this container
+     *
+     * @var Less
+     */
+    protected $initialFile;
+
+    /**
      * @var Less[]
      */
     protected $files = [];
+
+    /**
+     * Constructor
+     *
+     * @param LessFactory $lessFactory
+     * @param string $lessFilePath
+     * @param array $viewParams
+     * @throws \InvalidArgumentException
+     */
+    public function __construct(
+        LessFactory $lessFactory,
+        $lessFilePath = null,
+        $viewParams = []
+    ) {
+        if (empty($lessFilePath) || empty($viewParams)) {
+            throw new \InvalidArgumentException('FileList container must contain entry less file data');
+        }
+        $this->lessFactory = $lessFactory;
+        $this->initialFile = $this->createFile($lessFilePath, $viewParams);
+        $this->addFile($this->initialFile);
+    }
+
+    /**
+     * Return entry less file for this container
+     *
+     * @return Less
+     */
+    public function getInitialFile()
+    {
+        return $this->initialFile;
+    }
+
+    /**
+     * Return publication path of entry less file
+     *
+     * @return string
+     */
+    public function getPublicationPath()
+    {
+        return $this->initialFile->getPublicationPath();
+    }
 
     /**
      * Add file to list
@@ -28,6 +81,18 @@ class FileList implements \Iterator
     {
         $this->files[$file->getFileIdentifier()] = $file;
         return $this;
+    }
+
+    /**
+     * Create instance of less file
+     *
+     * @param string $lessFilePath
+     * @param array $viewParams
+     * @return mixed
+     */
+    public function createFile($lessFilePath, $viewParams)
+    {
+        return $this->lessFactory->create(['filePath' => $lessFilePath, 'viewParams' => $viewParams]);
     }
 
     /**

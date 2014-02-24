@@ -517,6 +517,7 @@
         <plugin name="process_less" type="Magento\Css\PreProcessor\Cache\Plugin\Less" sortOrder="10"/>
     </type>
     <type name="Magento\Less\PreProcessor">
+        <plugin name="process_less" type="Magento\Css\PreProcessor\Cache\Plugin\InstructionPreProcessor" sortOrder="10"/>
         <arguments>
             <argument name="preProcessors" xsi:type="array">
                 <item name="magento_import" xsi:type="array">

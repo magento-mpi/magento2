@@ -29,13 +29,6 @@ class Import implements PreProcessorInterface
     protected $fileList;
 
     /**
-     * Pre-processor file factory
-     *
-     * @var PreProcessor\File\LessFactory
-     */
-    protected $fileFactory;
-
-    /**
      * Pre-processor error handler
      *
      * @var PreProcessor\ErrorHandlerInterface
@@ -53,18 +46,15 @@ class Import implements PreProcessorInterface
      * @param View\RelatedFile $relatedFile
      * @param PreProcessor\ErrorHandlerInterface $errorHandler
      * @param PreProcessor\File\FileList $fileList
-     * @param PreProcessor\File\LessFactory $fileFactory
      */
     public function __construct(
         View\RelatedFile $relatedFile,
         PreProcessor\ErrorHandlerInterface $errorHandler,
-        PreProcessor\File\FileList $fileList,
-        PreProcessor\File\LessFactory $fileFactory
+        PreProcessor\File\FileList $fileList
     ) {
         $this->relatedFile = $relatedFile;
         $this->errorHandler = $errorHandler;
         $this->fileList = $fileList;
-        $this->fileFactory = $fileFactory;
     }
 
     /**
@@ -85,10 +75,7 @@ class Import implements PreProcessorInterface
                     $lessFile->getFilePath(),
                     $viewParams
                 );
-                $importedLessFile = $this->fileFactory->create([
-                    'filePath'   => $resolvedPath,
-                    'viewParams' => $viewParams
-                ]);
+                $importedLessFile = $this->fileList->createFile($resolvedPath, $viewParams);
                 $this->fileList->addFile($importedLessFile);
                 $importPaths[$path] = $importedLessFile->getPublicationPath();
             } catch (\Magento\Filesystem\FilesystemException $e) {
