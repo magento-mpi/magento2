@@ -3,6 +3,11 @@
   * Fixed an issue where the Add Address button for Customer in Admin was broken
   * Fixed a Typo in Region of Austria (GitHub #134)
   * Fixed issue where predefined data are not loaded for Newsletter after try to put it in a Queue
+  * Fixed CMS preview function from CMS page gid
+  * Fixed sales report filters applying
+  * Fixed bundle product separately shipping doesn't work
+  * Fixed custom not found page action doesn't work
+  * Fixed Stop further rules processing is ignored
 * Indexer implementation:
   * Implemented new optimized Catalog Category Product Indexer
   * Implemented new optimized Catalog Category Flat Indexer
