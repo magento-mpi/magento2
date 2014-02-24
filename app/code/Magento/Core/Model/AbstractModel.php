@@ -523,31 +523,6 @@ abstract class AbstractModel extends \Magento\Object
                 } else {
                     $tags = array($this->_cacheTag);
                 }
-                $idTags = $this->getCacheIdTags();
-                if ($idTags) {
-                    $tags = array_merge($tags, $idTags);
-                }
-            }
-        }
-        return $tags;
-    }
-
-    /**
-     * Get cache tags associated with object id
-     *
-     * @return array
-     */
-    public function getCacheIdTags()
-    {
-        $tags = false;
-        if ($this->getId() && $this->_cacheTag) {
-            $tags = array();
-            if (is_array($this->_cacheTag)) {
-                foreach ($this->_cacheTag as $_tag) {
-                    $tags[] = $_tag . '_' . $this->getId();
-                }
-            } else {
-                $tags[] = $this->_cacheTag . '_' . $this->getId();
             }
         }
         return $tags;

@@ -1766,24 +1766,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
     }
 
     /**
-     * Get cache tags associated with object id
-     *
-     * @return array
-     */
-    public function getCacheIdTags()
-    {
-        $tags = parent::getCacheIdTags();
-        $affectedCategoryIds = $this->getAffectedCategoryIds();
-        if (!$affectedCategoryIds) {
-            $affectedCategoryIds = $this->getCategoryIds();
-        }
-        foreach ($affectedCategoryIds as $categoryId) {
-            $tags[] = \Magento\Catalog\Model\Category::CACHE_TAG.'_'.$categoryId;
-        }
-        return $tags;
-    }
-
-    /**
      * Check for empty SKU on each product
      *
      * @param  array $productIds

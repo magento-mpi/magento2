@@ -249,14 +249,6 @@ class ProductGettersTest extends \PHPUnit_Framework_TestCase
         $this->assertNotContains('rating_summary', $result);
     }
 
-    public function testGetCacheIdTags()
-    {
-        $this->assertFalse($this->_model->getCacheIdTags());
-
-        $this->_model->load(1); // fixture
-        $this->assertEquals(array('catalog_product_1'), $this->_model->getCacheIdTags());
-    }
-
     public function testGetPreconfiguredValues()
     {
         $this->assertInstanceOf('Magento\Object', $this->_model->getPreconfiguredValues());
