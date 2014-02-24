@@ -38,9 +38,9 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('file.ext', $this->object->extractScope('file.ext', $params));
         $this->assertSame($originalData, $params);
 
-        $this->assertEquals('file.ext', $this->object->extractScope('Module::file.ext', $params));
+        $this->assertEquals('file.ext', $this->object->extractScope('Module_One::file.ext', $params));
         $this->assertArrayHasKey('module', $params);
-        $this->assertEquals('Module', $params['module']);
+        $this->assertEquals('Module_One', $params['module']);
     }
 
     /**
@@ -50,7 +50,7 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testExtractScopeException($file)
     {
-        Service::extractModule($file);
+        \Magento\View\Service::extractModule($file);
     }
 
     /**
