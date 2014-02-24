@@ -125,7 +125,7 @@ class UrlResolverTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \Magento\Exception
-     * @expectedException Cannot build URL for the file '/any/file.js'
+     * @expectedExceptionMessage Cannot build URL for the file '/any/file.js'
      */
     public function testGetPublicFileUrlSignedException()
     {
