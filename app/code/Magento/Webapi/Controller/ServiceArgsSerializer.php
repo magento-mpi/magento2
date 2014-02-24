@@ -124,7 +124,8 @@ class ServiceArgsSerializer
             // Case where data array contains keys with no matching setter methods
             // TODO: do we need to do anything here or can we just ignore this and keep going?
         }
-        $obj = new $className($data);
+        $builderClassName = $className . 'Builder';
+        $obj = (new $builderClassName())->populateWithArray($data)->create();
         return $obj;
     }
 
