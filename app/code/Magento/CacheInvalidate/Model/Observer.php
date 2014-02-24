@@ -66,7 +66,7 @@ class Observer
                     $tags[] = sprintf($pattern, preg_replace("~_\\d+$~", '', $tag));
                     $tags[] = sprintf($pattern, $tag);
                 }
-                $this->sendPurgeRequest(implode('|',array_unique($tags)));
+                $this->sendPurgeRequest(implode('|', array_unique($tags)));
             }
         }
     }
