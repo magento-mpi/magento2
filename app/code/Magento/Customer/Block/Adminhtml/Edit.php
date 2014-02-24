@@ -167,7 +167,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     protected function _prepareLayout()
     {
         $customerId = $this->getCustomerId();
-        if ($customerId && !$this->_customerService->isReadonly($customerId)) {
+        if (!$customerId || !$this->_customerService->isReadonly($customerId)) {
             $this->_addButton('save_and_continue', [
                 'label' => __('Save and Continue Edit'),
                 'class' => 'save',
