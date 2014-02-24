@@ -35,4 +35,19 @@
     <event name="assign_theme_to_stores_after">
         <observer name="flush_varnish_pagecache" instance="Magento\CacheInvalidate\Model\Observer" method="flushAllCache" />
     </event>
+    <event name="controller_action_postdispatch_adminhtml_system_currency_saveRates">
+        <observer name="flush_varnish_pagecache" instance="Magento\CacheInvalidate\Model\Observer" method="invalidateVarnish" />
+    </event>
+    <event name="controller_action_postdispatch_adminhtml_system_config_save_index">
+        <observer name="flush_varnish_pagecache" instance="Magento\CacheInvalidate\Model\Observer" method="invalidateVarnish" />
+    </event>
+    <event name="controller_action_postdispatch_adminhtml_catalog_product_action_attribute_save">
+        <observer name="flush_varnish_pagecache" instance="Magento\CacheInvalidate\Model\Observer" method="invalidateVarnish" />
+    </event>
+    <event name="controller_action_postdispatch_adminhtml_catalog_product_massStatus">
+        <observer name="flush_varnish_pagecache" instance="Magento\CacheInvalidate\Model\Observer" method="invalidateVarnish" />
+    </event>
+    <event name="controller_action_postdispatch_adminhtml_system_currencysymbol_save">
+        <observer name="flush_varnish_pagecache" instance="Magento\CacheInvalidate\Model\Observer" method="invalidateVarnish" />
+    </event>
 </config>
