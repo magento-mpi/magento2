@@ -2,19 +2,16 @@
 /**
  * {license_notice}
  *
- * @category    design
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /** @var $upsModel \Magento\Ups\Helper\Config */
-/** @var $this \Magento\Backend\Block\System\Shipping\Ups */
+/** @var $this \Magento\Ups\Block\Backend\System\CarrierConfig */
 $upsCarrierConfig = $this->getCarrierConfig();
 $orShipArr = $upsCarrierConfig->getCode('originShipment');
 $defShipArr = $upsCarrierConfig->getCode('method');
 
-/** @var $this \Magento\Backend\Block\Template */
 $sectionCode = $this->getRequest()->getParam('section');
 $websiteCode = $this->getRequest()->getParam('website');
 $storeCode = $this->getRequest()->getParam('store');

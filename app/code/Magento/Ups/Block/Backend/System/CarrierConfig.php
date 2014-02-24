@@ -2,18 +2,21 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * Adminhtml shipping UPS content block
- */
-namespace Magento\Backend\Block\System\Shipping;
+namespace Magento\Ups\Block\Backend\System;
 
-class Ups extends \Magento\Backend\Block\Template
+use Magento\Backend\Block\Template;
+use Magento\Backend\Block\Template\Context as TemplateContext;
+use Magento\Ups\Helper\Config as ConfigHelper;
+use Magento\Core\Model\Website;
+
+/**
+ * Backend shipping UPS content block
+ */
+class CarrierConfig extends Template
 {
     /**
      * Shipping carrier config
@@ -34,9 +37,9 @@ class Ups extends \Magento\Backend\Block\Template
      * @param array $data
      */
     public function __construct(
-        \Magento\Backend\Block\Template\Context $context,
-        \Magento\Ups\Helper\Config $carrierConfig,
-        \Magento\Core\Model\Website $websiteModel,
+        TemplateContext $context,
+        ConfigHelper $carrierConfig,
+        Website $websiteModel,
         array $data = array()
     ) {
         $this->carrierConfig = $carrierConfig;
