@@ -35,6 +35,7 @@ class AddressBuilderTest extends \PHPUnit_Framework_TestCase
     {
         $userDefinedAttributeCode = 'address_user_attribute';
         $attributeCodes = $this->_addressBuilder->getCustomAttributeCodes();
-        $this->assertEquals([$userDefinedAttributeCode], $attributeCodes, 'Custom attribute codes list is invalid.');
+        $expectedAttributes = [$userDefinedAttributeCode, 'prefix', 'middlename', 'suffix'];
+        $this->assertEquals($expectedAttributes, $attributeCodes, 'Custom attribute codes list is invalid.');
     }
 }

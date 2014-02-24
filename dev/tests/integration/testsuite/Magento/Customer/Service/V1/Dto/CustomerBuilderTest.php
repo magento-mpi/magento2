@@ -35,6 +35,16 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
     {
         $userDefinedAttributeCode = FIXTURE_ATTRIBUTE_USER_DEFINED_CUSTOMER_NAME;
         $attributeCodes = $this->_customerBuilder->getCustomAttributeCodes();
-        $this->assertEquals([$userDefinedAttributeCode], $attributeCodes, 'Custom attribute codes list is invalid.');
+        $expectedAttributes = [
+            'prefix',
+            'middlename',
+            'suffix',
+            'created_at',
+            'dob',
+            'taxvat',
+            'gender',
+            $userDefinedAttributeCode
+        ];
+        $this->assertEquals($expectedAttributes, $attributeCodes, 'Custom attribute codes list is invalid.');
     }
 }

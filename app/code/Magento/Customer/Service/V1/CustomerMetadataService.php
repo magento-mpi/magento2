@@ -202,7 +202,7 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
     {
         $customAttributes = [];
         foreach ($this->getAllCustomerAttributeMetadata() as $attributeMetadata) {
-            if ($attributeMetadata->isUserDefined()) {
+            if (!$attributeMetadata->isSystem()) {
                 $customAttributes[] = $attributeMetadata;
             }
         }
@@ -232,7 +232,7 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
     {
         $customAttributes = [];
         foreach ($this->getAllAddressAttributeMetadata() as $attributeMetadata) {
-            if ($attributeMetadata->isUserDefined()) {
+            if (!$attributeMetadata->isSystem()) {
                 $customAttributes[] = $attributeMetadata;
             }
         }

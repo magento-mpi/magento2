@@ -40,7 +40,8 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
     public function testSetters()
     {
         $customerData = $this->_createCustomerData();
-        $customerBuilder = new CustomerBuilder();
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $customerBuilder = $objectManager->getObject('Magento\Customer\Service\V1\Dto\CustomerBuilder');
         $customerBuilder->populateWithArray($customerData);
 
         /** @var Customer $customer */
