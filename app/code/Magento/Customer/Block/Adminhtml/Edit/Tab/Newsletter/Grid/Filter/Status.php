@@ -2,30 +2,22 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Block\Adminhtml\Edit\Tab\Newsletter\Grid\Filter;
 
 /**
  * Adminhtml newsletter subscribers grid website filter
- *
- * @category   Magento
- * @package    Magento_Customer
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Block\Adminhtml\Edit\Tab\Newsletter\Grid\Filter;
-
 class Status extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Select
 {
-
     protected static $_statuses;
 
     protected function _construct()
     {
         self::$_statuses = array(
-                null                                        => null,
+                null                                            => null,
                 \Magento\Newsletter\Model\Queue::STATUS_SENT    => __('Sent'),
                 \Magento\Newsletter\Model\Queue::STATUS_CANCEL  => __('Cancel'),
                 \Magento\Newsletter\Model\Queue::STATUS_NEVER   => __('Not Sent'),
@@ -47,11 +39,10 @@ class Status extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Select
 
     public function getCondition()
     {
-        if(is_null($this->getValue())) {
+        if (is_null($this->getValue())) {
             return null;
         }
 
-        return array('eq'=>$this->getValue());
+        return array('eq' => $this->getValue());
     }
-
 }

@@ -32,7 +32,7 @@ class Name extends AbstractWidget
     /**
      * @param Context $context
      * @param AddressHelper $addressHelper
-     * @param CustomerMetadataServiceInterface $attributeMetadata,
+     * @param CustomerMetadataServiceInterface $attributeMetadata
      * @param CustomerHelper $customerHelper
      * @param array $data
      */
@@ -190,6 +190,8 @@ class Name extends AbstractWidget
      *
      * @param string $attributeCode
      * @return \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata|null
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     protected function _getAttribute($attributeCode)
     {

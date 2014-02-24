@@ -116,6 +116,9 @@ class DefaultRenderer
 
     /**
      * {@inheritdoc}
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function render(\Magento\Customer\Model\Address\AbstractAddress $address, $format = null)
     {
@@ -188,6 +191,9 @@ class DefaultRenderer
 
     /**
      * {@inheritdoc}
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function renderArray($addressAttributes, $format = null)
     {

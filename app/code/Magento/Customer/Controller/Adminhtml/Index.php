@@ -19,6 +19,12 @@ use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 use Magento\Exception\NoSuchEntityException;
 
+/**
+ * Class Index
+ *
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class Index extends \Magento\Backend\App\Action
 {
     /**
@@ -97,6 +103,8 @@ class Index extends \Magento\Backend\App\Action
      * @param \Magento\Customer\Helper\View $viewHelper
      * @param \Magento\Customer\Helper\Data $helper
      * @param \Magento\Math\Random $random
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
@@ -200,6 +208,10 @@ class Index extends \Magento\Backend\App\Action
 
     /**
      * Customer edit action
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     public function editAction()
     {
@@ -342,6 +354,8 @@ class Index extends \Magento\Backend\App\Action
      * Save customer action
      *
      * @return void
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function saveAction()
     {
@@ -480,6 +494,9 @@ class Index extends \Magento\Backend\App\Action
      * Add errors messages to session.
      *
      * @param array|string $messages
+     * @return void
+     *
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     protected function _addSessionErrorMessages($messages)
     {
@@ -959,6 +976,8 @@ class Index extends \Magento\Backend\App\Action
      * Customer view file action
      *
      * @throws NotFoundException
+     *
+     * @SuppressWarnings(PHPMD.ExitExpression)
      */
     public function viewfileAction()
     {

@@ -132,6 +132,8 @@ class Wishlist extends \Magento\Backend\Block\Widget\Grid\Extended
      * Get headers visibility
      *
      * @return bool
+     *
+     * @SuppressWarnings(PHPMD.BooleanGetMethodName)
      */
     public function getHeadersVisibility()
     {
