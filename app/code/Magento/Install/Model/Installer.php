@@ -162,6 +162,11 @@ class Installer extends \Magento\Object
     protected $dependencyManager;
 
     /**
+     * @var \Magento\Message\ManagerInterface
+     */
+    protected $messageManager;
+
+    /**
      * @param \Magento\App\ReinitableConfigInterface $config
      * @param \Magento\Module\UpdaterInterface $dbUpdater
      * @param \Magento\App\CacheInterface $cache
@@ -183,6 +188,7 @@ class Installer extends \Magento\Object
      * @param \Magento\App\Resource $resource
      * @param \Magento\Module\ModuleListInterface $moduleList
      * @param \Magento\Module\DependencyManagerInterface $dependencyManager
+     * @param \Magento\Message\ManagerInterface $messageManager
      * @param array $data
      */
     public function __construct(
@@ -207,6 +213,7 @@ class Installer extends \Magento\Object
         \Magento\App\Resource $resource,
         \Magento\Module\ModuleListInterface $moduleList,
         \Magento\Module\DependencyManagerInterface $dependencyManager,
+        \Magento\Message\ManagerInterface $messageManager,
         array $data = array()
     ) {
         $this->_dbUpdater = $dbUpdater;
@@ -230,6 +237,7 @@ class Installer extends \Magento\Object
         $this->_resource = $resource;
         $this->moduleList = $moduleList;
         $this->dependencyManager = $dependencyManager;
+        $this->messageManager = $messageManager;
         parent::__construct($data);
     }
 
@@ -293,6 +301,7 @@ class Installer extends \Magento\Object
     public function checkServer()
     {
         try {
+            $this->checkExtensionsLoaded();
             $this->_filesystem->install();
             $result = true;
         } catch (\Exception $e) {
@@ -318,11 +327,18 @@ class Installer extends \Magento\Object
 
     /**
      * Check all necessary extensions are loaded and available
+     *
+     * @throws \Exception
      */
     protected function checkExtensionsLoaded()
     {
-        foreach ($this->moduleList->getModules() as $moduleData) {
-            $this->dependencyManager->checkModuleDependencies($moduleData);
+        try {
+            foreach ($this->moduleList->getModules() as $moduleData) {
+                $this->dependencyManager->checkModuleDependencies($moduleData);
+            }
+        } catch (\Exception $exception) {
+            $this->messageManager->addError($exception->getMessage());
+            throw new \Exception($exception->getMessage());
         }
     }
 
@@ -334,8 +350,6 @@ class Installer extends \Magento\Object
      */
     public function installConfig($data)
     {
-        $this->checkExtensionsLoaded();
-
         $data['db_active'] = true;
 
         $data = $this->_installerDb->checkDbConnectionData($data);
