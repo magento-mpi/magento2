@@ -13,7 +13,7 @@
             <ccsave>
                 <active>0</active>
                 <cctypes>AE,VI,MC,DI</cctypes>
-                <model>Magento\OfflinePaymentMethods\Model\Ccsave</model>
+                <model>Magento\OfflinePayments\Model\Ccsave</model>
                 <order_status>pending</order_status>
                 <title>Credit Card (saved)</title>
                 <allowspecific>0</allowspecific>
@@ -21,7 +21,7 @@
             </ccsave>
             <checkmo>
                 <active>1</active>
-                <model>Magento\OfflinePaymentMethods\Model\Checkmo</model>
+                <model>Magento\OfflinePayments\Model\Checkmo</model>
                 <order_status>pending</order_status>
                 <title>Check / Money ordera</title>
                 <allowspecific>0</allowspecific>
@@ -29,7 +29,7 @@
             </checkmo>
             <purchaseorder>
                 <active>0</active>
-                <model>Magento\OfflinePaymentMethods\Model\Purchaseorder</model>
+                <model>Magento\OfflinePayments\Model\Purchaseorder</model>
                 <order_status>pending</order_status>
                 <title>Purchase Order</title>
                 <allowspecific>0</allowspecific>
@@ -37,7 +37,7 @@
             </purchaseorder>
             <banktransfer>
                 <active>0</active>
-                <model>Magento\OfflinePaymentMethods\Model\Banktransfer</model>
+                <model>Magento\OfflinePayments\Model\Banktransfer</model>
                 <order_status>pending</order_status>
                 <title>Bank Transfer Payment</title>
                 <allowspecific>0</allowspecific>
@@ -45,7 +45,7 @@
             </banktransfer>
             <cashondelivery>
                 <active>0</active>
-                <model>Magento\OfflinePaymentMethods\Model\Cashondelivery</model>
+                <model>Magento\OfflinePayments\Model\Cashondelivery</model>
                 <order_status>pending</order_status>
                 <title>Cash On Delivery</title>
                 <allowspecific>0</allowspecific>

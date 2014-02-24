@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\OfflinePaymentMethods\Model;
+namespace Magento\OfflinePayments\Model;
 
 /**
  * Cash on delivery payment method model
@@ -25,7 +25,7 @@ class Cashondelivery extends \Magento\Payment\Model\Method\AbstractMethod
      *
      * @var string
      */
-    protected $_formBlockType = 'Magento\OfflinePaymentMethods\Block\Form\Cashondelivery';
+    protected $_formBlockType = 'Magento\OfflinePayments\Block\Form\Cashondelivery';
 
     /**
      * Info instructions block path

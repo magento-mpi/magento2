@@ -9,12 +9,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\OfflinePaymentMethods\Model;
+namespace Magento\OfflinePayments\Model;
 
 class BanktransferTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\OfflinePaymentMethods\Model\Banktransfer
+     * @var \Magento\OfflinePayments\Model\Banktransfer
      */
     protected $_object;
 
@@ -26,7 +26,7 @@ class BanktransferTest extends \PHPUnit_Framework_TestCase
         $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
         $adapterFactoryMock = $this->getMock('Magento\Core\Model\Log\AdapterFactory', array('create'),
             array(), '', false);
-        $this->_object = $objectManagerHelper->getObject('Magento\OfflinePaymentMethods\Model\Banktransfer', array(
+        $this->_object = $objectManagerHelper->getObject('Magento\OfflinePayments\Model\Banktransfer', array(
             'eventManager' => $eventManager,
             'paymentData' => $paymentDataMock,
             'coreStoreConfig' => $coreStoreConfig,

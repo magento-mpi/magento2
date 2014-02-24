@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\OfflinePaymentMethods\Model;
+namespace Magento\OfflinePayments\Model;
 
 class Ccsave extends \Magento\Payment\Model\Method\Cc
 {
@@ -22,10 +22,10 @@ class Ccsave extends \Magento\Payment\Model\Method\Cc
     /**
      * @var string
      */
-    protected $_formBlockType = 'Magento\OfflinePaymentMethods\Block\Form\Ccsave';
+    protected $_formBlockType = 'Magento\OfflinePayments\Block\Form\Ccsave';
 
     /**
      * @var string
      */
-    protected $_infoBlockType = 'Magento\OfflinePaymentMethods\Block\Info\Ccsave';
+    protected $_infoBlockType = 'Magento\OfflinePayments\Block\Info\Ccsave';
 }

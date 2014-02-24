@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\OfflinePaymentMethods\Model;
+namespace Magento\OfflinePayments\Model;
 
 /**
  * Bank Transfer payment method model
@@ -26,7 +26,7 @@ class Banktransfer extends \Magento\Payment\Model\Method\AbstractMethod
      *
      * @var string
      */
-    protected $_formBlockType = 'Magento\OfflinePaymentMethods\Block\Form\Banktransfer';
+    protected $_formBlockType = 'Magento\OfflinePayments\Block\Form\Banktransfer';
 
     /**
      * Instructions block path

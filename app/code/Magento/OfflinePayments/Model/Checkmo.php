@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\OfflinePaymentMethods\Model;
+namespace Magento\OfflinePayments\Model;
 
 class Checkmo extends \Magento\Payment\Model\Method\AbstractMethod
 {
@@ -17,12 +17,12 @@ class Checkmo extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * @var string
      */
-    protected $_formBlockType = 'Magento\OfflinePaymentMethods\Block\Form\Checkmo';
+    protected $_formBlockType = 'Magento\OfflinePayments\Block\Form\Checkmo';
 
     /**
      * @var string
      */
-    protected $_infoBlockType = 'Magento\OfflinePaymentMethods\Block\Info\Checkmo';
+    protected $_infoBlockType = 'Magento\OfflinePayments\Block\Info\Checkmo';
 
     /**
      * Assign data to info model instance

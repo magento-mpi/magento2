@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\OfflinePaymentMethods\Block\Form;
+namespace Magento\OfflinePayments\Block\Form;
 
 /**
  * Block for Bank Transfer payment method form

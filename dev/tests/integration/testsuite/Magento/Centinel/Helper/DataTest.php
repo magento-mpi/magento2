@@ -25,6 +25,6 @@ class DataTest extends \PHPUnit_Framework_TestCase
             ->create('Magento\Payment\Model\Info');
         $paymentInfo->setMethod('checkmo');
         $result = $block->getInfoBlock($paymentInfo);
-        $this->assertInstanceOf('Magento\OfflinePaymentMethods\Block\Info\Checkmo', $result);
+        $this->assertInstanceOf('Magento\OfflinePayments\Block\Info\Checkmo', $result);
     }
 }

@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\OfflinePaymentMethods\Block\Form;
+namespace Magento\OfflinePayments\Block\Form;
 
 class Ccsave extends \Magento\Payment\Block\Form\Cc
 {
@@ -14,5 +14,5 @@ class Ccsave extends \Magento\Payment\Block\Form\Cc
      *
      * @var string
      */
-    protected $_template = 'Magento_OfflinePaymentMethods::form/ccsave.phtml';
+    protected $_template = 'Magento_OfflinePayments::form/ccsave.phtml';
 }

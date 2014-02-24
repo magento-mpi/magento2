@@ -28,7 +28,7 @@ class InfoTest extends \PHPUnit_Framework_TestCase
         $paymentInfoBank = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Payment\Model\Info');
         $paymentInfoBank->setMethodInstance(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\OfflinePaymentMethods\Model\Banktransfer'));
+            ->create('Magento\OfflinePayments\Model\Banktransfer'));
         /** @var $childBank \Magento\Payment\Block\Info\Instructions */
         $childBank = $layout->addBlock('Magento\Payment\Block\Info\Instructions', 'child.one', 'block');
         $childBank->setInfo($paymentInfoBank);
@@ -41,9 +41,9 @@ class InfoTest extends \PHPUnit_Framework_TestCase
         $paymentInfoCheckmo = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Payment\Model\Info');
         $paymentInfoCheckmo->setMethodInstance(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\OfflinePaymentMethods\Model\Checkmo'));
-        /** @var $childCheckmo \Magento\OfflinePaymentMethods\Block\Info\Checkmo */
-        $childCheckmo = $layout->addBlock('Magento\OfflinePaymentMethods\Block\Info\Checkmo',
+            ->create('Magento\OfflinePayments\Model\Checkmo'));
+        /** @var $childCheckmo \Magento\OfflinePayments\Block\Info\Checkmo */
+        $childCheckmo = $layout->addBlock('Magento\OfflinePayments\Block\Info\Checkmo',
             'child.just.another', 'block');
         $childCheckmo->setInfo($paymentInfoCheckmo);
 
