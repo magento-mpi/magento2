@@ -69,7 +69,7 @@ class Bundle extends \Magento\Backend\Block\Widget
     /**
      * Prepare layout
      *
-     * @return \Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle
+     * @return $this
      */
     protected function _prepareLayout()
     {

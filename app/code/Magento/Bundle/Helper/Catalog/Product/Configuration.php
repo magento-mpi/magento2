@@ -64,7 +64,7 @@ class Configuration extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Catalog\Model\Product $product
      * @param int $selectionId
      *
-     * @return decimal
+     * @return float
      */
     public function getSelectionQty($product, $selectionId)
     {
