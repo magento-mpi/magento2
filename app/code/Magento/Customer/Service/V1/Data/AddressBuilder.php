@@ -116,7 +116,7 @@ class AddressBuilder extends AbstractDtoBuilder
     /**
      * {@inheritdoc}
      */
-    public function getCustomAttributeCodes()
+    public function getCustomAttributesCodes()
     {
         $attributeCodes = [];
         foreach ($this->_metadataService->getCustomAddressAttributeMetadata() as $attribute) {

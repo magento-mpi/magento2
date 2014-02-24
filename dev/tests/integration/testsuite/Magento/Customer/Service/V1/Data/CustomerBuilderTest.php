@@ -31,10 +31,10 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
      * @magentoDataFixture Magento/Customer/_files/attribute_user_defined_address.php
      * @magentoDataFixture Magento/Customer/_files/attribute_user_defined_customer.php
      */
-    public function testGetCustomAttributeCodes()
+    public function testGetCustomAttributesCodes()
     {
         $userDefinedAttributeCode = FIXTURE_ATTRIBUTE_USER_DEFINED_CUSTOMER_NAME;
-        $attributeCodes = $this->_customerBuilder->getCustomAttributeCodes();
+        $attributeCodes = $this->_customerBuilder->getCustomAttributesCodes();
         $expectedAttributes = [
             'prefix',
             'middlename',

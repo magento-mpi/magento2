@@ -15,16 +15,30 @@ use Magento\Service\Entity\AbstractDtoBuilder;
 
 class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Magento\Customer\Service\V1\Data\CustomerBuilder */
+    /** @var \Magento\Customer\Service\V1\Data\CustomerBuilder|\PHPUnit_Framework_TestCase */
     protected $_customerBuilder;
 
     /** @var \Magento\TestFramework\Helper\ObjectManager */
     protected $_objectManager;
 
+    /** @var \Magento\Customer\Service\V1\CustomerMetadataService */
+    private $_customerMetadataService;
+
     protected function setUp()
     {
         $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_customerBuilder = $this->_objectManager->getObject('Magento\Customer\Service\V1\Data\CustomerBuilder');
+        /** @var \Magento\Customer\Service\V1\CustomerMetadataService $customerMetadataService */
+        $this->_customerMetadataService = $this->getMockBuilder('Magento\Customer\Service\V1\CustomerMetadataService')
+            ->setMethods(['getCustomCustomerAttributeMetadata'])
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->_customerMetadataService->expects($this->any())
+            ->method('getCustomCustomerAttributeMetadata')
+            ->will($this->returnValue([
+                        new \Magento\Object(['attribute_code' => 'warehouse_zip']),
+                        new \Magento\Object(['attribute_code' => 'warehouse_alternate'])
+                    ]));
+        $this->_customerBuilder = new CustomerBuilder($this->_customerMetadataService);
         parent::setUp();
     }
 
@@ -91,21 +105,15 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function testPopulateException()
     {
-        $customerMetadataService = $this->_objectManager->getObject(
-            'Magento\Customer\Service\V1\CustomerMetadataService'
-        );
-        $addressData = (new AddressBuilder(new RegionBuilder(), $customerMetadataService))->create();
+        $addressData = (new AddressBuilder(new RegionBuilder(), $this->_customerMetadataService))->create();
         $this->_customerBuilder->populate($addressData);
     }
 
     public function testPopulate()
     {
         $email = 'test@example.com';
-        $customerMetadataService = $this->_objectManager->getObject(
-            'Magento\Customer\Service\V1\CustomerMetadataService'
-        );
-        $customerBuilder1 = (new CustomerBuilder($customerMetadataService));
-        $customerBuilder2 = (new CustomerBuilder($customerMetadataService));
+        $customerBuilder1 = new CustomerBuilder($this->_customerMetadataService);
+        $customerBuilder2 = new CustomerBuilder($this->_customerMetadataService);
         $customer = $customerBuilder1->setEmail($email)->create();
         $customerBuilder2
             ->setFirstname('fname')
@@ -116,5 +124,46 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
         $customerBuilder2->populate($customer);
         //Verify if email is set correctly
         $this->assertEquals($email, $customerBuilder2->create()->getEmail());
+    }
+
+    public function testPopulateWithArray()
+    {
+        $addressData = [
+            'email' => 'test@example.com',
+            'firstname' => 'John',
+            'lastname' => 'Doe',
+            'unknown_key' => 'Golden Necklace'
+        ];
+        $customer = $this->_customerBuilder->populateWithArray($addressData)->create();
+        $expectedData = $addressData = [
+            'email' => 'test@example.com',
+            'firstname' => 'John',
+            'lastname' => 'Doe',
+        ];
+        $this->assertEquals($expectedData, $customer->__toArray());
+    }
+
+    public function testPopulateWithArrayCustomAttributes()
+    {
+        $addressData = [
+            'email' => 'test@example.com',
+            'firstname' => 'John',
+            'lastname' => 'Doe',
+            'unknown_key' => 'Golden Necklace',
+            'warehouse_zip' => '78777',
+            'warehouse_alternate' => '90051'
+        ];
+        $customer = $this->_customerBuilder->populateWithArray($addressData)->create();
+
+        $expectedData = [
+            'email' => 'test@example.com',
+            'firstname' => 'John',
+            'lastname' => 'Doe',
+            'custom_attributes' => [
+                'warehouse_zip' => '78777',
+                'warehouse_alternate' => '90051'
+            ]
+        ];
+        $this->assertEquals($expectedData, $customer->__toArray());
     }
 }

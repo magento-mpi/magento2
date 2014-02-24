@@ -31,10 +31,10 @@ class AddressBuilderTest extends \PHPUnit_Framework_TestCase
      * @magentoDataFixture Magento/Customer/_files/attribute_user_defined_address.php
      * @magentoDataFixture Magento/Customer/_files/attribute_user_defined_customer.php
      */
-    public function testGetCustomAttributeCodes()
+    public function testGetCustomAttributesCodes()
     {
         $userDefinedAttributeCode = 'address_user_attribute';
-        $attributeCodes = $this->_addressBuilder->getCustomAttributeCodes();
+        $attributeCodes = $this->_addressBuilder->getCustomAttributesCodes();
         $expectedAttributes = [$userDefinedAttributeCode, 'prefix', 'middlename', 'suffix'];
         $this->assertEquals($expectedAttributes, $attributeCodes, 'Custom attribute codes list is invalid.');
     }

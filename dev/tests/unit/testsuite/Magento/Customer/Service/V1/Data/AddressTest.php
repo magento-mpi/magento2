@@ -149,7 +149,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param AddressBuilder $address
+     * @param AddressBuilder $addressBuilder
      */
     private function _fillMinimumRequiredFields($addressBuilder)
     {
@@ -167,7 +167,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param Address $address
+     * @param Address $addressBuilder
      */
     private function _fillAllFields($addressBuilder)
     {

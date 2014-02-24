@@ -34,7 +34,7 @@ class CustomerBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
     /**
      * {@inheritdoc}
      */
-    public function getCustomAttributeCodes()
+    public function getCustomAttributesCodes()
     {
         $attributeCodes = [];
         foreach ($this->_metadataService->getCustomCustomerAttributeMetadata() as $attribute) {
