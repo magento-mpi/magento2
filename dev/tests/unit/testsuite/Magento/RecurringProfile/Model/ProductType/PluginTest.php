@@ -27,6 +27,6 @@ class PluginTest extends \PHPUnit_Framework_TestCase
         $chain = $this->getMock('Magento\Code\Plugin\InvocationChain', [], [], '', false);
 
         $model = $objectHelper->getObject('Magento\RecurringProfile\Model\ProductType\Plugin');
-        $this->assertEquals(true, $model->aroundHasOptions(['product' => $product], $chain));
+        $this->assertEquals(true, $model->aroundHasOptions([$product], $chain));
     }
 }
