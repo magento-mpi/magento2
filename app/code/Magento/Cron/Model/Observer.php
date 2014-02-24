@@ -122,10 +122,7 @@ class Observer
         foreach ($jobGroupsRoot as $groupId => $jobsRoot) {
             if (
                 $this->_request->getParam('group') === null
-                && $this->_coreStoreConfig->getConfig(
-                    'system/cron/' . $groupId . '/use_separate_process',
-                    'default'
-                ) == 1
+                && $this->_coreStoreConfig->getConfig('system/cron/' . $groupId . '/use_separate_process') == 1
             ) {
                 $this->_shell->executeInBackground(
                     '"' . PHP_BINARY . '" -f ' . BP . DIRECTORY_SEPARATOR
@@ -176,8 +173,7 @@ class Observer
     protected function _runJob($scheduledTime, $currentTime, $jobConfig, $schedule, $groupId)
     {
         $scheduleLifetime = (int)$this->_coreStoreConfig->getConfig(
-            'system/cron/' . $groupId . '/' . self::XML_PATH_SCHEDULE_LIFETIME,
-            'default'
+            'system/cron/' . $groupId . '/' . self::XML_PATH_SCHEDULE_LIFETIME
         );
         $scheduleLifetime = $scheduleLifetime * self::SECONDS_IN_MINUTE;
         if ($scheduledTime < $currentTime - $scheduleLifetime) {
@@ -242,8 +238,7 @@ class Observer
          */
         $lastRun = (int)$this->_app->loadCache(self::CACHE_KEY_LAST_SCHEDULE_GENERATE_AT);
         $rawSchedulePeriod = (int)$this->_coreStoreConfig->getConfig(
-            'system/cron/' . $groupId . '/' . self::XML_PATH_SCHEDULE_GENERATE_EVERY,
-            'default'
+            'system/cron/' . $groupId . '/' . self::XML_PATH_SCHEDULE_GENERATE_EVERY
         );
         $schedulePeriod = $rawSchedulePeriod * self::SECONDS_IN_MINUTE;
         if ($lastRun > time() - $schedulePeriod) {
@@ -282,8 +277,7 @@ class Observer
     protected function _generateJobs($jobs, $exists, $groupId)
     {
         $scheduleAheadFor = (int)$this->_coreStoreConfig->getConfig(
-            'system/cron/' . $groupId . '/' . self::XML_PATH_SCHEDULE_AHEAD_FOR,
-            'default'
+            'system/cron/' . $groupId . '/' . self::XML_PATH_SCHEDULE_AHEAD_FOR
         );
         $scheduleAheadFor = $scheduleAheadFor * self::SECONDS_IN_MINUTE;
         /**
@@ -336,8 +330,7 @@ class Observer
         // check if history cleanup is needed
         $lastCleanup = (int)$this->_app->loadCache(self::CACHE_KEY_LAST_HISTORY_CLEANUP_AT);
         $historyCleanUp = (int)$this->_coreStoreConfig->getConfig(
-            'system/cron/' . $groupId . '/' . self::XML_PATH_HISTORY_CLEANUP_EVERY,
-            'default'
+            'system/cron/' . $groupId . '/' . self::XML_PATH_HISTORY_CLEANUP_EVERY
         );
         if ($lastCleanup > time() - $historyCleanUp * self::SECONDS_IN_MINUTE) {
             return $this;
@@ -354,12 +347,10 @@ class Observer
             )))->load();
 
         $historySuccess = (int)$this->_coreStoreConfig->getConfig(
-            'system/cron/' . $groupId . '/' . self::XML_PATH_HISTORY_SUCCESS,
-            'default'
+            'system/cron/' . $groupId . '/' . self::XML_PATH_HISTORY_SUCCESS
         );
         $historyFailure = (int)$this->_coreStoreConfig->getConfig(
-            'system/cron/' . $groupId . '/' . self::XML_PATH_HISTORY_FAILURE,
-            'default'
+            'system/cron/' . $groupId . '/' . self::XML_PATH_HISTORY_FAILURE
         );
         $historyLifetimes = array(
             Schedule::STATUS_SUCCESS => $historySuccess * self::SECONDS_IN_MINUTE,

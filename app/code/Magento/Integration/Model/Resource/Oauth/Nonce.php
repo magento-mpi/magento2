@@ -7,14 +7,13 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
+namespace Magento\Integration\Model\Resource\Oauth;
 
 /**
  * oAuth nonce resource model
  *
  * @author Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Integration\Model\Resource\Oauth;
-
 class Nonce extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**

@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Integration\Block\Adminhtml\Widget\Grid\Column\Renderer\Link;
 
 use Magento\Integration\Model\Integration;

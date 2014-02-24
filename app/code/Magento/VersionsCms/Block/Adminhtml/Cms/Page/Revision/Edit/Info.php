@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit;
 
 /**
  * Cms page edit form revisions tab
  */
-namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit;
-
 class Info extends \Magento\Backend\Block\Widget\Container
 {
     /**
@@ -59,6 +58,9 @@ class Info extends \Magento\Backend\Block\Widget\Container
         parent::__construct($context, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();

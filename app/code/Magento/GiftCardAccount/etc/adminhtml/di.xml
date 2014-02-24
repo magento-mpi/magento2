@@ -7,11 +7,11 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <preference for="Magento\GiftCardAccount\Model\History" type="Magento\GiftCardAccount\Model\Backend\History" />
     <type name="Magento\GiftCardAccount\Model\Backend\History">
-        <param name="adminSession">
-            <instance type="Magento\Backend\Model\Auth\Session\Proxy" />
-        </param>
+        <arguments>
+            <argument name="adminSession" xsi:type="object">Magento\Backend\Model\Auth\Session\Proxy</argument>
+        </arguments>
     </type>
 </config>

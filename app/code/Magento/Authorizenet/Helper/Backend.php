@@ -7,11 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Authorizenet\Helper;
 
 /**
- * Authorizenet Backend Data Helper
+ * Authorize.net Backend Data Helper
  */
 class Backend extends Data
 {
@@ -30,7 +29,6 @@ class Backend extends Data
         parent::__construct($context, $storeManager, $orderFactory);
         $this->_urlBuilder = $backendUrl;
     }
-
 
     /**
      * Return URL for admin area
@@ -57,7 +55,7 @@ class Backend extends Data
     /**
      * Retrieve place order url
      *
-     * @param array params
+     * @param array $params
      * @return  string
      */
     public function getSuccessOrderUrl($params)
@@ -70,9 +68,9 @@ class Backend extends Data
     }
 
     /**
-     * Retrieve redirect ifrmae url
+     * Retrieve redirect iframe url
      *
-     * @param array params
+     * @param array $params
      * @return string
      */
     public function getRedirectIframeUrl($params)

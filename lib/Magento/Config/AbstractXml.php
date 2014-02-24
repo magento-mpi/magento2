@@ -129,7 +129,7 @@ abstract class AbstractXml
                 ? $this->getPerFileSchemaFile()
                 : null;
             $this->_domConfig =
-                new \Magento\Config\Dom($this->_getInitialXml(), $this->_getIdAttributes(), $schemaFile);
+                new \Magento\Config\Dom($this->_getInitialXml(), $this->_getIdAttributes(), null, $schemaFile);
         }
         return $this->_domConfig;
     }

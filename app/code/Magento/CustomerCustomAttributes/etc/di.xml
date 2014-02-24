@@ -7,25 +7,23 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <type name="Magento\CustomerCustomAttributes\Helper\Data">
-        <param name="customerAddress">
-            <instance type="Magento\CustomerCustomAttributes\Helper\Address\Proxy" />
-        </param>
-        <param name="customerCustomer">
-            <instance type="Magento\CustomerCustomAttributes\Helper\Customer\Proxy" />
-        </param>
+        <arguments>
+            <argument name="customerAddress" xsi:type="object">Magento\CustomerCustomAttributes\Helper\Address\Proxy</argument>
+            <argument name="customerCustomer" xsi:type="object">Magento\CustomerCustomAttributes\Helper\Customer\Proxy</argument>
+        </arguments>
     </type>
     <type name="Magento\CustomerCustomAttributes\Model\Observer">
-        <param name="customerData">
-            <instance type="Magento\CustomerCustomAttributes\Helper\Data\Proxy" />
-        </param>
+        <arguments>
+            <argument name="customerData" xsi:type="object">Magento\CustomerCustomAttributes\Helper\Data\Proxy</argument>
+        </arguments>
     </type>
     <type name="Magento\Module\Updater\SetupFactory">
-        <param name="resourceTypes">
-            <array>
-                <item key="customercustomattributes_setup"><value>Magento\Customer\Model\Resource\Setup</value></item>
-            </array>
-        </param>
+        <arguments>
+            <argument name="resourceTypes" xsi:type="array">
+                <item name="customercustomattributes_setup" xsi:type="string">Magento\Customer\Model\Resource\Setup</item>
+            </argument>
+        </arguments>
     </type>
 </config>
