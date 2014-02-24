@@ -401,10 +401,14 @@ class Account extends \Magento\App\Action\Action
         try {
             $customer = $this->_extractCustomer('customer_account_create');
             $address = $this->_extractAddress();
+            $addresses = is_null($address) ? [] : [$address];
+            $password = $this->getRequest()->getParam('password');
+            $redirectUrl = $this->_getSession()->getBeforeAuthUrl();
             $customer = $this->_customerAccountService->createAccount(
                 $customer,
-                is_null($address) ? [] : [$address],
-                $this->getRequest()->getParam('password')
+                $addresses,
+                $password,
+                $redirectUrl
             );
 
             if ($this->getRequest()->getParam('is_subscribed', false)) {

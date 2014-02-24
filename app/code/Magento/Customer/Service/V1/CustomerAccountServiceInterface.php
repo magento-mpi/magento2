@@ -33,12 +33,14 @@ interface CustomerAccountServiceInterface
      * @param Dto\Customer $customer
      * @param Dto\Address[] $addresses
      * @param string $password If null then a random password will be assigned
+     * @param string $redirectUrl URL fed to welcome email templates. Can be used by templates to, for example, direct
+     *                            the customer to a product they were looking at after pressing confirmation link.
      * @return Dto\Customer
      * @throws \Exception If something goes wrong during save
      * @throws \Magento\Exception\InputException If bad input is provided
      * @throws \Magento\Exception\StateException If the provided email is already used
      */
-    public function createAccount(Dto\Customer $customer, array $addresses, $password = null);
+    public function createAccount(Dto\Customer $customer, array $addresses, $password = null, $redirectUrl = '');
 
     /**
      * Update Customer Account
@@ -156,11 +158,13 @@ interface CustomerAccountServiceInterface
      * Send Confirmation email.
      *
      * @param string $email email address of customer
+     * @param string $redirectUrl URL fed to welcome email templates. Can be used by templates to, for example, direct
+     *                            the customer to a product they were looking at after pressing confirmation link.
      * @return void
      * @throws \Magento\Exception\NoSuchEntityException If no customer found for provided email
      * @throws \Magento\Exception\StateException If confirmation is not needed
      */
-    public function sendConfirmation($email);
+    public function sendConfirmation($email, $redirectUrl = '');
 
     /**
      * Validate customer entity

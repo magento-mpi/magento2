@@ -104,7 +104,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function sendConfirmation($email)
+    public function sendConfirmation($email, $redirectUrl = '')
     {
         $customer = $this->_customerFactory->create();
         $websiteId = $this->_storeManager->getStore()->getWebsiteId();
@@ -113,7 +113,8 @@ class CustomerAccountService implements CustomerAccountServiceInterface
             throw (new NoSuchEntityException('email', $email))->addField('websiteId', $websiteId);
         }
         if ($customer->getConfirmation()) {
-            $customer->sendNewAccountEmail('confirmation', '', $this->_storeManager->getStore()->getId());
+            $customer->sendNewAccountEmail(self::NEW_ACCOUNT_EMAIL_CONFIRMATION, $redirectUrl,
+                $this->_storeManager->getStore()->getId());
         } else {
             throw new StateException('No confirmation needed.', StateException::INVALID_STATE);
         }
@@ -135,7 +136,8 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         // activate customer
         $customer->setConfirmation(null);
         $customer->save();
-        $customer->sendNewAccountEmail('confirmed', '', $this->_storeManager->getStore()->getId());
+        $customer->sendNewAccountEmail(self::NEW_ACCOUNT_EMAIL_CONFIRMED, '',
+            $this->_storeManager->getStore()->getId());
 
         return $this->_converter->createCustomerFromModel($customer);
     }
@@ -253,16 +255,17 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function createAccount(
-        Dto\Customer $customer,
-        array $addresses,
-        $password = null
-    ) {
+    public function createAccount(Dto\Customer $customer, array $addresses, $password = null, $redirectUrl = '')
+    {
+        // This logic allows an existing customer to be added to a different store.  No new account is created.
+        // The plan is to move this logic into a new method called something like 'registerAccountWithStore'
         if ($customer->getCustomerId()) {
-            $customer = $this->_customerBuilder->populate($customer)
-                ->setCustomerId(null)
-                ->create();
+            $customerModel = $this->_converter->getCustomerModel($customer->getCustomerId());
+            if ($customerModel->isInStore($customer->getStoreId())) {
+                throw new InputException(__('Customer already exists in this store.'));
+            }
         }
+        // Make sure we have a storeId to associate this customer with.
         if (!$customer->getStoreId()) {
             if ($customer->getWebsiteId()) {
                 $storeId = $this->_storeManager->getWebsite($customer->getWebsiteId())->getDefaultStore()->getId();
@@ -292,9 +295,11 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         $customerModel->changeResetPasswordLinkToken($newLinkToken);
 
         if ($customerModel->isConfirmationRequired()) {
-            $customerModel->sendNewAccountEmail('confirmation', '', $customer->getStoreId());
+            $customerModel->sendNewAccountEmail(self::NEW_ACCOUNT_EMAIL_CONFIRMATION, $redirectUrl,
+                $customer->getStoreId());
         } else {
-            $customerModel->sendNewAccountEmail('registered', '', $customer->getStoreId());
+            $customerModel->sendNewAccountEmail(self::NEW_ACCOUNT_EMAIL_REGISTERED, $redirectUrl,
+                $customer->getStoreId());
         }
         return $this->_converter->createCustomerFromModel($customerModel);
     }

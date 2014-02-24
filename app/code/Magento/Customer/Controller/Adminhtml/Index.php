@@ -275,12 +275,12 @@ class Index extends \Magento\Backend\App\Action
                         $this->_addressBuilder->setCustomerId($customerId);
                     }
                     $this->_addressBuilder->setDefaultBilling(
-                        !empty($data['account']['default_billing'])
-                        && $data['account']['default_billing'] == $addressId
+                        !empty($data['account'][Customer::DEFAULT_BILLING])
+                        && $data['account'][Customer::DEFAULT_BILLING] == $addressId
                     );
                     $this->_addressBuilder->setDefaultShipping(
-                        !empty($data['account']['default_shipping'])
-                        && $data['account']['default_shipping'] == $addressId
+                        !empty($data['account'][Customer::DEFAULT_SHIPPING])
+                        && $data['account'][Customer::DEFAULT_SHIPPING] == $addressId
                     );
                     $address = $this->_addressBuilder->create();
                     $requestScope = sprintf('address/%s', $addressId);
@@ -361,8 +361,8 @@ class Index extends \Magento\Backend\App\Action
                     $savedCustomerData = $this->_customerService->getCustomer($customerId)->__toArray();
                     $customerData = array_merge($savedCustomerData, $customerData);
                 }
-                unset($customerData['default_billing']);
-                unset($customerData['default_shipping']);
+                unset($customerData[Customer::DEFAULT_BILLING]);
+                unset($customerData[Customer::DEFAULT_SHIPPING]);
                 $customerBuilder->populateWithArray($customerData);
 
                 $addresses = [];
@@ -512,7 +512,7 @@ class Index extends \Magento\Backend\App\Action
     {
         $customerData = [];
         if ($this->getRequest()->getPost('account')) {
-            $serviceAttributes = ['default_billing', 'default_shipping', 'confirmation', 'sendemail'];
+            $serviceAttributes = [Customer::DEFAULT_BILLING, Customer::DEFAULT_SHIPPING, 'confirmation', 'sendemail'];
 
             /** @var \Magento\Customer\Model\Customer $customerEntity */
             $customerEntity = $this->_objectManager->get('Magento\Customer\Model\CustomerFactory')->create();
@@ -565,12 +565,12 @@ class Index extends \Magento\Backend\App\Action
                     $addressData['entity_id'] = $addressId;
                 }
                 // Set default billing and shipping flags to address
-                $addressData['default_billing'] = isset($customerData['default_billing'])
-                    && $customerData['default_billing']
-                    && $customerData['default_billing'] == $addressId;
-                $addressData['default_shipping'] = isset($customerData['default_shipping'])
-                    && $customerData['default_shipping']
-                    && $customerData['default_shipping'] == $addressId;
+                $addressData[Customer::DEFAULT_BILLING] = isset($customerData[Customer::DEFAULT_BILLING])
+                    && $customerData[Customer::DEFAULT_BILLING]
+                    && $customerData[Customer::DEFAULT_BILLING] == $addressId;
+                $addressData[Customer::DEFAULT_SHIPPING] = isset($customerData[Customer::DEFAULT_SHIPPING])
+                    && $customerData[Customer::DEFAULT_SHIPPING]
+                    && $customerData[Customer::DEFAULT_SHIPPING] == $addressId;
 
                 $result[] = $addressData;
             }
