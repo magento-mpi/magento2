@@ -96,7 +96,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
         $this->_event = $this->getMock(
             'Magento\Event', [
-                'getProductElement', 'getProduct', 'getResult', 'getBuyRequest', 'getQuote', 'getApi'
+                'getProductElement', 'getProduct', 'getResult', 'getBuyRequest', 'getQuote', 'getApi', 'getObject'
             ], [], '', false
         );
 
@@ -196,6 +196,18 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_prepareRecurringPaymentProfiles();
 
         $this->_testModel->addRecurringProfileIdsToSession($this->_observer);
+    }
+
+    public function testAddFormExcludedAttribute()
+    {
+        $block = $this->getMock('Magento\Backend\Block\Template', [
+            'getFormExcludedFieldList', 'setFormExcludedFieldList'
+        ], [], '', false);
+        $block->expects($this->once())->method('getFormExcludedFieldList')->will($this->returnValue(['field']));
+        $block->expects($this->once())->method('setFormExcludedFieldList')->with(['field' , 'recurring_profile']);
+
+        $this->_event->expects($this->once())->method('getObject')->will($this->returnValue($block));
+        $this->_testModel->addFormExcludedAttribute($this->_observer);
     }
 
     protected function _prepareRecurringPaymentProfiles()
