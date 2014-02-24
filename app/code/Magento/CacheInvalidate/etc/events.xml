@@ -9,8 +9,8 @@
 -->
 <config>
     <event name="clean_cache_by_tags">
-    <observer name="invalidate_varnish" instance="Magento\CacheInvalidate\Model\Observer" method="invalidateVarnish" />
-</event>
+        <observer name="invalidate_varnish" instance="Magento\CacheInvalidate\Model\Observer" method="invalidateVarnish" />
+    </event>
     <event name="adminhtml_cache_flush_system">
         <observer name="flush_varnish_pagecache" instance="Magento\CacheInvalidate\Model\Observer" method="flushAllCache" />
     </event>

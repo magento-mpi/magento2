@@ -15,7 +15,10 @@
         <observer name="invalidate_builtin" instance="Magento\PageCache\Model\Observer" method="invalidateCache" />
     </event>
     <event name="adminhtml_cache_flush_system">
-        <observer name="flush_all_pagecache" instance="Magento\PageCache\Model\Observer" method="flushAllCache" />
+        <observer name="flush_system_pagecache" instance="Magento\PageCache\Model\Observer" method="flushAllCache" />
+    </event>
+    <event name="adminhtml_cache_flush_all">
+        <observer name="magento_all_pagecache" instance="Magento\PageCache\Model\Observer" method="flushAllCache" />
     </event>
     <event name="clean_media_cache_after">
         <observer name="flush_all_pagecache" instance="Magento\PageCache\Model\Observer" method="flushAllCache" />

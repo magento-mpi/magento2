@@ -402,7 +402,7 @@ abstract class AbstractProductList
     {
         $identities = array();
         foreach ($this->getItemCollection() as $item) {
-            $identities[] = $item->getIdentities();
+            $identities = array_merge($identities, $item->getIdentities());
         }
         return $identities;
     }
