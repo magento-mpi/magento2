@@ -7,6 +7,11 @@
  */
 namespace Magento\App;
 
+/**
+ * Entry point for retrieving static resources like JS, CSS, images by requested public path
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class StaticResource implements \Magento\LauncherInterface
 {
     /**
