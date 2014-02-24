@@ -14,4 +14,7 @@
     <event name="adminhtml_cache_flush_system">
         <observer name="flush_varnish_pagecache" instance="Magento\CacheInvalidate\Model\Observer" method="flushAllCache" />
     </event>
+    <event name="adminhtml_cache_flush_all">
+        <observer name="flush_all_varnish_pagecache" instance="Magento\PageCache\Model\Observer" method="flushAllCache" />
+    </event>
 </config>
