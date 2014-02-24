@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Bundle\Block\Catalog\Product;
 
 /**
  * Bundle product price block
@@ -15,8 +15,6 @@
  * @category   Magento
  * @package    Magento_Bundle
  */
-namespace Magento\Bundle\Block\Catalog\Product;
-
 class Price extends \Magento\Catalog\Block\Product\Price
 {
     /**
@@ -62,6 +60,9 @@ class Price extends \Magento\Catalog\Block\Product\Price
         $this->_taxCalc = $taxCalc;
     }
 
+    /**
+     * @return bool
+     */
     public function isRatesGraterThenZero()
     {
         $_request = $this->_taxCalc->getRateRequest(false, false, false);

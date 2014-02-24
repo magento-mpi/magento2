@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Bundle\Model\Source\Option\Selection\Price;
 
 /**
  * Extended Attributes Source Model
@@ -15,10 +16,11 @@
  * @package    Magento_Bundle
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Bundle\Model\Source\Option\Selection\Price;
-
 class Type implements \Magento\Core\Model\Option\ArrayInterface
 {
+    /**
+     * @return array
+     */
     public function toOptionArray()
     {
         return array(

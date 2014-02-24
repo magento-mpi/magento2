@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option;
 
 /**
  * Bundle selection renderer
@@ -15,11 +16,12 @@
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option;
-
 class Selection
     extends \Magento\Backend\Block\Widget
 {
+    /**
+     * @var string
+     */
     protected $_template = 'product/edit/bundle/option/selection.phtml';
 
     /**
@@ -71,6 +73,8 @@ class Selection
 
     /**
      * Initialize bundle option selection block
+     *
+     * @return void
      */
     protected function _construct()
     {

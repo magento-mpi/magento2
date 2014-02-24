@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Bundle\Block\Catalog\Product\View\Type;
 
 /**
  * Catalog bundle product info block
@@ -16,10 +16,11 @@
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Bundle\Block\Catalog\Product\View\Type;
-
 class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
 {
+    /**
+     * @var mixed
+     */
     protected $_options         = null;
 
     /**
@@ -115,6 +116,9 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
         );
     }
 
+    /**
+     * @return mixed
+     */
     public function getOptions()
     {
         if (!$this->_options) {
@@ -137,6 +141,9 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
         return $this->_options;
     }
 
+    /**
+     * @return bool
+     */
     public function hasOptions()
     {
         $this->getOptions();

@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Bundle\Model\Product;
 
 /**
  * Bundle Type Model
@@ -15,8 +16,6 @@
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Bundle\Model\Product;
-
 class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
 {
     /**
@@ -259,7 +258,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
      * Return product weight based on weight_type attribute
      *
      * @param \Magento\Catalog\Model\Product $product
-     * @return decimal
+     * @return float
      */
     public function getWeight($product)
     {
@@ -314,6 +313,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
      * Before save type related data
      *
      * @param \Magento\Catalog\Model\Product $product
+     * @return $this|void
      */
     public function beforeSave($product)
     {
@@ -437,7 +437,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
      * Retrieve bundle options items
      *
      * @param \Magento\Catalog\Model\Product $product
-     * @return array
+     * @return \Magento\Object[]
      */
     public function getOptions($product)
     {
@@ -1171,6 +1171,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
      * Delete data specific for Bundle product type
      *
      * @param \Magento\Catalog\Model\Product $product
+     * @return void
      */
     public function deleteTypeSpecificData(\Magento\Catalog\Model\Product $product)
     {

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Bundle\Model\Resource\Indexer;
 
 /**
  * Bundle products Price indexer resource model
@@ -16,8 +16,6 @@
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Bundle\Model\Resource\Indexer;
-
 class Price extends \Magento\Catalog\Model\Resource\Product\Indexer\Price\DefaultPrice
 {
     /**
@@ -46,7 +44,7 @@ class Price extends \Magento\Catalog\Model\Resource\Product\Indexer\Price\Defaul
      * Reindex temporary (price result data) for defined product(s)
      *
      * @param int|array $entityIds
-     * @return \Magento\Bundle\Model\Resource\Indexer\Price
+     * @return $this
      */
     public function reindexEntity($entityIds)
     {
@@ -97,7 +95,7 @@ class Price extends \Magento\Catalog\Model\Resource\Product\Indexer\Price\Defaul
     /**
      * Prepare temporary price index table for fixed bundle products
      *
-     * @return \Magento\Bundle\Model\Resource\Indexer\Price
+     * @return $this
      */
     protected function _prepareBundlePriceTable()
     {
@@ -108,7 +106,7 @@ class Price extends \Magento\Catalog\Model\Resource\Product\Indexer\Price\Defaul
     /**
      * Prepare table structure for temporary bundle selection prices index
      *
-     * @return \Magento\Bundle\Model\Resource\Indexer\Price
+     * @return $this
      */
     protected function _prepareBundleSelectionTable()
     {
@@ -119,7 +117,7 @@ class Price extends \Magento\Catalog\Model\Resource\Product\Indexer\Price\Defaul
     /**
      * Prepare table structure for temporary bundle option prices index
      *
-     * @return \Magento\Bundle\Model\Resource\Indexer\Price
+     * @return $this
      */
     protected function _prepareBundleOptionTable()
     {
@@ -131,8 +129,8 @@ class Price extends \Magento\Catalog\Model\Resource\Product\Indexer\Price\Defaul
      * Prepare temporary price index data for bundle products by price type
      *
      * @param int $priceType
-     * @param int|array $entityIds the entity ids limitatation
-     * @return \Magento\Bundle\Model\Resource\Indexer\Price
+     * @param int|array $entityIds the entity ids limitation
+     * @return $this
      */
     protected function _prepareBundlePriceByType($priceType, $entityIds = null)
     {
@@ -291,7 +289,7 @@ class Price extends \Magento\Catalog\Model\Resource\Product\Indexer\Price\Defaul
     /**
      * Calculate fixed bundle product selections price
      *
-     * @return \Magento\Bundle\Model\Resource\Indexer\Price
+     * @return $this
      */
     protected function _calculateBundleOptionPrice()
     {
@@ -383,7 +381,7 @@ class Price extends \Magento\Catalog\Model\Resource\Product\Indexer\Price\Defaul
      * Calculate bundle product selections price by product type
      *
      * @param int $priceType
-     * @return \Magento\Bundle\Model\Resource\Indexer\Price
+     * @return $this
      */
     protected function _calculateBundleSelectionPrice($priceType)
     {
@@ -529,7 +527,7 @@ class Price extends \Magento\Catalog\Model\Resource\Product\Indexer\Price\Defaul
      * Prepare temporary index price for bundle products
      *
      * @param int|array $entityIds  the entity ids limitation
-     * @return \Magento\Bundle\Model\Resource\Indexer\Price
+     * @return $this
      */
     protected function _prepareBundlePrice($entityIds = null)
     {
@@ -571,7 +569,7 @@ class Price extends \Magento\Catalog\Model\Resource\Product\Indexer\Price\Defaul
      * @see \Magento\Catalog\Model\Resource\Product\Indexer\Price::_prepareTierPriceIndex
      *
      * @param int|array $entityIds
-     * @return \Magento\Bundle\Model\Resource\Indexer\Price
+     * @return $this
      */
     protected function _prepareTierPriceIndex($entityIds = null)
     {
@@ -630,7 +628,7 @@ class Price extends \Magento\Catalog\Model\Resource\Product\Indexer\Price\Defaul
      * @see \Magento\Catalog\Model\Resource\Product\Indexer\Price::_prepareGroupPriceIndex
      *
      * @param int|array $entityIds
-     * @return \Magento\Bundle\Model\Resource\Indexer\Price
+     * @return $this
      */
     protected function _prepareGroupPriceIndex($entityIds = null)
     {

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Bundle\Block\Catalog\Product;
 
 /**
  * Product View block (to modify getTierPrices method)
@@ -16,8 +16,6 @@
  * @package    Magento_Bundle
  * @module     Catalog
  */
-namespace Magento\Bundle\Block\Catalog\Product;
-
 class View extends \Magento\Catalog\Block\Product\View
 {
     /**

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Bundle\Model\Resource;
 
 /**
  * Bundle Selection Resource Model
@@ -16,13 +16,12 @@
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Bundle\Model\Resource;
-
 class Selection extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Define main table and id field
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -107,6 +106,7 @@ class Selection extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Save bundle item price per website
      *
      * @param \Magento\Bundle\Model\Selection $item
+     * @return void
      */
     public function saveSelectionPrice($item)
     {

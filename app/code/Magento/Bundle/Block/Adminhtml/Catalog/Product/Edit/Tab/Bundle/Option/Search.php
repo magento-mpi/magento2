@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option;
 
 /**
  * Bundle selection product block
@@ -15,9 +16,6 @@
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option;
-
 class Search extends \Magento\Backend\Block\Widget
 {
     /**
@@ -25,6 +23,9 @@ class Search extends \Magento\Backend\Block\Widget
      */
     protected $_template = 'product/edit/bundle/option/search.phtml';
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->setId('bundle_option_selection_search');

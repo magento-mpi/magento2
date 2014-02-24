@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Bundle\Controller\Adminhtml\Bundle\Product;
 
 /**
  * Adminhtml bundle product edit
@@ -15,10 +16,11 @@
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Bundle\Controller\Adminhtml\Bundle\Product;
-
 class Edit extends \Magento\Catalog\Controller\Adminhtml\Product
 {
+    /**
+     * @return void
+     */
     public function formAction()
     {
         $product = $this->_initProduct();

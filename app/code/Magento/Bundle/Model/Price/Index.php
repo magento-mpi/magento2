@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Bundle\Model\Price;
 
 /**
  * Bundle Product Price Index
@@ -27,8 +27,6 @@
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Bundle\Model\Price;
-
 class Index extends \Magento\Core\Model\AbstractModel
 {
     /**
@@ -67,6 +65,7 @@ class Index extends \Magento\Core\Model\AbstractModel
     /**
      * Initialize resource model
      *
+     * @return void
      */
     protected function _construct()
     {

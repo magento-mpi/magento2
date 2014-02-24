@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit;
 
 /**
  * Adminhtml product edit tabs
@@ -15,12 +16,16 @@
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit;
-
 class Tabs extends \Magento\Catalog\Block\Adminhtml\Product\Edit\Tabs
 {
+    /**
+     * @var string
+     */
     protected $_attributeTabBlock = 'Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Attributes';
 
+    /**
+     * @return $this|void
+     */
     protected function _prepareLayout()
     {
         parent::_prepareLayout();

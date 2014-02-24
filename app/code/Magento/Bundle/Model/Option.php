@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Bundle\Model;
 
 /**
  * Bundle Option Model
@@ -26,8 +27,6 @@
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Bundle\Model;
-
 class Option extends \Magento\Core\Model\AbstractModel
 {
     /**
@@ -40,6 +39,7 @@ class Option extends \Magento\Core\Model\AbstractModel
     /**
      * Initialize resource model
      *
+     * @return void
      */
     protected function _construct()
     {

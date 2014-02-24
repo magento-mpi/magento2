@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle;
+
+use Magento\Data\Form\Element\AbstractElement;
 
 /**
  * Bundle option renderer
@@ -15,30 +18,28 @@
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle;
-
 class Option extends \Magento\Backend\Block\Widget
 {
     /**
      * Form element
      *
-     * @var \Magento\Data\Form\Element\AbstractElement|null
+     * @var AbstractElement|null
      */
     protected $_element = null;
 
     /**
      * List of customer groups
      *
-     * @deprecated since 1.7.0.0
      * @var array|null
+     * @deprecated since 1.7.0.0
      */
     protected $_customerGroups = null;
 
     /**
      * List of websites
      *
-     * @deprecated since 1.7.0.0
      * @var array|null
+     * @deprecated since 1.7.0.0
      */
     protected $_websites = null;
 
@@ -49,6 +50,9 @@ class Option extends \Magento\Backend\Block\Widget
      */
     protected $_options = null;
 
+    /**
+     * @var string
+     */
     protected $_template = 'product/edit/bundle/option.phtml';
 
     /**
@@ -92,6 +96,8 @@ class Option extends \Magento\Backend\Block\Widget
      * Bundle option renderer class constructor
      *
      * Sets block template and necessary data
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -100,11 +106,17 @@ class Option extends \Magento\Backend\Block\Widget
         $this->setCanEditPrice(true);
     }
 
+    /**
+     * @return string
+     */
     public function getFieldId()
     {
         return 'bundle_option';
     }
 
+    /**
+     * @return string
+     */
     public function getFieldName()
     {
         return 'bundle_options';
@@ -123,28 +135,45 @@ class Option extends \Magento\Backend\Block\Widget
         return $this->getData('product');
     }
 
-    public function render(\Magento\Data\Form\Element\AbstractElement $element)
+    /**
+     * @param AbstractElement $element
+     * @return string
+     */
+    public function render(AbstractElement $element)
     {
         $this->setElement($element);
         return $this->toHtml();
     }
 
-    public function setElement(\Magento\Data\Form\Element\AbstractElement $element)
+    /**
+     * @param AbstractElement $element
+     * @return $this
+     */
+    public function setElement(AbstractElement $element)
     {
         $this->_element = $element;
         return $this;
     }
 
+    /**
+     * @return AbstractElement|null
+     */
     public function getElement()
     {
         return $this->_element;
     }
 
+    /**
+     * @return bool
+     */
     public function isMultiWebsites()
     {
         return !$this->_storeManager->hasSingleStore();
     }
 
+    /**
+     * @return $this
+     */
     protected function _prepareLayout()
     {
         $this->addChild('add_selection_button', 'Magento\Backend\Block\Widget\Button', array(
@@ -174,16 +203,25 @@ class Option extends \Magento\Backend\Block\Widget
         return parent::_prepareLayout();
     }
 
+    /**
+     * @return string
+     */
     public function getAddButtonHtml()
     {
         return $this->getChildHtml('add_button');
     }
 
+    /**
+     * @return string
+     */
     public function getCloseSearchButtonHtml()
     {
         return $this->getChildHtml('close_search_button');
     }
 
+    /**
+     * @return string
+     */
     public function getAddSelectionButtonHtml()
     {
         return $this->getChildHtml('add_selection_button');
@@ -222,6 +260,9 @@ class Option extends \Magento\Backend\Block\Widget
         return $this->_options;
     }
 
+    /**
+     * @return mixed
+     */
     public function getAddButtonId()
     {
         $buttonId = $this->getLayout()
@@ -230,16 +271,25 @@ class Option extends \Magento\Backend\Block\Widget
         return $buttonId;
     }
 
+    /**
+     * @return string
+     */
     public function getOptionDeleteButtonHtml()
     {
         return $this->getChildHtml('option_delete_button');
     }
 
+    /**
+     * @return string
+     */
     public function getSelectionHtml()
     {
         return $this->getChildHtml('selection_template');
     }
 
+    /**
+     * @return mixed
+     */
     public function getTypeSelectHtml()
     {
         $select = $this->getLayout()->createBlock('Magento\View\Element\Html\Select')
@@ -254,6 +304,9 @@ class Option extends \Magento\Backend\Block\Widget
         return $select->getHtml();
     }
 
+    /**
+     * @return mixed
+     */
     public function getRequireSelectHtml()
     {
         $select = $this->getLayout()->createBlock('Magento\View\Element\Html\Select')
@@ -267,6 +320,9 @@ class Option extends \Magento\Backend\Block\Widget
         return $select->getHtml();
     }
 
+    /**
+     * @return bool
+     */
     public function isDefaultStore()
     {
         return $this->getProduct()->getStoreId() == '0';

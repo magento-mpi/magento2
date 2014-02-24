@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Bundle\Model\Product\Attribute\Source\Price;
 
 /**
  * Bundle Price View Attribute Renderer
@@ -16,8 +16,6 @@
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Bundle\Model\Product\Attribute\Source\Price;
-
 class View
     extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
 {
