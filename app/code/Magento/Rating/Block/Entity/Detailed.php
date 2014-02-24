@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Rating\Block\Entity;
 
 /**
  * Entity rating block
@@ -15,8 +16,6 @@
  * @package    Magento_Rating
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Rating\Block\Entity;
-
 class Detailed extends \Magento\View\Element\Template
 {
     /**
@@ -33,6 +32,7 @@ class Detailed extends \Magento\View\Element\Template
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Rating\Model\RatingFactory $ratingFactory
      * @param array $data
+     * @return void
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,

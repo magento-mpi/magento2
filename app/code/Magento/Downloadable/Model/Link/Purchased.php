@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Downloadable\Model\Link;
 
 /**
  * Downloadable links purchased model
@@ -36,13 +37,12 @@
  * @package     Magento_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Downloadable\Model\Link;
-
 class Purchased extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Enter description here...
      *
+     * @return void
      */
     protected function _construct()
     {

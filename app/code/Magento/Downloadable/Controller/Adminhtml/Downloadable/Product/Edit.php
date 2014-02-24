@@ -5,21 +5,21 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Downloadable\Controller\Adminhtml\Downloadable\Product;
+
+use Magento\Downloadable\Helper\Download as DownloadHelper;
 
 /**
  * Adminhtml downloadable product edit
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Downloadable\Controller\Adminhtml\Downloadable\Product;
-
-use Magento\Downloadable\Helper\Download as DownloadHelper;
-
 class Edit extends \Magento\Catalog\Controller\Adminhtml\Product
 {
     /**
      * Load downloadable tab fieldsets
      *
+     * @return void
      */
     public function formAction()
     {
@@ -38,6 +38,7 @@ class Edit extends \Magento\Catalog\Controller\Adminhtml\Product
      *
      * @param string $resource
      * @param string $resourceType
+     * @return void
      */
     protected function _processDownload($resource, $resourceType)
     {
@@ -76,6 +77,7 @@ class Edit extends \Magento\Catalog\Controller\Adminhtml\Product
     /**
      * Download link action
      *
+     * @return void
      */
     public function linkAction()
     {

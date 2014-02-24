@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Downloadable\Helper;
+
+use Magento\Downloadable\Model\Link\Purchased\Item;
 
 /**
  * Downloadable helper
@@ -15,8 +18,6 @@
  * @package     Magento_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Downloadable\Helper;
-
 class Data extends \Magento\App\Helper\AbstractHelper
 {
     /**
@@ -41,7 +42,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Check is link shareable or not
      *
-     * @param \Magento\Downloadable\Model\Link | \Magento\Downloadable\Model\Link\Purchased\Item $link
+     * @param \Magento\Downloadable\Model\Link|Item $link
      * @return bool
      */
     public function getIsShareable($link)

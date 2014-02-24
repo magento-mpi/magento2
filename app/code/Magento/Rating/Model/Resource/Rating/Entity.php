@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Rating\Model\Resource\Rating;
 
 /**
  * Rating entity resource
@@ -16,13 +16,12 @@
  * @package     Magento_Rating
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Rating\Model\Resource\Rating;
-
 class Entity extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Rating entity resource initialization
      *
+     * @return void
      */
     protected function _construct()
     {

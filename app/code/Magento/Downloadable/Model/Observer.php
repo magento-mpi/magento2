@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Downloadable\Model;
 
 /**
  * Downloadable Products Observer
@@ -15,8 +16,6 @@
  * @package     Magento_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Downloadable\Model;
-
 class Observer
 {
     const XML_PATH_DISABLE_GUEST_CHECKOUT   = 'catalog/downloadable/disable_guest_checkout';
@@ -97,7 +96,7 @@ class Observer
      * Prepare product to save
      *
      * @param   \Magento\Object $observer
-     * @return  \Magento\Downloadable\Model\Observer
+     * @return  $this
      */
     public function prepareProductSave($observer)
     {
@@ -115,7 +114,7 @@ class Observer
      * Save data from order to purchased links
      *
      * @param \Magento\Object $observer
-     * @return \Magento\Downloadable\Model\Observer
+     * @return $this
      */
     public function saveDownloadableOrderItem($observer)
     {
@@ -193,7 +192,7 @@ class Observer
      * Set checkout session flag if order has downloadable product(s)
      *
      * @param \Magento\Object $observer
-     * @return \Magento\Downloadable\Model\Observer
+     * @return $this
      */
     public function setHasDownloadableProducts($observer)
     {
@@ -217,7 +216,7 @@ class Observer
      * Set status of link
      *
      * @param \Magento\Object $observer
-     * @return \Magento\Downloadable\Model\Observer
+     * @return $this
      */
     public function setLinkStatus($observer)
     {
@@ -317,7 +316,7 @@ class Observer
      * Check is allowed guest checkout if quote contain downloadable product(s)
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\Downloadable\Model\Observer
+     * @return $this
      */
     public function isAllowedGuestCheckout(\Magento\Event\Observer $observer)
     {
@@ -346,7 +345,7 @@ class Observer
      * Initialize product options renderer with downloadable specific params
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\Downloadable\Model\Observer
+     * @return $this
      */
     public function initOptionRenderer(\Magento\Event\Observer $observer)
     {

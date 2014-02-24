@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Rating\Model\Resource\Rating\Option;
 
 /**
  * Rating vote resource model
@@ -15,13 +16,12 @@
  * @package     Magento_Rating
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Rating\Model\Resource\Rating\Option;
-
 class Vote extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Resource initialization
      *
+     * @return void
      */
     protected function _construct()
     {

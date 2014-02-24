@@ -35,6 +35,7 @@ class Downloadable
      *
      * @param array $arguments
      * @param InvocationChain $invocationChain
+     * @return void
      */
     public function aroundProcessProduct(array $arguments, InvocationChain $invocationChain)
     {

@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Downloadable\Model\Product;
 
 /**
  * Downloadable product type model
@@ -15,8 +16,6 @@
  * @package     Magento_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Downloadable\Model\Product;
-
 class Type extends \Magento\Catalog\Model\Product\Type\Virtual
 {
     const TYPE_DOWNLOADABLE = 'downloadable';
@@ -66,12 +65,12 @@ class Type extends \Magento\Catalog\Model\Product\Type\Virtual
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Catalog\Model\Product\Type $catalogProductType
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Downloadable\Helper\File $downloadableFile
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Helper\File\Storage\Database $fileStorageDb
      * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Logger $logger
+     * @param \Magento\Downloadable\Helper\File $downloadableFile
      * @param \Magento\Downloadable\Model\Resource\SampleFactory $sampleResFactory
      * @param \Magento\Downloadable\Model\Resource\Link $linkResource
      * @param \Magento\Downloadable\Model\Resource\Link\CollectionFactory $linksFactory
@@ -221,7 +220,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\Virtual
      * Save Product downloadable information (links and samples)
      *
      * @param \Magento\Catalog\Model\Product $product
-     * @return \Magento\Downloadable\Model\Product\Type
+     * @return $this
      */
     public function save($product)
     {
@@ -347,7 +346,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\Virtual
      * Check if product can be bought
      *
      * @param \Magento\Catalog\Model\Product $product
-     * @return \Magento\Bundle\Model\Product\Type
+     * @return $this
      * @throws \Magento\Core\Exception
      */
     public function checkProductBuyState($product)
@@ -403,6 +402,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\Virtual
      * based on link can be purchased separately or not
      *
      * @param \Magento\Catalog\Model\Product $product
+     * @return void
      */
     public function beforeSave($product)
     {
@@ -507,6 +507,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\Virtual
      * Delete data specific for Downloadable product type
      *
      * @param \Magento\Catalog\Model\Product $product
+     * @return void
      */
     public function deleteTypeSpecificData(\Magento\Catalog\Model\Product $product)
     {

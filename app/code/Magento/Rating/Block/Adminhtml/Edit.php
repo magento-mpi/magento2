@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Rating\Block\Adminhtml;
 
 /**
  * Rating edit form
  */
-namespace Magento\Rating\Block\Adminhtml;
-
 class Edit extends \Magento\Backend\Block\Widget\Form\Container
 {
     /**
@@ -28,6 +27,10 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
      * @var \Magento\Rating\Model\RatingFactory
      */
     protected $_ratingFactory;
+
+    /**
+     * @var string
+     */
     protected $_blockGroup = 'Magento_Rating';
 
     /**
@@ -47,6 +50,9 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
         parent::__construct($context, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -65,6 +71,9 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
         }
     }
 
+    /**
+     * @return string
+     */
     public function getHeaderText()
     {
         $ratingData = $this->_coreRegistry->registry('rating_data');

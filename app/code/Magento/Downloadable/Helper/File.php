@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Downloadable\Helper;
 
 /**
  * Downloadable Products File Helper
@@ -15,8 +16,6 @@
  * @package     Magento_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Downloadable\Helper;
-
 class File extends \Magento\App\Helper\AbstractHelper
 {
     /**
@@ -41,7 +40,6 @@ class File extends \Magento\App\Helper\AbstractHelper
     protected $_mediaDirectory;
 
     /**
-     * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase
      * @param \Magento\App\Filesystem $filesystem
@@ -66,9 +64,9 @@ class File extends \Magento\App\Helper\AbstractHelper
 
     /**
      * Upload file from temporary folder.
-     * @param $tmpPath
+     * @param string $tmpPath
      * @param \Magento\Core\Model\File\Uploader $uploader
-     * @return array | bool
+     * @return array
      */
     public function uploadFromTmp($tmpPath, \Magento\Core\Model\File\Uploader $uploader)
     {
@@ -82,7 +80,7 @@ class File extends \Magento\App\Helper\AbstractHelper
 
     /**
      * Checking file for moving and move it
-     * @param  string $baseTmpPath
+     * @param string $baseTmpPath
      * @param string $basePath
      * @param string $file
      * @return string
@@ -108,7 +106,7 @@ class File extends \Magento\App\Helper\AbstractHelper
 
     /**
      * Check if file exist in filesystem and try to re-create it from database record if negative.
-     * @param $file
+     * @param string $file
      * @return bool|int
      */
     public function ensureFileInFilesystem($file)
@@ -181,7 +179,7 @@ class File extends \Magento\App\Helper\AbstractHelper
 
     /**
      * Get filesize in bytes.
-     * @param $file
+     * @param string $file
      * @return int
      */
     public function getFileSize($file)
@@ -189,12 +187,20 @@ class File extends \Magento\App\Helper\AbstractHelper
         return $this->_mediaDirectory->stat($file)['size'];
     }
 
+    /**
+     * @param string $filePath
+     * @return string
+     */
     public function getFileType($filePath)
     {
         $ext = substr($filePath, strrpos($filePath, '.')+1);
         return $this->_getFileTypeByExt($ext);
     }
 
+    /**
+     * @param string $ext
+     * @return string
+     */
     protected function _getFileTypeByExt($ext)
     {
         $type = 'x' . $ext;
@@ -204,16 +210,25 @@ class File extends \Magento\App\Helper\AbstractHelper
         return 'application/octet-stream';
     }
 
+    /**
+     * @return array
+     */
     public function getAllFileTypes()
     {
         return array_values(self::getAllMineTypes());
     }
 
+    /**
+     * @return array
+     */
     public function getAllMineTypes()
     {
         return self::$_mimeTypes;
     }
 
+    /**
+     * @var array
+     */
     protected static $_mimeTypes =
         array(
             'x123' => 'application/vnd.lotus-1-2-3',

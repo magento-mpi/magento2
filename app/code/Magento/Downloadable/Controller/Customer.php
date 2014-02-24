@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Downloadable\Controller;
+
+use Magento\App\RequestInterface;
 
 /**
  * Customer account controller
@@ -15,11 +18,6 @@
  * @package     Magento_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Downloadable\Controller;
-
-use Magento\App\Action\NotFoundException;
-use Magento\App\RequestInterface;
-
 class Customer extends \Magento\App\Action\Action
 {
     /**
@@ -58,6 +56,7 @@ class Customer extends \Magento\App\Action\Action
     /**
      * Display downloadable links bought by customer
      *
+     * @return void
      */
     public function productsAction()
     {

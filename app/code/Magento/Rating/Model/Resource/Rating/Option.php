@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Rating\Model\Resource\Rating;
 
 /**
  * Rating option resource model
@@ -15,8 +16,6 @@
  * @package     Magento_Rating
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Rating\Model\Resource\Rating;
-
 class Option extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
@@ -106,6 +105,7 @@ class Option extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Resource initialization. Define other tables name
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -123,7 +123,7 @@ class Option extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Add vote
      *
      * @param \Magento\Rating\Model\Rating\Option $option
-     * @return \Magento\Rating\Model\Resource\Rating\Option
+     * @return $this
      */
     public function addVote($option)
     {
@@ -170,6 +170,7 @@ class Option extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Aggregate options
      *
      * @param \Magento\Rating\Model\Rating\Option $option
+     * @return void
      */
     public function aggregate($option)
     {
@@ -182,6 +183,7 @@ class Option extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param int $ratingId
      * @param int $entityPkValue
+     * @return void
      */
     public function aggregateEntityByRatingId($ratingId, $entityPkValue)
     {

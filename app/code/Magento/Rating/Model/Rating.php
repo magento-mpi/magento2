@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Rating\Model;
 
 /**
  * Rating model
@@ -23,8 +24,6 @@
  * @package    Magento_Rating
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Rating\Model;
-
 class Rating extends \Magento\Core\Model\AbstractModel
 {
     /**
@@ -79,7 +78,7 @@ class Rating extends \Magento\Core\Model\AbstractModel
 
     /**
      * @param int $optionId
-     * @param $entityPkValue
+     * @param int $entityPkValue
      * @return $this
      */
     public function addOptionVote($optionId, $entityPkValue)
@@ -129,7 +128,7 @@ class Rating extends \Magento\Core\Model\AbstractModel
     /**
      * Get rating collection object
      *
-     * @param $entityPkValue
+     * @param int $entityPkValue
      * @param bool $onlyForCurrentStore
      * @return \Magento\Data\Collection\Db
      */

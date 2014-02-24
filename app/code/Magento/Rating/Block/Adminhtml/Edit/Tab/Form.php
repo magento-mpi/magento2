@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Rating\Block\Adminhtml\Edit\Tab;
 
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
@@ -61,7 +60,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Prepare rating edit form
      *
-     * @return \Magento\Rating\Block\Adminhtml\Edit\Tab\Form
+     * @return $this
      */
     protected function _prepareForm()
     {
@@ -163,6 +162,10 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         return parent::_prepareForm();
     }
 
+    /**
+     * @param array $ratingCodes
+     * @return void
+     */
     protected function _setRatingCodes($ratingCodes)
     {
         foreach($ratingCodes as $store=>$value) {
@@ -173,11 +176,17 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         }
     }
 
+    /**
+     * @return string
+     */
     protected function _toHtml()
     {
         return $this->_getWarningHtml() . parent::_toHtml();
     }
 
+    /**
+     * @return string
+     */
     protected function _getWarningHtml()
     {
         return '<div>

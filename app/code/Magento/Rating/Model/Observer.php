@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Rating\Model;
 
 /**
  * Rating Observer Model
  */
-namespace Magento\Rating\Model;
-
 class Observer
 {
     /**
@@ -32,7 +31,7 @@ class Observer
      * Cleanup product ratings after product delete
      *
      * @param   \Magento\Event\Observer $observer
-     * @return  \Magento\Rating\Model\Observer
+     * @return  $this
      */
     public function processProductAfterDeleteEvent(\Magento\Event\Observer $observer)
     {

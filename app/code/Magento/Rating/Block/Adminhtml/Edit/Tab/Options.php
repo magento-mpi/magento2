@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Rating\Block\Adminhtml\Edit\Tab;
 
 class Options extends \Magento\Backend\Block\Widget\Form\Generic
@@ -37,7 +36,9 @@ class Options extends \Magento\Backend\Block\Widget\Form\Generic
         parent::__construct($context, $registry, $formFactory, $data);
     }
 
-
+    /**
+     * @return $this
+     */
     protected function _prepareForm()
     {
         /** @var \Magento\Data\Form $form */

@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Downloadable\Controller\Adminhtml\Downloadable;
 
 /**
  * Downloadable File upload controller
@@ -15,7 +16,6 @@
  * @package     Magento_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Downloadable\Controller\Adminhtml\Downloadable;
 
 class File extends \Magento\Backend\App\Action
 {
@@ -56,6 +56,8 @@ class File extends \Magento\Backend\App\Action
 
     /**
      * Upload file controller action
+     *
+     * @return void
      */
     public function uploadAction()
     {
