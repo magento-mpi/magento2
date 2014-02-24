@@ -58,7 +58,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     public function testInvalidateVarnish()
     {
         $tags = array('cache_1', 'cache_group');
-        $expectedTags = array('cache_1', 'cache_group', 'cache');
+        $pattern = '((^|,)cache(,|$))|((^|,)cache_1(,|$))|((^|,)cache_group(,|$))';
 
         $eventMock = $this->getMock('Magento\Event', ['getObject'], [], '', false);
         $eventMock->expects($this->once())
@@ -73,7 +73,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_observerObject->expects($this->once())
             ->method('getIdentities')
             ->will($this->returnValue($tags));
-        $this->sendPurgeRequest(implode('|', $expectedTags));
+        $this->sendPurgeRequest($pattern);
 
         $this->_model->invalidateVarnish($this->_observerMock);
     }
@@ -92,9 +92,9 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param array $tags
+     * @param string $tags
      */
-    protected function sendPurgeRequest($tags = array())
+    protected function sendPurgeRequest($tags)
     {
         $url = 'http://mangento.index.php';
         $httpVersion = '1.1';
