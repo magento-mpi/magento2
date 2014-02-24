@@ -51,11 +51,11 @@ class VarnishPlugin
      */
     public function aroundDispatch(array $arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
     {
-        if ($this->config->getType() === \Magento\PageCache\Model\Config::VARNISH) {
+        if ($this->config->getType() == \Magento\PageCache\Model\Config::VARNISH) {
             $this->version->process();
             $response = $invocationChain->proceed($arguments);
             if ($this->state->getMode() == \Magento\App\State::MODE_DEVELOPER) {
-                $response->setHeader('X-Magento-Cache-Control', $response->getHeader('Cache-Control')['value']);
+                $response->setHeader('X-Magento-Debug', 1);
             }
         } else {
             $response = $invocationChain->proceed($arguments);
