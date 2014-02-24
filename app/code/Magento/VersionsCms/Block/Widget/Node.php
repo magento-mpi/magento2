@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\VersionsCms\Block\Widget;
 
 /**
  * Cms Hierarchy Node Widget Block
  */
-namespace Magento\VersionsCms\Block\Widget;
-
 class Node
     extends \Magento\View\Element\Html\Link
     implements \Magento\Widget\Block\BlockInterface
@@ -141,7 +140,7 @@ class Node
      * Retrieve data from instance
      *
      * @param string $key
-     * @return bool|mixed
+     * @return mixed|false
      */
     protected function _getInstanceData($key)
     {

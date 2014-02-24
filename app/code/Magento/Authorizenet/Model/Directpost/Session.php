@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Authorizenet\Model\Directpost;
 
 /**
@@ -42,6 +41,7 @@ class Session extends \Magento\Session\SessionManager
      * Add order IncrementId to session
      *
      * @param string $orderIncrementId
+     * @return void
      */
     public function addCheckoutOrderIncrementId($orderIncrementId)
     {
@@ -57,6 +57,7 @@ class Session extends \Magento\Session\SessionManager
      * Remove order IncrementId from session
      *
      * @param string $orderIncrementId
+     * @return void
      */
     public function removeCheckoutOrderIncrementId($orderIncrementId)
     {

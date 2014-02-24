@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Authz\Model;
 
 /**
@@ -29,7 +28,9 @@ class UserIdentifier
      */
     protected $_userType;
 
-    /** @var  int */
+    /**
+     * @var  int
+     */
     protected $_userId;
 
     /**
@@ -74,8 +75,8 @@ class UserIdentifier
     /**
      * Set user ID.
      *
-     * @param int
-     * @return UserIdentifier
+     * @param int $userId
+     * @return $this
      * @throws \LogicException
      */
     protected function _setUserId($userId)
@@ -92,7 +93,7 @@ class UserIdentifier
      * Set user type.
      *
      * @param string $userType
-     * @return UserIdentifier
+     * @return $this
      * @throws \LogicException
      */
     protected function _setUserType($userType)
