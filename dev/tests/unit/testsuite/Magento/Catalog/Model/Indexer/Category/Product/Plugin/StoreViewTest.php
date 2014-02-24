@@ -115,7 +115,7 @@ class StoreViewTest extends \PHPUnit_Framework_TestCase
 
     protected function mockPluginProceed($returnValue = false)
     {
-        return function() use ($returnValue) {
+        return function () use ($returnValue) {
             return $returnValue;
         };
     }
