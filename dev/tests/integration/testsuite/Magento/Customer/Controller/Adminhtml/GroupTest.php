@@ -29,7 +29,8 @@ class GroupTest extends \Magento\Backend\Utility\Controller
         $groupService = Bootstrap::getObjectManager()
             ->get('Magento\Customer\Service\V1\CustomerGroupServiceInterface');
 
-        $customerGroupBuilder = (new CustomerGroupBuilder())->setId(null)->setCode('custom_group')->setTaxClassId(3);
+        $customerGroupBuilder = (new CustomerGroupBuilder())->setId(null)->setCode(self::CUSTOMER_GROUP_CODE)
+            ->setTaxClassId(self::TAX_CLASS_ID);
         $group = new CustomerGroup($customerGroupBuilder);
         self::$_customerGroupId = $groupService->saveGroup($group);;
     }
