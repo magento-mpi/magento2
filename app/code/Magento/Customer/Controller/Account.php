@@ -505,6 +505,10 @@ class Account extends \Magento\App\Action\Action
         $isGroupIdEmpty = true;
         $customerData = [];
         foreach ($allowedAttributes as $attribute) {
+            // confirmation in request param is the repeated password, not a confirmation code.
+            if ($attribute === 'confirmation') {
+                continue;
+            }
             $attributeCode = $attribute->getAttributeCode();
             if ($attributeCode == 'group_id') {
                 $isGroupIdEmpty = false;
@@ -517,7 +521,6 @@ class Account extends \Magento\App\Action\Action
             $this->_customerBuilder->setGroupId($this->_groupService->getDefaultGroup($store->getId())->getId());
         }
 
-        $this->_customerBuilder->setConfirmation($this->getRequest()->getParam('confirmation'));
         $this->_customerBuilder->setWebsiteId($store->getWebsiteId());
         $this->_customerBuilder->setStoreId($store->getId());
 
