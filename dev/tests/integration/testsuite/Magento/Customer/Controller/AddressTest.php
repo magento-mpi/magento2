@@ -21,7 +21,7 @@ class AddressTest extends \Magento\TestFramework\TestCase\AbstractController
         $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Customer\Model\Session', array($logger));
         $service = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('\Magento\Customer\Service\V1\CustomerAccountService');
+            ->create('Magento\Customer\Service\V1\CustomerAccountService');
         $customer = $service->authenticate('customer@example.com', 'password');
         $session->setCustomerDtoAsLoggedIn($customer);
     }

@@ -242,13 +242,12 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param Product\Url $url
      * @param Product\Link $productLink
-     * @param \Magento\Catalog\Model\Product\Configuration\Item\OptionFactory $itemOptionFactory
+     * @param Product\Configuration\Item\OptionFactory $itemOptionFactory
      * @param \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
+     * @param CategoryFactory $categoryFactory
      * @param Product\Option $catalogProductOption
      * @param Product\Visibility $catalogProductVisibility
-     * @param \Magento\Catalog\Model\Product\Attribute\Source\Status $catalogProductStatus
+     * @param Product\Attribute\Source\Status $catalogProductStatus
      * @param Product\Media\Config $catalogProductMediaConfig
      * @param \Magento\Index\Model\Indexer $indexIndexer
      * @param Product\Type $catalogProductType

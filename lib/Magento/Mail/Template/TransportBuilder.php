@@ -154,7 +154,7 @@ class TransportBuilder
             ->setBody($template->processTemplate())
             ->setSubject($template->getSubject());
 
-        return $this->objectManager->create('\Magento\Mail\TransportInterface', array('message' => $this->message));
+        return $this->objectManager->create('Magento\Mail\TransportInterface', array('message' => $this->message));
 
     }
 }

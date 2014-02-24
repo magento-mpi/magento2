@@ -10,21 +10,23 @@ namespace Magento\Interception\Custom\Module\Model\ItemPlugin;
 class Advanced
 {
     /**
-     * @param array $methodArguments
-     * @param \Magento\Code\Plugin\InvocationChain $invocationChain
+     * @param $subject
+     * @param $proceed
+     * @param $argument
      * @return string
      */
-    public function aroundGetName(array $methodArguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
+    public function aroundGetName($subject, $proceed, $argument)
     {
-        return '[' . $invocationChain->proceed($methodArguments) . ']';
+        return '[' . $proceed($argument) . ']';
     }
 
     /**
-     * @param string $invocationResult
+     * @param $subject
+     * @param $result
      * @return string
      */
-    public function afterGetName($invocationResult)
+    public function afterGetName($subject, $result)
     {
-        return $invocationResult . '%';
+        return $result . '%';
     }
 }

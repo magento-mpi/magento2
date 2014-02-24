@@ -51,7 +51,7 @@ class IndexTest extends \Magento\TestFramework\TestCase\AbstractController
         ;
         $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Customer\Model\Session');
         $service = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('\Magento\Customer\Service\V1\CustomerAccountService');
+            ->create('Magento\Customer\Service\V1\CustomerAccountService');
         $customer = $service->authenticate('customer@example.com', 'password');
         $session->setCustomerDtoAsLoggedIn($customer);
 

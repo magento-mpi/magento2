@@ -35,7 +35,6 @@ class PluginListTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->markTestIncomplete('MAGETWO-21212');
         $readerMap = include(__DIR__ . '/../_files/reader_mock_map.php');
         $readerMock = $this->getMock('\Magento\ObjectManager\Config\Reader\Dom', array(), array(), '', false);
         $readerMock->expects($this->any())
@@ -55,6 +54,9 @@ class PluginListTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnArgument(0));
 
         $this->_objectManagerMock = $this->getMock('Magento\ObjectManager');
+        $this->_objectManagerMock->expects($this->any())->method('get')->will($this->returnArgument(0));
+
+        $definitions = new \Magento\ObjectManager\Definition\Runtime();
 
         $this->_model = new \Magento\Interception\PluginList\PluginList(
             $readerMock,
@@ -64,28 +66,51 @@ class PluginListTest extends \PHPUnit_Framework_TestCase
             $omConfigMock,
             new \Magento\Interception\Definition\Runtime(),
             $this->_objectManagerMock,
+            $definitions,
             array('global'),
-            'interception',
-            null
+            'interception'
         );
     }
 
+    public function testGetPlugin()
+    {
+        $this->_configScopeMock->expects($this->any())
+            ->method('getCurrentScope')
+            ->will($this->returnValue('backend'));
+        $this->_model->getNext('Magento\Interception\Custom\Module\Model\Item', 'getName');
+        $this->_model->getNext('Magento\Interception\Custom\Module\Model\ItemContainer', 'getName');
+
+        $this->assertEquals(
+            'Magento\Interception\Custom\Module\Model\ItemPlugin\Simple',
+            $this->_model->getPlugin('Magento\Interception\Custom\Module\Model\Item', 'simple_plugin')
+        );
+        $this->assertEquals(
+            'Magento\Interception\Custom\Module\Model\ItemPlugin\Advanced',
+            $this->_model->getPlugin('Magento\Interception\Custom\Module\Model\Item', 'advanced_plugin')
+        );
+        $this->assertEquals(
+            'Magento\Interception\Custom\Module\Model\ItemContainerPlugin\Simple',
+            $this->_model->getPlugin('Magento\Interception\Custom\Module\Model\ItemContainer', 'simple_plugin')
+        );
+    }
+
+
     /**
-     * @param array $expectedResult
-     * @param string $type
-     * @param string $method
-     * @param string $scenario
-     * @param string $scopeCode
+     * @param $expectedResult
+     * @param $type
+     * @param $method
+     * @param $scopeCode
+     * @param string $code
      * @dataProvider getPluginsDataProvider
      */
-    public function testGetPlugins(array $expectedResult, $type, $method, $scenario, $scopeCode)
+    public function testGetPlugins($expectedResult, $type, $method, $scopeCode, $code = '__self')
     {
         $this->_configScopeMock->expects($this->any())
             ->method('getCurrentScope')
             ->will($this->returnValue($scopeCode));
         $this->assertEquals(
             $expectedResult,
-            $this->_model->getPlugins($type, $method, $scenario)
+            $this->_model->getNext($type, $method, $code)
         );
     }
 
@@ -96,72 +121,58 @@ class PluginListTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                array('Magento\Interception\Custom\Module\Model\ItemPlugin\Simple'),
+                array(4 => array('simple_plugin')),
                 'Magento\Interception\Custom\Module\Model\Item',
                 'getName',
-                'after',
                 'global',
             ),
             array(
                 // advanced plugin has lower sort order
-                array('Magento\Interception\Custom\Module\Model\ItemPlugin\Advanced',
-                      'Magento\Interception\Custom\Module\Model\ItemPlugin\Simple'),
+                array(2 => 'advanced_plugin', 4 => array('advanced_plugin')),
                 'Magento\Interception\Custom\Module\Model\Item',
                 'getName',
-                'after',
                 'backend',
             ),
             array(
-                array('Magento\Interception\Custom\Module\Model\ItemPlugin\Advanced'),
+                // advanced plugin has lower sort order
+                array(4 => array('simple_plugin')),
                 'Magento\Interception\Custom\Module\Model\Item',
                 'getName',
-                'around',
                 'backend',
+                'advanced_plugin'
             ),
             array(
                 // simple plugin is disabled in configuration for
                 // \Magento\Interception\Custom\Module\Model\Item in frontend
-                array(),
+                null,
                 'Magento\Interception\Custom\Module\Model\Item',
                 'getName',
-                'after',
                 'frontend',
             ),
             // test plugin inheritance
             array(
-                array('Magento\Interception\Custom\Module\Model\ItemPlugin\Simple'),
+                array(4 => array('simple_plugin')),
                 'Magento\Interception\Custom\Module\Model\Item\Enhanced',
                 'getName',
-                'after',
                 'global',
             ),
             array(
                 // simple plugin is disabled in configuration for parent
-                array('Magento\Interception\Custom\Module\Model\ItemPlugin\Advanced'),
+                array(2 => 'advanced_plugin', 4 => array('advanced_plugin')),
                 'Magento\Interception\Custom\Module\Model\Item\Enhanced',
                 'getName',
-                'after',
                 'frontend',
             ),
             array(
-                array('Magento\Interception\Custom\Module\Model\ItemPlugin\Advanced'),
-                'Magento\Interception\Custom\Module\Model\Item\Enhanced',
-                'getName',
-                'around',
-                'frontend',
-            ),
-            array(
-                array(),
+                null,
                 'Magento\Interception\Custom\Module\Model\ItemContainer',
                 'getName',
-                'after',
                 'global',
             ),
             array(
-                array('Magento\Interception\Custom\Module\Model\ItemContainerPlugin\Simple'),
+                array(4 => array('simple_plugin')),
                 'Magento\Interception\Custom\Module\Model\ItemContainer',
                 'getName',
-                'after',
                 'backend',
             ),
         );

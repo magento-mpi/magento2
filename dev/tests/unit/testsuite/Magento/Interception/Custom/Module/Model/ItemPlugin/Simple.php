@@ -13,7 +13,7 @@ class Simple
      * @param string $invocationResult
      * @return string
      */
-    public function afterGetName($invocationResult)
+    public function afterGetName($subject, $invocationResult)
     {
         return $invocationResult . '!';
     }

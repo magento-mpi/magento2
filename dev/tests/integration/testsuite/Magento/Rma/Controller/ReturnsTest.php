@@ -25,7 +25,7 @@ class ReturnsTest extends \Magento\TestFramework\TestCase\AbstractController
         $this->_customerSession = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Customer\Model\Session', array($logger));
         $service = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('\Magento\Customer\Service\V1\CustomerAccountService');
+            ->create('Magento\Customer\Service\V1\CustomerAccountService');
         $customer = $service->authenticate('customer@example.com', 'password');
         $this->_customerSession->setCustomerDtoAsLoggedIn($customer);
     }

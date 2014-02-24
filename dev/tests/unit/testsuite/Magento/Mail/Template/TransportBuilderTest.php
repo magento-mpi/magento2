@@ -100,7 +100,7 @@ class TransportBuilderTest extends \PHPUnit_Framework_TestCase
         $this->objectManagerMock->expects($this->once())
             ->method('create')
             ->with(
-                $this->equalTo('\Magento\Mail\TransportInterface'),
+                $this->equalTo('Magento\Mail\TransportInterface'),
                 $this->equalTo(array('message' => $this->messageMock))
             )
             ->will($this->returnValue($transport));
