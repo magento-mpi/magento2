@@ -746,7 +746,7 @@ class Index extends \Magento\Backend\App\Action
 
         $customer = $this->_validateCustomer($response);
         if ($customer) {
-            $this->_validateCustomerAddress($response, $customer);
+            $this->_validateCustomerAddress($response);
         }
 
         if ($response->getError()) {
@@ -813,20 +813,11 @@ class Index extends \Magento\Backend\App\Action
      * Customer address validation.
      *
      * @param \Magento\Object $response
-     * @param Customer $customer
      */
-    protected function _validateCustomerAddress($response, $customer)
+    protected function _validateCustomerAddress($response)
     {
         $addressesData = $this->getRequest()->getParam('address');
         if (is_array($addressesData)) {
-            $addressForm = $this->_formFactory->create(
-                'customer_address',
-                'adminhtml_customer_address',
-                [],
-                false,
-                false
-            );
-
             foreach (array_keys($addressesData) as $index) {
                 if ($index == '_template_') {
                     continue;
@@ -835,6 +826,14 @@ class Index extends \Magento\Backend\App\Action
                 if (!$address) {
                     $address = $this->_addressBuilder->create();
                 }
+
+                $addressForm = $this->_formFactory->create(
+                    'customer_address',
+                    'adminhtml_customer_address',
+                    $address->getAttributes(),
+                    false,
+                    false
+                );
 
                 $requestScope = sprintf('address/%s', $index);
                 $formData = $addressForm->extractData($this->getRequest(), $requestScope);

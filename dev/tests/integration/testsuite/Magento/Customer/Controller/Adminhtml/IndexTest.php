@@ -805,19 +805,19 @@ class IndexTest extends \Magento\Backend\Utility\Controller
 
             ],
             'address' => [
-                '1'          => array(
+                '1'          => [
                     'firstname'  => 'update firstname',
                     'lastname'   => 'update lastname',
-                    'street'     => array('update street'),
+                    'street'     => ['update street'],
                     'city'       => 'update city',
                     'country_id' => 'US',
                     'postcode'   => '01001',
                     'telephone'  => '+7000000001',
-                ),
+                ],
                 '_template_' => [
                     'firstname'  => '',
                     'lastname'   => '',
-                    'street'     => array(),
+                    'street'     => [],
                     'city'       => '',
                     'country_id' => 'US',
                     'postcode'   => '',
@@ -861,17 +861,17 @@ class IndexTest extends \Magento\Backend\Utility\Controller
 
             ],
             'address' => [
-                '1'          => array(
+                '1'          => [
                     'lastname'   => 'update lastname',
-                    'street'     => array('update street'),
+                    'street'     => ['update street'],
                     'city'       => 'update city',
                     'country_id' => 'US',
                     'postcode'   => '01001',
                     'telephone'  => '+7000000001',
-                ),
+                ],
                 '_template_' => [
                     'lastname'   => '',
-                    'street'     => array(),
+                    'street'     => [],
                     'city'       => '',
                     'country_id' => 'US',
                     'postcode'   => '',
