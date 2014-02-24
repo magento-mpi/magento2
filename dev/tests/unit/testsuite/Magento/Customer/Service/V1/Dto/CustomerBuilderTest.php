@@ -23,8 +23,8 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_customerBuilder = $objectManager->getObject('Magento\Customer\Service\V1\Data\CustomerBuilder');
+        $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->_customerBuilder = $this->_objectManager->getObject('Magento\Customer\Service\V1\Data\CustomerBuilder');
         parent::setUp();
     }
 
@@ -86,7 +86,7 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \LogicException
-     * @expectedExceptionMessage Wrong prototype object given. It can only be of "Magento\Customer\Service\V1\Dto\Customer" type.
+     * @expectedExceptionMessage Wrong prototype object given. It can only be of "Magento\Customer\Service\V1\Data\Customer" type.
      */
     public function testPopulateException()
     {

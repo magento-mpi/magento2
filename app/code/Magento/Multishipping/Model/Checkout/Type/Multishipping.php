@@ -122,7 +122,7 @@ class Multishipping extends \Magento\Checkout\Model\Type\AbstractType
          * reset quote shipping addresses and items
          */
         $quote = $this->getQuote();
-        if (!$this->getCustomer()->getCustomerId()) {
+        if (!$this->getCustomer()->getId()) {
             return $this;
         }
 

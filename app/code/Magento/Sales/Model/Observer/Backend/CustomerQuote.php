@@ -65,7 +65,7 @@ class CustomerQuote
             foreach ($websites as $website) {
                 $quote = $this->_quoteFactory->create();
                 $quote->setWebsite($website);
-                $quote->loadByCustomer($customerDto->getCustomerId());
+                $quote->loadByCustomer($customerDto->getId());
                 if ($quote->getId()) {
                     $quote->setCustomerGroupId($customerDto->getGroupId());
                     $quote->collectTotals();

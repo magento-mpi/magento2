@@ -141,7 +141,7 @@ class Session extends \Magento\Session\SessionManager
     {
         if ($customer instanceof \Magento\Customer\Model\Customer) {
             $this->_customerBuilder->populateWithArray($customer->getData());
-            $this->_customerBuilder->setCustomerId($customer->getId());
+            $this->_customerBuilder->setId($customer->getId());
             $this->_customer = $this->_customerBuilder->create();
         } else {
             $this->_customer = $customer;
@@ -225,7 +225,7 @@ class Session extends \Magento\Session\SessionManager
             if (!$this->getQuoteId()) {
                 if ($this->_customerSession->isLoggedIn() || $this->_customer) {
                     $customerId = $this->_customer
-                        ? $this->_customer->getCustomerId()
+                        ? $this->_customer->getId()
                         : $this->_customerSession->getCustomerId();
                     $quote->loadByCustomer($customerId);
                     $this->setQuoteId($quote->getId());

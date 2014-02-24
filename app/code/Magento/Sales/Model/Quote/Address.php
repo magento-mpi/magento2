@@ -411,7 +411,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     protected function _isDefaultShippingNullOrSameAsBillingAddress()
     {
         $customerData = $this->getQuote()->getCustomerData();
-        $customerId = $customerData->getCustomerId();
+        $customerId = $customerData->getId();
         $defaultBillingAddress = null;
         $defaultShippingAddress = null;
 

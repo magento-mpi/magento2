@@ -1531,7 +1531,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         /** @var $store \Magento\Core\Model\Store */
         $store = $this->getSession()->getStore();
         $customerDto = $this->getQuote()->getCustomerData();
-        if ($customerDto->getCustomerId() && !$this->_customerIsInStore($store)) {
+        if ($customerDto->getId() && !$this->_customerIsInStore($store)) {
             /** Create a new customer record if it is not available in the specified store */
             $customerDto = $this->_customerBuilder->mergeDtoWithArray(
                 $customerDto,
@@ -1539,7 +1539,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
                 [CustomerDto::STORE_ID => $store->getId(), CustomerDto::ID => null, CustomerDto::CREATED_AT => null]
             );
             $customerDto = $this->_validateCustomerData($customerDto);
-        } else if (!$customerDto->getCustomerId()) {
+        } else if (!$customerDto->getId()) {
             /** Create new customer */
             $customerBillingAddressDto = $this->getBillingAddress()->exportCustomerAddressData();
             $customerDto = $this->_customerBuilder->mergeDtos($customerDto, $customerBillingAddressDto);
@@ -1577,7 +1577,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
     protected function _prepareCustomerAddress($customerDto, $quoteCustomerAddress)
     {
         // Possible that customerId is null for new customers
-        $customerId = $customerDto->getCustomerId();
+        $customerId = $customerDto->getId();
         $quoteCustomerAddress->setCustomerId($customerId);
         $customerAddressDto = $quoteCustomerAddress->exportCustomerAddressData();
         $quoteAddressId = $quoteCustomerAddress->getCustomerAddressId();

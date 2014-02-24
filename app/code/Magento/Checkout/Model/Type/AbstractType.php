@@ -126,7 +126,7 @@ abstract class AbstractType extends \Magento\Object
     {
         $address = $this->getData('customer_default_shipping_address');
         if (is_null($address)) {
-            $customerId = $this->getCustomer()->getCustomerId();
+            $customerId = $this->getCustomer()->getId();
             $address = $this->_customerAddressService->getDefaultShippingAddress($customerId);
             if (!$address) {
                 /** Default shipping address is not available, try to find any customer address */
@@ -147,7 +147,7 @@ abstract class AbstractType extends \Magento\Object
     {
         $address = $this->getData('customer_default_billing_address');
         if (is_null($address)) {
-            $customerId = $this->getCustomer()->getCustomerId();
+            $customerId = $this->getCustomer()->getId();
             $address = $this->_customerAddressService->getDefaultBillingAddress($customerId);
             if (!$address) {
                 /** Default billing address is not available, try to find any customer address */

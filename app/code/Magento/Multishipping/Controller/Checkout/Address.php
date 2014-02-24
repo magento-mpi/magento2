@@ -87,7 +87,7 @@ class Address extends \Magento\App\Action\Action
         /**
          * if we create first address we need reset emd init checkout
          */
-        $customerId = $this->_getCheckout()->getCustomer()->getCustomerId();
+        $customerId = $this->_getCheckout()->getCustomer()->getId();
         if (count($this->_customerAddressService->getAddresses($customerId)) == 1) {
             $this->_getCheckout()->reset();
         }

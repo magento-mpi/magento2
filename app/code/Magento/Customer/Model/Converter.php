@@ -49,7 +49,7 @@ class Converter
     public function createCustomerFromModel(Customer $customerModel)
     {
         $customerBuilder = $this->_populateBuilderWithAttributes($customerModel);
-        $customerBuilder->setCustomerId($customerModel->getId());
+        $customerBuilder->setId($customerModel->getId());
         $customerBuilder->setFirstname($customerModel->getFirstname());
         $customerBuilder->setLastname($customerModel->getLastname());
         $customerBuilder->setEmail($customerModel->getEmail());
@@ -118,7 +118,7 @@ class Converter
             }
         }
 
-        $customerId = $customer->getCustomerId();
+        $customerId = $customer->getId();
         if ($customerId) {
             $customerModel->setId($customerId);
         }
@@ -146,7 +146,7 @@ class Converter
         foreach ($attributes as $attributeCode => $attributeValue) {
             $customerModel->setDataUsingMethod($attributeCode, $attributeValue);
         }
-        $customerId = $customerData->getCustomerId();
+        $customerId = $customerData->getId();
         if ($customerId) {
             $customerModel->setId($customerId);
         }

@@ -97,7 +97,7 @@ class InfoTest extends \PHPUnit_Framework_TestCase
     {
         $this->_customer->expects($this->once())->method('getCustomerId')->will($this->returnValue(self::CUSTOMER_ID));
         $customer = $this->_block->getCustomer();
-        $this->assertEquals(self::CUSTOMER_ID, $customer->getCustomerId());
+        $this->assertEquals(self::CUSTOMER_ID, $customer->getId());
     }
 
     public function testGetCustomerException()

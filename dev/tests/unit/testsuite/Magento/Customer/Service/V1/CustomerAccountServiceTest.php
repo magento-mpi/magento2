@@ -238,7 +238,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         $customer = $customerService->activateAccount(self::ID, self::EMAIL_CONFIRMATION_KEY);
 
-        $this->assertEquals(self::ID, $customer->getCustomerId());
+        $this->assertEquals(self::ID, $customer->getId());
     }
 
     /**
@@ -401,7 +401,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         $customer = $customerService->authenticate(self::EMAIL, self::PASSWORD, self::WEBSITE_ID);
 
-        $this->assertEquals(self::ID, $customer->getCustomerId());
+        $this->assertEquals(self::ID, $customer->getId());
     }
 
     /**

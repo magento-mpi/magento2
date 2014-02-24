@@ -15,7 +15,7 @@ class AttributeMetadata extends \Magento\Service\Entity\AbstractDto
      * Constants used as keys into $_data
      */
     const ATTRIBUTE_CODE = 'attribute_code';
-    const FRONT_END_INPUT = 'front_end_input';
+    const FRONTEND_INPUT = 'frontend_input';
     const INPUT_FILTER = 'input_filter';
     const STORE_LABEL = 'store_label';
     const VALIDATION_RULES = 'validation_rules';
@@ -48,7 +48,7 @@ class AttributeMetadata extends \Magento\Service\Entity\AbstractDto
      */
     public function getFrontendInput()
     {
-        return $this->_get(self::FRONT_END_INPUT);
+        return $this->_get(self::FRONTEND_INPUT);
     }
 
     /**

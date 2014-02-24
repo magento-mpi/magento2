@@ -849,7 +849,7 @@ class Onepage
                 __('Account confirmation is required. Please, check your e-mail for confirmation link. To resend confirmation email please <a href="%1">click here</a>.', $url)
             );
         } else {
-            $this->getCustomerSession()->loginById($customer->getCustomerId());
+            $this->getCustomerSession()->loginById($customer->getId());
         }
         return $this;
     }

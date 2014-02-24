@@ -74,7 +74,7 @@ class Select extends \Magento\Multishipping\Block\Checkout\AbstractMultishipping
         if (is_null($addresses)) {
             try{
                 $addresses = $this->_customerAddressService->getAddresses(
-                    $this->_multishipping->getCustomer()->getCustomerId()
+                    $this->_multishipping->getCustomer()->getId()
                 );
             } catch (NoSuchEntityException $e) {
                 return [];

@@ -146,7 +146,7 @@ class CustomerBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
      * @param int $id
      * @return CustomerBuilder
      */
-    public function setCustomerId($id)
+    public function setId($id)
     {
         return $this->_set(Customer::ID, $id);
     }

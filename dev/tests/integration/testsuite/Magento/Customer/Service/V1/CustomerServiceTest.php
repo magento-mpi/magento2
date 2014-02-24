@@ -133,7 +133,7 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
         $customer = $this->_service->getCustomer(1);
 
         // All these expected values come from _files/customer.php fixture
-        $this->assertEquals(1, $customer->getCustomerId());
+        $this->assertEquals(1, $customer->getId());
         $this->assertEquals('customer@example.com', $customer->getEmail());
         $this->assertEquals('Firstname', $customer->getFirstname());
         $this->assertEquals('Lastname', $customer->getLastname());
@@ -697,7 +697,7 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
         $websiteId = 1;
         /** _files/customer.php sets the customer with id = 1 and email = customer@example.com */
         $customer = $this->_service->getCustomerByEmail('customer@example.com', $websiteId);
-        $this->assertEquals(1, $customer->getCustomerId());
+        $this->assertEquals(1, $customer->getId());
     }
 
     /**
@@ -721,7 +721,7 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
         $websiteId = 1;
         /** _files/customer.php sets the customer with id = 1 and email = customer@example.com */
         $customer = $this->_service->getCustomerByEmail('nonexistent@example.com', $websiteId);
-        assertEquals(null, $customer->getCustomerId());
+        assertEquals(null, $customer->getId());
     }
 }
 

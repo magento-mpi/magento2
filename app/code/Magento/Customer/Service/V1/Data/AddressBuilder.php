@@ -107,7 +107,6 @@ class AddressBuilder extends AbstractDtoBuilder
             } else {
                 $regionData = $data[Address::KEY_REGION];
             }
-
             $data[Address::KEY_REGION] = $this->_regionBuilder->populateWithArray($regionData)->create();
         }
 

@@ -47,7 +47,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         /** @var Customer $customer */
         $customer = $customerBuilder->create();
 
-        $this->assertEquals(self::ID, $customer->getCustomerId());
+        $this->assertEquals(self::ID, $customer->getId());
         $this->assertEquals(self::FIRSTNAME, $customer->getFirstname());
         $this->assertEquals(self::LASTNAME, $customer->getLastname());
         $this->assertEquals(self::EMAIL, $customer->getEmail());
@@ -144,7 +144,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(self::FIRSTNAME, $customer->getFirstname());
         $this->assertEquals(self::LASTNAME, $customer->getLastname());
         $this->assertEquals(self::EMAIL, $customer->getEmail());
-        $this->assertEquals(self::ID, $customer->getCustomerId());
+        $this->assertEquals(self::ID, $customer->getId());
     }
 
     /**

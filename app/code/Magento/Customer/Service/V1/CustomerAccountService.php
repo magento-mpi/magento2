@@ -232,7 +232,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         $registeredBackUrl = '',
         $storeId = 0
     ) {
-        $customerId = $customer->getCustomerId();
+        $customerId = $customer->getId();
         if ($customerId) {
             $customerModel = $this->_converter->getCustomerModel($customerId);
             // We can't pass it through DI because going to get circular dependency

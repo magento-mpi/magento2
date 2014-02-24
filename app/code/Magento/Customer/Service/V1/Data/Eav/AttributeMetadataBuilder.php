@@ -35,7 +35,7 @@ class AttributeMetadataBuilder extends \Magento\Service\Entity\AbstractDtoBuilde
      */
     public function setFrontendInput($frontendInput)
     {
-        return $this->_set(AttributeMetadata::FRONT_END_INPUT, $frontendInput);
+        return $this->_set(AttributeMetadata::FRONTEND_INPUT, $frontendInput);
     }
 
     /**

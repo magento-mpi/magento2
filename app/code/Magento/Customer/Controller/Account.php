@@ -403,7 +403,7 @@ class Account extends \Magento\App\Action\Action
                 ''
             );
             $this->_customerBuilder->populate($customer);
-            $this->_customerBuilder->setCustomerId($result->getCustomerId());
+            $this->_customerBuilder->setId($result->getCustomerId());
             $customer = $this->_customerBuilder->create();
 
             if ($this->getRequest()->getParam('is_subscribed', false)) {

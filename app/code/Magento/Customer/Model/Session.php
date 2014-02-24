@@ -189,7 +189,7 @@ class Session extends \Magento\Session\SessionManager
     {
         $this->_customer = $customer;
         $this->response->setVary('customer_group', $customer->getGroupId());
-        $this->setCustomerId($customer->getCustomerId());
+        $this->setCustomerId($customer->getId());
         return $this;
     }
 
@@ -232,7 +232,7 @@ class Session extends \Magento\Session\SessionManager
      */
     public function setCustomerData(\Magento\Customer\Service\V1\Data\Customer $customerData)
     {
-        $this->setId($customerData->getCustomerId());
+        $this->setId($customerData->getId());
         $this->_converter->updateCustomerModel($this->getCustomer(), $customerData);
         return $this;
     }

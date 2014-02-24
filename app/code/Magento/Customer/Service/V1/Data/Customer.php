@@ -149,7 +149,7 @@ class Customer extends \Magento\Service\Entity\AbstractDto implements Eav\Entity
     /**
      * @return int
      */
-    public function getCustomerId()
+    public function getId()
     {
         return $this->_get(self::ID);
     }
