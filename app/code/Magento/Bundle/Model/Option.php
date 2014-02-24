@@ -32,7 +32,7 @@ class Option extends \Magento\Core\Model\AbstractModel
     /**
      * Default selection object
      *
-     * @var \Magento\Bundle\Model\Selection
+     * @var Selection
      */
     protected $_defaultSelection = null;
 
@@ -50,8 +50,8 @@ class Option extends \Magento\Core\Model\AbstractModel
     /**
      * Add selection to option
      *
-     * @param \Magento\Bundle\Model\Selection $selection
-     * @return \Magento\Bundle\Model\Option
+     * @param Selection $selection
+     * @return $this|false
      */
     public function addSelection($selection)
     {
@@ -87,7 +87,7 @@ class Option extends \Magento\Core\Model\AbstractModel
     /**
      * Retrieve default Selection object
      *
-     * @return \Magento\Bundle\Model\Selection
+     * @return Selection
      */
     public function getDefaultSelection()
     {
@@ -133,7 +133,7 @@ class Option extends \Magento\Core\Model\AbstractModel
      * Return selection by it's id
      *
      * @param int $selectionId
-     * @return \Magento\Bundle\Model\Selection
+     * @return Selection
      */
     public function getSelectionById($selectionId)
     {

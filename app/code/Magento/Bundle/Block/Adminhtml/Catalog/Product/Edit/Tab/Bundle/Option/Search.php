@@ -34,7 +34,7 @@ class Search extends \Magento\Backend\Block\Widget
     /**
      * Create search grid
      *
-     * @return \Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option\Search
+     * @return $this
      */
     protected function _prepareLayout()
     {
@@ -51,7 +51,7 @@ class Search extends \Magento\Backend\Block\Widget
     /**
      * Prepare search grid
      *
-     * @return \Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option\Search
+     * @return $this
      */
     protected function _beforeToHtml()
     {

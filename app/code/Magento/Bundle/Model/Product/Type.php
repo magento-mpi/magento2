@@ -324,7 +324,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
             $product->setData('weight', false);
         }
 
-        if ($product->getPriceType() == \Magento\Bundle\Model\Product\Price::PRICE_TYPE_DYNAMIC) {
+        if ($product->getPriceType() == Price::PRICE_TYPE_DYNAMIC) {
             $product->setData(
                 'msrp_enabled', \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type\Enabled::MSRP_ENABLE_NO
             );
@@ -360,7 +360,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
      * Save type related data
      *
      * @param \Magento\Catalog\Model\Product $product
-     * @return \Magento\Bundle\Model\Product\Type
+     * @return $this
      */
     public function save($product)
     {
@@ -524,7 +524,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @param   \Magento\Object   $option
      * @param   mixed           $value
      * @param   \Magento\Catalog\Model\Product $product
-     * @return  \Magento\Bundle\Model\Product\Type
+     * @return $this
      */
     public function updateQtyOption($options, \Magento\Object $option, $value, $product)
     {
@@ -1015,7 +1015,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
      * Check if product can be bought
      *
      * @param \Magento\Catalog\Model\Product $product
-     * @return \Magento\Bundle\Model\Product\Type
+     * @return $this
      * @throws \Magento\Core\Exception
      */
     public function checkProductBuyState($product)

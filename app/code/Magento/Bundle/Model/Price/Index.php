@@ -87,7 +87,7 @@ class Index extends \Magento\Core\Model\AbstractModel
      *
      * @param int $productId
      * @param int $priceType
-     * @return \Magento\Bundle\Model\Price\Index
+     * @return $this
      */
     protected function _reindexProduct($productId, $priceType)
     {
@@ -99,7 +99,7 @@ class Index extends \Magento\Core\Model\AbstractModel
      * Reindex Bundle product Price Index
      *
      * @param \Magento\Catalog\Model\Product|\Magento\Catalog\Model\Product\Condition\ConditionInterface|array|int $products
-     * @return \Magento\Bundle\Model\Price\Index
+     * @return $this
      */
     public function reindex($products = null)
     {
@@ -111,7 +111,7 @@ class Index extends \Magento\Core\Model\AbstractModel
      * Add bundle price range index to Product collection
      *
      * @param \Magento\Catalog\Model\Resource\Product\Collection $collection
-     * @return \Magento\Bundle\Model\Price\Index
+     * @return $this
      */
     public function addPriceIndexToCollection($collection)
     {
@@ -152,7 +152,7 @@ class Index extends \Magento\Core\Model\AbstractModel
      * Add price index to bundle product after load
      *
      * @param \Magento\Catalog\Model\Product $product
-     * @return \Magento\Bundle\Model\Price\Index
+     * @return $this
      */
     public function addPriceIndexToProduct($product)
     {

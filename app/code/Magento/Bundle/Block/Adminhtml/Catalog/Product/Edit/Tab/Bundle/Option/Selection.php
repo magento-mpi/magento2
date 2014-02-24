@@ -106,7 +106,7 @@ class Selection
     /**
      * Prepare block layout
      *
-     * @return \Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option\Selection
+     * @return $this
      */
     protected function _prepareLayout()
     {
