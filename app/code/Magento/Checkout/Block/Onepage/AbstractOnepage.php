@@ -10,6 +10,7 @@ namespace Magento\Checkout\Block\Onepage;
 use Magento\Customer\Service\V1\CustomerServiceInterface as CustomerService;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface as CustomerAddressService;
 use Magento\Customer\Model\Address\Config as AddressConfig;
+use Magento\Exception\NoSuchEntityException;
 
 /**
  * One page common functionality block
@@ -116,7 +117,7 @@ abstract class AbstractOnepage extends \Magento\View\Element\Template
      *
      * @return \Magento\Customer\Service\V1\Dto\Customer
      */
-    public function getCustomer()
+    protected function _getCustomer()
     {
         if (empty($this->_customer)) {
             $this->_customer = $this->_customerService->getCustomer($this->_customerSession->getCustomerId());
@@ -172,15 +173,25 @@ abstract class AbstractOnepage extends \Magento\View\Element\Template
 
     public function customerHasAddresses()
     {
-        return count($this->_customerAddressService->getAddresses($this->getCustomer()->getCustomerId()));
+        try {
+            return count($this->_customerAddressService->getAddresses($this->_getCustomer()->getCustomerId()));
+        } catch (NoSuchEntityException $e) {
+            return 0;
+        }
     }
 
     public function getAddressesHtmlSelect($type)
     {
         if ($this->isCustomerLoggedIn()) {
-            $customerId = $this->getCustomer()->getCustomerId();
+            $customerId = $this->_getCustomer()->getCustomerId();
             $options = [];
-            $addresses = $this->_customerAddressService->getAddresses($customerId);
+
+            try {
+                $addresses = $this->_customerAddressService->getAddresses($customerId);
+            } catch (NoSuchEntityException $e) {
+                $addresses = [];
+            }
+
             foreach ($addresses as $address) {
                 /** @var \Magento\Customer\Service\V1\Dto\Address $address */
                 $label = $this->_addressConfig
@@ -196,13 +207,16 @@ abstract class AbstractOnepage extends \Magento\View\Element\Template
 
             $addressId = $this->getAddress()->getCustomerAddressId();
             if (empty($addressId)) {
-                if ($type == 'billing') {
-                    $address = $this->_customerAddressService->getDefaultBillingAddress($customerId);
-                } else {
-                    $address = $this->_customerAddressService->getDefaultShippingAddress($customerId);
-                }
-                if ($address) {
+                try {
+                    if ($type == 'billing') {
+                        $address = $this->_customerAddressService->getDefaultBillingAddress($customerId);
+                    } else {
+                        $address = $this->_customerAddressService->getDefaultShippingAddress($customerId);
+                    }
+
                     $addressId = $address->getId();
+                } catch (NoSuchEntityException $e) {
+                    // Do nothing
                 }
             }
 
