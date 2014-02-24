@@ -4,15 +4,20 @@
   * Fixed a Typo in Region of Austria (GitHub #134)
   * Fixed issue where predefined data are not loaded for Newsletter after try to put it in a Queue
 * Indexer implementation:
+  * Implemented new optimized Catalog Category Product Indexer
+  * Implemented new optimized Catalog Category Flat Indexer
   * Implemented new optimized Catalog Product Flat Indexer
 * Modularity improvements:
   * Moved all Configurable Product functionality to newly created module ConfigurableProduct
   * Moved Shortcut Buttons abstraction from PayPal to Catalog
   * Moved Recurring profile functionality into separate module
   * Moved Billing Agreements functionality into PayPal module
+  * Finalised work on resolving dependencies between all other modules and Multishipping module. Module can be removed without impact on system
 * Customer Service usage:
  * Updated Customer Group Grid to use Customer Service for retrieving data and filtering
  * Updated CustomerMetadataService::getAttributeMetadata to throw an exception if invalid code provided
+ * Sales module refactoring to use customer service layer
+ * Checkout module refactoring to use customer service layer
 * Unified format of specifying arguments for class constructors in DI and in Layout configuration
   * Common xsd schema is being used for defining simple types. Layout and DI customize common types with their specific ones
   * Arguments processing is unified and moved to library

@@ -62,7 +62,6 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
      protected static $_entityInvalidatedIndexes = array (
         'catalog_product' => array (
             'catalog_product_price',
-            'catalog_category_product',
             'catalogsearch_fulltext',
             'catalog_product_flat',
         )

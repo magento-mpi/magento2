@@ -15,22 +15,22 @@
             </argument>
         </arguments>
     </type>
-    <type name="Magento\Multishipping\Model\Checkout\Type\Multishipping">
-        <arguments>
-            <argument name="paymentSpecification" xsi:type="object">Magento\Payment\Model\Method\Specification\Composite</argument>
-        </arguments>
-    </type>
-    <type name="Magento\Multishipping\Block\Checkout\Billing">
-        <arguments>
-            <argument name="paymentSpecification" xsi:type="object">Magento\Payment\Model\Method\Specification\Composite</argument>
-        </arguments>
-    </type>
-    <type name="Magento\Payment\Model\Method\Specification\Composite">
+    <virtualType name="multishippingPaymentSpecification" type="Magento\Payment\Model\Method\Specification\Composite">
         <arguments>
             <argument name="specifications" xsi:type="array">
                 <item name="enabled" xsi:type="string">Magento\Multishipping\Model\Payment\Method\Specification\Enabled</item>
                 <item name="3dsecure" xsi:type="string">Magento\Multishipping\Model\Payment\Method\Specification\Is3DSecure</item>
             </argument>
+        </arguments>
+    </virtualType>
+    <type name="Magento\Multishipping\Block\Checkout\Billing">
+        <arguments>
+            <argument name="paymentSpecification" xsi:type="object">multishippingPaymentSpecification</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Multishipping\Model\Checkout\Type\Multishipping">
+        <arguments>
+            <argument name="paymentSpecification" xsi:type="object">multishippingPaymentSpecification</argument>
         </arguments>
     </type>
 </config>
