@@ -102,7 +102,7 @@ class Sidebar extends \Magento\Catalog\Block\Product\Compare\AbstractCompare
         foreach($this->getItems() as $item) {
             $product = $item->getProduct();
             if ($product instanceof \Magento\Object\IdentityInterface) {
-                $identities[] = $product->getIdentities();
+                $identities = array_merge($identities, $product->getIdentities());
             }
         }
         $identities[] = \Magento\Catalog\Model\Product\Compare\Item::CACHE_TAG . '_' . $this->getCatalogCompareItemId();

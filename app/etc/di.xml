@@ -340,4 +340,11 @@
             </array>
         </param>
     </type>
+    <type name="Magento\App\Cache\Type\FrontendPool">
+        <param name="typeFrontendMap">
+            <array>
+                <item key="full_page"><value>page_cache</value></item>
+            </array>
+        </param>
+    </type>
 </config>
