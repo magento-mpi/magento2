@@ -6,16 +6,16 @@
  * @license     {license_link}
  */
 
-namespace Magento\Customer\Service\V1\Dto;
+namespace Magento\Customer\Service\V1\Data;
 
 use Magento\Customer\Service\V1\CustomerMetadataService;
-use Magento\Customer\Service\V1\Dto\Eav\AttributeMetadataBuilder;
+use Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder;
 use Magento\Service\Entity\AbstractDto;
 use Magento\Service\Entity\AbstractDtoBuilder;
 
 class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Magento\Customer\Service\V1\Dto\CustomerBuilder */
+    /** @var \Magento\Customer\Service\V1\Data\CustomerBuilder */
     protected $_customerBuilder;
 
     /** @var \Magento\TestFramework\Helper\ObjectManager */
@@ -23,8 +23,8 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_customerBuilder = $this->_objectManager->getObject('Magento\Customer\Service\V1\Dto\CustomerBuilder');
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->_customerBuilder = $objectManager->getObject('Magento\Customer\Service\V1\Data\CustomerBuilder');
         parent::setUp();
     }
 

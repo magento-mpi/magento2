@@ -6,10 +6,10 @@
  * @license     {license_link}
  */
 
-namespace Magento\Customer\Service\V1\Dto\Eav;
+namespace Magento\Customer\Service\V1\Data\Eav;
 
-use Magento\Customer\Service\V1\Dto\Eav\Option;
-use Magento\Customer\Service\V1\Dto\Eav\OptionBuilder;
+use Magento\Customer\Service\V1\Data\Eav\Option;
+use Magento\Customer\Service\V1\Data\Eav\OptionBuilder;
 
 class OptionTest extends \PHPUnit_Framework_TestCase
 {

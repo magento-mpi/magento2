@@ -6,11 +6,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\Customer\Service\V1\Dto;
+namespace Magento\Customer\Service\V1\Data;
 
-use Magento\Customer\Service\V1\Dto\Address;
-use Magento\Customer\Service\V1\Dto\AddressBuilder;
-use Magento\Customer\Service\V1\Dto\RegionBuilder;
+use Magento\Customer\Service\V1\Data\Address;
+use Magento\Customer\Service\V1\Data\AddressBuilder;
+use Magento\Customer\Service\V1\Data\RegionBuilder;
 
 class AddressTest extends \PHPUnit_Framework_TestCase
 {
@@ -57,13 +57,13 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     ];
 
     /**
-     * @var \Magento\Customer\Service\V1\Dto\AddressBuilder
+     * @var \Magento\Customer\Service\V1\Data\AddressBuilder
      */
     private $_addressBuilder;
 
     protected function setUp()
     {
-        $this->_addressBuilder = new \Magento\Customer\Service\V1\Dto\AddressBuilder(
+        $this->_addressBuilder = new \Magento\Customer\Service\V1\Data\AddressBuilder(
             new RegionBuilder()
         );
     }
@@ -76,8 +76,8 @@ class AddressTest extends \PHPUnit_Framework_TestCase
 
     public function testCopyAndModify()
     {
-        /** @var \Magento\Customer\Service\V1\Dto\Address $origAddress */
-        $origAddress = $this->getMockBuilder('\Magento\Customer\Service\V1\Dto\Address')
+        /** @var \Magento\Customer\Service\V1\Data\Address $origAddress */
+        $origAddress = $this->getMockBuilder('\Magento\Customer\Service\V1\Data\Address')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_mockReturnValue($origAddress, array(

@@ -47,9 +47,9 @@ class Account extends \Magento\Customer\Controller\Account
      * @param \Magento\Escaper $escaper
      * @param CustomerGroupServiceInterface $customerGroupService
      * @param CustomerAccountServiceInterface $customerAccountService
-     * @param \Magento\Customer\Service\V1\Dto\RegionBuilder $regionBuilder
-     * @param \Magento\Customer\Service\V1\Dto\AddressBuilder $addressBuilder
-     * @param \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerBuilder
+     * @param \Magento\Customer\Service\V1\Data\RegionBuilder $regionBuilder
+     * @param \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder
+     * @param \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder
      * @param \Magento\Invitation\Model\Config $config
      * @param \Magento\Invitation\Model\InvitationFactory $invitationFactory
      */
@@ -67,9 +67,9 @@ class Account extends \Magento\Customer\Controller\Account
         \Magento\Escaper $escaper,
         CustomerGroupServiceInterface $customerGroupService,
         CustomerAccountServiceInterface $customerAccountService,
-        \Magento\Customer\Service\V1\Dto\RegionBuilder $regionBuilder,
-        \Magento\Customer\Service\V1\Dto\AddressBuilder $addressBuilder,
-        \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerBuilder,
+        \Magento\Customer\Service\V1\Data\RegionBuilder $regionBuilder,
+        \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder,
+        \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder,
         \Magento\Invitation\Model\Config $config,
         \Magento\Invitation\Model\InvitationFactory $invitationFactory
     ) {

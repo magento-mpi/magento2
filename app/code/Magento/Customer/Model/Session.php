@@ -11,7 +11,7 @@
 
 namespace Magento\Customer\Model;
 
-use Magento\Customer\Service\V1\Dto\Customer as CustomerDto;
+use Magento\Customer\Service\V1\Data\Customer as CustomerDto;
 
 /**
  * Customer session model
@@ -96,7 +96,7 @@ class Session extends \Magento\Session\SessionManager
     protected $response;
 
     /**
-     * @var \Magento\Customer\Service\V1\Dto\Customer
+     * @var \Magento\Customer\Service\V1\Data\Customer
      */
     protected $_customerDataObject;
 
@@ -216,7 +216,7 @@ class Session extends \Magento\Session\SessionManager
     /**
      * Returns Customer data object with the customer information
      *
-     * @return \Magento\Customer\Service\V1\Dto\Customer
+     * @return \Magento\Customer\Service\V1\Data\Customer
      */
     public function getCustomerData()
     {
@@ -227,10 +227,10 @@ class Session extends \Magento\Session\SessionManager
     /**
      * Set Customer data object with the customer information
      *
-     * @param \Magento\Customer\Service\V1\Dto\Customer $customerData
+     * @param \Magento\Customer\Service\V1\Data\Customer $customerData
      * @return $this
      */
-    public function setCustomerData(\Magento\Customer\Service\V1\Dto\Customer $customerData)
+    public function setCustomerData(\Magento\Customer\Service\V1\Data\Customer $customerData)
     {
         $this->setId($customerData->getCustomerId());
         $this->_converter->updateCustomerModel($this->getCustomer(), $customerData);

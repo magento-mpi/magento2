@@ -7,8 +7,8 @@
  */
 
 namespace Magento\Customer\Model\Metadata\Form;
-use Magento\Customer\Service\V1\Dto\Eav\Option;
-use Magento\Customer\Service\V1\Dto\Eav\OptionBuilder;
+use Magento\Customer\Service\V1\Data\Eav\Option;
+use Magento\Customer\Service\V1\Data\Eav\OptionBuilder;
 
 /**
  * test Magento\Customer\Model\Metadata\Form\Select

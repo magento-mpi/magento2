@@ -110,7 +110,7 @@ abstract class AbstractType extends \Magento\Object
     /**
      * Retrieve customer object
      *
-     * @return \Magento\Customer\Service\V1\Dto\Customer
+     * @return \Magento\Customer\Service\V1\Data\Customer
      */
     public function getCustomer()
     {
@@ -120,7 +120,7 @@ abstract class AbstractType extends \Magento\Object
     /**
      * Retrieve customer default shipping address
      *
-     * @return \Magento\Customer\Service\V1\Dto\Address|null
+     * @return \Magento\Customer\Service\V1\Data\Address|null
      */
     public function getCustomerDefaultShippingAddress()
     {
@@ -141,7 +141,7 @@ abstract class AbstractType extends \Magento\Object
     /**
      * Retrieve customer default billing address
      *
-     * @return \Magento\Customer\Service\V1\Dto\Address|null
+     * @return \Magento\Customer\Service\V1\Data\Address|null
      */
     public function getCustomerDefaultBillingAddress()
     {

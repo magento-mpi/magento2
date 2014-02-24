@@ -9,7 +9,7 @@ namespace Magento\Customer\Service\V1;
 
 use Magento\Exception\InputException;
 use Magento\Exception\NoSuchEntityException;
-use Magento\Customer\Service\V1\Dto\RegionBuilder;
+use Magento\Customer\Service\V1\Data\RegionBuilder;
 
 /**
  * Integration test for service layer \Magento\Customer\Service\V1\CustomerService
@@ -31,13 +31,13 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\ObjectManager */
     private $_objectManager;
 
-    /** @var \Magento\Customer\Service\V1\Dto\Address[] */
+    /** @var \Magento\Customer\Service\V1\Data\Address[] */
     private $_expectedAddresses;
 
-    /** @var \Magento\Customer\Service\V1\Dto\AddressBuilder */
+    /** @var \Magento\Customer\Service\V1\Data\AddressBuilder */
     private $_addressBuilder;
 
-    /** @var \Magento\Customer\Service\V1\Dto\CustomerBuilder */
+    /** @var \Magento\Customer\Service\V1\Data\CustomerBuilder */
     private $_customerBuilder;
 
     protected function setUp()
@@ -49,8 +49,8 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
         $this->_addressService = $this->_objectManager
             ->create('Magento\Customer\Service\V1\CustomerAddressServiceInterface');
 
-        $this->_addressBuilder = $this->_objectManager->create('Magento\Customer\Service\V1\Dto\AddressBuilder');
-        $this->_customerBuilder = $this->_objectManager->create('Magento\Customer\Service\V1\Dto\CustomerBuilder');
+        $this->_addressBuilder = $this->_objectManager->create('Magento\Customer\Service\V1\Data\AddressBuilder');
+        $this->_customerBuilder = $this->_objectManager->create('Magento\Customer\Service\V1\Data\CustomerBuilder');
 
         $this->_addressBuilder->setId(1)
             ->setCountryId('US')

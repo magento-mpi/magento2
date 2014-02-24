@@ -55,7 +55,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
         $this->_updateButton('save', 'label', __('Save Customer Group'));
         $this->_updateButton('delete', 'label', __('Delete Customer Group'));
 
-        /** @var \Magento\Customer\Service\V1\Dto\CustomerGroup $group */
+        /** @var \Magento\Customer\Service\V1\Data\CustomerGroup $group */
         $group = $this->_coreRegistry->registry('current_group');
         if (!$group || !$group->getId() || !$this->_groupService->canDelete($group->getId())) {
             $this->_removeButton('delete');

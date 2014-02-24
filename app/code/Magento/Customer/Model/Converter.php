@@ -10,8 +10,8 @@ namespace Magento\Customer\Model;
 
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
 use Magento\Exception\NoSuchEntityException;
-use Magento\Customer\Service\V1\Dto\Customer as CustomerDto;
-use Magento\Customer\Service\V1\Dto\CustomerBuilder as CustomerDtoBuilder;
+use Magento\Customer\Service\V1\Data\Customer as CustomerDto;
+use Magento\Customer\Service\V1\Data\CustomerBuilder as CustomerDtoBuilder;
 
 /**
  * Customer Model converter.
@@ -135,12 +135,12 @@ class Converter
      * Update customer model with the data from the data object
      *
      * @param Customer $customerModel
-     * @param \Magento\Customer\Service\V1\Dto\Customer $customerData
+     * @param \Magento\Customer\Service\V1\Data\Customer $customerData
      * @return void
      */
     public function updateCustomerModel(
         \Magento\Customer\Model\Customer $customerModel,
-        \Magento\Customer\Service\V1\Dto\Customer $customerData
+        \Magento\Customer\Service\V1\Data\Customer $customerData
     ) {
         $attributes = $customerData->__toArray();
         foreach ($attributes as $attributeCode => $attributeValue) {
@@ -173,7 +173,7 @@ class Converter
                 continue;
             }
             if ($attrCode == 'entity_id') {
-                $attributes[\Magento\Customer\Service\V1\Dto\Customer::ID] = $value;
+                $attributes[\Magento\Customer\Service\V1\Data\Customer::ID] = $value;
             } else {
                 $attributes[$attrCode] = $value;
             }

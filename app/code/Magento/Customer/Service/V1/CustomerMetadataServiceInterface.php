@@ -25,7 +25,7 @@ interface CustomerMetadataServiceInterface
      *
      * @param   mixed $entityType
      * @param   mixed $attributeCode
-     * @return Dto\Eav\AttributeMetadata
+     * @return Data\Eav\AttributeMetadata
      * @throws NoSuchEntityException
      */
     public function getAttributeMetadata($entityType, $attributeCode);
@@ -36,7 +36,7 @@ interface CustomerMetadataServiceInterface
      * @param string $entityType
      * @param int $attributeSetId
      * @param int $storeId
-     * @return Dto\Eav\AttributeMetadata[]
+     * @return Data\Eav\AttributeMetadata[]
      */
     public function getAllAttributeSetMetadata($entityType, $attributeSetId = 0, $storeId = null);
 
@@ -45,7 +45,7 @@ interface CustomerMetadataServiceInterface
      *
      * @param $entityType
      * @param $formCode
-     * @return Dto\Eav\AttributeMetadata[]
+     * @return Data\Eav\AttributeMetadata[]
      */
     public function getAttributes($entityType, $formCode);
 
@@ -53,7 +53,7 @@ interface CustomerMetadataServiceInterface
      * Retrieve Customer EAV attribute metadata
      *
      * @param string $attributeCode
-     * @return Dto\Eav\AttributeMetadata
+     * @return Data\Eav\AttributeMetadata
      * @throws NoSuchEntityException
      */
     public function getCustomerAttributeMetadata($attributeCode);
@@ -61,14 +61,14 @@ interface CustomerMetadataServiceInterface
     /**
      * Get all attribute metadata for customers
      *
-     * @return Dto\Eav\AttributeMetadata[]
+     * @return Data\Eav\AttributeMetadata[]
      */
     public function getAllCustomerAttributeMetadata();
 
     /**
      * Get custom attribute metadata for customer.
      *
-     * @return Dto\Eav\AttributeMetadata[]
+     * @return Data\Eav\AttributeMetadata[]
      */
     public function getCustomCustomerAttributeMetadata();
 
@@ -76,7 +76,7 @@ interface CustomerMetadataServiceInterface
      * Retrieve Customer Addresses EAV attribute metadata
      *
      * @param string $attributeCode
-     * @return Dto\Eav\AttributeMetadata
+     * @return Data\Eav\AttributeMetadata
      * @throws NoSuchEntityException
      */
     public function getAddressAttributeMetadata($attributeCode);
@@ -84,14 +84,14 @@ interface CustomerMetadataServiceInterface
     /**
      * Get all attribute metadata for Addresses
      *
-     * @return Dto\Eav\AttributeMetadata[]
+     * @return Data\Eav\AttributeMetadata[]
      */
     public function getAllAddressAttributeMetadata();
 
     /**
      * Get custom attribute metadata for customer address.
      *
-     * @return Dto\Eav\AttributeMetadata[]
+     * @return Data\Eav\AttributeMetadata[]
      */
     public function getCustomAddressAttributeMetadata();
 }

@@ -10,8 +10,8 @@
 
 namespace Magento\Sales\Model\Quote;
 
-use Magento\Customer\Service\V1\Dto\AddressBuilder as CustomerAddressBuilder;
-use Magento\Customer\Service\V1\Dto\Address as AddressDto;
+use Magento\Customer\Service\V1\Data\AddressBuilder as CustomerAddressBuilder;
+use Magento\Customer\Service\V1\Data\Address as AddressDto;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 
 /**
@@ -499,10 +499,10 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     /**
      * Import quote address data from customer address DTO.
      *
-     * @param \Magento\Customer\Service\V1\Dto\Address $address
+     * @param \Magento\Customer\Service\V1\Data\Address $address
      * @return \Magento\Sales\Model\Quote\Address
      */
-    public function importCustomerAddressData(\Magento\Customer\Service\V1\Dto\Address $address)
+    public function importCustomerAddressData(\Magento\Customer\Service\V1\Data\Address $address)
     {
         $this->_objectCopyService->copyFieldsetToTarget(
             'customer_address',
@@ -545,7 +545,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     /**
      * Export data to customer address DTO.
      *
-     * @return \Magento\Customer\Service\V1\Dto\Address
+     * @return \Magento\Customer\Service\V1\Data\Address
      */
     public function exportCustomerAddressData()
     {

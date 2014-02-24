@@ -10,8 +10,8 @@
 
 namespace Magento\Checkout\Model;
 
-use Magento\Customer\Service\V1\Dto\Customer as CustomerDto;
-use \Magento\Customer\Service\V1\Dto\CustomerBuilder;
+use Magento\Customer\Service\V1\Data\Customer as CustomerDto;
+use \Magento\Customer\Service\V1\Data\CustomerBuilder;
 
 class Session extends \Magento\Session\SessionManager
 {

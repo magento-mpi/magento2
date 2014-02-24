@@ -28,7 +28,7 @@ class InfoTest extends \PHPUnit_Framework_TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\CustomerServiceInterface */
     private $_customerService;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\Dto\Customer */
+    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\Data\Customer */
     private $_customer;
 
     /**
@@ -69,7 +69,7 @@ class InfoTest extends \PHPUnit_Framework_TestCase
         $this->_customerService = $this->getMockForAbstractClass(
             'Magento\Customer\Service\V1\CustomerServiceInterface', array(), '', false
         );
-        $this->_customer = $this->getMock('Magento\Customer\Service\V1\Dto\Customer', array(), array(), '', false);
+        $this->_customer = $this->getMock('Magento\Customer\Service\V1\Data\Customer', array(), array(), '', false);
         $this->_customer->expects($this->any())->method('getEmail')->will($this->returnValue(self::EMAIL_ADDRESS));
         $this->_customerService
             ->expects($this->any())->method('getCustomer')->will($this->returnValue($this->_customer));
@@ -127,7 +127,7 @@ class InfoTest extends \PHPUnit_Framework_TestCase
         array $isVisible, $prefix, $firstname, $middlename, $lastname, $suffix, $expectedValue
     ) {
         $attributeMetadata =
-            $this->getMock('Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata', array(), array(), '', false);
+            $this->getMock('Magento\Customer\Service\V1\Data\Eav\AttributeMetadata', array(), array(), '', false);
 
         /**
          * Called three times, once for each attribute (i.e. prefix, middlename, and suffix)

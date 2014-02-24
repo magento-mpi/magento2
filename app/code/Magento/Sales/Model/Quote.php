@@ -9,8 +9,8 @@
 namespace Magento\Sales\Model;
 
 use Magento\Sales\Model\Quote\Address;
-use Magento\Customer\Service\V1\Dto\Address as AddressDto;
-use Magento\Customer\Service\V1\Dto\Customer as CustomerDto;
+use Magento\Customer\Service\V1\Data\Address as AddressDto;
+use Magento\Customer\Service\V1\Data\Customer as CustomerDto;
 
 /**
  * Quote model

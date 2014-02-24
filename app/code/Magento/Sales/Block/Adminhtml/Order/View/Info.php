@@ -160,7 +160,7 @@ class Info extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
         $entityType = 'customer';
 
         foreach ($this->_customerMetadataService->getAllCustomerAttributeMetadata($entityType) as $attribute) {
-            /* @var $attribute \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata */
+            /* @var $attribute \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata */
             if (!$attribute->isVisible() || $attribute->isSystem()) {
                 continue;
             }

@@ -6,12 +6,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\Customer\Service\V1\Dto;
+namespace Magento\Customer\Service\V1\Data;
 
 /**
  * Customer
  *
- * @package Magento\Customer\Service\V1\Dto
+ * @package Magento\Customer\Service\V1\Data
  */
 class CustomerTest extends \PHPUnit_Framework_TestCase
 {
@@ -107,7 +107,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             'attribute1' => 'value1',
             Customer::CUSTOM_ATTRIBUTES_KEY => $customAttributes
         ];
-        $customerDto = new \Magento\Customer\Service\V1\Dto\Customer($customerData);
+        $customerDto = new \Magento\Customer\Service\V1\Data\Customer($customerData);
         $this->assertEquals($customAttributes, $customerDto->getCustomAttributes(), 'Invalid custom attributes.');
     }
 

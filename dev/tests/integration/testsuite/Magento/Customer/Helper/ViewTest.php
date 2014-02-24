@@ -31,7 +31,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param \Magento\Customer\Service\V1\Dto\Customer $customerDto
+     * @param \Magento\Customer\Service\V1\Data\Customer $customerDto
      * @param string $expectedCustomerName
      * @param bool $isPrefixAllowed
      * @param bool $isMiddleNameAllowed
@@ -46,11 +46,11 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         $isSuffixAllowed = false
     ) {
 
-        $visibleAttribute = $this->getMock('Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata', [], [], '', false);
+        $visibleAttribute = $this->getMock('Magento\Customer\Service\V1\Data\Eav\AttributeMetadata', [], [], '', false);
         $visibleAttribute->expects($this->any())->method('isVisible')->will($this->returnValue(true));
 
         $invisibleAttribute = $this->getMock(
-            'Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata',
+            'Magento\Customer\Service\V1\Data\Eav\AttributeMetadata',
             [],
             [],
             '',
@@ -79,8 +79,8 @@ class ViewTest extends \PHPUnit_Framework_TestCase
 
     public function getCustomerNameDataProvider()
     {
-        /** @var \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerBuilder */
-        $customerBuilder = Bootstrap::getObjectManager()->create('Magento\Customer\Service\V1\Dto\CustomerBuilder');
+        /** @var \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder */
+        $customerBuilder = Bootstrap::getObjectManager()->create('Magento\Customer\Service\V1\Data\CustomerBuilder');
         return [
             'With disabled prefix, middle name, suffix' => [
                 $customerBuilder->setPrefix('prefix')

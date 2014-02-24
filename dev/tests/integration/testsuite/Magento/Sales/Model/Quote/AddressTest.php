@@ -187,8 +187,8 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $city = 'TestCity';
         $street = 'Street1';
 
-        /** @var \Magento\Customer\Service\V1\Dto\AddressBuilder $addressBuilder */
-        $addressBuilder = Bootstrap::getObjectManager()->create('Magento\Customer\Service\V1\Dto\AddressBuilder');
+        /** @var \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder */
+        $addressBuilder = Bootstrap::getObjectManager()->create('Magento\Customer\Service\V1\Data\AddressBuilder');
         $addressDto = $addressBuilder
             ->setCustomerId($customerIdFromFixture)
             ->setCity($city)

@@ -36,12 +36,12 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
     private $_storeManager;
 
     /**
-     * @var Dto\Eav\OptionBuilder
+     * @var Data\Eav\OptionBuilder
      */
     private $_optionBuilder;
 
     /**
-     * @var Dto\Eav\AttributeMetadataBuilder
+     * @var Data\Eav\AttributeMetadataBuilder
      */
     private $_attributeMetadataBuilder;
 
@@ -49,15 +49,15 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Customer\Model\Resource\Form\Attribute\CollectionFactory $attrFormCollectionFactory
      * @param \Magento\Core\Model\StoreManager $storeManager
-     * @param Dto\Eav\OptionBuilder $optionBuilder
-     * @param Dto\Eav\AttributeMetadataBuilder $attributeMetadataBuilder
+     * @param Data\Eav\OptionBuilder $optionBuilder
+     * @param Data\Eav\AttributeMetadataBuilder $attributeMetadataBuilder
      */
     public function __construct(
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Customer\Model\Resource\Form\Attribute\CollectionFactory $attrFormCollectionFactory,
         \Magento\Core\Model\StoreManager $storeManager,
-        Dto\Eav\OptionBuilder $optionBuilder,
-        Dto\Eav\AttributeMetadataBuilder $attributeMetadataBuilder
+        Data\Eav\OptionBuilder $optionBuilder,
+        Data\Eav\AttributeMetadataBuilder $attributeMetadataBuilder
     ) {
         $this->_eavConfig = $eavConfig;
         $this->_cache = [];
@@ -147,7 +147,7 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
 
     /**
      * @param \Magento\Customer\Model\Attribute $attribute
-     * @return Dto\Eav\AttributeMetadata
+     * @return Data\Eav\AttributeMetadata
      */
     private function _createMetadataAttribute($attribute)
     {

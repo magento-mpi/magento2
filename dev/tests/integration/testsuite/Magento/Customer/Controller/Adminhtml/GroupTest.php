@@ -9,8 +9,8 @@ namespace Magento\Customer\Controller\Adminhtml;
 
 use Magento\Message\MessageInterface;
 use Magento\TestFramework\Helper\Bootstrap;
-use Magento\Customer\Service\V1\Dto\CustomerGroupBuilder;
-use Magento\Customer\Service\V1\Dto\CustomerGroup;
+use Magento\Customer\Service\V1\Data\CustomerGroupBuilder;
+use Magento\Customer\Service\V1\Data\CustomerGroup;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 
 /**

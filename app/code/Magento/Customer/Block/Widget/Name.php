@@ -10,7 +10,7 @@
 
 namespace Magento\Customer\Block\Widget;
 
-use Magento\Customer\Service\V1\Dto\Customer;
+use Magento\Customer\Service\V1\Data\Customer;
 
 class Name extends \Magento\Customer\Block\Widget\AbstractWidget
 {
@@ -179,7 +179,7 @@ class Name extends \Magento\Customer\Block\Widget\AbstractWidget
      * Retrieve customer or customer address attribute instance
      *
      * @param string $attributeCode
-     * @return \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata|null
+     * @return \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata|null
      */
     protected function _getAttribute($attributeCode)
     {

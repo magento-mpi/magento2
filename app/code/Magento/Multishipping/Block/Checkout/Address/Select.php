@@ -66,7 +66,7 @@ class Select extends \Magento\Multishipping\Block\Checkout\AbstractMultishipping
     /**
      * Get a list of current customer addresses.
      *
-     * @return \Magento\Customer\Service\V1\Dto\Address[]
+     * @return \Magento\Customer\Service\V1\Data\Address[]
      */
     public function getAddressCollection()
     {
@@ -87,7 +87,7 @@ class Select extends \Magento\Multishipping\Block\Checkout\AbstractMultishipping
     /**
      * Represent customer address in HTML format.
      *
-     * @param \Magento\Customer\Service\V1\Dto\Address $addressData
+     * @param \Magento\Customer\Service\V1\Data\Address $addressData
      * @return string
      */
     public function getAddressAsHtml($addressData)
@@ -105,7 +105,7 @@ class Select extends \Magento\Multishipping\Block\Checkout\AbstractMultishipping
     /**
      * Check if provided address is default customer billing address.
      *
-     * @param \Magento\Customer\Service\V1\Dto\Address $address
+     * @param \Magento\Customer\Service\V1\Data\Address $address
      * @return bool
      */
     public function isAddressDefaultBilling($address)
@@ -116,7 +116,7 @@ class Select extends \Magento\Multishipping\Block\Checkout\AbstractMultishipping
     /**
      * Check if provided address is default customer shipping address.
      *
-     * @param \Magento\Customer\Service\V1\Dto\Address $address
+     * @param \Magento\Customer\Service\V1\Data\Address $address
      * @return bool
      */
     public function isAddressDefaultShipping($address)
@@ -127,7 +127,7 @@ class Select extends \Magento\Multishipping\Block\Checkout\AbstractMultishipping
     /**
      * Get URL of customer address edit page.
      *
-     * @param \Magento\Customer\Service\V1\Dto\Address $address
+     * @param \Magento\Customer\Service\V1\Data\Address $address
      * @return string
      */
     public function getEditAddressUrl($address)
@@ -138,7 +138,7 @@ class Select extends \Magento\Multishipping\Block\Checkout\AbstractMultishipping
     /**
      * Get URL of page, at which customer billing address can be set.
      *
-     * @param \Magento\Customer\Service\V1\Dto\Address $address
+     * @param \Magento\Customer\Service\V1\Data\Address $address
      * @return string
      */
     public function getSetAddressUrl($address)

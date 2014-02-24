@@ -9,9 +9,9 @@
  */
 namespace Magento\Customer\Model\Resource\Group\Grid;
 
-use Magento\Customer\Service\V1\Dto\CustomerGroup;
-use Magento\Customer\Service\V1\Dto\Filter;
-use Magento\Customer\Service\V1\Dto\SearchCriteria;
+use Magento\Customer\Service\V1\Data\CustomerGroup;
+use Magento\Customer\Service\V1\Data\Filter;
+use Magento\Customer\Service\V1\Data\SearchCriteria;
 
 class ServiceCollection extends \Magento\Data\Collection
 {
@@ -37,26 +37,26 @@ class ServiceCollection extends \Magento\Data\Collection
     protected $groupService;
 
     /**
-     * @var \Magento\Customer\Service\V1\Dto\FilterBuilder
+     * @var \Magento\Customer\Service\V1\Data\FilterBuilder
      */
     protected $filterBuilder;
 
     /**
-     * @var \Magento\Customer\Service\V1\Dto\SearchCriteriaBuilder
+     * @var \Magento\Customer\Service\V1\Data\SearchCriteriaBuilder
      */
     protected $searchCriteriaBuilder;
 
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService
-     * @param \Magento\Customer\Service\V1\Dto\FilterBuilder $filterBuilder
-     * @param \Magento\Customer\Service\V1\Dto\SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param \Magento\Customer\Service\V1\Data\FilterBuilder $filterBuilder
+     * @param \Magento\Customer\Service\V1\Data\SearchCriteriaBuilder $searchCriteriaBuilder
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService,
-        \Magento\Customer\Service\V1\Dto\FilterBuilder $filterBuilder,
-        \Magento\Customer\Service\V1\Dto\SearchCriteriaBuilder $searchCriteriaBuilder
+        \Magento\Customer\Service\V1\Data\FilterBuilder $filterBuilder,
+        \Magento\Customer\Service\V1\Data\SearchCriteriaBuilder $searchCriteriaBuilder
     ) {
         parent::__construct($entityFactory);
         $this->groupService = $groupService;

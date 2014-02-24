@@ -134,7 +134,7 @@ abstract class AbstractDtoBuilder
     }
 
     /**
-     * Return the Dto type class name
+     * Return the Data type class name
      *
      * @return string
      */

@@ -9,8 +9,36 @@
  */
 namespace Magento\Customer\Model;
 
+use Magento\Customer\Service\V1\Data\Eav\AttributeMetadata;
+use Magento\Customer\Service\V1\Data\CustomerBuilder;
+use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
+
 class ConverterTest extends \PHPUnit_Framework_TestCase
 {
+    /** @var  \PHPUnit_Framework_MockObject_MockObject | AttributeMetadata */
+    private $_attributeMetadata;
+
+    /** @var  \PHPUnit_Framework_MockObject_MockObject | CustomerMetadataServiceInterface */
+    private $_metadataService;
+
+    public function setUp() {
+        $this->_metadataService = $this->getMockForAbstractClass(
+            'Magento\Customer\Service\V1\CustomerMetadataServiceInterface', [], '', false
+        );
+
+        $this->_metadataService
+            ->expects($this->any())
+            ->method('getAttributeMetadata')->will($this->returnValue($this->_attributeMetadata));
+
+        $this->_attributeMetadata = $this->getMock(
+            'Magento\Customer\Service\V1\Data\Eav\AttributeMetadata',
+            [],
+            [],
+            '',
+            false
+        );
+    }
+
     public function testCreateCustomerFromModel()
     {
         $customerModelMock =
@@ -70,7 +98,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             ->method('getData')
             ->will($this->returnValueMap($map));
 
-        $customerBuilder = new \Magento\Customer\Service\V1\Dto\CustomerBuilder();
+        $customerBuilder = new CustomerBuilder($this->_metadataService);
         $customerFactory = $this->getMockBuilder('Magento\Customer\Model\CustomerFactory')
             ->disableOriginalConstructor()
             ->getMock();
@@ -78,7 +106,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         $converter = new Converter($customerBuilder, $customerFactory);
         $customerDto = $converter->createCustomerFromModel($customerModelMock);
 
-        $customerBuilder = new \Magento\Customer\Service\V1\Dto\CustomerBuilder();
+        $customerBuilder = new CustomerBuilder($this->_metadataService);
         $customerData = [
             'firstname' => 'Tess',
             'email' => 'ttester@example.com',

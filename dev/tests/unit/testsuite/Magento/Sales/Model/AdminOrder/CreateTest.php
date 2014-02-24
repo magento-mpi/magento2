@@ -53,7 +53,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Customer\Model\Metadata\FormFactory|\PHPUnit_Framework_MockObject_MockObject */
     protected $formFactoryMock;
 
-    /** @var \Magento\Customer\Service\V1\Dto\CustomerBuilder|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Customer\Service\V1\Data\CustomerBuilder|\PHPUnit_Framework_MockObject_MockObject */
     protected $customerBuilderMock;
 
     /** @var \Magento\Customer\Helper\Data|\PHPUnit_Framework_MockObject_MockObject */
@@ -75,7 +75,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
         $this->customerServiceMock = $this->getMock('Magento\Customer\Service\V1\CustomerServiceInterface');
         $this->formFactoryMock = $this->getMock('Magento\Customer\Model\Metadata\FormFactory', [], [], '', false);
         $this->customerBuilderMock = $this->getMock(
-            'Magento\Customer\Service\V1\Dto\CustomerBuilder',
+            'Magento\Customer\Service\V1\Data\CustomerBuilder',
             [],
             [],
             '',
@@ -114,7 +114,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
         $attributeMocks = [];
 
         foreach ($attributes as $attribute) {
-            $attributeMock = $this->getMock('Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata', [], [], '', false);
+            $attributeMock = $this->getMock('Magento\Customer\Service\V1\Data\Eav\AttributeMetadata', [], [], '', false);
 
             $attributeMock
                 ->expects($this->any())
@@ -124,7 +124,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
             $attributeMocks[] = $attributeMock;
         }
 
-        $customerGroupMock = $this->getMock('Magento\Customer\Service\V1\Dto\CustomerGroup', [], [], '', false);
+        $customerGroupMock = $this->getMock('Magento\Customer\Service\V1\Data\CustomerGroup', [], [], '', false);
         $customerGroupMock->expects($this->once())->method('getTaxClassId')->will($this->returnValue($taxClassId));
         $customerFormMock = $this->getMock('Magento\Customer\Model\Metadata\Form', [], [], '', false);
         $customerFormMock->expects($this->any())->method('getAttributes')->will($this->returnValue($attributeMocks));
@@ -136,7 +136,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
             ->method('prepareRequest')
             ->will($this->returnValue($this->getMock('Magento\App\RequestInterface')));
 
-        $customerMock = $this->getMock('Magento\Customer\Service\V1\Dto\Customer', [], [], '', false);
+        $customerMock = $this->getMock('Magento\Customer\Service\V1\Data\Customer', [], [], '', false);
         $customerMock->expects($this->any())->method('__toArray')->will($this->returnValue([]));
         $customerMock->expects($this->any())->method('getAttribute')->will($this->returnValueMap($attributes));
         $customerMock->expects($this->any())->method('getAttributes')->will(

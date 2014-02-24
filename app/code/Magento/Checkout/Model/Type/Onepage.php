@@ -13,12 +13,12 @@
  */
 namespace Magento\Checkout\Model\Type;
 
-use Magento\Customer\Service\V1\Dto\CustomerBuilder;
-use Magento\Customer\Service\V1\Dto\AddressBuilder;
-use Magento\Customer\Service\V1\Dto\Address as AddressDto;
+use Magento\Customer\Service\V1\Data\CustomerBuilder;
+use Magento\Customer\Service\V1\Data\AddressBuilder;
+use Magento\Customer\Service\V1\Data\Address as AddressDto;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 use Magento\Customer\Model\Metadata\Form;
-use Magento\Customer\Service\V1\Dto\Response\CreateCustomerAccountResponse;
+use Magento\Customer\Service\V1\Data\Response\CreateCustomerAccountResponse;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Exception\NoSuchEntityException;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;

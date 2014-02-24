@@ -7,7 +7,7 @@
  */
 namespace Magento\Sales\Model\Observer\Backend;
 
-use Magento\Customer\Service\V1\Dto\Customer as CustomerDto;
+use Magento\Customer\Service\V1\Data\Customer as CustomerDto;
 
 class CustomerQuote
 {

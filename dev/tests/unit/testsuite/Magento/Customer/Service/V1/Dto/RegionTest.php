@@ -1,16 +1,16 @@
 <?php
 /**
- * Test \Magento\Customer\Service\V1\Dto\Region
+ * Test \Magento\Customer\Service\V1\Data\Region
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Customer\Service\V1\Dto;
+namespace Magento\Customer\Service\V1\Data;
 
-use Magento\Customer\Service\V1\Dto\Region;
-use Magento\Customer\Service\V1\Dto\RegionBuilder;
+use Magento\Customer\Service\V1\Data\Region;
+use Magento\Customer\Service\V1\Data\RegionBuilder;
 
 class RegionTest extends \PHPUnit_Framework_TestCase
 {

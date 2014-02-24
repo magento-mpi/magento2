@@ -59,7 +59,7 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
     private $_storeMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\Dto\CustomerBuilder
+     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\Data\CustomerBuilder
      */
     private $_customerBuilder;
 
@@ -136,7 +136,7 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->_setupStoreMock();
 
-        $this->_customerBuilder = new Dto\CustomerBuilder();
+        $this->_customerBuilder = new Data\CustomerBuilder($this->_customerMetadataService);
 
         $this->_converter = new \Magento\Customer\Model\Converter($this->_customerBuilder, $this->_customerFactoryMock);
 
@@ -247,7 +247,7 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $mockAttribute = $this->getMockBuilder('Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata')
+        $mockAttribute = $this->getMockBuilder('Magento\Customer\Service\V1\Data\Eav\AttributeMetadata')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_customerMetadataService->expects($this->any())
@@ -290,7 +290,7 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $mockAttribute = $this->getMockBuilder('Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata')
+        $mockAttribute = $this->getMockBuilder('Magento\Customer\Service\V1\Data\Eav\AttributeMetadata')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_customerMetadataService->expects($this->any())
@@ -332,7 +332,7 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $mockAttribute = $this->getMockBuilder('Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata')
+        $mockAttribute = $this->getMockBuilder('Magento\Customer\Service\V1\Data\Eav\AttributeMetadata')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_customerMetadataService->expects($this->any())
@@ -378,7 +378,7 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $mockAttribute = $this->getMockBuilder('Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata')
+        $mockAttribute = $this->getMockBuilder('Magento\Customer\Service\V1\Data\Eav\AttributeMetadata')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_customerMetadataService->expects($this->any())
@@ -420,7 +420,7 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $mockAttribute = $this->getMockBuilder('Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata')
+        $mockAttribute = $this->getMockBuilder('Magento\Customer\Service\V1\Data\Eav\AttributeMetadata')
             ->disableOriginalConstructor()
             ->getMock();
         $mockAttribute->expects($this->atLeastOnce())

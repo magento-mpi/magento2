@@ -107,7 +107,7 @@ class Book extends \Magento\View\Element\Template
     }
 
     /**
-     * @return \Magento\Customer\Service\V1\Dto\Address[]|bool
+     * @return \Magento\Customer\Service\V1\Data\Address[]|bool
      */
     public function getAdditionalAddresses()
     {
@@ -128,10 +128,10 @@ class Book extends \Magento\View\Element\Template
     /**
      * Render an address as HTML and return the result
      *
-     * @param \Magento\Customer\Service\V1\Dto\Address $address
+     * @param \Magento\Customer\Service\V1\Data\Address $address
      * @return string
      */
-    public function getAddressHtml(\Magento\Customer\Service\V1\Dto\Address $address = null)
+    public function getAddressHtml(\Magento\Customer\Service\V1\Data\Address $address = null)
     {
         if (!is_null($address)) {
             /** @var \Magento\Customer\Block\Address\Renderer\RendererInterface $renderer */
@@ -142,7 +142,7 @@ class Book extends \Magento\View\Element\Template
     }
 
     /**
-     * @return \Magento\Customer\Service\V1\Dto\Customer|null
+     * @return \Magento\Customer\Service\V1\Data\Customer|null
      */
     public function getCustomer()
     {
@@ -173,7 +173,7 @@ class Book extends \Magento\View\Element\Template
 
     /**
      * @param int $addressId
-     * @return \Magento\Customer\Service\V1\Dto\Address|null
+     * @return \Magento\Customer\Service\V1\Data\Address|null
      */
     public function getAddressById($addressId)
     {

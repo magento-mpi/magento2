@@ -59,7 +59,7 @@ abstract class AbstractData
     protected $_logger;
 
     /**
-     * @var \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata
+     * @var \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata
      */
     protected $_attribute;
 
@@ -74,7 +74,7 @@ abstract class AbstractData
     /**
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Logger $logger
-     * @param \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata $attribute
+     * @param \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata $attribute
      * @param string $value
      * @param $entityTypeCode
      * @param bool $isAjax
@@ -82,7 +82,7 @@ abstract class AbstractData
     public function __construct(
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Logger $logger,
-        \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata $attribute,
+        \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata $attribute,
         $value = null,
         $entityTypeCode,
         $isAjax = false
@@ -99,7 +99,7 @@ abstract class AbstractData
      * Return Attribute instance
      *
      * @throws \Magento\Core\Exception
-     * @return \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata
+     * @return \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata
      */
     public function getAttribute()
     {

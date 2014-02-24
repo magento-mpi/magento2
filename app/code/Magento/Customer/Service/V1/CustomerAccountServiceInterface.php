@@ -25,19 +25,19 @@ interface CustomerAccountServiceInterface
     /**
      * Create Customer Account
      *
-     * @param Dto\Customer $customer
-     * @param Dto\Address[] $addresses
+     * @param Data\Customer $customer
+     * @param Data\Address[] $addresses
      * @param string $password
      * @param string $confirmationBackUrl
      * @param string $registeredBackUrl
      * @param int $storeId
-     * @return Dto\Response\CreateCustomerAccountResponse
+     * @return Data\Response\CreateCustomerAccountResponse
      * @throws \Exception If something goes wrong during save
      * @throws \Magento\Exception\InputException If bad input is provided
      * @throws \Magento\Exception\StateException If the provided email is already used
      */
     public function createAccount(
-        Dto\Customer $customer,
+        Data\Customer $customer,
         array $addresses,
         $password = null,
         $confirmationBackUrl = '',
@@ -50,7 +50,7 @@ interface CustomerAccountServiceInterface
      *
      * @param int $customerId
      * @param string $key
-     * @return Dto\Customer
+     * @return Data\Customer
      * @throws \Magento\Exception\NoSuchEntityException If customer doesn't exist
      * @throws \Magento\Exception\StateException
      *      StateException::INPUT_MISMATCH if key doesn't match expected.
@@ -63,7 +63,7 @@ interface CustomerAccountServiceInterface
      *
      * @param string $username username in plain-text
      * @param string $password password in plain-text
-     * @return Dto\Customer
+     * @return Data\Customer
      * @throws \Magento\Exception\AuthenticationException if unable to authenticate
      */
     public function authenticate($username, $password);
@@ -117,10 +117,10 @@ interface CustomerAccountServiceInterface
     /**
      * Validate customer entity
      *
-     * @param Dto\Customer $customer
-     * @param Dto\Eav\AttributeMetadata[] $attributes
+     * @param Data\Customer $customer
+     * @param Data\Eav\AttributeMetadata[] $attributes
      * @return array|bool
      */
-    public function validateCustomerData(Dto\Customer $customer, array $attributes);
+    public function validateCustomerData(Data\Customer $customer, array $attributes);
 
 }

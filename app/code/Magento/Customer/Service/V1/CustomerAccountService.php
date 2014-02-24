@@ -56,7 +56,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     private $_validator;
 
     /**
-     * @var Dto\Response\CreateCustomerAccountResponseBuilder
+     * @var Data\Response\CreateCustomerAccountResponseBuilder
      */
     private $_createCustomerAccountResponseBuilder;
 
@@ -82,7 +82,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
      * @param Random $mathRandom
      * @param Converter $converter
      * @param Validator $validator
-     * @param Dto\Response\CreateCustomerAccountResponseBuilder $createCustomerAccountResponseBuilder
+     * @param Data\Response\CreateCustomerAccountResponseBuilder $createCustomerAccountResponseBuilder
      * @param CustomerServiceInterface $customerService
      * @param CustomerAddressServiceInterface $customerAddressService
      * @param \Magento\ObjectManager $objectManager
@@ -96,7 +96,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         Random $mathRandom,
         Converter $converter,
         Validator $validator,
-        Dto\Response\CreateCustomerAccountResponseBuilder $createCustomerAccountResponseBuilder,
+        Data\Response\CreateCustomerAccountResponseBuilder $createCustomerAccountResponseBuilder,
         CustomerServiceInterface $customerService,
         CustomerAddressServiceInterface $customerAddressService,
         \Magento\ObjectManager $objectManager
@@ -225,7 +225,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
      * {@inheritdoc}
      */
     public function createAccount(
-        Dto\Customer $customer,
+        Data\Customer $customer,
         array $addresses,
         $password = null,
         $confirmationBackUrl = '',
@@ -280,7 +280,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function validateCustomerData(Dto\Customer $customer, array $attributes)
+    public function validateCustomerData(Data\Customer $customer, array $attributes)
     {
         $customerErrors = $this->_validator->validateData(
             $customer->__toArray(),

@@ -75,7 +75,7 @@ class CustomerService implements CustomerServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function saveCustomer(Dto\Customer $customer, $password = null)
+    public function saveCustomer(Data\Customer $customer, $password = null)
     {
         $customerModel = $this->_converter->createCustomerModel($customer);
 
@@ -140,7 +140,7 @@ class CustomerService implements CustomerServiceInterface
 
     /**
      * @param $attributeCode
-     * @return Dto\Eav\AttributeMetadata|null
+     * @return Data\Eav\AttributeMetadata|null
      */
     protected function _getAttributeMetadata($attributeCode)
     {

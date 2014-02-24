@@ -11,7 +11,7 @@
 namespace Magento\Customer\Model\Metadata\Form;
 
 use Magento\Customer\Model\Metadata\ElementFactory;
-use Magento\Customer\Service\V1\Dto\Eav\OptionBuilder;
+use Magento\Customer\Service\V1\Data\Eav\OptionBuilder;
 
 class MultiselectTest extends AbstractFormTestCase
 {

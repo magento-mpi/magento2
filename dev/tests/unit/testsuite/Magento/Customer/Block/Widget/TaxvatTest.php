@@ -20,7 +20,7 @@ class TaxvatTest extends \PHPUnit_Framework_TestCase
      */
     private $_attributeMetadata;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata */
+    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata */
     private $_attribute;
 
     /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Model\Session */
@@ -32,7 +32,7 @@ class TaxvatTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->_attribute =
-            $this->getMock('Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata', [], [], '', false);
+            $this->getMock('Magento\Customer\Service\V1\Data\Eav\AttributeMetadata', [], [], '', false);
 
         $this->_attributeMetadata =
             $this->getMockForAbstractClass(

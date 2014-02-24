@@ -68,7 +68,7 @@ class Info extends \Magento\View\Element\Template
     /**
      * Returns the Magento Customer Model for this block
      *
-     * @return \Magento\Customer\Service\V1\Dto\Customer
+     * @return \Magento\Customer\Service\V1\Data\Customer
      */
     public function getCustomer()
     {
@@ -159,7 +159,7 @@ class Info extends \Magento\View\Element\Template
 
     /**
      * @param $attributeCode
-     * @return \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata|null
+     * @return \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata|null
      */
     protected function _getAttributeMetadata($attributeCode)
     {

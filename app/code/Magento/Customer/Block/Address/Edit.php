@@ -13,8 +13,8 @@
  */
 namespace Magento\Customer\Block\Address;
 
-use Magento\Customer\Service\V1\Dto\Address;
-use Magento\Customer\Service\V1\Dto\Customer;
+use Magento\Customer\Service\V1\Data\Address;
+use Magento\Customer\Service\V1\Data\Customer;
 use Magento\Exception\NoSuchEntityException;
 
 class Edit extends \Magento\Directory\Block\Data
@@ -47,7 +47,7 @@ class Edit extends \Magento\Directory\Block\Data
     protected $_addressService;
 
     /**
-     * @var \Magento\Customer\Service\V1\Dto\AddressBuilder
+     * @var \Magento\Customer\Service\V1\Data\AddressBuilder
      */
     private $_addressBuilder;
 
@@ -62,7 +62,7 @@ class Edit extends \Magento\Directory\Block\Data
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Customer\Service\V1\CustomerServiceInterface $customerService
      * @param \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService
-     * @param \Magento\Customer\Service\V1\Dto\AddressBuilder $addressBuilder
+     * @param \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder
      * @param array $data
      */
     public function __construct(
@@ -76,7 +76,7 @@ class Edit extends \Magento\Directory\Block\Data
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Customer\Service\V1\CustomerServiceInterface $customerService,
         \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService,
-        \Magento\Customer\Service\V1\Dto\AddressBuilder $addressBuilder,
+        \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder,
         array $data = array()
     ) {
         $this->_config = $config;

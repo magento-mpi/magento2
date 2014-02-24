@@ -146,12 +146,12 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \Magento\Customer\Service\V1\Dto\Address[]
+     * @return \Magento\Customer\Service\V1\Data\Address[]
      */
     protected function _getAddresses()
     {
-        /** @var \Magento\Customer\Service\V1\Dto\AddressBuilder $addressBuilder */
-        $addressBuilder = $this->_objectManager->create('Magento\Customer\Service\V1\Dto\AddressBuilder');
+        /** @var \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder */
+        $addressBuilder = $this->_objectManager->create('Magento\Customer\Service\V1\Data\AddressBuilder');
         $addressBuilder->populateWithArray(
             array('id' => 1, 'street' => 'Street1', 'firstname' => 'FirstName1', 'lastname' => 'LastName1')
         );

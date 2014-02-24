@@ -13,7 +13,7 @@ namespace Magento\Customer\Controller;
 use Magento\App\RequestInterface;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
-use Magento\Customer\Service\V1\Dto\Customer;
+use Magento\Customer\Service\V1\Data\Customer;
 use Magento\Exception\AuthenticationException;
 use Magento\Exception\InputException;
 use Magento\Exception\NoSuchEntityException;
@@ -100,17 +100,17 @@ class Account extends \Magento\App\Action\Action
     protected $_subscriberFactory;
 
     /**
-     * @var \Magento\Customer\Service\V1\Dto\RegionBuilder
+     * @var \Magento\Customer\Service\V1\Data\RegionBuilder
      */
     protected $_regionBuilder;
 
     /**
-     * @var \Magento\Customer\Service\V1\Dto\AddressBuilder
+     * @var \Magento\Customer\Service\V1\Data\AddressBuilder
      */
     protected $_addressBuilder;
 
     /**
-     * @var \Magento\Customer\Service\V1\Dto\CustomerBuilder
+     * @var \Magento\Customer\Service\V1\Data\CustomerBuilder
      */
     protected $_customerBuilder;
 
@@ -128,9 +128,9 @@ class Account extends \Magento\App\Action\Action
      * @param \Magento\Escaper $escaper
      * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService
      * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
-     * @param \Magento\Customer\Service\V1\Dto\RegionBuilder $regionBuilder
-     * @param \Magento\Customer\Service\V1\Dto\AddressBuilder $addressBuilder
-     * @param \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerBuilder
+     * @param \Magento\Customer\Service\V1\Data\RegionBuilder $regionBuilder
+     * @param \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder
+     * @param \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder
      */
     public function __construct(
         \Magento\App\Action\Context $context,
@@ -146,9 +146,9 @@ class Account extends \Magento\App\Action\Action
         \Magento\Escaper $escaper,
         CustomerGroupServiceInterface $customerGroupService,
         CustomerAccountServiceInterface $customerAccountService,
-        \Magento\Customer\Service\V1\Dto\RegionBuilder $regionBuilder,
-        \Magento\Customer\Service\V1\Dto\AddressBuilder $addressBuilder,
-        \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerBuilder
+        \Magento\Customer\Service\V1\Data\RegionBuilder $regionBuilder,
+        \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder,
+        \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder
     ) {
         $this->_storeManager = $storeManager;
         $this->_coreRegistry = $coreRegistry;
@@ -448,7 +448,7 @@ class Account extends \Magento\App\Action\Action
     /**
      * Add address to customer during create account
      *
-     * @return \Magento\Customer\Service\V1\Dto\Address|null
+     * @return \Magento\Customer\Service\V1\Data\Address|null
      */
     protected function _extractAddress()
     {

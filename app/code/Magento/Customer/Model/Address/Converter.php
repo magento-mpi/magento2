@@ -10,11 +10,11 @@
 namespace Magento\Customer\Model\Address;
 
 use Magento\Customer\Model\AddressFactory;
-use Magento\Customer\Service\V1\Dto\Address;
-use Magento\Customer\Service\V1\Dto\AddressBuilder;
+use Magento\Customer\Service\V1\Data\Address;
+use Magento\Customer\Service\V1\Data\AddressBuilder;
 use Magento\Customer\Model\Address as AddressModel;
-use Magento\Customer\Service\V1\Dto\Region;
-use Magento\Customer\Service\V1\Dto\RegionBuilder;
+use Magento\Customer\Service\V1\Data\Region;
+use Magento\Customer\Service\V1\Data\RegionBuilder;
 use \Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
 
 /**

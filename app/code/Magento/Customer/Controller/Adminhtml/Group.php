@@ -30,7 +30,7 @@ class Group extends \Magento\Backend\App\Action
     protected $_groupService;
     
     /**
-     * @var \Magento\Customer\Service\V1\Dto\CustomerGroupBuilder
+     * @var \Magento\Customer\Service\V1\Data\CustomerGroupBuilder
      */
     protected $_customerGroupBuilder;
 
@@ -38,13 +38,13 @@ class Group extends \Magento\Backend\App\Action
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService
-     * @param \Magento\Customer\Service\V1\Dto\CustomerGroupBuilder $customerGroupBuilder
+     * @param \Magento\Customer\Service\V1\Data\CustomerGroupBuilder $customerGroupBuilder
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService,
-        \Magento\Customer\Service\V1\Dto\CustomerGroupBuilder $customerGroupBuilder
+        \Magento\Customer\Service\V1\Data\CustomerGroupBuilder $customerGroupBuilder
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_groupService = $groupService;
@@ -91,7 +91,7 @@ class Group extends \Magento\Backend\App\Action
         $this->_addBreadcrumb(__('Customers'), __('Customers'));
         $this->_addBreadcrumb(__('Customer Groups'), __('Customer Groups'), $this->getUrl('customer/group'));
 
-        /** @var \Magento\Customer\Service\V1\Dto\CustomerGroup $currentGroup */
+        /** @var \Magento\Customer\Service\V1\Data\CustomerGroup $currentGroup */
         $currentGroup = $this->_coreRegistry->registry('current_group');
 
         if (!is_null($currentGroup->getId())) {

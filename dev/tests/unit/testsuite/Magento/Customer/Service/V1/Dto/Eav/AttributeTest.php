@@ -6,10 +6,10 @@
  * @license     {license_link}
  */
 
-namespace Magento\Customer\Service\V1\Dto\Eav;
+namespace Magento\Customer\Service\V1\Data\Eav;
 
-use Magento\Customer\Service\V1\Dto\Eav\Attribute;
-use Magento\Customer\Service\V1\Dto\Eav\AttributeBuilder;
+use Magento\Customer\Service\V1\Data\Eav\Attribute;
+use Magento\Customer\Service\V1\Data\Eav\AttributeBuilder;
 
 class AttributeTest extends \PHPUnit_Framework_TestCase
 {

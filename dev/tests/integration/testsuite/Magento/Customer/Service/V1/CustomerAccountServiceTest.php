@@ -28,13 +28,13 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\ObjectManager */
     private $_objectManager;
 
-    /** @var \Magento\Customer\Service\V1\Dto\Address[] */
+    /** @var \Magento\Customer\Service\V1\Data\Address[] */
     private $_expectedAddresses;
 
-    /** @var \Magento\Customer\Service\V1\Dto\AddressBuilder */
+    /** @var \Magento\Customer\Service\V1\Data\AddressBuilder */
     private $_addressBuilder;
 
-    /** @var \Magento\Customer\Service\V1\Dto\CustomerBuilder */
+    /** @var \Magento\Customer\Service\V1\Data\CustomerBuilder */
     private $_customerBuilder;
 
     protected function setUp()
@@ -43,8 +43,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_service = $this->_objectManager->create('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
         $this->_customerService = $this->_objectManager->create('Magento\Customer\Service\V1\CustomerServiceInterface');
 
-        $this->_addressBuilder = $this->_objectManager->create('Magento\Customer\Service\V1\Dto\AddressBuilder');
-        $this->_customerBuilder = $this->_objectManager->create('Magento\Customer\Service\V1\Dto\CustomerBuilder');
+        $this->_addressBuilder = $this->_objectManager->create('Magento\Customer\Service\V1\Data\AddressBuilder');
+        $this->_customerBuilder = $this->_objectManager->create('Magento\Customer\Service\V1\Data\CustomerBuilder');
 
         $this->_addressBuilder->setId(1)
             ->setCountryId('US')
@@ -53,7 +53,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             ->setDefaultShipping(true)
             ->setPostcode('75477')
             ->setRegion(
-                (new V1\Dto\RegionBuilder())->setRegionCode('AL')->setRegion('Alabama')->setRegionId(1)->create()
+                (new V1\Data\RegionBuilder())->setRegionCode('AL')->setRegion('Alabama')->setRegionId(1)->create()
             )
             ->setStreet(['Green str, 67'])
             ->setTelephone('3468676')
@@ -69,7 +69,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             ->setDefaultShipping(false)
             ->setPostcode('47676')
             ->setRegion(
-                (new V1\Dto\RegionBuilder())->setRegionCode('AL')->setRegion('Alabama')->setRegionId(1)->create()
+                (new V1\Data\RegionBuilder())->setRegionCode('AL')->setRegion('Alabama')->setRegionId(1)->create()
             )
             ->setStreet(['Black str, 48'])
             ->setCity('CityX')

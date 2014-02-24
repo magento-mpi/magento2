@@ -11,9 +11,9 @@ namespace Magento\Sales\Model\Service;
 use Magento\Customer\Service\V1\CustomerServiceInterface;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
-use Magento\Customer\Service\V1\Dto\AddressBuilder;
-use Magento\Customer\Service\V1\Dto\Customer as CustomerDto;
-use Magento\Customer\Service\V1\Dto\Response\CreateCustomerAccountResponse;
+use Magento\Customer\Service\V1\Data\AddressBuilder;
+use Magento\Customer\Service\V1\Data\Customer as CustomerDto;
+use Magento\Customer\Service\V1\Data\Response\CreateCustomerAccountResponse;
 
 /**
  * Quote submit service model

@@ -20,7 +20,7 @@ class AbstractCart extends \Magento\View\Element\Template
     const DEFAULT_TYPE = 'default';
 
     /**
-     * @var \Magento\Customer\Service\V1\Dto\Customer
+     * @var \Magento\Customer\Service\V1\Data\Customer
      */
     protected $_customer = null;
     protected $_quote    = null;
@@ -106,7 +106,7 @@ class AbstractCart extends \Magento\View\Element\Template
     /**
      * Get logged in customer
      *
-     * @return \Magento\Customer\Service\V1\Dto\Customer
+     * @return \Magento\Customer\Service\V1\Data\Customer
      */
     public function getCustomer()
     {

@@ -115,7 +115,7 @@ abstract class AbstractOnepage extends \Magento\View\Element\Template
     /**
      * Get logged in customer
      *
-     * @return \Magento\Customer\Service\V1\Dto\Customer
+     * @return \Magento\Customer\Service\V1\Data\Customer
      */
     protected function _getCustomer()
     {
@@ -193,7 +193,7 @@ abstract class AbstractOnepage extends \Magento\View\Element\Template
             }
 
             foreach ($addresses as $address) {
-                /** @var \Magento\Customer\Service\V1\Dto\Address $address */
+                /** @var \Magento\Customer\Service\V1\Data\Address $address */
                 $label = $this->_addressConfig
                     ->getFormatByCode(AddressConfig::DEFAULT_ADDRESS_FORMAT)
                     ->getRenderer()

@@ -11,12 +11,12 @@ namespace Magento\Sales\Model\AdminOrder;
 use Magento\Customer\Service\V1\CustomerServiceInterface;
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
-use Magento\Customer\Service\V1\Dto\AddressBuilder as CustomerAddressBuilder;
-use Magento\Customer\Service\V1\Dto\CustomerBuilder;
+use Magento\Customer\Service\V1\Data\AddressBuilder as CustomerAddressBuilder;
+use Magento\Customer\Service\V1\Data\CustomerBuilder;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
-use Magento\Customer\Service\V1\Dto\Customer as CustomerDto;
+use Magento\Customer\Service\V1\Data\Customer as CustomerDto;
 use Magento\Customer\Model\Metadata\Form as CustomerForm;
-use Magento\Customer\Service\V1\Dto\Address as CustomerAddressDto;
+use Magento\Customer\Service\V1\Data\Address as CustomerAddressDto;
 
 /**
  * Order create model

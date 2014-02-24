@@ -10,7 +10,7 @@
 
 namespace Magento\Customer\Model;
 
-use Magento\Customer\Service\V1\Dto\CustomerBuilder as CustomerDtoBuilder;
+use Magento\Customer\Service\V1\Data\CustomerBuilder as CustomerDtoBuilder;
 
 /**
  * Customer model
@@ -331,10 +331,10 @@ class Customer extends \Magento\Core\Model\AbstractModel
     protected function _afterSave()
     {
         $customerData = (array)$this->getData();
-        $customerData[\Magento\Customer\Service\V1\Dto\Customer::ID] = $this->getId();
+        $customerData[\Magento\Customer\Service\V1\Data\Customer::ID] = $this->getId();
         $dataDto = $this->_customerDtoBuilder->populateWithArray($customerData)->create();
         $customerOrigData = (array)$this->getOrigData();
-        $customerOrigData[\Magento\Customer\Service\V1\Dto\Customer::ID] = $this->getId();
+        $customerOrigData[\Magento\Customer\Service\V1\Data\Customer::ID] = $this->getId();
         $origDataDto = $this->_customerDtoBuilder->populateWithArray($customerOrigData)->create();
         $this->_eventManager->dispatch(
             'customer_save_after_dto',

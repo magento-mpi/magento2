@@ -62,7 +62,7 @@ class Address extends \Magento\View\Element\Template
     /**
      * Get the logged in customer
      *
-     * @return \Magento\Customer\Service\V1\Dto\Customer
+     * @return \Magento\Customer\Service\V1\Data\Customer
      */
     public function getCustomer()
     {
@@ -139,7 +139,7 @@ class Address extends \Magento\View\Element\Template
     /**
      * Render an address as HTML and return the result
      *
-     * @param \Magento\Customer\Service\V1\Dto\Address $address
+     * @param \Magento\Customer\Service\V1\Data\Address $address
      * @return string
      */
     protected function _getAddressHtml($address)

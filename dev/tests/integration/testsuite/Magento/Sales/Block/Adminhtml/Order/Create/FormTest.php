@@ -100,8 +100,8 @@ ORDER_DATA_JSON;
 
     private function setUpMockAddress()
     {
-        /** @var \Magento\Customer\Service\V1\Dto\AddressBuilder $addressBuilder */
-        $addressBuilder = $this->_objectManager->create('Magento\Customer\Service\V1\Dto\AddressBuilder');
+        /** @var \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder */
+        $addressBuilder = $this->_objectManager->create('Magento\Customer\Service\V1\Data\AddressBuilder');
         /** @var \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService */
         $addressService = $this->_objectManager->create('Magento\Customer\Service\V1\CustomerAddressServiceInterface');
 
@@ -112,7 +112,7 @@ ORDER_DATA_JSON;
             ->setDefaultShipping(true)
             ->setPostcode('75477')
             ->setRegion(
-                new V1\Dto\Region([
+                new V1\Data\Region([
                     'region_code' => 'AL',
                     'region' => 'Alabama',
                     'region_id' => 1
@@ -132,7 +132,7 @@ ORDER_DATA_JSON;
             ->setDefaultShipping(false)
             ->setPostcode('47676')
             ->setRegion(
-                new V1\Dto\Region([
+                new V1\Data\Region([
                     'region_code' => 'AL',
                     'region' => 'Alabama',
                     'region_id' => 1

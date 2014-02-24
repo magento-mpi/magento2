@@ -93,7 +93,7 @@ class View
 
     /**
      * @param int $groupId
-     * @return \Magento\Customer\Service\V1\Dto\CustomerGroup|null
+     * @return \Magento\Customer\Service\V1\Data\CustomerGroup|null
      */
     private function getGroup($groupId)
     {

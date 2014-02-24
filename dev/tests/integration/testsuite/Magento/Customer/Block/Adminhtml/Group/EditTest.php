@@ -9,11 +9,11 @@
 namespace Magento\Customer\Block\Adminhtml\Group;
 
 use Magento\Backend\App\Area\FrontNameResolver;
-use Magento\Customer\Service\V1\Dto\CustomerGroup;
-use Magento\Customer\Service\V1\Dto\Filter;
-use Magento\Customer\Service\V1\Dto\FilterBuilder;
-use Magento\Customer\Service\V1\Dto\SearchCriteria;
-use Magento\Customer\Service\V1\Dto\SearchCriteriaBuilder;
+use Magento\Customer\Service\V1\Data\CustomerGroup;
+use Magento\Customer\Service\V1\Data\Filter;
+use Magento\Customer\Service\V1\Data\FilterBuilder;
+use Magento\Customer\Service\V1\Data\SearchCriteria;
+use Magento\Customer\Service\V1\Data\SearchCriteriaBuilder;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\TestCase\AbstractController;
 

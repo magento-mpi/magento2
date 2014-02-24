@@ -16,14 +16,14 @@ abstract class AbstractFormTestCase extends \PHPUnit_Framework_TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Logger */
     protected $loggerMock;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata */
+    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata */
     protected $attributeMetadataMock;
 
     protected function setUp()
     {
         $this->localeMock = $this->getMockBuilder('Magento\Core\Model\LocaleInterface')->getMock();
         $this->loggerMock = $this->getMockBuilder('Magento\Logger')->disableOriginalConstructor()->getMock();
-        $this->attributeMetadataMock = $this->getMockBuilder('Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata')
+        $this->attributeMetadataMock = $this->getMockBuilder('Magento\Customer\Service\V1\Data\Eav\AttributeMetadata')
             ->disableOriginalConstructor()
             ->getMock();
     }

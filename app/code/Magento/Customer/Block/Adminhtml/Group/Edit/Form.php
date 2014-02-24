@@ -52,7 +52,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
 
-        /** @var \Magento\Customer\Service\V1\Dto\CustomerGroup $customerGroup */
+        /** @var \Magento\Customer\Service\V1\Data\CustomerGroup $customerGroup */
         $customerGroup = $this->_coreRegistry->registry('current_group');
 
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Group Information')));
