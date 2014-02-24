@@ -41,7 +41,7 @@ class InfoTest extends \PHPUnit_Framework_TestCase
         $paymentInfoCheckmo = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Payment\Model\Info');
         $paymentInfoCheckmo->setMethodInstance(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\OfflinePaymentMethods\Model\Method\Checkmo'));
+            ->create('Magento\OfflinePaymentMethods\Model\Checkmo'));
         /** @var $childCheckmo \Magento\OfflinePaymentMethods\Block\Info\Checkmo */
         $childCheckmo = $layout->addBlock('Magento\OfflinePaymentMethods\Block\Info\Checkmo',
             'child.just.another', 'block');
