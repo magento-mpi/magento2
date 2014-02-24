@@ -90,11 +90,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      */
     private $_customerHelperMock;
 
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\CustomerMetadataService
-     */
-    private $_customerMetadataService;
-
     /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\ObjectManager */
     protected $_objectManagerMock;
 
@@ -180,7 +175,9 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $customerBuilder = new Data\CustomerBuilder($this->_customerMetadataService);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        /** @var \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder */
+        $customerBuilder = $objectManagerHelper->getObject('Magento\Customer\Service\V1\Data\CustomerBuilder');
 
         $this->_converter = new \Magento\Customer\Model\Converter($customerBuilder, $this->_customerFactoryMock);
 
