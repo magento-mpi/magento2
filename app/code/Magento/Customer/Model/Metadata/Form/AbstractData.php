@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Model\Metadata\Form;
 
 abstract class AbstractData
@@ -42,7 +41,7 @@ abstract class AbstractData
     protected $_extractedData       = array();
 
     /**
-     * \Magento\Core\Model\LocaleInterface FORMAT
+     * Magento\Core\Model\LocaleInterface FORMAT
      *
      * @var string
      */
@@ -68,7 +67,9 @@ abstract class AbstractData
      */
     protected $_value;
 
-    /** @var  string */
+    /**
+     * @var  string
+     */
     protected $_entityTypeCode;
 
     /**
@@ -76,7 +77,7 @@ abstract class AbstractData
      * @param \Magento\Logger $logger
      * @param \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata $attribute
      * @param string $value
-     * @param $entityTypeCode
+     * @param string $entityTypeCode
      * @param bool $isAjax
      */
     public function __construct(
@@ -98,8 +99,8 @@ abstract class AbstractData
     /**
      * Return Attribute instance
      *
-     * @throws \Magento\Core\Exception
      * @return \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata
+     * @throws \Magento\Core\Exception
      */
     public function getAttribute()
     {
@@ -113,7 +114,7 @@ abstract class AbstractData
      * Set Request scope
      *
      * @param string $scope
-     * @return string
+     * @return $this
      */
     public function setRequestScope($scope)
     {
@@ -126,7 +127,7 @@ abstract class AbstractData
      * Search value only in scope or search value in scope and global
      *
      * @param boolean $flag
-     * @return \Magento\Customer\Model\Metadata\Form\AbstractData
+     * @return $this
      */
     public function setRequestScopeOnly($flag)
     {
@@ -138,7 +139,7 @@ abstract class AbstractData
      * Set array of full extracted data
      *
      * @param array $data
-     * @return \Magento\Customer\Model\Metadata\Form\AbstractData
+     * @return $this
      */
     public function setExtractedData(array $data)
     {
@@ -150,7 +151,7 @@ abstract class AbstractData
      * Return extracted data
      *
      * @param string $index
-     * @return mixed
+     * @return array|null
      */
     public function getExtractedData($index = null)
     {
@@ -207,7 +208,7 @@ abstract class AbstractData
      * Get/Set/Reset date filter format
      *
      * @param string|null|false $format
-     * @return \Magento\Customer\Model\Metadata\Form\AbstractData|string
+     * @return $this|string
      */
     protected function _dateFilterFormat($format = null)
     {
@@ -427,7 +428,7 @@ abstract class AbstractData
                         \Zend_Validate_Date::FALSEFORMAT
                     );
                     if (!$validator->isValid($value)) {
-                       return array_unique($validator->getMessages());
+                        return array_unique($validator->getMessages());
                     }
 
                     break;
@@ -497,8 +498,8 @@ abstract class AbstractData
      * Validate data
      *
      * @param array|string $value
-     * @throws \Magento\Core\Exception
      * @return array|bool
+     * @throws \Magento\Core\Exception
      */
     abstract public function validateValue($value);
 
@@ -519,7 +520,7 @@ abstract class AbstractData
     abstract public function restoreValue($value);
 
     /**
-     * Return formated attribute value from entity model
+     * Return formatted attribute value from entity model
      *
      * @param string $format
      * @return string|array

@@ -9,7 +9,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Model\Metadata;
 
 class ElementFactory
@@ -45,8 +44,8 @@ class ElementFactory
      * Create Form Element
      *
      * @param \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata $attribute
-     * @param $value
-     * @param $entityTypeCode
+     * @param mixed $value
+     * @param string $entityTypeCode
      * @param bool $isAjax
      * @return \Magento\Customer\Model\Metadata\Form\AbstractData
      */

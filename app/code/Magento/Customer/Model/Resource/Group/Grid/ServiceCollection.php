@@ -18,6 +18,8 @@ class ServiceCollection extends \Magento\Data\Collection
     /**
      * Filters on specific fields
      *
+     * @var array
+     *
      * Each filter has the following structure
      * <pre>
      * [
@@ -26,8 +28,6 @@ class ServiceCollection extends \Magento\Data\Collection
      * ]
      * </pre>
      * @see addFieldToFilter() for more information on conditions
-     *
-     * @var array
      */
     protected $fieldFilters = [];
 
@@ -102,8 +102,8 @@ class ServiceCollection extends \Magento\Data\Collection
      *
      * @param string|array $field
      * @param string|int|array $condition
-     * @throws \Magento\Exception if some error in the input could be detected.
      * @return $this
+     * @throws \Magento\Exception If some error in the input could be detected.
      */
     public function addFieldToFilter($field, $condition)
     {
@@ -122,7 +122,7 @@ class ServiceCollection extends \Magento\Data\Collection
      *
      * @param bool $printQuery
      * @param bool $logQuery
-     * @return \Magento\Data\Collection
+     * @return $this
      */
     public function loadData($printQuery = false, $logQuery = false)
     {

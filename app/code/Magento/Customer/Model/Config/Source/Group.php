@@ -7,8 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\Customer\Model\Config\Source;
 
 class Group implements \Magento\Core\Model\Option\ArrayInterface
@@ -40,6 +38,9 @@ class Group implements \Magento\Core\Model\Option\ArrayInterface
         $this->_converter = $converter;
     }
 
+    /**
+     * @return array
+     */
     public function toOptionArray()
     {
         if (!$this->_options) {

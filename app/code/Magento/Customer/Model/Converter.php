@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Model;
 
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
@@ -31,8 +30,8 @@ class Converter
     protected $_customerFactory;
 
     /**
-     * @param CustomerFactory $customerFactory
      * @param CustomerDtoBuilder $customerBuilder
+     * @param CustomerFactory $customerFactory
      */
     public function __construct(CustomerDtoBuilder $customerBuilder, CustomerFactory $customerFactory)
     {
@@ -59,8 +58,8 @@ class Converter
 
     /**
      * @param int $customerId
-     * @throws NoSuchEntityException If customer with customerId is not found.
      * @return Customer
+     * @throws NoSuchEntityException If customer with customerId is not found.
      */
     public function getCustomerModel($customerId)
     {

@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Model\Metadata;
 
 class FormFactory
@@ -32,7 +31,7 @@ class FormFactory
      * @param string $formCode
      * @param array $attributeValues
      * @param bool $isAjax
-     * @return \Magento\Customer\Model\Metadata\Form
+     * @return Form
      */
     public function create(
         $entityType,

@@ -7,10 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\Customer\Model;
 
+use Magento\App\ResponseInterface;
+use Magento\Customer\Model\Config\Share;
+use Magento\Customer\Model\Resource\Customer as ResourceCustomer;
 use Magento\Customer\Service\V1\Dto\Customer as CustomerDto;
 
 /**
@@ -28,7 +29,7 @@ class Session extends \Magento\Session\SessionManager
     /**
      * Customer model
      *
-     * @var \Magento\Customer\Model\Customer
+     * @var Customer
      */
     protected $_customerModel;
 
@@ -54,7 +55,7 @@ class Session extends \Magento\Session\SessionManager
     protected $_coreUrl = null;
 
     /**
-     * @var \Magento\Customer\Model\Config\Share
+     * @var Share
      */
     protected $_configShare;
 
@@ -68,8 +69,11 @@ class Session extends \Magento\Session\SessionManager
      */
     protected $_customerService;
 
-    /** @var  \Magento\Customer\Service\V1\CustomerAccountServiceInterface */
+    /**
+     * @var  \Magento\Customer\Service\V1\CustomerAccountServiceInterface
+     */
     protected $_customerAccountService;
+
     /**
      * @var CustomerFactory
      */
@@ -91,9 +95,10 @@ class Session extends \Magento\Session\SessionManager
     protected $_storeManager;
 
     /**
-     * @var \Magento\App\ResponseInterface
+     * @var ResponseInterface
      */
     protected $response;
+
     /**
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\Session\SidResolverInterface $sidResolver
@@ -101,15 +106,16 @@ class Session extends \Magento\Session\SessionManager
      * @param \Magento\Session\SaveHandlerInterface $saveHandler
      * @param \Magento\Session\ValidatorInterface $validator
      * @param \Magento\Session\StorageInterface $storage
-     * @param Config\Share $configShare
+     * @param Share $configShare
      * @param \Magento\Core\Helper\Url $coreUrl
      * @param \Magento\Customer\Helper\Data $customerData
-     * @param Resource\Customer $customerResource
+     * @param ResourceCustomer $customerResource
      * @param CustomerFactory $customerFactory
      * @param \Magento\UrlFactory $urlFactory
      * @param \Magento\Core\Model\Session $session
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param ResponseInterface $response
      * @param \Magento\Customer\Service\V1\CustomerServiceInterface $customerService
      * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
      * @param null $sessionName
@@ -122,16 +128,16 @@ class Session extends \Magento\Session\SessionManager
         \Magento\Session\SaveHandlerInterface $saveHandler,
         \Magento\Session\ValidatorInterface $validator,
         \Magento\Session\StorageInterface $storage,
-        \Magento\Customer\Model\Config\Share $configShare,
+        Share $configShare,
         \Magento\Core\Helper\Url $coreUrl,
         \Magento\Customer\Helper\Data $customerData,
-        \Magento\Customer\Model\Resource\Customer $customerResource,
-        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        ResourceCustomer $customerResource,
+        CustomerFactory $customerFactory,
         \Magento\UrlFactory $urlFactory,
         \Magento\Core\Model\Session $session,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\App\ResponseInterface $response,
+        ResponseInterface $response,
         \Magento\Customer\Service\V1\CustomerServiceInterface $customerService,
         \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService,
         $sessionName = null,
@@ -157,7 +163,7 @@ class Session extends \Magento\Session\SessionManager
     /**
      * Retrieve customer sharing configuration model
      *
-     * @return \Magento\Customer\Model\Config\Share
+     * @return Share
      */
     public function getCustomerConfigShare()
     {
@@ -168,7 +174,7 @@ class Session extends \Magento\Session\SessionManager
      * Set customer object and setting customer id in session
      *
      * @param   CustomerDto $customer
-     * @return  \Magento\Customer\Model\Session
+     * @return  $this
      */
     public function setCustomerDto(CustomerDto $customer)
     {
@@ -207,7 +213,7 @@ class Session extends \Magento\Session\SessionManager
      * Set customer model and the customer id in session
      *
      * @param   Customer $customerModel
-     * @return  \Magento\Customer\Model\Session
+     * @return  $this
      */
     public function setCustomer(Customer $customerModel)
     {
@@ -244,7 +250,7 @@ class Session extends \Magento\Session\SessionManager
      * Set customer id
      *
      * @param int|null $id
-     * @return \Magento\Customer\Model\Session
+     * @return $this
      */
     public function setCustomerId($id)
     {
@@ -266,11 +272,18 @@ class Session extends \Magento\Session\SessionManager
         return null;
     }
 
+    /**
+     * @return int|null
+     */
     public function getId()
     {
         return $this->getCustomerId();
     }
 
+    /**
+     * @param int $customerId
+     * @return $this
+     */
     public function setId($customerId)
     {
         return $this->setCustomerId($customerId);
@@ -280,7 +293,7 @@ class Session extends \Magento\Session\SessionManager
      * Set customer group id
      *
      * @param int|null $id
-     * @return \Magento\Customer\Model\Session
+     * @return $this
      */
     public function setCustomerGroupId($id)
     {
@@ -304,7 +317,7 @@ class Session extends \Magento\Session\SessionManager
             $this->setCustomerGroupId($customerGroupId);
             return $customerGroupId;
         }
-        return \Magento\Customer\Model\Group::NOT_LOGGED_IN_ID;
+        return Group::NOT_LOGGED_IN_ID;
     }
 
     /**
@@ -358,7 +371,7 @@ class Session extends \Magento\Session\SessionManager
 
     /**
      * @param Customer $customer
-     * @return \Magento\Customer\Model\Session
+     * @return $this
      */
     public function setCustomerAsLoggedIn($customer)
     {
@@ -370,7 +383,7 @@ class Session extends \Magento\Session\SessionManager
 
     /**
      * @param CustomerDto $customer
-     * @return \Magento\Customer\Model\Session
+     * @return $this
      */
     public function setCustomerDtoAsLoggedIn($customer)
     {
@@ -399,7 +412,7 @@ class Session extends \Magento\Session\SessionManager
     /**
      * Logout customer
      *
-     * @return \Magento\Customer\Model\Session
+     * @return $this
      */
     public function logout()
     {
@@ -445,7 +458,7 @@ class Session extends \Magento\Session\SessionManager
      *
      * @param string $key
      * @param string $url
-     * @return \Magento\Customer\Model\Session
+     * @return $this
      */
     protected function _setAuthUrl($key, $url)
     {
@@ -458,7 +471,7 @@ class Session extends \Magento\Session\SessionManager
     /**
      * Logout without dispatching event
      *
-     * @return \Magento\Customer\Model\Session
+     * @return $this
      */
     protected function _logout()
     {
@@ -474,7 +487,7 @@ class Session extends \Magento\Session\SessionManager
      * Set Before auth url
      *
      * @param string $url
-     * @return \Magento\Customer\Model\Session
+     * @return $this
      */
     public function setBeforeAuthUrl($url)
     {
@@ -485,7 +498,7 @@ class Session extends \Magento\Session\SessionManager
      * Set After auth url
      *
      * @param string $url
-     * @return \Magento\Customer\Model\Session
+     * @return $this
      */
     public function setAfterAuthUrl($url)
     {
@@ -496,7 +509,7 @@ class Session extends \Magento\Session\SessionManager
      * Reset core session hosts after reseting session ID
      *
      * @param bool $deleteOldSession
-     * @return \Magento\Customer\Model\Session
+     * @return $this
      */
     public function regenerateId($deleteOldSession = true)
     {

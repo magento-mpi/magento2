@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Model\Metadata;
 
 class Form
@@ -104,7 +103,7 @@ class Form
         $ignoreInvisible = true,
         $filterAttributes = [],
         $isAjax = false
-    )  {
+    ) {
         $this->_eavMetadataService = $eavMetadataService;
         $this->_elementFactory = $elementFactory;
         $this->_attributeValues = $attributeValues;

@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Model\Metadata\Form;
 
 class File extends AbstractData
@@ -41,7 +40,7 @@ class File extends AbstractData
      * @param \Magento\Logger $logger
      * @param \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata $attribute
      * @param null $value
-     * @param $entityTypeCode
+     * @param string $entityTypeCode
      * @param bool $isAjax
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\File\Validator\NotProtectedExtension $fileValidator
@@ -123,7 +122,7 @@ class File extends AbstractData
      * Return array of errors
      *
      * @param array $value
-     * @return array
+     * @return string[]
      */
     protected function _validateByRules($value)
     {
@@ -220,6 +219,8 @@ class File extends AbstractData
 
     /**
      * {@inheritdoc}
+     *
+     * @return $this|string
      */
     public function compactValue($value)
     {

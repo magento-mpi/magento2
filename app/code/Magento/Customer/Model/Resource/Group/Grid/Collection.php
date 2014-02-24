@@ -13,7 +13,7 @@ class Collection extends \Magento\Customer\Model\Resource\Group\Collection
 {
     /**
      * Resource initialization
-     * @return \Magento\Customer\Model\Resource\Group\Grid\Collection
+     * @return $this
      */
     protected function _initSelect()
     {

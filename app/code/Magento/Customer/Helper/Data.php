@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Helper;
 
 /**
@@ -92,7 +91,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Customer address
      *
-     * @var \Magento\Customer\Helper\Address
+     * @var Address
      */
     protected $_customerAddress = null;
 
@@ -140,7 +139,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
 
     /**
      * @param \Magento\App\Helper\Context $context
-     * @param \Magento\Customer\Helper\Address $customerAddress
+     * @param Address $customerAddress
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\App\ConfigInterface $coreConfig
@@ -149,11 +148,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Customer\Model\FormFactory $formFactory
      * @param \Magento\Escaper $escaper
      * @param \Magento\Math\Random $mathRandom
-     * @param \Magento\Customer\Model\Converter
+     * @param \Magento\Customer\Model\Converter $converter
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
-        \Magento\Customer\Helper\Address $customerAddress,
+        Address $customerAddress,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\App\ConfigInterface $coreConfig,
@@ -727,7 +726,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\App\RequestInterface $request
      * @param string $formCode The code of EAV form to take the list of attributes from
      * @param \Magento\Core\Model\AbstractModel $entity entity model for the form
-     * @param array $additionalAttributes The list of attribute codes to skip filtration for
+     * @param string[] $additionalAttributes The list of attribute codes to skip filtration for
      * @param string $scope scope of the request
      * @param \Magento\Eav\Model\Form|null $eavForm EAV form model to use for extraction
      * @return array Filtered customer data

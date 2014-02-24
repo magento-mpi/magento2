@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Model\Customer\Attribute\Backend;
 
 /**
  * Store attribute backend
@@ -15,8 +16,6 @@
  * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Model\Customer\Attribute\Backend;
-
 class Store
     extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
@@ -41,7 +40,7 @@ class Store
      * Before save
      *
      * @param \Magento\Object $object
-     * @return \Magento\Customer\Model\Customer\Attribute\Backend\Store
+     * @return $this
      */
     public function beforeSave($object)
     {

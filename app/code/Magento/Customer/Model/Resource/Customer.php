@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Model\Resource;
 
 /**
@@ -73,7 +72,7 @@ class Customer extends \Magento\Eav\Model\Entity\AbstractEntity
     /**
      * Retrieve customer entity default attributes
      *
-     * @return array
+     * @return string[]
      */
     protected function _getDefaultAttributes()
     {
@@ -92,9 +91,9 @@ class Customer extends \Magento\Eav\Model\Entity\AbstractEntity
      * Check customer scope, email and confirmation key before saving
      *
      * @param \Magento\Object $customer
+     * @return $this
      * @throws \Magento\Customer\Exception
      * @throws \Magento\Core\Exception
-     * @return \Magento\Customer\Model\Resource\Customer
      */
     protected function _beforeSave(\Magento\Object $customer)
     {
@@ -148,7 +147,8 @@ class Customer extends \Magento\Eav\Model\Entity\AbstractEntity
      * Validate customer entity
      *
      * @param \Magento\Customer\Model\Customer $customer
-     * @throws \Magento\Validator\ValidatorException when validation failed
+     * @return void
+     * @throws \Magento\Validator\ValidatorException When validation failed
      */
     protected function _validate($customer)
     {
@@ -162,8 +162,8 @@ class Customer extends \Magento\Eav\Model\Entity\AbstractEntity
     /**
      * Save customer addresses and set default addresses in attributes backend
      *
-     * @param \Magento\Object $customer
-     * @return \Magento\Eav\Model\Entity\AbstractEntity
+     * @param \Magento\Customer\Model\Customer $customer
+     * @return $this
      */
     protected function _afterSave(\Magento\Object $customer)
     {
@@ -175,7 +175,7 @@ class Customer extends \Magento\Eav\Model\Entity\AbstractEntity
      * Save/delete customer address
      *
      * @param \Magento\Customer\Model\Customer $customer
-     * @return \Magento\Customer\Model\Resource\Customer
+     * @return $this
      */
     protected function _saveAddresses(\Magento\Customer\Model\Customer $customer)
     {
@@ -225,7 +225,7 @@ class Customer extends \Magento\Eav\Model\Entity\AbstractEntity
      * Retrieve select object for loading base entity row
      *
      * @param \Magento\Object $object
-     * @param mixed $rowId
+     * @param string|int $rowId
      * @return \Magento\DB\Select
      */
     protected function _getLoadRowSelect($object, $rowId)
@@ -241,11 +241,10 @@ class Customer extends \Magento\Eav\Model\Entity\AbstractEntity
     /**
      * Load customer by email
      *
-     * @throws \Magento\Core\Exception
-     *
      * @param \Magento\Customer\Model\Customer $customer
      * @param string $email
-     * @return \Magento\Customer\Model\Resource\Customer
+     * @return $this
+     * @throws \Magento\Core\Exception
      */
     public function loadByEmail(\Magento\Customer\Model\Customer $customer, $email)
     {
@@ -280,7 +279,7 @@ class Customer extends \Magento\Eav\Model\Entity\AbstractEntity
      *
      * @param \Magento\Customer\Model\Customer $customer
      * @param string $newPassword
-     * @return \Magento\Customer\Model\Resource\Customer
+     * @return $this
      */
     public function changePassword(\Magento\Customer\Model\Customer $customer, $newPassword)
     {
@@ -352,7 +351,7 @@ class Customer extends \Magento\Eav\Model\Entity\AbstractEntity
      * Custom setter of increment ID if its needed
      *
      * @param \Magento\Object $object
-     * @return \Magento\Customer\Model\Resource\Customer
+     * @return $this
      */
     public function setNewIncrementId(\Magento\Object $object)
     {
@@ -369,7 +368,7 @@ class Customer extends \Magento\Eav\Model\Entity\AbstractEntity
      *
      * @param \Magento\Customer\Model\Customer $customer
      * @param string $passwordLinkToken
-     * @return \Magento\Customer\Model\Resource\Customer
+     * @return $this
      */
     public function changeResetPasswordLinkToken(\Magento\Customer\Model\Customer $customer, $passwordLinkToken)
     {

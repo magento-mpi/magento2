@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Customer\Model\Address;
 
 /**
  * Customer address config
@@ -16,8 +16,6 @@
  * @package    Magento_Customer
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Model\Address;
-
 class Config extends \Magento\Config\Data
 {
     const DEFAULT_ADDRESS_RENDERER  = 'Magento\Customer\Block\Address\Renderer\DefaultRenderer';
@@ -79,7 +77,7 @@ class Config extends \Magento\Config\Data
      * Set store
      *
      * @param null|string|bool|int|\Magento\Core\Model\Store $store
-     * @return \Magento\Customer\Model\Address\Config
+     * @return $this
      */
     public function setStore($store)
     {

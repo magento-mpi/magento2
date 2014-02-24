@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Customer\Model\Resource\Address\Attribute\Backend;
 
 /**
  * Address region attribute backend
@@ -16,8 +16,6 @@
  * @package     Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Model\Resource\Address\Attribute\Backend;
-
 class Region
     extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
@@ -42,7 +40,7 @@ class Region
      * Prepare object for save
      *
      * @param \Magento\Object $object
-     * @return \Magento\Customer\Model\Resource\Address\Attribute\Backend\Region
+     * @return $this
      */
     public function beforeSave($object)
     {

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Customer\Model\Resource\Address;
 
 /**
  * Customers collection
@@ -16,12 +16,12 @@
  * @package     Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Model\Resource\Address;
-
 class Collection extends \Magento\Eav\Model\Entity\Collection\AbstractCollection
 {
     /**
      * Resource initialization
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -32,7 +32,7 @@ class Collection extends \Magento\Eav\Model\Entity\Collection\AbstractCollection
      * Set customer filter
      *
      * @param \Magento\Customer\Model\Customer|array $customer
-     * @return \Magento\Customer\Model\Resource\Address\Collection
+     * @return $this
      */
     public function setCustomerFilter($customer)
     {

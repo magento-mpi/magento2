@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Customer\Model\Attribute\Data;
 
 /**
  * Customer Address Postal/Zip Code Attribute Data Model
@@ -17,8 +17,6 @@
  * @package     Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Model\Attribute\Data;
-
 class Postcode extends \Magento\Eav\Model\Attribute\Data\Text
 {
     /**
@@ -51,6 +49,10 @@ class Postcode extends \Magento\Eav\Model\Attribute\Data\Text
         parent::__construct($locale, $logger, $stringHelper);
     }
 
+    /**
+     * @param string $value
+     * @return true|string[]
+     */
     public function validateValue($value)
     {
         $countryId      = $this->getExtractedData('country_id');

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Customer\Model\Resource\Form\Attribute;
 
 /**
  * Customer Form Attribute Resource Collection
@@ -16,8 +16,6 @@
  * @package     Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Model\Resource\Form\Attribute;
-
 class Collection extends \Magento\Eav\Model\Resource\Form\Attribute\Collection
 {
     /**
@@ -36,6 +34,8 @@ class Collection extends \Magento\Eav\Model\Resource\Form\Attribute\Collection
 
     /**
      * Resource initialization
+     *
+     * @return void
      */
     protected function _construct()
     {

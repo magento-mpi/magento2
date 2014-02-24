@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Model;
 
 /**
  * Customer group model
@@ -21,8 +22,6 @@
  * @package     Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Model;
-
 class Group extends \Magento\Core\Model\AbstractModel
 {
     /**
@@ -53,6 +52,9 @@ class Group extends \Magento\Core\Model\AbstractModel
      */
     protected $_eventObject = 'object';
 
+    /**
+     * @var array
+     */
     protected static $_taxClassIds = array();
 
     /**
@@ -90,6 +92,9 @@ class Group extends \Magento\Core\Model\AbstractModel
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_init('Magento\Customer\Model\Resource\Group');
@@ -99,6 +104,7 @@ class Group extends \Magento\Core\Model\AbstractModel
      * Alias for setCustomerGroupCode
      *
      * @param string $value
+     * @return $this
      */
     public function setCode($value)
     {
@@ -115,6 +121,10 @@ class Group extends \Magento\Core\Model\AbstractModel
         return $this->getCustomerGroupCode();
     }
 
+    /**
+     * @param int|null $groupId
+     * @return int
+     */
     public function getTaxClassId($groupId = null)
     {
         if (!is_null($groupId)) {
@@ -127,7 +137,9 @@ class Group extends \Magento\Core\Model\AbstractModel
         return $this->getData('tax_class_id');
     }
 
-
+    /**
+     * @return bool
+     */
     public function usesAsDefault()
     {
         $data = $this->_storeConfig->getStoresConfigByPath(self::XML_PATH_DEFAULT_ID);
@@ -140,7 +152,7 @@ class Group extends \Magento\Core\Model\AbstractModel
     /**
      * Run reindex process after data save
      *
-     * @return \Magento\Customer\Model\Group
+     * @return $this
      */
     protected function _afterSave()
     {
@@ -163,7 +175,7 @@ class Group extends \Magento\Core\Model\AbstractModel
     /**
      * Prepare customer group data
      *
-     * @return \Magento\Customer\Model\Group
+     * @return $this
      */
     protected function _prepareData()
     {

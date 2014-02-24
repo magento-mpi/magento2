@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Customer\Model\Resource\Customer;
 
 /**
  * Customers collection
@@ -16,8 +16,6 @@
  * @package     Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Model\Resource\Customer;
-
 class Collection extends \Magento\Eav\Model\Entity\Collection\AbstractCollection
 {
     /**
@@ -46,7 +44,7 @@ class Collection extends \Magento\Eav\Model\Entity\Collection\AbstractCollection
      * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
      * @param \Magento\Validator\UniversalFactory $universalFactory
      * @param \Magento\Object\Copy\Config $fieldsetConfig
-     * @param mixed $connection
+     * @param \Zend_Db_Adapter_Abstract $connection
      * @param string $modelName
      * 
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -83,6 +81,8 @@ class Collection extends \Magento\Eav\Model\Entity\Collection\AbstractCollection
 
     /**
      * Resource initialization
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -92,7 +92,7 @@ class Collection extends \Magento\Eav\Model\Entity\Collection\AbstractCollection
     /**
      * Group result by customer email
      *
-     * @return \Magento\Customer\Model\Resource\Customer\Collection
+     * @return $this
      */
     public function groupByEmail()
     {
@@ -110,7 +110,7 @@ class Collection extends \Magento\Eav\Model\Entity\Collection\AbstractCollection
     /**
      * Add Name to select
      *
-     * @return \Magento\Customer\Model\Resource\Customer\Collection
+     * @return $this
      */
     public function addNameToSelect()
     {

@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Model\Customer\Attribute\Backend;
 
 /**
  * Customer default billing address backend
@@ -15,10 +16,12 @@
  * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Model\Customer\Attribute\Backend;
-
 class Billing extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
+    /**
+     * @param \Magento\Object $object
+     * @return void
+     */
     public function beforeSave($object)
     {
         $defaultBilling = $object->getDefaultBilling();
@@ -26,11 +29,14 @@ class Billing extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBacken
             $object->unsetDefaultBilling();
         }
     }
-    
+
+    /**
+     * @param \Magento\Object $object
+     * @return void
+     */
     public function afterSave($object)
     {
-        if ($defaultBilling = $object->getDefaultBilling()) 
-        {
+        if ($defaultBilling = $object->getDefaultBilling()) {
             $addressId = false;
             /**
              * post_index set in customer save action for address

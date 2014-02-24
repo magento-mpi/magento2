@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Helper;
 
 /**
@@ -13,7 +12,9 @@ namespace Magento\Customer\Helper;
  */
 class View extends \Magento\App\Helper\AbstractHelper
 {
-    /** @var \Magento\Customer\Service\V1\CustomerMetadataServiceInterface */
+    /**
+     * @var \Magento\Customer\Service\V1\CustomerMetadataServiceInterface
+     */
     protected $_customerMetadataService;
 
     /**

@@ -7,14 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Helper;
+
+use Magento\Directory\Model\Country\Format;
 
 /**
  * Customer address helper
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Helper;
-
 class Address extends \Magento\App\Helper\AbstractHelper
 {
     /**
@@ -46,6 +47,10 @@ class Address extends \Magento\App\Helper\AbstractHelper
      * @var array
      */
     protected $_streetLines     = array();
+
+    /**
+     * @var array
+     */
     protected $_formatTemplate  = array();
 
     /**
@@ -102,27 +107,42 @@ class Address extends \Magento\App\Helper\AbstractHelper
 
     /**
      * Addresses url
+     *
+     * @return void
      */
     public function getBookUrl()
     {
 
     }
 
+    /**
+     * @return void
+     */
     public function getEditUrl()
     {
 
     }
 
+    /**
+     * @return void
+     */
     public function getDeleteUrl()
     {
 
     }
 
+    /**
+     * @return void
+     */
     public function getCreateUrl()
     {
 
     }
 
+    /**
+     * @param string $renderer
+     * @return \Magento\View\Element\BlockInterface
+     */
     public function getRenderer($renderer)
     {
         if (is_string($renderer) && $renderer) {
@@ -170,6 +190,10 @@ class Address extends \Magento\App\Helper\AbstractHelper
         return $this->_streetLines[$websiteId];
     }
 
+    /**
+     * @param string $code
+     * @return Format|string
+     */
     public function getFormat($code)
     {
         $format = $this->_addressConfig->getFormatByCode($code);
@@ -258,9 +282,9 @@ class Address extends \Magento\App\Helper\AbstractHelper
      *  Result:
      *   array('street1 street2', 'street3 street4')
      *
-     * @param array $origStreets
-     * @param int   $toCount
-     * @return array
+     * @param string[] $origStreets
+     * @param int $toCount
+     * @return string[]
      */
     public function convertStreetLines($origStreets, $toCount)
     {
