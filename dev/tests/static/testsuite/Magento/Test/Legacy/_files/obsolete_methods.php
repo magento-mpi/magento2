@@ -1337,7 +1337,7 @@ return array(
     [
         'getPublicFilePath',
         'Magento\View\PublicFilesManagerInterface',
-        'Magento\View\PublicFilesManagerInterface::getPublicViewFile()',
+        'Magento\View\FilesManagerInterface::getPublicViewFile()',
     ],
     [
         'getPublicFilePath',

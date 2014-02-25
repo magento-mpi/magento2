@@ -9,9 +9,9 @@
 namespace Magento\View;
 
 /**
- * FileSystem Interface
+ * View files manager interface
  */
-interface PublicFilesManagerInterface
+interface FilesManagerInterface
 {
     /**
      * Get public file path
@@ -23,7 +23,7 @@ interface PublicFilesManagerInterface
     public function getPublicViewFile($filePath, array $params);
 
     /**
-     * Get path to requested file
+     * Get original file
      *
      * @param string $filePath
      * @param array $params

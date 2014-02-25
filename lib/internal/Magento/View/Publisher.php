@@ -13,7 +13,7 @@ use Magento\Filesystem\Directory\WriteInterface;
 /**
  * Magento view file publisher
  */
-class Publisher implements PublicFilesManagerInterface
+class Publisher implements FilesManagerInterface
 {
     /**#@+
      * Extensions group for static files

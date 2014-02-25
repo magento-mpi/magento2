@@ -82,7 +82,7 @@ class FileResolver
     /**
      * Get files manager that is able to return file public path
      *
-     * @return \Magento\View\PublicFilesManagerInterface
+     * @return \Magento\View\FilesManagerInterface
      */
     protected function getFilesManager()
     {

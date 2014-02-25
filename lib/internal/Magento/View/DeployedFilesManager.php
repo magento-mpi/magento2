@@ -11,7 +11,7 @@ namespace Magento\View;
 /**
  * Builds path for files deployed into public directory in advance
  */
-class DeployedFilesManager implements \Magento\View\PublicFilesManagerInterface
+class DeployedFilesManager implements \Magento\View\FilesManagerInterface
 {
     /**
      * View service
