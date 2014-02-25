@@ -3,6 +3,9 @@
   * Fixed an issue where the Add Address button for Customer in Admin was broken
   * Fixed a Typo in Region of Austria (GitHub #134)
   * Fixed issue where predefined data are not loaded for Newsletter after try to put it in a Queue
+  * Fixed an exception that appears when trying to apply a coupon code
+  * Fixed Shopping Cart Price Rule which applied to products that aren't eligible
+  * Fixed Related Orders link from Recurring Profile page on frontend
 * Indexer implementation:
   * Implemented new optimized Catalog Category Product Indexer
   * Implemented new optimized Catalog Category Flat Indexer
@@ -13,6 +16,8 @@
   * Moved Recurring profile functionality into separate module
   * Moved Billing Agreements functionality into PayPal module
   * Finalised work on resolving dependencies between all other modules and Multishipping module. Module can be removed without impact on system
+  * Resolved dependencies between Email Templates functionality and other modules
+  * Core module lib-only depended components moved to library
 * Customer Service usage:
  * Updated Customer Group Grid to use Customer Service for retrieving data and filtering
  * Updated CustomerMetadataService::getAttributeMetadata to throw an exception if invalid code provided
