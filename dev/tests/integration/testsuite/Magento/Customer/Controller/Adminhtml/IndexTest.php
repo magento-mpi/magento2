@@ -897,7 +897,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
         $this->assertContains('\"Telephone\" is a required value.', $body);
         $this->assertContains('\"Telephone\" length must be equal or greater than 1 characters', $body);
         $this->assertContains('\"Country\" is a required value.', $body);
-     }
+    }
 
     public function testResetPasswordActionNoCustomerId()
     {
