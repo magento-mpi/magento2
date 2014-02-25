@@ -281,7 +281,7 @@ class Quote
      * @return \Magento\Sales\Model\Order
      * @throws \Exception
      */
-    public function submitOrderWithDto()
+    public function submitOrderWithDataObject()
     {
         $this->_deleteNominalItems();
         $this->_validate();
@@ -464,7 +464,7 @@ class Quote
      * Submit all available items
      * All created items will be set to the object
      */
-    public function submitAllWithDto()
+    public function submitAllWithDataObject()
     {
         // don't allow submitNominalItems() to inactivate quote
         $inactivateQuoteOld = $this->_shouldInactivateQuote;
@@ -481,7 +481,7 @@ class Quote
             $this->_inactivateQuote();
             return;
         }
-        $this->submitOrderWithDto();
+        $this->submitOrderWithDataObject();
     }
 
     /**

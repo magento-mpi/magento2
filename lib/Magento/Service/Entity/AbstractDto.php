@@ -42,7 +42,7 @@ abstract class AbstractDto
     }
 
     /**
-     * Return DTO data in array format.
+     * Return Data Object data in array format.
      *
      * @return array
      */

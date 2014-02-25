@@ -150,9 +150,9 @@ class Handler
     }
 
     /**
-     * Create new object and initialize its public fields with data retrieved from DTO.
+     * Create new object and initialize its public fields with data retrieved from Data Object.
      *
-     * This method processes all nested DTOs recursively.
+     * This method processes all nested Data Objects recursively.
      *
      * @param object $dto
      * @return \stdClass

@@ -10,7 +10,7 @@
 
 namespace Magento\Checkout\Model;
 
-use Magento\Customer\Service\V1\Data\Customer as CustomerDto;
+use Magento\Customer\Service\V1\Data\Customer as CustomerDataObject;
 use \Magento\Customer\Service\V1\Data\CustomerBuilder;
 
 class Session extends \Magento\Session\SessionManager
@@ -28,14 +28,14 @@ class Session extends \Magento\Session\SessionManager
     protected $_quote;
 
     /**
-     * Customer DTO
+     * Customer Data Object
      *
-     * @var null|CustomerDto
+     * @var null|CustomerDataObject
      */
     protected $_customer;
 
     /**
-     * Customer DTO builder
+     * Customer Data Object  builder
      *
      * @var CustomerBuilder
      */
@@ -152,7 +152,7 @@ class Session extends \Magento\Session\SessionManager
     /**
      * Set customer data.
      *
-     * @param CustomerDto|null $customer
+     * @param CustomerDataObject|null $customer
      * @return \Magento\Checkout\Model\Session
      */
     public function setCustomerData($customer)

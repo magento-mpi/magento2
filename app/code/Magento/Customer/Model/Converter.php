@@ -10,18 +10,18 @@ namespace Magento\Customer\Model;
 
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
 use Magento\Exception\NoSuchEntityException;
-use Magento\Customer\Service\V1\Data\Customer as CustomerDto;
-use Magento\Customer\Service\V1\Data\CustomerBuilder as CustomerDtoBuilder;
+use Magento\Customer\Service\V1\Data\Customer as CustomerDataObject;
+use Magento\Customer\Service\V1\Data\CustomerBuilder as CustomerDataObjectBuilder;
 
 /**
  * Customer Model converter.
  *
- * Converts a Customer Model to a DTO or vice versa.
+ * Converts a Customer Model to a Data Object or vice versa.
  */
 class Converter
 {
     /**
-     * @var CustomerDtoBuilder
+     * @var CustomerDataObjectBuilder
      */
     protected $_customerBuilder;
 
@@ -32,9 +32,9 @@ class Converter
 
     /**
      * @param CustomerFactory $customerFactory
-     * @param CustomerDtoBuilder $customerBuilder
+     * @param CustomerDataObjectBuilder $customerBuilder
      */
-    public function __construct(CustomerDtoBuilder $customerBuilder, CustomerFactory $customerFactory)
+    public function __construct(CustomerDataObjectBuilder $customerBuilder, CustomerFactory $customerFactory)
     {
         $this->_customerBuilder = $customerBuilder;
         $this->_customerFactory = $customerFactory;
@@ -44,7 +44,7 @@ class Converter
      * Convert a customer model to a customer entity
      *
      * @param Customer $customerModel
-     * @return CustomerDto
+     * @return CustomerDataObject
      */
     public function createCustomerFromModel(Customer $customerModel)
     {
@@ -101,10 +101,10 @@ class Converter
     /**
      * Creates a customer model from a customer entity.
      *
-     * @param CustomerDto $customer
+     * @param CustomerDataObject $customer
      * @return Customer
      */
-    public function createCustomerModel(CustomerDto $customer)
+    public function createCustomerModel(CustomerDataObject $customer)
     {
         $customerModel = $this->_customerFactory->create();
 
@@ -160,7 +160,7 @@ class Converter
      * Loads the values from a customer model
      *
      * @param Customer $customerModel
-     * @return CustomerDtoBuilder
+     * @return CustomerDataObjectBuilder
      */
     protected function _populateBuilderWithAttributes(Customer $customerModel)
     {

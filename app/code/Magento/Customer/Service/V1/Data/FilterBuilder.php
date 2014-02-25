@@ -10,7 +10,7 @@ namespace Magento\Customer\Service\V1\Data;
 use Magento\Service\Entity\AbstractDtoBuilder;
 
 /**
- * Builder for Filter DTO.
+ * Builder for Filter Data Object.
  */
 class FilterBuilder extends AbstractDtoBuilder
 {

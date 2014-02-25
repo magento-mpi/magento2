@@ -88,7 +88,7 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
         $middlename2 = 'Middlename2';
         $dataForMerge = ['lastname' => $lastname2, 'middlename' => $middlename2];
 
-        $mergedDataObject = $this->_customerBuilder->mergeDtoWithArray($firstDataObject, $dataForMerge);
+        $mergedDataObject = $this->_customerBuilder->mergeDataObjectWithArray($firstDataObject, $dataForMerge);
         $this->assertNotSame($firstDataObject, $mergedDataObject, 'A new object must be created for merged DTO.');
         $expectedDataObject = [
             'firstname' => $firstname1,
@@ -99,10 +99,12 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedDataObject, $mergedDataObject->__toArray(), 'DTO with array were merged incorrectly.');
     }
 
+    // @codingStandardsIgnoreStart
     /**
      * @expectedException \LogicException
      * @expectedExceptionMessage Wrong prototype object given. It can only be of "Magento\Customer\Service\V1\Data\Customer" type.
      */
+    // @codingStandardsIgnoreEnd
     public function testPopulateException()
     {
         $addressData = (new AddressBuilder(new RegionBuilder(), $this->_customerMetadataService))->create();

@@ -114,7 +114,9 @@ class CreateTest extends \PHPUnit_Framework_TestCase
         $attributeMocks = [];
 
         foreach ($attributes as $attribute) {
-            $attributeMock = $this->getMock('Magento\Customer\Service\V1\Data\Eav\AttributeMetadata', [], [], '', false);
+            $attributeMock = $this->getMock(
+                'Magento\Customer\Service\V1\Data\Eav\AttributeMetadata',
+                [],[],'',false);
 
             $attributeMock
                 ->expects($this->any())

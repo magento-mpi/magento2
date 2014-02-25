@@ -11,7 +11,7 @@ use Magento\Customer\Service\V1\Data\Search\OrGroupBuilder;
 use Magento\Service\Entity\AbstractDtoBuilder;
 
 /**
- * Builder for SearchCriteria DTO
+ * Builder for SearchCriteria Data Object
  */
 class SearchCriteriaBuilder extends AbstractDtoBuilder
 {

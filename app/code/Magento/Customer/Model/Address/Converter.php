@@ -20,7 +20,7 @@ use \Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
 /**
  * Customer Address Model converter.
  *
- * Converts a Customer Address Model to a DTO.
+ * Converts a Customer Address Model to a Data Object.
  *
  * TODO: Remove this class after service refactoring is done and the model is no longer needed outside of service.
  *       Then this function could be moved to the service.
@@ -59,21 +59,21 @@ class Converter
     }
 
     /**
-     * Creates an address model out of an address DTO.
+     * Creates an address model out of an address Data Object.
      *
-     * @param Address $addressDto
+     * @param Address $addressDataObject
      * @return AddressModel
      */
-    public function createAddressModel(Address $addressDto)
+    public function createAddressModel(Address $addressDataObject)
     {
         $addressModel = $this->_addressFactory->create();
-        $this->updateAddressModel($addressModel, $addressDto);
+        $this->updateAddressModel($addressModel, $addressDataObject);
 
         return $addressModel;
     }
 
     /**
-     * Updates an Address Model based on information from an Address DTO.
+     * Updates an Address Model based on information from an Address Data Object.
      *
      * @param AddressModel $addressModel
      * @param Address $address
@@ -103,7 +103,7 @@ class Converter
     }
 
     /**
-     * Make address DTO out of an address model
+     * Make address Data Object out of an address model
      *
      * @param AddressModel $addressModel
      * @param int $defaultBillingId
@@ -142,7 +142,7 @@ class Converter
             ]
         ]));
 
-        $addressDto = $this->_addressBuilder->create();
-        return $addressDto;
+        $addressDataObject = $this->_addressBuilder->create();
+        return $addressDataObject;
     }
 }

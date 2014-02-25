@@ -9,8 +9,8 @@
 namespace Magento\Sales\Model;
 
 use Magento\Sales\Model\Quote\Address;
-use Magento\Customer\Service\V1\Data\Address as AddressDto;
-use Magento\Customer\Service\V1\Data\Customer as CustomerDto;
+use Magento\Customer\Service\V1\Data\Address as AddressDataObject;
+use Magento\Customer\Service\V1\Data\Customer as CustomerDataObject;
 
 /**
  * Quote model
@@ -271,7 +271,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
     protected $_objectCopyService;
 
     /**
-     * @var CustomerDto
+     * @var CustomerDataObject
      */
     protected $_customerData;
 
@@ -546,7 +546,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
     /**
      * Assign customer model object data to quote
      *
-     * @param   CustomerDto|\Magento\Customer\Model\Customer $customer
+     * @param   CustomerDataObject|\Magento\Customer\Model\Customer $customer
      * @return $this
      */
     public function assignCustomer($customer)
@@ -558,7 +558,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
     /**
      * Assign customer model to quote with billing and shipping address change
      *
-     * @param  CustomerDto|\Magento\Customer\Model\Customer $customer
+     * @param  CustomerDataObject|\Magento\Customer\Model\Customer $customer
      * @param  Address $billingAddress
      * @param  Address $shippingAddress
      * @return $this
@@ -569,7 +569,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
         Address $shippingAddress = null
     ) {
         /* @TODO: refactor this once all the usages of assignCustomerWithAddressChange are refactored MAGETWO-19930 */
-        if ($customer instanceof CustomerDto) {
+        if ($customer instanceof CustomerDataObject) {
             $customer = $this->_converter->createCustomerModel($customer);
         }
 
@@ -644,7 +644,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
     /**
      * Retrieve customer data object
      *
-     * @return CustomerDto
+     * @return CustomerDataObject
      */
     public function getCustomerData()
     {
@@ -656,12 +656,12 @@ class Quote extends \Magento\Core\Model\AbstractModel
     /**
      * Set customer data object
      *
-     * @param CustomerDto $customerData
+     * @param CustomerDataObject $customerData
      * @return $this
      */
-    public function setCustomerData(CustomerDto $customerData)
+    public function setCustomerData(CustomerDataObject $customerData)
     {
-        /* @TODO: remove model usage in favor of DTO in scope of MAGETWO-19930 */
+        /* @TODO: remove model usage in favor of Data Object in scope of MAGETWO-19930 */
         $customer = $this->_customerFactory->create();
         $customer->setData(\Magento\Convert\ConvertArray::toFlatArray($customerData->__toArray()));
         $customer->setId($customerData->getId());
@@ -672,7 +672,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
     /**
      * Substitute customer addresses
      *
-     * @param AddressDto[] $addresses
+     * @param AddressDataObject[] $addresses
      * @return $this
      */
     public function setCustomerAddressData(array $addresses)
@@ -686,14 +686,14 @@ class Quote extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * Add address to the customer, created out of a DTO
+     * Add address to the customer, created out of a Data Object
      *
      * TODO refactor in scope of MAGETWO-19930
      *
-     * @param AddressDto $address
+     * @param AddressDataObject $address
      * @return $this
      */
-    public function addCustomerAddressData(AddressDto $address)
+    public function addCustomerAddressData(AddressDataObject $address)
     {
         $this->getCustomer()->addAddress($this->_addressConverter->createAddressModel($address));
 
@@ -701,37 +701,37 @@ class Quote extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * Get DTO addresses of the customer
+     * Get Data Object addresses of the customer
      *
-     * TODO: Refactor to use addressDto property is used insead of customer model MAGETWO-19930
+     * TODO: Refactor to use addressDataObject property is used insead of customer model MAGETWO-19930
      *
-     * @return AddressDto[]
+     * @return AddressDataObject[]
      */
     public function getCustomerAddressData()
     {
         $customer = $this->getCustomerData();
         $addresses = $this->getCustomer()->getAddresses();
-        $addressDtos = [];
+        $addressDataObjects = [];
         foreach ($addresses as $address) {
-            $addressDtos[] = $this->_addressConverter->createAddressFromModel(
+            $addressDataObjects[] = $this->_addressConverter->createAddressFromModel(
                 $address,
                 $customer->getDefaultBilling(),
                 $customer->getDefaultShipping()
             );
         }
-        return $addressDtos;
+        return $addressDataObjects;
     }
 
     /**
      * Update customer data object
      *
-     * @param CustomerDto $customerData
+     * @param CustomerDataObject $customerData
      * @return $this
      */
-    public function updateCustomerData(CustomerDto $customerData)
+    public function updateCustomerData(CustomerDataObject $customerData)
     {
         $customer = $this->getCustomer();
-        /* @TODO: remove this code in favor of customer DTO usage MAGETWO-19930 */
+        /* @TODO: remove this code in favor of customer Data Object usage MAGETWO-19930 */
         $this->_converter->updateCustomerModel($customer, $customerData);
         $this->setCustomer($customer);
         return $this;

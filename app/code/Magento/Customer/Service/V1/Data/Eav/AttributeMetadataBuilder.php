@@ -155,4 +155,13 @@ class AttributeMetadataBuilder extends \Magento\Service\Entity\AbstractDtoBuilde
     {
         return $this->_set(AttributeMetadata::IS_SYSTEM, $isSystem);
     }
+
+    /**
+     * @param string $backendType
+     * @return AttributeMetadataBuilder
+     */
+    public function setBackendType($backendType)
+    {
+        return $this->_set(AttributeMetadata::BACKEND_TYPE, $backendType);
+    }
 }

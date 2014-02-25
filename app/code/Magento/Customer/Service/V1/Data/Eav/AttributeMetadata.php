@@ -29,6 +29,7 @@ class AttributeMetadata extends \Magento\Service\Entity\AbstractDto
     const SORT_ORDER = 'sort_order';
     const FRONTEND_LABEL = 'frontend_label';
     const IS_SYSTEM = 'is_system';
+    const BACKEND_TYPE = 'backend_type';
     /**#@-*/
 
     /**
@@ -179,5 +180,15 @@ class AttributeMetadata extends \Magento\Service\Entity\AbstractDto
     public function isSystem()
     {
         return $this->_get(self::IS_SYSTEM);
+    }
+
+    /**
+     * Get backend type.
+     *
+     * @return string
+     */
+    public function getBackendType()
+    {
+        return $this->_get(self::BACKEND_TYPE);
     }
 }
