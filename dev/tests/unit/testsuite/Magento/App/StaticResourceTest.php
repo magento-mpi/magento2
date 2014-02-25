@@ -52,13 +52,20 @@ class StaticResourceTest extends \PHPUnit_Framework_TestCase
         $this->fileResolver = $this->getMock('Magento\View\FileResolver', array(), array(), '', false);
         $this->moduleList = $this->getMock('Magento\Module\ModuleList', array(), array(), '', false);
         $this->themeList = $this->getMockForAbstractClass('Magento\View\Design\Theme\ListInterface');
+        $objectManager = $this->getMockForAbstractClass('Magento\ObjectManager');
+        $configLoader = $this->getMock('Magento\App\ObjectManager\ConfigLoader', array(), array(), '', false);
+        $configLoader->expects($this->any())
+            ->method('load')
+            ->will($this->returnValue(array()));
         $this->object = new \Magento\App\StaticResource(
             $this->state,
             $this->response,
             $this->request,
             $this->fileResolver,
             $this->moduleList,
-            $this->themeList
+            $this->themeList,
+            $objectManager,
+            $configLoader
         );
     }
 
