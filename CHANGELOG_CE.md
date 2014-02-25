@@ -67,11 +67,6 @@
   * Fixed an issue with zooming on a configurable product page where the main product image was shown instead of the selected option images
 * Updated various PHPDoc with parameter and return types
 * Moved quote-related multishipping logic to the Multishipping module
-* Moved Quote Multishipping specifics logic to Multishipping module
-* Moved Recurring profile functionality into separate module
-* GitHub requests:
- * [#377] (https://github.com/magento/magento2/issues/377) Remove and avoid javascript eval() calls 
- * [#319] (https://github.com/magento/magento2/issues/319) No message was displayed when product added to shopping cart.
 * Resolved dependencies between the Payment and Multishipping modules
 * Moved the framework part of the Translate functionality from modules to the library
 * Created the architecture for the email template library
