@@ -13,6 +13,8 @@
 
 namespace Magento\Customer\Block\Account\Dashboard;
 
+use Magento\Customer\Service\V1\Data\AddressConverter;
+
 class Address extends \Magento\View\Element\Template
 {
     /**
@@ -146,7 +148,7 @@ class Address extends \Magento\View\Element\Template
     {
         /** @var \Magento\Customer\Block\Address\Renderer\RendererInterface $renderer */
         $renderer = $this->_addressConfig->getFormatByCode('html')->getRenderer();
-        return $renderer->renderArray(\Magento\Convert\ConvertArray::toFlatArray($address->__toArray()));
+        return $renderer->renderArray(AddressConverter::toFlatArray($address));
     }
 }
 

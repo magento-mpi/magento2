@@ -11,6 +11,7 @@
 namespace Magento\Multishipping\Block\Checkout\Address;
 
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
+use Magento\Customer\Service\V1\Data\AddressConverter;
 use Magento\Customer\Helper\Address as CustomerAddressHelper;
 use Magento\Exception\NoSuchEntityException;
 
@@ -95,9 +96,7 @@ class Select extends \Magento\Multishipping\Block\Checkout\AbstractMultishipping
         $formatTypeRenderer = $this->_customerAddressHelper->getFormatTypeRenderer('html');
         $result = '';
         if ($formatTypeRenderer) {
-            $result = $formatTypeRenderer->renderArray(
-                \Magento\Convert\ConvertArray::toFlatArray($addressData->__toArray())
-            );
+            $result = $formatTypeRenderer->renderArray(AddressConverter::toFlatArray($addressData));
         }
         return $result;
     }

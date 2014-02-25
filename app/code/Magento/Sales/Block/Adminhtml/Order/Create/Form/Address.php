@@ -10,12 +10,10 @@
 
 /**
  * Order create address form
- *
- * @category    Magento
- * @package     Magento_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Sales\Block\Adminhtml\Order\Create\Form;
+
+use Magento\Customer\Service\V1\Data\AddressConverter;
 
 class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractForm
 {
@@ -127,7 +125,7 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
             $addressForm = $this->_customerFormFactory->create(
                 'customer_address',
                 'adminhtml_customer_address',
-                \Magento\Convert\ConvertArray::toFlatArray($addressDto->__toArray())
+                AddressConverter::toFlatArray($addressDto)
             );
             $data[$addressDto->getId()] = $addressForm->outputData(
                 \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_JSON
@@ -262,7 +260,7 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
         $result = '';
         if ($formatTypeRenderer) {
             $result = $formatTypeRenderer->renderArray(
-                \Magento\Convert\ConvertArray::toFlatArray($addressData->__toArray())
+                AddressConverter::toFlatArray($addressData->__toArray())
             );
         }
         return $this->escapeHtml($result);

@@ -8,6 +8,8 @@
 
 namespace Magento\Sales\Block\Adminhtml\Order\Create;
 
+use Magento\Customer\Service\V1\Data\AddressConverter;
+
 /**
  * Adminhtml sales order create form block
  */
@@ -108,13 +110,13 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
             $data['customer_id'] = $this->getCustomerId();
             $data['addresses'] = array();
             $addresses = $this->_addressService->getAddresses($this->getCustomerId());
-            foreach ($addresses as $addressDto) {
+            foreach ($addresses as $addressData) {
                 $addressForm = $this->_customerFormFactory->create(
                     'customer_address',
                     'adminhtml_customer_address',
-                    \Magento\Convert\ConvertArray::toFlatArray($addressDto->__toArray())
+                    AddressConverter::toFlatArray($addressData)
                 );
-                $data['addresses'][$addressDto->getId()] = $addressForm
+                $data['addresses'][$addressData->getId()] = $addressForm
                     ->outputData(\Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_JSON);
             }
         }

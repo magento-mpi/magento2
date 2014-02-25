@@ -13,6 +13,7 @@ namespace Magento\Sales\Model\Quote;
 use Magento\Customer\Service\V1\Data\AddressBuilder as CustomerAddressBuilder;
 use Magento\Customer\Service\V1\Data\Address as AddressDataObject;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
+use Magento\Customer\Service\V1\Data\AddressConverter;
 
 /**
  * Sales Quote address model
@@ -507,7 +508,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         $this->_objectCopyService->copyFieldsetToTarget(
             'customer_address',
             'to_quote_address',
-            \Magento\Convert\ConvertArray::toFlatArray($address->__toArray()),
+            AddressConverter::toFlatArray($address),
             $this
         );
         $region = $this->getRegion();
