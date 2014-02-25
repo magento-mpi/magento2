@@ -7,8 +7,6 @@
  */
 namespace Magento\Paypal\Model\Resource\Billing\Agreement;
 
-namespace Magento\Paypal\Model\Resource\Billing\Agreement;
-
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
 
 /**
