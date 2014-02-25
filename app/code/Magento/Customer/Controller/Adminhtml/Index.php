@@ -512,7 +512,9 @@ class Index extends \Magento\Backend\App\Action
             $newPasswordToken = $this->_objectManager->get('Magento\Customer\Helper\Data')
                 ->generateResetPasswordLinkToken();
             $customer->changeResetPasswordLinkToken($newPasswordToken);
-            $resetUrl = $this->_objectManager->create('Magento\UrlInterface')
+            $resetUrl = $this->_objectManager->create(
+                'Magento\UrlInterface',
+                array('backendHelper' => $this->_dataHelper))
                 ->getUrl('customer/account/createPassword', array(
                         '_query' => array('id' => $customer->getId(), 'token' => $newPasswordToken),
                         '_store' => $customer->getStoreId()
