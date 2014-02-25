@@ -79,6 +79,8 @@ class Value extends \Magento\Core\Model\AbstractModel implements \Magento\App\Co
 
     /**
      * Magento model constructor
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -87,6 +89,8 @@ class Value extends \Magento\Core\Model\AbstractModel implements \Magento\App\Co
 
     /**
      * Add availability call after load as public
+     *
+     * @return void
      */
     public function afterLoad()
     {

@@ -7,42 +7,32 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <type name="Magento\CustomerSegment\Model\Observer">
-        <param name="customerSession">
-            <instance type="Magento\Customer\Model\Session" />
-        </param>
-        <param name="customer">
-            <instance type="Magento\CustomerSegment\Model\Customer" />
-        </param>
-        <param name="configSourceYesno">
-            <instance type="Magento\Backend\Model\Config\Source\Yesno" />
-        </param>
-        <param name="segmentHelper">
-            <instance type="Magento\CustomerSegment\Helper\Data" />
-        </param>
-        <param name="coreRegistry">
-            <instance type="Magento\Core\Model\Registry" />
-        </param>
+        <arguments>
+            <argument name="customerSession" xsi:type="object">Magento\Customer\Model\Session</argument>
+            <argument name="customer" xsi:type="object">Magento\CustomerSegment\Model\Customer</argument>
+            <argument name="configSourceYesno" xsi:type="object">Magento\Backend\Model\Config\Source\Yesno</argument>
+            <argument name="segmentHelper" xsi:type="object">Magento\CustomerSegment\Helper\Data</argument>
+            <argument name="coreRegistry" xsi:type="object">Magento\Core\Model\Registry</argument>
+        </arguments>
     </type>
     <type name="Magento\CustomerSegment\Helper\Data">
-        <param name="segmentCollection">
-            <instance type="Magento\CustomerSegment\Model\Resource\Segment\Collection" />
-        </param>
+        <arguments>
+            <argument name="segmentCollection" xsi:type="object">Magento\CustomerSegment\Model\Resource\Segment\Collection</argument>
+        </arguments>
     </type>
     <type name="Magento\CustomerSegment\Model\Customer">
-        <param name="visitor">
-            <instance type="Magento\Log\Model\Visitor\Proxy" />
-        </param>
-        <param name="customerSession">
-            <instance type="Magento\Customer\Model\Session\Proxy" />
-        </param>
+        <arguments>
+            <argument name="visitor" xsi:type="object">Magento\Log\Model\Visitor\Proxy</argument>
+            <argument name="customerSession" xsi:type="object">Magento\Customer\Model\Session\Proxy</argument>
+        </arguments>
     </type>
     <type name="Magento\Module\Updater\SetupFactory">
-        <param name="resourceTypes">
-            <array>
-                <item key="customersegment_setup"><value>Magento\CustomerSegment\Model\Resource\Setup</value></item>
-            </array>
-        </param>
+        <arguments>
+            <argument name="resourceTypes" xsi:type="array">
+                <item name="customersegment_setup" xsi:type="string">Magento\CustomerSegment\Model\Resource\Setup</item>
+            </argument>
+        </arguments>
     </type>
 </config>

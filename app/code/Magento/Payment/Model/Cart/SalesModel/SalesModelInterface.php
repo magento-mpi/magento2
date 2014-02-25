@@ -5,12 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Payment\Model\Cart\SalesModel;
 
 /**
  * Wrapper interface for accessing sales model data
  */
-namespace Magento\Payment\Model\Cart\SalesModel;
-
 interface SalesModelInterface
 {
     /**

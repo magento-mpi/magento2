@@ -17,7 +17,9 @@
  */
 namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Attributes;
 
-class Create extends \Magento\Backend\Block\Widget\Button
+use Magento\Backend\Block\Widget\Button;
+
+class Create extends Button
 {
     /**
      * Config of create new attribute
@@ -40,6 +42,9 @@ class Create extends \Magento\Backend\Block\Widget\Button
         return $this->_config;
     }
 
+    /**
+     * @return $this
+     */
     protected function _beforeToHtml()
     {
         $this->setId('create_attribute_' . $this->getConfig()->getGroupId())
@@ -78,6 +83,9 @@ class Create extends \Magento\Backend\Block\Widget\Button
         return parent::_beforeToHtml();
     }
 
+    /**
+     * @return string
+     */
     protected function _toHtml()
     {
         $this->setCanShow(true);
@@ -91,8 +99,11 @@ class Create extends \Magento\Backend\Block\Widget\Button
         return parent::_toHtml();
     }
 
+    /**
+     * @return string
+     */
     public function getJsObjectName()
     {
         return $this->getId() . 'JsObject';
     }
-} // Class \Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Attributes\Create End
+}

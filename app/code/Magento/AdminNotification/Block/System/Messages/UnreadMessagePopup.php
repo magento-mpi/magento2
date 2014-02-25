@@ -7,6 +7,8 @@
  */
 namespace Magento\AdminNotification\Block\System\Messages;
 
+use Magento\AdminNotification\Model\System\MessageInterface;
+
 class UnreadMessagePopup extends \Magento\Backend\Block\Template
 {
     /**
@@ -15,8 +17,8 @@ class UnreadMessagePopup extends \Magento\Backend\Block\Template
      * @var array
      */
     protected $_itemClasses = array(
-        \Magento\AdminNotification\Model\System\MessageInterface::SEVERITY_CRITICAL => 'error',
-        \Magento\AdminNotification\Model\System\MessageInterface::SEVERITY_MAJOR => 'warning'
+        MessageInterface::SEVERITY_CRITICAL => 'error',
+        MessageInterface::SEVERITY_MAJOR => 'warning'
     );
 
     /**
@@ -56,7 +58,7 @@ class UnreadMessagePopup extends \Magento\Backend\Block\Template
     /**
      * Retrieve list of unread messages
      *
-     * @return mixed
+     * @return MessageInterface[]
      */
     public function getUnreadMessages()
     {
@@ -81,10 +83,10 @@ class UnreadMessagePopup extends \Magento\Backend\Block\Template
     /**
      * Retrieve item class by severity
      *
-     * @param \Magento\AdminNotification\Model\System\MessageInterface $message
-     * @return mixed
+     * @param MessageInterface $message
+     * @return string
      */
-    public function getItemClass(\Magento\AdminNotification\Model\System\MessageInterface $message)
+    public function getItemClass(MessageInterface $message)
     {
         return $this->_itemClasses[$message->getSeverity()];
     }

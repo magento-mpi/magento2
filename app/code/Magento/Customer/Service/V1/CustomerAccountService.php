@@ -66,6 +66,9 @@ class CustomerAccountService implements CustomerAccountServiceInterface
      */
     private $_customerAddressService;
 
+    /** @var \Magento\ObjectManager */
+    protected $_objectManager;
+
     /**
      * @var UrlInterface
      */
@@ -84,6 +87,9 @@ class CustomerAccountService implements CustomerAccountServiceInterface
      * @param CustomerServiceInterface $customerService
      * @param CustomerAddressServiceInterface $customerAddressService
      * @param UrlInterface $url
+     * @param \Magento\ObjectManager $objectManager
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         CustomerFactory $customerFactory,
@@ -95,7 +101,8 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         Dto\CustomerBuilder $customerBuilder,
         CustomerServiceInterface $customerService,
         CustomerAddressServiceInterface $customerAddressService,
-        UrlInterface $url
+        UrlInterface $url,
+        \Magento\ObjectManager $objectManager
     ) {
         $this->_customerFactory = $customerFactory;
         $this->_eventManager = $eventManager;
@@ -107,6 +114,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         $this->_customerService = $customerService;
         $this->_customerAddressService = $customerAddressService;
         $this->_url = $url;
+        $this->_objectManager = $objectManager;
     }
 
 

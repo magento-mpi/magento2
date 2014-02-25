@@ -46,11 +46,6 @@ class Collection extends \Magento\Data\Collection\Db
     protected $_orderStateCondition = null;
 
     /**
-     * @var string
-     */
-    protected $_orderStateValue;
-
-    /**
      * Core event manager proxy
      *
      * @var \Magento\Event\ManagerInterface
@@ -97,7 +92,7 @@ class Collection extends \Magento\Data\Collection\Db
      */
     public function setCustomerIdFilter($customerId)
     {
-        $this->_customerId = $customerId;
+        $this->_customerId = (int)$customerId;
         return $this;
     }
 
@@ -122,7 +117,7 @@ class Collection extends \Magento\Data\Collection\Db
     public function setOrderStateFilter($state, $exclude = false)
     {
         $this->_orderStateCondition = ($exclude) ? 'NOT IN' : 'IN';
-        $this->_orderStateValue     = (!is_array($state)) ? array($state) : $state;
+        $this->_state = (!is_array($state)) ? array($state) : $state;
         return $this;
     }
 
@@ -151,7 +146,7 @@ class Collection extends \Magento\Data\Collection\Db
             $this->addFieldToFilter('sales.customer_id', $this->_customerId);
         }
 
-        if (!is_null($this->_orderStateValue)) {
+        if (!is_null($this->_state)) {
             $condition = '';
             switch ($this->_orderStateCondition) {
                 case 'IN' :
@@ -161,7 +156,7 @@ class Collection extends \Magento\Data\Collection\Db
                     $condition = 'nin';
                     break;
             }
-            $this->addFieldToFilter('state', array($condition => $this->_orderStateValue));
+            $this->addFieldToFilter('state', array($condition => $this->_state));
         }
 
         $this->_eventManager->dispatch('sales_sale_collection_query_before', array('collection' => $this));

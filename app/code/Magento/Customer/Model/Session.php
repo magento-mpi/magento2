@@ -94,6 +94,17 @@ class Session extends \Magento\Session\SessionManager
      * @var \Magento\App\ResponseInterface
      */
     protected $response;
+
+    /**
+     * @var \Magento\Customer\Service\V1\Dto\Customer
+     */
+    protected $_customerDataObject;
+
+    /**
+     * @var \Magento\Customer\Model\Converter
+     */
+    protected $_converter;
+
     /**
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\Session\SidResolverInterface $sidResolver
@@ -132,6 +143,7 @@ class Session extends \Magento\Session\SessionManager
         \Magento\Core\Model\Session $session,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Customer\Model\Converter $converter,
         \Magento\App\ResponseInterface $response,
         \Magento\Customer\Service\V1\CustomerServiceInterface $customerService,
         \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService,
@@ -152,6 +164,7 @@ class Session extends \Magento\Session\SessionManager
         $this->response = $response;
         parent::__construct($request, $sidResolver, $sessionConfig, $saveHandler, $validator, $storage);
         $this->start($sessionName);
+        $this->_converter = $converter;
         $this->_eventManager->dispatch('customer_session_init', array('customer_session' => $this));
     }
 
@@ -174,12 +187,8 @@ class Session extends \Magento\Session\SessionManager
     public function setCustomerDto(CustomerDto $customer)
     {
         $this->_customer = $customer;
-        if ($customer === null) {
-            $this->setCustomerId(null);
-        } else {
-            $this->response->setVary('customer_group', $customer->getGroupId());
-            $this->setCustomerId($customer->getCustomerId());
-        }
+        $this->response->setVary('customer_group', $customer->getGroupId());
+        $this->setCustomerId($customer->getCustomerId());
         return $this;
     }
 
@@ -198,6 +207,30 @@ class Session extends \Magento\Session\SessionManager
         return $this->_customer;
     }
 
+    /**
+     * Returns Customer data object with the customer information
+     *
+     * @return \Magento\Customer\Service\V1\Dto\Customer
+     */
+    public function getCustomerData()
+    {
+        /* TODO refactor this after all usages of the setCustomer is refactored */
+        return $this->_converter->createCustomerFromModel($this->getCustomer());
+    }
+
+    /**
+     * Set Customer data object with the customer information
+     *
+     * @param \Magento\Customer\Service\V1\Dto\Customer $customerData
+     * @return $this
+     */
+    public function setCustomerData(\Magento\Customer\Service\V1\Dto\Customer $customerData)
+    {
+        $this->setId($customerData->getCustomerId());
+        $this->_converter->updateCustomerModel($this->getCustomer(), $customerData);
+        return $this;
+    }
+
 
     /**
      * Set customer model and the customer id in session
@@ -209,16 +242,12 @@ class Session extends \Magento\Session\SessionManager
     public function setCustomer(Customer $customerModel)
     {
         $this->_customerModel = $customerModel;
-        if ($customerModel === null) {
-            $this->setCustomerId(null);
-        } else {
-            $this->response->setVary('customer_group', $customerModel->getGroupId());
-            $this->setCustomerId($customerModel->getId());
-            if ((!$customerModel->isConfirmationRequired()) && $customerModel->getConfirmation()) {
-                $customerModel->setConfirmation(null)->save();
-            }
+        $this->response->setVary('customer_group', $customerModel->getGroupId());
+        $this->setCustomerId($customerModel->getId());
+        if ((!$customerModel->isConfirmationRequired()) && $customerModel->getConfirmation()) {
+            $customerModel->setConfirmation(null)->save();
         }
-        
+
         return $this;
     }
 

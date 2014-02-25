@@ -55,7 +55,7 @@ class Install
      *
      * @param array $arguments
      * @param \Magento\Code\Plugin\InvocationChain $invocationChain
-     * @return \Magento\App\ResponseInterface
+     * @return mixed
      */
     public function aroundDispatch(array $arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
     {

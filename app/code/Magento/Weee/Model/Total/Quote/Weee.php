@@ -7,8 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Weee\Model\Total\Quote;
+
+use Magento\Core\Model\Store;
 
 class Weee extends \Magento\Tax\Model\Sales\Total\Quote\Tax
 {
@@ -52,7 +53,7 @@ class Weee extends \Magento\Tax\Model\Sales\Total\Quote\Tax
      * Collect Weee taxes amount and prepare items prices for taxation and discount
      *
      * @param   \Magento\Sales\Model\Quote\Address $address
-     * @return  \Magento\Weee\Model\Total\Quote\Weee
+     * @return  $this
      */
     public function collect(\Magento\Sales\Model\Quote\Address $address)
     {
@@ -96,7 +97,7 @@ class Weee extends \Magento\Tax\Model\Sales\Total\Quote\Tax
      *
      * @param   \Magento\Sales\Model\Quote\Address $address
      * @param   \Magento\Sales\Model\Quote\Item\AbstractItem $item
-     * @return  \Magento\Weee\Model\Total\Quote\Weee
+     * @return  void|$this
      */
     protected function _process(\Magento\Sales\Model\Quote\Address $address, $item)
     {
@@ -189,7 +190,7 @@ class Weee extends \Magento\Tax\Model\Sales\Total\Quote\Tax
      * @param   \Magento\Sales\Model\Quote\Item\AbstractItem $item
      * @param   float $value
      * @param   float $baseValue
-     * @return  \Magento\Weee\Model\Total\Quote\Weee
+     * @return  $this
      */
     protected function _processDiscountSettings($item, $value, $baseValue)
     {
@@ -207,7 +208,7 @@ class Weee extends \Magento\Tax\Model\Sales\Total\Quote\Tax
      * @param   float $baseValue
      * @param   float $rowValue
      * @param   float $baseRowValue
-     * @return  \Magento\Weee\Model\Total\Quote\Weee
+     * @return  $this
      */
     protected function _processTaxSettings($item, $value, $baseValue, $rowValue, $baseRowValue)
     {
@@ -233,7 +234,7 @@ class Weee extends \Magento\Tax\Model\Sales\Total\Quote\Tax
      * @param   \Magento\Sales\Model\Quote\Address $address
      * @param   float $rowValue
      * @param   float $baseRowValue
-     * @return  \Magento\Weee\Model\Total\Quote\Weee
+     * @return  $this
      */
     protected function _processTotalAmount($address, $rowValue, $baseRowValue)
     {
@@ -252,7 +253,7 @@ class Weee extends \Magento\Tax\Model\Sales\Total\Quote\Tax
      * Recalculate parent item amounts based on children results
      *
      * @param   \Magento\Sales\Model\Quote\Item\AbstractItem $item
-     * @return  \Magento\Weee\Model\Total\Quote\Weee
+     * @return  void
      */
     protected function _recalculateParent(\Magento\Sales\Model\Quote\Item\AbstractItem $item)
     {
@@ -263,7 +264,7 @@ class Weee extends \Magento\Tax\Model\Sales\Total\Quote\Tax
      * Reset information about FPT for shopping cart item
      *
      * @param   \Magento\Sales\Model\Quote\Item\AbstractItem $item
-     * @return  \Magento\Weee\Model\Total\Quote\Weee
+     * @return  void
      */
     protected function _resetItemData($item)
     {
@@ -286,7 +287,7 @@ class Weee extends \Magento\Tax\Model\Sales\Total\Quote\Tax
      * Fetch FPT data to address object for display in totals block
      *
      * @param   \Magento\Sales\Model\Quote\Address $address
-     * @return  \Magento\Weee\Model\Total\Quote\Weee
+     * @return  $this
      */
     public function fetch(\Magento\Sales\Model\Quote\Address $address)
     {
@@ -298,7 +299,7 @@ class Weee extends \Magento\Tax\Model\Sales\Total\Quote\Tax
      * This method can be used for changing totals collect sort order
      *
      * @param   array $config
-     * @param   store $store
+     * @param   Store $store
      * @return  array
      */
     public function processConfigArray($config, $store)
@@ -310,6 +311,7 @@ class Weee extends \Magento\Tax\Model\Sales\Total\Quote\Tax
      * No aggregated label for fixed product tax
      *
      * TODO: fix
+     * @return string
      */
     public function getLabel()
     {

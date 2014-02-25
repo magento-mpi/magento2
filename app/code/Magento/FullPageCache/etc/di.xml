@@ -7,90 +7,73 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <preference for="Magento\FullPageCache\Model\Processor\RestrictionInterface" type="Magento\FullPageCache\Model\Processor\Restriction" />
     <type name="Magento\FullPageCache\Model\Request\Identifier">
-        <param name="scopeCode">
-            <value type="argument">Magento\Core\Model\App::PARAM_RUN_CODE</value>
-        </param>
+        <arguments>
+            <argument name="scopeCode" xsi:type="init_parameter">Magento\Core\Model\App::PARAM_RUN_CODE</argument>
+        </arguments>
     </type>
     <type name="Magento\FullPageCache\Model\Processor">
-        <param name="storeManager">
-            <instance type="Magento\Core\Model\StoreManager\Proxy" />
-        </param>
-        <param name="metadata">
-            <instance type="Magento\FullPageCache\Model\Metadata\Proxy" />
-        </param>
-        <param name="requestIdentifier">
-            <instance type="Magento\FullPageCache\Model\Request\Identifier\Proxy" />
-        </param>
-        <param name="allowedCache">
-            <array>
-                <item key="cms"><value>Magento\FullPageCache\Model\Processor\DefaultProcessor</value></item>
-                <item key="catalog">
-                    <array>
-                        <item key="category">
-                            <array>
-                                <item key="view"><value>Magento\FullPageCache\Model\Processor\Category</value></item>
-                            </array>
-                        </item>
-                        <item key="product">
-                            <array>
-                                <item key="view"><value>Magento\FullPageCache\Model\Processor\Product</value></item>
-                            </array>
-                        </item>
-                    </array>
+        <arguments>
+            <argument name="storeManager" xsi:type="object">Magento\Core\Model\StoreManager\Proxy</argument>
+            <argument name="metadata" xsi:type="object">Magento\FullPageCache\Model\Metadata\Proxy</argument>
+            <argument name="requestIdentifier" xsi:type="object">Magento\FullPageCache\Model\Request\Identifier\Proxy</argument>
+            <argument name="fpcCookie" xsi:type="object">Magento\FullPageCache\Model\Cookie\Proxy</argument>
+            <argument name="allowedCache" xsi:type="array">
+                <item name="cms" xsi:type="string">Magento\FullPageCache\Model\Processor\DefaultProcessor</item>
+                <item name="catalog" xsi:type="array">
+                    <item name="category" xsi:type="array">
+                        <item name="view" xsi:type="string">Magento\FullPageCache\Model\Processor\Category</item>
+                    </item>
+                    <item name="product" xsi:type="array">
+                        <item name="view" xsi:type="string">Magento\FullPageCache\Model\Processor\Product</item>
+                    </item>
                 </item>
-            </array>
-        </param>
+            </argument>
+        </arguments>
     </type>
     <type name="Magento\FullPageCache\Model\DesignPackage\Rules">
-        <param name="designChange">
-            <instance type="Magento\Core\Model\Design\Proxy" />
-        </param>
+        <arguments>
+            <argument name="designChange" xsi:type="object">Magento\Core\Model\Design\Proxy</argument>
+        </arguments>
     </type>
     <type name="Magento\Log\Model\Visitor">
-        <param name="ignoredUserAgents">
-            <array>
-                <item key="cache_crawler"><value>MagentoCrawler</value></item>
-            </array>
-        </param>
+        <arguments>
+            <argument name="ignoredUserAgents" xsi:type="array">
+                <item name="cache_crawler" xsi:type="string">MagentoCrawler</item>
+            </argument>
+        </arguments>
     </type>
     <type name="Magento\App\Response">
         <plugin name="pageCache" type="Magento\FullPageCache\Model\Response\Plugin" />
     </type>
     <type name="Magento\FullPageCache\Model\Observer">
-        <param name="ctlgProdCompare">
-            <instance type="Magento\Catalog\Helper\Product\Compare\Proxy" />
-        </param>
-        <param name="processor">
-            <instance type="Magento\FullPageCache\Model\Processor\Proxy" />
-        </param>
-        <param name="cookie">
-            <instance type="Magento\FullPageCache\Model\Cookie\Proxy" />
-        </param>
+        <arguments>
+            <argument name="ctlgProdCompare" xsi:type="object">Magento\Catalog\Helper\Product\Compare\Proxy</argument>
+            <argument name="processor" xsi:type="object">Magento\FullPageCache\Model\Processor\Proxy</argument>
+            <argument name="cookie" xsi:type="object">Magento\FullPageCache\Model\Cookie\Proxy</argument>
+        </arguments>
     </type>
     <type name="Magento\FullPageCache\Model\Validator">
-        <param name="changeDependencies">
-            <array>
-                <item key="catalog_product"><value>Magento\Catalog\Model\Product</value></item>
-                <item key="catalog_category"><value>Magento\Catalog\Model\Category</value></item>
-                <item key="catalog_eav_attribute"><value>Magento\Catalog\Model\Resource\Eav\Attribute</value></item>
-                <item key="review"><value>Magento\Review\Model\Review</value></item>
-                <item key="cms_hierarchy_node"><value>Magento\VersionsCms\Model\Hierarchy\Node</value></item>
-                <item key="banner"><value>Magento\Banner\Model\Banner</value></item>
-                <item key="core_store_group"><value>Magento\Core\Model\Store\Group</value></item>
-            </array>
-        </param>
-        <param name="deleteDependencies">
-            <array>
-                <item key="catalog_category"><value>Magento\Catalog\Model\Category</value></item>
-                <item key="catalog_eav_attribute"><value>Magento\Catalog\Model\Resource\Eav\Attribute</value></item>
-                <item key="review"><value>Magento\Review\Model\Review</value></item>
-                <item key="cms_hierarchy_node"><value>Magento\VersionsCms\Model\Hierarchy\Node</value></item>
-                <item key="banner"><value>Magento\Banner\Model\Banner</value></item>
-                <item key="core_store_group"><value>Magento\Core\Model\Store\Group</value></item>
-            </array>
-        </param>
+        <arguments>
+            <argument name="changeDependencies" xsi:type="array">
+                <item name="catalog_product" xsi:type="string">Magento\Catalog\Model\Product</item>
+                <item name="catalog_category" xsi:type="string">Magento\Catalog\Model\Category</item>
+                <item name="catalog_eav_attribute" xsi:type="string">Magento\Catalog\Model\Resource\Eav\Attribute</item>
+                <item name="review" xsi:type="string">Magento\Review\Model\Review</item>
+                <item name="cms_hierarchy_node" xsi:type="string">Magento\VersionsCms\Model\Hierarchy\Node</item>
+                <item name="banner" xsi:type="string">Magento\Banner\Model\Banner</item>
+                <item name="core_store_group" xsi:type="string">Magento\Core\Model\Store\Group</item>
+            </argument>
+            <argument name="deleteDependencies" xsi:type="array">
+                <item name="catalog_category" xsi:type="string">Magento\Catalog\Model\Category</item>
+                <item name="catalog_eav_attribute" xsi:type="string">Magento\Catalog\Model\Resource\Eav\Attribute</item>
+                <item name="review" xsi:type="string">Magento\Review\Model\Review</item>
+                <item name="cms_hierarchy_node" xsi:type="string">Magento\VersionsCms\Model\Hierarchy\Node</item>
+                <item name="banner" xsi:type="string">Magento\Banner\Model\Banner</item>
+                <item name="core_store_group" xsi:type="string">Magento\Core\Model\Store\Group</item>
+            </argument>
+        </arguments>
     </type>
 </config>

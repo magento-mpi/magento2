@@ -48,7 +48,6 @@ class CustomerService implements CustomerServiceInterface
         $this->_customerMetadataService = $customerMetadataService;
     }
 
-
     /**
      * {@inheritdoc}
      */
@@ -67,12 +66,23 @@ class CustomerService implements CustomerServiceInterface
     /**
      * {@inheritdoc}
      */
+    public function getCustomerByEmail($customerEmail, $websiteId = null)
+    {
+        $customerModel = $this->_converter->getCustomerModelByEmail($customerEmail, $websiteId);
+        return $this->_converter->createCustomerFromModel($customerModel);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function saveCustomer(Dto\Customer $customer, $password = null)
     {
         $customerModel = $this->_converter->createCustomerModel($customer);
 
         if ($password) {
             $customerModel->setPassword($password);
+        } elseif (!$customerModel->getId()) {
+            $customerModel->setPassword($customerModel->generatePassword());
         }
 
         $this->_validate($customerModel);

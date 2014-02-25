@@ -17,7 +17,10 @@
  */
 namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Tab;
 
-class Related extends \Magento\Backend\Block\Widget\Grid\Extended
+use Magento\Backend\Block\Widget\Grid\Column;
+use Magento\Backend\Block\Widget\Grid\Extended;
+
+class Related extends Extended
 {
     /**
      * Core registry
@@ -47,7 +50,7 @@ class Related extends \Magento\Backend\Block\Widget\Grid\Extended
     protected $_type;
 
     /**
-     * @var \Magento\Catalog\Model\Product\Status
+     * @var \Magento\Catalog\Model\Product\Attribute\Source\Status
      */
     protected $_status;
 
@@ -63,7 +66,7 @@ class Related extends \Magento\Backend\Block\Widget\Grid\Extended
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $setsFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Catalog\Model\Product\Type $type
-     * @param \Magento\Catalog\Model\Product\Status $status
+     * @param \Magento\Catalog\Model\Product\Attribute\Source\Status $status
      * @param \Magento\Catalog\Model\Product\Visibility $visibility
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
@@ -77,7 +80,7 @@ class Related extends \Magento\Backend\Block\Widget\Grid\Extended
         \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $setsFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Catalog\Model\Product\Type $type,
-        \Magento\Catalog\Model\Product\Status $status,
+        \Magento\Catalog\Model\Product\Attribute\Source\Status $status,
         \Magento\Catalog\Model\Product\Visibility $visibility,
         \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
@@ -95,6 +98,7 @@ class Related extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Set grid params
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -111,9 +115,9 @@ class Related extends \Magento\Backend\Block\Widget\Grid\Extended
     }
 
     /**
-     * Retirve currently edited product model
+     * Retrieve currently edited product model
      *
-     * @return \Magento\Catalog\Model\Product
+     * @return array|null
      */
     public function getProduct()
     {
@@ -123,8 +127,8 @@ class Related extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Add filter
      *
-     * @param object $column
-     * @return \Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Related
+     * @param Column $column
+     * @return $this
      */
     protected function _addColumnFilterToCollection($column)
     {
@@ -150,7 +154,7 @@ class Related extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Prepare collection
      *
-     * @return \Magento\Backend\Block\Widget\Grid\Extended
+     * @return Extended
      */
     protected function _prepareCollection()
     {
@@ -174,7 +178,7 @@ class Related extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Checks when this block is readonly
      *
-     * @return boolean
+     * @return bool
      */
     public function isReadonly()
     {
@@ -184,7 +188,7 @@ class Related extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Add columns to grid
      *
-     * @return \Magento\Backend\Block\Widget\Grid\Extended
+     * @return $this
      */
     protected function _prepareColumns()
     {

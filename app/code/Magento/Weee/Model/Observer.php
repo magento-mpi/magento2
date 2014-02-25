@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Weee\Model;
 
 class Observer extends \Magento\Core\Model\AbstractModel
@@ -25,7 +24,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
     protected $_weeeData = null;
 
     /**
-     * @var \Magento\Weee\Model\Tax
+     * @var Tax
      */
     protected $_weeeTax;
 
@@ -55,7 +54,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\View\LayoutInterface $layout,
-        \Magento\Weee\Model\Tax $weeeTax,
+        Tax $weeeTax,
         \Magento\Weee\Helper\Data $weeeData,
         \Magento\Catalog\Model\Product\Type $productType,
         \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig,
@@ -75,7 +74,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
      * Assign custom renderer for product create/edit form weee attribute element
      *
      * @param \Magento\Event\Observer $observer
-     * @return  \Magento\Weee\Model\Observer
+     * @return $this
      */
     public function setWeeeRendererInForm(\Magento\Event\Observer $observer)
     {
@@ -99,7 +98,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
      * Exclude WEEE attributes from standard form generation
      *
      * @param \Magento\Event\Observer $observer
-     * @return  \Magento\Weee\Model\Observer
+     * @return $this
      */
     public function updateExcludedFieldList(\Magento\Event\Observer $observer)
     {
@@ -129,7 +128,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
      * Add new attribute type to manage attributes interface
      *
      * @param   \Magento\Event\Observer $observer
-     * @return  \Magento\Weee\Model\Observer
+     * @return  $this
      */
     public function addWeeeTaxAttributeType(\Magento\Event\Observer $observer)
     {
@@ -144,8 +143,6 @@ class Observer extends \Magento\Core\Model\AbstractModel
                 'is_unique',
                 'is_required',
                 'frontend_class',
-                'is_configurable',
-
                 '_scope',
                 '_default_value',
                 '_front_fieldset',
@@ -161,7 +158,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
      * Automaticaly assign backend model to weee attributes
      *
      * @param   \Magento\Event\Observer $observer
-     * @return  \Magento\Weee\Model\Observer
+     * @return  $this
      */
     public function assignBackendModelToAttribute(\Magento\Event\Observer $observer)
     {
@@ -189,7 +186,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
      * Add custom element type for attributes form
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\Weee\Model\Observer
+     * @return $this
      */
     public function updateElementTypes(\Magento\Event\Observer $observer)
     {
@@ -204,7 +201,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
      * Update WEEE amounts discount percents
      *
      * @param   \Magento\Event\Observer $observer
-     * @return  \Magento\Weee\Model\Observer
+     * @return  $this
      */
     public function updateDiscountPercents(\Magento\Event\Observer $observer)
     {
@@ -224,12 +221,12 @@ class Observer extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * Update configurable options of the product view page
+     * Update options of the product view page
      *
      * @param   \Magento\Event\Observer $observer
-     * @return  \Magento\Weee\Model\Observer
+     * @return  $this
      */
-    public function updateConfigurableProductOptions(\Magento\Event\Observer $observer)
+    public function updateProductOptions(\Magento\Event\Observer $observer)
     {
         /* @var $helper \Magento\Weee\Helper\Data */
         $helper = $this->_weeeData;
@@ -250,7 +247,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
 
         // Exclude Weee amount from excluding tax amount
         if (!$helper->typeOfDisplay($_product, array(
-            \Magento\Weee\Model\Tax::DISPLAY_INCL, \Magento\Weee\Model\Tax::DISPLAY_INCL_DESCR,
+            Tax::DISPLAY_INCL, Tax::DISPLAY_INCL_DESCR,
         ))) {
             $options['exclDisposition'] = true;
         }
@@ -264,7 +261,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
      * Process bundle options selection for prepare view json
      *
      * @param   \Magento\Event\Observer $observer
-     * @return  \Magento\Weee\Model\Observer
+     * @return  $this
      */
     public function updateBundleProductOptions(\Magento\Event\Observer $observer)
     {

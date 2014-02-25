@@ -62,7 +62,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         $customerId = $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID);
 
         if ($customerId) {
-            $form->addField('entity_id', 'hidden', [
+            $form->addField('id', 'hidden', [
                 'name' => 'customer_id',
             ]);
             $customer = $this->_customerService->getCustomer($customerId);

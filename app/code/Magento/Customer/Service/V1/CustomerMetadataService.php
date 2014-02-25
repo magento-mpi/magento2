@@ -122,7 +122,7 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
      */
     public function getCustomerAttributeMetadata($attributeCode)
     {
-        return $this->getAttributeMetadata('customer', $attributeCode);
+        return $this->getAttributeMetadata(self::ENTITY_TYPE_CUSTOMER, $attributeCode);
     }
 
     /**
@@ -130,7 +130,7 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
      */
     public function getAllCustomerAttributeMetadata()
     {
-        return $this->getAllAttributeSetMetadata('customer', self::CUSTOMER_ATTRIBUTE_SET_ID);
+        return $this->getAllAttributeSetMetadata(self::ENTITY_TYPE_CUSTOMER, self::ATTRIBUTE_SET_ID_CUSTOMER);
     }
 
     /**
@@ -138,7 +138,7 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
      */
     public function getAddressAttributeMetadata($attributeCode)
     {
-        return $this->getAttributeMetadata('customer_address', $attributeCode);
+        return $this->getAttributeMetadata(self::ENTITY_TYPE_ADDRESS, $attributeCode);
     }
 
     /**
@@ -146,7 +146,7 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
      */
     public function getAllAddressAttributeMetadata()
     {
-        return $this->getAllAttributeSetMetadata('customer_address', self::ADDRESS_ATTRIBUTE_SET_ID);
+        return $this->getAllAttributeSetMetadata(self::ENTITY_TYPE_ADDRESS, self::ATTRIBUTE_SET_ID_ADDRESS);
     }
 
 

@@ -86,6 +86,12 @@ class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
         }
         $quote->loadByCustomer($this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID));
 
+        /** @var \Magento\Customer\Model\Customer $currentCustomer */
+        $currentCustomer = $this->_coreRegistry->registry('current_customer');
+        if (!is_null($currentCustomer)) {
+            $quote->loadByCustomer($currentCustomer->getId());
+        }
+
         if ($quote) {
             $collection = $quote->getItemsCollection(false);
         } else {

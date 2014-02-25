@@ -10,10 +10,20 @@ namespace Magento\Wishlist\Model\Item;
 /**
  * Item option model
  */
+use Magento\Catalog\Model\Product;
+use Magento\Wishlist\Model\Item;
+
 class Option extends \Magento\Core\Model\AbstractModel
     implements \Magento\Catalog\Model\Product\Configuration\Item\Option\OptionInterface
 {
+    /**
+     * @var Item
+     */
     protected $_item;
+
+    /**
+     * @var Product
+     */
     protected $_product;
 
     /**
@@ -43,8 +53,8 @@ class Option extends \Magento\Core\Model\AbstractModel
     /**
      * Set quote item
      *
-     * @param \Magento\Wishlist\Model\Item $item
-     * @return $this
+     * @param   Item $item
+     * @return  $this
      */
     public function setItem($item)
     {
@@ -56,7 +66,7 @@ class Option extends \Magento\Core\Model\AbstractModel
     /**
      * Get option item
      *
-     * @return \Magento\Wishlist\Model\Item
+     * @return Item
      */
     public function getItem()
     {
@@ -66,8 +76,8 @@ class Option extends \Magento\Core\Model\AbstractModel
     /**
      * Set option product
      *
-     * @param \Magento\Catalog\Model\Product $product
-     * @return $this
+     * @param   Product $product
+     * @return  $this
      */
     public function setProduct($product)
     {
@@ -79,7 +89,7 @@ class Option extends \Magento\Core\Model\AbstractModel
     /**
      * Get option product
      *
-     * @return \Magento\Catalog\Model\Product
+     * @return Product
      */
     public function getProduct()
     {
@@ -99,7 +109,7 @@ class Option extends \Magento\Core\Model\AbstractModel
     /**
      * Initialize item identifier before save data
      *
-     * @return \Magento\Wishlist\Model\Item\Option
+     * @return $this
      */
     protected function _beforeSave()
     {

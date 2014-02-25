@@ -7,13 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\WebsiteRestriction\Model\System\Config\Source;
 
 /**
  * Sys config source model for private sales redirect modes
  *
  */
-namespace Magento\WebsiteRestriction\Model\System\Config\Source;
-
 class Redirect extends \Magento\Object implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
