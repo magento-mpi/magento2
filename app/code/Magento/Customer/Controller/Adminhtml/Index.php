@@ -826,8 +826,6 @@ class Index extends \Magento\Backend\App\Action
                     continue;
                 }
 
-                $address = $this->_addressBuilder->create();
-
                 $addressForm = $this->_formFactory->create(
                     'customer_address',
                     'adminhtml_customer_address'
