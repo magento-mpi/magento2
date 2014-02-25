@@ -35,7 +35,6 @@ class Context
     public function setValue($name, $value)
     {
         $this->data[$name] = $value;
-        setcookie($name, $value, 0, '/');
     }
 
     /**
