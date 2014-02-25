@@ -162,6 +162,8 @@ return array(
     array('_setAttribteValue'),
     array('_shouldSkipProcessUpdates', 'Magento\Core\Model\App'),
     array('_sort', 'Magento\Backend\Model\Config\Structure\Converter'),
+    array('_submitRecurringPaymentProfiles', 'Magento\Sales\Model\Service\Quote',
+        '\Magento\RecurringProfile\Model\Observer::submitRecurringPaymentProfiles'),
     array('_toHtml', 'Magento\Backend\Block\Widget\Container'),
     array('_unhookQueries', 'Magento\Core\Model\Resource\Setup'),
     array('_updateMediaPathUseRewrites', 'Magento\Core\Model\Store', '_getMediaScriptUrl'),
@@ -471,6 +473,13 @@ return array(
     array('getQuoteItemOption', 'Magento\Catalog\Model\Product\Option\Type\DefaultType'),
     array('getQuoteOrdersHtml', 'Magento\GoogleAnalytics\Block\Ga'),
     array('getRefererParamName', 'Magento\Backend\Block\Page\Footer'),
+    array(
+        'getRecurringProfileMethods',
+        'Magento\Payment\Helper\Data',
+        'Magento\RecurringProfile\Model\Method\PaymentMethodsList::toOptionArray'
+    ),
+    array('getRecurringPaymentProfiles', 'Magento\Paypal\Model\Express\Checkout'),
+    array('getRecurringPaymentProfiles', 'Magento\Sales\Model\Service\Quote'),
     array('getRelativePath', 'Magento\Core\Model\Theme\Files'),
     array('getRemoveItemUrl', 'Magento\Wishlist\Block\Customer\Sidebar'),
     array('getReorderUrl', 'Magento\Sales\Block\Order\Info'),
@@ -575,6 +584,8 @@ return array(
     array('getXmlConfig','Magento\Persistent\Model\Persistent\Config'),
     array('getXmlElementByType','Magento\Widget\Model\Widget', 'getWidgetByClassType'),
     array('hasItems', 'Magento\Wishlist\Helper\Data'),
+    array('hasRecurringItems', 'Magento\Sales\Model\Quote'),
+    array('hasRecurringItems', 'Magento\Checkout\Block\Onepage\Payment'),
     array('htmlEscape', '', 'escapeHtml'),
     array('imageAction', 'Magento\Catalog\Controller\Product'),
     array('implodeStreetAddress', 'Magento\Customer\Model\Address\AbstractAddress'),
@@ -655,6 +666,8 @@ return array(
     array('prepareItemInfo', 'Magento\Sales\Block\Recurring\Profile\View'),
     array('preparePriceAlertData', 'Magento\ProductAlert\Block\Product\View'),
     array('prepareProfilesGrid', 'Magento\Sales\Block\Recurring\Profile'),
+    array('prepareRecurringPaymentProfiles', 'Magento\Sales\Model\Quote',
+        '\Magento\RecurringProfile\Model\Observer::_prepareRecurringPaymentProfiles'),
     array('prepareReferenceInfo', 'Magento\Sales\Block\Recurring\Profile\View'),
     array('prepareRelatedOrdersFrontendGrid', 'Magento\Sales\Block\Recurring\Profile\View'),
     array('prepareScheduleInfo', 'Magento\Sales\Block\Recurring\Profile\View'),
@@ -862,6 +875,8 @@ return array(
     array('_getSessionEnvironment', 'Magento\Core\Model\Session\AbstractSession'),
     array('getValidateHttpUserAgentSkip', 'Magento\Core\Model\Session\AbstractSession'),
     array('addProductAttributes', 'Magento\SalesRule\Model\Observer'),
+    array('addRecurringProfilesFilter', 'Magento\Sales\Model\Resource\Order',
+        '\Magento\RecurringProfile\Model\Resource\Order\CollectionFilter::byIds'),
     array('_helper', 'Magento\Catalog\Model\Product\Type\AbstractType'),
     array('getHelper', 'Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute\Collection'),
     array('getHelper', 'Magento\Cms\Model\Wysiwyg\Images\Storage'),
@@ -1280,6 +1295,21 @@ return array(
         'Magento\Data\Argument\Interpreter\Composite'),
     array('cleanAction', 'Magento\PageCache\Controller\Adminhtml\PageCache'),
     array('_isAllowed', 'Magento\PageCache\Controller\Adminhtml\PageCache'),
+    [
+        '_downloadFileAction',
+        'Magento\Sales\Controller\Download',
+        '\Magento\Sales\Model\Download::downloadFile'
+    ],
+    [
+        '_processDatabaseFile',
+        'Magento\Sales\Controller\Download',
+        '\Magento\Sales\Model\Download::_processDatabaseFile'
+    ],
+    [
+        'downloadProfileCustomOptionAction',
+        'Magento\Sales\Controller\Download',
+        '\Magento\RecurringProfile\Controller\Download::downloadProfileCustomOptionAction'
+    ],
     array('useDbCompatibleMode', 'Magento\Core\Helper\Data'),
     array('getFlag', 'Magento\Catalog\Helper\Product\Flat'),
     array('isBuilt', 'Magento\Catalog\Helper\Product\Flat'),
