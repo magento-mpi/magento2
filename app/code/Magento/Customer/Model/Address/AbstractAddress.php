@@ -9,8 +9,6 @@
  */
 namespace Magento\Customer\Model\Address;
 
-namespace Magento\Customer\Model\Address;
-
 /**
  * Address abstract model
  *
