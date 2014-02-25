@@ -93,28 +93,28 @@ class IndexerConfigDataTest extends \PHPUnit_Framework_TestCase
             // flat is disabled, path is null, flat indexer is being removed
             array(
                 false,
-                array('path' => null),
+                array(null),
                 array('catalog_category_flat' => $flatIndexerData, 'other_indexer' => $otherIndexerData),
                 array('other_indexer' => $otherIndexerData),
             ),
             // flat is disabled, path is flat indexer, flat indexer is being removed
             array(
                 false,
-                array('path' => 'catalog_category_flat'),
+                array('catalog_category_flat'),
                 $flatIndexerData,
                 null,
             ),
             // flat is disabled, path is flat indexer, default is array(), flat indexer is being array()
             array(
                 false,
-                array('path' => 'catalog_category_flat', 'default' => array()),
+                array('catalog_category_flat', array()),
                 $flatIndexerData,
                 array(),
             ),
             // flat is disabled, path is other indexer, nothing is being changed
             array(
                 false,
-                array('path' => 'other_indexer'),
+                array('other_indexer'),
                 $otherIndexerData,
                 $otherIndexerData,
             ),

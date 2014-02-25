@@ -32,8 +32,8 @@ class Processor
      * @param \Magento\Catalog\Helper\Product\Flat $helper
      */
     public function __construct(
-       \Magento\Indexer\Model\Indexer $indexer,
-       \Magento\Catalog\Helper\Product\Flat $helper
+        \Magento\Indexer\Model\Indexer $indexer,
+        \Magento\Catalog\Helper\Product\Flat $helper
     ) {
         $this->_indexer = $indexer;
         $this->_helper = $helper;
@@ -94,6 +94,9 @@ class Processor
      */
     public function markIndexerAsInvalid()
     {
+        if (!$this->_helper->isEnabled()) {
+            return;
+        }
         $this->getIndexer()->invalidate();
     }
 }
