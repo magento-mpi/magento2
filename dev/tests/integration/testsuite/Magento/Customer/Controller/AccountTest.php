@@ -421,12 +421,12 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
      */
     public function testEditPostAction()
     {
-        /** @var \Magento\Customer\Service\V1\CustomerServiceInterface */
+        /** @var $customerService \Magento\Customer\Service\V1\CustomerServiceInterface */
         $customerService = Bootstrap::getObjectManager()
             ->get('Magento\Customer\Service\V1\CustomerServiceInterface');
         $customer = $customerService->getCustomer(1);
-        $this->assertEquals('Firstname', $customer->getFirstName());
-        $this->assertEquals('Lastname', $customer->getLastName());
+        $this->assertEquals('Firstname', $customer->getFirstname());
+        $this->assertEquals('Lastname', $customer->getLastname());
         $this->assertEquals('customer@example.com', $customer->getEmail());
 
         $this->_login();
@@ -448,8 +448,8 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
         );
 
         $customer = $customerService->getCustomer(1);
-        $this->assertEquals('John', $customer->getFirstName());
-        $this->assertEquals('Doe', $customer->getLastName());
+        $this->assertEquals('John', $customer->getFirstname());
+        $this->assertEquals('Doe', $customer->getLastname());
         $this->assertEquals('johndoe@email.com', $customer->getEmail());
     }
 
@@ -458,22 +458,18 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
      */
     public function testChangePasswordEditPostAction()
     {
-        /** @var \Magento\Customer\Service\V1\CustomerServiceInterface */
+        /** @var $customerService \Magento\Customer\Service\V1\CustomerServiceInterface */
         $customerService = Bootstrap::getObjectManager()
             ->get('Magento\Customer\Service\V1\CustomerServiceInterface');
         $customer = $customerService->getCustomer(1);
-        $this->assertEquals('Firstname', $customer->getFirstName());
-        $this->assertEquals('Lastname', $customer->getLastName());
+        $this->assertEquals('Firstname', $customer->getFirstname());
+        $this->assertEquals('Lastname', $customer->getLastname());
         $this->assertEquals('customer@example.com', $customer->getEmail());
 
-        /** @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface */
+        /** @var $customerAccountService \Magento\Customer\Service\V1\CustomerAccountServiceInterface */
         $customerAccountService = Bootstrap::getObjectManager()
             ->get('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
-        try {
-            $this->assertTrue($customerAccountService->validatePassword(1, 'password'));
-        } catch (\Magento\Exception\AuthenticationException $e) {
-            $this->fail('Cannot verify password of customer 1');
-        }
+        $this->assertTrue($customerAccountService->validatePassword(1, 'password'));
 
         $this->_login();
         $this->getRequest()
@@ -498,14 +494,10 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
         );
 
         $customer = $customerService->getCustomer(1);
-        $this->assertEquals('John', $customer->getFirstName());
-        $this->assertEquals('Doe', $customer->getLastName());
+        $this->assertEquals('John', $customer->getFirstname());
+        $this->assertEquals('Doe', $customer->getLastname());
         $this->assertEquals('johndoe@email.com', $customer->getEmail());
-        try {
-            $this->assertTrue($customerAccountService->validatePassword(1, 'new-password'));
-        } catch (\Magento\Exception\AuthenticationException $e) {
-            $this->fail('Cannot update password of customer 1');
-        }
+        $this->assertTrue($customerAccountService->validatePassword(1, 'new-password'));
     }
 
     /**
