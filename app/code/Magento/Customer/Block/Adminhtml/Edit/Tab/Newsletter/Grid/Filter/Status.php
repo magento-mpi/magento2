@@ -53,7 +53,7 @@ class Status extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Select
     }
 
     /**
-     * @return array|void
+     * @return array|null
      */
     public function getCondition()
     {

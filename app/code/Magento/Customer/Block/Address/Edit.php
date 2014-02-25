@@ -19,7 +19,7 @@ use Magento\Exception\NoSuchEntityException;
 class Edit extends \Magento\Directory\Block\Data
 {
     /**
-     * @var Address
+     * @var Address|null
      */
     protected $_address = null;
 

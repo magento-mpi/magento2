@@ -67,7 +67,7 @@ class Info extends \Magento\View\Element\Template
     /**
      * Returns the Magento Customer Model for this block
      *
-     * @return \Magento\Customer\Service\V1\Dto\Customer|void
+     * @return \Magento\Customer\Service\V1\Dto\Customer|null
      */
     public function getCustomer()
     {

@@ -117,7 +117,7 @@ class Register extends \Magento\Directory\Block\Data
     /**
      * Retrieve form data
      *
-     * @return \Magento\Object[]
+     * @return mixed
      */
     public function getFormData()
     {

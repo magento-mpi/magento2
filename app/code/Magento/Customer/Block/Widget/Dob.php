@@ -135,7 +135,7 @@ class Dob extends AbstractWidget
     /**
      * Return minimal date range value
      *
-     * @return string|void
+     * @return string|null
      */
     public function getMinDateRange()
     {
@@ -152,7 +152,7 @@ class Dob extends AbstractWidget
     /**
      * Return maximal date range value
      *
-     * @return string|void
+     * @return string|null
      */
     public function getMaxDateRange()
     {

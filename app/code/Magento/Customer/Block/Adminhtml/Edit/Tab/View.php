@@ -90,7 +90,7 @@ class View extends \Magento\Backend\Block\Template implements \Magento\Backend\B
 
     /**
      * @param int $groupId
-     * @return \Magento\Customer\Service\V1\Dto\CustomerGroup|void
+     * @return \Magento\Customer\Service\V1\Dto\CustomerGroup|null
      */
     private function getGroup($groupId)
     {
@@ -103,7 +103,7 @@ class View extends \Magento\Backend\Block\Template implements \Magento\Backend\B
     }
 
     /**
-     * @return string|void
+     * @return string|null
      */
     public function getGroupName()
     {

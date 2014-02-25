@@ -18,6 +18,9 @@ namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
  */
 class Addresses extends \Magento\Backend\Block\Widget\Form\Generic
 {
+    /**
+     * @var string
+     */
     protected $_template = 'tab/addresses.phtml';
 
     /**

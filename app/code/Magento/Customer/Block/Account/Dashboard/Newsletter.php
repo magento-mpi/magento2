@@ -65,7 +65,7 @@ class Newsletter extends \Magento\View\Element\Template
     }
 
     /**
-     * @return \Magento\Newsletter\Model\SubscriberFactory
+     * @return Subscriber
      */
     protected function _createSubscriber()
     {

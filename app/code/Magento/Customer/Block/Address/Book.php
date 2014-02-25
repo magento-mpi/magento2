@@ -172,7 +172,7 @@ class Book extends \Magento\View\Element\Template
     }
 
     /**
-     * @return int|void
+     * @return int|null
      */
     public function getDefaultBilling()
     {
@@ -198,7 +198,7 @@ class Book extends \Magento\View\Element\Template
     }
 
     /**
-     * @return int|void
+     * @return int|null
      */
     public function getDefaultShipping()
     {

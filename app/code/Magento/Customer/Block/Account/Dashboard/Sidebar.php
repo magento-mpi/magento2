@@ -154,7 +154,7 @@ class Sidebar extends \Magento\View\Element\Template
     /**
      * @return int
      */
-    public function getCompaeItems()
+    public function getCompareItems()
     {
         if (!$this->_compareItems) {
             $this->_compareItems =

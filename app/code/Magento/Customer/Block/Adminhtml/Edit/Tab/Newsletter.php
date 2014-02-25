@@ -87,7 +87,7 @@ class Newsletter extends \Magento\Backend\Block\Widget\Form\Generic
     }
 
     /**
-     * @return string|void
+     * @return string|null
      */
     public function getStatusChangedDate()
     {
