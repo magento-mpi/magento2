@@ -1,5 +1,7 @@
 <?php
 /**
+ * Service Data Object defining the Customer interface
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -7,14 +9,6 @@
  */
 namespace Magento\Customer\Service\V1\Data;
 
-/**
- * Service Data Object defining the Customer interface
- *
- * Uses array to hold data, setters return $this so they can be chained.
- *
- * @method int|string|bool|float getCustomAttribute($attributeCode)
- * @method array[] getCustomAttributes()
- */
 class Customer extends \Magento\Service\Entity\EAV\AbstractObject
 {
     /**#@+

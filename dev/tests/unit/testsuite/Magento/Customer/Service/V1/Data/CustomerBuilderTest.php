@@ -218,4 +218,76 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedData[Customer::CUSTOM_ATTRIBUTES_KEY], $customer->getCustomAttributes());
         $this->assertEquals($expectedData, $customer->__toArray());
     }
+
+    public function testMergeDataObjectWithArrayCustomData()
+    {
+        $customerData = [
+            'email' => 'test@example.com',
+            'firstname' => 'John',
+            'lastname' => 'Doe',
+            'unknown_key' => 'Golden Necklace',
+            'warehouse_zip' => '78777',
+            'warehouse_alternate' => '90051'
+        ];
+        $expectedData = [
+            'email' => 'test@example.com',
+            'firstname' => 'John',
+            'lastname' => 'Johnson',
+            Customer::CUSTOM_ATTRIBUTES_KEY => [
+                'warehouse_zip' => '78666',
+                'warehouse_alternate' => '90051'
+            ]
+        ];
+        $customer = $this->_customerBuilder->populateWithArray($customerData)
+            ->create();
+        $customer2 = $this->_customerBuilder->mergeDataObjectWithArray(
+            $customer,
+            ['unknown_key' => 'Golden Necklace', 'warehouse_zip' => '78666', 'lastname' => 'Johnson']
+        );
+        $this->assertEquals('78666', $customer2->getCustomAttribute('warehouse_zip'));
+        $this->assertEquals('90051', $customer2->getCustomAttribute('warehouse_alternate'));
+        $this->assertEquals($expectedData[Customer::CUSTOM_ATTRIBUTES_KEY], $customer2->getCustomAttributes());
+        $this->assertEquals($expectedData, $customer2->__toArray());
+    }
+
+    public function testMergeDataObjectsCustomData()
+    {
+        $customer1Data = [
+            'email' => 'test@example.com',
+            'firstname' => 'John',
+            'lastname' => 'Doe',
+            'unknown_key' => 'Golden Necklace',
+            'warehouse_zip' => '78777',
+            'warehouse_alternate' => '90051'
+        ];
+        $customer2Data = [
+            'email' => 'test@example.com',
+            'firstname' => 'John',
+            'lastname' => 'Johnson',
+            'unknown_key' => 'Golden Necklace',
+            'warehouse_zip' => '78666',
+            'warehouse_alternate' => '90051'
+        ];
+        $expectedData = [
+            'email' => 'test@example.com',
+            'firstname' => 'John',
+            'lastname' => 'Johnson',
+            Customer::CUSTOM_ATTRIBUTES_KEY => [
+                'warehouse_zip' => '78666',
+                'warehouse_alternate' => '90051'
+            ]
+        ];
+        $customer1 = $this->_customerBuilder->populateWithArray($customer1Data)
+            ->create();
+        $customer2 = $this->_customerBuilder->populateWithArray($customer2Data)
+            ->create();
+        $customer3 = $this->_customerBuilder->mergeDataObjects(
+            $customer1,
+            $customer2
+        );
+        $this->assertEquals('78666', $customer3->getCustomAttribute('warehouse_zip'));
+        $this->assertEquals('90051', $customer3->getCustomAttribute('warehouse_alternate'));
+        $this->assertEquals($expectedData[Customer::CUSTOM_ATTRIBUTES_KEY], $customer3->getCustomAttributes());
+        $this->assertEquals($expectedData, $customer3->__toArray());
+    }
 }

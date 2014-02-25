@@ -63,8 +63,19 @@ abstract class AbstractObjectBuilder
     public function populateWithArray(array $data)
     {
         $this->_data = [];
+        $this->_setDataValues($data);
+        return $this;
+    }
+
+    /**
+     * Initializes Data Object with the data from array
+     *
+     * @param array $data
+     * @return $this
+     */
+    protected function _setDataValues(array $data)
+    {
         $dataObjectMethods = get_class_methods($this->_getDataObjectType());
-        $customAttributesCodes = $this->getCustomAttributesCodes();
         foreach ($data as $key => $value) {
             /* First, verify is there any getter for the key on the Service Data Object */
             $possibleMethods = ['get' . $this->_snakeCaseToCamelCase($key), 'is' . $this->_snakeCaseToCamelCase($key)];
@@ -82,9 +93,14 @@ abstract class AbstractObjectBuilder
      * @param AbstractObject $firstDataObject
      * @param AbstractObject $secondDataObject
      * @return AbstractObject
+     * @throws \LogicException
      */
     public function mergeDataObjects(AbstractObject $firstDataObject, AbstractObject $secondDataObject)
     {
+        $objectType = $this->_getDataObjectType();
+        if ((get_class($firstDataObject) != $objectType) || (get_class($secondDataObject) != $objectType)) {
+            throw new \LogicException('Wrong prototype object given. It can only be of "' . $objectType . '" type.');
+        }
         $this->_data = array_merge($firstDataObject->__toArray(), $secondDataObject->__toArray());
         return $this->create();
     }
@@ -96,10 +112,16 @@ abstract class AbstractObjectBuilder
      * @param AbstractObject $dataObject
      * @param array $data
      * @return AbstractObject
+     * @throws \LogicException
      */
     public function mergeDataObjectWithArray(AbstractObject $dataObject, array $data)
     {
-        $this->_data = array_merge($dataObject->__toArray(), $data);
+        $objectType = $this->_getDataObjectType();
+        if (get_class($dataObject) != $objectType) {
+            throw new \LogicException('Wrong prototype object given. It can only be of "' . $objectType . '" type.');
+        }
+        $this->_data = $dataObject->__toArray();
+        $this->_setDataValues($data);
         return $this->create();
     }
 

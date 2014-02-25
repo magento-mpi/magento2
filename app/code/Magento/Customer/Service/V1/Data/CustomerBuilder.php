@@ -1,5 +1,7 @@
 <?php
 /**
+ * Class Customer. Uses array to hold data, setters return $this so they can be chained.
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -7,17 +9,8 @@
  */
 
 namespace Magento\Customer\Service\V1\Data;
-
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
 
-/**
- * Class Customer. Uses array to hold data, setters return $this so they can be chained.
-
- * @method Customer create()
- * @method Customer mergeDataObjectWithArray(AbstractObject $dataObject, array $data)
- * @method $this setCustomAttribute($attributeCode, $attributeValue)
- * @method $this setCustomAttributes($attributes)
- */
 class CustomerBuilder extends \Magento\Service\Entity\EAV\AbstractObjectBuilder
 {
     /** @var CustomerMetadataServiceInterface */

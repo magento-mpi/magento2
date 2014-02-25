@@ -53,16 +53,13 @@ abstract class AbstractObjectBuilder extends \Magento\Service\Entity\AbstractObj
     }
 
     /**
-     * Populates the fields with data from the array.
-     *
-     * Keys for the map are snake_case attribute/field names.
+     * Initializes Data Object with the data from array
      *
      * @param array $data
      * @return $this
      */
-    public function populateWithArray(array $data)
+    protected function _setDataValues(array $data)
     {
-        $this->_data = [];
         $dataObjectMethods = get_class_methods($this->_getDataObjectType());
         $customAttributesCodes = $this->getCustomAttributesCodes();
         foreach ($data as $key => $value) {

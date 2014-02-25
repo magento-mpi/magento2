@@ -9,10 +9,6 @@
  */
 namespace Magento\Customer\Service\V1\Data;
 
-/**
- * @method int|string|bool|float getCustomAttribute($attributeCode)
- * @method array[] getCustomAttributes()
- */
 class Address extends \Magento\Service\Entity\EAV\AbstractObject
 {
     /**#@+

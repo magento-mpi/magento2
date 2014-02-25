@@ -1,6 +1,6 @@
 <?php
 /**
- * Address class acts as a Data Object for the Customer Service
+ * Address class acts as a Service Data Object for the Customer Service
  *
  * {license_notice}
  *
@@ -13,12 +13,6 @@ use Magento\Service\Entity\AbstractObject;
 use Magento\Service\Entity\EAV\AbstractObjectBuilder;
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
 
-/**
- * @method Address create()
- * @method Address mergeDataObjectWithArray(AbstractObject $dataObject, array $data)
- * @method $this setCustomAttribute($attributeCode, $attributeValue)
- * @method $this setCustomAttributes($attributes)
- */
 class AddressBuilder extends AbstractObjectBuilder
 {
     /** @var RegionBuilder */
