@@ -65,7 +65,7 @@ class AddressBuilder extends AbstractObjectBuilder
     /**
      * {@inheritdoc}
      */
-    public function populateWithArray(array $data)
+    protected function _setDataValues(array $data)
     {
         if (array_key_exists(Address::KEY_REGION, $data)) {
             if (!is_array($data[Address::KEY_REGION])) {
@@ -81,8 +81,7 @@ class AddressBuilder extends AbstractObjectBuilder
             }
             $data[Address::KEY_REGION] = $this->_regionBuilder->populateWithArray($regionData)->create();
         }
-
-        return parent::populateWithArray($data);
+        return parent::_setDataValues($data);
     }
 
     /**
