@@ -1,3 +1,7 @@
+* Framework Improvements:
+  * Added ability to intercept of internal public calls
+  * Added ability to access public interface of intercepted object
+  * Added static integrity test for plugin inteface validation
 * GitHub requests:
   * [#235](https://github.com/magento/magento2/issues/235) -- Translation escaping
   * [#463](https://github.com/magento/magento2/pull/463) -- allow _resolveArguments to do sequential lookups
