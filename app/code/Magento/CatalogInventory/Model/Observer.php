@@ -101,6 +101,12 @@ class Observer
     protected $typeConfig;
 
     /**
+     * @var \Magento\Catalog\Model\Indexer\Product\Price\Processor
+     */
+    protected $_priceIndexer;
+
+    /**
+     * @param \Magento\Catalog\Model\Indexer\Product\Price\Processor $priceIndexer
      * @param Resource\Indexer\Stock $resourceIndexerStock
      * @param Resource\Stock $resourceStock
      * @param \Magento\Index\Model\Indexer $indexer
@@ -113,6 +119,7 @@ class Observer
      * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $typeConfig
      */
     public function __construct(
+        \Magento\Catalog\Model\Indexer\Product\Price\Processor $priceIndexer,
         \Magento\CatalogInventory\Model\Resource\Indexer\Stock $resourceIndexerStock,
         \Magento\CatalogInventory\Model\Resource\Stock $resourceStock,
         \Magento\Index\Model\Indexer $indexer,
@@ -124,6 +131,7 @@ class Observer
         \Magento\CatalogInventory\Model\Stock\StatusFactory $stockStatusFactory,
         \Magento\Catalog\Model\ProductTypes\ConfigInterface $typeConfig
     ) {
+        $this->_priceIndexer = $priceIndexer;
         $this->_resourceIndexerStock = $resourceIndexerStock;
         $this->_resourceStock = $resourceStock;
         $this->_indexer = $indexer;
@@ -765,6 +773,8 @@ class Observer
             $item->save();
             $productIds[] = $item->getProductId();
         }
+
+        $this->_priceIndexer->reindexList($productIds);
 
         $this->_itemsForReindex = array(); // Clear list of remembered items - we don't need it anymore
 
