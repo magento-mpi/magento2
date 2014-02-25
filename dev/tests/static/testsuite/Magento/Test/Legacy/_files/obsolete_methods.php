@@ -139,6 +139,11 @@ return array(
     array('_prepareCondition', 'Magento\CatalogSearch\Model\Advanced'),
     array('_prepareConfigurableProductData', 'Magento\ImportExport\Model\Export\Entity\Product'),
     array('_prepareConfigurableProductPrice', 'Magento\ImportExport\Model\Export\Entity\Product'),
+    array(
+        '_prepareLastRecurringProfiles()',
+        'Magento\Checkout\Block\Onepage\Success',
+        'Magento\RecurringProfile\Block\Checkout\Onepage\Success::_prepareLastRecurringProfiles'
+    ),
     array('_prepareOptionsForCart', 'Magento\Catalog\Model\Product\Type\AbstractType'),
     array('_preparePackageTheme', 'Magento\Widget\Model\Widget\Instance'),
     array('_processItem', 'Magento\Weee\Model\Total\Quote\Weee'),

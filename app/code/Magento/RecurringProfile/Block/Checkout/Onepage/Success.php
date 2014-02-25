@@ -27,6 +27,13 @@ class Success extends \Magento\View\Element\Template
      */
     protected $_recurringProfileCollectionFactory;
 
+    /**
+     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\RecurringProfile\Model\Resource\Profile\CollectionFactory $recurringProfileCollectionFactory
+     * @param array $data
+     */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Checkout\Model\Session $checkoutSession,
@@ -51,12 +58,16 @@ class Success extends \Magento\View\Element\Template
         return $this->getUrl('sales/recurringProfile/view', array('profile' => $profile->getId()));
     }
 
+    /**
+     * Before rendering html, but after trying to load cache
+     *
+     * @return $this
+     */
     protected function _beforeToHtml()
     {
         $this->_prepareLastRecurringProfiles();
         return parent::_beforeToHtml();
     }
-
 
     /**
      * Prepare recurring payment profiles from the session
