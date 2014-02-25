@@ -1534,23 +1534,19 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         $customerDataObject = $this->getQuote()->getCustomerData();
         if ($customerDataObject->getId() && !$this->_customerIsInStore($store)) {
             /** Create a new customer record if it is not available in the specified store */
-            $customerDataObject = $this->_customerBuilder->mergeDataObjectWithArray(
-                $customerDataObject,
+            $customerDataObject = $this->_customerBuilder->populate($customerDataObject)
                 /** Unset customer ID to ensure that new customer will be created */
-                [CustomerDataObject::STORE_ID => $store->getId(), CustomerDataObject::ID => null,
-                    CustomerDataObject::CREATED_AT => null]
-            );
+                ->setStoreId(null)
+                ->setCreatedAt(null);
             $customerDataObject = $this->_validateCustomerData($customerDataObject);
         } else if (!$customerDataObject->getId()) {
             /** Create new customer */
             $customerBillingAddressDataObject = $this->getBillingAddress()->exportCustomerAddressData();
             $customerDataObject = $this->_customerBuilder->mergeDataObjects($customerDataObject,
                 $customerBillingAddressDataObject);
-            $customerDataObject = $this->_customerBuilder->mergeDataObjectWithArray(
-                $customerDataObject,
-                [CustomerDataObject::STORE_ID => $store->getId(),
-                    CustomerDataObject::EMAIL => $this->_getNewCustomerEmail()]
-            );
+            $customerDataObject = $this->_customerBuilder->populate($customerDataObject)
+                ->setStoreId($store->getId())
+                ->setEmail($this->_getNewCustomerEmail());
             $customerDataObject = $this->_validateCustomerData($customerDataObject);
         }
         if ($this->getBillingAddress()->getSaveInAddressBook()) {
@@ -1602,28 +1598,25 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
             $isShippingAsBilling = $quoteCustomerAddress->getSameAsBilling();
             if (isset($billingAddressDataObject) && $isShippingAsBilling) {
                 /** Set existing billing address as default shipping */
-                $customerAddressDataObject = $this->_customerAddressBuilder->mergeDataObjectWithArray(
-                    $billingAddressDataObject,
-                    [CustomerAddressDataObject::KEY_DEFAULT_SHIPPING => true]
-                );
+                $customerAddressDataObject = $this->_customerAddressBuilder
+                    ->populate($billingAddressDataObject)
+                    ->setDefaultShipping(true);
             }
         }
 
         switch ($addressType) {
             case CustomerAddressDataObject::ADDRESS_TYPE_BILLING:
                 if (is_null($customerDataObject->getDefaultBilling())) {
-                    $customerAddressDataObject = $this->_customerAddressBuilder->mergeDataObjectWithArray(
-                        $customerAddressDataObject,
-                        [CustomerAddressDataObject::KEY_DEFAULT_BILLING => true]
-                    );
+                    $customerAddressDataObject = $this->_customerAddressBuilder
+                        ->populate($customerAddressDataObject)
+                        ->setDefaultBilling(true);
                 }
                 break;
             case CustomerAddressDataObject::ADDRESS_TYPE_SHIPPING:
                 if (is_null($customerDataObject->getDefaultShipping())) {
-                    $customerAddressDataObject = $this->_customerAddressBuilder->mergeDataObjectWithArray(
-                        $customerAddressDataObject,
-                        [CustomerAddressDataObject::KEY_DEFAULT_SHIPPING => true]
-                    );
+                    $customerAddressDataObject = $this->_customerAddressBuilder
+                        ->populate($customerAddressDataObject)
+                        ->setDefaultShipping(true);
                 }
                 break;
             default:

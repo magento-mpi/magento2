@@ -747,17 +747,9 @@ class Onepage
         $shipping   = $quote->isVirtual() ? null : $quote->getShippingAddress();
 
         $customerData = $quote->getCustomerData();
-        // Need to set proper attribute id or future updates will cause data loss.
-        $customerData = $this->_customerBuilder->mergeDataObjectWithArray(
-            $customerData,
-            [CustomerMetadata::ATTRIBUTE_SET_ID_CUSTOMER => 1]
-        );
-
         $customerBillingData = $billing->exportCustomerAddressData();
-        $customerBillingData = $this->_addressBuilder->mergeDataObjectWithArray(
-            $customerBillingData,
-            [AddressDataObject::KEY_DEFAULT_BILLING => true]
-        );
+        $customerBillingData = $this->_addressBuilder->populate($customerBillingData)
+            ->setDefaultBilling(true);
 
         if ($shipping) {
             if( !$shipping->getSameAsBilling()) {
@@ -828,8 +820,8 @@ class Onepage
         }
 
         if ($shipping && isset($shippingAddress) && !$customer->getDefaultShipping()) {
-            $shippingAddress = $this->_addressBuilder
-                ->mergeDataObjectWithArray($shippingAddress, [AddressDataObject::KEY_DEFAULT_SHIPPING => true]);
+            $shippingAddress = $this->_addressBuilder->populate($shippingAddress)
+                ->setDefaultShipping(true);
             $quote->addCustomerAddressData($shippingAddress);
         }
     }
