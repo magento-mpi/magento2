@@ -12,6 +12,7 @@ use Magento\TestFramework\Helper\Bootstrap;
 use Magento\Customer\Service\V1\Data\CustomerBuilder;
 use Magento\Customer\Service\V1\Data\AddressBuilder;
 use Magento\Customer\Service\V1\Data\Region;
+use Magento\Customer\Service\V1\Data\RegionBuilder;
 use Magento\Customer\Service\V1\Data\Customer as CustomerDto;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\CustomerServiceInterface;
@@ -55,7 +56,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_addressBuilder = Bootstrap::getObjectManager()->get(
+        $this->_customerAddressBuilder = Bootstrap::getObjectManager()->get(
             'Magento\Customer\Service\V1\Data\AddressBuilder'
         );
         $this->_customerBuilder = Bootstrap::getObjectManager()->get(
@@ -261,43 +262,31 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
      */
     private function getSampleAddressEntity()
     {
-        $this->_addressBuilder
+        $this->_customerAddressBuilder
             ->setCountryId('US')
             ->setDefaultBilling(true)
             ->setDefaultShipping(true)
             ->setPostcode('75477')
-            ->setRegion(
-                new Region([
-                    'region_code' => 'AL',
-                    'region' => 'Alabama',
-                    'region_id' => 1
-                ])
-            )
+            ->setRegion((new RegionBuilder())->setRegion('Alabama')->setRegionId(1)->setRegionCode('AL')->create())
             ->setStreet(['Green str, 67'])
             ->setTelephone('3468676')
             ->setCity('CityM')
             ->setFirstname('John')
             ->setLastname('Smith');
-        $address1 = $this->_addressBuilder->create();
+        $address1 = $this->_customerAddressBuilder->create();
 
-        $this->_addressBuilder
+        $this->_customerAddressBuilder
             ->setCountryId('US')
             ->setDefaultBilling(false)
             ->setDefaultShipping(false)
             ->setPostcode('47676')
-            ->setRegion(
-                new Region([
-                    'region_code' => 'AL',
-                    'region' => 'Alabama',
-                    'region_id' => 1
-                ])
-            )
+            ->setRegion((new RegionBuilder())->setRegion('Alabama')->setRegionId(1)->setRegionCode('AL')->create())
             ->setStreet(['Black str, 48'])
             ->setCity('CityX')
             ->setTelephone('3234676')
             ->setFirstname('John')
             ->setLastname('Smith');
-        $address2 = $this->_addressBuilder->create();
+        $address2 = $this->_customerAddressBuilder->create();
 
         return [$address1, $address2];
     }
