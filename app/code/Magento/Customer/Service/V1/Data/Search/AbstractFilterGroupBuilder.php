@@ -9,12 +9,12 @@
 namespace Magento\Customer\Service\V1\Data\Search;
 
 use Magento\Customer\Service\V1\Data\Filter;
-use Magento\Service\Entity\AbstractDtoBuilder;
+use Magento\Service\Entity\AbstractObjectBuilder;
 
 /**
  * Abstract Builder for AbstractFilterGroup DTOs.
  */
-abstract class AbstractFilterGroupBuilder extends AbstractDtoBuilder
+abstract class AbstractFilterGroupBuilder extends AbstractObjectBuilder
 {
     /**
      * @param Filter $filter

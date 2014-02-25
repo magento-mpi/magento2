@@ -9,7 +9,7 @@
  */
 namespace Magento\Customer\Service\V1\Data\Eav;
 
-class AttributeMetadataBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
+class AttributeMetadataBuilder extends \Magento\Service\Entity\AbstractObjectBuilder
 {
     /**
      * Initializes builder.

@@ -9,7 +9,7 @@
  */
 namespace Magento\Customer\Service\V1\Data;
 
-class Filter extends \Magento\Service\Entity\AbstractDto
+class Filter extends \Magento\Service\Entity\AbstractObject
 {
     /**
      * @return string

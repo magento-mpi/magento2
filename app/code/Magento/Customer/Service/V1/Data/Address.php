@@ -9,7 +9,7 @@
  */
 namespace Magento\Customer\Service\V1\Data;
 
-class Address extends \Magento\Service\Entity\AbstractDto
+class Address extends \Magento\Service\Entity\AbstractObject
 {
     const ADDRESS_TYPE_BILLING = 'billing';
     const ADDRESS_TYPE_SHIPPING = 'shipping';

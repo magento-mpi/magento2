@@ -9,15 +9,15 @@
  */
 namespace Magento\Customer\Service\V1\Data;
 
-use Magento\Service\Entity\AbstractDto;
-use Magento\Service\Entity\AbstractDtoBuilder;
+use Magento\Service\Entity\AbstractObject;
+use Magento\Service\Entity\AbstractObjectBuilder;
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
 
 /**
  * @method Address create()
- * @method Address mergeDataObjectWithArray(AbstractDto $dataObject, array $data)
+ * @method Address mergeDataObjectWithArray(AbstractObject $dataObject, array $data)
  */
-class AddressBuilder extends AbstractDtoBuilder
+class AddressBuilder extends AbstractObjectBuilder
 {
     /** @var RegionBuilder */
     protected $_regionBuilder;
@@ -61,7 +61,7 @@ class AddressBuilder extends AbstractDtoBuilder
     public function setCustomAttribute($attributeCode, $attributeValue)
     {
         if (in_array($attributeCode, $this->getCustomAttributesCodes())) {
-            $this->_data[AbstractDto::CUSTOM_ATTRIBUTES_KEY][$attributeCode] = $attributeValue;
+            $this->_data[AbstractObject::CUSTOM_ATTRIBUTES_KEY][$attributeCode] = $attributeValue;
         }
         return $this;
     }

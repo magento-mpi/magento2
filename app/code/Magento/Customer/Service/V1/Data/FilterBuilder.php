@@ -7,12 +7,12 @@
  */
 namespace Magento\Customer\Service\V1\Data;
 
-use Magento\Service\Entity\AbstractDtoBuilder;
+use Magento\Service\Entity\AbstractObjectBuilder;
 
 /**
  * Builder for Filter Data Object.
  */
-class FilterBuilder extends AbstractDtoBuilder
+class FilterBuilder extends AbstractObjectBuilder
 {
     /**
      * @param string $field

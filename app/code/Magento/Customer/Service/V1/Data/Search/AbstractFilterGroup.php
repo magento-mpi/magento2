@@ -8,12 +8,12 @@
 
 namespace Magento\Customer\Service\V1\Data\Search;
 
-use Magento\Service\Entity\AbstractDto;
+use Magento\Service\Entity\AbstractObject;
 
 /**
  * Groups two or more filters together using a logical group type
  */
-abstract class AbstractFilterGroup extends AbstractDto implements FilterGroupInterface
+abstract class AbstractFilterGroup extends AbstractObject implements FilterGroupInterface
 {
     const FILTERS = 'filters';
     const GROUPS = 'groups';

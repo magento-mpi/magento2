@@ -11,7 +11,7 @@ namespace Magento\Service\Entity;
 /**
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
-abstract class AbstractDtoBuilder
+abstract class AbstractObjectBuilder
 {
     /**
      * @var array
@@ -29,11 +29,11 @@ abstract class AbstractDtoBuilder
     /**
      * Populates the fields with an existing entity.
      *
-     * @param AbstractDto $prototype the prototype to base on
+     * @param AbstractObject $prototype the prototype to base on
      * @return $this
      * @throws \LogicException If $prototype object class is not the same type as object that is constructed
      */
-    public function populate(AbstractDto $prototype)
+    public function populate(AbstractObject $prototype)
     {
         $objectType = $this->_getDataObjectType();
         if (get_class($prototype) != $objectType) {
@@ -72,7 +72,7 @@ abstract class AbstractDtoBuilder
                 $this->_data[$key] = $value;
             } elseif (in_array($key, $customAttributesCodes)) {
                 /* If key corresponds to custom attribute code, populate custom attributes */
-                $this->_data[AbstractDto::CUSTOM_ATTRIBUTES_KEY][$key] = $value;
+                $this->_data[AbstractObject::CUSTOM_ATTRIBUTES_KEY][$key] = $value;
             }
         }
         return $this;
@@ -82,11 +82,11 @@ abstract class AbstractDtoBuilder
      * Merge second Data Object data with first Data Object data and create new Data Object object based on merge
      * result.
      *
-     * @param AbstractDto $firstDataObject
-     * @param AbstractDto $secondDataObject
-     * @return AbstractDto
+     * @param AbstractObject $firstDataObject
+     * @param AbstractObject $secondDataObject
+     * @return AbstractObject
      */
-    public function mergeDataObjects(AbstractDto $firstDataObject, AbstractDto $secondDataObject)
+    public function mergeDataObjects(AbstractObject $firstDataObject, AbstractObject $secondDataObject)
     {
         $this->_data = array_merge($firstDataObject->__toArray(), $secondDataObject->__toArray());
         return $this->create();
@@ -96,11 +96,11 @@ abstract class AbstractDtoBuilder
      * Merged data provided in array format with Data Object data and create new Data Object object based on merge
      * result.
      *
-     * @param AbstractDto $dataObject
+     * @param AbstractObject $dataObject
      * @param array $data
-     * @return AbstractDto
+     * @return AbstractObject
      */
-    public function mergeDataObjectWithArray(AbstractDto $dataObject, array $data)
+    public function mergeDataObjectWithArray(AbstractObject $dataObject, array $data)
     {
         $this->_data = array_merge($dataObject->__toArray(), $data);
         return $this->create();
@@ -109,7 +109,7 @@ abstract class AbstractDtoBuilder
     /**
      * Builds the entity.
      *
-     * @return AbstractDto
+     * @return AbstractObject
      */
     public function create()
     {

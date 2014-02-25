@@ -8,7 +8,7 @@
 
 namespace Magento\TestModule4\Service\V1\Entity;
 
-class NestedDtoRequest extends \Magento\Service\Entity\AbstractDto
+class NestedDtoRequest extends \Magento\Service\Entity\AbstractObject
 {
     /**
      * @return \Magento\TestModule4\Service\V1\Entity\DtoRequest

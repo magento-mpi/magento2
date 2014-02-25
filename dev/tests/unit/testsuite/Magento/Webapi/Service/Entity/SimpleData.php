@@ -8,9 +8,9 @@
 
 namespace Magento\Webapi\Service\Entity;
 
-use Magento\Service\Entity\AbstractDto;
+use Magento\Service\Entity\AbstractObject;
 
-class SimpleDto extends AbstractDto
+class SimpleData extends AbstractObject
 {
     /**
      * @return int|null

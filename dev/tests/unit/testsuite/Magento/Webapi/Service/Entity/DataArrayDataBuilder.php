@@ -7,9 +7,9 @@
  */
 namespace Magento\Webapi\Service\Entity;
 
-use Magento\Service\Entity\AbstractDtoBuilder;
+use Magento\Service\Entity\AbstractObjectBuilder;
 
-class DtoArrayDtoBuilder extends AbstractDtoBuilder
+class DataArrayDataBuilder extends AbstractObjectBuilder
 {
     /**
      * @param \Magento\Webapi\Service\Entity\SimpleDto[] $items

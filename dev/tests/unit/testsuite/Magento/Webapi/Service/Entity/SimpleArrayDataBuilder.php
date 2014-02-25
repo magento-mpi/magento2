@@ -5,19 +5,20 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Webapi\Service\Entity;
 
-use Magento\Service\Entity\AbstractDtoBuilder;
+use Magento\Service\Entity\AbstractObjectBuilder;
 
-class NestedDtoBuilder extends AbstractDtoBuilder
+class SimpleArrayDataBuilder extends AbstractObjectBuilder
 {
     /**
-     * @param string $details
+     * @param array $ids
      * @return $this
      */
-    public function setDetails($details)
+    public function setIds($ids)
     {
-        $this->_data['details'] = $details;
+        $this->_data['ids'] = $ids;
         return $this;
     }
 }

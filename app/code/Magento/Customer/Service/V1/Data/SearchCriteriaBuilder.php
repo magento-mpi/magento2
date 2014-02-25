@@ -8,12 +8,12 @@
 namespace Magento\Customer\Service\V1\Data;
 
 use Magento\Customer\Service\V1\Data\Search\OrGroupBuilder;
-use Magento\Service\Entity\AbstractDtoBuilder;
+use Magento\Service\Entity\AbstractObjectBuilder;
 
 /**
  * Builder for SearchCriteria Data Object
  */
-class SearchCriteriaBuilder extends AbstractDtoBuilder
+class SearchCriteriaBuilder extends AbstractObjectBuilder
 {
     /**
      * {@inheritdoc}

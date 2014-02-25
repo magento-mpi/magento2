@@ -12,7 +12,7 @@ namespace Magento\Customer\Service\V1\Data;
  *
  * @package Magento\Customer\Service\V1\Data
  */
-class Customer extends \Magento\Service\Entity\AbstractDto
+class Customer extends \Magento\Service\Entity\AbstractObject
 {
     /**#@+
      * constants defined for keys of array, makes typos less likely

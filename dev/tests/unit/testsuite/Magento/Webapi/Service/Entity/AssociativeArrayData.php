@@ -7,9 +7,9 @@
  */
 namespace Magento\Webapi\Service\Entity;
 
-use Magento\Service\Entity\AbstractDto;
+use Magento\Service\Entity\AbstractObject;
 
-class AssociativeArrayDto extends AbstractDto
+class AssociativeArrayData extends AbstractObject
 {
     /**
      * @return string[]

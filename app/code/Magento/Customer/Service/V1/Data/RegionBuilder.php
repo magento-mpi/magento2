@@ -9,7 +9,7 @@
  */
 namespace Magento\Customer\Service\V1\Data;
 
-class RegionBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
+class RegionBuilder extends \Magento\Service\Entity\AbstractObjectBuilder
 {
     /**
      * @param string $regionCode

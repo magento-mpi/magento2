@@ -7,12 +7,12 @@
  */
 namespace Magento\Customer\Service\V1\Data;
 
-use Magento\Service\Entity\AbstractDto;
+use Magento\Service\Entity\AbstractObject;
 
 /**
  * Data Object for SearchCriteria
  */
-class SearchCriteria extends AbstractDto
+class SearchCriteria extends AbstractObject
 {
     const SORT_ASC = 1;
     const SORT_DESC = -1;

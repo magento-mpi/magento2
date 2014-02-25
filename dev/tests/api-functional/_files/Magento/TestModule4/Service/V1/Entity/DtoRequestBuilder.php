@@ -8,7 +8,7 @@
 
 namespace Magento\TestModule4\Service\V1\Entity;
 
-class DtoRequestBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
+class DtoRequestBuilder extends \Magento\Service\Entity\AbstractObjectBuilder
 {
 
     /**

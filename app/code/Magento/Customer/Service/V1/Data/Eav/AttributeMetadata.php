@@ -9,7 +9,7 @@
  */
 namespace Magento\Customer\Service\V1\Data\Eav;
 
-class AttributeMetadata extends \Magento\Service\Entity\AbstractDto
+class AttributeMetadata extends \Magento\Service\Entity\AbstractObject
 {
     /**#@+
      * Constants used as keys into $_data

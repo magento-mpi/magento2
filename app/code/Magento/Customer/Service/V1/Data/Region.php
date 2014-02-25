@@ -9,7 +9,7 @@
  */
 namespace Magento\Customer\Service\V1\Data;
 
-class Region extends \Magento\Service\Entity\AbstractDto
+class Region extends \Magento\Service\Entity\AbstractObject
 {
     /**#@+
      * Array keys

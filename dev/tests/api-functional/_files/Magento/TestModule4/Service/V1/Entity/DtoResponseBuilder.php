@@ -8,7 +8,7 @@
 
 namespace Magento\TestModule4\Service\V1\Entity;
 
-class DtoResponseBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
+class DtoResponseBuilder extends \Magento\Service\Entity\AbstractObjectBuilder
 {
     /**
      * @param int $entityId

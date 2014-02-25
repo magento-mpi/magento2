@@ -9,7 +9,7 @@
  */
 namespace Magento\Customer\Service\V1\Data\Response;
 
-class CreateCustomerAccountResponse extends \Magento\Service\Entity\AbstractDto
+class CreateCustomerAccountResponse extends \Magento\Service\Entity\AbstractObject
 {
     /**
      * @return int

@@ -8,7 +8,7 @@
 
 namespace Magento\TestModule4\Service\V1\Entity;
 
-class DtoResponse extends \Magento\Service\Entity\AbstractDto
+class DtoResponse extends \Magento\Service\Entity\AbstractObject
 {
     /**
      * @return int

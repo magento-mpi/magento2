@@ -8,10 +8,10 @@
 namespace Magento\Service\Entity;
 
 /**
- * Class AbstractDto
+ * Class AbstractObject
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
-abstract class AbstractDto
+abstract class AbstractObject
 {
     const CUSTOM_ATTRIBUTES_KEY = 'custom_attributes';
 
@@ -23,9 +23,9 @@ abstract class AbstractDto
     /**
      * Initialize internal storage
      *
-     * @param AbstractDtoBuilder $builder
+     * @param AbstractObjectBuilder $builder
      */
-    public function __construct(AbstractDtoBuilder $builder)
+    public function __construct(AbstractObjectBuilder $builder)
     {
         $this->_data = $builder->getData();
     }

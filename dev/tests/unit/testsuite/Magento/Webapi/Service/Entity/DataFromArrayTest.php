@@ -8,11 +8,11 @@
 
 namespace Magento\Webapi\Service\Entity;
 
-use Magento\Service\Entity\AbstractDto;
-use Magento\Service\Entity\AbstractDtoTest;
+use Magento\Service\Entity\AbstractObject;
+use Magento\Service\Entity\AbstractObjectTest;
 use Magento\Webapi\Controller\ServiceArgsSerializer;
 
-class DtoFromArrayTest extends \PHPUnit_Framework_TestCase
+class DataFromArrayTest extends \PHPUnit_Framework_TestCase
 {
     /** @var ServiceArgsSerializer */
     protected $serializer;

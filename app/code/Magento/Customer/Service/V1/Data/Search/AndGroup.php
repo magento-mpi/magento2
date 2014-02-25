@@ -8,7 +8,7 @@
 
 namespace Magento\Customer\Service\V1\Data\Search;
 
-use Magento\Service\Entity\AbstractDto;
+use Magento\Service\Entity\AbstractObject;
 
 /**
  * Groups two or more filters together using logical AND.

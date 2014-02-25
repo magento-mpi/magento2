@@ -8,9 +8,9 @@
 
 namespace Magento\Webapi\Service\Entity;
 
-use Magento\Service\Entity\AbstractDtoBuilder;
+use Magento\Service\Entity\AbstractObjectBuilder;
 
-class SimpleDtoBuilder extends AbstractDtoBuilder
+class SimpleDataBuilder extends AbstractObjectBuilder
 {
     /**
      * @param int $id
