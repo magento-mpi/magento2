@@ -11,7 +11,7 @@
 
 namespace Magento\Catalog\Model\Indexer\Product\Price\Plugin;
 
-class CustomerGroupTest extends \PHPUnit_Framework_TestCase
+class ImportTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\TestFramework\Helper\ObjectManager

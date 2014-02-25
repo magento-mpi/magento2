@@ -26,9 +26,12 @@ class RowTest extends \PHPUnit_Framework_TestCase
         $this->_model = $objectManager->getObject('Magento\Catalog\Model\Indexer\Product\Price\Action\Row');
     }
 
+    /**
+     * @expectedException \Magento\Catalog\Exception
+     * @expectedExceptionMessage Could not rebuild index for undefined product
+     */
     public function testEmptyId()
     {
-        $this->setExpectedException('\Magento\Core\Exception', 'Could not rebuild index for undefined product');
         $this->_model->execute(null);
     }
 }

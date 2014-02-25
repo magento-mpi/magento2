@@ -1962,9 +1962,14 @@ return array(
         'Magento\Sales\Model\Resource\Recurring\Profile\Collection',
         'Magento\RecurringProfile\Model\Resource\Profile\Collection'
     ),
-    ['Magento\Payment\Model\Recurring\Profile', 'Magento\RecurringProfile\Model\RecurringProfile'],
-    ['Magento\Validator\Composite\VarienObject', 'Magento\Validator\Object'],
+    array('Magento\Payment\Model\Recurring\Profile', 'Magento\RecurringProfile\Model\RecurringProfile'),
+    array('Magento\Validator\Composite\VarienObject', 'Magento\Validator\Object'),
     array('Magento\GoogleShopping\Helper\Price', 'Magento\Catalog\Model\Product\CatalogPrice'),
-    ['Magento\Sales\Controller\Adminhtml\Recurring\Profile', 'Magento\RecurringProfile\Controller\Adminhtml\Profile'],
-    ['Magento\Sales\Controller\Recurring\Profile', 'Magento\RecurringProfile\Controller\Profile'],
+    array(
+        'Magento\Sales\Controller\Adminhtml\Recurring\Profile',
+        'Magento\RecurringProfile\Controller\Adminhtml\Profile'
+    ),
+    array('Magento\Sales\Controller\Recurring\Profile', 'Magento\RecurringProfile\Controller\Profile'),
+    array('Magento\Catalog\Model\Product\Indexer\Price'),
+    array('Magento\Catalog\Model\Resource\Product\Indexer\Price')
 );

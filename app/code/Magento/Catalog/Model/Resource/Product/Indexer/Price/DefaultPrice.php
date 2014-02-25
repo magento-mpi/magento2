@@ -19,8 +19,7 @@
  */
 namespace Magento\Catalog\Model\Resource\Product\Indexer\Price;
 
-class DefaultPrice
-    extends \Magento\Catalog\Model\Resource\Product\Indexer\AbstractIndexer
+class DefaultPrice extends \Magento\Catalog\Model\Resource\Product\Indexer\AbstractIndexer
     implements \Magento\Catalog\Model\Resource\Product\Indexer\Price\PriceInterface
 {
     /**
@@ -93,12 +92,12 @@ class DefaultPrice
      * Retrieve Product Type Code
      *
      * @return string
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Catalog\Exception
      */
     public function getTypeId()
     {
         if (is_null($this->_typeId)) {
-            throw new \Magento\Core\Exception(__('A product type is not defined for the indexer.'));
+            throw new \Magento\Catalog\Exception(__('A product type is not defined for the indexer.'));
         }
         return $this->_typeId;
     }
@@ -128,7 +127,8 @@ class DefaultPrice
     /**
      * Reindex temporary (price result data) for all products
      *
-     * @return \Magento\Catalog\Model\Resource\Product\Indexer\Price\DefaultPrice
+     * @return $this
+     * @throws \Exception
      */
     public function reindexAll()
     {

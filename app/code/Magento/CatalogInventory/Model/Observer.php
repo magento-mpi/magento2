@@ -70,7 +70,7 @@ class Observer
 
     /**
      * Construct
-     * 
+     *
      * @var \Magento\Index\Model\Indexer
      */
     protected $_indexer;
@@ -96,30 +96,23 @@ class Observer
     protected $_resourceIndexerStock;
 
     /**
-     * @var \Magento\Catalog\Model\Resource\Product\Indexer\Price
-     */
-    protected $_indexerPrice;
-
-    /**
      * @var \Magento\Catalog\Model\ProductTypes\ConfigInterface
      */
     protected $typeConfig;
 
     /**
-     * @param \Magento\Catalog\Model\Resource\Product\Indexer\Price $indexerPrice
-     * @param \Magento\CatalogInventory\Model\Resource\Indexer\Stock $resourceIndexerStock
-     * @param \Magento\CatalogInventory\Model\Resource\Stock $resourceStock
+     * @param Resource\Indexer\Stock $resourceIndexerStock
+     * @param Resource\Stock $resourceStock
      * @param \Magento\Index\Model\Indexer $indexer
      * @param Stock $stock
-     * @param \Magento\CatalogInventory\Model\Stock\Status $stockStatus
+     * @param Stock\Status $stockStatus
      * @param \Magento\CatalogInventory\Helper\Data $catalogInventoryData
-     * @param \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory
+     * @param Stock\ItemFactory $stockItemFactory
      * @param StockFactory $stockFactory
-     * @param \Magento\CatalogInventory\Model\Stock\StatusFactory $stockStatusFactory
+     * @param Stock\StatusFactory $stockStatusFactory
      * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $typeConfig
      */
     public function __construct(
-        \Magento\Catalog\Model\Resource\Product\Indexer\Price $indexerPrice,
         \Magento\CatalogInventory\Model\Resource\Indexer\Stock $resourceIndexerStock,
         \Magento\CatalogInventory\Model\Resource\Stock $resourceStock,
         \Magento\Index\Model\Indexer $indexer,
@@ -131,7 +124,6 @@ class Observer
         \Magento\CatalogInventory\Model\Stock\StatusFactory $stockStatusFactory,
         \Magento\Catalog\Model\ProductTypes\ConfigInterface $typeConfig
     ) {
-        $this->_indexerPrice = $indexerPrice;
         $this->_resourceIndexerStock = $resourceIndexerStock;
         $this->_resourceStock = $resourceStock;
         $this->_indexer = $indexer;
@@ -773,8 +765,6 @@ class Observer
             $item->save();
             $productIds[] = $item->getProductId();
         }
-
-        $this->_indexerPrice->reindexProductIds($productIds);
 
         $this->_itemsForReindex = array(); // Clear list of remembered items - we don't need it anymore
 
