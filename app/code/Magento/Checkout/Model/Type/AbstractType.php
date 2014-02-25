@@ -9,7 +9,6 @@
  */
 namespace Magento\Checkout\Model\Type;
 
-use Magento\Customer\Model\Address;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 use Magento\Sales\Model\Order;
 use Magento\Sales\Model\Quote\Item;
