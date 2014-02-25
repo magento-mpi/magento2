@@ -185,7 +185,7 @@ class Review extends \Magento\View\Element\Template
      *
      * @param float $price
      * @param bool $isInclTax
-     * @return bool
+     * @return string
      */
     protected function _getShippingPrice($price, $isInclTax)
     {

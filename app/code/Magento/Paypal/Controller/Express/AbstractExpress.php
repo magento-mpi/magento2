@@ -468,7 +468,7 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
      * Search for proper checkout token in request or session or (un)set specified one
      * Combined getter/setter
      *
-     * @param string $setToken
+     * @param string|null $setToken
      * @return \Magento\Paypal\Controller\Express|string
      * @throws \Magento\Core\Exception
      */

@@ -106,7 +106,7 @@ class Ipn
     /**
      * IPN request data getter
      *
-     * @param string $key
+     * @param string|null $key
      * @return array|string
      */
     public function getRequestData($key = null)
@@ -121,7 +121,7 @@ class Ipn
      * Get ipn data, send verification to PayPal, run corresponding handler
      *
      * @param array $request
-     * @param \Zend_Http_Client_Adapter_Interface $httpAdapter
+     * @param \Zend_Http_Client_Adapter_Interface|null $httpAdapter
      * @return void
      * @throws \Exception
      */

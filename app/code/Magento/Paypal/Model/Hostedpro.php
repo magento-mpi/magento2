@@ -256,7 +256,7 @@ class Hostedpro extends \Magento\Paypal\Model\Direct
     /**
      * Get return URL
      *
-     * @param int $storeId
+     * @param int|null $storeId
      * @return string
      */
     public function getReturnUrl($storeId = null)
@@ -267,7 +267,7 @@ class Hostedpro extends \Magento\Paypal\Model\Direct
     /**
      * Get notify (IPN) URL
      *
-     * @param int $storeId
+     * @param int|null $storeId
      * @return string
      */
     public function getNotifyUrl($storeId = null)
@@ -278,7 +278,7 @@ class Hostedpro extends \Magento\Paypal\Model\Direct
     /**
      * Get cancel URL
      *
-     * @param int $storeId
+     * @param int|null $storeId
      * @return string
      */
     public function getCancelUrl($storeId = null)
@@ -291,7 +291,7 @@ class Hostedpro extends \Magento\Paypal\Model\Direct
      *
      * @param string $path
      * @param int $storeId
-     * @param bool $secure
+     * @param bool|null $secure
      * @return string
      */
     protected function _getUrl($path, $storeId, $secure = null)

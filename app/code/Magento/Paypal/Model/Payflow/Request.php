@@ -25,6 +25,7 @@ class Request extends \Magento\Object
      * @param string $method
      * @param array $args
      * @return mixed
+     * @throws \Magento\Exception
      */
     public function __call($method, $args)
     {

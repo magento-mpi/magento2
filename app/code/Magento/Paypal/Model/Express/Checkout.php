@@ -391,8 +391,8 @@ class Checkout
      * Setter for customer with billing and shipping address changing ability
      *
      * @param Customer $customer
-     * @param Address $billingAddress
-     * @param Address $shippingAddress
+     * @param Address|null $billingAddress
+     * @param Address|null $shippingAddress
      * @return $this
      */
     public function setCustomerWithAddressChange($customer, $billingAddress = null, $shippingAddress = null)
@@ -692,7 +692,7 @@ class Checkout
      * Until this moment all quote data must be valid
      *
      * @param string $token
-     * @param string $shippingMethodCode
+     * @param string|null $shippingMethodCode
      * @return void
      */
     public function place($token, $shippingMethodCode = null)

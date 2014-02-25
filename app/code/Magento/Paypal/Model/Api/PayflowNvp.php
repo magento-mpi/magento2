@@ -714,12 +714,11 @@ class PayflowNvp extends \Magento\Paypal\Model\Api\Nvp
      * NVP doesn't support passing discount total as a separate amount - add it as a line item.
      * This is a hack for proper line items display for order at PP EC side using Payflow through API.
      *
-     * @link https://cms.paypal.com/us/cgi-bin/?cmd=_render-content&content_ID=developer/e_howto_api_nvp_r_SetExpressCheckout
-     *
      * @param array &$request
      * @param int $requestNum
      * @param int $itemNum
      * @return bool|null
+     * @link https://cms.paypal.com/us/cgi-bin/?cmd=_render-content&content_ID=developer/e_howto_api_nvp_r_SetExpressCheckout
      */
     protected function _preparePaymentRequestLineItems(array &$request, $requestNum = 0, $itemNum = 0)
     {

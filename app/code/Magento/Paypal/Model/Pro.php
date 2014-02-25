@@ -118,7 +118,7 @@ class Pro
      * Config instance setter
      *
      * @param \Magento\Paypal\Model\Config $instace
-     * @param int $storeId
+     * @param int|null $storeId
      * @return $this
      */
     public function setConfig(\Magento\Paypal\Model\Config $instace, $storeId = null)

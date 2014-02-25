@@ -229,7 +229,6 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
         return $this;
     }
 
-
     /**
      * Can be used in regular checkout
      *
@@ -284,7 +283,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
      * Custom getter for payment configuration
      *
      * @param string $field
-     * @param int $storeId
+     * @param int|null $storeId
      * @return mixed
      */
     public function getConfigData($field, $storeId = null)

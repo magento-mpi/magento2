@@ -204,7 +204,7 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
     /**
      * Check whether payment method can be used
      *
-     * @param \Magento\Sales\Model\Quote $quote
+     * @param \Magento\Sales\Model\Quote|null $quote
      * @return bool
      */
     public function isAvailable($quote = null)

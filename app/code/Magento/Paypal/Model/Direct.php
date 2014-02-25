@@ -267,7 +267,7 @@ class Direct extends \Magento\Payment\Model\Method\Cc
     /**
      * Check whether payment method can be used
      *
-     * @param \Magento\Sales\Model\Quote $quote
+     * @param \Magento\Sales\Model\Quote|null $quote
      * @return bool
      */
     public function isAvailable($quote = null)
@@ -282,7 +282,7 @@ class Direct extends \Magento\Payment\Model\Method\Cc
      * Custom getter for payment configuration
      *
      * @param string $field
-     * @param int $storeId
+     * @param int|null $storeId
      * @return null|string
      */
     public function getConfigData($field, $storeId = null)

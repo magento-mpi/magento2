@@ -42,7 +42,7 @@ class Request extends \Magento\Object
     /**
      * Request Parameters which dont have to wrap as button vars
      *
-     * @var string
+     * @var string[]
      */
     protected $_notButtonVars = array (
         'METHOD', 'BUTTONCODE', 'BUTTONTYPE');

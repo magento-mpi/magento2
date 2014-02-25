@@ -540,7 +540,7 @@ abstract class AbstractApi extends \Magento\Object
      * Unified getter that looks in data or falls back to config
      *
      * @param string $key
-     * @param mixed $default
+     * @param mixed|null $default
      * @return mixed
      */
     protected function _getDataOrConfig($key, $default = null)

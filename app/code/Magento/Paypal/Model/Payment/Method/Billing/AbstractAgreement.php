@@ -64,7 +64,7 @@ abstract class AbstractAgreement
     /**
      * Check whether method is available
      *
-     * @param \Magento\Paypal\Model\Quote $quote
+     * @param \Magento\Paypal\Model\Quote|null $quote
      * @return bool
      */
     public function isAvailable($quote = null)

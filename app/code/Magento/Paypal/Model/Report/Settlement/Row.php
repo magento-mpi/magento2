@@ -82,7 +82,7 @@ class Row extends \Magento\Core\Model\AbstractModel
      * Return description of Reference ID Type
      * If no code specified, return full list of codes with their description
      *
-     * @param string $code
+     * @param string|null $code
      * @return string|array
      */
     public function getReferenceType($code = null)
@@ -154,8 +154,8 @@ class Row extends \Magento\Core\Model\AbstractModel
     /**
      * Invoke casting some amounts
      *
-     * @param mixed $key
-     * @param mixed $index
+     * @param string $key
+     * @param string|int|null $index
      * @return mixed
      */
     public function getData($key = '', $index = null)

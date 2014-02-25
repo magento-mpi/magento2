@@ -202,7 +202,7 @@ class Info
      *
      * @param \Magento\Payment\Model\Info $payment
      * @param array|\Magento\Object|callback $to
-     * @param array $map
+     * @param array|null $map
      * @return array|\Magento\Object
      */
     public function &exportFromPayment(\Magento\Payment\Model\Info $payment, $to, array $map = null)

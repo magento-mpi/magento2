@@ -233,7 +233,7 @@ class Payflowpro extends \Magento\Payment\Model\Method\Cc
     /**
      * Check whether payment method can be used
      *
-     * @param \Magento\Sales\Model\Quote $quote
+     * @param \Magento\Sales\Model\Quote|null $quote
      * @return bool
      */
     public function isAvailable($quote = null)
@@ -483,7 +483,7 @@ class Payflowpro extends \Magento\Payment\Model\Method\Cc
     /**
      * Getter for URL to perform Payflow requests, based on test mode by default
      *
-     * @param bool $testMode Ability to specify test mode using
+     * @param bool|null $testMode Ability to specify test mode using
      * @return string
      */
     protected function _getTransactionUrl($testMode = null)

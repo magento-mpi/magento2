@@ -268,7 +268,7 @@ class Standard extends \Magento\Payment\Model\Method\AbstractMethod
 
     /**
      * Check whether payment method can be used
-     * @param \Magento\Sales\Model\Quote $quote
+     * @param \Magento\Sales\Model\Quote|null $quote
      * @return bool
      */
     public function isAvailable($quote = null)
@@ -283,7 +283,7 @@ class Standard extends \Magento\Payment\Model\Method\AbstractMethod
      * Custom getter for payment configuration
      *
      * @param string $field
-     * @param int $storeId
+     * @param int|null $storeId
      * @return mixed
      */
     public function getConfigData($field, $storeId = null)
