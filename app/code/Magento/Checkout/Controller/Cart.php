@@ -443,7 +443,7 @@ class Cart
                     }
                 }
                 $cart = $this->_getCart();
-                if (! $cart->getCustomerSession()->getCustomer()->getId() && $cart->getQuote()->getCustomerId()) {
+                if (!$cart->getCustomerSession()->getCustomerId() && $cart->getQuote()->getCustomerId()) {
                     $cart->getQuote()->setCustomerId(null);
                 }
 
@@ -453,7 +453,9 @@ class Cart
             }
             $this->_checkoutSession->setCartWasUpdated(true);
         } catch (\Magento\Core\Exception $e) {
-            $this->messageManager->addError($this->_objectManager->get('Magento\Escaper')->escapeHtml($e->getMessage()));
+            $this->messageManager->addError(
+                $this->_objectManager->get('Magento\Escaper')->escapeHtml($e->getMessage())
+            );
         } catch (\Exception $e) {
             $this->messageManager->addException($e, __('We cannot update the shopping cart.'));
             $this->_objectManager->get('Magento\Logger')->logException($e);

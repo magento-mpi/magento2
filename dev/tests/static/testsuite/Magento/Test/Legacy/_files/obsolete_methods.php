@@ -153,9 +153,11 @@ return array(
     array('_saveCache', 'Magento\Backend\Model\Menu\Config'),
     array('_saveCache', 'Magento\Core\Model\Config'),
     array('_saveCustomerAfterOrder', 'Magento\Sales\Model\AdminOrder\Create'),
+    array('_getCustomerAddressForm', 'Magento\Sales\Model\AdminOrder\Create'),
     array('_saveCustomers', 'Magento\Sales\Model\AdminOrder\Create'),
     array('_saveSectionCache', 'Magento\Core\Model\Config'),
     array('_sendUploadResponse', 'Magento\Backend\Controller\Customer'),
+    array('isInStore', 'Magento\Customer\Model\Customer'),
     array('_sendUploadResponse', 'Magento\Newsletter\Controller\Adminhtml\Subscriber'),
     array('_setAttribteValue'),
     array('_shouldSkipProcessUpdates', 'Magento\Core\Model\App'),
@@ -843,6 +845,7 @@ return array(
     array('_getSelectedRoles', 'Magento\User\Block\User\Edit\Tab\Roles', 'getSelectedRoles'),
     array('_prepareSelect', 'Magento\Core\Model\Resource\Db\Collection\AbstractCollection'),
     array('_prepareSelect', 'Magento\Data\Collection\Db'),
+    array('_createOrderFromAddress', 'Magento\Checkout\Model\Type\AbstractType'),
     array('castField', 'Magento\Core\Model\Resource\Helper'),
     array('getQueryUsingAnalyticFunction', 'Magento\Core\Model\Resource\Helper'),
     array('limitUnion', 'Magento\Core\Model\Resource\Helper'),
@@ -1339,4 +1342,5 @@ return array(
         'Magento\Catalog\Model\Resource\Attribute',
         'Magento\ConfigurableProduct\Model\Attribute\LockValidator::validate'
     ),
+    array('_getVatRequiredCustomerAddress', 'Magento\Sales\Model\Observer'),
 );
