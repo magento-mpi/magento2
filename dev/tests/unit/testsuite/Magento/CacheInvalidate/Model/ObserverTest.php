@@ -49,7 +49,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             $this->_curlMock
         );
         $this->_observerMock = $this->getMock('Magento\Event\Observer', ['getEvent'], [], '', false);
-        $this->_observerObject = $this->getMock('\Magento\Core\Model\Store',[], [], '', false);
+        $this->_observerObject = $this->getMock('\Magento\Core\Model\Store', [], [], '', false);
     }
 
     /**
