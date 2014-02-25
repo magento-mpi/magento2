@@ -11,6 +11,7 @@ namespace Magento\Customer\Service\V1;
 use Magento\Exception\InputException;
 use Magento\Exception\NoSuchEntityException;
 use Magento\Exception\StateException;
+use Magento\Customer\Service\V1\Data\CustomerBuilder;
 
 /**
  * \Magento\Customer\Service\V1\CustomerAccountService
@@ -176,8 +177,16 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        /** @var \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder */
-        $customerBuilder = $objectManagerHelper->getObject('Magento\Customer\Service\V1\Data\CustomerBuilder');
+
+        $metadataService = $this->getMockForAbstractClass(
+            'Magento\Customer\Service\V1\CustomerMetadataServiceInterface', [], '', false
+        );
+        $metadataService
+            ->expects($this->any())
+            ->method('getCustomCustomerAttributeMetadata')
+            ->will($this->returnValue([]));
+
+        $customerBuilder = new CustomerBuilder($metadataService);
 
         $this->_converter = new \Magento\Customer\Model\Converter($customerBuilder, $this->_customerFactoryMock);
 

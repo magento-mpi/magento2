@@ -31,6 +31,11 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             ->expects($this->any())
             ->method('getAttributeMetadata')->will($this->returnValue($this->_attributeMetadata));
 
+        $this->_metadataService
+            ->expects($this->any())
+            ->method('getCustomCustomerAttributeMetadata')
+            ->will($this->returnValue([]));
+
         $this->_attributeMetadata = $this->getMock(
             'Magento\Customer\Service\V1\Data\Eav\AttributeMetadata',
             [],

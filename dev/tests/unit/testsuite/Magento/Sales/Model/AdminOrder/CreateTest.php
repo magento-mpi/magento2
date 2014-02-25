@@ -159,7 +159,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
         $this->sessionQuoteMock->expects($this->any())->method('getQuote')->will($this->returnValue($quoteMock));
         $this->customerBuilderMock->expects($this->any())->method('populateWithArray')->will($this->returnSelf());
         $this->customerBuilderMock->expects($this->any())->method('create')->will($this->returnValue($customerMock));
-        $this->customerBuilderMock->expects($this->any())->method('mergeDtoWithArray')->will($this->returnArgument(0));
+        $this->customerBuilderMock->expects($this->any())->method('mergeDataObjectWithArray')->will($this->returnArgument(0));
 
         $this->customerGroupServiceMock
             ->expects($this->once())

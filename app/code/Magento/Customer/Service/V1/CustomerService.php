@@ -29,7 +29,7 @@ class CustomerService implements CustomerServiceInterface
     private $_converter;
 
     /**
-     * @var CustomerMetadataService
+     * @var CustomerMetadataServiceInterface
      */
     private $_customerMetadataService;
 
@@ -38,11 +38,11 @@ class CustomerService implements CustomerServiceInterface
      * Constructor
      *
      * @param Converter $converter
-     * @param CustomerMetadataService $customerMetadataService
+     * @param CustomerMetadataServiceInterface $customerMetadataService
      */
     public function __construct(
         Converter $converter,
-        CustomerMetadataService $customerMetadataService
+        CustomerMetadataServiceInterface $customerMetadataService
     ) {
         $this->_converter = $converter;
         $this->_customerMetadataService = $customerMetadataService;

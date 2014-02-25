@@ -11,6 +11,7 @@ namespace Magento\Customer\Service\V1;
 use Magento\Exception\InputException;
 use Magento\Exception\NoSuchEntityException;
 use Magento\Customer\Service\V1\Data\RegionBuilder;
+use Magento\Customer\Service\V1\Data\CustomerBuilder;
 
 /**
  * \Magento\Customer\Service\V1\CustomerAddressService
@@ -176,14 +177,27 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
 
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $regionBuilder = $objectManagerHelper->getObject('Magento\Customer\Service\V1\Data\RegionBuilder');
-        $this->_addressBuilder = $objectManagerHelper->getObject(
-            'Magento\Customer\Service\V1\Data\AddressBuilder',
-            array('regionBuilder' => $regionBuilder)
+
+        $metadataService = $this->getMockForAbstractClass(
+            'Magento\Customer\Service\V1\CustomerMetadataServiceInterface', [], '', false
         );
 
-        /** @var \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder */
-        $customerBuilder = $objectManagerHelper->getObject('Magento\Customer\Service\V1\Data\CustomerBuilder');
+        $metadataService
+            ->expects($this->any())
+            ->method('getCustomAddressAttributeMetadata')
+            ->will($this->returnValue([]));
 
+        $metadataService
+            ->expects($this->any())
+            ->method('getCustomCustomerAttributeMetadata')
+            ->will($this->returnValue([]));
+
+        $this->_addressBuilder = $objectManagerHelper->getObject(
+            'Magento\Customer\Service\V1\Data\AddressBuilder',
+            ['regionBuilder' => $regionBuilder, 'metadataService' => $metadataService]
+        );
+
+        $customerBuilder = new CustomerBuilder($metadataService);
         $this->_converter = new \Magento\Customer\Model\Converter($customerBuilder, $this->_customerFactoryMock);
     }
 

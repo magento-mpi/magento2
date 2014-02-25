@@ -40,21 +40,29 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
     /** @var  \Magento\TestFramework\Helper\ObjectManager */
     protected $_objectManager;
 
+    /** @var \Magento\Customer\Service\V1\Data\CustomerBuilder */
+    protected $_customerBuilder;
+
     public function setUp()
     {
         $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $customerMetadataService = $this->getMockForAbstractClass(
+            'Magento\Customer\Service\V1\CustomerMetadataServiceInterface', [], '', false
+        );
+        $customerMetadataService
+            ->expects($this->any())
+            ->method('getCustomCustomerAttributeMetadata')
+            ->will($this->returnValue([]));
+        $this->_customerBuilder = $this->_objectManager->getObject('Magento\Customer\Service\V1\Data\CustomerBuilder',
+            ['metadataService' => $customerMetadataService]
+        );
     }
 
     public function testSetters()
     {
         $customerData = $this->_createCustomerData();
-        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $customerBuilder = $objectManager->getObject('Magento\Customer\Service\V1\Data\CustomerBuilder');
-        $customerBuilder->populateWithArray($customerData);
-
-        /** @var Customer $customer */
-        $customer = $customerBuilder->create();
-
+        $customer = $this->_customerBuilder->populateWithArray($customerData)
+            ->create();
         $this->assertEquals(self::ID, $customer->getId());
         $this->assertEquals(self::FIRSTNAME, $customer->getFirstname());
         $this->assertEquals(self::LASTNAME, $customer->getLastname());
@@ -76,11 +84,8 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
     public function testGetAttributes()
     {
         $customerData = $this->_createCustomerData();
-        /** @var \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder */
-        $customerBuilder = $this->_objectManager->getObject('Magento\Customer\Service\V1\Data\CustomerBuilder');
-        $customerBuilder->populateWithArray($customerData);
-        /** @var Customer $customer */
-        $customer = $customerBuilder->create();
+        $customer = $this->_customerBuilder->populateWithArray($customerData)
+            ->create();
 
         $actualAttributes = \Magento\Convert\ConvertArray::toFlatArray($customer->__toArray());
         $this->assertEquals(
@@ -116,9 +121,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             'attribute1' => 'value1',
             Customer::CUSTOM_ATTRIBUTES_KEY => $customAttributes
         ];
-        /** @var $builder \Magento\Customer\Service\V1\Data\CustomerBuilder*/
-        $builder = $this->_objectManager->getObject('Magento\Customer\Service\V1\Data\CustomerBuilder');
-        $customerDataObject = $builder->populateWithArray($customerData)->create();
+        $customerDataObject = $this->_customerBuilder->populateWithArray($customerData)->create();
         $this->assertEquals(
             $customAttributes,
             $customerDataObject->getCustomAttributes(),
@@ -128,33 +131,26 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
 
     public function testPopulateFromPrototypeVsArray()
     {
-        /** @var \Magento\Customer\Service\V1\Data\CustomerBuilder $builder */
-        $builder = $this->_objectManager->getObject('Magento\Customer\Service\V1\Data\CustomerBuilder');
-        $builder->populateWithArray([
+        $customerFromArray = $this->_customerBuilder->populateWithArray([
             Customer::FIRSTNAME => self::FIRSTNAME,
             Customer::LASTNAME  => self::LASTNAME,
             Customer::EMAIL     => self::EMAIL,
             Customer::ID        => self::ID,
             'entity_id'         => self::ID,
-        ]);
-        $customerFromArray = $builder->create();
-        $customerFromPrototype = $builder->populate($customerFromArray)->create();
+        ])->create();
+        $customerFromPrototype = $this->_customerBuilder->populate($customerFromArray)->create();
 
         $this->assertEquals($customerFromArray->__toArray(), $customerFromPrototype->__toArray());
     }
 
     public function testPopulateFromCustomerIdInArray()
     {
-        /** @var \Magento\Customer\Service\V1\Data\CustomerBuilder $builder */
-        $builder = $this->_objectManager->getObject('Magento\Customer\Service\V1\Data\CustomerBuilder');
-        $builder->populateWithArray([
+        $customer = $this->_customerBuilder->populateWithArray([
             Customer::FIRSTNAME => self::FIRSTNAME,
             Customer::LASTNAME  => self::LASTNAME,
             Customer::EMAIL     => self::EMAIL,
             Customer::ID        => self::ID,
-        ]);
-        /** @var Customer $customer */
-        $customer = $builder->create();
+        ])->create();
 
         $this->assertEquals(self::FIRSTNAME, $customer->getFirstname());
         $this->assertEquals(self::LASTNAME, $customer->getLastname());
