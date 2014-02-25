@@ -1312,4 +1312,5 @@ return array(
         'Magento\ConfigurableProduct\Model\Attribute\LockValidator::validate'
     ),
     array('_getVatRequiredCustomerAddress', 'Magento\Sales\Model\Observer'),
+    array('getCustomer', 'Magento\Checkout\Block\Onepage\AbstractOnepage'),
 );

@@ -117,7 +117,7 @@ abstract class AbstractOnepage extends \Magento\View\Element\Template
      *
      * @return \Magento\Customer\Service\V1\Data\Customer
      */
-    protected function _getCustomer()
+    protected function _getCustomerData()
     {
         if (empty($this->_customer)) {
             $this->_customer = $this->_customerService->getCustomer($this->_customerSession->getCustomerId());
@@ -174,7 +174,7 @@ abstract class AbstractOnepage extends \Magento\View\Element\Template
     public function customerHasAddresses()
     {
         try {
-            return count($this->_customerAddressService->getAddresses($this->_getCustomer()->getId()));
+            return count($this->_customerAddressService->getAddresses($this->_getCustomerData()->getId()));
         } catch (NoSuchEntityException $e) {
             return 0;
         }
@@ -183,7 +183,7 @@ abstract class AbstractOnepage extends \Magento\View\Element\Template
     public function getAddressesHtmlSelect($type)
     {
         if ($this->isCustomerLoggedIn()) {
-            $customerId = $this->_getCustomer()->getId();
+            $customerId = $this->_getCustomerData()->getId();
             $options = [];
 
             try {
