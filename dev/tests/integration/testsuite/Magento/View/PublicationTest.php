@@ -368,6 +368,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
             ['Magento\View\Design\Fallback\Factory' => ['arguments' => [
                 'filesystem' => [
                     'value' => 'Magento\View\MockedFilesystem',
+                    'name' => 'filesystem',
                     \Magento\ObjectManager\Config\Reader\Dom::TYPE_ATTRIBUTE => 'object'
                 ]
 
