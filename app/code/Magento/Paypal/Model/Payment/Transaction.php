@@ -166,7 +166,7 @@ class Transaction extends \Magento\Core\Model\AbstractModel
     /**
      * Getter for entire additional_information value or one of its element by key
      * 
-     * @param string $key
+     * @param string|null $key
      * @return array|null|mixed
      */
     public function getAdditionalInformation($key = null)
@@ -184,7 +184,7 @@ class Transaction extends \Magento\Core\Model\AbstractModel
     /**
      * Unsetter for entire additional_information value or one of its element by key
      *
-     * @param string $key
+     * @param string|null $key
      * @return $this
      */
     public function unsAdditionalInformation($key = null)

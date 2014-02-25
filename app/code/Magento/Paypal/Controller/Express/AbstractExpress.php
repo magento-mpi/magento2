@@ -416,15 +416,9 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
                     ->setLastRealOrderId($order->getIncrementId());
             }
 
-            // recurring profiles may be created along with the order or without it
-            $profiles = $this->_checkout->getRecurringPaymentProfiles();
-            if ($profiles) {
-                $ids = array();
-                foreach ($profiles as $profile) {
-                    $ids[] = $profile->getId();
-                }
-                $this->_getCheckoutSession()->setLastRecurringProfileIds($ids);
-            }
+            $this->_eventManager->dispatch('paypal_express_place_order_success', [
+                'order' => $order, 'quote' => $this->_getQuote()
+            ]);
 
             // redirect if PayPal specified some URL (for example, to Giropay bank)
             $url = $this->_checkout->getRedirectUrl();
@@ -474,7 +468,7 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
      * Search for proper checkout token in request or session or (un)set specified one
      * Combined getter/setter
      *
-     * @param string $setToken
+     * @param string|null $setToken
      * @return \Magento\Paypal\Controller\Express|string
      * @throws \Magento\Core\Exception
      */
