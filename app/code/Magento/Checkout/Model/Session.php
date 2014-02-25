@@ -134,9 +134,9 @@ class Session extends \Magento\Session\SessionManager
      *
      * TODO: Remove after elimination of dependencies from \Magento\Persistent\Model\Observer
      *
-     * @deprecated Use \Magento\Checkout\Model\Session::setCustomerData() instead
      * @param \Magento\Customer\Model\Customer|null $customer
      * @return $this
+     * @deprecated Use \Magento\Checkout\Model\Session::setCustomerData() instead
      */
     public function setCustomer($customer)
     {
