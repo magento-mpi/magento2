@@ -1,29 +1,34 @@
 * GitHub requests:
   * [#235](https://github.com/magento/magento2/issues/235) -- Translation escaping
   * [#463](https://github.com/magento/magento2/pull/463) -- allow _resolveArguments to do sequential lookups
-* Fixed bugs:
-  * Fixed an issue with "Add to Cart" button on MAP popup of compound products
-  * Fixed an issue where the Add Address button for Customer in Admin was broken
-  * Fixed a Typo in Region of Austria (GitHub #134)
-  * Fixed issue where predefined data are not loaded for Newsletter after try to put it in a Queue
-* Indexer implementation:
-  * Implemented new optimized Catalog Category Product Indexer
-  * Implemented new optimized Catalog Category Flat Indexer
-  * Implemented new optimized Catalog Product Flat Indexer
-* Modularity improvements:
-  * Moved all Configurable Product functionality to newly created module ConfigurableProduct
-  * Moved Shortcut Buttons abstraction from PayPal to Catalog
-  * Moved Recurring profile functionality into separate module
-  * Moved Billing Agreements functionality into PayPal module
-  * Finalised work on resolving dependencies between all other modules and Multishipping module. Module can be removed without impact on system
 * Customer Service usage:
- * Updated Customer Group Grid to use Customer Service for retrieving data and filtering
- * Updated CustomerMetadataService::getAttributeMetadata to throw an exception if invalid code provided
- * Sales module refactoring to use customer service layer
- * Checkout module refactoring to use customer service layer
-* Unified format of specifying arguments for class constructors in DI and in Layout configuration
-  * Common xsd schema is being used for defining simple types. Layout and DI customize common types with their specific ones
-  * Arguments processing is unified and moved to library
+  * Sales module refactoring to use customer service layer
+  * Checkout module refactoring to use customer service layer
+
+2.0.0.0-dev66
+=============
+* GitHub requests:
+  * [#134] (https://github.com/magento/magento2/pull/134) Fixed a typo in "Vorarlberg" region of Austria (was Voralberg)
+* Fixed bugs:
+  * Fixed an issue with the "Add to Cart" button on the MAP popup of compound products
+  * Fixed an issue where the "Add Address" button for Customer in Admin was broken
+  * Fixed an issue where predefined data are not loaded for a newsletter when it is added to a queue
+* Indexer implementation:
+  * Implemented a new optimized Catalog Category Product Indexer
+  * Implemented a new optimized Catalog Category Flat Indexer
+  * Implemented a new optimized Catalog Product Flat Indexer
+* Modularity improvements:
+  * Moved all Configurable Product functionality to a newly created ConfigurableProduct module
+  * Moved the Shortcut Buttons abstraction from PayPal to Catalog
+  * Moved the Recurring profile functionality to a separate module
+  * Moved the Billing Agreements functionality to the PayPal module
+  * Finalized the work on resolving dependencies between the Multishipping module, and all other modules. Module can be removed without any impact on the system
+* Customer Service usage:
+  * Updated Customer Group Grid to use Customer Service for data retrieving and filtering
+  * Updated CustomerMetadataService::getAttributeMetadata to throw an exception if invalid code is provided
+* Unified the format of specifying arguments for class constructors in DI and in Layout configuration:
+  * A common xsd schema is being used for defining simple types. Layout and DI customize common types with their specific ones
+  * Argument processing is unified, and moved to library
 
 2.0.0.0-dev65
 =============
