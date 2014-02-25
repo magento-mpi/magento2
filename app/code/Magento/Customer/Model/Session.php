@@ -36,21 +36,21 @@ class Session extends \Magento\Session\SessionManager
     /**
      * Flag with customer id validations result
      *
-     * @var bool
+     * @var bool|null
      */
     protected $_isCustomerIdChecked = null;
 
     /**
      * Customer data
      *
-     * @var \Magento\Customer\Helper\Data
+     * @var \Magento\Customer\Helper\Data|null
      */
     protected $_customerData = null;
 
     /**
      * Core url
      *
-     * @var \Magento\Core\Helper\Url
+     * @var \Magento\Core\Helper\Url|null
      */
     protected $_coreUrl = null;
 

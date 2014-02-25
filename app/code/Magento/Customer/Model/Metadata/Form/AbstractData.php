@@ -248,7 +248,7 @@ abstract class AbstractData
      * Validate value by attribute input validation rule
      *
      * @param string $value
-     * @return string|bool
+     * @return array|true
      */
     protected function _validateInputRule($value)
     {

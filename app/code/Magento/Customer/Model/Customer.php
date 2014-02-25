@@ -568,7 +568,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
      * Retrieve default address by type(attribute)
      *
      * @param   string $attributeCode address type attribute code
-     * @return  Address
+     * @return  Address|false
      */
     public function getPrimaryAddress($attributeCode)
     {

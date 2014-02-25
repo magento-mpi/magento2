@@ -164,7 +164,7 @@ class Group extends \Magento\Core\Model\AbstractModel
     /**
      * Prepare data before save
      *
-     * @return \Magento\Core\Model\AbstractModel
+     * @return $this
      */
     protected function _beforeSave()
     {

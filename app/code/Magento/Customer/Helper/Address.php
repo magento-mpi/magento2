@@ -204,7 +204,7 @@ class Address extends \Magento\App\Helper\AbstractHelper
      * Retrieve renderer by code
      *
      * @param string $code
-     * @return \Magento\Customer\Block\Address\Renderer\RendererInterface
+     * @return \Magento\Customer\Block\Address\Renderer\RendererInterface|null
      */
     public function getFormatTypeRenderer($code)
     {

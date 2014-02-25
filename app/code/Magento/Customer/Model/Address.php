@@ -81,7 +81,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     /**
      * Retrieve address customer identifier
      *
-     * @return integer
+     * @return int
      */
     public function getCustomerId()
     {

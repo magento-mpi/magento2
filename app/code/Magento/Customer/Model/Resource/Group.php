@@ -75,7 +75,7 @@ class Group extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Check if group uses as default
      *
      * @param  \Magento\Core\Model\AbstractModel $group
-     * @return \Magento\Core\Model\Resource\Db\AbstractDb
+     * @return $this
      * @throws \Magento\Core\Exception
      */
     protected function _beforeDelete(\Magento\Core\Model\AbstractModel $group)
@@ -90,7 +90,7 @@ class Group extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Method set default group id to the customers collection
      *
      * @param \Magento\Core\Model\AbstractModel $group
-     * @return \Magento\Core\Model\Resource\Db\AbstractDb
+     * @return $this
      */
     protected function _afterDelete(\Magento\Core\Model\AbstractModel $group)
     {
