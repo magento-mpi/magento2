@@ -223,7 +223,8 @@ class Index extends \Magento\Backend\App\Action
         $customerData['account'] = [];
         $customerData['address'] = [];
         $customer = null;
-        if (!empty($customerId)) {
+        $isExistingCustomer = (bool)$customerId;
+        if ($isExistingCustomer) {
             try {
                 $customer = $this->_customerService->getCustomer($customerId);
                 $customerData['account'] = $customer->getAttributes();
@@ -246,7 +247,7 @@ class Index extends \Magento\Backend\App\Action
         $customerData['customer_id'] = $customerId;
 
         // set entered data if was error when we do save
-        $data = $this->_getSession()->getCustomerData(true);
+        $data = $this->_getSession()->getCustomerData();
 
         // restore data from SESSION
         if ($data && (
@@ -257,7 +258,7 @@ class Index extends \Magento\Backend\App\Action
             $request = clone $this->getRequest();
             $request->setParams($data);
 
-            if (isset($data['account'])) {
+            if (isset($data['account']) && is_array($data['account'])) {
                 $customerForm = $this->_formFactory->create(
                     'customer',
                     'adminhtml_customer',
@@ -310,10 +311,10 @@ class Index extends \Magento\Backend\App\Action
 
         $this->_getSession()->setCustomerData($customerData);
 
-        if (is_null($customer)) {
-            $this->_title->add(__('New Customer'));
-        } else {
+        if ($isExistingCustomer) {
             $this->_title->add($this->_viewHelper->getCustomerName($customer));
+        } else {
+            $this->_title->add(__('New Customer'));
         }
         /**
          * Set active menu item
