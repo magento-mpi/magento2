@@ -44,7 +44,9 @@ class Address extends \Magento\Service\Entity\AbstractDto implements Eav\EntityI
     }
 
     /**
-     * @return string[]
+     * Get Customer attributes and values.
+     *
+     * @return array Attribute code is used as key, and attribute value as value.
      */
     public function getAttributes()
     {

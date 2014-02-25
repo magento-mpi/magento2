@@ -853,8 +853,9 @@ class IndexTest extends \Magento\Backend\Utility\Controller
                 'middlename'         => 'new middlename',
                 'group_id'           => 1,
                 'website_id'         => 1,
+                'firstname'          => 'new firstname',
                 'lastname'           => 'new lastname',
-                'email'              => 'exmaple@domain.com',
+                'email'              => '*',
                 'default_shipping'   => '_item1',
                 'new_password'       => 'auto',
                 'sendemail_store_id' => '1',
@@ -863,12 +864,12 @@ class IndexTest extends \Magento\Backend\Utility\Controller
             ],
             'address' => [
                 '1'          => [
-                    'lastname'   => 'update lastname',
+                    'firstname'  => '',
+                    'lastname'   => '',
                     'street'     => ['update street'],
                     'city'       => 'update city',
-                    'country_id' => 'US',
                     'postcode'   => '01001',
-                    'telephone'  => '+7000000001',
+                    'telephone'  => '',
                 ],
                 '_template_' => [
                     'lastname'   => '',
@@ -887,11 +888,16 @@ class IndexTest extends \Magento\Backend\Utility\Controller
         $this->dispatch('backend/customer/index/validate');
         $body = $this->getResponse()->getBody();
 
-        $this->assertContains('{"error":1,', $body);
-        $this->assertContains('The first name cannot be empty.', $body);
+        $this->assertContains('{"error":1,"message":', $body);
+        $this->assertContains('Please correct this email address: \"*\".', $body);
         $this->assertContains('\"First Name\" is a required value.', $body);
         $this->assertContains('\"First Name\" length must be equal or greater than 1 characters', $body);
-    }
+        $this->assertContains('\"Last Name\" is a required value.', $body);
+        $this->assertContains('\"Last Name\" length must be equal or greater than 1 characters', $body);
+        $this->assertContains('\"Telephone\" is a required value.', $body);
+        $this->assertContains('\"Telephone\" length must be equal or greater than 1 characters', $body);
+        $this->assertContains('\"Country\" is a required value.', $body);
+     }
 
     public function testResetPasswordActionNoCustomerId()
     {

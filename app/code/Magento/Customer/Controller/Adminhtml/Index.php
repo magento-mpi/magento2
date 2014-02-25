@@ -381,9 +381,6 @@ class Index extends \Magento\Backend\App\Action
 
                 $addresses = [];
                 foreach ($addressesData as $addressData) {
-                    if (isset($addressData['entity_id']) && !isset($addressData['id'])) {
-                        $addressData['id'] = $addressData['entity_id'];
-                    }
                     $addresses[] = $this->_addressBuilder->populateWithArray($addressData)->create();
                 }
 
@@ -571,7 +568,7 @@ class Index extends \Magento\Backend\App\Action
                 $addressData = $customerHelper->extractCustomerData(
                     $this->getRequest(), 'adminhtml_customer_address', $addressEntity, array(), $scope, $eavForm);
                 if (is_numeric($addressId)) {
-                    $addressData['entity_id'] = $addressId;
+                    $addressData['id'] = $addressId;
                 }
                 // Set default billing and shipping flags to address
                 $addressData[Customer::DEFAULT_BILLING] = isset($customerData[Customer::DEFAULT_BILLING])
@@ -780,18 +777,14 @@ class Index extends \Magento\Backend\App\Action
         try {
             /** @var Customer $customer */
             $customer = $this->_customerBuilder->create();
-            $customerId = $this->getRequest()->getParam('id');
-            if ($customerId) {
-                $customer = $this->_customerService->getCustomer($customerId);
-            }
 
             $customerForm = $this->_formFactory->create(
                 'customer',
                 'adminhtml_customer',
                 $customer->getAttributes(),
-                true,
-                false
+                true
             );
+            $customerForm->setInvisibleIgnored(true);
 
             $data = $customerForm->extractData($this->getRequest(), 'account');
 
@@ -831,19 +824,14 @@ class Index extends \Magento\Backend\App\Action
                 if ($index == '_template_') {
                     continue;
                 }
-                if (strpos($index, '_item') === 0) {
-                    $address = $this->_addressBuilder->create();
-                } else {
-                    $address = $this->_addressService->getAddressById($index);
-                }
+
+                $address = $this->_addressBuilder->create();
 
                 $addressForm = $this->_formFactory->create(
                     'customer_address',
-                    'adminhtml_customer_address',
-                    $address->getAttributes(),
-                    false,
-                    false
+                    'adminhtml_customer_address'
                 );
+                $addressForm->setInvisibleIgnored(true);
 
                 $requestScope = sprintf('address/%s', $index);
                 $formData = $addressForm->extractData($this->getRequest(), $requestScope);
