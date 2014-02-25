@@ -70,9 +70,9 @@ abstract class AbstractAgreement
     public function isAvailable($quote = null)
     {
         if (is_null($this->_isAvailable)) {
-            if (is_object($quote) && $quote->getCustomer()) {
+            if (is_object($quote) && $quote->getCustomerId()) {
                 $availableBA = $this->_agreementFactory->create()->getAvailableCustomerBillingAgreements(
-                    $quote->getCustomer()->getId()
+                    $quote->getCustomerId()
                 );
                 $isAvailableBA = count($availableBA) > 0;
                 $this->_canUseCheckout = $this->_canUseInternal = $isAvailableBA;
@@ -104,7 +104,7 @@ abstract class AbstractAgreement
         if ($id) {
             $info = $this->getInfoInstance();
             $ba = $this->_agreementFactory->create()->load($id);
-            if ($ba->getId() && $ba->getCustomerId() == $info->getQuote()->getCustomer()->getId()) {
+            if ($ba->getId() && $ba->getCustomerId() == $info->getQuote()->getCustomerId()) {
                 $info->setAdditionalInformation($key, $id)
                     ->setAdditionalInformation(self::PAYMENT_INFO_REFERENCE_ID, $ba->getReferenceId());
             }

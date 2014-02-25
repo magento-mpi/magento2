@@ -10,6 +10,9 @@
 
 namespace Magento\Checkout\Model;
 
+use Magento\Customer\Service\V1\Dto\Customer as CustomerDto;
+use \Magento\Customer\Service\V1\Dto\CustomerBuilder;
+
 class Session extends \Magento\Session\SessionManager
 {
     /**
@@ -25,11 +28,18 @@ class Session extends \Magento\Session\SessionManager
     protected $_quote;
 
     /**
-     * Customer instance
+     * Customer DTO
      *
-     * @var null|\Magento\Customer\Model\Customer
+     * @var null|CustomerDto
      */
     protected $_customer;
+
+    /**
+     * Customer DTO builder
+     *
+     * @var CustomerBuilder
+     */
+    protected $_customerBuilder;
 
     /**
      * Whether load only active quote
@@ -88,6 +98,7 @@ class Session extends \Magento\Session\SessionManager
      * @param \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param CustomerBuilder $customerBuilder
      * @param null $sessionName
      */
     public function __construct(
@@ -103,6 +114,7 @@ class Session extends \Magento\Session\SessionManager
         \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
+        CustomerBuilder $customerBuilder,
         $sessionName = null
     ) {
         $this->_orderFactory = $orderFactory;
@@ -111,6 +123,7 @@ class Session extends \Magento\Session\SessionManager
         $this->_remoteAddress = $remoteAddress;
         $this->_eventManager = $eventManager;
         $this->_storeManager = $storeManager;
+        $this->_customerBuilder = $customerBuilder;
         parent::__construct($request, $sidResolver, $sessionConfig, $saveHandler, $validator, $storage);
         $this->start($sessionName);
     }
@@ -118,10 +131,31 @@ class Session extends \Magento\Session\SessionManager
     /**
      * Set customer instance
      *
+     * TODO: Remove after elimination of dependencies from \Magento\Persistent\Model\Observer
+     *
+     * @deprecated Use \Magento\Checkout\Model\Session::setCustomerData() instead
      * @param \Magento\Customer\Model\Customer|null $customer
      * @return \Magento\Checkout\Model\Session
      */
     public function setCustomer($customer)
+    {
+        if ($customer instanceof \Magento\Customer\Model\Customer) {
+            $this->_customerBuilder->populateWithArray($customer->getData());
+            $this->_customerBuilder->setCustomerId($customer->getId());
+            $this->_customer = $this->_customerBuilder->create();
+        } else {
+            $this->_customer = $customer;
+        }
+        return $this;
+    }
+
+    /**
+     * Set customer data.
+     *
+     * @param CustomerDto|null $customer
+     * @return \Magento\Checkout\Model\Session
+     */
+    public function setCustomerData($customer)
     {
         $this->_customer = $customer;
         return $this;
@@ -190,8 +224,10 @@ class Session extends \Magento\Session\SessionManager
 
             if (!$this->getQuoteId()) {
                 if ($this->_customerSession->isLoggedIn() || $this->_customer) {
-                    $customer = ($this->_customer) ? $this->_customer : $this->_customerSession->getCustomer();
-                    $quote->loadByCustomer($customer);
+                    $customerId = $this->_customer
+                        ? $this->_customer->getCustomerId()
+                        : $this->_customerSession->getCustomerId();
+                    $quote->loadByCustomer($customerId);
                     $this->setQuoteId($quote->getId());
                 } else {
                     $quote->setIsCheckoutCart(true);
@@ -200,9 +236,10 @@ class Session extends \Magento\Session\SessionManager
             }
 
             if ($this->getQuoteId()) {
-                if ($this->_customerSession->isLoggedIn() || $this->_customer) {
-                    $customer = ($this->_customer) ? $this->_customer : $this->_customerSession->getCustomer();
-                    $quote->setCustomer($customer);
+                if ($this->_customer) {
+                    $quote->setCustomerData($this->_customer);
+                } else if ($this->_customerSession->isLoggedIn()) {
+                    $quote->setCustomerData($this->_customerSession->getCustomerData());
                 }
             }
 
@@ -266,7 +303,7 @@ class Session extends \Magento\Session\SessionManager
         } else {
             $this->getQuote()->getBillingAddress();
             $this->getQuote()->getShippingAddress();
-            $this->getQuote()->setCustomer($this->_customerSession->getCustomer())
+            $this->getQuote()->setCustomerData($this->_customerSession->getCustomerData())
                 ->setTotalsCollectedFlag(false)
                 ->collectTotals()
                 ->save();
