@@ -9,9 +9,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Model\Indexer\Product\Price\Plugin;
+namespace Magento\Catalog\Model\Indexer\Product\Price\System\Config;
 
-class CustomerGroupTest extends \PHPUnit_Framework_TestCase
+class PriceScopeTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\TestFramework\Helper\ObjectManager
