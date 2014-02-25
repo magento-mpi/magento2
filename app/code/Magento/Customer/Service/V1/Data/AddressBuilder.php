@@ -10,12 +10,14 @@
 namespace Magento\Customer\Service\V1\Data;
 
 use Magento\Service\Entity\AbstractObject;
-use Magento\Service\Entity\AbstractObjectBuilder;
+use Magento\Service\Entity\EAV\AbstractObjectBuilder;
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
 
 /**
  * @method Address create()
  * @method Address mergeDataObjectWithArray(AbstractObject $dataObject, array $data)
+ * @method $this setCustomAttribute($attributeCode, $attributeValue)
+ * @method $this setCustomAttributes($attributes)
  */
 class AddressBuilder extends AbstractObjectBuilder
 {
@@ -37,33 +39,6 @@ class AddressBuilder extends AbstractObjectBuilder
         $this->_metadataService = $metadataService;
         $this->_regionBuilder = $regionBuilder;
         $this->_data[Address::KEY_REGION] = $regionBuilder->create();
-    }
-
-    /**
-     * Set array of custom attributes
-     *
-     * @param $attributes
-     * @return $this
-     */
-    public function setCustomAttributes($attributes)
-    {
-        $this->populateWithArray($attributes);
-        return $this;
-    }
-
-    /**
-     * Set custom attribute value
-     *
-     * @param $attributeCode
-     * @param $attributeValue
-     * @return $this
-     */
-    public function setCustomAttribute($attributeCode, $attributeValue)
-    {
-        if (in_array($attributeCode, $this->getCustomAttributesCodes())) {
-            $this->_data[AbstractObject::CUSTOM_ATTRIBUTES_KEY][$attributeCode] = $attributeValue;
-        }
-        return $this;
     }
 
     /**

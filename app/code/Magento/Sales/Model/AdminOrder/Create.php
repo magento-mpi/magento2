@@ -1409,7 +1409,8 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         foreach ($form->getAttributes() as $attribute) {
             $code = sprintf('customer_%s', $attribute->getAttributeCode());
             $data[$code] = isset($customerData[$attribute->getAttributeCode()])
-                ? $customerData[$attribute->getAttributeCode()] : null;
+                ? $customerData[$attribute->getAttributeCode()]
+                : null;
         }
 
         if (isset($data['customer_group_id'])) {

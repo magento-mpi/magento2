@@ -76,9 +76,9 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $this->_customerMetadataService->expects($this->any())
             ->method('getCustomAddressAttributeMetadata')
             ->will($this->returnValue([
-                        new \Magento\Object(['attribute_code' => 'warehouse_zip']),
-                        new \Magento\Object(['attribute_code' => 'warehouse_alternate'])
-                    ]));
+                new \Magento\Object(['attribute_code' => 'warehouse_zip']),
+                new \Magento\Object(['attribute_code' => 'warehouse_alternate'])
+            ]));
         $this->_addressBuilder = new AddressBuilder($regionBuilder, $this->_customerMetadataService);
     }
 
@@ -162,7 +162,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     /**
      * @param AddressBuilder $addressBuilder
      */
-    private function _fillMinimumRequiredFields($addressBuilder)
+    private function _fillMinimumRequiredFields(AddressBuilder $addressBuilder)
     {
         $addressBuilder->setFirstname($this->_expectedValues['firstname']);
         $addressBuilder->setLastname($this->_expectedValues['lastname']);
@@ -178,9 +178,9 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param Address $addressBuilder
+     * @param AddressBuilder $addressBuilder
      */
-    private function _fillAllFields($addressBuilder)
+    private function _fillAllFields(AddressBuilder $addressBuilder)
     {
         $this->_fillMinimumRequiredFields($addressBuilder);
 
@@ -198,7 +198,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     /**
      * @param Address $address
      */
-    private function _assertMinimumRequiredFields($address)
+    private function _assertMinimumRequiredFields(Address $address)
     {
         $this->assertEquals($this->_expectedValues['firstname'], $address->getFirstname());
         $this->assertEquals($this->_expectedValues['lastname'], $address->getLastname());
@@ -224,15 +224,14 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('78777', $address->getCustomAttribute('warehouse_zip'));
         $this->assertEquals('90051', $address->getCustomAttribute('warehouse_alternate'));
 
-        $customAttributes = [
+        $attributes = [
             Address::CUSTOM_ATTRIBUTES_KEY => [
                 'warehouse_zip' => '78777',
                 'warehouse_alternate' => '90051'
             ],
-            //'region' => []
         ];
-        $this->assertEquals($customAttributes[Customer::CUSTOM_ATTRIBUTES_KEY], $address->getCustomAttributes());
-        $this->assertEquals($customAttributes, $address->__toArray());
+        $this->assertEquals($attributes[Customer::CUSTOM_ATTRIBUTES_KEY], $address->getCustomAttributes());
+        $this->assertEquals($attributes, $address->__toArray());
     }
 
     public function testSetCustomAttributes()
@@ -246,13 +245,12 @@ class AddressTest extends \PHPUnit_Framework_TestCase
             'warehouse_alternate' => '90051'
         ];
         $expectedData = [
-            'firstname' => 'John',
-            'lastname' => 'Doe',
             Address::CUSTOM_ATTRIBUTES_KEY => [
                 'warehouse_zip' => '78777',
                 'warehouse_alternate' => '90051'
             ]
         ];
+        $this->_addressBuilder->populateWithArray([]);
         $address = $this->_addressBuilder->setCustomAttributes($addressData)
             ->create();
 

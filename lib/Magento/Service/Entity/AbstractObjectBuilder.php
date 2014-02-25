@@ -70,9 +70,6 @@ abstract class AbstractObjectBuilder
             $possibleMethods = ['get' . $this->_snakeCaseToCamelCase($key), 'is' . $this->_snakeCaseToCamelCase($key)];
             if (array_intersect($possibleMethods, $dataObjectMethods)) {
                 $this->_data[$key] = $value;
-            } elseif (in_array($key, $customAttributesCodes)) {
-                /* If key corresponds to custom attribute code, populate custom attributes */
-                $this->_data[AbstractObject::CUSTOM_ATTRIBUTES_KEY][$key] = $value;
             }
         }
         return $this;
@@ -136,7 +133,7 @@ abstract class AbstractObjectBuilder
      *
      * @return string
      */
-    private function _getDataObjectType()
+    protected function _getDataObjectType()
     {
         return substr(get_class($this), 0, -7);
     }
@@ -147,7 +144,7 @@ abstract class AbstractObjectBuilder
      * @param string $input
      * @return string
      */
-    private function _snakeCaseToCamelCase($input)
+    protected function _snakeCaseToCamelCase($input)
     {
         $output = '';
         $segments = explode('_', $input);

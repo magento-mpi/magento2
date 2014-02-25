@@ -1,6 +1,6 @@
 <?php
 /**
- * Address class acts as a Data Object for the Customer Service
+ * Service Data Object defining the Address interface
  *
  * {license_notice}
  *
@@ -9,8 +9,15 @@
  */
 namespace Magento\Customer\Service\V1\Data;
 
-class Address extends \Magento\Service\Entity\AbstractObject
+/**
+ * @method int|string|bool|float getCustomAttribute($attributeCode)
+ * @method array[] getCustomAttributes()
+ */
+class Address extends \Magento\Service\Entity\EAV\AbstractObject
 {
+    /**#@+
+     * Constants defined for keys of array, makes typos less likely
+     */
     const ADDRESS_TYPE_BILLING = 'billing';
     const ADDRESS_TYPE_SHIPPING = 'shipping';
     const KEY_COUNTRY_ID = 'country_id';
@@ -18,8 +25,7 @@ class Address extends \Magento\Service\Entity\AbstractObject
     const KEY_DEFAULT_SHIPPING = 'default_shipping';
     const KEY_ID = 'id';
     const KEY_CUSTOMER_ID = 'customer_id';
-    const KEY_REGION = Region::KEY_REGION;
-    const KEY_REGION_ID = Region::KEY_REGION_ID;
+    const KEY_REGION = 'region';
     const KEY_STREET = 'street';
     const KEY_COMPANY = 'company';
     const KEY_TELEPHONE = 'telephone';
@@ -32,6 +38,7 @@ class Address extends \Magento\Service\Entity\AbstractObject
     const KEY_PREFIX = 'prefix';
     const KEY_SUFFIX = 'suffix';
     const KEY_VAT_ID = 'vat_id';
+    /**#@-*/
 
     /**
      * @return int|null
@@ -55,35 +62,6 @@ class Address extends \Magento\Service\Entity\AbstractObject
     public function isDefaultBilling()
     {
         return $this->_get(self::KEY_DEFAULT_BILLING);
-    }
-
-    /**
-     * Get an attribute value.
-     *
-     * @param string $attributeCode
-     * @return string|null The attribute value or null if the attribute has not been set
-     */
-    public function getCustomAttribute($attributeCode)
-    {
-        if (isset($this->_data[self::CUSTOM_ATTRIBUTES_KEY])
-            && array_key_exists($attributeCode, $this->_data[self::CUSTOM_ATTRIBUTES_KEY])
-        ) {
-            return $this->_data[self::CUSTOM_ATTRIBUTES_KEY][$attributeCode];
-        } else {
-            return null;
-        }
-    }
-
-    /**
-     * Retrieve custom attributes values as an associative array.
-     *
-     * @return string[]
-     */
-    public function getCustomAttributes()
-    {
-        return isset($this->_data[self::CUSTOM_ATTRIBUTES_KEY])
-            ? $this->_data[self::CUSTOM_ATTRIBUTES_KEY]
-            : [];
     }
 
     /**

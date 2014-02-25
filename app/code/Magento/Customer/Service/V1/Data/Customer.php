@@ -8,14 +8,17 @@
 namespace Magento\Customer\Service\V1\Data;
 
 /**
- * Class Customer. Uses array to hold data, setters return $this so they can be chained.
+ * Service Data Object defining the Customer interface
  *
- * @package Magento\Customer\Service\V1\Data
+ * Uses array to hold data, setters return $this so they can be chained.
+ *
+ * @method int|string|bool|float getCustomAttribute($attributeCode)
+ * @method array[] getCustomAttributes()
  */
-class Customer extends \Magento\Service\Entity\AbstractObject
+class Customer extends \Magento\Service\Entity\EAV\AbstractObject
 {
     /**#@+
-     * constants defined for keys of array, makes typos less likely
+     * Constants defined for keys of array, makes typos less likely
      */
     const ID = 'id';
     const CONFIRMATION = 'confirmation';
@@ -36,35 +39,6 @@ class Customer extends \Magento\Service\Entity\AbstractObject
     const DEFAULT_BILLING = 'default_billing';
     const DEFAULT_SHIPPING = 'default_shipping';
     /**#@-*/
-
-    /**
-     * Get an attribute value.
-     *
-     * @param string $attributeCode
-     * @return string|null The attribute value or null if the attribute has not been set
-     */
-    public function getCustomAttribute($attributeCode)
-    {
-        if (isset($this->_data[self::CUSTOM_ATTRIBUTES_KEY])
-            && array_key_exists($attributeCode, $this->_data[self::CUSTOM_ATTRIBUTES_KEY])
-        ) {
-            return $this->_data[self::CUSTOM_ATTRIBUTES_KEY][$attributeCode];
-        } else {
-            return null;
-        }
-    }
-
-    /**
-     * Retrieve custom attributes values as an associative array.
-     *
-     * @return string[]
-     */
-    public function getCustomAttributes()
-    {
-        return isset($this->_data[self::CUSTOM_ATTRIBUTES_KEY])
-            ? $this->_data[self::CUSTOM_ATTRIBUTES_KEY]
-            : [];
-    }
 
     /**
      * @return string

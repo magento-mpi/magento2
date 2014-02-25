@@ -35,9 +35,9 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
         $this->_customerMetadataService->expects($this->any())
             ->method('getCustomCustomerAttributeMetadata')
             ->will($this->returnValue([
-                        new \Magento\Object(['attribute_code' => 'warehouse_zip']),
-                        new \Magento\Object(['attribute_code' => 'warehouse_alternate'])
-                    ]));
+                new \Magento\Object(['attribute_code' => 'warehouse_zip']),
+                new \Magento\Object(['attribute_code' => 'warehouse_alternate'])
+            ]));
         $this->_customerBuilder = new CustomerBuilder($this->_customerMetadataService);
         parent::setUp();
     }
@@ -205,9 +205,6 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
             'warehouse_alternate' => '90051'
         ];
         $expectedData = [
-            'email' => 'test@example.com',
-            'firstname' => 'John',
-            'lastname' => 'Doe',
             Customer::CUSTOM_ATTRIBUTES_KEY => [
                 'warehouse_zip' => '78777',
                 'warehouse_alternate' => '90051'

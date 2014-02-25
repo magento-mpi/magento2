@@ -12,10 +12,13 @@ use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
 
 /**
  * Class Customer. Uses array to hold data, setters return $this so they can be chained.
- *
- * @method Customer create() create()
+
+ * @method Customer create()
+ * @method Customer mergeDataObjectWithArray(AbstractObject $dataObject, array $data)
+ * @method $this setCustomAttribute($attributeCode, $attributeValue)
+ * @method $this setCustomAttributes($attributes)
  */
-class CustomerBuilder extends \Magento\Service\Entity\AbstractObjectBuilder
+class CustomerBuilder extends \Magento\Service\Entity\EAV\AbstractObjectBuilder
 {
     /** @var CustomerMetadataServiceInterface */
     protected $_metadataService;
@@ -41,33 +44,6 @@ class CustomerBuilder extends \Magento\Service\Entity\AbstractObjectBuilder
             $attributeCodes[] = $attribute->getAttributeCode();
         }
         return $attributeCodes;
-    }
-
-    /**
-     * Set array of custom attributes
-     *
-     * @param $attributes
-     * @return $this
-     */
-    public function setCustomAttributes($attributes)
-    {
-        $this->populateWithArray($attributes);
-        return $this;
-    }
-
-    /**
-     * Set custom attribute value
-     *
-     * @param $attributeCode
-     * @param $attributeValue
-     * @return $this
-     */
-    public function setCustomAttribute($attributeCode, $attributeValue)
-    {
-        if (in_array($attributeCode, $this->getCustomAttributesCodes())) {
-            $this->_data[Customer::CUSTOM_ATTRIBUTES_KEY][$attributeCode] = $attributeValue;
-        }
-        return $this;
     }
 
     /**

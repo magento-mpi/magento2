@@ -85,9 +85,9 @@ class Converter
         $attributes = \Magento\Convert\ConvertArray::toFlatArray($address->__toArray());
         foreach ($attributes as $attributeCode => $attributeData) {
             if (Address::KEY_REGION == $attributeCode && $address->getRegion() instanceof Region) {
-                $addressModel->setDataUsingMethod(Address::KEY_REGION, $address->getRegion()->getRegion());
-                $addressModel->setDataUsingMethod('region_code', $address->getRegion()->getRegionCode());
-                $addressModel->setDataUsingMethod(Address::KEY_REGION_ID, $address->getRegion()->getRegionId());
+                $addressModel->setDataUsingMethod(Region::KEY_REGION, $address->getRegion()->getRegion());
+                $addressModel->setDataUsingMethod(Region::KEY_REGION_CODE, $address->getRegion()->getRegionCode());
+                $addressModel->setDataUsingMethod(Region::KEY_REGION_ID, $address->getRegion()->getRegionId());
             } else {
                 $addressModel->setDataUsingMethod($attributeCode, $attributeData);
             }
