@@ -22,7 +22,6 @@ app/design/install/magento_enterprise
 app/etc/enterprise
 dev/tests/integration/testsuite/Magento/Test/Integrity/Modular/AdminGwsConfigFilesTest.php
 dev/tests/integration/testsuite/Magento/Test/Integrity/Modular/MenuHierarchyConfigFilesTest.php
-dev/tests/integration/testsuite/Magento/Test/Integrity/Modular/PlaceholderConfigFilesTest.php
 dev/tests/integration/testsuite/Magento/Test/Integrity/Modular/WebsiteRestrictionConfigFilesTest.php
 dev/tests/integration/testsuite/Magento/Test/Integrity/Modular/GiftRegistryConfigFileTest.php
 dev/tests/integration/testsuite/Magento/Test/Design/Frontend/Enterprise
