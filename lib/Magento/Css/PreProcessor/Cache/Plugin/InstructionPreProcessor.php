@@ -8,7 +8,6 @@
 
 namespace Magento\Css\PreProcessor\Cache\Plugin;
 
-use Magento\Less\PreProcessor;
 use Magento\Css\PreProcessor\Cache\CacheManager;
 use Magento\Css\PreProcessor\Cache\Import\Cache;
 
@@ -33,8 +32,8 @@ class InstructionPreProcessor
     /**
      * Add to cache all pre-processed files that are related to initial less file
      *
-     * @param PreProcessor\File\FileList $fileList
-     * @return PreProcessor\File\FileList
+     * @param \Magento\Less\PreProcessor\File\FileList $fileList
+     * @return \Magento\Less\PreProcessor\File\FileList
      */
     public function afterProcessLessInstructions($fileList)
     {
