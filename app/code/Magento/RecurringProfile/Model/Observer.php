@@ -219,7 +219,6 @@ class Observer
         $product = $observer->getEvent()->getProduct();
 
         $quote->setIsRecurring($product->getIsRecurring());
-        $product->unsRecurringProfile();
     }
 
     /**
