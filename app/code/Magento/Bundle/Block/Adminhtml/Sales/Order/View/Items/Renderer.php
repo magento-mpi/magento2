@@ -123,6 +123,10 @@ class Renderer extends \Magento\Sales\Block\Adminhtml\Order\View\Items\Renderer\
         return false;
     }
 
+    /**
+     * @param mixed $item
+     * @return mixed|null
+     */
     public function getSelectionAttributes($item)
     {
         if ($item instanceof \Magento\Sales\Model\Order\Item) {

@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Bundle\Block\Adminhtml\Catalog\Product\Composite\Fieldset;
 
 /**
  * Adminhtml block for fieldset of bundle product
@@ -15,10 +16,6 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Bundle\Block\Adminhtml\Catalog\Product\Composite\Fieldset;
-
-use Magento\Catalog\Block\Product\View\AbstractView;
-
 class Bundle
     extends \Magento\Bundle\Block\Catalog\Product\View\Type\Bundle
 {
