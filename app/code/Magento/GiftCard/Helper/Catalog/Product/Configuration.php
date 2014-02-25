@@ -50,7 +50,7 @@ class Configuration extends \Magento\App\Helper\AbstractHelper
      * Prepare custom option for display, returns false if there's no value
      *
      * @param \Magento\Catalog\Model\Product\Configuration\Item\ItemInterface $item
-     * @param $code
+     * @param string $code
      * @return string|false
      */
     public function prepareCustomOption(\Magento\Catalog\Model\Product\Configuration\Item\ItemInterface $item, $code)

@@ -9,6 +9,8 @@
  */
 namespace Magento\GiftCard\Block\Adminhtml\Renderer;
 
+use Magento\Data\Form;
+
 /**
  * HTML select element block
  *
@@ -42,7 +44,7 @@ class OpenAmount extends \Magento\Data\Form\Element\Select
     /**
      * Set form to element
      *
-     * @param $form
+     * @param Form $form
      * @return $this
      */
     public function setForm($form)

@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ProductAlert\Model;
 
+use Magento\Customer\Model\Resource\Customer\Collection;
 
 /**
  * ProductAlert for back in stock model
@@ -33,8 +35,6 @@
  * @package     Magento_ProductAlert
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\ProductAlert\Model;
-
 class Stock extends \Magento\Core\Model\AbstractModel
 {
     /**
@@ -71,7 +71,7 @@ class Stock extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * @return mixed
+     * @return Collection
      */
     public function getCustomerCollection()
     {

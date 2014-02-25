@@ -9,6 +9,8 @@
  */
 namespace Magento\GiftCard\Model\Catalog\Product\Type;
 
+use Magento\Core\Exception;
+
 class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
 {
     const TYPE_GIFTCARD = 'giftcard';
@@ -235,6 +237,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @param \Magento\Catalog\Model\Product $product
      * @param bool $processMode
      * @return mixed
+     * @throws \Magento\Core\Exception
      */
     private function _validate(\Magento\Object $buyRequest, $product, $processMode)
     {
@@ -309,6 +312,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @param \Magento\Catalog\Model\Product $product
      * @param bool $isStrictProcessMode
      * @return void
+     * @throws \Magento\Core\Exception
      */
     protected function _checkFields($buyRequest, $product, $isStrictProcessMode)
     {
@@ -400,6 +404,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @param bool $isPhysical
      * @param int $amount
      * @return void
+     * @throws \Magento\Core\Exception
      */
     protected function _checkGiftcardFields($buyRequest, $isPhysical, $amount)
     {

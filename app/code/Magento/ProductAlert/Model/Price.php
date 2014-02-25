@@ -9,6 +9,8 @@
  */
 namespace Magento\ProductAlert\Model;
 
+use Magento\Customer\Model\Resource\Customer\Collection;
+
 /**
  * ProductAlert for changed price model
  *
@@ -71,7 +73,7 @@ class Price extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * @return mixed
+     * @return Collection
      */
     public function getCustomerCollection()
     {
