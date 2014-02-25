@@ -133,7 +133,7 @@ class Option extends \Magento\Core\Model\AbstractModel
      * Return selection by it's id
      *
      * @param int $selectionId
-     * @return Selection
+     * @return Selection|false
      */
     public function getSelectionById($selectionId)
     {
