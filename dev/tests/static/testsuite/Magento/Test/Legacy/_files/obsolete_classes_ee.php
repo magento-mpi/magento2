@@ -108,7 +108,6 @@ return array(
     array('Magento\FullPageCache\Block\*'),
     array('Magento\FullPageCache\Controller\Request'),
     array('Magento\FullPageCache\Helper\*'),
-    array('Magento\FullPageCache\Helper\*'),
     array('Magento\FullPageCache\Model\*'),
     array('Magento\FullPageCache\Model\*'),
 );
