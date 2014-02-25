@@ -15,10 +15,11 @@ use Magento\Exception\NoSuchEntityException;
 
 /**
  * Customer addresses forms
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Addresses extends GenericMetadata
 {
-
     /** Default street line count */
     const DEFAULT_STREET_LINES_COUNT = 2;
 
@@ -64,8 +65,6 @@ class Addresses extends GenericMetadata
 
     /** @var  AttributeMetadataBuilder */
     protected $_attributeMetadataBuilder;
-
-
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
@@ -185,6 +184,10 @@ class Addresses extends GenericMetadata
      * Initialize form object
      *
      * @return $this
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     public function initForm()
     {

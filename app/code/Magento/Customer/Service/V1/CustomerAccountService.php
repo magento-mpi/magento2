@@ -84,6 +84,8 @@ class CustomerAccountService implements CustomerAccountServiceInterface
      * @param CustomerServiceInterface $customerService
      * @param CustomerAddressServiceInterface $customerAddressService
      * @param UrlInterface $url
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         CustomerFactory $customerFactory,
@@ -249,7 +251,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
                 $customer->sendPasswordResetConfirmationEmail();
                 break;
             default:
-                throw new InputException(__('Invalid email type.', InputException::INVALID_FIELD_VALUE));
+                throw new InputException(__('Invalid email type.'), InputException::INVALID_FIELD_VALUE);
         }
     }
 

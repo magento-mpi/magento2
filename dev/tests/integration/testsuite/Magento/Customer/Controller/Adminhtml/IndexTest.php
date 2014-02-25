@@ -2,14 +2,11 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Controller\Adminhtml;
+
 use Magento\Customer\Controller\RegistryConstants;
 use Magento\Newsletter\Model\Subscriber;
 use Magento\TestFramework\Helper\Bootstrap;
@@ -515,10 +512,14 @@ class IndexTest extends \Magento\Backend\Utility\Controller
             $this->equalTo(['A total of 2 record(s) were updated.']),
             \Magento\Message\MessageInterface::TYPE_SUCCESS
         );
-        $this->assertEquals(Subscriber::STATUS_SUBSCRIBED,
-            $subscriberFactory->create()->loadByCustomer(1)->getSubscriberStatus());
-        $this->assertEquals(Subscriber::STATUS_SUBSCRIBED,
-            $subscriberFactory->create()->loadByCustomer(2)->getSubscriberStatus());
+        $this->assertEquals(
+            Subscriber::STATUS_SUBSCRIBED,
+            $subscriberFactory->create()->loadByCustomer(1)->getSubscriberStatus()
+        );
+        $this->assertEquals(
+            Subscriber::STATUS_SUBSCRIBED,
+            $subscriberFactory->create()->loadByCustomer(2)->getSubscriberStatus()
+        );
     }
 
     public function testMassSubscriberActionNoSelection()
@@ -890,5 +891,34 @@ class IndexTest extends \Magento\Backend\Utility\Controller
         $this->assertContains('The first name cannot be empty.', $body);
         $this->assertContains('\"First Name\" is a required value.', $body);
         $this->assertContains('\"First Name\" length must be equal or greater than 1 characters', $body);
+    }
+
+    public function testResetPasswordActionNoCustomerId()
+    {
+        // No customer ID in post, will just get redirected to base
+        $this->dispatch('backend/customer/index/resetPassword');
+        $this->assertRedirect($this->stringStartsWith($this->_baseControllerUrl));
+    }
+
+    public function testResetPasswordActionBadCustomerId()
+    {
+        // Bad customer ID in post, will just get redirected to base
+        $this->getRequest()->setPost(['customer_id' => '789']);
+        $this->dispatch('backend/customer/index/resetPassword');
+        $this->assertRedirect($this->stringStartsWith($this->_baseControllerUrl));
+    }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     */
+    public function testResetPasswordActionSuccess()
+    {
+        $this->getRequest()->setPost(['customer_id' => '1']);
+        $this->dispatch('backend/customer/index/resetPassword');
+        $this->assertSessionMessages(
+            $this->equalTo(array('Customer will receive an email with a link to reset password.')),
+            \Magento\Message\MessageInterface::TYPE_SUCCESS
+        );
+        $this->assertRedirect($this->stringStartsWith($this->_baseControllerUrl . 'edit'));
     }
 }
