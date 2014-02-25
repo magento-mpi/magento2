@@ -831,9 +831,10 @@ class Index extends \Magento\Backend\App\Action
                 if ($index == '_template_') {
                     continue;
                 }
-                $address = $this->_addressService->getAddressById($index);
-                if (!$address) {
+                if (strpos($index, '_item') === 0) {
                     $address = $this->_addressBuilder->create();
+                } else {
+                    $address = $this->_addressService->getAddressById($index);
                 }
 
                 $addressForm = $this->_formFactory->create(

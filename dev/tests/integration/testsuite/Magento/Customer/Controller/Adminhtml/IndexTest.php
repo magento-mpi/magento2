@@ -806,7 +806,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
 
             ],
             'address' => [
-                '1'          => [
+                '_item1' => [
                     'firstname'  => 'update firstname',
                     'lastname'   => 'update lastname',
                     'street'     => ['update street'],
