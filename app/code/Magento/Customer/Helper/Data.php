@@ -132,7 +132,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @var \Magento\Math\Random
      */
     protected $mathRandom;
-    
+
     /**
      * @var \Magento\Customer\Model\Converter
      */
@@ -694,7 +694,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
                 $message .= $willChargeTaxMessage;
             }
         } else {
-            $contactUsMessage = sprintf(__('If you believe this is an error, please contact us at %s'),
+            $contactUsMessage = __('If you believe this is an error, please contact us at %1',
                 $this->_coreStoreConfig->getConfig(self::XML_PATH_SUPPORT_EMAIL));
 
             $message = __('Your Tax ID cannot be validated.') . ' '
