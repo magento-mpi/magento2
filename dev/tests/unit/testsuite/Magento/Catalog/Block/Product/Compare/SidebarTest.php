@@ -28,8 +28,8 @@ class SidebarTest extends \PHPUnit_Framework_TestCase
 
     public function testGetIdentities()
     {
-        $productTag = 'catalog_product_1';
-        $itemTag = 'compare_item_1';
+        $productTag = array('catalog_product_1');
+        $itemTag = array('compare_item_1');
         $itemId = 1;
 
         $product = $this->getMock('Magento\Catalog\Model\Product', array(), array(), '', false);
@@ -49,7 +49,7 @@ class SidebarTest extends \PHPUnit_Framework_TestCase
         $this->block->setItems(array($item));
         $this->block->setCatalogCompareItemId($itemId);
         $this->assertEquals(
-            array($productTag, $itemTag),
+            array_merge($productTag, $itemTag),
             $this->block->getIdentities()
         );
     }

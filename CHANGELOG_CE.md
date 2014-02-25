@@ -1,3 +1,5 @@
+* FullPageCache has been completely removed. Events that needed Clean or Invalidate cache have been transferred to
+PageCache module.
 * Fixed bugs:
   * Fixed an issue with "Add to Cart" button on MAP popup of compound products
   * Fixed an issue where the Add Address button for Customer in Admin was broken
