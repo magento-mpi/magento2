@@ -396,7 +396,6 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
             'title="Change Password" class="checkbox"/>', $body);
     }
 
-
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
      */
@@ -412,5 +411,138 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
         // Verify the password check box is checked
         $this->assertContains('<input type="checkbox" name="change_password" id="change-password" value="1" ' .
             'title="Change Password" checked="checked" class="checkbox"/>', $body);
+    }
+
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     */
+    public function testEditPostAction()
+    {
+        $this->_login();
+        $this->getRequest()
+            ->setServer(['REQUEST_METHOD' => 'POST'])
+            ->setPost([
+                'form_key'  => $this->_objectManager->get('Magento\Data\Form\FormKey')->getFormKey(),
+                'firstname' => 'John',
+                'lastname'  => 'Doe',
+                'email'     => 'johndoe@email.com'
+            ]);
+
+        $this->dispatch('customer/account/editPost');
+
+        $this->assertRedirect($this->stringEndsWith('customer/account/'));
+        $this->assertSessionMessages(
+            $this->equalTo(['The account information has been saved.']),
+            \Magento\Message\MessageInterface::TYPE_SUCCESS
+        );
+    }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     */
+    public function testChangePasswordEditPostAction()
+    {
+        $this->_login();
+        $this->getRequest()
+            ->setServer(['REQUEST_METHOD' => 'POST'])
+            ->setPost([
+                'form_key'         => $this->_objectManager->get('Magento\Data\Form\FormKey')->getFormKey(),
+                'firstname'        => 'John',
+                'lastname'         => 'Doe',
+                'email'            => 'johndoe@email.com',
+                'change_password'  => 1,
+                'current_password' => 'password',
+                'password'         => 'new-password',
+                'confirmation'     => 'new-password'
+            ]);
+
+        $this->dispatch('customer/account/editPost');
+
+        $this->assertRedirect($this->stringEndsWith('customer/account/'));
+        $this->assertSessionMessages(
+            $this->equalTo(['The account information has been saved.']),
+            \Magento\Message\MessageInterface::TYPE_SUCCESS
+        );
+    }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     */
+    public function testMissingDataEditPostAction()
+    {
+        $this->_login();
+        $this->getRequest()
+            ->setServer(['REQUEST_METHOD' => 'POST'])
+            ->setPost([
+                'form_key'  => $this->_objectManager->get('Magento\Data\Form\FormKey')->getFormKey(),
+                'firstname' => 'John',
+                'lastname'  => 'Doe',
+                'email'     => 'bad-email'
+            ]);
+
+        $this->dispatch('customer/account/editPost');
+
+        $this->assertRedirect($this->stringEndsWith('customer/account/edit/'));
+        $this->assertSessionMessages(
+            $this->equalTo(['Invalid input']),
+            \Magento\Message\MessageInterface::TYPE_ERROR
+        );
+    }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     */
+    public function testWrongPasswordEditPostAction()
+    {
+        $this->_login();
+        $this->getRequest()
+            ->setServer(['REQUEST_METHOD' => 'POST'])
+            ->setPost([
+                'form_key'         => $this->_objectManager->get('Magento\Data\Form\FormKey')->getFormKey(),
+                'firstname'        => 'John',
+                'lastname'         => 'Doe',
+                'email'            => 'johndoe@email.com',
+                'change_password'  => 1,
+                'current_password' => 'wrong-password',
+                'password'         => 'new-password',
+                'confirmation'     => 'new-password'
+            ]);
+
+        $this->dispatch('customer/account/editPost');
+
+        $this->assertRedirect($this->stringEndsWith('customer/account/edit/'));
+        $this->assertSessionMessages(
+            $this->equalTo(["Password doesn't match for this account."]),
+            \Magento\Message\MessageInterface::TYPE_ERROR
+        );
+    }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     */
+    public function testWrongConfirmationEditPostAction()
+    {
+        $this->_login();
+        $this->getRequest()
+            ->setServer(['REQUEST_METHOD' => 'POST'])
+            ->setPost([
+                'form_key'         => $this->_objectManager->get('Magento\Data\Form\FormKey')->getFormKey(),
+                'firstname'        => 'John',
+                'lastname'         => 'Doe',
+                'email'            => 'johndoe@email.com',
+                'change_password'  => 1,
+                'current_password' => 'password',
+                'password'         => 'new-password',
+                'confirmation'     => 'new-password-no-match'
+            ]);
+
+        $this->dispatch('customer/account/editPost');
+
+        $this->assertRedirect($this->stringEndsWith('customer/account/edit/'));
+        $this->assertSessionMessages(
+            $this->equalTo(['Confirm your new password']),
+            \Magento\Message\MessageInterface::TYPE_ERROR
+        );
     }
 }

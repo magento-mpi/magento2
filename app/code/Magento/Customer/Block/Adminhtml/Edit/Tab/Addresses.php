@@ -204,10 +204,12 @@ class Addresses extends GenericMetadata
         $this->_addressBuilder->populateWithArray([]);
         if (!empty($account) && isset($account['store_id'])) {
             $this->_addressBuilder->setCountryId(
-            $this->_coreData->getDefaultCountry(
+                $this->_coreData->getDefaultCountry(
                     $this->_storeManager->getStore($account['store_id'])
                 )
             );
+        } else {
+            $this->_addressBuilder->setCountryId($this->_coreData->getDefaultCountry());
         }
         $address = $this->_addressBuilder->create();
 

@@ -509,6 +509,10 @@ class Account extends \Magento\App\Action\Action
         $isGroupIdEmpty = true;
         $customerData = [];
         foreach ($allowedAttributes as $attribute) {
+            // confirmation in request param is the repeated password, not a confirmation code.
+            if ($attribute === 'confirmation') {
+                continue;
+            }
             $attributeCode = $attribute->getAttributeCode();
             if ($attributeCode == 'group_id') {
                 $isGroupIdEmpty = false;
@@ -521,7 +525,6 @@ class Account extends \Magento\App\Action\Action
             $this->_customerBuilder->setGroupId($this->_groupService->getDefaultGroup($store->getId())->getId());
         }
 
-        $this->_customerBuilder->setConfirmation($this->getRequest()->getParam('confirmation'));
         $this->_customerBuilder->setWebsiteId($store->getWebsiteId());
         $this->_customerBuilder->setStoreId($store->getId());
 
@@ -722,7 +725,8 @@ class Account extends \Magento\App\Action\Action
                     ->sendPasswordResetLink(
                         $email,
                         $this->_storeManager->getStore()->getWebsiteId(),
-                        CustomerAccountServiceInterface::EMAIL_RESET);
+                        CustomerAccountServiceInterface::EMAIL_RESET
+                    );
             } catch (NoSuchEntityException $e) {
                 // Do nothing, we don't want anyone to use this action to determine which email accounts are registered.
             } catch (\Exception $exception) {

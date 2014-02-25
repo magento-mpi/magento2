@@ -52,21 +52,6 @@ class AddressesTest extends \PHPUnit_Framework_TestCase
         $this->_backendSession = $this->_objectManager->get('Magento\Backend\Model\Session');
 
         $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER_ID, 1);
-
-        /** @var Customer $customer */
-        $customer = $this->_customerService->getCustomer(1);
-        $this->_customerData = [
-            'customer_id' => $customer->getCustomerId(),
-            'account' => $customer->getAttributes(),
-        ];
-        $this->_customerData['account']['id'] = $customer->getCustomerId();
-        /** @var Address[] $addresses */
-        $addresses = $this->_addressService->getAddresses(1);
-        foreach ($addresses as $addressDto) {
-            $this->_customerData['address'][$addressDto->getId()] = $addressDto->getAttributes();
-            $this->_customerData['address'][$addressDto->getId()]['id'] = $addressDto->getId();
-        }
-        $this->_backendSession->setCustomerData($this->_customerData);
     }
 
     public function tearDown()
@@ -75,8 +60,26 @@ class AddressesTest extends \PHPUnit_Framework_TestCase
         $this->_coreRegistry->unregister(RegistryConstants::CURRENT_CUSTOMER_ID);
     }
 
+    /**
+     * Validate country default gets displayed
+     */
+    public function testInitFormEmpty()
+    {
+        $block = $this->_objectManager->create('Magento\Customer\Block\Adminhtml\Edit\Tab\Addresses');
+        $this->_backendSession->setCustomerData(['account' => [], 'address' => []]);
+
+        /** @var Addresses $block */
+        $block = $block->initForm();
+        /** @var \Magento\Data\Form $form */
+        $form = $block->getForm();
+
+        // Validate Country gets set
+        $this->assertEquals('US', $form->getElement('country_id')->getValue());
+    }
+
     public function testInitForm()
     {
+        $this->setupExistingCustomerData();
         $block = $this->_objectManager->create('Magento\Customer\Block\Adminhtml\Edit\Tab\Addresses');
 
         /** @var Addresses $block */
@@ -106,6 +109,7 @@ class AddressesTest extends \PHPUnit_Framework_TestCase
 
     public function testToHtml()
     {
+        $this->setupExistingCustomerData();
         /** @var \Magento\Customer\Block\Adminhtml\Edit\Tab\Addresses $block */
         $block = $this->_objectManager->get('Magento\View\LayoutInterface')
             ->createBlock('Magento\Customer\Block\Adminhtml\Edit\Tab\Addresses');
@@ -131,5 +135,26 @@ class AddressesTest extends \PHPUnit_Framework_TestCase
         $this->assertContains('id="form_address_item_1" data-item="1"', $html);
         $this->assertContains('{"name": "address_item_1"}}', $html);
         $this->assertContains('<input id="_item1prefix" name="address[1][prefix]"', $html);
+    }
+
+    /**
+     * Put existing customer data into the backend session
+     */
+    protected function setupExistingCustomerData()
+    {
+        /** @var Customer $customer */
+        $customer = $this->_customerService->getCustomer(1);
+        $this->_customerData = [
+            'customer_id' => $customer->getCustomerId(),
+            'account' => $customer->getAttributes(),
+        ];
+        $this->_customerData['account']['id'] = $customer->getCustomerId();
+        /** @var Address[] $addresses */
+        $addresses = $this->_addressService->getAddresses(1);
+        foreach ($addresses as $addressDto) {
+            $this->_customerData['address'][$addressDto->getId()] = $addressDto->getAttributes();
+            $this->_customerData['address'][$addressDto->getId()]['id'] = $addressDto->getId();
+        }
+        $this->_backendSession->setCustomerData($this->_customerData);
     }
 }

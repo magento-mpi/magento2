@@ -26,12 +26,16 @@ class Form extends \Magento\CustomAttribute\Block\Form
     /** @var \Magento\Customer\Model\Metadata\FormFactory  */
     protected $_metadataFormFactory;
 
+    /** @var \Magento\Customer\Model\Session */
+    protected $_customerSession;
+
     /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Model\Factory $modelFactory
      * @param \Magento\Eav\Model\Form\Factory $formFactory
      * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory,
+     * @param \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory
+     * @param \Magento\Customer\Model\Session $customerSession
      * @param array $data
      */
     public function __construct(
@@ -40,10 +44,12 @@ class Form extends \Magento\CustomAttribute\Block\Form
         \Magento\Eav\Model\Form\Factory $formFactory,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory,
+        \Magento\Customer\Model\Session $customerSession,
         array $data = array()
     ) {
         parent::__construct($context, $modelFactory, $formFactory, $eavConfig, $data);
         $this->_metadataFormFactory = $metadataFormFactory;
+        $this->_customerSession = $customerSession;
         $this->_isScopePrivate = true;
     }
 
@@ -76,6 +82,13 @@ class Form extends \Magento\CustomAttribute\Block\Form
         return $this->_metadataForm;
     }
 
+    /**
+     * Return whether the form should be opened in an expanded mode showing the change password fields
+     *
+     * @return bool
+     *
+     * @SuppressWarnings(PHPMD.BooleanGetMethodName)
+     */
     public function getChangePassword()
     {
         return $this->_customerSession->getChangePassword();

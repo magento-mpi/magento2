@@ -78,6 +78,13 @@ class Edit extends \Magento\Customer\Block\Account\Dashboard
         return $this;
     }
 
+    /**
+     * Return whether the form should be opened in an expanded mode showing the change password fields
+     *
+     * @return bool
+     *
+     * @SuppressWarnings(PHPMD.BooleanGetMethodName)
+     */
     public function getChangePassword()
     {
         return $this->_customerSession->getChangePassword();

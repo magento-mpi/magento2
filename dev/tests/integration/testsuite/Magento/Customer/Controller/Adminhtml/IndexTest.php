@@ -2,14 +2,11 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Controller\Adminhtml;
+
 use Magento\Customer\Controller\RegistryConstants;
 use Magento\Newsletter\Model\Subscriber;
 use Magento\TestFramework\Helper\Bootstrap;
@@ -515,10 +512,14 @@ class IndexTest extends \Magento\Backend\Utility\Controller
             $this->equalTo(['A total of 2 record(s) were updated.']),
             \Magento\Message\MessageInterface::TYPE_SUCCESS
         );
-        $this->assertEquals(Subscriber::STATUS_SUBSCRIBED,
-            $subscriberFactory->create()->loadByCustomer(1)->getSubscriberStatus());
-        $this->assertEquals(Subscriber::STATUS_SUBSCRIBED,
-            $subscriberFactory->create()->loadByCustomer(2)->getSubscriberStatus());
+        $this->assertEquals(
+            Subscriber::STATUS_SUBSCRIBED,
+            $subscriberFactory->create()->loadByCustomer(1)->getSubscriberStatus()
+        );
+        $this->assertEquals(
+            Subscriber::STATUS_SUBSCRIBED,
+            $subscriberFactory->create()->loadByCustomer(2)->getSubscriberStatus()
+        );
     }
 
     public function testMassSubscriberActionNoSelection()
@@ -805,7 +806,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
 
             ],
             'address' => [
-                '1'          => [
+                '_item1' => [
                     'firstname'  => 'update firstname',
                     'lastname'   => 'update lastname',
                     'street'     => ['update street'],
@@ -852,8 +853,9 @@ class IndexTest extends \Magento\Backend\Utility\Controller
                 'middlename'         => 'new middlename',
                 'group_id'           => 1,
                 'website_id'         => 1,
+                'firstname'          => 'new firstname',
                 'lastname'           => 'new lastname',
-                'email'              => 'exmaple@domain.com',
+                'email'              => '*',
                 'default_shipping'   => '_item1',
                 'new_password'       => 'auto',
                 'sendemail_store_id' => '1',
@@ -862,12 +864,12 @@ class IndexTest extends \Magento\Backend\Utility\Controller
             ],
             'address' => [
                 '1'          => [
-                    'lastname'   => 'update lastname',
+                    'firstname'  => '',
+                    'lastname'   => '',
                     'street'     => ['update street'],
                     'city'       => 'update city',
-                    'country_id' => 'US',
                     'postcode'   => '01001',
-                    'telephone'  => '+7000000001',
+                    'telephone'  => '',
                 ],
                 '_template_' => [
                     'lastname'   => '',
@@ -886,9 +888,43 @@ class IndexTest extends \Magento\Backend\Utility\Controller
         $this->dispatch('backend/customer/index/validate');
         $body = $this->getResponse()->getBody();
 
-        $this->assertContains('{"error":1,', $body);
-        $this->assertContains('The first name cannot be empty.', $body);
+        $this->assertContains('{"error":1,"message":', $body);
+        $this->assertContains('Please correct this email address: \"*\".', $body);
         $this->assertContains('\"First Name\" is a required value.', $body);
         $this->assertContains('\"First Name\" length must be equal or greater than 1 characters', $body);
+        $this->assertContains('\"Last Name\" is a required value.', $body);
+        $this->assertContains('\"Last Name\" length must be equal or greater than 1 characters', $body);
+        $this->assertContains('\"Telephone\" is a required value.', $body);
+        $this->assertContains('\"Telephone\" length must be equal or greater than 1 characters', $body);
+        $this->assertContains('\"Country\" is a required value.', $body);
+     }
+
+    public function testResetPasswordActionNoCustomerId()
+    {
+        // No customer ID in post, will just get redirected to base
+        $this->dispatch('backend/customer/index/resetPassword');
+        $this->assertRedirect($this->stringStartsWith($this->_baseControllerUrl));
+    }
+
+    public function testResetPasswordActionBadCustomerId()
+    {
+        // Bad customer ID in post, will just get redirected to base
+        $this->getRequest()->setPost(['customer_id' => '789']);
+        $this->dispatch('backend/customer/index/resetPassword');
+        $this->assertRedirect($this->stringStartsWith($this->_baseControllerUrl));
+    }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     */
+    public function testResetPasswordActionSuccess()
+    {
+        $this->getRequest()->setPost(['customer_id' => '1']);
+        $this->dispatch('backend/customer/index/resetPassword');
+        $this->assertSessionMessages(
+            $this->equalTo(array('Customer will receive an email with a link to reset password.')),
+            \Magento\Message\MessageInterface::TYPE_SUCCESS
+        );
+        $this->assertRedirect($this->stringStartsWith($this->_baseControllerUrl . 'edit'));
     }
 }

@@ -30,7 +30,7 @@ class FormFactory
      *
      * @param string $entityType
      * @param string $formCode
-     * @param array $attributeValues
+     * @param array $attributeValues Key is attribute code.
      * @param bool $isAjax
      * @param bool $ignoreInvisible
      * @param array $filterAttributes
