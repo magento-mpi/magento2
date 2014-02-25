@@ -48,7 +48,7 @@ abstract class AbstractDto
     {
         $data = $this->_data;
         foreach ($data as $key => $value) {
-            if (method_exists($value, '__toArray')) {
+            if ((is_object($value) || class_exists($value)) && method_exists($value, '__toArray')) {
                 $data[$key] = $value->__toArray();
             } else if (is_array($value)) {
                 foreach ($value as $nestedArrayKey => $nestedArrayValue) {
