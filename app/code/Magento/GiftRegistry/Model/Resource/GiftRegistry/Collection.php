@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\GiftRegistry\Model\Resource\GiftRegistry;
 
 /**
  * Gift registry data grid collection
@@ -16,15 +16,13 @@
  * @package     Enterpise_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GiftRegistry\Model\Resource\GiftRegistry;
-
 class Collection
     extends \Magento\GiftRegistry\Model\Resource\Type\Collection
 {
     /**
      * Add sore data for load
      *
-     * @return \Magento\GiftRegistry\Model\Resource\GiftRegistry\Collection|\Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+     * @return $this
      */
     protected function _initSelect()
     {

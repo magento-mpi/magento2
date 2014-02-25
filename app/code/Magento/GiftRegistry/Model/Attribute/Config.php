@@ -7,13 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftRegistry\Model\Attribute;
 
 /**
  * Gift registry attributes config model
  */
-namespace Magento\GiftRegistry\Model\Attribute;
-
-class Config implements \Magento\GiftRegistry\Model\Attribute\ConfigInterface
+class Config implements ConfigInterface
 {
     /**
      * Modules configuration model
@@ -89,7 +88,7 @@ class Config implements \Magento\GiftRegistry\Model\Attribute\ConfigInterface
     /**
      * Return array of attribute groups
      *
-     * @return array
+     * @return array|mixed|null
      */
     public function getAttributeGroups()
     {

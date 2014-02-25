@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftRegistry\Model\Source;
 
 /**
  * Search source model
  */
-namespace Magento\GiftRegistry\Model\Source;
-
 class Search implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**

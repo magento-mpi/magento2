@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\GiftRegistry\Model\Resource;
 
 /**
  * Gift registry entity registrants resource model
@@ -16,13 +16,12 @@
  * @package     Magento_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GiftRegistry\Model\Resource;
-
 class Person extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Resource model initialization
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -58,7 +57,7 @@ class Person extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param int $entityId
      * @param array $personLeft - records which should not be deleted
-     * @return \Magento\GiftRegistry\Model\Resource\Person
+     * @return $this
      */
     public function deleteOrphan($entityId, $personLeft = array())
     {

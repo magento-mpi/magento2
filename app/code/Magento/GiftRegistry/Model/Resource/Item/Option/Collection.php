@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftRegistry\Model\Resource\Item\Option;
 
 /**
  * Gift registry item option collection
@@ -15,8 +16,6 @@
  * @package     Magento_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GiftRegistry\Model\Resource\Item\Option;
-
 class Collection
     extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
@@ -37,6 +36,8 @@ class Collection
     /**
      * Internal constructor
      * Defines resource model for collection
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -47,7 +48,7 @@ class Collection
      * After load processing
      * Fills the lists of options grouped by item and product
      *
-     * @return \Magento\GiftRegistry\Model\Resource\Item\Option\Collection
+     * @return $this
      */
     protected function _afterLoad()
     {
@@ -76,7 +77,7 @@ class Collection
      * Apply gift registry item(s) filter to collection
      *
      * @param  int|array $item
-     * @return \Magento\GiftRegistry\Model\Resource\Item\Option\Collection
+     * @return $this
      */
     public function addItemFilter($item)
     {
@@ -98,7 +99,7 @@ class Collection
      * Apply product(s) filter to collection
      *
      * @param  int|\Magento\Catalog\Model\Product|array $product
-     * @return \Magento\GiftRegistry\Model\Resource\Item\Option\Collection
+     * @return $this
      */
     public function addProductFilter($product)
     {

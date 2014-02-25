@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\GiftRegistry\Model\Resource\Type;
 
 /**
  * Gift refistry type resource collection
@@ -16,8 +16,6 @@
  * @package     Magento_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GiftRegistry\Model\Resource\Type;
-
 class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
@@ -30,6 +28,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Collection initialization
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -40,7 +39,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Add store data to collection
      *
      * @param int $storeId
-     * @return \Magento\GiftRegistry\Model\Resource\Type\Collection
+     * @return $this
      */
     public function addStoreData($storeId = \Magento\Core\Model\Store::DEFAULT_STORE_ID)
     {
@@ -73,7 +72,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Filter collection by listed param
      *
-     * @return \Magento\GiftRegistry\Model\Resource\Type\Collection
+     * @return $this
      */
     public function applyListedFilter()
     {
@@ -86,7 +85,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Apply sorting by sort_order param
      *
-     * @return \Magento\GiftRegistry\Model\Resource\Type\Collection
+     * @return $this
      */
     public function applySortOrder()
     {

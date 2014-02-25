@@ -7,18 +7,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftRegistry\Model\Config;
 
 /**
  * GiftRegistry configuration data container
  */
-namespace Magento\GiftRegistry\Model\Config;
-
 class Data extends \Magento\Config\Data\Scoped
 {
     /**
      * Scope priority loading scheme
      *
-     * @var array
+     * @var string[]
      */
     protected $_scopePriorityScheme = array('global');
 

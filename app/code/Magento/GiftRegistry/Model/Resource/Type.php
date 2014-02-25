@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\GiftRegistry\Model\Resource;
 
 /**
  * Gift registry type data resource model
@@ -16,8 +16,6 @@
  * @package     Magento_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GiftRegistry\Model\Resource;
-
 class Type extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
@@ -38,6 +36,7 @@ class Type extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Initialization. Set main entity table name and primary key field name.
      * Set label and info tables
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -95,7 +94,7 @@ class Type extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Save registry type per store view data
      *
      * @param \Magento\GiftRegistry\Model\Type $type
-     * @return \Magento\GiftRegistry\Model\Resource\Type
+     * @return $this
      */
     public function saveTypeStoreData($type)
     {
@@ -121,7 +120,7 @@ class Type extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param \Magento\GiftRegistry\Model\Type $type
      * @param array $data
      * @param string $optionCode
-     * @return \Magento\GiftRegistry\Model\Resource\Type
+     * @return $this
      */
     public function saveStoreData($type, $data, $optionCode = '')
     {
@@ -151,7 +150,7 @@ class Type extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Get attribute store data
      *
      * @param \Magento\GiftRegistry\Model\Type $type
-     * @return null|array
+     * @return array
      */
     public function getAttributesStoreData($type)
     {
@@ -172,7 +171,7 @@ class Type extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param int $typeId
      * @param string $attributeCode
      * @param string $optionCode
-     * @return \Magento\GiftRegistry\Model\Resource\Type
+     * @return $this
      */
     public function deleteAttributeStoreData($typeId, $attributeCode, $optionCode = null)
     {
@@ -195,7 +194,7 @@ class Type extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param int $typeId
      * @param string $attributeCode
      * @param bool $personValue
-     * @return \Magento\GiftRegistry\Model\Resource\Type
+     * @return $this
      */
     public function deleteAttributeValues($typeId, $attributeCode, $personValue = false)
     {

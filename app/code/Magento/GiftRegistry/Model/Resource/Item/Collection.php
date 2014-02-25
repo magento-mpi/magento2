@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\GiftRegistry\Model\Resource\Item;
 
 /**
  * GiftRegistry entity item collection
@@ -16,8 +16,6 @@
  * @package     Magento_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GiftRegistry\Model\Resource\Item;
-
 class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
@@ -57,7 +55,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * @param \Magento\GiftRegistry\Model\Item\OptionFactory $optionFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param mixed $connection
+     * @param \Zend_Db_Adapter_Abstract $connection
      * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
@@ -81,6 +79,8 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
 
     /**
      * Collection initialization
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -91,7 +91,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Add gift registry filter to collection
      *
      * @param int $entityId
-     * @return \Magento\GiftRegistry\Model\Resource\Item\Collection
+     * @return $this
      */
     public function addRegistryFilter($entityId)
     {
@@ -107,7 +107,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Add product filter to collection
      *
      * @param int $productId
-     * @return \Magento\GiftRegistry\Model\Resource\Item\Collection
+     * @return $this
      */
     public function addProductFilter($productId)
     {
@@ -121,7 +121,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Add website filter to collection
      *
-     * @return \Magento\GiftRegistry\Model\Resource\Item\Collection
+     * @return $this
      */
     public function addWebsiteFilter()
     {
@@ -136,7 +136,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Add item filter to collection
      *
      * @param int|array $itemId
-     * @return \Magento\GiftRegistry\Model\Resource\Item\Collection
+     * @return $this
      */
     public function addItemFilter($itemId)
     {
@@ -152,7 +152,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * After load processing
      *
-     * @return \Magento\GiftRegistry\Model\Resource\Item\Collection
+     * @return $this
      */
     protected function _afterLoad()
     {
@@ -168,7 +168,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Assign options to items
      *
-     * @return \Magento\GiftRegistry\Model\Resource\Item\Collection
+     * @return $this
      */
     protected function _assignOptions()
     {
@@ -187,7 +187,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Assign products to items and their options
      *
-     * @return \Magento\GiftRegistry\Model\Resource\Item\Collection
+     * @return $this
      */
     protected function _assignProducts()
     {
@@ -226,7 +226,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Update items custom price (Depends on custom options)
      *
-     * @return \Magento\GiftRegistry\Model\Resource\Item\Collection
+     * @return $this
      */
     public function updateItemAttributes()
     {

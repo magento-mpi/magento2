@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftRegistry\Model\Config;
 
 /**
  * GiftRegistry configuration filesystem loader. Loads gift registry configuration from XML file
  */
-namespace Magento\GiftRegistry\Model\Config;
-
 class Reader extends \Magento\Config\Reader\Filesystem
 {
 

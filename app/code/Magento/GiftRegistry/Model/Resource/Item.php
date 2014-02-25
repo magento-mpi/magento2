@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\GiftRegistry\Model\Resource;
 
 /**
  * Gift registry entity items resource model
@@ -16,8 +16,6 @@
  * @package     Magento_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GiftRegistry\Model\Resource;
-
 class Item extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
@@ -37,6 +35,8 @@ class Item extends \Magento\Core\Model\Resource\Db\AbstractDb
 
     /**
      * Resource model initialization
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -63,7 +63,7 @@ class Item extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param \Magento\GiftRegistry\Model\Item $object
      * @param int $registryId
      * @param int $productId
-     * @return \Magento\GiftRegistry\Model\Resource\Item
+     * @return $this
      */
     public function loadByProductRegistry($object, $registryId, $productId)
     {

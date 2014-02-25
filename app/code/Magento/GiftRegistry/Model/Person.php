@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftRegistry\Model;
 
 /**
  * Entity registrants data model
@@ -29,12 +30,10 @@
  * @package     Magento_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GiftRegistry\Model;
-
 class Person extends \Magento\Core\Model\AbstractModel
 {
     /**
-     * @var \Magento\GiftRegistry\Model\Entity
+     * @var Entity
      */
     protected $entity;
 
@@ -50,7 +49,7 @@ class Person extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
      * @param \Magento\GiftRegistry\Model\Resource\Person $resource
-     * @param \Magento\GiftRegistry\Model\Entity $entity
+     * @param Entity $entity
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -59,7 +58,7 @@ class Person extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Registry $registry,
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
         \Magento\GiftRegistry\Model\Resource\Person $resource,
-        \Magento\GiftRegistry\Model\Entity $entity,
+        Entity $entity,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -68,6 +67,9 @@ class Person extends \Magento\Core\Model\AbstractModel
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_init('Magento\GiftRegistry\Model\Resource\Person');
