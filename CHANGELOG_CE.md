@@ -1,3 +1,5 @@
+* FullPageCache has been completely removed. Events that needed Clean or Invalidate cache have been transferred to
+PageCache module.
 * Fixed bugs:
   * Fixed an issue with Backup module feature not possible to store files
 * Indexer implementation:
