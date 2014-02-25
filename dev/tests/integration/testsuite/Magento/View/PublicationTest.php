@@ -362,8 +362,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
         $cssViewFile, $designParams, $expectedCssFile, $expectedCssContent, $expectedRelatedFiles
     ) {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $objectManager->get('Magento\Core\Model\App')
-            ->loadArea(\Magento\Core\Model\App\Area::AREA_FRONTEND);
+
         $objectManager->configure(
             ['Magento\View\Design\Fallback\Factory' => ['arguments' => [
                 'filesystem' => [
@@ -374,6 +373,10 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
 
             ]]]
         );
+
+        $objectManager->get('Magento\Core\Model\App')
+            ->loadArea(\Magento\Core\Model\App\Area::AREA_FRONTEND);
+
         $this->_viewUrl->getViewFileUrl($cssViewFile, $designParams);
 
         $expectedCssFile = $this->_viewService->getPublicDir() . '/' . $expectedCssFile;
