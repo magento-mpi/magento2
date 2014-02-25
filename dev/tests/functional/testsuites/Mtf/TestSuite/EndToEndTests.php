@@ -85,6 +85,9 @@ class EndToEndTests
         // Layered navigation
         $suite->addTestSuite('Magento\Catalog\Test\TestCase\Layer\FilterProductListTest');
 
+        // Assign products to a category
+        $suite->addTestSuite('Magento\Catalog\Test\TestCase\Category\AssignProductTest');
+
         return $suite;
     }
 }
