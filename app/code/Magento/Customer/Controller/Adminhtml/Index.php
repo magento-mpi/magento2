@@ -247,7 +247,7 @@ class Index extends \Magento\Backend\App\Action
         $customerData['customer_id'] = $customerId;
 
         // set entered data if was error when we do save
-        $data = $this->_getSession()->getCustomerData();
+        $data = $this->_getSession()->getCustomerData(true);
 
         // restore data from SESSION
         if ($data && (
