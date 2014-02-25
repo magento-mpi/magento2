@@ -13,6 +13,8 @@ class Simple
      * @param $subject
      * @param $invocationResult
      * @return string
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function afterGetName($subject, $invocationResult)
     {

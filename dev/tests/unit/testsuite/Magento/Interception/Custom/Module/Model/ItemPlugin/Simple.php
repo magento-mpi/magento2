@@ -10,8 +10,11 @@ namespace Magento\Interception\Custom\Module\Model\ItemPlugin;
 class Simple
 {
     /**
-     * @param string $invocationResult
+     * @param $subject
+     * @param $invocationResult
      * @return string
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function afterGetName($subject, $invocationResult)
     {

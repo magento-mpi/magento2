@@ -14,6 +14,8 @@ class Advanced
      * @param $proceed
      * @param $argument
      * @return string
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function aroundGetName($subject, $proceed, $argument)
     {
@@ -24,6 +26,8 @@ class Advanced
      * @param $subject
      * @param $result
      * @return string
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function afterGetName($subject, $result)
     {
