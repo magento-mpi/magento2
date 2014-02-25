@@ -360,4 +360,14 @@ class Form
         }
         return $result;
     }
+
+    /**
+     * Set whether invisible attributes should be ignored.
+     *
+     * @param bool $ignoreInvisible
+     */
+    public function setInvisibleIgnored($ignoreInvisible)
+    {
+        $this->_ignoreInvisible = $ignoreInvisible;
+    }
 }
