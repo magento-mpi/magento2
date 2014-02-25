@@ -32,7 +32,6 @@ class Detailed extends \Magento\View\Element\Template
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Rating\Model\RatingFactory $ratingFactory
      * @param array $data
-     * @return void
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,

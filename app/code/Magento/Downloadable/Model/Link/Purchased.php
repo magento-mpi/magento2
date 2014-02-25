@@ -53,7 +53,7 @@ class Purchased extends \Magento\Core\Model\AbstractModel
     /**
      * Check order id
      *
-     * @return \Magento\Core\Model\AbstractModel
+     * @return $this
      */
     public function _beforeSave()
     {
