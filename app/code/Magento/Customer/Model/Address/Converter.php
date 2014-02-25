@@ -15,7 +15,8 @@ use Magento\Customer\Service\V1\Data\AddressBuilder;
 use Magento\Customer\Model\Address as AddressModel;
 use Magento\Customer\Service\V1\Data\Region;
 use Magento\Customer\Service\V1\Data\RegionBuilder;
-use \Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
+use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
+use Magento\Customer\Service\V1\Data\AddressConverter;
 
 /**
  * Customer Address Model converter.
@@ -82,7 +83,7 @@ class Converter
     public function updateAddressModel(AddressModel $addressModel, Address $address)
     {
         // Set all attributes
-        $attributes = \Magento\Convert\ConvertArray::toFlatArray($address->__toArray());
+        $attributes = AddressConverter::toFlatArray($address);
         foreach ($attributes as $attributeCode => $attributeData) {
             if (Address::KEY_REGION == $attributeCode && $address->getRegion() instanceof Region) {
                 $addressModel->setDataUsingMethod(Region::KEY_REGION, $address->getRegion()->getRegion());
