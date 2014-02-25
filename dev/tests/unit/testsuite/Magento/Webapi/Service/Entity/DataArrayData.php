@@ -12,7 +12,7 @@ use Magento\Service\Entity\AbstractObject;
 class DataArrayData extends AbstractObject
 {
     /**
-     * @return \Magento\Webapi\Service\Entity\SimpleDto[]|null
+     * @return \Magento\Webapi\Service\Entity\SimpleData[]|null
      */
     public function getItems()
     {

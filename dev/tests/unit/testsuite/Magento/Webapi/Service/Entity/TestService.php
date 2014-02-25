@@ -24,7 +24,7 @@ class TestService
      * @param \Magento\Webapi\Service\Entity\NestedData $nested
      * @return \Magento\Webapi\Service\Entity\NestedData
      */
-    public function nestedDto(NestedData $nested)
+    public function nestedData(NestedData $nested)
     {
         return $nested;
     }
@@ -76,7 +76,7 @@ class TestService
 
     /**
      * @param \Magento\Webapi\Service\Entity\DataArrayData $dataObjects
-     * @return \Magento\Webapi\Service\Entity\DtoArrayDto
+     * @return \Magento\Webapi\Service\Entity\DataArrayData
      */
     public function nestedDataArray(DataArrayData $dataObjects)
     {

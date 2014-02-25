@@ -12,7 +12,7 @@ use Magento\Service\Entity\AbstractObjectBuilder;
 class DataArrayDataBuilder extends AbstractObjectBuilder
 {
     /**
-     * @param \Magento\Webapi\Service\Entity\SimpleDto[] $items
+     * @param \Magento\Webapi\Service\Entity\SimpleData[] $items
      * @return $this
      */
     public function setItems($items)

@@ -12,7 +12,7 @@ use Magento\Service\Entity\AbstractObject;
 class NestedData extends AbstractObject
 {
     /**
-     * @return \Magento\Webapi\Service\Entity\SimpleDto
+     * @return \Magento\Webapi\Service\Entity\SimpleData
      */
     public function getDetails()
     {
