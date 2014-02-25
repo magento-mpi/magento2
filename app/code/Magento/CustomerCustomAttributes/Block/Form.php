@@ -80,7 +80,8 @@ class Form extends \Magento\CustomAttribute\Block\Form
      * Return whether the form should be opened in an expanded mode showing the change password fields
      *
      * @return bool
-     */    public function getChangePassword()
+     */
+    public function getChangePassword()
     {
         return $this->_customerSession->getChangePassword();
     }
