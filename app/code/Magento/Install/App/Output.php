@@ -69,7 +69,7 @@ class Output
                 echo $var . PHP_EOL;
                 break;
             default:
-                var_export($var, true);
+                var_export($var);
         }
     }
 

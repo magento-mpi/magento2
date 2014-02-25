@@ -254,7 +254,7 @@ class Configurable
             $attrSetIdToName   = $this->_entityModel->getAttrSetIdToName();
 
             $productIds = array();
-            foreach ($bunch as $rowData){
+            foreach ($bunch as $rowData) {
                 if (!empty($rowData['_super_products_sku'])) {
                     if (isset($newSku[$rowData['_super_products_sku']])) {
                         $productIds[] = $newSku[$rowData['_super_products_sku']]['entity_id'];

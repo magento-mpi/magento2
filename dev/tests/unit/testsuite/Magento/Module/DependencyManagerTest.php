@@ -47,13 +47,13 @@ class DependencyManagerTest extends \PHPUnit_Framework_TestCase
      * @param array $moduleConfig
      * @dataProvider checkModuleDependenciesDataProvider
      * @expectedException \Exception
-     * @expectedExceptionMessage Module 'Module_One' depends on at least one of the following PHP extensions: custom_extension1,custom_extension2.
+     * @expectedExceptionMessage Module 'Module_One' depends on at least one of the following PHP extensions: ext1,ext2.
      */
     public function testCheckModuleDependenciesNegativeAlternativeExtensionMissed(array $moduleConfig)
     {
         $moduleConfig['dependencies']['extensions']['alternatives'][] = array(
-            array('name' => 'custom_extension1'),
-            array('name' => 'custom_extension2'),
+            array('name' => 'ext1'),
+            array('name' => 'ext2'),
         );
         $this->model->checkModuleDependencies($moduleConfig);
     }
