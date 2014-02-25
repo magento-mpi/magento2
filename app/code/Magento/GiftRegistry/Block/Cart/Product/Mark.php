@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftRegistry\Block\Cart\Product;
 
 class Mark extends \Magento\View\Element\Template
@@ -106,7 +105,7 @@ class Mark extends \Magento\View\Element\Template
      * Get gifregistry params by quote item
      *
      * @param \Magento\Sales\Model\Quote\Item $newItem
-     * @return \Magento\GiftRegistry\Block\Cart\Product\Mark
+     * @return $this
      */
     public function setItem($newItem)
     {

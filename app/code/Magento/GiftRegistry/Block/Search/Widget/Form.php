@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftRegistry\Block\Search\Widget;
 
 /**
  * Gift registry quick search widget block
@@ -14,8 +15,6 @@
  * @category   Magento
  * @package    Magento_GiftRegistry
  */
-namespace Magento\GiftRegistry\Block\Search\Widget;
-
 class Form
     extends \Magento\GiftRegistry\Block\Search\Quick
     implements \Magento\Widget\Block\BlockInterface
@@ -27,6 +26,8 @@ class Form
 
     /**
      * Search form select options
+     *
+     * @var array
      */
     protected $_selectOptions;
 
@@ -72,6 +73,7 @@ class Form
     /**
      * Check if specified form must be available as part of quick search form
      *
+     * @param mixed $code
      * @return bool
      */
     protected function _checkForm($code)
@@ -149,7 +151,6 @@ class Form
     /**
      * Retrieve options for search form select
      *
-     * @param bool $withEmpty
      * @return array
      */
     public function getSearchFormOptions()
@@ -183,7 +184,7 @@ class Form
     /**
      * Use search form select in quick search form
      *
-     * @return array
+     * @return bool
      */
     public function useSearchFormSelect()
     {

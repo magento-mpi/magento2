@@ -7,17 +7,20 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit\Attribute\Type;
 
 class Select
     extends \Magento\Backend\Block\Widget\Form
 {
-
+    /**
+     * @var string
+     */
     protected $_template = 'edit/type/select.phtml';
 
     /**
      * Preparing block layout
+     *
+     * @return $this
      */
     protected function _prepareLayout()
     {

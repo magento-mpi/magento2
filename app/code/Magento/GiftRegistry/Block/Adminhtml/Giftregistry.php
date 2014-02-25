@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftRegistry\Block\Adminhtml;
 
 /**
  * Gift Registry Adminhtml Block
  */
-namespace Magento\GiftRegistry\Block\Adminhtml;
-
 class Giftregistry extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**

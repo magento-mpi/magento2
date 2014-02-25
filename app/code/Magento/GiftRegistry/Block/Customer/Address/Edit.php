@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftRegistry\Block\Customer\Address;
 
 /**
  * GiftRegistry shipping Address block
  */
-namespace Magento\GiftRegistry\Block\Customer\Address;
-
 class Edit extends \Magento\GiftRegistry\Block\Customer\Edit\AbstractEdit
 {
     /**
@@ -55,7 +54,7 @@ class Edit extends \Magento\GiftRegistry\Block\Customer\Edit\AbstractEdit
      * Return html select input element for Address (None/<address1>/<address2>/New/)
      *
      * @param string $domId
-     * @return html
+     * @return string
      */
     public function getAddressHtmlSelect($domId = 'address_type_or_id')
     {
@@ -100,7 +99,7 @@ class Edit extends \Magento\GiftRegistry\Block\Customer\Edit\AbstractEdit
     }
 
     /**
-     * Checking customer loggin status
+     * Checking customer login status
      *
      * @return bool
      */

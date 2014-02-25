@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftRegistry\Block\Customer;
 
 /**
@@ -75,7 +74,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
     /**
      * Instantiate pagination
      *
-     * @return \Magento\GiftRegistry\Block\Customer\ListCustomer
+     * @return $this
      */
     protected function _prepareLayout()
     {
@@ -127,6 +126,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
     /**
      * Return view entity items url
      *
+     * @param mixed $item
      * @return string
      */
     public function getItemsUrl($item)
@@ -137,6 +137,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
     /**
      * Return share entity url
      *
+     * @param mixed $item
      * @return string
      */
     public function getShareUrl($item)
@@ -147,6 +148,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
     /**
      * Return edit entity url
      *
+     * @param mixed $item
      * @return string
      */
     public function getEditUrl($item)
@@ -157,6 +159,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
     /**
      * Return delete entity url
      *
+     * @param mixed $item
      * @return string
      */
     public function getDeleteUrl($item)
@@ -176,7 +179,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
     }
 
     /**
-     * Retrieve item formated date
+     * Retrieve item formatted date
      *
      * @param \Magento\GiftRegistry\Model\Entity $item
      * @return string

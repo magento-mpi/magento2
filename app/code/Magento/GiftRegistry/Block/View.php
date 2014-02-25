@@ -7,13 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftRegistry\Block;
 
 /**
  * @deprecated after 1.11.2.0
  * Gift registry view block
  */
-namespace Magento\GiftRegistry\Block;
-
 class View extends \Magento\GiftRegistry\Block\Customer\Items
 {
     /**

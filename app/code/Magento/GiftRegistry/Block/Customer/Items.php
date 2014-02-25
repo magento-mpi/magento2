@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftRegistry\Block\Customer;
 
 /**
  * Customer gift registry view items block
  */
-namespace Magento\GiftRegistry\Block\Customer;
-
 class Items extends \Magento\Catalog\Block\Product\AbstractProduct
 {
     /**
@@ -85,6 +84,8 @@ class Items extends \Magento\Catalog\Block\Product\AbstractProduct
 
     /**
      * Return gift registry form header
+     *
+     * @return string
      */
     public function getFormHeader()
     {
@@ -184,7 +185,7 @@ class Items extends \Magento\Catalog\Block\Product\AbstractProduct
      * Returns product price
      *
      * @param \Magento\GiftRegistry\Model\Item $item
-     * @return mixed
+     * @return float|string
      */
     public function getPrice($item)
     {

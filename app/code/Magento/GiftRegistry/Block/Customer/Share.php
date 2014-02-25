@@ -7,15 +7,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftRegistry\Block\Customer;
 
 /**
  * Customer gift registry share block
  */
-namespace Magento\GiftRegistry\Block\Customer;
-
 class Share
     extends \Magento\Customer\Block\Account\Dashboard
 {
+    /**
+     * @var mixed
+     */
     protected $_formData = null;
 
     /**
@@ -30,7 +32,7 @@ class Share
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
-     * @param array $data\
+     * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
@@ -89,7 +91,7 @@ class Share
      * Retrieve entered data by key
      *
      * @param string $key
-     * @return mixed
+     * @return string|null
      */
     public function getFormData($key)
     {

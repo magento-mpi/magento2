@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftRegistry\Block\Adminhtml\Widget\Grid\Column\Renderer;
 
 /**
  * Column renderer for gift registry item grid qty column
  */
-namespace Magento\GiftRegistry\Block\Adminhtml\Widget\Grid\Column\Renderer;
-
 class Qty
     extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {

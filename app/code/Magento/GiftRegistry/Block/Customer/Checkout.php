@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftRegistry\Block\Customer;
 
 /**
  * Customer gift registry checkout abstract block
  */
-namespace Magento\GiftRegistry\Block\Customer;
-
 class Checkout extends \Magento\View\Element\Template
 {
     /**

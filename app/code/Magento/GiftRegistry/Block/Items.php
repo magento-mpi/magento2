@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftRegistry\Block;
 
 /**
  * Front end helper block to show giftregistry items
  */
-namespace Magento\GiftRegistry\Block;
-
 class Items extends \Magento\Checkout\Block\Cart
 {
     /**
