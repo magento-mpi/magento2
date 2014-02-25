@@ -1,6 +1,6 @@
 <?php
 /**
- * Address class acts as a DTO for the Customer Service
+ * Address class acts as a Data Object for the Customer Service
  *
  * {license_notice}
  *

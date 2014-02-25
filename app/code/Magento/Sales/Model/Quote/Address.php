@@ -11,7 +11,7 @@
 namespace Magento\Sales\Model\Quote;
 
 use Magento\Customer\Service\V1\Data\AddressBuilder as CustomerAddressBuilder;
-use Magento\Customer\Service\V1\Data\Address as AddressDto;
+use Magento\Customer\Service\V1\Data\Address as AddressDataObject;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 
 /**
@@ -497,7 +497,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     }
 
     /**
-     * Import quote address data from customer address DTO.
+     * Import quote address data from customer address Data Object.
      *
      * @param \Magento\Customer\Service\V1\Data\Address $address
      * @return \Magento\Sales\Model\Quote\Address
@@ -543,7 +543,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     }
 
     /**
-     * Export data to customer address DTO.
+     * Export data to customer address Data Object.
      *
      * @return \Magento\Customer\Service\V1\Data\Address
      */
@@ -1427,10 +1427,10 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
      * Keep customer address
      * @todo refactor in scope of MAGETWO-20857
      *
-     * @param AddressDto $address
+     * @param AddressDataObject $address
      * @return $this
      */
-    public function setCustomerAddressData(AddressDto $address)
+    public function setCustomerAddressData(AddressDataObject $address)
     {
         return $this->setCustomerAddress($this->addressConverter->createAddressModel($address));
     }
@@ -1439,7 +1439,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
      * Get previously set customer address
      * @todo refactor in scope of MAGETWO-20857
      *
-     * @return AddressDto|null
+     * @return AddressDataObject|null
      */
     public function getCustomerAddressData()
     {

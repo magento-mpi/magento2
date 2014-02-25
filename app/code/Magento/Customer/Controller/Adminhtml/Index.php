@@ -46,7 +46,7 @@ class Index extends \Magento\Backend\App\Action
     protected $_dataHelper = null;
 
     /**
-     * Registry key where current customer DTO stored
+     * Registry key where current customer Data Object stored
      * @todo switch to use ID instead and remove after refactoring of all occurrences
      */
     const REGISTRY_CURRENT_CUSTOMER = 'current_customer';

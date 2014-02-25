@@ -143,7 +143,7 @@ class ServiceCollection extends \Magento\Data\Collection
     }
 
     /**
-     * Creates a search criteria DTO based on the array of field filters.
+     * Creates a search criteria Data Object based on the array of field filters.
      *
      * @return SearchCriteria
      */
@@ -152,13 +152,13 @@ class ServiceCollection extends \Magento\Data\Collection
         foreach ($this->fieldFilters as $filter) {
             if (!is_array($filter['field'])) {
                 // just one field
-                $this->searchCriteriaBuilder->addFilter($this->createFilterDto($filter['field'], $filter['condition']));
+                $this->searchCriteriaBuilder->addFilter($this->createFilterDataObject($filter['field'], $filter['condition']));
             } else {
                 // array of fields, put filters in array to use 'or' group
                 /** @var Filter[] $orGroupFilters */
                 $orGroupFilters = [];
                 foreach ($filter['field'] as $index => $field) {
-                    $orGroupFilters[] = $this->createFilterDto($field, $filter['condition'][$index]);
+                    $orGroupFilters[] = $this->createFilterDataObject($field, $filter['condition'][$index]);
                 }
                 $this->searchCriteriaBuilder->addOrGroup($orGroupFilters);
             }
@@ -175,13 +175,13 @@ class ServiceCollection extends \Magento\Data\Collection
     }
 
     /**
-     * Creates a filter DTO for given field/condition
+     * Creates a filter Data Object for given field/condition
      *
      * @param string $field Field for new filter
      * @param string|array $condition Condition for new filter.
      * @return Filter
      */
-    protected function createFilterDto($field, $condition)
+    protected function createFilterDataObject($field, $condition)
     {
         $this->filterBuilder->setField($field);
 

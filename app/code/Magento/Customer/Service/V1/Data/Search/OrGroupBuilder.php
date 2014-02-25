@@ -12,7 +12,7 @@ use Magento\Customer\Service\V1\Data\Filter;
 use Magento\Service\Entity\AbstractDtoBuilder;
 
 /**
- * Builder for OrGroup DTO.
+ * Builder for OrGroup Data Object.
  */
 class OrGroupBuilder extends AbstractFilterGroupBuilder
 {

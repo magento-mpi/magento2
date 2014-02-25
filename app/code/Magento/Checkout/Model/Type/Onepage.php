@@ -15,7 +15,7 @@ namespace Magento\Checkout\Model\Type;
 
 use Magento\Customer\Service\V1\Data\CustomerBuilder;
 use Magento\Customer\Service\V1\Data\AddressBuilder;
-use Magento\Customer\Service\V1\Data\Address as AddressDto;
+use Magento\Customer\Service\V1\Data\Address as AddressDataObject;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 use Magento\Customer\Model\Metadata\Form;
 use Magento\Customer\Service\V1\Data\Response\CreateCustomerAccountResponse;
@@ -748,15 +748,15 @@ class Onepage
 
         $customerData = $quote->getCustomerData();
         // Need to set proper attribute id or future updates will cause data loss.
-        $customerData = $this->_customerBuilder->mergeDtoWithArray(
+        $customerData = $this->_customerBuilder->mergeDataObjectWithArray(
             $customerData,
             [CustomerMetadata::ATTRIBUTE_SET_ID_CUSTOMER => 1]
         );
 
         $customerBillingData = $billing->exportCustomerAddressData();
-        $customerBillingData = $this->_addressBuilder->mergeDtoWithArray(
+        $customerBillingData = $this->_addressBuilder->mergeDataObjectWithArray(
             $customerBillingData,
-            [AddressDto::KEY_DEFAULT_BILLING => true]
+            [AddressDataObject::KEY_DEFAULT_BILLING => true]
         );
 
         if ($shipping) {
@@ -765,7 +765,7 @@ class Onepage
                 $customerShippingData = $this->_addressBuilder->populate($customerShippingData)
                     ->setDefaultShipping(true)->create();
                 $shipping->setCustomerAddress($customerShippingData);
-                // Add shipping address to quote since customer DTO does not hold address information
+                // Add shipping address to quote since customer Data Object does not hold address information
                 $quote->addCustomerAddressData($customerShippingData);
             } else {
                 $shipping->setCustomerAddressData($customerBillingData);
@@ -783,13 +783,13 @@ class Onepage
             'to_customer',
             $quote
         );
-        $customerData = $this->_customerBuilder->mergeDtoWithArray(
+        $customerData = $this->_customerBuilder->mergeDataObjectWithArray(
             $customerData,
             $dataArray
         );
         $quote->setCustomerData($customerData)
             ->setCustomerId(true); // TODO : Eventually need to remove this legacy hack
-        // Add billing address to quote since customer DTO does not hold address information
+        // Add billing address to quote since customer Data Object does not hold address information
         $quote->addCustomerAddressData($customerBillingData);
     }
 
@@ -829,7 +829,7 @@ class Onepage
 
         if ($shipping && isset($shippingAddress) && !$customer->getDefaultShipping()) {
             $shippingAddress = $this->_addressBuilder
-                ->mergeDtoWithArray($shippingAddress, [AddressDto::KEY_DEFAULT_SHIPPING => true]);
+                ->mergeDataObjectWithArray($shippingAddress, [AddressDataObject::KEY_DEFAULT_SHIPPING => true]);
             $quote->addCustomerAddressData($shippingAddress);
         }
     }
@@ -878,7 +878,7 @@ class Onepage
 
         /** @var \Magento\Sales\Model\Service\Quote $quoteService */
         $quoteService = $this->_serviceQuoteFactory->create(['quote' => $this->getQuote()]);
-        $quoteService->submitAllWithDto();
+        $quoteService->submitAllWithDataObject();
 
         if ($isNewCustomer) {
             try {

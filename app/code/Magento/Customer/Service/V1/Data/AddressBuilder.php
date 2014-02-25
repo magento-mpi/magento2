@@ -1,6 +1,6 @@
 <?php
 /**
- * Address class acts as a DTO for the Customer Service
+ * Address class acts as a Data Object for the Customer Service
  *
  * {license_notice}
  *
@@ -15,7 +15,7 @@ use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
 
 /**
  * @method Address create()
- * @method Address mergeDtoWithArray(AbstractDto $dto, array $data)
+ * @method Address mergeDataObjectWithArray(AbstractDto $dto, array $data)
  */
 class AddressBuilder extends AbstractDtoBuilder
 {

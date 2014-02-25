@@ -22,7 +22,7 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
      */
     private $_eavConfig;
 
-    /** @var array Cache of DTOs - entityType => attributeCode => DTO */
+    /** @var array Cache of Data Objects - entityType => attributeCode => Data Object */
     private $_cache;
 
     /**
@@ -72,16 +72,16 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
      */
     public function getAttributeMetadata($entityType, $attributeCode)
     {
-        $dtoCache = $this->_getEntityCache($entityType);
-        if (isset($dtoCache[$attributeCode])) {
-            return $dtoCache[$attributeCode];
+        $dataObjectCache = $this->_getEntityCache($entityType);
+        if (isset($dataObjectCache[$attributeCode])) {
+            return $dataObjectCache[$attributeCode];
         }
 
         /** @var AbstractAttribute $attribute */
         $attribute = $this->_eavConfig->getAttribute($entityType, $attributeCode);
         if ($attribute) {
             $attributeMetadata = $this->_createMetadataAttribute($attribute);
-            $dtoCache[$attributeCode] = $attributeMetadata;
+            $dataObjectCache[$attributeCode] = $attributeMetadata;
             return $attributeMetadata;
         } else {
             throw (new NoSuchEntityException('entityType', $entityType))
@@ -240,7 +240,7 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
     }
 
     /**
-     * Helper for getting access to an entity types DTO cache.
+     * Helper for getting access to an entity types Data Object cache.
      *
      * @param $entityType
      * @return \ArrayAccess

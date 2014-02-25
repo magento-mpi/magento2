@@ -10,7 +10,7 @@ namespace Magento\Customer\Service\V1\Data;
 use Magento\Service\Entity\AbstractDto;
 
 /**
- * DTO for SearchCriteria
+ * Data Object for SearchCriteria
  */
 class SearchCriteria extends AbstractDto
 {

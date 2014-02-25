@@ -98,7 +98,7 @@ abstract class AbstractDtoBuilder
      * @param array $data
      * @return AbstractDto
      */
-    public function mergeDtoWithArray(AbstractDto $dto, array $data)
+    public function mergeDataObjectWithArray(AbstractDto $dto, array $data)
     {
         $this->_data = array_merge($dto->__toArray(), $data);
         return $this->create();

@@ -81,7 +81,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
     {
         $this->_prepareQuote(true);
         /** @var $order \Magento\Sales\Model\Order */
-        $order = $this->_serviceQuote->submitOrderWithDto();
+        $order = $this->_serviceQuote->submitOrderWithDataObject();
         //Makes sure that the customer for guest checkout is not saved
         $this->assertNull($order->getCustomerId());
     }
@@ -95,7 +95,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
     {
         $this->_prepareQuote(false);
         /** @var $order \Magento\Sales\Model\Order */
-        $this->_serviceQuote->submitOrderWithDto();
+        $this->_serviceQuote->submitOrderWithDataObject();
     }
 
     /**
@@ -115,14 +115,14 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
 
         $existingCustomerId = $response->getCustomerId();
         $customerDto = $this->_customerService->getCustomer($existingCustomerId);
-        $customerDto = $this->_customerBuilder->mergeDtoWithArray(
+        $customerDto = $this->_customerBuilder->mergeDataObjectWithArray(
             $customerDto,
             [CustomerDto::EMAIL => 'new@example.com']
         );
         $addresses = $this->_customerAddressService->getAddresses($existingCustomerId);
         $this->_serviceQuote->getQuote()->setCustomerData($customerDto);
         $this->_serviceQuote->getQuote()->setCustomerAddressData($addresses);
-        $this->_serviceQuote->submitOrderWithDto();
+        $this->_serviceQuote->submitOrderWithDataObject();
         $customerId = $this->_serviceQuote->getQuote()->getCustomerData()->getId();
         $this->assertNotNull($customerId);
         //Make sure no new customer is created
@@ -140,7 +140,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
         $this->_prepareQuote(false);
         $this->_serviceQuote->getQuote()->setCustomerData($this->getSampleCustomerEntity());
         $this->_serviceQuote->getQuote()->setCustomerAddressData($this->getSampleAddressEntity());
-        $this->_serviceQuote->submitOrderWithDto();
+        $this->_serviceQuote->submitOrderWithDataObject();
         $customerId = $this->_serviceQuote->getQuote()->getCustomerData()->getId();
         $this->assertNotNull($customerId);
         foreach ($this->_serviceQuote->getQuote()->getCustomerAddressData() as $address) {
@@ -161,7 +161,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
         $this->_serviceQuote->getQuote()->setCustomerData($this->getSampleCustomerEntity());
         $this->_serviceQuote->getQuote()->setCustomerAddressData($this->getSampleAddressEntity());
         try {
-            $this->_serviceQuote->submitOrderWithDto();
+            $this->_serviceQuote->submitOrderWithDataObject();
         } catch (\Exception $e) {
             $this->assertEquals('submitorder exception', $e->getMessage());
         }
@@ -185,7 +185,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
 
         $existingCustomerId = $response->getCustomerId();
         $customerDto = $this->_customerService->getCustomer($existingCustomerId);
-        $customerDto = $this->_customerBuilder->mergeDtoWithArray(
+        $customerDto = $this->_customerBuilder->mergeDataObjectWithArray(
             $customerDto,
             [CustomerDto::EMAIL => 'new@example.com']
         );
@@ -193,7 +193,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
         $this->_serviceQuote->getQuote()->setCustomerData($customerDto);
         $this->_serviceQuote->getQuote()->setCustomerAddressData($addresses);
         try {
-            $this->_serviceQuote->submitOrderWithDto();
+            $this->_serviceQuote->submitOrderWithDataObject();
         } catch (\Exception $e) {
             $this->assertEquals('submitorder exception', $e->getMessage());
         }
