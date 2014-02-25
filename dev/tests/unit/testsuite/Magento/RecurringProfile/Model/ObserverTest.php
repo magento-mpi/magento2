@@ -204,7 +204,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             'getFormExcludedFieldList', 'setFormExcludedFieldList'
         ], [], '', false);
         $block->expects($this->once())->method('getFormExcludedFieldList')->will($this->returnValue(['field']));
-        $block->expects($this->once())->method('setFormExcludedFieldList')->with(['field' , 'recurring_profile']);
+        $block->expects($this->once())->method('setFormExcludedFieldList')->with(['field', 'recurring_profile']);
 
         $this->_event->expects($this->once())->method('getObject')->will($this->returnValue($block));
         $this->_testModel->addFormExcludedAttribute($this->_observer);
