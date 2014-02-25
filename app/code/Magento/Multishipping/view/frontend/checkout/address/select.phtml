@@ -2,10 +2,11 @@
 /**
  * {license_notice}
  *
- * @category    design
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
+/** @var \Magento\Multishipping\Block\Checkout\Address\Select $this */
 ?>
 <div class="multicheckout block change billing">
     <div class="actions">
@@ -14,7 +15,7 @@
     <?php foreach ($this->getAddressCollection() as $_address): ?>
         <div class="box billing">
             <address>
-                <?php echo $_address->format('html') ?>
+                <?php echo $this->getAddressAsHtml($_address) ?>
                 <?php if($this->isAddressDefaultBilling($_address)): ?>
                     <br /><strong><?php echo __('Default Billing') ?></strong>
                 <?php endif; ?>

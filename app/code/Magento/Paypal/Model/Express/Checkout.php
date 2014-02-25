@@ -214,6 +214,11 @@ class Checkout
     protected $_checkoutSession;
 
     /**
+     * @var \Magento\RecurringProfile\Model\Quote
+     */
+    protected $_quoteImporter;
+
+    /**
      * Set config, session and quote instances
      *
      * @param \Magento\Logger $logger
@@ -234,6 +239,7 @@ class Checkout
      * @param \Magento\Paypal\Model\Api\Type\Factory $apiTypeFactory
      * @param \Magento\Object\Copy $objectCopyService
      * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\RecurringProfile\Model\QuoteImporter $quoteImporter
      * @param array $params
      * @throws \Exception
      */
@@ -256,6 +262,7 @@ class Checkout
         \Magento\Paypal\Model\Api\Type\Factory $apiTypeFactory,
         \Magento\Object\Copy $objectCopyService,
         \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\RecurringProfile\Model\QuoteImporter $quoteImporter,
         $params = array()
     ) {
         $this->_customerData = $customerData;
@@ -276,6 +283,7 @@ class Checkout
         $this->_apiTypeFactory = $apiTypeFactory;
         $this->_objectCopyService = $objectCopyService;
         $this->_checkoutSession = $checkoutSession;
+        $this->_quoteImporter = $quoteImporter;
 
         if (isset($params['config']) && $params['config'] instanceof \Magento\Paypal\Model\Config) {
             $this->_config = $params['config'];
@@ -464,7 +472,7 @@ class Checkout
         }
 
         // add recurring payment profiles information
-        $profiles = $this->_quote->prepareRecurringPaymentProfiles();
+        $profiles = $this->_quoteImporter->prepareRecurringPaymentProfiles($this->_quote);
         if ($profiles) {
             foreach ($profiles as $profile) {
                 $profile->setMethodCode(\Magento\Paypal\Model\Config::METHOD_WPP_EXPRESS);
@@ -661,7 +669,7 @@ class Checkout
     }
 
     /**
-     * Place the order and recurring payment profiles when customer returned from paypal
+     * Place the order when customer returned from paypal
      * Until this moment all quote data must be valid
      *
      * @param string $token
@@ -701,9 +709,6 @@ class Checkout
                 $this->_logger->logException($e);
             }
         }
-
-        $this->_recurringPaymentProfiles = $service->getRecurringPaymentProfiles();
-        // TODO: send recurring profile emails
 
         $order = $service->getOrder();
         if (!$order) {
@@ -756,16 +761,6 @@ class Checkout
     public function getRedirectUrl()
     {
         return $this->_redirectUrl;
-    }
-
-    /**
-     * Return recurring payment profiles
-     *
-     * @return array
-     */
-    public function getRecurringPaymentProfiles()
-    {
-        return $this->_recurringPaymentProfiles;
     }
 
     /**
