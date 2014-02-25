@@ -562,6 +562,7 @@ return array(
     array('getValidatorData', 'Magento\Core\Model\Session\AbstractSession', 'use _getSessionEnvironment method'),
     array('getValueTable'),
     array('getVarDir', 'Magento\Core\Model\Config', 'Magento_Core_Model_Dir::getDir()'),
+    array('getVatValidationUserMessage', 'Magento\Customer\Helper\Data'),
     array('getViewOrderUrl', 'Magento\Checkout\Block\Onepage\Success'),
     array('getWatermarkHeigth', '', 'getWatermarkHeight'),
     array('getWebsite', 'Magento\Captcha\Helper\Data'),
