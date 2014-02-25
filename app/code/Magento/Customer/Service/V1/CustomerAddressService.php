@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Service\V1;
 
 use Magento\Customer\Model\Address as CustomerAddressModel;
@@ -20,7 +19,9 @@ use Magento\Customer\Model\Address\Converter as AddressConverter;
  */
 class CustomerAddressService implements CustomerAddressServiceInterface
 {
-    /** @var \Magento\Customer\Model\AddressFactory */
+    /**
+     * @var \Magento\Customer\Model\AddressFactory
+     */
     private $_addressFactory;
 
     /**

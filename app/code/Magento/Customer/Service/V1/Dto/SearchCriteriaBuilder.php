@@ -23,9 +23,9 @@ class SearchCriteriaBuilder extends AbstractDtoBuilder
         $this->_data['filters'] = $this->getFilterGroup()->create();
         return parent::create();
     }
+
     /**
      * @param Filter $filter
-     *
      * @return SearchCriteriaBuilder
      */
     public function addFilter(Filter $filter)
@@ -64,8 +64,7 @@ class SearchCriteriaBuilder extends AbstractDtoBuilder
     /**
      * @param string $field
      * @param int $direction
-     *
-     * @return SearchCriteriaBuilder
+     * @return $this
      */
     public function addSortOrder($field, $direction)
     {
@@ -79,8 +78,7 @@ class SearchCriteriaBuilder extends AbstractDtoBuilder
 
     /**
      * @param int $pageSize
-     *
-     * @return SearchCriteriaBuilder
+     * @return $this
      */
     public function setPageSize($pageSize)
     {
@@ -89,8 +87,7 @@ class SearchCriteriaBuilder extends AbstractDtoBuilder
 
     /**
      * @param int $currentPage
-     *
-     * @return SearchCriteriaBuilder
+     * @return $this
      */
     public function setCurrentPage($currentPage)
     {

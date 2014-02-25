@@ -13,7 +13,7 @@ class RegionBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
 {
     /**
      * @param string $regionCode
-     * @return RegionBuilder
+     * @return $this
      */
     public function setRegionCode($regionCode)
     {
@@ -23,7 +23,7 @@ class RegionBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
 
     /**
      * @param string $regionName
-     * @return RegionBuilder
+     * @return $this
      */
     public function setRegion($regionName)
     {
@@ -33,7 +33,7 @@ class RegionBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
 
     /**
      * @param string $regionId
-     * @return RegionBuilder
+     * @return $this
      */
     public function setRegionId($regionId)
     {

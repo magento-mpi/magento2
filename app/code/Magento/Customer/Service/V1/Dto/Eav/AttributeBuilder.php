@@ -15,7 +15,7 @@ class AttributeBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
 {
     /**
      * @param string $attributeCode
-     * @return AttributeBuilder
+     * @return $this
      */
     public function setAttributeCode($attributeCode)
     {
@@ -24,7 +24,7 @@ class AttributeBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
 
     /**
      * @param string $value
-     * @return AttributeBuilder
+     * @return $this
      */
     public function setValue($value)
     {

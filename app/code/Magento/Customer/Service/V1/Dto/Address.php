@@ -33,6 +33,9 @@ class Address extends \Magento\Service\Entity\AbstractDto implements Eav\EntityI
     const KEY_SUFFIX = 'suffix';
     const KEY_VAT_ID = 'vat_id';
 
+    /**
+     * @var string[]
+     */
     protected $_validAttributes = [
         self::KEY_COUNTRY_ID,
         self::KEY_DEFAULT_BILLING,
@@ -64,7 +67,7 @@ class Address extends \Magento\Service\Entity\AbstractDto implements Eav\EntityI
     }
 
     /**
-     * @return boolean|null
+     * @return bool|null
      */
     public function isDefaultShipping()
     {
@@ -72,7 +75,7 @@ class Address extends \Magento\Service\Entity\AbstractDto implements Eav\EntityI
     }
 
     /**
-     * @return boolean|null
+     * @return bool|null
      */
     public function isDefaultBilling()
     {
@@ -126,7 +129,7 @@ class Address extends \Magento\Service\Entity\AbstractDto implements Eav\EntityI
     }
 
     /**
-     * @return \string[]|null
+     * @return string[]|null
      */
     public function getStreet()
     {

@@ -15,8 +15,7 @@ class SearchResultsBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
 {
     /**
      * @param \Magento\Customer\Service\V1\Dto\SearchCriteria $searchCriteria
-     *
-     * @return SearchResultsBuilder
+     * @return $this
      */
     public function setSearchCriteria(SearchCriteria $searchCriteria)
     {
@@ -25,8 +24,7 @@ class SearchResultsBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
 
     /**
      * @param int $totalCount
-     *
-     * @return SearchResultsBuilder
+     * @return $this
      */
     public function setTotalCount($totalCount)
     {
@@ -34,9 +32,8 @@ class SearchResultsBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
     }
 
     /**
-     * @param array $items
-     *
-     * @return SearchResultsBuilder
+     * @param CustomerGroup[] $items
+     * @return $this
      */
     public function setItems($items)
     {

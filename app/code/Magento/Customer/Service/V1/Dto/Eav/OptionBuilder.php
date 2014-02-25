@@ -14,7 +14,8 @@ class OptionBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
     /**
      * Set option label
      *
-     * @return OptionBuilder
+     * @param string $label
+     * @return $this
      */
     public function setLabel($label)
     {
@@ -24,7 +25,8 @@ class OptionBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
     /**
      * Set option value
      *
-     * @return OptionBuilder
+     * @param string|string[] $value
+     * @return $this
      */
     public function setValue($value)
     {

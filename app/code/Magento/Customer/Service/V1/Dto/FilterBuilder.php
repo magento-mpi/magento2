@@ -16,7 +16,7 @@ class FilterBuilder extends AbstractDtoBuilder
 {
     /**
      * @param string $field
-     * @return FilterBuilder
+     * @return $this
      */
     public function setField($field)
     {
@@ -25,8 +25,8 @@ class FilterBuilder extends AbstractDtoBuilder
     }
 
     /**
-     * @param string | string[] $value
-     * @return FilterBuilder
+     * @param string|string[] $value
+     * @return $this
      */
     public function setValue($value)
     {
@@ -36,7 +36,7 @@ class FilterBuilder extends AbstractDtoBuilder
 
     /**
      * @param string $conditionType
-     * @return FilterBuilder
+     * @return $this
      */
     public function setConditionType($conditionType)
     {

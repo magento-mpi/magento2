@@ -14,7 +14,7 @@ class CustomerGroupBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
     /**
      * @param string $id
      *
-     * @return CustomerGroupBuilder
+     * @return $this
      */
     public function setId($id)
     {
@@ -24,7 +24,7 @@ class CustomerGroupBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
     /**
      * @param string $code
      *
-     * @return CustomerGroupBuilder
+     * @return $this
      */
     public function setCode($code)
     {
@@ -34,7 +34,7 @@ class CustomerGroupBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
     /**
      * @param string $taxClassId
      *
-     * @return CustomerGroupBuilder
+     * @return $this
      */
     public function setTaxClassId($taxClassId)
     {

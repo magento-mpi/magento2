@@ -13,7 +13,7 @@ class CreateCustomerAccountResponseBuilder extends \Magento\Service\Entity\Abstr
 {
     /**
      * @param int $customerId
-     * @return CreateCustomerAccountResponseBuilder
+     * @return $this
      */
     public function setCustomerId($customerId)
     {
@@ -22,7 +22,7 @@ class CreateCustomerAccountResponseBuilder extends \Magento\Service\Entity\Abstr
 
     /**
      * @param string $status
-     * @return CreateCustomerAccountResponseBuilder
+     * @return $this
      */
     public function setStatus($status)
     {

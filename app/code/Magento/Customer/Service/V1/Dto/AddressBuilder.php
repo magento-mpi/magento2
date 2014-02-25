@@ -18,7 +18,9 @@ use Magento\Service\Entity\AbstractDtoBuilder;
  */
 class AddressBuilder extends AbstractDtoBuilder
 {
-    /** @var RegionBuilder */
+    /**
+     * @var RegionBuilder
+     */
     protected $_regionBuilder;
 
     /**
@@ -41,7 +43,7 @@ class AddressBuilder extends AbstractDtoBuilder
     }
 
     /**
-     * @param boolean $defaultShipping
+     * @param bool $defaultShipping
      * @return $this
      */
     public function setDefaultShipping($defaultShipping)
@@ -50,7 +52,7 @@ class AddressBuilder extends AbstractDtoBuilder
     }
 
     /**
-     * @param boolean $defaultBilling
+     * @param bool $defaultBilling
      * @return $this
      */
     public function setDefaultBilling($defaultBilling)

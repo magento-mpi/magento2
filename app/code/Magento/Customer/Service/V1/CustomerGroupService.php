@@ -123,6 +123,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
      *
      * @param Dto\Search\FilterGroupInterface $filterGroup
      * @param Collection $collection
+     * @return void
      * @throws \Magento\Exception\InputException
      */
     protected function addFiltersToCollection(Dto\Search\FilterGroupInterface $filterGroup, Collection $collection)
@@ -145,7 +146,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
      *
      * @param Collection $collection
      * @param Dto\Filter $filter
-     * @return string
+     * @return void
      */
     protected function addFilterToCollection(Collection $collection, Dto\Filter $filter)
     {
@@ -159,6 +160,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
      *
      * @param Collection $collection
      * @param Dto\Search\FilterGroupInterface $group
+     * @return void
      * @throws \Magento\Exception\InputException
      */
     protected function addFilterGroupToCollection(Collection $collection, Dto\Search\FilterGroupInterface $group)

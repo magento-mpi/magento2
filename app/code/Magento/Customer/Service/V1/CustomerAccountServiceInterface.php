@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Service\V1;
 
 /**
@@ -64,7 +63,7 @@ interface CustomerAccountServiceInterface
      * @param string $username username in plain-text
      * @param string $password password in plain-text
      * @return Dto\Customer
-     * @throws \Magento\Exception\AuthenticationException if unable to authenticate
+     * @throws \Magento\Exception\AuthenticationException If unable to authenticate
      */
     public function authenticate($username, $password);
 
@@ -74,9 +73,9 @@ interface CustomerAccountServiceInterface
      * @param int $customerId
      * @param string $resetPasswordLinkToken
      * @return void
-     * @throws \Magento\Exception\StateException if token is expired or mismatched
-     * @throws \Magento\Exception\InputException if token or customer id is invalid
-     * @throws \Magento\Exception\NoSuchEntityException if customer doesn't exist
+     * @throws \Magento\Exception\StateException If token is expired or mismatched
+     * @throws \Magento\Exception\InputException If token or customer id is invalid
+     * @throws \Magento\Exception\NoSuchEntityException If customer doesn't exist
      */
     public function validateResetPasswordLinkToken($customerId, $resetPasswordLinkToken);
 
@@ -98,19 +97,19 @@ interface CustomerAccountServiceInterface
      * @param string $password
      * @param string $resetToken
      * @return void
-     * @throws \Magento\Exception\StateException if token is expired or mismatched
-     * @throws \Magento\Exception\InputException if token or customer id is invalid
-     * @throws \Magento\Exception\NoSuchEntityException if customer doesn't exist
+     * @throws \Magento\Exception\StateException If token is expired or mismatched
+     * @throws \Magento\Exception\InputException If token or customer id is invalid
+     * @throws \Magento\Exception\NoSuchEntityException If customer doesn't exist
      */
     public function resetPassword($customerId, $password, $resetToken);
 
-    /*
+    /**
      * Send Confirmation email
      *
      * @param string $email email address of customer
      * @return void
-     * @throws \Magento\Exception\NoSuchEntityException if no customer found for provided email
-     * @throws \Magento\Exception\StateException if confirmation is not needed
+     * @throws \Magento\Exception\NoSuchEntityException If no customer found for provided email
+     * @throws \Magento\Exception\StateException If confirmation is not needed
      */
     public function sendConfirmation($email);
 

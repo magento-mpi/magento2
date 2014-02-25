@@ -24,7 +24,7 @@ interface CustomerGroupServiceInterface
      * The list of groups can be filtered to exclude the NOT_LOGGED_IN group using the first parameter and/or it can
      * be filtered by tax class.
      *
-     * @param boolean $includeNotLoggedIn
+     * @param bool $includeNotLoggedIn
      * @param int $taxClassId
      *
      * @return Dto\CustomerGroup[]
@@ -33,7 +33,7 @@ interface CustomerGroupServiceInterface
 
     /**
      * @param Dto\SearchCriteria $searchCriteria
-     * @throws InputException if there is a problem with the input
+     * @throws InputException If there is a problem with the input
      * @return Dto\SearchResults containing Dto\CustomerGroup objects
      */
     public function searchGroups(Dto\SearchCriteria $searchCriteria);
@@ -42,14 +42,14 @@ interface CustomerGroupServiceInterface
      * Get a customer group by group ID.
      *
      * @param int $groupId
-     * @throws NoSuchEntityException if $groupId is not found
+     * @throws NoSuchEntityException If $groupId is not found
      * @return Dto\CustomerGroup
      */
     public function getGroup($groupId);
 
     /**
      * @param int $storeId
-     * @throws NoSuchEntityException if default group for $storeId is not found
+     * @throws NoSuchEntityException If default group for $storeId is not found
      * @return Dto\CustomerGroup
      */
     public function getDefaultGroup($storeId);
@@ -57,21 +57,21 @@ interface CustomerGroupServiceInterface
     /**
      * @param int $groupId
      *
-     * @return boolean true, if this group can be deleted
+     * @return bool true, if this group can be deleted
      */
     public function canDelete($groupId);
 
     /**
      * @param Dto\CustomerGroup $group
-     * @throws \Exception if something goes wrong during save
+     * @throws \Exception If something goes wrong during save
      * @return int customer group ID
      */
     public function saveGroup(Dto\CustomerGroup $group);
 
     /**
      * @param int $groupId
-     * @throws NoSuchEntityException if $groupId is not found
-     * @throws \Exception if something goes wrong during delete
+     * @throws NoSuchEntityException If $groupId is not found
+     * @throws \Exception If something goes wrong during delete
      * @return null
      */
     public function deleteGroup($groupId);

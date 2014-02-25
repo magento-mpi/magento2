@@ -9,13 +9,12 @@
  */
 namespace Magento\Customer\Service\V1\Dto;
 
-
 use Magento\Customer\Service\V1\Dto\SearchCriteria;
 
 class SearchResults extends \Magento\Service\Entity\AbstractDto
 {
     /**
-     * @return array
+     * @return CustomerGroup[]
      */
     public function getItems()
     {

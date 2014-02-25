@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Service\V1;
 
 use Magento\Customer\Model\Converter;
@@ -20,7 +19,9 @@ use Magento\Validator\ValidatorException;
 class CustomerService implements CustomerServiceInterface
 {
 
-    /** @var array Cache of DTOs */
+    /**
+     * @var array Cache of DTOs
+     */
     private $_cache = [];
 
     /**
@@ -139,7 +140,7 @@ class CustomerService implements CustomerServiceInterface
     }
 
     /**
-     * @param $attributeCode
+     * @param string $attributeCode
      * @return Dto\Eav\AttributeMetadata|null
      */
     protected function _getAttributeMetadata($attributeCode)

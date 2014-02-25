@@ -52,9 +52,9 @@ class SearchCriteria extends AbstractDto
     /**
      * Create Array
      *
-     * @todo to be implemented in MAGETWO-18201
+     * @todo to be implemented in MAGETWO-18201. Change return type to array.
      *
-     * @return array
+     * @return void
      */
     private function _createArray()
     {

@@ -89,7 +89,7 @@ class Customer extends \Magento\Service\Entity\AbstractDto implements Eav\Entity
      * Get an attribute value.
      *
      * @param string $attributeCode
-     * @return mixed The attribute value or null if the attribute has not been set
+     * @return string|null The attribute value or null if the attribute has not been set
      */
     public function getAttribute($attributeCode)
     {

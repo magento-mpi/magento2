@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Service\V1;
 
 use Magento\Core\Model\StoreManagerInterface;
@@ -27,7 +26,9 @@ use Magento\Math\Random;
  */
 class CustomerAccountService implements CustomerAccountServiceInterface
 {
-    /** @var CustomerFactory */
+    /**
+     * @var CustomerFactory
+     */
     private $_customerFactory;
 
     /**
@@ -37,7 +38,9 @@ class CustomerAccountService implements CustomerAccountServiceInterface
      */
     private $_eventManager;
 
-    /** @var StoreManagerInterface */
+    /**
+     * @var StoreManagerInterface
+     */
     private $_storeManager;
 
     /**
@@ -70,7 +73,9 @@ class CustomerAccountService implements CustomerAccountServiceInterface
      */
     private $_customerAddressService;
 
-    /** @var \Magento\ObjectManager */
+    /**
+     * @var \Magento\ObjectManager
+     */
     protected $_objectManager;
 
     /**
@@ -312,12 +317,12 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     /**
      * Validate the Reset Password Token for a customer.
      *
-     * @param $customerId
-     * @param $resetPasswordLinkToken
+     * @param int $customerId
+     * @param string $resetPasswordLinkToken
      * @return CustomerModel
-     * @throws \Magento\Exception\StateException if token is expired or mismatched
-     * @throws \Magento\Exception\InputException if token or customer id is invalid
-     * @throws \Magento\Exception\NoSuchEntityException if customer doesn't exist
+     * @throws \Magento\Exception\StateException If token is expired or mismatched
+     * @throws \Magento\Exception\InputException If token or customer id is invalid
+     * @throws \Magento\Exception\NoSuchEntityException If customer doesn't exist
      */
     private function _validateResetPasswordToken($customerId, $resetPasswordLinkToken)
     {

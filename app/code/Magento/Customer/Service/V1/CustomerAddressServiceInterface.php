@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Service\V1;
 
 /**
@@ -16,9 +15,9 @@ interface CustomerAddressServiceInterface
     /**
      * Retrieve all Customer Addresses
      *
-     * @param int $customerId,
+     * @param int $customerId
      * @return Dto\Address[]
-     * @throws \Magento\Exception\NoSuchEntityException if the customer Id is invalid
+     * @throws \Magento\Exception\NoSuchEntityException If the customer Id is invalid
      */
     public function getAddresses($customerId);
 
@@ -27,7 +26,7 @@ interface CustomerAddressServiceInterface
      *
      * @param int $customerId
      * @return Dto\Address
-     * @throws \Magento\Exception\NoSuchEntityException if the customer Id is invalid
+     * @throws \Magento\Exception\NoSuchEntityException If the customer Id is invalid
      */
     public function getDefaultBillingAddress($customerId);
 
@@ -36,7 +35,7 @@ interface CustomerAddressServiceInterface
      *
      * @param int $customerId
      * @return Dto\Address
-     * @throws \Magento\Exception\NoSuchEntityException if the customer Id is invalid
+     * @throws \Magento\Exception\NoSuchEntityException If the customer Id is invalid
      */
     public function getDefaultShippingAddress($customerId);
 
@@ -53,6 +52,7 @@ interface CustomerAddressServiceInterface
      * Removes an address by id.
      *
      * @param int $addressId
+     * @return void
      * @throws \Magento\Exception\NoSuchEntityException If no address can be found for the provided id.
      */
     public function deleteAddress($addressId);
@@ -71,9 +71,9 @@ interface CustomerAddressServiceInterface
      *
      * @param int $customerId
      * @param Dto\Address[] $addresses
-     * @throws \Magento\Exception\InputException if there are validation errors.
+     * @throws \Magento\Exception\InputException If there are validation errors.
      * @throws \Magento\Exception\NoSuchEntityException If customer with customerId is not found.
-     * @throws \Exception if there were issues during the save operation
+     * @throws \Exception If there were issues during the save operation
      * @return int[] address ids
      */
     public function saveAddresses($customerId, array $addresses);

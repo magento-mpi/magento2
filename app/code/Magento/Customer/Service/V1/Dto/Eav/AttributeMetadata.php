@@ -94,7 +94,7 @@ class AttributeMetadata extends \Magento\Service\Entity\AbstractDto
     /**
      * Whether attribute is visible on frontend.
      *
-     * @return boolean
+     * @return bool
      */
     public function isVisible()
     {
@@ -104,7 +104,7 @@ class AttributeMetadata extends \Magento\Service\Entity\AbstractDto
     /**
      * Whether attribute is required.
      *
-     * @return boolean
+     * @return bool
      */
     public function isRequired()
     {

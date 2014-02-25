@@ -23,8 +23,8 @@ interface CustomerMetadataServiceInterface
     /**
      * Retrieve Attribute Metadata
      *
-     * @param   mixed $entityType
-     * @param   mixed $attributeCode
+     * @param string $entityType
+     * @param string $attributeCode
      * @return Dto\Eav\AttributeMetadata
      * @throws NoSuchEntityException
      */
@@ -43,8 +43,8 @@ interface CustomerMetadataServiceInterface
     /**
      * Retrieve all attributes for entityType filtered by form code
      *
-     * @param $entityType
-     * @param $formCode
+     * @param string $entityType
+     * @param string $formCode
      * @return Dto\Eav\AttributeMetadata[]
      */
     public function getAttributes($entityType, $formCode);

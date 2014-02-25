@@ -22,7 +22,9 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
      */
     private $_eavConfig;
 
-    /** @var array Cache of DTOs - entityType => attributeCode => DTO */
+    /**
+     * @var array Cache of DTOs - entityType => attributeCode => DTO
+     */
     private $_cache;
 
     /**
@@ -130,8 +132,8 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
     /**
      * Load collection with filters applied
      *
-     * @param $entityType
-     * @param $formCode
+     * @param string $entityType
+     * @param string $formCode
      * @return \Magento\Customer\Model\Resource\Form\Attribute\Collection
      */
     private function _loadAttributesCollection($entityType, $formCode)
@@ -180,7 +182,7 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getCustomerAttributeMetadata($attributeCode)
     {
@@ -188,7 +190,7 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getAllCustomerAttributeMetadata()
     {
@@ -196,7 +198,7 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getAddressAttributeMetadata($attributeCode)
     {
@@ -204,7 +206,7 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getAllAddressAttributeMetadata()
     {
@@ -215,7 +217,7 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
     /**
      * Helper for getting access to an entity types DTO cache.
      *
-     * @param $entityType
+     * @param string $entityType
      * @return \ArrayAccess
      */
     private function _getEntityCache($entityType)
