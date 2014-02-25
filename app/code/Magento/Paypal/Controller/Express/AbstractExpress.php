@@ -90,6 +90,11 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
     protected $_paypalSession;
 
     /**
+     * @var \Magento\Message\ManagerInterface
+     */
+    protected $_messageManager;
+
+    /**
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
@@ -97,6 +102,7 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Paypal\Model\Express\Checkout\Factory $checkoutFactory
      * @param \Magento\Session\Generic $paypalSession
+     * @param \Magento\Message\ManagerInterface $messageManager
      */
     public function __construct(
         \Magento\App\Action\Context $context,
@@ -105,7 +111,8 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Paypal\Model\Express\Checkout\Factory $checkoutFactory,
-        \Magento\Session\Generic $paypalSession
+        \Magento\Session\Generic $paypalSession,
+        \Magento\Message\ManagerInterface $messageManager
     ) {
         $this->_customerSession = $customerSession;
         $this->_quoteFactory = $quoteFactory;
@@ -113,6 +120,7 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
         $this->_orderFactory = $orderFactory;
         $this->_checkoutFactory = $checkoutFactory;
         $this->_paypalSession = $paypalSession;
+        $this->_messageManager = $messageManager;
         parent::__construct($context);
         $parameters = array('params' => array($this->_configMethod));
         $this->_config = $this->_objectManager->create($this->_configType, $parameters);
@@ -132,10 +140,26 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
             }
 
             $customer = $this->_customerSession->getCustomer();
+            $quoteCheckoutMethod = $this->_getQuote()->getCheckoutMethod();
             if ($customer && $customer->getId()) {
                 $this->_checkout->setCustomerWithAddressChange(
                     $customer, $this->_getQuote()->getBillingAddress(), $this->_getQuote()->getShippingAddress()
                 );
+            } elseif ((!$quoteCheckoutMethod
+                    || $quoteCheckoutMethod != \Magento\Checkout\Model\Type\Onepage::METHOD_REGISTER)
+                && !$this->_objectManager->get('Magento\Checkout\Helper\Data')->isAllowedGuestCheckout(
+                    $this->_getQuote(),
+                    $this->_getQuote()->getStoreId()
+                )) {
+
+                $this->_messageManager->addNotice(
+                    __('To proceed to Checkout, please log in using your email address.')
+                );
+
+                $this->_objectManager->get('Magento\Checkout\Helper\ExpressRedirect')->redirectLogin($this);
+                $this->_customerSession->setBeforeAuthUrl($this->_url->getUrl('*/*/*', array('_current' => true)));
+
+                return;
             }
 
             // billing agreement

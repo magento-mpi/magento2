@@ -52,6 +52,7 @@ class Express extends \Magento\Paypal\Controller\Express\AbstractExpress
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Paypal\Model\Express\Checkout\Factory $checkoutFactory
      * @param \Magento\Session\Generic $paypalSession
+     * @param \Magento\Message\ManagerInterface $messageManager
      * @param \Magento\Core\Helper\Url $urlHelper
      * @param \Magento\Customer\Helper\Data $customerHelper
      *
@@ -65,6 +66,7 @@ class Express extends \Magento\Paypal\Controller\Express\AbstractExpress
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Paypal\Model\Express\Checkout\Factory $checkoutFactory,
         \Magento\Session\Generic $paypalSession,
+        \Magento\Message\ManagerInterface $messageManager,
         \Magento\Core\Helper\Url $urlHelper,
         \Magento\Customer\Helper\Data $customerHelper
     ) {
@@ -78,7 +80,8 @@ class Express extends \Magento\Paypal\Controller\Express\AbstractExpress
             $checkoutSession,
             $orderFactory,
             $checkoutFactory,
-            $paypalSession
+            $paypalSession,
+            $messageManager
         );
     }
 
