@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,7 +9,7 @@
 /**
  * Total model for recurring profiles
  */
-namespace Magento\Sales\Model\Quote\Address\Total\Nominal;
+namespace Magento\RecurringProfile\Model\Quote\Total;
 
 abstract class AbstractRecurring
     extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
@@ -41,7 +39,7 @@ abstract class AbstractRecurring
      * Collect recurring item parameters and copy to the address items
      *
      * @param \Magento\Sales\Model\Quote\Address $address
-     * @return \Magento\Sales\Model\Quote\Address\Total\Nominal\AbstractRecurring
+     * @return \Magento\RecurringProfile\Model\Quote\Total\AbstractRecurring
      */
     public function collect(\Magento\Sales\Model\Quote\Address $address)
     {
@@ -89,6 +87,7 @@ abstract class AbstractRecurring
      *
      * @param \Magento\Sales\Model\Quote\Address $address
      * @param \Magento\Sales\Model\Quote\Item\AbstractItem $item
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function _afterCollectSuccess($address, $item)
     {
