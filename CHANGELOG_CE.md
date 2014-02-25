@@ -1,3 +1,6 @@
+* GitHub requests:
+  * [#235](https://github.com/magento/magento2/issues/235) -- Translation escaping
+  * [#463](https://github.com/magento/magento2/pull/463) -- allow _resolveArguments to do sequential lookups
 * Fixed bugs:
   * Fixed an issue with "Add to Cart" button on MAP popup of compound products
   * Fixed an issue where the Add Address button for Customer in Admin was broken
