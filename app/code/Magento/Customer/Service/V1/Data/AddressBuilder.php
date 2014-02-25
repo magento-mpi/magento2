@@ -26,7 +26,10 @@ class AddressBuilder extends AbstractDtoBuilder
     protected $_metadataService;
 
     /**
+     * Initialize dependencies.
+     *
      * @param RegionBuilder $regionBuilder
+     * @param CustomerMetadataServiceInterface $metadataService
      */
     public function __construct(RegionBuilder $regionBuilder, CustomerMetadataServiceInterface $metadataService)
     {
