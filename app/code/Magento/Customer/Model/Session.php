@@ -126,7 +126,7 @@ class Session extends \Magento\Session\SessionManager
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Model\Converter $converter
-     * @param \Magento\App\ResponseInterface $response
+     * @param ResponseInterface $response
      * @param \Magento\Customer\Service\V1\CustomerServiceInterface $customerService
      * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
      * @param null $sessionName
