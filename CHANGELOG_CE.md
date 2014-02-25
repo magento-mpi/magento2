@@ -16,6 +16,8 @@
   * Moved Recurring profile functionality into separate module
   * Moved Billing Agreements functionality into PayPal module
   * Finalised work on resolving dependencies between all other modules and Multishipping module. Module can be removed without impact on system
+  * CSS url resolving logic moved from publisher to separate css pre-processor
+  * View publisher re-factored
 * Customer Service usage:
  * Updated Customer Group Grid to use Customer Service for retrieving data and filtering
  * Updated CustomerMetadataService::getAttributeMetadata to throw an exception if invalid code provided
