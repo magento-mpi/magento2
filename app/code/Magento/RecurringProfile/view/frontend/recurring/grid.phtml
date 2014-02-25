@@ -41,7 +41,7 @@
                         $linkText = $linkUrl ? ($linkAnchorText ? $linkAnchorText : $value) : '';
                         $linkFormat = $linkUrl ? '<a href="%s">%s</a>' : '';
                         ?>
-                        <td<?php $this->getObjectData($row, 'is_amount') ? ' class="col qty"' : '' ?>>
+                        <td<?php echo $this->getObjectData($row, 'is_amount') ? ' class="col qty"' : '' ?>>
                             <?php
                             if ($linkFormat) {
                                 echo sprintf($nobr, sprintf($linkFormat, $this->escapeHtml($linkUrl), $this->escapeHtml($linkText)));

@@ -11,10 +11,6 @@ namespace Magento\RecurringProfile\Model;
  * Sales implementation of recurring payment profiles
  * Implements saving and managing profiles
  *
- * @method \Magento\RecurringProfile\Model\Resource\Profile _getResource()
- * @method \Magento\RecurringProfile\Model\Resource\Profile getResource()
- * @method string getState()
- * @method Profile setState(string $value)
  * @method int getCustomerId()
  * @method Profile setCustomerId(int $value)
  * @method int getStoreId()
@@ -25,15 +21,10 @@ namespace Magento\RecurringProfile\Model;
  * @method Profile setCreatedAt(string $value)
  * @method string getUpdatedAt()
  * @method Profile setUpdatedAt(string $value)
- * @method string getReferenceId()
- * @method Profile setReferenceId(string $value)
- * @method string getSubscriberName()
  * @method Profile setSubscriberName(string $value)
  * @method string getStartDatetime()
  * @method Profile setStartDatetime(string $value)
- * @method string getInternalReferenceId()
  * @method Profile setInternalReferenceId(string $value)
- * @method string getScheduleDescription()
  * @method Profile setScheduleDescription(string $value)
  * @method int getSuspensionThreshold()
  * @method Profile setSuspensionThreshold(int $value)
@@ -125,6 +116,7 @@ class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
      * @param PeriodUnits $periodUnits
      * @param \Magento\RecurringProfile\Block\Fields $fields
      * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\RecurringProfile\Model\MethodInterfaceFactory $recurringPaymentFactory
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Sales\Model\Order\AddressFactory $addressFactory
      * @param \Magento\Sales\Model\Order\PaymentFactory $paymentFactory
@@ -143,6 +135,7 @@ class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
         \Magento\RecurringProfile\Model\PeriodUnits $periodUnits,
         \Magento\RecurringProfile\Block\Fields $fields,
         \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\RecurringProfile\Model\MethodInterfaceFactory $recurringPaymentFactory,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Sales\Model\Order\AddressFactory $addressFactory,
         \Magento\Sales\Model\Order\PaymentFactory $paymentFactory,
@@ -166,6 +159,7 @@ class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
             $periodUnits,
             $fields,
             $locale,
+            $recurringPaymentFactory,
             $resource,
             $resourceCollection,
             $data
@@ -194,7 +188,7 @@ class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
             $this->setInternalReferenceId($this->mathRandom->getUniqueHash('temporary-'));
             $this->save();
             $this->setInternalReferenceId($this->mathRandom->getUniqueHash($this->getId() . '-'));
-            $this->getMethodInstance()->submitRecurringProfile($this, $this->getQuote()->getPayment());
+            $this->getMethodInstance()->submit($this, $this->getQuote()->getPayment());
             $this->save();
             $this->_getResource()->commit();
         } catch (\Exception $e) {
@@ -210,7 +204,7 @@ class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
     {
         $this->_checkWorkflow(States::ACTIVE, false);
         $this->setNewState(States::ACTIVE);
-        $this->getMethodInstance()->updateRecurringProfileStatus($this);
+        $this->getMethodInstance()->updateStatus($this);
         $this->setState(States::ACTIVE)->save();
     }
 
@@ -231,7 +225,7 @@ class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
     {
         $this->_checkWorkflow(States::SUSPENDED, false);
         $this->setNewState(States::SUSPENDED);
-        $this->getMethodInstance()->updateRecurringProfileStatus($this);
+        $this->getMethodInstance()->updateStatus($this);
         $this->setState(States::SUSPENDED)->save();
     }
 
@@ -252,7 +246,7 @@ class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
     {
         $this->_checkWorkflow(States::CANCELED, false);
         $this->setNewState(States::CANCELED);
-        $this->getMethodInstance()->updateRecurringProfileStatus($this);
+        $this->getMethodInstance()->updateStatus($this);
         $this->setState(States::CANCELED)->save();
     }
 
@@ -269,7 +263,7 @@ class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
     public function fetchUpdate()
     {
         $result = new \Magento\Object();
-        $this->getMethodInstance()->getRecurringProfileDetails($this->getReferenceId(), $result);
+        $this->getMethodInstance()->getDetails($this->getReferenceId(), $result);
 
         if ($result->getIsProfileActive()) {
             $this->setState(States::ACTIVE);
@@ -286,7 +280,7 @@ class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
 
     public function canFetchUpdate()
     {
-        return $this->getMethodInstance()->canGetRecurringProfileDetails();
+        return $this->getMethodInstance()->canGetDetails();
     }
 
     /**
@@ -407,7 +401,11 @@ class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
         $this->setQuote($quote);
 
         if ($quote->getPayment() && $quote->getPayment()->getMethod()) {
-            $this->setMethodInstance($quote->getPayment()->getMethodInstance());
+            $this->setMethodInstance(
+                $this->_recurringPaymentFactory->create(
+                    array('paymentMethod' => $quote->getPayment()->getMethodInstance())
+                )
+            );
         }
 
         $orderInfo = $quote->getData();

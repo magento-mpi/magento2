@@ -50,7 +50,7 @@ class Observer
     protected $_checkoutSession;
 
     /**
-     * @var Quote
+     * @var \Magento\RecurringProfile\Model\QuoteImporter
      */
     protected $_quoteImporter;
 

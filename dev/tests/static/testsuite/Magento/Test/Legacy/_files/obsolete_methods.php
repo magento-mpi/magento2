@@ -144,6 +144,11 @@ return array(
         'Magento\Checkout\Block\Onepage\Success',
         'Magento\RecurringProfile\Block\Checkout\Onepage\Success::_prepareLastRecurringProfiles'
     ),
+    array(
+        'getProfileUrl()',
+        'Magento\Checkout\Block\Onepage\Success',
+        'Magento\RecurringProfile\Block\Checkout\Onepage\Success::getProfileUrl'
+    ),
     array('_prepareOptionsForCart', 'Magento\Catalog\Model\Product\Type\AbstractType'),
     array('_preparePackageTheme', 'Magento\Widget\Model\Widget\Instance'),
     array('_processItem', 'Magento\Weee\Model\Total\Quote\Weee'),
@@ -1348,4 +1353,64 @@ return array(
         'Magento\ConfigurableProduct\Model\Attribute\LockValidator::validate'
     ),
     array('_getVatRequiredCustomerAddress', 'Magento\Sales\Model\Observer'),
+    array(
+        'canGetRecurringProfileDetails',
+        'Magento\Paypal\Model\Express',
+        'Magento\PayPalRecurringPayment\Model\Express::canGetDetails()'
+    ),
+    array(
+        'getRecurringProfileDetails',
+        'Magento\Paypal\Model\Express',
+        'Magento\PayPalRecurringPayment\Model\Express::getDetails()'
+    ),
+    array(
+        'submitRecurringProfile',
+        'Magento\Paypal\Model\Express',
+        'Magento\PayPalRecurringPayment\Model\Express::submit()'
+    ),
+    array(
+        'validateRecurringProfile',
+        'Magento\Paypal\Model\Express',
+        'Magento\PayPalRecurringPayment\Model\Express::validate()'
+    ),
+    array(
+        'updateRecurringProfile',
+        'Magento\Paypal\Model\Express',
+        'Magento\PayPalRecurringPayment\Model\Express::update()'
+    ),
+    array(
+        'updateRecurringProfileStatus',
+        'Magento\Paypal\Model\Express',
+        'Magento\PayPalRecurringPayment\Model\Express::updateStatus()'
+    ),
+    array(
+        'canGetRecurringProfileDetails',
+        'Magento\Paypal\Model\Pro',
+        'Magento\PayPalRecurringPayment\Model\Express::canGetDetails()'
+    ),
+    array(
+        'getRecurringProfileDetails',
+        'Magento\Paypal\Model\Pro',
+        'Magento\PayPalRecurringPayment\Model\Express::getDetails()'
+    ),
+    array(
+        'submitRecurringProfile',
+        'Magento\Paypal\Model\Pro',
+        'Magento\PayPalRecurringPayment\Model\Express::submit()'
+    ),
+    array(
+        'validateRecurringProfile',
+        'Magento\Paypal\Model\Pro',
+        'Magento\PayPalRecurringPayment\Model\Express::validate()'
+    ),
+    array(
+        'updateRecurringProfile',
+        'Magento\Paypal\Model\Pro',
+        'Magento\PayPalRecurringPayment\Model\Express::update()'
+    ),
+    array(
+        'updateRecurringProfileStatus',
+        'Magento\Paypal\Model\Pro',
+        'Magento\PayPalRecurringPayment\Model\Express::updateStatus()'
+    ),
 );

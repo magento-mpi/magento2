@@ -14,7 +14,7 @@ namespace Magento\RecurringProfile\Block\Profile\Related\Orders;
 class Grid extends \Magento\RecurringProfile\Block\Profile\View
 {
     /**
-     * @var \Magento\RecurringProfile\Model\Resource\Order\Collection
+     * @var \Magento\Sales\Model\Resource\Order\Collection
      */
     protected $_orderCollection;
     /**

@@ -1177,6 +1177,8 @@ return array(
     array('Magento\Reports\Model\Resource\Helper\HelperInterface', 'Magento\Reports\Model\Resource\HelperInterface'),
     array('Magento\Payment\Block\Catalog\Product\View\Profile',
         'Magento\RecurringProfile\Block\Catalog\Product\View\Profile'),
+    array('Magento\Payment\Model\Recurring\Profile\MethodInterface',
+        'Magento\RecurringProfile\Model\MethodInterface'),
     array('Magento\Poll\Block\ActivePoll'),
     array('Magento\Poll\Controller\Vote'),
     array('Magento\Poll\Helper\Data'),

@@ -10,6 +10,16 @@ namespace Magento\RecurringProfile\Model;
 /**
  * Recurring payment profile
  * Extends from \Magento\Core\Abstract for a reason: to make descendants have its own resource
+ *
+ * @method getInternalReferenceId()
+ * @method getNewState()
+ * @method getReferenceId()
+ * @method getScheduleDescription()
+ * @method getState()
+ * @method getSubscriberName()
+ * @method RecurringProfile setReferenceId()
+ * @method RecurringProfile setState()
+ * @method RecurringProfile setToken()
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class RecurringProfile extends \Magento\Core\Model\AbstractModel
@@ -31,7 +41,7 @@ class RecurringProfile extends \Magento\Core\Model\AbstractModel
 
     /**
      *
-     * @var \Magento\Payment\Model\Method\AbstractMethod
+     * @var \Magento\RecurringProfile\Model\MethodInterface
      */
     protected $_methodInstance = null;
 
@@ -72,12 +82,18 @@ class RecurringProfile extends \Magento\Core\Model\AbstractModel
     protected $_locale;
 
     /**
+     * @var \Magento\RecurringProfile\Model\MethodInterfaceFactory
+     */
+    protected $_recurringPaymentFactory;
+
+    /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param PeriodUnits $periodUnits
      * @param \Magento\RecurringProfile\Block\Fields $fields
      * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\RecurringProfile\Model\MethodInterfaceFactory $recurringPaymentFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -89,6 +105,7 @@ class RecurringProfile extends \Magento\Core\Model\AbstractModel
         \Magento\RecurringProfile\Model\PeriodUnits $periodUnits,
         \Magento\RecurringProfile\Block\Fields $fields,
         \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\RecurringProfile\Model\MethodInterfaceFactory $recurringPaymentFactory,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -98,6 +115,7 @@ class RecurringProfile extends \Magento\Core\Model\AbstractModel
         $this->_periodUnits = $periodUnits;
         $this->_fields = $fields;
         $this->_locale = $locale;
+        $this->_recurringPaymentFactory = $recurringPaymentFactory;
     }
 
     /**
@@ -172,7 +190,7 @@ class RecurringProfile extends \Magento\Core\Model\AbstractModel
         }
         if ($this->_methodInstance) {
             try {
-                $this->_methodInstance->validateRecurringProfile($this);
+                $this->_methodInstance->validate($this);
             } catch (\Magento\Core\Exception $e) {
                 $this->_errors['payment_method'][] = $e->getMessage();
             }
@@ -210,12 +228,11 @@ class RecurringProfile extends \Magento\Core\Model\AbstractModel
      */
     public function setMethodInstance(\Magento\Payment\Model\Method\AbstractMethod $object)
     {
-        if ($object instanceof \Magento\Payment\Model\Recurring\Profile\MethodInterface) {
+        if ($object instanceof \Magento\RecurringProfile\Model\MethodInterface) {
             $this->_methodInstance = $object;
-        } else {
-            throw new \Exception('Invalid payment method instance for use in recurring profile.');
+            return $this;
         }
-        return $this;
+        throw new \Exception('Invalid payment method instance for use in recurring profile.');
     }
 
     /**
@@ -441,12 +458,14 @@ class RecurringProfile extends \Magento\Core\Model\AbstractModel
     /**
      * Return payment method instance
      *
-     * @return \Magento\Payment\Model\Method\AbstractMethod
+     * @return \Magento\RecurringProfile\Model\MethodInterface
      */
     protected function getMethodInstance()
     {
         if (!$this->_methodInstance) {
-            $this->setMethodInstance($this->_paymentData->getMethodInstance($this->getMethodCode()));
+            $this->_methodInstance = $this->_recurringPaymentFactory->create(
+                array('paymentMethod' => $this->_paymentData->getMethodInstance($this->getMethodCode()))
+            );
         }
         $this->_methodInstance->setStore($this->getStoreId());
         return $this->_methodInstance;

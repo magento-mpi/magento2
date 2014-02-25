@@ -43,6 +43,7 @@ class Orders
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Sales\Model\Resource\Order\CollectionFactory $orderCollection
      * @param \Magento\Sales\Model\Order\ConfigFactory $orderConfig
+     * @param \Magento\RecurringProfile\Model\Resource\Order\CollectionFilter $recurringCollectionFilter
      * @param array $data
      */
     public function __construct(
@@ -179,7 +180,7 @@ class Orders
     /**
      * Return row url for js event handlers
      *
-     * @param \Magento\Object
+     * @param \Magento\Object $row
      * @return string
      */
     public function getRowUrl($row)

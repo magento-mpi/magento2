@@ -55,7 +55,7 @@ class Download extends \Magento\App\Action\Action
         if (!isset($buyRequest['options'][$optionId])) {
             throw new \Exception();
         }
-        /** @var Magento\Catalog\Model\Product $product */
+        /** @var \Magento\Catalog\Model\Product $product */
         $product = $this->_objectManager->create('Magento\Catalog\Model\Product')->load($buyRequest['product']);
         if (!$product->getId()) {
             throw new \Exception();
