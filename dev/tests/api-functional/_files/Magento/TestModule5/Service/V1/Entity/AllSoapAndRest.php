@@ -11,9 +11,9 @@ namespace Magento\TestModule5\Service\V1\Entity;
 use Magento\Service\Entity\AbstractDto;
 
 /**
- * Some DTO short description.
+ * Some Data Object short description.
  *
- * DTO long
+ * Data Object long
  * multi line description.
  */
 class AllSoapAndRest extends AbstractDto

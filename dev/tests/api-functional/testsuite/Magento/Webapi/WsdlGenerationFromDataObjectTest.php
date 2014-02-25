@@ -11,7 +11,7 @@ namespace Magento\Webapi;
 /**
  * Test WSDL generation mechanisms.
  */
-class WsdlGenerationFromDtoTest extends \Magento\TestFramework\TestCase\WebapiAbstract
+class WsdlGenerationFromDataObjectTest extends \Magento\TestFramework\TestCase\WebapiAbstract
 {
     /** @var string */
     protected $_baseUrl = TESTS_BASE_URL;
@@ -205,7 +205,7 @@ RESPONSE_TYPE;
     }
 
     /**
-     * Ensure that complex type generated from DTO is correct.
+     * Ensure that complex type generated from Data Object is correct.
      *
      * @param string $wsdlContent
      */
@@ -215,7 +215,7 @@ RESPONSE_TYPE;
         $referencedType = <<< RESPONSE_TYPE
 <xsd:complexType name="TestModule5V1EntityAllSoapAndRest">
     <xsd:annotation>
-        <xsd:documentation>Some DTO short description. DTO long multi line description.</xsd:documentation>
+        <xsd:documentation>Some Data Object short description. Data Object long multi line description.</xsd:documentation>
         <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2"/>
     </xsd:annotation>
     <xsd:sequence>
@@ -303,7 +303,7 @@ RESPONSE_TYPE;
         $this->assertContains(
             $this->_convertXmlToString($referencedType),
             $wsdlContent,
-            'Declaration of complex type generated from DTO, which is referenced in response, is invalid'
+            'Declaration of complex type generated from Data Object, which is referenced in response, is invalid'
         );
     }
 

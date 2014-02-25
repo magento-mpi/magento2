@@ -178,7 +178,7 @@ class TypeProcessor
             || (strpos($methodReflection->getName(), 'has') === 0);
         if ($isGetter) {
             $returnMetadata = $this->getGetterReturnType($methodReflection);
-            $fieldName = $this->_helper->dtoGetterNameToFieldName($methodReflection->getName());
+            $fieldName = $this->_helper->dataObjectGetterNameToFieldName($methodReflection->getName());
             $this->_types[$typeName]['parameters'][$fieldName] = array(
                 'type' => $this->process($returnMetadata['type']),
                 'required' => $returnMetadata['isRequired'],

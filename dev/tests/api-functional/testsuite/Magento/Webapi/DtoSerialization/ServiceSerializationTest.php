@@ -46,7 +46,7 @@ class ServiceSerializationTest extends \Magento\TestFramework\TestCase\WebapiAbs
     }
 
     /**
-     *  Test multiple params with DTO
+     *  Test multiple params with Data Object
      */
     public function testUpdateServiceCall()
     {
@@ -64,9 +64,9 @@ class ServiceSerializationTest extends \Magento\TestFramework\TestCase\WebapiAbs
     }
 
     /**
-     *  Test nested DTO
+     *  Test nested Data Object
      */
-    public function testNestedDtoCall()
+    public function testNestedDataObjectCall()
     {
         $itemId = 1;
         $name = 'Test';

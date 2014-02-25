@@ -486,15 +486,15 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
     {
         $addressId = 1;
         // See that customer already has an address with expected addressId
-        $addressDto = $this->_service->getAddressById($addressId);
-        $this->assertEquals($addressDto->getId(), $addressId);
+        $addressDataObject = $this->_service->getAddressById($addressId);
+        $this->assertEquals($addressDataObject->getId(), $addressId);
 
         // Delete the address from the customer
         $this->_service->deleteAddress($addressId);
 
         // See that address is deleted
         try {
-            $addressDto = $this->_service->getAddressById($addressId);
+            $addressDataObject = $this->_service->getAddressById($addressId);
             $this->fail("Expected NoSuchEntityException not caught");
         } catch (NoSuchEntityException $exception) {
             $this->assertSame($exception->getCode(), \Magento\Exception\NoSuchEntityException::NO_SUCH_ENTITY);
@@ -528,7 +528,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Helper function that returns an Address DTO that matches the data from customer_address fixture
+     * Helper function that returns an Address Data Object that matches the data from customer_address fixture
      *
      * @return \Magento\Customer\Service\V1\Data\AddressBuilder
      */
@@ -540,7 +540,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Helper function that returns an Address DTO that matches the data from customer_two_address fixture
+     * Helper function that returns an Address Data Object that matches the data from customer_two_address fixture
      *
      * @return \Magento\Customer\Service\V1\Data\AddressBuilder
      */

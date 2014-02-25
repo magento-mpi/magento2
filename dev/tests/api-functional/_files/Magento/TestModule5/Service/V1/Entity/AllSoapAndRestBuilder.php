@@ -12,9 +12,9 @@ use Magento\Service\Entity\AbstractDto;
 use Magento\Service\Entity\AbstractDtoBuilder;
 
 /**
- * Some DTO short description.
+ * Some Data Object short description.
  *
- * DTO long
+ * Data Object long
  * multi line description.
  */
 class AllSoapAndRestBuilder extends AbstractDtoBuilder

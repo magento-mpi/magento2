@@ -153,9 +153,10 @@ class Rest implements \Magento\App\FrontControllerInterface
      * Converts the incoming data into scalar or an array of scalars format.
      *
      * If the data provided is null, then an empty array is returned.  Otherwise, if the data is an object, it is
-     * assumed to be a DTO and converted to an associative array with keys representing the properties of the DTO.
-     * Nested DTOs are also converted.  If the data provided is itself an array, then we iterate through the contents
-     * and convert each piece individually.
+     * assumed to be a Data Object and converted to an associative array with keys representing the properties of the
+     * Data Object.
+     * Nested Data Objects are also converted.  If the data provided is itself an array, then we iterate through the
+     * contents and convert each piece individually.
      *
      * @param mixed $data
      * @return array|int|string|bool|float Scalar or array of scalars
@@ -166,13 +167,13 @@ class Rest implements \Magento\App\FrontControllerInterface
             $result = [];
             foreach ($data as $datum) {
                 if (is_object($datum)) {
-                    $result[] = $this->_convertDtoToArray($datum);
+                    $result[] = $this->_convertDataObjectToArray($datum);
                 } else {
                     $result[] = $datum;
                 }
             }
         } else if (is_object($data)) {
-            $result = $this->_convertDtoToArray($data);
+            $result = $this->_convertDataObjectToArray($data);
         } else if (is_null($data)) {
             $result = [];
         } else {
@@ -183,17 +184,17 @@ class Rest implements \Magento\App\FrontControllerInterface
     }
 
     /**
-     * Convert DTO to array.
+     * Convert Data Object to array.
      *
-     * @param object $dto
+     * @param object $dataObject
      * @return array
      * @throws \InvalidArgumentException
      */
-    protected function _convertDtoToArray($dto)
+    protected function _convertDataObjectToArray($dataObject)
     {
-        if (!is_object($dto) || !method_exists($dto, '__toArray')) {
+        if (!is_object($dataObject) || !method_exists($dataObject, '__toArray')) {
             throw new \InvalidArgumentException("All objects returned by service must implement __toArray().");
         }
-        return $dto->__toArray();
+        return $dataObject->__toArray();
     }
 }

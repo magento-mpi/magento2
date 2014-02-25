@@ -79,28 +79,30 @@ abstract class AbstractDtoBuilder
     }
 
     /**
-     * Merge second DTO data with first DTO data and create new DTO object based on merge result.
+     * Merge second Data Object data with first Data Object data and create new Data Object object based on merge
+     * result.
      *
-     * @param AbstractDto $firstDto
-     * @param AbstractDto $secondDto
+     * @param AbstractDto $firstDataObject
+     * @param AbstractDto $secondDataObject
      * @return AbstractDto
      */
-    public function mergeDataObjects(AbstractDto $firstDto, AbstractDto $secondDto)
+    public function mergeDataObjects(AbstractDto $firstDataObject, AbstractDto $secondDataObject)
     {
-        $this->_data = array_merge($firstDto->__toArray(), $secondDto->__toArray());
+        $this->_data = array_merge($firstDataObject->__toArray(), $secondDataObject->__toArray());
         return $this->create();
     }
 
     /**
-     * Merged data provided in array format with DTO data and create new DTO object based on merge result.
+     * Merged data provided in array format with Data Object data and create new Data Object object based on merge
+     * result.
      *
-     * @param AbstractDto $dto
+     * @param AbstractDto $dataObject
      * @param array $data
      * @return AbstractDto
      */
-    public function mergeDataObjectWithArray(AbstractDto $dto, array $data)
+    public function mergeDataObjectWithArray(AbstractDto $dataObject, array $data)
     {
-        $this->_data = array_merge($dto->__toArray(), $data);
+        $this->_data = array_merge($dataObject->__toArray(), $data);
         return $this->create();
     }
 
@@ -156,7 +158,7 @@ abstract class AbstractDtoBuilder
     }
 
     /**
-     * Return DTO data.
+     * Return data Object data.
      *
      * @return array
      */

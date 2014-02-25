@@ -135,11 +135,11 @@ class Handler
      */
     protected function _prepareResponseData($data)
     {
-        if ($this->_isDto($data)) {
-            $result = $this->_unpackDto($data);
+        if ($this->_isDataObject($data)) {
+            $result = $this->_unpackDataObject($data);
         } elseif (is_array($data)) {
             foreach ($data as $key => $value) {
-                $result[$key] = $this->_isDto($value) ? $this->_unpackDto($value) : $value;
+                $result[$key] = $this->_isDataObject($value) ? $this->_unpackDataObject($value) : $value;
             }
         } elseif (is_string($data) || is_numeric($data) || is_null($data)) {
             $result = $data;
@@ -154,19 +154,19 @@ class Handler
      *
      * This method processes all nested Data Objects recursively.
      *
-     * @param object $dto
+     * @param object $dataObject
      * @return \stdClass
      * @throws \InvalidArgumentException
      */
-    protected function _unpackDto($dto)
+    protected function _unpackDataObject($dataObject)
     {
-        if (!$this->_isDto($dto)) {
+        if (!$this->_isDataObject($dataObject)) {
             throw new \InvalidArgumentException("Object is expected to implement __toArray() method.");
         }
         $response = new \stdClass();
-        foreach ($dto->__toArray() as $fieldName => $fieldValue) {
-            if ($this->_isDto($fieldValue)) {
-                $fieldValue = $this->_unpackDto($fieldValue);
+        foreach ($dataObject->__toArray() as $fieldName => $fieldValue) {
+            if ($this->_isDataObject($fieldValue)) {
+                $fieldValue = $this->_unpackDataObject($fieldValue);
             }
             $response->$fieldName = $fieldValue;
         }
@@ -174,12 +174,12 @@ class Handler
     }
 
     /**
-     * Check if provided variable is service DTO.
+     * Check if provided variable is service Data Object.
      *
      * @param mixed $var
      * @return bool
      */
-    protected function _isDto($var)
+    protected function _isDataObject($var)
     {
         return (is_object($var) && method_exists($var, '__toArray'));
     }

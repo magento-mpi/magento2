@@ -15,7 +15,7 @@ use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
 
 /**
  * @method Address create()
- * @method Address mergeDataObjectWithArray(AbstractDto $dto, array $data)
+ * @method Address mergeDataObjectWithArray(AbstractDto $dataObject, array $data)
  */
 class AddressBuilder extends AbstractDtoBuilder
 {

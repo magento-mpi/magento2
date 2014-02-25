@@ -61,8 +61,12 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
             ->create();
 
         $mergedDataObject = $this->_customerBuilder->mergeDataObjects($firstDataObject, $secondDataObject);
-        $this->assertNotSame($firstDataObject, $mergedDataObject, 'A new object must be created for merged DTO.');
-        $this->assertNotSame($secondDataObject, $mergedDataObject, 'A new object must be created for merged DTO.');
+        $this->assertNotSame($firstDataObject, $mergedDataObject,
+            'A new object must be created for merged Data Object.'
+        );
+        $this->assertNotSame($secondDataObject, $mergedDataObject,
+            'A new object must be created for merged Data Object.'
+        );
         $expectedDataObject = [
             'firstname' => $firstname1,
             'lastname' => $lastname2,
@@ -89,20 +93,25 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
         $dataForMerge = ['lastname' => $lastname2, 'middlename' => $middlename2];
 
         $mergedDataObject = $this->_customerBuilder->mergeDataObjectWithArray($firstDataObject, $dataForMerge);
-        $this->assertNotSame($firstDataObject, $mergedDataObject, 'A new object must be created for merged DTO.');
+        $this->assertNotSame($firstDataObject, $mergedDataObject,
+            'A new object must be created for merged Data Object.'
+        );
         $expectedDataObject = [
             'firstname' => $firstname1,
             'lastname' => $lastname2,
             'middlename' => $middlename2,
             'email' => $email1
         ];
-        $this->assertEquals($expectedDataObject, $mergedDataObject->__toArray(), 'DTO with array were merged incorrectly.');
+        $this->assertEquals($expectedDataObject, $mergedDataObject->__toArray(),
+            'Data Object with array were merged incorrectly.'
+        );
     }
 
     // @codingStandardsIgnoreStart
     /**
      * @expectedException \LogicException
-     * @expectedExceptionMessage Wrong prototype object given. It can only be of "Magento\Customer\Service\V1\Data\Customer" type.
+     * @expectedExceptionMessage Wrong prototype object given. It can only be of
+     * "Magento\Customer\Service\V1\Data\Customer" type.
      */
     // @codingStandardsIgnoreEnd
     public function testPopulateException()

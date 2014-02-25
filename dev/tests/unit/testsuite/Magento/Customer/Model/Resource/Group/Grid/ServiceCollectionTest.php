@@ -61,13 +61,13 @@ class ServiceCollectionTest extends \PHPUnit_Framework_TestCase
             ->addFilter($this->filterBuilder->setField('name')->setConditionType('eq')->setValue('Magento')->create())
             ->create();
 
-        // Verifies that the search criteria DTO created by the serviceCollection matches expected
+        // Verifies that the search criteria Data Object created by the serviceCollection matches expected
         $this->groupServiceMock->expects($this->once())
             ->method('searchGroups')
             ->with($this->equalTo($expectedSearchCriteria))
             ->will($this->returnValue($this->searchResults));
 
-        // Now call service collection to load the data.  This causes it to create the search criteria DTO
+        // Now call service collection to load the data.  This causes it to create the search criteria Data Object
         $this->serviceCollection->addFieldToFilter('name', 'Magento');
         $this->serviceCollection->setOrder('name', ServiceCollection::SORT_ORDER_ASC);
         $this->serviceCollection->loadData();
@@ -89,13 +89,13 @@ class ServiceCollectionTest extends \PHPUnit_Framework_TestCase
             )
             ->create();
 
-        // Verifies that the search criteria DTO created by the serviceCollection matches expected
+        // Verifies that the search criteria Data Object created by the serviceCollection matches expected
         $this->groupServiceMock->expects($this->once())
             ->method('searchGroups')
             ->with($this->equalTo($expectedSearchCriteria))
             ->will($this->returnValue($this->searchResults));
 
-        // Now call service collection to load the data.  This causes it to create the search criteria DTO
+        // Now call service collection to load the data.  This causes it to create the search criteria Data Object
         $this->serviceCollection->addFieldToFilter($field, [$conditionType => $value]);
         $this->serviceCollection->setOrder('name', ServiceCollection::SORT_ORDER_ASC);
         $this->serviceCollection->loadData();
@@ -121,13 +121,13 @@ class ServiceCollectionTest extends \PHPUnit_Framework_TestCase
             )
             ->create();
 
-        // Verifies that the search criteria DTO created by the serviceCollection matches expected
+        // Verifies that the search criteria Data Object created by the serviceCollection matches expected
         $this->groupServiceMock->expects($this->once())
             ->method('searchGroups')
             ->with($this->equalTo($expectedSearchCriteria))
             ->will($this->returnValue($this->searchResults));
 
-        // Now call service collection to load the data.  This causes it to create the search criteria DTO
+        // Now call service collection to load the data.  This causes it to create the search criteria Data Object
         $this->serviceCollection->addFieldToFilter([$fieldA, $fieldB], [$value, $value]);
         $this->serviceCollection->setOrder('name', ServiceCollection::SORT_ORDER_ASC);
         $this->serviceCollection->loadData();
@@ -149,13 +149,13 @@ class ServiceCollectionTest extends \PHPUnit_Framework_TestCase
             ->addFilter($this->filterBuilder->setField($fieldB)->setConditionType('gt')->setValue($value)->create())
             ->create();
 
-        // Verifies that the search criteria DTO created by the serviceCollection matches expected
+        // Verifies that the search criteria Data Object created by the serviceCollection matches expected
         $this->groupServiceMock->expects($this->once())
             ->method('searchGroups')
             ->with($this->equalTo($expectedSearchCriteria))
             ->will($this->returnValue($this->searchResults));
 
-        // Now call service collection to load the data.  This causes it to create the search criteria DTO
+        // Now call service collection to load the data.  This causes it to create the search criteria Data Object
         $this->serviceCollection->addFieldToFilter($fieldA, ['gt' => $value]);
         $this->serviceCollection->addFieldToFilter($fieldB, ['gt' => $value]);
         $this->serviceCollection->setOrder('name', ServiceCollection::SORT_ORDER_ASC);

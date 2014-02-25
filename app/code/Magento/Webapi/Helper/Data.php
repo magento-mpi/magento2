@@ -100,12 +100,12 @@ class Data extends \Magento\App\Helper\AbstractHelper
     }
 
     /**
-     * Convert DTO getter name into field name.
+     * Convert Data Object getter name into field name.
      *
      * @param string $getterName
      * @return string
      */
-    public function dtoGetterNameToFieldName($getterName)
+    public function dataObjectGetterNameToFieldName($getterName)
     {
         if ((strpos($getterName, 'get') === 0)) {
             /** Remove 'get' prefix and make the first letter lower case */
@@ -118,12 +118,12 @@ class Data extends \Magento\App\Helper\AbstractHelper
     }
 
     /**
-     * Convert DTO field name into setter name.
+     * Convert Data Object field name into setter name.
      *
      * @param string $fieldName
      * @return string
      */
-    public function dtoFieldNameToSetterName($fieldName)
+    public function dataObjectFieldNameToSetterName($fieldName)
     {
         return 'set' . ucfirst($fieldName);
     }
