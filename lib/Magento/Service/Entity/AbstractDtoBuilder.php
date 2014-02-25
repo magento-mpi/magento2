@@ -8,6 +8,9 @@
 
 namespace Magento\Service\Entity;
 
+/**
+ * @SuppressWarnings(PHPMD.NumberOfChildren)
+ */
 abstract class AbstractDtoBuilder
 {
     /**

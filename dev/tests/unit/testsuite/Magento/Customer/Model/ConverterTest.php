@@ -21,7 +21,8 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
     /** @var  \PHPUnit_Framework_MockObject_MockObject | CustomerMetadataServiceInterface */
     private $_metadataService;
 
-    public function setUp() {
+    public function setUp()
+    {
         $this->_metadataService = $this->getMockForAbstractClass(
             'Magento\Customer\Service\V1\CustomerMetadataServiceInterface', [], '', false
         );

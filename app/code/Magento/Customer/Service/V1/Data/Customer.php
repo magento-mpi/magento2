@@ -46,8 +46,8 @@ class Customer extends \Magento\Service\Entity\AbstractDto
     public function getCustomAttribute($attributeCode)
     {
         if (isset($this->_data[self::CUSTOM_ATTRIBUTES_KEY])
-            && array_key_exists($attributeCode, $this->_data[self::CUSTOM_ATTRIBUTES_KEY]))
-        {
+            && array_key_exists($attributeCode, $this->_data[self::CUSTOM_ATTRIBUTES_KEY])
+        ) {
             return $this->_data[self::CUSTOM_ATTRIBUTES_KEY][$attributeCode];
         } else {
             return null;
@@ -208,14 +208,5 @@ class Customer extends \Magento\Service\Entity\AbstractDto
     public function getWebsiteId()
     {
         return (int)$this->_get(self::WEBSITE_ID);
-    }
-
-    /**
-     * @param string $attributeCode
-     * @return string|null
-     */
-    public function getAttribute($attributeCode)
-    {
-        // TODO: Implement getAttribute() method.
     }
 }

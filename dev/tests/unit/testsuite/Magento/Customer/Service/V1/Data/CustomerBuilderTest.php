@@ -99,10 +99,12 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedDataObject, $mergedDataObject->__toArray(), 'DTO with array were merged incorrectly.');
     }
 
+    // @codingStandardsIgnoreStart
     /**
      * @expectedException \LogicException
      * @expectedExceptionMessage Wrong prototype object given. It can only be of "Magento\Customer\Service\V1\Data\Customer" type.
      */
+    // @codingStandardsIgnoreEnd
     public function testPopulateException()
     {
         $addressData = (new AddressBuilder(new RegionBuilder(), $this->_customerMetadataService))->create();
