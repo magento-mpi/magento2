@@ -100,11 +100,8 @@ class Sales extends \Magento\Backend\Block\Template
         $this->_currency = $this->_currencyFactory->create()
             ->load($this->_storeConfig->getConfig(Currency::XML_PATH_CURRENCY_BASE));
 
-        $customerId = $this->_coreRegistry->registry('current_customer')
-            ? $this->_coreRegistry->registry('current_customer')->getId()
-            : 0;
         $this->_collection = $this->_collectionFactory->create()
-            ->setCustomerIdFilter($this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID))
+            ->setCustomerIdFilter((int)$this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID))
             ->setOrderStateFilter(Order::STATE_CANCELED, true)
             ->load();
 
@@ -112,19 +109,19 @@ class Sales extends \Magento\Backend\Block\Template
 
         foreach ($this->_collection as $sale) {
             if (!is_null($sale->getStoreId())) {
-                $store      = $this->_storeManager->getStore($sale->getStoreId());
-                $websiteId  = $store->getWebsiteId();
-                $groupId    = $store->getGroupId();
-                $storeId    = $store->getId();
+                $store = $this->_storeManager->getStore($sale->getStoreId());
+                $websiteId = $store->getWebsiteId();
+                $groupId = $store->getGroupId();
+                $storeId = $store->getId();
 
                 $sale->setWebsiteId($store->getWebsiteId());
                 $sale->setWebsiteName($store->getWebsite()->getName());
                 $sale->setGroupId($store->getGroupId());
                 $sale->setGroupName($store->getGroup()->getName());
             } else {
-                $websiteId  = 0;
-                $groupId    = 0;
-                $storeId    = 0;
+                $websiteId = 0;
+                $groupId = 0;
+                $storeId = 0;
 
                 $sale->setStoreName(__('Deleted Stores'));
             }

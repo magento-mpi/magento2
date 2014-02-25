@@ -18,7 +18,6 @@ use Magento\Customer\Service\V1\Dto\AddressBuilder;
 use Magento\Customer\Service\V1\Dto\Address as AddressDto;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 use Magento\Customer\Model\Metadata\Form;
-use Magento\Customer\Service\V1\Dto\Response\CreateCustomerAccountResponse;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Exception\NoSuchEntityException;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
@@ -837,13 +836,13 @@ class Onepage
     /**
      * Involve new customer to system
      *
-     * @param CreateCustomerAccountResponse $createCustomerResponse
      * @return $this
      */
-    protected function _involveNewCustomer(CreateCustomerAccountResponse $createCustomerResponse)
+    protected function _involveNewCustomer()
     {
         $customer = $this->getQuote()->getCustomerData();
-        if ($createCustomerResponse->getStatus() == CustomerAccountServiceInterface::ACCOUNT_CONFIRMATION) {
+        $confirmationStatus = $this->_accountService->getConfirmationStatus($customer->getCustomerId());
+        if ($confirmationStatus === CustomerAccountServiceInterface::ACCOUNT_CONFIRMATION_REQUIRED) {
             $url = $this->_customerData->getEmailConfirmationUrl($customer->getEmail());
             $this->messageManager->addSuccess(
                 __('Account confirmation is required. Please, check your e-mail for confirmation link. To resend confirmation email please <a href="%1">click here</a>.', $url)
@@ -882,7 +881,7 @@ class Onepage
 
         if ($isNewCustomer) {
             try {
-                $this->_involveNewCustomer($quoteService->getCreateCustomerResponse());
+                $this->_involveNewCustomer();
             } catch (\Exception $e) {
                 $this->_logger->logException($e);
             }

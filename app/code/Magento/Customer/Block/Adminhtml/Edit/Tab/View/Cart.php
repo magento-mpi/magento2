@@ -84,12 +84,10 @@ class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
         if ($this->getWebsiteId()) {
             $quote->setWebsite($this->_storeManager->getWebsite($this->getWebsiteId()));
         }
-        $quote->loadByCustomer($this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID));
 
-        /** @var \Magento\Customer\Model\Customer $currentCustomer */
-        $currentCustomer = $this->_coreRegistry->registry('current_customer');
-        if (!is_null($currentCustomer)) {
-            $quote->loadByCustomer($currentCustomer->getId());
+        $currentCustomerId = $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID);
+        if (!empty($currentCustomerId)) {
+            $quote->loadByCustomer($currentCustomerId);
         }
 
         if ($quote) {
@@ -109,43 +107,61 @@ class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareColumns()
     {
-        $this->addColumn('product_id', [
-            'header' => __('ID'),
-            'index' => 'product_id',
-            'width' => '100px',
-        ]);
+        $this->addColumn(
+            'product_id',
+            [
+                'header' => __('ID'),
+                'index' => 'product_id',
+                'width' => '100px',
+            ]
+        );
 
-        $this->addColumn('name', [
-            'header' => __('Product'),
-            'index' => 'name',
-        ]);
+        $this->addColumn(
+            'name',
+            [
+                'header' => __('Product'),
+                'index' => 'name',
+            ]
+        );
 
-        $this->addColumn('sku', [
-            'header' => __('SKU'),
-            'index' => 'sku',
-            'width' => '100px',
-        ]);
+        $this->addColumn(
+            'sku',
+            [
+                'header' => __('SKU'),
+                'index' => 'sku',
+                'width' => '100px',
+            ]
+        );
 
-        $this->addColumn('qty', [
-            'header' => __('Qty'),
-            'index' => 'qty',
-            'type'  => 'number',
-            'width' => '60px',
-        ]);
+        $this->addColumn(
+            'qty',
+            [
+                'header' => __('Qty'),
+                'index' => 'qty',
+                'type' => 'number',
+                'width' => '60px',
+            ]
+        );
 
-        $this->addColumn('price', [
-            'header' => __('Price'),
-            'index' => 'price',
-            'type'  => 'currency',
-            'currency_code' => (string) $this->_storeConfig->getConfig(Currency::XML_PATH_CURRENCY_BASE),
-        ]);
+        $this->addColumn(
+            'price',
+            [
+                'header' => __('Price'),
+                'index' => 'price',
+                'type' => 'currency',
+                'currency_code' => (string)$this->_storeConfig->getConfig(Currency::XML_PATH_CURRENCY_BASE),
+            ]
+        );
 
-        $this->addColumn('total', [
-            'header' => __('Total'),
-            'index' => 'row_total',
-            'type'  => 'currency',
-            'currency_code' => (string) $this->_storeConfig->getConfig(Currency::XML_PATH_CURRENCY_BASE),
-        ]);
+        $this->addColumn(
+            'total',
+            [
+                'header' => __('Total'),
+                'index' => 'row_total',
+                'type' => 'currency',
+                'currency_code' => (string)$this->_storeConfig->getConfig(Currency::XML_PATH_CURRENCY_BASE),
+            ]
+        );
 
         return parent::_prepareColumns();
     }

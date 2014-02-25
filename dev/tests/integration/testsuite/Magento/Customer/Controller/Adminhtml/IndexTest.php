@@ -572,10 +572,14 @@ class IndexTest extends \Magento\Backend\Utility\Controller
             $this->equalTo(['No such entity with customerId = 4200']),
             \Magento\Message\MessageInterface::TYPE_ERROR
         );
-        $this->assertEquals(Subscriber::STATUS_SUBSCRIBED,
-            $subscriberFactory->create()->loadByCustomer(1)->getSubscriberStatus());
-        $this->assertEquals(Subscriber::STATUS_SUBSCRIBED,
-            $subscriberFactory->create()->loadByCustomer(2)->getSubscriberStatus());
+        $this->assertEquals(
+            Subscriber::STATUS_SUBSCRIBED,
+            $subscriberFactory->create()->loadByCustomer(1)->getSubscriberStatus()
+        );
+        $this->assertEquals(
+            Subscriber::STATUS_SUBSCRIBED,
+            $subscriberFactory->create()->loadByCustomer(2)->getSubscriberStatus()
+        );
     }
 
     /**
@@ -701,7 +705,6 @@ class IndexTest extends \Magento\Backend\Utility\Controller
     }
 
 
-
     /**
      * @magentoDataFixture Magento/Customer/_files/two_customers.php
      */
@@ -723,10 +726,14 @@ class IndexTest extends \Magento\Backend\Utility\Controller
             $this->equalTo(['A total of 2 record(s) were updated.']),
             \Magento\Message\MessageInterface::TYPE_SUCCESS
         );
-        $this->assertEquals(Subscriber::STATUS_UNSUBSCRIBED,
-            $subscriberFactory->create()->loadByCustomer(1)->getSubscriberStatus());
-        $this->assertEquals(Subscriber::STATUS_UNSUBSCRIBED,
-            $subscriberFactory->create()->loadByCustomer(2)->getSubscriberStatus());
+        $this->assertEquals(
+            Subscriber::STATUS_UNSUBSCRIBED,
+            $subscriberFactory->create()->loadByCustomer(1)->getSubscriberStatus()
+        );
+        $this->assertEquals(
+            Subscriber::STATUS_UNSUBSCRIBED,
+            $subscriberFactory->create()->loadByCustomer(2)->getSubscriberStatus()
+        );
     }
 
     public function testMassUnsubscriberActionNoSelection()
@@ -778,10 +785,14 @@ class IndexTest extends \Magento\Backend\Utility\Controller
             $this->equalTo(['No such entity with customerId = 4200']),
             \Magento\Message\MessageInterface::TYPE_ERROR
         );
-        $this->assertEquals(Subscriber::STATUS_UNSUBSCRIBED,
-            $subscriberFactory->create()->loadByCustomer(1)->getSubscriberStatus());
-        $this->assertEquals(Subscriber::STATUS_UNSUBSCRIBED,
-            $subscriberFactory->create()->loadByCustomer(2)->getSubscriberStatus());
+        $this->assertEquals(
+            Subscriber::STATUS_UNSUBSCRIBED,
+            $subscriberFactory->create()->loadByCustomer(1)->getSubscriberStatus()
+        );
+        $this->assertEquals(
+            Subscriber::STATUS_UNSUBSCRIBED,
+            $subscriberFactory->create()->loadByCustomer(2)->getSubscriberStatus()
+        );
     }
 
     /**
@@ -791,38 +802,38 @@ class IndexTest extends \Magento\Backend\Utility\Controller
     public function testValidateCustomerWithAddressSuccess()
     {
         $customerData = [
-            'id'      => '1',
+            'id' => '1',
             'account' => [
-                'middlename'         => 'new middlename',
-                'group_id'           => 1,
-                'website_id'         => 1,
-                'firstname'          => 'new firstname',
-                'lastname'           => 'new lastname',
-                'email'              => 'exmaple@domain.com',
-                'default_shipping'   => '_item1',
-                'new_password'       => 'auto',
+                'middlename' => 'new middlename',
+                'group_id' => 1,
+                'website_id' => 1,
+                'firstname' => 'new firstname',
+                'lastname' => 'new lastname',
+                'email' => 'exmaple@domain.com',
+                'default_shipping' => '_item1',
+                'new_password' => 'auto',
                 'sendemail_store_id' => '1',
-                'sendemail'          => '1',
+                'sendemail' => '1',
 
             ],
             'address' => [
                 '_item1' => [
-                    'firstname'  => 'update firstname',
-                    'lastname'   => 'update lastname',
-                    'street'     => ['update street'],
-                    'city'       => 'update city',
+                    'firstname' => 'update firstname',
+                    'lastname' => 'update lastname',
+                    'street' => ['update street'],
+                    'city' => 'update city',
                     'country_id' => 'US',
-                    'postcode'   => '01001',
-                    'telephone'  => '+7000000001',
+                    'postcode' => '01001',
+                    'telephone' => '+7000000001',
                 ],
                 '_template_' => [
-                    'firstname'  => '',
-                    'lastname'   => '',
-                    'street'     => [],
-                    'city'       => '',
+                    'firstname' => '',
+                    'lastname' => '',
+                    'street' => [],
+                    'city' => '',
                     'country_id' => 'US',
-                    'postcode'   => '',
-                    'telephone'  => '',
+                    'postcode' => '',
+                    'telephone' => '',
                 ]
             ]
         ];
@@ -848,36 +859,36 @@ class IndexTest extends \Magento\Backend\Utility\Controller
     public function testValidateCustomerWithAddressFailure()
     {
         $customerData = [
-            'id'      => '1',
+            'id' => '1',
             'account' => [
-                'middlename'         => 'new middlename',
-                'group_id'           => 1,
-                'website_id'         => 1,
-                'firstname'          => 'new firstname',
-                'lastname'           => 'new lastname',
-                'email'              => '*',
-                'default_shipping'   => '_item1',
-                'new_password'       => 'auto',
+                'middlename' => 'new middlename',
+                'group_id' => 1,
+                'website_id' => 1,
+                'firstname' => 'new firstname',
+                'lastname' => 'new lastname',
+                'email' => '*',
+                'default_shipping' => '_item1',
+                'new_password' => 'auto',
                 'sendemail_store_id' => '1',
-                'sendemail'          => '1',
+                'sendemail' => '1',
 
             ],
             'address' => [
-                '1'          => [
-                    'firstname'  => '',
-                    'lastname'   => '',
-                    'street'     => ['update street'],
-                    'city'       => 'update city',
-                    'postcode'   => '01001',
-                    'telephone'  => '',
+                '1' => [
+                    'firstname' => '',
+                    'lastname' => '',
+                    'street' => ['update street'],
+                    'city' => 'update city',
+                    'postcode' => '01001',
+                    'telephone' => '',
                 ],
                 '_template_' => [
-                    'lastname'   => '',
-                    'street'     => [],
-                    'city'       => '',
+                    'lastname' => '',
+                    'street' => [],
+                    'city' => '',
                     'country_id' => 'US',
-                    'postcode'   => '',
-                    'telephone'  => '',
+                    'postcode' => '',
+                    'telephone' => '',
                 ]
             ]
         ];
@@ -897,7 +908,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
         $this->assertContains('\"Telephone\" is a required value.', $body);
         $this->assertContains('\"Telephone\" length must be equal or greater than 1 characters', $body);
         $this->assertContains('\"Country\" is a required value.', $body);
-     }
+    }
 
     public function testResetPasswordActionNoCustomerId()
     {

@@ -588,6 +588,8 @@ class Index extends \Magento\Backend\App\Action
 
     /**
      * Export customer grid to CSV format
+     *
+     * @return \Magento\App\ResponseInterface
      */
     public function exportCsvAction()
     {
@@ -599,6 +601,8 @@ class Index extends \Magento\Backend\App\Action
 
     /**
      * Export customer grid to XML format
+     *
+     * @return \Magento\App\ResponseInterface
      */
     public function exportXmlAction()
     {
@@ -826,13 +830,10 @@ class Index extends \Magento\Backend\App\Action
                     continue;
                 }
 
-                $address = $this->_addressBuilder->create();
-
                 $addressForm = $this->_formFactory->create(
                     'customer_address',
                     'adminhtml_customer_address'
                 );
-                $addressForm->setInvisibleIgnored(true);
 
                 $requestScope = sprintf('address/%s', $index);
                 $formData = $addressForm->extractData($this->getRequest(), $requestScope);
