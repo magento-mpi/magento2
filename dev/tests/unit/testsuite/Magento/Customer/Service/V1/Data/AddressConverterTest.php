@@ -27,10 +27,14 @@ class AddressConverterTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $this->_customerMetadataService->expects($this->any())
             ->method('getCustomAddressAttributeMetadata')
-            ->will($this->returnValue([
+            ->will(
+                $this->returnValue(
+                    [
                         new \Magento\Object(['attribute_code' => 'warehouse_zip']),
                         new \Magento\Object(['attribute_code' => 'warehouse_alternate'])
-                    ]));
+                    ]
+                )
+            );
     }
 
     public function testToFlatArray()
