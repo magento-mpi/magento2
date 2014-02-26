@@ -35,11 +35,6 @@ class Observer
     protected $_recurringProfileFactory;
 
     /**
-     * @var \Magento\View\Element\BlockFactory
-     */
-    protected $_blockFactory;
-
-    /**
      * @var \Magento\RecurringProfile\Block\Fields
      */
     protected $_fields;
@@ -58,7 +53,6 @@ class Observer
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\RecurringProfile\Model\RecurringProfileFactory $recurringProfileFactory
-     * @param \Magento\View\Element\BlockFactory $blockFactory
      * @param \Magento\RecurringProfile\Block\Fields $fields
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param QuoteImporter $quoteImporter
@@ -67,7 +61,6 @@ class Observer
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\RecurringProfile\Model\RecurringProfileFactory $recurringProfileFactory,
-        \Magento\View\Element\BlockFactory $blockFactory,
         \Magento\RecurringProfile\Block\Fields $fields,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\RecurringProfile\Model\QuoteImporter $quoteImporter
@@ -75,7 +68,6 @@ class Observer
         $this->_locale = $locale;
         $this->_storeManager = $storeManager;
         $this->_recurringProfileFactory = $recurringProfileFactory;
-        $this->_blockFactory = $blockFactory;
         $this->_fields = $fields;
         $this->_checkoutSession = $checkoutSession;
         $this->_quoteImporter = $quoteImporter;
@@ -124,38 +116,6 @@ class Observer
             );
         }
         $product->addCustomOption('additional_options', serialize($infoOptions));
-    }
-
-    /**
-     * Add the recurring profile form when editing a product
-     *
-     * @param \Magento\Event\Observer $observer
-     */
-    public function addFieldsToProductEditForm($observer)
-    {
-        // replace the element of recurring payment profile field with a form
-        $profileElement = $observer->getEvent()->getProductElement();
-        $product = $observer->getEvent()->getProduct();
-
-        /** @var $formBlock \Magento\RecurringProfile\Block\Adminhtml\Profile\Edit\Form */
-        $formBlock = $this->_blockFactory->createBlock('Magento\RecurringProfile\Block\Adminhtml\Profile\Edit\Form');
-        $formBlock->setNameInLayout('adminhtml_recurring_profile_edit_form');
-        $formBlock->setParentElement($profileElement);
-        $formBlock->setProductEntity($product);
-        $output = $formBlock->toHtml();
-
-        // make the profile element dependent on is_recurring
-        /** @var $dependencies \Magento\Backend\Block\Widget\Form\Element\Dependence */
-        $dependencies = $this->_blockFactory->createBlock('Magento\Backend\Block\Widget\Form\Element\Dependence');
-        $dependencies->setNameInLayout('adminhtml_recurring_profile_edit_form_dependence');
-        $dependencies->addFieldMap('is_recurring', 'product[is_recurring]');
-        $dependencies->addFieldMap($profileElement->getHtmlId(), $profileElement->getName());
-        $dependencies->addFieldDependence($profileElement->getName(), 'product[is_recurring]', '1');
-        $dependencies->addConfigOptions(array('levels_up' => 2));
-
-        $output .= $dependencies->toHtml();
-
-        $observer->getEvent()->getResult()->output = $output;
     }
 
     /**
@@ -231,23 +191,5 @@ class Observer
         $block = $observer->getEvent()->getObject();
 
         $block->setFormExcludedFieldList(array_merge($block->getFormExcludedFieldList(), ['recurring_profile']));
-    }
-
-    /**
-     * Set recurring profile renderer
-     *
-     * @param \Magento\Event\Observer $observer
-     */
-    public function setFormRecurringElementRenderer($observer)
-    {
-        $form = $observer->getEvent()->getForm();
-
-        $recurringProfileElement = $form->getElement('recurring_profile');
-        $recurringProfileBlock = $observer->getEvent()->getLayout()
-            ->createBlock('Magento\RecurringProfile\Block\Adminhtml\Product\Edit\Tab\Price\Recurring');
-
-        if ($recurringProfileElement) {
-            $recurringProfileElement->setRenderer($recurringProfileBlock);
-        }
     }
 }

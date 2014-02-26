@@ -11,11 +11,6 @@ namespace Magento\RecurringProfile\Model;
 class ObserverTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\View\Element\BlockFactory
-     */
-    protected $_blockFactory;
-
-    /**
      * @var \Magento\Event\Observer
      */
     protected $_observer;
@@ -59,9 +54,6 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_blockFactory = $this->getMock(
-            'Magento\View\Element\BlockFactory', ['createBlock'], [], '', false
-        );
         $this->_observer = $this->getMock('Magento\Event\Observer', [], [], '', false);
         $this->_fieldsBlock = $this->getMock(
             '\Magento\RecurringProfile\Block\Fields', ['getFieldLabel'], [], '', false
@@ -86,7 +78,6 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $this->_testModel = $helper->getObject('Magento\RecurringProfile\Model\Observer', [
-            'blockFactory' => $this->_blockFactory,
             'recurringProfileFactory' => $this->_recurringProfileFactory,
             'fields' => $this->_fieldsBlock,
             'profileFactory' => $this->_profileFactory,
@@ -150,39 +141,10 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_testModel->prepareProductRecurringProfileOptions($this->_observer);
     }
 
-    public function testRenderRecurringProfileForm()
-    {
-        $blockMock = $this->getMock(
-            'Magento\View\Element\BlockInterface',
-            [
-                'setNameInLayout', 'setParentElement', 'setProductEntity', 'toHtml', 'addFieldMap',
-                'addFieldDependence', 'addConfigOptions'
-            ]
-        );
-        $map = [
-            ['Magento\RecurringProfile\Block\Adminhtml\Profile\Edit\Form', [], $blockMock],
-            ['Magento\Backend\Block\Widget\Form\Element\Dependence', [], $blockMock]
-        ];
-        $profileElement = $this->getMock('Magento\Data\Form\Element\AbstractElement', [], [], '', false);
-        $this->_event->expects($this->once())->method('getProductElement')->will($this->returnValue($profileElement));
-        $product = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
-        $this->_event->expects($this->once())->method('getProduct')->will($this->returnValue($product));
-        $this->_blockFactory->expects($this->any())->method('createBlock')->will($this->returnValueMap($map));
-        $blockMock->expects($this->any())->method('setNameInLayout');
-        $blockMock->expects($this->once())->method('setParentElement')->with($profileElement);
-        $blockMock->expects($this->once())->method('setProductEntity')->with($product);
-        $blockMock->expects($this->exactly(2))->method('toHtml')->will($this->returnValue('html'));
-        $blockMock->expects($this->once())->method('addConfigOptions')->with(['levels_up' => 2]);
-        $result = new \StdClass();
-        $this->_event->expects($this->once())->method('getResult')->will($this->returnValue($result));
-        $this->_testModel->addFieldsToProductEditForm($this->_observer);
-        $this->assertEquals('htmlhtml', $result->output);
-    }
-
     public function testSubmitRecurringPaymentProfiles()
     {
         $this->_prepareRecurringPaymentProfiles();
-        $this->_quote->expects($this->once())->method('prepareRecurringPaymentProfiles')
+        $this->_quote->expects($this->once())->method('import')
             ->will($this->returnValue([$this->_profile]));
 
         $this->_profile->expects($this->once())->method('isValid')->will($this->returnValue(true));

@@ -807,7 +807,7 @@ return array(
     ),
     array(
         'prepareProductEditFormRecurringProfile', 'Magento\Sales\Model\Observer',
-        'Magento\RecurringProfile\Model\Observer::addFieldsToProductEditForm'
+        'Magento\RecurringProfile\Block\Adminhtml\Product\Edit\Tab\Price\Recurring::getElementHtml'
     ),
     array(
         'prepareProductRecurringProfileOptions', 'Magento\Payment\Model\Observer',
