@@ -132,16 +132,21 @@ class Converter
 
         $this->_addressBuilder->populateWithArray(array_merge($addressData, [
             Address::KEY_STREET => $addressModel->getStreet(),
-            Address::KEY_ID => $addressId,
             Address::KEY_DEFAULT_BILLING => $addressId === $defaultBillingId,
             Address::KEY_DEFAULT_SHIPPING => $addressId === $defaultShippingId,
-            Address::KEY_CUSTOMER_ID => $addressModel->getCustomerId(),
             Address::KEY_REGION => [
                 Region::KEY_REGION => $addressModel->getRegion(),
                 Region::KEY_REGION_ID => $addressModel->getRegionId(),
                 Region::KEY_REGION_CODE => $addressModel->getRegionCode()
             ]
         ]));
+
+        if ($addressId) {
+            $this->_addressBuilder->setId($addressId);
+        }
+        if ($addressModel->getCustomerId()) {
+            $this->_addressBuilder->setCustomerId($addressModel->getCustomerId());
+        }
 
         $addressDataObject = $this->_addressBuilder->create();
         return $addressDataObject;

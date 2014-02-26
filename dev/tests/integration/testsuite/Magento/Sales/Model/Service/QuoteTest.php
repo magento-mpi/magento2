@@ -116,7 +116,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
         $existingCustomerId = $response->getCustomerId();
         $customerDto = $this->_customerService->getCustomer($existingCustomerId);
         $customerDto = $this->_customerBuilder->populate($customerDto)
-            ->setEmail('new@example.com');
+            ->setEmail('new@example.com')->create();
         $addresses = $this->_customerAddressService->getAddresses($existingCustomerId);
         $this->_serviceQuote->getQuote()->setCustomerData($customerDto);
         $this->_serviceQuote->getQuote()->setCustomerAddressData($addresses);
@@ -184,7 +184,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
         $existingCustomerId = $response->getCustomerId();
         $customerDto = $this->_customerService->getCustomer($existingCustomerId);
         $customerDto = $this->_customerBuilder->populate($customerDto)
-            ->setEmail('new@example.com');
+            ->setEmail('new@example.com')->create();
         $addresses = $this->_customerAddressService->getAddresses($existingCustomerId);
         $this->_serviceQuote->getQuote()->setCustomerData($customerDto);
         $this->_serviceQuote->getQuote()->setCustomerAddressData($addresses);

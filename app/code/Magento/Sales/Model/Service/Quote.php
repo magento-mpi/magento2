@@ -13,6 +13,7 @@ use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\Data\AddressBuilder;
 use Magento\Customer\Service\V1\Data\Customer as CustomerDto;
+use Magento\Customer\Service\V1\Data\CustomerBuilder;
 use Magento\Customer\Service\V1\Data\Response\CreateCustomerAccountResponse;
 
 /**
@@ -105,6 +106,11 @@ class Quote
     protected $_createCustomerResponse;
 
     /**
+     * @var CustomerBuilder
+     */
+    protected $_customerBuilder;
+
+    /**
      * Class constructor
      *
      * @param \Magento\Event\ManagerInterface $eventManager
@@ -116,6 +122,7 @@ class Quote
      * @param CustomerAccountServiceInterface $customerAccountService
      * @param CustomerAddressServiceInterface $customerAddressService
      * @param AddressBuilder $customerAddressBuilder
+     * @param CustomerBuilder $customerBuilder
      */
     public function __construct(
         \Magento\Event\ManagerInterface $eventManager,
@@ -126,7 +133,8 @@ class Quote
         CustomerServiceInterface $customerService,
         CustomerAccountServiceInterface $customerAccountService,
         CustomerAddressServiceInterface $customerAddressService,
-        AddressBuilder $customerAddressBuilder
+        AddressBuilder $customerAddressBuilder,
+        CustomerBuilder $customerBuilder
     ) {
         $this->_eventManager = $eventManager;
         $this->_quote = $quote;
@@ -137,6 +145,7 @@ class Quote
         $this->_customerAccountService = $customerAccountService;
         $this->_customerAddressService = $customerAddressService;
         $this->_customerAddressBuilder = $customerAddressBuilder;
+        $this->_customerBuilder = $customerBuilder;
     }
 
     /**
@@ -398,7 +407,7 @@ class Quote
             } else if ($customerDto->getId()) { // Delete if new customer created
                 $this->_customerService->deleteCustomer($customerDto->getId());
                 $order->setCustomerId(null);
-                $quote->setCustomerData(new CustomerDto([]));
+                $quote->setCustomerData($this->_customerBuilder->create());
             }
 
             //reset order ID's on exception, because order not saved
