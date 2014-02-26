@@ -1156,6 +1156,15 @@ return array(
     array(
         'Magento\Sales\Model\Observer\Backend\RecurringProfile\FormRenderer', 'Magento\RecurringProfile\Model\Observer'
     ),
+    array('Magento\Sales\Model\Quote\Address\Total\Nominal\AbstractRecurring',
+        'Magento\RecurringProfile\Model\Quote\Total\AbstractRecurring'
+    ),
+    array('Magento\Sales\Model\Quote\Address\Total\Nominal\Recurring\Initial',
+        'Magento\RecurringProfile\Model\Quote\Total\Initial'
+    ),
+    array('Magento\Sales\Model\Quote\Address\Total\Nominal\Recurring\Trial',
+        'Magento\RecurringProfile\Model\Quote\Total\Trial'
+    ),
     array('Magento\Sales\Model\ResourceFactory'),
     array('Magento\Sales\Model\Resource\Helper\Mysql4', 'Magento\Sales\Model\Resource\Helper'),
     array('Magento\Core\Model\Resource\Helper\Mysql4', 'Magento\Core\Model\Resource\Helper'),
