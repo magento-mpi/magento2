@@ -2,10 +2,8 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright {copyright}
+ * @license   {license_link}
  */
 
 /** @var $installer \Magento\Catalog\Model\Resource\Setup */

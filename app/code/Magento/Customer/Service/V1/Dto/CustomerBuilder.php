@@ -5,17 +5,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Customer\Service\V1\Dto;
 
 /**
- * Class Customer
- * Uses array to hold data, setters return $this so they can be chained.
+ * Class Customer. Uses array to hold data, setters return $this so they can be chained.
  *
- * @package Magento\Customer\Service\V1\Dto
+ * @method Customer create() create()
  */
 class CustomerBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
 {
-
     /**
      * @param string $confirmation
      * @return CustomerBuilder
@@ -158,5 +157,23 @@ class CustomerBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
     public function setWebsiteId($websiteId)
     {
         return $this->_set(Customer::WEBSITE_ID, $websiteId);
+    }
+
+    /**
+     * @param string
+     * @return CustomerBuilder
+     */
+    public function getRpToken($rpToken)
+    {
+        return $this->_set(self::RP_TOKEN, $rpToken);
+    }
+
+    /**
+     * @param string
+     * @return CustomerBuilder
+     */
+    public function getRpTokenCreatedAt($rpTokenCreatedAt)
+    {
+        return $this->_set(self::RP_TOKEN_CREATED_AT, $rpTokenCreatedAt);
     }
 }

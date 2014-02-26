@@ -7,8 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CustomerSegment\Model\Condition\Combine;
+
+use Magento\Customer\Model\Customer;
 
 abstract class AbstractCombine extends \Magento\Rule\Model\Condition\Combine
 {
@@ -76,7 +77,7 @@ abstract class AbstractCombine extends \Magento\Rule\Model\Condition\Combine
      *
      * @param array $arr
      * @param string $key
-     * @return \Magento\CustomerSegment\Model\Segment\Condition\Combine
+     * @return $this
      */
     public function loadArray($arr, $key = 'conditions')
     {
@@ -104,7 +105,7 @@ abstract class AbstractCombine extends \Magento\Rule\Model\Condition\Combine
     /**
      * Get filter by customer condition for segment matching sql
      *
-     * @param mixed $customer
+     * @param Customer|\Zend_Db_Expr $customer
      * @param string $fieldName
      * @return string
      */
@@ -121,8 +122,8 @@ abstract class AbstractCombine extends \Magento\Rule\Model\Condition\Combine
     /**
      * Build query for matching customer to segment condition
      *
-     * @param $customer
-     * @param $website
+     * @param Customer|\Zend_Db_Expr $customer
+     * @param int|\Zend_Db_Expr $website
      * @return \Magento\DB\Select
      */
     protected function _prepareConditionsSql($customer, $website)
@@ -144,7 +145,7 @@ abstract class AbstractCombine extends \Magento\Rule\Model\Condition\Combine
         return ($this->getValue() == 1);
     }
 
-    /*
+    /**
      * Get information if condition is required
      *
      * @return bool
@@ -167,8 +168,8 @@ abstract class AbstractCombine extends \Magento\Rule\Model\Condition\Combine
     /**
      * Get SQL select for matching customer to segment condition
      *
-     * @param \Magento\Customer\Model\Customer | \Zend_Db_Select | \Zend_Db_Expr $customer
-     * @param int | \Zend_Db_Expr $website
+     * @param Customer|\Zend_Db_Select|\Zend_Db_Expr $customer
+     * @param int|\Zend_Db_Expr $website
      * @return \Magento\DB\Select
      */
     public function getConditionsSql($customer, $website)
@@ -240,9 +241,9 @@ abstract class AbstractCombine extends \Magento\Rule\Model\Condition\Combine
      * Limit select by website with joining to store table
      *
      * @param \Zend_Db_Select $select
-     * @param int | \Zend_Db_Expr $website
+     * @param int|\Zend_Db_Expr $website
      * @param string $storeIdField
-     * @return \Magento\CustomerSegment\Model\Condition\AbstractCondition
+     * @return $this
      */
     protected function _limitByStoreWebsite(\Zend_Db_Select $select, $website, $storeIdField)
     {

@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerSegment\Model\Segment\Condition;
+
+use Magento\CustomerSegment\Model\Condition\AbstractCondition;
 
 /**
  * Date range combo
@@ -14,10 +17,7 @@
  * @method \Magento\CustomerSegment\Model\Segment\Condition\Daterange setType(string $type)
  * @method \Magento\CustomerSegment\Model\Segment\Condition\Daterange setValue(string $value)
  */
-namespace Magento\CustomerSegment\Model\Segment\Condition;
-
-class Daterange
-    extends \Magento\CustomerSegment\Model\Condition\AbstractCondition
+class Daterange extends AbstractCondition
 {
     /**
      * Input type for operator options
@@ -158,8 +158,8 @@ class Daterange
      *
      * @param string $fieldName base query field name
      * @param bool $requireValid strict validation flag
-     * @param $website
-     * @return string
+     * @param int|\Zend_Db_Expr $website
+     * @return string|false
      */
     public function getSubfilterSql($fieldName, $requireValid, $website)
     {

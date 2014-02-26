@@ -62,7 +62,6 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
      protected static $_entityInvalidatedIndexes = array (
         'catalog_product' => array (
             'catalog_product_price',
-            'catalog_category_product',
             'catalogsearch_fulltext',
             'catalog_product_flat',
         )
@@ -123,7 +122,7 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
     /**
      * @param \Magento\Logger $logger
      * @param \Magento\App\Filesystem $filesystem
-     * @param \Magento\Core\Model\Log\AdapterFactory $adapterFactory
+     * @param \Magento\Logger\AdapterFactory $adapterFactory
      * @param \Magento\ImportExport\Helper\Data $importExportData
      * @param \Magento\App\ConfigInterface $coreConfig
      * @param \Magento\ImportExport\Model\Import\ConfigInterface $importConfig
@@ -139,7 +138,7 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
     public function __construct(
         \Magento\Logger $logger,
         \Magento\App\Filesystem $filesystem,
-        \Magento\Core\Model\Log\AdapterFactory $adapterFactory,
+        \Magento\Logger\AdapterFactory $adapterFactory,
         \Magento\ImportExport\Helper\Data $importExportData,
         \Magento\App\ConfigInterface $coreConfig,
         \Magento\ImportExport\Model\Import\ConfigInterface $importConfig,

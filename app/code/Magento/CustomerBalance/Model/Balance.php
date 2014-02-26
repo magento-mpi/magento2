@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerBalance\Model;
 
+use Magento\Core\Exception;
 /**
  * Customer balance model
  *
@@ -28,8 +30,6 @@
  * @package     Magento_CustomerBalance
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\CustomerBalance\Model;
-
 class Balance extends \Magento\Core\Model\AbstractModel
 {
     /**
@@ -37,7 +37,14 @@ class Balance extends \Magento\Core\Model\AbstractModel
      */
     protected $_customer;
 
+    /**
+     * @var string
+     */
     protected $_eventPrefix = 'customer_balance';
+
+    /**
+     * @var string
+     */
     protected $_eventObject = 'balance';
 
     /**
@@ -56,8 +63,8 @@ class Balance extends \Magento\Core\Model\AbstractModel
     protected $_historyFactory;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\CustomerBalance\Model\Balance\HistoryFactory $historyFactory
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -66,8 +73,8 @@ class Balance extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\CustomerBalance\Model\Balance\HistoryFactory $historyFactory,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
@@ -84,6 +91,7 @@ class Balance extends \Magento\Core\Model\AbstractModel
     /**
      * Initialize resource
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -104,8 +112,8 @@ class Balance extends \Magento\Core\Model\AbstractModel
      * Load balance by customer
      * Website id should either be set or not admin
      *
-     * @return \Magento\CustomerBalance\Model\Balance
-     * @throws \Magento\Core\Exception
+     * @return $this
+     * @throws Exception
      */
     public function loadByCustomer()
     {
@@ -131,16 +139,16 @@ class Balance extends \Magento\Core\Model\AbstractModel
      * Specify whether email notification should be sent
      *
      * @param bool $shouldNotify
-     * @param int $storeId
-     * @return \Magento\CustomerBalance\Model\Balance
-     * @throws \Magento\Core\Exception
+     * @param int|null $storeId
+     * @return $this
+     * @throws Exception
      */
     public function setNotifyByEmail($shouldNotify, $storeId = null)
     {
         $this->setData('notify_by_email', $shouldNotify);
         if ($shouldNotify) {
             if (null === $storeId) {
-                throw new \Magento\Core\Exception(__('Please also set the Store ID.'));
+                throw new Exception(__('Please also set the Store ID.'));
             }
             $this->setStoreId($storeId);
         }
@@ -151,14 +159,15 @@ class Balance extends \Magento\Core\Model\AbstractModel
     /**
      * Validate before saving
      *
-     * @return \Magento\CustomerBalance\Model\Balance
+     * @return $this
+     * @throws Exception
      */
     protected function _beforeSave()
     {
         $this->_ensureCustomer();
 
         if (0 == $this->getWebsiteId()) {
-            throw new \Magento\Core\Exception(__('A website ID must be set.'));
+            throw new Exception(__('A website ID must be set.'));
         }
 
         // check history action
@@ -178,7 +187,7 @@ class Balance extends \Magento\Core\Model\AbstractModel
             $this->setNotifyByEmail(false);
         }
         if ($this->getNotifyByEmail() && !$this->hasStoreId()) {
-            throw new \Magento\Core\Exception(__('The Store ID must be set to send email notifications.'));
+            throw new Exception(__('The Store ID must be set to send email notifications.'));
         }
 
         return parent::_beforeSave();
@@ -187,7 +196,7 @@ class Balance extends \Magento\Core\Model\AbstractModel
     /**
      * Update history after saving
      *
-     * @return \Magento\CustomerBalance\Model\Balance
+     * @return $this
      */
     protected function _afterSave()
     {
@@ -206,7 +215,8 @@ class Balance extends \Magento\Core\Model\AbstractModel
     /**
      * Make sure proper customer information is set. Load customer if required
      *
-     * @throws \Magento\Core\Exception
+     * @return void
+     * @throws Exception
      */
     protected function _ensureCustomer()
     {
@@ -214,7 +224,7 @@ class Balance extends \Magento\Core\Model\AbstractModel
             $this->setCustomerId($this->getCustomer()->getId());
         }
         if (!$this->getCustomerId()) {
-            throw new \Magento\Core\Exception(__('A customer ID must be specified.'));
+            throw new Exception(__('A customer ID must be specified.'));
         }
         if (!$this->getCustomer()) {
             $this->setCustomer(
@@ -222,7 +232,7 @@ class Balance extends \Magento\Core\Model\AbstractModel
             );
         }
         if (!$this->getCustomer()->getId()) {
-            throw new \Magento\Core\Exception(__('This customer is not set or does not exist.'));
+            throw new Exception(__('This customer is not set or does not exist.'));
         }
     }
 
@@ -257,6 +267,7 @@ class Balance extends \Magento\Core\Model\AbstractModel
      * Check whether balance completely covers specified quote
      *
      * @param \Magento\Sales\Model\Quote $quote
+     * @param bool $isEstimation
      * @return bool
      */
     public function isFullAmountCovered(\Magento\Sales\Model\Quote $quote, $isEstimation = false)
@@ -273,7 +284,7 @@ class Balance extends \Magento\Core\Model\AbstractModel
      *
      * @param int $websiteId
      * @param string $currencyCode
-     * @return \Magento\CustomerBalance\Model\Balance
+     * @return $this
      */
     public function setCustomersBalanceCurrencyTo($websiteId, $currencyCode)
     {
@@ -285,7 +296,7 @@ class Balance extends \Magento\Core\Model\AbstractModel
      * Delete customer orphan balances
      *
      * @param int $customerId
-     * @return \Magento\CustomerBalance\Model\Balance
+     * @return $this
      */
     public function deleteBalancesByCustomerId($customerId)
     {
@@ -296,7 +307,8 @@ class Balance extends \Magento\Core\Model\AbstractModel
     /**
      * Get customer orphan balances count
      *
-     * @return \Magento\CustomerBalance\Model\Balance
+     * @param int $customerId
+     * @return $this
      */
     public function getOrphanBalancesCount($customerId)
     {
@@ -306,7 +318,7 @@ class Balance extends \Magento\Core\Model\AbstractModel
     /**
      * Public version of afterLoad
      *
-     * @return \Magento\Core\Model\AbstractModel
+     * @return $this
      */
     public function afterLoad()
     {

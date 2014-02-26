@@ -5,12 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerBalance\Model\Cart\SalesModel;
 
 /**
  * CustomerBalance adapter for \Magento\Sales\Model\Quote sales model
  */
-namespace Magento\CustomerBalance\Model\Cart\SalesModel;
-
 class Quote extends \Magento\Payment\Model\Cart\SalesModel\Quote
 {
     /**

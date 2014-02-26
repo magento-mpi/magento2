@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerSegment\Model;
 
 /**
  * CustomerSegment observer
  */
-namespace Magento\CustomerSegment\Model;
-
 class Observer
 {
     /**
@@ -23,7 +22,7 @@ class Observer
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
@@ -55,7 +54,7 @@ class Observer
      * @param \Magento\CustomerSegment\Model\Customer $customer
      * @param \Magento\Backend\Model\Config\Source\Yesno $configSourceYesno
      * @param \Magento\CustomerSegment\Helper\Data $segmentHelper
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      */
     public function __construct(
         \Magento\Core\Model\StoreManagerInterface $storeManager,
@@ -63,7 +62,7 @@ class Observer
         \Magento\CustomerSegment\Model\Customer $customer,
         \Magento\Backend\Model\Config\Source\Yesno $configSourceYesno,
         \Magento\CustomerSegment\Helper\Data $segmentHelper,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Registry $coreRegistry
     ) {
         $this->_storeManager = $storeManager;
         $this->_customerSession = $customerSession;
@@ -77,6 +76,7 @@ class Observer
      * Add Customer Segment condition to the salesrule management
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function addSegmentsToSalesRuleCombine(\Magento\Event\Observer $observer)
     {
@@ -93,7 +93,8 @@ class Observer
     /**
      * Process customer related data changing. Method can process just events with customer object
      *
-     * @param   \Magento\Event\Observer $observer
+     * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function processCustomerEvent(\Magento\Event\Observer $observer)
     {
@@ -117,6 +118,7 @@ class Observer
      * Can be used for processing just frontend events
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function processEvent(\Magento\Event\Observer $observer)
     {
@@ -152,6 +154,7 @@ class Observer
      * Add field "Use in Customer Segment" for Customer and Customer Address attribute edit form
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function enterpiseCustomerAttributeEditPrepareForm(\Magento\Event\Observer $observer)
     {
@@ -171,6 +174,7 @@ class Observer
      * Observe  targetrule_edit_tab_main_after_prepare_form event
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function addFieldsToTargetRuleForm(\Magento\Event\Observer $observer)
     {
