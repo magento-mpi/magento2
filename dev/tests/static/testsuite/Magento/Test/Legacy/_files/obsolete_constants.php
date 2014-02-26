@@ -611,4 +611,6 @@ return array(
         'Magento\View\FileResolver',
         'Magento\View\UrlResolver::XML_PATH_STATIC_FILE_SIGNATURE',
     ],
+    array('XML_PATH_STATIC_FILE_SIGNATURE', 'Magento\View\UrlResolver',
+        'Magento\Theme\Model\Url\Plugin\Signature::XML_PATH_STATIC_FILE_SIGNATURE'),
 );

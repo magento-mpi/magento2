@@ -1345,4 +1345,6 @@ return array(
         'Magento\View\Publisher::getPublicViewFile()',
     ],
     array('_getVatRequiredCustomerAddress', 'Magento\Sales\Model\Observer'),
+    array('isStaticFilesSigned', 'Magento\View\UrlResolver',
+        'Magento\Theme\Model\Url\Plugin\Signature::isUrlSignatureEnabled()'),
 );

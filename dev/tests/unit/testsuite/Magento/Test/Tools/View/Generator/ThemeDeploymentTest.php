@@ -35,6 +35,16 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
      */
     protected $filesystemAdapter;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $versionStorage;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $versionGenerator;
+
     protected function setUp()
     {
         $methods = array('getDirectoryWrite', 'getPath', '__wakeup');
@@ -54,6 +64,9 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
 
         $this->filesystemAdapter = new \Magento\Filesystem\Driver\File();
         $this->filesystemAdapter->createDirectory($this->_tmpDir, 0777);
+
+        $this->versionStorage = $this->getMock('Magento\App\View\Deployment\Version\StorageInterface');
+        $this->versionGenerator = $this->getMock('Magento\App\View\Deployment\Version\GeneratorInterface');
     }
 
     protected function tearDown()
@@ -72,6 +85,8 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('Magento\Exception', $exceptionMessage);
         new \Magento\Tools\View\Generator\ThemeDeployment(
             $this->_cssUrlResolver,
+            $this->versionStorage,
+            $this->versionGenerator,
             $this->_tmpDir,
             $permitted,
             $forbidden
@@ -108,8 +123,17 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
         $forbidden = __DIR__ . '/_files/ThemeDeployment/run/forbidden.php';
         $fixture = include __DIR__ . '/_files/ThemeDeployment/run/fixture.php';
 
-        $object = new \Magento\Tools\View\Generator\ThemeDeployment($this->_cssUrlResolver, $this->_tmpDir, $permitted,
-            $forbidden);
+        $this->versionGenerator->expects($this->once())->method('generate')->will($this->returnValue('123'));
+        $this->versionStorage->expects($this->once())->method('save')->with('123');
+
+        $object = new \Magento\Tools\View\Generator\ThemeDeployment(
+            $this->_cssUrlResolver,
+            $this->versionStorage,
+            $this->versionGenerator,
+            $this->_tmpDir,
+            $permitted,
+            $forbidden
+        );
         $object->run($fixture['copyRules']);
 
         // Verify expected paths
@@ -165,8 +189,15 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
         $forbidden = __DIR__ . '/_files/ThemeDeployment/run/forbidden.php';
         $fixture = include __DIR__ . '/_files/ThemeDeployment/run/fixture.php';
 
-        $object = new \Magento\Tools\View\Generator\ThemeDeployment($this->_cssUrlResolver, $this->_tmpDir, $permitted,
-            $forbidden, true);
+        $object = new \Magento\Tools\View\Generator\ThemeDeployment(
+            $this->_cssUrlResolver,
+            $this->versionStorage,
+            $this->versionGenerator,
+            $this->_tmpDir,
+            $permitted,
+            $forbidden,
+            true
+        );
         $object->run($fixture['copyRules']);
 
         $actualPaths = $this->_getRelativePaths($this->_tmpDir);
@@ -183,8 +214,15 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
         $forbidden = __DIR__ . '/_files/ThemeDeployment/run/forbidden_without_php.php';
         $fixture = include __DIR__ . '/_files/ThemeDeployment/run/fixture.php';
 
-        $object = new \Magento\Tools\View\Generator\ThemeDeployment($this->_cssUrlResolver, $this->_tmpDir, $permitted,
-            $forbidden, true);
+        $object = new \Magento\Tools\View\Generator\ThemeDeployment(
+            $this->_cssUrlResolver,
+            $this->versionStorage,
+            $this->versionGenerator,
+            $this->_tmpDir,
+            $permitted,
+            $forbidden,
+            true
+        );
         $object->run($fixture['copyRules']);
     }
 
@@ -192,7 +230,13 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
     {
         $permitted = __DIR__ . '/_files/ThemeDeployment/run/permitted_cased_js.php';
 
-        $object = new \Magento\Tools\View\Generator\ThemeDeployment($this->_cssUrlResolver, $this->_tmpDir, $permitted);
+        $object = new \Magento\Tools\View\Generator\ThemeDeployment(
+            $this->_cssUrlResolver,
+            $this->versionStorage,
+            $this->versionGenerator,
+            $this->_tmpDir,
+            $permitted
+        );
         $copyRules = array(
             array(
                 'source' => __DIR__ . '/_files/ThemeDeployment/run/source_cased_js',
