@@ -25,7 +25,7 @@ class Message extends \Magento\Core\Helper\Data
     /**
      * Next id for edit gift message block
      *
-     * @var integer
+     * @var int
      */
     protected $_nextId = 0;
 
@@ -99,7 +99,7 @@ class Message extends \Magento\Core\Helper\Data
      *
      * @param string $type
      * @param \Magento\Object $entity
-     * @param boolean $dontDisplayContainer
+     * @param bool $dontDisplayContainer
      * @return string
      */
     public function getInline($type, \Magento\Object $entity, $dontDisplayContainer = false)
@@ -120,7 +120,7 @@ class Message extends \Magento\Core\Helper\Data
      * @param string $type
      * @param \Magento\Object $entity
      * @param \Magento\Core\Model\Store|int|null $store
-     * @return bool
+     * @return bool|string|null
      */
     public function isMessagesAvailable($type, \Magento\Object $entity, $store = null)
     {
@@ -176,9 +176,9 @@ class Message extends \Magento\Core\Helper\Data
     /**
      * Check availablity of gift messages from store config if flag eq 2.
      *
-     * @param int $productGiftMessageAllow
+     * @param bool $productGiftMessageAllow
      * @param \Magento\Core\Model\Store|int|null $store
-     * @return bool
+     * @return bool|string|null
      */
     protected function _getDependenceFromStoreConfig($productGiftMessageAllow, $store = null)
     {
@@ -196,7 +196,7 @@ class Message extends \Magento\Core\Helper\Data
      * @param string $type
      * @param \Magento\Object $entity
      * @param \Magento\Core\Model\Store|int|null $store
-     * @return bool
+     * @return bool|null|string
      */
     public function getIsMessagesAvailable($type, \Magento\Object $entity, $store = null)
     {

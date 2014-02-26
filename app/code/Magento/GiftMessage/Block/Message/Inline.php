@@ -226,7 +226,7 @@ class Inline extends \Magento\View\Element\Template
     /**
      * Retrieve additional url
      *
-     * @return bool
+     * @return string
      */
     public function getAdditionalUrl()
     {
