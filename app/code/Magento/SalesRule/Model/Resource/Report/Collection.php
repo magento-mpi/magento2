@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\SalesRule\Model\Resource\Report;
 
 /**
  * Sales report coupons collection
@@ -16,8 +16,6 @@
  * @package     Magento_SalesRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\SalesRule\Model\Resource\Report;
-
 class Collection extends \Magento\Sales\Model\Resource\Report\Collection\AbstractCollection
 {
     /**
@@ -35,14 +33,14 @@ class Collection extends \Magento\Sales\Model\Resource\Report\Collection\Abstrac
     protected $_aggregationTable = 'coupon_aggregated';
 
     /**
-     * array of columns that should be aggregated
+     * Array of columns that should be aggregated
      *
      * @var array
      */
     protected $_selectedColumns    = array();
 
     /**
-     * array where rules ids stored
+     * Array where rules ids stored
      *
      * @var array
      */
@@ -72,7 +70,7 @@ class Collection extends \Magento\Sales\Model\Resource\Report\Collection\Abstrac
     }
 
     /**
-     * collect columns for collection
+     * Collect columns for collection
      *
      * @return array
      */
@@ -119,7 +117,7 @@ class Collection extends \Magento\Sales\Model\Resource\Report\Collection\Abstrac
     /**
      * Add selected data
      *
-     * @return \Magento\SalesRule\Model\Resource\Report\Collection
+     * @return $this
      */
     protected function _initSelect()
     {
@@ -140,7 +138,7 @@ class Collection extends \Magento\Sales\Model\Resource\Report\Collection\Abstrac
      * Add filtering by rules ids
      *
      * @param array $rulesList
-     * @return \Magento\SalesRule\Model\Resource\Report\Collection
+     * @return $this
      */
     public function addRuleFilter($rulesList)
     {
@@ -151,7 +149,7 @@ class Collection extends \Magento\Sales\Model\Resource\Report\Collection\Abstrac
     /**
      * Apply filtering by rules ids
      *
-     * @return \Magento\SalesRule\Model\Resource\Report\Collection
+     * @return $this
      */
     protected function _applyRulesFilter()
     {

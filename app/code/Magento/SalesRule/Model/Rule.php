@@ -7,8 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\SalesRule\Model;
 
-
+use Magento\Sales\Model\Quote\Address;
 /**
  * Shopping Cart Rule data model
  *
@@ -70,8 +71,6 @@
  * @package     Magento_SalesRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\SalesRule\Model;
-
 class Rule extends \Magento\Rule\Model\AbstractModel
 {
     /**
@@ -104,7 +103,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * Store coupon code generator instance
      *
-     * @var \Magento\SalesRule\Model\Coupon\CodegeneratorInterface
+     * @var Coupon\CodegeneratorInterface
      */
     protected $_couponCodeGenerator;
 
@@ -136,14 +135,14 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * Rule's primary coupon
      *
-     * @var \Magento\SalesRule\Model\Coupon
+     * @var Coupon
      */
     protected $_primaryCoupon;
 
     /**
      * Rule's subordinate coupons
      *
-     * @var array of \Magento\SalesRule\Model\Coupon
+     * @var Coupon[]
      */
     protected $_coupons;
 
@@ -167,7 +166,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     protected $_couponFactory;
 
     /**
-     * @var \Magento\SalesRule\Model\Coupon\CodegeneratorFactory
+     * @var Coupon\CodegeneratorFactory
      */
     protected $_codegenFactory;
 
@@ -197,7 +196,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\SalesRule\Model\CouponFactory $couponFactory
-     * @param \Magento\SalesRule\Model\Coupon\CodegeneratorFactory $codegenFactory
+     * @param Coupon\CodegeneratorFactory $codegenFactory
      * @param \Magento\SalesRule\Model\Rule\Condition\CombineFactory $condCombineFactory
      * @param \Magento\SalesRule\Model\Rule\Condition\Product\CombineFactory $condProdCombineF
      * @param \Magento\SalesRule\Model\Resource\Coupon\Collection $couponCollection
@@ -212,7 +211,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         \Magento\Data\FormFactory $formFactory,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\SalesRule\Model\CouponFactory $couponFactory,
-        \Magento\SalesRule\Model\Coupon\CodegeneratorFactory $codegenFactory,
+        Coupon\CodegeneratorFactory $codegenFactory,
         \Magento\SalesRule\Model\Rule\Condition\CombineFactory $condCombineFactory,
         \Magento\SalesRule\Model\Rule\Condition\Product\CombineFactory $condProdCombineF,
         \Magento\SalesRule\Model\Resource\Coupon\Collection $couponCollection,
@@ -232,6 +231,8 @@ class Rule extends \Magento\Rule\Model\AbstractModel
 
     /**
      * Set resource model and Id field name
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -243,7 +244,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * Set coupon code and uses per coupon
      *
-     * @return \Magento\SalesRule\Model\Rule
+     * @return $this
      */
     protected function _afterLoad()
     {
@@ -257,7 +258,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * Save/delete coupon
      *
-     * @return \Magento\SalesRule\Model\Rule
+     * @return $this
      */
     protected function _afterSave()
     {
@@ -285,8 +286,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      * Set store labels if applicable.
      *
      * @param array $data
-     *
-     * @return \Magento\SalesRule\Model\Rule
+     * @return $this
      */
     public function loadPost(array $data)
     {
@@ -322,7 +322,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * Returns code generator instance for auto generated coupons
      *
-     * @return \Magento\SalesRule\Model\Coupon\CodegeneratorInterface
+     * @return Coupon\CodegeneratorInterface
      */
     public function getCouponCodeGenerator()
     {
@@ -335,9 +335,10 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * Set code generator instance for auto generated coupons
      *
-     * @param \Magento\SalesRule\Model\Coupon\CodegeneratorInterface
+     * @param Coupon\CodegeneratorInterface
+     * @return void
      */
-    public function setCouponCodeGenerator(\Magento\SalesRule\Model\Coupon\CodegeneratorInterface $codeGenerator)
+    public function setCouponCodeGenerator(Coupon\CodegeneratorInterface $codeGenerator)
     {
         $this->_couponCodeGenerator = $codeGenerator;
     }
@@ -345,7 +346,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * Retrieve rule's primary coupon
      *
-     * @return \Magento\SalesRule\Model\Coupon
+     * @return Coupon
      */
     public function getPrimaryCoupon()
     {
@@ -375,7 +376,6 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      * Get Rule label by specified store
      *
      * @param \Magento\Core\Model\Store|int|bool|null $store
-     *
      * @return string|bool
      */
     public function getStoreLabel($store = null)
@@ -410,7 +410,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * Retrieve subordinate coupons
      *
-     * @return array of \Magento\SalesRule\Model\Coupon
+     * @return Coupon[]
      */
     public function getCoupons()
     {
@@ -451,7 +451,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      *
      * @param bool $saveNewlyCreated Whether or not to save newly created coupon
      * @param int $saveAttemptCount Number of attempts to save newly created coupon
-     * @return \Magento\SalesRule\Model\Coupon|null
+     * @return Coupon|null
      * @throws \Exception|\Magento\Core\Exception
      */
     public function acquireCoupon($saveNewlyCreated = true, $saveAttemptCount = 10)
@@ -462,7 +462,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         if ($this->getCouponType() == self::COUPON_TYPE_SPECIFIC) {
             return $this->getPrimaryCoupon();
         }
-        /** @var \Magento\SalesRule\Model\Coupon $coupon */
+        /** @var Coupon $coupon */
         $coupon = $this->_couponFactory->create();
         $coupon->setRule($this)
             ->setIsPrimary(false)
@@ -505,8 +505,8 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * Check cached validation result for specific address
      *
-     * @param   \Magento\Sales\Model\Quote\Address $address
-     * @return  bool
+     * @param Address $address
+     * @return bool
      */
     public function hasIsValidForAddress($address)
     {
@@ -517,9 +517,9 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * Set validation result for specific address to results cache
      *
-     * @param   \Magento\Sales\Model\Quote\Address $address
-     * @param   bool $validationResult
-     * @return  \Magento\SalesRule\Model\Rule
+     * @param Address $address
+     * @param bool $validationResult
+     * @return $this
      */
     public function setIsValidForAddress($address, $validationResult)
     {
@@ -531,8 +531,8 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * Get cached validation result for specific address
      *
-     * @param   \Magento\Sales\Model\Quote\Address $address
-     * @return  bool
+     * @param Address $address
+     * @return bool
      */
     public function getIsValidForAddress($address)
     {
@@ -543,19 +543,15 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * Return id for address
      *
-     * @param   \Magento\Sales\Model\Quote\Address $address
-     * @return  string
+     * @param Address $address
+     * @return string
      */
     private function _getAddressId($address) {
-        if($address instanceof \Magento\Sales\Model\Quote\Address) {
+        if($address instanceof Address) {
             return $address->getId();
         }
         return $address;
     }
-
-
-
-
 
     /**
      * Collect all product attributes used in serialized rule's action or condition
@@ -575,7 +571,6 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      * @deprecated after 1.6.2.0
      *
      * @param string $format
-     *
      * @return string
      */
     public function toString($format='')

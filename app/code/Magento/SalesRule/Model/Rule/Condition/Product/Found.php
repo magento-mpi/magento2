@@ -7,8 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\SalesRule\Model\Rule\Condition\Product;
 
 class Found
@@ -31,7 +29,7 @@ class Found
     /**
      * Load value options
      *
-     * @return \Magento\SalesRule\Model\Rule\Condition\Product\Found
+     * @return $this
      */
     public function loadValueOptions()
     {
@@ -43,6 +41,8 @@ class Found
     }
 
     /**
+     * Return as html
+     *
      * @return string
      */
     public function asHtml()
@@ -59,10 +59,10 @@ class Found
     }
 
     /**
-     * validate
+     * Validate
      *
      * @param \Magento\Object $object Quote
-     * @return boolean
+     * @return bool
      */
     public function validate(\Magento\Object $object)
     {

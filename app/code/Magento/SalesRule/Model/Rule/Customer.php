@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\SalesRule\Model\Rule;
 
 /**
  * SalesRule Rule Customer Model
@@ -25,16 +25,26 @@
  * @package     Magento_SalesRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\SalesRule\Model\Rule;
-
 class Customer extends \Magento\Core\Model\AbstractModel
 {
+    /**
+     * Constructor
+     *
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
         $this->_init('Magento\SalesRule\Model\Resource\Rule\Customer');
     }
-    
+
+    /**
+     * Load by customer rule
+     *
+     * @param int $customerId
+     * @param int $ruleId
+     * @return $this
+     */
     public function loadByCustomerRule($customerId, $ruleId)
     {
         $this->_getResource()->loadByCustomerRule($this, $customerId, $ruleId);

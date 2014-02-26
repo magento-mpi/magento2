@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\SalesRule\Model\Resource\Report;
 
 /**
  * Rule report resource model
@@ -16,8 +16,6 @@
  * @package     Magento_SalesRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\SalesRule\Model\Resource\Report;
-
 class Rule extends \Magento\Reports\Model\Resource\Report\AbstractReport
 {
     /**
@@ -58,6 +56,7 @@ class Rule extends \Magento\Reports\Model\Resource\Report\AbstractReport
     /**
      * Resource Report Rule constructor
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -67,9 +66,9 @@ class Rule extends \Magento\Reports\Model\Resource\Report\AbstractReport
     /**
      * Aggregate Coupons data
      *
-     * @param mixed $from
-     * @param mixed $to
-     * @return \Magento\SalesRule\Model\Resource\Report\Rule
+     * @param mixed|null $from
+     * @param mixed|null $to
+     * @return $this
      */
     public function aggregate($from = null, $to = null)
     {

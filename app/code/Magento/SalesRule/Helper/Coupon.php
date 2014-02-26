@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\SalesRule\Helper;
 
 /**
  * Helper for coupon codes creating and managing
@@ -15,8 +16,6 @@
  * @package     Magento_SalesRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\SalesRule\Helper;
-
 class Coupon extends \Magento\App\Helper\AbstractHelper
 {
     /**

@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\SalesRule\Model\System\Config\Source\Coupon;
 
 /**
  * Options for Code Format Field in Auto Generated Specific Coupon Codes configuration section
@@ -15,8 +16,6 @@
  * @package     Magento_SalesRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\SalesRule\Model\System\Config\Source\Coupon;
-
 class Format implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
@@ -36,9 +35,7 @@ class Format implements \Magento\Core\Model\Option\ArrayInterface
     }
 
     /**
-     * Options getter
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function toOptionArray()
     {

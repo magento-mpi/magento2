@@ -7,8 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\SalesRule\Model\Rule\Action;
 
 class Collection extends \Magento\Rule\Model\Action\Collection

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\SalesRule\Model\Rule\Condition;
 
 /**
  * Product rule condition data model
@@ -16,8 +16,6 @@
  * @package Magento_SalesRule
  * @author Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\SalesRule\Model\Rule\Condition;
-
 class Product extends \Magento\Rule\Model\Condition\Product\AbstractProduct
 {
     /**
@@ -53,6 +51,7 @@ class Product extends \Magento\Rule\Model\Condition\Product\AbstractProduct
      * Add special attributes
      *
      * @param array $attributes
+     * @return void
      */
     protected function _addSpecialAttributes(array &$attributes)
     {
@@ -66,7 +65,6 @@ class Product extends \Magento\Rule\Model\Condition\Product\AbstractProduct
      * Validate Product Rule Condition
      *
      * @param \Magento\Object $object
-     *
      * @return bool
      */
     public function validate(\Magento\Object $object)

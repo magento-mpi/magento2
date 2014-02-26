@@ -7,13 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\SalesRule\Block\Adminhtml\Promo\Quote;
 
 /**
  * Shopping cart rule edit form block
  */
-
-namespace Magento\SalesRule\Block\Adminhtml\Promo\Quote;
-
 class Edit extends \Magento\Backend\Block\Widget\Form\Container
 {
     /**
@@ -41,6 +39,8 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
      * Initialize form
      * Add standard buttons
      * Add "Save and Continue" button
+     *
+     * @return void
      */
     protected function _construct()
     {

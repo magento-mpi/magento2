@@ -7,9 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\SalesRule\Model\Quote;
+
+use Magento\Sales\Model\Quote\Address;
+use Magento\Sales\Model\Quote\Item\AbstractItem;
 
 class Discount extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 {
@@ -51,10 +52,10 @@ class Discount extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
     /**
      * Collect address discount amount
      *
-     * @param   \Magento\Sales\Model\Quote\Address $address
-     * @return  \Magento\SalesRule\Model\Quote\Discount
+     * @param Address $address
+     * @return $this
      */
-    public function collect(\Magento\Sales\Model\Quote\Address $address)
+    public function collect(Address $address)
     {
         parent::collect($address);
         $quote = $address->getQuote();
@@ -133,8 +134,8 @@ class Discount extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
     /**
      * Aggregate item discount information to address data and related properties
      *
-     * @param   \Magento\Sales\Model\Quote\Item\AbstractItem $item
-     * @return  \Magento\SalesRule\Model\Quote\Discount
+     * @param AbstractItem $item
+     * @return $this
      */
     protected function _aggregateItemDiscount($item)
     {
@@ -146,8 +147,8 @@ class Discount extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
     /**
      * Recalculate child discount. Separate discount between children
      *
-     * @param   \Magento\Sales\Model\Quote\Item\AbstractItem $child
-     * @return  \Magento\SalesRule\Model\Quote\Discount
+     * @param AbstractItem $child
+     * @return $this
      */
     protected function _recalculateChildDiscount($child)
     {
@@ -164,10 +165,10 @@ class Discount extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
     /**
      * Add discount total information to address
      *
-     * @param   \Magento\Sales\Model\Quote\Address $address
-     * @return  \Magento\SalesRule\Model\Quote\Discount
+     * @param Address $address
+     * @return $this
      */
-    public function fetch(\Magento\Sales\Model\Quote\Address $address)
+    public function fetch(Address $address)
     {
         $amount = $address->getDiscountAmount();
 
