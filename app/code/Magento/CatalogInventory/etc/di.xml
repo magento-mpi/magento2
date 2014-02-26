@@ -9,9 +9,6 @@
 -->
 <config>
     <type name="Magento\CatalogInventory\Model\Observer">
-        <param name="indexerPrice">
-            <instance type="Magento\Catalog\Model\Resource\Product\Indexer\Price\Proxy" />
-        </param>
         <param name="resourceIndexerStock">
             <instance type="Magento\CatalogInventory\Model\Resource\Indexer\Stock\Proxy" />
         </param>
