@@ -10,6 +10,6 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <update handle="customer_account"/>
     <referenceContainer name="my.account.wrapper">
-        <block class="Magento\Customer\Block\Address\Book" name="address_book" template="address/book.phtml" cacheable="false"/>
+        <block class="Magento\Customer\Block\Address\Book" name="address_book" template="address/book.phtml"/>
     </referenceContainer>
 </layout>

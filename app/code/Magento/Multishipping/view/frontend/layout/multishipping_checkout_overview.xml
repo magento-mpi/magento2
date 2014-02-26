@@ -16,7 +16,7 @@
         </action>
     </referenceBlock>
     <referenceContainer name="content">
-        <block class="Magento\Multishipping\Block\Checkout\Overview" name="checkout_overview" template="checkout/overview.phtml" cacheable="false">
+        <block class="Magento\Multishipping\Block\Checkout\Overview" name="checkout_overview" template="checkout/overview.phtml">
             <arguments>
                 <argument name="renderer_template" xsi:type="string">Magento_Multishipping::checkout/item/default.phtml</argument>
                 <argument name="row_renderer_template" xsi:type="string">Magento_Multishipping::checkout/overview/item.phtml</argument>
@@ -29,7 +29,7 @@
                 </action>
             </block>
             <block class="Magento\Checkout\Block\Agreements" name="checkout.multishipping.agreements" as="agreements" template="agreements.phtml"/>
-            <block class="Magento\Checkout\Block\Cart\Totals" name="totals" cacheable="false"/>
+            <block class="Magento\Checkout\Block\Cart\Totals" name="totals"/>
             <container name="checkout.multishipping.overview.items.after" as="items_after" label="Overview Items After"/>
         </block>
     </referenceContainer>
