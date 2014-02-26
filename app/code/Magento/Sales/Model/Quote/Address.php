@@ -472,32 +472,6 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     }
 
     /**
-     * Import quote address data from customer address object
-     *
-     * @deprecated Use \Magento\Sales\Model\Quote\Address::importCustomerAddressData() instead
-     * @param \Magento\Customer\Model\Address $address
-     * @return \Magento\Sales\Model\Quote\Address
-     */
-    public function importCustomerAddress(\Magento\Customer\Model\Address $address)
-    {
-        /**
-         * TODO: Remove this method when all dependencies are refactored to use
-         * importCustomerAddressData() - MAGETWO-20858
-         */
-        $this->_objectCopyService->copyFieldsetToTarget('customer_address', 'to_quote_address', $address, $this);
-        $email = null;
-        if ($address->hasEmail()) {
-            $email = $address->getEmail();
-        } elseif ($address->getCustomer()) {
-            $email = $address->getCustomer()->getEmail();
-        }
-        if ($email) {
-            $this->setEmail($email);
-        }
-        return $this;
-    }
-
-    /**
      * Import quote address data from customer address Data Object.
      *
      * @param \Magento\Customer\Service\V1\Data\Address $address
