@@ -1,8 +1,16 @@
 * GitHub requests:
   * [#235](https://github.com/magento/magento2/issues/235) -- Translation escaping
   * [#463](https://github.com/magento/magento2/pull/463) -- allow _resolveArguments to do sequential lookups
+* Fixed bugs:
+  * Fixed an exception that appears when trying to apply a coupon code
+  * Fixed Shopping Cart Price Rule which applied to products that aren't eligible
+  * Fixed Related Orders link from Recurring Profile page on frontend
 * Modularity improvements:
   * Resolved dependencies of Sales module on RecurringProfile module
+  * Resolved dependencies between Email Templates functionality and other modules
+  * Core module lib-only depended components moved to library
+  * CSS url resolving logic moved from publisher to separate css pre-processor
+  * View publisher re-factored
 * Customer Service usage:
   * Sales module refactoring to use customer service layer
   * Checkout module refactoring to use customer service layer

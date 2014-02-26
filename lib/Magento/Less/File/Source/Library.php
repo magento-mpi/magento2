@@ -89,7 +89,7 @@ class Library implements SourceInterface
         $result = array();
         foreach ($files as $file) {
             $filename = $reader->getAbsolutePath($file);
-            $result[] = $this->fileFactory->create($filename, 'lib', $theme);
+            $result[] = $this->fileFactory->create($filename, false, $theme);
         }
         return $result;
     }

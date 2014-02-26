@@ -19,7 +19,7 @@ class Logging extends \Magento\Backend\App\Action
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -46,14 +46,14 @@ class Logging extends \Magento\Backend\App\Action
      * Construct
      *
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\Logging\Model\EventFactory $eventFactory
      * @param \Magento\Logging\Model\ArchiveFactory $archiveFactory
      * @param \Magento\App\Response\Http\FileFactory $fileFactory
      */
     public function __construct(
         Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\Logging\Model\EventFactory $eventFactory,
         \Magento\Logging\Model\ArchiveFactory $archiveFactory,
         \Magento\App\Response\Http\FileFactory $fileFactory

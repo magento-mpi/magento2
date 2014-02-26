@@ -18,7 +18,7 @@ class Observer
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
@@ -69,7 +69,7 @@ class Observer
     /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Paypal\Helper\Hss $paypalHss
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\Logger $logger
      * @param Report\SettlementFactory $settlementFactory
      * @param \Magento\App\ViewInterface $view
@@ -80,7 +80,7 @@ class Observer
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Paypal\Helper\Hss $paypalHss,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\Logger $logger,
         \Magento\Paypal\Model\Report\SettlementFactory $settlementFactory,
         \Magento\App\ViewInterface $view,

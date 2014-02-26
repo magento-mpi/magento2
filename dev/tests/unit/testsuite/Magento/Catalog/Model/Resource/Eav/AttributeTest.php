@@ -40,7 +40,7 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
         );
 
         $contextMock = $this->getMock(
-            '\Magento\Core\Model\Context',
+            '\Magento\Model\Context',
             array('getEventDispatcher', 'getCacheManager'), array(), '', false
         );
 
@@ -67,7 +67,7 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
 
         $this->_model = new \Magento\Catalog\Model\Resource\Eav\Attribute(
             $contextMock,
-            $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false),
+            $this->getMock('Magento\Registry', array(), array(), '', false),
             $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false),
             $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false),
             $this->getMock('Magento\Eav\Model\Entity\TypeFactory', array(), array(), '', false),
