@@ -35,6 +35,8 @@ class Factory extends AbstractFactory
         'truncate'      => 'Magento\Filter\Truncate',
         'encrypt'       => 'Magento\Filter\Encrypt',
         'decrypt'       => 'Magento\Filter\Decrypt',
+        'translit'      => 'Magento\Filter\Translit',
+        'translitUrl'   => 'Magento\Filter\TranslitUrl',
     );
 
     /**

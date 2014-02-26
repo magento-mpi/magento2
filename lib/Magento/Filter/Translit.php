@@ -2,30 +2,25 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright  {copyright}
+ * @license    {license_link}
  */
 
+namespace Magento\Filter;
 
 /**
- * Catalog Product Url helper
+ * Translit filter
  *
- * @category   Magento
- * @package    Magento_Catalog
- * @author     Magento Core Team <core@magentocommerce.com>
+ * Process string based on convertation table
  */
-namespace Magento\Catalog\Helper\Product;
-
-class Url extends \Magento\Core\Helper\Url
+class Translit implements \Zend_Filter_Interface
 {
     /**
      * Symbol convert table
      *
      * @var array
      */
-    protected $_convertTable = array(
+    protected $convertTable = array(
         '&amp;' => 'and',   '@' => 'at',    '©' => 'c', '®' => 'r', 'À' => 'a',
         'Á' => 'a', 'Â' => 'a', 'Ä' => 'a', 'Å' => 'a', 'Æ' => 'ae','Ç' => 'c',
         'È' => 'e', 'É' => 'e', 'Ë' => 'e', 'Ì' => 'i', 'Í' => 'i', 'Î' => 'i',
@@ -82,20 +77,14 @@ class Url extends \Magento\Core\Helper\Url
     );
 
     /**
-     * @param \Magento\App\Helper\Context $context
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\ConfigInterface $config
      */
-    public function __construct(
-        \Magento\App\Helper\Context $context,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\App\ConfigInterface $config
-    ) {
-        parent::__construct($context, $storeManager);
+    public function __construct(\Magento\App\ConfigInterface $config)
+    {
         $convertConfig = $config->getValue('url/convert', 'default');
         if ($convertConfig) {
             foreach ($convertConfig as $configValue) {
-                $this->_convertTable[strval($configValue['from'])] = strval($configValue['to']);
+                $this->convertTable[strval($configValue['from'])] = strval($configValue['to']);
             }
         }
     }
@@ -105,18 +94,18 @@ class Url extends \Magento\Core\Helper\Url
      *
      * @return array
      */
-    public function getConvertTable()
+    protected function getConvertTable()
     {
-        return $this->_convertTable;
+        return $this->convertTable;
     }
 
     /**
-     * Process string based on convertation table
+     * Filter value
      *
-     * @param   string $string
-     * @return  string
+     * @param string $string
+     * @return string
      */
-    public function format($string)
+    public function filter($string)
     {
         $string = strtr($string, $this->getConvertTable());
         return '"libiconv"' == ICONV_IMPL

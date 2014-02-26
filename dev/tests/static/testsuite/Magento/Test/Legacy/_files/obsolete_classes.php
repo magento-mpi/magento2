@@ -2118,4 +2118,5 @@ return array(
     array('Magento\Catalog\Model\Resource\Product\Collection\AssociatedProductUpdater'),
     ['Magento\Sales\Controller\Adminhtml\Recurring\Profile', 'Magento\RecurringProfile\Controller\Adminhtml\Profile'],
     ['Magento\Sales\Controller\Recurring\Profile', 'Magento\RecurringProfile\Controller\Profile'],
+    ['Magento\Catalog\Helper\Product\Url', 'Magento\Filter\Translit']
 );
