@@ -83,13 +83,13 @@ class FormTest extends \PHPUnit_Framework_TestCase
                 {"{$addressIds[0]}":
                     {"firstname":"John","lastname":"Smith","company":false,"street":"Green str, 67","city":"CityM",
                         "country_id":"US",
-                        "region":{"region_code":"AL","region":"Alabama","region_id":1},
-                        "region_id":false,"postcode":"75477","telephone":"3468676","fax":false,"vat_id":false},
+                        "region_code":"AL","region":"Alabama","region_id":1,
+                        "postcode":"75477","telephone":"3468676","fax":false,"vat_id":false},
                  "{$addressIds[1]}":
                     {"firstname":"John","lastname":"Smith","company":false,"street":"Black str, 48","city":"CityX",
                         "country_id":"US",
-                        "region":{"region_code":"AL","region":"Alabama","region_id":1},
-                        "region_id":false,"postcode":"47676","telephone":"3234676","fax":false,"vat_id":false}
+                        "region_code":"AL","region":"Alabama","region_id":1,
+                        "postcode":"47676","telephone":"3234676","fax":false,"vat_id":false}
                  },
              "store_id":1,"currency_symbol":"$","shipping_method_reseted":true,"payment_method":null
          }
@@ -112,11 +112,11 @@ ORDER_DATA_JSON;
             ->setDefaultShipping(true)
             ->setPostcode('75477')
             ->setRegion(
-                new V1\Data\Region([
+                new V1\Data\Region((new V1\Data\RegionBuilder())->populateWithArray([
                     'region_code' => 'AL',
                     'region' => 'Alabama',
                     'region_id' => 1
-                ])
+                ]))
             )
             ->setStreet(['Green str, 67'])
             ->setTelephone('3468676')
@@ -132,11 +132,11 @@ ORDER_DATA_JSON;
             ->setDefaultShipping(false)
             ->setPostcode('47676')
             ->setRegion(
-                new V1\Data\Region([
+                new V1\Data\Region((new V1\Data\RegionBuilder())->populateWithArray([
                     'region_code' => 'AL',
                     'region' => 'Alabama',
                     'region_id' => 1
-                ])
+                ]))
             )
             ->setStreet(['Black str, 48'])
             ->setCity('CityX')
