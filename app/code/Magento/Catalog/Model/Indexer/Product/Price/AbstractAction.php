@@ -433,8 +433,7 @@ abstract class AbstractAction
      */
     protected function _emptyTable($table)
     {
-        $connection = $this->_getConnection();
-        $connection->delete($table);
+        $this->_getConnection()->delete($table);
     }
 
     /**
