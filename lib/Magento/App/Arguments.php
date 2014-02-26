@@ -79,6 +79,9 @@ class Arguments
                     foreach ($value as $subKey => $node) {
                         $build[$key . $separator . $subKey] = $node;
                     }
+                    if(array_key_exists($key, $build)) {
+                        unset($build[$key]);
+                    }
                 } else {
                     $build[$key] = null;
                 }
