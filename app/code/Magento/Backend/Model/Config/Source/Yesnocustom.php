@@ -14,7 +14,7 @@
  */
 namespace Magento\Backend\Model\Config\Source;
 
-class Yesnocustom implements \Magento\Core\Model\Option\ArrayInterface
+class Yesnocustom implements \Magento\Option\ArrayInterface
 {
 
     /**

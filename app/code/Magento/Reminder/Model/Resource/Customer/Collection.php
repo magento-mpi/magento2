@@ -9,7 +9,7 @@
  */
 namespace Magento\Reminder\Model\Resource\Customer;
 
-use Magento\Core\Model\Registry;
+use Magento\Registry;
 
 /**
  * Resource collection of customers matched by reminder rule
@@ -39,7 +39,7 @@ class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
      * @param Registry $coreRegistry
      * @param mixed $connection
      * @param string $modelName
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(

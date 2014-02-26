@@ -26,7 +26,7 @@ class ItemsTest extends \PHPUnit_Framework_TestCase
         $rma->load(1, 'increment_id');
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $objectManager->get('Magento\Core\Model\Registry')->register('current_rma', $rma);
+        $objectManager->get('Magento\Registry')->register('current_rma', $rma);
         $utility = new \Magento\Core\Utility\Layout($this);
         $layoutArguments = array_merge($utility->getLayoutDependencies(), array('area' => 'adminhtml'));
         $layout = $utility->getLayoutFromFixture(
