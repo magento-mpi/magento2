@@ -42,7 +42,7 @@ class TabsTest extends \PHPUnit_Framework_TestCase
     /**
      * Core Registry.
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     private $coreRegistry;
 
@@ -57,7 +57,7 @@ class TabsTest extends \PHPUnit_Framework_TestCase
         $this->context = $objectManager->get('Magento\Backend\Block\Template\Context');
         $this->customerService = $objectManager->get('Magento\Customer\Service\V1\CustomerServiceInterface');
 
-        $this->coreRegistry = $objectManager->get('Magento\Core\Model\Registry');
+        $this->coreRegistry = $objectManager->get('Magento\Registry');
         $this->coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER_ID, 1);
 
         $this->block = $objectManager->get('Magento\View\LayoutInterface')

@@ -20,7 +20,7 @@ class Accordion extends \Magento\Backend\Block\Widget\Accordion
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -47,7 +47,7 @@ class Accordion extends \Magento\Backend\Block\Widget\Accordion
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Wishlist\Model\Resource\Item\CollectionFactory $itemsFactory
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Customer\Model\Config\Share $shareConfig
      * @param \Magento\Customer\Service\V1\CustomerServiceInterface $customerService
      * @param \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerBuilder
@@ -57,7 +57,7 @@ class Accordion extends \Magento\Backend\Block\Widget\Accordion
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Wishlist\Model\Resource\Item\CollectionFactory $itemsFactory,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Customer\Model\Config\Share $shareConfig,
         \Magento\Customer\Service\V1\CustomerServiceInterface $customerService,
         \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerBuilder,

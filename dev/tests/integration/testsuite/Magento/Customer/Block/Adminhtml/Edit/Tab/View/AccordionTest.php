@@ -21,7 +21,7 @@ class AccordionTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Core\Model\Layout */
     protected $layout;
 
-    /** @var \Magento\Core\Model\Registry */
+    /** @var \Magento\Registry */
     protected $registry;
 
     /** @var \Magento\Customer\Service\V1\CustomerServiceInterface */
@@ -35,7 +35,7 @@ class AccordionTest extends \PHPUnit_Framework_TestCase
         parent::setUp();
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $this->registry = $objectManager->get('Magento\Core\Model\Registry');
+        $this->registry = $objectManager->get('Magento\Registry');
         $this->customerService = $objectManager->get('Magento\Customer\Service\V1\CustomerServiceInterface');
         $this->backendSession = $objectManager->get('Magento\Backend\Model\Session');
         $this->layout = $objectManager->create(
@@ -59,7 +59,7 @@ class AccordionTest extends \PHPUnit_Framework_TestCase
         $block = $this->layout->createBlock('Magento\Customer\Block\Adminhtml\Edit\Tab\View\Accordion');
 
         $html = $block->toHtml();
-        
+
         $this->assertContains('Wishlist - 0 item(s)', $html);
         $this->assertContains('Shopping Cart - 0 item(s)', $html);
     }

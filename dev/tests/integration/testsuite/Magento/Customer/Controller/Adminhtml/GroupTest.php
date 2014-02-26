@@ -31,9 +31,9 @@ class GroupTest extends \Magento\Backend\Utility\Controller
             ->get('Magento\Customer\Service\V1\CustomerGroupServiceInterface');
 
         $group = new CustomerGroup([
-          'id' => null,
-          'code' => self::CUSTOMER_GROUP_CODE,
-          'tax_class_id' => self::TAX_CLASS_ID
+            'id' => null,
+            'code' => self::CUSTOMER_GROUP_CODE,
+            'tax_class_id' => self::TAX_CLASS_ID
         ]);
         self::$_customerGroupId = $groupService->saveGroup($group);;
     }
@@ -71,7 +71,8 @@ class GroupTest extends \Magento\Backend\Utility\Controller
          * Check that success message is set
          */
         $this->assertSessionMessages(
-            $this->equalTo(['The customer group has been deleted.']), MessageInterface::TYPE_SUCCESS
+            $this->equalTo(['The customer group has been deleted.']),
+            MessageInterface::TYPE_SUCCESS
         );
         $this->assertRedirect($this->stringStartsWith(self::BASE_CONTROLLER_URL . 'index'));
     }
@@ -85,7 +86,8 @@ class GroupTest extends \Magento\Backend\Utility\Controller
          * Check that error message is set
          */
         $this->assertSessionMessages(
-            $this->equalTo(['The customer group no longer exists.']), MessageInterface::TYPE_ERROR
+            $this->equalTo(['The customer group no longer exists.']),
+            MessageInterface::TYPE_ERROR
         );
         $this->assertRedirect($this->stringStartsWith(self::BASE_CONTROLLER_URL));
     }
@@ -105,7 +107,8 @@ class GroupTest extends \Magento\Backend\Utility\Controller
         $this->assertSessionMessages($this->logicalNot($this->isEmpty()), MessageInterface::TYPE_SUCCESS);
 
         $this->assertSessionMessages(
-            $this->equalTo(['The customer group has been saved.']), MessageInterface::TYPE_SUCCESS
+            $this->equalTo(['The customer group has been saved.']),
+            MessageInterface::TYPE_SUCCESS
         );
 
         /** @var CustomerGroupServiceInterface $groupService */
@@ -136,7 +139,8 @@ class GroupTest extends \Magento\Backend\Utility\Controller
         $this->dispatch('backend/customer/group/save');
 
         $this->assertSessionMessages(
-            $this->equalTo(['The customer group has been saved.']), MessageInterface::TYPE_SUCCESS
+            $this->equalTo(['The customer group has been saved.']),
+            MessageInterface::TYPE_SUCCESS
         );
 
         /** @var CustomerGroupServiceInterface $groupService */
@@ -177,11 +181,12 @@ class GroupTest extends \Magento\Backend\Utility\Controller
         $this->assertSessionMessages($this->isEmpty(), MessageInterface::TYPE_SUCCESS);
         $this->assertSessionMessages($this->logicalNot($this->isEmpty()), MessageInterface::TYPE_ERROR);
         $this->assertSessionMessages(
-            $this->equalTo(['No such entity with groupId = 10000']), MessageInterface::TYPE_ERROR
+            $this->equalTo(['No such entity with groupId = 10000']),
+            MessageInterface::TYPE_ERROR
         );
 
-        /** @var \Magento\Core\Model\Registry $coreRegistry */
-        $coreRegistry = Bootstrap::getObjectManager()->get('Magento\Core\Model\Registry');
+        /** @var \MagentoRegistry $coreRegistry */
+        $coreRegistry = Bootstrap::getObjectManager()->get('Magento\Registry');
         $this->assertNull($coreRegistry->registry(RegistryConstants::CURRENT_GROUP_ID));
 
         $this->assertRedirect($this->stringStartsWith(self::BASE_CONTROLLER_URL . 'edit/id/10000'));

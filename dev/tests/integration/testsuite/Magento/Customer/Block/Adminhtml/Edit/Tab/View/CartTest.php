@@ -27,7 +27,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
     /**
      * Core registry.
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     private $coreRegistry;
 
@@ -39,7 +39,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $objectManager = Bootstrap::getObjectManager();
         $objectManager->get('Magento\App\State')->setAreaCode('adminhtml');
 
-        $this->coreRegistry = $objectManager->get('Magento\Core\Model\Registry');
+        $this->coreRegistry = $objectManager->get('Magento\Registry');
         $this->coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER_ID, 1);
 
         $this->block = $objectManager->get('Magento\View\LayoutInterface')
@@ -99,7 +99,8 @@ class CartTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(0, $this->block->getCollection()->getSize());
         $this->assertContains(
-            "There are no items in customer's shopping cart at the moment", $this->block->toHtml()
+            "There are no items in customer's shopping cart at the moment",
+            $this->block->toHtml()
         );
     }
 

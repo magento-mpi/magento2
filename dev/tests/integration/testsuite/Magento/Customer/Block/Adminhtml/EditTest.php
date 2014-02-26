@@ -29,7 +29,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
     /**
      * Core Registry.
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     private $coreRegistry;
 
@@ -65,7 +65,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
         $objectManager = Bootstrap::getObjectManager();
         $objectManager->get('Magento\App\State')->setAreaCode('adminhtml');
 
-        $this->coreRegistry = $objectManager->get('Magento\Core\Model\Registry');
+        $this->coreRegistry = $objectManager->get('Magento\Registry');
         $this->coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER_ID, self::$customerId);
 
         $this->block = $objectManager->get('Magento\View\LayoutInterface')
@@ -98,7 +98,8 @@ class EditTest extends \PHPUnit_Framework_TestCase
     public function testGetCreateOrderUrl()
     {
         $this->assertContains(
-            'sales/order_create/start/customer_id/' . self::$customerId, $this->block->getCreateOrderUrl()
+            'sales/order_create/start/customer_id/' . self::$customerId,
+            $this->block->getCreateOrderUrl()
         );
     }
 
@@ -135,7 +136,8 @@ class EditTest extends \PHPUnit_Framework_TestCase
         $html = $this->block->getFormHtml();
         $this->assertContains('<div class="entry-edit form-inline">', $html);
         $this->assertStringMatchesFormat(
-            '%a name="customer_id" %s value="' . self::$customerId . '" %a', $html
+            '%a name="customer_id" %s value="' . self::$customerId . '" %a',
+            $html
         );
         $this->assertContains('id="product_composite_configure_form"', $html);
     }

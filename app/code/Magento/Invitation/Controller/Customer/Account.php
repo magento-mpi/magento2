@@ -23,7 +23,7 @@ class Account extends \Magento\Customer\Controller\Account
     /**
      * Core Registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
@@ -60,7 +60,7 @@ class Account extends \Magento\Customer\Controller\Account
      * @param \Magento\Customer\Service\V1\Dto\RegionBuilder $regionBuilder
      * @param \Magento\Customer\Service\V1\Dto\AddressBuilder $addressBuilder
      * @param \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerBuilder
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\Invitation\Model\Config $config
      * @param \Magento\Invitation\Model\InvitationFactory $invitationFactory
      */
@@ -85,7 +85,7 @@ class Account extends \Magento\Customer\Controller\Account
         \Magento\Customer\Service\V1\Dto\RegionBuilder $regionBuilder,
         \Magento\Customer\Service\V1\Dto\AddressBuilder $addressBuilder,
         \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerBuilder,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\Invitation\Model\Config $config,
         \Magento\Invitation\Model\InvitationFactory $invitationFactory
     ) {
@@ -150,9 +150,11 @@ class Account extends \Magento\Customer\Controller\Account
         if (!$this->_coreRegistry->registry('current_invitation')) {
             $invitation = $this->_invitationFactory->create();
             $invitation
-                ->loadByInvitationCode($this->_objectManager->get('Magento\Core\Helper\Data')->urlDecode(
-                    $this->getRequest()->getParam('invitation', false)
-                ))
+                ->loadByInvitationCode(
+                    $this->_objectManager->get('Magento\Core\Helper\Data')->urlDecode(
+                        $this->getRequest()->getParam('invitation', false)
+                    )
+                )
                 ->makeSureCanBeAccepted();
             $this->_coreRegistry->register('current_invitation', $invitation);
         }
@@ -221,9 +223,12 @@ class Account extends \Magento\Customer\Controller\Account
                     $this->_redirect('customer/account/create');
                     return;
                 } else {
-                    $this->messageManager->addError(__('Your invitation is not valid. Please contact us at %1.',
+                    $this->messageManager->addError(
+                        __(
+                            'Your invitation is not valid. Please contact us at %1.',
                             $this->_objectManager->get('Magento\Core\Model\Store\Config')
-                                ->getConfig('trans_email/ident_support/email'))
+                                ->getConfig('trans_email/ident_support/email')
+                        )
                     );
                     $this->_redirect('customer/account/login');
                     return;
@@ -234,8 +239,10 @@ class Account extends \Magento\Customer\Controller\Account
             $this->messageManager->addException($e, __('Unable to save the customer.'));
         }
 
-        $this->_redirect('magento_invitation/customer_account/create',
-            array('_current' => true, '_secure' => true));
+        $this->_redirect(
+            'magento_invitation/customer_account/create',
+            array('_current' => true, '_secure' => true)
+        );
     }
 
     /**
@@ -287,8 +294,10 @@ class Account extends \Magento\Customer\Controller\Account
         } catch (\Exception $e) {
             // die unhappy
             $this->messageManager->addError($e->getMessage());
-            $this->_redirect('magento_invitation/customer_account/create',
-                array('_current' => true, '_secure' => true));
+            $this->_redirect(
+                'magento_invitation/customer_account/create',
+                array('_current' => true, '_secure' => true)
+            );
             return;
         }
     }

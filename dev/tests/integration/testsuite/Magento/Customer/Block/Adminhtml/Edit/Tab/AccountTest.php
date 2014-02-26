@@ -23,7 +23,7 @@ class AccountTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\ObjectManager */
     protected $objectManager;
 
-    /** @var \Magento\Core\Model\Registry */
+    /** @var \Magento\Registry */
     protected $coreRegistry;
 
     /** @var \Magento\Backend\Model\Session */
@@ -38,7 +38,7 @@ class AccountTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $this->coreRegistry = $this->objectManager->get('Magento\Core\Model\Registry');
+        $this->coreRegistry = $this->objectManager->get('Magento\Registry');
         $this->coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER_ID, 1);
         $this->backendSession = $this->objectManager->get('Magento\Backend\Model\Session');
 
