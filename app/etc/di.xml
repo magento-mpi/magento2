@@ -330,10 +330,10 @@
         </arguments>
     </type>
     <type name="Magento\App\Cache\Type\FrontendPool">
-        <param name="typeFrontendMap">
-            <array>
-                <item key="full_page"><value>page_cache</value></item>
-            </array>
-        </param>
+        <arguments>
+            <argument name="typeFrontendMap" xsi:type="array">
+                <item name="full_page" xsi:type="string">page_cache</item>
+            </argument>
+        </arguments>
     </type>
 </config>
