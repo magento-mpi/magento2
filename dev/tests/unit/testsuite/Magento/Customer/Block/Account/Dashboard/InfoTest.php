@@ -205,6 +205,10 @@ class InfoTest extends \PHPUnit_Framework_TestCase
             ->method('getCustomerAttributeMetadata')
             ->will($this->throwException(new NoSuchEntityException('field', 'value')));
 
+        $this->customerCurrentService->expects($this->once())
+            ->method('getCustomer')
+            ->will($this->returnValue($this->_customer));
+
         /**
          * The AttributeMetadata::{getPrefix() | getMiddlename() | getSuffix()} methods are called twice,
          * while getFirstname() and getLastname() are only called once. Hence the use of any() vs. once().
