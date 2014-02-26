@@ -160,6 +160,7 @@ class Quote extends \Magento\Object
      */
     public function paymentToOrderPayment(\Magento\Sales\Model\Quote\Payment $payment)
     {
+        /** @var \Magento\Sales\Model\Order\Payment $orderPayment */
         $orderPayment = $this->_orderPaymentFactory->create()
             ->setStoreId($payment->getStoreId())
             ->setCustomerPaymentId($payment->getCustomerPaymentId());
@@ -169,6 +170,10 @@ class Quote extends \Magento\Object
             'to_order_payment',
             $payment,
             $orderPayment
+        );
+        $orderPayment->setAdditionalInformation(
+            \Magento\Payment\Model\Method\Substitution::INFO_KEY_TITLE,
+            $payment->getMethodInstance()->getTitle()
         );
 
         return $orderPayment;

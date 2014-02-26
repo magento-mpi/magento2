@@ -1824,6 +1824,9 @@ table.items-to-invoice tbody tr:hover td {
 [class^=" sales-"] .order-payment-currency {
   margin-top: 15px;
 }
+[class^=" sales-"] .order-payment-additional {
+  margin-top: 15px;
+}
 [class^=" sales-"] .grid tbody td {
   vertical-align: top;
 }
