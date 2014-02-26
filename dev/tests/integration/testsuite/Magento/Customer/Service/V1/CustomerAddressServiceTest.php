@@ -10,6 +10,7 @@ namespace Magento\Customer\Service\V1;
 use Magento\Exception\InputException;
 use Magento\Exception\NoSuchEntityException;
 use Magento\Customer\Service\V1;
+use Magento\Customer\Service\V1\Data\AddressConverter;
 
 /**
  * Integration test for service layer \Magento\Customer\Service\V1\CustomerAddressService
@@ -97,7 +98,10 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         $addresses = $this->_service->getAddresses($customerId);
         $this->assertEquals(2, count($addresses));
         $this->assertNotEquals($this->_expectedAddresses[1], $addresses[1]);
-        $this->_assertAddressAndRegionArrayEquals($proposedAddress->__toArray(), $addresses[1]->__toArray());
+        $this->_assertAddressAndRegionArrayEquals(
+            AddressConverter::toFlatArray($proposedAddress),
+            AddressConverter::toFlatArray($addresses[1])
+        );
     }
 
     /**
@@ -123,7 +127,10 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         // set id
         $expectedThirdAddressBuilder->setId($addresses[2]->getId());
         $expectedThirdAddress = $expectedThirdAddressBuilder->create();
-        $this->_assertAddressAndRegionArrayEquals($expectedThirdAddress->__toArray(), $addresses[2]->__toArray());
+        $this->_assertAddressAndRegionArrayEquals(
+            AddressConverter::toFlatArray($expectedThirdAddress),
+            AddressConverter::toFlatArray($addresses[2])
+        );
     }
 
     /**
@@ -139,12 +146,12 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(2, count($this->_expectedAddresses));
         $this->assertEquals(2, count($addresses));
         $this->_assertAddressAndRegionArrayEquals(
-            $this->_expectedAddresses[0]->__toArray(),
-            $addresses[0]->__toArray()
+            AddressConverter::toFlatArray($this->_expectedAddresses[0]),
+            AddressConverter::toFlatArray($addresses[0])
         );
         $this->_assertAddressAndRegionArrayEquals(
-            $this->_expectedAddresses[1]->__toArray(),
-            $addresses[1]->__toArray()
+            AddressConverter::toFlatArray($this->_expectedAddresses[1]),
+            AddressConverter::toFlatArray($addresses[1])
         );
     }
 
@@ -212,7 +219,10 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         $expectedNewAddressBuilder
             ->setId($addresses[1]->getId());
         $expectedNewAddress = $expectedNewAddressBuilder->create();
-        $this->assertEquals($expectedNewAddress->__toArray(), $addresses[1]->__toArray());
+        $this->assertEquals(
+            AddressConverter::toFlatArray($expectedNewAddress),
+            AddressConverter::toFlatArray($addresses[1])
+        );
     }
 
     /**
@@ -224,7 +234,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
     {
         $this->_addressBuilder->populateWithArray(
             array_merge(
-                $this->_expectedAddresses[1]->__toArray(),
+                AddressConverter::toFlatArray($this->_expectedAddresses[1]),
                 [
                     'firstname' => 'Jane',
                     'id'        => 4200,
@@ -263,7 +273,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
     {
         $firstAddressBuilder = $this->_addressBuilder->populateWithArray(
             array_merge(
-                $this->_expectedAddresses[0]->__toArray(),
+                AddressConverter::toFlatArray($this->_expectedAddresses[0]),
                 [
                     'firstname' => null
                 ]
@@ -272,7 +282,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         $firstAddress = $firstAddressBuilder->create();
         $secondAddressBuilder = $this->_addressBuilder->populateWithArray(
             array_merge(
-                $this->_expectedAddresses[0]->__toArray(),
+                AddressConverter::toFlatArray($this->_expectedAddresses[0]),
                 [
                     'lastname' => null
                 ]
@@ -325,11 +335,17 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         /* XXX: cannot reuse addressShippingBuilder; actually all of this code
            is re-using the same addressBuilder which is wrong */
         $addressShipping = $this->_addressBuilder->populate($addressShipping)->setId($shipping->getId())->create();
-        $this->_assertAddressAndRegionArrayEquals($addressShipping->__toArray(), $shipping->__toArray());
+        $this->_assertAddressAndRegionArrayEquals(
+            AddressConverter::toFlatArray($addressShipping),
+            AddressConverter::toFlatArray($shipping)
+        );
 
         $billing = $this->_service->getDefaultBillingAddress($customerId);
         $addressBilling = $this->_addressBuilder->populate($addressBilling)->setId($billing->getId())->create();
-        $this->_assertAddressAndRegionArrayEquals($addressBilling->__toArray(), $billing->__toArray());
+        $this->_assertAddressAndRegionArrayEquals(
+            AddressConverter::toFlatArray($addressBilling),
+            AddressConverter::toFlatArray($billing)
+        );
     }
 
     /**
@@ -377,7 +393,10 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         // It is the same address retrieved as the one which get saved
         $expectedDefaultBuilder->setId($addresses[1]->getId());
         $expectedDefault = $expectedDefaultBuilder->create();
-        $this->_assertAddressAndRegionArrayEquals($expectedDefault->__toArray(), $addresses[1]->__toArray());
+        $this->_assertAddressAndRegionArrayEquals(
+            AddressConverter::toFlatArray($expectedDefault),
+            AddressConverter::toFlatArray($addresses[1])
+        );
     }
 
     /**
@@ -432,8 +451,14 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         $expectedDfltBillBuilder->setId($addresses[0]->getId());
         $expectedDfltBill = $expectedDfltBillBuilder->create();
 
-        $this->_assertAddressAndRegionArrayEquals($expectedDfltShip->__toArray(), $addresses[1]->__toArray());
-        $this->_assertAddressAndRegionArrayEquals($expectedDfltBill->__toArray(), $addresses[0]->__toArray());
+        $this->_assertAddressAndRegionArrayEquals(
+            AddressConverter::toFlatArray($expectedDfltShip),
+            AddressConverter::toFlatArray($addresses[1])
+        );
+        $this->_assertAddressAndRegionArrayEquals(
+            AddressConverter::toFlatArray($expectedDfltBill),
+            AddressConverter::toFlatArray($addresses[0])
+        );
     }
 
     /**

@@ -76,7 +76,7 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
         $customer = $this->_customerService->getCustomer(1);
         $this->assertNotNull($customer);
 
-        $attributes = \Magento\Convert\ConvertArray::toFlatArray($customer->__toArray());
+        $attributes = \Magento\Service\DataObjectConverter::toFlatArray($customer);
         $this->assertNotEmpty($attributes);
 
         foreach ($attributes as $attributeCode => $attributeValue) {

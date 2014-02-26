@@ -124,8 +124,7 @@ class Edit extends \Magento\Directory\Block\Data
                 ];
             }
             $this->_address = $this->_addressBuilder
-                ->populateWithArray(array_merge($this->_address->__toArray(), $postedData))
-                ->create();
+                ->mergeDataObjectWithArray($this->_address, $postedData);
         }
     }
 

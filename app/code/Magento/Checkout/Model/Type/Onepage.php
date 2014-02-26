@@ -484,7 +484,7 @@ class Onepage
         $quote = $this->getQuote();
         $isCustomerNew = !$quote->getCustomerId();
         $customer = $quote->getCustomerData();
-        $customerData = $customer->__toArray();
+        $customerData = \Magento\Service\DataObjectConverter::toFlatArray($customer);
 
         /** @var Form $customerForm */
         $customerForm = $this->_formFactory->create(
@@ -547,7 +547,12 @@ class Onepage
         $quote->getBillingAddress()->setEmail($customer->getEmail());
 
         // copy customer data to quote
-        $this->_objectCopyService->copyFieldsetToTarget('customer_account', 'to_quote', $customer->__toArray(), $quote);
+        $this->_objectCopyService->copyFieldsetToTarget(
+            'customer_account',
+            'to_quote',
+            \Magento\Service\DataObjectConverter::toFlatArray($customer),
+            $quote
+        );
 
         return true;
     }

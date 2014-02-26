@@ -290,4 +290,28 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedData[Customer::CUSTOM_ATTRIBUTES_KEY], $customer3->getCustomAttributes());
         $this->assertEquals($expectedData, $customer3->__toArray());
     }
+
+    public function testToFlatArray()
+    {
+        $customerData = [
+            'email' => 'test@example.com',
+            'firstname' => 'John',
+            'lastname' => 'Doe',
+            'unknown_key' => 'Golden Necklace',
+            'warehouse_zip' => '78777',
+            'warehouse_alternate' => '90051'
+        ];
+        $expectedCustomerData = [
+            'email' => 'test@example.com',
+            'firstname' => 'John',
+            'lastname' => 'Doe',
+            'warehouse_zip' => '78777',
+            'warehouse_alternate' => '90051'
+        ];
+        $customer = $this->_customerBuilder->populateWithArray($customerData)
+            ->create();
+
+        $this->assertEquals($expectedCustomerData, \Magento\Service\DataObjectConverter::toFlatArray($customer));
+    }
+
 }

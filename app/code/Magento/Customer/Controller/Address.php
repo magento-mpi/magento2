@@ -193,7 +193,9 @@ class Address extends \Magento\App\Action\Action
         if ($addressId) {
             $existingAddress = $this->_addressService->getAddressById($addressId);
             if ($existingAddress->getId()) {
-                $existingAddressData = $existingAddress->__toArray();
+                $existingAddressData = \Magento\Customer\Service\V1\Data\AddressConverter::toFlatArray(
+                    $existingAddress
+                );
             }
         }
 

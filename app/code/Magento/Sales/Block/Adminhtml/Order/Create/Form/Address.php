@@ -260,7 +260,7 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
         $result = '';
         if ($formatTypeRenderer) {
             $result = $formatTypeRenderer->renderArray(
-                AddressConverter::toFlatArray($addressData->__toArray())
+                AddressConverter::toFlatArray($addressData)
             );
         }
         return $this->escapeHtml($result);
