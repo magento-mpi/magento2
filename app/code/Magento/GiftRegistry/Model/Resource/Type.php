@@ -49,7 +49,7 @@ class Type extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Add store date to registry type data
      *
      * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Core\Model\Resource\Db\AbstractDb
+     * @return $this
      */
     protected function _afterLoad(\Magento\Core\Model\AbstractModel $object)
     {

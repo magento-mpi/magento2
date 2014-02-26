@@ -88,7 +88,7 @@ class Config implements ConfigInterface
     /**
      * Return array of attribute groups
      *
-     * @return array|mixed|null
+     * @return array|mixed
      */
     public function getAttributeGroups()
     {

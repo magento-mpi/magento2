@@ -40,7 +40,7 @@ class Entity extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Converting some data to internal database format
      *
      * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Core\Model\Resource\Db\AbstractDb
+     * @return $this
      */
     protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
     {
@@ -82,7 +82,7 @@ class Entity extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Perform actions after object is loaded
      *
      * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Core\Model\Resource\Db\AbstractDb
+     * @return $this
      */
     protected function _afterLoad(\Magento\Core\Model\AbstractModel $object)
     {
@@ -97,7 +97,7 @@ class Entity extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Perform action after object is saved - saving data to the eventTable
      *
      * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Core\Model\Resource\Db\AbstractDb
+     * @return $this
      */
     protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
     {

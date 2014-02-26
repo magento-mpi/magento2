@@ -32,7 +32,7 @@ class Person extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Serialization for custom attributes
      *
      * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Core\Model\Resource\Db\AbstractDb
+     * @return $this
      */
     protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
     {
@@ -44,7 +44,7 @@ class Person extends \Magento\Core\Model\Resource\Db\AbstractDb
      * De-serialization for custom attributes
      *
      * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Core\Model\Resource\Db\AbstractDb
+     * @return $this
      */
     protected function _afterLoad(\Magento\Core\Model\AbstractModel $object)
     {

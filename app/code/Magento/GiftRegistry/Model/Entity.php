@@ -625,7 +625,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
     /**
      * Return array of entity registrant roles
      *
-     * @return string
+     * @return array
      */
     public function getRegistrantRoles()
     {
