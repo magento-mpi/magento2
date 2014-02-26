@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Block;
 
 /**
  * Block for Urlrewrites grid container
@@ -18,8 +19,6 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Backend\Block;
-
 class Urlrewrite extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**
@@ -51,6 +50,7 @@ class Urlrewrite extends \Magento\Backend\Block\Widget\Grid\Container
     /**
      * Set custom labels and headers
      *
+     * @return void
      */
     protected function _construct()
     {

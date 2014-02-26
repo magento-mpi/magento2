@@ -22,7 +22,6 @@ app/design/install/magento_enterprise
 app/etc/enterprise
 dev/tests/integration/testsuite/Magento/Test/Integrity/Modular/AdminGwsConfigFilesTest.php
 dev/tests/integration/testsuite/Magento/Test/Integrity/Modular/MenuHierarchyConfigFilesTest.php
-dev/tests/integration/testsuite/Magento/Test/Integrity/Modular/PlaceholderConfigFilesTest.php
 dev/tests/integration/testsuite/Magento/Test/Integrity/Modular/WebsiteRestrictionConfigFilesTest.php
 dev/tests/integration/testsuite/Magento/Test/Integrity/Modular/GiftRegistryConfigFileTest.php
 dev/tests/integration/testsuite/Magento/Test/Design/Frontend/Enterprise
@@ -137,9 +136,6 @@ dev/tests/integration/testsuite/Magento/CustomerCustomAttributes
 app/code/Magento/ScheduledImportExport
 dev/tests/unit/testsuite/Magento/ScheduledImportExport
 dev/tests/integration/testsuite/Magento/ScheduledImportExport
-app/code/Magento/FullPageCache
-dev/tests/unit/testsuite/Magento/FullPageCache
-dev/tests/integration/testsuite/Magento/FullPageCache
 app/code/Magento/PersistentHistory
 app/code/Magento/MultipleWishlist
 dev/tests/integration/testsuite/Magento/MultipleWishlist
@@ -149,3 +145,5 @@ dev/tests/static/testsuite/Magento/Test/Integrity/_files/dependency_test/tables_
 dev/tests/static/testsuite/Magento/Test/Integrity/Magento/Reward/LayoutTest.php
 dev/tools/xml/logging.xslt
 dev/tools/xml/transform_logging.php
+app/code/Magento/CacheInvalidate
+dev/tests/unit/testsuite/Magento/CacheInvalidate

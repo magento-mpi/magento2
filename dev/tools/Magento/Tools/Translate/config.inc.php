@@ -428,9 +428,6 @@ $CONFIG['translates'] = array(
         'app/design/adminhtml/default/default/layout/enterprise/logging.xml',
         'app/design/adminhtml/default/default/template/enterprise/logging/',
     ),
-    'Magento_FullPageCache' => array(
-        'app/code/Magento/FullPageCache/'
-    ),
     'Magento_Pbridge' => array(
         'app/code/Magento/Pbridge/',
         'app/design/adminhtml/default/default/layout/enterprise/pbridge.xml',
@@ -609,7 +606,6 @@ $CONFIG['helpers']  = array(
     'magento_scheduledimportexport'       => 'Magento_ScheduledImportExport',
     'magento_invitation'         => 'Magento_Invitation',
     'magento_logging'            => 'Magento_Logging',
-    'magento_fullpagecache'          => 'Magento_FullPageCache',
     'magento_pbridge'            => 'Magento_Pbridge',
     'magento_pci'                => 'Magento_Pci',
     'magento_persistenthistory'         => 'Magento_PersistentHistory',

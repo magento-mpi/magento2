@@ -7,11 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Core\Model\Layout;
 
 /**
  * Layout structure model
  */
-namespace Magento\Core\Model\Layout;
 
 class ScheduledStructure
 {
@@ -98,7 +98,7 @@ class ScheduledStructure
      *
      * @param string $elementName
      * @param array $default
-     * @return mixed
+     * @return bool|array
      */
     public function getElement($elementName, $default = array())
     {
@@ -118,8 +118,9 @@ class ScheduledStructure
     /**
      * Add element to scheduled elements list
      *
-     * @param  string $elementName
+     * @param string $elementName
      * @param array $data
+     * @return void
      */
     public function setElement($elementName, array $data)
     {
@@ -141,6 +142,7 @@ class ScheduledStructure
      * Unset specified element from scheduled elements list
      *
      * @param $elementName
+     * @return void
      */
     public function unsetElement($elementName)
     {
@@ -164,6 +166,7 @@ class ScheduledStructure
      *
      * @param string $elementName
      * @param array $data
+     * @return void
      */
     public function setElementToMove($elementName, array $data)
     {
@@ -174,6 +177,7 @@ class ScheduledStructure
      * Unset removed element by name
      *
      * @param string $elementName
+     * @return void
      */
     public function unsetElementFromListToRemove($elementName)
     {
@@ -184,6 +188,7 @@ class ScheduledStructure
      * Set removed element value
      *
      * @param string $elementName
+     * @return void
      */
     public function setElementToRemoveList($elementName)
     {
@@ -238,6 +243,7 @@ class ScheduledStructure
      *
      * @param  string $elementName
      * @param array $data
+     * @return void
      */
     public function setStructureElement($elementName, array $data)
     {
@@ -248,6 +254,7 @@ class ScheduledStructure
      * Unset scheduled structure element by name
      *
      * @param string $elementName
+     * @return void
      */
     public function unsetStructureElement($elementName)
     {
@@ -292,6 +299,7 @@ class ScheduledStructure
      *
      * @param string $elementName
      * @param string $data
+     * @return void
      */
     public function setPathElement($elementName, $data)
     {
@@ -302,6 +310,7 @@ class ScheduledStructure
      * Unset scheduled paths element by name
      *
      * @param string $elementName
+     * @return void
      */
     public function unsetPathElement($elementName)
     {
@@ -310,6 +319,8 @@ class ScheduledStructure
 
     /**
      * Flush scheduled paths list
+     *
+     * @return void
      */
     public function flushPaths()
     {
@@ -318,6 +329,8 @@ class ScheduledStructure
 
     /**
      * Flush scheduled structure list
+     *
+     * @return void
      */
     public function flushScheduledStructure()
     {

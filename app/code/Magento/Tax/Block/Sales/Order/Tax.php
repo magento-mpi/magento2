@@ -13,6 +13,8 @@
  */
 namespace Magento\Tax\Block\Sales\Order;
 
+use Magento\Sales\Model\Order;
+
 class Tax extends \Magento\View\Element\Template
 {
     /**
@@ -21,7 +23,15 @@ class Tax extends \Magento\View\Element\Template
      * @var \Magento\Tax\Model\Config
      */
     protected $_config;
+
+    /**
+     * @var Order
+     */
     protected $_order;
+
+    /**
+     * @var \Magento\Object
+     */
     protected $_source;
 
     /**
@@ -110,6 +120,9 @@ class Tax extends \Magento\View\Element\Template
         return $this->_order->getStore();
     }
 
+    /**
+     * @return $this
+     */
     protected function _initSubtotal()
     {
         $store  = $this->getStore();
@@ -173,6 +186,9 @@ class Tax extends \Magento\View\Element\Template
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     protected function _initShipping()
     {
         $store  = $this->getStore();
@@ -228,6 +244,9 @@ class Tax extends \Magento\View\Element\Template
         return $this;
     }
 
+    /**
+     * @return void
+     */
     protected function _initDiscount()
     {
 //        $store  = $this->getStore();
@@ -239,6 +258,9 @@ class Tax extends \Magento\View\Element\Template
 //        }
     }
 
+    /**
+     * @return $this
+     */
     protected function _initGrandTotal()
     {
         $store  = $this->getStore();
@@ -276,16 +298,25 @@ class Tax extends \Magento\View\Element\Template
         return $this;
     }
 
+    /**
+     * @return Order
+     */
     public function getOrder()
     {
         return $this->_order;
     }
 
+    /**
+     * @return array
+     */
     public function getLabelProperties()
     {
         return $this->getParentBlock()->getLabelProperties();
     }
 
+    /**
+     * @return array
+     */
     public function getValueProperties()
     {
         return $this->getParentBlock()->getValueProperties();

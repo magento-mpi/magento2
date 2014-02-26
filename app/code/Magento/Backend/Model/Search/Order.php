@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Model\Search;
 
 /**
  * Search Order Model
@@ -15,8 +16,6 @@
  * @package     Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Backend\Model\Search;
-
 class Order extends \Magento\Object
 {
     /**
@@ -46,7 +45,7 @@ class Order extends \Magento\Object
     /**
      * Load search results
      *
-     * @return \Magento\Backend\Model\Search\Order
+     * @return $this
      */
     public function load()
     {

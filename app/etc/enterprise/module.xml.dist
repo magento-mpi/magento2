@@ -27,7 +27,6 @@
     <module name="Magento_ScheduledImportExport" active="true" />
     <module name="Magento_Invitation" active="true" />
     <module name="Magento_Logging" active="true" />
-    <module name="Magento_FullPageCache" active="true" />
     <module name="Magento_Pbridge" active="true" />
     <module name="Magento_Pci" active="true" />
     <module name="Magento_PersistentHistory" active="true" />

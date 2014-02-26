@@ -7,14 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Model;
 
 /**
  * Backend locale model
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Backend\Model;
-
 class Locale extends \Magento\Core\Model\Locale
 {
     /**
@@ -93,7 +92,7 @@ class Locale extends \Magento\Core\Model\Locale
      * Set locale
      *
      * @param   string $locale
-     * @return  \Magento\Core\Model\LocaleInterface
+     * @return  $this
      */
     public function setLocale($locale = null)
     {

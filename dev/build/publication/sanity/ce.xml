@@ -36,7 +36,7 @@
         <word>CustomerSegment</word>
         <word>CustomerBalance</word>
         <word>Enterprise</word>
-        <word>FullPageCache</word>
+        <word>CacheInvalidate</word>
         <!-- GiftCard and GiftCardAccount modules -->
         <word>GiftCard</word>
         <word>GiftRegistry</word>
@@ -188,7 +188,7 @@
             <word>CustomerSegment</word>
             <word>CustomerBalance</word>
             <word>Enterprise</word>
-            <word>FullPageCache</word>
+            <word>CacheInvalidate</word>
             <!-- GiftCard and GiftCardAccount modules -->
             <word>GiftCard</word>
             <word>GiftRegistry</word>
@@ -403,6 +403,10 @@
             <word>CHANGELOG</word>
         </item>
         <item>
+            <path>app/code/Magento/Catalog/Model/Indexer/Product/Flat/AbstractAction.php</path>
+            <word>CHANGELOG</word>
+        </item>
+        <item>
             <path>app/code/Magento/Indexer</path>
             <word>CHANGELOG</word>
         </item>
@@ -444,6 +448,10 @@
             <word>CustomAttribute</word>
         </item>
         <item>
+            <path>app/code/Magento/Catalog/Model/ProductTypes/ConfigInterface.php</path>
+            <word>CustomAttribute</word>
+        </item>
+        <item>
             <path>app/code/Magento/Catalog/etc/product_types.xml</path>
             <word>CustomAttribute</word>
         </item>
@@ -461,6 +469,10 @@
         </item>
         <item>
             <path>app/code/Magento/Downloadable/etc/product_types.xml</path>
+            <word>CustomAttribute</word>
+        </item>
+        <item>
+            <path>app/code/Magento/ConfigurableProduct/etc/product_types.xml</path>
             <word>CustomAttribute</word>
         </item>
         <item>

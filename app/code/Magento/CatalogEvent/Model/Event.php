@@ -145,21 +145,6 @@ class Event extends AbstractModel implements \Magento\Object\IdentityInterface
     }
 
     /**
-     * Get cache tags associated with object id.
-     * Added category id tags support
-     *
-     * @return string[]
-     */
-    public function getCacheIdTags()
-    {
-        $tags = parent::getCacheIdTags();
-        if ($this->getCategoryId()) {
-            $tags[] = Category::CACHE_TAG . '_' . $this->getCategoryId();
-        }
-        return $tags;
-    }
-
-    /**
      * Apply event status
      *
      * @return $this

@@ -50,7 +50,7 @@ class Properties extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Set form id prefix, declare fields for banner properties
      *
-     * @return \Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Properties
+     * @return $this
      */
     protected function _prepareForm()
     {
@@ -154,7 +154,7 @@ class Properties extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Returns status flag about this tab can be showen or not
      *
-     * @return true
+     * @return bool
      */
     public function canShowTab()
     {
@@ -164,7 +164,7 @@ class Properties extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Returns status flag about this tab hidden or not
      *
-     * @return true
+     * @return bool
      */
     public function isHidden()
     {

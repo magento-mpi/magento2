@@ -10,6 +10,9 @@
 <config>
     <preference for="Magento\Catalog\Model\ProductTypes\ConfigInterface" type="Magento\Catalog\Model\ProductTypes\Config" />
     <preference for="Magento\Catalog\Model\ProductOptions\ConfigInterface" type="Magento\Catalog\Model\ProductOptions\Config" />
+    <preference for="Magento\Catalog\Model\Product\PriceModifierInterface" type="Magento\Catalog\Model\Product\PriceModifier\Composite" />
+    <preference for="Magento\Catalog\Model\Attribute\LockValidatorInterface" type="Magento\Catalog\Model\Attribute\LockValidatorComposite" />
+    <preference for="Magento\Catalog\Model\Entity\Product\Attribute\Group\AttributeMapperInterface" type="Magento\Catalog\Model\Entity\Product\Attribute\Group\AttributeMapper" />
     <type name="Magento\Log\Model\Resource\Log">
         <plugin name="catalogLog" type="Magento\Catalog\Model\Plugin\Log" />
     </type>
@@ -24,16 +27,6 @@
     <type name="Magento\Catalog\Model\Product">
         <param name="catalogProductStatus">
             <instance type="Magento\Catalog\Model\Product\Status\Proxy" />
-        </param>
-    </type>
-    <type name="Magento\Catalog\Model\Resource\Product\Flat\Indexer">
-        <param name="maxIndexCount">
-            <value type="int">64</value>
-        </param>
-        <param name="flatAttributeGroups">
-            <array>
-                <item key="catalog_product"><value>catalog_product</value></item>
-            </array>
         </param>
     </type>
     <type name="Magento\Catalog\Model\Resource\Product\Collection">
@@ -60,14 +53,6 @@
                     </array>
                 </item>
             </array>
-        </param>
-    </type>
-    <type name="Magento\Catalog\Helper\Product\Flat">
-        <param name="addFilterableAttrs">
-            <value type="int">0</value>
-        </param>
-        <param name="addChildData">
-            <value type="int">0</value>
         </param>
     </type>
     <type name="Magento\Catalog\Helper\Data">
@@ -123,11 +108,6 @@
             <instance type="Magento\Catalog\Model\Session\Storage" />
         </param>
     </type>
-    <type name="Magento\Catalog\Block\Adminhtml\Product\Attribute\Edit\Tab\Variations\Main">
-        <param name="inputTypeFactory">
-            <instance type="Magento\Catalog\Model\System\Config\Source\InputtypeFactory" />
-        </param>
-    </type>
     <type name="Magento\Catalog\Model\Category">
         <param name="flatIndexer">
             <instance type="Magento\Indexer\Model\IndexerInterface" shared="false"/>
@@ -140,9 +120,11 @@
     </type>
     <type name="Magento\Core\Model\Resource\Store">
         <plugin name="storeViewResourceAroundSave" type="Magento\Catalog\Model\Indexer\Category\Flat\Plugin\StoreView"/>
+        <plugin name="catalogProductFlatIndexerStore" type="Magento\Catalog\Model\Indexer\Product\Flat\Plugin\Store" />
     </type>
     <type name="Magento\Core\Model\Resource\Store\Group">
         <plugin name="storeGroupResourceAroundSave" type="Magento\Catalog\Model\Indexer\Category\Flat\Plugin\StoreGroup"/>
+        <plugin name="catalogProductFlatIndexerStoreGroup" type="Magento\Catalog\Model\Indexer\Product\Flat\Plugin\StoreGroup" />
     </type>
     <type name="Magento\Catalog\Model\Indexer\Category\Flat\Plugin\AbstractStore">
         <param name="indexer">
@@ -151,10 +133,26 @@
     </type>
     <type name="Magento\Indexer\Model\Config\Data">
         <plugin name="indexerConfigGet" type="Magento\Catalog\Model\Indexer\Category\Flat\Plugin\IndexerConfigData"/>
+        <plugin name="indexerConfigGet" type="Magento\Catalog\Model\Indexer\Product\Flat\Plugin\IndexerConfigData"/>
     </type>
     <type name="Magento\Catalog\Model\Indexer\Category\Flat">
         <param name="indexer">
             <instance type="Magento\Indexer\Model\IndexerInterface" shared="false"/>
+        </param>
+    </type>
+    <type name="Magento\Catalog\Model\Indexer\Product\Flat\Processor">
+        <param name="indexer">
+            <instance type="Magento\Indexer\Model\Indexer" shared="false"/>
+        </param>
+    </type>
+    <type name="Magento\ImportExport\Model\Import">
+        <plugin name="catalogProductFlatIndexerImport" type="\Magento\Catalog\Model\Indexer\Product\Flat\Plugin\Import" />
+    </type>
+    <type name="Magento\Catalog\Helper\Product\Flat\Indexer">
+        <param name="flatAttributeGroups">
+            <array>
+                <item key="catalog_product"><value>catalog_product</value></item>
+            </array>
         </param>
     </type>
     <type name="Magento\Catalog\Model\Product\LinkTypeProvider">
@@ -163,6 +161,21 @@
                 <item key="links_related"><value type="const">Magento\Catalog\Model\Product\Link::LINK_TYPE_RELATED</value></item>
                 <item key="links_crosssell"><value type="const">Magento\Catalog\Model\Product\Link::LINK_TYPE_CROSSSELL</value></item>
                 <item key="links_upsell"><value type="const">Magento\Catalog\Model\Product\Link::LINK_TYPE_UPSELL</value></item>
+            </array>
+        </param>
+    </type>
+    <type name="Magento\Catalog\Model\Product\TypeTransitionManager">
+        <param name="compatibleTypes">
+            <array>
+                <item key="simple"><value type="const">Magento\Catalog\Model\Product\Type::TYPE_SIMPLE</value></item>
+                <item key="virtual"><value type="const">Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL</value></item>
+            </array>
+        </param>
+    </type>
+    <type name="Magento\Eav\Model\Entity\Setup\PropertyMapper\Composite">
+        <param name="propertyMappers">
+            <array>
+                <item key="catalog"><value>Magento\Catalog\Model\Resource\Setup\PropertyMapper</value></item>
             </array>
         </param>
     </type>

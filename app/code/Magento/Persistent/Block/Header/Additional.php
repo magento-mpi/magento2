@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Persistent\Block\Header;
 
 /**
  * Remember Me block
@@ -15,9 +16,6 @@
  * @package     Magento_Persistent
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Persistent\Block\Header;
-
 class Additional extends \Magento\View\Element\Html\Link
 {
     /**
@@ -42,7 +40,7 @@ class Additional extends \Magento\View\Element\Html\Link
         $this->_isScopePrivate = true;
     }
 
-    /*
+    /**
      * Retrieve unset cookie link
      *
      * @return string

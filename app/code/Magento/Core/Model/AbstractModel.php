@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model;
 
 /**
@@ -66,7 +65,7 @@ abstract class AbstractModel extends \Magento\Object
      *
      * When you use true - all cache will be clean
      *
-     * @var string|array|true
+     * @var string|array|bool
      */
     protected $_cacheTag = false;
 
@@ -108,7 +107,7 @@ abstract class AbstractModel extends \Magento\Object
     protected $_cacheManager;
 
     /**
-     * @var \Magento\Core\Model\Registry
+     * @var Registry
      */
     protected $_coreRegistry;
 
@@ -154,6 +153,8 @@ abstract class AbstractModel extends \Magento\Object
 
     /**
      * Model construct that should be used for object initialization
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -163,7 +164,7 @@ abstract class AbstractModel extends \Magento\Object
      * Standard model initialization
      *
      * @param string $resourceModel
-     * @return \Magento\Core\Model\AbstractModel
+     * @return void
      */
     protected function _init($resourceModel)
     {
@@ -172,7 +173,7 @@ abstract class AbstractModel extends \Magento\Object
     }
 
     /**
-     * @return array
+     * @return string[]
      */
     public function __sleep()
     {
@@ -183,6 +184,8 @@ abstract class AbstractModel extends \Magento\Object
 
     /**
      * Init not serializable fields
+     *
+     * @return void
      */
     public function __wakeup()
     {
@@ -203,6 +206,7 @@ abstract class AbstractModel extends \Magento\Object
      *
      * @param string $resourceName
      * @param string|null $collectionName
+     * @return void
      */
     protected function _setResourceModel($resourceName, $collectionName = null)
     {
@@ -274,7 +278,7 @@ abstract class AbstractModel extends \Magento\Object
      *
      * @param integer $modelId
      * @param null|string $field
-     * @return \Magento\Core\Model\AbstractModel
+     * @return $this
      */
     public function load($modelId, $field = null)
     {
@@ -304,7 +308,7 @@ abstract class AbstractModel extends \Magento\Object
      *
      * @param int $modelId
      * @param null|string $field
-     * @return \Magento\Core\Model\AbstractModel
+     * @return $this
      */
     protected function _beforeLoad($modelId, $field = null)
     {
@@ -318,7 +322,7 @@ abstract class AbstractModel extends \Magento\Object
     /**
      * Processing object after load data
      *
-     * @return \Magento\Core\Model\AbstractModel
+     * @return $this
      */
     protected function _afterLoad()
     {
@@ -330,7 +334,7 @@ abstract class AbstractModel extends \Magento\Object
     /**
      * Object after load processing. Implemented as public interface for supporting objects after load in collections
      *
-     * @return \Magento\Core\Model\AbstractModel
+     * @return $this
      */
     public function afterLoad()
     {
@@ -354,7 +358,7 @@ abstract class AbstractModel extends \Magento\Object
     /**
      * Save object data
      *
-     * @return \Magento\Core\Model\AbstractModel
+     * @return $this
      * @throws \Exception
      */
     public function save()
@@ -390,7 +394,7 @@ abstract class AbstractModel extends \Magento\Object
     /**
      * Callback function which called after transaction commit in resource model
      *
-     * @return \Magento\Core\Model\AbstractModel
+     * @return $this
      */
     public function afterCommitCallback()
     {
@@ -422,7 +426,7 @@ abstract class AbstractModel extends \Magento\Object
     /**
      * Processing object before save data
      *
-     * @return \Magento\Core\Model\AbstractModel
+     * @return $this
      */
     protected function _beforeSave()
     {
@@ -437,7 +441,7 @@ abstract class AbstractModel extends \Magento\Object
     /**
      * Validate model before saving it
      *
-     * @return \Magento\Core\Model\AbstractModel
+     * @return $this
      * @throws \Magento\Core\Exception
      */
     protected function _validateBeforeSave()
@@ -509,7 +513,7 @@ abstract class AbstractModel extends \Magento\Object
      * Get list of cache tags applied to model object.
      * Return false if cache tags are not supported by model
      *
-     * @return array|bool
+     * @return array|false
      */
     public function getCacheTags()
     {
@@ -523,31 +527,6 @@ abstract class AbstractModel extends \Magento\Object
                 } else {
                     $tags = array($this->_cacheTag);
                 }
-                $idTags = $this->getCacheIdTags();
-                if ($idTags) {
-                    $tags = array_merge($tags, $idTags);
-                }
-            }
-        }
-        return $tags;
-    }
-
-    /**
-     * Get cache tags associated with object id
-     *
-     * @return array
-     */
-    public function getCacheIdTags()
-    {
-        $tags = false;
-        if ($this->getId() && $this->_cacheTag) {
-            $tags = array();
-            if (is_array($this->_cacheTag)) {
-                foreach ($this->_cacheTag as $_tag) {
-                    $tags[] = $_tag . '_' . $this->getId();
-                }
-            } else {
-                $tags[] = $this->_cacheTag . '_' . $this->getId();
             }
         }
         return $tags;
@@ -556,7 +535,7 @@ abstract class AbstractModel extends \Magento\Object
     /**
      * Remove model object related cache
      *
-     * @return \Magento\Core\Model\AbstractModel
+     * @return $this
      */
     public function cleanModelCache()
     {
@@ -570,7 +549,7 @@ abstract class AbstractModel extends \Magento\Object
     /**
      * Processing object after save data
      *
-     * @return \Magento\Core\Model\AbstractModel
+     * @return $this
      */
     protected function _afterSave()
     {
@@ -584,7 +563,7 @@ abstract class AbstractModel extends \Magento\Object
     /**
      * Delete object from database
      *
-     * @return \Magento\Core\Model\AbstractModel
+     * @return $this
      * @throws \Exception
      */
     public function delete()
@@ -607,7 +586,7 @@ abstract class AbstractModel extends \Magento\Object
     /**
      * Processing object before delete data
      *
-     * @return \Magento\Core\Model\AbstractModel
+     * @return $this
      */
     protected function _beforeDelete()
     {
@@ -620,6 +599,7 @@ abstract class AbstractModel extends \Magento\Object
     /**
      * Safeguard func that will check, if we are in admin area
      *
+     * @return void
      * @throws \Magento\Core\Exception
      */
     protected function _protectFromNonAdmin()
@@ -635,7 +615,7 @@ abstract class AbstractModel extends \Magento\Object
     /**
      * Processing object after delete data
      *
-     * @return \Magento\Core\Model\AbstractModel
+     * @return $this
      */
     protected function _afterDelete()
     {
@@ -648,7 +628,7 @@ abstract class AbstractModel extends \Magento\Object
     /**
      * Processing manipulation after main transaction commit
      *
-     * @return \Magento\Core\Model\AbstractModel
+     * @return $this
      */
     protected function _afterDeleteCommit()
     {
@@ -680,7 +660,7 @@ abstract class AbstractModel extends \Magento\Object
     /**
      * Clearing object for correct deleting by garbage collector
      *
-     * @return \Magento\Core\Model\AbstractModel
+     * @return $this
      */
     final public function clearInstance()
     {
@@ -693,7 +673,7 @@ abstract class AbstractModel extends \Magento\Object
     /**
      * Clearing cyclic references
      *
-     * @return \Magento\Core\Model\AbstractModel
+     * @return $this
      */
     protected function _clearReferences()
     {
@@ -703,7 +683,7 @@ abstract class AbstractModel extends \Magento\Object
     /**
      * Clearing object's data
      *
-     * @return \Magento\Core\Model\AbstractModel
+     * @return $this
      */
     protected function _clearData()
     {

@@ -28,7 +28,7 @@ class RelatedTest extends \PHPUnit_Framework_TestCase
 
     public function testGetIdentities()
     {
-        $productTag = 'compare_item_1';
+        $productTag = array('compare_item_1');
         $product = $this->getMock('Magento\Catalog\Model\Product', array(), array(), '', false);
         $product->expects($this->once())
             ->method('getIdentities')
@@ -42,7 +42,7 @@ class RelatedTest extends \PHPUnit_Framework_TestCase
         $itemsCollection->setValue($this->block, array($product));
 
         $this->assertEquals(
-            array($productTag),
+            $productTag,
             $this->block->getIdentities()
         );
     }

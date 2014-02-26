@@ -7,12 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Core\Model\Theme;
+
+use Magento\Core\Exception;
+use Magento\Event\Observer as EventObserver;
 
 /**
  * Theme Observer model
  */
-namespace Magento\Core\Model\Theme;
-
 class Observer
 {
     /**
@@ -56,10 +58,11 @@ class Observer
     /**
      * Clean related contents to a theme (before save)
      *
-     * @param \Magento\Event\Observer $observer
-     * @throws \Magento\Core\Exception
+     * @param EventObserver $observer
+     * @return void
+     * @throws Exception
      */
-    public function cleanThemeRelatedContent(\Magento\Event\Observer $observer)
+    public function cleanThemeRelatedContent(EventObserver $observer)
     {
         $theme = $observer->getEvent()->getData('theme');
         if ($theme instanceof \Magento\View\Design\ThemeInterface) {
@@ -67,7 +70,7 @@ class Observer
         }
         /** @var $theme \Magento\View\Design\ThemeInterface */
         if ($this->_themeConfig->isThemeAssignedToStore($theme)) {
-            throw new \Magento\Core\Exception(__('Theme isn\'t deletable.'));
+            throw new Exception(__('Theme isn\'t deletable.'));
         }
         $this->_themeImageFactory->create(array('theme' => $theme))->removePreviewImage();
         $this->_updateCollection->addThemeFilter($theme->getId())->delete();
@@ -76,9 +79,10 @@ class Observer
     /**
      * Check a theme, it's assigned to any of store
      *
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
+     * @return void
      */
-    public function checkThemeIsAssigned(\Magento\Event\Observer $observer)
+    public function checkThemeIsAssigned(EventObserver $observer)
     {
         $theme = $observer->getEvent()->getData('theme');
         if ($theme instanceof \Magento\View\Design\ThemeInterface) {

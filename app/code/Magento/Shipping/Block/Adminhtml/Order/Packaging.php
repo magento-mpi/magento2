@@ -5,13 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Shipping\Block\Adminhtml\Order;
 
 /**
  * Adminhtml shipment packaging
  */
-
-namespace Magento\Shipping\Block\Adminhtml\Order;
-
 class Packaging extends \Magento\Backend\Block\Template
 {
     /**
@@ -233,8 +231,8 @@ class Packaging extends \Magento\Backend\Block\Template
     /**
      * Get item of shipment by its id
      *
-     * @param  $itemId
-     * @param  $itemsOf
+     * @param string $itemId
+     * @param string $itemsOf
      * @return \Magento\Object
      */
     public function getShipmentItem($itemId, $itemsOf)
@@ -308,6 +306,8 @@ class Packaging extends \Magento\Backend\Block\Template
 
     /**
      * Check whether girth is allowed for current carrier
+     *
+     * @return bool
      */
     public function isGirthAllowed()
     {

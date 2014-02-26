@@ -137,20 +137,6 @@ class Revision extends \Magento\Core\Model\AbstractModel implements \Magento\Obj
     }
 
     /**
-     * Get cache tags associated with object id
-     *
-     * @return array
-     */
-    public function getCacheIdTags()
-    {
-        $tags = parent::getCacheIdTags();
-        if ($tags && $this->getPageId()) {
-            $tags[] = \Magento\Cms\Model\Page::CACHE_TAG . '_' . $this->getPageId();
-        }
-        return $tags;
-    }
-
-    /**
      * Preparing data before save
      *
      * @return \Magento\VersionsCms\Model\Page\Revision

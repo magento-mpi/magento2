@@ -7,15 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Install\Controller;
+
+use Magento\App\RequestInterface;
+use Magento\App\ResponseInterface;
 
 /**
  * Installation wizard controller
  */
-namespace Magento\Install\Controller;
-
-use Magento\App\Action\NotFoundException;
-use Magento\App\RequestInterface;
-
 class Wizard extends \Magento\Install\Controller\Action
 {
     /**
@@ -123,7 +122,7 @@ class Wizard extends \Magento\Install\Controller\Action
     /**
      * Prepare layout
      *
-     * @return \Magento\Install\Controller\Wizard
+     * @return $this
      */
     protected function _prepareLayout()
     {
@@ -156,6 +155,8 @@ class Wizard extends \Magento\Install\Controller\Action
 
     /**
      * Index action
+     *
+     * @return void
      */
     public function indexAction()
     {
@@ -164,6 +165,8 @@ class Wizard extends \Magento\Install\Controller\Action
 
     /**
      * Begin installation action
+     *
+     * @return void
      */
     public function beginAction()
     {
@@ -182,6 +185,8 @@ class Wizard extends \Magento\Install\Controller\Action
 
     /**
      * Process begin step POST data
+     *
+     * @return void
      */
     public function beginPostAction()
     {
@@ -197,6 +202,8 @@ class Wizard extends \Magento\Install\Controller\Action
 
     /**
      * Localization settings
+     *
+     * @return void
      */
     public function localeAction()
     {
@@ -217,6 +224,8 @@ class Wizard extends \Magento\Install\Controller\Action
 
     /**
      * Change current locale
+     *
+     * @return void
      */
     public function localeChangeAction()
     {
@@ -236,6 +245,8 @@ class Wizard extends \Magento\Install\Controller\Action
 
     /**
      * Saving localization settings
+     *
+     * @return void
      */
     public function localePostAction()
     {
@@ -252,6 +263,8 @@ class Wizard extends \Magento\Install\Controller\Action
 
     /**
      * Download page action
+     *
+     * @return void
      */
     public function downloadAction()
     {
@@ -268,6 +281,8 @@ class Wizard extends \Magento\Install\Controller\Action
 
     /**
      * Download post action
+     *
+     * @return void
      */
     public function downloadPostAction()
     {
@@ -294,6 +309,8 @@ class Wizard extends \Magento\Install\Controller\Action
 
     /**
      * Download auto action
+     *
+     * @return void
      */
     public function downloadAutoAction()
     {
@@ -303,6 +320,8 @@ class Wizard extends \Magento\Install\Controller\Action
 
     /**
      * Install action
+     *
+     * @return void
      * @SuppressWarnings(PHPMD.ExitExpression)
      */
     public function installAction()
@@ -336,6 +355,8 @@ class Wizard extends \Magento\Install\Controller\Action
 
     /**
      * Install success callback
+     *
+     * @return void
      */
     public function installSuccessCallback()
     {
@@ -344,6 +365,8 @@ class Wizard extends \Magento\Install\Controller\Action
 
     /**
      * Install failure callback
+     *
+     * @return void
      */
     public function installFailureCallback()
     {
@@ -352,6 +375,8 @@ class Wizard extends \Magento\Install\Controller\Action
 
     /**
      * Download manual action
+     *
+     * @return void
      */
     public function downloadManualAction()
     {
@@ -361,6 +386,8 @@ class Wizard extends \Magento\Install\Controller\Action
 
     /**
      * Configuration data installation
+     *
+     * @return void
      */
     public function configAction()
     {
@@ -384,6 +411,8 @@ class Wizard extends \Magento\Install\Controller\Action
 
     /**
      * Process configuration POST data
+     *
+     * @return ResponseInterface|void
      */
     public function configPostAction()
     {
@@ -414,6 +443,8 @@ class Wizard extends \Magento\Install\Controller\Action
 
     /**
      * Install DB
+     *
+     * @return void
      */
     public function installDbAction()
     {
@@ -438,6 +469,8 @@ class Wizard extends \Magento\Install\Controller\Action
 
     /**
      * Install administrator account
+     *
+     * @return void
      */
     public function administratorAction()
     {
@@ -452,6 +485,8 @@ class Wizard extends \Magento\Install\Controller\Action
 
     /**
      * Process administrator installation POST data
+     *
+     * @return void
      */
     public function administratorPostAction()
     {
@@ -479,6 +514,8 @@ class Wizard extends \Magento\Install\Controller\Action
 
     /**
      * End installation
+     *
+     * @return void
      */
     public function endAction()
     {

@@ -13,6 +13,9 @@ namespace Magento\Backend\Model\Config\Source\Email;
 
 class Smtpauth implements \Magento\Core\Model\Option\ArrayInterface
 {
+    /**
+     * @return array
+     */
     public function toOptionArray()
     {
         return array(
