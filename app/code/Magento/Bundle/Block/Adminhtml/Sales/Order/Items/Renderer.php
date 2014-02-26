@@ -72,7 +72,7 @@ class Renderer extends \Magento\Sales\Block\Adminhtml\Items\Renderer\DefaultRend
     }
 
     /**
-     * @param null $item
+     * @param mixed $item
      * @return bool
      */
     public function isShipmentSeparately($item = null)
@@ -119,7 +119,7 @@ class Renderer extends \Magento\Sales\Block\Adminhtml\Items\Renderer\DefaultRend
     }
 
     /**
-     * @param null $item
+     * @param mixed $item
      * @return bool
      */
     public function isChildCalculated($item = null)

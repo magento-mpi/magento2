@@ -125,7 +125,7 @@ class Renderer extends \Magento\Sales\Block\Adminhtml\Order\View\Items\Renderer\
 
     /**
      * @param mixed $item
-     * @return mixed|null
+     * @return mixed
      */
     public function getSelectionAttributes($item)
     {
