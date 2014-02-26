@@ -114,9 +114,9 @@ class Entity extends \Magento\Core\Model\AbstractModel
     protected $_translate;
 
     /**
-     * @var \Magento\Email\Model\TemplateFactory
+     * @var \Magento\Mail\Template\TransportBuilder
      */
-    protected $_templateFactory;
+    protected $_transportBuilder;
 
     /**
      * Gift registry data
@@ -186,12 +186,12 @@ class Entity extends \Magento\Core\Model\AbstractModel
     protected $mathRandom;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\TranslateInterface $translate
-     * @param \Magento\Email\Model\TemplateFactory $templateFactory
+     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder,
      * @param \Magento\GiftRegistry\Model\Type $type
      * @param \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig
      * @param \Magento\GiftRegistry\Model\Item $itemModel
@@ -213,12 +213,12 @@ class Entity extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\TranslateInterface $translate,
-        \Magento\Email\Model\TemplateFactory $templateFactory,
+        \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\GiftRegistry\Model\Type $type,
         \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig,
         \Magento\GiftRegistry\Model\Item $itemModel,
@@ -242,7 +242,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
         $this->_giftRegistryData = $giftRegistryData;
         $this->_store = $storeManager->getStore();
         $this->_translate = $translate;
-        $this->_templateFactory = $templateFactory;
+        $this->_transportBuilder = $transportBuilder;
         $this->_type = $type;
         $this->attributeConfig = $attributeConfig;
         $this->itemModel = $itemModel;
@@ -412,7 +412,6 @@ class Entity extends \Magento\Core\Model\AbstractModel
             $storeId = $this->getStoreId();
         }
         $store = $this->storeManager->getStore($storeId);
-        $mail = $this->_templateFactory->create();
 
         if (is_array($recipient)) {
             $recipientEmail = $recipient['email'];
@@ -436,21 +435,27 @@ class Entity extends \Magento\Core\Model\AbstractModel
             'url' => $this->_giftRegistryData->getRegistryLink($this)
         );
 
-        $mail->setDesignConfig(array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $store->getId()));
-        $mail->sendTransactional(
-            $store->getConfig(self::XML_PATH_SHARE_EMAIL_TEMPLATE),
-            $identity,
-            $recipientEmail,
-            $recipientName,
-            $templateVars
-        );
+        $transport = $this->_transportBuilder
+            ->setTemplateIdentifier($store->getConfig(self::XML_PATH_SHARE_EMAIL_TEMPLATE))
+            ->setTemplateOptions(array(
+                'area'  => \Magento\Core\Model\App\Area::AREA_FRONTEND,
+                'store' => $store->getId()
+            ))
+            ->setTemplateVars($templateVars)
+            ->setFrom($identity)
+            ->addTo($recipientEmail, $recipientName)
+            ->getTransport();
+
+        try {
+            $transport->sendMessage();
+            $result = true;
+        } catch (\Magento\Mail\Exception $e) {
+            $result = false;
+        }
 
         $translate->setTranslateInline(true);
 
-        if ($mail->getSentSuccess()) {
-            return true;
-        }
-        return false;
+        return $result;
     }
 
     /**
@@ -536,7 +541,6 @@ class Entity extends \Magento\Core\Model\AbstractModel
             ->load($this->getCustomerId());
 
         $store = $this->storeManager->getStore();
-        $mail = $this->_templateFactory->create();
 
         $this->setUpdatedQty($updatedQty);
 
@@ -546,21 +550,27 @@ class Entity extends \Magento\Core\Model\AbstractModel
             'entity' => $this
         );
 
-        $mail->setDesignConfig(array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $store->getId()));
-        $mail->sendTransactional(
-            $store->getConfig(self::XML_PATH_UPDATE_EMAIL_TEMPLATE),
-            $store->getConfig(self::XML_PATH_UPDATE_EMAIL_IDENTITY),
-            $owner->getEmail(),
-            $owner->getName(),
-            $templateVars
-        );
+        $transport = $this->_transportBuilder
+            ->setTemplateIdentifier($store->getConfig(self::XML_PATH_UPDATE_EMAIL_TEMPLATE))
+            ->setTemplateOptions(array(
+                'area'  => \Magento\Core\Model\App\Area::AREA_FRONTEND,
+                'store' => $store->getId()
+            ))
+            ->setTemplateVars($templateVars)
+            ->setFrom($store->getConfig(self::XML_PATH_UPDATE_EMAIL_IDENTITY))
+            ->addTo($owner->getEmail(), $owner->getName())
+            ->getTransport();
 
+        try {
+            $transport->sendMessage();
+            $result = true;
+        }
+        catch (\Magento\Mail\Exception $e) {
+            $result = false;
+        }
         $translate->setTranslateInline(true);
 
-        if ($mail->getSentSuccess()) {
-            return true;
-        }
-        return false;
+        return $result;
     }
 
     /**
@@ -577,7 +587,6 @@ class Entity extends \Magento\Core\Model\AbstractModel
             ->load($this->getCustomerId());
 
         $store = $this->storeManager->getStore();
-        $mail = $this->_templateFactory->create();
 
         $templateVars = array(
             'store' => $store,
@@ -586,21 +595,27 @@ class Entity extends \Magento\Core\Model\AbstractModel
             'url' => $this->_giftRegistryData->getRegistryLink($this)
         );
 
-        $mail->setDesignConfig(array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $store->getId()));
-        $mail->sendTransactional(
-            $store->getConfig(self::XML_PATH_OWNER_EMAIL_TEMPLATE),
-            $store->getConfig(self::XML_PATH_OWNER_EMAIL_IDENTITY),
-            $owner->getEmail(),
-            $owner->getName(),
-            $templateVars
-        );
+        $transport = $this->_transportBuilder
+            ->setTemplateIdentifier($store->getConfig(self::XML_PATH_OWNER_EMAIL_TEMPLATE))
+            ->setTemplateOptions(array(
+                'area'  => \Magento\Core\Model\App\Area::AREA_FRONTEND,
+                'store' => $store->getId()
+            ))
+            ->setTemplateVars($templateVars)
+            ->setFrom($store->getConfig(self::XML_PATH_OWNER_EMAIL_IDENTITY))
+            ->addTo($owner->getEmail(), $owner->getName())
+            ->getTransport();
+
+        try {
+            $transport->sendMessage();
+            $result = true;
+        } catch (\Magento\Mail\Exception $e) {
+            $result = false;
+        }
 
         $translate->setTranslateInline(true);
 
-        if ($mail->getSentSuccess()) {
-            return true;
-        }
-        return false;
+        return $result;
     }
 
     /**

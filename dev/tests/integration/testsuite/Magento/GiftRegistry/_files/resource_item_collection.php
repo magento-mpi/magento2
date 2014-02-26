@@ -1,7 +1,7 @@
 <?php
 /**
  * {license_notice}
- *   
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -71,5 +71,5 @@ $item->setEntityId($giftRegistry->getId())
     ->setQty(2)
     ->save();
 
-$objectManager->get('Magento\Core\Model\Registry')->register('test_gift_registry', $giftRegistry);
-$objectManager->get('Magento\Core\Model\Registry')->register('test_product', $product);
+$objectManager->get('Magento\Registry')->register('test_gift_registry', $giftRegistry);
+$objectManager->get('Magento\Registry')->register('test_product', $product);
