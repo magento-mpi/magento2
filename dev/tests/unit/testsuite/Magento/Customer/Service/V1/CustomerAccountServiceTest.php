@@ -176,8 +176,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-
         $metadataService = $this->getMockForAbstractClass(
             'Magento\Customer\Service\V1\CustomerMetadataServiceInterface', [], '', false
         );

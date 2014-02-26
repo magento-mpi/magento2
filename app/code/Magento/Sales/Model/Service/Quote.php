@@ -43,13 +43,6 @@ class Quote
     protected $_orderData = array();
 
     /**
-     * List of recurring payment profiles that may have been generated before placing the order
-     *
-     * @var array
-     */
-    protected $_recurringPaymentProfiles = array();
-
-    /**
      * Order that may be created during submission
      *
      * @var \Magento\Sales\Model\Order
@@ -440,7 +433,7 @@ class Quote
     public function submitNominalItems()
     {
         $this->_validate();
-        $this->_submitRecurringPaymentProfiles();
+        $this->_eventManager->dispatch('sales_model_service_quote_submit_nominal_items', ['quote' => $this->_quote]);
         $this->_inactivateQuote();
         $this->_deleteNominalItems();
     }
@@ -491,16 +484,6 @@ class Quote
             return;
         }
         $this->submitOrderWithDataObject();
-    }
-
-    /**
-     * Return recurring payment profiles
-     *
-     * @return array
-     */
-    public function getRecurringPaymentProfiles()
-    {
-        return $this->_recurringPaymentProfiles;
     }
 
     /**
@@ -571,23 +554,6 @@ class Quote
         }
 
         return $this;
-    }
-
-    /**
-     * Submit recurring payment profiles
-     *
-     * @throws \Magento\Core\Exception
-     */
-    protected function _submitRecurringPaymentProfiles()
-    {
-        $profiles = $this->_quote->prepareRecurringPaymentProfiles();
-        foreach ($profiles as $profile) {
-            if (!$profile->isValid()) {
-                throw new \Magento\Core\Exception($profile->getValidationErrors());
-            }
-            $profile->submit();
-        }
-        $this->_recurringPaymentProfiles = $profiles;
     }
 
     /**

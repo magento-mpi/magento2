@@ -60,7 +60,7 @@ class Observer
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -93,7 +93,7 @@ class Observer
      * @param \Magento\Index\Model\Indexer $indexer
      * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
      * @param \Magento\Search\Helper\Data $searchData
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\Search\Model\Source\Weight $sourceWeight
      * @param \Magento\App\RequestInterface $request
      */
@@ -105,7 +105,7 @@ class Observer
         \Magento\Index\Model\Indexer $indexer,
         \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider,
         \Magento\Search\Helper\Data $searchData,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\Search\Model\Source\Weight $sourceWeight,
         \Magento\App\RequestInterface $request
     ) {

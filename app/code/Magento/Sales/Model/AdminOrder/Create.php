@@ -91,7 +91,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -170,7 +170,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
     /**
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\Sales\Model\Config $salesConfig
      * @param \Magento\Backend\Model\Session\Quote $quoteSession
      * @param \Magento\Logger $logger
@@ -189,7 +189,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
     public function __construct(
         \Magento\ObjectManager $objectManager,
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\Sales\Model\Config $salesConfig,
         \Magento\Backend\Model\Session\Quote $quoteSession,
         \Magento\Logger $logger,

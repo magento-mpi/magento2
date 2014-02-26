@@ -11,6 +11,7 @@ namespace Magento\Sales\Model;
 use Magento\Sales\Model\Quote\Address;
 use Magento\Customer\Service\V1\Data\Address as AddressDataObject;
 use Magento\Customer\Service\V1\Data\Customer as CustomerDataObject;
+use \Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 
 /**
  * Quote model
@@ -221,9 +222,9 @@ class Quote extends \Magento\Core\Model\AbstractModel
     protected $_customerFactory;
 
     /**
-     * @var \Magento\Customer\Model\GroupFactory
+     * @var CustomerGroupServiceInterface
      */
-    protected $_customerGroupFactory;
+    protected $_customerGroupService;
 
     /**
      * @var \Magento\Sales\Model\Resource\Quote\Item\CollectionFactory
@@ -261,11 +262,6 @@ class Quote extends \Magento\Core\Model\AbstractModel
     protected $_quotePaymentCollectionFactory;
 
     /**
-     * @var \Magento\RecurringProfile\Model\Profile
-     */
-    protected $_recurringProfileFactory;
-
-    /**
      * @var \Magento\Object\Copy
      */
     protected $_objectCopyService;
@@ -285,8 +281,8 @@ class Quote extends \Magento\Core\Model\AbstractModel
     protected $_addressConverter;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Sales\Helper\Data $salesData
      * @param \Magento\Catalog\Helper\Product $catalogProduct
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
@@ -294,7 +290,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
      * @param \Magento\App\ConfigInterface $config
      * @param \Magento\Sales\Model\Quote\AddressFactory $quoteAddressFactory
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
-     * @param \Magento\Customer\Model\GroupFactory $customerGroupFactory
+     * @param CustomerGroupServiceInterface $customerGroupService
      * @param \Magento\Sales\Model\Resource\Quote\Item\CollectionFactory $quoteItemCollectionFactory
      * @param \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory
      * @param \Magento\Message\Factory $messageFactory
@@ -302,7 +298,6 @@ class Quote extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Sales\Model\Quote\PaymentFactory $quotePaymentFactory
      * @param \Magento\Sales\Model\Resource\Quote\Payment\CollectionFactory $quotePaymentCollectionFactory
-     * @param \Magento\RecurringProfile\Model\ProfileFactory $recurringProfileFactory
      * @param \Magento\Object\Copy $objectCopyService
      * @param \Magento\Customer\Model\Converter $converter
      * @param \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService
@@ -312,8 +307,8 @@ class Quote extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Sales\Helper\Data $salesData,
         \Magento\Catalog\Helper\Product $catalogProduct,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
@@ -321,7 +316,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
         \Magento\App\ConfigInterface $config,
         \Magento\Sales\Model\Quote\AddressFactory $quoteAddressFactory,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
-        \Magento\Customer\Model\GroupFactory $customerGroupFactory,
+        CustomerGroupServiceInterface $customerGroupService,
         \Magento\Sales\Model\Resource\Quote\Item\CollectionFactory $quoteItemCollectionFactory,
         \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory,
         \Magento\Message\Factory $messageFactory,
@@ -329,7 +324,6 @@ class Quote extends \Magento\Core\Model\AbstractModel
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Sales\Model\Quote\PaymentFactory $quotePaymentFactory,
         \Magento\Sales\Model\Resource\Quote\Payment\CollectionFactory $quotePaymentCollectionFactory,
-        \Magento\RecurringProfile\Model\ProfileFactory $recurringProfileFactory,
         \Magento\Object\Copy $objectCopyService,
         \Magento\Customer\Model\Converter $converter,
         \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService,
@@ -345,7 +339,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
         $this->_config = $config;
         $this->_quoteAddressFactory = $quoteAddressFactory;
         $this->_customerFactory = $customerFactory;
-        $this->_customerGroupFactory = $customerGroupFactory;
+        $this->_customerGroupService = $customerGroupService;
         $this->_quoteItemCollectionFactory = $quoteItemCollectionFactory;
         $this->_quoteItemFactory = $quoteItemFactory;
         $this->messageFactory = $messageFactory;
@@ -353,7 +347,6 @@ class Quote extends \Magento\Core\Model\AbstractModel
         $this->_productFactory = $productFactory;
         $this->_quotePaymentFactory = $quotePaymentFactory;
         $this->_quotePaymentCollectionFactory = $quotePaymentCollectionFactory;
-        $this->_recurringProfileFactory = $recurringProfileFactory;
         $this->_objectCopyService = $objectCopyService;
         $this->_converter = $converter;
         $this->_addressService = $addressService;
@@ -559,8 +552,8 @@ class Quote extends \Magento\Core\Model\AbstractModel
      * Assign customer model to quote with billing and shipping address change
      *
      * @param  CustomerDataObject|\Magento\Customer\Model\Customer $customer
-     * @param  Address $billingAddress
-     * @param  Address $shippingAddress
+     * @param  Address $billingAddress Quote billing address
+     * @param  Address $shippingAddress Quote shipping address
      * @return $this
      */
     public function assignCustomerWithAddressChange(
@@ -569,29 +562,39 @@ class Quote extends \Magento\Core\Model\AbstractModel
         Address $shippingAddress = null
     ) {
         /* @TODO: refactor this once all the usages of assignCustomerWithAddressChange are refactored MAGETWO-19930 */
-        if ($customer instanceof CustomerDataObject) {
-            $customer = $this->_converter->createCustomerModel($customer);
+        if ($customer instanceof \Magento\Customer\Model\Customer) {
+            $customer = $this->_converter->createCustomerFromModel($customer);
         }
-
+        /** @var CustomerDataObject $customer */
         if ($customer->getId()) {
-            $this->setCustomer($customer);
+            $this->setCustomerData($customer);
 
             if (null !== $billingAddress) {
                 $this->setBillingAddress($billingAddress);
             } else {
-                $defaultBillingAddress = $customer->getDefaultBillingAddress();
-                if ($defaultBillingAddress && $defaultBillingAddress->getId()) {
-                    $billingAddress = $this->_quoteAddressFactory->create()
-                        ->importCustomerAddress($defaultBillingAddress);
+                try {
+                    $defaultBillingAddress = $this->_addressService->getAddressById($customer->getDefaultBilling());
+                } catch (\Magento\Exception\NoSuchEntityException $e) {
+                    /** Address does not exist */
+                }
+                if (isset($defaultBillingAddress)) {
+                    /** @var \Magento\Sales\Model\Quote\Address $billingAddress */
+                    $billingAddress = $this->_quoteAddressFactory->create();
+                    $billingAddress->importCustomerAddressData($defaultBillingAddress);
                     $this->setBillingAddress($billingAddress);
                 }
             }
 
             if (null === $shippingAddress) {
-                $defaultShippingAddress = $customer->getDefaultShippingAddress();
-                if ($defaultShippingAddress && $defaultShippingAddress->getId()) {
-                    $shippingAddress = $this->_quoteAddressFactory->create()
-                        ->importCustomerAddress($defaultShippingAddress);
+                try {
+                    $defaultShippingAddress = $this->_addressService->getAddressById($customer->getDefaultShipping());
+                } catch (\Magento\Exception\NoSuchEntityException $e) {
+                    /** Address does not exist */
+                }
+                if (isset($defaultShippingAddress)) {
+                    /** @var \Magento\Sales\Model\Quote\Address $shippingAddress */
+                    $shippingAddress = $this->_quoteAddressFactory->create();
+                    $shippingAddress->importCustomerAddressData($defaultShippingAddress);
                 } else {
                     $shippingAddress = $this->_quoteAddressFactory->create();
                 }
@@ -747,14 +750,15 @@ class Quote extends \Magento\Core\Model\AbstractModel
         if ($this->hasData('customer_group_id')) {
             return $this->getData('customer_group_id');
         } elseif ($this->getCustomerId()) {
-            return $this->getCustomer()->getGroupId();
+            return $this->getCustomerData()->getGroupId();
         } else {
-            /** TODO: Magento\Customer\Model\Group usage should be eliminated in scope of MAGETWO-21105 */
-            return \Magento\Customer\Model\Group::NOT_LOGGED_IN_ID;
+            return CustomerGroupServiceInterface::NOT_LOGGED_IN_ID;
         }
     }
 
     /**
+     * Get customer tax class ID.
+     *
      * @return string
      */
     public function getCustomerTaxClassId()
@@ -764,11 +768,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
          * we need to retrieve from db every time to get the correct tax class
          */
         //if (!$this->getData('customer_group_id') && !$this->getData('customer_tax_class_id')) {
-        /**
-         * TODO: Magento\Customer\Model\GroupFactory usage should be eliminated in scope of MAGETWO-21105
-         * _customerGroupFactory should be removed as well
-         */
-        $classId = $this->_customerGroupFactory->create()->getTaxClassId($this->getCustomerGroupId());
+        $classId = $this->_customerGroupService->getGroup($this->getCustomerGroupId())->getTaxClassId();
         $this->setCustomerTaxClassId($classId);
         //}
 
@@ -1061,7 +1061,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
     /**
      * Get array of all items what can be display directly
      *
-     * @return array
+     * @return \Magento\Sales\Model\Quote\Item[]
      */
     public function getAllVisibleItems()
     {
@@ -2137,21 +2137,6 @@ class Quote extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * Whether there are recurring items
-     *
-     * @return bool
-     */
-    public function hasRecurringItems()
-    {
-        foreach ($this->getAllVisibleItems() as $item) {
-            if ($item->getProduct() && $item->getProduct()->isRecurring()) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
      * Getter whether quote has nominal items
      * Can bypass treating virtual items as nominal
      *
@@ -2184,33 +2169,6 @@ class Quote extends \Magento\Core\Model\AbstractModel
             }
         }
         return true;
-    }
-
-    /**
-     * Create recurring payment profiles basing on the current items
-     *
-     * @return array
-     * @throws \Exception
-     */
-    public function prepareRecurringPaymentProfiles()
-    {
-        if (!$this->getTotalsCollectedFlag()) {
-            // Whoops! Make sure nominal totals must be calculated here.
-            throw new \Exception('Quote totals must be collected before this operation.');
-        }
-
-        $result = array();
-        foreach ($this->getAllVisibleItems() as $item) {
-            $product = $item->getProduct();
-            if (is_object($product) && ($product->isRecurring())
-                && $profile = $this->_recurringProfileFactory->create()->importProduct($product)
-            ) {
-                $profile->importQuote($this);
-                $profile->importQuoteItem($item);
-                $result[] = $profile;
-            }
-        }
-        return $result;
     }
 
     /**

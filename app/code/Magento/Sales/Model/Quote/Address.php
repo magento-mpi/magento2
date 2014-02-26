@@ -255,8 +255,8 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     private $addressConverter;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Directory\Helper\Data $directoryData
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Customer\Model\Address\Config $addressConfig
@@ -282,8 +282,8 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Directory\Helper\Data $directoryData,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Customer\Model\Address\Config $addressConfig,
@@ -469,32 +469,6 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     public function getQuote()
     {
         return $this->_quote;
-    }
-
-    /**
-     * Import quote address data from customer address object
-     *
-     * @deprecated Use \Magento\Sales\Model\Quote\Address::importCustomerAddressData() instead
-     * @param \Magento\Customer\Model\Address $address
-     * @return \Magento\Sales\Model\Quote\Address
-     */
-    public function importCustomerAddress(\Magento\Customer\Model\Address $address)
-    {
-        /**
-         * TODO: Remove this method when all dependencies are refactored to use
-         * importCustomerAddressData() - MAGETWO-20858
-         */
-        $this->_objectCopyService->copyFieldsetToTarget('customer_address', 'to_quote_address', $address, $this);
-        $email = null;
-        if ($address->hasEmail()) {
-            $email = $address->getEmail();
-        } elseif ($address->getCustomer()) {
-            $email = $address->getCustomer()->getEmail();
-        }
-        if ($email) {
-            $this->setEmail($email);
-        }
-        return $this;
     }
 
     /**
