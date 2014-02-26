@@ -350,6 +350,8 @@ class RequireAnnotatedMethodsSniff implements PHP_CodeSniffer_Sniff
                 $index = array_keys($tagOrder, 'return');
                 $errorPos = $commentStart + $return->getLine();
                 $content = trim($return->getRawContent());
+                $parts = explode(' ', $content);
+                $content = $parts[0];
 
                 if (count($index) > 1) {
                     $this->helper->addMessage($errorPos, Helper::DUPLICATE_RETURN);
