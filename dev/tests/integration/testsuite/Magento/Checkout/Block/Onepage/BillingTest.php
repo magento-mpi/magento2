@@ -10,11 +10,7 @@ namespace Magento\Checkout\Block\Onepage;
 
 use Magento\TestFramework\Helper\Bootstrap;
 
-/**
- * @magentoDataFixture Magento/Checkout/_files/quote_with_product_and_payment.php
- * @magentoDataFixture Magento/Customer/_files/customer.php
- * @magentoDataFixture Magento/Customer/_files/customer_address.php
- */
+
 class BillingTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Checkout\Block\Onepage\Billing */
@@ -29,7 +25,7 @@ class BillingTest extends \PHPUnit_Framework_TestCase
     /** @var  \Magento\Customer\Service\V1\Data\CustomerBuilder */
     protected $_customerBuilder;
 
-    /** @var  \Magento\Customer\Service\V1\CustomerService */
+    /** @var \Magento\Customer\Service\V1\CustomerService */
     protected $_customerService;
 
     const FIXTURE_CUSTOMER_ID = 1;
@@ -41,8 +37,8 @@ class BillingTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
         $objectManager = Bootstrap::getObjectManager();
-        $this->_customerBuilder = $objectManager->get('\Magento\Customer\Service\V1\Data\CustomerBuilder');
-        $this->_customerService = $objectManager->get('\Magento\Customer\Service\V1\CustomerService');
+        $this->_customerBuilder = $objectManager->create('Magento\Customer\Service\V1\Data\CustomerBuilder');
+        $this->_customerService = $objectManager->create('Magento\Customer\Service\V1\CustomerService');
         $customerDto = $this->_customerService->getCustomer(self::FIXTURE_CUSTOMER_ID);
 
         $customerSession = $objectManager->get('\Magento\Customer\Model\Session');
@@ -76,6 +72,11 @@ class BillingTest extends \PHPUnit_Framework_TestCase
             );
     }
 
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     * @magentoDataFixture Magento/Customer/_files/customer_address.php
+     * @magentoDataFixture Magento/Checkout/_files/quote_with_product_and_payment.php
+     */
     public function testGetAddress()
     {
         $addressFromFixture = $this->_addressService->getAddressById(self::FIXTURE_ADDRESS_ID);
@@ -85,6 +86,11 @@ class BillingTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($addressFromFixture->getCustomerId(), $address->getCustomerId());
     }
 
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     * @magentoDataFixture Magento/Customer/_files/customer_address.php
+     * @magentoDataFixture Magento/Checkout/_files/quote_with_product_and_payment.php
+     */
     public function testGetAddressNotSetInQuote()
     {
         $this->_updateQuoteCustomerName();
@@ -94,6 +100,11 @@ class BillingTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(self::SAMPLE_LAST_NAME, $address->getLastname());
     }
 
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     * @magentoDataFixture Magento/Customer/_files/customer_address.php
+     * @magentoDataFixture Magento/Checkout/_files/quote_with_product_and_payment.php
+     */
     public function testGetFirstNameAndLastName()
     {
         $this->_updateQuoteCustomerName();
