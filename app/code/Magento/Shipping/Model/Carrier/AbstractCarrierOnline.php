@@ -2,12 +2,11 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Usa
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Usa\Model\Shipping\Carrier;
+
+namespace Magento\Shipping\Model\Carrier;
 
 use Magento\Core\Exception;
 use Magento\Sales\Model\Quote\Address\RateRequest;
@@ -15,9 +14,9 @@ use Magento\Sales\Model\Quote\Address\RateResult\Error;
 use Magento\Shipping\Model\Shipment\Request;
 
 /**
- * Abstract USA shipping carrier model
+ * Abstract online shipping carrier model
  */
-abstract class AbstractCarrier extends \Magento\Shipping\Model\Carrier\AbstractCarrier
+abstract class AbstractCarrierOnline extends AbstractCarrier
 {
 
     const USA_COUNTRY_ID = 'US';

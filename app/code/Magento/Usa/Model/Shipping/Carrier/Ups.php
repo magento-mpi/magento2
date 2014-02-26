@@ -10,16 +10,14 @@
 namespace Magento\Usa\Model\Shipping\Carrier;
 
 use Magento\Sales\Model\Quote\Address\RateRequest;
+use Magento\Shipping\Model\Carrier\AbstractCarrierOnline;
 use Magento\Shipping\Model\Rate\Result;
-use Magento\Usa\Model\Shipping\Carrier\AbstractCarrier;
 use Magento\Usa\Model\Simplexml\Element;
 
 /**
  * UPS shipping implementation
  */
-class Ups
-    extends AbstractCarrier
-    implements \Magento\Shipping\Model\Carrier\CarrierInterface
+class Ups extends AbstractCarrierOnline implements \Magento\Shipping\Model\Carrier\CarrierInterface
 {
 
     /**
@@ -415,7 +413,7 @@ class Ups
     protected function _getCgiQuotes()
     {
         $rowRequest = $this->_rawRequest;
-        if (AbstractCarrier::USA_COUNTRY_ID == $rowRequest->getDestCountry()) {
+        if (AbstractCarrierOnline::USA_COUNTRY_ID == $rowRequest->getDestCountry()) {
             $destPostal = substr($rowRequest->getDestPostal(), 0, 5);
         } else {
             $destPostal = $rowRequest->getDestPostal();
@@ -862,7 +860,7 @@ class Ups
         $xmlRequest=$this->_xmlAccessRequest;
 
         $rowRequest = $this->_rawRequest;
-        if (AbstractCarrier::USA_COUNTRY_ID == $rowRequest->getDestCountry()) {
+        if (AbstractCarrierOnline::USA_COUNTRY_ID == $rowRequest->getDestCountry()) {
             $destPostal = substr($rowRequest->getDestPostal(), 0, 5);
         } else {
             $destPostal = $rowRequest->getDestPostal();
@@ -1594,7 +1592,7 @@ XMLAuth;
             ->addChild('AccountNumber', $this->getConfigData('shipper_number'));
 
         if ($request->getPackagingType() != $this->getCode('container', 'ULE')
-            && $request->getShipperAddressCountryCode() == AbstractCarrier::USA_COUNTRY_ID
+            && $request->getShipperAddressCountryCode() == AbstractCarrierOnline::USA_COUNTRY_ID
             && ($request->getRecipientAddressCountryCode() == 'CA' //Canada
                 || $request->getRecipientAddressCountryCode() == 'PR') //Puerto Rico
         ) {
@@ -1901,7 +1899,7 @@ XMLAuth;
             return null;
         }
 
-        if ($countyDestination == AbstractCarrier::USA_COUNTRY_ID) {
+        if ($countyDestination == AbstractCarrierOnline::USA_COUNTRY_ID) {
             return self::DELIVERY_CONFIRMATION_PACKAGE;
         }
 

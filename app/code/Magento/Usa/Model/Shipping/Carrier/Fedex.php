@@ -10,6 +10,7 @@
 namespace Magento\Usa\Model\Shipping\Carrier;
 
 use Magento\Sales\Model\Quote\Address\RateRequest;
+use Magento\Shipping\Model\Carrier\AbstractCarrierOnline;
 use Magento\Shipping\Model\Rate\Result;
 
 /**
@@ -17,9 +18,7 @@ use Magento\Shipping\Model\Rate\Result;
  *
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Fedex
-    extends \Magento\Usa\Model\Shipping\Carrier\AbstractCarrier
-    implements \Magento\Shipping\Model\Carrier\CarrierInterface
+class Fedex extends AbstractCarrierOnline implements \Magento\Shipping\Model\Carrier\CarrierInterface
 {
 
     /**

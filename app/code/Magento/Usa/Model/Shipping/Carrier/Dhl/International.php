@@ -14,6 +14,7 @@ use Magento\Catalog\Model\Product\Type;
 use Magento\Sales\Model\Order\Shipment;
 use Magento\Sales\Model\Quote\Address\RateRequest;
 use Magento\Sales\Model\Quote\Address\RateResult\Error;
+use Magento\Shipping\Helper\Carrier;
 use Magento\Shipping\Model\Carrier\AbstractCarrier;
 use Magento\Shipping\Model\Rate\Result;
 
@@ -150,11 +151,11 @@ class International
     protected $string;
 
     /**
-     * Usa data
+     * Carrier helper
      *
-     * @var \Magento\Usa\Helper\Data
+     * @var \Magento\Shipping\Helper\Carrier
      */
-    protected $_usaData;
+    protected $_carrierHelper;
 
     /**
      * @var \Magento\Core\Model\Date
@@ -207,7 +208,7 @@ class International
      * @param \Magento\Directory\Model\CountryFactory $countryFactory
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
      * @param \Magento\Directory\Helper\Data $directoryData
-     * @param \Magento\Usa\Helper\Data $usaData
+     * @param \Magento\Shipping\Helper\Carrier $carrierHelper
      * @param \Magento\Core\Model\Date $coreDate
      * @param \Magento\Module\Dir\Reader $configReader
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -232,7 +233,7 @@ class International
         \Magento\Directory\Model\CountryFactory $countryFactory,
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
         \Magento\Directory\Helper\Data $directoryData,
-        \Magento\Usa\Helper\Data $usaData,
+        Carrier $carrierHelper,
         \Magento\Core\Model\Date $coreDate,
         \Magento\Module\Dir\Reader $configReader,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
@@ -244,7 +245,7 @@ class International
         array $data = array()
     ) {
         $this->modulesDirectory = $filesystem->getDirectoryRead(\Magento\App\Filesystem::MODULES_DIR);
-        $this->_usaData = $usaData;
+        $this->_carrierHelper = $carrierHelper;
         $this->_coreDate = $coreDate;
         $this->_storeManager = $storeManager;
         $this->_configReader = $configReader;
@@ -673,7 +674,7 @@ class International
         $countryWeightUnit = $this->getCode('dimensions_variables', $this->_getWeightUnit());
 
         if ($configWeightUnit != $countryWeightUnit) {
-            $weight = $this->_usaData->convertMeasureWeight(
+            $weight = $this->_carrierHelper->convertMeasureWeight(
                 round($weight, 3),
                 $configWeightUnit,
                 $countryWeightUnit
@@ -860,7 +861,7 @@ class International
         $countryDimensionUnit = $this->getCode('dimensions_variables', $this->_getDimensionUnit());
 
         if ($configDimensionUnit != $countryDimensionUnit) {
-            $dimension = $this->_usaData->convertMeasureDimension(
+            $dimension = $this->_carrierHelper->convertMeasureDimension(
                 round($dimension, 3),
                 $configDimensionUnit,
                 $countryDimensionUnit

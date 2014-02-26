@@ -9,6 +9,8 @@
  */
 namespace Magento\Usa\Model\Shipping\Carrier;
 
+use Magento\Shipping\Helper\Carrier;
+use Magento\Shipping\Model\Carrier\AbstractCarrierOnline;
 use Magento\Shipping\Model\Rate\Result;
 
 /**
@@ -17,9 +19,7 @@ use Magento\Shipping\Model\Rate\Result;
  * @link       http://www.usps.com/webtools/htm/Development-Guide-v3-0b.htm
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Usps
-    extends \Magento\Usa\Model\Shipping\Carrier\AbstractCarrier
-    implements \Magento\Shipping\Model\Carrier\CarrierInterface
+class Usps extends AbstractCarrierOnline implements \Magento\Shipping\Model\Carrier\CarrierInterface
 {
     /**
      * USPS containers
@@ -66,7 +66,7 @@ class Usps
      * Destination Zip Code required flag
      *
      * @var boolean
-     * @deprecated since 1.7.0 functionality implemented in \Magento\Usa\Model\Shipping\Carrier\AbstractCarrier
+     * @deprecated since 1.7.0 functionality implemented in \Magento\Shipping\Model\Carrier\AbstractCarrierOnline
      */
     protected $_isZipCodeRequired;
 
@@ -106,11 +106,11 @@ class Usps
     protected $_customizableContainerTypes = array('VARIABLE', 'RECTANGULAR', 'NONRECTANGULAR');
 
     /**
-     * Usa data
+     * Carrier helper
      *
-     * @var \Magento\Usa\Helper\Data
+     * @var \Magento\Shipping\Helper\Carrier
      */
-    protected $_usaData = null;
+    protected $_carrierHelper;
 
     /**
      * @var \Magento\Catalog\Model\Resource\Product\CollectionFactory
@@ -136,7 +136,7 @@ class Usps
      * @param \Magento\Directory\Model\CountryFactory $countryFactory
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
      * @param \Magento\Directory\Helper\Data $directoryData
-     * @param \Magento\Usa\Helper\Data $usaData
+     * @param \Magento\Shipping\Helper\Carrier $carrierHelper
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
      * @param \Zend_Http_ClientFactory $httpClientFactory
      * @param array $data
@@ -157,12 +157,12 @@ class Usps
         \Magento\Directory\Model\CountryFactory $countryFactory,
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
         \Magento\Directory\Helper\Data $directoryData,
-        \Magento\Usa\Helper\Data $usaData,
+        Carrier $carrierHelper,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
         \Zend_Http_ClientFactory $httpClientFactory,
         array $data = array()
     ) {
-        $this->_usaData = $usaData;
+        $this->_carrierHelper = $carrierHelper;
         $this->_productCollectionFactory = $productCollectionFactory;
         $this->_httpClientFactory = $httpClientFactory;
         parent::__construct(
@@ -1413,7 +1413,7 @@ class Usps
 
         $packageWeight = $request->getPackageWeight();
         if ($packageParams->getWeightUnits() != \Zend_Measure_Weight::OUNCE) {
-            $packageWeight = round($this->_usaData->convertMeasureWeight(
+            $packageWeight = round($this->_carrierHelper->convertMeasureWeight(
                 $request->getPackageWeight(),
                 $packageParams->getWeightUnits(),
                 \Zend_Measure_Weight::OUNCE
@@ -1504,7 +1504,7 @@ class Usps
         $packageParams = $request->getPackageParams();
         $packageWeight = $request->getPackageWeight();
         if ($packageParams->getWeightUnits() != \Zend_Measure_Weight::OUNCE) {
-            $packageWeight = round($this->_usaData->convertMeasureWeight(
+            $packageWeight = round($this->_carrierHelper->convertMeasureWeight(
                 $request->getPackageWeight(),
                 $packageParams->getWeightUnits(),
                 \Zend_Measure_Weight::OUNCE
@@ -1583,31 +1583,31 @@ class Usps
         $girth = $packageParams->getGirth();
         $packageWeight = $request->getPackageWeight();
         if ($packageParams->getWeightUnits() != \Zend_Measure_Weight::POUND) {
-            $packageWeight = $this->_usaData->convertMeasureWeight(
+            $packageWeight = $this->_carrierHelper->convertMeasureWeight(
                 $request->getPackageWeight(),
                 $packageParams->getWeightUnits(),
                 \Zend_Measure_Weight::POUND
             );
         }
         if ($packageParams->getDimensionUnits() != \Zend_Measure_Length::INCH) {
-            $length = round($this->_usaData->convertMeasureDimension(
+            $length = round($this->_carrierHelper->convertMeasureDimension(
                 $packageParams->getLength(),
                 $packageParams->getDimensionUnits(),
                 \Zend_Measure_Length::INCH
             ));
-            $width = round($this->_usaData->convertMeasureDimension(
+            $width = round($this->_carrierHelper->convertMeasureDimension(
                 $packageParams->getWidth(),
                 $packageParams->getDimensionUnits(),
                 \Zend_Measure_Length::INCH
             ));
-            $height = round($this->_usaData->convertMeasureDimension(
+            $height = round($this->_carrierHelper->convertMeasureDimension(
                 $packageParams->getHeight(),
                 $packageParams->getDimensionUnits(),
                 \Zend_Measure_Length::INCH
             ));
         }
         if ($packageParams->getGirthDimensionUnits() != \Zend_Measure_Length::INCH) {
-            $girth = round($this->_usaData->convertMeasureDimension(
+            $girth = round($this->_carrierHelper->convertMeasureDimension(
                 $packageParams->getGirth(),
                 $packageParams->getGirthDimensionUnits(),
                 \Zend_Measure_Length::INCH
@@ -1738,7 +1738,7 @@ class Usps
 
             $itemWeight = $item->getWeight() * $item->getQty();
             if ($packageParams->getWeightUnits() != \Zend_Measure_Weight::POUND) {
-                $itemWeight = $this->_usaData->convertMeasureWeight(
+                $itemWeight = $this->_carrierHelper->convertMeasureWeight(
                     $itemWeight,
                     $packageParams->getWeightUnits(),
                     \Zend_Measure_Weight::POUND
