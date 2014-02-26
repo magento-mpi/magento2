@@ -66,6 +66,7 @@
     <preference for="Magento\Locale\ResolverInterface" type="Magento\Locale\Resolver" />
     <preference for="Magento\Stdlib\DateTime\TimezoneInterface" type="Magento\Stdlib\DateTime\Timezone" />
     <preference for="Magento\Stdlib\DateTime\DateInterface" type="Magento\Stdlib\DateTime\Date" />
+    <preference for="Magento\Locale\ScopeConfigInterface" type="Magento\Core\Model\Store\Config" />
     <preference for="Magento\Less\PreProcessor\ErrorHandlerInterface" type="Magento\Less\PreProcessor\ErrorHandler" />
     <type name="Magento\Translate\Inline">
         <arguments>
