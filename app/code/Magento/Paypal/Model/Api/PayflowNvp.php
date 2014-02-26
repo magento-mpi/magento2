@@ -327,7 +327,7 @@ class PayflowNvp extends \Magento\Paypal\Model\Api\Nvp
      * @param \Magento\Logger $logger
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
-     * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
+     * @param \Magento\Logger\AdapterFactory $logAdapterFactory
      * @param \Magento\Directory\Model\CountryFactory $countryFactory
      * @param \Magento\Math\Random $mathRandom
      * @param array $data
@@ -337,7 +337,7 @@ class PayflowNvp extends \Magento\Paypal\Model\Api\Nvp
         \Magento\Logger $logger,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Directory\Model\RegionFactory $regionFactory,
-        \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
+        \Magento\Logger\AdapterFactory $logAdapterFactory,
         \Magento\Directory\Model\CountryFactory $countryFactory,
         \Magento\Math\Random $mathRandom,
         array $data = array()

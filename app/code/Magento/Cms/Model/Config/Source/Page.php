@@ -12,7 +12,7 @@ namespace Magento\Cms\Model\Config\Source;
 /**
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Page implements \Magento\Core\Model\Option\ArrayInterface
+class Page implements \Magento\Option\ArrayInterface
 {
     /**
      * @var array

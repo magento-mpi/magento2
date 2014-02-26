@@ -87,7 +87,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -121,7 +121,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Tax\Model\Config $taxConfig
      * @param \Magento\Tax\Model\Calculation $calculation
@@ -133,7 +133,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     public function __construct(
         \Magento\App\Helper\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Tax\Model\Config $taxConfig,
         \Magento\Tax\Model\Calculation $calculation,

@@ -34,7 +34,7 @@ class MainTest
         $model->setEntityTypeId($entityType->getId());
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $objectManager->get('Magento\Core\Model\Registry')->register('entity_attribute', $model);
+        $objectManager->get('Magento\Registry')->register('entity_attribute', $model);
 
         $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
             ->createBlock(

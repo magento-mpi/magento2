@@ -27,7 +27,7 @@ class GeneralTest extends \PHPUnit_Framework_TestCase
             ->setDefaultDesignTheme();
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $objectManager->get('Magento\Core\Model\Registry')
+        $objectManager->get('Magento\Registry')
             ->register('current_reminder_rule', \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Reminder\Model\Rule'));
 
