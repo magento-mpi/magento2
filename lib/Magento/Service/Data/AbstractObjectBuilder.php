@@ -101,7 +101,8 @@ abstract class AbstractObjectBuilder
         if ((get_class($firstDataObject) != $objectType) || (get_class($secondDataObject) != $objectType)) {
             throw new \LogicException('Wrong prototype object given. It can only be of "' . $objectType . '" type.');
         }
-        $this->_data = array_merge($firstDataObject->__toArray(), $secondDataObject->__toArray());
+        $this->_data = $firstDataObject->__toArray();
+        $this->_setDataValues($secondDataObject->__toArray());
         return $this->create();
     }
 

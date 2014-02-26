@@ -13,8 +13,6 @@ namespace Magento\Service\Data;
  */
 abstract class AbstractObject
 {
-    const CUSTOM_ATTRIBUTES_KEY = 'custom_attributes';
-
     /**
      * @var array
      */
