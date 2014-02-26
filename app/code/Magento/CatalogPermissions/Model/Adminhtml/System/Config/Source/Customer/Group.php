@@ -16,10 +16,9 @@
  */
 namespace Magento\CatalogPermissions\Model\Adminhtml\System\Config\Source\Customer;
 
-use Magento\Core\Model\Option\ArrayInterface;
 use Magento\Customer\Model\Resource\Group\CollectionFactory;
 
-class Group implements ArrayInterface
+class Group implements \Magento\Option\ArrayInterface
 {
     /**
      * @var array

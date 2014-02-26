@@ -48,10 +48,11 @@ class Standard extends \Magento\Core\App\Router\Base
      * @param \Magento\Core\Model\Store\Config $storeConfig
      * @param \Magento\Url\SecurityInfoInterface $urlSecurityInfo
      * @param string $routerId
+     * @param \Magento\Code\NameBuilder $nameBuilder
      * @param \Magento\App\RouterListInterface $routerList
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Core\App\Request\RewriteService $urlRewriteService
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -65,6 +66,7 @@ class Standard extends \Magento\Core\App\Router\Base
         \Magento\Core\Model\Store\Config $storeConfig,
         \Magento\Url\SecurityInfoInterface $urlSecurityInfo,
         $routerId,
+        \Magento\Code\NameBuilder $nameBuilder,
         \Magento\App\RouterListInterface $routerList,
         \Magento\ObjectManager $objectManager,
         \Magento\Core\App\Request\RewriteService $urlRewriteService
@@ -79,7 +81,8 @@ class Standard extends \Magento\Core\App\Router\Base
             $storeManager,
             $storeConfig,
             $urlSecurityInfo,
-            $routerId
+            $routerId,
+            $nameBuilder
         );
         $this->_urlRewriteService = $urlRewriteService;
         $this->_objectManager = $objectManager;

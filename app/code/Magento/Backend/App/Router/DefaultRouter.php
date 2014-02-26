@@ -53,7 +53,8 @@ class DefaultRouter extends \Magento\Core\App\Router\Base
      * @param string $routerId
      * @param \Magento\App\ConfigInterface $coreConfig
      * @param \Magento\Backend\App\ConfigInterface $backendConfig
-     * 
+     * @param \Magento\Code\NameBuilder $nameBuilder
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -67,6 +68,7 @@ class DefaultRouter extends \Magento\Core\App\Router\Base
         \Magento\Core\Model\Store\Config $storeConfig,
         \Magento\Url\SecurityInfoInterface $urlSecurityInfo,
         $routerId,
+        \Magento\Code\NameBuilder $nameBuilder,
         \Magento\App\ConfigInterface $coreConfig,
         \Magento\Backend\App\ConfigInterface $backendConfig
     ) {
@@ -80,7 +82,8 @@ class DefaultRouter extends \Magento\Core\App\Router\Base
             $storeManager,
             $storeConfig,
             $urlSecurityInfo,
-            $routerId
+            $routerId,
+            $nameBuilder
         );
         $this->_coreConfig = $coreConfig;
         $this->_backendConfig = $backendConfig;
@@ -157,6 +160,6 @@ class DefaultRouter extends \Magento\Core\App\Router\Base
         $parts[] = \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE;
         $parts[] = $controller;
 
-        return \Magento\Core\Helper\String::buildClassName($parts);
+        return $this->nameBuilder->buildClassName($parts);
     }
 }
