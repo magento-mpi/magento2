@@ -14,7 +14,7 @@ class EndToEndTests
 {
     public static function suite()
     {
-        $suite = new \PHPUnit_Framework_TestSuite('End-to-end Scenarios without 3-rd Party Solutions');
+        $suite = new TestSuite('End-to-end Scenarios without 3-rd Party Solutions');
 
         // Products
         // Simple
