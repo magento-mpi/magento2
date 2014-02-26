@@ -456,7 +456,7 @@ class Session extends \Magento\Session\SessionManager
      * Authenticate controller action by login customer
      *
      * @param   \Magento\App\Action\Action $action
-     * @param   bool $loginUrl
+     * @param   bool|null $loginUrl
      * @return  bool
      */
     public function authenticate(\Magento\App\Action\Action $action, $loginUrl = null)
