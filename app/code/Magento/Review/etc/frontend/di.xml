@@ -25,9 +25,9 @@
         </arguments>
     </type>
     <type name="Magento\Review\Controller\Product">
-        <param name="reviewSession">
-            <instance type="Magento\Review\Model\Session" />
-        </param>
+        <arguments>
+            <argument name="reviewSession" xsi:type="object">Magento\Review\Model\Session</argument>
+        </arguments>
     </type>
     <type name="Magento\Core\Model\Url\SecurityInfo">
         <arguments>

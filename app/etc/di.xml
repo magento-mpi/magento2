@@ -319,18 +319,14 @@
         </arguments>
     </type>
     <type name="Magento\App\Cache\Frontend\Pool">
-        <param name="frontendSettings">
-            <array>
-                <item key="page_cache">
-                    <array>
-                        <item key="backend_options">
-                            <array>
-                                <item key="cache_dir"><value>page_cache</value></item>
-                            </array>
-                        </item>
-                    </array>
+        <arguments>
+            <argument name="frontendSettings" xsi:type="array">
+                <item name="page_cache" xsi:type="array">
+                    <item name="backend_options" xsi:type="array">
+                        <item name="cache_dir" xsi:type="string">page_cache</item>
+                    </item>
                 </item>
-            </array>
-        </param>
+            </argument>
+        </arguments>
     </type>
 </config>
