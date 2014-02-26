@@ -8,7 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+define('FIXTURE_ORDER_INCREMENT_ID', '100000001');
 require __DIR__ . '/../../../Magento/Catalog/_files/product_simple.php';
 /** @var \Magento\Catalog\Model\Product $product */
 
@@ -33,7 +33,7 @@ $orderItem->setProductId($product->getId())->setQtyOrdered(2);
 /** @var \Magento\Sales\Model\Order $order */
 $order = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
     ->create('Magento\Sales\Model\Order');
-$order->setIncrementId('100000001')
+$order->setIncrementId(FIXTURE_ORDER_INCREMENT_ID)
     ->setState(\Magento\Sales\Model\Order::STATE_PROCESSING)
     ->setSubtotal(100)
     ->setBaseSubtotal(100)

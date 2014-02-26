@@ -12,7 +12,7 @@ use Magento\Customer\Service\V1\CustomerServiceInterface;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\Data\AddressBuilder;
-use Magento\Customer\Service\V1\Data\Customer as CustomerDto;
+use Magento\Customer\Model\Address\Converter as AddressConverter;
 use Magento\Customer\Service\V1\Data\CustomerBuilder;
 use Magento\Customer\Service\V1\Data\Response\CreateCustomerAccountResponse;
 
@@ -104,6 +104,11 @@ class Quote
     protected $_customerBuilder;
 
     /**
+     * @var AddressConverter
+     */
+    protected $addressConverter;
+
+    /**
      * Class constructor
      *
      * @param \Magento\Event\ManagerInterface $eventManager
@@ -116,6 +121,7 @@ class Quote
      * @param CustomerAddressServiceInterface $customerAddressService
      * @param AddressBuilder $customerAddressBuilder
      * @param CustomerBuilder $customerBuilder
+     * @param AddressConverter $addressConverter
      */
     public function __construct(
         \Magento\Event\ManagerInterface $eventManager,
@@ -127,7 +133,8 @@ class Quote
         CustomerAccountServiceInterface $customerAccountService,
         CustomerAddressServiceInterface $customerAddressService,
         AddressBuilder $customerAddressBuilder,
-        CustomerBuilder $customerBuilder
+        CustomerBuilder $customerBuilder,
+        AddressConverter $addressConverter
     ) {
         $this->_eventManager = $eventManager;
         $this->_quote = $quote;
@@ -139,6 +146,7 @@ class Quote
         $this->_customerAddressService = $customerAddressService;
         $this->_customerAddressBuilder = $customerAddressBuilder;
         $this->_customerBuilder = $customerBuilder;
+        $this->addressConverter = $addressConverter;
     }
 
     /**
@@ -191,7 +199,8 @@ class Quote
 
         $transaction = $this->_transactionFactory->create();
         if ($quote->getCustomerId()) {
-            $transaction->addObject($quote->getCustomer());
+            $customer = $quote->getCustomer();
+            $transaction->addObject($customer);
         }
         $transaction->addObject($quote);
 
@@ -202,14 +211,10 @@ class Quote
             $order = $this->_convertor->addressToOrder($quote->getShippingAddress());
         }
         $order->setBillingAddress($this->_convertor->addressToOrderAddress($quote->getBillingAddress()));
-        if ($quote->getBillingAddress()->getCustomerAddress()) {
-            $order->getBillingAddress()->setCustomerAddress($quote->getBillingAddress()->getCustomerAddress());
-        }
+        $this->_setCustomerAddress('billing', $quote, $order);
         if (!$isVirtual) {
             $order->setShippingAddress($this->_convertor->addressToOrderAddress($quote->getShippingAddress()));
-            if ($quote->getShippingAddress()->getCustomerAddress()) {
-                $order->getShippingAddress()->setCustomerAddress($quote->getShippingAddress()->getCustomerAddress());
-            }
+            $this->_setCustomerAddress('shipping', $quote, $order);
         }
         $order->setPayment($this->_convertor->paymentToOrderPayment($quote->getPayment()));
 
@@ -275,6 +280,55 @@ class Quote
             ));
         $this->_order = $order;
         return $order;
+    }
+
+    /**
+     * Set customer address inside billing or shipping address withing the order.
+     *
+     * @param string $type 'billing' or 'shipping'
+     * @param \Magento\Sales\Model\Quote $quote
+     * @param \Magento\Sales\Model\Order $order
+     * @return $this
+     * @throws \InvalidArgumentException
+     */
+    protected function _setCustomerAddress($type, \Magento\Sales\Model\Quote $quote, \Magento\Sales\Model\Order $order)
+    {
+        if ($type !== 'billing' || $type !== 'shipping') {
+            throw new \InvalidArgumentException('$type expected to be either "billing" or "shipping"');
+        }
+
+        $isBilling = $type === 'billing';
+
+        $quoteCustomerAddress = $isBilling
+            ? $quote->getBillingAddress()->getCustomerAddress()
+            : $quote->getShippingAddress()->getCustomerAddress();
+
+        if (!$quoteCustomerAddress) {
+            return $this;
+        }
+
+        if ($quote->getCustomerId()) {
+            $customer = $quote->getCustomer();
+        }
+
+        $isDefaultBilling = isset($customer)
+            ? $quoteCustomerAddress->getId() == $customer->getDefaultBillingAddress()->getId()
+            : false;
+        $isDefaultShipping = isset($customer)
+            ? $quoteCustomerAddress->getId() == $customer->getDefaultShippingAddress()->getId()
+            : false;
+
+        $orderAddress = $isBilling ? $order->getBillingAddress() : $order->getShippingAddress();
+
+        $orderAddress->setCustomerAddressData(
+            $this->addressConverter->createAddressFromModel(
+                $quoteCustomerAddress,
+                $isDefaultBilling,
+                $isDefaultShipping
+            )
+        );
+
+        return $this;
     }
 
     /**
