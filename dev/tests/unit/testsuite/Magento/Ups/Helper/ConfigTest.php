@@ -22,8 +22,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Ups\Helper\Config');
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->helper = $objectManagerHelper->getObject('Magento\Ups\Helper\Config');
     }
 
     /**

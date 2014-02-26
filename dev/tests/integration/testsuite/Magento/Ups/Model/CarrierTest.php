@@ -23,7 +23,7 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
 
     public function testGetShipAcceptUrl()
     {
-        $this->assertEquals($this->carrier->getShipAcceptUrl(), 'https://wwwcie.ups.com/ups.app/xml/ShipAccept');
+        $this->assertEquals('https://wwwcie.ups.com/ups.app/xml/ShipAccept', $this->carrier->getShipAcceptUrl());
     }
 
     /**
@@ -33,12 +33,12 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetShipAcceptUrlLive()
     {
-        $this->assertEquals($this->carrier->getShipAcceptUrl(), 'https://onlinetools.ups.com/ups.app/xml/ShipAccept');
+        $this->assertEquals('https://onlinetools.ups.com/ups.app/xml/ShipAccept', $this->carrier->getShipAcceptUrl());
     }
 
     public function testGetShipConfirmUrl()
     {
-        $this->assertEquals($this->carrier->getShipConfirmUrl(), 'https://wwwcie.ups.com/ups.app/xml/ShipConfirm');
+        $this->assertEquals('https://wwwcie.ups.com/ups.app/xml/ShipConfirm', $this->carrier->getShipConfirmUrl());
     }
 
     /**
@@ -48,6 +48,6 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetShipConfirmUrlLive()
     {
-        $this->assertEquals($this->carrier->getShipConfirmUrl(), 'https://onlinetools.ups.com/ups.app/xml/ShipConfirm');
+        $this->assertEquals('https://onlinetools.ups.com/ups.app/xml/ShipConfirm', $this->carrier->getShipConfirmUrl());
     }
 }
