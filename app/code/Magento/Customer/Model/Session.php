@@ -188,8 +188,12 @@ class Session extends \Magento\Session\SessionManager
     public function setCustomerDto(CustomerDto $customer)
     {
         $this->_customer = $customer;
-        $this->_httpContext->setValue('customer_group', $customer->getGroupId());
-        $this->setCustomerId($customer->getCustomerId());
+        if ($customer === null) {
+            $this->setCustomerId(null);
+        } else {
+            $this->_httpContext->setValue(\Magento\App\Http\Context::CUSTOMER_GROUP, $customer->getGroupId());
+            $this->setCustomerId($customer->getCustomerId());
+        }
         return $this;
     }
 
@@ -247,10 +251,14 @@ class Session extends \Magento\Session\SessionManager
     public function setCustomer(Customer $customerModel)
     {
         $this->_customerModel = $customerModel;
-        $this->_httpContext->setValue('customer_group', $customerModel->getGroupId());
-        $this->setCustomerId($customerModel->getId());
-        if ((!$customerModel->isConfirmationRequired()) && $customerModel->getConfirmation()) {
-            $customerModel->setConfirmation(null)->save();
+        if ($customerModel === null) {
+            $this->setCustomerId(null);
+        } else {
+            $this->_httpContext->setValue(\Magento\App\Http\Context::CUSTOMER_GROUP, $customerModel->getGroupId());
+            $this->setCustomerId($customerModel->getId());
+            if ((!$customerModel->isConfirmationRequired()) && $customerModel->getConfirmation()) {
+                $customerModel->setConfirmation(null)->save();
+            }
         }
 
         return $this;
@@ -405,6 +413,7 @@ class Session extends \Magento\Session\SessionManager
      */
     public function setCustomerDtoAsLoggedIn($customer)
     {
+        $this->_httpContext->setValue(\Magento\App\Http\Context::CUSTOMER_AUTH, true);
         $this->setCustomerDto($customer);
         $this->_eventManager->dispatch('customer_login', array('customer' => $this->getCustomer()));
         return $this;
@@ -438,6 +447,7 @@ class Session extends \Magento\Session\SessionManager
             $this->_eventManager->dispatch('customer_logout', array('customer' => $this->getCustomer()));
             $this->_logout();
         }
+        $this->_httpContext->unsValue(\Magento\App\Http\Context::CUSTOMER_AUTH);
         return $this;
     }
 

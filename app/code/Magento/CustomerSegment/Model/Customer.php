@@ -292,7 +292,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
             $visitorSegmentIds[$websiteId] = $segmentIds;
         }
         $visitorSession->setCustomerSegmentIds($visitorSegmentIds);
-        $this->_httpContext->setValue('customer_segment', array_filter($visitorSegmentIds));
+        $this->_httpContext->setValue(\Magento\App\Http\Context::CUSTOMER_SEGMENT, array_filter($visitorSegmentIds));
         return $this;
     }
 
@@ -318,7 +318,8 @@ class Customer extends \Magento\Core\Model\AbstractModel
             $visitorCustomerSegmentIds[$websiteId] = $segmentsIdsForWebsite;
         }
         $visitorSession->setCustomerSegmentIds($visitorCustomerSegmentIds);
-        $this->_httpContext->setValue('customer_segment', array_filter($visitorCustomerSegmentIds));
+        $this->_httpContext->setValue(\Magento\App\Http\Context::CUSTOMER_SEGMENT,
+            array_filter($visitorCustomerSegmentIds));
         return $this;
     }
 

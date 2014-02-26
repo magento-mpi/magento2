@@ -79,6 +79,10 @@ sub vcl_fetch {
         return (hit_for_pass);
     }
 
+    if (beresp.http.X-Magento-Debug) {
+        set beresp.http.X-Magento-Cache-Control = beresp.http.Cache-Control;
+    }
+
     # validate if we need to cache it and prevent from setting cookie
     # images, css and js are cacheable by default so we have to remove cookie also
     if (beresp.ttl > 0s && (req.request == "GET" || req.request == "HEAD")) {
@@ -93,6 +97,16 @@ sub vcl_fetch {
 }
 
 sub vcl_deliver {
+    if (resp.http.X-Magento-Debug) {
+        if (obj.hits > 0) {
+            set resp.http.X-Magento-Cache-Debug = "HIT";
+        } else {
+            set resp.http.X-Magento-Cache-Debug = "MISS";
+        }
+    } else {
+        unset resp.http.Age;
+    }
+    unset resp.http.X-Magento-Debug;
     unset resp.http.X-Magento-Tags;
     unset resp.http.X-Powered-By;
     unset resp.http.Server;

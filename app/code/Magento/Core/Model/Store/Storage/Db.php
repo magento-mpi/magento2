@@ -286,7 +286,7 @@ class Db implements StorageInterface
                 $this->_cookie->set(Store::COOKIE_NAME, null);
             } else {
                 $this->_cookie->set(Store::COOKIE_NAME, $this->_currentStore, true);
-                $this->_httpContext->setValue(Store::ENTITY, $this->_currentStore);
+                $this->_httpContext->setValue(\Magento\App\Http\Context::CORE_STORE, $this->_currentStore);
             }
         }
         return;

@@ -8,9 +8,9 @@
 namespace Magento\PageCache\Model\App\FrontController;
 
 /**
- * Plugin for processing builtin cache
+ * Varnish for processing builtin cache
  */
-class CachePlugin
+class VarnishPlugin
 {
     /**
      * @var \Magento\App\ConfigInterface
@@ -23,23 +23,23 @@ class CachePlugin
     protected $version;
 
     /**
-     * @var \Magento\App\PageCache\Kernel
+     * @var \Magento\App\State
      */
-    protected $kernel;
+    protected $state;
 
     /**
      * @param \Magento\PageCache\Model\Config $config
      * @param \Magento\App\PageCache\Version $version
-     * @param \Magento\App\PageCache\Kernel $kernel
+     * @param \Magento\App\State $state
      */
     public function __construct(
         \Magento\PageCache\Model\Config $config,
         \Magento\App\PageCache\Version $version,
-        \Magento\App\PageCache\Kernel $kernel
+        \Magento\App\State $state
     ) {
         $this->config = $config;
         $this->version = $version;
-        $this->kernel = $kernel;
+        $this->state = $state;
     }
 
     /**
@@ -51,12 +51,11 @@ class CachePlugin
      */
     public function aroundDispatch(array $arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
     {
-        $this->version->process();
-        if ($this->config->getType() == \Magento\PageCache\Model\Config::BUILT_IN) {
-            $response = $this->kernel->load();
-            if ($response === false) {
-                $response = $invocationChain->proceed($arguments);
-                $this->kernel->process($response);
+        if ($this->config->getType() == \Magento\PageCache\Model\Config::VARNISH) {
+            $this->version->process();
+            $response = $invocationChain->proceed($arguments);
+            if ($this->state->getMode() == \Magento\App\State::MODE_DEVELOPER) {
+                $response->setHeader('X-Magento-Debug', 1);
             }
         } else {
             $response = $invocationChain->proceed($arguments);

@@ -9,7 +9,8 @@
 -->
 <config>
     <type name="Magento\App\FrontControllerInterface">
-        <plugin name="front-controller-cache" type="Magento\PageCache\Model\App\FrontController\CachePlugin"/>
+        <plugin name="front-controller-builtin-cache" type="Magento\PageCache\Model\App\FrontController\BuiltinPlugin"/>
+        <plugin name="front-controller-varnish-cache" type="Magento\PageCache\Model\App\FrontController\VarnishPlugin"/>
     </type>
     <type name="Magento\Core\Model\Layout">
         <plugin name="layout-model-caching-unique-name" type="Magento\PageCache\Model\Layout\LayoutPlugin"/>
