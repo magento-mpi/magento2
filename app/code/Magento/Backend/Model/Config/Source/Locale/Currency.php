@@ -7,13 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
- 
+
 /**
  * Locale currency source
  */
 namespace Magento\Backend\Model\Config\Source\Locale;
 
-class Currency implements \Magento\Core\Model\Option\ArrayInterface
+class Currency implements \Magento\Option\ArrayInterface
 {
     /**
      * @var array

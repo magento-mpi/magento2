@@ -34,7 +34,7 @@ class Config
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -58,7 +58,7 @@ class Config
      * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param Configurable $configurableType
      * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\App\ConfigInterface $config
      * @param array $data
      */
@@ -67,7 +67,7 @@ class Config
         \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\ConfigurableProduct\Model\Product\Type\Configurable $configurableType,
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\App\ConfigInterface $config,
         array $data = array()
     ) {

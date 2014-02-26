@@ -53,8 +53,8 @@ class Agreement extends \Magento\Paypal\Model\Billing\AbstractAgreement
     protected $_dateFactory;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Paypal\Model\Resource\Billing\Agreement\CollectionFactory $billingAgreementFactory
      * @param \Magento\Core\Model\DateFactory $dateFactory
@@ -63,8 +63,8 @@ class Agreement extends \Magento\Paypal\Model\Billing\AbstractAgreement
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Paypal\Model\Resource\Billing\Agreement\CollectionFactory $billingAgreementFactory,
         \Magento\Core\Model\DateFactory $dateFactory,

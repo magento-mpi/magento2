@@ -40,16 +40,16 @@ namespace Magento\Invitation\Model;
  */
 class Invitation extends \Magento\Core\Model\AbstractModel
 {
-    const STATUS_NEW      = 'new';
-    const STATUS_SENT     = 'sent';
+    const STATUS_NEW = 'new';
+    const STATUS_SENT = 'sent';
     const STATUS_ACCEPTED = 'accepted';
     const STATUS_CANCELED = 'canceled';
 
     const XML_PATH_EMAIL_IDENTITY = 'magento_invitation/email/identity';
     const XML_PATH_EMAIL_TEMPLATE = 'magento_invitation/email/template';
 
-    const ERROR_STATUS          = 1;
-    const ERROR_INVALID_DATA    = 2;
+    const ERROR_STATUS = 1;
+    const ERROR_INVALID_DATA = 2;
     const ERROR_CUSTOMER_EXISTS = 3;
 
     /**
@@ -103,11 +103,9 @@ class Invitation extends \Magento\Core\Model\AbstractModel
     protected $_customerFactory;
 
     /**
-     * Email Template Factory
-     *
-     * @var \Magento\Email\Model\TemplateFactory
+     * @var \Magento\Mail\Template\TransportBuilder
      */
-    protected $_templateFactory;
+    protected $_transportBuilder;
 
     /**
      * @var \Magento\Math\Random
@@ -120,30 +118,30 @@ class Invitation extends \Magento\Core\Model\AbstractModel
     protected $dateTime;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Invitation\Helper\Data $invitationData
      * @param \Magento\Invitation\Model\Resource\Invitation $resource
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Invitation\Model\Config $config
      * @param \Magento\Invitation\Model\Invitation\HistoryFactory $historyFactory
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
-     * @param \Magento\Email\Model\TemplateFactory $templateFactory
+     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Invitation\Helper\Data $invitationData,
         \Magento\Invitation\Model\Resource\Invitation $resource,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Invitation\Model\Config $config,
         \Magento\Invitation\Model\Invitation\HistoryFactory $historyFactory,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
-        \Magento\Email\Model\TemplateFactory $templateFactory,
+        \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Math\Random $mathRandom,
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Data\Collection\Db $resourceCollection = null,
@@ -155,7 +153,7 @@ class Invitation extends \Magento\Core\Model\AbstractModel
         $this->_config = $config;
         $this->_historyFactory = $historyFactory;
         $this->_customerFactory = $customerFactory;
-        $this->_templateFactory = $templateFactory;
+        $this->_transportBuilder = $transportBuilder;
         $this->mathRandom = $mathRandom;
         $this->dateTime = $dateTime;
     }
@@ -274,25 +272,30 @@ class Invitation extends \Magento\Core\Model\AbstractModel
     {
         $this->makeSureCanBeSent();
         $store = $this->_storeManager->getStore($this->getStoreId());
-        /** @var $mail \Magento\Email\Model\Template */
-        $mail  = $this->_templateFactory->create();
-        $mail->setDesignConfig(array(
-            'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
-            'store' => $this->getStoreId()
-        ))->sendTransactional(
-                $store->getConfig(self::XML_PATH_EMAIL_TEMPLATE), $store->getConfig(self::XML_PATH_EMAIL_IDENTITY),
-                $this->getEmail(), null, array(
-                    'url'           => $this->_invitationData->getInvitationUrl($this),
-                    'message'       => $this->getMessage(),
-                    'store'         => $store,
-                    'store_name'    => $store->getGroup()->getName(),
-                    'inviter_name'  => ($this->getInviter() ? $this->getInviter()->getName() : null)
-            ));
-        if ($mail->getSentSuccess()) {
-            $this->setStatus(self::STATUS_SENT)->setUpdateDate(true)->save();
-            return true;
+
+        $this->_transportBuilder
+            ->setTemplateIdentifier($store->getConfig(self::XML_PATH_EMAIL_TEMPLATE))
+            ->setTemplateOptions(array(
+                'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
+                'store' => $this->getStoreId(),
+            ))
+            ->setTemplateVars(array(
+                'url' => $this->_invitationData->getInvitationUrl($this),
+                'message' => $this->getMessage(),
+                'store' => $store,
+                'store_name' => $store->getGroup()->getName(),
+                'inviter_name' => ($this->getInviter() ? $this->getInviter()->getName() : null)
+            ))
+            ->setFrom($store->getConfig(self::XML_PATH_EMAIL_IDENTITY))
+            ->addTo($this->getEmail());
+        $transport = $this->_transportBuilder->getTransport();
+        try {
+            $transport->sendMessage();
+        } catch (\Magento\Mail\Exception $e) {
+            return false;
         }
-        return false;
+        $this->setStatus(self::STATUS_SENT)->setUpdateDate(true)->save();
+        return true;
     }
 
     /**

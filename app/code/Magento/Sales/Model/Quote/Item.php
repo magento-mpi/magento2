@@ -185,8 +185,8 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
     protected $_itemOptionFactory;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Sales\Model\Status\ListFactory $statusListFactory
      * @param \Magento\LocaleInterface $locale
@@ -198,8 +198,8 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Sales\Model\Status\ListFactory $statusListFactory,
         \Magento\LocaleInterface $locale,

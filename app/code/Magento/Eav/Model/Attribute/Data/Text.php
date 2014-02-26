@@ -21,7 +21,7 @@ use Magento\App\RequestInterface;
 class Text extends \Magento\Eav\Model\Attribute\Data\AbstractData
 {
     /**
-     * @var \Magento\Core\Helper\String
+     * @var \Magento\Stdlib\String
      */
     protected $_string;
 

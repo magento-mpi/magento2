@@ -270,9 +270,6 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
             'data_source_model'            => $dataSourceModel,
             'connection'                   => $connection,
             'json_helper'                  => 'not_used',
-            'string_helper'                => $this->getMock('Magento\Core\Helper\String',
-                array(), array(), '', false, false
-            ),
             'page_size'                    => 1,
             'max_data_size'                => 1,
             'bunch_size'                   => 1,

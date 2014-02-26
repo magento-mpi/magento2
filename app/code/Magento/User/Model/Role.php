@@ -35,21 +35,16 @@ class Role extends \Magento\Core\Model\AbstractModel
     protected $_userRolesFactory;
 
     /**
-     * @var string
-     */
-    protected $_eventPrefix = 'admin_roles';
-
-    /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\User\Model\Resource\Role\User\CollectionFactory $userRolesFactory
-     * @param \Magento\User\Model\Resource\Role $resource
-     * @param \Magento\User\Model\Resource\Role\Collection $resourceCollection
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
+     * @param Resource\Role\User\CollectionFactory $userRolesFactory
+     * @param Resource\Role $resource
+     * @param Resource\Role\Collection $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\User\Model\Resource\Role\User\CollectionFactory $userRolesFactory,
         \Magento\User\Model\Resource\Role $resource,
         \Magento\User\Model\Resource\Role\Collection $resourceCollection,

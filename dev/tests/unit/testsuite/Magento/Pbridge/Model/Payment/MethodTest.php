@@ -55,7 +55,7 @@ class MethodTest extends \PHPUnit_Framework_TestCase
             $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false),
             $paymentHelper,
             $config,
-            $this->getMock('Magento\Core\Model\Log\AdapterFactory', array(), array(), '', false),
+            $this->getMock('Magento\Logger\AdapterFactory', array(), array(), '', false),
             $this->getMock('Magento\Logger', array(), array(), '', false),
             $this->getMock('Magento\Module\ModuleListInterface', array(), array(), '', false),
             $this->getMock('Magento\LocaleInterface', array(), array(), '', false),

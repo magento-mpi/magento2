@@ -186,7 +186,7 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
     protected $_cmItemCollectionFactory;
 
     /**
-     * @var \Magento\Core\Model\CalculatorFactory
+     * @var \Magento\Math\CalculatorFactory
      */
     protected $_calculatorFactory;
 
@@ -206,39 +206,33 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
     protected $_commentCollectionFactory;
 
     /**
-     * @var \Magento\Email\Model\Template\MailerFactory
+     * @var \Magento\Mail\Template\TransportBuilder
      */
-    protected $_templateMailerFactory;
+    protected $_transportBuilder;
 
     /**
-     * @var \Magento\Email\Model\InfoFactory
-     */
-    protected $_emailInfoFactory;
-
-    /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\LocaleInterface $coreLocale
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Sales\Helper\Data $salesData
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
-     * @param \Magento\Sales\Model\Order\Creditmemo\Config $creditmemoConfig
+     * @param Creditmemo\Config $creditmemoConfig
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Sales\Model\Resource\Order\Creditmemo\Item\CollectionFactory $cmItemCollectionFactory
-     * @param \Magento\Core\Model\CalculatorFactory $calculatorFactory
+     * @param \Magento\Math\CalculatorFactory $calculatorFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Sales\Model\Order\Creditmemo\CommentFactory $commentFactory
+     * @param Creditmemo\CommentFactory $commentFactory
      * @param \Magento\Sales\Model\Resource\Order\Creditmemo\Comment\CollectionFactory $commentCollectionFactory
-     * @param \Magento\Email\Model\Template\MailerFactory $templateMailerFactory
-     * @param \Magento\Email\Model\InfoFactory $emailInfoFactory
+     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\LocaleInterface $coreLocale,
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Payment\Helper\Data $paymentData,
@@ -247,12 +241,11 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
         \Magento\Sales\Model\Order\Creditmemo\Config $creditmemoConfig,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Sales\Model\Resource\Order\Creditmemo\Item\CollectionFactory $cmItemCollectionFactory,
-        \Magento\Core\Model\CalculatorFactory $calculatorFactory,
+        \Magento\Math\CalculatorFactory $calculatorFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Sales\Model\Order\Creditmemo\CommentFactory $commentFactory,
         \Magento\Sales\Model\Resource\Order\Creditmemo\Comment\CollectionFactory $commentCollectionFactory,
-        \Magento\Email\Model\Template\MailerFactory $templateMailerFactory,
-        \Magento\Email\Model\InfoFactory $emailInfoFactory,
+        \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -267,8 +260,7 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
         $this->_storeManager = $storeManager;
         $this->_commentFactory = $commentFactory;
         $this->_commentCollectionFactory = $commentCollectionFactory;
-        $this->_templateMailerFactory = $templateMailerFactory;
-        $this->_emailInfoFactory = $emailInfoFactory;
+        $this->_transportBuilder = $transportBuilder;
         parent::__construct($context, $registry, $coreLocale, $dateTime, $resource, $resourceCollection, $data);
     }
 
@@ -437,7 +429,7 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
     {
         if ($price) {
             if (!isset($this->_calculators[$type])) {
-                $this->_calculators[$type] = $this->_calculatorFactory->create(array('store' => $this->getStore()));
+                $this->_calculators[$type] = $this->_calculatorFactory->create(array('scope' => $this->getStore()));
             }
             $price = $this->_calculators[$type]->deltaRound($price, $negative);
         }
@@ -842,41 +834,57 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
             $customerName = $order->getCustomerName();
         }
 
-        $mailer = $this->_templateMailerFactory->create();
         if ($notifyCustomer) {
-            $emailInfo = $this->_emailInfoFactory->create();
-            $emailInfo->addTo($order->getCustomerEmail(), $customerName);
+            $this->_transportBuilder
+                ->setTemplateIdentifier($templateId)
+                ->setTemplateOptions(array(
+                    'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
+                    'store' => $storeId
+                ))
+                ->setTemplateVars(array(
+                    'order'        => $order,
+                    'invoice'      => $this,
+                    'comment'      => $comment,
+                    'billing'      => $order->getBillingAddress(),
+                    'payment_html' => $paymentBlockHtml,
+                    'store'        => $this->getStore()
+                ))
+                ->setFrom($this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_IDENTITY, $storeId))
+                ->addTo($order->getCustomerEmail(), $customerName);
             if ($copyTo && $copyMethod == 'bcc') {
                 // Add bcc to customer email
                 foreach ($copyTo as $email) {
-                    $emailInfo->addBcc($email);
+                    $this->_transportBuilder->addBcc($email);
                 }
             }
-            $mailer->addEmailInfo($emailInfo);
+            /** @var \Magento\Mail\TransportInterface $transport */
+            $transport =  $this->_transportBuilder->getTransport();
+            $transport->sendMessage();
         }
 
         // Email copies are sent as separated emails if their copy method is 'copy' or a customer should not be notified
         if ($copyTo && ($copyMethod == 'copy' || !$notifyCustomer)) {
             foreach ($copyTo as $email) {
-                $emailInfo = $this->_emailInfoFactory->create();
-                $emailInfo->addTo($email);
-                $mailer->addEmailInfo($emailInfo);
+                $this->_transportBuilder
+                    ->setTemplateIdentifier($templateId)
+                    ->setTemplateOptions(array(
+                        'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
+                        'store' => $storeId
+                    ))
+                    ->setTemplateVars(array(
+                        'order'        => $order,
+                        'invoice'      => $this,
+                        'comment'      => $comment,
+                        'billing'      => $order->getBillingAddress(),
+                        'payment_html' => $paymentBlockHtml,
+                        'store'        => $this->getStore()
+                    ))
+                    ->setFrom($this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_IDENTITY, $storeId))
+                    ->addTo($email)
+                    ->getTransport()
+                    ->sendMessage();
             }
         }
-
-        // Set all required params and send emails
-        $mailer->setSender($this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_IDENTITY, $storeId));
-        $mailer->setStoreId($storeId);
-        $mailer->setTemplateId($templateId);
-        $mailer->setTemplateParams(array(
-                'order'        => $order,
-                'creditmemo'   => $this,
-                'comment'      => $comment,
-                'billing'      => $order->getBillingAddress(),
-                'payment_html' => $paymentBlockHtml
-            )
-        );
-        $mailer->send();
 
         $this->setEmailSent(true);
         $this->_getResource()->saveAttribute($this, 'email_sent');
@@ -916,39 +924,56 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
             $customerName = $order->getCustomerName();
         }
 
-        $mailer = $this->_templateMailerFactory->create();
         if ($notifyCustomer) {
-            $emailInfo = $this->_emailInfoFactory->create();
-            $emailInfo->addTo($order->getCustomerEmail(), $customerName);
+            $this->_transportBuilder
+                ->setTemplateIdentifier($templateId)
+                ->setTemplateOptions(array(
+                    'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
+                    'store' => $storeId
+                ))
+                ->setTemplateVars(array(
+                    'order'        => $order,
+                    'creditmemo'      => $this,
+                    'comment'      => $comment,
+                    'billing'      => $order->getBillingAddress(),
+                    'store'        => $this->getStore()
+                ))
+                ->setFrom($this->_coreStoreConfig->getConfig(self::XML_PATH_UPDATE_EMAIL_IDENTITY, $storeId))
+                ->addTo($order->getCustomerEmail(), $customerName);
             if ($copyTo && $copyMethod == 'bcc') {
                 // Add bcc to customer email
                 foreach ($copyTo as $email) {
-                    $emailInfo->addBcc($email);
+                    $this->_transportBuilder->addBcc($email);
                 }
             }
-            $mailer->addEmailInfo($emailInfo);
+            /** @var \Magento\Mail\TransportInterface $transport */
+            $transport =  $this->_transportBuilder->getTransport();
+            $transport->sendMessage();
         }
 
         // Email copies are sent as separated emails if their copy method is 'copy' or a customer should not be notified
         if ($copyTo && ($copyMethod == 'copy' || !$notifyCustomer)) {
             foreach ($copyTo as $email) {
-                $emailInfo = $this->_emailInfoFactory->create();
-                $emailInfo->addTo($email);
-                $mailer->addEmailInfo($emailInfo);
+                $this->_transportBuilder
+                    ->setTemplateIdentifier($templateId)
+                    ->setTemplateOptions(array(
+                            'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
+                            'store' => $storeId
+                        )
+                    )
+                    ->setTemplateVars(array(
+                        'order'      => $order,
+                        'creditmemo' => $this,
+                        'comment'    => $comment,
+                        'billing'    => $order->getBillingAddress(),
+                        'store'      => $this->getStore()
+                    ))
+                    ->setFrom($this->_coreStoreConfig->getConfig(self::XML_PATH_UPDATE_EMAIL_IDENTITY, $storeId))
+                    ->addTo($email)
+                    ->getTransport()
+                    ->sendMessage();
             }
         }
-
-        // Set all required params and send emails
-        $mailer->setSender($this->_coreStoreConfig->getConfig(self::XML_PATH_UPDATE_EMAIL_IDENTITY, $storeId));
-        $mailer->setStoreId($storeId);
-        $mailer->setTemplateId($templateId);
-        $mailer->setTemplateParams(array(
-            'order'      => $order,
-            'creditmemo' => $this,
-            'comment'    => $comment,
-            'billing'    => $order->getBillingAddress()
-        ));
-        $mailer->send();
 
         return $this;
     }

@@ -126,8 +126,8 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     protected $_locale;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\LocaleInterface $locale
      * @param \Magento\Core\Model\Resource\Iterator $iterator
@@ -139,8 +139,8 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\LocaleInterface $locale,
         \Magento\Core\Model\Resource\Iterator $iterator,

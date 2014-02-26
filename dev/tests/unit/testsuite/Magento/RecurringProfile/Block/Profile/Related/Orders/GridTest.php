@@ -49,7 +49,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
         $collection->expects($this->once())->method('getIterator')
             ->will($this->returnValue(new \ArrayIterator(array($collectionElement))));
         $profile = $this->getMock('Magento\RecurringProfile\Model\Profile', array(), array(), '', false);
-        $registry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
+        $registry = $this->getMock('Magento\Registry', array(), array(), '', false);
         $registry->expects($this->at(0))
             ->method('registry')
             ->with('current_recurring_profile')

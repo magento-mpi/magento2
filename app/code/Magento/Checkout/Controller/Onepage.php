@@ -35,7 +35,7 @@ class Onepage extends \Magento\Checkout\Controller\Action
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -55,7 +55,7 @@ class Onepage extends \Magento\Checkout\Controller\Action
      * @param CustomerService $customerService
      * @param CustomerAccountService $customerAccountService
      * @param CustomerMetadataService $customerMetadataService
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\Translate\InlineInterface $translateInline,
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      */
@@ -65,7 +65,7 @@ class Onepage extends \Magento\Checkout\Controller\Action
         CustomerService $customerService,
         CustomerAccountService $customerAccountService,
         CustomerMetadataService $customerMetadataService,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\Translate\InlineInterface $translateInline,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
     ) {
