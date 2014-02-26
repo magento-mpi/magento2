@@ -24,6 +24,7 @@ use Magento\Downloadable\Test\Fixture\DownloadableProduct;
 use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Related;
 use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Upsell;
 use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Crosssell;
+use Magento\Backend\Test\Block;
 
 /**
  * Class ProductForm
@@ -67,6 +68,13 @@ class ProductForm extends FormTabs
      * @var string
      */
     protected $affectedAttributeSet = "//div[div/@data-id='affected-attribute-set-selector']";
+
+    /**
+     * Category name selector
+     *
+     * @var string
+     */
+    protected $categoryName = '//*[contains(@class, "mage-suggest-choice")]/*[text()="%categoryName%"]';
 
     /**
      * @var array
@@ -120,7 +128,12 @@ class ProductForm extends FormTabs
     protected function fillCategory($name)
     {
         // TODO should be removed after suggest widget implementation as typified element
-        $this->fillCategoryField($name, 'category_ids-suggest', '//*[@id="attribute-category_ids-container"]');
+        $category = $this->_rootElement->find(
+            str_replace('%categoryName%', $name, $this->categoryName), Locator::SELECTOR_XPATH
+        );
+        if (!$category->isVisible()){
+            $this->fillCategoryField($name, 'category_ids-suggest', '//*[@id="attribute-category_ids-container"]');
+        }
     }
 
     /**
@@ -255,5 +268,4 @@ class ProductForm extends FormTabs
         $this->_rootElement->find('#add_category_button', Locator::SELECTOR_CSS)->click();
         $this->waitForElementVisible('input#new_category_name');
     }
-
 }

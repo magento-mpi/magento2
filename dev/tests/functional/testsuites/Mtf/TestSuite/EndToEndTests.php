@@ -27,6 +27,7 @@ class EndToEndTests
         // Virtual
         $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\CreateVirtualTest');
         // Configurable
+        $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\Configurable\EditConfigurableTest');
         // Downloadable
         $suite->addTestSuite('Magento\Downloadable\Test\TestCase\Create\LinksPurchasedSeparatelyTest');
         // Gift Card

@@ -27,10 +27,22 @@ class Matrix extends Form
      * {@inheritdoc}
      */
     protected $_mapping = array(
-        'name' => '//*[@data-column="name"]/input',
-        'sku' => '//*[@data-column="sku"]/input',
-        'qty' => '//*[@data-column="qty"]/input',
-        'weight' => '//*[@data-column="weight"]/input'
+        'display' => array(
+            'selector' => '//*[@data-column="display"]/input',
+            'input' => 'checkbox',
+        ),
+        'name' => array(
+            'selector' => '//*[@data-column="name"]/input'
+        ),
+        'sku' => array(
+            'selector' => '//*[@data-column="sku"]/input'
+        ),
+        'qty' => array(
+            'selector' => '//*[@data-column="qty"]/input'
+        ),
+        'weight' => array(
+            'selector' => '//*[@data-column="weight"]/input'
+        )
     );
 
     /**
@@ -44,8 +56,11 @@ class Matrix extends Form
             $variationRow = $this->getVariationRow($variation['configurable_attribute']);
             foreach ($variation['value'] as $key => $field) {
                 if (!empty($this->_mapping[$key])) {
-                    $this->_rootElement->find($variationRow . $this->_mapping[$key], Locator::SELECTOR_XPATH)
-                        ->setValue($field['value']);
+                    $this->_rootElement->find(
+                        $variationRow . $this->_mapping[$key]['selector'],
+                        Locator::SELECTOR_XPATH,
+                        isset($this->_mapping[$key]['input']) ? $this->_mapping[$key]['input'] : null
+                    )->setValue($field['value']);
                 }
             }
         }
