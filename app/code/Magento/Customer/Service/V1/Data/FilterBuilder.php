@@ -7,7 +7,7 @@
  */
 namespace Magento\Customer\Service\V1\Data;
 
-use Magento\Service\Entity\AbstractObjectBuilder;
+use Magento\Service\Data\AbstractObjectBuilder;
 
 /**
  * Builder for Filter Data Object.

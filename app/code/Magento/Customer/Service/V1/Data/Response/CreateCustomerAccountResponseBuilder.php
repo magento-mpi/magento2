@@ -9,7 +9,7 @@
  */
 namespace Magento\Customer\Service\V1\Data\Response;
 
-class CreateCustomerAccountResponseBuilder extends \Magento\Service\Entity\AbstractObjectBuilder
+class CreateCustomerAccountResponseBuilder extends \Magento\Service\Data\AbstractObjectBuilder
 {
     /**
      * @param int $customerId

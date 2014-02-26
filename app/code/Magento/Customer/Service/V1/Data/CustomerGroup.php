@@ -9,7 +9,7 @@
  */
 namespace Magento\Customer\Service\V1\Data;
 
-class CustomerGroup extends \Magento\Service\Entity\AbstractObject
+class CustomerGroup extends \Magento\Service\Data\AbstractObject
 {
     /**
      * @return int

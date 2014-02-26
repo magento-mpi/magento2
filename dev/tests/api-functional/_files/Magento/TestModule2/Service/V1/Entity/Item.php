@@ -8,7 +8,7 @@
 
 namespace Magento\TestModule2\Service\V1\Entity;
 
-class Item extends \Magento\Service\Entity\AbstractObject
+class Item extends \Magento\Service\Data\AbstractObject
 {
     /**
      * @return int

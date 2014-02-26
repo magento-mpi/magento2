@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Service\Entity;
+namespace Magento\Service\Data;
 
 /**
  * @SuppressWarnings(PHPMD.NumberOfChildren)

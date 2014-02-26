@@ -8,8 +8,8 @@
 
 namespace Magento\TestModule5\Service\V1\Entity;
 
-use Magento\Service\Entity\AbstractObject;
-use Magento\Service\Entity\AbstractObjectBuilder;
+use Magento\Service\Data\AbstractObject;
+use Magento\Service\Data\AbstractObjectBuilder;
 
 /**
  * Some Data Object short description.

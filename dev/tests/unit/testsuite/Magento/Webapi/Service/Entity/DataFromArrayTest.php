@@ -8,8 +8,8 @@
 
 namespace Magento\Webapi\Service\Entity;
 
-use Magento\Service\Entity\AbstractObject;
-use Magento\Service\Entity\AbstractObjectTest;
+use Magento\Service\Data\AbstractObject;
+use Magento\Service\Data\AbstractObjectTest;
 use Magento\Webapi\Controller\ServiceArgsSerializer;
 
 class DataFromArrayTest extends \PHPUnit_Framework_TestCase

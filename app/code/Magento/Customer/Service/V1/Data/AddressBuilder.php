@@ -9,8 +9,8 @@
  */
 namespace Magento\Customer\Service\V1\Data;
 
-use Magento\Service\Entity\AbstractObject;
-use Magento\Service\Entity\EAV\AbstractObjectBuilder;
+use Magento\Service\Data\AbstractObject;
+use Magento\Service\Data\EAV\AbstractObjectBuilder;
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
 
 class AddressBuilder extends AbstractObjectBuilder

@@ -138,7 +138,7 @@ class Rest implements \Magento\App\FrontControllerInterface
             $serviceClassName = $route->getServiceClass();
             $inputParams = $this->_serializer->getInputData($serviceClassName, $serviceMethodName, $inputData);
             $service = $this->_objectManager->get($serviceClassName);
-            /** @var \Magento\Service\Entity\AbstractObject $outputData */
+            /** @var \Magento\Service\Data\AbstractObject $outputData */
             $outputData = call_user_func_array([$service, $serviceMethodName], $inputParams);
             $outputArray = $this->_processServiceOutput($outputData);
             $this->_response->prepareResponse($outputArray);

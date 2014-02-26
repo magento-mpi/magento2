@@ -11,7 +11,7 @@ namespace Magento\Customer\Service\V1\Data\Eav;
 
 use Magento\Customer\Service\V1\Data\Eav\Attribute;
 
-class AttributeBuilder extends \Magento\Service\Entity\AbstractObjectBuilder
+class AttributeBuilder extends \Magento\Service\Data\AbstractObjectBuilder
 {
     /**
      * @param string $attributeCode

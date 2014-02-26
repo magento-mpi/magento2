@@ -10,8 +10,8 @@ namespace Magento\Customer\Service\V1\Data;
 
 use Magento\Customer\Service\V1\CustomerMetadataService;
 use Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder;
-use Magento\Service\Entity\AbstractObject;
-use Magento\Service\Entity\AbstractObjectBuilder;
+use Magento\Service\Data\AbstractObject;
+use Magento\Service\Data\AbstractObjectBuilder;
 
 class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
 {

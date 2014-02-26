@@ -5,12 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Service\Entity\EAV;
+namespace Magento\Service\Data\EAV;
 
 /**
  * Class EAV AbstractObject
  */
-abstract class AbstractObject extends \Magento\Service\Entity\AbstractObject
+abstract class AbstractObject extends \Magento\Service\Data\AbstractObject
 {
     /**
      * Array key for custom attributes

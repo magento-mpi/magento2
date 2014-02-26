@@ -9,7 +9,7 @@
  */
 namespace Magento\Customer\Service\V1\Data;
 
-class CustomerGroupBuilder extends \Magento\Service\Entity\AbstractObjectBuilder
+class CustomerGroupBuilder extends \Magento\Service\Data\AbstractObjectBuilder
 {
     /**
      * @param string $id

@@ -11,7 +11,7 @@ namespace Magento\Customer\Service\V1\Data;
 
 use Magento\Customer\Service\V1\Data\SearchCriteria;
 
-class SearchResultsBuilder extends \Magento\Service\Entity\AbstractObjectBuilder
+class SearchResultsBuilder extends \Magento\Service\Data\AbstractObjectBuilder
 {
     /**
      * @param \Magento\Customer\Service\V1\Data\SearchCriteria $searchCriteria

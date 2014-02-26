@@ -7,7 +7,7 @@
  */
 namespace Magento\Webapi\Service\Entity;
 
-use Magento\Service\Entity\AbstractObjectBuilder;
+use Magento\Service\Data\AbstractObjectBuilder;
 
 class DataArrayDataBuilder extends AbstractObjectBuilder
 {

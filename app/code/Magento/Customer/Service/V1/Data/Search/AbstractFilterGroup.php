@@ -8,7 +8,7 @@
 
 namespace Magento\Customer\Service\V1\Data\Search;
 
-use Magento\Service\Entity\AbstractObject;
+use Magento\Service\Data\AbstractObject;
 
 /**
  * Groups two or more filters together using a logical group type

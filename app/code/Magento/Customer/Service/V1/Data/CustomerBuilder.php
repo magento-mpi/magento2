@@ -11,7 +11,7 @@
 namespace Magento\Customer\Service\V1\Data;
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
 
-class CustomerBuilder extends \Magento\Service\Entity\EAV\AbstractObjectBuilder
+class CustomerBuilder extends \Magento\Service\Data\EAV\AbstractObjectBuilder
 {
     /** @var CustomerMetadataServiceInterface */
     protected $_metadataService;

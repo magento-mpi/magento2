@@ -12,7 +12,7 @@ namespace Magento\Customer\Service\V1\Data;
 
 use Magento\Customer\Service\V1\Data\SearchCriteria;
 
-class SearchResults extends \Magento\Service\Entity\AbstractObject
+class SearchResults extends \Magento\Service\Data\AbstractObject
 {
     /**
      * @return array

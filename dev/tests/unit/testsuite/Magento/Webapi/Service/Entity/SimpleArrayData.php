@@ -8,7 +8,7 @@
 
 namespace Magento\Webapi\Service\Entity;
 
-use Magento\Service\Entity\AbstractObject;
+use Magento\Service\Data\AbstractObject;
 
 class SimpleArrayData extends AbstractObject
 {

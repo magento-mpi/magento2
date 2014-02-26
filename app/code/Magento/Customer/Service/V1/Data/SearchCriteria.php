@@ -7,7 +7,7 @@
  */
 namespace Magento\Customer\Service\V1\Data;
 
-use Magento\Service\Entity\AbstractObject;
+use Magento\Service\Data\AbstractObject;
 
 /**
  * Data Object for SearchCriteria

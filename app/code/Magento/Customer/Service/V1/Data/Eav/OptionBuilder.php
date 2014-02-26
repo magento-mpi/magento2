@@ -9,7 +9,7 @@
  */
 namespace Magento\Customer\Service\V1\Data\Eav;
 
-class OptionBuilder extends \Magento\Service\Entity\AbstractObjectBuilder
+class OptionBuilder extends \Magento\Service\Data\AbstractObjectBuilder
 {
     /**
      * Set option label
