@@ -13,7 +13,7 @@ namespace Magento\Catalog\Model;
  * @method setAffectedProductIds(array $productIds)
  * @method array getAffectedProductIds()
  * @method setMovedCategoryId(array $productIds)
- * @method int metMovedCategoryId()
+ * @method int getMovedCategoryId()
  * @method setAffectedCategoryIds(array $categoryIds)
  * @method array getAffectedCategoryIds()
  *
@@ -164,6 +164,11 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
     protected $indexIndexer;
 
     /**
+     * @var \Magento\Indexer\Model\IndexerInterface
+     */
+    protected $productIndexer;
+
+    /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -179,6 +184,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
      * @param \Magento\Filter\FilterManager $filter
      * @param Indexer\Category\Flat\State $flatState
      * @param \Magento\Indexer\Model\IndexerInterface $flatIndexer
+     * @param \Magento\Indexer\Model\IndexerInterface $productIndexer
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -199,6 +205,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
         \Magento\Filter\FilterManager $filter,
         Indexer\Category\Flat\State $flatState,
         \Magento\Indexer\Model\IndexerInterface $flatIndexer,
+        \Magento\Indexer\Model\IndexerInterface $productIndexer,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -212,6 +219,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
         $this->_productCollectionFactory = $productCollectionFactory;
         $this->_catalogConfig = $catalogConfig;
         $this->indexIndexer = $indexIndexer;
+        $this->productIndexer = $productIndexer;
         $this->filter = $filter;
         $this->flatState = $flatState;
         $this->flatIndexer = $flatIndexer;
@@ -235,7 +243,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
     }
 
     /**
-     * Return own indexer object
+     * Return flat indexer object
      *
      * @return \Magento\Indexer\Model\IndexerInterface
      */
@@ -245,6 +253,19 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
             $this->flatIndexer->load(Indexer\Category\Flat\State::INDEXER_ID);
         }
         return $this->flatIndexer;
+    }
+
+    /**
+     * Return category product indexer object
+     *
+     * @return \Magento\Indexer\Model\IndexerInterface
+     */
+    protected function getProductIndexer()
+    {
+        if (!$this->productIndexer->getId()) {
+            $this->productIndexer->load(Indexer\Category\Product::INDEXER_ID);
+        }
+        return $this->productIndexer;
     }
 
     /**
@@ -329,6 +350,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
         */
         $this->setMovedCategoryId($this->getId());
         $oldParentId = $this->getParentId();
+        $oldParentIds = $this->getParentIds();
 
         $eventParams = array(
             $this->_eventObject => $this,
@@ -357,6 +379,9 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
         );
         if ($this->flatState->isFlatEnabled() && !$this->getFlatIndexer()->isScheduled()) {
             $this->getFlatIndexer()->reindexList(array($this->getId(), $oldParentId, $parentId));
+        }
+        if (!$this->getProductIndexer()->isScheduled()) {
+            $this->getProductIndexer()->reindexList(array_merge($this->getPathIds(), $oldParentIds));
         }
         $this->_cacheManager->clean(array(self::CACHE_TAG));
 
@@ -1038,6 +1063,9 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
     {
         if ($this->flatState->isFlatEnabled() && !$this->getFlatIndexer()->isScheduled()) {
             $this->getFlatIndexer()->reindexRow($this->getId());
+        }
+        if (!$this->getProductIndexer()->isScheduled()) {
+            $this->getProductIndexer()->reindexList($this->getPathIds());
         }
     }
 

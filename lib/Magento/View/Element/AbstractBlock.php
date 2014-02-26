@@ -792,9 +792,9 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     /**
      * Escape html entities
      *
-     * @param   string|array $data
-     * @param   array|null $allowedTags
-     * @return  string
+     * @param string|array $data
+     * @param array|null $allowedTags
+     * @return string
      */
     public function escapeHtml($data, $allowedTags = null)
     {

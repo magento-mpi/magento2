@@ -5,12 +5,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Payment\Helper;
+
+use Magento\Sales\Model\Quote;
+use Magento\Core\Model\Store;
+use Magento\Payment\Model\Method\AbstractMethod;
+use Magento\Payment\Block\Form;
+use Magento\Payment\Model\Info;
+use Magento\View\Element\Template;
 
 /**
  * Payment module base helper
  */
-namespace Magento\Payment\Helper;
-
 class Data extends \Magento\App\Helper\AbstractHelper
 {
     const XML_PATH_PAYMENT_METHODS = 'payment';
@@ -22,7 +28,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     protected $_coreStoreConfig;
     
-    /** @var \Magento\Payment\Model\Config  */
+    /**
+     * @var \Magento\Payment\Model\Config
+     */
     protected $_paymentConfig;
 
     /**
@@ -93,8 +101,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Retrieve method model object
      *
-     * @param   string $code
-     * @return  \Magento\Payment\Model\Method\AbstractMethod|false
+     * @param string $code
+     * @return AbstractMethod|false
      */
     public function getMethodInstance($code)
     {
@@ -106,11 +114,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Get and sort available payment methods for specified or current store
      *
-     * array structure:
+     * Array structure:
      *  $index => \Magento\Simplexml\Element
      *
-     * @param mixed $store
-     * @param \Magento\Sales\Model\Quote $quote
+     * @param null|string|bool|int|Store $store
+     * @param Quote|null $quote
      * @return array
      */
     public function getStoreMethods($store = null, $quote = null)
@@ -140,6 +148,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
         return $res;
     }
 
+    /**
+     * @param $mixed $a
+     * @param $mixed $b
+     * @return int
+     */
     protected function _sortMethods($a, $b)
     {
         if (is_object($a)) {
@@ -151,10 +164,10 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Retrieve payment method form html
      *
-     * @param   \Magento\Payment\Model\Method\AbstractMethod $method
-     * @return  \Magento\Payment\Block\Form
+     * @param AbstractMethod $method
+     * @return Form
      */
-    public function getMethodFormBlock(\Magento\Payment\Model\Method\AbstractMethod $method)
+    public function getMethodFormBlock(AbstractMethod $method)
     {
         $block = false;
         $blockType = $method->getFormBlockType();
@@ -168,10 +181,10 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Retrieve payment information block
      *
-     * @param  \Magento\Payment\Model\Info $info
-     * @return \Magento\View\Element\Template
+     * @param Info $info
+     * @return Template
      */
-    public function getInfoBlock(\Magento\Payment\Model\Info $info)
+    public function getInfoBlock(Info $info)
     {
         $blockType = $info->getMethodInstance()->getInfoBlockType();
         $block = $this->_layout->createBlock($blockType);
@@ -182,12 +195,12 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Render payment information block
      *
-     * @param  \Magento\Payment\Model\Info $info
-     * @param  int $storeId
+     * @param Info $info
+     * @param int $storeId
      * @return string
      * @throws \Exception
      */
-    public function getInfoBlockHtml(\Magento\Payment\Model\Info $info, $storeId)
+    public function getInfoBlockHtml(Info $info, $storeId)
     {
         $initialEnvironmentInfo = $this->_appEmulation->startEnvironmentEmulation($storeId);
 
@@ -206,6 +219,24 @@ class Data extends \Magento\App\Helper\AbstractHelper
         $this->_appEmulation->stopEnvironmentEmulation($initialEnvironmentInfo);
 
         return $paymentBlockHtml;
+    }
+
+    /**
+     * Retrieve available billing agreement methods
+     *
+     * @param mixed $store
+     * @param \Magento\Sales\Model\Quote $quote
+     * @return array
+     */
+    public function getBillingAgreementMethods($store = null, $quote = null)
+    {
+        $result = array();
+        foreach ($this->getStoreMethods($store, $quote) as $method) {
+            if ($method->canManageBillingAgreements()) {
+                $result[] = $method;
+            }
+        }
+        return $result;
     }
 
     /**
@@ -255,6 +286,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param bool $sorted
      * @param bool $asLabelValue
      * @param bool $withGroups
+     * @param Store|null $store
      * @return array
      */
     public function getPaymentMethodList($sorted = true, $asLabelValue = false, $withGroups = false, $store = null)
@@ -308,8 +340,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Returns value of Zero Subtotal Checkout / Enabled
      *
-     * @param mixed $store
-     * @return boolean
+     * @param null|string|bool|int|Store $store
+     * @return bool
      */
     public function isZeroSubTotal($store = null)
     {
@@ -320,7 +352,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Returns value of Zero Subtotal Checkout / New Order Status
      *
-     * @param mixed $store
+     * @param null|string|bool|int|Store $store
      * @return string
      */
     public function getZeroSubTotalOrderStatus($store = null)
@@ -332,7 +364,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Returns value of Zero Subtotal Checkout / Automatically Invoice All Items
      *
-     * @param mixed $store
+     * @param null|string|bool|int|Store $store
      * @return string
      */
     public function getZeroSubTotalPaymentAutomaticInvoice($store = null)

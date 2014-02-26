@@ -154,10 +154,10 @@ class Db implements StorageInterface
      * @param \Magento\Stdlib\Cookie $cookie
      * @param State $appState
      * @param \Magento\Backend\Model\UrlInterface $url
-     * @param \Magento\App\ResponseInterface $response
-     * @param bool $isSingleStoreAllowed
-     * @param string $scopeCode
-     * @param string $scopeType
+     * @param \Magento\App\Http\Context $httpContext
+     * @param $isSingleStoreAllowed
+     * @param $scopeCode
+     * @param $scopeType
      * @param null $currentStore
      */
     public function __construct(

@@ -7,14 +7,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Payment\Model;
+
+use Magento\Core\Model\Store;
+use Magento\Payment\Model\Method\AbstractMethod;
 
 /**
  * Payment configuration model
  *
  * Used for retrieving configuration data by payment models
  */
-namespace Magento\Payment\Model;
-
 class Config
 {
     /**
@@ -74,8 +76,8 @@ class Config
     /**
      * Retrieve active system payments
      *
-     * @param   mixed $store
-     * @return  array
+     * @param null|string|bool|int|Store $store
+     * @return array
      */
     public function getActiveMethods($store=null)
     {
@@ -97,7 +99,7 @@ class Config
     /**
      * Retrieve all system payments
      *
-     * @param mixed $store
+     * @param null|string|bool|int|Store $store
      * @return array
      */
     public function getAllMethods($store=null)
@@ -116,8 +118,8 @@ class Config
     /**
      * @param string $code
      * @param string $config
-     * @param mixed $store
-     * @return \Magento\Payment\Model\Method\AbstractMethod
+     * @param null|string|bool|int|Store $store
+     * @return AbstractMethod
      */
     protected function _getMethod($code, $config, $store = null)
     {
@@ -133,7 +135,7 @@ class Config
             return false;
         }
 
-        /** @var \Magento\Payment\Model\Method\AbstractMethod $method */
+        /** @var AbstractMethod $method */
         $method = $this->_methodFactory->create($modelName);
         $method->setId($code)->setStore($store);
         $this->_methods[$code] = $method;

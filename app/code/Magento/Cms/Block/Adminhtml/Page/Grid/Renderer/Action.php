@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Cms\Block\Adminhtml\Page\Grid\Renderer;
 
 class Action
@@ -32,6 +31,12 @@ class Action
         parent::__construct($context, $data);
     }
 
+    /**
+     * Render action
+     *
+     * @param \Magento\Object $row
+     * @return string
+     */
     public function render(\Magento\Object $row)
     {
         /** @var \Magento\UrlInterface $urlModel */

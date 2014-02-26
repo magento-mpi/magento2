@@ -7,13 +7,11 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <type name="Magento\Logging\Model\Config\Data">
-        <param name='reader'>
-            <instance type="Magento\Logging\Model\Config\Reader" />
-        </param>
-        <param name="cacheId">
-            <value>logging_config</value>
-        </param>
+        <arguments>
+            <argument name="reader" xsi:type="object">Magento\Logging\Model\Config\Reader</argument>
+            <argument name="cacheId" xsi:type="string">logging_config</argument>
+        </arguments>
     </type>
 </config>

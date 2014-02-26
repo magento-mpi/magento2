@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\VersionsCms\Controller\Adminhtml\Cms;
 
 /**
  * Adminhtml Manage Cms Hierarchy Controller
  */
-namespace Magento\VersionsCms\Controller\Adminhtml\Cms;
-
 class Hierarchy extends \Magento\Backend\App\Action
 {
     /**
@@ -86,6 +85,8 @@ class Hierarchy extends \Magento\Backend\App\Action
 
     /**
      * Init scope and scope code by website and store for actions
+     *
+     * @return void
      */
     protected function _initScope()
     {
@@ -110,7 +111,7 @@ class Hierarchy extends \Magento\Backend\App\Action
     /**
      * Load layout, set active menu and breadcrumbs
      *
-     * @return \Magento\VersionsCms\Controller\Adminhtml\Cms\Hierarchy
+     * @return $this
      */
     protected function _initAction()
     {
@@ -148,7 +149,7 @@ class Hierarchy extends \Magento\Backend\App\Action
     /**
      * Show Tree Edit Page
      *
-     * @return null
+     * @return void
      */
     public function indexAction()
     {
@@ -174,6 +175,8 @@ class Hierarchy extends \Magento\Backend\App\Action
 
     /**
      * Delete hierarchy from one or several scopes
+     *
+     * @return void
      */
     public function deleteAction()
     {
@@ -213,6 +216,8 @@ class Hierarchy extends \Magento\Backend\App\Action
 
     /**
      * Copy hierarchy from one scope to other scopes
+     *
+     * @return void
      */
     public function copyAction()
     {
@@ -246,7 +251,9 @@ class Hierarchy extends \Magento\Backend\App\Action
 
     /**
      * Lock page
+     *
      * @deprecated since 1.12.0.0
+     * @return void
      */
     public function lockAction()
     {
@@ -255,6 +262,8 @@ class Hierarchy extends \Magento\Backend\App\Action
 
     /**
      * Save changes
+     *
+     * @return void
      */
     public function saveAction()
     {
@@ -329,7 +338,7 @@ class Hierarchy extends \Magento\Backend\App\Action
     /**
      * Cms Pages Ajax Grid
      *
-     * @return null
+     * @return void
      */
     public function pageGridAction()
     {

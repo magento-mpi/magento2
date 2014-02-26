@@ -9,9 +9,6 @@
  */
 namespace Magento\App\PageCache;
 
-use Magento\App\Request\Http;
-use Magento\Stdlib\Cookie;
-
 /**
  * Class Version
  *
@@ -32,24 +29,24 @@ class Version
     /**
      * Cookie
      *
-     * @var Cookie
+     * @var \Magento\Stdlib\Cookie
      */
     protected $cookie;
 
     /**
      * Request
      *
-     * @var Http
+     * @var \Magento\App\Request\Http
      */
     protected $request;
 
     /**
-     * @param Cookie $cookie
-     * @param Http $request
+     * @param \Magento\Stdlib\Cookie $cookie
+     * @param \Magento\App\Request\Http $request
      */
     public function __construct(
-        Cookie $cookie,
-        Http $request
+        \Magento\Stdlib\Cookie $cookie,
+        \Magento\App\Request\Http $request
     ) {
         $this->cookie = $cookie;
         $this->request = $request;
