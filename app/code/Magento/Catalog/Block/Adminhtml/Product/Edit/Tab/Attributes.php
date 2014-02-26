@@ -173,7 +173,10 @@ class Attributes extends \Magento\Catalog\Block\Adminhtml\Form
             $form->addValues($values);
             $form->setFieldNameSuffix('product');
 
-            $this->_eventManager->dispatch('adminhtml_catalog_product_edit_prepare_form', ['form' => $form]);
+            $this->_eventManager->dispatch(
+                'adminhtml_catalog_product_edit_prepare_form',
+                ['form' => $form, 'layout' => $this->getLayout()]
+            );
 
             $this->setForm($form);
         }
