@@ -1,3 +1,8 @@
+* Cache:
+  * Depersonalize private content generation
+  * Content invalidation
+  * Added Edge side includes(ESI) supporting
+  * Added Built-in caching application
 * GitHub requests:
   * [#235](https://github.com/magento/magento2/issues/235) -- Translation escaping
   * [#463](https://github.com/magento/magento2/pull/463) -- allow _resolveArguments to do sequential lookups
