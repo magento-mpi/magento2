@@ -197,7 +197,7 @@ abstract class AbstractOnepage extends \Magento\View\Element\Template
                 $label = $this->_addressConfig
                     ->getFormatByCode(AddressConfig::DEFAULT_ADDRESS_FORMAT)
                     ->getRenderer()
-                    ->renderArray($address->__toArray());
+                    ->renderArray(\Magento\Customer\Service\V1\Data\AddressConverter::toFlatArray($address));
 
                 $options[] = [
                     'value' => $address->getId(),

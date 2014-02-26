@@ -100,7 +100,9 @@ class GroupTest extends \Magento\Backend\Utility\Controller
         /** @var CustomerGroupServiceInterface $groupService */
         $groupService = Bootstrap::getObjectManager()
             ->get('Magento\Customer\Service\V1\CustomerGroupServiceInterface');
-        $customerGroupData = $groupService->getGroup(self::$_customerGroupId)->__toArray();
+        $customerGroupData = \Magento\Service\DataObjectConverter::toFlatArray(
+            $groupService->getGroup(self::$_customerGroupId)
+        );
         ksort($customerGroupData);
 
         $this->assertEquals(

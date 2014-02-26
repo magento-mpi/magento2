@@ -134,7 +134,7 @@ class ServiceCollection extends \Magento\Data\Collection
             $groups = $searchResults->getItems();
             foreach ($groups as $group) {
                 $groupItem = new \Magento\Object();
-                $groupItem->addData($group->__toArray());
+                $groupItem->addData(\Magento\Service\DataObjectConverter::toFlatArray($group));
                 $this->_addItem($groupItem);
             }
             $this->_setIsLoaded();
