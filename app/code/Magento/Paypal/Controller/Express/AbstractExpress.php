@@ -137,12 +137,13 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
                 $this->_checkout->setCustomerWithAddressChange(
                     $customer, $this->_getQuote()->getBillingAddress(), $this->_getQuote()->getShippingAddress()
                 );
-            } elseif ((!$quoteCheckoutMethod
-                    || $quoteCheckoutMethod != \Magento\Checkout\Model\Type\Onepage::METHOD_REGISTER)
+            } elseif (
+                (!$quoteCheckoutMethod || $quoteCheckoutMethod != \Magento\Checkout\Model\Type\Onepage::METHOD_REGISTER)
                 && !$this->_objectManager->get('Magento\Checkout\Helper\Data')->isAllowedGuestCheckout(
                     $this->_getQuote(),
                     $this->_getQuote()->getStoreId()
-                )) {
+                )
+            ) {
 
                 $this->messageManager->addNotice(
                     __('To proceed to Checkout, please log in using your email address.')
