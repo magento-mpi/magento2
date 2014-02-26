@@ -20,6 +20,7 @@ class Address extends \Magento\Service\Entity\AbstractDto implements Eav\EntityI
     const KEY_CUSTOMER_ID = 'customer_id';
     const KEY_REGION = Region::KEY_REGION;
     const KEY_REGION_ID = Region::KEY_REGION_ID;
+    const KEY_REGION_CODE = Region::KEY_REGION_CODE;
     const KEY_STREET = 'street';
     const KEY_COMPANY = 'company';
     const KEY_TELEPHONE = 'telephone';
@@ -98,22 +99,22 @@ class Address extends \Magento\Service\Entity\AbstractDto implements Eav\EntityI
         if (!is_null($this->getRegion())) {
             $region = $this->getRegion();
             if (!is_null($region->getRegionId())) {
-                $validData['region_id'] = $region->getRegionId();
+                $validData[self::KEY_REGION_ID] = $region->getRegionId();
             } else {
-                unset($validData['region_id']);
+                unset($validData[self::KEY_REGION_ID]);
             }
             if (!is_null($region->getRegion())) {
-                $validData['region'] = $region->getRegion();
+                $validData[self::KEY_REGION] = $region->getRegion();
             } else {
-                unset($validData['region']);
+                unset($validData[self::KEY_REGION]);
             }
             if (!is_null($region->getRegionCode())) {
-                $validData['region_code'] = $region->getRegionCode();
+                $validData[self::KEY_REGION_CODE] = $region->getRegionCode();
             } else {
-                unset($validData['region_code']);
+                unset($validData[self::KEY_REGION_CODE]);
             }
         } else {
-            unset($validData['region']);
+            unset($validData[self::KEY_REGION]);
         }
 
         return $validData;
