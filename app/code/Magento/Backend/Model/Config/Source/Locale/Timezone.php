@@ -7,13 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
- 
+
 /**
  * Locale timezone source
  */
 namespace Magento\Backend\Model\Config\Source\Locale;
 
-class Timezone implements \Magento\Core\Model\Option\ArrayInterface
+class Timezone implements \Magento\Option\ArrayInterface
 {
     /**
      * @var \Magento\Core\Model\LocaleInterface
