@@ -138,25 +138,21 @@
             <instance type="Magento\Indexer\Model\IndexerInterface" shared="false"/>
         </param>
     </type>
-    <!--
-    <type name="Magento\Core\Model\Website">
+    <type name="Magento\Core\Model\Resource\Website">
         <plugin name="priceIndexerOnWebsiteDelete" type="Magento\Catalog\Model\Indexer\Product\Price\Plugin\Website"/>
     </type>
-    -->
     <type name="Magento\Core\Model\Resource\Store">
         <plugin name="storeViewResourceAroundSave" type="Magento\Catalog\Model\Indexer\Category\Flat\Plugin\StoreView"/>
     </type>
     <type name="Magento\Core\Model\Resource\Store\Group">
         <plugin name="storeGroupResourceAroundSave" type="Magento\Catalog\Model\Indexer\Category\Flat\Plugin\StoreGroup"/>
     </type>
-    <!--
-    <type name="Magento\Customer\Model\Group">
+    <type name="Magento\Customer\Model\Resource\Group">
         <plugin name="invalidatePriceIndexerOnCustomerGroupDelete" type="Magento\Catalog\Model\Indexer\Product\Price\Plugin\CustomerGroup"/>
     </type>
-    <type name="Magento\Customer\Model\Group">
+    <type name="Magento\Customer\Model\Resource\Group">
         <plugin name="invalidatePriceIndexerOnCustomerGroupCreate" type="Magento\Catalog\Model\Indexer\Product\Price\Plugin\CustomerGroup"/>
     </type>
-    -->
     <type name="Magento\Catalog\Model\Indexer\Product\Price\Plugin\AbstractPlugin">
         <param name="indexer">
             <instance type="Magento\Indexer\Model\IndexerInterface" shared="false"/>
