@@ -37,7 +37,7 @@ class TableDataTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_connectionMock = $this->getMock('Magento\DB\Adapter\AdapterInterface', array(), array(), '', false);
+        $this->_connectionMock = $this->getMock('Magento\DB\Adapter\AdapterInterface');
         $this->_resourceMock = $this->getMock('Magento\App\Resource', array(), array(), '', false);
         $this->_productIndexerHelper = $this->getMock(
             'Magento\Catalog\Helper\Product\Flat\Indexer', array(), array(), '', false

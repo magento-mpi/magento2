@@ -68,9 +68,9 @@ class FlatTableBuilder
      * @param array $changedIds
      * @param string $valueFieldSuffix
      * @param string $tableDropSuffix
-     * @param bool $flag
+     * @param bool $fillTmpTables
      */
-    public function build($storeId, $changedIds, $valueFieldSuffix, $tableDropSuffix, $flag)
+    public function build($storeId, $changedIds, $valueFieldSuffix, $tableDropSuffix, $fillTmpTables)
     {
         $attributes = $this->_productIndexerHelper->getAttributes();
         $eavAttributes = $this->_productIndexerHelper->getTablesStructure($attributes);
@@ -78,7 +78,7 @@ class FlatTableBuilder
 
         $this->_createTemporaryFlatTable($storeId);
 
-        if ($flag) {
+        if ($fillTmpTables) {
             $this->_fillTemporaryFlatTable($eavAttributes, $storeId, $valueFieldSuffix);
             //Update zero based attributes by values from current store
             $this->_updateTemporaryTableByStoreValues($eavAttributes, $changedIds, $storeId, $valueFieldSuffix);
