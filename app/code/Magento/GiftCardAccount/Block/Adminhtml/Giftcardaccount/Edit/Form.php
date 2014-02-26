@@ -7,11 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit;
 
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
+    /**
+     * @return $this
+     */
     protected function _prepareForm()
     {
         /** @var \Magento\Data\Form $form */

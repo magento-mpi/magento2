@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftCardAccount\Controller;
 
 class Cart extends \Magento\App\Action\Action
@@ -34,6 +33,7 @@ class Cart extends \Magento\App\Action\Action
     /**
      * No index action, forward to 404
      *
+     * @return void
      */
     public function indexAction()
     {
@@ -43,6 +43,7 @@ class Cart extends \Magento\App\Action\Action
     /**
      * Add Gift Card to current quote
      *
+     * @return void
      */
     public function addAction()
     {
@@ -68,6 +69,9 @@ class Cart extends \Magento\App\Action\Action
         $this->_redirect('checkout/cart');
     }
 
+    /**
+     * @return void
+     */
     public function removeAction()
     {
         $code = $this->getRequest()->getParam('code');
@@ -93,6 +97,7 @@ class Cart extends \Magento\App\Action\Action
     /**
      * Check a gift card account availability
      *
+     * @return void
      */
     public function quickCheckAction()
     {

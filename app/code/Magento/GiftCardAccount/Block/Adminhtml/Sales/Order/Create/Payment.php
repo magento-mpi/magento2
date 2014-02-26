@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftCardAccount\Block\Adminhtml\Sales\Order\Create;
 
 class Payment extends \Magento\View\Element\Template
@@ -51,6 +50,9 @@ class Payment extends \Magento\View\Element\Template
         return $this->_orderCreate;
     }
 
+    /**
+     * @return array
+     */
     public function getGiftCards()
     {
         $result = array();
@@ -74,7 +76,9 @@ class Payment extends \Magento\View\Element\Template
         return ($quote->getGiftCardsAmount() > 0);
     }
 
-
+    /**
+     * @return bool
+     */
     public function isFullyPaid()
     {
         $quote = $this->_orderCreate->getQuote();

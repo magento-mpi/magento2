@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftCardAccount\Block\Adminhtml\Sales\Order\Creditmemo;
 
 class Controls
@@ -34,6 +33,9 @@ class Controls
         parent::__construct($context, $data);
     }
 
+    /**
+     * @return bool
+     */
     public function canRefundToCustomerBalance()
     {
         if (!$this->_coreRegistry->registry('current_creditmemo')->getGiftCardsAmount()) {

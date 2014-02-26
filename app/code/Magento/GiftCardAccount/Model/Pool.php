@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftCardAccount\Model;
 
 /**
  * @method \Magento\GiftCardAccount\Model\Resource\Pool _getResource()
@@ -20,8 +21,6 @@
  * @package     Magento_GiftCardAccount
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GiftCardAccount\Model;
-
 class Pool extends \Magento\GiftCardAccount\Model\Pool\AbstractPool
 {
     const CODE_FORMAT_ALPHANUM = 'alphanum';
@@ -73,7 +72,9 @@ class Pool extends \Magento\GiftCardAccount\Model\Pool\AbstractPool
         $this->_giftCardCodeParams = $giftCardCodeParams;
     }
 
-
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_init('Magento\GiftCardAccount\Model\Resource\Pool');
@@ -82,7 +83,7 @@ class Pool extends \Magento\GiftCardAccount\Model\Pool\AbstractPool
     /**
      * Generate Pool
      *
-     * @return \Magento\GiftCardAccount\Model\Pool
+     * @return $this
      * @throws \Magento\Core\Exception
      */
     public function generatePool()
@@ -110,7 +111,7 @@ class Pool extends \Magento\GiftCardAccount\Model\Pool\AbstractPool
     /**
      * Checks pool threshold and call codes generation in case if free codes count is less than threshold value
      *
-     * @return \Magento\GiftCardAccount\Model\Pool
+     * @return $this
      */
     public function applyCodesGeneration()
     {
@@ -159,6 +160,9 @@ class Pool extends \Magento\GiftCardAccount\Model\Pool\AbstractPool
         return $code;
     }
 
+    /**
+     * @return string
+     */
     public function getCodeSeparator()
     {
         return isset($this->_giftCardCodeParams['separator']) ? $this->_giftCardCodeParams['separator'] : '';

@@ -7,14 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\GiftCardAccount\Block\Adminhtml\System\Config;
 
 class Generate
     extends \Magento\Backend\Block\System\Config\Form\Field
 {
-
+    /**
+     * @var string
+     */
     protected $_template = 'config/generate.phtml';
 
     /**

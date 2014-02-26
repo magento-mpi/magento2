@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab;
 
 use Magento\Backend\Block\Widget\Form;
@@ -22,9 +21,9 @@ class Send
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param array $data
      */
     public function __construct(
@@ -41,7 +40,7 @@ class Send
     /**
      * Init form fields
      *
-     * @return \Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab\Send
+     * @return $this
      */
     public function initForm()
     {
@@ -89,6 +88,9 @@ class Send
         return $this;
     }
 
+    /**
+     * @return string
+     */
     protected function _getStoreIdScript()
     {
         $websiteStores = array();

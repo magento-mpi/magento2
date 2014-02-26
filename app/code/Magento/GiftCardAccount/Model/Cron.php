@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftCardAccount\Model;
 
 class Cron
@@ -38,7 +37,7 @@ class Cron
     /**
      * Update Gift Card Account states by cron
      *
-     * @return \Magento\GiftCardAccount\Model\Cron
+     * @return $this
      */
     public function updateStates()
     {

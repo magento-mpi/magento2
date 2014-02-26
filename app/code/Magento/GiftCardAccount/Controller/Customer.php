@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftCardAccount\Controller;
 
 use Magento\App\Action\NotFoundException;
@@ -33,6 +32,7 @@ class Customer extends \Magento\App\Action\Action
     /**
      * Redeem gift card
      *
+     * @return void
      */
     public function indexAction()
     {
