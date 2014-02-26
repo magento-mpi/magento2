@@ -203,7 +203,7 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
             'firstname',
             'lastname',
         );
-        $this->assertEquals($expectedInBefore, array_keys($inBeforeOnly));
+        $this->assertEmpty(array_diff(array_keys($inBeforeOnly), $expectedInBefore));
         $this->assertContains('created_in', array_keys($inAfterOnly));
         $this->assertContains('firstname', array_keys($inAfterOnly));
         $this->assertContains('lastname', array_keys($inAfterOnly));
