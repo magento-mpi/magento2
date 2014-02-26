@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftWrapping\Model;
 
 /**
  * User statuses option array
@@ -15,8 +16,6 @@
  * @package    Magento_GiftWrapping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GiftWrapping\Model;
-
 class MassOptions implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**

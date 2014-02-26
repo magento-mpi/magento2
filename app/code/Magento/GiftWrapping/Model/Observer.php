@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftWrapping\Model;
 
 /**
  * Gift wrapping observer model
@@ -15,14 +16,12 @@
  * @package     Magento_GiftWrapping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GiftWrapping\Model;
-
 class Observer
 {
     /**
      * Gift wrapping data
      *
-     * @var \Magento\GiftWrapping\Helper\Data
+     * @var \Magento\GiftWrapping\Helper\Data|null
      */
     protected $_giftWrappingData = null;
 
@@ -48,7 +47,7 @@ class Observer
      *
      * @param mixed $entity
      * @param array $data
-     * @return \Magento\GiftWrapping\Model\Observer
+     * @return $this
      */
     protected function _saveItemInfo($entity, $data)
     {
@@ -65,7 +64,7 @@ class Observer
      *
      * @param mixed $entity
      * @param array $data
-     * @return \Magento\GiftWrapping\Model\Observer
+     * @return $this
      */
     protected function _saveOrderInfo($entity, $data)
     {
@@ -89,7 +88,7 @@ class Observer
      * Process gift wrapping options on checkout proccess
      *
      * @param \Magento\Object $observer
-     * @return \Magento\GiftWrapping\Model\Observer
+     * @return $this
      */
     public function checkoutProcessWrappingInfo($observer)
     {
@@ -133,6 +132,7 @@ class Observer
      * Process admin order creation
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function processOrderCreationData($observer)
     {
@@ -161,6 +161,7 @@ class Observer
      * Set the flag is it new collecting totals
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function quoteCollectTotalsBefore(\Magento\Event\Observer $observer)
     {
@@ -173,6 +174,7 @@ class Observer
      * Add gift wrapping items into payment checkout
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function addPaymentGiftWrappingItem(\Magento\Event\Observer $observer)
     {
@@ -205,25 +207,26 @@ class Observer
      * Set gift options available flag for items
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\GiftWrapping\Model\Observer
+     * @return $this
      */
     public function prepareGiftOptpionsItems(\Magento\Event\Observer $observer)
     {
-       $items = $observer->getEvent()->getItems();
-       foreach ($items as $item) {
-           $allowed = $item->getProduct()->getGiftWrappingAvailable();
-           if ($this->_giftWrappingData->isGiftWrappingAvailableForProduct($allowed)
-               && !$item->getIsVirtual()) {
-               $item->setIsGiftOptionsAvailable(true);
-           }
-       }
-       return $this;
+        $items = $observer->getEvent()->getItems();
+        foreach ($items as $item) {
+            $allowed = $item->getProduct()->getGiftWrappingAvailable();
+            if ($this->_giftWrappingData->isGiftWrappingAvailableForProduct($allowed)
+                && !$item->getIsVirtual()) {
+                $item->setIsGiftOptionsAvailable(true);
+            }
+        }
+        return $this;
     }
 
     /**
      * Clear gift wrapping and printed card if customer uses GoogleCheckout payment method
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function googlecheckoutCheckoutBefore(\Magento\Event\Observer $observer)
     {
@@ -239,7 +242,7 @@ class Observer
      * Import giftwrapping data from order to quote
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\GiftWrapping\Model\Observer
+     * @return $this
      */
     public function salesEventOrderToQuote($observer)
     {
@@ -261,7 +264,7 @@ class Observer
      * Import giftwrapping data from order item to quote item
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\GiftWrapping\Model\Observer
+     * @return $this
      */
     public function salesEventOrderItemToQuoteItem($observer)
     {

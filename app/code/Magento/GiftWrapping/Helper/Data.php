@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftWrapping\Helper;
 
 /**
  * Gift wrapping default helper
@@ -15,8 +16,6 @@
  * @package     Magento_GiftWrapping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GiftWrapping\Helper;
-
 class Data extends \Magento\App\Helper\AbstractHelper
 {
     /**
@@ -88,7 +87,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * Check availablity of gift wrapping for product
      *
      * @param int $productConfig
-     * @param \Magento\Core\Model\Store|int $store
+     * @param \Magento\Core\Model\Store|int|null $store
      * @return bool
      */
     public function isGiftWrappingAvailableForProduct($productConfig, $store = null)
@@ -103,8 +102,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Check availablity of gift wrapping on items level
      *
-     * @param \Magento\Core\Model\Store|int $store
-     * @return bool
+     * @param \Magento\Core\Model\Store|int|null $store
+     * @return string|null
      */
     public function isGiftWrappingAvailableForItems($store = null)
     {
@@ -114,8 +113,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Check availablity of gift wrapping on order level
      *
-     * @param \Magento\Core\Model\Store|int $store
-     * @return bool
+     * @param \Magento\Core\Model\Store|int|null $store
+     * @return string|null
      */
     public function isGiftWrappingAvailableForOrder($store = null)
     {
@@ -125,8 +124,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Check ability to display both prices for printed card
      *
-     * @param \Magento\Core\Model\Store|int $store
-     * @return bool
+     * @param \Magento\Core\Model\Store|int|null $store
+     * @return string|null
      */
     public function getWrappingTaxClass($store = null)
     {
@@ -136,8 +135,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Check printed card allow
      *
-     * @param \Magento\Core\Model\Store|int $store
-     * @return bool
+     * @param \Magento\Core\Model\Store|int|null $store
+     * @return string|null
      */
     public function allowPrintedCard($store = null)
     {
@@ -147,8 +146,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Check allow gift receipt
      *
-     * @param \Magento\Core\Model\Store|int $store
-     * @return bool
+     * @param \Magento\Core\Model\Store|int|null $store
+     * @return string|null
      */
     public function allowGiftReceipt($store = null)
     {
@@ -158,8 +157,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Return printed card base price
      *
-     * @param \Magento\Core\Model\Store|int $store
-     * @return mixed
+     * @param \Magento\Core\Model\Store|int|null $store
+     * @return string|null
      */
     public function getPrintedCardPrice($store = null)
     {
@@ -169,7 +168,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Check ability to display prices including tax for gift wrapping in shopping cart
      *
-     * @param \Magento\Core\Model\Store|int $store
+     * @param \Magento\Core\Model\Store|int|null $store
      * @return bool
      */
     public function displayCartWrappingIncludeTaxPrice($store = null)
@@ -182,7 +181,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Check ability to display prices excluding tax for gift wrapping in shopping cart
      *
-     * @param \Magento\Core\Model\Store|int $store
+     * @param \Magento\Core\Model\Store|int|null $store
      * @return bool
      */
     public function displayCartWrappingExcludeTaxPrice($store = null)
@@ -194,7 +193,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Check ability to display both prices for gift wrapping in shopping cart
      *
-     * @param \Magento\Core\Model\Store|int $store
+     * @param \Magento\Core\Model\Store|int|null $store
      * @return bool
      */
     public function displayCartWrappingBothPrices($store = null)
@@ -206,7 +205,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Check ability to display prices including tax for printed card in shopping cart
      *
-     * @param \Magento\Core\Model\Store|int $store
+     * @param \Magento\Core\Model\Store|int|null $store
      * @return bool
      */
     public function displayCartCardIncludeTaxPrice($store = null)
@@ -219,7 +218,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Check ability to display both prices for printed card in shopping cart
      *
-     * @param \Magento\Core\Model\Store|int $store
+     * @param \Magento\Core\Model\Store|int|null $store
      * @return bool
      */
     public function displayCartCardBothPrices($store = null)
@@ -231,7 +230,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Check ability to display prices including tax for gift wrapping in backend sales
      *
-     * @param \Magento\Core\Model\Store|int $store
+     * @param \Magento\Core\Model\Store|int|null $store
      * @return bool
      */
     public function displaySalesWrappingIncludeTaxPrice($store = null)
@@ -244,7 +243,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Check ability to display prices excluding tax for gift wrapping in backend sales
      *
-     * @param \Magento\Core\Model\Store|int $store
+     * @param \Magento\Core\Model\Store|int|null $store
      * @return bool
      */
     public function displaySalesWrappingExcludeTaxPrice($store = null)
@@ -256,7 +255,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Check ability to display both prices for gift wrapping in backend sales
      *
-     * @param \Magento\Core\Model\Store|int $store
+     * @param \Magento\Core\Model\Store|int|null $store
      * @return bool
      */
     public function displaySalesWrappingBothPrices($store = null)
@@ -268,7 +267,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Check ability to display prices including tax for printed card in backend sales
      *
-     * @param \Magento\Core\Model\Store|int $store
+     * @param \Magento\Core\Model\Store|int|null $store
      * @return bool
      */
     public function displaySalesCardIncludeTaxPrice($store = null)
@@ -281,7 +280,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Check ability to display both prices for printed card in backend sales
      *
-     * @param \Magento\Core\Model\Store|int $store
+     * @param \Magento\Core\Model\Store|int|null $store
      * @return bool
      */
     public function displaySalesCardBothPrices($store = null)
@@ -415,11 +414,12 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Add total into array totals
      *
-     * @param  array $totals
+     * @param  array &$totals
      * @param  string $code
-     * @param  decimal $value
-     * @param  decimal $baseValue
+     * @param  float $value
+     * @param  float $baseValue
      * @param  string $label
+     * @return void
      */
     protected function _addTotalToTotals(&$totals, $code, $value, $baseValue, $label)
     {

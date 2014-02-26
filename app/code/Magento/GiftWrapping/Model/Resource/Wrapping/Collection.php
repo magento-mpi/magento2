@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftWrapping\Model\Resource\Wrapping;
 
 /**
  * Gift Wrapping Collection
@@ -14,8 +15,6 @@
  * @category    Magento
  * @package     Magento_GiftWrapping
  */
-namespace Magento\GiftWrapping\Model\Resource\Wrapping;
-
 class Collection
     extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
@@ -33,7 +32,7 @@ class Collection
     /**
      * Redeclare after load method to add website IDs to items
      *
-     * @return \Magento\GiftWrapping\Model\Resource\Wrapping\Collection
+     * @return $this
      */
     protected function _afterLoad()
     {
@@ -65,7 +64,7 @@ class Collection
      * Init flag for adding wrapping website ids to collection result
      *
      * @param  bool|null $flag
-     * @return \Magento\GiftWrapping\Model\Resource\Wrapping\Collection
+     * @return $this
      */
     public function addWebsitesToResult($flag = null)
     {
@@ -78,7 +77,7 @@ class Collection
      * Limit gift wrapping collection by specific website
      *
      * @param  int|array|\Magento\Core\Model\Website $websiteId
-     * @return \Magento\GiftWrapping\Model\Resource\Wrapping\Collection
+     * @return $this
      */
     public function applyWebsiteFilter($websiteId)
     {
@@ -102,7 +101,7 @@ class Collection
     /**
      * Limit gift wrapping collection by status
      *
-     * @return \Magento\GiftWrapping\Model\Resource\Wrapping\Collection
+     * @return $this
      */
     public function applyStatusFilter()
     {
@@ -113,11 +112,11 @@ class Collection
     /**
      * Add specified field to collection filter
      * Redeclared in order to be able to limit collection by specific website
-     * @see self::applyWebsiteFilter()
      *
      * @param  string $field
      * @param  mixed $condition
-     * @return \Magento\GiftWrapping\Model\Resource\Wrapping\Collection
+     * @return $this
+     * @see self::applyWebsiteFilter()
      */
     public function addFieldToFilter($field, $condition = null)
     {
@@ -143,7 +142,7 @@ class Collection
      /* Add store attributes to collection
      *
      * @param  int $storeId
-     * @return \Magento\GiftWrapping\Model\Resource\Wrapping\Collection
+     * @return $this
      */
     public function addStoreAttributesToResult($storeId = 0)
     {

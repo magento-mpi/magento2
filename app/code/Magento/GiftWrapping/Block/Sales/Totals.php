@@ -7,13 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftWrapping\Block\Sales;
 
 /**
  * Customer balance block for order
  *
  */
-namespace Magento\GiftWrapping\Block\Sales;
-
 class Totals extends \Magento\View\Element\Template
 {
     /**
@@ -41,7 +40,7 @@ class Totals extends \Magento\View\Element\Template
     /**
      * Initialize gift wrapping and printed card totals for order/invoice/creditmemo
      *
-     * @return \Magento\GiftWrapping\Block\Sales\Totals
+     * @return $this
      */
     public function initTotals()
     {

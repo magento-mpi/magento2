@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftWrapping\Controller\Adminhtml;
+
+use Magento\Backend\App\Action;
 
 /**
  * Gift Wrapping Controller
@@ -15,16 +18,12 @@
  * @package     Magento_GiftWrapping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GiftWrapping\Controller\Adminhtml;
-
-use Magento\Backend\App\Action;
-
 class Giftwrapping extends \Magento\Backend\App\Action
 {
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Core\Model\Registry|null
      */
     protected $_coreRegistry = null;
 
@@ -43,7 +42,7 @@ class Giftwrapping extends \Magento\Backend\App\Action
     /**
      * Init active menu
      *
-     * @return \Magento\GiftWrapping\Controller\Adminhtml\Giftwrapping
+     * @return $this
      */
     protected function _initAction()
     {
@@ -65,7 +64,7 @@ class Giftwrapping extends \Magento\Backend\App\Action
     {
         $model = $this->_coreRegistry->registry('current_giftwrapping_model');
         if ($model) {
-           return $model;
+            return $model;
         }
         $model = $this->_objectManager->create('Magento\GiftWrapping\Model\Wrapping');
         $model->setStoreId($this->getRequest()->getParam('store', 0));
@@ -84,6 +83,8 @@ class Giftwrapping extends \Magento\Backend\App\Action
 
     /**
      * List of gift wrappings
+     *
+     * @return void
      */
     public function indexAction()
     {
@@ -93,6 +94,8 @@ class Giftwrapping extends \Magento\Backend\App\Action
 
     /**
      * Create new gift wrapping
+     *
+     * @return void
      */
     public function newAction()
     {
@@ -104,6 +107,8 @@ class Giftwrapping extends \Magento\Backend\App\Action
 
     /**
      * Edit gift wrapping
+     *
+     * @return void
      */
     public function editAction()
     {
@@ -119,6 +124,8 @@ class Giftwrapping extends \Magento\Backend\App\Action
 
     /**
      * Save gift wrapping
+     *
+     * @return void
      */
     public function saveAction()
     {
@@ -163,6 +170,8 @@ class Giftwrapping extends \Magento\Backend\App\Action
 
     /**
      * Upload temporary gift wrapping image
+     *
+     * @return void
      */
     public function uploadAction()
     {
@@ -196,6 +205,8 @@ class Giftwrapping extends \Magento\Backend\App\Action
 
     /**
      * Change gift wrapping(s) status action
+     *
+     * @return void
      */
     public function changeStatusAction()
     {
@@ -224,6 +235,8 @@ class Giftwrapping extends \Magento\Backend\App\Action
     /**
      * Delete specified gift wrapping(s)
      * This action can be performed on 'Manage Gift Wrappings' page
+     *
+     * @return void
      */
     public function massDeleteAction()
     {
@@ -252,6 +265,8 @@ class Giftwrapping extends \Magento\Backend\App\Action
     /**
      * Delete current gift wrapping
      * This action can be performed on 'Edit Gift Wrapping' page
+     *
+     * @return void
      */
     public function deleteAction()
     {
@@ -272,7 +287,7 @@ class Giftwrapping extends \Magento\Backend\App\Action
     /**
      * Check admin permissions for this controller
      *
-     * @return boolean
+     * @return bool
      */
     protected function _isAllowed()
     {
@@ -299,9 +314,11 @@ class Giftwrapping extends \Magento\Backend\App\Action
     /**
      * Ajax action for GiftWrapping content in backend order creation
      *
+     * @return void
      * @deprecated since 1.12.0.0
      */
-    public function orderOptionsAction() {
+    public function orderOptionsAction()
+    {
         $this->_view->loadLayout();
         $this->_view->renderLayout();
     }

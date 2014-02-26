@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\GiftWrapping\Block\Adminhtml\Product\Helper\Form;
 
 /**
  * Adminhtml additional helper block for product configuration
@@ -15,15 +15,12 @@
  * @category   Magento
  * @package    Magento_GiftWrapping
  */
-namespace Magento\GiftWrapping\Block\Adminhtml\Product\Helper\Form;
-
-class Config
-    extends \Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Config
+class Config extends \Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Config
 {
     /**
      * Gift wrapping data
      *
-     * @var \Magento\GiftWrapping\Helper\Data
+     * @var \Magento\GiftWrapping\Helper\Data|null
      */
     protected $_giftWrappingData = null;
 
@@ -48,7 +45,7 @@ class Config
     /**
      * Get config value data
      *
-     * @return mixed
+     * @return string|null
      */
     protected function _getValueFromConfig()
     {

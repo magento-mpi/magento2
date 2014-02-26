@@ -7,15 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftWrapping\Model;
+
+use Magento\Filesystem\Directory\WriteInterface;
 
 /**
  * Gift Wrapping model
  *
  */
-namespace Magento\GiftWrapping\Model;
-
-use Magento\Filesystem\Directory\WriteInterface;
-
 class Wrapping extends \Magento\Core\Model\AbstractModel
 {
     /**
@@ -85,7 +84,7 @@ class Wrapping extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * Intialize model
+     * Initialize model
      *
      * @return void
      */
@@ -131,7 +130,7 @@ class Wrapping extends \Magento\Core\Model\AbstractModel
     /**
      * Get wrapping associated website ids
      *
-     * @return array
+     * @return array|null
      */
     public function getWebsiteIds()
     {
@@ -181,7 +180,7 @@ class Wrapping extends \Magento\Core\Model\AbstractModel
      * Set wrapping image
      *
      * @param string|null|\Magento\Core\Model\File\Uploader $value
-     * @return \Magento\GiftWrapping\Model\Wrapping
+     * @return $this
      */
     public function setImage($value)
     {
@@ -199,7 +198,7 @@ class Wrapping extends \Magento\Core\Model\AbstractModel
      *
      * @param string $imageFieldName
      * @param bool $isTemporary
-     * @return \Magento\GiftWrapping\Model\Wrapping
+     * @return $this
      */
     public function attachUploadedImage($imageFieldName, $isTemporary = false)
     {
@@ -228,7 +227,7 @@ class Wrapping extends \Magento\Core\Model\AbstractModel
      * Set temporary wrapping image
      *
      * @param string|null|\Magento\Core\Model\File\Uploader $value
-     * @return \Magento\GiftWrapping\Model\Wrapping
+     * @return $this
      */
     public function setTmpImage($value)
     {
@@ -248,7 +247,7 @@ class Wrapping extends \Magento\Core\Model\AbstractModel
     /**
      * Delete temporary wrapping image
      *
-     * @return \Magento\GiftWrapping\Model\Wrapping
+     * @return $this
      */
     public function unsTmpImage()
     {
@@ -268,7 +267,7 @@ class Wrapping extends \Magento\Core\Model\AbstractModel
      *
      * @see \Magento\GiftWrapping\Block\Adminhtml\Giftwrapping\Helper\Image::_getUrl()
      *
-     * @return string|boolean
+     * @return string|false
      */
     public function getImageUrl()
     {

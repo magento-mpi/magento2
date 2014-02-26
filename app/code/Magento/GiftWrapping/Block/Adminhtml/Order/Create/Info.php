@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftWrapping\Block\Adminhtml\Order\Create;
 
 /**
  * Gift wrapping order create info block
@@ -15,8 +16,6 @@
  * @package     Magento_GiftWrapping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GiftWrapping\Block\Adminhtml\Order\Create;
-
 class Info
     extends \Magento\GiftWrapping\Block\Adminhtml\Order\Create\AbstractCreate
 {
@@ -144,7 +143,7 @@ class Info
      *
      * @deprecated since 1.12.0.0
      *
-     * @return void
+     * @return string
      */
     public function getRefreshWrappingUrl()
     {

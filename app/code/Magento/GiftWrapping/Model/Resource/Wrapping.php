@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftWrapping\Model\Resource;
 
 /**
  * Gift Wrapping Resource Model
@@ -14,8 +15,6 @@
  * @category    Magento
  * @package     Magento_GiftWrapping
  */
-namespace Magento\GiftWrapping\Model\Resource;
-
 class Wrapping extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
@@ -48,7 +47,7 @@ class Wrapping extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Add store data to wrapping data
      *
      * @param  \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Core\Model\Resource\Db\AbstractDb
+     * @return $this
      */
     protected function _afterLoad(\Magento\Core\Model\AbstractModel $object)
     {
