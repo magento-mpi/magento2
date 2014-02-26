@@ -350,9 +350,9 @@ class Onepage
             \Magento\Customer\Service\V1\CustomerMetadataServiceInterface::ENTITY_TYPE_ADDRESS,
             'customer_address_edit',
             [],
+            $this->_request->isAjax(),
             Form::IGNORE_INVISIBLE,
-            [],
-            $this->_request->isAjax()
+            []
         );
 
         if (!empty($customerAddressId)) {
@@ -490,9 +490,9 @@ class Onepage
             CustomerMetadata::ENTITY_TYPE_CUSTOMER,
             'checkout_register',
             $customerData,
+            $this->_request->isAjax(),
             Form::IGNORE_INVISIBLE,
-            [],
-            $this->_request->isAjax()
+            []
         );
 
         if ($isCustomerNew) {
@@ -569,9 +569,9 @@ class Onepage
             'customer_address',
             'customer_address_edit',
             [],
+            $this->_request->isAjax(),
             Form::IGNORE_INVISIBLE,
-            [],
-            $this->_request->isAjax()
+            []
         );
 
         if (!empty($customerAddressId)) {

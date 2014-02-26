@@ -13,7 +13,6 @@ use Magento\Service\Entity\AbstractDto;
 use Magento\Service\Entity\AbstractDtoBuilder;
 
 /**
- * @method Address create()
  * @method Address mergeDtoWithArray(AbstractDto $dto, array $data)
  */
 class AddressBuilder extends AbstractDtoBuilder
