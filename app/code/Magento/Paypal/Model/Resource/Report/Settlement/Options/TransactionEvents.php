@@ -17,7 +17,7 @@ namespace Magento\Paypal\Model\Resource\Report\Settlement\Options;
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class TransactionEvents
-    implements \Magento\Core\Model\Option\ArrayInterface
+    implements \Magento\Option\ArrayInterface
 {
     /**
      * @var \Magento\Paypal\Model\Report\Settlement\Row

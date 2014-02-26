@@ -13,7 +13,7 @@ namespace Magento\Paypal\Model\System\Config\Source;
  * Source model for available payment actions
  */
 
-class PaymentActions implements \Magento\Core\Model\Option\ArrayInterface
+class PaymentActions implements \Magento\Option\ArrayInterface
 {
     /**
      * @var \Magento\Paypal\Model\ConfigFactory

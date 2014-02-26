@@ -13,7 +13,7 @@ namespace Magento\Paypal\Model\System\Config\Source\PaymentActions;
  * Source model for available paypal express payment actions
  */
 class Express
-    implements \Magento\Core\Model\Option\ArrayInterface
+    implements \Magento\Option\ArrayInterface
 {
     /**
      * @var \Magento\Paypal\Model\ConfigFactory

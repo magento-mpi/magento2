@@ -12,7 +12,7 @@ namespace Magento\Paypal\Model\System\Config\Source;
 /**
  * Source model for url method: GET/POST
  */
-class UrlMethod implements \Magento\Core\Model\Option\ArrayInterface
+class UrlMethod implements \Magento\Option\ArrayInterface
 {
     /**
      * {@inheritdoc}
