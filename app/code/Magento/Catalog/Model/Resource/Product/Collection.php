@@ -239,13 +239,6 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     protected $_resourceHelper;
 
     /**
-     * Product flat indexer helper
-     *
-     * @var \Magento\Catalog\Helper\Product\Flat\Indexer
-     */
-    protected $_productFlatIndexerHelper;
-
-    /**
      * @var \Magento\Stdlib\DateTime
      */
     protected $dateTime;
@@ -302,7 +295,6 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
         $this->_locale = $locale;
         $this->_customerSession = $customerSession;
         $this->_resourceHelper = $resourceHelper;
-        $this->_productFlatIndexerHelper = $this->_catalogProductFlatState->getFlatIndexerHelper();
         $this->dateTime = $dateTime;
         parent::__construct(
             $entityFactory,
@@ -540,7 +532,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
                 ->from(array(self::MAIN_TABLE_ALIAS => $this->getEntity()->getFlatTableName()), null)
                 ->columns(array('status' => new \Zend_Db_Expr(ProductStatus::STATUS_ENABLED)));
             $this->addAttributeToSelect(array('entity_id', 'type_id', 'attribute_set_id'));
-            if ($this->_productFlatIndexerHelper->isAddChildData()) {
+            if ($this->_catalogProductFlatState->getFlatIndexerHelper()->isAddChildData()) {
                 $this->getSelect()
                     ->where('e.is_child=?', 0);
                 $this->addAttributeToSelect(array('child_id', 'is_child'));

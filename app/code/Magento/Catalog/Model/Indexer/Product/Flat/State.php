@@ -41,6 +41,7 @@ class State extends \Magento\Catalog\Model\Indexer\AbstractFlatState
         $this->flatIndexer = $flatIndexer;
         $this->_productFlatIndexerHelper = $flatIndexerHelper;
         $this->isAvailable = $isAvailable;
+        parent::__construct($storeConfig, $flatIndexer, $isAvailable);
     }
 
     /**

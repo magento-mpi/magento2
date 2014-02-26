@@ -111,12 +111,12 @@ class Indexer extends \Magento\App\Helper\AbstractHelper
     protected $_storeManager;
 
     /**
-     * @var int
+     * @var bool
      */
     protected $_addFilterableAttrs;
 
     /**
-     * @var int
+     * @var bool
      */
     protected $_addChildData;
 
@@ -134,8 +134,8 @@ class Indexer extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Mview\View\Changelog $changelog
-     * @param int $addFilterableAttrs
-     * @param int $addChildData
+     * @param bool $addFilterableAttrs
+     * @param bool $addChildData
      * @param array $flatAttributeGroups
      */
     public function __construct(
@@ -147,8 +147,8 @@ class Indexer extends \Magento\App\Helper\AbstractHelper
         \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Mview\View\Changelog $changelog,
-        $addFilterableAttrs = 0,
-        $addChildData = 0,
+        $addFilterableAttrs = false,
+        $addChildData = false,
         $flatAttributeGroups = array()
     ) {
         $this->_configFactory = $configFactory;
@@ -220,9 +220,9 @@ class Indexer extends \Magento\App\Helper\AbstractHelper
     }
 
     /**
-     * Is add filterable attributes to Flat table
+     * Check whether filterable attributes should be added
      *
-     * @return int
+     * @return bool
      */
     public function isAddFilterableAttributes()
     {
@@ -230,9 +230,9 @@ class Indexer extends \Magento\App\Helper\AbstractHelper
     }
 
     /**
-     * Is add child data to Flat
+     * Check whether child data should be added
      *
-     * @return int
+     * @return bool
      */
     public function isAddChildData()
     {

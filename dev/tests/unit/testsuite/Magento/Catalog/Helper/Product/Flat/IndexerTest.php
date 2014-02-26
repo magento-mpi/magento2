@@ -52,21 +52,21 @@ class IndexerTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnArgument(0));
 
         $flatHelperMock = $this->getMock(
-            '\Magento\Catalog\Helper\Product\Flat\Indexer', array('isAddChildData'), array(), '', false
+            'Magento\Catalog\Helper\Product\Flat\Indexer', array('isAddChildData'), array(), '', false
         );
         $flatHelperMock->expects($this->any())
             ->method('isAddChildData')
             ->will($this->returnValue(true));
 
-        $eavConfigMock = $this->getMock('\Magento\Eav\Model\Config', array(), array(), '', false);
+        $eavConfigMock = $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false);
 
-        $attributeConfigMock = $this->getMock('\Magento\Catalog\Model\Attribute\Config', array(), array(), '', false);
+        $attributeConfigMock = $this->getMock('Magento\Catalog\Model\Attribute\Config', array(), array(), '', false);
 
         $resourceConfigFactoryMock = $this->getMock(
-            '\Magento\Catalog\Model\Resource\ConfigFactory', array(), array(), '', false
+            'Magento\Catalog\Model\Resource\ConfigFactory', array(), array(), '', false
         );
 
-        $eavFactoryMock = $this->getMock('\Magento\Eav\Model\Entity\AttributeFactory', array(), array(), '', false);
+        $eavFactoryMock = $this->getMock('Magento\Eav\Model\Entity\AttributeFactory', array(), array(), '', false);
 
         $this->_storeManagerMock = $this->getMock('Magento\Core\Model\StoreManagerInterface');
 
@@ -75,7 +75,7 @@ class IndexerTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_changelogMock = $this->getMock(
-            '\Magento\Mview\View\Changelog', array('getName'), array(), '', false
+            'Magento\Mview\View\Changelog', array('getName'), array(), '', false
         );
 
 

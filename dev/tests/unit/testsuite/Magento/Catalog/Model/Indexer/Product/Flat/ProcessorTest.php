@@ -38,14 +38,14 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
         $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $this->_indexerMock = $this->getMock(
-            '\Magento\Indexer\Model\Indexer', array('getId', 'invalidate'), array(), '', false
+            'Magento\Indexer\Model\Indexer', array('getId', 'invalidate'), array(), '', false
         );
         $this->_indexerMock->expects($this->any())->method('getId')->will($this->returnValue(1));
 
         $this->_stateMock = $this->getMock(
-            '\Magento\Catalog\Model\Indexer\Product\Flat\State', array('isFlatEnabled'), array(), '', false
+            'Magento\Catalog\Model\Indexer\Product\Flat\State', array('isFlatEnabled'), array(), '', false
         );
-        $this->_model = $this->_objectManager->getObject('\Magento\Catalog\Model\Indexer\Product\Flat\Processor', array(
+        $this->_model = $this->_objectManager->getObject('Magento\Catalog\Model\Indexer\Product\Flat\Processor', array(
             'indexer' => $this->_indexerMock,
             'state'  => $this->_stateMock
         ));

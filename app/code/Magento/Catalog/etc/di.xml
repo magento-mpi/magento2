@@ -203,4 +203,22 @@
             <argument name="categoryIndexer" xsi:type="object" shared="false">Magento\Indexer\Model\IndexerInterface</argument>
         </arguments>
     </type>
+
+    <virtualType name="rowsFlatTableBuilder" type="Magento\Catalog\Model\Indexer\Product\Flat\FlatTableBuilder">
+        <arguments>
+            <argument name="tableData" xsi:type="object">Magento\Catalog\Model\Indexer\Product\Flat\Action\Rows\TableData</argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Magento\Catalog\Model\Indexer\Product\Flat\Action\Rows">
+        <arguments>
+            <argument name="tableData" xsi:type="object">rowsFlatTableBuilder</argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Catalog\Model\Indexer\Product\Flat\FlatTableBuilder">
+        <arguments>
+            <argument name="tableData" xsi:type="object">Magento\Catalog\Model\Indexer\Product\Flat\TableData</argument>
+        </arguments>
+    </type>
 </config>
