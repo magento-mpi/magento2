@@ -116,7 +116,7 @@ class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
      * @param PeriodUnits $periodUnits
      * @param \Magento\RecurringProfile\Block\Fields $fields
      * @param \Magento\Core\Model\LocaleInterface $locale
-     * @param \Magento\RecurringProfile\Model\MethodInterfaceFactory $recurringPaymentFactory
+     * @param ManagerInterfaceFactory $managerFactory
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Sales\Model\Order\AddressFactory $addressFactory
      * @param \Magento\Sales\Model\Order\PaymentFactory $paymentFactory
@@ -135,7 +135,7 @@ class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
         \Magento\RecurringProfile\Model\PeriodUnits $periodUnits,
         \Magento\RecurringProfile\Block\Fields $fields,
         \Magento\Core\Model\LocaleInterface $locale,
-        \Magento\RecurringProfile\Model\MethodInterfaceFactory $recurringPaymentFactory,
+        ManagerInterfaceFactory $managerFactory,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Sales\Model\Order\AddressFactory $addressFactory,
         \Magento\Sales\Model\Order\PaymentFactory $paymentFactory,
@@ -159,7 +159,7 @@ class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
             $periodUnits,
             $fields,
             $locale,
-            $recurringPaymentFactory,
+            $managerFactory,
             $resource,
             $resourceCollection,
             $data
@@ -188,7 +188,7 @@ class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
             $this->setInternalReferenceId($this->mathRandom->getUniqueHash('temporary-'));
             $this->save();
             $this->setInternalReferenceId($this->mathRandom->getUniqueHash($this->getId() . '-'));
-            $this->getMethodInstance()->submit($this, $this->getQuote()->getPayment());
+            $this->getManager()->submit($this, $this->getQuote()->getPayment());
             $this->save();
             $this->_getResource()->commit();
         } catch (\Exception $e) {
@@ -204,7 +204,7 @@ class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
     {
         $this->_checkWorkflow(States::ACTIVE, false);
         $this->setNewState(States::ACTIVE);
-        $this->getMethodInstance()->updateStatus($this);
+        $this->getManager()->updateStatus($this);
         $this->setState(States::ACTIVE)->save();
     }
 
@@ -225,7 +225,7 @@ class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
     {
         $this->_checkWorkflow(States::SUSPENDED, false);
         $this->setNewState(States::SUSPENDED);
-        $this->getMethodInstance()->updateStatus($this);
+        $this->getManager()->updateStatus($this);
         $this->setState(States::SUSPENDED)->save();
     }
 
@@ -246,7 +246,7 @@ class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
     {
         $this->_checkWorkflow(States::CANCELED, false);
         $this->setNewState(States::CANCELED);
-        $this->getMethodInstance()->updateStatus($this);
+        $this->getManager()->updateStatus($this);
         $this->setState(States::CANCELED)->save();
     }
 
@@ -263,7 +263,7 @@ class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
     public function fetchUpdate()
     {
         $result = new \Magento\Object();
-        $this->getMethodInstance()->getDetails($this->getReferenceId(), $result);
+        $this->getManager()->getDetails($this->getReferenceId(), $result);
 
         if ($result->getIsProfileActive()) {
             $this->setState(States::ACTIVE);
@@ -280,7 +280,7 @@ class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
 
     public function canFetchUpdate()
     {
-        return $this->getMethodInstance()->canGetDetails();
+        return $this->getManager()->canGetDetails();
     }
 
     /**
@@ -401,8 +401,8 @@ class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
         $this->setQuote($quote);
 
         if ($quote->getPayment() && $quote->getPayment()->getMethod()) {
-            $this->setMethodInstance(
-                $this->_recurringPaymentFactory->create(
+            $this->setManager(
+                $this->_managerFactory->create(
                     array('paymentMethod' => $quote->getPayment()->getMethodInstance())
                 )
             );

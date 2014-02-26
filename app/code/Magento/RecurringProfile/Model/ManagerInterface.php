@@ -13,7 +13,7 @@ use \Magento\Object;
 /**
  * Recurring profile gateway management interface
  */
-interface MethodInterface
+interface ManagerInterface
 {
     /**
      * Validate data

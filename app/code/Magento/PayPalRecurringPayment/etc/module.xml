@@ -10,6 +10,7 @@
 <config>
     <module name="Magento_PayPalRecurringPayment" version="1.0.0.0" active="true">
         <depends>
+            <module name="Magento_Core"/>
             <module name="Magento_Payment"/>
             <module name="Magento_Paypal"/>
             <module name="Magento_RecurringProfile"/>

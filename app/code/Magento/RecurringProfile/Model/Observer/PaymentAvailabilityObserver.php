@@ -28,7 +28,7 @@ class PaymentAvailabilityObserver
      */
     private function canManageRecurringProfiles(\Magento\Payment\Model\Method\AbstractMethod $paymentMethod)
     {
-        return $paymentMethod instanceof \Magento\RecurringProfile\Model\MethodInterface;
+        return $paymentMethod instanceof \Magento\RecurringProfile\Model\ManagerInterface;
     }
 
     /**

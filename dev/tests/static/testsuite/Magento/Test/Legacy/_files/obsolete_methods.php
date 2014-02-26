@@ -1417,4 +1417,14 @@ return array(
         'Magento\Paypal\Model\Pro',
         'Magento\PayPalRecurringPayment\Model\Express::updateStatus()'
     ),
+    array(
+        'setMethodInstance',
+        'Magento\RecurringProfile\Model\RecurringProfile',
+        'Magento\RecurringProfile\Model\RecurringProfile::setManager()'
+    ),
+    array(
+        'getMethodInstance',
+        'Magento\RecurringProfile\Model\RecurringProfile',
+        'Magento\RecurringProfile\Model\RecurringProfile::getManager()'
+    ),
 );

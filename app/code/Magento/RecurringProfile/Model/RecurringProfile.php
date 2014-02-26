@@ -41,9 +41,9 @@ class RecurringProfile extends \Magento\Core\Model\AbstractModel
 
     /**
      *
-     * @var \Magento\RecurringProfile\Model\MethodInterface
+     * @var ManagerInterface
      */
-    protected $_methodInstance = null;
+    protected $_manager = null;
 
     /**
      * Store instance used by locale or method instance
@@ -82,9 +82,9 @@ class RecurringProfile extends \Magento\Core\Model\AbstractModel
     protected $_locale;
 
     /**
-     * @var \Magento\RecurringProfile\Model\MethodInterfaceFactory
+     * @var ManagerInterfaceFactory
      */
-    protected $_recurringPaymentFactory;
+    protected $_managerFactory;
 
     /**
      * @param \Magento\Core\Model\Context $context
@@ -93,10 +93,12 @@ class RecurringProfile extends \Magento\Core\Model\AbstractModel
      * @param PeriodUnits $periodUnits
      * @param \Magento\RecurringProfile\Block\Fields $fields
      * @param \Magento\Core\Model\LocaleInterface $locale
-     * @param \Magento\RecurringProfile\Model\MethodInterfaceFactory $recurringPaymentFactory
+     * @param ManagerInterfaceFactory $managerFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Core\Model\Context $context,
@@ -105,7 +107,7 @@ class RecurringProfile extends \Magento\Core\Model\AbstractModel
         \Magento\RecurringProfile\Model\PeriodUnits $periodUnits,
         \Magento\RecurringProfile\Block\Fields $fields,
         \Magento\Core\Model\LocaleInterface $locale,
-        \Magento\RecurringProfile\Model\MethodInterfaceFactory $recurringPaymentFactory,
+        ManagerInterfaceFactory $managerFactory,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -115,7 +117,7 @@ class RecurringProfile extends \Magento\Core\Model\AbstractModel
         $this->_periodUnits = $periodUnits;
         $this->_fields = $fields;
         $this->_locale = $locale;
-        $this->_recurringPaymentFactory = $recurringPaymentFactory;
+        $this->_managerFactory = $managerFactory;
     }
 
     /**
@@ -185,12 +187,12 @@ class RecurringProfile extends \Magento\Core\Model\AbstractModel
         }
 
         // payment method
-        if (!$this->_methodInstance || !$this->getMethodCode()) {
+        if (!$this->_manager || !$this->getMethodCode()) {
             $this->_errors['method_code'][] = __('The payment method code is undefined.');
         }
-        if ($this->_methodInstance) {
+        if ($this->_manager) {
             try {
-                $this->_methodInstance->validate($this);
+                $this->_manager->validate($this);
             } catch (\Magento\Core\Exception $e) {
                 $this->_errors['payment_method'][] = $e->getMessage();
             }
@@ -222,17 +224,14 @@ class RecurringProfile extends \Magento\Core\Model\AbstractModel
     /**
      * Setter for payment method instance
      *
-     * @param \Magento\Payment\Model\Method\AbstractMethod $object
-     * @return \Magento\RecurringProfile\Model\RecurringProfile
+     * @param ManagerInterface $object
+     * @return $this
      * @throws \Exception
      */
-    public function setMethodInstance(\Magento\Payment\Model\Method\AbstractMethod $object)
+    public function setManager(ManagerInterface $object)
     {
-        if ($object instanceof \Magento\RecurringProfile\Model\MethodInterface) {
-            $this->_methodInstance = $object;
-            return $this;
-        }
-        throw new \Exception('Invalid payment method instance for use in recurring profile.');
+        $this->_manager = $object;
+        return $this;
     }
 
     /**
@@ -403,10 +402,10 @@ class RecurringProfile extends \Magento\Core\Model\AbstractModel
     protected function _filterValues()
     {
         // determine payment method/code
-        if ($this->_methodInstance) {
-            $this->setMethodCode($this->_methodInstance->getCode());
+        if ($this->_manager) {
+            $this->setMethodCode($this->_manager->getCode());
         } elseif ($this->getMethodCode()) {
-            $this->getMethodInstance();
+            $this->getManager();
         }
 
         // unset redundant values, if empty
@@ -458,17 +457,17 @@ class RecurringProfile extends \Magento\Core\Model\AbstractModel
     /**
      * Return payment method instance
      *
-     * @return \Magento\RecurringProfile\Model\MethodInterface
+     * @return ManagerInterface
      */
-    protected function getMethodInstance()
+    protected function getManager()
     {
-        if (!$this->_methodInstance) {
-            $this->_methodInstance = $this->_recurringPaymentFactory->create(
+        if (!$this->_manager) {
+            $this->_manager = $this->_managerFactory->create(
                 array('paymentMethod' => $this->_paymentData->getMethodInstance($this->getMethodCode()))
             );
         }
-        $this->_methodInstance->setStore($this->getStoreId());
-        return $this->_methodInstance;
+        $this->_manager->setStore($this->getStoreId());
+        return $this->_manager;
     }
 
     /**

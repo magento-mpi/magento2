@@ -12,9 +12,9 @@ use \Magento\Paypal\Model\Express as PayPalExpress;
 use \Magento\Payment\Model\Info as PaymentInfo;
 use \Magento\RecurringProfile\Model\States;
 use \Magento\RecurringProfile\Model\RecurringProfile;
-use \Magento\RecurringProfile\Model\MethodInterface;
+use \Magento\RecurringProfile\Model\ManagerInterface;
 
-class Express extends \Magento\Object implements MethodInterface
+class Express extends \Magento\Object implements ManagerInterface
 {
     /**
      * @var PayPalExpress
