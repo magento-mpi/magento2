@@ -1537,7 +1537,8 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
             $customerDataObject = $this->_customerBuilder->populate($customerDataObject)
                 /** Unset customer ID to ensure that new customer will be created */
                 ->setStoreId(null)
-                ->setCreatedAt(null);
+                ->setCreatedAt(null)
+                ->create();
             $customerDataObject = $this->_validateCustomerData($customerDataObject);
         } else if (!$customerDataObject->getId()) {
             /** Create new customer */
@@ -1546,7 +1547,8 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
                 $customerBillingAddressDataObject);
             $customerDataObject = $this->_customerBuilder->populate($customerDataObject)
                 ->setStoreId($store->getId())
-                ->setEmail($this->_getNewCustomerEmail());
+                ->setEmail($this->_getNewCustomerEmail())
+                ->create();
             $customerDataObject = $this->_validateCustomerData($customerDataObject);
         }
         if ($this->getBillingAddress()->getSaveInAddressBook()) {
@@ -1600,7 +1602,8 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
                 /** Set existing billing address as default shipping */
                 $customerAddressDataObject = $this->_customerAddressBuilder
                     ->populate($billingAddressDataObject)
-                    ->setDefaultShipping(true);
+                    ->setDefaultShipping(true)
+                    ->create();
             }
         }
 
@@ -1609,14 +1612,16 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
                 if (is_null($customerDataObject->getDefaultBilling())) {
                     $customerAddressDataObject = $this->_customerAddressBuilder
                         ->populate($customerAddressDataObject)
-                        ->setDefaultBilling(true);
+                        ->setDefaultBilling(true)
+                        ->create();
                 }
                 break;
             case CustomerAddressDataObject::ADDRESS_TYPE_SHIPPING:
                 if (is_null($customerDataObject->getDefaultShipping())) {
                     $customerAddressDataObject = $this->_customerAddressBuilder
                         ->populate($customerAddressDataObject)
-                        ->setDefaultShipping(true);
+                        ->setDefaultShipping(true)
+                        ->create();
                 }
                 break;
             default:

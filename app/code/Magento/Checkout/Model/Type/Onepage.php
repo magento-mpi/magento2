@@ -754,7 +754,8 @@ class Onepage
         $customerData = $quote->getCustomerData();
         $customerBillingData = $billing->exportCustomerAddressData();
         $customerBillingData = $this->_addressBuilder->populate($customerBillingData)
-            ->setDefaultBilling(true);
+            ->setDefaultBilling(true)
+            ->create();
 
         if ($shipping) {
             if( !$shipping->getSameAsBilling()) {
@@ -826,7 +827,8 @@ class Onepage
 
         if ($shipping && isset($shippingAddress) && !$customer->getDefaultShipping()) {
             $shippingAddress = $this->_addressBuilder->populate($shippingAddress)
-                ->setDefaultShipping(true);
+                ->setDefaultShipping(true)
+                ->create();
             $quote->addCustomerAddressData($shippingAddress);
         }
     }
