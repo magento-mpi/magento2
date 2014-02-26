@@ -434,11 +434,7 @@ abstract class AbstractAction
     protected function _emptyTable($table)
     {
         $connection = $this->_getConnection();
-        if ($connection->getTransactionLevel() == 0) {
-            $connection->truncateTable($table);
-        } else {
-            $connection->delete($table);
-        }
+        $connection->delete($table);
     }
 
     /**
