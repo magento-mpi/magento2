@@ -20,7 +20,7 @@ use Magento\CatalogEvent\Model\EventFactory;
 use Magento\Core\Exception;
 use Magento\Core\Filter\DateTime;
 use Magento\Core\Model\StoreManagerInterface;
-use Magento\Core\Model\Registry;
+use Magento\Registry;
 
 class Event extends Action
 {

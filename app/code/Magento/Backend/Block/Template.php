@@ -43,6 +43,11 @@ class Template extends \Magento\View\Element\Template
     protected $formKey;
 
     /**
+     * @var \Magento\Code\NameBuilder
+     */
+    protected $nameBuilder;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
@@ -55,6 +60,7 @@ class Template extends \Magento\View\Element\Template
         $this->mathRandom = $context->getMathRandom();
         $this->_backendSession = $context->getBackendSession();
         $this->formKey = $context->getFormKey();
+        $this->nameBuilder = $context->getNameBuilder();
         parent::__construct($context, $data);
     }
 
@@ -84,13 +90,13 @@ class Template extends \Magento\View\Element\Template
         }
         return !$this->_storeConfig->getConfigFlag('advanced/modules_disable_output/' . $moduleName);
     }
-    
+
     /**
      * Make this public so that templates can use it properly with template engine
-     * 
+     *
      * @return \Magento\AuthorizationInterface
      */
-    public function getAuthorization() 
+    public function getAuthorization()
     {
         return $this->_authorization;
     }
