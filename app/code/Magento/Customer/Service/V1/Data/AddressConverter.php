@@ -26,9 +26,7 @@ class AddressConverter
         // Unset street since it doesn't need to be processed by ConvertArray::toFlatArray
         unset($addressArray[Address::KEY_STREET]);
         $flatAddressArray = ConvertArray::toFlatArray($addressArray);
-        if ($street) {
-            $flatAddressArray[Address::KEY_STREET] = $street;
-        }
+        $flatAddressArray[Address::KEY_STREET] = $street;
         return $flatAddressArray;
     }
 } 
