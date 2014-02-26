@@ -165,11 +165,10 @@ class Converter
     protected function _populateBuilderWithAttributes(Customer $customerModel)
     {
         $attributes = [];
-        $systemAttributes = ['entity_type_id', 'attribute_set_id'];
         foreach ($customerModel->getAttributes() as $attribute) {
             $attrCode = $attribute->getAttributeCode();
             $value = $customerModel->getDataUsingMethod($attrCode);
-            if (null === $value || in_array($attrCode, $systemAttributes)) {
+            if (null === $value) {
                 continue;
             }
             if ($attrCode == 'entity_id') {

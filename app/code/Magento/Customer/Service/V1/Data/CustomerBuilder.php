@@ -40,6 +40,24 @@ class CustomerBuilder extends \Magento\Service\Data\EAV\AbstractObjectBuilder
     }
 
     /**
+     * @param string $defaultBilling
+     * @return $this
+     */
+    public function setDefaultBilling($defaultBilling)
+    {
+        return $this->_set(Customer::DEFAULT_BILLING, $defaultBilling);
+    }
+
+    /**
+     * @param string $defaultShipping
+     * @return $this
+     */
+    public function setDefaultShipping($defaultShipping)
+    {
+        return $this->_set(Customer::DEFAULT_SHIPPING, $defaultShipping);
+    }
+
+    /**
      * @param string $confirmation
      * @return CustomerBuilder
      */
