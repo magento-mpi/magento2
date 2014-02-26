@@ -632,10 +632,14 @@ class Cm_Cache_Backend_File extends Zend_Cache_Backend_File
         foreach($tags as $tag) {
             $file = $this->_tagFile($tag);
             if (file_exists($file)) {
-                if ( ! $ids && $mode == 'diff') {
-                    $result = $this->_remove($file);
-                }
-                else if ($mode == 'diff' || (rand(1,100) == 1 && filesize($file) > 4096)) {
+                /*
+                 * Next code is commented because it's produce bug
+                 * Bug about removing cache ids but in some case cache ids is empty, but related tags is removed
+                 */
+//                if ( ! $ids && $mode == 'diff') {
+//                    $result = $this->_remove($file);
+//                }
+                if ($mode == 'diff' || (rand(1,100) == 1 && filesize($file) > 4096)) {
                     $file = $this->_tagFile($tag);
                     if ( ! ($fd = fopen($file, 'rb+'))) {
                         $result = false;
@@ -645,7 +649,7 @@ class Cm_Cache_Backend_File extends Zend_Cache_Backend_File
                     if ($mode == 'diff') {
                         $_ids = array_diff($this->_getTagIds($fd), $ids);
                     } else { // if ($mode == 'merge')
-                        $_ids = $this->_getTagIds($fd) + $ids;
+                        $_ids = array_merge($this->_getTagIds($fd), $ids);
                     }
                     fseek($fd, 0);
                     ftruncate($fd, 0);
