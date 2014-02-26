@@ -117,7 +117,7 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
         \Magento\Session\SidResolverInterface $sidResolver,
         \Magento\Url\RouteParamsResolverFactory $routeParamsResolver,
         \Magento\Url\QueryParamsResolverInterface $queryParamsResolver,
-        $backendHelper,
+        \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Backend\Model\Menu\Config $menuConfig,
         \Magento\App\CacheInterface $cache,
         \Magento\Backend\Model\Auth\Session $authSession,

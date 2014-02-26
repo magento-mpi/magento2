@@ -80,7 +80,6 @@
     </type>
     <type name="Magento\Backend\Model\Url">
         <arguments>
-            <argument name="backendHelper" xsi:type="object">Magento\Backend\Helper\Data</argument>
             <argument name="authSession" xsi:type="object">Magento\Backend\Model\Auth\Session\Proxy</argument>
             <argument name="formKey" xsi:type="object">Magento\Data\Form\FormKey\Proxy</argument>
         </arguments>

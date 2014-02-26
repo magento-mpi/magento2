@@ -808,14 +808,4 @@ class Data extends \Magento\App\Helper\AbstractHelper
         }
         return $ids;
     }
-
-    /**
-     * Return area front name
-     *
-     * @return string
-     */
-    public function getAreaFrontName()
-    {
-        return false;
-    }
 }
