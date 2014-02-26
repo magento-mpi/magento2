@@ -49,6 +49,7 @@
     <preference for="Magento\Json\DecoderInterface" type="Magento\Json\Decoder" />
     <preference for="Magento\Message\ManagerInterface" type="Magento\Message\Manager" />
     <preference for="Magento\App\Config\ValueInterface" type="Magento\Core\Model\Config\Value" />
+    <preference for="Magento\Module\DependencyManagerInterface" type="Magento\Module\DependencyManager" />    
     <preference for="Magento\Interception\Chain" type="Magento\Interception\Chain\Chain" />
     <preference for="Magento\Module\Output\ConfigInterface" type="Magento\Core\Model\Module\Output\Config" />
     <preference for="Magento\View\Design\Theme\CustomizationInterface" type="Magento\View\Design\Theme\Customization" />
@@ -64,7 +65,7 @@
     <preference for="Magento\Mview\ProcessorInterface" type="Magento\Mview\Processor" />
     <preference for="Magento\Mview\View\CollectionInterface" type="Magento\Mview\View\Collection" />
     <preference for="Magento\Mview\View\SubscriptionInterface" type="Magento\Mview\View\Subscription" />
-    <preference for="Magento\Mview\View\ChangelogInterface" type="Magento\Mview\View\Changelog" />
+    <preference for="Magento\Mview\View\ChangelogInterface" type="Magento\Mview\View\Changelog" />    
     <type name="Magento\Message\Manager">
         <arguments>
             <argument name="session" xsi:type="object">Magento\Message\Session\Proxy</argument>
