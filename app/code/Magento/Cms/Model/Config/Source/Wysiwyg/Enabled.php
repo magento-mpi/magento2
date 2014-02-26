@@ -16,7 +16,7 @@ namespace Magento\Cms\Model\Config\Source\Wysiwyg;
  * @package     Magento_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enabled implements \Magento\Core\Model\Option\ArrayInterface
+class Enabled implements \Magento\Option\ArrayInterface
 {
     /**
      * {@inheritdoc}

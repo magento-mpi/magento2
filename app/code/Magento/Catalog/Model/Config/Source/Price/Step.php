@@ -9,9 +9,7 @@
  */
 namespace Magento\Catalog\Model\Config\Source\Price;
 
-use Magento\Core\Model\Option\ArrayInterface;
-
-class Step implements ArrayInterface
+class Step implements \Magento\Option\ArrayInterface
 {
     /**
      * {@inheritdoc}

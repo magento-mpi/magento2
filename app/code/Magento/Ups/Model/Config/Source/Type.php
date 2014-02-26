@@ -11,7 +11,7 @@ namespace Magento\Ups\Model\Config\Source;
 /**
  * Class Type
  */
-class Type implements \Magento\Core\Model\Option\ArrayInterface
+class Type implements \Magento\Option\ArrayInterface
 {
     /**
      * {@inheritdoc}

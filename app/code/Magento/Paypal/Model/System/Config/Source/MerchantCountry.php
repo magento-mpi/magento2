@@ -13,7 +13,7 @@
  */
 namespace Magento\Paypal\Model\System\Config\Source;
 
-class MerchantCountry implements \Magento\Core\Model\Option\ArrayInterface
+class MerchantCountry implements \Magento\Option\ArrayInterface
 {
     /**
      * @var \Magento\Paypal\Model\ConfigFactory

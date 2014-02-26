@@ -8,15 +8,15 @@
 namespace Magento\Ups\Model;
 
 use Magento\Sales\Model\Quote\Address\RateRequest;
+use Magento\Shipping\Model\Carrier\AbstractCarrierOnline;
 use Magento\Shipping\Model\Rate\Result;
-use Magento\Usa\Model\Shipping\Carrier\AbstractCarrier;
-use Magento\Usa\Model\Simplexml\Element;
 use Magento\Shipping\Model\Carrier\CarrierInterface;
+use Magento\Usa\Model\Simplexml\Element;
 
 /**
  * UPS shipping implementation
  */
-class Carrier extends AbstractCarrier implements CarrierInterface
+class Carrier extends AbstractCarrierOnline implements CarrierInterface
 {
     /**
      * Code of the carrier
@@ -117,12 +117,15 @@ class Carrier extends AbstractCarrier implements CarrierInterface
      */
     protected $_logger;
 
+    /**
+     * @var
+     */
     protected $configHelper;
 
     /**
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Sales\Model\Quote\Address\RateResult\ErrorFactory $rateErrorFactory
-     * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
+     * @param \Magento\Logger\AdapterFactory $logAdapterFactory
      * @param \Magento\Usa\Model\Simplexml\ElementFactory $xmlElFactory
      * @param \Magento\Shipping\Model\Rate\ResultFactory $rateFactory
      * @param \Magento\Sales\Model\Quote\Address\RateResult\MethodFactory $rateMethodFactory
@@ -137,13 +140,13 @@ class Carrier extends AbstractCarrier implements CarrierInterface
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Ups\Helper\Config $configHelper,
      * @param array $data
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Sales\Model\Quote\Address\RateResult\ErrorFactory $rateErrorFactory,
-        \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
+        \Magento\Logger\AdapterFactory $logAdapterFactory,
         \Magento\Usa\Model\Simplexml\ElementFactory $xmlElFactory,
         \Magento\Shipping\Model\Rate\ResultFactory $rateFactory,
         \Magento\Sales\Model\Quote\Address\RateResult\MethodFactory $rateMethodFactory,
@@ -416,7 +419,7 @@ class Carrier extends AbstractCarrier implements CarrierInterface
     protected function _getCgiQuotes()
     {
         $rowRequest = $this->_rawRequest;
-        if (AbstractCarrier::USA_COUNTRY_ID == $rowRequest->getDestCountry()) {
+        if (AbstractCarrierOnline::USA_COUNTRY_ID == $rowRequest->getDestCountry()) {
             $destPostal = substr($rowRequest->getDestPostal(), 0, 5);
         } else {
             $destPostal = $rowRequest->getDestPostal();
@@ -567,7 +570,7 @@ class Carrier extends AbstractCarrier implements CarrierInterface
         $xmlRequest=$this->_xmlAccessRequest;
 
         $rowRequest = $this->_rawRequest;
-        if (AbstractCarrier::USA_COUNTRY_ID == $rowRequest->getDestCountry()) {
+        if (AbstractCarrierOnline::USA_COUNTRY_ID == $rowRequest->getDestCountry()) {
             $destPostal = substr($rowRequest->getDestPostal(), 0, 5);
         } else {
             $destPostal = $rowRequest->getDestPostal();
@@ -1299,7 +1302,7 @@ XMLAuth;
             ->addChild('AccountNumber', $this->getConfigData('shipper_number'));
 
         if ($request->getPackagingType() != $this->configHelper->getCode('container', 'ULE')
-            && $request->getShipperAddressCountryCode() == AbstractCarrier::USA_COUNTRY_ID
+            && $request->getShipperAddressCountryCode() == AbstractCarrierOnline::USA_COUNTRY_ID
             && ($request->getRecipientAddressCountryCode() == 'CA' //Canada
                 || $request->getRecipientAddressCountryCode() == 'PR') //Puerto Rico
         ) {
@@ -1606,7 +1609,7 @@ XMLAuth;
             return null;
         }
 
-        if ($countyDestination == AbstractCarrier::USA_COUNTRY_ID) {
+        if ($countyDestination == AbstractCarrierOnline::USA_COUNTRY_ID) {
             return self::DELIVERY_CONFIRMATION_PACKAGE;
         }
 

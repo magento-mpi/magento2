@@ -9,6 +9,7 @@
  */
 namespace Magento\Usa\Model\Shipping\Carrier;
 
+use Magento\Shipping\Helper\Carrier;
 use Magento\Shipping\Model\Rate\Result;
 use Magento\Usa\Model\Simplexml\Element;
 
@@ -154,11 +155,11 @@ class Dhl
     const ADDITIONAL_PROTECTION_ROUNDING_ROUND = 2;
 
     /**
-     * Usa data
+     * Carrier helper
      *
-     * @var \Magento\Usa\Helper\Data
+     * @var \Magento\Shipping\Helper\Carrier
      */
-    protected $_usaData;
+    protected $_carrierHelper;
 
     /**
      * Magento string lib
@@ -175,7 +176,7 @@ class Dhl
     /**
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Sales\Model\Quote\Address\RateResult\ErrorFactory $rateErrorFactory
-     * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
+     * @param \Magento\Logger\AdapterFactory $logAdapterFactory
      * @param \Magento\Usa\Model\Simplexml\ElementFactory $xmlElFactory
      * @param \Magento\Shipping\Model\Rate\ResultFactory $rateFactory
      * @param \Magento\Sales\Model\Quote\Address\RateResult\MethodFactory $rateMethodFactory
@@ -186,17 +187,17 @@ class Dhl
      * @param \Magento\Directory\Model\CountryFactory $countryFactory
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
      * @param \Magento\Directory\Helper\Data $directoryData
-     * @param \Magento\Usa\Helper\Data $usaData
+     * @param \Magento\Shipping\Helper\Carrier $carrierHelper
      * @param \Magento\Stdlib\String $string
      * @param \Zend_Http_ClientFactory $httpClientFactory
      * @param array $data
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Sales\Model\Quote\Address\RateResult\ErrorFactory $rateErrorFactory,
-        \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
+        \Magento\Logger\AdapterFactory $logAdapterFactory,
         \Magento\Usa\Model\Simplexml\ElementFactory $xmlElFactory,
         \Magento\Shipping\Model\Rate\ResultFactory $rateFactory,
         \Magento\Sales\Model\Quote\Address\RateResult\MethodFactory $rateMethodFactory,
@@ -207,13 +208,13 @@ class Dhl
         \Magento\Directory\Model\CountryFactory $countryFactory,
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
         \Magento\Directory\Helper\Data $directoryData,
-        \Magento\Usa\Helper\Data $usaData,
+        Carrier $carrierHelper,
         \Magento\Stdlib\String $string,
         \Zend_Http_ClientFactory $httpClientFactory,
         array $data = array()
     ) {
         $this->string = $string;
-        $this->_usaData = $usaData;
+        $this->_carrierHelper = $carrierHelper;
         $this->_httpClientFactory = $httpClientFactory;
         parent::__construct(
             $coreStoreConfig,
@@ -411,24 +412,24 @@ class Dhl
             $packageParams = $request->getPackageParams();
             $shippingWeight = $request->getPackageWeight();
             if ($packageParams->getWeightUnits() != \Zend_Measure_Weight::POUND) {
-                $shippingWeight = round($this->_usaData->convertMeasureWeight(
+                $shippingWeight = round($this->_carrierHelper->convertMeasureWeight(
                     $request->getPackageWeight(),
                     $packageParams->getWeightUnits(),
                     \Zend_Measure_Weight::POUND
                 ));
             }
             if ($packageParams->getDimensionUnits() != \Zend_Measure_Length::INCH) {
-                $packageParams->setLength(round($this->_usaData->convertMeasureDimension(
+                $packageParams->setLength(round($this->_carrierHelper->convertMeasureDimension(
                     $packageParams->getLength(),
                     $packageParams->getDimensionUnits(),
                     \Zend_Measure_Length::INCH
                 )));
-                $packageParams->setWidth(round($this->_usaData->convertMeasureDimension(
+                $packageParams->setWidth(round($this->_carrierHelper->convertMeasureDimension(
                     $packageParams->getWidth(),
                     $packageParams->getDimensionUnits(),
                     \Zend_Measure_Length::INCH
                 )));
-                $packageParams->setHeight(round($this->_usaData->convertMeasureDimension(
+                $packageParams->setHeight(round($this->_carrierHelper->convertMeasureDimension(
                     $packageParams->getHeight(),
                     $packageParams->getDimensionUnits(),
                     \Zend_Measure_Length::INCH

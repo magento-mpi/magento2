@@ -1,7 +1,7 @@
 <?php
 /**
  * {license_notice}
- *   
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,7 +11,7 @@ namespace Magento\Ups\Model\Config\Source;
 /**
  * Class Generic
  */
-class Generic implements \Magento\Core\Model\Option\ArrayInterface
+class Generic implements \Magento\Option\ArrayInterface
 {
     /**
      * @var \Magento\Ups\Helper\Config

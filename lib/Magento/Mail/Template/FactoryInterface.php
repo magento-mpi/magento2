@@ -13,7 +13,7 @@ interface FactoryInterface
 {
     /**
      * @param string $identifier
-     * @return \Magento\Mail\Template\TemplateInterface
+     * @return \Magento\Mail\TemplateInterface
      */
     public function get($identifier);
 }

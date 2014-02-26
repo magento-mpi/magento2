@@ -444,7 +444,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      *
      * @param string $code Shipping method code
      * @param int|int[] $storeId
-     * @return bool|\Magento\Usa\Model\Shipping\Carrier\AbstractCarrier
+     * @return bool|\Magento\Shipping\Model\Carrier\AbstractCarrierOnline
      */
     public function getCarrier($code, $storeId = null)
     {

@@ -176,7 +176,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-        $expectedRewards = $objectManager->get('Magento\Core\Model\Registry')
+        $expectedRewards = $objectManager->get('Magento\Registry')
             ->registry('_fixture/Magento_ScheduledImportExport_Customers_ExpectedRewards');
         /** @var $reward \Magento\Reward\Model\Reward */
         foreach ($rewards as $reward) {
@@ -186,7 +186,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
             );
         }
 
-        $expectedBalances = $objectManager->get('Magento\Core\Model\Registry')
+        $expectedBalances = $objectManager->get('Magento\Registry')
             ->registry('_fixture/Magento_ScheduledImportExport_Customers_ExpectedBalances');
         /** @var $balance \Magento\CustomerBalance\Model\Balance */
         foreach ($balances as $balance) {

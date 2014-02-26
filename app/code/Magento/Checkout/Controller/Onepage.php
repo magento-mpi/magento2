@@ -12,6 +12,9 @@ namespace Magento\Checkout\Controller;
 
 use Magento\App\Action\NotFoundException;
 use Magento\App\RequestInterface;
+use Magento\Customer\Service\V1\CustomerServiceInterface as CustomerService;
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface as CustomerAccountService;
+use Magento\Customer\Service\V1\CustomerMetadataServiceInterface as CustomerMetadataService;
 
 class Onepage extends \Magento\Checkout\Controller\Action
 {
@@ -32,7 +35,7 @@ class Onepage extends \Magento\Checkout\Controller\Action
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -49,21 +52,33 @@ class Onepage extends \Magento\Checkout\Controller\Action
     /**
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param CustomerService $customerService
+     * @param CustomerAccountService $customerAccountService
+     * @param CustomerMetadataService $customerMetadataService
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\Translate\InlineInterface $translateInline,
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      */
     public function __construct(
         \Magento\App\Action\Context $context,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Core\Model\Registry $coreRegistry,
+        CustomerService $customerService,
+        CustomerAccountService $customerAccountService,
+        CustomerMetadataService $customerMetadataService,
+        \Magento\Registry $coreRegistry,
         \Magento\Translate\InlineInterface $translateInline,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_translateInline = $translateInline;
         $this->_formKeyValidator = $formKeyValidator;
-        parent::__construct($context, $customerSession);
+        parent::__construct(
+            $context,
+            $customerSession,
+            $customerService,
+            $customerAccountService,
+            $customerMetadataService
+        );
     }
 
     /**
@@ -307,28 +322,6 @@ class Onepage extends \Magento\Checkout\Controller\Action
     public function getAdditionalAction()
     {
         $this->getResponse()->setBody($this->_getAdditionalHtml());
-    }
-
-    /**
-     * Address JSON
-     */
-    public function getAddressAction()
-    {
-        if ($this->_expireAjax()) {
-            return;
-        }
-        $addressId = $this->getRequest()->getParam('address', false);
-        if ($addressId) {
-            $address = $this->getOnepage()->getAddress($addressId);
-
-            $customerSession = $this->_objectManager->get('Magento\Customer\Model\Session');
-            if ($customerSession->getCustomer()->getId() == $address->getCustomerId()) {
-                $this->getResponse()->setHeader('Content-type', 'application/x-json');
-                $this->getResponse()->setBody($address->toJson());
-            } else {
-                $this->getResponse()->setHeader('HTTP/1.1', '403 Forbidden');
-            }
-        }
     }
 
     /**
