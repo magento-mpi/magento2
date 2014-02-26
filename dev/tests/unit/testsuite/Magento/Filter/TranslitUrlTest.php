@@ -54,7 +54,7 @@ class TranslitUrlTest extends \PHPUnit_Framework_TestCase
             ),
             array(
                 '❤ ☀ ☆ ☂ ☻ ♞ ☯ ☭ ☢ € → ☎ ❄ ♫ ✂ ▷ ✇ ♎ ⇧ ☮',
-                '❤ ☀ ☆ ☂ ☻ ♞ ☯ ☭ ☢ € → ☎ ❄ ♫ ✂ ▷ ✇ ♎ ⇧ ☮',
+                '',
                 'eur',
                 $isIconv
             ),
