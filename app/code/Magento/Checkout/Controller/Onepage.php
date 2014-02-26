@@ -34,7 +34,7 @@ class Onepage extends Action
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -54,8 +54,8 @@ class Onepage extends Action
      * @param CustomerService $customerService
      * @param CustomerAccountService $customerAccountService
      * @param CustomerMetadataService $customerMetadataService
-     * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\Translate\InlineInterface $translateInline
+     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Translate\InlineInterface $translateInline,
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      */
     public function __construct(
@@ -64,7 +64,7 @@ class Onepage extends Action
         CustomerService $customerService,
         CustomerAccountService $customerAccountService,
         CustomerMetadataService $customerMetadataService,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\Translate\InlineInterface $translateInline,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
     ) {

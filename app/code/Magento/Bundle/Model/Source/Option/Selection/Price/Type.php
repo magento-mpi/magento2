@@ -16,7 +16,7 @@ namespace Magento\Bundle\Model\Source\Option\Selection\Price;
  * @package    Magento_Bundle
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Type implements \Magento\Core\Model\Option\ArrayInterface
+class Type implements \Magento\Option\ArrayInterface
 {
     /**
      * @return array

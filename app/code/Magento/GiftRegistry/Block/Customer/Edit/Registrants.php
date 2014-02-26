@@ -38,7 +38,7 @@ class Registrants extends AbstractEdit
      * @param \Magento\App\Cache\Type\Config $configCacheType
      * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory
      * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
@@ -51,7 +51,7 @@ class Registrants extends AbstractEdit
         \Magento\App\Cache\Type\Config $configCacheType,
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory,
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig,
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,

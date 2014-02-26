@@ -19,7 +19,7 @@ class Index extends Action
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
@@ -31,12 +31,12 @@ class Index extends Action
     /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Registry $coreRegistry
     ) {
         $this->_conditionFactory = $conditionFactory;
         $this->_coreRegistry = $coreRegistry;

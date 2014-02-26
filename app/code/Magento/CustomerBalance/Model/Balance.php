@@ -63,8 +63,8 @@ class Balance extends \Magento\Core\Model\AbstractModel
     protected $_historyFactory;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\CustomerBalance\Model\Balance\HistoryFactory $historyFactory
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -73,8 +73,8 @@ class Balance extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\CustomerBalance\Model\Balance\HistoryFactory $historyFactory,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,

@@ -24,11 +24,11 @@ class Orders extends \Magento\Backend\Block\Widget\Grid\Extended
      * @var \Magento\Sales\Helper\Reorder
      */
     protected $_salesReorder = null;
-    
+
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -42,7 +42,7 @@ class Orders extends \Magento\Backend\Block\Widget\Grid\Extended
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Sales\Model\Resource\Order\Grid\CollectionFactory $collectionFactory
      * @param \Magento\Sales\Helper\Reorder $salesReorder
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
@@ -50,7 +50,7 @@ class Orders extends \Magento\Backend\Block\Widget\Grid\Extended
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Sales\Model\Resource\Order\Grid\CollectionFactory $collectionFactory,
         \Magento\Sales\Helper\Reorder $salesReorder,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;

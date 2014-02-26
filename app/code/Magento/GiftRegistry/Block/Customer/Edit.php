@@ -37,7 +37,7 @@ class Edit extends \Magento\Directory\Block\Data
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_registry = null;
 
@@ -48,7 +48,7 @@ class Edit extends \Magento\Directory\Block\Data
      * @param \Magento\App\Cache\Type\Config $configCacheType
      * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory
      * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\GiftRegistry\Model\TypeFactory $typeFactory
      * @param array $data
@@ -60,7 +60,7 @@ class Edit extends \Magento\Directory\Block\Data
         \Magento\App\Cache\Type\Config $configCacheType,
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory,
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\GiftRegistry\Model\TypeFactory $typeFactory,
         array $data = array()

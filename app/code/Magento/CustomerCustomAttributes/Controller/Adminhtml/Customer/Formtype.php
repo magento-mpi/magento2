@@ -18,7 +18,7 @@ class Formtype
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
@@ -44,7 +44,7 @@ class Formtype
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\Eav\Model\Form\TypeFactory $formTypeFactory
      * @param \Magento\Eav\Model\Form\FieldsetFactory $fieldsetFactory
      * @param \Magento\Eav\Model\Resource\Form\Fieldset\CollectionFactory $fieldsetsFactory
@@ -52,7 +52,7 @@ class Formtype
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\Eav\Model\Form\TypeFactory $formTypeFactory,
         \Magento\Eav\Model\Form\FieldsetFactory $fieldsetFactory,
         \Magento\Eav\Model\Resource\Form\Fieldset\CollectionFactory $fieldsetsFactory,

@@ -39,7 +39,7 @@ class Advanced extends \Magento\GiftRegistry\Block\Form\Element
      * @param \Magento\App\Cache\Type\Config $configCacheType
      * @param \Magento\Directory\Model\Country $country
      * @param \Magento\Directory\Model\RegionFactory $region
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig
      * @param array $data
@@ -49,7 +49,7 @@ class Advanced extends \Magento\GiftRegistry\Block\Form\Element
         \Magento\App\Cache\Type\Config $configCacheType,
         \Magento\Directory\Model\Country $country,
         \Magento\Directory\Model\RegionFactory $region,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig,
         array $data = array()

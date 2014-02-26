@@ -16,7 +16,7 @@ namespace Magento\Downloadable\Model\System\Config\Source;
  * @package     Magento_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Contentdisposition implements \Magento\Core\Model\Option\ArrayInterface
+class Contentdisposition implements \Magento\Option\ArrayInterface
 {
     /**
      * @return array

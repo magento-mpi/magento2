@@ -30,7 +30,7 @@ class Customersegment extends \Magento\Backend\App\Action
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
@@ -47,13 +47,13 @@ class Customersegment extends \Magento\Backend\App\Action
     /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\CustomerSegment\Model\Resource\Segment\CollectionFactory $collectionFactory
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\App\Response\Http\FileFactory $fileFactory
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\CustomerSegment\Model\Resource\Segment\CollectionFactory $collectionFactory,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\App\Response\Http\FileFactory $fileFactory
     ) {
         $this->_collectionFactory = $collectionFactory;

@@ -21,7 +21,7 @@ class Tree
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
@@ -43,7 +43,7 @@ class Tree
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Json\EncoderInterface $jsonEncoder
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Eav\Model\Resource\Form\Fieldset\CollectionFactory $fieldsetFactory
      * @param \Magento\Eav\Model\Resource\Form\Element\CollectionFactory $elementsFactory
      * @param array $data
@@ -51,7 +51,7 @@ class Tree
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Json\EncoderInterface $jsonEncoder,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Eav\Model\Resource\Form\Fieldset\CollectionFactory $fieldsetFactory,
         \Magento\Eav\Model\Resource\Form\Element\CollectionFactory $elementsFactory,
         array $data = array()

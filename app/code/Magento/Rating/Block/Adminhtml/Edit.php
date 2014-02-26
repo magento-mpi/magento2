@@ -17,7 +17,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -36,13 +36,13 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Rating\Model\RatingFactory $ratingFactory
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Rating\Model\RatingFactory $ratingFactory,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
         $this->_ratingFactory = $ratingFactory;

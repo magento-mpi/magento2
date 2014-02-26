@@ -28,7 +28,7 @@ class Info
     /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\GiftWrapping\Helper\Data $giftWrappingData
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollectionFactory
      * @param \Magento\Sales\Helper\Admin $adminHelper
      * @param \Magento\GiftWrapping\Model\WrappingFactory $wrappingFactory
@@ -37,7 +37,7 @@ class Info
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\GiftWrapping\Helper\Data $giftWrappingData,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollectionFactory,
         \Magento\Sales\Helper\Admin $adminHelper,
         \Magento\GiftWrapping\Model\WrappingFactory $wrappingFactory,

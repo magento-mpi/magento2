@@ -9,7 +9,7 @@
  */
 namespace Magento\GiftCard\Model\Source;
 
-class Status extends \Magento\Core\Model\AbstractModel implements \Magento\Core\Model\Option\ArrayInterface
+class Status extends \Magento\Core\Model\AbstractModel implements \Magento\Option\ArrayInterface
 {
     /**
      * @return array

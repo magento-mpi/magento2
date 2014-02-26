@@ -187,7 +187,7 @@ abstract class AbstractMethod extends \Magento\Object
     /**
      * Log adapter factory
      *
-     * @var \Magento\Core\Model\Log\AdapterFactory
+     * @var \Magento\Logger\AdapterFactory
      */
     protected $_logAdapterFactory;
 
@@ -197,14 +197,14 @@ abstract class AbstractMethod extends \Magento\Object
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
-     * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
+     * @param \Magento\Logger\AdapterFactory $logAdapterFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
-        \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
+        \Magento\Logger\AdapterFactory $logAdapterFactory,
         array $data = array()
     ) {
         parent::__construct($data);

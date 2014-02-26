@@ -9,7 +9,7 @@
  */
 namespace Magento\VersionsCms\Model\Source\Hierarchy;
 
-class Visibility implements \Magento\Core\Model\Option\ArrayInterface
+class Visibility implements \Magento\Option\ArrayInterface
 {
     /**
      * {@inheritdoc}

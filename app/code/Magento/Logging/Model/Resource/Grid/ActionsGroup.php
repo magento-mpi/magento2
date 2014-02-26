@@ -10,7 +10,7 @@
 
 namespace Magento\Logging\Model\Resource\Grid;
 
-class ActionsGroup implements \Magento\Core\Model\Option\ArrayInterface
+class ActionsGroup implements \Magento\Option\ArrayInterface
 {
     /**
      * @var \Magento\Logging\Model\Config

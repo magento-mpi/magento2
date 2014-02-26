@@ -9,6 +9,8 @@
  */
 namespace Magento\GiftCardAccount\Model;
 
+namespace Magento\GiftCardAccount\Model;
+
 /**
  * @method \Magento\GiftCardAccount\Model\Resource\Pool _getResource()
  * @method \Magento\GiftCardAccount\Model\Resource\Pool getResource()
@@ -16,10 +18,6 @@ namespace Magento\GiftCardAccount\Model;
  * @method \Magento\GiftCardAccount\Model\Pool setCode(string $value)
  * @method int getStatus()
  * @method \Magento\GiftCardAccount\Model\Pool setStatus(int $value)
- *
- * @category    Magento
- * @package     Magento_GiftCardAccount
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Pool extends \Magento\GiftCardAccount\Model\Pool\AbstractPool
 {
@@ -50,8 +48,8 @@ class Pool extends \Magento\GiftCardAccount\Model\Pool\AbstractPool
     protected $_storeManager = null;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
@@ -59,8 +57,8 @@ class Pool extends \Magento\GiftCardAccount\Model\Pool\AbstractPool
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
@@ -93,11 +91,13 @@ class Pool extends \Magento\GiftCardAccount\Model\Pool\AbstractPool
         $website = $this->_storeManager->getWebsite($this->getWebsiteId());
         $size = $website->getConfig(self::XML_CONFIG_POOL_SIZE);
 
-        for ($i=0; $i<$size;$i++) {
+        for ($i = 0; $i < $size; $i++) {
             $attempt = 0;
             do {
                 if ($attempt>=self::CODE_GENERATION_ATTEMPTS) {
-                    throw new \Magento\Core\Exception(__('We were unable to create full code pool size. Please check settings and try again.'));
+                    throw new \Magento\Core\Exception(
+                        __('We were unable to create full code pool size. Please check settings and try again.')
+                    );
                 }
                 $code = $this->_generateCode();
                 $attempt++;
