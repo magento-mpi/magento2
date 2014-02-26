@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftMessage\Block\Adminhtml\Sales\Order\View;
 
 /**
  * Adminhtml sales order view gift message form
@@ -15,8 +16,6 @@
  * @package    Magento_GiftMessage
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GiftMessage\Block\Adminhtml\Sales\Order\View;
-
 class Form extends \Magento\Backend\Block\Template
 {
     /**

@@ -26,7 +26,7 @@ class QuoteItem
     /**
      * @param array $arguments
      * @param \Magento\Code\Plugin\InvocationChain $invocationChain
-     * @return \Magento\Sales\Model\Order\Item|mixed
+     * @return \Magento\Sales\Model\Order\Item
      */
     public function aroundItemToOrderItem(array $arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
     {

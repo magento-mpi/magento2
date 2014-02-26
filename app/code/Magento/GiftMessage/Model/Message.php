@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\GiftMessage\Model;
 
 /**
  * Gift Message model
@@ -27,8 +27,6 @@
  * @package     Magento_GiftMessage
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GiftMessage\Model;
-
 class Message extends \Magento\Core\Model\AbstractModel
 {
     /**
@@ -56,6 +54,9 @@ class Message extends \Magento\Core\Model\AbstractModel
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_init('Magento\GiftMessage\Model\Resource\Message');
@@ -65,7 +66,6 @@ class Message extends \Magento\Core\Model\AbstractModel
      * Return model from entity type
      *
      * @param string $type
-     *
      * @return mixed
      */
     public function getEntityModelByType($type)
@@ -76,7 +76,7 @@ class Message extends \Magento\Core\Model\AbstractModel
     /**
      * Checks thats gift message is empty
      *
-     * @return boolean
+     * @return bool
      */
     public function isMessageEmpty()
     {

@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftMessage\Model;
 
 /**
@@ -48,15 +47,14 @@ class TypeFactory
     /**
      * Create type object
      *
-     * @param $eavType
-     *
+     * @param string $eavType
      * @return mixed
      * @throws \Magento\Core\Exception
      */
     public function createType($eavType)
     {
         $types = $this->_allowedEntityTypes;
-        if(!isset($types[$eavType])) {
+        if (!isset($types[$eavType])) {
             throw new \Magento\Core\Exception(__('Unknown entity type'));
         }
         return $this->_objectManager->create($types[$eavType]);
