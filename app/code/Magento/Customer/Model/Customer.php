@@ -323,8 +323,8 @@ class Customer extends \Magento\Core\Model\AbstractModel
         $customerOrigData[\Magento\Customer\Service\V1\Data\Customer::ID] = $this->getId();
         $origDataDto = $this->_customerDtoBuilder->populateWithArray($customerOrigData)->create();
         $this->_eventManager->dispatch(
-            'customer_save_after_dto',
-            array('customer_dto' => $dataDto, 'orig_customer_dto' => $origDataDto)
+            'customer_save_after_data_object',
+            array('customer_data_object' => $dataDto, 'orig_customer_data_object' => $origDataDto)
         );
         return parent::_afterSave();
     }

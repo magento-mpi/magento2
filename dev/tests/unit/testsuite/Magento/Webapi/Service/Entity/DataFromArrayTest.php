@@ -98,13 +98,13 @@ class DataFromArrayTest extends \PHPUnit_Framework_TestCase
         $this->assertNotNull($result);
         /** @var array $result */
         $this->assertEquals(1, count($result));
-        /** @var array $datas */
-        $dtos = $result[0];
-        $this->assertEquals(2, count($dtos));
+        /** @var array $dataObjects */
+        $dataObjects = $result[0];
+        $this->assertEquals(2, count($dataObjects));
         /** @var SimpleData $first */
-        $first = $dtos[0];
+        $first = $dataObjects[0];
         /** @var SimpleData $second */
-        $second = $dtos[1];
+        $second = $dataObjects[1];
         $this->assertTrue($first instanceof SimpleData);
         $this->assertEquals(14, $first->getEntityId());
         $this->assertEquals('First', $first->getName());
@@ -121,11 +121,11 @@ class DataFromArrayTest extends \PHPUnit_Framework_TestCase
         $this->assertNotNull($result);
         /** @var array $result */
         $this->assertEquals(1, count($result));
-        /** @var SimpleArrayData $dto */
-        $dto = $result[0];
-        $this->assertTrue($dto instanceof SimpleArrayData);
+        /** @var SimpleArrayData $dataObject */
+        $dataObject = $result[0];
+        $this->assertTrue($dataObject instanceof SimpleArrayData);
         /** @var array $ids */
-        $ids = $dto->getIds();
+        $ids = $dataObject->getIds();
         $this->assertNotNull($ids);
         $this->assertEquals(4, count($ids));
         $this->assertEquals($data['arrayData']['ids'], $ids);
@@ -142,7 +142,7 @@ class DataFromArrayTest extends \PHPUnit_Framework_TestCase
         $this->assertNotNull($result);
         /** @var array $result */
         $this->assertEquals(1, count($result));
-        /** @var AssociativeArrayDto $dto */
+        /** @var AssociativeArrayDto $dataObject */
         $dataObject = $result[0];
         $this->assertTrue($dataObject instanceof AssociativeArrayData);
         /** @var array $associativeArray */
@@ -163,11 +163,11 @@ class DataFromArrayTest extends \PHPUnit_Framework_TestCase
         $this->assertNotNull($result);
         /** @var array $result */
         $this->assertEquals(1, count($result));
-        /** @var DataArrayData $dtos */
-        $dtos = $result[0];
-        $this->assertTrue($dtos instanceof DataArrayData);
+        /** @var DataArrayData $dataObjects */
+        $dataObjects = $result[0];
+        $this->assertTrue($dataObjects instanceof DataArrayData);
         /** @var array $items */
-        $items = $dtos->getItems();
+        $items = $dataObjects->getItems();
         $this->assertEquals(2, count($items));
         /** @var SimpleData $first */
         $first = $items[0];
