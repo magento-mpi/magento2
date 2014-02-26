@@ -25,8 +25,8 @@ class Totals extends \Magento\Checkout\Block\Cart\AbstractCart
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Checkout\Model\Session $checkoutSession
-     * @param CustomerService $customerService
      * @param \Magento\Sales\Model\Config $salesConfig
+     * @param CustomerService $customerService
      * @param array $data
      */
     public function __construct(
@@ -34,8 +34,8 @@ class Totals extends \Magento\Checkout\Block\Cart\AbstractCart
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Checkout\Model\Session $checkoutSession,
-        CustomerService $customerService,
         \Magento\Sales\Model\Config $salesConfig,
+        CustomerService $customerService,
         array $data = array()
     ) {
         $this->_salesConfig = $salesConfig;
