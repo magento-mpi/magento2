@@ -138,9 +138,11 @@
             <instance type="Magento\Indexer\Model\IndexerInterface" shared="false"/>
         </param>
     </type>
+    <!--
     <type name="Magento\Core\Model\Website">
         <plugin name="priceIndexerOnWebsiteDelete" type="Magento\Catalog\Model\Indexer\Product\Price\Plugin\Website"/>
     </type>
+    -->
     <type name="Magento\Core\Model\Resource\Store">
         <plugin name="storeViewResourceAroundSave" type="Magento\Catalog\Model\Indexer\Category\Flat\Plugin\StoreView"/>
     </type>
