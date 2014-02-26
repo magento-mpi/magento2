@@ -35,7 +35,7 @@ class AccordionTest extends \PHPUnit_Framework_TestCase
         parent::setUp();
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $this->registry = $objectManager->get('Magento\Core\Model\Registry');
+        $this->registry = $objectManager->get('Magento\Registry');
         $this->customerService = $objectManager->get('Magento\Customer\Service\V1\CustomerServiceInterface');
         $this->backendSession = $objectManager->get('Magento\Backend\Model\Session');
         $this->layout = $objectManager->create(

@@ -18,7 +18,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -40,14 +40,14 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
      * Constructor
      *
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param CustomerServiceInterface $customerService
      * @param \Magento\Customer\Helper\View $viewHelper
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         CustomerServiceInterface $customerService,
         \Magento\Customer\Helper\View $viewHelper,
         array $data = array()

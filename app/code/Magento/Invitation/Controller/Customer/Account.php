@@ -60,7 +60,7 @@ class Account extends \Magento\Customer\Controller\Account
      * @param \Magento\Customer\Service\V1\Dto\RegionBuilder $regionBuilder
      * @param \Magento\Customer\Service\V1\Dto\AddressBuilder $addressBuilder
      * @param \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerBuilder
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\Invitation\Model\Config $config
      * @param \Magento\Invitation\Model\InvitationFactory $invitationFactory
      */
@@ -85,7 +85,7 @@ class Account extends \Magento\Customer\Controller\Account
         \Magento\Customer\Service\V1\Dto\RegionBuilder $regionBuilder,
         \Magento\Customer\Service\V1\Dto\AddressBuilder $addressBuilder,
         \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerBuilder,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\Invitation\Model\Config $config,
         \Magento\Invitation\Model\InvitationFactory $invitationFactory
     ) {

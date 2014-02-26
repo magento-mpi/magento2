@@ -17,7 +17,7 @@ class Js extends \Magento\Backend\Block\Template
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -29,13 +29,13 @@ class Js extends \Magento\Backend\Block\Template
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Json\EncoderInterface $jsonEncoder
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Json\EncoderInterface $jsonEncoder,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
         $this->_jsonEncoder = $jsonEncoder;

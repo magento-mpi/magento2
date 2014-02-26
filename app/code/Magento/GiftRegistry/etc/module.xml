@@ -29,7 +29,6 @@
             <module name="Magento_CatalogInventory"/>
             <module name="Magento_GiftCard"/>
             <module name="Magento_Newsletter"/>
-            <module name="Magento_Email"/>
             <module name="Magento_Multishipping"/>
         </depends>
     </module>

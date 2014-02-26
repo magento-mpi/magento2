@@ -68,7 +68,7 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
@@ -101,7 +101,7 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Search\Model\Factory\Factory $searchFactory
      * @param \Magento\Search\Helper\ClientInterface $clientHelper
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param array $options
@@ -120,7 +120,7 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Search\Model\Factory\Factory $searchFactory,
         \Magento\Search\Helper\ClientInterface $clientHelper,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\Stdlib\DateTime $dateTime,
         $options = array()

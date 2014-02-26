@@ -110,8 +110,8 @@ class Shipping extends \Magento\Core\Model\AbstractModel
     protected $filesystem;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
@@ -126,8 +126,8 @@ class Shipping extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Sales\Model\OrderFactory $orderFactory,

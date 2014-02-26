@@ -21,7 +21,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     /** @var  \Magento\Backend\Block\Template\Context */
     private $_context;
 
-    /** @var  \Magento\Core\Model\Registry */
+    /** @var  \Magento\Registry */
     private $_coreRegistry;
 
     /** @var  \Magento\Customer\Service\V1\Dto\CustomerBuilder */
@@ -51,7 +51,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
             );
 
         $this->_customerBuilder = $objectManager->get('Magento\Customer\Service\V1\Dto\CustomerBuilder');
-        $this->_coreRegistry = $objectManager->get('Magento\Core\Model\Registry');
+        $this->_coreRegistry = $objectManager->get('Magento\Registry');
         $this->_customerService = $objectManager->get('Magento\Customer\Service\V1\CustomerServiceInterface');
         $this->_groupService = $objectManager->get('Magento\Customer\Service\V1\CustomerGroupServiceInterface');
 

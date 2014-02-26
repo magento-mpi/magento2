@@ -22,7 +22,7 @@ class Customerbalance extends \Magento\Backend\App\Action
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -40,13 +40,13 @@ class Customerbalance extends \Magento\Backend\App\Action
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\CustomerBalance\Model\Balance $balance
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\CustomerBalance\Model\Balance $balance,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Registry $coreRegistry
     ) {
         $this->_balanceFactory = $balance;
         $this->_customerFactory = $customerFactory;

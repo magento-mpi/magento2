@@ -182,7 +182,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
         /**
          * Check that customer id set and addresses saved
          */
-        $registry = $objectManager->get('Magento\Core\Model\Registry');
+        $registry = $objectManager->get('Magento\Registry');
         $customerId = $registry->registry(RegistryConstants::CURRENT_CUSTOMER_ID);
         $customer = $this->customerService->getCustomer($customerId);
         $this->assertEquals('test firstname', $customer->getFirstname());
@@ -266,7 +266,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
         /**
          * Check that customer id set and addresses saved
          */
-        $registry = $objectManager->get('Magento\Core\Model\Registry');
+        $registry = $objectManager->get('Magento\Registry');
         $customerId = $registry->registry(RegistryConstants::CURRENT_CUSTOMER_ID);
         $customer = $this->customerService->getCustomer($customerId);
         $this->assertEquals('test firstname', $customer->getFirstname());
