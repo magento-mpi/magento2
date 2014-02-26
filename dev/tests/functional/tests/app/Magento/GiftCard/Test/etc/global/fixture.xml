@@ -1,0 +1,45 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<fixture>
+    <catalogProductGiftCard module="Magento_GiftCard">
+        <type>eav</type>
+        <entity_type>catalog_product</entity_type>
+        <product_type>giftcard</product_type>
+        <collection>Magento\Catalog\Model\Resource\Product\Collection</collection>
+        <identifier>sku</identifier>
+        <fields>
+            <id>
+                <attribute_code>id</attribute_code>
+                <backend_type>virtual</backend_type>
+            </id>
+        </fields>
+        <data_set>
+            <sku />
+            <name />
+            <short_description />
+            <description />
+            <tax_class_id />
+            <giftcard_amounts />
+            <allow_open_amount />
+            <open_amount_min />
+            <open_amount_max />
+            <giftcard_type />
+            <is_redeemable />
+            <use_config_allow_message />
+        </data_set>
+        <data_config>
+            <create_url_params>
+                <type>giftcard</type>
+                <set>4</set>
+            </create_url_params>
+            <input_prefix>product</input_prefix>
+        </data_config>
+    </catalogProductGiftCard>
+</fixture>

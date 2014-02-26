@@ -12,7 +12,7 @@
 
 namespace Magento\Core\Test\Handler\Curl;
 
-use Mtf\Fixture;
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Handler\Curl;
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
@@ -28,9 +28,9 @@ class ApplyConfig extends Curl
 {
     /**
      * Post request for each fixture section
-     * @param Fixture $fixture
+     * @param FixtureInterface $fixture
      */
-    public function execute(Fixture $fixture = null)
+    public function persist(FixtureInterface $fixture = null)
     {
         $sections = $fixture->getData()['sections'];
         $fields = array('groups' => array());

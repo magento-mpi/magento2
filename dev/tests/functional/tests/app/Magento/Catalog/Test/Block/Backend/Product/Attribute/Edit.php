@@ -11,7 +11,7 @@
 
 namespace Magento\Catalog\Test\Block\Backend\Product\Attribute;
 
-use Mtf\Fixture;
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Client\Element;
 use Magento\Backend\Test\Block\Widget\Form;
 
@@ -62,10 +62,10 @@ class Edit extends Form
     /**
      * Fill form with attribute options
      *
-     * @param Fixture $fixture
+     * @param FixtureInterface $fixture
      * @param null|Element $element
      */
-    public function fill(Fixture $fixture, Element $element = null)
+    public function fill(FixtureInterface $fixture, Element $element = null)
     {
         parent::fill($fixture, $element);
         /** @var $fixture \Magento\Catalog\Test\Fixture\ProductAttribute */

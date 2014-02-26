@@ -24,7 +24,7 @@ class Customer extends AbstractRepository
     /**
      * {inheritdoc}
      */
-    public function __construct(array $defaultConfig, array $defaultData)
+    public function __construct(array $defaultConfig = array(), array $defaultData = array())
     {
         $this->_data['default'] = array(
             'config' => $defaultConfig,

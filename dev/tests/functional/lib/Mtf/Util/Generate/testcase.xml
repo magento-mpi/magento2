@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<testcases>
+  <testcase module="Magento\Tax">
+    <id>MTA-3</id>
+    <inject>
+      <page>
+        <class>\Magento\Tax\Test\Page\TaxRule</class>
+      </page>
+    </inject>
+    <invoke>
+      <tax_rule>
+        <class>\Magento\Tax\Test\Fixture\TaxRule</class>
+      </tax_rule>
+    </invoke>
+    <name>CreateTaxRuleEntityTest</name>
+    <description>Test Creation for Create TaxRuleEntity with fucntional test designed for automation</description>
+    <module>Sales</module>
+    <components>
+      <component>Tax (CS)</component>
+    </components>
+    <testId>MAGETWO-20913</testId>
+  </testcase>
+</testcases>

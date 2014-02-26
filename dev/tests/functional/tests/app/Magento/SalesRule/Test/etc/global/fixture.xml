@@ -1,0 +1,34 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+
+<fixture>
+    <salesRule module="Magento_SalesRule">
+        <type>flat</type>
+        <entity_type>salesrule</entity_type>
+        <collection>Magento\SalesRule\Model\Resource\Rule\Collection</collection>
+        <identifier />
+        <fields>
+            <id>
+                <attribute_code>id</attribute_code>
+                <backend_type>virtual</backend_type>
+            </id>
+            <website_ids>
+                <attribute_code>website_ids</attribute_code>
+                <backend_type>virtual</backend_type>
+            </website_ids>
+            <customer_group_ids>
+                <attribute_code>customer_group_ids</attribute_code>
+                <backend_type>virtual</backend_type>
+            </customer_group_ids>
+        </fields>
+        <data_set />
+        <data_config />
+    </salesRule>
+</fixture>

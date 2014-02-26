@@ -11,7 +11,7 @@
 
 namespace Magento\Tax\Test\Block\Adminhtml\Rule\Edit;
 
-use Mtf\Fixture;
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
 

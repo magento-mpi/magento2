@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<fixture>
+    <widget module="Magento_Widget">
+        <type>flat</type>
+        <entity_type>widget_instance</entity_type>
+        <collection>Magento\Widget\Model\Resource\Widget\Instance\Collection</collection>
+        <identifier />
+        <fields />
+        <data_set />
+        <data_config />
+    </widget>
+</fixture>

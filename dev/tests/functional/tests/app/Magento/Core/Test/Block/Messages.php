@@ -59,7 +59,8 @@ class Messages extends Block
      */
     public function getSuccessMessages()
     {
-        return $this->_rootElement->find($this->successMessage, Locator::SELECTOR_CSS)->getText();
+        $this->waitForElementVisible($this->successMessage);
+        return $this->_rootElement->find($this->successMessage)->getText();
     }
 
     /**

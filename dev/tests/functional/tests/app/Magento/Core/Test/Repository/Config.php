@@ -35,7 +35,7 @@ class Config extends AbstractRepository
      * @param array $defaultConfig
      * @param array $defaultData
      */
-    public function __construct(array $defaultConfig, array $defaultData)
+    public function __construct(array $defaultConfig = array(), array $defaultData = array())
     {
         $this->_data['default'] = array(
             'config' => $defaultConfig,
@@ -82,8 +82,8 @@ class Config extends AbstractRepository
         $this->_data['check_money_order'] = $this->getCheckmo();
         $this->_data['show_out_of_stock'] = $this->_getShowOutOfStock();
         $this->_data['enable_product_flat'] = $this->_getProductFlatEnabled();
-        $this->_data['manual_layered_navigation_mysql'] = $this->_getManualPriceLayeredNavigationMysql();
         $this->_data['disable_product_flat'] = $this->_getProductFlatDisabled();
+        $this->_data['manual_layered_navigation_mysql'] = $this->_getManualPriceLayeredNavigationMysql();
         //Sales
         $this->_data['enable_map_config'] = $this->_getMapEnabled();
         $this->_data['disable_secret_key'] = $this->_getSecretKeyEnabled();
@@ -94,6 +94,9 @@ class Config extends AbstractRepository
         $this->_data['customer_disable_group_assign'] = $this->getDisableGroupAssignData();
         //Currency Setup
         $this->_data['allowed_currencies'] = $this->_getAllowedCurrencies();
+        // Startup Page
+        $this->_data['startup_page_dashboard'] = $this->_getStartupPage('Magento_Backend::dashboard');
+        $this->_data['startup_page_products'] = $this->_getStartupPage('Magento_Catalog::catalog_products');
     }
 
     /**
@@ -2030,35 +2033,6 @@ class Config extends AbstractRepository
     }
 
     /**
-     * Enable 'Display out of Stock' option for catalog
-     *
-     * @return array
-     */
-    protected function _getShowOutOfStock()
-    {
-        return array(
-            'data' => array(
-                'sections' => array(
-                    'cataloginventory' => array(
-                        'section' => 'cataloginventory',
-                        'website' => null,
-                        'store' => null,
-                        'groups' => array(
-                            'options' => array( //Stock Options
-                                'fields' => array(
-                                    'show_out_of_stock' => array(
-                                        'value' => 1, //Yes
-                                    ),
-                                ),
-                            ),
-                        ),
-                    ),
-                ),
-            ),
-        );
-    }
-
-    /**
      * Setup manual price layered navigation via Mysql
      *
      * @return array
@@ -2090,5 +2064,65 @@ class Config extends AbstractRepository
         );
 
         return array_replace_recursive($this->_getMysqlSearchEnabled(), $config);
+    }
+
+    /**
+     * Enable 'Display out of Stock' option for catalog
+     *
+     * @return array
+     */
+    protected function _getShowOutOfStock()
+    {
+        return array(
+            'data' => array(
+                'sections' => array(
+                    'cataloginventory' => array(
+                        'section' => 'cataloginventory',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'options' => array( //Stock Options
+                                'fields' => array(
+                                    'show_out_of_stock' => array(
+                                        'value' => 1, //Yes
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+        );
+    }
+
+    /**
+     * Change Startup Page for admin user
+     *
+     * @param string $page
+     *
+     * @return array
+     */
+    protected function _getStartupPage($page)
+    {
+        return array(
+            'data' => array(
+                'sections' => array(
+                    'admin' => array(
+                        'section' => 'admin',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'startup' => array(
+                                'fields' => array(
+                                    'menu_item_id' => array(
+                                        'value' => $page
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
     }
 }

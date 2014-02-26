@@ -12,7 +12,7 @@
 
 namespace Magento\Tax\Test\Handler\Curl;
 
-use Mtf\Fixture;
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Handler\Curl;
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
@@ -84,10 +84,10 @@ class CreateTaxRule extends Curl
     /**
      * Post request for creating tax rate
      *
-     * @param Fixture $fixture [optional]
+     * @param FixtureInterface $fixture [optional]
      * @return mixed|string
      */
-    public function execute(Fixture $fixture = null)
+    public function persist(FixtureInterface $fixture = null)
     {
         $url = $_ENV['app_backend_url'] . 'tax/rule/save/?back=1';
         $curl = new BackendDecorator(new CurlTransport(), new Config());

@@ -11,7 +11,7 @@
 
 namespace Magento\Payment\Test\Block\Form;
 
-use Mtf\Fixture;
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Block\Form;
 use Mtf\Client\Element;
 
@@ -37,10 +37,10 @@ class Cc extends Form
     /**
      * Fill credit card form
      *
-     * @param Fixture $fixture
+     * @param FixtureInterface $fixture
      * @param Element $element
      */
-    public function fill(Fixture $fixture, Element $element = null)
+    public function fill(FixtureInterface $fixture, Element $element = null)
     {
         /** @var $fixture \Magento\Checkout\Test\Fixture\Checkout */
         $paymentCode = $fixture->getPaymentMethod()->getPaymentCode();

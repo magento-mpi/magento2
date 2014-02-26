@@ -36,6 +36,13 @@ class Dashboard extends Page
     protected $adminPanelHeader = 'header-panel';
 
     /**
+     * Page title block
+     *
+     * @var string
+     */
+    protected $titleBlock = '.page-title';
+
+    /**
      * Constructor
      */
     protected function _init()
@@ -52,6 +59,18 @@ class Dashboard extends Page
     {
         return Factory::getBlockFactory()->getMagentoBackendPageHeader(
             $this->_browser->find($this->adminPanelHeader, Locator::SELECTOR_CLASS_NAME)
+        );
+    }
+
+    /**
+     * Get title block
+     *
+     * @return \Magento\Theme\Test\Block\Html\Title
+     */
+    public function getTitleBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoThemeHtmlTitle(
+            $this->_browser->find($this->titleBlock, Locator::SELECTOR_CSS)
         );
     }
 }

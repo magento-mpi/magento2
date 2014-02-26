@@ -11,7 +11,7 @@
 
 namespace Magento\CatalogRule\Test\Block\Adminhtml\Promo\Catalog;
 
-use Mtf\Fixture;
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Client\Element;
 use Magento\Backend\Test\Block\Widget\FormTabs;
 

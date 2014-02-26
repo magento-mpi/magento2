@@ -8,7 +8,7 @@
 
 namespace Magento\Integration\Test\Handler\Curl;
 
-use Mtf\Fixture;
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Handler\Curl;
 use Mtf\Util\Protocol\CurlTransport;
 use Mtf\Util\Protocol\CurlInterface;
@@ -23,10 +23,10 @@ class CreateIntegration extends Curl
     /**
      * Create integration using cURL client.
      *
-     * @param Fixture $fixture
+     * @param FixtureInterface $fixture
      * @return mixed|string
      */
-    public function execute(Fixture $fixture = null)
+    public function persist(FixtureInterface $fixture = null)
     {
         /** Prepare data for the post to integration save URL */
         $data = $fixture->getData('fields');

@@ -12,7 +12,7 @@
 
 namespace Magento\User\Test\Handler\Curl;
 
-use Mtf\Fixture;
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Handler\Curl;
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
@@ -124,7 +124,7 @@ class CreateRole extends Curl
      * @throws \Exception from findIdWithFilter
      * @return mixed
      */
-    public function execute(Fixture $fixture = null)
+    public function persist(FixtureInterface $fixture = null)
     {
         $url = $_ENV['app_backend_url'] . 'admin/user_role/saverole/';
         $data = $this->_preparePostData($fixture->getData('fields'));

@@ -13,7 +13,7 @@ namespace Magento\Backend\Test\TestCase;
 
 use Magento\Backend\Test\Fixture\Admin\SuperAdmin;
 use Mtf\Factory\Factory;
-use Mtf\TestCase\Functional;
+use Mtf\TestCase\Injectable;
 
 /**
  * Class UserTest
@@ -21,14 +21,19 @@ use Mtf\TestCase\Functional;
  *
  * @package Magento\Backend\Test\TestCase
  */
-class UserTest extends Functional
+class UserTest extends Injectable
 {
+    public function __inject()
+    {
+        //
+    }
+
     /**
      * Test admin login to backend
      *
-     * @param SuperAdmin $fixture injectable
+     * @param SuperAdmin $fixture
      */
-    public function testLoginUser(SuperAdmin $fixture)
+    public function test(SuperAdmin $fixture)
     {
         //Page
         $loginPage = Factory::getPageFactory()->getAdminAuthLogin();

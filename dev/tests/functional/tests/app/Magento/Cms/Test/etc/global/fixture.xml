@@ -1,0 +1,35 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<fixture>
+    <cmsPage module="Magento_Cms">
+        <type>flat</type>
+        <entity_type>cms_page</entity_type>
+        <collection>Magento\Cms\Model\Resource\Page\Collection</collection>
+        <identifier>identifier</identifier>
+        <fields>
+            <store_id>
+                <attribute_code>store_id</attribute_code>
+                <backend_type>virtual</backend_type>
+                <is_required>1</is_required>
+            </store_id>
+        </fields>
+        <data_set />
+        <data_config />
+    </cmsPage>
+    <cmsBlock module="Magento_Cms">
+        <type>flat</type>
+        <entity_type>cms_block</entity_type>
+        <collection>Magento\Cms\Model\Resource\Block\Collection</collection>
+        <identifier>identifier</identifier>
+        <fields />
+        <data_set />
+        <data_config />
+    </cmsBlock>
+</fixture>

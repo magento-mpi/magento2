@@ -7,7 +7,7 @@
  */
 namespace Magento\Downloadable\Test\Handler\Curl;
 
-use Mtf\Fixture;
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Handler\Curl;
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
@@ -101,16 +101,16 @@ class CreateDownloadable extends Curl
         foreach ($requestParams as $key => $value) {
             $params .= $key . '/' . $value . '/';
         }
-        return $_ENV['app_backend_url'] . 'catalog/product/save/' . $params . 'popup/1/back/edit';
+        return $_ENV['app_backend_url'] . 'catalog/product/save/' . $params . 'popup/1/';
     }
 
     /**
      * POST request for creating downloadable product
      *
-     * @param Fixture $fixture [optional]
+     * @param FixtureInterface $fixture [optional]
      * @return int id of created product
      */
-    public function execute(Fixture $fixture = null)
+    public function persist(FixtureInterface $fixture = null)
     {
         $config = $fixture->getDataConfig();
 

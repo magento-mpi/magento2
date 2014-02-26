@@ -2,16 +2,13 @@
 /**
  * {license_notice}
  *
- * @spi
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Backend\Test\Handler\Ui;
 
-use Mtf\Fixture;
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Handler\Ui;
 use Mtf\Factory\Factory;
 
@@ -26,10 +23,10 @@ class LoginUser extends Ui
     /**
      * Login admin user
      *
-     * @param Fixture $fixture [optional]
-     * @return mixed|string
+     * @param FixtureInterface $fixture [optional]
+     * @return void|mixed
      */
-    public function execute(Fixture $fixture = null)
+    public function persist(FixtureInterface $fixture = null)
     {
         if (null === $fixture) {
             $fixture = Factory::getFixtureFactory()->getMagentoBackendAdminSuperAdmin();
@@ -38,10 +35,12 @@ class LoginUser extends Ui
         $loginPage = Factory::getPageFactory()->getAdminAuthLogin();
         $loginForm = $loginPage->getLoginBlock();
 
-        $loginPage->open();
-
         $adminHeaderPanel = $loginPage->getHeaderBlock();
         if (!$adminHeaderPanel || !$adminHeaderPanel->isVisible()) {
+            $loginPage->open();
+            if ($adminHeaderPanel->isVisible()) {
+                return;
+            }
             $loginForm->fill($fixture);
             $loginForm->submit();
             $loginPage->waitForHeaderBlock();

@@ -11,11 +11,12 @@
 
 namespace Magento\Catalog\Test\Block\Backend;
 
-use Mtf\Fixture;
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Client\Element;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
 use Magento\Backend\Test\Block\Widget\FormTabs;
+use Magento\Catalog\Test\Fixture\Category;
 use Magento\Bundle\Test\Fixture\Bundle;
 use Magento\Catalog\Test\Fixture\Product;
 use Magento\Catalog\Test\Fixture\GroupedProduct;
@@ -83,6 +84,11 @@ class ProductForm extends FormTabs
     );
 
     /**
+     * @var Category
+     */
+    protected $category;
+
+    /**
      * Get choose affected attribute set dialog popup window
      *
      * @return \Magento\Catalog\Test\Block\Product\Configurable\AffectedAttributeSet
@@ -95,41 +101,58 @@ class ProductForm extends FormTabs
     }
 
     /**
+     * @param Category $category
+     */
+    public function setCategory(Category $category)
+    {
+        $this->category = $category;
+    }
+
+    /**
      * Fill the product form
      *
-     * @param Fixture $fixture
+     * @param FixtureInterface $fixture
      * @param Element $element
      * @return \Magento\Backend\Test\Block\Widget\FormTabs|void
      */
-    public function fill(Fixture $fixture, Element $element = null)
+    public function fill(FixtureInterface $fixture, Element $element = null)
     {
         // Open tab "Advanced Settings" to make all nested tabs visible and available to interact
         $this->showAdvanced();
         /** @var $fixture \Magento\Catalog\Test\Fixture\Product */
-        if ($fixture->getCategoryName()) {
-            $this->fillCategory($fixture->getCategoryName());
-        }
+        $this->fillCategory($fixture);
         parent::fill($fixture);
     }
 
     /**
      * Select category
      *
-     * @param string $name
+     * @param FixtureInterface $fixture
      */
-    protected function fillCategory($name)
+    protected function fillCategory(FixtureInterface $fixture)
     {
         // TODO should be removed after suggest widget implementation as typified element
-        $this->fillCategoryField($name, 'category_ids-suggest', '//*[@id="attribute-category_ids-container"]');
+
+        $categoryName = $this->category
+            ? $this->category->getCategoryName()
+            : ($fixture->getCategoryName() ? $fixture->getCategoryName() : '');
+
+        if ($categoryName) {
+            $this->fillCategoryField(
+                $categoryName,
+                'category_ids-suggest',
+                '//*[@id="attribute-category_ids-container"]'
+            );
+        }
     }
 
     /**
      * Save product
      *
-     * @param Fixture|\Magento\Catalog\Test\Fixture\ConfigurableProduct $fixture
+     * @param FixtureInterface $fixture
      * @return \Magento\Backend\Test\Block\Widget\Form|void
      */
-    public function save(Fixture $fixture = null)
+    public function save(FixtureInterface $fixture = null)
     {
         parent::save($fixture);
         if ($this->getAffectedAttributeSetBlock()->isVisible()) {

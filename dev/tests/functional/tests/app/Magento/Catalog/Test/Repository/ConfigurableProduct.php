@@ -34,7 +34,7 @@ class ConfigurableProduct extends Product
      * @param array $defaultConfig
      * @param array $defaultData
      */
-    public function __construct(array $defaultConfig, array $defaultData)
+    public function __construct(array $defaultConfig = array(), array $defaultData = array())
     {
         parent::__construct($defaultConfig, $defaultData);
         $this->_data[self::CONFIGURABLE]['data']['affect_configurable_product_attributes'] = 'Template %isolation%';

@@ -12,7 +12,8 @@
 
 namespace Magento\Catalog\Test\Handler\Curl;
 
-use Mtf\Fixture;
+use Mtf\Fixture\FixtureInterface;
+use Mtf\Fixture\InjectableFixture;
 use Mtf\Handler\Curl;
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
@@ -78,22 +79,32 @@ class CreateProduct extends Curl
         foreach ($requestParams as $key => $value) {
             $params .= $key . '/' . $value . '/';
         }
-        return $_ENV['app_backend_url'] . 'catalog/product/save/' . $params . 'popup/1/back/edit';
+        return $_ENV['app_backend_url'] . 'catalog/product/save/' . $params . 'popup/1/';
     }
 
     /**
      * Post request for creating simple product
      *
-     * @param Fixture $fixture [optional]
+     * @param FixtureInterface $fixture [optional]
      * @return mixed|string
      * @throws \Exception
      */
-    public function execute(Fixture $fixture = null)
+    public function persist(FixtureInterface $fixture = null)
     {
         $config = $fixture->getDataConfig();
-
         $prefix = isset($config['input_prefix']) ? $config['input_prefix'] : null;
-        $data = $this->_prepareData($fixture->getData('fields'), $prefix);
+        // @todo remove "if" when fixtures refactored
+        if ($fixture instanceof InjectableFixture) {
+            $fields = $fixture->getData();
+            if ($prefix) {
+                $data[$prefix] = $fields;
+            } else {
+                $data = $fields;
+            }
+        } else {
+            $data = $this->_prepareData($fixture->getData('fields'), $prefix);
+        }
+
         if ($fixture->getData('category_id')) {
             $data['product']['category_ids'] = $fixture->getCategoryIds();
         }

@@ -12,7 +12,7 @@
 
 namespace Magento\CurrencySymbol\Test\Handler\Curl;
 
-use Mtf\Fixture;
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Handler\Curl;
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
@@ -29,11 +29,11 @@ class ApplyCurrencyRates extends Curl
     /**
      * Post request for each currency rate
      *
-     * @param Fixture $fixture
+     * @param FixtureInterface $fixture
      * @return mixed|void
      * @throws \Exception
      */
-    public function execute(Fixture $fixture = null)
+    public function persist(FixtureInterface $fixture = null)
     {
         $data = $fixture->getData('fields');
         $fields = array();

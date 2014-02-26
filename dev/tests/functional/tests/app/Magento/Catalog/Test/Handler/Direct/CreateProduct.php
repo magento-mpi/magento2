@@ -13,7 +13,7 @@
 namespace Magento\Catalog\Test\Handler\Direct;
 
 use Magento\Catalog\Test\Fixture\Product;
-use Mtf\Fixture;
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Handler\Direct;
 use Mtf\Factory\Factory;
 use Magento\Catalog\Model\Product\Visibility;
@@ -53,10 +53,10 @@ class CreateProduct extends Direct
     /**
      * Create product
      *
-     * @param Fixture $fixture [optional]
+     * @param FixtureInterface $fixture [optional]
      * @return int
      */
-    public function execute(Fixture $fixture = null)
+    public function persist(FixtureInterface $fixture = null)
     {
         $factory = new \Magento\App\ObjectManagerFactory();
         $objectManager = $factory->create(BP, $_SERVER);

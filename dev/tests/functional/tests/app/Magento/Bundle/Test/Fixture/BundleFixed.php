@@ -66,6 +66,9 @@ class BundleFixed extends Bundle
                     'value' => '1',
                     'group' => static::GROUP_PRODUCT_DETAILS
                 ),
+                'website_ids' => array(
+                    'value' => array(1),
+                ),
                 'shipment_type' => array(
                     'value' => 'Separately',
                     'input_value' => '1',

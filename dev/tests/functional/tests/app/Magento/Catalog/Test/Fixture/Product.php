@@ -271,7 +271,7 @@ class Product extends DataFixture
      *
      * @return string
      */
-    public function getProductUrl()
+    public function getUrlKey()
     {
         $fields = $this->getData('fields');
         if (isset($fields['url'])) {

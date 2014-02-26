@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page>
+    <catalogProductIndex>
+        <mca>catalog/product/index</mca>
+        <area>adminhtml</area>
+        <class>Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex</class>
+    </catalogProductIndex>
+</page>

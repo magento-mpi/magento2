@@ -13,7 +13,7 @@
 namespace Magento\Catalog\Test\Handler\Curl;
 
 use Magento\Catalog\Test\Fixture\ProductAttribute;
-use Mtf\Fixture;
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Handler\Curl;
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
@@ -31,7 +31,7 @@ class CreateProductAttribute extends Curl
      * @param Fixture|\Magento\Catalog\Test\Fixture\ProductAttribute $fixture [optional]
      * @return mixed|string
      */
-    public function execute(Fixture $fixture = null)
+    public function persist(FixtureInterface $fixture = null)
     {
         $url = $_ENV['app_backend_url'] . 'catalog/product_attribute/save/back/edit/active_tab/main';
         $curl = new BackendDecorator(new CurlTransport(), new Config());

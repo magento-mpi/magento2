@@ -12,7 +12,7 @@
 
 namespace Magento\Catalog\Test\Handler\Curl;
 
-use Mtf\Fixture;
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Handler\Curl;
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
@@ -89,10 +89,10 @@ class CreateCategory extends Curl
     /**
      * Create category
      *
-     * @param Fixture $fixture [optional]
+     * @param FixtureInterface $fixture [optional]
      * @return int|null
      */
-    public function execute(Fixture $fixture = null)
+    public function persist(FixtureInterface $fixture = null)
     {
         $config = $fixture->getDataConfig();
         $parentCategory = $fixture->getData('category_path/input_value');

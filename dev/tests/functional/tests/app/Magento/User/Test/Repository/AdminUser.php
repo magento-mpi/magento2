@@ -8,20 +8,19 @@
 
 namespace Magento\User\Test\Repository;
 
-use Mtf\Factory\Factory;
 use Mtf\Repository\AbstractRepository;
 
 /**
  * Class Admin User Repository
  *
- * @package namespace Magento\User\Test\Repository
+ * @package Magento\User\Test\Repository
  */
 class AdminUser extends AbstractRepository
 {
     /**
      * {@inheritdoc}
      */
-    public function __construct(array $defaultConfig, array $defaultData)
+    public function __construct(array $defaultConfig = array(), array $defaultData = array())
     {
         $this->_data['admin_default'] = array(
             'config' => $defaultConfig,

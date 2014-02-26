@@ -13,7 +13,7 @@
 namespace Magento\Catalog\Test\Handler\Curl;
 
 use Magento\Catalog\Test\Fixture\ConfigurableProduct;
-use Mtf\Fixture;
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Handler\Curl;
 use Mtf\System\Config;
 use Mtf\Util\Protocol\CurlInterface;
@@ -148,15 +148,15 @@ class CreateConfigurable extends Curl
     /**
      * Create configurable product
      *
-     * @param Fixture|\Magento\Catalog\Test\Fixture\ConfigurableProduct $fixture [optional]
+     * @param FixtureInterface $fixture [optional]
      * @return mixed|string
      * @throws \Exception
      */
-    public function execute(Fixture $fixture = null)
+    public function persist(FixtureInterface $fixture = null)
     {
         $url = $_ENV['app_backend_url']
             . 'catalog/product/save/'
-            . $fixture->getUrlParams('create_url_params') . '/popup/1/back/edit';
+            . $fixture->getUrlParams('create_url_params') . '/popup/1/';
         $params = $this->_prepareData($fixture);
         $curl = new BackendDecorator(new CurlTransport(), new Config());
         $curl->addOption(CURLOPT_HEADER, 1);

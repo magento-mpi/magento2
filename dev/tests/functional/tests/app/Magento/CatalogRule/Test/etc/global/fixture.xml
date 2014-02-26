@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<fixture>
+    <catalogPriceRule module="Magento_CatalogRule">
+        <type>flat</type>
+        <entity_type>catalogrule</entity_type>
+        <collection>Magento\CatalogRule\Model\Resource\Rule\Collection</collection>
+        <identifier />
+        <fields />
+        <data_set />
+        <data_config />
+    </catalogPriceRule>
+</fixture>

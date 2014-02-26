@@ -12,7 +12,7 @@
 
 namespace Magento\Checkout\Test\Handler\Ui;
 
-use Mtf\Fixture;
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Handler\Ui;
 use Mtf\Factory\Factory;
 
@@ -27,10 +27,10 @@ class CreatePaypalExpressOrder extends Ui
     /**
      * Create product
      *
-     * @param Fixture $fixture [oiptional]
+     * @param FixtureInterface $fixture [optional]
      * @return mixed|string
      */
-    public function execute(Fixture $fixture = null)
+    public function persist(FixtureInterface $fixture = null)
     {
         $products = $fixture->getProducts();
 
@@ -55,7 +55,7 @@ class CreatePaypalExpressOrder extends Ui
 
         $checkoutReviewPage->getReviewBlock()->placeOrder();
 
-        $orderId = Factory::getPageFactory()->getCheckoutOnepageSuccess()->getSuccessBlock()->getGuestOrderId();
+        $orderId = Factory::getPageFactory()->getCheckoutOnepageSuccess()->getSuccessBlock()->getOrderId($fixture);
 
         return $orderId;
     }

@@ -16,11 +16,11 @@ use Mtf\Repository\AbstractRepository;
 /**
  * Class Tax Class Repository
  *
- * @package Magento\Catalog\Test\Repository
+ * @package Magento\Tax\Test\Repository
  */
 class TaxClass extends AbstractRepository
 {
-    public function __construct(array $defaultConfig, array $defaultData)
+    public function __construct(array $defaultConfig = array(), array $defaultData = array())
     {
         $this->_data['default'] = array(
             'config' => $defaultConfig,

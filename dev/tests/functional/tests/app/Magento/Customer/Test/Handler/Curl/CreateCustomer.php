@@ -12,7 +12,7 @@
 
 namespace Magento\Customer\Test\Handler\Curl;
 
-use Mtf\Fixture;
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Handler\Curl;
 use Mtf\Util\Protocol\CurlTransport;
 use Mtf\Util\Protocol\CurlInterface;
@@ -28,10 +28,10 @@ class CreateCustomer extends Curl
     /**
      * Post request for creating customer
      *
-     * @param Fixture $fixture [optional]
+     * @param FixtureInterface $fixture [optional]
      * @return mixed|string
      */
-    public function execute(Fixture $fixture = null)
+    public function persist(FixtureInterface $fixture = null)
     {
         $data = $fixture->getData('fields');
         $fields = array();

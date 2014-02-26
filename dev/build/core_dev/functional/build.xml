@@ -94,10 +94,6 @@
             <arg line="install"/>
         </exec>
 
-        <exec executable="php" dir="${basedir}/dev/tests/functional/" failonerror="true">
-            <arg line="utils/generate.php"/>
-        </exec>
-
         <script language="javascript"><![CDATA[
             var parallel = project.createTask('parallel');
 
@@ -205,10 +201,6 @@
             <arg line="install"/>
         </exec>
 
-        <exec executable="php" dir="${basedir}/dev/tests/functional/" failonerror="true">
-            <arg line="utils/generate.php"/>
-        </exec>
-
         <script language="javascript"><![CDATA[
             var parallel = project.createTask('parallel');
 
@@ -275,6 +267,10 @@
             <replacefilter token="{{admin_url}}" value="${env.http_host}${env.build.key}/instance-${instanceIndex}/backend/"/>
             <replacefilter token="{{url}}" value="${env.http_host}${env.build.key}/instance-${instanceIndex}"/>
         </replace>
+
+        <exec executable="php" dir="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional/" failonerror="true">
+            <arg line="utils/generate/factory.php"/>
+        </exec>
 
         <antcall target="_run_compiler">
             <param name="product_root_dir" value="${dir.build_directory}/instance-${instanceIndex}" />

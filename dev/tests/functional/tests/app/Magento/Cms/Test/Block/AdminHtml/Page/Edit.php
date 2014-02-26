@@ -11,7 +11,7 @@
 
 namespace Magento\Cms\Test\Block\AdminHtml\Page;
 
-use Mtf\Fixture;
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Client\Element;
 use Magento\Backend\Test\Block\Widget\FormTabs;
 use Mtf\Client\Element\Locator;
@@ -36,11 +36,11 @@ class Edit extends FormTabs
     /**
      * Fill the page form
      *
-     * @param Fixture $fixture
+     * @param FixtureInterface $fixture
      * @param Element $element
      * @return FormTabs|void
      */
-    public function fill(Fixture $fixture, Element $element = null)
+    public function fill(FixtureInterface $fixture, Element $element = null)
     {
         // Open "Content" tab and toggle the editor to make visible and available to interact
         $this->toggleEditor();

@@ -12,7 +12,7 @@
 
 namespace Magento\Customer\Test\Handler\Ui;
 
-use Mtf\Fixture;
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Factory\Factory;
 
 /**
@@ -23,10 +23,10 @@ class CreateAddress extends \Mtf\Handler\Ui
     /**
      * Execute handler
      *
-     * @param Fixture $fixture [optional]
+     * @param FixtureInterface $fixture [optional]
      * @return mixed
      */
-    public function execute(Fixture $fixture = null)
+    public function persist(FixtureInterface $fixture = null)
     {
         /** @var \Magento\Customer\Test\Fixture\Address $fixture */
         // Pages

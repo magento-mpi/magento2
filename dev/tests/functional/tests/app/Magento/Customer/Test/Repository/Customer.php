@@ -16,7 +16,7 @@ use Mtf\Repository\AbstractRepository;
 /**
  * Class Customer Repository
  *
- * @package Magento\Customer\Test\Fixture
+ * @package Magento\Customer\Test\Repository
  */
 class Customer extends AbstractRepository
 {
@@ -48,7 +48,7 @@ class Customer extends AbstractRepository
     /**
      * {inheritdoc}
      */
-    public function __construct(array $defaultConfig, array $defaultData)
+    public function __construct(array $defaultConfig = array(), array $defaultData = array())
     {
         $this->_data['default'] = array(
             'config' => $defaultConfig,

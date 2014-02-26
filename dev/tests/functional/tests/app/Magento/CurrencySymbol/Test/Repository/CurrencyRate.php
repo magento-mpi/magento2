@@ -18,7 +18,7 @@ use Mtf\Repository\AbstractRepository;
  * Class CurrencyRate Repository
  * Magento currency rates
  *
- * @package Magento\Core\Test\Repository
+ * @package Magento\CurrencySymbol\Test\Repository
  */
 class CurrencyRate extends AbstractRepository
 {
@@ -28,7 +28,7 @@ class CurrencyRate extends AbstractRepository
      * @param array $defaultConfig
      * @param array $defaultData
      */
-    public function __construct(array $defaultConfig, array $defaultData)
+    public function __construct(array $defaultConfig = array(), array $defaultData = array())
     {
         $this->_data['default'] = array(
             'config' => $defaultConfig,

@@ -12,7 +12,7 @@
 
 namespace Magento\Directory\Test\Handler\Curl;
 
-use Mtf\Fixture;
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Handler\Curl;
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
@@ -27,11 +27,11 @@ class AddCurrencyRate extends Curl
     /**
      * Post request for adding currency rate
      *
-     * @param Fixture $fixture [optional]
+     * @param FixtureInterface $fixture [optional]
      * @return mixed|string
      * @throws \Exception
      */
-    public function execute(Fixture $fixture = null)
+    public function persist(FixtureInterface $fixture = null)
     {
         $url = $_ENV['app_backend_url'] . 'admin/system_currency/saveRates/';
         $curl = new BackendDecorator(new CurlTransport(), new Config);

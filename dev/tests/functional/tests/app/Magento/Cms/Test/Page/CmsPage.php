@@ -13,7 +13,7 @@ namespace Magento\Cms\Test\Page;
 
 use Mtf\Client\Element\Locator;
 use Mtf\Factory\Factory;
-use Mtf\Fixture\DataFixture;
+use Mtf\Fixture\FixtureInterface;
 use Magento\Cms\Test\Block\Page;
 
 /**
@@ -39,12 +39,12 @@ class CmsPage extends \Mtf\Page\Page
     /**
      * Page initialization for building dynamically named Cms Page
      *
-     * @param DataFixture|\Magento\Cms\Test\Fixture\Page $fixture
+     * @param FixtureInterface|\Magento\Cms\Test\Fixture\CmsPage $fixture
      * @return void
      */
-    public function init(DataFixture $fixture)
+    public function init(FixtureInterface $fixture)
     {
-        $this->_url = $_ENV['app_frontend_url'] . $fixture->getPageIdentifier() . '/?___store=default';
+        $this->_url = $_ENV['app_frontend_url'] . $fixture->getIdentifier() . '/?___store=default';
     }
 
     /**

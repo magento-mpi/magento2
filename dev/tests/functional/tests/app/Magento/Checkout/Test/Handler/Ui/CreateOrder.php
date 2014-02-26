@@ -12,7 +12,7 @@
 
 namespace Magento\Checkout\Test\Handler\Ui;
 
-use Mtf\Fixture;
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Handler\Ui;
 use Mtf\Factory\Factory;
 
@@ -27,10 +27,10 @@ class CreateOrder extends Ui
     /**
      * Create order
      *
-     * @param Fixture $fixture [optional]
+     * @param FixtureInterface $fixture [optional]
      * @return mixed|string
      */
-    public function execute(Fixture $fixture = null)
+    public function persist(FixtureInterface $fixture = null)
     {
         $products = $fixture->getProducts();
 

@@ -11,7 +11,7 @@
 
 namespace Magento\Review\Test\Block\Adminhtml;
 
-use Mtf\Fixture;
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 use Magento\Backend\Test\Block\Widget\Form;

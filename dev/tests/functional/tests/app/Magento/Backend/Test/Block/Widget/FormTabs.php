@@ -12,9 +12,10 @@
 
 namespace Magento\Backend\Test\Block\Widget;
 
-use Mtf\Fixture;
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
+use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class FormTabs
@@ -32,11 +33,11 @@ class FormTabs extends Form
     /**
      * Fill form with tabs
      *
-     * @param Fixture $fixture
+     * @param FixtureInterface $fixture
      * @param Element $element
      * @return FormTabs
      */
-    public function fill(Fixture $fixture, Element $element = null)
+    public function fill(FixtureInterface $fixture, Element $element = null)
     {
         $tabs = $this->getFieldsByTabs($fixture);
         foreach ($tabs as $tab => $tabFields) {
@@ -48,12 +49,12 @@ class FormTabs extends Form
     /**
      * Verify form with tabs
      *
-     * @param Fixture $fixture
+     * @param FixtureInterface $fixture
      * @param Element $element
      * @throws \Exception
      * @return FormTabs
      */
-    public function verify(Fixture $fixture, Element $element = null)
+    public function verify(FixtureInterface $fixture, Element $element = null)
     {
         $tabs = $this->getFieldsByTabs($fixture);
         foreach ($tabs as $tab => $tabFields) {
@@ -67,10 +68,10 @@ class FormTabs extends Form
     /**
      * Update form with tabs
      *
-     * @param Fixture $fixture
+     * @param FixtureInterface $fixture
      * @return FormTabs
      */
-    public function update(Fixture $fixture)
+    public function update(FixtureInterface $fixture)
     {
         $tabs = $this->getFieldsByTabs($fixture);
         foreach ($tabs as $tab => $tabFields) {
@@ -82,15 +83,54 @@ class FormTabs extends Form
     /**
      * Create data array for filling tabs
      *
-     * @param Fixture $fixture
+     * @param FixtureInterface $fixture
      * @return array
      */
-    protected function getFieldsByTabs(Fixture $fixture)
+    protected function getFieldsByTabs(FixtureInterface $fixture)
+    {
+        if ($fixture instanceof InjectableFixture) {
+            $tabs = $this->getFixtureFieldsByTabs($fixture);
+        } else {
+            $tabs = $this->getFixtureFieldsByTabsDeprecated($fixture);
+        }
+        return $tabs;
+    }
+
+    /**
+     * Create data array for filling tabs (new fixture specification)
+     *
+     * @param InjectableFixture $fixture
+     * @return array
+     */
+    private function getFixtureFieldsByTabs(InjectableFixture $fixture)
+    {
+        $tabs = array();
+
+        $data = $fixture->getData();
+        foreach ($data as $field => $value) {
+            $attributes = $fixture->getDataFieldConfig($field);
+            if (!isset($attributes['group'])) {
+                continue;
+            }
+            $attributes['value'] = $value;
+            $tabs[$attributes['group']][$field] = $attributes;
+        }
+        return $tabs;
+    }
+
+    /**
+     * Create data array for filling tabs (deprecated fixture specification)
+     *
+     * @param FixtureInterface $fixture
+     * @return array
+     * @deprecated
+     */
+    private function getFixtureFieldsByTabsDeprecated(FixtureInterface $fixture)
     {
         $tabs = array();
 
         $dataSet = $fixture->getData();
-        $fields = isset($dataSet['fields']) ? $dataSet['fields'] : array();
+        $fields = isset($dataSet['fields']) ? $dataSet['fields'] : [];
 
         foreach ($fields as $field => $attributes) {
             if (!isset($attributes['group'])) {

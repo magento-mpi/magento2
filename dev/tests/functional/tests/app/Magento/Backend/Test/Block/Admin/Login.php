@@ -14,6 +14,7 @@ namespace Magento\Backend\Test\Block\Admin;
 use Mtf\Block\Form;
 use Mtf\Client\Element\Locator;
 use Mtf\Client\Element;
+use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class Login
@@ -64,5 +65,18 @@ class Login extends Form
             }
         }
         parent::_fill($mapping, $element);
+    }
+
+    /**
+     * Fill in login form
+     *
+     * @param InjectableFixture $fixture
+     */
+    public function fillForm(InjectableFixture $fixture)
+    {
+        foreach($fixture->getData() as $key => $value) {
+            $this->_rootElement->find(isset($this->_mapping[$key]) ? $this->_mapping[$key] : '#' . $key)
+                ->setValue($value);
+        }
     }
 }

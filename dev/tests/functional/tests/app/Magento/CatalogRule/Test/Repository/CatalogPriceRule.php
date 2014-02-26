@@ -8,6 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\CatalogRule\Test\Repository;
 
 use Mtf\Repository\AbstractRepository;
@@ -15,7 +16,7 @@ use Mtf\Repository\AbstractRepository;
 /**
  * Class CatalogPriceRule Repository
  *
- * @package Magento\CatalogRule\Test\Fixture
+ * @package Magento\CatalogRule\Test\Repository
  */
 class CatalogPriceRule extends AbstractRepository
 {
@@ -36,7 +37,7 @@ class CatalogPriceRule extends AbstractRepository
     const CONDITION_VALUE = 'conditions__1--1__value';
 
 
-    public function __construct(array $defaultConfig, array $defaultData)
+    public function __construct(array $defaultConfig = array(), array $defaultData = array())
     {
         $this->_data['default'] = array('config' => $defaultConfig, 'data' => $defaultData);
         $this->_data[self::CATALOG_PRICE_RULE] = $this->_getCatalogPriceRule();
@@ -51,7 +52,7 @@ class CatalogPriceRule extends AbstractRepository
         return array(
             'data' => array(
                 'fields' => array(
-                    'rule_name' => array('value' => 'rule1', 'group' => static::GROUP_RULE_INFORMATION),
+                    'rule_name' => array('value' => 'Rule %isolation%', 'group' => static::GROUP_RULE_INFORMATION),
                     'rule_is_active' => array(
                         'value' => 'Active',
                         'group' => static::GROUP_RULE_INFORMATION,

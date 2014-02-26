@@ -1,0 +1,38 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<fixture>
+    <taxClass module="Magento_Tax">
+        <type>flat</type>
+        <entity_type>tax_calculation_rate</entity_type>
+        <collection>Magento\Tax\Model\Resource\TaxClass\Collection</collection>
+        <identifier />
+        <fields />
+        <data_set />
+        <data_config />
+    </taxClass>
+    <taxRate module="Magento_Tax">
+        <type>flat</type>
+        <entity_type>tax_class</entity_type>
+        <collection>Magento\Tax\Model\Resource\Calculation\Rate\Collection</collection>
+        <identifier>code</identifier>
+        <fields />
+        <data_set />
+        <data_config />
+    </taxRate>
+    <taxRule module="Magento_Tax">
+        <type>flat</type>
+        <entity_type>tax_calculation_rule</entity_type>
+        <collection>Magento\Tax\Model\Resource\Calculation\Rule\Collection</collection>
+        <identifier>code</identifier>
+        <fields />
+        <data_set />
+        <data_config />
+    </taxRule>
+</fixture>

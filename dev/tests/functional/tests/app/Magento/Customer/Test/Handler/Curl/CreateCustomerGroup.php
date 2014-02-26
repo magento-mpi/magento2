@@ -11,7 +11,7 @@
 
 namespace Magento\Customer\Test\Handler\Curl;
 
-use Mtf\Fixture;
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Handler\Curl;
 use Mtf\Util\Protocol\CurlTransport;
 use Mtf\Util\Protocol\CurlInterface;
@@ -35,10 +35,10 @@ class CreateCustomerGroup extends Curl
     /**
      * Prepare POST data for creating customer request
      *
-     * @param Fixture $fixture
+     * @param FixtureInterface $fixture
      * @return array
      */
-    protected function prepareData(Fixture $fixture)
+    protected function prepareData(FixtureInterface $fixture)
     {
         $data = $fixture->getData('fields');
         foreach ($data as $key => $values) {
@@ -69,10 +69,10 @@ class CreateCustomerGroup extends Curl
     /**
      * Execute handler
      *
-     * @param Fixture $fixture [optional]
+     * @param FixtureInterface $fixture [optional]
      * @return mixed
      */
-    public function execute(Fixture $fixture = null)
+    public function persist(FixtureInterface $fixture = null)
     {
         /** @var \Magento\Customer\Test\Fixture\CustomerGroup $fixture*/
         $params = $this->prepareData($fixture);

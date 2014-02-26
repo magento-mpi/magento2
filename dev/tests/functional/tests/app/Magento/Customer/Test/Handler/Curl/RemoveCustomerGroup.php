@@ -11,7 +11,7 @@
 
 namespace Magento\Customer\Test\Handler\Curl;
 
-use Mtf\Fixture;
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Handler\Curl;
 use Mtf\Util\Protocol\CurlTransport;
 use Mtf\Util\Protocol\CurlInterface;
@@ -30,10 +30,10 @@ class RemoveCustomerGroup extends Curl
     /**
      * Execute handler
      *
-     * @param Fixture $fixture [optional]
+     * @param FixtureInterface $fixture [optional]
      * @return mixed
      */
-    public function execute(Fixture $fixture = null)
+    public function persist(FixtureInterface $fixture = null)
     {
         /** @var \Magento\Customer\Test\Fixture\VatGroup $fixture*/
         $groups = $fixture->getGroupsIds();

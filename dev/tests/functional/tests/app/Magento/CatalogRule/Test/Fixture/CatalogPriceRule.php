@@ -50,4 +50,3 @@ class CatalogPriceRule extends DataFixture
         return $this->getData('fields/rule_discount_amount/value');
     }
 }
-

@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<constraint>
+    <cmsPageDuplicateError module="Magento_Cms">
+        <severeness>low</severeness>
+        <require>
+            <cmsPageGrid class="Magento\Cms\Test\Page\AdminHtml\CmsPageGrid" />
+        </require>
+    </cmsPageDuplicateError>
+    <cmsPageSaveSuccess module="Magento_Cms">
+        <severeness>low</severeness>
+        <require>
+            <cmsPageGrid class="Magento\Cms\Test\Page\AdminHtml\CmsPageGrid" />
+        </require>
+    </cmsPageSaveSuccess>
+</constraint>

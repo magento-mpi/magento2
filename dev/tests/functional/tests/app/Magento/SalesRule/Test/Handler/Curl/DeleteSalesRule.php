@@ -8,7 +8,7 @@
 namespace Magento\SalesRule\Test\Handler\Curl;
 
 use Exception;
-use Mtf\Fixture;
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Util\Protocol\CurlTransport;
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
@@ -26,10 +26,10 @@ class DeleteSalesRule extends Curl
     /**
      * Post request for deleting a sales rule by id from backend
      *
-     * @param Fixture $fixture [optional]
+     * @param FixtureInterface $fixture [optional]
      * @return mixed|string
      */
-    public function execute(Fixture $fixture = null)
+    public function persist(FixtureInterface $fixture = null)
     {
         if ($fixture instanceof SalesRule && $fixture->getSalesRuleId() !== null) {
             $url = $_ENV['app_backend_url'] . 'sales_rule/promo_quote/delete/id/' . $fixture->getSalesRuleId() . '/';

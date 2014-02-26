@@ -495,5 +495,12 @@
             <path>dev/tests/unit/testsuite/Magento/Catalog/Model/ProductTypes/Config/_files/product_types.xml</path>
             <word>CustomAttribute</word>
         </item>
+        <item>
+            <!-- License replacement tool does not process license placeholders which are used for test case generation -->
+            <word>{copyright}</word>
+            <word>{license_link}</word>
+            <word>{license_notice}</word>
+            <path>dev/tests/functional/lib/Mtf/Util/Generate/TestCase.php</path>
+        </item>
     </whitelist>
 </config>

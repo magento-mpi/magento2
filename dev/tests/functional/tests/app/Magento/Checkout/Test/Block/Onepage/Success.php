@@ -38,6 +38,13 @@ class Success extends Block
     protected $orderIdGuest = '//div[contains(@class, "column main")]//p[1]';
 
     /**
+     * 'Continue Shopping' link
+     *
+     * @var string
+     */
+    protected $continueShopping = '.action.continue';
+
+    /**
      * Get id for placed order
      *
      * @param Checkout $fixture
@@ -45,6 +52,12 @@ class Success extends Block
      */
     public function getOrderId(Checkout $fixture)
     {
+        $continueShopping = $this->_rootElement->find($this->continueShopping);
+        $this->_rootElement->waitUntil(
+            function () use ($continueShopping) {
+                return $continueShopping->isVisible() ? true : null;
+            }
+        );
         if ($fixture->getCustomer()) {
             return $this->_rootElement->find($this->orderId, Locator::SELECTOR_CSS)->getText();
         } else {
@@ -57,7 +70,7 @@ class Success extends Block
      *
      * @return string
      */
-    public function getGuestOrderId()
+    protected function getGuestOrderId()
     {
         $orderString = $this->_rootElement->find($this->orderIdGuest, Locator::SELECTOR_XPATH)->getText();
         preg_match('/[\d]+/', $orderString, $orderId);

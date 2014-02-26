@@ -8,7 +8,7 @@
 
 namespace Magento\User\Test\Handler\Curl;
 
-use Mtf\Fixture;
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Handler\Curl;
 use Mtf\Util\Protocol\CurlTransport;
 use Mtf\Util\Protocol\CurlInterface;
@@ -64,11 +64,11 @@ class CreateUser extends Curl
     /**
      * Post request for creating user in backend
      *
-     * @param Fixture $fixture
+     * @param FixtureInterface $fixture
      * @return array|mixed
      * @throws \Exception
      */
-    public function execute(Fixture $fixture = null)
+    public function persist(FixtureInterface $fixture = null)
     {
         $url = $_ENV['app_backend_url'] . 'admin/user/save';
         $data = $this->_prepareData($fixture->getData('fields'));

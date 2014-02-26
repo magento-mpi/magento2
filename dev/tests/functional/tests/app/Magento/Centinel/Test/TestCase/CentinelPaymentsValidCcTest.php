@@ -12,7 +12,7 @@
 namespace Magento\Centinel\Test\TestCase;
 
 use Mtf\Factory\Factory;
-use Mtf\Fixture\DataFixture;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class CentinelPaymentsValidCcTest
@@ -26,11 +26,11 @@ class CentinelPaymentsValidCcTest extends AbstractCentinelPaymentsTest
      * Place order on frontend via one page checkout and PayPal PayflowPro 3D Secure payment method
      * with valid credit card.
      *
-     * @param DataFixture $fixture
+     * @param FixtureInterface $fixture
      * @dataProvider validCreditCardDataProvider
      * @ZephyrId MAGETWO-12437, MAGETWO-12439, MAGETWO-12828
      */
-    public function testValidCreditCard(DataFixture $fixture)
+    public function testValidCreditCard(FixtureInterface $fixture)
     {
         //Data
         $fixture->persist();

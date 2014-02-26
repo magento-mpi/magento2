@@ -12,7 +12,7 @@
 
 namespace Magento\Sales\Test\Handler\Ui;
 
-use Mtf\Fixture;
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Handler\Ui;
 use Mtf\Factory\Factory;
 
@@ -27,9 +27,9 @@ class CloseOrder extends Ui
     /**
      * Close sales order
      *
-     * @param Fixture $fixture [optional]
+     * @param FixtureInterface $fixture [optional]
      */
-    public function execute(Fixture $fixture = null)
+    public function persist(FixtureInterface $fixture = null)
     {
         $orderId = $fixture->getOrderId();
         //Pages

@@ -17,14 +17,14 @@ use Mtf\Repository\AbstractRepository;
  * Class Address Repository
  * Customer addresses
  *
- * @package Magento\Customer\Address\Repository
+ * @package Magento\Customer\Test\Repository
  */
 class Address extends AbstractRepository
 {
     /**
      * {inheritdoc}
      */
-    public function __construct(array $defaultConfig, array $defaultData)
+    public function __construct(array $defaultConfig = array(), array $defaultData = array())
     {
         $this->_data['default'] = array(
             'config' => $defaultConfig,
@@ -223,7 +223,7 @@ class Address extends AbstractRepository
 
     /**
      * Get second address for UK
-     * 
+     *
      * @return array
      */
     protected function getAddressUK2()
@@ -287,7 +287,7 @@ class Address extends AbstractRepository
 
     /**
      * Get address for Germany
-     * 
+     *
      * @return array
      */
     protected function getAddressDE()

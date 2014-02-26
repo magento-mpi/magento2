@@ -52,6 +52,9 @@ class BundleDynamic extends Bundle
                     'group' => static::GROUP_PRODUCT_DETAILS,
                     'input' => 'select'
                 ),
+                'website_ids' => array(
+                    'value' => array(1),
+                ),
                 'shipment_type' => array(
                     'value' => 'Separately',
                     'input_value' => '1',
