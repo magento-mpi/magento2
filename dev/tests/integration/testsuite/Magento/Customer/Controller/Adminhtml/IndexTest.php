@@ -439,6 +439,29 @@ class IndexTest extends \Magento\Backend\Utility\Controller
     }
 
     /**
+     * Test the editing of a new customer that has not been saved but the page has been reloaded
+     */
+    public function testNewActionWithCustomerData()
+    {
+        $customerData = [
+            'customer_id' => 0,
+            'account'     => [
+                'created_in'                => false,
+                'disable_auto_group_change' => false,
+                'email'                     => false,
+                'firstname'                 => false,
+                'group_id'                  => false,
+                'lastname'                  => false,
+                'website_id'                => false,
+            ],
+            'address'     => []
+        ];
+        $context = Bootstrap::getObjectManager()->get('Magento\Backend\Block\Template\Context');
+        $context->getBackendSession()->setCustomerData($customerData);
+        $this->testNewAction();
+    }
+
+    /**
      * @magentoDataFixture Magento/Customer/_files/customer_sample.php
      */
     public function testDeleteAction()
