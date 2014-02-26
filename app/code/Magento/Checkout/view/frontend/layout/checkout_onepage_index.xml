@@ -15,7 +15,7 @@
         </container>
     </referenceContainer>
     <referenceContainer name="content">
-        <block class="Magento\Checkout\Block\Onepage" name="checkout.onepage" template="onepage.phtml" cacheable="false">
+        <block class="Magento\Checkout\Block\Onepage" name="checkout.onepage" template="onepage.phtml">
             <block class="Magento\Checkout\Block\Onepage\Login" name="checkout.onepage.login" as="login" template="onepage/login.phtml" cacheable="false">
                 <container name="checkout.onepage.login.before" as="login_before" label="Login/Registration Before" htmlTag="div"/>
                 <container name="form.login.additional.info" label="invisible" as="form_additional_info"/>

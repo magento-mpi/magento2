@@ -14,6 +14,6 @@
         </block>
     </referenceBlock>
     <referenceBlock name="product.info.options.wrapper">
-        <block class="Magento\Catalog\Block\Product\View\Type\Configurable" name="product.info.options.configurable" as="options_configurable" before="-" template="product/view/type/options/configurable.phtml" cacheable="false"/>
+        <block class="Magento\Catalog\Block\Product\View\Type\Configurable" name="product.info.options.configurable" as="options_configurable" before="-" template="product/view/type/options/configurable.phtml"/>
     </referenceBlock>
 </layout>
