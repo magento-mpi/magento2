@@ -66,8 +66,8 @@ class Mode extends \Magento\Core\Model\Config\Value
      */
     public function processValue()
     {
-        if ($this->isValueChanged()) {
-            if ($this->getValue()) {
+        if ((bool)$this->getValue() != (bool)$this->getOldValue()) {
+            if ((bool)$this->getValue()) {
                 $this->indexerState->loadByIndexer(\Magento\Catalog\Model\Indexer\Product\Flat\Processor::INDEXER_ID);
                 $this->indexerState->setStatus(\Magento\Indexer\Model\Indexer\State::STATUS_INVALID);
                 $this->indexerState->save();
