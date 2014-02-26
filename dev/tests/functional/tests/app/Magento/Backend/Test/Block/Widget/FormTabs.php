@@ -12,10 +12,13 @@
 
 namespace Magento\Backend\Test\Block\Widget;
 
+use Mtf\Block\Mapper;
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 use Mtf\Fixture\InjectableFixture;
+use Mtf\Util\Iterator\File;
+use Mtf\Util\XmlConverter;
 
 /**
  * Class FormTabs
@@ -28,7 +31,69 @@ class FormTabs extends Form
     /**
      * @var array
      */
-    protected $tabClasses = array();
+    protected $tabs = [];
+
+    /**
+     * @var XmlConverter
+     */
+    protected $xmlConverter;
+
+    /**
+     * Fields which aren't assigned to any tab
+     *
+     * @var array
+     */
+    protected $unassignedFields = [];
+
+    /**
+     * @constructor
+     * @param Element $element
+     * @param Mapper $mapper
+     * @param XmlConverter $xmlConverter
+     */
+    public function __construct(
+        Element $element,
+        Mapper $mapper,
+        XmlConverter $xmlConverter
+    ) {
+        $this->xmlConverter = $xmlConverter;
+        parent::__construct($element, $mapper);
+    }
+
+    /**
+     * Initialize block
+     */
+    protected function _init()
+    {
+        $this->tabs = $this->getTabs();
+    }
+
+    /**
+     * Get all tabs on the form
+     *
+     * @return array
+     */
+    protected function getTabs()
+    {
+        $result = [];
+
+        $paths = glob(
+            MTF_TESTS_PATH . preg_replace('/Magento\/\w+/', '*/*', str_replace('\\', '/', get_class($this))) . '.xml'
+        );
+        $files = new File($paths);
+
+        foreach ($files as $file) {
+            $presetXml = simplexml_load_string($file);
+            if ($presetXml instanceof \SimpleXMLElement) {
+                $array = $this->xmlConverter->convert($presetXml);
+                if (is_array($array)) {
+                    $result = array_replace_recursive($result, $array);
+                }
+            }
+        }
+
+        return $result;
+    }
 
     /**
      * Fill form with tabs
@@ -40,10 +105,54 @@ class FormTabs extends Form
     public function fill(FixtureInterface $fixture, Element $element = null)
     {
         $tabs = $this->getFieldsByTabs($fixture);
-        foreach ($tabs as $tab => $tabFields) {
-            $this->openTab($tab)->fillFormTab($tabFields, $this->_rootElement);
+        foreach ($tabs as $tabName => $tabFields) {
+            $tabElement = $this->getTabElement($tabName);
+            $this->openTab($tabName);
+            $tabElement->fillFormTab(array_merge($tabFields, $this->unassignedFields), $this->_rootElement);
+            $this->updateUnassignedFields($tabElement);
         }
+        if (!empty($this->unassignedFields)) {
+            $this->fillMissedFields($tabs);
+        }
+
         return $this;
+    }
+
+    /**
+     * Update array with fields which aren't assigned to any tab
+     *
+     * @param Tab $tabElement
+     */
+    protected function updateUnassignedFields(Tab $tabElement)
+    {
+        $this->unassignedFields = array_diff_key(
+            $this->unassignedFields, array_intersect_key($this->unassignedFields, $tabElement->setFields)
+        );
+    }
+
+    /**
+     * Fill fields which weren't found on filled tabs
+     *
+     * @param array $tabs
+     * @throws \Exception
+     */
+    protected function fillMissedFields(array $tabs)
+    {
+        foreach (array_diff_key($this->tabs, $tabs) as $tabName => $tabData) {
+            $tabElement = $this->getTabElement($tabName);
+            if ($this->openTab($tabName)) {
+                $tabElement->fillFormTab($this->unassignedFields, $this->_rootElement);
+                $this->updateUnassignedFields($tabElement);
+                if (empty($this->unassignedFields)) {
+                    break;
+                }
+            }
+        }
+
+        if (!empty($this->unassignedFields)) {
+            throw new \Exception('Could not find all elements on the tabs: '
+                . implode(', ', array_keys($this->unassignedFields)));
+        }
     }
 
     /**
@@ -109,11 +218,12 @@ class FormTabs extends Form
         $data = $fixture->getData();
         foreach ($data as $field => $value) {
             $attributes = $fixture->getDataFieldConfig($field);
-            if (!isset($attributes['group'])) {
-                continue;
-            }
             $attributes['value'] = $value;
-            $tabs[$attributes['group']][$field] = $attributes;
+            if (array_key_exists('group', $attributes) && $attributes['group'] !== null) {
+                $tabs[$attributes['group']][$field] = $attributes;
+            } elseif (!array_key_exists('group', $attributes)) {
+                $this->unassignedFields[$field] = $attributes;
+            }
         }
         return $tabs;
     }
@@ -133,10 +243,11 @@ class FormTabs extends Form
         $fields = isset($dataSet['fields']) ? $dataSet['fields'] : [];
 
         foreach ($fields as $field => $attributes) {
-            if (!isset($attributes['group'])) {
-                continue;
+            if (array_key_exists('group', $attributes) && $attributes['group'] !== null) {
+                $tabs[$attributes['group']][$field] = $attributes;
+            } elseif (!array_key_exists('group', $attributes)) {
+                $this->unassignedFields[$field] = $attributes;
             }
-            $tabs[$attributes['group']][$field] = $attributes;
         }
         return $tabs;
     }
@@ -144,22 +255,20 @@ class FormTabs extends Form
     /**
      * Get tab element
      *
-     * @param $tab
+     * @param string $tabName
      * @return Tab
      * @throws \Exception
      */
-    private function getTabElement($tab)
+    protected function getTabElement($tabName)
     {
-        $tabRootElement = $this->_rootElement->find($tab, Locator::SELECTOR_ID);
-
-        $tabClass = isset($this->tabClasses[$tab])
-            ? $this->tabClasses[$tab]
-            : '\Magento\Backend\Test\Block\Widget\Tab';
+        $tabClass = $this->tabs[$tabName]['class'];
         /** @var $tabElement Tab */
-        $tabElement = new $tabClass($tabRootElement);
+        $tabElement = new $tabClass($this->_rootElement, $this->mapper);
         if (!$tabElement instanceof Tab) {
             throw new \Exception('Wrong Tab Class.');
         }
+        $tabElement->setWrapper(isset($this->tabs[$tabName]['wrapper']) ? $this->tabs[$tabName]['wrapper'] : '');
+        $tabElement->setMapping(isset($this->tabs[$tabName]['fields']) ? (array)$this->tabs[$tabName]['fields'] : []);
 
         return $tabElement;
     }
@@ -172,8 +281,13 @@ class FormTabs extends Form
      */
     public function openTab($tabName)
     {
-        $tabElement = $this->getTabElement($tabName);
-        $tabElement->open($this->_rootElement);
-        return $tabElement;
+        $selector = $this->tabs[$tabName]['selector'];
+        $strategy = isset($this->tabs[$tabName]['strategy'])
+            ? $this->tabs[$tabName]['strategy']
+            : Locator::SELECTOR_CSS;
+        $tab = $this->_rootElement->find($selector, $strategy);
+        $tab->click();
+
+        return $this;
     }
 }

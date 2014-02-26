@@ -11,9 +11,8 @@
 
 namespace Magento\Checkout\Test\Block\Onepage\Payment;
 
-use Mtf\Block\Block;
+use Mtf\Block\Form;
 use Mtf\Client\Element\Locator;
-use Magento\Payment\Test\Block\Form;
 use Magento\Checkout\Test\Fixture\Checkout;
 
 /**
@@ -22,7 +21,7 @@ use Magento\Checkout\Test\Fixture\Checkout;
  *
  * @package Magento\Checkout\Test\Block\Onepage\Payment
  */
-class Methods extends Block
+class Methods extends Form
 {
     /**
      * Payment method selector
@@ -60,8 +59,10 @@ class Methods extends Block
         if (isset($dataConfig['payment_form_class'])) {
             $paymentFormClass = $dataConfig['payment_form_class'];
             /** @var $formBlock \Magento\Payment\Test\Block\Form\Cc */
-            $formBlock = new $paymentFormClass($this->_rootElement->find('#payment_form_' . $paymentCode),
-                Locator::SELECTOR_CSS);
+            $formBlock = new $paymentFormClass(
+                $this->_rootElement->find('#payment_form_' . $paymentCode),
+                $this->mapper
+            );
             $formBlock->fill($fixture);
         }
 

@@ -11,9 +11,10 @@
 
 namespace Magento\Tax\Test\Block\Adminhtml\Rule\Edit;
 
-use Mtf\Fixture\FixtureInterface;
+use Mtf\Client\Element;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Block\Form as FormInterface;
 use Magento\Tax\Test\Fixture\TaxRule;
 
@@ -96,12 +97,15 @@ class Form extends FormInterface
     }
 
     /**
-     * Fill Tax Rule data on the form
+     * Fill the root form
      *
-     * @param TaxRule $fixture
+     * @param FixtureInterface $fixture
+     * @param Element $element
+     * @return $this
      */
-    public function fillTaxRuleData(TaxRule $fixture)
+    public function fill(FixtureInterface $fixture, Element $element = null)
     {
+        /** @var TaxRule $fixture */
         $data = $fixture->getData('fields');
         $this->_rootElement->find($this->name, Locator::SELECTOR_CSS)->setValue($fixture->getTaxRuleName());
         $this->getTaxRateBlock()->selectTaxRate($fixture->getTaxRate());

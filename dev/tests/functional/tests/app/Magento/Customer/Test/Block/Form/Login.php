@@ -39,29 +39,6 @@ class Login extends Form
     protected $registerButton = '.action.create';
 
     /**
-     * {@inheritdoc}
-     */
-    protected $_mapping = array(
-        'email' => '#email',
-        'password' => '#pass'
-    );
-
-    /**
-     * Fill customer login data
-     *
-     * @param array $fields
-     * @param Element $element
-     */
-    protected function _fill(array $fields, Element $element = null)
-    {
-        $loginData = array(
-            $fields['email'],
-            $fields['password']
-        );
-        parent::_fill($loginData, $element);
-    }
-
-    /**
      * Login customer in the Frontend
      *
      * @param Customer $fixture

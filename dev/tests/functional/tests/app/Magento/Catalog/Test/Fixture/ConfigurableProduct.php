@@ -26,7 +26,7 @@ class ConfigurableProduct extends Product
     /**
      * Mapping data into ui tabs
      */
-    const GROUP = 'product_info_tabs_super_config_content';
+    const GROUP = 'variations';
 
     /**
      * @var array
@@ -218,8 +218,12 @@ class ConfigurableProduct extends Product
                     'value' => '1',
                     'group' => static::GROUP_PRODUCT_DETAILS
                 ),
-                'website_ids' => array(
-                    'value' => array(1),
+                'product_website_1' => array(
+                    'value' => 'Yes',
+                    'input_value' => array(1),
+                    'group' => static::GROUP_PRODUCT_WEBSITE,
+                    'input' => 'checkbox',
+                    'input_name' => 'website_ids'
                 ),
                 'configurable_attributes_data' => array(
                     'value' => array(

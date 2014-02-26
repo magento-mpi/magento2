@@ -68,14 +68,14 @@ class Customer extends AbstractRepository
                     'city' => array(
                         'value' => 'Culver City'
                     ),
-                    'region' => array(
+                    'region_id' => array(
                         'value' => 'California',
                         'input' => 'select'
                     ),
                     'postcode' => array(
                         'value' => '90230'
                     ),
-                    'country' => array(
+                    'country_id' => array(
                         'value' => 'United States',
                         'input' => 'select'
                     )

@@ -69,7 +69,7 @@ class PaypalCreditCardTest extends Functional
 
         /** @var \Magento\Payment\Test\Block\Form\PayflowAdvanced\Cc $formBlock */
         $formBlock = call_user_func_array(array($this, $formBlockFunction), array($checkoutOnePage));
-        $formBlock->fill($fixture);
+        $formBlock->fill($fixture->getCreditCard());
         $formBlock->pressContinue();
 
         //Verify order in Backend

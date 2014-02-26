@@ -75,13 +75,15 @@ class Conditions extends Tab
      *
      * @param array $fields
      * @param Element $element
+     *
+     * @return $this
      */
     public function fillFormTab(array $fields, Element $element)
     {
         foreach ($fields as $key => $value) {
-            $this->_mapping[$key] = self::FIELD_PREFIX . $key;
+            $this->mapping[$key] = self::FIELD_PREFIX . $key;
         }
-        parent::fillFormTab($fields, $element);
+        return parent::fillFormTab($fields, $element);
     }
 
     /**

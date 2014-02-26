@@ -11,9 +11,13 @@
 
 namespace Magento\Bundle\Test\Fixture;
 
-use Mtf\System\Config;
 use Mtf\Factory\Factory;
 
+/**
+ * Class BundleFixed
+ *
+ * @package Magento\Bundle\Test\Fixture
+ */
 class BundleFixed extends Bundle
 {
     /**
@@ -66,8 +70,12 @@ class BundleFixed extends Bundle
                     'value' => '1',
                     'group' => static::GROUP_PRODUCT_DETAILS
                 ),
-                'website_ids' => array(
-                    'value' => array(1),
+                'product_website_1' => array(
+                    'value' => 'Yes',
+                    'input_value' => array(1),
+                    'group' => static::GROUP_PRODUCT_WEBSITE,
+                    'input' => 'checkbox',
+                    'input_name' => 'website_ids'
                 ),
                 'shipment_type' => array(
                     'value' => 'Separately',

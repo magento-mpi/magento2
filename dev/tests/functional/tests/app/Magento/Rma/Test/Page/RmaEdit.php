@@ -67,11 +67,11 @@ class RmaEdit extends Page
     /**
      * Get Rma info tabs block
      *
-     * @return \Magento\Backend\Test\Block\Widget\FormTabs
+     * @return \Magento\Rma\Test\Block\Adminhtml\Rma\Edit\Tabs
      */
     public function getFormTabsBlock()
     {
-        return Factory::getBlockFactory()->getMagentoBackendWidgetFormTabs(
+        return Factory::getBlockFactory()->getMagentoRmaAdminhtmlRmaEditTabs(
             $this->_browser->find($this->formTabsBlock, Locator::SELECTOR_CSS)
         );
     }

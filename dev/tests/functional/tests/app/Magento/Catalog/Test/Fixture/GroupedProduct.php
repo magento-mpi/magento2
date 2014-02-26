@@ -22,7 +22,7 @@ use Mtf\Factory\Factory;
  */
 class GroupedProduct extends Product
 {
-    const GROUP = 'product_info_tabs_grouped_content';
+    const GROUP = 'grouped-product';
 
     /**
      * List of fixtures from created products

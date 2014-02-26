@@ -24,16 +24,6 @@ use Mtf\Client\Element\Locator;
 class Matrix extends Form
 {
     /**
-     * {@inheritdoc}
-     */
-    protected $_mapping = array(
-        'name' => '//*[@data-column="name"]/input',
-        'sku' => '//*[@data-column="sku"]/input',
-        'qty' => '//*[@data-column="qty"]/input',
-        'weight' => '//*[@data-column="weight"]/input'
-    );
-
-    /**
      * Fill qty to current variations
      *
      * @param array $variations
@@ -43,9 +33,10 @@ class Matrix extends Form
         foreach ($variations as $variation) {
             $variationRow = $this->getVariationRow($variation['configurable_attribute']);
             foreach ($variation['value'] as $key => $field) {
-                if (!empty($this->_mapping[$key])) {
-                    $this->_rootElement->find($variationRow . $this->_mapping[$key], Locator::SELECTOR_XPATH)
-                        ->setValue($field['value']);
+                if (!empty($this->mapping[$key])) {
+                    $this->_rootElement->find(
+                        $variationRow . $this->mapping[$key]['selector'], Locator::SELECTOR_XPATH
+                    )->setValue($field['value']);
                 }
             }
         }

@@ -236,7 +236,7 @@ class CatalogProductBundle extends InjectableFixture
         'is_required' => '1',
         'default_value' => '',
         'input' => 'text',
-        'group' => 'product_info_tabs_product-details'
+        'group' => 'product-details'
     ];
 
     protected $news_from_date = [
@@ -285,7 +285,7 @@ class CatalogProductBundle extends InjectableFixture
         'is_required' => '1',
         'default_value' => '',
         'input' => 'price',
-        'group' => 'product_info_tabs_product-details',
+        'group' => 'product-details',
     ];
 
     protected $price_type = [
@@ -294,7 +294,7 @@ class CatalogProductBundle extends InjectableFixture
         'is_required' => '1',
         'default_value' => '',
         'input' => 'select',
-        'group' => 'product_info_tabs_product-details',
+        'group' => 'product-details',
     ];
 
     protected $price_view = [
@@ -343,7 +343,7 @@ class CatalogProductBundle extends InjectableFixture
         'is_required' => '1',
         'default_value' => '',
         'input' => 'text',
-        'group' => 'product_info_tabs_product-details'
+        'group' => 'product-details'
     ];
 
     protected $sku_type = [
@@ -352,7 +352,7 @@ class CatalogProductBundle extends InjectableFixture
         'is_required' => '1',
         'default_value' => '',
         'input' => 'select',
-        'group' => 'product_info_tabs_product-details',
+        'group' => 'product-details',
     ];
 
     protected $small_image = [
@@ -492,7 +492,7 @@ class CatalogProductBundle extends InjectableFixture
         'attribute_code' => 'bundle_selections',
         'backend_type' => 'virtual',
         'is_required' => '1',
-        'group' => 'product_info_tabs_bundle_content',
+        'group' => 'bundle',
         'fixture' => 'Magento\Bundle\Test\Fixture\Bundle\Selections',
     ];
 

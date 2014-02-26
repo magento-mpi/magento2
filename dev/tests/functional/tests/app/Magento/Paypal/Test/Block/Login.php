@@ -31,14 +31,6 @@ class Login extends Form
     protected $submitLogin = '#submitLogin';
 
     /**
-     * {@inheritdoc}
-     */
-    protected $_mapping = array(
-        'login_email' => '#login_email',
-        'login_password' => '#login_password'
-    );
-
-    /**
      * Login to Paypal account
      *
      * @param Customer $fixture

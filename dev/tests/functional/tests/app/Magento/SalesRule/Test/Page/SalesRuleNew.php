@@ -35,7 +35,7 @@ class SalesRuleNew extends Page
      *
      * @var string
      */
-    protected $conditionsTabId = 'promo_catalog_edit_tabs_conditions_section';
+    protected $conditionsTabId = 'conditions';
 
     /**
      * ACTIONS Tab Id
@@ -129,25 +129,5 @@ class SalesRuleNew extends Page
         return Factory::getBlockFactory()->getMagentoSalesRuleAdminhtmlPromoQuoteEditTabConditions(
             $this->_browser->find($this->conditionsChildSelector, Locator::SELECTOR_ID)
         );
-    }
-
-    /**
-     * Get the Conditions Tab Selector
-     *
-     * @return string
-     */
-    public function getConditionsTabId()
-    {
-        return $this->conditionsTabId;
-    }
-
-    /**
-     * Get the Actions Tab Selector
-     *
-     * @return string
-     */
-    public function getActionsTabId()
-    {
-        return $this->actionTabId;
     }
 }

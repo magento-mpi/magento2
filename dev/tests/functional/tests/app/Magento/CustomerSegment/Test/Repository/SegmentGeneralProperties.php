@@ -24,7 +24,7 @@ class SegmentGeneralProperties extends AbstractRepository
     /**
      *  Conditions Tab html Id
      */
-    const GENERAL_TAB_ID = 'magento_customersegment_segment_tabs_general_section';
+    const GENERAL_TAB_ID = 'general_properties';
 
     /**
      * {@inheritdoc}

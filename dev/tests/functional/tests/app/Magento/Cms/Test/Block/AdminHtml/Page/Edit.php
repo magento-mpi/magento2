@@ -24,7 +24,7 @@ use Mtf\Client\Element\Locator;
  */
 class Edit extends FormTabs
 {
-    const CONTENT_TAB = 'page_tabs_content_section';
+    const CONTENT_TAB = 'content';
 
     /**
      * Content Editor toggle button id
@@ -44,7 +44,7 @@ class Edit extends FormTabs
     {
         // Open "Content" tab and toggle the editor to make visible and available to interact
         $this->toggleEditor();
-        parent::fill($fixture);
+        return parent::fill($fixture);
     }
 
     /**

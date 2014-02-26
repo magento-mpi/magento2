@@ -12,7 +12,6 @@
 namespace Magento\Paypal\Test\Block\Express\Review;
 
 use Mtf\Block\Form;
-use Mtf\Client\Element;
 
 /**
  * Class Billing
@@ -22,31 +21,5 @@ use Mtf\Client\Element;
  */
 class Billing extends Form
 {
-    /**
-     * {@inheritdoc}
-     */
-    protected $_mapping = array(
-        'firstname' => '[id="billing:firstname"]',
-        'lastname' => '[id="billing:lastname"]',
-        'company' => '[id="billing:company"]',
-        'telephone' => '[id="billing:telephone"]',
-        'street_1' => '[id="billing:street1"]',
-        'city' => '[id="billing:city"]',
-        'region' => '[id="billing:region_id"]',
-        'postcode' => '[id="billing:postcode"]',
-        'country' => '[id="billing:country_id"]',
-    );
 
-    /**
-     * Verify form data. Unset 'email' field as it absent in current form
-     *
-     * @param array $fields
-     * @param Element $element
-     * @return bool
-     */
-    protected function _verify(array $fields, Element $element = null)
-    {
-        unset($fields['email']);
-        return parent::_verify($fields);
-    }
 }

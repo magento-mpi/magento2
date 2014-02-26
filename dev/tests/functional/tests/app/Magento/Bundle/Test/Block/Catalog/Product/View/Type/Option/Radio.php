@@ -24,13 +24,6 @@ use Mtf\Client\Element\Locator;
 class Radio extends Form
 {
     /**
-     * {@inheritdoc}
-     */
-    protected $_mapping = array(
-        'qty' => '.qty-holder input'
-    );
-
-    /**
      * Set data in bundle option
      *
      * @param array $data
@@ -38,6 +31,6 @@ class Radio extends Form
     public function fillOption(array $data)
     {
         $this->_rootElement->find('//*[contains(text(), ' . $data['value'] . ')]', Locator::SELECTOR_XPATH)->click();
-        $this->_rootElement->find($this->_mapping['qty'])->setValue($data['qty']);
+        $this->_rootElement->find($this->mapping['qty']['selector'])->setValue($data['qty']);
     }
 }

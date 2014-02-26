@@ -23,14 +23,20 @@ use Mtf\Factory\Factory;
  */
 class Crosssell extends Tab
 {
-    const GROUP = 'product_info_tabs_crosssell';
+    const GROUP = 'crosssells';
 
     /**
+     * Select cross-sells products
+     *
      * @param array $products
      * @param Element $context
+     * @return $this
      */
     public function fillFormTab(array $products, Element $context = null)
     {
+        if (!isset($products['crosssell_products'])) {
+            return $this;
+        }
         $element = $context ? : $this->_rootElement;
         $crossSellBlock = Factory::getBlockFactory()->getMagentoCatalogAdminhtmlProductEditTabCrosssellGrid(
             $element->find('#cross_sell_product_grid')
@@ -38,5 +44,7 @@ class Crosssell extends Tab
         foreach ($products['crosssell_products']['value'] as $product) {
             $crossSellBlock->searchAndSelect($product);
         }
+
+        return $this;
     }
 }

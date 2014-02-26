@@ -24,29 +24,17 @@ use Mtf\Client\Element;
 class Cc extends Form
 {
     /**
-     * {@inheritdoc}
-     */
-    protected $_mapping = array(
-        'credit_card_type' => '_cc_type',
-        'credit_card_number' => '_cc_number',
-        'expiration_month' => '_expiration',
-        'expiration_year' => '_expiration_yr',
-        'credit_card_cvv' => '_cc_cid',
-    );
-
-    /**
      * Fill credit card form
      *
      * @param FixtureInterface $fixture
      * @param Element $element
+     * @return $this|void
      */
     public function fill(FixtureInterface $fixture, Element $element = null)
     {
         /** @var $fixture \Magento\Checkout\Test\Fixture\Checkout */
-        $paymentCode = $fixture->getPaymentMethod()->getPaymentCode();
-        foreach ($this->_mapping as $key => $value) {
-            $this->_mapping[$key] = '#' . $paymentCode . $this->_mapping[$key];
-        }
-        parent::fill($fixture->getCreditCard(), $element);
+        $this->placeholders = ['paymentCode' => $fixture->getPaymentMethod()->getPaymentCode()];
+        $this->applyPlaceholders();
+        return parent::fill($fixture->getCreditCard(), $element);
     }
 }

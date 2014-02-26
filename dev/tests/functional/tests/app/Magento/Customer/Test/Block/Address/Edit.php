@@ -39,35 +39,6 @@ class Edit extends Form
     protected $vatFieldId = 'vat_id';
 
     /**
-     * Initialize block elements
-     */
-    protected $_mapping = array(
-        'firstname' => '#firstname',
-        'lastname' => '#lastname',
-        'company' => '#company',
-        'telephone' => '#telephone',
-        'street_1' => '#street_1',
-        'city' => '#city',
-        'region' => '#region_id',
-        'province' => '#region',
-        'postcode' => '#zip',
-        'country' => '#country',
-        'country_id' => '#country',
-    );
-
-    /**
-     * Fill form data. Unset 'email' field as it absent in current form.
-     *
-     * @param array $fields
-     * @param Element $element
-     */
-    protected function _fill(array $fields, Element $element = null)
-    {
-        unset($fields['email']);
-        parent::_fill($fields);
-    }
-
-    /**
      * Edit customer address
      *
      * @param Address $fixture
@@ -83,7 +54,7 @@ class Edit extends Form
      *
      * @param $vat
      */
-    public function  saveVatID($vat)
+    public function saveVatID($vat)
     {
         $this->_rootElement->find($this->vatFieldId, Locator::SELECTOR_ID)->setValue($vat);
         $this->_rootElement->find($this->saveAddress, Locator::SELECTOR_CSS)->click();

@@ -44,6 +44,13 @@ class Edit extends Form
     protected $addNewOption = '#add_new_option_button';
 
     /**
+     * Attribute option row
+     *
+     * @var string
+     */
+    protected $optionRow = '//*[@id="manage-options-panel"]//tbody//tr[%row%]';
+
+    /**
      * Open frontend properties
      */
     public function openFrontendProperties()
@@ -64,26 +71,40 @@ class Edit extends Form
      *
      * @param FixtureInterface $fixture
      * @param null|Element $element
+     * @return $this
      */
     public function fill(FixtureInterface $fixture, Element $element = null)
     {
         parent::fill($fixture, $element);
-        /** @var $fixture \Magento\Catalog\Test\Fixture\ProductAttribute */
-        $options = $fixture->getOptions();
-        foreach ($options as $option) {
-            $this->fillOption($option);
-        }
+        $this->fillOptions($fixture);
+
+        return $this;
     }
 
     /**
-     * Fill new option
+     * Fill attribute options
      *
-     * @param array $option
+     * @param FixtureInterface $fixture
      */
-    protected function fillOption(array $option)
+    protected function fillOptions(FixtureInterface $fixture)
     {
-        $this->_rootElement->find($this->addNewOption)->click();
-        $fields = $this->dataMapping($option);
-        $this->_fill($fields);
+        /** @var $fixture \Magento\Catalog\Test\Fixture\ProductAttribute */
+        $options = $fixture->getOptions();
+
+        $row = 1;
+        foreach ($options as $option) {
+            $this->_rootElement->find($this->addNewOption)->click();
+            // TODO: implement filling for any number of stores
+            $this->_rootElement->find(
+                str_replace('%row%', $row, $this->optionRow) . '/td[2]/input',
+                Element\Locator::SELECTOR_XPATH,
+                'checkbox'
+            )->setValue($option['default']['value']);
+            $this->_rootElement->find(
+                str_replace('%row%', $row, $this->optionRow) . '/td[3]/input',
+                Element\Locator::SELECTOR_XPATH
+            )->setValue($option['label']['value']);
+            ++$row;
+        }
     }
 }

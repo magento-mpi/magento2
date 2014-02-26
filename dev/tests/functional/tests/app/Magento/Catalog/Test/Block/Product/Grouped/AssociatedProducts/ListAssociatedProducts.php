@@ -17,6 +17,11 @@ use Mtf\Client\Element;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
 
+/**
+ * Class ListAssociatedProducts
+ *
+ * @package Magento\Catalog\Test\Block\Product\Grouped\AssociatedProducts
+ */
 class ListAssociatedProducts extends Block
 {
     /**

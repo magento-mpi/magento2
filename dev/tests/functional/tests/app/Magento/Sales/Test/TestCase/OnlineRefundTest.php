@@ -41,7 +41,7 @@ class OnlineRefundTest extends RefundTest
         $tabsWidget = $orderPage->getFormTabsBlock();
 
         // Step 2: Open Invoice
-        $tabsWidget->openTab('sales_order_view_tabs_order_invoices');
+        $tabsWidget->openTab('invoices');
         $orderPage->getInvoicesGrid()->clickInvoiceAmount();
 
         // Step 3: Click "Credit Memo" button on the Invoice Page
@@ -59,7 +59,7 @@ class OnlineRefundTest extends RefundTest
         );
 
         // Step 5: Go to "Credit Memos" tab
-        $tabsWidget->openTab('sales_order_view_tabs_order_creditmemos');
+        $tabsWidget->openTab('creditmemos');
         $this->assertContains(
             $fixture->getGrandTotal(),
             $orderPage->getCreditMemosGrid()->getRefundAmount(),
@@ -71,7 +71,7 @@ class OnlineRefundTest extends RefundTest
         );
 
         // Step 6: Go to Transactions tab
-        $tabsWidget->openTab('sales_order_view_tabs_order_transactions');
+        $tabsWidget->openTab('transactions');
         $this->assertContains(
             $orderPage->getTransactionsGrid()->getTransactionType(),
             'Refund'

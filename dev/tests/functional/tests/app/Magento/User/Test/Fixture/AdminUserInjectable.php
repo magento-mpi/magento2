@@ -28,6 +28,8 @@ class AdminUserInjectable extends InjectableFixture
     protected $handlerInterface = 'Magento\User\Test\Handler\AdminUser\AdminUserInterface';
 
     protected $defaultDataSet = [
+        'username' => 'admin',
+        'password' => '123123q',
         'created' => null,
         'is_active' => null,
         'interface_locale' => null,

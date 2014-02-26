@@ -11,8 +11,6 @@
 
 namespace Magento\CatalogRule\Test\Block\Adminhtml\Promo\Catalog;
 
-use Mtf\Fixture\FixtureInterface;
-use Mtf\Client\Element;
 use Magento\Backend\Test\Block\Widget\FormTabs;
 
 /**
@@ -23,11 +21,5 @@ use Magento\Backend\Test\Block\Widget\FormTabs;
  */
 class Edit extends FormTabs
 {
-    /**
-     * {@inheritdoc}
-     */
-    protected $tabClasses = array(
-        'promo_catalog_edit_tabs_conditions_section' =>
-        '\\Magento\\CatalogRule\\Test\\Block\\Adminhtml\\Promo\\Catalog\\Edit\\Tab\\Conditions',
-    );
+    //
 }

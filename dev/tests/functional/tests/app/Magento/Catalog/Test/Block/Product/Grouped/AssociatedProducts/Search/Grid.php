@@ -12,10 +12,13 @@
 namespace Magento\Catalog\Test\Block\Product\Grouped\AssociatedProducts\Search;
 
 use Mtf\Client\Element;
-use Mtf\Factory\Factory;
-use Mtf\Client\Element\Locator;
 use Magento\Backend\Test\Block\Widget\Grid as GridInterface;
 
+/**
+ * Class Grid
+ *
+ * @package Magento\Catalog\Test\Block\Product\Grouped\AssociatedProducts\Search
+ */
 class Grid extends GridInterface
 {
     /**

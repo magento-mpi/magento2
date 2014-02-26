@@ -22,9 +22,9 @@ class Page extends AbstractRepository
 {
     const PAGE = 'page';
 
-    const MAIN_TAB_ID = 'page_tabs_main_section';
+    const MAIN_TAB_ID = 'page_information';
 
-    const CONTENT_TAB_ID = 'page_tabs_content_section';
+    const CONTENT_TAB_ID = 'content';
 
     /**
      * {@inheritdoc}
@@ -54,33 +54,33 @@ class Page extends AbstractRepository
         return array(
             'data' => array(
                 'fields' => array(
-                    'page_title' => array(
+                    'title' => array(
                         'value' => 'CMS Page%isolation%',
                         'group' => self::MAIN_TAB_ID
                     ),
-                    'page_identifier' => array(
+                    'identifier' => array(
                         'value' => 'identifier%isolation%',
                         'group' => self::MAIN_TAB_ID
                     ),
-                    'page_store_id' => array(
+                    'store_id' => array(
                         'value' => 'All Store Views',
                         'group' => self::MAIN_TAB_ID,
                         'input' => 'select',
                         'input_value' => '0'
                     ),
-                    'page_is_active' => array(
+                    'is_active' => array(
                         'value' => 'Published',
                         'group' => self::MAIN_TAB_ID,
                         'input' => 'select',
                         'input_value' => '1'
                     ),
-                    'page_under_version_control' => array(
+                    'under_version_control' => array(
                         'value' => 'No',
                         'group' => self::MAIN_TAB_ID,
                         'input' => 'select',
                         'input_value' => '0'
                     ),
-                    'page_content' => array(
+                    'content' => array(
                         'value' => 'Test %isolation%',
                         'group' => self::CONTENT_TAB_ID
                     )

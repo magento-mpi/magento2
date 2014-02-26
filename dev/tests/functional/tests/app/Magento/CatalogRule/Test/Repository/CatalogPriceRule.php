@@ -26,11 +26,11 @@ class CatalogPriceRule extends AbstractRepository
 
     const CUSTOMER_GROUP_GENERAL_RULE = 'customer_group_general_rule';
 
-    const GROUP_RULE_INFORMATION = 'promo_catalog_edit_tabs_main_section';
+    const GROUP_RULE_INFORMATION = 'rule_information';
 
-    const GROUP_CONDITIONS = 'promo_catalog_edit_tabs_conditions_section';
+    const GROUP_CONDITIONS = 'conditions';
 
-    const GROUP_ACTIONS = 'promo_catalog_edit_tabs_actions_section';
+    const GROUP_ACTIONS = 'actions';
 
     const CONDITION_TYPE = 'conditions__1__new_child';
 
@@ -52,30 +52,30 @@ class CatalogPriceRule extends AbstractRepository
         return array(
             'data' => array(
                 'fields' => array(
-                    'rule_name' => array('value' => 'Rule %isolation%', 'group' => static::GROUP_RULE_INFORMATION),
-                    'rule_is_active' => array(
+                    'name' => array('value' => 'Rule %isolation%', 'group' => static::GROUP_RULE_INFORMATION),
+                    'is_active' => array(
                         'value' => 'Active',
                         'group' => static::GROUP_RULE_INFORMATION,
                         'input' => 'select'
                     ),
-                    'rule_website_ids' => array(
+                    'website_ids' => array(
                         'value' => array('Main Website'),
                         'group' => static::GROUP_RULE_INFORMATION,
                         'input' => 'multiselect',
                         'input_value' => array('1')
                     ),
-                    'rule_customer_group_ids' => array(
+                    'customer_group_ids' => array(
                         'value' => array('%group_value%'),
                         'group' => static::GROUP_RULE_INFORMATION,
                         'input' => 'multiselect',
                         'input_value' => array('%group_id%')
                     ),
-                    'rule_simple_action' => array(
+                    'simple_action' => array(
                         'value' => 'By Percentage of the Original Price',
                         'group' => static::GROUP_ACTIONS,
                         'input' => 'select'
                     ),
-                    'rule_discount_amount' => array('value' => '50.0000', 'group' => static::GROUP_ACTIONS),
+                    'discount_amount' => array('value' => '50.0000', 'group' => static::GROUP_ACTIONS),
                     self::CONDITION_TYPE => array(
                         'value' => 'Category',
                         'group' => static::GROUP_CONDITIONS,
@@ -97,7 +97,7 @@ class CatalogPriceRule extends AbstractRepository
         return array(
             'data' => array(
                 'fields' => array(
-                    'rule_customer_group_ids' => array(
+                    'customer_group_ids' => array(
                         'value' => array('NOT LOGGED IN', 'General', 'Wholesale', 'Retailer'),
                         'group' => static::GROUP_RULE_INFORMATION,
                         'input' => 'multiselect',

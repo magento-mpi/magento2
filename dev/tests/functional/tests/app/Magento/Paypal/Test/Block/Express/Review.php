@@ -46,7 +46,7 @@ class Review extends Form
      *
      * @var string
      */
-    protected $shippingMethod = '#shipping_method';
+    protected $shippingMethod = '#shipping-method';
 
     /**
      * Billing address block
@@ -61,13 +61,6 @@ class Review extends Form
      * @var string
      */
     protected $shippingBlock = '#shipping-address';
-
-    /**
-     * {@inheritdoc}
-     */
-    protected $_mapping = array(
-        'telephone' => '[id="shipping:telephone"]'
-    );
 
     /**
      * Get billing address block

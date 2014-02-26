@@ -43,9 +43,9 @@ class Address extends DataFixture
             . (isset($data['fields']['suffix']['value']) ? $data['fields']['suffix']['value'] . ' ' : '')
             . $data['fields']['street_1']['value'] . ', '
             . $data['fields']['city']['value'] . ', '
-            . $data['fields']['region']['value'] . ' '
+            . $data['fields']['region_id']['value'] . ' '
             . $data['fields']['postcode']['value'] . ', '
-            . $data['fields']['country']['value'];
+            . $data['fields']['country_id']['value'];
 
         return $address;
     }

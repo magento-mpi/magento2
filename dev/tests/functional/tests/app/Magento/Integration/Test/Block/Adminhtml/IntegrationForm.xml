@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<tabs>
+    <integration_info>
+        <class>\Magento\Integration\Test\Block\Adminhtml\Integration\Edit\Tab\Info</class>
+        <selector>#integration_edit_tabs_info_section</selector>
+        <strategy>css selector</strategy>
+    </integration_info>
+    <api>
+        <class>\Magento\Integration\Test\Block\Adminhtml\Integration\Edit\Tab\Api</class>
+        <selector>#integration_edit_tabs_api_section</selector>
+        <strategy>css selector</strategy>
+    </api>
+</tabs>

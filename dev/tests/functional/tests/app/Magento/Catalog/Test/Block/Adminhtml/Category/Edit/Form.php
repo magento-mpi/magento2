@@ -31,14 +31,10 @@ class Form extends FormTabs
     protected $saveButton = '[data-ui-id=category-edit-form-save-button]';
 
     /**
-     * Custom tab classes for product form
+     * Get category id
      *
-     * @var array
+     * @return array|string
      */
-    protected $tabClasses = array(
-        'category_info_tabs_group_4' => '\\Magento\\Catalog\\Test\\Block\\Adminhtml\\Category\\Tab\\Attributes'
-    );
-
     public function getCategoryId()
     {
         $idField = $this->_rootElement->find('group_4id', Locator::SELECTOR_ID);

@@ -45,7 +45,7 @@ class OfflineRefundTest extends RefundTest
 
         if ($fixture instanceof AuthorizeNetOrder) {
             // Step 2: Open Invoice
-            $tabsWidget->openTab('sales_order_view_tabs_order_invoices');
+            $tabsWidget->openTab('invoices');
             $orderPage->getInvoicesGrid()->clickInvoiceAmount();
 
             // Step 3: Click "Credit Memo" button on the Invoice Page
@@ -66,7 +66,7 @@ class OfflineRefundTest extends RefundTest
         );
 
         // Step 4/5: Go to "Credit Memos" tab
-        $tabsWidget->openTab('sales_order_view_tabs_order_creditmemos');
+        $tabsWidget->openTab('creditmemos');
         $this->assertContains(
             $fixture->getGrandTotal(),
             $orderPage->getCreditMemosGrid()->getRefundAmount(),

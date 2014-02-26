@@ -58,7 +58,7 @@ class LoginUserTest extends Injectable
     {
         // Steps
         $this->loginPage->open();
-        $this->loginPage->getLoginBlock()->fillForm($adminUser);
+        $this->loginPage->getLoginBlock()->fill($adminUser);
         $this->loginPage->getLoginBlock()->submit();
     }
 }

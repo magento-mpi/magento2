@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<tabs>
+    <invoices>
+        <class>\Magento\Backend\Test\Block\Widget\Tab</class>
+        <selector>#sales_order_view_tabs_order_invoices</selector>
+        <strategy>css selector</strategy>
+    </invoices>
+    <creditmemos>
+        <class>\Magento\Backend\Test\Block\Widget\Tab</class>
+        <selector>#sales_order_view_tabs_order_creditmemos</selector>
+        <strategy>css selector</strategy>
+    </creditmemos>
+    <returns>
+        <class>\Magento\Backend\Test\Block\Widget\Tab</class>
+        <selector>#sales_order_view_tabs_order_rma</selector>
+        <strategy>css selector</strategy>
+    </returns>
+    <transactions>
+        <class>\Magento\Backend\Test\Block\Widget\Tab</class>
+        <selector>#sales_order_view_tabs_order_transactions</selector>
+        <strategy>css selector</strategy>
+    </transactions>
+</tabs>

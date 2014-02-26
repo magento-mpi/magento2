@@ -20,12 +20,12 @@ class Product extends DataFixture
     /**
      * Attribute set for mapping data into ui tabs
      */
-    const GROUP_PRODUCT_DETAILS     = 'product_info_tabs_product-details';
-    const GROUP_ADVANCED_SEO        = 'product_info_tabs_search-optimization';
-    const GROUP_PRODUCT_WEBSITE     = 'product_info_tabs_websites';
-    const GROUP_PRODUCT_INVENTORY   = 'product_info_tabs_advanced-inventory';
-    const GROUP_PRODUCT_PRICING     = 'product_info_tabs_advanced-pricing';
-    const GROUP_CUSTOM_OPTIONS      = 'product_info_tabs_customer_options';
+    const GROUP_PRODUCT_DETAILS     = 'product-details';
+    const GROUP_ADVANCED_SEO        = 'search-optimization';
+    const GROUP_PRODUCT_WEBSITE     = 'websites';
+    const GROUP_PRODUCT_INVENTORY   = 'advanced-inventory';
+    const GROUP_PRODUCT_PRICING     = 'advanced-pricing';
+    const GROUP_CUSTOM_OPTIONS      = 'customer-options';
 
     /**
      * Possible options used for visibility field

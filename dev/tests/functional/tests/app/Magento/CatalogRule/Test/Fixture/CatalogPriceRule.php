@@ -39,7 +39,7 @@ class CatalogPriceRule extends DataFixture
      */
     public function getRuleName()
     {
-        return $this->getData('fields/rule_name/value');
+        return $this->getData('fields/name/value');
     }
 
     /**
@@ -47,6 +47,6 @@ class CatalogPriceRule extends DataFixture
      */
     public function getDiscountAmount()
     {
-        return $this->getData('fields/rule_discount_amount/value');
+        return $this->getData('fields/discount_amount/value');
     }
 }

@@ -5,14 +5,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\SalesRule\Test\Repository;
 
 use Mtf\Repository\AbstractRepository;
-use Magento\SalesRule\Test\Block\Adminhtml\Promo\Quote\Edit\Tab\Main;
-use Magento\SalesRule\Test\Block\Adminhtml\Promo\Quote\Edit\Tab\Actions;
 
 class SalesRule extends AbstractRepository
 {
+    /**
+     * Tabs
+     */
+    const GROUP_RULE_INFORMATION = 'rule_information';
+    const GROUP_ACTIONS = 'actions';
+
     /**
      * Key for simple data
      */
@@ -42,7 +47,14 @@ class SalesRule extends AbstractRepository
     protected function _getSalesRuleActions()
     {
         return array(
-            'data' => array('fields' => array('discount_amount' => array('value' => '50', 'group' => Actions::GROUP)))
+            'data' => array(
+                'fields' => array(
+                    'discount_amount' => array(
+                        'value' => '50',
+                        'group' => self::GROUP_ACTIONS
+                    )
+                )
+            )
         );
     }
 
@@ -55,16 +67,19 @@ class SalesRule extends AbstractRepository
         return array(
             'data' => array(
                 'fields' => array(
-                    'name' => array('value' => 'Simple Cart Price Rule %isolation%', 'group' => Main::GROUP),
+                    'name' => array(
+                        'value' => 'Simple Cart Price Rule %isolation%',
+                        'group' => self::GROUP_RULE_INFORMATION
+                    ),
                     'website_ids' => array(
                         'value' => array('Main Website'),
-                        'group' => Main::GROUP,
+                        'group' => self::GROUP_RULE_INFORMATION,
                         'input' => 'multiselect',
                         'input_value' => array('1')
                     ),
                     'customer_group_ids' => array(
                         'value' => array('NOT LOGGED IN', 'General', 'Wholesale', 'Retailer'),
-                        'group' => Main::GROUP,
+                        'group' => self::GROUP_RULE_INFORMATION,
                         'input' => 'multiselect',
                         'input_value' => array('0', '1', '2', '3')
                     )

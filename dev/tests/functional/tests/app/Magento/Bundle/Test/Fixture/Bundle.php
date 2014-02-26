@@ -22,7 +22,7 @@ use Magento\Catalog\Test\Fixture\Product;
  */
 class Bundle extends Product
 {
-    const GROUP = 'product_info_tabs_bundle_content';
+    const GROUP = 'bundle';
 
     /**
      * List of fixtures from created products

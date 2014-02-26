@@ -11,9 +11,6 @@
 
 namespace Magento\Sales\Test\Block\Widget\Guest;
 
-use Mtf\Fixture\FixtureInterface;
-use Mtf\Block\Block;
-use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 
 /**
@@ -23,22 +20,6 @@ use Mtf\Client\Element\Locator;
  */
 class Form extends \Mtf\Block\Form
 {
-    protected $_mapping = [
-        'order_id' => [
-            'selector' => '#oar-order-id'
-        ],
-        'billing_last_name' => [
-            'selector' => '#oar-billing-lastname'
-        ],
-        'find_order_by' => [
-            'selector' => '#quick-search-type-id',
-            'input' => 'select'
-        ],
-        'email_address' => [
-            'selector' => '#oar_email'
-        ],
-    ];
-
     /**
      * Search button selector
      *

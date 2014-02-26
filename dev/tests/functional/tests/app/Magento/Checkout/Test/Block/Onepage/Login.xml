@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<mapping strict="1">
+    <wrapper>login</wrapper>
+    <fields>
+        <email>
+            <selector>[name='login[username]']</selector>
+        </email>
+        <password />
+    </fields>
+</mapping>

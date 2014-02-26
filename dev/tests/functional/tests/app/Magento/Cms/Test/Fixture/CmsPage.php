@@ -41,7 +41,7 @@ class CmsPage extends InjectableFixture
         'backend_type' => 'varchar',
         'is_required' => '',
         'default_value' => 'CMS Page%isolation%',
-        'group' => 'page_tabs_main_section',
+        'group' => 'page_information',
         'selector' => '#page_title'
     ];
 
@@ -50,7 +50,7 @@ class CmsPage extends InjectableFixture
         'backend_type' => 'varchar',
         'is_required' => '',
         'default_value' => 'identifier%isolation%',
-        'group' => 'page_tabs_main_section',
+        'group' => 'page_information',
         'selector' => '#page_identifier'
     ];
 
@@ -60,7 +60,7 @@ class CmsPage extends InjectableFixture
         'is_required' => '1',
         'default_value' => 'All Store Views',
         'input' => 'select',
-        'group' => 'page_tabs_main_section',
+        'group' => 'page_information',
         'selector' => '#page_store_id'
     ];
 
@@ -70,7 +70,7 @@ class CmsPage extends InjectableFixture
         'is_required' => '',
         'default_value' => 'Published',
         'input' => 'select',
-        'group' => 'page_tabs_main_section',
+        'group' => 'page_information',
         'selector' => '#page_is_active'
     ];
 
@@ -80,7 +80,7 @@ class CmsPage extends InjectableFixture
         'is_required' => '',
         'default_value' => 'No',
         'input' => 'select',
-        'group' => 'page_tabs_main_section',
+        'group' => 'page_information',
         'selector' => '#page_under_version_control'
     ];
 
@@ -89,7 +89,7 @@ class CmsPage extends InjectableFixture
         'backend_type' => 'mediumtext',
         'is_required' => '',
         'default_value' => 'Test %isolation%',
-        'group' => 'page_tabs_content_section',
+        'group' => 'content',
         'selector' => '#page_content'
     ];
 
@@ -98,7 +98,7 @@ class CmsPage extends InjectableFixture
         'backend_type' => 'text',
         'is_required' => '',
         'default_value' => '',
-        'group' => 'page_tabs_meta_section',
+        'group' => 'meta_data',
         'selector' => '#page_meta_keywords'
     ];
 
@@ -107,7 +107,7 @@ class CmsPage extends InjectableFixture
         'backend_type' => 'text',
         'is_required' => '',
         'default_value' => '',
-        'group' => 'page_tabs_meta_section',
+        'group' => 'meta_data',
         'selector' => '#page_meta_description'
     ];
 

@@ -63,14 +63,14 @@ class Address extends AbstractRepository
                     'city' => array(
                         'value' => 'Culver City'
                     ),
-                    'region' => array(
+                    'region_id' => array(
                         'value' => 'California',
                         'input' => 'select'
                     ),
                     'postcode' => array(
                         'value' => '90230'
                     ),
-                    'country' => array(
+                    'country_id' => array(
                         'value' => 'United States',
                         'input' => 'select'
                     ),
@@ -119,14 +119,14 @@ class Address extends AbstractRepository
                     'city' => array(
                         'value' => 'New York'
                     ),
-                    'region' => array(
+                    'region_id' => array(
                         'value' => 'New York',
                         'input' => 'select'
                     ),
                     'postcode' => array(
                         'value' => '10022'
                     ),
-                    'country' => array(
+                    'country_id' => array(
                         'value' => 'United States',
                         'input' => 'select'
                     ),
@@ -155,11 +155,11 @@ class Address extends AbstractRepository
                     'street_1' => array(
                         'value' => '6161 West Centinela Avenue'
                     ),
-                    'country' => array(
+                    'country_id' => array(
                         'value' => 'United States',
                         'input' => 'select'
                     ),
-                    'region' => array(
+                    'region_id' => array(
                         'value' => 'California',
                         'input' => 'select',
                         'selector' => '#region_id'
@@ -246,11 +246,11 @@ class Address extends AbstractRepository
                     'street_1' => array(
                         'value' => '42 King Street West'
                     ),
-                    'country' => array(
+                    'country_id' => array(
                         'value' => 'United Kingdom',
                         'input' => 'select',
                     ),
-                    'province' => array(
+                    'region' => array(
                         'value' => 'Manchester',
                         'selector' => '#region',
                     ),
@@ -304,7 +304,7 @@ class Address extends AbstractRepository
                     'company' => array(
                         'value' => 'Magento %isolation%'
                     ),
-                    'country' => array(
+                    'country_id' => array(
                         'value' => 'Germany',
                         'input' => 'select'
                     ),
@@ -314,7 +314,7 @@ class Address extends AbstractRepository
                     'city' => array(
                         'value' => 'Berlin'
                     ),
-                    'region' => array(
+                    'region_id' => array(
                         'value' => 'Berlin',
                         'input' => 'select',
                         'selector' => '#region_id',

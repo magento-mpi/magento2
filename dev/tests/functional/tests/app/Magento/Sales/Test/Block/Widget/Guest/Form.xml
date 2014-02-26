@@ -1,0 +1,26 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<mapping strict="1">
+    <fields>
+        <order_id>
+            <selector>[name='oar_order_id']</selector>
+        </order_id>
+        <billing_last_name>
+            <selector>[name='oar_billing_lastname']</selector>
+        </billing_last_name>
+        <find_order_by>
+            <selector>[name='oar_type']</selector>
+            <input>select</input>
+        </find_order_by>
+        <email_address>
+            <selector>[name='oar_email']</selector>
+        </email_address>
+    </fields>
+</mapping>

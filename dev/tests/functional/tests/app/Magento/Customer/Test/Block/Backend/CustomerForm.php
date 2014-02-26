@@ -24,13 +24,6 @@ class CustomerForm extends FormTabs
     /**
      * {@inheritDoc}
      */
-    protected $tabClasses = array(
-        'customer_info_tabs_account' => '\Magento\Customer\Test\Block\Adminhtml\Edit\Tab\Account'
-    );
-
-    /**
-     * {@inheritDoc}
-     */
     protected $waitForSelector = 'div#customer_info_tabs';
 
     /**

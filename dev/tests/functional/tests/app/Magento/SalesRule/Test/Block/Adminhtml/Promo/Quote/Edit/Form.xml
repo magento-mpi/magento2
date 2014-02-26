@@ -1,0 +1,36 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<tabs>
+    <rule_information>
+        <class>\Magento\Backend\Test\Block\Widget\Tab</class>
+        <selector>#promo_catalog_edit_tabs_main_section</selector>
+        <strategy>css selector</strategy>
+        <fields>
+            <website_ids>
+                <selector>[name='website_ids[]']</selector>
+                <input>multiselect</input>
+            </website_ids>
+            <customer_group_ids>
+                <selector>[name='customer_group_ids[]']</selector>
+                <input>multiselect</input>
+            </customer_group_ids>
+        </fields>
+    </rule_information>
+    <conditions>
+        <class>\Magento\SalesRule\Test\Block\Adminhtml\Promo\Quote\Edit\Tab\Conditions</class>
+        <selector>#promo_catalog_edit_tabs_conditions_section</selector>
+        <strategy>css selector</strategy>
+    </conditions>
+    <actions>
+        <class>\Magento\Backend\Test\Block\Widget\Tab</class>
+        <selector>#promo_catalog_edit_tabs_actions_section</selector>
+        <strategy>css selector</strategy>
+    </actions>
+</tabs>

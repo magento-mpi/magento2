@@ -401,7 +401,7 @@
             <attribute_code>bundle_selections</attribute_code>
             <backend_type>virtual</backend_type>
             <is_required>1</is_required>
-            <group>product_info_tabs_bundle_content</group>
+            <group>bundle</group>
             <fixture>Magento\Bundle\Test\Fixture\Bundle\Selections</fixture>
         </bundle_selections>
     </fields>

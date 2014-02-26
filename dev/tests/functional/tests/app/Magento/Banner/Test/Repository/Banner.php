@@ -54,7 +54,7 @@ class Banner extends AbstractRepository
                     // Content = text/insert variable
                     'store_contents' => array(
                         'value' => array(
-                            '0' => 'My Banner'
+                            '0' => 'My Banner %isolation%'
                         )
                     )
                 )

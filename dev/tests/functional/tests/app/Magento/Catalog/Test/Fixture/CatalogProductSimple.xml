@@ -382,7 +382,7 @@
             <is_required>0</is_required>
             <default_value>4</default_value>
             <input>select</input>
-            <group>product_info_tabs_autosettings</group>
+            <group>autosettings</group>
         </visibility>
         <weight>
             <attribute_code>weight</attribute_code>

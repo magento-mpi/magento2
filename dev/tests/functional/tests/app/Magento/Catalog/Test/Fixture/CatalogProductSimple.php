@@ -293,7 +293,7 @@ class CatalogProductSimple extends InjectableFixture
         'is_required' => '1',
         'default_value' => '',
         'input' => 'text',
-        'group' => 'product_info_tabs_product-details',
+        'group' => 'product-details',
     ];
 
     protected $news_from_date = [
@@ -342,7 +342,7 @@ class CatalogProductSimple extends InjectableFixture
         'is_required' => '1',
         'default_value' => '',
         'input' => 'price',
-        'group' => 'product_info_tabs_product-details',
+        'group' => 'product-details',
     ];
 
     protected $quantity_and_stock_status = [
@@ -351,7 +351,7 @@ class CatalogProductSimple extends InjectableFixture
         'is_required' => '0',
         'default_value' => '1',
         'input' => 'select',
-        'group' => 'product_info_tabs_product-details',
+        'group' => 'product-details',
     ];
 
     protected $recurring_profile = [
@@ -384,7 +384,7 @@ class CatalogProductSimple extends InjectableFixture
         'is_required' => '1',
         'default_value' => '',
         'input' => 'text',
-        'group' => 'product_info_tabs_product-details',
+        'group' => 'product-details',
     ];
 
     protected $small_image = [
@@ -497,7 +497,7 @@ class CatalogProductSimple extends InjectableFixture
         'is_required' => '0',
         'default_value' => '4',
         'input' => 'select',
-        'group' => 'product_info_tabs_autosettings',
+        'group' => 'autosettings',
     ];
 
     protected $weight = [
@@ -506,7 +506,7 @@ class CatalogProductSimple extends InjectableFixture
         'is_required' => '0',
         'default_value' => '',
         'input' => 'weight',
-        'group' => 'product_info_tabs_product-details',
+        'group' => 'product-details',
     ];
 
     protected $id = [
@@ -527,7 +527,7 @@ class CatalogProductSimple extends InjectableFixture
     protected $qty = [
         'attribute_code' => 'qty',
         'input' => 'input',
-        'group' => 'product_info_tabs_product-details',
+        'group' => 'product-details',
     ];
 
     public function getCategoryIds()

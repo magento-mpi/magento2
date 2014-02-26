@@ -44,7 +44,7 @@ class PaypalPayflowLinkOrder extends OrderCheckout
 
         /** @var \Magento\Payment\Test\Block\Form\PayflowAdvanced\Cc $formBlock */
         $formBlock = Factory::getPageFactory()->getCheckoutOnepage()->getPayflowLinkCcBlock();
-        $formBlock->fill($this->checkoutFixture);
+        $formBlock->fill($this->checkoutFixture->getCreditCard());
         $formBlock->pressContinue();
         $checkoutOnePageSuccess = Factory::getPageFactory()->getCheckoutOnepageSuccess();
         $this->orderId = $checkoutOnePageSuccess->getSuccessBlock()->getOrderId($this);

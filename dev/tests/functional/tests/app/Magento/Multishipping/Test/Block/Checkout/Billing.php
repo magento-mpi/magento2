@@ -11,9 +11,8 @@
 
 namespace Magento\Multishipping\Test\Block\Checkout;
 
-use Mtf\Block\Block;
+use Mtf\Block\Form;
 use Mtf\Client\Element\Locator;
-use Magento\Payment\Test\Block\Form;
 use Magento\Multishipping\Test\Fixture\GuestPaypalDirect;
 
 /**
@@ -22,7 +21,7 @@ use Magento\Multishipping\Test\Fixture\GuestPaypalDirect;
  *
  * @package Magento\Multishipping\Test\Block\Checkout
  */
-class Billing extends Block
+class Billing extends Form
 {
     /**
      * Continue checkout button
@@ -46,8 +45,8 @@ class Billing extends Block
         if (isset($dataConfig['payment_form_class'])) {
             $paymentFormClass = $dataConfig['payment_form_class'];
             /** @var $formBlock \Mtf\Block\Form */
-            $formBlock = new $paymentFormClass($this->_rootElement->find('#payment_form_' . $paymentCode),
-                Locator::SELECTOR_CSS);
+            $formBlock = new $paymentFormClass($this->_rootElement->find('#payment_form_' . $paymentCode,
+                Locator::SELECTOR_CSS), $this->mapper);
             $formBlock->fill($fixture);
         }
 
