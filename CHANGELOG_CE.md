@@ -9,6 +9,8 @@
   * Resolved dependencies of Sales module on RecurringProfile module
   * Resolved dependencies between Email Templates functionality and other modules
   * Core module lib-only depended components moved to library
+  * CSS url resolving logic moved from publisher to separate css pre-processor
+  * View publisher re-factored
 * Customer Service usage:
   * Sales module refactoring to use customer service layer
   * Checkout module refactoring to use customer service layer
