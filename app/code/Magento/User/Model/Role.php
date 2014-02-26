@@ -30,6 +30,11 @@ namespace Magento\User\Model;
 class Role extends \Magento\Core\Model\AbstractModel
 {
     /**
+     * @var string
+     */
+    protected $_eventPrefix = 'admin_roles';
+
+    /**
      * @var \Magento\User\Model\Resource\Role\User\CollectionFactory
      */
     protected $_userRolesFactory;
