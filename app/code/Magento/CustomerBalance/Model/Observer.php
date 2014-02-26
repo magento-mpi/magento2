@@ -67,7 +67,7 @@ class Observer
         \Magento\App\RequestInterface $request,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\CustomerBalance\Helper\Data $customerBalanceData,
-        \Magento\Registry $coreRegistry
+        \Magento\Registry $coreRegistry,
         \Magento\Customer\Model\Converter $customerConverter
     ) {
         $this->_onePageCheckout = $onePageCheckout;
