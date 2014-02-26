@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <module name="Magento_OfflineShipping" version="1.0.0.0" active="true">
+        <sequence>
+            <module name="Magento_Core"/>
+        </sequence>
+        <depends>
+            <module name="Magento_Core"/>
+            <module name="Magento_Logger"/>
+            <module name="Magento_Shipping"/>
+            <module name="Magento_Sales"/>
+        </depends>
+    </module>
+</config>
