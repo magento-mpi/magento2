@@ -10,8 +10,10 @@
 
 namespace Magento\Rma\Model;
 
+use Magento\Shipping\Model\Carrier\AbstractCarrierOnline;
+
 /**
- * Factory class for \Magento\Usa\Model\Shipping\Carrier\AbstractCarrier
+ * Factory class for \Magento\Shipping\Model\Carrier\AbstractCarrierOnline
  */
 class CarrierFactory
 {
@@ -37,14 +39,16 @@ class CarrierFactory
      *
      * @param string $className
      * @param array $data
-     * @return \Magento\Usa\Model\Shipping\Carrier\AbstractCarrier
+     * @return \Magento\Shipping\Model\Carrier\AbstractCarrierOnline
      * @throws \InvalidArgumentException
      */
     public function create($className, array $data = array())
     {
         $carrier =  $this->_objectManager->create($className, $data);
-        if ($carrier instanceof \Magento\Usa\Model\Shipping\Carrier\AbstractCarrier) {
-            throw new \InvalidArgumentException("{$className} don't extend \Magento\Usa\Model\Shipping\Carrier\AbstractCarrier");
+        if (!$carrier instanceof AbstractCarrierOnline) {
+            throw new \InvalidArgumentException(
+                "{$className} don't extend \Magento\Shipping\Model\Carrier\AbstractCarrierOnline"
+            );
         }
         return $carrier;
     }

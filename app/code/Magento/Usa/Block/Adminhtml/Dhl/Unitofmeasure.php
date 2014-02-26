@@ -17,15 +17,16 @@
  */
 namespace Magento\Usa\Block\Adminhtml\Dhl;
 
+use Magento\Shipping\Helper\Carrier;
+
 class Unitofmeasure extends \Magento\Backend\Block\System\Config\Form\Field
 {
-
     /**
-     * Usa data
+     * Carrier helper
      *
-     * @var \Magento\Usa\Helper\Data
+     * @var \Magento\Shipping\Helper\Carrier
      */
-    protected $_usaData = null;
+    protected $_carrierHelper;
 
     /**
      * @var \Magento\Usa\Model\Shipping\Carrier\Dhl\International
@@ -35,17 +36,17 @@ class Unitofmeasure extends \Magento\Backend\Block\System\Config\Form\Field
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Usa\Model\Shipping\Carrier\Dhl\International $shippingDhl
-     * @param \Magento\Usa\Helper\Data $usaData
+     * @param \Magento\Shipping\Helper\Carrier $carrierHelper
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Usa\Model\Shipping\Carrier\Dhl\International $shippingDhl,
-        \Magento\Usa\Helper\Data $usaData,
+        Carrier $carrierHelper,
         array $data = array()
     ) {
         $this->_shippingDhl = $shippingDhl;
-        $this->_usaData = $usaData;
+        $this->_carrierHelper = $carrierHelper;
         parent::__construct($context, $data);
     }
 
@@ -74,7 +75,7 @@ class Unitofmeasure extends \Magento\Backend\Block\System\Config\Form\Field
         );
 
         $weight = round(
-            $this->_usaData->convertMeasureWeight(
+            $this->_carrierHelper->convertMeasureWeight(
                 $kgWeight, \Zend_Measure_Weight::KILOGRAM, \Zend_Measure_Weight::POUND), 3);
 
         $this->setDivideOrderWeightNoteLbp(
