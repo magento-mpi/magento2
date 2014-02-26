@@ -51,6 +51,7 @@ class Processor
      */
     public function reindexRow($id)
     {
+        return;
         if ($this->getIndexer()->isScheduled()) {
             return;
         }
@@ -64,6 +65,7 @@ class Processor
      */
     public function reindexList($ids)
     {
+        return;
         if ($this->getIndexer()->isScheduled()) {
             return;
         }
@@ -75,6 +77,7 @@ class Processor
      */
     public function reindexAll()
     {
+        return;
         $this->getIndexer()->reindexAll();
     }
 
@@ -83,6 +86,7 @@ class Processor
      */
     public function markIndexerAsInvalid()
     {
+        return;
         $this->getIndexer()->invalidate();
     }
 }
