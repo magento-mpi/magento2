@@ -774,7 +774,9 @@ class Observer
             $productIds[] = $item->getProductId();
         }
 
-        $this->_priceIndexer->reindexList($productIds);
+        if (!empty($productIds)) {
+            $this->_priceIndexer->reindexList($productIds);
+        }
 
         $this->_itemsForReindex = array(); // Clear list of remembered items - we don't need it anymore
 
