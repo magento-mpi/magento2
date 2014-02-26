@@ -10,7 +10,7 @@
 
 namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shipping;
 
-use Magento\UspsCarrier\Model\Usps;
+use Magento\Usps\Model\Carrier;
 
 /**
  * Shipment packaging
@@ -34,7 +34,7 @@ class Packaging extends \Magento\Backend\Block\Template
     /**
      * Usa data
      *
-     * @var \Magento\UspsCarrier\Helper\Data
+     * @var \Magento\Usps\Helper\Data
      */
     protected $_uspsData;
     
@@ -55,26 +55,26 @@ class Packaging extends \Magento\Backend\Block\Template
     /**
      * Usps shipping carrier size factory
      *
-     * @var \Magento\UspsCarrier\Model\Source\SizeFactory
+     * @var \Magento\Usps\Model\Source\SizeFactory
      */
     protected $_sizeFactory;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\UspsCarrier\Helper\Data $uspsData
+     * @param \Magento\Usps\Helper\Data $uspsData
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Registry $registry
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
-     * @param \Magento\UspsCarrier\Model\Source\SizeFactory $sizeFactory
+     * @param \Magento\Usps\Model\Source\SizeFactory $sizeFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\UspsCarrier\Helper\Data $uspsData,
+        \Magento\Usps\Helper\Data $uspsData,
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Registry $registry,
         \Magento\Sales\Model\OrderFactory $orderFactory,
-        \Magento\UspsCarrier\Model\Source\SizeFactory $sizeFactory,
+        \Magento\Usps\Model\Source\SizeFactory $sizeFactory,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -287,7 +287,7 @@ class Packaging extends \Magento\Backend\Block\Template
      */
     public function getShippingCarrierUspsSourceSize()
     {
-        /** @var $size \Magento\UspsCarrier\Model\Source\Size */
+        /** @var $size \Magento\Usps\Model\Source\Size */
         $size = $this->_sizeFactory->create();
         return $size->toOptionArray();
     }
@@ -307,12 +307,12 @@ class Packaging extends \Magento\Backend\Block\Template
         $sizeEnabled    = false;
         $regular        = $this->getShippingCarrierUspsSourceSize();
         if ($carrier && isset($regular[0]['value'])) {
-            if ($regular[0]['value'] == \Magento\UspsCarrier\Model\Usps::SIZE_LARGE
+            if ($regular[0]['value'] == Carrier::SIZE_LARGE
                 && in_array(
                     key($this->getContainers()),
                     array(
-                        Usps::CONTAINER_NONRECTANGULAR,
-                        Usps::CONTAINER_VARIABLE,
+                        Carrier::CONTAINER_NONRECTANGULAR,
+                        Carrier::CONTAINER_VARIABLE,
                     )
                 )
             ) {
@@ -322,9 +322,9 @@ class Packaging extends \Magento\Backend\Block\Template
             if (in_array(
                 key($this->getContainers()),
                 array(
-                    Usps::CONTAINER_NONRECTANGULAR,
-                    Usps::CONTAINER_RECTANGULAR,
-                    Usps::CONTAINER_VARIABLE,
+                    Carrier::CONTAINER_NONRECTANGULAR,
+                    Carrier::CONTAINER_RECTANGULAR,
+                    Carrier::CONTAINER_VARIABLE,
                 )
             )) {
                 $sizeEnabled = true;

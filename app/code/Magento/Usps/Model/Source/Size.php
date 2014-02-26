@@ -6,17 +6,17 @@
  * @license     {license_link}
  */
 
-namespace Magento\UspsCarrier\Model\Source;
+namespace Magento\Usps\Model\Source;
 
 /**
- * Machinable source
+ * Size source
  */
-class Machinable extends Generic
+class Size extends Generic
 {
     /**
      * Carrier code
      *
      * @var string
      */
-    protected $code = 'machinable';
+    protected $code = 'size';
 }

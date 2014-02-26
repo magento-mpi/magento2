@@ -7,12 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\UspsCarrier\Helper;
+namespace Magento\Usps\Helper;
 
 use Magento\App\Helper\AbstractHelper;
 
 /**
- * UspsCarrier data helper
+ * Usps data helper
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */

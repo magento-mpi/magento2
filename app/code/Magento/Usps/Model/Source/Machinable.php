@@ -6,17 +6,17 @@
  * @license     {license_link}
  */
 
-namespace Magento\UspsCarrier\Model\Source;
+namespace Magento\Usps\Model\Source;
 
 /**
- * Container source
+ * Machinable source
  */
-class Container extends Generic
+class Machinable extends Generic
 {
     /**
      * Carrier code
      *
      * @var string
      */
-    protected $code = 'container';
+    protected $code = 'machinable';
 }

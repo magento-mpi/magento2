@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\UspsCarrier\Model\Source;
+namespace Magento\Usps\Model\Source;
 
 /**
  * Freemethod source

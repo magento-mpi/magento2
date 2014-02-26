@@ -8,7 +8,7 @@
  */
 -->
 <config>
-    <module name="Magento_UspsCarrier" version="2.0.0.0" active="true">
+    <module name="Magento_Usps" version="2.0.0.0" active="true">
         <depends>
             <module name="Magento_Shipping"/>
             <module name="Magento_Backend"/>

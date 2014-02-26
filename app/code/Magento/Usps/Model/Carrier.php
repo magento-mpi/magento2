@@ -5,16 +5,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\UspsCarrier\Model;
+namespace Magento\Usps\Model;
 
 use Magento\Shipping\Helper\Carrier;
 use Magento\Shipping\Model\Carrier\AbstractCarrierOnline;
 use Magento\Shipping\Model\Rate\Result;
 
 /**
- * USPS shipping rates estimation
+ * USPS shipping
  */
-class Usps extends AbstractCarrierOnline implements \Magento\Shipping\Model\Carrier\CarrierInterface
+class Carrier extends AbstractCarrierOnline implements \Magento\Shipping\Model\Carrier\CarrierInterface
 {
     /**
      * USPS containers

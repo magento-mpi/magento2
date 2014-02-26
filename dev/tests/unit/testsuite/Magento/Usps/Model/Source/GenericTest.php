@@ -6,30 +6,30 @@
  * @license     {license_link}
  */
 
-namespace Magento\UspsCarrier\Model\Source;
+namespace Magento\Usps\Model\Source;
 
 class GenericTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\UspsCarrier\Model\Source\Generic
+     * @var \Magento\Usps\Model\Source\Generic
      */
     protected $_generic;
 
     /**
-     * @var \Magento\UspsCarrier\Model\Usps
+     * @var \Magento\Usps\Model\Carrier
      */
     protected $_uspsModel;
 
     public function setUp()
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_uspsModel = $this->getMockBuilder('Magento\UspsCarrier\Model\Usps')
+        $this->_uspsModel = $this->getMockBuilder('Magento\Usps\Model\Carrier')
             ->setMethods(array('getCode'))
             ->disableOriginalConstructor()
             ->getMock();
 
         $this->_generic = $helper->getObject(
-            '\Magento\UspsCarrier\Model\Source\Generic',
+            '\Magento\Usps\Model\Source\Generic',
             array('shippingUsps' => $this->_uspsModel)
         );
     }
@@ -49,7 +49,7 @@ class GenericTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return array expected result and return of \Magento\UspsCarrier\Model\Usps::getCode
+     * @return array expected result and return of \Magento\Usps\Model\Carrier::getCode
      */
     public function getCodeDataProvider()
     {

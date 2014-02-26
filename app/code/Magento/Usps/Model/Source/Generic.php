@@ -6,18 +6,18 @@
  * @license     {license_link}
  */
 
-namespace Magento\UspsCarrier\Model\Source;
+namespace Magento\Usps\Model\Source;
 
-use Magento\Core\Model\Option\ArrayInterface;
-use Magento\UspsCarrier\Model\Usps;
+use Magento\Shipping\Model\Carrier\Source\GenericInterface;
+use Magento\Usps\Model\Carrier;
 
 /**
  * Generic source
  */
-class Generic implements ArrayInterface
+class Generic implements GenericInterface
 {
     /**
-     * @var \Magento\UspsCarrier\Model\Usps
+     * @var \Magento\Usps\Model\Carrier
      */
     protected $shippingUsps;
 
@@ -29,9 +29,9 @@ class Generic implements ArrayInterface
     protected $code = '';
 
     /**
-     * @param \Magento\UspsCarrier\Model\Usps $shippingUsps
+     * @param \Magento\Usps\Model\Carrier $shippingUsps
      */
-    public function __construct(Usps $shippingUsps)
+    public function __construct(Carrier $shippingUsps)
     {
         $this->shippingUsps = $shippingUsps;
     }

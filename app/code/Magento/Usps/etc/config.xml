@@ -23,7 +23,7 @@
                 <handling />
                 <machinable>true</machinable>
                 <methods></methods>
-                <model>Magento\UspsCarrier\Model\Usps</model>
+                <model>Magento\Usps\Model\Carrier</model>
                 <size>REGULAR</size>
                 <title>United States Postal Service</title>
                 <userid backend_model="Magento\Backend\Model\Config\Backend\Encrypted" />
