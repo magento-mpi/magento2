@@ -77,7 +77,7 @@ class Cart
     {
         $quote = $this->salesQuoteFactory->create();
         $quote->setWebsite($this->_storeManager->getWebsite($this->getEntity()->getWebsiteId()));
-        $quote->loadByCustomer($this->customerFactory->create()->load($this->getEntity()->getCustomerId()));
+        $quote->loadByCustomer($this->getEntity()->getCustomerId());
 
         $collection = ($quote) ? $quote->getItemsCollection(false) : $this->_dataFactory->create();
         $collection->addFieldToFilter('parent_item_id', array('null' => true));

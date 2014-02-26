@@ -10,6 +10,8 @@
 
 namespace Magento\Customer\Model;
 
+use Magento\Customer\Service\V1\Dto\CustomerBuilder as CustomerDtoBuilder;
+
 /**
  * Customer model
  *
@@ -21,6 +23,8 @@ namespace Magento\Customer\Model;
  * @method mixed getDisableAutoGroupChange()
  * @method \Magento\Customer\Model\Customer setDisableAutoGroupChange($value)
  * @method \Magento\Customer\Model\Customer setGroupId($value)
+ * @method \Magento\Customer\Model\Customer setDefaultBilling($value)
+ * @method \Magento\Customer\Model\Customer setDefaultShipping($value)
  */
 class Customer extends \Magento\Core\Model\AbstractModel
 {
@@ -35,7 +39,6 @@ class Customer extends \Magento\Core\Model\AbstractModel
 
     const XML_PATH_RESET_PASSWORD_TEMPLATE = 'customer/password/reset_password_template';
 
-    const XML_PATH_DEFAULT_EMAIL_DOMAIN         = 'customer/create_account/email_domain';
     const XML_PATH_IS_CONFIRM                   = 'customer/create_account/confirm';
     const XML_PATH_CONFIRM_EMAIL_TEMPLATE       = 'customer/create_account/email_confirmation_template';
     const XML_PATH_CONFIRMED_EMAIL_TEMPLATE     = 'customer/create_account/email_confirmed_template';
@@ -167,6 +170,11 @@ class Customer extends \Magento\Core\Model\AbstractModel
     protected $dateTime;
 
     /**
+     * @var CustomerDtoBuilder
+     */
+    protected $_customerDtoBuilder;
+
+    /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Customer\Helper\Data $customerData
@@ -184,6 +192,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param CustomerDtoBuilder $customerDtoBuilder
      * @param array $data
      */
     public function __construct(
@@ -204,6 +213,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
         \Magento\Math\Random $mathRandom,
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Data\Collection\Db $resourceCollection = null,
+        CustomerDtoBuilder $customerDtoBuilder,
         array $data = array()
     ) {
         $this->_customerData = $customerData;
@@ -219,6 +229,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
         $this->_encryptor = $encryptor;
         $this->mathRandom = $mathRandom;
         $this->dateTime = $dateTime;
+        $this->_customerDtoBuilder = $customerDtoBuilder;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -298,6 +309,24 @@ class Customer extends \Magento\Core\Model\AbstractModel
 
         $this->getGroupId();
         return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function _afterSave()
+    {
+        $customerData = (array)$this->getData();
+        $customerData[\Magento\Customer\Service\V1\Dto\Customer::ID] = $this->getId();
+        $dataDto = $this->_customerDtoBuilder->populateWithArray($customerData)->create();
+        $customerOrigData = (array)$this->getOrigData();
+        $customerOrigData[\Magento\Customer\Service\V1\Dto\Customer::ID] = $this->getId();
+        $origDataDto = $this->_customerDtoBuilder->populateWithArray($customerOrigData)->create();
+        $this->_eventManager->dispatch(
+            'customer_save_after_dto',
+            array('customer_dto' => $dataDto, 'orig_customer_dto' => $origDataDto)
+        );
+        return parent::_afterSave();
     }
 
     /**
@@ -813,24 +842,6 @@ class Customer extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * Check store availability for customer
-     *
-     * @param   \Magento\Core\Model\Store | int $store
-     * @return  bool
-     */
-    public function isInStore($store)
-    {
-        if ($store instanceof \Magento\Core\Model\Store) {
-            $storeId = $store->getId();
-        } else {
-            $storeId = $store;
-        }
-
-        $availableStores = $this->getSharedStoreIds();
-        return in_array($storeId, $availableStores);
-    }
-
-    /**
      * Retrieve store where customer was created
      *
      * @return \Magento\Core\Model\Store
@@ -843,6 +854,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
     /**
      * Retrieve shared store ids
      *
+     * @deprecated Use \Magento\Customer\Helper\Data::getSharedStoreIds
      * @return array
      */
     public function getSharedStoreIds()
@@ -1002,7 +1014,8 @@ class Customer extends \Magento\Core\Model\AbstractModel
      */
     protected function _beforeDelete()
     {
-        $this->_protectFromNonAdmin();
+        //TODO : Revisit and figure handling permissions in MAGETWO-11084 Implementation: Service Context Provider
+        //$this->_protectFromNonAdmin();
         return parent::_beforeDelete();
     }
 

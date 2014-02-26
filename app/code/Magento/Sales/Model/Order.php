@@ -2272,7 +2272,9 @@ class Order extends \Magento\Sales\Model\AbstractModel
             // Set items count
             $this->setTotalItemCount($itemsCount);
         }
-        if ($this->getCustomer()) {
+        /** TODO refactor getCustomer usage after MAGETWO-20182 and MAGETWO-20258 are done */
+        $isNewCustomer = !$this->getCustomerId() || ($this->getCustomerId() === true);
+        if ($isNewCustomer && $this->getCustomer()) {
             $this->setCustomerId($this->getCustomer()->getId());
         }
 

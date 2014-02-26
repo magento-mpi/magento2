@@ -438,7 +438,7 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
      */
     protected function _cleanAppConfigCache()
     {
-        return $this->_getAppCache()->clean(\Magento\Core\Model\Config::CACHE_TAG);
+        return $this->_getAppCache()->clean(\Magento\App\Config::CACHE_TAG);
     }
 
     /**

@@ -34,8 +34,7 @@ abstract class AbstractMethod extends \Magento\Object
     const CHECK_USE_CHECKOUT          = 4;
     const CHECK_USE_INTERNAL          = 16;
     const CHECK_ORDER_TOTAL_MIN_MAX   = 32;
-    const CHECK_RECURRING_PROFILES    = 64;
-    const CHECK_ZERO_TOTAL            = 128;
+    const CHECK_ZERO_TOTAL            = 64;
 
     /**
      * @var string
@@ -392,17 +391,6 @@ abstract class AbstractMethod extends \Magento\Object
     }
 
     /**
-     * Whether can manage recurring profiles
-     *
-     * @return bool
-     */
-    public function canManageRecurringProfiles()
-    {
-        return $this->_canManageRecurringProfiles
-               && ($this instanceof \Magento\Payment\Model\Recurring\Profile\MethodInterface);
-    }
-
-    /**
      * Retrieve payment method code
      *
      * @return string
@@ -727,9 +715,6 @@ abstract class AbstractMethod extends \Magento\Object
             'quote'           => $quote,
         ));
 
-        if ($checkResult->isAvailable && $quote) {
-            $checkResult->isAvailable = $this->isApplicableToQuote($quote, self::CHECK_RECURRING_PROFILES);
-        }
         return $checkResult->isAvailable;
     }
 
@@ -771,16 +756,10 @@ abstract class AbstractMethod extends \Magento\Object
                 return false;
             }
         }
-        if ($checksBitMask & self::CHECK_RECURRING_PROFILES) {
-            if (!$this->canManageRecurringProfiles() && $quote->hasRecurringItems()) {
-                return false;
-            }
-        }
+
         if ($checksBitMask & self::CHECK_ZERO_TOTAL) {
             $total = $quote->getBaseSubtotal() + $quote->getShippingAddress()->getBaseShippingAmount();
-            if ($total < 0.0001 && $this->getCode() != 'free'
-                && !($this->canManageRecurringProfiles() && $quote->hasRecurringItems())
-            ) {
+            if ($total < 0.0001 && $this->getCode() != 'free') {
                 return false;
             }
         }

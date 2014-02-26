@@ -1158,6 +1158,15 @@ return array(
     array(
         'Magento\Sales\Model\Observer\Backend\RecurringProfile\FormRenderer', 'Magento\RecurringProfile\Model\Observer'
     ),
+    array('Magento\Sales\Model\Quote\Address\Total\Nominal\AbstractRecurring',
+        'Magento\RecurringProfile\Model\Quote\Total\AbstractRecurring'
+    ),
+    array('Magento\Sales\Model\Quote\Address\Total\Nominal\Recurring\Initial',
+        'Magento\RecurringProfile\Model\Quote\Total\Initial'
+    ),
+    array('Magento\Sales\Model\Quote\Address\Total\Nominal\Recurring\Trial',
+        'Magento\RecurringProfile\Model\Quote\Total\Trial'
+    ),
     array('Magento\Sales\Model\ResourceFactory'),
     array('Magento\Sales\Model\Resource\Helper\Mysql4', 'Magento\Sales\Model\Resource\Helper'),
     array('Magento\Core\Model\Resource\Helper\Mysql4', 'Magento\Core\Model\Resource\Helper'),
@@ -1243,6 +1252,8 @@ return array(
     array('Magento\Core\Model\Db\UpdaterInterface'),
     array('Magento\Core\Model\Router\NoRouteHandlerInterface'),
     array('Magento\Core\Model\UrlInterface'),
+    array('Magento\Sales\Model\AdminOrder'),
+    array('Magento\Sales\Model\AdminOrder\Random'),
     array('Magento\Sales\Model\Resource\Order\Attribute\Backend\Parent'),
     array('Magento\Sales\Model\Resource\Order\Creditmemo\Attribute\Backend\Parent'),
     array('Magento\Sales\Model\Resource\Order\Invoice\Attribute\Backend\Parent'),

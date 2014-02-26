@@ -99,7 +99,7 @@ class Item extends \Magento\RecurringProfile\Block\Profile\View
                     'option_id' => $option->getId(),
                     'key' => $request['options'][$option->getId()]['secret_key']
                 );
-                $group->setCustomOptionDownloadUrl('sales/download/downloadProfileCustomOption')
+                $group->setCustomOptionDownloadUrl('recurringProfile/download/downloadProfileCustomOption')
                     ->setCustomOptionUrlParams($downloadParams);
             }
 
