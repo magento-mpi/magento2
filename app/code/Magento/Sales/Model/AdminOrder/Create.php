@@ -1543,9 +1543,12 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         } else if (!$customerDataObject->getId()) {
             /** Create new customer */
             $customerBillingAddressDataObject = $this->getBillingAddress()->exportCustomerAddressData();
-            $customerDataObject = $this->_customerBuilder->mergeDataObjects($customerDataObject,
-                $customerBillingAddressDataObject);
             $customerDataObject = $this->_customerBuilder->populate($customerDataObject)
+                ->setSuffix($customerBillingAddressDataObject->getSuffix())
+                ->setFirstname($customerBillingAddressDataObject->getFirstname())
+                ->setLastname($customerBillingAddressDataObject->getLastname())
+                ->setMiddlename($customerBillingAddressDataObject->getMiddlename())
+                ->setPrefix($customerBillingAddressDataObject->getPrefix())
                 ->setStoreId($store->getId())
                 ->setEmail($this->_getNewCustomerEmail())
                 ->create();

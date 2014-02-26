@@ -10,7 +10,7 @@
 
 namespace Magento\Customer\Model;
 
-use Magento\Customer\Service\V1\Data\CustomerBuilder as CustomerDtoBuilder;
+use Magento\Customer\Service\V1\Data\CustomerBuilder;
 
 /**
  * Customer model
@@ -170,7 +170,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
     protected $dateTime;
 
     /**
-     * @var CustomerDtoBuilder
+     * @var CustomerBuilder
      */
     protected $_customerDtoBuilder;
 
@@ -192,7 +192,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Data\Collection\Db $resourceCollection
-     * @param CustomerDtoBuilder $customerDtoBuilder
+     * @param CustomerBuilder $customerDtoBuilder
      * @param array $data
      */
     public function __construct(
@@ -213,7 +213,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
         \Magento\Math\Random $mathRandom,
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Data\Collection\Db $resourceCollection = null,
-        CustomerDtoBuilder $customerDtoBuilder,
+        CustomerBuilder $customerDtoBuilder,
         array $data = array()
     ) {
         $this->_customerData = $customerData;
@@ -318,13 +318,13 @@ class Customer extends \Magento\Core\Model\AbstractModel
     {
         $customerData = (array)$this->getData();
         $customerData[\Magento\Customer\Service\V1\Data\Customer::ID] = $this->getId();
-        $dataDto = $this->_customerDtoBuilder->populateWithArray($customerData)->create();
+        $dataObject = $this->_customerDtoBuilder->populateWithArray($customerData)->create();
         $customerOrigData = (array)$this->getOrigData();
         $customerOrigData[\Magento\Customer\Service\V1\Data\Customer::ID] = $this->getId();
-        $origDataDto = $this->_customerDtoBuilder->populateWithArray($customerOrigData)->create();
+        $origDataObject = $this->_customerDtoBuilder->populateWithArray($customerOrigData)->create();
         $this->_eventManager->dispatch(
-            'customer_save_after_dto',
-            array('customer_dto' => $dataDto, 'orig_customer_dto' => $origDataDto)
+            'customer_save_after_data_object',
+            array('customer_data_object' => $dataObject, 'orig_customer_data_object' => $origDataObject)
         );
         return parent::_afterSave();
     }

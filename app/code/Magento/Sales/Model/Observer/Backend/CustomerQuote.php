@@ -49,9 +49,9 @@ class CustomerQuote
     public function dispatch(\Magento\Event\Observer $observer)
     {
         /** @var CustomerDto $customerDto */
-        $customerDto = $observer->getEvent()->getCustomerDto();
+        $customerDto = $observer->getEvent()->getCustomerDataObject();
         /** @var CustomerDto $origCustomerDto */
-        $origCustomerDto = $observer->getEvent()->getOrigCustomerDto();
+        $origCustomerDto = $observer->getEvent()->getOrigCustomerDataObject();
         if ($customerDto->getGroupId() !== $origCustomerDto->getGroupId()) {
             /**
              * It is needed to process customer's quotes for all websites

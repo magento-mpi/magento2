@@ -215,7 +215,8 @@ class DefaultRenderer
             $attributeCode = $attributeMetadata->getAttributeCode();
             if ($attributeCode == 'country_id' && isset($addressAttributes['country_id'])) {
                 $data['country'] =
-                    $this->_countryFactory->create(['id' => $addressAttributes['country_id']])->getName();
+                    $this->_countryFactory->create()
+                        ->loadByCode($addressAttributes['country_id'])->getName();
             } elseif ($attributeCode == 'region' && isset($addressAttributes['region'])) {
                 $data['region'] = __($addressAttributes['region']);
             } elseif (isset($addressAttributes[$attributeCode])) {

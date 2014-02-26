@@ -15,7 +15,7 @@ use Magento\Customer\Model\Address\Config as AddressConfig;
 /**
  * One page checkout status
  */
-class Login extends \Magento\Checkout\Block\Onepage\AbstractOnepage
+class Login extends AbstractOnepage
 {
     /**
      * Checkout data
@@ -52,11 +52,11 @@ class Login extends \Magento\Checkout\Block\Onepage\AbstractOnepage
         \Magento\Checkout\Model\Session $resourceSession,
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory,
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory,
-        \Magento\Checkout\Helper\Data $checkoutData,
-        \Magento\Message\ManagerInterface $messageManager,
         CustomerService $customerService,
         CustomerAddressService $customerAddressService,
         AddressConfig $addressConfig,
+        \Magento\Checkout\Helper\Data $checkoutData,
+        \Magento\Message\ManagerInterface $messageManager,
         array $data = array()
     ) {
 
