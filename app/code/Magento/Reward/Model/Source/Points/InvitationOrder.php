@@ -12,7 +12,7 @@ namespace Magento\Reward\Model\Source\Points;
 /**
  * Source model for Acquiring frequency when Order processed after Invitation
  */
-class InvitationOrder implements \Magento\Core\Model\Option\ArrayInterface
+class InvitationOrder implements \Magento\Option\ArrayInterface
 {
     /**
      * Invitation order options

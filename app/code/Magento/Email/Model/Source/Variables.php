@@ -16,7 +16,7 @@ namespace Magento\Email\Model\Source;
  * @package    Magento_Email
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Variables implements \Magento\Core\Model\Option\ArrayInterface
+class Variables implements \Magento\Option\ArrayInterface
 {
     /**
      * Assoc array of configuration variables

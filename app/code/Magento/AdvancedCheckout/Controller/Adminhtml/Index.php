@@ -32,17 +32,17 @@ class Index extends \Magento\Backend\App\Action
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_registry = null;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $registry
+        \Magento\Registry $registry
     ) {
         parent::__construct($context);
         $this->_registry = $registry;

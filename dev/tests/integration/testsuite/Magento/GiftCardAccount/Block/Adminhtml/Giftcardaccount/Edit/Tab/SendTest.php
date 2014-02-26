@@ -27,7 +27,7 @@ class SendTest extends \PHPUnit_Framework_TestCase
             ->create('Magento\GiftCardAccount\Model\Giftcardaccount');
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $objectManager->get('Magento\Core\Model\Registry')->register('current_giftcardaccount', $model);
+        $objectManager->get('Magento\Registry')->register('current_giftcardaccount', $model);
 
         $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface');
 
@@ -39,7 +39,7 @@ class SendTest extends \PHPUnit_Framework_TestCase
     {
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $objectManager->get('Magento\Core\Model\Registry')->unregister('current_giftcardaccount');
+        $objectManager->get('Magento\Registry')->unregister('current_giftcardaccount');
         parent::tearDown();
     }
 

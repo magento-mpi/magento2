@@ -9,7 +9,7 @@
  */
 namespace Magento\CustomerBalance\Block\Adminhtml\Sales\Order\Creditmemo;
 
-use Magento\Core\Model\Registry;
+use Magento\Registry;
 use Magento\View\Element\Template;
 use Magento\View\Element\Template\Context;
 
