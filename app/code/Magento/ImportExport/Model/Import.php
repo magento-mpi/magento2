@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ImportExport\Model;
+
+use Magento\HTTP\Adapter\FileTransferFactory;
 
 /**
  * Import model
@@ -18,10 +21,6 @@
  * @method string getBehavior() getBehavior()
  * @method \Magento\ImportExport\Model\Import setEntity() setEntity(string $value)
  */
-namespace Magento\ImportExport\Model;
-
-use Magento\HTTP\Adapter\FileTransferFactory;
-
 class Import extends \Magento\ImportExport\Model\AbstractModel
 {
     /**#@+
@@ -63,7 +62,6 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
      protected static $_entityInvalidatedIndexes = array (
         'catalog_product' => array (
             'catalog_product_price',
-            'catalog_category_product',
             'catalogsearch_fulltext',
             'catalog_product_flat',
         )
@@ -127,13 +125,13 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
      * @param \Magento\Core\Model\Log\AdapterFactory $adapterFactory
      * @param \Magento\ImportExport\Helper\Data $importExportData
      * @param \Magento\App\ConfigInterface $coreConfig
-     * @param Import\ConfigInterface $importConfig
-     * @param Import\Entity\Factory $entityFactory
-     * @param Resource\Import\Data $importData
-     * @param Export\Adapter\CsvFactory $csvFactory
-     * @param FileTransferFactory $httpFactory
+     * @param \Magento\ImportExport\Model\Import\ConfigInterface $importConfig
+     * @param \Magento\ImportExport\Model\Import\Entity\Factory $entityFactory
+     * @param \Magento\ImportExport\Model\Resource\Import\Data $importData
+     * @param \Magento\ImportExport\Model\Export\Adapter\CsvFactory $csvFactory
+     * @param \Magento\HTTP\Adapter\FileTransferFactory $httpFactory
      * @param \Magento\Core\Model\File\UploaderFactory $uploaderFactory
-     * @param Source\Import\Behavior\Factory $behaviorFactory
+     * @param \Magento\ImportExport\Model\Source\Import\Behavior\Factory $behaviorFactory
      * @param \Magento\Index\Model\Indexer $indexer
      * @param array $data
      */
@@ -228,7 +226,7 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
      * Return operation result messages
      *
      * @param bool $validationResult
-     * @return array
+     * @return string[]
      */
     public function getOperationResultMessages($validationResult)
     {
@@ -369,7 +367,7 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
     /**
      * Returns entity model noticees.
      *
-     * @return array
+     * @return string[]
      */
     public function getNotices()
     {
@@ -601,7 +599,7 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
     /**
      * Invalidate indexes by process codes.
      *
-     * @return \Magento\ImportExport\Model\Import
+     * @return $this
      */
     public function invalidateIndex()
     {
@@ -631,6 +629,7 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
      * )
      *
      * @return array
+     * @throws \Magento\Core\Exception
      */
     public function getEntityBehaviors()
     {

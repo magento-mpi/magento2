@@ -121,7 +121,7 @@
 "The gift card account has been saved.","Le compte carte cadeau a été sauvegardé."
 "This Gift Card Account no longer exists.","Ce compte carte cadeau n'existe plus."
 "This gift card account is already in the quote.","Le compte de la carte cadeau est déjà inclus dans le devis."
-"This gift card account wasn\'t found in the quote.","Le compte de la carte cadeau n'a pas été trouvé dans le devis."
+"This gift card account wasn't found in the quote.","Le compte de la carte cadeau n'a pas été trouvé dans le devis."
 "To add or remove gift cards, <a href=""%s"">click here</a>.","Pour ajouter ou retirer des cartes cadeaux, <a href=""%s"">cliquez ici</a>."
 "Total of %d record(s) have been deleted.","Un total de %d enregistrement(s) a(ont) été effacé(s)."
 "Unable to create full code pool size. Please check settings and try again.","Ne peut créer un code correspondant à l'allocation. Veuillez vérifier les paramètres et essayer à nouveau."

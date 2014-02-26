@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ImportExport\Model\Export\Entity\Product\Type;
 
 /**
  * Export entity product type simple model
@@ -15,8 +16,6 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\ImportExport\Model\Export\Entity\Product\Type;
-
 class Simple
     extends \Magento\ImportExport\Model\Export\Entity\Product\Type\AbstractType
 {
@@ -35,7 +34,7 @@ class Simple
     /**
      * Array of attributes codes which are disabled for export.
      *
-     * @var array
+     * @var string[]
      */
     protected $_disabledAttrs = array(
         'old_id',

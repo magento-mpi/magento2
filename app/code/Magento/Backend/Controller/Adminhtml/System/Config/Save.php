@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Controller\Adminhtml\System\Config;
+
+use Magento\Backend\Controller\Adminhtml\System\AbstractConfig;
 
 /**
  * System Configuration Save Controller
@@ -14,14 +17,9 @@
  * @category   Magento
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
- *
- */
-namespace Magento\Backend\Controller\Adminhtml\System\Config;
-
-/**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Save extends \Magento\Backend\Controller\Adminhtml\System\AbstractConfig
+class Save extends AbstractConfig
 {
     /**
      * Backend Config Model Factory
@@ -62,6 +60,8 @@ class Save extends \Magento\Backend\Controller\Adminhtml\System\AbstractConfig
 
     /**
      * Save configuration
+     *
+     * @return void
      */
     public function indexAction()
     {
@@ -166,6 +166,8 @@ class Save extends \Magento\Backend\Controller\Adminhtml\System\AbstractConfig
 
     /**
      * Custom save logic for section
+     *
+     * @return void
      */
     protected function _saveSection()
     {
@@ -179,6 +181,8 @@ class Save extends \Magento\Backend\Controller\Adminhtml\System\AbstractConfig
 
     /**
      * Advanced save procedure
+     *
+     * @return void
      */
     protected function _saveAdvanced()
     {

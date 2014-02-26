@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Catalog\Model\Resource\Layer\Filter;
 
 /**
  * Catalog Layer Attribute Filter Resource Model
@@ -16,13 +16,12 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Model\Resource\Layer\Filter;
-
 class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Initialize connection and define main table name
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -34,7 +33,7 @@ class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param \Magento\Catalog\Model\Layer\Filter\Attribute $filter
      * @param int $value
-     * @return \Magento\Catalog\Model\Resource\Layer\Filter\Attribute
+     * @return $this
      */
     public function applyFilterToCollection($filter, $value)
     {

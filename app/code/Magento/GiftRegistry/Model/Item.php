@@ -136,7 +136,7 @@ class Item extends \Magento\Core\Model\AbstractModel
             $qty = $this->getQty() - $this->getQtyFulfilled();
         }
 
-        if ($product->getStatus() != \Magento\Catalog\Model\Product\Status::STATUS_ENABLED) {
+        if ($product->getStatus() != \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED) {
             return false;
         }
 

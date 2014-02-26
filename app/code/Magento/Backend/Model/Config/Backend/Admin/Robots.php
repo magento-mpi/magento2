@@ -74,7 +74,7 @@ class Robots extends \Magento\Core\Model\Config\Value
     /**
      * Load default content from robots.txt if customer does not define own
      *
-     * @return \Magento\Backend\Model\Config\Backend\Admin\Robots
+     * @return $this
      */
     protected function _afterLoad()
     {
@@ -88,7 +88,7 @@ class Robots extends \Magento\Core\Model\Config\Value
     /**
      * Check and process robots file
      *
-     * @return \Magento\Backend\Model\Config\Backend\Admin\Robots
+     * @return $this
      */
     protected function _afterSave()
     {

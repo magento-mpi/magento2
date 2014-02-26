@@ -7,15 +7,20 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Block\System\Config\Form\Field;
+
+use Magento\Data\Form\Element\AbstractElement;
 
 /**
  * Backend system config datetime field renderer
  */
-namespace Magento\Backend\Block\System\Config\Form\Field;
-
 class Notification extends \Magento\Backend\Block\System\Config\Form\Field
 {
-    protected function _getElementHtml(\Magento\Data\Form\Element\AbstractElement $element)
+    /**
+     * @param AbstractElement $element
+     * @return string
+     */
+    protected function _getElementHtml(AbstractElement $element)
     {
         $element->setValue($this->_app->loadCache('admin_notifications_lastcheck'));
         $format = $this->_app->getLocale()->getDateTimeFormat(

@@ -46,6 +46,7 @@ class Identifier
      * @param int $id
      * @param string $requestId
      * @param array $tags
+     * @return void
      */
     public function save($id, $requestId, array $tags)
     {

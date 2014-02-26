@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit\Tab;
 
 /**
  * Meta tab with cms page attributes and some modifications to CE version
@@ -16,9 +16,6 @@
  * @package     Magento_VersionsCms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit\Tab;
-
 class Meta
     extends \Magento\Cms\Block\Adminhtml\Page\Edit\Tab\Meta
 {
@@ -50,7 +47,7 @@ class Meta
     /**
      * Adding onchange js call
      *
-     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit\Tab\Meta
+     * @return $this
      */
     protected function _prepareForm()
     {

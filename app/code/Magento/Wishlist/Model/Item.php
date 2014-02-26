@@ -30,6 +30,10 @@
  */
 namespace Magento\Wishlist\Model;
 
+use Magento\Wishlist\Model\Item\Option;
+use Magento\Wishlist\Model\Item\OptionFactory;
+use Magento\Wishlist\Model\Resource\Item\Option\CollectionFactory;
+
 class Item extends \Magento\Core\Model\AbstractModel
     implements \Magento\Catalog\Model\Product\Configuration\Item\ItemInterface
 {
@@ -61,7 +65,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     /**
      * Item options array
      *
-     * @var array
+     * @var Option[]
      */
     protected $_options             = array();
 
@@ -75,13 +79,14 @@ class Item extends \Magento\Core\Model\AbstractModel
     /**
      * Not Represent options
      *
-     * @var array
+     * @var string[]
      */
     protected $_notRepresentOptions = array('info_buyRequest');
 
     /**
      * Flag stating that options were successfully saved
      *
+     * @var bool|null
      */
     protected $_flagOptionsSaved = null;
 
@@ -106,12 +111,12 @@ class Item extends \Magento\Core\Model\AbstractModel
     protected $_catalogUrl;
 
     /**
-     * @var \Magento\Wishlist\Model\Item\OptionFactory
+     * @var OptionFactory
      */
     protected $_wishlistOptFactory;
 
     /**
-     * @var \Magento\Wishlist\Model\Resource\Item\Option\CollectionFactory
+     * @var CollectionFactory
      */
     protected $_wishlOptionCollectionFactory;
 
@@ -127,8 +132,8 @@ class Item extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\Date $date
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Catalog\Model\Resource\Url $catalogUrl
-     * @param Item\OptionFactory $wishlistOptFactory
-     * @param Resource\Item\Option\CollectionFactory $wishlOptionCollectionFactory
+     * @param OptionFactory $wishlistOptFactory
+     * @param CollectionFactory $wishlOptionCollectionFactory
      * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
@@ -141,8 +146,8 @@ class Item extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Date $date,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Catalog\Model\Resource\Url $catalogUrl,
-        \Magento\Wishlist\Model\Item\OptionFactory $wishlistOptFactory,
-        \Magento\Wishlist\Model\Resource\Item\Option\CollectionFactory $wishlOptionCollectionFactory,
+        OptionFactory $wishlistOptFactory,
+        CollectionFactory $wishlOptionCollectionFactory,
         \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
@@ -161,6 +166,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     /**
      * Initialize resource model
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -171,7 +177,7 @@ class Item extends \Magento\Core\Model\AbstractModel
      * Set quantity. If quantity is less than 0 - set it to 1
      *
      * @param int $qty
-     * @return \Magento\Wishlist\Model\Item
+     * @return $this
      */
     public function setQty($qty)
     {
@@ -213,8 +219,8 @@ class Item extends \Magento\Core\Model\AbstractModel
     /**
      * Register option code
      *
-     * @param   \Magento\Wishlist\Model\Item\Option $option
-     * @return  \Magento\Wishlist\Model\Item
+     * @param   Option $option
+     * @return  $this
      * @throws \Magento\Core\Exception
      */
     protected function _addOptionCode($option)
@@ -245,7 +251,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     /**
      * Save item options
      *
-     * @return \Magento\Wishlist\Model\Item
+     * @return $this
      */
     protected function _saveItemOptions()
     {
@@ -267,6 +273,8 @@ class Item extends \Magento\Core\Model\AbstractModel
     /**
      * Save model plus its options
      * Ensures saving options in case when resource model was not changed
+     *
+     * @return void
      */
     public function save()
     {
@@ -283,7 +291,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     /**
      * Save item options after item saved
      *
-     * @return \Magento\Wishlist\Model\Item
+     * @return $this
      */
     protected function _afterSave()
     {
@@ -312,7 +320,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     /**
      * Check required data
      *
-     * @return \Magento\Wishlist\Model\Item
+     * @return $this
      */
     protected function _beforeSave()
     {
@@ -341,7 +349,7 @@ class Item extends \Magento\Core\Model\AbstractModel
      * @param int $wishlistId
      * @param int $productId
      * @param array $sharedStores
-     * @return \Magento\Wishlist\Model\Item
+     * @return $this
      */
     public function loadByProductWishlist($wishlistId, $productId, $sharedStores)
     {
@@ -387,10 +395,10 @@ class Item extends \Magento\Core\Model\AbstractModel
      * Return true if product was successful added or exception with code
      * Return false for disabled or unvisible products
      *
-     * @throws \Magento\Core\Exception
      * @param \Magento\Checkout\Model\Cart $cart
      * @param bool $delete  delete the item after successful add to cart
      * @return bool
+     * @throws \Magento\Core\Exception
      */
     public function addToCart(\Magento\Checkout\Model\Cart $cart, $delete = false)
     {
@@ -398,7 +406,7 @@ class Item extends \Magento\Core\Model\AbstractModel
 
         $storeId = $this->getStoreId();
 
-        if ($product->getStatus() != \Magento\Catalog\Model\Product\Status::STATUS_ENABLED) {
+        if ($product->getStatus() != \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED) {
             return false;
         }
 
@@ -480,7 +488,7 @@ class Item extends \Magento\Core\Model\AbstractModel
      * Merge data to item info_buyRequest option
      *
      * @param array|\Magento\Object $buyRequest
-     * @return \Magento\Wishlist\Model\Item
+     * @return $this
      */
     public function mergeBuyRequest($buyRequest)
     {
@@ -513,7 +521,7 @@ class Item extends \Magento\Core\Model\AbstractModel
      * Set buy request - object, holding request received from
      * product view page with keys and options for configured product
      * @param \Magento\Object $buyRequest
-     * @return \Magento\Wishlist\Model\Item
+     * @return $this
      */
     public function setBuyRequest($buyRequest)
     {
@@ -577,10 +585,10 @@ class Item extends \Magento\Core\Model\AbstractModel
         $itemOptions    = $this->getOptionsByCode();
         $productOptions = $product->getCustomOptions();
 
-        if(!$this->compareOptions($itemOptions, $productOptions)){
+        if (!$this->compareOptions($itemOptions, $productOptions)) {
             return false;
         }
-        if(!$this->compareOptions($productOptions, $itemOptions)){
+        if (!$this->compareOptions($productOptions, $itemOptions)) {
             return false;
         }
         return true;
@@ -616,7 +624,7 @@ class Item extends \Magento\Core\Model\AbstractModel
      * Initialize item options
      *
      * @param   array $options
-     * @return  \Magento\Wishlist\Model\Item
+     * @return  $this
      */
     public function setOptions($options)
     {
@@ -629,7 +637,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     /**
      * Get all item options
      *
-     * @return array
+     * @return Option[]
      */
     public function getOptions()
     {
@@ -649,8 +657,8 @@ class Item extends \Magento\Core\Model\AbstractModel
     /**
      * Add option to item
      *
-     * @param   \Magento\Wishlist\Model\Item\Option $option
-     * @return  \Magento\Wishlist\Model\Item
+     * @param   Option|\Magento\Object|array $option
+     * @return  $this
      * @throws \Magento\Core\Exception
      */
     public function addOption($option)
@@ -658,7 +666,7 @@ class Item extends \Magento\Core\Model\AbstractModel
         if (is_array($option)) {
             $option = $this->_wishlistOptFactory->create()->setData($option)
                 ->setItem($this);
-        } else if ($option instanceof \Magento\Wishlist\Model\Item\Option) {
+        } else if ($option instanceof Option) {
             $option->setItem($this);
         } else if ($option instanceof \Magento\Object) {
             $option = $this->_wishlistOptFactory->create()->setData($option->getData())
@@ -682,7 +690,7 @@ class Item extends \Magento\Core\Model\AbstractModel
      *Remove option from item options
      *
      * @param string $code
-     * @return \Magento\Wishlist\Model\Item
+     * @return $this
      */
     public function removeOption($code)
     {
@@ -697,7 +705,7 @@ class Item extends \Magento\Core\Model\AbstractModel
      * Get item option by code
      *
      * @param   string $code
-     * @return  \Magento\Wishlist\Model\Item\Option || null
+     * @return  Option|null
      */
     public function getOptionByCode($code)
     {
@@ -720,6 +728,8 @@ class Item extends \Magento\Core\Model\AbstractModel
 
     /**
      * Get current custom option download url
+     *
+     * @return string
      */
     public function getCustomDownloadUrl()
     {
@@ -728,6 +738,9 @@ class Item extends \Magento\Core\Model\AbstractModel
 
     /**
      * Sets custom option download url
+     *
+     * @param string $url
+     * @return void
      */
     public function setCustomDownloadUrl($url)
     {
@@ -757,7 +770,7 @@ class Item extends \Magento\Core\Model\AbstractModel
      * @param int $id
      * @param null|string|array $optionsFilter
      *
-     * @return \Magento\Wishlist\Model\Item
+     * @return $this
      */
     public function loadWithOptions($id, $optionsFilter = null)
     {

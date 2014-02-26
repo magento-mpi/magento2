@@ -7,12 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Catalog\Model;
 
 /**
  * Catalog product model
  *
- * @method \Magento\Catalog\Model\Resource\Product getResource()
- * @method \Magento\Catalog\Model\Resource\Product _getResource()
+ * @method Resource\Product getResource()
+ * @method Resource\Product _getResource()
  * @method \Magento\Catalog\Model\Product setHasError(bool $value)
  * @method null|bool getHasError()
  * @method \Magento\Catalog\Model\Product setTypeId(string $typeId)
@@ -23,7 +24,6 @@
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\Catalog\Model;
 
 class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\Object\IdentityInterface
 {
@@ -34,9 +34,25 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
     const ENTITY                 = 'catalog_product';
 
     const CACHE_TAG              = 'catalog_product';
+
+    /**
+     * @var string
+     */
     protected $_cacheTag         = 'catalog_product';
+
+    /**
+     * @var string
+     */
     protected $_eventPrefix      = 'catalog_product';
+
+    /**
+     * @var string
+     */
     protected $_eventObject      = 'product';
+
+    /**
+     * @var bool
+     */
     protected $_canAffectOptions = false;
 
     /**
@@ -49,7 +65,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
     /**
      * Product link instance
      *
-     * @var \Magento\Catalog\Model\Product\Link
+     * @var Product\Link
      */
     protected $_linkInstance;
 
@@ -63,26 +79,41 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
     /**
      * Product Url Instance
      *
-     * @var \Magento\Catalog\Model\Product\Url
+     * @var Product\Url
      */
     protected $_urlModel = null;
 
+    /**
+     * @var string
+     */
     protected static $_url;
+
+    /**
+     * @var string
+     */
     protected static $_urlRewrite;
 
+    /**
+     * @var array
+     */
     protected $_errors = array();
 
     /**
      * Product option
      *
-     * @var \Magento\Catalog\Model\Product\Option
+     * @var Product\Option
      */
     protected $_optionInstance;
 
+    /**
+     * @var array
+     */
     protected $_options = array();
 
     /**
      * Product reserved attribute codes
+     *
+     * @var mixed
      */
     protected $_reservedAttributes;
 
@@ -129,7 +160,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
     /**
      * Catalog product type
      *
-     * @var \Magento\Catalog\Model\Product\Type
+     * @var Product\Type
      */
     protected $_catalogProductType;
 
@@ -143,21 +174,21 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
     /**
      * Catalog product media config
      *
-     * @var \Magento\Catalog\Model\Product\Media\Config
+     * @var Product\Media\Config
      */
     protected $_catalogProductMediaConfig;
 
     /**
      * Catalog product status
      *
-     * @var \Magento\Catalog\Model\Product\Status
+     * @var \Magento\Catalog\Model\Product\Attribute\Source\Status
      */
     protected $_catalogProductStatus;
 
     /**
      * Catalog product visibility
      *
-     * @var \Magento\Catalog\Model\Product\Visibility
+     * @var Product\Visibility
      */
     protected $_catalogProductVisibility;
 
@@ -197,18 +228,28 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
     protected $_filesystem;
 
     /**
+     * @var \Magento\Indexer\Model\IndexerInterface
+     */
+    protected $categoryIndexer;
+
+    /**
+     * @var \Magento\Catalog\Model\Indexer\Product\Flat\Processor
+     */
+    protected $_productFlatIndexerProcessor;
+
+    /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param Product\Url $url
      * @param Product\Link $productLink
-     * @param Product\Configuration\Item\OptionFactory $itemOptionFactory
+     * @param \Magento\Catalog\Model\Product\Configuration\Item\OptionFactory $itemOptionFactory
      * @param \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory
-     * @param ProductFactory $productFactory
-     * @param CategoryFactory $categoryFactory
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param Product\Option $catalogProductOption
      * @param Product\Visibility $catalogProductVisibility
-     * @param Product\Status $catalogProductStatus
+     * @param \Magento\Catalog\Model\Product\Attribute\Source\Status $catalogProductStatus
      * @param Product\Media\Config $catalogProductMediaConfig
      * @param \Magento\Index\Model\Indexer $indexIndexer
      * @param Product\Type $catalogProductType
@@ -219,6 +260,8 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
      * @param Resource\Product\Collection $resourceCollection
      * @param \Magento\Data\CollectionFactory $collectionFactory
      * @param \Magento\App\Filesystem $filesystem
+     * @param \Magento\Indexer\Model\IndexerInterface $categoryIndexer
+     * @param Indexer\Product\Flat\Processor $productFlatIndexerProcessor
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -227,25 +270,27 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Catalog\Model\Product\Url $url,
-        \Magento\Catalog\Model\Product\Link $productLink,
+        Product\Url $url,
+        Product\Link $productLink,
         \Magento\Catalog\Model\Product\Configuration\Item\OptionFactory $itemOptionFactory,
         \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Catalog\Model\Product\Option $catalogProductOption,
         \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
-        \Magento\Catalog\Model\Product\Status $catalogProductStatus,
+        \Magento\Catalog\Model\Product\Attribute\Source\Status $catalogProductStatus,
         \Magento\Catalog\Model\Product\Media\Config $catalogProductMediaConfig,
         \Magento\Index\Model\Indexer $indexIndexer,
-        \Magento\Catalog\Model\Product\Type $catalogProductType,
+        Product\Type $catalogProductType,
         \Magento\Catalog\Helper\Image $catalogImage,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Catalog\Helper\Product $catalogProduct,
-        \Magento\Catalog\Model\Resource\Product $resource,
-        \Magento\Catalog\Model\Resource\Product\Collection $resourceCollection,
+        Resource\Product $resource,
+        Resource\Product\Collection $resourceCollection,
         \Magento\Data\CollectionFactory $collectionFactory,
         \Magento\App\Filesystem $filesystem,
+        \Magento\Indexer\Model\IndexerInterface $categoryIndexer,
+        \Magento\Catalog\Model\Indexer\Product\Flat\Processor $productFlatIndexerProcessor,
         array $data = array()
     ) {
         $this->_itemOptionFactory = $itemOptionFactory;
@@ -265,15 +310,32 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
         $this->_urlModel = $url;
         $this->_linkInstance = $productLink;
         $this->_filesystem = $filesystem;
+        $this->categoryIndexer = $categoryIndexer;
+        $this->_productFlatIndexerProcessor = $productFlatIndexerProcessor;
         parent::__construct($context, $registry, $storeManager, $resource, $resourceCollection, $data);
     }
 
     /**
      * Initialize resources
+     *
+     * @return void
      */
     protected function _construct()
     {
         $this->_init('Magento\Catalog\Model\Resource\Product');
+    }
+
+    /**
+     * Return product category indexer object
+     *
+     * @return \Magento\Indexer\Model\IndexerInterface
+     */
+    protected function getCategoryIndexer()
+    {
+        if (!$this->categoryIndexer->getId()) {
+            $this->categoryIndexer->load(Indexer\Product\Category::INDEXER_ID);
+        }
+        return $this->categoryIndexer;
     }
 
     /**
@@ -304,7 +366,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
     /**
      * Get product url model
      *
-     * @return \Magento\Catalog\Model\Product\Url
+     * @return Product\Url
      */
     public function getUrlModel()
     {
@@ -379,7 +441,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
     public function getStatus()
     {
         if (is_null($this->_getData('status'))) {
-            $this->setData('status', \Magento\Catalog\Model\Product\Status::STATUS_ENABLED);
+            $this->setData('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
         }
         return $this->_getData('status');
     }
@@ -414,7 +476,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
     /**
      * Retrieve link instance
      *
-     * @return  \Magento\Catalog\Model\Product\Link
+     * @return  Product\Link
      */
     public function getLinkInstance()
     {
@@ -555,6 +617,8 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
 
     /**
      * Check product options and type options and save them, too
+     *
+     * @return void
      */
     protected function _beforeSave()
     {
@@ -647,7 +711,22 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
         $this->_indexIndexer->processEntityAction(
             $this, self::ENTITY, \Magento\Index\Model\Event::TYPE_SAVE
         );
+        $this->_getResource()->addCommitCallback(array($this, 'reindex'));
         return $result;
+    }
+
+
+    /**
+     * Init indexing process after product save
+     *
+     * @return $this
+     */
+    public function reindex()
+    {
+        $this->_productFlatIndexerProcessor->reindexRow($this->getEntityId());
+        if (!$this->getCategoryIndexer()->isScheduled()) {
+            $this->getCategoryIndexer()->reindexRow($this->getId());
+        }
     }
 
     /**
@@ -669,10 +748,11 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
     /**
      * Init indexing process after product delete commit
      *
-     * @return \Magento\Catalog\Model\Product
+     * @return void
      */
     protected function _afterDeleteCommit()
     {
+        $this->reindex();
         parent::_afterDeleteCommit();
         $this->_indexIndexer->indexEvents(
             self::ENTITY, \Magento\Index\Model\Event::TYPE_DELETE
@@ -682,7 +762,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
     /**
      * Load product options if they exists
      *
-     * @return \Magento\Catalog\Model\Product
+     * @return $this
      */
     protected function _afterLoad()
     {
@@ -702,7 +782,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
     /**
      * Clear cache related with product id
      *
-     * @return \Magento\Catalog\Model\Product
+     * @return $this
      */
     public function cleanCache()
     {
@@ -733,8 +813,8 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
     /**
      * Get product tier price by qty
      *
-     * @param   double $qty
-     * @return  double
+     * @param   float $qty
+     * @return  float|array
      */
     public function getTierPrice($qty=null)
     {
@@ -754,7 +834,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
     /**
      * Get formated by currency tier price
      *
-     * @param   double $qty
+     * @param   float $qty
      * @return  array || double
      */
     public function getFormatedTierPrice($qty=null)
@@ -791,8 +871,8 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
     /**
      * Get product final price
      *
-     * @param double $qty
-     * @return double
+     * @param float $qty
+     * @return float
      */
     public function getFinalPrice($qty=null)
     {
@@ -1121,21 +1201,11 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
     /**
      * Retrieve product media config
      *
-     * @return \Magento\Catalog\Model\Product\Media\Config
+     * @return Product\Media\Config
      */
     public function getMediaConfig()
     {
         return $this->_catalogProductMediaConfig;
-    }
-
-    /**
-     * Check is product configurable
-     *
-     * @return bool
-     */
-    public function isConfigurable()
-    {
-        return $this->getTypeId() == \Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE;
     }
 
     /**
@@ -1302,7 +1372,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
      */
     public function isInStock()
     {
-        return $this->getStatus() == \Magento\Catalog\Model\Product\Status::STATUS_ENABLED;
+        return $this->getStatus() == \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED;
     }
 
     /**
@@ -1358,7 +1428,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
     /**
      * Formats URL key
      *
-     * @param $str URL
+     * @param string $str URL
      * @return string
      */
     public function formatUrlKey($str)
@@ -1521,7 +1591,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
     /**
      * Retrieve option instance
      *
-     * @return \Magento\Catalog\Model\Product\Option
+     * @return Product\Option
      */
     public function getOptionInstance()
     {
@@ -1544,10 +1614,10 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
     /**
      * Add option to array of product options
      *
-     * @param \Magento\Catalog\Model\Product\Option $option
+     * @param Product\Option $option
      * @return \Magento\Catalog\Model\Product
      */
-    public function addOption(\Magento\Catalog\Model\Product\Option $option)
+    public function addOption(Product\Option $option)
     {
         $this->_options[$option->getId()] = $option;
         return $this;
@@ -1557,7 +1627,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
      * Get option from options array of product by given option id
      *
      * @param int $optionId
-     * @return \Magento\Catalog\Model\Product\Option | null
+     * @return Product\Option|null
      */
     public function getOptionById($optionId)
     {
@@ -1593,8 +1663,8 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
      *
      * @param   string $code    Option code
      * @param   mixed  $value   Value of the option
-     * @param   int    $product Product ID
-     * @return  \Magento\Catalog\Model\Product
+     * @param   int|Product    $product Product ID
+     * @return  $this
      */
     public function addCustomOption($code, $value, $product=null)
     {
@@ -1768,7 +1838,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
     /**
      * Get cache tags associated with object id
      *
-     * @return array
+     * @return string[]
      */
     public function getCacheIdTags()
     {
@@ -1937,7 +2007,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
      */
     public function isDisabled()
     {
-        return $this->getStatus() == \Magento\Catalog\Model\Product\Status::STATUS_DISABLED;
+        return $this->getStatus() == \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED;
     }
 
     /**

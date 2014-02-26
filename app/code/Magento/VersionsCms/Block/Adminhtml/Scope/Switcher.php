@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\VersionsCms\Block\Adminhtml\Scope;
 
 /**
  * Store switcher block
  */
-namespace Magento\VersionsCms\Block\Adminhtml\Scope;
-
 class Switcher extends \Magento\Backend\Block\System\Config\Switcher
 {
     /**

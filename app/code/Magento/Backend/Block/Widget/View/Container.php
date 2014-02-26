@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Block\Widget\View;
 
 /**
  * Magento_Backend view container block
@@ -16,18 +17,26 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  * @deprecated is not used in code
  */
-
-namespace Magento\Backend\Block\Widget\View;
-
 class Container extends \Magento\Backend\Block\Widget\Container
 {
+    /**
+     * @var string
+     */
     protected $_objectId = 'id';
 
+    /**
+     * @var string
+     */
     protected $_blockGroup = 'Magento_Backend';
 
+    /**
+     * @var string
+     */
     protected $_template = 'Magento_Backend::widget/view/container.phtml';
 
-
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -46,6 +55,9 @@ class Container extends \Magento\Backend\Block\Widget\Container
 
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function _prepareLayout()
     {
         $blockName = $this->_blockGroup
@@ -58,11 +70,17 @@ class Container extends \Magento\Backend\Block\Widget\Container
         return parent::_prepareLayout();
     }
 
+    /**
+     * @return string
+     */
     public function getEditUrl()
     {
         return $this->getUrl('*/*/edit', array($this->_objectId => $this->getRequest()->getParam($this->_objectId)));
     }
 
+    /**
+     * @return string
+     */
     public function getViewHtml()
     {
         return $this->getChildHtml('plane');

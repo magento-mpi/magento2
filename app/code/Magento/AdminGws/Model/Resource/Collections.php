@@ -39,6 +39,8 @@ class Collections extends \Magento\Core\Model\Resource\Db\AbstractDb
 
     /**
      * Class construction & resource initialization
+     *
+     * @return void
      */
     protected function _construct()
     {

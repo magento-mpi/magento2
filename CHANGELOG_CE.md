@@ -1,23 +1,67 @@
+* GitHub requests:
+  * [#235](https://github.com/magento/magento2/issues/235) -- Translation escaping
+  * [#463](https://github.com/magento/magento2/pull/463) -- allow _resolveArguments to do sequential lookups
+* Modularity improvements:
+  * Resolved dependencies of Sales module on RecurringProfile module
+* Customer Service usage:
+  * Sales module refactoring to use customer service layer
+  * Checkout module refactoring to use customer service layer
+
+2.0.0.0-dev66
+=============
+* GitHub requests:
+  * [#134] (https://github.com/magento/magento2/pull/134) Fixed a typo in "Vorarlberg" region of Austria (was Voralberg)
 * Fixed bugs:
-  * Fixed an issue with Backup module feature not possible to store files
+  * Fixed an issue with the "Add to Cart" button on the MAP popup of compound products
+  * Fixed an issue where the "Add Address" button for Customer in Admin was broken
+  * Fixed an issue where predefined data are not loaded for a newsletter when it is added to a queue
 * Indexer implementation:
-  * Implemented new optimized Catalog Category Flat Indexer
+  * Implemented a new optimized Catalog Category Product Indexer
+  * Implemented a new optimized Catalog Category Flat Indexer
+  * Implemented a new optimized Catalog Product Flat Indexer
+* Modularity improvements:
+  * Moved all Configurable Product functionality to a newly created ConfigurableProduct module
+  * Moved the Shortcut Buttons abstraction from PayPal to Catalog
+  * Moved the Recurring profile functionality to a separate module
+  * Moved the Billing Agreements functionality to the PayPal module
+  * Finalized the work on resolving dependencies between the Multishipping module, and all other modules. Module can be removed without any impact on the system
+* Customer Service usage:
+  * Updated Customer Group Grid to use Customer Service for data retrieving and filtering
+  * Updated CustomerMetadataService::getAttributeMetadata to throw an exception if invalid code is provided
+* Unified the format of specifying arguments for class constructors in DI and in Layout configuration:
+  * A common xsd schema is being used for defining simple types. Layout and DI customize common types with their specific ones
+  * Argument processing is unified, and moved to library
+
+2.0.0.0-dev65
+=============
+* Fixed bugs:
+  * Fixed inability to execute System Backup, Database Backup, and Media Backup
+* Indexer implementation:
+  * Implemented a new optimized Catalog Category Flat Indexer
 * Cron improvements:
   * Added the ability to divide cron tasks into groups
   * Added the ability to run cron groups in separate processes
-* LESS pre-processisng to CSS
-  * LESS files in library/theme/module, during materialization are automatically compiled into CSS
-  * LESS files compilation caching mechanism added for developer mode
+* Caching improvements:
+  * Added a new mechanism to identify uniquely page content (hash-key for cache storage)
+  * Added a tab for Page Cache mechanism in System Configuration
+  * Implemented the ability to configure the Varnish caching server settings and download it as a .vcl file
+* LESS pre-processing to CSS
+  * LESS files in library, theme, module are automatically compiled to CSS during materialization
+  * LESS files compilation caching mechanism added in Developer mode
 * Modularity improvements:
-  * Moved Shortcut Buttons abstraction from PayPal to Catalog 
-  * Moved Recurring profile functionality into separate module
+  * Moved the Shortcut Buttons abstraction from PayPal to Catalog
+  * Moved the Recurring Profile functionality to a separate module
+  * Moved the Billing Agreements functionality to the PayPal module
+* Improvements in code coverage calculation:
+  * Added code coverage calculation in the clover xml format for unit tests
 * GitHub requests:
- * [#377] (https://github.com/magento/magento2/issues/377) Remove and avoid javascript eval() calls 
+ * [#377] (https://github.com/magento/magento2/issues/377) Remove and avoid javascript eval() calls
  * [#319] (https://github.com/magento/magento2/issues/319) No message was displayed when product added to shopping cart.
  * [#367] (https://github.com/magento/magento2/issues/367) Improve the error message from the contact form
  * [#469] (https://github.com/magento/magento2/issues/469) Can't change prices on different websites for custom options
-* Update Customer Service Exception handling and add tests
-* Add usage of Customer Service to Customer Module, replacing some direct usage of Customer Model
+* Updated the Customer service exception handling, and added tests
+* Added usage of the Customer service to the Customer module, replacing some direct usage of the Customer model
+* Updated various PHPDoc with the parameter and return types
 
 2.0.0.0-dev64
 =============
@@ -25,10 +69,6 @@
   * Moved abstract shopping cart logic from the Paypal module to the Payments module
 * Caching improvements:
   * Added a new mechanism to uniquely identify page content (a hash-key for cache storage)
-  * Replaced the "magentoZoom" plugin with two widgets: the "gallery" and "zoom"
-  * Added new mechanism to identify page content uniquely (hash-key for cache storage)
-  * Added new System Configuration tab for Page Cache mechanism.
-  * Implemented possibility to configure setting for Varnish caching server and download it like `*.vcl` file
 * Fixed bugs:
   * Fixed an issue with inserting an image in WYSIWYG editor where the selected folder was stored in session
   * Fixed an issue with CMS Page Links not being shown because of the empty text in the link
@@ -41,6 +81,7 @@
 * Created the architecture for the email template library
 * Introduced a consistent approach for using the Config scope
 * Fixed an issue with the dependency static test
+* Replaced the "magentoZoom" plugin with two widgets: the "gallery" and "zoom"
 
 2.0.0.0-dev63
 =============

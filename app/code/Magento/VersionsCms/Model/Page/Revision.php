@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\VersionsCms\Model\Page;
 
 /**
  * Cms page revision model
@@ -46,8 +47,6 @@
  * @method int getRevisionNumber()
  * @method \Magento\VersionsCms\Model\Page\Revision setRevisionNumber(int $value)
  */
-namespace Magento\VersionsCms\Model\Page;
-
 class Revision extends \Magento\Core\Model\AbstractModel implements \Magento\Object\IdentityInterface
 {
     /**
@@ -129,6 +128,8 @@ class Revision extends \Magento\Core\Model\AbstractModel implements \Magento\Obj
 
     /**
      * Constructor
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -139,7 +140,7 @@ class Revision extends \Magento\Core\Model\AbstractModel implements \Magento\Obj
     /**
      * Get cache tags associated with object id
      *
-     * @return array
+     * @return string[]
      */
     public function getCacheIdTags()
     {
@@ -153,7 +154,7 @@ class Revision extends \Magento\Core\Model\AbstractModel implements \Magento\Obj
     /**
      * Preparing data before save
      *
-     * @return \Magento\VersionsCms\Model\Page\Revision
+     * @return $this
      */
     protected function _beforeSave()
     {
@@ -180,7 +181,7 @@ class Revision extends \Magento\Core\Model\AbstractModel implements \Magento\Obj
     /**
      * Check data which is under revision control if it was modified.
      *
-     * @return array
+     * @return bool
      */
     protected function _revisionedDataWasModified()
     {
@@ -221,7 +222,7 @@ class Revision extends \Magento\Core\Model\AbstractModel implements \Magento\Obj
     /**
      * Publishing current revision
      *
-     * @return \Magento\VersionsCms\Model\Page\Revision
+     * @return $this
      * @throws \Exception
      */
     public function publish()
@@ -243,7 +244,7 @@ class Revision extends \Magento\Core\Model\AbstractModel implements \Magento\Obj
     /**
      * Checking some moments before we can actually delete revision
      *
-     * @return \Magento\VersionsCms\Model\Page\Revision
+     * @return void
      * @throws \Magento\Core\Exception
      */
     protected function _beforeDelete()
@@ -264,7 +265,7 @@ class Revision extends \Magento\Core\Model\AbstractModel implements \Magento\Obj
      * @param int $userId
      * @param int|string $value
      * @param string|null $field
-     * @return \Magento\VersionsCms\Model\Page\Revision
+     * @return $this
      */
     public function loadWithRestrictions($accessLevel, $userId, $value, $field = null)
     {
@@ -283,7 +284,7 @@ class Revision extends \Magento\Core\Model\AbstractModel implements \Magento\Obj
      * @param int $pageId
      * @param array|string $accessLevel
      * @param int $userId
-     * @return \Magento\VersionsCms\Model\Page\Revision
+     * @return $this
      */
     public function loadByVersionPageWithRestrictions($versionId, $pageId, $accessLevel, $userId)
     {

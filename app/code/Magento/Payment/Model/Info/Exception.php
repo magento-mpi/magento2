@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Payment\Model\Info;
 
 /**
  * Core Session \Exception
@@ -18,7 +18,5 @@
  * @package    Magento_Payment
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Payment\Model\Info;
-
 class Exception extends \Magento\Core\Exception
 {}

@@ -19,7 +19,14 @@ namespace Magento\Catalog\Block\Product;
 
 class Price extends \Magento\View\Element\Template implements \Magento\View\Block\IdentityInterface
 {
+    /**
+     * @var null
+     */
     protected $_priceDisplayType = null;
+
+    /**
+     * @var string
+     */
     protected $_idSuffix = '';
 
     /**
@@ -109,17 +116,27 @@ class Price extends \Magento\View\Element\Template implements \Magento\View\Bloc
         return $product;
     }
 
+    /**
+     * @return mixed
+     */
     public function getDisplayMinimalPrice()
     {
         return $this->_getData('display_minimal_price');
     }
 
+    /**
+     * @param string $idSuffix
+     * @return $this
+     */
     public function setIdSuffix($idSuffix)
     {
         $this->_idSuffix = $idSuffix;
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getIdSuffix()
     {
         return $this->_idSuffix;

@@ -22,7 +22,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
     protected $_canUseQtyDecimals = false;
 
     /**
-     * Product is configurable
+     * Product is possible to configure
      *
      * @var bool
      */

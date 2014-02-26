@@ -7,36 +7,34 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <type name="Magento\Catalog\Model\Session">
-        <param name="sessionName">
-            <value>frontend</value>
-        </param>
+        <arguments>
+            <argument name="sessionName" xsi:type="string">frontend</argument>
+        </arguments>
     </type>
     <type name="Magento\Catalog\Model\Resource\Category\Collection">
-        <param name="fetchStrategy">
-            <instance type="Magento\Data\Collection\Db\FetchStrategy\Cache" />
-        </param>
+        <arguments>
+            <argument name="fetchStrategy" xsi:type="object">Magento\Data\Collection\Db\FetchStrategy\Cache</argument>
+        </arguments>
     </type>
     <type name="Magento\Sales\Model\Convert\Quote">
         <plugin name="copy_quote_files_to_order" type="Magento\Catalog\Model\Plugin\QuoteItemProductOption"/>
     </type>
     <type name="Magento\Catalog\Model\Indexer\AbstractFlatState">
-        <param name="isAvailable">
-            <value type="bool">true</value>
-        </param>
+        <arguments>
+            <argument name="isAvailable" xsi:type="boolean">true</argument>
+        </arguments>
     </type>
     <virtualType name="Magento\Catalog\Block\ShortcutButtons\InCatalog" type="Magento\Catalog\Block\ShortcutButtons">
-        <param name="isCatalogProduct">
-            <value type="bool">true</value>
-        </param>
+        <arguments>
+            <argument name="isCatalogProduct" xsi:type="boolean">true</argument>
+        </arguments>
     </virtualType>
     <virtualType name="Magento\Catalog\Block\ShortcutButtons\InCatalog\PositionAfter" type="Magento\Catalog\Block\ShortcutButtons">
-        <param name="isCatalogProduct">
-            <value type="bool">true</value>
-        </param>
-        <param name="orPosition">
-            <value type="const">Magento\Catalog\Block\ShortcutButtons::POSITION_AFTER</value>
-        </param>
+        <arguments>
+            <argument name="isCatalogProduct" xsi:type="boolean">true</argument>
+            <argument name="orPosition" xsi:type="const">Magento\Catalog\Block\ShortcutButtons::POSITION_AFTER</argument>
+        </arguments>
     </virtualType>
 </config>

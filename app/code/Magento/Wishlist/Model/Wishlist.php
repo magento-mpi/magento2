@@ -10,6 +10,12 @@
 
 namespace Magento\Wishlist\Model;
 
+use Magento\Core\Exception;
+use Magento\Customer\Model\Customer;
+use Magento\Wishlist\Model\Resource\Item\CollectionFactory;
+use Magento\Wishlist\Model\Resource\Wishlist as ResourceWishlist;
+use Magento\Wishlist\Model\Resource\Wishlist\Collection;
+
 /**
  * Wishlist model
  *
@@ -81,12 +87,12 @@ class Wishlist extends \Magento\Core\Model\AbstractModel implements \Magento\Obj
     protected $_date;
 
     /**
-     * @var \Magento\Wishlist\Model\ItemFactory
+     * @var ItemFactory
      */
     protected $_wishlistItemFactory;
 
     /**
-     * @var \Magento\Wishlist\Model\Resource\Item\CollectionFactory
+     * @var CollectionFactory
      */
     protected $_wishlistCollectionFactory;
 
@@ -115,12 +121,12 @@ class Wishlist extends \Magento\Core\Model\AbstractModel implements \Magento\Obj
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Catalog\Helper\Product $catalogProduct
      * @param \Magento\Wishlist\Helper\Data $wishlistData
-     * @param Resource\Wishlist $resource
-     * @param Resource\Wishlist\Collection $resourceCollection
+     * @param ResourceWishlist $resource
+     * @param Collection $resourceCollection
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Date $date
      * @param ItemFactory $wishlistItemFactory
-     * @param Resource\Item\CollectionFactory $wishlistCollectionFactory
+     * @param CollectionFactory $wishlistCollectionFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Stdlib\DateTime $dateTime
@@ -132,12 +138,12 @@ class Wishlist extends \Magento\Core\Model\AbstractModel implements \Magento\Obj
         \Magento\Core\Model\Registry $registry,
         \Magento\Catalog\Helper\Product $catalogProduct,
         \Magento\Wishlist\Helper\Data $wishlistData,
-        \Magento\Wishlist\Model\Resource\Wishlist $resource,
-        \Magento\Wishlist\Model\Resource\Wishlist\Collection $resourceCollection,
+        ResourceWishlist $resource,
+        Collection $resourceCollection,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Date $date,
-        \Magento\Wishlist\Model\ItemFactory $wishlistItemFactory,
-        \Magento\Wishlist\Model\Resource\Item\CollectionFactory $wishlistCollectionFactory,
+        ItemFactory $wishlistItemFactory,
+        CollectionFactory $wishlistCollectionFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Math\Random $mathRandom,
         \Magento\Stdlib\DateTime $dateTime,
@@ -160,13 +166,13 @@ class Wishlist extends \Magento\Core\Model\AbstractModel implements \Magento\Obj
     /**
      * Load wishlist by customer
      *
-     * @param mixed $customer
+     * @param Customer|int $customer
      * @param bool $create Create wishlist if don't exists
-     * @return \Magento\Wishlist\Model\Wishlist
+     * @return $this
      */
     public function loadByCustomer($customer, $create = false)
     {
-        if ($customer instanceof \Magento\Customer\Model\Customer) {
+        if ($customer instanceof Customer) {
             $customer = $customer->getId();
         }
 
@@ -199,7 +205,7 @@ class Wishlist extends \Magento\Core\Model\AbstractModel implements \Magento\Obj
     /**
      * Set random sharing code
      *
-     * @return \Magento\Wishlist\Model\Wishlist
+     * @return $this
      */
     public function generateSharingCode()
     {
@@ -211,7 +217,7 @@ class Wishlist extends \Magento\Core\Model\AbstractModel implements \Magento\Obj
      * Load by sharing code
      *
      * @param string $code
-     * @return \Magento\Wishlist\Model\Wishlist
+     * @return $this
      */
     public function loadByCode($code)
     {
@@ -236,7 +242,7 @@ class Wishlist extends \Magento\Core\Model\AbstractModel implements \Magento\Obj
     /**
      * Set date of last update for wishlist
      *
-     * @return \Magento\Wishlist\Model\Wishlist
+     * @return $this
      */
     protected function _beforeSave()
     {
@@ -248,7 +254,7 @@ class Wishlist extends \Magento\Core\Model\AbstractModel implements \Magento\Obj
     /**
      * Save related items
      *
-     * @return \Magento\Sales\Model\Quote
+     * @return $this
      */
     protected function _afterSave()
     {
@@ -267,7 +273,7 @@ class Wishlist extends \Magento\Core\Model\AbstractModel implements \Magento\Obj
      * @param   int $qty
      * @param   bool $forciblySetQty
      *
-     * @return  \Magento\Wishlist\Model\Item
+     * @return  Item
      */
     protected function _addCatalogProduct(\Magento\Catalog\Model\Product $product, $qty = 1, $forciblySetQty = false)
     {
@@ -325,7 +331,7 @@ class Wishlist extends \Magento\Core\Model\AbstractModel implements \Magento\Obj
      * Retrieve wishlist item collection
      *
      * @param int $itemId
-     * @return \Magento\Wishlist\Model\Item
+     * @return false|Item
      */
     public function getItem($itemId)
     {
@@ -338,10 +344,10 @@ class Wishlist extends \Magento\Core\Model\AbstractModel implements \Magento\Obj
     /**
      * Adding item to wishlist
      *
-     * @param   \Magento\Wishlist\Model\Item $item
-     * @return  \Magento\Wishlist\Model\Wishlist
+     * @param   Item $item
+     * @return  $this
      */
-    public function addItem(\Magento\Wishlist\Model\Item $item)
+    public function addItem(Item $item)
     {
         $item->setWishlist($this);
         if (!$item->getId()) {
@@ -356,9 +362,9 @@ class Wishlist extends \Magento\Core\Model\AbstractModel implements \Magento\Obj
      * Returns new item or string on error.
      *
      * @param int|\Magento\Catalog\Model\Product $product
-     * @param mixed $buyRequest
+     * @param \Magento\Object|array|string|null $buyRequest
      * @param bool $forciblySetQty
-     * @return \Magento\Wishlist\Model\Item|string
+     * @return Item|string
      */
     public function addNewItem($product, $buyRequest = null, $forciblySetQty = false)
     {
@@ -373,7 +379,7 @@ class Wishlist extends \Magento\Core\Model\AbstractModel implements \Magento\Obj
             $storeId = $product->hasWishlistStoreId() ? $product->getWishlistStoreId() : $product->getStoreId();
         } else {
             $productId = (int) $product;
-            if ($buyRequest->getStoreId()) {
+            if (isset($buyRequest) && $buyRequest->getStoreId()) {
                 $storeId = $buyRequest->getStoreId();
             } else {
                 $storeId = $this->_storeManager->getStore()->getId();
@@ -440,7 +446,7 @@ class Wishlist extends \Magento\Core\Model\AbstractModel implements \Magento\Obj
      * Set customer id
      *
      * @param int $customerId
-     * @return \Magento\Wishlist\Model\Wishlist
+     * @return $this
      */
     public function setCustomerId($customerId)
     {
@@ -497,7 +503,7 @@ class Wishlist extends \Magento\Core\Model\AbstractModel implements \Magento\Obj
      * Set shared store ids
      *
      * @param array $storeIds
-     * @return \Magento\Wishlist\Model\Wishlist
+     * @return $this
      */
     public function setSharedStoreIds($storeIds)
     {
@@ -522,7 +528,7 @@ class Wishlist extends \Magento\Core\Model\AbstractModel implements \Magento\Obj
      * Set wishlist store
      *
      * @param \Magento\Core\Model\Store $store
-     * @return \Magento\Wishlist\Model\Wishlist
+     * @return $this
      */
     public function setStore($store)
     {
@@ -570,7 +576,7 @@ class Wishlist extends \Magento\Core\Model\AbstractModel implements \Magento\Obj
     /**
      * Update wishlist Item and set data from request
      *
-     * $params sets how current item configuration must be taken into account and additional options.
+     * The $params sets how current item configuration must be taken into account and additional options.
      * It's passed to \Magento\Catalog\Helper\Product->addParamsToBuyRequest() to compose resulting buyRequest.
      *
      * Basically it can hold
@@ -581,23 +587,24 @@ class Wishlist extends \Magento\Core\Model\AbstractModel implements \Magento\Obj
      *
      * For more options see \Magento\Catalog\Helper\Product->addParamsToBuyRequest()
      *
-     * @param int|\Magento\Wishlist\Model\Item $itemId
+     * @param int|Item $itemId
      * @param \Magento\Object $buyRequest
      * @param null|array|\Magento\Object $params
-     * @return \Magento\Wishlist\Model\Wishlist
+     * @return $this
+     * @throws Exception
      *
      * @see \Magento\Catalog\Helper\Product::addParamsToBuyRequest()
      */
     public function updateItem($itemId, $buyRequest, $params = null)
     {
         $item = null;
-        if ($itemId instanceof \Magento\Wishlist\Model\Item) {
+        if ($itemId instanceof Item) {
             $item = $itemId;
         } else {
             $item = $this->getItem((int)$itemId);
         }
         if (!$item) {
-            throw new \Magento\Core\Exception(__('We can\'t specify a wish list item.'));
+            throw new Exception(__('We can\'t specify a wish list item.'));
         }
 
         $product = $item->getProduct();
@@ -615,7 +622,7 @@ class Wishlist extends \Magento\Core\Model\AbstractModel implements \Magento\Obj
             $items = $this->getItemCollection();
             $isForceSetQuantity = true;
             foreach ($items as $_item) {
-                /* @var $_item \Magento\Wishlist\Model\Item */
+                /* @var $_item Item */
                 if ($_item->getProductId() == $product->getId()
                     && $_item->representProduct($product)
                     && $_item->getId() != $item->getId()) {
@@ -628,7 +635,7 @@ class Wishlist extends \Magento\Core\Model\AbstractModel implements \Magento\Obj
              * Error message
              */
             if (is_string($resultItem)) {
-                throw new \Magento\Core\Exception(__($resultItem));
+                throw new Exception(__($resultItem));
             }
 
             if ($resultItem->getId() != $itemId) {
@@ -642,7 +649,7 @@ class Wishlist extends \Magento\Core\Model\AbstractModel implements \Magento\Obj
                 $resultItem->setOrigData('qty', 0);
             }
         } else {
-            throw new \Magento\Core\Exception(__('The product does not exist.'));
+            throw new Exception(__('The product does not exist.'));
         }
         return $this;
     }
@@ -650,7 +657,7 @@ class Wishlist extends \Magento\Core\Model\AbstractModel implements \Magento\Obj
     /**
      * Save wishlist.
      *
-     * @return \Magento\Wishlist\Model\Wishlist
+     * @return $this
      */
     public function save()
     {

@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision;
 
 /**
  * Edit revision page
  */
-namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision;
-
 class Edit extends \Magento\Cms\Block\Adminhtml\Page\Edit
 {
     /**
@@ -39,7 +38,7 @@ class Edit extends \Magento\Cms\Block\Adminhtml\Page\Edit
     /**
      * Constructor. Modifying default CE buttons.
      *
-     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit
+     * @return $this
      */
     protected function _construct()
     {

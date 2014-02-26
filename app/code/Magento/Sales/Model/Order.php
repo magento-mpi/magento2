@@ -171,8 +171,6 @@
  * @method \Magento\Sales\Model\Order setGiftMessageId(int $value)
  * @method int getPaymentAuthExpiration()
  * @method \Magento\Sales\Model\Order setPaymentAuthExpiration(int $value)
- * @method int getPaypalIpnCustomerNotified()
- * @method \Magento\Sales\Model\Order setPaypalIpnCustomerNotified(int $value)
  * @method int getQuoteAddressId()
  * @method \Magento\Sales\Model\Order setQuoteAddressId(int $value)
  * @method int getQuoteId()
@@ -978,7 +976,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
             /*
              * @TODO ACPAOC: Use product collection here, but ensure that product
              * is loaded with order store id, otherwise there'll be problems with isSalable()
-             * for configurables, bundles and other composites
+             * for composite products
              *
              */
             /*
@@ -2254,7 +2252,9 @@ class Order extends \Magento\Sales\Model\AbstractModel
             // Set items count
             $this->setTotalItemCount($itemsCount);
         }
-        if ($this->getCustomer()) {
+        /** TODO refactor getCustomer usage after MAGETWO-20182 and MAGETWO-20258 are done */
+        $isNewCustomer = !$this->getCustomerId() || ($this->getCustomerId() === true);
+        if ($isNewCustomer && $this->getCustomer()) {
             $this->setCustomerId($this->getCustomer()->getId());
         }
 

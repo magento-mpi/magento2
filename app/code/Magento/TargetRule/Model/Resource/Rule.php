@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\TargetRule\Model\Resource;
 
 /**
  * TargetRule Rule Resource Model
@@ -16,8 +16,6 @@
  * @package     Magento_TargetRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\TargetRule\Model\Resource;
-
 class Rule extends \Magento\Rule\Model\Resource\AbstractResource
 {
     /**
@@ -51,6 +49,8 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
 
     /**
      * Initialize main table and table id field
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -76,8 +76,8 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
      * Bind rule to customer segments
      *
      * @param int $ruleId
-     * @param array $segmentIds
-     * @return \Magento\TargetRule\Model\Resource\Rule
+     * @param int[] $segmentIds
+     * @return $this
      */
     public function saveCustomerSegments($ruleId, $segmentIds)
     {
@@ -107,7 +107,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
      * Add customer segment ids to rule
      *
      * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Core\Model\Resource\Db\AbstractDb
+     * @return $this
      */
     protected function _afterLoad(\Magento\Core\Model\AbstractModel $object)
     {
@@ -119,8 +119,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
      * Save matched products for current rule and clean index
      *
      * @param \Magento\Core\Model\AbstractModel|\Magento\TargetRule\Model\Rule $object
-     *
-     * @return \Magento\TargetRule\Model\Resource\Rule
+     * @return $this
      */
     protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
     {
@@ -148,8 +147,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
      * Clean index
      *
      * @param \Magento\Core\Model\AbstractModel|\Magento\TargetRule\Model\Rule $object
-     *
-     * @return \Magento\TargetRule\Model\Resource\Rule
+     * @return $this
      */
     protected function _beforeDelete(\Magento\Core\Model\AbstractModel $object)
     {

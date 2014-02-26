@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Block\Dashboard;
+
+use Magento\Core\Model\Resource\Db\Collection\AbstractCollection;
 
 /**
  * Adminhtml dashboard tab abstract
@@ -15,9 +18,6 @@
  * @package    Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Backend\Block\Dashboard;
-
 abstract class AbstractDashboard extends \Magento\Backend\Block\Widget
 {
     /**
@@ -44,11 +44,17 @@ abstract class AbstractDashboard extends \Magento\Backend\Block\Widget
         parent::__construct($context, $data);
     }
 
+    /**
+     * @return array|AbstractCollection|\Magento\Eav\Model\Entity\Collection\Abstract
+     */
     public function getCollection()
     {
         return $this->getDataHelper()->getCollection();
     }
 
+    /**
+     * @return int
+     */
     public function getCount()
     {
         return $this->getDataHelper()->getCount();
@@ -64,11 +70,17 @@ abstract class AbstractDashboard extends \Magento\Backend\Block\Widget
         return $this->_dataHelper;
     }
 
+    /**
+     * @return $this
+     */
     protected function _prepareData()
     {
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     protected function _prepareLayout()
     {
         $this->_prepareData();

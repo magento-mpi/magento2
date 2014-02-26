@@ -56,7 +56,7 @@ class Logo extends \Magento\Backend\Model\Config\Backend\Image
      *
      * Save changes and delete file if "delete" option passed
      *
-     * @return \Magento\Backend\Model\Config\Backend\Email\Logo
+     * @return $this
      */
     protected function _beforeSave()
     {

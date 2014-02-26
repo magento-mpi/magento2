@@ -7,8 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model;
+
+use Magento\Core\Model\Resource\AbstractResource;
 
 /**
  * Design settings change model
@@ -24,7 +25,7 @@ namespace Magento\Core\Model;
  * @method string getDateTo()
  * @method \Magento\Core\Model\Design setDateTo(string $value)
  */
-class Design extends \Magento\Core\Model\AbstractModel implements \Magento\Object\IdentityInterface
+class Design extends AbstractModel implements \Magento\Object\IdentityInterface
 {
     /**
      * Cache tag
@@ -48,7 +49,7 @@ class Design extends \Magento\Core\Model\AbstractModel implements \Magento\Objec
     protected $_cacheTag = self::CACHE_TAG;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var LocaleInterface
      */
     protected $_locale;
 
@@ -62,16 +63,16 @@ class Design extends \Magento\Core\Model\AbstractModel implements \Magento\Objec
      * @param Registry $registry
      * @param LocaleInterface $locale
      * @param \Magento\Stdlib\DateTime $dateTime
-     * @param Resource\AbstractResource $resource
+     * @param AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\LocaleInterface $locale,
+        Context $context,
+        Registry $registry,
+        LocaleInterface $locale,
         \Magento\Stdlib\DateTime $dateTime,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -82,6 +83,8 @@ class Design extends \Magento\Core\Model\AbstractModel implements \Magento\Objec
 
     /**
      * Initialize resource model
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -93,7 +96,7 @@ class Design extends \Magento\Core\Model\AbstractModel implements \Magento\Objec
      *
      * @param string $storeId
      * @param string|null $date
-     * @return \Magento\Core\Model\Design
+     * @return $this
      */
     public function loadChange($storeId, $date = null)
     {
@@ -124,7 +127,7 @@ class Design extends \Magento\Core\Model\AbstractModel implements \Magento\Objec
      * Apply design change from self data into specified design package instance
      *
      * @param \Magento\View\DesignInterface $packageInto
-     * @return \Magento\Core\Model\Design
+     * @return $this
      */
     public function changeDesign(\Magento\View\DesignInterface $packageInto)
     {
