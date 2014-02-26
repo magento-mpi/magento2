@@ -11,7 +11,7 @@
 namespace Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation\Options;
 
 class Statuses
-    implements \Magento\Core\Model\Option\ArrayInterface
+    implements \Magento\Option\ArrayInterface
 {
     /**
      * @var \Magento\ScheduledImportExport\Model\Scheduled\Operation\Data

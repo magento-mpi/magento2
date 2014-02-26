@@ -16,7 +16,7 @@
  */
 namespace Magento\Invitation\Model\Source\Invitation;
 
-class WebsiteId implements \Magento\Core\Model\Option\ArrayInterface
+class WebsiteId implements \Magento\Option\ArrayInterface
 
 {
     /**

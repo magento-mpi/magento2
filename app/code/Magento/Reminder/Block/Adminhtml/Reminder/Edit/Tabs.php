@@ -9,7 +9,7 @@
  */
 namespace Magento\Reminder\Block\Adminhtml\Reminder\Edit;
 
-use Magento\Core\Model\Registry;
+use Magento\Registry;
 
 /**
  * Reminder rules edit tabs block

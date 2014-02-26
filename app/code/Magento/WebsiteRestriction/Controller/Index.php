@@ -43,7 +43,7 @@ class Index extends \Magento\App\Action\Action
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
@@ -69,7 +69,7 @@ class Index extends \Magento\App\Action\Action
 
     /**
      * @param \Magento\App\Action\Context $context
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\App\Cache\Type\Config $configCacheType
      * @param \Magento\Core\Model\Website $website
      * @param \Magento\Cms\Model\PageFactory $pageFactory
@@ -78,7 +78,7 @@ class Index extends \Magento\App\Action\Action
      */
     public function __construct(
         \Magento\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\App\Cache\Type\Config $configCacheType,
         \Magento\Core\Model\Website $website,
         \Magento\Cms\Model\PageFactory $pageFactory,

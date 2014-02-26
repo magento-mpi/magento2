@@ -25,10 +25,10 @@ class Reward
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
-    
+
     /**
      * Reward data
      *
@@ -39,13 +39,13 @@ class Reward
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Reward\Helper\Data $rewardData
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Reward\Helper\Data $rewardData,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
