@@ -31,13 +31,14 @@ class AttributeTest extends \Magento\Backend\Utility\Controller
     }
 
     /**
-     * @magentoDataFixture Magento/Customer/_files/attribute_user_defined_address.php
+     * @magentoDataFixture Magento/Catalog/controllers/_files/attribute_user_defined.php
      */
     public function testSaveActionApplyToDataUserDefinedAttribute()
     {
         $postData = $this->_getAttributeData() + array('attribute_id' => '1');
         $this->getRequest()->setPost($postData);
         $this->dispatch('backend/catalog/product_attribute/save');
+        /** @var \Magento\Catalog\Model\Resource\Eav\Attribute $model */
         $model = $this->_objectManager->create('Magento\Catalog\Model\Resource\Eav\Attribute');
         $model->load($postData['attribute_id']);
         $this->assertEquals('simple', $model->getData('apply_to'));
