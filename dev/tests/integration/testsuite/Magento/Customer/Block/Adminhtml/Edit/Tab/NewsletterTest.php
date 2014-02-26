@@ -25,7 +25,7 @@ class NewsletterTest extends \PHPUnit_Framework_TestCase
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     private $coreRegistry;
 
@@ -37,7 +37,7 @@ class NewsletterTest extends \PHPUnit_Framework_TestCase
         $objectManager = Bootstrap::getObjectManager();
         $objectManager->get('Magento\App\State')->setAreaCode('adminhtml');
 
-        $this->coreRegistry = $objectManager->get('Magento\Core\Model\Registry');
+        $this->coreRegistry = $objectManager->get('Magento\Registry');
         $this->block = $objectManager->get('Magento\View\LayoutInterface')
             ->createBlock(
                 'Magento\Customer\Block\Adminhtml\Edit\Tab\Newsletter',

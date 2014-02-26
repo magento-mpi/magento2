@@ -26,14 +26,14 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      * Constructor
      *
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param CustomerServiceInterface $customerService
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         CustomerServiceInterface $customerService,
         array $data = array()
@@ -50,21 +50,27 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected function _prepareForm()
     {
         /** @var \Magento\Data\Form $form */
-        $form = $this->_formFactory->create([
-            'data' => [
-                'id'        => 'edit_form',
-                'action'    => $this->getUrl('customer/*/save'),
-                'method'    => 'post',
-                'enctype'   => 'multipart/form-data',
+        $form = $this->_formFactory->create(
+            [
+                'data' => [
+                    'id' => 'edit_form',
+                    'action' => $this->getUrl('customer/*/save'),
+                    'method' => 'post',
+                    'enctype' => 'multipart/form-data',
+                ]
             ]
-        ]);
+        );
 
         $customerId = $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID);
 
         if ($customerId) {
-            $form->addField('id', 'hidden', [
-                'name' => 'customer_id',
-            ]);
+            $form->addField(
+                'id',
+                'hidden',
+                [
+                    'name' => 'customer_id',
+                ]
+            );
             $customer = $this->_customerService->getCustomer($customerId);
             $form->setValues($customer->getAttributes())
                 ->addValues(['customer_id' => $customerId]);

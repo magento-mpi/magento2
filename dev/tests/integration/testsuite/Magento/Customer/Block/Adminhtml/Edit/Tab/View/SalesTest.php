@@ -29,7 +29,7 @@ class SalesTest extends \PHPUnit_Framework_TestCase
     /**
      * Core registry.
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     private $coreRegistry;
 
@@ -48,7 +48,7 @@ class SalesTest extends \PHPUnit_Framework_TestCase
         $objectManager = Bootstrap::getObjectManager();
         $objectManager->get('Magento\App\State')->setAreaCode('adminhtml');
 
-        $this->coreRegistry = $objectManager->get('Magento\Core\Model\Registry');
+        $this->coreRegistry = $objectManager->get('Magento\Registry');
         $this->coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER_ID, 1);
 
         $this->block = $objectManager->get('Magento\View\LayoutInterface')
@@ -76,7 +76,8 @@ class SalesTest extends \PHPUnit_Framework_TestCase
     public function testFormatCurrency()
     {
         $this->assertEquals(
-            '<span class="price">$10.00</span>', $this->block->formatCurrency(10.00, self::MAIN_WEBSITE)
+            '<span class="price">$10.00</span>',
+            $this->block->formatCurrency(10.00, self::MAIN_WEBSITE)
         );
     }
 

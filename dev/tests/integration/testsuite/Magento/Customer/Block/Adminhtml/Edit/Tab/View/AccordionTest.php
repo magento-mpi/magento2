@@ -21,7 +21,7 @@ class AccordionTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Core\Model\Layout */
     protected $layout;
 
-    /** @var \Magento\Core\Model\Registry */
+    /** @var \Magento\Registry */
     protected $registry;
 
     /** @var \Magento\Customer\Service\V1\CustomerServiceInterface */
@@ -59,7 +59,7 @@ class AccordionTest extends \PHPUnit_Framework_TestCase
         $block = $this->layout->createBlock('Magento\Customer\Block\Adminhtml\Edit\Tab\View\Accordion');
 
         $html = $block->toHtml();
-        
+
         $this->assertContains('Wishlist - 0 item(s)', $html);
         $this->assertContains('Shopping Cart - 0 item(s)', $html);
     }
