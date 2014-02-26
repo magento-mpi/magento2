@@ -7,12 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftRegistry\Helper;
+
+use Magento\Catalog\Model\Product;
+use Magento\Sales\Model\Quote\Item;
 
 /**
  * Gift Registry helper
  */
-namespace Magento\GiftRegistry\Helper;
-
 class Data extends \Magento\App\Helper\AbstractHelper
 {
     const XML_PATH_ENABLED = 'magento_giftregistry/general/enabled';
@@ -233,9 +235,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Convert date in from <$formatIn> to internal format
      *
-     * @param   string $value
-     * @param   string $formatIn    -  FORMAT_TYPE_FULL, FORMAT_TYPE_LONG, FORMAT_TYPE_MEDIUM, FORMAT_TYPE_SHORT
-     * @return  string
+     * @param string $value
+     * @param string|bool $formatIn  -  FORMAT_TYPE_FULL, FORMAT_TYPE_LONG, FORMAT_TYPE_MEDIUM, FORMAT_TYPE_SHORT
+     * @return string
      */
     public function _filterDate($value, $formatIn = false)
     {
@@ -273,23 +275,23 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Check if product can be added to gift registry
      *
-     * @param mixed $item
+     * @param Item|Product $item
      * @return bool
      */
     public function canAddToGiftRegistry($item)
     {
-        if ($item->getIsVirtual()){
+        if ($item->getIsVirtual()) {
             return false;
         }
 
-        if ($item instanceof \Magento\Sales\Model\Quote\Item) {
+        if ($item instanceof Item) {
             $productType = $item->getProductType();
         } else {
             $productType = $item->getTypeId();
         }
 
         if ($productType == \Magento\GiftCard\Model\Catalog\Product\Type\Giftcard::TYPE_GIFTCARD) {
-            if ($item instanceof \Magento\Sales\Model\Quote\Item) {
+            if ($item instanceof Item) {
                 $product = $this->productFactory->create()->load($item->getProductId());
             } else {
                 $product = $item;

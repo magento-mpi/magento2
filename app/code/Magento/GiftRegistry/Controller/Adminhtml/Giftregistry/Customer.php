@@ -7,6 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftRegistry\Controller\Adminhtml\Giftregistry;
+
+use Magento\Core\Exception;
+use Magento\GiftRegistry\Model\Entity;
 
 /**
  * Gift Registry controller
@@ -15,8 +19,6 @@
  * @package     Magento_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GiftRegistry\Controller\Adminhtml\Giftregistry;
-
 class Customer extends \Magento\Backend\App\Action
 {
     /**
@@ -51,6 +53,11 @@ class Customer extends \Magento\Backend\App\Action
         parent::__construct($context);
     }
 
+    /**
+     * @param string $requestParam
+     * @return Entity
+     * @throws Exception
+     */
     protected function _initEntity($requestParam = 'id')
     {
         $entity = $this->_objectManager->create('Magento\GiftRegistry\Model\Entity');
@@ -58,7 +65,7 @@ class Customer extends \Magento\Backend\App\Action
         if ($entityId) {
             $entity->load($entityId);
             if (!$entity->getId()) {
-                throw new \Magento\Core\Exception(__('Please correct the gift registry entity.'));
+                throw new Exception(__('Please correct the gift registry entity.'));
             }
         }
         $this->_coreRegistry->register('current_giftregistry_entity', $entity);
@@ -67,6 +74,8 @@ class Customer extends \Magento\Backend\App\Action
 
     /**
      * Get customer gift registry grid
+     *
+     * @return void
      */
     public function gridAction()
     {
@@ -76,6 +85,8 @@ class Customer extends \Magento\Backend\App\Action
 
     /**
      * Get customer gift registry info block
+     *
+     * @return void
      */
     public function editAction()
     {
@@ -89,7 +100,7 @@ class Customer extends \Magento\Backend\App\Action
             $this->_title->add(__("Edit '%1' Gift Registry", $model->getTitle()));
 
             $this->_view->loadLayout()->renderLayout();
-        } catch (\Magento\Core\Exception $e) {
+        } catch (Exception $e) {
             $this->messageManager->addError($e->getMessage());
             $this->_redirect('customer/index/edit', array(
                 'id'         => $this->getRequest()->getParam('customer'),
@@ -107,6 +118,8 @@ class Customer extends \Magento\Backend\App\Action
 
     /**
      * Add quote items to gift registry
+     *
+     * @return void
      */
     public function addAction()
     {
@@ -122,7 +135,7 @@ class Customer extends \Magento\Backend\App\Action
                         __('Virtual, Downloadable, and virtual Gift Card products cannot be added to gift registries.')
                     );
                 }
-            } catch (\Magento\Core\Exception $e) {
+            } catch (Exception $e) {
                 $this->messageManager->addError($e->getMessage());
                 $this->_redirect('adminhtml/*/edit', array('id' => $model->getId()));
                 return;
@@ -136,6 +149,8 @@ class Customer extends \Magento\Backend\App\Action
 
     /**
      * Update gift registry items qty
+     *
+     * @return void
      */
     public function updateAction()
     {
@@ -163,7 +178,7 @@ class Customer extends \Magento\Backend\App\Action
                 if ($updatedCount) {
                     $this->messageManager->addSuccess(__('You updated this gift registry.'));
                 }
-            } catch (\Magento\Core\Exception $e) {
+            } catch (Exception $e) {
                 $this->messageManager->addError($e->getMessage());
                 $this->_redirect('adminhtml/*/edit', array('id' => $entity->getId()));
                 return;
@@ -177,6 +192,8 @@ class Customer extends \Magento\Backend\App\Action
 
     /**
      * Share gift registry action
+     *
+     * @return void
      */
     public function shareAction()
     {
@@ -212,9 +229,9 @@ class Customer extends \Magento\Backend\App\Action
                     }
                 }
                 if (empty($emailsForSend)) {
-                    throw new \Magento\Core\Exception(__('Please enter at least one email address.'));
+                    throw new Exception(__('Please enter at least one email address.'));
                 }
-            } catch (\Magento\Core\Exception $e) {
+            } catch (Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             }
 
@@ -232,6 +249,8 @@ class Customer extends \Magento\Backend\App\Action
 
     /**
      * Delete gift registry action
+     *
+     * @return void
      */
     public function deleteAction()
     {
@@ -240,7 +259,7 @@ class Customer extends \Magento\Backend\App\Action
             $customerId = $model->getCustomerId();
             $model->delete();
             $this->messageManager->addSuccess(__('You deleted this gift registry entity.'));
-        } catch (\Magento\Core\Exception $e) {
+        } catch (Exception $e) {
             $this->messageManager->addError($e->getMessage());
             $this->_redirect('adminhtml/*/edit', array('id' => $model->getId()));
             return;
@@ -254,7 +273,7 @@ class Customer extends \Magento\Backend\App\Action
     /**
      * Check the permission
      *
-     * @return boolean
+     * @return bool
      */
     protected function _isAllowed()
     {

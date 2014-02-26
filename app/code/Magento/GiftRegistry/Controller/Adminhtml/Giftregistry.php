@@ -7,10 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftRegistry\Controller\Adminhtml;
 
 use Magento\Backend\App\Action;
+use Magento\Core\Exception;
 
 class Giftregistry extends \Magento\Backend\App\Action
 {
@@ -36,7 +36,7 @@ class Giftregistry extends \Magento\Backend\App\Action
     /**
      * Init active menu and set breadcrumb
      *
-     * @return \Magento\GiftRegistry\Controller\Adminhtml\Giftregistry
+     * @return $this
      */
     protected function _initAction()
     {
@@ -56,6 +56,7 @@ class Giftregistry extends \Magento\Backend\App\Action
      *
      * @param string $requestParam
      * @return \Magento\GiftRegistry\Model\Type
+     * @throws Exception
      */
     protected function _initType($requestParam = 'id')
     {
@@ -66,7 +67,7 @@ class Giftregistry extends \Magento\Backend\App\Action
         if ($typeId) {
             $type->load($typeId);
             if (!$type->getId()) {
-                throw new \Magento\Core\Exception(__('Please correct the  gift registry ID.'));
+                throw new Exception(__('Please correct the  gift registry ID.'));
             }
         }
         $this->_coreRegistry->register('current_giftregistry_type', $type);
@@ -75,6 +76,8 @@ class Giftregistry extends \Magento\Backend\App\Action
 
     /**
      * Default action
+     *
+     * @return void
      */
     public function indexAction()
     {
@@ -84,12 +87,14 @@ class Giftregistry extends \Magento\Backend\App\Action
 
     /**
      * Create new gift registry type
+     *
+     * @return void
      */
     public function newAction()
     {
         try {
             $model = $this->_initType();
-        } catch (\Magento\Core\Exception $e) {
+        } catch (Exception $e) {
             $this->messageManager->addError($e->getMessage());
             $this->_redirect('adminhtml/*/');
             return;
@@ -111,12 +116,14 @@ class Giftregistry extends \Magento\Backend\App\Action
 
     /**
      * Edit gift registry type
+     *
+     * @return void
      */
     public function editAction()
     {
         try {
             $model = $this->_initType();
-        } catch (\Magento\Core\Exception $e) {
+        } catch (Exception $e) {
             $this->messageManager->addError($e->getMessage());
             $this->_redirect('adminhtml/*/');
             return;
@@ -166,6 +173,8 @@ class Giftregistry extends \Magento\Backend\App\Action
 
     /**
      * Save gift registry type
+     *
+     * @return void
      */
     public function saveAction()
     {
@@ -184,7 +193,7 @@ class Giftregistry extends \Magento\Backend\App\Action
                     $this->_redirect('adminhtml/*/edit', array('id' => $model->getId(), 'store' => $model->getStoreId()));
                     return;
                 }
-            } catch (\Magento\Core\Exception $e) {
+            } catch (Exception $e) {
                 $this->messageManager->addError($e->getMessage());
                 $this->_redirect('adminhtml/*/edit', array('id' => $model->getId()));
                 return;
@@ -198,6 +207,8 @@ class Giftregistry extends \Magento\Backend\App\Action
 
     /**
      * Delete gift registry type
+     *
+     * @return void
      */
     public function deleteAction()
     {
@@ -205,7 +216,7 @@ class Giftregistry extends \Magento\Backend\App\Action
             $model = $this->_initType();
             $model->delete();
             $this->messageManager->addSuccess(__('You deleted the gift registry type.'));
-        } catch (\Magento\Core\Exception $e) {
+        } catch (Exception $e) {
             $this->messageManager->addError($e->getMessage());
             $this->_redirect('adminhtml/*/edit', array('id' => $model->getId()));
             return;
@@ -219,7 +230,7 @@ class Giftregistry extends \Magento\Backend\App\Action
     /**
      * Check the permission
      *
-     * @return boolean
+     * @return bool
      */
     protected function _isAllowed()
     {
