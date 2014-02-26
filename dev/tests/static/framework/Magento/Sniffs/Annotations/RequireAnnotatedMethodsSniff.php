@@ -344,7 +344,7 @@ class RequireAnnotatedMethodsSniff implements PHP_CodeSniffer_Sniff
         $isSpecialMethod = $this->_methodName === '__construct' || $this->_methodName === '__destruct';
         $return = $this->commentParser->getReturn();
 
-        if ($isSpecialMethod === false && $methodName !== $className) {
+        if ($isSpecialMethod === false) {
             if ($return !== null) {
                 $tagOrder = $this->commentParser->getTagOrders();
                 $index = array_keys($tagOrder, 'return');
