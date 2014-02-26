@@ -77,7 +77,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         );
         $this->_quote = $this->getMock(
             '\Magento\RecurringProfile\Model\QuoteImporter',
-            ['prepareRecurringPaymentProfiles'],
+            ['import'],
             [],
             '',
             false

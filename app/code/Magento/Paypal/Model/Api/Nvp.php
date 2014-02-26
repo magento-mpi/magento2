@@ -7,15 +7,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * NVP API wrappers model
- * @TODO: move some parts to abstract, don't hesitate to throw exceptions on api calls
- */
 namespace Magento\Paypal\Model\Api;
 
 use Magento\Payment\Model\Cart;
 
+/**
+ * NVP API wrappers model
+ * @TODO: move some parts to abstract, don't hesitate to throw exceptions on api calls
+ *
+ * @method string getToken()
+ */
 class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
 {
     /**
@@ -561,12 +562,18 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
     protected $_countryFactory;
 
     /**
+     * @var \Magento\RecurringProfile\Model\QuoteImporter
+     */
+    protected $_quoteImporter;
+
+    /**
      * @param \Magento\Customer\Helper\Address $customerAddress
      * @param \Magento\Logger $logger
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
      * @param \Magento\Directory\Model\CountryFactory $countryFactory
+     * @param \Magento\RecurringProfile\Model\QuoteImporter $quoteImporter
      * @param array $data
      */
     public function __construct(
@@ -576,12 +583,14 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
         \Magento\Directory\Model\CountryFactory $countryFactory,
+        \Magento\RecurringProfile\Model\QuoteImporter $quoteImporter,
         array $data = array()
     ) {
-        $this->_countryFactory = $countryFactory;
         parent::__construct(
             $customerAddress, $logger, $locale, $regionFactory, $logAdapterFactory, $data
         );
+        $this->_countryFactory = $countryFactory;
+        $this->_quoteImporter = $quoteImporter;
     }
 
     /**
@@ -638,12 +647,18 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
             $this->_exportShippingOptions($request);
         }
 
-        // add recurring profiles information
-        $i = 0;
-        foreach ($this->_recurringPaymentProfiles as $profile) {
-            $request["L_BILLINGTYPE{$i}"] = 'RecurringPayments';
-            $request["L_BILLINGAGREEMENTDESCRIPTION{$i}"] = $profile->getScheduleDescription();
-            $i++;
+        $profiles = $this->_quoteImporter->import($this->getQuote());
+        if ($profiles) {
+            $i = 0;
+            foreach ($profiles as $profile) {
+                $profile->setMethodCode(\Magento\Paypal\Model\Config::METHOD_WPP_EXPRESS);
+                if (!$profile->isValid()) {
+                    throw new \Magento\Core\Exception($profile->getValidationErrors());
+                }
+                $request["L_BILLINGTYPE{$i}"] = 'RecurringPayments';
+                $request["L_BILLINGAGREEMENTDESCRIPTION{$i}"] = $profile->getScheduleDescription();
+                $i++;
+            }
         }
 
         $response = $this->call(self::SET_EXPRESS_CHECKOUT, $request);
@@ -992,7 +1007,7 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
      * @param string $methodName
      * @param array $request
      * @return array
-     * @throws \Magento\Core\Exception|Exception
+     * @throws \Magento\Core\Exception|\Exception
      */
     public function call($methodName, array $request)
     {

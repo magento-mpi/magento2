@@ -33,7 +33,7 @@ class QuoteImporter
      * @throws \Exception
      * @return array
      */
-    public function prepareRecurringPaymentProfiles(\Magento\Sales\Model\Quote $quote)
+    public function import(\Magento\Sales\Model\Quote $quote)
     {
         if (!$quote->getTotalsCollectedFlag()) {
             throw new \Exception('Quote totals must be collected before this operation.');

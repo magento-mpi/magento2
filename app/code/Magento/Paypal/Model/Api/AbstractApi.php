@@ -66,13 +66,6 @@ abstract class AbstractApi extends \Magento\Object
     protected $_shippingOptionsExportItemsFormat = array();
 
     /**
-     * Imported recurring profiles array
-     *
-     * @var array
-     */
-    protected $_recurringPaymentProfiles = array();
-
-    /**
      * Fields that should be replaced in debug with '***'
      *
      * @var array
@@ -348,20 +341,6 @@ abstract class AbstractApi extends \Magento\Object
     public function getFraudManagementFiltersEnabled()
     {
         return 1;
-    }
-
-    /**
-     * Set recurring profiles
-     *
-     * @param array $items
-     * @return \Magento\Paypal\Model\Api\AbstractApi
-     */
-    public function addRecurringPaymentProfiles(array $items)
-    {
-        if ($items) {
-            $this->_recurringPaymentProfiles = $items;
-        }
-        return $this;
     }
 
     /**

@@ -677,8 +677,11 @@ return array(
     array('prepareItemInfo', 'Magento\Sales\Block\Recurring\Profile\View'),
     array('preparePriceAlertData', 'Magento\ProductAlert\Block\Product\View'),
     array('prepareProfilesGrid', 'Magento\Sales\Block\Recurring\Profile'),
-    array('prepareRecurringPaymentProfiles', 'Magento\Sales\Model\Quote',
-        '\Magento\RecurringProfile\Model\Observer::_prepareRecurringPaymentProfiles'),
+    [
+        'prepareRecurringPaymentProfiles',
+        'Magento\Sales\Model\Quote',
+        '\Magento\RecurringProfile\Model\QuoteImporter::import'
+    ],
     array('prepareReferenceInfo', 'Magento\Sales\Block\Recurring\Profile\View'),
     array('prepareRelatedOrdersFrontendGrid', 'Magento\Sales\Block\Recurring\Profile\View'),
     array('prepareScheduleInfo', 'Magento\Sales\Block\Recurring\Profile\View'),
@@ -886,6 +889,7 @@ return array(
     array('_getSessionEnvironment', 'Magento\Core\Model\Session\AbstractSession'),
     array('getValidateHttpUserAgentSkip', 'Magento\Core\Model\Session\AbstractSession'),
     array('addProductAttributes', 'Magento\SalesRule\Model\Observer'),
+    ['addRecurringPaymentProfiles', 'Magento\Paypal\Model\Api\AbstractApi'],
     array('addRecurringProfilesFilter', 'Magento\Sales\Model\Resource\Order',
         '\Magento\RecurringProfile\Model\Resource\Order\CollectionFilter::byIds'),
     array('_helper', 'Magento\Catalog\Model\Product\Type\AbstractType'),
