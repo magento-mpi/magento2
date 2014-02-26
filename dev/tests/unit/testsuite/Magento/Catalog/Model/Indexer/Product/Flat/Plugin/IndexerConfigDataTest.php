@@ -31,7 +31,7 @@ class IndexerConfigDataTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_stateMock = $this->getMock(
-            '\Magento\Catalog\Model\Indexer\Product\Flat\State', array('isFlatEnabled'), array(), '', false
+            'Magento\Catalog\Model\Indexer\Product\Flat\State', array('isFlatEnabled'), array(), '', false
         );
 
         $this->_chainMock = $this->getMock(
