@@ -2,31 +2,28 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
+namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
+
+use Magento\Customer\Controller\RegistryConstants;
+use Magento\Customer\Service\V1\Dto\Eav\AttributeMetadataBuilder;
+use Magento\Customer\Service\V1\Dto\Address;
+use Magento\Exception\NoSuchEntityException;
+
 /**
  * Customer addresses forms
  *
- * @category   Magento
- * @package    Magento_Customer
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
-
-class Addresses extends \Magento\Backend\Block\Widget\Form\Generic
+class Addresses extends GenericMetadata
 {
-    protected $_template = 'tab/addresses.phtml';
+    /** Default street line count */
+    const DEFAULT_STREET_LINES_COUNT = 2;
 
-    /**
-     * Adminhtml addresses
-     *
-     * @var \Magento\Backend\Helper\Addresses
-     */
-    protected $_adminhtmlAddresses = null;
+    protected $_template = 'tab/addresses.phtml';
 
     /**
      * @var \Magento\Json\EncoderInterface
@@ -42,24 +39,49 @@ class Addresses extends \Magento\Backend\Block\Widget\Form\Generic
      * @var \Magento\Customer\Helper\Data
      */
     protected $_customerHelper;
-
+    
     /**
      * @var \Magento\Directory\Helper\Data
      */
     protected $_directoryHelper;
+    
+    /** @var \Magento\Customer\Helper\Address */
+    protected $_addressHelper;
+
+    /** @var  \Magento\Customer\Model\Metadata\FormFactory */
+    protected $_metadataFormFactory;
+
+    /** @var  \Magento\Customer\Service\V1\CustomerServiceInterface */
+    protected $_customerService;
+
+    /** @var  \Magento\Customer\Service\V1\CustomerMetadataServiceInterface */
+    protected $_metadataService;
+
+    /** @var  \Magento\Customer\Service\V1\Dto\AddressBuilder */
+    protected $_addressBuilder;
+
+    /** @var \Magento\Customer\Service\V1\Dto\CustomerBuilder */
+    protected $_customerBuilder;
+
+    /** @var  AttributeMetadataBuilder */
+    protected $_attributeMetadataBuilder;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Core\Model\System\Store $systemStore,
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Customer\Model\Renderer\RegionFactory $regionFactory
-     * @param \Magento\Customer\Model\AddressFactory $addressFactory
-     * @param \Magento\Customer\Model\FormFactory $customerFactory
-     * @param \Magento\Core\Model\System\Store $systemStore
-     * @param \Magento\Backend\Helper\Addresses $adminhtmlAddresses
+     * @param \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory
      * @param \Magento\Customer\Helper\Data $customerHelper
+     * @param \Magento\Customer\Helper\Address $addressHelper
+     * @param \Magento\Customer\Service\V1\CustomerServiceInterface $customerService
+     * @param \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $metadataService
+     * @param \Magento\Customer\Service\V1\Dto\AddressBuilder $addressBuilder
+     * @param \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerBuilder
+     * @param AttributeMetadataBuilder $attributeMetadataBuilder;
      * @param \Magento\Directory\Helper\Data $directoryHelper
      * @param array $data
      *
@@ -69,25 +91,33 @@ class Addresses extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
+        \Magento\Core\Model\System\Store $systemStore,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Customer\Model\Renderer\RegionFactory $regionFactory,
-        \Magento\Customer\Model\AddressFactory $addressFactory,
-        \Magento\Customer\Model\FormFactory $customerFactory,
-        \Magento\Core\Model\System\Store $systemStore,
-        \Magento\Backend\Helper\Addresses $adminhtmlAddresses,
+        \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory,
         \Magento\Customer\Helper\Data $customerHelper,
+        \Magento\Customer\Helper\Address $addressHelper,
+        \Magento\Customer\Service\V1\CustomerServiceInterface $customerService,
+        \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $metadataService,
+        \Magento\Customer\Service\V1\Dto\AddressBuilder $addressBuilder,
+        \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerBuilder,
+        AttributeMetadataBuilder $attributeMetadataBuilder,
         \Magento\Directory\Helper\Data $directoryHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_customerHelper = $customerHelper;
+        $this->_addressHelper = $addressHelper;
         $this->_coreData = $coreData;
         $this->_jsonEncoder = $jsonEncoder;
-        $this->_adminhtmlAddresses = $adminhtmlAddresses;
         $this->_regionFactory = $regionFactory;
-        $this->_addressFactory = $addressFactory;
-        $this->_customerFactory = $customerFactory;
+        $this->_metadataFormFactory = $metadataFormFactory;
         $this->_systemStore = $systemStore;
+        $this->_customerService = $customerService;
+        $this->_metadataService = $metadataService;
+        $this->_addressBuilder = $addressBuilder;
+        $this->_customerBuilder = $customerBuilder;
+        $this->_attributeMetadataBuilder = $attributeMetadataBuilder;
         $this->_directoryHelper = $directoryHelper;
         parent::__construct($context, $registry, $formFactory, $data);
     }
@@ -100,28 +130,28 @@ class Addresses extends \Magento\Backend\Block\Widget\Form\Generic
     protected function _prepareLayout()
     {
         $this->addChild('delete_button', 'Magento\Backend\Block\Widget\Button', array(
-            'label'  => __('Delete Address'),
-            'name'   => 'delete_address',
-            'element_name' => 'delete_address',
-            'disabled' => $this->isReadonly(),
-            'class'  => 'delete' . ($this->isReadonly() ? ' disabled' : '')
-        ));
+                'label'  => __('Delete Address'),
+                'name'   => 'delete_address',
+                'element_name' => 'delete_address',
+                'disabled' => $this->isReadonly(),
+                'class'  => 'delete' . ($this->isReadonly() ? ' disabled' : '')
+            ));
         $this->addChild('add_address_button', 'Magento\Backend\Block\Widget\Button', array(
-            'label'  => __('Add New Address'),
-            'id'     => 'add_address_button',
-            'name'   => 'add_address_button',
-            'element_name' => 'add_address_button',
-            'disabled' => $this->isReadonly(),
-            'class'  => 'add'  . ($this->isReadonly() ? ' disabled' : '')
-        ));
+                'label'  => __('Add New Address'),
+                'id'     => 'add_address_button',
+                'name'   => 'add_address_button',
+                'element_name' => 'add_address_button',
+                'disabled' => $this->isReadonly(),
+                'class'  => 'add'  . ($this->isReadonly() ? ' disabled' : '')
+            ));
         $this->addChild('cancel_button', 'Magento\Backend\Block\Widget\Button', array(
-            'label'  => __('Cancel'),
-            'id'     => 'cancel_add_address'.$this->getTemplatePrefix(),
-            'name'   => 'cancel_address',
-            'element_name' => 'cancel_address',
-            'class'  => 'cancel delete-address'  . ($this->isReadonly() ? ' disabled' : ''),
-            'disabled' => $this->isReadonly()
-        ));
+                'label'  => __('Cancel'),
+                'id'     => 'cancel_add_address'.$this->getTemplatePrefix(),
+                'name'   => 'cancel_address',
+                'element_name' => 'cancel_address',
+                'class'  => 'cancel delete-address'  . ($this->isReadonly() ? ' disabled' : ''),
+                'disabled' => $this->isReadonly()
+            ));
         return parent::_prepareLayout();
     }
 
@@ -132,8 +162,17 @@ class Addresses extends \Magento\Backend\Block\Widget\Form\Generic
      */
     public function isReadonly()
     {
-        $customer = $this->_coreRegistry->registry('current_customer');
-        return $customer->isReadonly();
+        $customerId = $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID);
+
+        if (empty($customerId)) {
+            return false;
+        }
+
+        try {
+            return $this->_customerService->isReadonly($customerId);
+        } catch (NoSuchEntityException $e) {
+            return false;
+        }
     }
 
     public function getDeleteButtonHtml()
@@ -144,36 +183,55 @@ class Addresses extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Initialize form object
      *
-     * @return \Magento\Customer\Block\Adminhtml\Edit\Tab\Addresses
+     * @return $this
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     public function initForm()
     {
-        /* @var $customer \Magento\Customer\Model\Customer */
-        $customer = $this->_coreRegistry->registry('current_customer');
+
+        $customerData = $this->_backendSession->getCustomerData();
 
         /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
         $fieldset = $form->addFieldset('address_fieldset', array(
-            'legend'    => __("Edit Customer's Address"))
+                'legend'    => __("Edit Customer's Address"))
         );
 
-        $addressModel = $this->_addressFactory->create();
-        $addressModel->setCountryId($this->_coreData->getDefaultCountry($customer->getStore()));
-        /** @var $addressForm \Magento\Customer\Model\Form */
-        $addressForm = $this->_customerFactory->create();
-        $addressForm->setFormCode('adminhtml_customer_address')
-            ->setEntity($addressModel)
-            ->initDefaultValues();
+        $account = $customerData['account'];
+        $this->_addressBuilder->populateWithArray([]);
+        if (!empty($account) && isset($account['store_id'])) {
+            $this->_addressBuilder->setCountryId(
+                $this->_coreData->getDefaultCountry(
+                    $this->_storeManager->getStore($account['store_id'])
+                )
+            );
+        } else {
+            $this->_addressBuilder->setCountryId($this->_coreData->getDefaultCountry());
+        }
+        $address = $this->_addressBuilder->create();
+
+        $addressForm = $this->_metadataFormFactory->create(
+            'customer_address',
+            'adminhtml_customer_address',
+            $address->getAttributes()
+        );
 
         $attributes = $addressForm->getAttributes();
         if (isset($attributes['street'])) {
-            $this->_adminhtmlAddresses
-                ->processStreetAttribute($attributes['street']);
+            if ($attributes['street']->getMultilineCount() <= 0 ) {
+                $attributes['street'] = $this->_attributeMetadataBuilder->populate($attributes['street'])
+                    ->setMultilineCount(self::DEFAULT_STREET_LINES_COUNT)
+                    ->create();
+            }
         }
-        foreach ($attributes as $attribute) {
-            /* @var $attribute \Magento\Eav\Model\Entity\Attribute */
-            $attribute->setFrontendLabel(__($attribute->getFrontend()->getLabel()));
-            $attribute->unsIsVisible();
+        foreach ($attributes as $key => $attribute) {
+            $attributes[$key] = $this->_attributeMetadataBuilder->populate($attribute)
+                ->setFrontendLabel(__($attribute->getFrontendLabel()))
+                ->setVisible(false)
+                ->create();
         }
         $this->_setFieldset($attributes, $fieldset);
 
@@ -194,7 +252,7 @@ class Addresses extends \Magento\Backend\Block\Widget\Form\Generic
         }
 
         if ($this->isReadonly()) {
-            foreach ($addressModel->getAttributes() as $attribute) {
+            foreach ($this->_metadataService->getAllAddressAttributeMetadata() as $attribute) {
                 $element = $form->getElement($attribute->getAttributeCode());
                 if ($element) {
                     $element->setReadonly(true, true);
@@ -203,8 +261,8 @@ class Addresses extends \Magento\Backend\Block\Widget\Form\Generic
         }
 
         $customerStoreId = null;
-        if ($customer->getId()) {
-            $customerStoreId = $this->_storeManager->getWebsite($customer->getWebsiteId())
+        if (!empty($account) && isset($account['id']) && isset($account['website_id'])) {
+            $customerStoreId = $this->_storeManager->getWebsite($account['website_id'])
                 ->getDefaultStore()
                 ->getId();
         }
@@ -237,20 +295,30 @@ class Addresses extends \Magento\Backend\Block\Widget\Form\Generic
             }
         }
 
-        $addressCollection = $customer->getAddresses();
-        $this->assign('customer', $customer);
+        $this->assign('customer', $this->_customerBuilder->populateWithArray($account)->create());
+        $addressCollection = [];
+        foreach ($customerData['address'] as $key => $addressData) {
+            $addressCollection[$key] = $this->_addressBuilder->populateWithArray($addressData)
+                ->create();
+        }
         $this->assign('addressCollection', $addressCollection);
-        $form->setValues($addressModel->getData());
+        $form->setValues($address->getAttributes());
         $this->setForm($form);
 
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getCancelButtonHtml()
     {
         return $this->getChildHtml('cancel_button');
     }
 
+    /**
+     * @return string
+     */
     public function getAddNewButtonHtml()
     {
         return $this->getChildHtml('add_address_button');
@@ -274,7 +342,7 @@ class Addresses extends \Magento\Backend\Block\Widget\Form\Generic
      * Add specified values to name prefix element values
      *
      * @param string|int|array $values
-     * @return \Magento\Customer\Block\Adminhtml\Edit\Tab\Addresses
+     * @return $this
      */
     public function addValuesToNamePrefixElement($values)
     {
@@ -288,7 +356,7 @@ class Addresses extends \Magento\Backend\Block\Widget\Form\Generic
      * Add specified values to name suffix element values
      *
      * @param string|int|array $values
-     * @return \Magento\Customer\Block\Adminhtml\Edit\Tab\Addresses
+     * @return $this
      */
     public function addValuesToNameSuffixElement($values)
     {
@@ -366,5 +434,17 @@ class Addresses extends \Magento\Backend\Block\Widget\Form\Generic
     public function jsonEncode($data)
     {
         return $this->_jsonEncoder->encode($data);
+    }
+
+    /**
+     * Format the given address to the given type
+     *
+     * @param Address $address
+     * @param string $type
+     * @return string
+     */
+    public function format(Address $address, $type)
+    {
+        return $this->_addressHelper->getFormatTypeRenderer($type)->renderArray($address->getAttributes());
     }
 }

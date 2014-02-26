@@ -1828,6 +1828,7 @@ return array(
         'Magento\App\Dir\Verification',
         'Magento\App\Filesystem\DirectoryList\Verification'
     ),
+    array('Magento\Backend\Helper\Addresses'),
     array('Magento\Core\Model\Cookie', 'Magento\Stdlib\Cookie'),
     array('Magento\Core\Model\Logger', 'Magento\Logger'),
     array('Magento\Core\Block\Template\Context', 'Magento\View\Element\Template\Context'),

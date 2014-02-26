@@ -49,6 +49,9 @@ class Observer
      */
     protected $_onePageCheckout;
 
+    /** @var \Magento\Customer\Model\Converter */
+    protected $_customerConverter;
+
     /**
      * @param \Magento\Checkout\Model\Type\Onepage $onePageCheckout
      * @param \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory
@@ -56,6 +59,7 @@ class Observer
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\CustomerBalance\Helper\Data $customerBalanceData
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Customer\Model\Converter $customerConverter
      */
     public function __construct(
         \Magento\Checkout\Model\Type\Onepage $onePageCheckout,
@@ -63,7 +67,8 @@ class Observer
         \Magento\App\RequestInterface $request,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\CustomerBalance\Helper\Data $customerBalanceData,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Customer\Model\Converter $customerConverter
     ) {
         $this->_onePageCheckout = $onePageCheckout;
         $this->_balanceFactory = $balanceFactory;
@@ -71,26 +76,7 @@ class Observer
         $this->_storeManager = $storeManager;
         $this->_customerBalanceData = $customerBalanceData;
         $this->_coreRegistry = $coreRegistry;
-    }
-
-    /**
-     * Prepare customer balance POST data
-     *
-     * @param \Magento\Event\Observer $observer
-     */
-    public function prepareCustomerBalanceSave($observer)
-    {
-        if (!$this->_customerBalanceData->isEnabled()) {
-            return;
-        }
-        /* @var $customer \Magento\Customer\Model\Customer */
-        $customer = $observer->getCustomer();
-        /* @var $request \Magento\App\RequestInterface */
-        $request = $observer->getRequest();
-        $data = $request->getPost('customerbalance');
-        if ($data) {
-            $customer->setCustomerBalanceData($data);
-        }
+        $this->_customerConverter = $customerConverter;
     }
 
     /**
@@ -103,13 +89,18 @@ class Observer
         if (!$this->_customerBalanceData->isEnabled()) {
             return;
         }
-        $data = $observer->getCustomer()->getCustomerBalanceData();
+        /* @var $request \Magento\App\RequestInterface */
+        $request = $observer->getRequest();
+        $data = $request->getPost('customerbalance');
+        /* @var $customer \Magento\Customer\Service\V1\Dto\Customer */
+        $customer = $observer->getCustomer();
+        $customerModel = $this->_customerConverter->getCustomerModel($customer->getCustomerId());
         if ($data) {
             if (!empty($data['amount_delta'])) {
                 $balance = $this->_balanceFactory->create()
-                    ->setCustomer($observer->getCustomer())
+                    ->setCustomer($customerModel)
                     ->setWebsiteId(
-                        isset($data['website_id']) ? $data['website_id'] : $observer->getCustomer()->getWebsiteId()
+                        isset($data['website_id']) ? $data['website_id'] : $customer->getWebsiteId()
                     )
                     ->setAmountDelta($data['amount_delta'])
                     ->setComment($data['comment']);

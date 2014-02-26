@@ -15,6 +15,7 @@
 namespace Magento\CustomerBalance\Controller\Adminhtml;
 
 use Magento\Backend\App\Action;
+use Magento\Customer\Controller\RegistryConstants;
 
 class Customerbalance extends \Magento\Backend\App\Action
 {
@@ -120,7 +121,7 @@ class Customerbalance extends \Magento\Backend\App\Action
         if (!$customer->getId()) {
             throw new \Magento\Core\Exception(__('Failed to initialize customer'));
         }
-        $this->_coreRegistry->register('current_customer', $customer);
+        $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER, $customer);
     }
 
     /**

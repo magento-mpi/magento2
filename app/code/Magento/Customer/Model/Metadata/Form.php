@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -55,6 +53,8 @@ class Form
     protected $_isAjax = false;
 
     /**
+     * Attribute values
+     *
      * @var array
      */
     protected $_attributeValues = [];
@@ -140,6 +140,21 @@ class Form
     }
 
     /**
+     * Return attribute instance by code or false
+     *
+     * @param string $attributeCode
+     * @return \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata|false
+     */
+    public function getAttribute($attributeCode)
+    {
+        $attributes = $this->getAttributes();
+        if (isset($attributes[$attributeCode])) {
+            return $attributes[$attributeCode];
+        }
+        return false;
+    }
+
+    /**
      * Retrieve user defined attributes
      *
      * @return \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata[]
@@ -180,8 +195,7 @@ class Form
     {
         $attributes = $this->getAttributes();
         foreach ($attributes as $attributeCode => $attribute) {
-            if (
-                $this->_ignoreInvisible && !$attribute->isVisible()
+            if ($this->_ignoreInvisible && !$attribute->isVisible()
                 || in_array($attribute->getAttributeCode(), $this->_filterAttributes)
             ) {
                 unset($attributes[$attributeCode]);
@@ -211,10 +225,10 @@ class Form
     }
 
     /**
-     * Compact data array to current entity
+     * Compact data array to form attribute values
      *
      * @param array $data
-     * @return array
+     * @return array attribute values
      */
     public function compactData(array $data)
     {
@@ -224,13 +238,15 @@ class Form
             if (!isset($data[$attribute->getAttributeCode()])) {
                 $data[$attribute->getAttributeCode()] = false;
             }
+            $attributeCode = $attribute->getAttributeCode();
+            $this->_attributeValues[$attributeCode] = $dataModel->compactValue($data[$attributeCode]);
         }
 
-        return $data;
+        return $this->_attributeValues;
     }
 
     /**
-     * Restore data array from SESSION to current entity
+     * Restore data array from SESSION to attribute values
      *
      * @param array $data
      * @return array
@@ -243,9 +259,10 @@ class Form
             if (!isset($data[$attribute->getAttributeCode()])) {
                 $data[$attribute->getAttributeCode()] = false;
             }
-            $data[$attribute->getAttributeCode()] = $dataModel->restoreValue($data[$attribute->getAttributeCode()]);
+            $attributeCode = $attribute->getAttributeCode();
+            $this->_attributeValues[$attributeCode] = $dataModel->restoreValue($data[$attributeCode]);
         }
-        return $data;
+        return $this->_attributeValues;
     }
 
     /**
@@ -325,7 +342,7 @@ class Form
     public function validateData(array $data)
     {
         $validator = $this->_getValidator($data);
-        if (!$validator->isValid($this->_attributeValues)) {
+        if (!$validator->isValid(false)) {
             $messages = array();
             foreach ($validator->getMessages() as $errorMessages) {
                 $messages = array_merge($messages, (array)$errorMessages);
@@ -349,5 +366,15 @@ class Form
             $result[$attribute->getAttributeCode()] = $dataModel->outputValue($format);
         }
         return $result;
+    }
+
+    /**
+     * Set whether invisible attributes should be ignored.
+     *
+     * @param bool $ignoreInvisible
+     */
+    public function setInvisibleIgnored($ignoreInvisible)
+    {
+        $this->_ignoreInvisible = $ignoreInvisible;
     }
 }

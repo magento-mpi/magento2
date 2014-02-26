@@ -16,6 +16,9 @@
             <action method="setFormCode">
                 <argument name="code" xsi:type="string">customer_account_edit</argument>
             </action>
+            <action method="setEntityModelClass">
+                <argument name="code" xsi:type="string">Magento\Customer\Model\Customer</argument>
+            </action>
         </block>
     </referenceBlock>
     <update handle="customer_form_template_handle"/>

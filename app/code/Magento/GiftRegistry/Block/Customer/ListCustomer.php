@@ -2,13 +2,14 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftRegistry
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftRegistry\Block\Customer;
+
+use Magento\Core\Model\LocaleInterface;
+use Magento\Customer\Service\V1\CustomerServiceInterface;
+use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 
 /**
  * Customer giftregistry list block
@@ -34,6 +35,8 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
+     * @param CustomerServiceInterface $customerService
+     * @param CustomerAddressServiceInterface $addressService
      * @param \Magento\GiftRegistry\Model\EntityFactory $entityFactory
      * @param \Magento\GiftRegistry\Model\TypeFactory $typeFactory
      * @param array $data
@@ -42,6 +45,8 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
         \Magento\View\Element\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
+        CustomerServiceInterface $customerService,
+        CustomerAddressServiceInterface $addressService,
         \Magento\GiftRegistry\Model\EntityFactory $entityFactory,
         \Magento\GiftRegistry\Model\TypeFactory $typeFactory,
         array $data = array()
@@ -49,7 +54,9 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
         $this->customerSession = $customerSession;
         $this->entityFactory = $entityFactory;
         $this->typeFactory = $typeFactory;
-        parent::__construct($context, $customerSession, $subscriberFactory, $data);
+        parent::__construct(
+            $context, $customerSession, $subscriberFactory, $customerService, $addressService, $data
+        );
     }
 
     /**
@@ -127,6 +134,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
     /**
      * Return view entity items url
      *
+     * @param \Magento\GiftRegistry\Model\Entity $item
      * @return string
      */
     public function getItemsUrl($item)
@@ -137,6 +145,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
     /**
      * Return share entity url
      *
+     * @param \Magento\GiftRegistry\Model\Entity $item
      * @return string
      */
     public function getShareUrl($item)
@@ -147,6 +156,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
     /**
      * Return edit entity url
      *
+     * @param \Magento\GiftRegistry\Model\Entity $item
      * @return string
      */
     public function getEditUrl($item)
@@ -157,6 +167,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
     /**
      * Return delete entity url
      *
+     * @param \Magento\GiftRegistry\Model\Entity $item
      * @return string
      */
     public function getDeleteUrl($item)
@@ -183,7 +194,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
      */
     public function getFormattedDate($item)
     {
-        return $this->formatDate($item->getCreatedAt(), \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM);
+        return $this->formatDate($item->getCreatedAt(), LocaleInterface::FORMAT_TYPE_MEDIUM);
     }
 
     /**

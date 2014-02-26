@@ -10,15 +10,21 @@
 
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 
+use Magento\Customer\Controller\RegistryConstants;
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+use Magento\Exception\NoSuchEntityException;
+
 /**
  * Customer account form block
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class View
     extends \Magento\Backend\Block\Template
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
-     * @var \Magento\Customer\Model\Customer
+     * @var \Magento\Customer\Service\V1\Dto\Customer
      */
     protected $_customer;
 
@@ -40,9 +46,33 @@ class View
     protected $_modelVisitor;
 
     /**
+     * @var \Magento\Customer\Service\V1\CustomerServiceInterface
+     */
+    protected $_customerService;
+
+    /**
+     * @var CustomerAccountServiceInterface
+     */
+    protected $_accountService;
+
+    /**
+     * @var \Magento\Customer\Service\V1\CustomerAddressServiceInterface
+     */
+    protected $_addressService;
+
+    /**
      * @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface
      */
     protected $_groupService;
+
+    /**
+     * @var \Magento\Customer\Service\V1\Dto\CustomerBuilder
+     */
+    protected $_customerBuilder;
+    /**
+     * @var \Magento\Customer\Helper\Address
+     */
+    protected $_addressHelper;
 
     /**
      * @var \Magento\Log\Model\CustomerFactory
@@ -56,16 +86,28 @@ class View
     
     /**
      * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Customer\Service\V1\CustomerServiceInterface $customerService
+     * @param CustomerAccountServiceInterface $accountService
+     * @param \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService
      * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService
+     * @param \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerBuilder
+     * @param \Magento\Customer\Helper\Address $addressHelper
      * @param \Magento\Log\Model\CustomerFactory $logFactory
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Log\Model\Visitor $modelVisitor
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
+        \Magento\Customer\Service\V1\CustomerServiceInterface $customerService,
+        CustomerAccountServiceInterface $accountService,
+        \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService,
         \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService,
+        \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerBuilder,
+        \Magento\Customer\Helper\Address $addressHelper,
         \Magento\Log\Model\CustomerFactory $logFactory,
         \Magento\Core\Model\Registry $registry,
         \Magento\Log\Model\Visitor $modelVisitor,
@@ -74,21 +116,36 @@ class View
     ) {
         $this->_coreRegistry = $registry;
         $this->_modelVisitor = $modelVisitor;
+        $this->_customerService = $customerService;
+        $this->_accountService = $accountService;
+        $this->_addressService = $addressService;
         $this->_groupService = $groupService;
+        $this->_customerBuilder = $customerBuilder;
+        $this->_addressHelper = $addressHelper;
         $this->_logFactory = $logFactory;
         $this->dateTime = $dateTime;
         parent::__construct($context, $data);
     }
 
     /**
-     * @return \Magento\Customer\Model\Customer
+     * @return \Magento\Customer\Service\V1\Dto\Customer
      */
     public function getCustomer()
     {
         if (!$this->_customer) {
-            $this->_customer = $this->_coreRegistry->registry('current_customer');
+            $this->_customer = $this->_customerBuilder->populateWithArray(
+                $this->_backendSession->getCustomerData()['account']
+            )->create();
         }
         return $this->_customer;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getCustomerId()
+    {
+        return $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID);
     }
 
     /**
@@ -112,7 +169,7 @@ class View
     {
         $customer = $this->getCustomer();
 
-        if ($groupId = ($customer->getId() ? $customer->getGroupId() : null)) {
+        if ($groupId = ($customer->getCustomerId() ? $customer->getGroupId() : null)) {
             if ($group = $this->getGroup($groupId)) {
                 return $group->getCode();
             }
@@ -130,7 +187,7 @@ class View
     {
         if (!$this->_customerLog) {
             $this->_customerLog = $this->_logFactory->create()
-                ->loadByCustomer($this->getCustomer()->getId());
+                ->loadByCustomer($this->getCustomerId());
         }
         return $this->_customerLog;
     }
@@ -156,7 +213,7 @@ class View
     {
         $date = $this->_locale->storeDate(
             $this->getCustomer()->getStoreId(),
-            $this->getCustomer()->getCreatedAtTimestamp(),
+            $this->getCustomer()->getCreatedAt(),
             true
         );
         return $this->formatDate($date, \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM, true);
@@ -239,14 +296,16 @@ class View
      */
     public function getIsConfirmedStatus()
     {
-        $this->getCustomer();
-        if (!$this->_customer->getConfirmation()) {
-            return __('Confirmed');
+        $id = $this->getCustomerId();
+        switch($this->_accountService->getConfirmationStatus($id)) {
+            case CustomerAccountServiceInterface::ACCOUNT_CONFIRMED:
+                return __('Confirmed');
+            case CustomerAccountServiceInterface::ACCOUNT_CONFIRMATION_REQUIRED:
+                return __('Confirmation Required');
+            case CustomerAccountServiceInterface::ACCOUNT_CONFIRMATION_NOT_REQUIRED:
+                return __('Confirmation Not Required');
         }
-        if ($this->_customer->isConfirmationRequired()) {
-            return __('Not confirmed, cannot login');
-        }
-        return __('Not confirmed, can login');
+        return __('Indeterminate');
     }
 
     /**
@@ -254,7 +313,7 @@ class View
      */
     public function getCreatedInStore()
     {
-        return $this->_storeManager->getStore($this->getCustomer()->getStoreId())->getName();
+        return $this->_storeManager->getStore($this->getStoreId())->getName();
     }
 
     /**
@@ -267,11 +326,14 @@ class View
 
     public function getBillingAddressHtml()
     {
-        $address = $this->getCustomer()->getPrimaryBillingAddress();
-        if ($address) {
-            return $address->format('html');
+        try {
+            $address = $this->_addressService->getAddressById($this->getCustomer()->getDefaultBilling());
+        } catch (NoSuchEntityException $e) {
+            return __('The customer does not have default billing address.');
         }
-        return __('The customer does not have default billing address.');
+        return $this->_addressHelper->getFormatTypeRenderer('html')->renderArray(
+            $address->getAttributes()
+        );
     }
 
     /**
@@ -311,7 +373,7 @@ class View
      */
     public function canShowTab()
     {
-        if ($this->_coreRegistry->registry('current_customer')->getId()) {
+        if ($this->getCustomerId()) {
             return true;
         }
         return false;
@@ -322,7 +384,7 @@ class View
      */
     public function isHidden()
     {
-        if ($this->_coreRegistry->registry('current_customer')->getId()) {
+        if ($this->getCustomerId()) {
             return false;
         }
         return true;

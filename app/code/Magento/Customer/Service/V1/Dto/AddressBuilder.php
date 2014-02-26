@@ -13,7 +13,6 @@ use Magento\Service\Entity\AbstractDto;
 use Magento\Service\Entity\AbstractDtoBuilder;
 
 /**
- * @method Address create()
  * @method Address mergeDtoWithArray(AbstractDto $dto, array $data)
  */
 class AddressBuilder extends AbstractDtoBuilder
@@ -215,5 +214,15 @@ class AddressBuilder extends AbstractDtoBuilder
     public function setCustomerId($customerId)
     {
         return $this->_set(Address::KEY_CUSTOMER_ID, $customerId);
+    }
+
+    /**
+     * Builds the entity.
+     *
+     * @return Address
+     */
+    public function create()
+    {
+        return parent::create();
     }
 }

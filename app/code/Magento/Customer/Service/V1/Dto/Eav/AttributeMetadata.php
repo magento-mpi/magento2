@@ -29,6 +29,7 @@ class AttributeMetadata extends \Magento\Service\Entity\AbstractDto
     const SORT_ORDER = 'sort_order';
     const FRONTEND_LABEL = 'frontend_label';
     const IS_SYSTEM = 'is_system';
+    const NOTE = 'note';
     /**#@-*/
 
     /**
@@ -169,6 +170,16 @@ class AttributeMetadata extends \Magento\Service\Entity\AbstractDto
     public function getFrontendLabel()
     {
         return $this->_get(self::FRONTEND_LABEL);
+    }
+
+    /**
+     * Get the note attribute for the element.
+     *
+     * @return string
+     */
+    public function getNote()
+    {
+        return $this->_get(self::NOTE);
     }
 
     /**
