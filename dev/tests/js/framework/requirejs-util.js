@@ -19,7 +19,7 @@
     // ---Private functions---
     // Retrieve the URL to a specific script in the way as it is used by JsTestDriver
     var getUrlByScriptPath = function (scriptPath) {
-        var result = undefined;
+        var result;
         $('script[src]').each(function() {
             if (this.src.indexOf(scriptPath) >= 0) {
                 result = this.src;

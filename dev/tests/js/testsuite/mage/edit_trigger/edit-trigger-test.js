@@ -19,7 +19,7 @@ EditTriggerTest.prototype.testCreate = function() {
      */
     var options = {
             img: 'img.gif',
-            alt: 'translate',
+            alt: 'translate'
         },
         editTrigger = jQuery(document).editTrigger(options);
     var trigger = jQuery('.translate-edit-icon');
@@ -40,7 +40,7 @@ EditTriggerTest.prototype.testShowHideOnMouseMove = function() {
      */
     var editTrigger = jQuery(document).editTrigger({
             editSelector: '.edit',
-            delay: 0,
+            delay: 0
         }),
         trigger = jQuery('.translate-edit-icon'),
         editElement = jQuery('.edit'),
@@ -58,7 +58,7 @@ EditTriggerTest.prototype.testTriggerClick = function() {
       </script>
     */
     var editTrigger = jQuery(document).editTrigger({
-            editSelector: '.edit',
+            editSelector: '.edit'
         }),
         trigger = jQuery('.translate-edit-icon'),
         editElement = jQuery('.edit'),
@@ -95,7 +95,7 @@ EditTriggerTestAsync.prototype.testHideEditTriggerWithDelay = function(queue) {
      */
     var editTrigger = jQuery(document).editTrigger({
             editSelector: '.edit',
-            delay: 1000,
+            delay: 1000
         }),
         trigger = jQuery('.translate-edit-icon'),
         editElement = jQuery('.edit'),

@@ -4,10 +4,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+/*jshint globalstrict: true*/
 
-/*jshint globalstrict: true, newcap: true, undef: true*/
 "use strict";
 
+/*jshint undef: false, newcap: false*/
 var IdNormalizerTest = TestCase('IdNormalizerTest');
 
 IdNormalizerTest.prototype.setUp = function() {
