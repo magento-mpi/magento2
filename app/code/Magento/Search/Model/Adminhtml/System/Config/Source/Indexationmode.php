@@ -16,7 +16,7 @@ namespace Magento\Search\Model\Adminhtml\System\Config\Source;
  * @package     Magento_Search
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Indexationmode implements \Magento\Core\Model\Option\ArrayInterface
+class Indexationmode implements \Magento\Option\ArrayInterface
 {
     /**
      * {@inheritdoc}

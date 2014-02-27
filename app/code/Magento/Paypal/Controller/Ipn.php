@@ -5,12 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Controller;
 
 /**
  * Unified IPN controller for all supported PayPal methods
  */
-namespace Magento\Paypal\Controller;
-
 class Ipn extends \Magento\App\Action\Action
 {
     /**
@@ -32,6 +31,7 @@ class Ipn extends \Magento\App\Action\Action
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Paypal\Model\IpnFactory $ipnFactory
      * @param \Magento\HTTP\Adapter\CurlFactory $curlFactory
+     * @param \Magento\Logger $logger
      */
     public function __construct(
         \Magento\App\Action\Context $context,
@@ -47,6 +47,8 @@ class Ipn extends \Magento\App\Action\Action
 
     /**
      * Instantiate IPN model and pass IPN request to it
+     *
+     * @return void
      */
     public function indexAction()
     {

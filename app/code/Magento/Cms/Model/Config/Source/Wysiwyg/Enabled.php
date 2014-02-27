@@ -7,16 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Cms\Model\Config\Source\Wysiwyg;
 
 /**
  * Configuration source model for Wysiwyg toggling
- *
- * @category    Magento
- * @package     Magento_Cms
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enabled implements \Magento\Core\Model\Option\ArrayInterface
+class Enabled implements \Magento\Option\ArrayInterface
 {
     /**
      * {@inheritdoc}

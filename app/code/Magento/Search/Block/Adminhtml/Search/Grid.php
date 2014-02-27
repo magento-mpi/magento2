@@ -24,7 +24,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid
     protected $_options;
 
     /**
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_registryManager;
 
@@ -37,7 +37,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Search\Model\Adminhtml\Search\Grid\Options $options
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Core\Helper\Data $coreHelper
      * @param array $data
      */
@@ -45,7 +45,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Search\Model\Adminhtml\Search\Grid\Options $options,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Core\Helper\Data $coreHelper,
         array $data = array()
     ) {

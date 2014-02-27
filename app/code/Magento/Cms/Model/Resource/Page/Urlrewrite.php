@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Cms\Model\Resource\Page;
 
 /**
  * Cms page url rewrite resource model
- *
- * @author Magento Core Team <core@magentocommerce.com>
  */
 class Urlrewrite extends \Magento\Core\Model\Resource\Db\AbstractDb
 {

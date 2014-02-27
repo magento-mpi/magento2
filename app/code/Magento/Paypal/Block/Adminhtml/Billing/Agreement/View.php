@@ -5,29 +5,28 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Block\Adminhtml\Billing\Agreement;
 
 /**
  * Adminhtml billing agreement view
  */
-namespace Magento\Paypal\Block\Adminhtml\Billing\Agreement;
-
 class View extends \Magento\Backend\Block\Widget\Form\Container
 {
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -37,6 +36,7 @@ class View extends \Magento\Backend\Block\Widget\Form\Container
     /**
      * Initialize view container
      *
+     * @return void
      */
     protected function _construct()
     {

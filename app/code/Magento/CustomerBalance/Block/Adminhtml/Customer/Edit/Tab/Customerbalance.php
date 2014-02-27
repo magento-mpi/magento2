@@ -7,31 +7,28 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab;
 
 /**
  * Customer account Store Credit tab
  */
-namespace Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab;
-
-class Customerbalance
-    extends \Magento\Backend\Block\Widget
-    implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class Customerbalance extends \Magento\Backend\Block\Widget implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -40,6 +37,8 @@ class Customerbalance
 
     /**
      * Set identifier and title
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -125,6 +124,7 @@ class Customerbalance
     /**
      * Tab URL getter
      *
+     * @return string
      */
     public function getTabUrl()
     {

@@ -5,14 +5,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Model\Payflow;
 
 /**
  * PayPal Website Payments Pro (Payflow Edition) implementation for payment method instances
  * This model was created because right now PayPal Direct and PayPal Express payment
  * (Payflow Edition) methods cannot have same abstract
  */
-namespace Magento\Paypal\Model\Payflow;
-
 class Pro extends \Magento\Paypal\Model\Pro
 {
     /**
@@ -39,6 +38,7 @@ class Pro extends \Magento\Paypal\Model\Pro
      *
      * @param \Magento\Object $payment
      * @param float $amount
+     * @return void
      */
     public function refund(\Magento\Object $payment, $amount)
     {
@@ -78,8 +78,9 @@ class Pro extends \Magento\Paypal\Model\Pro
     /**
      * Import capture results to payment
      *
-     * @param \Magento\Paypal\Model\Api\Nvp
-     * @param \Magento\Sales\Model\Order\Payment
+     * @param \Magento\Paypal\Model\Api\Nvp $api
+     * @param \Magento\Sales\Model\Order\Payment $payment
+     * @return void
      */
     protected function _importCaptureResultToPayment($api, $payment)
     {
@@ -109,9 +110,10 @@ class Pro extends \Magento\Paypal\Model\Pro
     /**
      * Import refund results to payment
      *
-     * @param \Magento\Paypal\Model\Api\Nvp
-     * @param \Magento\Sales\Model\Order\Payment
+     * @param \Magento\Paypal\Model\Api\Nvp $api
+     * @param \Magento\Sales\Model\Order\Payment $payment
      * @param bool $canRefundMore
+     * @return void
      */
     protected function _importRefundResultToPayment($api, $payment, $canRefundMore)
     {

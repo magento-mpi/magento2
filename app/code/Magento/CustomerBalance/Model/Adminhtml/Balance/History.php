@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerBalance\Model\Adminhtml\Balance;
 
 /**
  * Customerbalance history model for adminhtml area
@@ -15,8 +16,6 @@
  * @package     Magento_CustomerBalance
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\CustomerBalance\Model\Adminhtml\Balance;
-
 class History extends \Magento\CustomerBalance\Model\Balance\History
 {
     /**
@@ -25,21 +24,21 @@ class History extends \Magento\CustomerBalance\Model\Balance\History
     protected $_authSession;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Backend\Model\Auth\Session $authSession
-     * @param \Magento\Email\Model\TemplateFactory $templateFactory
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
+     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\View\DesignInterface $design
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Email\Model\TemplateFactory $templateFactory,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
+        \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\View\DesignInterface $design,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
@@ -52,7 +51,7 @@ class History extends \Magento\CustomerBalance\Model\Balance\History
         parent::__construct(
             $context,
             $registry,
-            $templateFactory,
+            $transportBuilder,
             $storeManager,
             $design,
             $coreStoreConfig,
@@ -65,7 +64,7 @@ class History extends \Magento\CustomerBalance\Model\Balance\History
     /**
      * Add information about admin user who changed customer balance
      *
-     * @return \Magento\CustomerBalance\Model\Balance\History
+     * @return $this
      */
     protected function _beforeSave()
     {

@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Block\Adminhtml\Settlement\Details;
 
 /**
  * Settlement reports transaction details
  */
-namespace Magento\Paypal\Block\Adminhtml\Settlement\Details;
-
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
@@ -22,14 +21,14 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Paypal\Model\Report\Settlement $settlement
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\Paypal\Model\Report\Settlement $settlement,
         array $data = array()
@@ -41,7 +40,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Prepare read-only data and group it by fieldsets
      *
-     * @return \Magento\Paypal\Block\Adminhtml\Settlement\Details\Form
+     * @return $this
      */
     protected function _prepareForm()
     {

@@ -37,7 +37,7 @@ class Layer extends \Magento\CatalogSearch\Block\Layer
      * @param \Magento\CatalogSearch\Model\Layer $catalogLayer
      * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
      * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Search\Helper\Data $searchData
      * @param \Magento\Search\Model\Search\Layer $searchLayer
      * @param array $data
@@ -47,7 +47,7 @@ class Layer extends \Magento\CatalogSearch\Block\Layer
         \Magento\CatalogSearch\Model\Layer $catalogLayer,
         \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider,
         \Magento\CatalogSearch\Helper\Data $catalogSearchData,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Search\Helper\Data $searchData,
         \Magento\Search\Model\Search\Layer $searchLayer,
         array $data = array()

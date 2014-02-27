@@ -16,7 +16,7 @@ namespace Magento\SalesRule\Model\System\Config\Source\Coupon;
  * @package     Magento_SalesRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Format implements \Magento\Core\Model\Option\ArrayInterface
+class Format implements \Magento\Option\ArrayInterface
 {
     /**
      * Sales rule coupon
