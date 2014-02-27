@@ -17,7 +17,6 @@ use \Magento\ConfigurableProduct\Model\Product\Type\Configurable;
 
 use Magento\Catalog\Model\Product;
 use Magento\Core\Model\App;
-use Magento\Core\Model\LocaleInterface;
 
 class Config
     extends \Magento\Backend\Block\Widget
@@ -402,14 +401,6 @@ class Config
     public function getApp()
     {
         return $this->_app;
-    }
-
-    /**
-     * @return \Magento\LocaleInterface
-     */
-    public function getLocale()
-    {
-        return $this->_locale;
     }
 
     /**

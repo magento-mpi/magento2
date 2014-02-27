@@ -23,11 +23,6 @@ class Template extends \Magento\View\Element\Template
     protected $_authorization;
 
     /**
-     * @var \Magento\LocaleInterface
-     */
-    protected $_locale;
-
-    /**
      * @var \Magento\Math\Random
      */
     protected $mathRandom;

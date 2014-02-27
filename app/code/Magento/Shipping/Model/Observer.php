@@ -21,7 +21,7 @@ class Observer
     protected $_shippingFactory;
 
     /**
-     * @param \Magento\Core\Model\LocaleInterface $coreLocale
+     * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param \Magento\Sales\Model\Resource\Report\ShippingFactory $shippingFactory
      */
     public function __construct(

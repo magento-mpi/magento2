@@ -25,9 +25,9 @@
     <preference for="Magento\View\ConfigInterface" type="Magento\View\Config" />
     <preference for="Magento\Locale\ListsInterface" type="Magento\Locale\Lists" />
     <type name="Magento\Locale\Lists">
-        <param name="currencyInstalled">
-            <value>system/currency/installed</value>
-        </param>
+        <arguments>
+            <argument name="currencyInstalled" xsi:type="string">system/currency/installed</argument>
+        </arguments>
     </type>
     <preference for="Magento\Locale\ConfigInterface" type="Magento\Locale\Config" />
     <preference for="Magento\UrlInterface" type="Magento\Url" />
