@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 namespace Magento\Sales\Model\Quote\Address\Total;
 
 class Shipping extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
@@ -138,8 +137,6 @@ class Shipping extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 
         $this->_setAmount(0)->_setBaseAmount(0);
 
-        $method = $address->getShippingMethod();
-
         if ($method) {
             foreach ($address->getAllShippingRates() as $rate) {
                 if ($rate->getCode() == $method) {
@@ -165,17 +162,20 @@ class Shipping extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
     public function fetch(\Magento\Sales\Model\Quote\Address $address)
     {
         $amount = $address->getShippingAmount();
-        if ($amount != 0 || $address->getShippingDescription()) {
-            $title = __('Shipping & Handling');
-            if ($address->getShippingDescription()) {
-                $title .= ' (' . $address->getShippingDescription() . ')';
-            }
+        $shippingDescription = $address->getShippingDescription();
+
+        if ($amount != 0 || $shippingDescription) {
+            $title = $shippingDescription
+                ? __('Shipping & Handling (%s)', $shippingDescription)
+                : __('Shipping & Handling');
+
             $address->addTotal(array(
                 'code' => $this->getCode(),
                 'title' => $title,
-                'value' => $address->getShippingAmount()
+                'value' => $amount
             ));
         }
+
         return $this;
     }
 
