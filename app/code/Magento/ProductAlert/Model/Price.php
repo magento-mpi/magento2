@@ -9,7 +9,7 @@
  */
 namespace Magento\ProductAlert\Model;
 
-use Magento\Customer\Model\Resource\Customer\Collection;
+use Resource\Price\Customer\Collection;
 
 /**
  * ProductAlert for changed price model
