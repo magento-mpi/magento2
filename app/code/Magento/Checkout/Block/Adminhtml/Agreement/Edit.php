@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Checkout\Block\Adminhtml\Agreement;
 
 class Edit extends \Magento\Backend\Block\Widget\Form\Container
@@ -36,6 +35,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     /**
      * Init class
      *
+     * @return void
      */
     protected function _construct()
     {

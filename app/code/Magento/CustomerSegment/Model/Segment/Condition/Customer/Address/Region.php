@@ -7,15 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerSegment\Model\Segment\Condition\Customer\Address;
+
+use Magento\Customer\Model\Customer;
+use Magento\CustomerSegment\Model\Condition\AbstractCondition;
 
 /**
  * Customer address region selector
- *
  */
-namespace Magento\CustomerSegment\Model\Segment\Condition\Customer\Address;
-
-class Region
-    extends \Magento\CustomerSegment\Model\Condition\AbstractCondition
+class Region extends AbstractCondition
 {
     /**
      * Input type
@@ -58,7 +58,7 @@ class Region
     /**
      * Get array of event names where segment with such conditions combine can be matched
      *
-     * @return array
+     * @return string[]
      */
     public function getMatchedEvents()
     {
@@ -104,7 +104,7 @@ class Region
     /**
      * Init list of available values
      *
-     * @return array
+     * @return $this
      */
     public function loadValueOptions()
     {
@@ -119,8 +119,8 @@ class Region
      * Get condition query
      * In all cases "region name" will be in ..._varchar table
      *
-     * @param $customer
-     * @param $website
+     * @param Customer|\Zend_Db_Expr $customer
+     * @param int|\Zend_Db_Expr $website
      * @return \Magento\DB\Select
      */
     public function getConditionsSql($customer, $website)

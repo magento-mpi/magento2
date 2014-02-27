@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Block\Express\Review;
+
+use Magento\Sales\Model\Order\Address;
 
 /**
  * Paypal Express Onepage checkout block
@@ -15,16 +18,17 @@
  * @package    Magento_Paypal
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Paypal\Block\Express\Review;
-
 class Details extends \Magento\Checkout\Block\Cart\Totals
 {
+    /**
+     * @var Address
+     */
     protected $_address;
 
     /**
      * Return review shipping address
      *
-     * @return \Magento\Sales\Model\Order\Address
+     * @return Address
      */
     public function getAddress()
     {

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Checkout\Model\Resource\Agreement;
 
 /**
  * Resource Model for Agreement Collection
@@ -16,10 +16,11 @@
  * @package     Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Checkout\Model\Resource\Agreement;
-
 class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
+    /**
+     * @var array
+     */
     protected $_map = array('fields' => array(
         'agreement_id' => 'main_table.agreement_id',
     ));
@@ -34,6 +35,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Initialize resource
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -44,7 +46,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Filter collection by specified store ids
      *
      * @param int|\Magento\Core\Model\Store $store
-     * @return \Magento\Checkout\Model\Resource\Agreement\Collection
+     * @return $this
      */
     public function addStoreFilter($store)
     {
@@ -82,7 +84,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Make store filter using admin website or not
      *
      * @param bool $value
-     * @return \Magento\Checkout\Model\Resource\Agreement\Collection
+     * @return $this
      */
     public function setIsStoreFilterWithAdmin($value)
     {

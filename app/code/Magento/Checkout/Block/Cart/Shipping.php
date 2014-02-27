@@ -78,7 +78,7 @@ class Shipping extends \Magento\Checkout\Block\Cart\AbstractCart
      * Get config
      *
      * @param string $path
-     * @return mixed
+     * @return string|null
      */
     public function getConfig($path)
     {
@@ -124,7 +124,7 @@ class Shipping extends \Magento\Checkout\Block\Cart\AbstractCart
      * Get Carrier Name
      *
      * @param string $carrierCode
-     * @return mixed
+     * @return string
      */
     public function getCarrierName($carrierCode)
     {

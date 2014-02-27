@@ -7,15 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerBalance\Block\Adminhtml\Sales\Order\Create;
 
 /**
  * Customer balance block for order creation page
- *
  */
-namespace Magento\CustomerBalance\Block\Adminhtml\Sales\Order\Create;
-
-class Payment
-extends \Magento\View\Element\Template
+class Payment extends \Magento\View\Element\Template
 {
     /**
      * @var \Magento\CustomerBalance\Model\Balance
@@ -88,7 +85,7 @@ extends \Magento\View\Element\Template
     /**
      * Format value as price
      *
-     * @param double $value
+     * @param float $value
      * @return string
      */
     public function formatPrice($value)

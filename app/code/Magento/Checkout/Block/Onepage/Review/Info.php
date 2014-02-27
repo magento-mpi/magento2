@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Checkout\Block\Onepage\Review;
 
 /**
  * One page checkout order review
  */
-namespace Magento\Checkout\Block\Onepage\Review;
-
 class Info extends \Magento\Sales\Block\Items\AbstractItems
 {
     /**

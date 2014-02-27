@@ -31,6 +31,9 @@ class Coupon extends \Magento\Checkout\Block\Cart\AbstractCart
         $this->_isScopePrivate = true;
     }
 
+    /**
+     * @return string
+     */
     public function getCouponCode()
     {
         return $this->getQuote()->getCouponCode();

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Formtype\Edit;
 
 /**
  * Fort Type Edit Tabs Block
@@ -15,13 +15,12 @@
  * @category   Magento
  * @package    Magento_CustomerCustomAttributes
  */
-namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Formtype\Edit;
-
 class Tabs extends \Magento\Backend\Block\Widget\Tabs
 {
     /**
      * Initialize edit tabs
      *
+     * @return void
      */
     protected function _construct()
     {

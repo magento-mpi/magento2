@@ -75,6 +75,8 @@ class Shipping extends \Magento\Checkout\Block\Onepage\AbstractOnepage
 
     /**
      * Initialize shipping address step
+     *
+     * @return void
      */
     protected function _construct()
     {

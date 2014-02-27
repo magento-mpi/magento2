@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\CustomerBalance\Block\Checkout\Onepage\Payment;
 
 /**
  * Customer balance as an additional payment option during checkout
@@ -15,8 +15,6 @@
  * @category   Magento
  * @package    Magento_CustomerBalance
  */
-namespace Magento\CustomerBalance\Block\Checkout\Onepage\Payment;
-
 class Additional extends \Magento\View\Element\Template
 {
     /**
@@ -181,7 +179,8 @@ class Additional extends \Magento\View\Element\Template
      *
      * @return bool
      */
-    public function isCustomerBalanceUsed() {
+    public function isCustomerBalanceUsed()
+    {
         return $this->_getQuote()->getUseCustomerBalance();
     }
 

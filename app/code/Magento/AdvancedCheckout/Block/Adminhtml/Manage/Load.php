@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage;
 
 /**
@@ -44,6 +43,9 @@ class Load extends \Magento\View\Element\Template
         parent::__construct($context, $data);
     }
 
+    /**
+     * @return string
+     */
     protected function _toHtml()
     {
         $result = array();

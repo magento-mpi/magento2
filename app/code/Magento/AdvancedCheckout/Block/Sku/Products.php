@@ -76,7 +76,7 @@ class Products extends \Magento\Checkout\Block\Cart
     /**
      * Return list of product items
      *
-     * @return array
+     * @return \Magento\Sales\Model\Quote\Item[]
      */
     public function getItems()
     {
@@ -115,6 +115,8 @@ class Products extends \Magento\Checkout\Block\Cart
 
     /**
      * Prepare cart items URLs
+     *
+     * @return void
      */
     public function prepareItemUrls()
     {

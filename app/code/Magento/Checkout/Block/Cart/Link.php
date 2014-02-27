@@ -5,12 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Checkout\Block\Cart;
 
 /**
  * "My Cart" link
  */
-namespace Magento\Checkout\Block\Cart;
-
 class Link extends \Magento\View\Element\Html\Link
 {
     /**
