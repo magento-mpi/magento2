@@ -58,8 +58,8 @@ class RadioTest extends \PHPUnit_Framework_TestCase
             /** @var $objectManager \Magento\TestFramework\ObjectManager */
             $objectManager = Bootstrap::getObjectManager();
 
-            $objectManager->get('Magento\Core\Model\Registry')->unregister('current_widget_instance');
-            $objectManager->get('Magento\Core\Model\Registry')->register('current_widget_instance', $widgetInstance);
+            $objectManager->get('Magento\Registry')->unregister('current_widget_instance');
+            $objectManager->get('Magento\Registry')->register('current_widget_instance', $widgetInstance);
         }
 
         $this->block->setLayout($this->layoutMock);

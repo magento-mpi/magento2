@@ -84,7 +84,7 @@ class Ipn
      * @param \Magento\Paypal\Model\ConfigFactory $configFactory
      * @param \Magento\RecurringProfile\Model\ProfileFactory $recurringProfileFactory
      * @param \Magento\Paypal\Model\Info $paypalInfo
-     * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
+     * @param \Magento\Logger\AdapterFactory $logAdapterFactory
      */
     public function __construct(
         \Magento\Sales\Model\OrderFactory $orderFactory,
@@ -92,7 +92,7 @@ class Ipn
         \Magento\Paypal\Model\ConfigFactory $configFactory,
         \Magento\RecurringProfile\Model\ProfileFactory $recurringProfileFactory,
         \Magento\Paypal\Model\Info $paypalInfo,
-        \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
+        \Magento\Logger\AdapterFactory $logAdapterFactory
     ) {
         $this->_orderFactory = $orderFactory;
         $this->_responseHttp = $responseHttp;

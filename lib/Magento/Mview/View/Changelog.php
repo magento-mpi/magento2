@@ -197,10 +197,12 @@ class Changelog implements ChangelogInterface
      * Set view's identifier
      *
      * @param string $viewId
+     * @return Changelog
      */
     public function setViewId($viewId)
     {
         $this->viewId = $viewId;
+        return $this;
     }
 
     /**

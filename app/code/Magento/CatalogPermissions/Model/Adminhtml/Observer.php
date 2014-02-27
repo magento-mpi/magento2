@@ -315,15 +315,4 @@ class Observer
 
         return $this;
     }
-
-    /**
-     * Apply categories and products permissions after reindex category products
-     *
-     * @param EventObserver $observer
-     * @return void
-     */
-    public function applyPermissionsAfterReindex(EventObserver $observer)
-    {
-        $this->_indexer->getProcessByCode('catalogpermissions')->reindexEverything();
-    }
 }

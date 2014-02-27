@@ -28,15 +28,15 @@ class State extends \Magento\Core\Model\AbstractModel implements \Magento\Mview\
     protected $_eventObject = 'mview_state';
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\Resource\Mview\View\State $resource
      * @param \Magento\Core\Model\Resource\Mview\View\State\Collection $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Core\Model\Resource\Mview\View\State $resource,
         \Magento\Core\Model\Resource\Mview\View\State\Collection $resourceCollection,
         array $data = array()
@@ -54,7 +54,7 @@ class State extends \Magento\Core\Model\AbstractModel implements \Magento\Mview\
      * Fill object with state data by view ID
      *
      * @param string $viewId
-     * @return void
+     * @return $this
      */
     public function loadByView($viewId)
     {
@@ -62,12 +62,13 @@ class State extends \Magento\Core\Model\AbstractModel implements \Magento\Mview\
         if (!$this->getId()) {
             $this->setViewId($viewId);
         }
+        return $this;
     }
 
     /**
      * Processing object before save data
      *
-     * @return void
+     * @return $this
      */
     protected function _beforeSave()
     {

@@ -133,7 +133,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     /**
      * Retrieve customer session model
      *
-     * @return \Magento\Customer\Model\Customer
+     * @return \Magento\Customer\Model\Session
      */
     public function getCustomerSession()
     {

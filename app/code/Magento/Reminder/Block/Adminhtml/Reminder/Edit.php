@@ -9,7 +9,7 @@
  */
 namespace Magento\Reminder\Block\Adminhtml\Reminder;
 
-use Magento\Core\Model\Registry;
+use Magento\Registry;
 
 /**
  * Reminder rule edit form block
@@ -22,7 +22,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
      * @var Registry|null
      */
     protected $_coreRegistry = null;
-    
+
     /**
      * Reminder data
      *

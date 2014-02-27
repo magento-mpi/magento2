@@ -23,7 +23,7 @@ class Observer
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
@@ -55,7 +55,7 @@ class Observer
      * @param \Magento\CustomerSegment\Model\Customer $customer
      * @param \Magento\Backend\Model\Config\Source\Yesno $configSourceYesno
      * @param \Magento\CustomerSegment\Helper\Data $segmentHelper
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      */
     public function __construct(
         \Magento\Core\Model\StoreManagerInterface $storeManager,
@@ -63,7 +63,7 @@ class Observer
         \Magento\CustomerSegment\Model\Customer $customer,
         \Magento\Backend\Model\Config\Source\Yesno $configSourceYesno,
         \Magento\CustomerSegment\Helper\Data $segmentHelper,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Registry $coreRegistry
     ) {
         $this->_storeManager = $storeManager;
         $this->_customerSession = $customerSession;

@@ -92,7 +92,7 @@ class Observer
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -119,7 +119,7 @@ class Observer
 
     /**
      * @param \Magento\PricePermissions\Helper\Data $pricePermData
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -128,7 +128,7 @@ class Observer
      */
     public function __construct(
         \Magento\PricePermissions\Helper\Data $pricePermData,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\App\RequestInterface $request,
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
@@ -459,7 +459,7 @@ class Observer
         /** @var $product \Magento\Catalog\Model\Product */
         $product = $observer->getEvent()->getDataObject();
         if ($product->isObjectNew() && !$this->_canEditProductStatus) {
-            $product->setStatus(\Magento\Catalog\Model\Product\Status::STATUS_DISABLED);
+            $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
         }
     }
 
@@ -479,7 +479,7 @@ class Observer
             if (!$this->_canEditProductStatus) {
                 $statusElement = $form->getElement('status');
                 if (!is_null($statusElement)) {
-                    $statusElement->setValue(\Magento\Catalog\Model\Product\Status::STATUS_DISABLED);
+                    $statusElement->setValue(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
                     $statusElement->setReadonly(true, true);
                 }
             }
