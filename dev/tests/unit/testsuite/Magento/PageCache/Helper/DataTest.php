@@ -21,14 +21,30 @@ namespace Magento\PageCache\Helper;
  */
 class DataTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Magento\PageCache\Helper\Data */
+    /**
+     * @var \Magento\PageCache\Helper\Data
+     */
     protected $helper;
 
-    /** @var \Magento\View\Layout\ProcessorInterface */
+    /**
+     * @var \Magento\View\Layout\ProcessorInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
     protected $updateLayoutMock;
 
-    /** @var \Magento\Theme\Model\Layout\Config */
+    /**
+     * @var \Magento\App\Helper\Context|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $contextMock;
+
+    /**
+     * @var \Magento\Theme\Model\Layout\Config|\PHPUnit_Framework_MockObject_MockObject
+     */
     protected $configMock;
+
+    /**
+     * @var \Magento\App\View|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $viewMock;
 
     public function testMaxAgeCache()
     {
@@ -68,8 +84,9 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     protected function prepareMocks()
     {
+        $this->contextMock = $this->getMock('Magento\App\Helper\Context', [], [], '', false);
         $this->configMock = $this->getMock('Magento\Theme\Model\Layout\Config', [], [], '', false);
-        $viewMock = $this->getMock('Magento\App\View', ['getLayout'], ['getPageLayoutHandles'], '', false);
+        $this->viewMock = $this->getMock('Magento\App\View', ['getLayout'], ['getPageLayoutHandles'], '', false);
         $layoutMock = $this->getMockForAbstractClass(
             'Magento\View\LayoutInterface',
             [],
@@ -89,13 +106,13 @@ class DataTest extends \PHPUnit_Framework_TestCase
             []
         );
 
-        $viewMock->expects($this->once())
+        $this->viewMock->expects($this->once())
             ->method('getLayout')
             ->will($this->returnValue($layoutMock));
         $layoutMock->expects($this->once())
             ->method('getUpdate')
             ->will($this->returnValue($this->updateLayoutMock));
 
-        $this->helper = new \Magento\PageCache\Helper\Data($this->configMock, $viewMock);
+        $this->helper = new Data($this->contextMock, $this->configMock, $this->viewMock);
     }
 }
