@@ -1,6 +1,4 @@
 <?php
-namespace Magento\Code\GeneratorTest\SourceClassWithNamespace;
-
 /**
  * Proxy class for Magento\Code\GeneratorTest\SourceClassWithNamespace
  *
@@ -9,6 +7,9 @@ namespace Magento\Code\GeneratorTest\SourceClassWithNamespace;
  * @copyright {copyright}
  * @license   {license_link}
  */
+
+namespace Magento\Code\GeneratorTest\SourceClassWithNamespace;
+
 class Proxy extends \Magento\Code\GeneratorTest\SourceClassWithNamespace
 {
     /**
