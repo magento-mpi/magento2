@@ -52,6 +52,7 @@ return array(
     'lib/web/matchMedia.js',
     'lib/web/modernizr',
     'lib/web/prototype',
+    'lib/web/requirejs',
     'lib/web/scriptaculous',
     'lib/web/selectivizr.js',
     'lib/web/tiny_mce',
