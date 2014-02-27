@@ -16,7 +16,7 @@ namespace Magento\ImportExport\Model\Source\Export;
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Format implements \Magento\Core\Model\Option\ArrayInterface
+class Format implements \Magento\Option\ArrayInterface
 {
     /**
      * @var \Magento\ImportExport\Model\Export\ConfigInterface

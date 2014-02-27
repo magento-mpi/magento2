@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerSegment\Model\Segment\Condition;
 
 /**
  * Segment condition for sales rules
  */
-namespace Magento\CustomerSegment\Model\Segment\Condition;
-
 class Segment extends \Magento\Rule\Model\Condition\AbstractCondition
 {
     /**
@@ -175,7 +174,7 @@ class Segment extends \Magento\Rule\Model\Condition\AbstractCondition
     /**
      * Validate if qoute customer is assigned to role segments
      *
-     * @param   \Magento\Sales\Model\Quote\Address $object
+     * @param   \Magento\Sales\Model\Quote\Address|\Magento\Object $object
      * @return  bool
      */
     public function validate(\Magento\Object $object)

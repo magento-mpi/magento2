@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Model\Method;
 
 /**
  * Factory class for payment method model
  */
-namespace Magento\Paypal\Model\Method;
-
 class ProTypeFactory
 {
     /**
@@ -37,7 +36,7 @@ class ProTypeFactory
      *
      * @param string $className
      * @param array $data
-     * @return object
+     * @return \Magento\Object
      */
     public function create($className, array $data = array())
     {

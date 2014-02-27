@@ -29,6 +29,12 @@ class Address extends \Magento\App\Helper\AbstractHelper
     const XML_PATH_VAT_FRONTEND_VISIBILITY = 'customer/create_account/vat_frontend_visibility';
 
     /**
+     * Possible customer address types
+     */
+    const TYPE_BILLING  = 'billing';
+    const TYPE_SHIPPING = 'shipping';
+
+    /**
      * Array of Customer Address Attributes
      *
      * @var AttributeMetadata[]
@@ -148,7 +154,6 @@ class Address extends \Magento\App\Helper\AbstractHelper
     {
         $websiteId = $this->_storeManager->getStore($store)->getWebsiteId();
         if (!isset($this->_streetLines[$websiteId])) {
-//            $attribute = $this->_eavConfig->getAttribute('customer_address', 'street');
             $attribute = $this->_customerMetadataService->getAttributeMetadata('customer_address', 'street');
 
             $lines = $attribute->getMultilineCount();
@@ -191,23 +196,6 @@ class Address extends \Magento\App\Helper\AbstractHelper
     public function canShowConfig($key)
     {
         return (bool)$this->getConfig($key);
-    }
-
-    /**
-     * Return array of Customer Address Attributes
-     *
-     * @return AttributeMetadata[]
-     */
-    public function getAttributes()
-    {
-        if (is_null($this->_attributes)) {
-            $this->_attributes = array();
-            $config = $this->_eavConfig;
-            foreach ($config->getEntityAttributeCodes('customer_address') as $attributeCode) {
-                $this->_attributes[$attributeCode] = $config->getAttribute('customer_address', $attributeCode);
-            }
-        }
-        return $this->_attributes;
     }
 
     /**

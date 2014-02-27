@@ -10,12 +10,14 @@
 
 namespace Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbalance;
 
+use Magento\Customer\Controller\RegistryConstants;
+
 class Js extends \Magento\Backend\Block\Template
 {
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -27,13 +29,13 @@ class Js extends \Magento\Backend\Block\Template
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Json\EncoderInterface $jsonEncoder
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Json\EncoderInterface $jsonEncoder,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
         $this->_jsonEncoder = $jsonEncoder;
@@ -41,20 +43,26 @@ class Js extends \Magento\Backend\Block\Template
         parent::__construct($context, $data);
     }
 
+    /**
+     * @return int
+     */
     public function getCustomerWebsite()
     {
-        return $this->_coreRegistry->registry('current_customer')->getWebsiteId();
+        return $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER)->getWebsiteId();
     }
 
+    /**
+     * @return string
+     */
     public function getWebsitesJson()
     {
         $result = array();
         foreach ($this->_storeManager->getWebsites() as $websiteId => $website) {
             $result[$websiteId] = array(
-                'name'          => $website->getName(),
-                'website_id'    => $websiteId,
+                'name' => $website->getName(),
+                'website_id' => $websiteId,
                 'currency_code' => $website->getBaseCurrencyCode(),
-                'groups'        => array()
+                'groups' => array()
             );
 
             foreach ($website->getGroups() as $groupId => $group) {
@@ -64,7 +72,7 @@ class Js extends \Magento\Backend\Block\Template
 
                 foreach ($group->getStores() as $storeId => $store) {
                     $result[$websiteId]['groups'][$groupId]['stores'][] = array(
-                        'name'     => $store->getName(),
+                        'name' => $store->getName(),
                         'store_id' => $storeId,
                     );
                 }

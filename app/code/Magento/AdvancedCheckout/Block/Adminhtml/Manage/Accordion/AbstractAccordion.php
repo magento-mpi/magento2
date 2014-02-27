@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion;
 
 /**
  * Abstract class for accordion grids
@@ -15,8 +16,6 @@
  * @package    Magento_AdvancedCheckout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion;
-
 abstract class AbstractAccordion
     extends \Magento\Backend\Block\Widget\Grid\Extended
 {
@@ -28,18 +27,22 @@ abstract class AbstractAccordion
 
     /**
      * Javascript list type name for this grid
+     *
+     * @var string
      */
     protected $_listType = 'product_to_add';
 
     /**
      * Url to configure this grid's items
+     *
+     * @var string
      */
     protected $_configureRoute = 'checkout/index/configureProductToAdd';
 
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -52,14 +55,14 @@ abstract class AbstractAccordion
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Data\CollectionFactory $collectionFactory
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Data\CollectionFactory $collectionFactory,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_collectionFactory = $collectionFactory;
@@ -69,6 +72,8 @@ abstract class AbstractAccordion
 
     /**
      * Initialize Grid
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -84,7 +89,7 @@ abstract class AbstractAccordion
     /**
      * Workaround for displaying empty grid when no items found
      *
-     * @return bools
+     * @return bool
      */
     public function getIsCollapsed()
     {
@@ -117,6 +122,8 @@ abstract class AbstractAccordion
 
     /**
      * Prepare collection for grid
+     *
+     * @return $this
      */
     protected function _prepareCollection()
     {
@@ -127,7 +134,7 @@ abstract class AbstractAccordion
     /**
      * Returns special renderer for price column content
      *
-     * @return null|string
+     * @return null
      */
     protected function _getPriceRenderer()
     {
@@ -137,7 +144,7 @@ abstract class AbstractAccordion
     /**
      * Prepare Grid columns
      *
-     * @return \Magento\Backend\Block\Widget\Grid\Extended
+     * @return $this
      */
     protected function _prepareColumns()
     {
@@ -168,7 +175,7 @@ abstract class AbstractAccordion
     /**
      * Add columns with controls to manage added products and their quantity
      *
-     * @return \Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\AbstractAccordion
+     * @return $this
      */
     protected function _addControlColumns()
     {
@@ -199,7 +206,7 @@ abstract class AbstractAccordion
     }
 
     /**
-     * Return current customer from regisrty
+     * Return current customer from registry
      *
      * @return \Magento\Customer\Model\Customer
      */
@@ -209,7 +216,7 @@ abstract class AbstractAccordion
     }
 
     /**
-     * Return current store from regisrty
+     * Return current store from registry
      *
      * @return \Magento\Core\Model\Store
      */
@@ -245,7 +252,7 @@ abstract class AbstractAccordion
     /**
      * Returns additional javascript to init this grid
      *
-     * @return \Magento\Core\Model\Store
+     * @return string
      */
     public function getAdditionalJavaScript ()
     {

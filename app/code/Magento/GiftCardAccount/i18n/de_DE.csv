@@ -121,7 +121,7 @@
 "The gift card account has been saved.","Das Geschenkgutschein-Konto wurde gespeichert."
 "This Gift Card Account no longer exists.","Dieses Geschenkgutschein-Konto existiert nicht mehr."
 "This gift card account is already in the quote.","Das Geschenkgutscheinkonto ist bereits im Angebot enthalten."
-"This gift card account wasn\'t found in the quote.","Dieses Geschenkgutscheinkonto wurde im Angebot nicht gefunden."
+"This gift card account wasn't found in the quote.","Dieses Geschenkgutscheinkonto wurde im Angebot nicht gefunden."
 "To add or remove gift cards, <a href=""%s"">click here</a>.","Um Geschenkgutscheine hinzuzufügen oder zu entfernen, <a href=""%s"">klicken Sie hier</a>."
 "Total of %d record(s) have been deleted.","Insgesamt %d Datensätze wurden gelöscht."
 "Unable to create full code pool size. Please check settings and try again.","Volle Code-Pool-Größe kann nicht erstellt werden. Bitte überprüfen Sie Ihre Einstellungen und versuchen Sie es erneut."

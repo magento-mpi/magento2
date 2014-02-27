@@ -6,6 +6,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
+/** @var Magento\CustomerCustomAttributes\Block\Form $this */
 ?>
 <form class="form edit account" action="<?php echo $this->getUrl('customer/account/editPost') ?>" method="post" id="form-validate" enctype="multipart/form-data" data-hasrequired="<?php echo __('* Required Fields') ?>" autocomplete="off">
 <fieldset class="fieldset info">
@@ -31,13 +33,15 @@
         <?php echo $_gender->setGender($this->getCustomer()->getGender())->toHtml() ?>
     <?php endif ?>
     <div class="field choice">
-        <input type="checkbox" name="change_password" id="change-password" value="1" title="<?php echo __('Change Password') ?>"<?php if($this->getCustomer()->getChangePassword()==1): ?> checked="checked"<?php endif; ?> class="checkbox"/>
+        <input type="checkbox" name="change_password" id="change-password" value="1" title="<?php echo __('Change Password') ?>"<?php if($this->getChangePassword()): ?> checked="checked"<?php endif; ?> class="checkbox"/>
         <label class="label" for="change-password"><span><?php echo __('Change Password') ?></span></label>
     </div>
 </fieldset>
 <?php $userDefinedAttributes = $this->getLayout()->getBlock('customer_form_user_attributes'); ?>
 <?php if ($userDefinedAttributes):?>
-    <?php echo $userDefinedAttributes->setEntity($this->getCustomer())->toHtml(); ?>
+    <?php $userDefinedAttributes->setEntityType('customer')->setShowContainer(false);?>
+    <?php $this->restoreSessionData($userDefinedAttributes->getMetadataForm());?>
+    <?php echo $userDefinedAttributes->toHtml()?>
 <?php endif;?>
 <fieldset class="fieldset password" style="display:none;">
     <legend class="legend"><span><?php echo __('Change Password') ?></span></legend><br>
@@ -89,7 +93,7 @@
                     passwordId: '#password',
                     confirmationId: '#confirmation',
                     passwordContainer: 'fieldset.fieldset.password',
-                    showOnDefault: <?php echo $this->getCustomer()->getChangePassword() ? 'true' : 'false' ?>
+                    showOnDefault: <?php echo $this->getChangePassword() ? 'true' : 'false' ?>
                 });
                 var dataForm = $('#form-validate'), ignore;
                 <?php if ($_dob->isEnabled() || $userDefinedAttributes->hasUserDefinedAttributes()): ?>

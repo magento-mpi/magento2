@@ -31,7 +31,7 @@ namespace Magento\Core\Model;
  */
 class Website extends \Magento\Core\Model\AbstractModel
 {
-    const ENTITY    = 'core_website';
+    const ENTITY = 'core_website';
     const CACHE_TAG = 'website';
 
     /**
@@ -167,8 +167,8 @@ class Website extends \Magento\Core\Model\AbstractModel
     protected $_currencyFactory;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\Resource\Config\Data $configDataResource
      * @param \Magento\App\ConfigInterface $coreConfig
      * @param \Magento\Core\Model\StoreFactory $storeFactory
@@ -182,8 +182,8 @@ class Website extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Core\Model\Resource\Config\Data $configDataResource,
         \Magento\App\ConfigInterface $coreConfig,
         \Magento\Core\Model\StoreFactory $storeFactory,
@@ -267,7 +267,7 @@ class Website extends \Magento\Core\Model\AbstractModel
             if ($this->getDefaultGroupId() == $group->getId()) {
                 $this->_defaultGroup = $group;
             }
-            $this->_groupsCount ++;
+            $this->_groupsCount++;
         }
     }
 
@@ -375,7 +375,7 @@ class Website extends \Magento\Core\Model\AbstractModel
             if ($this->getDefaultGroup() && $this->getDefaultGroup()->getDefaultStoreId() == $store->getId()) {
                 $this->_defaultStore = $store;
             }
-            $this->_storesCount ++;
+            $this->_storesCount++;
         }
     }
 
@@ -396,7 +396,7 @@ class Website extends \Magento\Core\Model\AbstractModel
             if ($this->getDefaultGroup() && $this->getDefaultGroup()->getDefaultStoreId() == $store->getId()) {
                 $this->_defaultStore = $store;
             }
-            $this->_storesCount ++;
+            $this->_storesCount++;
         }
     }
 

@@ -2,21 +2,16 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Block\Adminhtml\Group\Edit;
+
+use Magento\Customer\Controller\RegistryConstants;
 
 /**
  * Adminhtml customer groups edit form
- *
- * @category   Magento
- * @package    Magento_Customer
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Block\Adminhtml\Group\Edit;
-
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
@@ -25,20 +20,36 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_taxCustomer;
 
     /**
+     * @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface
+     */
+    protected $_groupService;
+
+    /**
+     * @var \Magento\Customer\Service\V1\Dto\CustomerGroupBuilder
+     */
+    protected $_groupBuilder;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Tax\Model\TaxClass\Source\Customer $taxCustomer
+     * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService
+     * @param \Magento\Customer\Service\V1\Dto\CustomerGroupBuilder $groupBuilder
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\Tax\Model\TaxClass\Source\Customer $taxCustomer,
+        \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService,
+        \Magento\Customer\Service\V1\Dto\CustomerGroupBuilder $groupBuilder,
         array $data = array()
     ) {
         $this->_taxCustomer = $taxCustomer;
+        $this->_groupService = $groupService;
+        $this->_groupBuilder = $groupBuilder;
         parent::__construct($context, $registry, $formFactory, $data);
     }
 
@@ -52,8 +63,12 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
 
-        /** @var \Magento\Customer\Service\V1\Dto\CustomerGroup $customerGroup */
-        $customerGroup = $this->_coreRegistry->registry('current_group');
+        $groupId = $this->_coreRegistry->registry(RegistryConstants::CURRENT_GROUP_ID);
+        if (is_null($groupId)) {
+            $customerGroup = $this->_groupBuilder->create();
+        } else {
+            $customerGroup = $this->_groupService->getGroup($groupId);
+        }
 
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Group Information')));
 
@@ -71,7 +86,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             )
         );
 
-        if ($customerGroup->getId()==0 && $customerGroup->getCode() ) {
+        if ($customerGroup->getId() == 0 && $customerGroup->getCode()) {
             $name->setDisabled(true);
         }
 
@@ -96,17 +111,12 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             );
         }
 
-        if ( $this->_backendSession->getCustomerGroupData() ) {
-            $form->addValues($this->_backendSession->getCustomerGroupData());
-            $this->_backendSession->setCustomerGroupData(null);
-        } else {
-            // TODO: need to figure out how the DTOs can work with forms
-            $form->addValues([
-                'id'                  => $customerGroup->getId(),
-                'customer_group_code' => $customerGroup->getCode(),
-                'tax_class_id'        => $customerGroup->getTaxClassId(),
-            ]);
-        }
+        // TODO: need to figure out how the DTOs can work with forms
+        $form->addValues([
+            'id'                  => $customerGroup->getId(),
+            'customer_group_code' => $customerGroup->getCode(),
+            'tax_class_id'        => $customerGroup->getTaxClassId(),
+        ]);
 
         $form->setUseContainer(true);
         $form->setId('edit_form');

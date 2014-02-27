@@ -8,10 +8,10 @@
 namespace Magento\Backend\Model\Config\Source\Email;
 
 class Template extends \Magento\Object
-    implements \Magento\Core\Model\Option\ArrayInterface
+    implements \Magento\Option\ArrayInterface
 {
     /**
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     private $_coreRegistry;
 
@@ -26,13 +26,13 @@ class Template extends \Magento\Object
     protected $_templatesFactory;
 
     /**
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\Email\Model\Resource\Template\CollectionFactory $templatesFactory
      * @param \Magento\Email\Model\Template\Config $emailConfig
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\Email\Model\Resource\Template\CollectionFactory $templatesFactory,
         \Magento\Email\Model\Template\Config $emailConfig,
         array $data = array()

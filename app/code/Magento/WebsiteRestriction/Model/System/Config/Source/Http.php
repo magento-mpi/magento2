@@ -13,7 +13,7 @@ namespace Magento\WebsiteRestriction\Model\System\Config\Source;
  * Sys config source model for stub page statuses
  *
  */
-class Http extends \Magento\Object implements \Magento\Core\Model\Option\ArrayInterface
+class Http extends \Magento\Object implements \Magento\Option\ArrayInterface
 {
     /**
      * Get options for select

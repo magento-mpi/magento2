@@ -664,59 +664,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
     }
 
     /**
-     * Get validation message that will be displayed to user by VAT validation result object
-     *
-     * @param \Magento\Customer\Model\Address $customerAddress
-     * @param bool $customerGroupAutoAssignDisabled
-     * @param \Magento\Object $validationResult
-     * @return \Magento\Object
-     */
-    public function getVatValidationUserMessage($customerAddress, $customerGroupAutoAssignDisabled, $validationResult)
-    {
-        $message = '';
-        $isError = true;
-        $customerVatClass = $this->getCustomerVatClass($customerAddress->getCountryId(), $validationResult);
-        $groupAutoAssignDisabled = $this->_coreStoreConfig->getConfigFlag(
-            self::XML_PATH_CUSTOMER_VIV_GROUP_AUTO_ASSIGN);
-
-        $willChargeTaxMessage    = __('You will be charged tax.');
-        $willNotChargeTaxMessage = __('You will not be charged tax.');
-
-        if ($validationResult->getIsValid()) {
-            $message = __('Your VAT ID was successfully validated.');
-            $isError = false;
-
-            if (!$groupAutoAssignDisabled && !$customerGroupAutoAssignDisabled) {
-                $message .= ' ' . ($customerVatClass == self::VAT_CLASS_DOMESTIC
-                    ? $willChargeTaxMessage
-                    : $willNotChargeTaxMessage);
-            }
-        } else if ($validationResult->getRequestSuccess()) {
-            $message = sprintf(
-                __('The VAT ID entered (%s) is not a valid VAT ID.') . ' ',
-                $this->_escaper->escapeHtml($customerAddress->getVatId())
-            );
-            if (!$groupAutoAssignDisabled && !$customerGroupAutoAssignDisabled) {
-                $message .= $willChargeTaxMessage;
-            }
-        } else {
-            $contactUsMessage = sprintf(__('If you believe this is an error, please contact us at %s'),
-                $this->_coreStoreConfig->getConfig(self::XML_PATH_SUPPORT_EMAIL));
-
-            $message = __('Your Tax ID cannot be validated.') . ' '
-                . (!$groupAutoAssignDisabled && !$customerGroupAutoAssignDisabled
-                    ? $willChargeTaxMessage . ' ' : '')
-                . $contactUsMessage;
-        }
-
-        $validationMessageEnvelope = new \Magento\Object();
-        $validationMessageEnvelope->setMessage($message);
-        $validationMessageEnvelope->setIsError($isError);
-
-        return $validationMessageEnvelope;
-    }
-
-    /**
      * Create SOAP client based on VAT validation service WSDL
      *
      * @param boolean $trace

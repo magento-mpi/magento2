@@ -61,8 +61,9 @@ class DobTest extends \PHPUnit_Framework_TestCase
             $this->getMockForAbstractClass(
                 'Magento\Customer\Service\V1\CustomerMetadataServiceInterface', [], '', false
             );
-        $this->_metadataService
-            ->expects($this->any())->method('getAttributeMetadata')->will($this->returnValue($this->_attribute));
+        $this->_metadataService->expects($this->any())
+            ->method('getCustomerAttributeMetadata')
+            ->will($this->returnValue($this->_attribute));
 
         date_default_timezone_set('America/Los_Angeles');
 

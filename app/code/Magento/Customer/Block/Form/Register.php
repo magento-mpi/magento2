@@ -2,17 +2,14 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Block\Form;
 
 /**
  * Customer register form block
  */
-namespace Magento\Customer\Block\Form;
-
 class Register extends \Magento\Directory\Block\Data
 {
     /**
@@ -165,9 +162,9 @@ class Register extends \Magento\Directory\Block\Data
     }
 
     /**
-     *  Newsletter module availability
+     * Newsletter module availability
      *
-     *  @return boolean
+     * @return bool
      */
     public function isNewsletterEnabled()
     {

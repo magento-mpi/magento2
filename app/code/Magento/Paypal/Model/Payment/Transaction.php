@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Model\Payment;
 
 /**
  * Payment transaction model
@@ -16,8 +17,6 @@
  * @method string getCreatedAt()
  * @method \Magento\Paypal\Model\Payment\Transaction setCreatedAt(string $value)
  */
-namespace Magento\Paypal\Model\Payment;
-
 class Transaction extends \Magento\Core\Model\AbstractModel
 {
     /**
@@ -30,16 +29,16 @@ class Transaction extends \Magento\Core\Model\AbstractModel
     /**
      * Event object prefix
      *
-     * @see \Magento\Core\Model\Absctract::$_eventPrefix
      * @var string
+     * @see \Magento\Core\Model\Absctract::$_eventPrefix
      */
     protected $_eventPrefix = 'paypal_payment_transaction';
 
     /**
      * Event object prefix
      *
-     * @see \Magento\Core\Model\Absctract::$_eventObject
      * @var string
+     * @see \Magento\Core\Model\Absctract::$_eventObject
      */
     protected $_eventObject = 'paypal_payment_transaction';
 
@@ -56,16 +55,16 @@ class Transaction extends \Magento\Core\Model\AbstractModel
     protected $_dateFactory;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\DateFactory $dateFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Core\Model\DateFactory $dateFactory,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
@@ -77,6 +76,8 @@ class Transaction extends \Magento\Core\Model\AbstractModel
 
     /**
      * Initialize resource model
+     *
+     * @return null
      */
     protected function _construct()
     {
@@ -86,8 +87,9 @@ class Transaction extends \Magento\Core\Model\AbstractModel
 
     /**
      * Transaction ID setter
+     *
      * @param string $txnId
-     * @return \Magento\Paypal\Model\Payment\Transaction
+     * @return $this
      */
     public function setTxnId($txnId)
     {
@@ -98,8 +100,8 @@ class Transaction extends \Magento\Core\Model\AbstractModel
     /**
      * Check object before loading by by specified transaction ID
      *
-     * @param $txnId
-     * @return \Magento\Paypal\Model\Payment\Transaction
+     * @param string $txnId
+     * @return $this
      */
     protected function _beforeLoadByTxnId($txnId)
     {
@@ -114,7 +116,7 @@ class Transaction extends \Magento\Core\Model\AbstractModel
      * Load self by specified transaction ID. Requires the valid payment object to be set
      *
      * @param string $txnId
-     * @return \Magento\Paypal\Model\Payment\Transaction
+     * @return $this
      */
     public function loadByTxnId($txnId)
     {
@@ -129,7 +131,7 @@ class Transaction extends \Magento\Core\Model\AbstractModel
     /**
      * Check object after loading by by specified transaction ID
      *
-     * @return \Magento\Paypal\Model\Payment\Transaction
+     * @return $this
      */
     protected function _afterLoadByTxnId()
     {
@@ -145,7 +147,7 @@ class Transaction extends \Magento\Core\Model\AbstractModel
      *
      * @param string $key
      * @param mixed $value
-     * @return \Magento\Paypal\Model\Payment\Transaction
+     * @return $this
      * @throws \Magento\Core\Exception
      */
     public function setAdditionalInformation($key, $value)
@@ -163,7 +165,8 @@ class Transaction extends \Magento\Core\Model\AbstractModel
 
     /**
      * Getter for entire additional_information value or one of its element by key
-     * @param string $key
+     * 
+     * @param string|null $key
      * @return array|null|mixed
      */
     public function getAdditionalInformation($key = null)
@@ -181,8 +184,8 @@ class Transaction extends \Magento\Core\Model\AbstractModel
     /**
      * Unsetter for entire additional_information value or one of its element by key
      *
-     * @param string $key
-     * @return \Magento\Paypal\Model\Payment\Transaction
+     * @param string|null $key
+     * @return $this
      */
     public function unsAdditionalInformation($key = null)
     {
@@ -215,7 +218,7 @@ class Transaction extends \Magento\Core\Model\AbstractModel
     /**
      * Verify data required for saving
      *
-     * @return \Magento\Paypal\Model\Payment\Transaction
+     * @return $this
      * @throws \Magento\Core\Exception
      */
     protected function _beforeSave()
@@ -230,6 +233,7 @@ class Transaction extends \Magento\Core\Model\AbstractModel
      * Check whether specified transaction ID is valid
      *
      * @param string $txnId
+     * @return void
      * @throws \Magento\Core\Exception
      */
     protected function _verifyTxnId($txnId)
@@ -243,6 +247,8 @@ class Transaction extends \Magento\Core\Model\AbstractModel
      * Make sure this object is a valid transaction
      *
      * TODO for more restriction we can check for data consistency
+     *
+     * @return void
      * @throws \Magento\Core\Exception
      */
     protected function _verifyThisTransactionExists()

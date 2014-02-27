@@ -42,13 +42,6 @@ class Quote
     protected $_orderData = array();
 
     /**
-     * List of recurring payment profiles that may have been generated before placing the order
-     *
-     * @var array
-     */
-    protected $_recurringPaymentProfiles = array();
-
-    /**
      * Order that may be created during submission
      *
      * @var \Magento\Sales\Model\Order
@@ -232,21 +225,30 @@ class Quote
         /**
          * We can use configuration data for declare new order status
          */
-        $this->_eventManager->dispatch('checkout_type_onepage_save_order', array(
-            'order' => $order,
-            'quote' => $quote
-        ));
-        $this->_eventManager->dispatch('sales_model_service_quote_submit_before', array(
-            'order' => $order,
-            'quote' => $quote
-        ));
+        $this->_eventManager->dispatch(
+            'checkout_type_onepage_save_order',
+            array(
+                'order' => $order,
+                'quote' => $quote
+            )
+        );
+        $this->_eventManager->dispatch(
+            'sales_model_service_quote_submit_before',
+            array(
+                'order' => $order,
+                'quote' => $quote
+            )
+        );
         try {
             $transaction->save();
             $this->_inactivateQuote();
-            $this->_eventManager->dispatch('sales_model_service_quote_submit_success', array(
-                'order' => $order,
-                'quote' => $quote
-            ));
+            $this->_eventManager->dispatch(
+                'sales_model_service_quote_submit_success',
+                array(
+                    'order' => $order,
+                    'quote' => $quote
+                )
+            );
         } catch (\Exception $e) {
             if (!$this->_customerSession->isLoggedIn()) {
                 // reset customer ID's on exception, because customer not saved
@@ -261,16 +263,22 @@ class Quote
                 $item->setItemId(null);
             }
 
-            $this->_eventManager->dispatch('sales_model_service_quote_submit_failure', array(
+            $this->_eventManager->dispatch(
+                'sales_model_service_quote_submit_failure',
+                array(
                     'order' => $order,
                     'quote' => $quote
-                ));
+                )
+            );
             throw $e;
         }
-        $this->_eventManager->dispatch('sales_model_service_quote_submit_after', array(
+        $this->_eventManager->dispatch(
+            'sales_model_service_quote_submit_after',
+            array(
                 'order' => $order,
                 'quote' => $quote
-            ));
+            )
+        );
         $this->_order = $order;
         return $order;
     }
@@ -319,13 +327,16 @@ class Quote
                 foreach ($addresses as $address) {
                     if ($address->isDefaultBilling()) {
                         $quote->getBillingAddress()->setCustomerAddressData($address);
-                    } else if ($address->isDefaultShipping()) {
-                        $quote->getShippingAddress()->setCustomerAddressData($address);
+                    } else {
+                        if ($address->isDefaultShipping()) {
+                            $quote->getShippingAddress()->setCustomerAddressData($address);
+                        }
                     }
                 }
                 if ($quote->getShippingAddress() && $quote->getShippingAddress()->getSameAsBilling()) {
                     $quote->getShippingAddress()->setCustomerAddressData(
-                        $quote->getBillingAddress()->getCustomerAddressData());
+                        $quote->getBillingAddress()->getCustomerAddressData()
+                    );
                 }
             }
 
@@ -347,7 +358,8 @@ class Quote
             $order->setShippingAddress($this->_convertor->addressToOrderAddress($quote->getShippingAddress()));
             if ($quote->getShippingAddress()->getCustomerAddressData()) {
                 $order->getShippingAddress()->setCustomerAddressData(
-                    $quote->getShippingAddress()->getCustomerAddressData());
+                    $quote->getShippingAddress()->getCustomerAddressData()
+                );
             }
         }
         $order->setPayment($this->_convertor->paymentToOrderPayment($quote->getPayment()));
@@ -376,21 +388,30 @@ class Quote
         /**
          * We can use configuration data for declare new order status
          */
-        $this->_eventManager->dispatch('checkout_type_onepage_save_order', array(
-            'order' => $order,
-            'quote' => $quote
-        ));
-        $this->_eventManager->dispatch('sales_model_service_quote_submit_before', array(
-            'order' => $order,
-            'quote' => $quote
-        ));
+        $this->_eventManager->dispatch(
+            'checkout_type_onepage_save_order',
+            array(
+                'order' => $order,
+                'quote' => $quote
+            )
+        );
+        $this->_eventManager->dispatch(
+            'sales_model_service_quote_submit_before',
+            array(
+                'order' => $order,
+                'quote' => $quote
+            )
+        );
         try {
             $transaction->save();
             $this->_inactivateQuote();
-            $this->_eventManager->dispatch('sales_model_service_quote_submit_success', array(
-                'order' => $order,
-                'quote' => $quote
-            ));
+            $this->_eventManager->dispatch(
+                'sales_model_service_quote_submit_success',
+                array(
+                    'order' => $order,
+                    'quote' => $quote
+                )
+            );
         } catch (\Exception $e) {
             if ($originalCustomerDto) { //Restore original customer data if existing customer was updated
                 $this->_customerService->saveCustomer($originalCustomerDto);
@@ -409,16 +430,22 @@ class Quote
                 $item->setItemId(null);
             }
 
-            $this->_eventManager->dispatch('sales_model_service_quote_submit_failure', array(
-                'order' => $order,
-                'quote' => $quote
-            ));
+            $this->_eventManager->dispatch(
+                'sales_model_service_quote_submit_failure',
+                array(
+                    'order' => $order,
+                    'quote' => $quote
+                )
+            );
             throw $e;
         }
-        $this->_eventManager->dispatch('sales_model_service_quote_submit_after', array(
-            'order' => $order,
-            'quote' => $quote
-        ));
+        $this->_eventManager->dispatch(
+            'sales_model_service_quote_submit_after',
+            array(
+                'order' => $order,
+                'quote' => $quote
+            )
+        );
         $this->_order = $order;
         return $order;
     }
@@ -431,7 +458,7 @@ class Quote
     public function submitNominalItems()
     {
         $this->_validate();
-        $this->_submitRecurringPaymentProfiles();
+        $this->_eventManager->dispatch('sales_model_service_quote_submit_nominal_items', ['quote' => $this->_quote]);
         $this->_inactivateQuote();
         $this->_deleteNominalItems();
     }
@@ -485,16 +512,6 @@ class Quote
     }
 
     /**
-     * Return recurring payment profiles
-     *
-     * @return array
-     */
-    public function getRecurringPaymentProfiles()
-    {
-        return $this->_recurringPaymentProfiles;
-    }
-
-    /**
      * Get an order that may had been created during submission
      *
      * @return \Magento\Sales\Model\Order
@@ -502,16 +519,6 @@ class Quote
     public function getOrder()
     {
         return $this->_order;
-    }
-
-    /**
-     * Get response when CustomerAccountService was invoked to create a new customer account
-     *
-     * @return CreateCustomerAccountResponse
-     */
-    public function getCreateCustomerResponse()
-    {
-        return $this->_createCustomerResponse;
     }
 
     /**
@@ -543,8 +550,8 @@ class Quote
                     __('Please check the shipping address information. %1', implode(' ', $addressValidation))
                 );
             }
-            $method= $address->getShippingMethod();
-            $rate  = $address->getShippingRateByCode($method);
+            $method = $address->getShippingMethod();
+            $rate = $address->getShippingRateByCode($method);
             if (!$this->getQuote()->isVirtual() && (!$method || !$rate)) {
                 throw new \Magento\Core\Exception(__('Please specify a shipping method.'));
             }
@@ -562,23 +569,6 @@ class Quote
         }
 
         return $this;
-    }
-
-    /**
-     * Submit recurring payment profiles
-     *
-     * @throws \Magento\Core\Exception
-     */
-    protected function _submitRecurringPaymentProfiles()
-    {
-        $profiles = $this->_quote->prepareRecurringPaymentProfiles();
-        foreach ($profiles as $profile) {
-            if (!$profile->isValid()) {
-                throw new \Magento\Core\Exception($profile->getValidationErrors());
-            }
-            $profile->submit();
-        }
-        $this->_recurringPaymentProfiles = $profiles;
     }
 
     /**

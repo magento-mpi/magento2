@@ -44,7 +44,6 @@ app/code/Magento/Core/Model/LocaleInterface.php
 app/code/Magento/Core/Model/Resource/Theme
 app/code/Magento/Core/Model/Resource/Theme.php
 app/code/Magento/Core/Model/Session/Validator.php
-app/code/Magento/Core/Model/AbstractShell.php
 app/code/Magento/Core/Model/Theme
 app/code/Magento/Core/Model/Theme.php
 app/code/Magento/Core/Model/Url/SecurityInfo.php
@@ -56,8 +55,8 @@ app/code/Magento/Cron/Model/Config/SchemaLocator.php
 app/code/Magento/Cron/Model/Config.php
 app/code/Magento/Cron/Model/ConfigInterface.php
 app/code/Magento/Directory/Helper
-app/code/Magento/Customer/Block/Account/{Authorization,Register}Link.php
-app/code/Magento/Customer/Block/Adminhtml/Edit/Tab/Account.php
+app/code/Magento/Customer/Block
+app/code/Magento/Customer/Controller
 app/code/Magento/Customer/Model/Address/Config
 app/code/Magento/Customer/Model/Address/Config.php
 app/code/Magento/Customer/Service
@@ -139,3 +138,4 @@ lib/Magento/ObjectManager
 lib/Magento/Service
 lib/Magento/Url/SecurityInfoInterface.php
 lib/Magento/View
+lib/Magento/App/AbstractShell.php

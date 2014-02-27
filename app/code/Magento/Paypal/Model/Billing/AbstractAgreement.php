@@ -5,12 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Model\Billing;
 
 /**
  * Billing Agreement abstaract class
  */
-namespace Magento\Paypal\Model\Billing;
-
 abstract class AbstractAgreement extends \Magento\Core\Model\AbstractModel
 {
     /**
@@ -29,25 +28,21 @@ abstract class AbstractAgreement extends \Magento\Core\Model\AbstractModel
 
     /**
      * Init billing agreement
-     *
      */
     abstract public function initToken();
 
     /**
      * Verify billing agreement details
-     *
      */
     abstract public function verifyToken();
 
     /**
      * Create billing agreement
-     *
      */
     abstract public function place();
 
     /**
      * Cancel billing agreement
-     *
      */
     abstract public function cancel();
 
@@ -59,16 +54,16 @@ abstract class AbstractAgreement extends \Magento\Core\Model\AbstractModel
     protected $_paymentData = null;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
