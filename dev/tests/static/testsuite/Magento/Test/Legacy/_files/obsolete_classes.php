@@ -318,7 +318,7 @@ return array(
         'Magento\Backend\Model\Config\Backend\Serialized\Array'
     ),
     array('Mage_Adminhtml_Model_System_Config_Backend_Shipping_Tablerate',
-        'Magento\Shipping\Model\Config\Backend\Tablerate'
+        'Magento\OfflineShipping\Model\Config\Backend\Tablerate'
     ),
     array('Mage_Adminhtml_Model_System_Config_Backend_Sitemap_Cron',
         'Magento\Cron\Model\Config\Backend\Sitemap'
@@ -514,7 +514,7 @@ return array(
         'Magento\Shipping\Model\Config\Source\Flatrate'
     ),
     array('Mage_Adminhtml_Model_System_Config_Source_Shipping_Tablerate',
-        'Magento\Shipping\Model\Config\Source\Tablerate'
+        'Magento\OfflineShipping\Model\Config\Source\Tablerate'
     ),
     array('Mage_Adminhtml_Model_System_Config_Source_Shipping_Taxclass',
         'Magento\Tax\Model\Config\Source\TaxClass\Product'

@@ -2,12 +2,10 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Shipping
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Shipping\Model\Carrier;
+namespace Magento\OfflineShipping\Model\Carrier;
 
 class Tablerate
     extends \Magento\Shipping\Model\Carrier\AbstractCarrier
@@ -44,7 +42,7 @@ class Tablerate
     protected $_resultMethodFactory;
 
     /**
-     * @var \Magento\Shipping\Model\Resource\Carrier\TablerateFactory
+     * @var \Magento\OfflineShipping\Model\Resource\Carrier\TablerateFactory
      */
     protected $_tablerateFactory;
 
@@ -54,7 +52,7 @@ class Tablerate
      * @param \Magento\Logger\AdapterFactory $logAdapterFactory
      * @param \Magento\Shipping\Model\Rate\ResultFactory $rateResultFactory
      * @param \Magento\Sales\Model\Quote\Address\RateResult\MethodFactory $resultMethodFactory
-     * @param \Magento\Shipping\Model\Resource\Carrier\TablerateFactory $tablerateFactory
+     * @param \Magento\OfflineShipping\Model\Resource\Carrier\TablerateFactory $tablerateFactory
      * @param array $data
      */
     public function __construct(
@@ -63,7 +61,7 @@ class Tablerate
         \Magento\Logger\AdapterFactory $logAdapterFactory,
         \Magento\Shipping\Model\Rate\ResultFactory $rateResultFactory,
         \Magento\Sales\Model\Quote\Address\RateResult\MethodFactory $resultMethodFactory,
-        \Magento\Shipping\Model\Resource\Carrier\TablerateFactory $tablerateFactory,
+        \Magento\OfflineShipping\Model\Resource\Carrier\TablerateFactory $tablerateFactory,
         array $data = array()
     ) {
         $this->_rateResultFactory = $rateResultFactory;

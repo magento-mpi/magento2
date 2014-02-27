@@ -75,7 +75,7 @@ return array(
     array('_setAttributes', 'Magento\Catalog\Model\Product\Type\AbstractType'),
     array('_skipFieldsByModel'),
     array('_ship_id'),
-    array('_shipTable', 'Magento\Shipping\Model\Resource\Carrier\Tablerate\Collection'),
+    array('_shipTable', 'Magento\OfflineShipping\Model\Resource\Carrier\Tablerate\Collection'),
     array('_showTemplateHints', 'Magento\View\Element\Template',
         'Magento\Core\Model\TemplateEngine\Plugin\DebugHints'),
     array('_showTemplateHintsBlocks', 'Magento\View\Element\Template',

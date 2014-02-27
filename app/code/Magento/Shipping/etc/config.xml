@@ -39,17 +39,6 @@
                 <title>Free Shipping</title>
                 <specificerrmsg>This shipping method is not available. To use this shipping method, please contact us.</specificerrmsg>
             </freeshipping>
-            <tablerate>
-                <active>0</active>
-                <sallowspecific>0</sallowspecific>
-                <condition_name>package_weight</condition_name>
-                <include_virtual_price>1</include_virtual_price>
-                <model>Magento\Shipping\Model\Carrier\Tablerate</model>
-                <name>Table Rate</name>
-                <title>Best Way</title>
-                <specificerrmsg>This shipping method is not available. To use this shipping method, please contact us.</specificerrmsg>
-                <handling_type>F</handling_type>
-            </tablerate>
         </carriers>
     </default>
 </config>

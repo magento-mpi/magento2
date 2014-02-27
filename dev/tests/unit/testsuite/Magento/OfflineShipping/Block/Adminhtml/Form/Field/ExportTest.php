@@ -2,14 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-namespace Magento\Backend\Block\System\Config\Form\Field;
+namespace Magento\OfflineShipping\Block\Adminhtml\Form\Field;
 
 class ExportTest extends \PHPUnit_Framework_TestCase
 {
@@ -20,12 +18,12 @@ class ExportTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $helperMock = $this->getMock('Magento\Backend\Helper\Data', array(), array(), '', false, false);
-        $helperMock->expects($this->once())->method('getUrl')->with("*/*/exportTablerates", array('website' => 1));
+        $backendUrl = $this->getMock('Magento\Backend\Model\UrlInterface', array(), array(), '', false, false);
+        $backendUrl->expects($this->once())->method('getUrl')->with("*/*/exportTablerates", array('website' => 1));
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_object = $objectManager->getObject('Magento\Backend\Block\System\Config\Form\Field\Export', array(
-            'helper' => $helperMock)
+        $this->_object = $objectManager->getObject('Magento\OfflineShipping\Block\Adminhtml\Form\Field\Export', array(
+            'backendUrl' => $backendUrl)
         );
     }
 

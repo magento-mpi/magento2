@@ -2,12 +2,10 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Shipping
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Shipping\Model\Resource\Carrier\Tablerate;
+namespace Magento\OfflineShipping\Model\Resource\Carrier\Tablerate;
 
 /**
  * Shipping table rates collection
@@ -37,7 +35,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     protected function _construct()
     {
-        $this->_init('Magento\Shipping\Model\Carrier\Tablerate', 'Magento\Shipping\Model\Resource\Carrier\Tablerate');
+        $this->_init('Magento\OfflineShipping\Model\Carrier\Tablerate', 'Magento\OfflineShipping\Model\Resource\Carrier\Tablerate');
         $this->_countryTable    = $this->getTable('directory_country');
         $this->_regionTable     = $this->getTable('directory_country_region');
     }
@@ -71,7 +69,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Add website filter to collection
      *
      * @param int $websiteId
-     * @return \Magento\Shipping\Model\Resource\Carrier\Tablerate\Collection
+     * @return \Magento\OfflineShipping\Model\Resource\Carrier\Tablerate\Collection
      */
     public function setWebsiteFilter($websiteId)
     {
@@ -82,7 +80,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Add condition name (code) filter to collection
      *
      * @param string $conditionName
-     * @return \Magento\Shipping\Model\Resource\Carrier\Tablerate\Collection
+     * @return \Magento\OfflineShipping\Model\Resource\Carrier\Tablerate\Collection
      */
     public function setConditionFilter($conditionName)
     {
@@ -93,7 +91,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Add country filter to collection
      *
      * @param string $countryId
-     * @return \Magento\Shipping\Model\Resource\Carrier\Tablerate\Collection
+     * @return \Magento\OfflineShipping\Model\Resource\Carrier\Tablerate\Collection
      */
     public function setCountryFilter($countryId)
     {
