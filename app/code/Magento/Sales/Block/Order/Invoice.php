@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Block\Order;
 
 /**
  * Sales order view block
  */
-namespace Magento\Sales\Block\Order;
-
 class Invoice extends \Magento\Sales\Block\Order\Invoice\Items
 {
     /**
@@ -50,6 +49,9 @@ class Invoice extends \Magento\Sales\Block\Order\Invoice\Items
         $this->_isScopePrivate = true;
     }
 
+    /**
+     * @return void
+     */
     protected function _prepareLayout()
     {
         $headBlock = $this->getLayout()->getBlock('head');

@@ -9,6 +9,8 @@
  */
 namespace Magento\Sales\Block\Order;
 
+use Magento\Sales\Model\Order;
+
 class Totals extends \Magento\View\Element\Template
 {
     /**
@@ -20,6 +22,9 @@ class Totals extends \Magento\View\Element\Template
      * @var array
      */
     protected $_totals;
+    /**
+     * @var Order|null
+     */
     protected $_order = null;
 
     /**
@@ -62,7 +67,7 @@ class Totals extends \Magento\View\Element\Template
     /**
      * Get order object
      *
-     * @return \Magento\Sales\Model\Order
+     * @return Order
      */
     public function getOrder()
     {
@@ -78,6 +83,10 @@ class Totals extends \Magento\View\Element\Template
         return $this->_order;
     }
 
+    /**
+     * @param Order $order
+     * @return $this
+     */
     public function setOrder($order)
     {
         $this->_order = $order;
@@ -87,7 +96,7 @@ class Totals extends \Magento\View\Element\Template
     /**
      * Get totals source object
      *
-     * @return \Magento\Sales\Model\Order
+     * @return Order
      */
     public function getSource()
     {
@@ -97,7 +106,7 @@ class Totals extends \Magento\View\Element\Template
     /**
      * Initialize order totals array
      *
-     * @return \Magento\Sales\Block\Order\Totals
+     * @return $this
      */
     protected function _initTotals()
     {
@@ -114,8 +123,7 @@ class Totals extends \Magento\View\Element\Template
         /**
          * Add shipping
          */
-        if (!$source->getIsVirtual() && ((float) $source->getShippingAmount() || $source->getShippingDescription()))
-        {
+        if (!$source->getIsVirtual() && ((float) $source->getShippingAmount() || $source->getShippingDescription())) {
             $this->_totals['shipping'] = new \Magento\Object(array(
                 'code'  => 'shipping',
                 'field' => 'shipping_amount',
@@ -167,8 +175,8 @@ class Totals extends \Magento\View\Element\Template
      * Add new total to totals array after specific total or before last total by default
      *
      * @param   \Magento\Object $total
-     * @param   null|string|last|first $after
-     * @return  \Magento\Sales\Block\Order\Totals
+     * @param   null|string $after
+     * @return  $this
      */
     public function addTotal(\Magento\Object $total, $after=null)
     {
@@ -188,9 +196,9 @@ class Totals extends \Magento\View\Element\Template
                 $totals[$last->getCode()] = $last;
             }
             $this->_totals = $totals;
-        } elseif ($after=='last')  {
+        } elseif ($after=='last') {
             $this->_totals[$total->getCode()] = $total;
-        } elseif ($after=='first')  {
+        } elseif ($after=='first') {
             $totals = array($total->getCode()=>$total);
             $this->_totals = array_merge($totals, $this->_totals);
         } else {
@@ -205,8 +213,8 @@ class Totals extends \Magento\View\Element\Template
      * Add new total to totals array before specific total or after first total by default
      *
      * @param   \Magento\Object $total
-     * @param   null|string $after
-     * @return  \Magento\Sales\Block\Order\Totals
+     * @param   null|string $before
+     * @return  $this
      */
     public function addTotalBefore(\Magento\Object $total, $before=null)
     {
@@ -242,7 +250,8 @@ class Totals extends \Magento\View\Element\Template
     /**
      * Get Total object by code
      *
-     * @@return \Magento\Object
+     * @param mixed $code
+     * @return bool
      */
     public function getTotal($code)
     {
@@ -256,7 +265,7 @@ class Totals extends \Magento\View\Element\Template
      * Delete total by specific
      *
      * @param   string $code
-     * @return  \Magento\Sales\Block\Order\Totals
+     * @return  $this
      */
     public function removeTotal($code)
     {
@@ -273,7 +282,7 @@ class Totals extends \Magento\View\Element\Template
      *
      *
      * @param   array $order
-     * @return  \Magento\Sales\Block\Order\Totals
+     * @return  $this
      */
     public function applySortOrder($order)
     {
@@ -283,6 +292,7 @@ class Totals extends \Magento\View\Element\Template
     /**
      * get totals array for visualization
      *
+     * @param array|null $area
      * @return array
      */
     public function getTotals($area=null)

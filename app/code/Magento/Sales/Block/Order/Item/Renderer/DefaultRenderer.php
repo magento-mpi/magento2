@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Sales\Block\Order\Item\Renderer;
 
 /**
@@ -44,12 +43,19 @@ class DefaultRenderer extends \Magento\View\Element\Template
         parent::__construct($context, $data);
     }
 
+    /**
+     * @param \Magento\Object $item
+     * @return $this
+     */
     public function setItem(\Magento\Object $item)
     {
         $this->setData('item', $item);
         return $this;
     }
 
+    /**
+     * @return array|null
+     */
     public function getItem()
     {
         return $this->_getData('item');
@@ -65,7 +71,9 @@ class DefaultRenderer extends \Magento\View\Element\Template
         return $this->getOrderItem()->getOrder();
     }
 
-
+    /**
+     * @return array|null
+     */
     public function getOrderItem()
     {
         if ($this->getItem() instanceof \Magento\Sales\Model\Order\Item) {
@@ -75,6 +83,9 @@ class DefaultRenderer extends \Magento\View\Element\Template
         }
     }
 
+    /**
+     * @return array
+     */
     public function getItemOptions()
     {
         $result = array();

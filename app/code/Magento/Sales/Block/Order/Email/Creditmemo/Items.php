@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Sales\Block\Order\Email\Creditmemo;
 
 /**
  * Sales Order Email creditmemo items
@@ -16,15 +16,13 @@
  * @package    Magento_Sales
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Block\Order\Email\Creditmemo;
-
 class Items extends \Magento\Sales\Block\Items\AbstractItems
 {
     /**
      * Prepare item before output
      *
      * @param \Magento\View\Element\AbstractBlock $renderer
-     * @return \Magento\Sales\Block\Items\AbstractItems
+     * @return void
      */
     protected function _prepareItem(\Magento\View\Element\AbstractBlock $renderer)
     {

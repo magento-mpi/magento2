@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Block\Order;
 
 /**
  * Sales order history block
  */
-namespace Magento\Sales\Block\Order;
-
 class Recent extends \Magento\View\Element\Template
 {
     /**
@@ -51,6 +50,9 @@ class Recent extends \Magento\View\Element\Template
         $this->_isScopePrivate = true;
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
