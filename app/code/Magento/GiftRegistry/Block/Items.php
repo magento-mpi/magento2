@@ -7,8 +7,6 @@
  */
 namespace Magento\GiftRegistry\Block;
 
-use Magento\Customer\Service\V1\CustomerServiceInterface as CustomerService;
-
 /**
  * Front end helper block to show giftregistry items
  */
@@ -60,7 +58,6 @@ class Items extends \Magento\Checkout\Block\Cart
      * @param \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory
      * @param \Magento\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
-     * @param CustomerService $customerService
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -77,7 +74,6 @@ class Items extends \Magento\Checkout\Block\Cart
         \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory,
         \Magento\Registry $registry,
         \Magento\Tax\Helper\Data $taxData,
-        CustomerService $customerService,
         array $data = array()
     ) {
         $this->_cartHelper = $cartHelper;
@@ -93,7 +89,6 @@ class Items extends \Magento\Checkout\Block\Cart
             $checkoutSession,
             $catalogUrlBuilder,
             $cartHelper,
-            $customerService,
             $data
         );
     }
@@ -131,7 +126,7 @@ class Items extends \Magento\Checkout\Block\Cart
                     ->setOptions($item->getOptions());
 
                 $product->setCustomOptions($item->getOptionsByCode());
-                if ($this->_catalogData->canApplyMsrp($product)) {
+                if ($this->_catalogHelper->canApplyMsrp($product)) {
                     $quoteItem->setCanApplyMsrp(true);
                     $product->setRealPriceHtml(
                         $this->_storeManager->getStore()->formatPrice($this->_storeManager->getStore()->convertPrice(

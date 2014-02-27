@@ -7,8 +7,6 @@
  */
 namespace Magento\Tax\Block\Checkout;
 
-use Magento\Customer\Service\V1\CustomerServiceInterface as CustomerService;
-
 /**
  * Subtotal Total Row Renderer
  */
@@ -33,7 +31,6 @@ class Subtotal extends \Magento\Checkout\Block\Total\DefaultTotal
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Sales\Model\Config $salesConfig
      * @param \Magento\Tax\Model\Config $taxConfig
-     * @param CustomerService $customerService
      * @param array $data
      */
     public function __construct(
@@ -43,7 +40,6 @@ class Subtotal extends \Magento\Checkout\Block\Total\DefaultTotal
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Sales\Model\Config $salesConfig,
         \Magento\Tax\Model\Config $taxConfig,
-        CustomerService $customerService,
         array $data = array()
     ) {
         $this->_taxConfig = $taxConfig;
@@ -53,7 +49,6 @@ class Subtotal extends \Magento\Checkout\Block\Total\DefaultTotal
             $customerSession,
             $checkoutSession,
             $salesConfig,
-            $customerService,
             $data
         );
         $this->_isScopePrivate = true;

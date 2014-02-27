@@ -7,8 +7,6 @@
  */
 namespace Magento\Checkout\Block\Cart;
 
-use Magento\Customer\Service\V1\CustomerServiceInterface as CustomerService;
-
 class Coupon extends \Magento\Checkout\Block\Cart\AbstractCart
 {
     /**
@@ -16,7 +14,6 @@ class Coupon extends \Magento\Checkout\Block\Cart\AbstractCart
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Checkout\Model\Session $checkoutSession
-     * @param CustomerService $customerService
      * @param array $data
      */
     public function __construct(
@@ -24,10 +21,9 @@ class Coupon extends \Magento\Checkout\Block\Cart\AbstractCart
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Checkout\Model\Session $checkoutSession,
-        CustomerService $customerService,
         array $data = array()
     ) {
-        parent::__construct($context, $catalogData, $customerSession, $checkoutSession, $customerService, $data);
+        parent::__construct($context, $catalogData, $customerSession, $checkoutSession, $data);
         $this->_isScopePrivate = true;
     }
 

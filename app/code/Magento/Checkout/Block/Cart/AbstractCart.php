@@ -7,7 +7,6 @@
  */
 namespace Magento\Checkout\Block\Cart;
 
-use Magento\Customer\Service\V1\CustomerServiceInterface as CustomerService;
 use Magento\Sales\Model\Quote;
 
 /**
@@ -21,14 +20,9 @@ class AbstractCart extends \Magento\View\Element\Template
     const DEFAULT_TYPE = 'default';
 
     /**
-     * @var \Magento\Customer\Service\V1\Data\Customer
-     */
-    protected $_customer = null;
-
-    /**
      * @var Quote|null
      */
-    protected $_quote    = null;
+    protected $_quote = null;
 
     /**
      * @var array
@@ -56,17 +50,12 @@ class AbstractCart extends \Magento\View\Element\Template
      * @var \Magento\Customer\Model\Session
      */
     protected $_checkoutSession;
-    /**
-     * @var CustomerService
-     */
-    protected $_customerService;
 
     /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Checkout\Model\Session $checkoutSession
-     * @param CustomerService $customerService
      * @param array $data
      */
     public function __construct(
@@ -74,7 +63,6 @@ class AbstractCart extends \Magento\View\Element\Template
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Checkout\Model\Session $checkoutSession,
-        CustomerService $customerService,
         array $data = array()
     ) {
         $this->_customerSession = $customerSession;
@@ -82,7 +70,6 @@ class AbstractCart extends \Magento\View\Element\Template
         $this->_catalogData = $catalogData;
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
-        $this->_customerService = $customerService;
     }
 
     /**

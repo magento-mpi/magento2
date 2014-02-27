@@ -45,10 +45,10 @@ class Available extends \Magento\Checkout\Block\Onepage\AbstractOnepage
      * @param \Magento\Checkout\Model\Session $resourceSession
      * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory
      * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory
-     * @param \Magento\Tax\Helper\Data $taxData
      * @param CustomerService $customerService
      * @param CustomerAddressService $customerAddressService
      * @param AddressConfig $addressConfig
+     * @param \Magento\Tax\Helper\Data $taxData
      * @param array $data
      */
     public function __construct(
@@ -59,10 +59,10 @@ class Available extends \Magento\Checkout\Block\Onepage\AbstractOnepage
         \Magento\Checkout\Model\Session $resourceSession,
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory,
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory,
-        \Magento\Tax\Helper\Data $taxData,
         CustomerService $customerService,
         CustomerAddressService $customerAddressService,
         AddressConfig $addressConfig,
+        \Magento\Tax\Helper\Data $taxData,
         array $data = array()
     ) {
         $this->_taxData = $taxData;

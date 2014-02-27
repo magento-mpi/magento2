@@ -7,8 +7,6 @@
  */
 namespace Magento\GiftCardAccount\Block\Checkout\Cart;
 
-use Magento\Customer\Service\V1\CustomerServiceInterface as CustomerService;
-
 class Total extends \Magento\Checkout\Block\Total\DefaultTotal
 {
     protected $_template = 'Magento_GiftCardAccount::cart/total.phtml';
@@ -25,7 +23,6 @@ class Total extends \Magento\Checkout\Block\Total\DefaultTotal
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Sales\Model\Config $salesConfig
      * @param \Magento\GiftCardAccount\Helper\Data $giftCardAccountData
-     * @param CustomerService $customerService
      * @param array $data
      */
     public function __construct(
@@ -35,7 +32,6 @@ class Total extends \Magento\Checkout\Block\Total\DefaultTotal
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Sales\Model\Config $salesConfig,
         \Magento\GiftCardAccount\Helper\Data $giftCardAccountData,
-        CustomerService $customerService,
         array $data = array()
     ) {
         $this->_giftCardAccountData = $giftCardAccountData;
@@ -45,7 +41,6 @@ class Total extends \Magento\Checkout\Block\Total\DefaultTotal
             $customerSession,
             $checkoutSession,
             $salesConfig,
-            $customerService,
             $data
         );
         $this->_isScopePrivate = true;

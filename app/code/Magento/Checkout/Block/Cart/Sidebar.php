@@ -7,8 +7,6 @@
  */
 namespace Magento\Checkout\Block\Cart;
 
-use Magento\Customer\Service\V1\CustomerServiceInterface as CustomerService;
-
 /**
  * Wishlist sidebar block
  */
@@ -59,7 +57,6 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart
      * @param \Magento\Checkout\Model\Cart $checkoutCart
      * @param \Magento\Checkout\Helper\Data $checkoutHelper
      * @param \Magento\Checkout\Helper\Url $urlHelper
-     * @param CustomerService $customerService
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -75,7 +72,6 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart
         \Magento\Checkout\Model\Cart $checkoutCart,
         \Magento\Checkout\Helper\Data $checkoutHelper,
         \Magento\Checkout\Helper\Url $urlHelper,
-        CustomerService $customerService,
         array $data = array()
     ) {
         $this->_urlHelper = $urlHelper;
@@ -84,7 +80,7 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart
         $this->_catalogUrl = $catalogUrl;
         $this->_taxConfig = $taxConfig;
         $this->_checkoutCart = $checkoutCart;
-        parent::__construct($context, $catalogData, $customerSession, $checkoutSession, $customerService, $data);
+        parent::__construct($context, $catalogData, $customerSession, $checkoutSession, $data);
         $this->_isScopePrivate = true;
     }
 

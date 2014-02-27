@@ -7,7 +7,6 @@
  */
 namespace Magento\Checkout\Block\Cart;
 
-use Magento\Customer\Service\V1\CustomerServiceInterface as CustomerService;
 use Magento\View\Element\BlockInterface;
 
 class Totals extends \Magento\Checkout\Block\Cart\AbstractCart
@@ -38,7 +37,6 @@ class Totals extends \Magento\Checkout\Block\Cart\AbstractCart
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Sales\Model\Config $salesConfig
-     * @param CustomerService $customerService
      * @param array $data
      */
     public function __construct(
@@ -47,11 +45,10 @@ class Totals extends \Magento\Checkout\Block\Cart\AbstractCart
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Sales\Model\Config $salesConfig,
-        CustomerService $customerService,
         array $data = array()
     ) {
         $this->_salesConfig = $salesConfig;
-        parent::__construct($context, $catalogData, $customerSession, $checkoutSession, $customerService, $data);
+        parent::__construct($context, $catalogData, $customerSession, $checkoutSession, $data);
         $this->_isScopePrivate = true;
 
     }
