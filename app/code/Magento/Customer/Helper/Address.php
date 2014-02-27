@@ -209,23 +209,6 @@ class Address extends \Magento\App\Helper\AbstractHelper
     }
 
     /**
-     * Return array of Customer Address Attributes
-     *
-     * @return array
-     */
-    public function getAttributes()
-    {
-        if (is_null($this->_attributes)) {
-            $this->_attributes = array();
-            $config = $this->_eavConfig;
-            foreach ($config->getEntityAttributeCodes('customer_address') as $attributeCode) {
-                $this->_attributes[$attributeCode] = $config->getAttribute('customer_address', $attributeCode);
-            }
-        }
-        return $this->_attributes;
-    }
-
-    /**
      * Get string with frontend validation classes for attribute
      *
      * @param string $attributeCode
