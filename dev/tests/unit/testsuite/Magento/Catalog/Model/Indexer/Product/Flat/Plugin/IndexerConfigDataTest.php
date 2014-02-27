@@ -19,11 +19,6 @@ class IndexerConfigDataTest extends \PHPUnit_Framework_TestCase
     protected $model;
 
     /**
-     * @var \Magento\Catalog\Helper\Product\Flat|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $helperMock;
-
-    /**
      * @var \Magento\Catalog\Model\Indexer\Product\Flat\State|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_stateMock;
@@ -39,11 +34,8 @@ class IndexerConfigDataTest extends \PHPUnit_Framework_TestCase
             'Magento\Catalog\Model\Indexer\Product\Flat\State', array('isFlatEnabled'), array(), '', false
         );        
         $this->subjectMock = $this->getMock('Magento\Indexer\Model\Config\Data', array(), array(), '', false);
-        $this->model = new \Magento\Catalog\Model\Indexer\Product\Flat\Plugin\IndexerConfigData(
-            $this->helperMock
-        );
 
-        $this->_model = new \Magento\Catalog\Model\Indexer\Product\Flat\Plugin\IndexerConfigData(
+        $this->model = new \Magento\Catalog\Model\Indexer\Product\Flat\Plugin\IndexerConfigData(
             $this->_stateMock
         );
     }
