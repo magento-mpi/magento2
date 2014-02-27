@@ -159,10 +159,10 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      *
      * @var bool
      */
-    protected $_isScopePrivate;
+    protected $_isScopePrivate = false;
 
     /**
-     * This property is for defining of tome to live for a block.
+     * This property is for defining of time to live for a block.
      *
      * @var int
      */
@@ -195,7 +195,6 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
         $this->_escaper         = $context->getEscaper();
         $this->filterManager    = $context->getFilterManager();
         $this->_locale          = $context->getLocale();
-        $this->_isScopePrivate  = false;
         parent::__construct($data);
         $this->_construct();
     }
