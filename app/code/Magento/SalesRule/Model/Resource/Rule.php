@@ -49,12 +49,12 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     /**
      * @param \Magento\App\Resource $resource
      * @param \Magento\Stdlib\String $string
-     * @param Coupon $resourceCoupon
+     * @param \Magento\SalesRule\Model\Resource\Coupon $resourceCoupon
      */
     public function __construct(
         \Magento\App\Resource $resource,
         \Magento\Stdlib\String $string,
-        Coupon $resourceCoupon
+        \Magento\SalesRule\Model\Resource\Coupon $resourceCoupon
     ) {
         $this->string = $string;
         $this->_resourceCoupon = $resourceCoupon;

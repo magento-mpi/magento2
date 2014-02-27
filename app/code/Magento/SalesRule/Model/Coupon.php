@@ -40,7 +40,7 @@ class Coupon extends \Magento\Core\Model\AbstractModel
     /**
      * Coupon's owner rule instance
      *
-     * @var Rule
+     * @var \Magento\SalesRule\Model\Rule
      */
     protected $_rule;
 
@@ -62,7 +62,7 @@ class Coupon extends \Magento\Core\Model\AbstractModel
      */
     protected function _beforeSave()
     {
-        if (!$this->getRuleId() && $this->_rule instanceof Rule) {
+        if (!$this->getRuleId() && $this->_rule instanceof \Magento\SalesRule\Model\Rule) {
             $this->setRuleId($this->_rule->getId());
         }
         return parent::_beforeSave();
@@ -71,10 +71,10 @@ class Coupon extends \Magento\Core\Model\AbstractModel
     /**
      * Set rule instance
      *
-     * @param Rule $rule
+     * @param \Magento\SalesRule\Model\Rule $rule
      * @return $this
      */
-    public function setRule(Rule $rule)
+    public function setRule(\Magento\SalesRule\Model\Rule $rule)
     {
         $this->_rule = $rule;
         return $this;
@@ -83,7 +83,7 @@ class Coupon extends \Magento\Core\Model\AbstractModel
     /**
      * Load primary coupon for specified rule
      *
-     * @param Rule|int $rule
+     * @param \Magento\SalesRule\Model\Rule|int $rule
      * @return $this
      */
     public function loadPrimaryByRule($rule)

@@ -103,7 +103,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * Store coupon code generator instance
      *
-     * @var Coupon\CodegeneratorInterface
+     * @var \Magento\SalesRule\Model\Coupon\CodegeneratorInterface
      */
     protected $_couponCodeGenerator;
 
@@ -134,14 +134,14 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * Rule's primary coupon
      *
-     * @var Coupon
+     * @var \Magento\SalesRule\Model\Coupon
      */
     protected $_primaryCoupon;
 
     /**
      * Rule's subordinate coupons
      *
-     * @var Coupon[]
+     * @var \Magento\SalesRule\Model\Coupon[]
      */
     protected $_coupons;
 
@@ -165,7 +165,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     protected $_couponFactory;
 
     /**
-     * @var Coupon\CodegeneratorFactory
+     * @var \Magento\SalesRule\Model\Coupon\CodegeneratorFactory
      */
     protected $_codegenFactory;
 
@@ -195,7 +195,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\SalesRule\Model\CouponFactory $couponFactory
-     * @param Coupon\CodegeneratorFactory $codegenFactory
+     * @param \Magento\SalesRule\Model\Coupon\CodegeneratorFactory $codegenFactory
      * @param \Magento\SalesRule\Model\Rule\Condition\CombineFactory $condCombineFactory
      * @param \Magento\SalesRule\Model\Rule\Condition\Product\CombineFactory $condProdCombineF
      * @param \Magento\SalesRule\Model\Resource\Coupon\Collection $couponCollection
@@ -210,7 +210,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         \Magento\Data\FormFactory $formFactory,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\SalesRule\Model\CouponFactory $couponFactory,
-        Coupon\CodegeneratorFactory $codegenFactory,
+        \Magento\SalesRule\Model\Coupon\CodegeneratorFactory $codegenFactory,
         \Magento\SalesRule\Model\Rule\Condition\CombineFactory $condCombineFactory,
         \Magento\SalesRule\Model\Rule\Condition\Product\CombineFactory $condProdCombineF,
         \Magento\SalesRule\Model\Resource\Coupon\Collection $couponCollection,
@@ -321,7 +321,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * Returns code generator instance for auto generated coupons
      *
-     * @return Coupon\CodegeneratorInterface
+     * @return \Magento\SalesRule\Model\Coupon\CodegeneratorInterface
      */
     public function getCouponCodeGenerator()
     {
@@ -334,10 +334,10 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * Set code generator instance for auto generated coupons
      *
-     * @param Coupon\CodegeneratorInterface
+     * @param \Magento\SalesRule\Model\Coupon\CodegeneratorInterface
      * @return void
      */
-    public function setCouponCodeGenerator(Coupon\CodegeneratorInterface $codeGenerator)
+    public function setCouponCodeGenerator(\Magento\SalesRule\Model\Coupon\CodegeneratorInterface $codeGenerator)
     {
         $this->_couponCodeGenerator = $codeGenerator;
     }
@@ -345,7 +345,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * Retrieve rule's primary coupon
      *
-     * @return Coupon
+     * @return \Magento\SalesRule\Model\Coupon
      */
     public function getPrimaryCoupon()
     {
@@ -409,7 +409,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * Retrieve subordinate coupons
      *
-     * @return Coupon[]
+     * @return \Magento\SalesRule\Model\Coupon[]
      */
     public function getCoupons()
     {
@@ -450,7 +450,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      *
      * @param bool $saveNewlyCreated Whether or not to save newly created coupon
      * @param int $saveAttemptCount Number of attempts to save newly created coupon
-     * @return Coupon|null
+     * @return \Magento\SalesRule\Model\Coupon|null
      * @throws \Exception|\Magento\Core\Exception
      */
     public function acquireCoupon($saveNewlyCreated = true, $saveAttemptCount = 10)
@@ -461,7 +461,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         if ($this->getCouponType() == self::COUPON_TYPE_SPECIFIC) {
             return $this->getPrimaryCoupon();
         }
-        /** @var Coupon $coupon */
+        /** @var \Magento\SalesRule\Model\Coupon $coupon */
         $coupon = $this->_couponFactory->create();
         $coupon->setRule($this)
             ->setIsPrimary(false)

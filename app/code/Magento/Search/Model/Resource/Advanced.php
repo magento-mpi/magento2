@@ -77,7 +77,7 @@ class Advanced extends \Magento\Core\Model\Resource\AbstractResource
     /**
      * Add filter by indexable attribute
      *
-     * @param Collection $collection
+     * @param \Magento\Search\Model\Resource\Collection $collection
      * @param Attribute $attribute
      * @param string|array $value
      * @return bool
@@ -97,7 +97,7 @@ class Advanced extends \Magento\Core\Model\Resource\AbstractResource
     /**
      * Retrieve filter array
      *
-     * @param Collection $collection
+     * @param \Magento\Search\Model\Resource\Collection $collection
      * @param Attribute $attribute
      * @param string|array $value
      * @return array
@@ -142,7 +142,7 @@ class Advanced extends \Magento\Core\Model\Resource\AbstractResource
     /**
      * Add filter by attribute rated price
      *
-     * @param Collection $collection
+     * @param \Magento\Search\Model\Resource\Collection $collection
      * @param Attribute $attribute
      * @param string|array $value
      * @param int $rate
@@ -162,7 +162,7 @@ class Advanced extends \Magento\Core\Model\Resource\AbstractResource
      *
      * @param Attribute $attribute
      * @param string|array $value
-     * @param Collection $collection
+     * @param \Magento\Search\Model\Resource\Collection $collection
      * @return bool
      */
     public function prepareCondition($attribute, $value, $collection)
