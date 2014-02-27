@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Model\Config;
 
 /**
  * Factory class for payment config
  */
-namespace Magento\Paypal\Model\Config;
-
 class Factory
 {
     /**

@@ -5,12 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Helper;
 
 /**
  * Checkout workflow helper
  */
-namespace Magento\Paypal\Helper;
-
 class Checkout
 {
     /**

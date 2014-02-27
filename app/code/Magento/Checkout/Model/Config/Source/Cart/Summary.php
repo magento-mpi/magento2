@@ -11,6 +11,9 @@ namespace Magento\Checkout\Model\Config\Source\Cart;
 
 class Summary implements \Magento\Option\ArrayInterface
 {
+    /**
+     * @return array
+     */
     public function toOptionArray()
     {
         return array(

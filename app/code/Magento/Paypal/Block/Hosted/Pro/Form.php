@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Block\Hosted\Pro;
 
 /**
  * Hosted Pro link form
@@ -15,9 +16,10 @@
  * @package    Magento_Paypal
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Paypal\Block\Hosted\Pro;
-
 class Form extends \Magento\Payment\Block\Form
 {
+    /**
+     * @var string
+     */
     protected $_template = 'hss/info.phtml';
 }

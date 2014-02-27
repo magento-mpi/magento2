@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerSegment\Controller\Adminhtml\Report\Customer;
+
+use Magento\App\ResponseInterface;
 
 /**
  * Customer Segment reports controller
@@ -15,10 +18,7 @@
  * @package     Magento_CustomerSegment
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\CustomerSegment\Controller\Adminhtml\Report\Customer;
-
-class Customersegment
-    extends \Magento\Backend\App\Action
+class Customersegment extends \Magento\Backend\App\Action
 {
     /**
      * Admin session
@@ -65,7 +65,7 @@ class Customersegment
     /**
      * Init layout and adding breadcrumbs
      *
-     * @return \Magento\CustomerSegment\Controller\Adminhtml\Report\Customer\Customersegment
+     * @return $this
      */
     protected function _initAction()
     {
@@ -131,6 +131,7 @@ class Customersegment
      * Index Action.
      * Forward to Segment Action
      *
+     * @return void
      */
     public function indexAction()
     {
@@ -140,6 +141,7 @@ class Customersegment
     /**
      * Segment Action
      *
+     * @return void
      */
     public function segmentAction()
     {
@@ -152,6 +154,7 @@ class Customersegment
     /**
      * Detail Action of customer segment
      *
+     * @return void
      */
     public function detailAction()
     {
@@ -194,6 +197,8 @@ class Customersegment
 
     /**
      * Apply segment conditions to all customers
+     *
+     * @return void
      */
     public function refreshAction()
     {
@@ -217,6 +222,7 @@ class Customersegment
     /**
      * Export Excel Action
      *
+     * @return ResponseInterface|void
      */
     public function exportExcelAction()
     {
@@ -232,13 +238,14 @@ class Customersegment
             );
         } else {
             $this->_redirect('*/*/detail', array('_current' => true));
-            return ;
+            return;
         }
     }
 
     /**
      * Export Csv Action
      *
+     * @return ResponseInterface|void
      */
     public function exportCsvAction()
     {
@@ -254,12 +261,14 @@ class Customersegment
             );
         } else {
             $this->_redirect('*/*/detail', array('_current' => true));
-            return ;
+            return;
         }
     }
 
     /**
      * Segment customer ajax grid action
+     *
+     * @return void
      */
     public function customerGridAction()
     {
@@ -286,7 +295,7 @@ class Customersegment
     /**
      * Check the permission to run it
      *
-     * @return boolean
+     * @return bool
      */
     protected function _isAllowed()
     {

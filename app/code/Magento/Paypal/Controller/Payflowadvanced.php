@@ -5,12 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Controller;
 
 /**
  * Payflow Advanced Checkout Controller
  */
-namespace Magento\Paypal\Controller;
-
 class Payflowadvanced extends \Magento\Paypal\Controller\Payflow
 {
     /**
