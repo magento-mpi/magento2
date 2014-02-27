@@ -1,6 +1,6 @@
 <?php
 /**
- * Eav Attribute Metadata
+ * Builder for the Eav Attribute Metadata Service Data Object
  *
  * {license_notice}
  *

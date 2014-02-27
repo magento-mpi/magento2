@@ -1,7 +1,5 @@
 <?php
 /**
- * Customer Service Address Interface
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -13,6 +11,9 @@ namespace Magento\Customer\Service\V1\Data;
 use Magento\Customer\Service\V1\Data\SearchCriteria;
 use Magento\Service\Data\EAV\AbstractObject;
 
+/**
+ * SearchResults Service Data Object used for the search service requests
+ */
 class SearchResults extends \Magento\Service\Data\AbstractObject
 {
     /**

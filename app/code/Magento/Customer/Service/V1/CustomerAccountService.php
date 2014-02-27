@@ -21,7 +21,7 @@ use Magento\Exception\StateException;
 use Magento\Math\Random;
 
 /**
- *  Handle various customer account actions
+ * Handle various customer account actions
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */

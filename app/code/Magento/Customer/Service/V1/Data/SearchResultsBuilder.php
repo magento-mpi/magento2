@@ -12,7 +12,7 @@ namespace Magento\Customer\Service\V1\Data;
 use Magento\Customer\Service\V1\Data\SearchCriteria;
 
 /**
- * Builder for the SearchResults
+ * Builder for the SearchResults Service Data Object
  *
  * @method SearchResults create()
  */

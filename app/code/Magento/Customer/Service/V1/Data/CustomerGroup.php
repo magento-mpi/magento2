@@ -1,7 +1,5 @@
 <?php
 /**
- * Customer Service Address Interface
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -9,6 +7,9 @@
  */
 namespace Magento\Customer\Service\V1\Data;
 
+/**
+ * CustomerGroup Service Data Object
+ */
 class CustomerGroup extends \Magento\Service\Data\AbstractObject
 {
     /**

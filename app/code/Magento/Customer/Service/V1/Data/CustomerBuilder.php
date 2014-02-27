@@ -10,7 +10,7 @@ namespace Magento\Customer\Service\V1\Data;
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
 
 /**
- * Class Customer. Uses array to hold data, setters return $this so they can be chained.
+ * Builder for the Customer Service Data Object
  *
  * @method Customer create()
  */

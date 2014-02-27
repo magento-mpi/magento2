@@ -11,7 +11,7 @@ use Magento\Service\Data\EAV\AbstractObjectBuilder;
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
 
 /**
- * Address class acts as a Service Data Object for the Customer Service
+ * Builder for the Address Service Data Object
  *
  * @method Address create()
  */

@@ -8,7 +8,7 @@
 namespace Magento\Customer\Service\V1\Data;
 
 /**
- * Customer Service Address Interface
+ * Builder for the Region Service Data Object
  *
  * @method Region create()
  */

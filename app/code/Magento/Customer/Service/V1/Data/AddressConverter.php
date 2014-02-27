@@ -10,6 +10,9 @@ namespace Magento\Customer\Service\V1\Data;
 
 use Magento\Convert\ConvertArray;
 
+/**
+ * Class AddressConverter converts Address Service Data Object to an array
+ */
 class AddressConverter
 {
     /**

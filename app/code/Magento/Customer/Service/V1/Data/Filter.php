@@ -1,7 +1,5 @@
 <?php
 /**
- * Customer Service Address Interface
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -9,6 +7,9 @@
  */
 namespace Magento\Customer\Service\V1\Data;
 
+/**
+ * Filter Service Data Object used in search requests
+ */
 class Filter extends \Magento\Service\Data\AbstractObject
 {
     /**

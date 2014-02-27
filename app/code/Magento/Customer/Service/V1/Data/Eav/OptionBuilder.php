@@ -1,6 +1,6 @@
 <?php
 /**
- * Eav attribute option
+ * Builder for the Eav Service Data Object attribute option
  *
  * {license_notice}
  *

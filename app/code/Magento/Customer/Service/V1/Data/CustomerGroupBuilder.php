@@ -8,7 +8,7 @@
 namespace Magento\Customer\Service\V1\Data;
 
 /**
- * Customer Service Address Interface
+ * Builder for the CustomerGroup Service Data Object
  *
  * @method CustomerGroup create()
  */

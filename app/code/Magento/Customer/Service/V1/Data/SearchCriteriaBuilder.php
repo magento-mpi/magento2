@@ -11,7 +11,7 @@ use Magento\Customer\Service\V1\Data\Search\OrGroupBuilder;
 use Magento\Service\Data\AbstractObjectBuilder;
 
 /**
- * Builder for SearchCriteria Data Object
+ * Builder for SearchCriteria Service Data Object
  */
 class SearchCriteriaBuilder extends AbstractObjectBuilder
 {
