@@ -24,4 +24,8 @@
     <type name="Magento\Checkout\Block\Onepage\Payment">
         <plugin name="recurringprofile" type="Magento\RecurringProfile\Block\Plugin\Payment" />
     </type>
+    <type name="Magento\Checkout\Model\Session">
+        <plugin name="recurringprofile" type="Magento\RecurringProfile\Model\Plugin\CheckoutSession" />
+    </type>
+
 </config>

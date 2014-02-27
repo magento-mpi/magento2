@@ -143,13 +143,6 @@ abstract class AbstractMethod extends \Magento\Object
     protected $_canReviewPayment            = false;
 
     /**
-     * Payment Method feature
-     *
-     * @var bool
-     */
-    protected $_canManageRecurringProfiles  = true;
-
-    /**
      * TODO: whether a captured transaction may be voided by this gateway
      * This may happen when amount is captured, but not settled
      * @var bool
