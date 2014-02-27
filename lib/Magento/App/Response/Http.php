@@ -86,8 +86,8 @@ class Http extends \Zend_Controller_Response_Http implements \Magento\App\Respon
      */
     public function setPublicHeaders($ttl)
     {
-        if (!$ttl) {
-            throw new \InvalidArgumentException('time to live is a mandatory parameter for set public headers');
+        if ($ttl < 0 || !preg_match('/^[0-9]+$/', $ttl)) {
+            throw new \InvalidArgumentException('Time to live is a mandatory parameter for set public headers');
         }
         $this->setHeader('pragma', 'cache', true);
         $this->setHeader('cache-control', 'public, max-age=' . $ttl . ', s-maxage=' . $ttl, true);
