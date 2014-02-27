@@ -50,7 +50,7 @@ CalendarTest.prototype.testEnableAMPM = function() {
 CalendarTest.prototype.testDisableAMPM = function() {
     /*:DOC += <input type="text" id="calendar" /> */
     var calendar = $('#calendar').calendar({timeFormat: 'hh:mm'});
-    assertFalse(calendar.calendar('option', 'ampm'));
+    assertTrue(!calendar.calendar('option', 'ampm'));
     calendar.calendar('destroy');
 };
 CalendarTest.prototype.testWithServerTimezoneOffset = function() {
