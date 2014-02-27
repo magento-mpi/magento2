@@ -63,7 +63,7 @@ class DefaultRouterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @magentoDataFixture Magento/Backend/_files/controllerIndexClass.php
+     * @magentoDataFixture Magento/Backend/Controller/Adminhtml/Index.php
      */
     public function testMatchCustomNoRouteAction()
     {
