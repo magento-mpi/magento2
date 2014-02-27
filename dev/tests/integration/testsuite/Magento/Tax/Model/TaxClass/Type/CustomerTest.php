@@ -41,7 +41,6 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         $collection = $model->getAssignedToObjects();
         $this->assertEquals(self::TAX_CLASS_ID, $collection->getFirstItem()->getData('tax_class_id'));
         $this->assertEquals(self::GROUP_CODE, $collection->getFirstItem()->getData('customer_group_code'));
-        /** @var $dataObjectArray CustomerGroup[]*/
         $dataObjectArray = $model->getAssignedDataObjects();
         $this->assertEquals(self::TAX_CLASS_ID, $dataObjectArray[0]->getTaxClassId());
         $this->assertEquals(self::GROUP_CODE, $dataObjectArray[0]->getCode());
