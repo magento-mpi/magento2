@@ -7,13 +7,10 @@
  */
 namespace Magento\Checkout\Block\Onepage\Shipping\Method;
 
-use Magento\Sales\Model\Quote\Address;
-
-namespace Magento\Checkout\Block\Onepage\Shipping\Method;
-
 use Magento\Customer\Service\V1\CustomerServiceInterface as CustomerService;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface as CustomerAddressService;
 use Magento\Customer\Model\Address\Config as AddressConfig;
+use Magento\Sales\Model\Quote\Address;
 
 /**
  * One page checkout status
