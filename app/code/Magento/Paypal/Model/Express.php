@@ -52,7 +52,6 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
     protected $_canUseInternal              = false;
     protected $_canUseCheckout              = true;
     protected $_canFetchTransactionInfo     = true;
-    protected $_canCreateBillingAgreement   = true;
     protected $_canReviewPayment            = true;
 
     /**
@@ -99,7 +98,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
+     * @param \Magento\Logger\AdapterFactory $logAdapterFactory
      * @param \Magento\Paypal\Model\Method\ProTypeFactory $proTypeFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\UrlInterface $urlBuilder
@@ -110,7 +109,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
+        \Magento\Logger\AdapterFactory $logAdapterFactory,
         \Magento\Paypal\Model\Method\ProTypeFactory $proTypeFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\UrlInterface $urlBuilder,

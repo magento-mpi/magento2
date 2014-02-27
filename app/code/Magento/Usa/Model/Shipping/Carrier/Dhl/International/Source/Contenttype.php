@@ -7,22 +7,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Usa\Model\Shipping\Carrier\Dhl\International\Source;
 
 /**
  * Source model for DHL Content Type
  *
- * @category   Magento
- * @package    Magento_Usa
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Usa\Model\Shipping\Carrier\Dhl\International\Source;
-
-class Contenttype implements \Magento\Core\Model\Option\ArrayInterface
+class Contenttype implements \Magento\Option\ArrayInterface
 {
     /**
-     * Returns array to be used in multiselect on back-end
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function toOptionArray()
     {

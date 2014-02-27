@@ -31,7 +31,7 @@ class Info extends \Magento\View\Element\Template
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -46,14 +46,14 @@ class Info extends \Magento\View\Element\Template
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\ProductAlert\Helper\Data $productAlertData
      * @param \Magento\AdvancedCheckout\Helper\Data $checkoutData
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\ProductAlert\Helper\Data $productAlertData,
         \Magento\AdvancedCheckout\Helper\Data $checkoutData,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
         $this->_productAlertData = $productAlertData;

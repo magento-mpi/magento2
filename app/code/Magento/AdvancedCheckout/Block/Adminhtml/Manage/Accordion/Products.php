@@ -50,21 +50,21 @@ class Products
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Data\CollectionFactory $collectionFactory
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\Json\DecoderInterface $jsonDecoder
      * @param \Magento\CatalogInventory\Model\Stock\Status $catalogStockStatus
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Sales\Model\Config $salesConfig
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param array $data
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Data\CollectionFactory $collectionFactory,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\Json\DecoderInterface $jsonDecoder,
         \Magento\CatalogInventory\Model\Stock\Status $catalogStockStatus,
         \Magento\Catalog\Model\Config $catalogConfig,
@@ -117,7 +117,7 @@ class Products
                 ->addAttributeToSelect($attributes)
                 ->addAttributeToSelect('sku')
                 ->addAttributeToFilter('type_id', $this->_salesConfig->getAvailableProductTypes())
-                ->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Status::STATUS_ENABLED)
+                ->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED)
                 ->addStoreFilter($this->_getStore());
             $this->_catalogStockStatus->addIsInStockFilterToCollection($collection);
             $this->setData('items_collection', $collection);

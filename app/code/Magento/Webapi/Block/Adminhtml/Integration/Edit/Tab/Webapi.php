@@ -21,7 +21,7 @@ class Webapi extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Root ACL Resource
      *
-     * @var \Magento\Core\Model\Acl\RootResource
+     * @var \Magento\Acl\RootResource
      */
     protected $_rootResource;
 
@@ -48,24 +48,24 @@ class Webapi extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Initialize dependencies.
      *
-     * TODO: Fix excessive number of arguments
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
-     *
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
-     * @param \Magento\Core\Model\Acl\RootResource $rootResource
+     * @param \Magento\Acl\RootResource $rootResource
      * @param \Magento\User\Model\Resource\Rules\CollectionFactory $rulesCollectionFactory
      * @param \Magento\Acl\Resource\ProviderInterface $aclResourceProvider
      * @param \Magento\Webapi\Helper\Data $webapiData
      * @param \Magento\Integration\Helper\Data $integrationData
      * @param array $data
+     *
+     * @todo Fix excessive number of arguments
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
-        \Magento\Core\Model\Acl\RootResource $rootResource,
+        \Magento\Acl\RootResource $rootResource,
         \Magento\User\Model\Resource\Rules\CollectionFactory $rulesCollectionFactory,
         \Magento\Acl\Resource\ProviderInterface $aclResourceProvider,
         \Magento\Webapi\Helper\Data $webapiData,
@@ -124,6 +124,8 @@ class Webapi extends \Magento\Backend\Block\Widget\Form\Generic
 
     /**
      * Class constructor
+     *
+     * @return void
      */
     protected function _construct()
     {

@@ -7,21 +7,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Cms\Block\Adminhtml;
 
 /**
  * Adminhtml cms pages content block
- *
- * @category   Magento
- * @package    Magento_Cms
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Cms\Block\Adminhtml;
-
 class Page extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**
      * Block constructor
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -49,5 +45,4 @@ class Page extends \Magento\Backend\Block\Widget\Grid\Container
     {
         return $this->_authorization->isAllowed($resourceId);
     }
-
 }

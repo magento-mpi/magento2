@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\User\Block\Role;
 
 class Edit extends \Magento\Backend\Block\Widget\Tabs
@@ -15,7 +14,7 @@ class Edit extends \Magento\Backend\Block\Widget\Tabs
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -23,20 +22,25 @@ class Edit extends \Magento\Backend\Block\Widget\Tabs
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Backend\Model\Auth\Session $authSession
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Backend\Model\Auth\Session $authSession,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
         parent::__construct($context, $jsonEncoder, $authSession, $data);
     }
 
+    /**
+     * Class constructor
+     *
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -45,6 +49,9 @@ class Edit extends \Magento\Backend\Block\Widget\Tabs
         $this->setTitle(__('Role Information'));
     }
 
+    /**
+     * @return $this
+     */
     protected function _prepareLayout()
     {
         $role = $this->_coreRegistry->registry('current_role');

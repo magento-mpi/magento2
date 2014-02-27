@@ -8,18 +8,17 @@
  * @license     {license_link}
  */
 
-/**
- * Cms page service resource model
- *
- * @author     Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Cms\Model\Resource\Page;
 
+/**
+ * Cms page service resource model
+ */
 class Service extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Init cms page service model
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -38,7 +37,7 @@ class Service extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param int $byStoreId
      * @param string $byLinkTable
      *
-     * @return \Magento\Cms\Model\Resource\Page\Service
+     * @return $this
      */
     public function unlinkConflicts($fromStoreId, $byStoreId, $byLinkTable = null)
     {

@@ -22,14 +22,20 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     const FORM_ELEMENT_ID = 'rate-form';
 
+    /**
+     * @var null
+     */
     protected $_titles = null;
 
+    /**
+     * @var string
+     */
     protected $_template = 'rate/form.phtml';
 
     /**
      * Tax data
      *
-     * @var \Magento\Tax\Helper\Data
+     * @var \Magento\Tax\Helper\Data|null
      */
     protected $_taxData = null;
 
@@ -60,7 +66,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Directory\Model\Config\Source\Country $country
@@ -72,7 +78,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Directory\Model\Config\Source\Country $country,
@@ -91,6 +97,9 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         parent::__construct($context, $registry, $formFactory, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -98,6 +107,9 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
     }
 
+    /**
+     * @return $this
+     */
     protected function _prepareForm()
     {
         $rateObject = new \Magento\Object($this->_rate->getData());
@@ -235,7 +247,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Get Tax Rates Collection
      *
-     * @return array
+     * @return mixed
      */
     public function getRateCollection()
     {

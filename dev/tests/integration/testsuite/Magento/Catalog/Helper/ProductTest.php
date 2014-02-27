@@ -99,15 +99,15 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $category->setId(10);
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $objectManager->get('Magento\Core\Model\Registry')->register('current_category', $category);
+        $objectManager->get('Magento\Registry')->register('current_category', $category);
 
         try {
             $this->assertStringEndsWith(
                 'sendfriend/product/send/id/100/cat_id/10/', $this->_helper->getEmailToFriendUrl($product)
             );
-            $objectManager->get('Magento\Core\Model\Registry')->unregister('current_category');
+            $objectManager->get('Magento\Registry')->unregister('current_category');
         } catch (\Exception $e) {
-            $objectManager->get('Magento\Core\Model\Registry')->unregister('current_category');
+            $objectManager->get('Magento\Registry')->unregister('current_category');
             throw $e;
         }
     }
@@ -130,7 +130,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
         // enabled and visible
         $product->setId(1);
-        $product->setStatus(\Magento\Catalog\Model\Product\Status::STATUS_ENABLED);
+        $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
         $product->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH);
         $this->assertTrue($this->_helper->canShow($product));
 
@@ -195,11 +195,11 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf(
             'Magento\Catalog\Model\Product',
-            $objectManager->get('Magento\Core\Model\Registry')->registry('current_product')
+            $objectManager->get('Magento\Registry')->registry('current_product')
         );
         $this->assertInstanceOf(
             'Magento\Catalog\Model\Category',
-            $objectManager->get('Magento\Core\Model\Registry')->registry('current_category')
+            $objectManager->get('Magento\Registry')->registry('current_category')
         );
     }
 

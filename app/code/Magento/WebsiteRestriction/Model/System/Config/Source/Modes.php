@@ -7,14 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\WebsiteRestriction\Model\System\Config\Source;
 
 /**
  * Sys config source model for restriction modes
  *
  */
-namespace Magento\WebsiteRestriction\Model\System\Config\Source;
-
-class Modes extends \Magento\Object implements \Magento\Core\Model\Option\ArrayInterface
+class Modes extends \Magento\Object implements \Magento\Option\ArrayInterface
 {
     /**
      * Get options for select

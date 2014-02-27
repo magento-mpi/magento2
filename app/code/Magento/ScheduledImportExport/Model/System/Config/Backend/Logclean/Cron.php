@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ScheduledImportExport\Model\System\Config\Backend\Logclean;
 
 /**
  * Backend model for import/export log cleaning schedule options
@@ -15,8 +16,6 @@
  * @package    Magento_ScheduledImportExport
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\ScheduledImportExport\Model\System\Config\Backend\Logclean;
-
 class Cron extends \Magento\Core\Model\Config\Value
 {
     /**
@@ -30,8 +29,8 @@ class Cron extends \Magento\Core\Model\Config\Value
     protected $_configValueFactory;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\ConfigInterface $config
      * @param \Magento\Core\Model\Config\ValueFactory $configValueFactory
@@ -40,8 +39,8 @@ class Cron extends \Magento\Core\Model\Config\Value
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\ConfigInterface $config,
         \Magento\Core\Model\Config\ValueFactory $configValueFactory,

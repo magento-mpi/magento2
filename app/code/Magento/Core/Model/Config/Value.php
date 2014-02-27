@@ -55,8 +55,8 @@ class Value extends \Magento\Core\Model\AbstractModel implements \Magento\App\Co
     protected $_config;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\ConfigInterface $config
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
@@ -64,8 +64,8 @@ class Value extends \Magento\Core\Model\AbstractModel implements \Magento\App\Co
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\ConfigInterface $config,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
@@ -79,6 +79,8 @@ class Value extends \Magento\Core\Model\AbstractModel implements \Magento\App\Co
 
     /**
      * Magento model constructor
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -87,6 +89,8 @@ class Value extends \Magento\Core\Model\AbstractModel implements \Magento\App\Co
 
     /**
      * Add availability call after load as public
+     *
+     * @return void
      */
     public function afterLoad()
     {

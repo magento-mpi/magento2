@@ -16,7 +16,7 @@ namespace Magento\Wishlist\Model\Resource\Item\Collection;
 class Grid extends \Magento\Wishlist\Model\Resource\Item\Collection
 {
     /**
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_registryManager;
 
@@ -38,9 +38,9 @@ class Grid extends \Magento\Wishlist\Model\Resource\Item\Collection
      * @param \Magento\Catalog\Model\Entity\AttributeFactory $catalogAttrFactory
      * @param \Magento\Wishlist\Model\Resource\Item $resource
      * @param \Magento\App\State $appState
-     * @param \Magento\Core\Model\Registry $registry
-     * @param mixed $connection
-     * 
+     * @param \Magento\Registry $registry
+     * @param \Zend_Db_Adapter_Abstract $connection
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -61,7 +61,7 @@ class Grid extends \Magento\Wishlist\Model\Resource\Item\Collection
         \Magento\Catalog\Model\Entity\AttributeFactory $catalogAttrFactory,
         \Magento\Wishlist\Model\Resource\Item $resource,
         \Magento\App\State $appState,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         $connection = null
     ) {
         $this->_registryManager = $registry;
@@ -90,7 +90,7 @@ class Grid extends \Magento\Wishlist\Model\Resource\Item\Collection
     /**
      * Initialize db select
      *
-     * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+     * @return $this
      */
     protected function _initSelect()
     {
@@ -125,10 +125,9 @@ class Grid extends \Magento\Wishlist\Model\Resource\Item\Collection
     /**
      * Add field filter to collection
      *
-     * @see self::_getConditionSql for $condition
-     *
      * @param string|array $field
      * @param null|string|array $condition
+     * @see self::_getConditionSql for $condition
      * @return \Magento\Data\Collection\Db
      */
     public function addFieldToFilter($field, $condition = null)

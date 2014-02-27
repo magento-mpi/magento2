@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit;
 
 // @codingStandardsIgnoreStart
 /**
@@ -24,8 +25,6 @@
  * @method \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit\Form setEmailSettingsLabel() setEmailSettingsLabel(string $value)
  */
 // @codingStandardsIgnoreEnd
-namespace Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit;
-
 abstract class Form
     extends \Magento\Backend\Block\Widget\Form\Generic
 {
@@ -50,7 +49,7 @@ abstract class Form
     protected $_emailMethod;
 
     /**
-     * @var \Magento\Core\Model\Option\ArrayPool
+     * @var \Magento\Option\ArrayPool
      */
     protected $_optionArrayPool;
 
@@ -61,9 +60,9 @@ abstract class Form
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
-     * @param \Magento\Core\Model\Option\ArrayPool $optionArrayPool
+     * @param \Magento\Option\ArrayPool $optionArrayPool
      * @param \Magento\Backend\Model\Config\Source\Email\Method $emailMethod
      * @param \Magento\Backend\Model\Config\Source\Email\Identity $emailIdentity
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation\Data $operationData
@@ -73,9 +72,9 @@ abstract class Form
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
-        \Magento\Core\Model\Option\ArrayPool $optionArrayPool,
+        \Magento\Option\ArrayPool $optionArrayPool,
         \Magento\Backend\Model\Config\Source\Email\Method $emailMethod,
         \Magento\Backend\Model\Config\Source\Email\Identity $emailIdentity,
         \Magento\ScheduledImportExport\Model\Scheduled\Operation\Data $operationData,
@@ -95,7 +94,7 @@ abstract class Form
     /**
      * Prepare general form for scheduled operation
      *
-     * @return \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit\Form
+     * @return $this
      */
     protected function _prepareForm()
     {
@@ -135,7 +134,7 @@ abstract class Form
      *
      * @param \Magento\Data\Form $form
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation $operation
-     * @return \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit\Form
+     * @return $this
      */
     protected function _addGeneralSettings($form, $operation)
     {
@@ -212,7 +211,7 @@ abstract class Form
      *
      * @param \Magento\Data\Form $form
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation $operation
-     * @return \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit\Form
+     * @return $this
      */
     protected function _addFileSettings($form, $operation)
     {
@@ -281,7 +280,7 @@ abstract class Form
      *
      * @param \Magento\Data\Form $form
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation $operation
-     * @return \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit\Form
+     * @return $this
      */
     protected function _addEmailSettings($form, $operation)
     {
@@ -329,7 +328,7 @@ abstract class Form
      * Set values to form from operation model
      *
      * @param array $data
-     * @return \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit\Form|bool
+     * @return $this
      */
     protected function _setFormValues(array $data)
     {

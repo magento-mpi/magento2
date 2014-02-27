@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ImportExport\Model\Import;
 
 /**
  * Data source with columns for Magento_ImportExport
  */
-namespace Magento\ImportExport\Model\Import;
-
 abstract class AbstractSource implements \SeekableIterator
 {
     /**
@@ -89,6 +88,8 @@ abstract class AbstractSource implements \SeekableIterator
 
     /**
      * Move forward to next element (\Iterator interface)
+     *
+     * @return void
      */
     public function next()
     {
@@ -107,7 +108,7 @@ abstract class AbstractSource implements \SeekableIterator
      *
      * Return array or false on error
      *
-     * @return array|bool
+     * @return array|false
      */
     abstract protected function _getNextRow();
 
@@ -134,6 +135,8 @@ abstract class AbstractSource implements \SeekableIterator
 
     /**
      * Rewind the \Iterator to the first element (\Iterator interface)
+     *
+     * @return void
      */
     public function rewind()
     {
@@ -146,6 +149,7 @@ abstract class AbstractSource implements \SeekableIterator
      * Seeks to a position (Seekable interface)
      *
      * @param int $position The position to seek to 0 or more
+     * @return void
      * @throws \OutOfBoundsException
      */
     public function seek($position)

@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\VersionsCms\Controller\Adminhtml\Cms\Page;
 
 /**
  * Manage revision controller
  */
-namespace Magento\VersionsCms\Controller\Adminhtml\Cms\Page;
-
 class Revision
     extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Page
 {
@@ -33,7 +32,7 @@ class Revision
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\Core\Filter\Date $dateFilter
      * @param \Magento\VersionsCms\Model\Config $cmsConfig
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
@@ -45,7 +44,7 @@ class Revision
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\Core\Filter\Date $dateFilter,
         \Magento\VersionsCms\Model\Config $cmsConfig,
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
@@ -73,7 +72,7 @@ class Revision
     /**
      * Init actions
      *
-     * @return \Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Revision
+     * @return $this
      */
     protected function _initAction()
     {
@@ -121,6 +120,8 @@ class Revision
 
     /**
      * Edit revision of CMS page
+     *
+     * @return void
      */
     public function editAction()
     {
@@ -148,7 +149,7 @@ class Revision
     /**
      * Save action
      *
-     * @return \Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Revision
+     * @return void
      */
     public function saveAction()
     {
@@ -209,6 +210,8 @@ class Revision
 
     /**
      * Publishing revision
+     *
+     * @return void
      */
     public function publishAction()
     {
@@ -235,7 +238,7 @@ class Revision
     /**
      * Prepares page with iframe
      *
-     * @return \Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Revision
+     * @return void
      */
     public function previewAction()
     {
@@ -283,7 +286,7 @@ class Revision
     /**
      * Generates preview of page
      *
-     * @return \Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Revision
+     * @return void
      */
     public function dropAction()
     {
@@ -294,6 +297,8 @@ class Revision
 
     /**
      * Generates preview of page. Assumed to be run in frontend area
+     *
+     * @return void
      */
     public function previewFrontendPage()
     {
@@ -377,6 +382,8 @@ class Revision
 
     /**
      * Delete action
+     *
+     * @return void
      */
     public function deleteAction()
     {
@@ -419,7 +426,7 @@ class Revision
     /**
      * Check the permission to run it
      *
-     * @return boolean
+     * @return bool
      */
     protected function _isAllowed()
     {
@@ -438,7 +445,7 @@ class Revision
     /**
      * New Revision action
      *
-     * @return \Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Revision
+     * @return void
      */
     public function newAction()
     {

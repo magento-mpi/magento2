@@ -10,7 +10,7 @@
 
 namespace Magento\Directory\Model\Config\Source;
 
-class Allregion implements \Magento\Core\Model\Option\ArrayInterface
+class Allregion implements \Magento\Option\ArrayInterface
 {
     /**
      * @var array
@@ -44,6 +44,10 @@ class Allregion implements \Magento\Core\Model\Option\ArrayInterface
         $this->_regionCollectionFactory = $regionCollectionFactory;
     }
 
+    /**
+     * @param bool $isMultiselect
+     * @return array
+     */
     public function toOptionArray($isMultiselect = false)
     {
         if (!$this->_options) {

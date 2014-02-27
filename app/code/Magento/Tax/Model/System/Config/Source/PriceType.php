@@ -10,8 +10,11 @@
 
 namespace Magento\Tax\Model\System\Config\Source;
 
-class PriceType implements \Magento\Core\Model\Option\ArrayInterface
+class PriceType implements \Magento\Option\ArrayInterface
 {
+    /**
+     * @var array
+     */
     protected $_options;
 
     public function __construct()
@@ -28,6 +31,9 @@ class PriceType implements \Magento\Core\Model\Option\ArrayInterface
         );
     }
 
+    /**
+     * @return array
+     */
     public function toOptionArray()
     {
         return $this->_options;

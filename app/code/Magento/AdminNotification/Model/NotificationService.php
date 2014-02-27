@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\AdminNotification\Model;
 
 /**
  * Notification service model
@@ -15,8 +16,6 @@
  * @package     Magento_AdminNotification
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\AdminNotification\Model;
-
 class NotificationService
 {
     /**
@@ -37,6 +36,7 @@ class NotificationService
      * Mark notification as read
      *
      * @param int $notificationId
+     * @return void
      * @throws \Magento\Core\Exception
      */
     public function markAsRead($notificationId)

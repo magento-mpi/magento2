@@ -7,19 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Cms\Block;
 
 /**
  * Cms page content block
- *
- * @category   Magento
- * @package    Magento_Cms
- * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Cms\Block;
-
-use Magento\View\Element\AbstractBlock;
-
 class Page extends \Magento\View\Element\AbstractBlock implements \Magento\View\Block\IdentityInterface
 {
     /**
@@ -96,7 +88,7 @@ class Page extends \Magento\View\Element\AbstractBlock implements \Magento\View\
     /**
      * Prepare global layout
      *
-     * @return \Magento\Cms\Block\Page
+     * @return $this
      */
     protected function _prepareLayout()
     {

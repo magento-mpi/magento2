@@ -19,16 +19,23 @@ namespace Magento\Catalog\Block\Product;
 
 class Price extends \Magento\View\Element\Template implements \Magento\View\Block\IdentityInterface
 {
+    /**
+     * @var null
+     */
     protected $_priceDisplayType = null;
+
+    /**
+     * @var string
+     */
     protected $_idSuffix = '';
 
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
-    
+
     /**
      * Tax data
      *
@@ -68,7 +75,7 @@ class Price extends \Magento\View\Element\Template implements \Magento\View\Bloc
      * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Tax\Helper\Data $taxData
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Checkout\Helper\Cart $cartHelper
@@ -79,7 +86,7 @@ class Price extends \Magento\View\Element\Template implements \Magento\View\Bloc
         \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Tax\Helper\Data $taxData,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Stdlib\String $string,
         \Magento\Math\Random $mathRandom,
         \Magento\Checkout\Helper\Cart $cartHelper,
@@ -109,17 +116,27 @@ class Price extends \Magento\View\Element\Template implements \Magento\View\Bloc
         return $product;
     }
 
+    /**
+     * @return mixed
+     */
     public function getDisplayMinimalPrice()
     {
         return $this->_getData('display_minimal_price');
     }
 
+    /**
+     * @param string $idSuffix
+     * @return $this
+     */
     public function setIdSuffix($idSuffix)
     {
         $this->_idSuffix = $idSuffix;
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getIdSuffix()
     {
         return $this->_idSuffix;

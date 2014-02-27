@@ -12,7 +12,6 @@ class PayflowExpress extends \Magento\Paypal\Model\Express
 {
     protected $_code = \Magento\Paypal\Model\Config::METHOD_WPP_PE_EXPRESS;
     protected $_formBlockType = 'Magento\Paypal\Block\PayflowExpress\Form';
-    protected $_canCreateBillingAgreement = false;
     protected $_canManageRecurringProfiles = false;
 
     /**
@@ -38,7 +37,7 @@ class PayflowExpress extends \Magento\Paypal\Model\Express
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
+     * @param \Magento\Logger\AdapterFactory $logAdapterFactory
      * @param \Magento\Paypal\Model\Method\ProTypeFactory $proTypeFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\UrlInterface $urlBuilder
@@ -50,7 +49,7 @@ class PayflowExpress extends \Magento\Paypal\Model\Express
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
+        \Magento\Logger\AdapterFactory $logAdapterFactory,
         \Magento\Paypal\Model\Method\ProTypeFactory $proTypeFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\UrlInterface $urlBuilder,

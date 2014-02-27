@@ -5,12 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Model\Menu\Builder;
 
 /**
  * Menu builder command factory
  */
-namespace Magento\Backend\Model\Menu\Builder;
-
 class CommandFactory
 {
     /**

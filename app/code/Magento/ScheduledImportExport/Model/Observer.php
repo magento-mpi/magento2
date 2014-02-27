@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ScheduledImportExport\Model;
+
+use Magento\Filesystem\FilesystemException;
 
 /**
  * ImportExport module observer
@@ -15,10 +18,6 @@
  * @package     Magento_ScheduledImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\ScheduledImportExport\Model;
-
-use Magento\Filesystem\FilesystemException;
-
 class Observer
 {
     /**
@@ -59,19 +58,14 @@ class Observer
     protected $_coreStoreConfig;
 
     /**
-     * @var \Magento\Email\Model\Template\Mailer
+     * @var \Magento\Mail\Template\TransportBuilder
      */
-    protected $_templateMailer;
+    protected $_transportBuilder;
 
     /**
      * @var \Magento\ScheduledImportExport\Model\Scheduled\OperationFactory
      */
     protected $_operationFactory;
-
-    /**
-     * @var \Magento\Email\Model\InfoFactory
-     */
-    protected $_emailInfoFactory;
 
     /**
      * @var \Magento\Core\Model\StoreManagerInterface
@@ -85,23 +79,20 @@ class Observer
 
     /**
      * @param \Magento\ScheduledImportExport\Model\Scheduled\OperationFactory $operationFactory
-     * @param \Magento\Email\Model\InfoFactory $emailInfoFactory
-     * @param \Magento\Email\Model\Template\Mailer $templateMailer
+     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager,
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\Filesystem $filesystem
      */
     public function __construct(
         \Magento\ScheduledImportExport\Model\Scheduled\OperationFactory $operationFactory,
-        \Magento\Email\Model\InfoFactory $emailInfoFactory,
-        \Magento\Email\Model\Template\Mailer $templateMailer,
+        \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\Filesystem $filesystem
     ) {
         $this->_operationFactory = $operationFactory;
-        $this->_emailInfoFactory = $emailInfoFactory;
-        $this->_templateMailer = $templateMailer;
+        $this->_transportBuilder = $transportBuilder;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_storeManager = $storeManager;
         $this->_logDirectory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::LOG_DIR);
@@ -112,7 +103,7 @@ class Observer
      *
      * @param \Magento\Cron\Model\Schedule $schedule
      * @param bool $forceRun
-     * @return bool
+     * @return bool|void
      */
     public function scheduledLogClean($schedule, $forceRun = false)
     {
@@ -167,7 +158,7 @@ class Observer
      *
      * @param string $logPath
      * @param int $level
-     * @return array
+     * @return string[]
      */
     protected function _getDirectoryList($logPath, $level = 1)
     {
@@ -213,7 +204,7 @@ class Observer
      * Send email notification
      *
      * @param array $vars
-     * @return \Magento\ScheduledImportExport\Model\Observer
+     * @return $this
      */
     protected function _sendEmailNotification($vars)
     {
@@ -223,20 +214,20 @@ class Observer
             return $this;
         }
 
-        /** @var \Magento\Email\Model\Info $emailInfo */
-        $emailInfo = $this->_emailInfoFactory->create();
-        $emailInfo->addTo($receiverEmail);
-
-        $this->_templateMailer->addEmailInfo($emailInfo);
-
         // Set all required params and send emails
-        $this->_templateMailer->setSender($this->_coreStoreConfig->getConfig(self::XML_SENDER_EMAIL_PATH, $storeId));
-        $this->_templateMailer->setStoreId($storeId);
-        $this->_templateMailer->setTemplateId(
-            $this->_coreStoreConfig->getConfig(self::XML_TEMPLATE_EMAIL_PATH, $storeId)
-        );
-        $this->_templateMailer->setTemplateParams($vars);
-        $this->_templateMailer->send();
+        /** @var \Magento\Mail\TransportInterface $transport */
+        $transport = $this->_transportBuilder
+            ->setTemplateIdentifier($this->_coreStoreConfig->getConfig(self::XML_TEMPLATE_EMAIL_PATH, $storeId))
+            ->setTemplateOptions(array(
+                'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
+                'store' => $storeId
+            ))
+            ->setTemplateVars($vars)
+            ->setFrom($this->_coreStoreConfig->getConfig(self::XML_SENDER_EMAIL_PATH, $storeId))
+            ->addTo($receiverEmail)
+            ->getTransport();
+        $transport->sendMessage();
+
         return $this;
     }
 }

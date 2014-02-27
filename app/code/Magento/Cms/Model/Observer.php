@@ -8,16 +8,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Cms\Model;
 
 /**
  * CMS Observer model
- *
- * @category   Magento
- * @package    Magento_Cms
- * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Cms\Model;
-
 class Observer
 {
     /**
@@ -25,7 +20,7 @@ class Observer
      *
      * @var \Magento\Cms\Helper\Page
      */
-    protected $_cmsPage = null;
+    protected $_cmsPage;
 
     /**
      * Core store config
@@ -50,7 +45,7 @@ class Observer
      * Modify No Route Forward object
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\Cms\Model\Observer
+     * @return $this
      */
     public function noRoute(\Magento\Event\Observer $observer)
     {
@@ -66,7 +61,7 @@ class Observer
      * Modify no Cookies forward object
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\Cms\Model\Observer
+     * @return $this
      */
     public function noCookies(\Magento\Event\Observer $observer)
     {
@@ -77,8 +72,7 @@ class Observer
 
         if ($pageUrl) {
             $redirect->setRedirectUrl($pageUrl);
-        }
-        else {
+        } else {
             $redirect->setRedirect(true)
                 ->setPath('cms/index/noCookies')
                 ->setArguments(array());

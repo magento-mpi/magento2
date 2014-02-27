@@ -7,17 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Shipping\Model\Carrier;
 
+use Magento\Shipping\Model\Rate\Result;
 
 /**
  * Flat rate shipping model
  *
- * @category   Magento
- * @package    Magento_Shipping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Shipping\Model\Carrier;
-
 class Flatrate
     extends \Magento\Shipping\Model\Carrier\AbstractCarrier
     implements \Magento\Shipping\Model\Carrier\CarrierInterface
@@ -45,7 +43,7 @@ class Flatrate
     /**
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Sales\Model\Quote\Address\RateResult\ErrorFactory $rateErrorFactory
-     * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
+     * @param \Magento\Logger\AdapterFactory $logAdapterFactory
      * @param \Magento\Shipping\Model\Rate\ResultFactory $rateResultFactory
      * @param \Magento\Sales\Model\Quote\Address\RateResult\MethodFactory $rateMethodFactory
      * @param array $data
@@ -53,7 +51,7 @@ class Flatrate
     public function __construct(
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Sales\Model\Quote\Address\RateResult\ErrorFactory $rateErrorFactory,
-        \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
+        \Magento\Logger\AdapterFactory $logAdapterFactory,
         \Magento\Shipping\Model\Rate\ResultFactory $rateResultFactory,
         \Magento\Sales\Model\Quote\Address\RateResult\MethodFactory $rateMethodFactory,
         array $data = array()
@@ -65,7 +63,7 @@ class Flatrate
 
     /**
      * @param \Magento\Sales\Model\Quote\Address\RateRequest $request
-     * @return \Magento\Shipping\Model\Rate\Result
+     * @return Result|bool
      */
     public function collectRates(\Magento\Sales\Model\Quote\Address\RateRequest $request)
     {
@@ -94,7 +92,7 @@ class Flatrate
         }
         $this->setFreeBoxes($freeBoxes);
 
-        /** @var \Magento\Shipping\Model\Rate\Result $result */
+        /** @var Result $result */
         $result = $this->_rateResultFactory->create();
         if ($this->getConfigData('type') == 'O') { // per order
             $shippingPrice = $this->getConfigData('price');
@@ -120,7 +118,6 @@ class Flatrate
                 $shippingPrice = '0.00';
             }
 
-
             $method->setPrice($shippingPrice);
             $method->setCost($shippingPrice);
 
@@ -130,6 +127,9 @@ class Flatrate
         return $result;
     }
 
+    /**
+     * @return array
+     */
     public function getAllowedMethods()
     {
         return array('flatrate'=>$this->getConfigData('name'));

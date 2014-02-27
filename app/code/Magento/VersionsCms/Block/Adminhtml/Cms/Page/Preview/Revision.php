@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Preview;
 
 /**
  * Revision selector
  */
-namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Preview;
-
 class Revision extends \Magento\Backend\Block\Template
 {
     /**

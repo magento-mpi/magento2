@@ -12,6 +12,7 @@ use Magento\Backend\App\Area\FrontNameResolver;
 use Magento\Customer\Service\V1\Dto\CustomerGroup;
 use Magento\Customer\Service\V1\Dto\Filter;
 use Magento\Customer\Service\V1\Dto\SearchCriteria;
+use Magento\Customer\Service\V1\Dto\SearchCriteriaBuilder;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\TestCase\AbstractController;
 
@@ -28,7 +29,7 @@ class EditTest extends AbstractController
     /** @var \Magento\Customer\Service\V1\CustomerGroupService */
     private $customerGroupService;
 
-    /** @var \Magento\Core\Model\Registry */
+    /** @var \Magento\Registry */
     private $registry;
 
     public function setUp()
@@ -42,7 +43,7 @@ class EditTest extends AbstractController
             'Magento\Customer\Service\V1\CustomerGroupService'
         );
 
-        $this->registry = Bootstrap::getObjectManager()->get('Magento\Core\Model\Registry');
+        $this->registry = Bootstrap::getObjectManager()->get('Magento\Registry');
     }
 
     public function tearDown()
@@ -68,13 +69,12 @@ class EditTest extends AbstractController
      */
     public function testDeleteButtonExistInCustomGroup()
     {
-        $searchCriteria = new SearchCriteria([
-            'filters' => [new Filter([
-                'field'             => 'customer_group_code',
+        $searchCriteria = (new SearchCriteriaBuilder())
+            ->addFilter(new Filter([
+                'field'             => 'code',
                 'value'             => 'custom_group',
-                'condition_type'    => 'or',
-            ])]
-        ]);
+            ]))
+            ->create();
         /** @var CustomerGroup $customerGroup */
         $customerGroup = $this->customerGroupService->searchGroups($searchCriteria)->getItems()[0];
         $this->getRequest()->setParam('id', $customerGroup->getId());

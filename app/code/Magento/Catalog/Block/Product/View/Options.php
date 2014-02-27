@@ -18,8 +18,13 @@
  */
 namespace Magento\Catalog\Block\Product\View;
 
+use Magento\Catalog\Model\Product;
+
 class Options extends \Magento\View\Element\Template
 {
+    /**
+     * @var Product
+     */
     protected $_product;
 
     /**
@@ -32,7 +37,7 @@ class Options extends \Magento\View\Element\Template
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_registry = null;
 
@@ -46,7 +51,7 @@ class Options extends \Magento\View\Element\Template
     /**
      * Catalog product
      *
-     * @var \Magento\Catalog\Model\Product
+     * @var Product
      */
     protected $_catalogProduct;
 
@@ -64,10 +69,9 @@ class Options extends \Magento\View\Element\Template
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Json\EncoderInterface $jsonEncoder
-     * @param \Magento\Catalog\Model\Product $catalogProduct
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Model\Product\Option $option
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Stdlib\ArrayUtils $arrayUtils
      * @param array $data
      */
@@ -75,16 +79,14 @@ class Options extends \Magento\View\Element\Template
         \Magento\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Json\EncoderInterface $jsonEncoder,
-        \Magento\Catalog\Model\Product $catalogProduct,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Model\Product\Option $option,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Stdlib\ArrayUtils $arrayUtils,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
         $this->_jsonEncoder = $jsonEncoder;
-        $this->_catalogProduct = $catalogProduct;
         $this->_registry = $registry;
         $this->_option = $option;
         $this->_taxData = $taxData;
@@ -95,7 +97,8 @@ class Options extends \Magento\View\Element\Template
     /**
      * Retrieve product object
      *
-     * @return \Magento\Catalog\Model\Product
+     * @return Product
+     * @throws \LogicExceptions
      */
     public function getProduct()
     {
@@ -103,7 +106,7 @@ class Options extends \Magento\View\Element\Template
             if ($this->_registry->registry('current_product')) {
                 $this->_product = $this->_registry->registry('current_product');
             } else {
-                $this->_product = $this->_catalogProduct;
+                throw new \LogicException('Product is not defined');
             }
         }
         return $this->_product;
@@ -112,15 +115,19 @@ class Options extends \Magento\View\Element\Template
     /**
      * Set product object
      *
-     * @param \Magento\Catalog\Model\Product $product
+     * @param Product $product
      * @return \Magento\Catalog\Block\Product\View\Options
      */
-    public function setProduct(\Magento\Catalog\Model\Product $product = null)
+    public function setProduct(Product $product = null)
     {
         $this->_product = $product;
         return $this;
     }
 
+    /**
+     * @param string $type
+     * @return string
+     */
     public function getGroupOfOption($type)
     {
         $group = $this->_option->getGroupByType($type);
@@ -138,6 +145,9 @@ class Options extends \Magento\View\Element\Template
         return $this->getProduct()->getOptions();
     }
 
+    /**
+     * @return bool
+     */
     public function hasOptions()
     {
         if ($this->getOptions()) {
@@ -212,10 +222,10 @@ class Options extends \Magento\View\Element\Template
     /**
      * Decorate a plain array of arrays or objects
      *
-     * @param mixed $array
+     * @param array $array
      * @param string $prefix
      * @param bool $forceSetAll
-     * @return mixed
+     * @return array
      */
     public function decorateArray($array, $prefix = 'decorated_', $forceSetAll = false)
     {

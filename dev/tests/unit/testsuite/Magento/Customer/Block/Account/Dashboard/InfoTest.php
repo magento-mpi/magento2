@@ -195,6 +195,33 @@ class InfoTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testGetNameWithNoSuchEntityException()
+    {
+        /**
+         * Called three times, once for each attribute (i.e. prefix, middlename, and suffix)
+         */
+        $this->_metadataService
+            ->expects($this->any())
+            ->method('getCustomerAttributeMetadata')
+            ->will($this->throwException(new NoSuchEntityException('field', 'value')));
+
+        $this->customerCurrentService->expects($this->once())
+            ->method('getCustomer')
+            ->will($this->returnValue($this->_customer));
+
+        /**
+         * The AttributeMetadata::{getPrefix() | getMiddlename() | getSuffix()} methods are called twice,
+         * while getFirstname() and getLastname() are only called once. Hence the use of any() vs. once().
+         */
+        $this->_customer->expects($this->any())->method('getPrefix')->will($this->returnValue('prefix'));
+        $this->_customer->expects($this->once())->method('getFirstname')->will($this->returnValue('firstname'));
+        $this->_customer->expects($this->any())->method('getMiddlename')->will($this->returnValue('middlename'));
+        $this->_customer->expects($this->once())->method('getLastname')->will($this->returnValue('lastname'));
+        $this->_customer->expects($this->any())->method('getSuffix')->will($this->returnValue('suffix'));
+
+        $this->assertEquals('firstname lastname', $this->_block->getName());
+    }
+
     public function testGetChangePasswordUrl()
     {
         $this->assertEquals(self::CHANGE_PASSWORD_URL, $this->_block->getChangePasswordUrl());

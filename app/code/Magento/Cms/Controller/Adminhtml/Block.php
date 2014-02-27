@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Cms\Controller\Adminhtml;
 
 /**
  * Cms manage blocks controller
@@ -16,24 +16,22 @@
  * @package    Magento_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Cms\Controller\Adminhtml;
-
 class Block extends \Magento\Backend\App\Action
 {
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
@@ -42,7 +40,7 @@ class Block extends \Magento\Backend\App\Action
     /**
      * Init actions
      *
-     * @return \Magento\Cms\Controller\Adminhtml\Block
+     * @return $this
      */
     protected function _initAction()
     {
@@ -56,6 +54,8 @@ class Block extends \Magento\Backend\App\Action
 
     /**
      * Index action
+     *
+     * @return void
      */
     public function indexAction()
     {
@@ -67,6 +67,8 @@ class Block extends \Magento\Backend\App\Action
 
     /**
      * Create new CMS block
+     *
+     * @return void
      */
     public function newAction()
     {
@@ -76,6 +78,8 @@ class Block extends \Magento\Backend\App\Action
 
     /**
      * Edit CMS block
+     *
+     * @return void
      */
     public function editAction()
     {
@@ -114,6 +118,8 @@ class Block extends \Magento\Backend\App\Action
 
     /**
      * Save action
+     *
+     * @return void
      */
     public function saveAction()
     {
@@ -165,6 +171,8 @@ class Block extends \Magento\Backend\App\Action
 
     /**
      * Delete action
+     *
+     * @return void
      */
     public function deleteAction()
     {

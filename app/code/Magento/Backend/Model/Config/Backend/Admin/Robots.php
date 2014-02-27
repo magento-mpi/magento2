@@ -26,8 +26,8 @@ class Robots extends \Magento\Core\Model\Config\Value
     protected $_file;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\ConfigInterface $config
      * @param \Magento\App\Filesystem $filesystem
@@ -36,8 +36,8 @@ class Robots extends \Magento\Core\Model\Config\Value
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\ConfigInterface $config,
         \Magento\App\Filesystem $filesystem,
@@ -74,7 +74,7 @@ class Robots extends \Magento\Core\Model\Config\Value
     /**
      * Load default content from robots.txt if customer does not define own
      *
-     * @return \Magento\Backend\Model\Config\Backend\Admin\Robots
+     * @return $this
      */
     protected function _afterLoad()
     {
@@ -88,7 +88,7 @@ class Robots extends \Magento\Core\Model\Config\Value
     /**
      * Check and process robots file
      *
-     * @return \Magento\Backend\Model\Config\Backend\Admin\Robots
+     * @return $this
      */
     protected function _afterSave()
     {

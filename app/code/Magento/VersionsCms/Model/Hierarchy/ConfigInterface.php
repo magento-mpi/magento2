@@ -22,7 +22,7 @@ interface ConfigInterface
      * Return Context Menu layout by its name
      *
      * @param string $layoutName
-     * @return \Magento\Object|boolean
+     * @return \Magento\Object|bool
      */
     public function getContextMenuLayout($layoutName);
 }

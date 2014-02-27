@@ -41,7 +41,7 @@ class Data extends \Magento\Wishlist\Helper\Data
     /**
      * @param \Magento\App\Helper\Context                                 $context
      * @param \Magento\Core\Helper\Data                                   $coreData
-     * @param \Magento\Core\Model\Registry                                $coreRegistry
+     * @param \Magento\Registry                                $coreRegistry
      * @param \Magento\Core\Model\Store\Config                            $coreStoreConfig
      * @param \Magento\Customer\Model\Session                             $customerSession
      * @param \Magento\Wishlist\Model\WishlistFactory                     $wishlistFactory
@@ -53,7 +53,7 @@ class Data extends \Magento\Wishlist\Helper\Data
     public function __construct(
         \Magento\App\Helper\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,

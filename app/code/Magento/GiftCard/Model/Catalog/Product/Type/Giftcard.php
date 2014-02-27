@@ -22,7 +22,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
     protected $_canUseQtyDecimals = false;
 
     /**
-     * Product is configurable
+     * Product is possible to configure
      *
      * @var bool
      */
@@ -65,14 +65,14 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Helper\File\Storage\Database $fileStorageDb
      * @param \Magento\App\Filesystem $filesystem
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\Logger $logger
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param array $data
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -84,7 +84,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Helper\File\Storage\Database $fileStorageDb,
         \Magento\App\Filesystem $filesystem,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\Logger $logger,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Model\StoreManagerInterface $storeManager,

@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ImportExport\Model\Source\Export;
 
 /**
  * Source model of export file formats
@@ -15,9 +16,7 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\ImportExport\Model\Source\Export;
-
-class Format implements \Magento\Core\Model\Option\ArrayInterface
+class Format implements \Magento\Option\ArrayInterface
 {
     /**
      * @var \Magento\ImportExport\Model\Export\ConfigInterface
@@ -34,9 +33,7 @@ class Format implements \Magento\Core\Model\Option\ArrayInterface
     }
 
     /**
-     * Prepare and return array of import entities ids and their names
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function toOptionArray()
     {

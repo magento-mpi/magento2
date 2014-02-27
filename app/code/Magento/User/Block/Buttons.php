@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\User\Block;
 
 class Buttons extends \Magento\Backend\Block\Template
@@ -16,24 +15,27 @@ class Buttons extends \Magento\Backend\Block\Template
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
         parent::__construct($context, $data);
     }
 
+    /**
+     * @return $this
+     */
     protected function _prepareLayout()
     {
         $this->addChild('backButton', 'Magento\Backend\Block\Widget\Button', array(
@@ -69,21 +71,33 @@ class Buttons extends \Magento\Backend\Block\Template
         return parent::_prepareLayout();
     }
 
+    /**
+     * @return string
+     */
     public function getBackButtonHtml()
     {
         return $this->getChildHtml('backButton');
     }
 
+    /**
+     * @return string
+     */
     public function getResetButtonHtml()
     {
         return $this->getChildHtml('resetButton');
     }
 
+    /**
+     * @return string
+     */
     public function getSaveButtonHtml()
     {
         return $this->getChildHtml('saveButton');
     }
 
+    /**
+     * @return string|void
+     */
     public function getDeleteButtonHtml()
     {
         if (intval($this->getRequest()->getParam('rid')) == 0 ) {
@@ -92,6 +106,9 @@ class Buttons extends \Magento\Backend\Block\Template
         return $this->getChildHtml('deleteButton');
     }
 
+    /**
+     * @return mixed
+     */
     public function getUser()
     {
         return $this->_coreRegistry->registry('user_data');

@@ -7,13 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\AdminGws\Block\Adminhtml\Permissions\Grid\Renderer;
 
 /**
  * Website permissions column grid
  *
  */
-namespace Magento\AdminGws\Block\Adminhtml\Permissions\Grid\Renderer;
-
 class Gws
     extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {

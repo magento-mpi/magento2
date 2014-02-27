@@ -17,6 +17,8 @@
  */
 namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion;
 
+use \Magento\Catalog\Model\Product\Attribute\Source\Status as ProductStatus;
+
 class Rviewed
     extends \Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\AbstractAccordion
 {
@@ -54,21 +56,21 @@ class Rviewed
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Data\CollectionFactory $collectionFactory
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\CatalogInventory\Model\Stock\Status $catalogStockStatus
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Sales\Helper\Admin $adminhtmlSales
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Reports\Model\EventFactory $eventFactory
      * @param array $data
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Data\CollectionFactory $collectionFactory,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\CatalogInventory\Model\Stock\Status $catalogStockStatus,
         \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\Sales\Helper\Admin $adminhtmlSales,
@@ -123,7 +125,7 @@ class Rviewed
                     ->addStoreFilter($this->_getStore()->getId())
                     ->addAttributeToSelect($attributes)
                     ->addIdFilter($productIds)
-                    ->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Status::STATUS_ENABLED);
+                    ->addAttributeToFilter('status', ProductStatus::STATUS_ENABLED);
 
                 $this->_catalogStockStatus->addIsInStockFilterToCollection($productCollection);
                 $productCollection = $this->_adminhtmlSales

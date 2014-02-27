@@ -15,8 +15,8 @@ class Baseurl extends \Magento\Core\Model\Config\Value
     protected $_mergeService;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\ConfigInterface $config
      * @param \Magento\View\Asset\MergeService $mergeService
@@ -25,8 +25,8 @@ class Baseurl extends \Magento\Core\Model\Config\Value
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\ConfigInterface $config,
         \Magento\View\Asset\MergeService $mergeService,
@@ -49,7 +49,7 @@ class Baseurl extends \Magento\Core\Model\Config\Value
     /**
      * Validate a base URL field value
      *
-     * @return \Magento\Backend\Model\Config\Backend\Baseurl
+     * @return void
      * @throws \Magento\Core\Exception
      */
     protected function _beforeSave()
@@ -129,6 +129,7 @@ class Baseurl extends \Magento\Core\Model\Config\Value
      *
      * @param array $values
      * @param string $value
+     * @return void
      * @throws \Magento\Core\Exception
      */
     private function _assertValuesOrUrl(array $values, $value)
@@ -144,6 +145,7 @@ class Baseurl extends \Magento\Core\Model\Config\Value
      *
      * @param array $values
      * @param string $value
+     * @return void
      * @throws \Magento\Core\Exception
      */
     private function _assertStartsWithValuesOrUrl(array $values, $value)
@@ -160,6 +162,7 @@ class Baseurl extends \Magento\Core\Model\Config\Value
      *
      * @param array $values
      * @param string $value
+     * @return void
      * @throws \Magento\Core\Exception
      */
     private function _assertStartsWithValuesOrUrlOrEmpty(array $values, $value)
@@ -180,6 +183,7 @@ class Baseurl extends \Magento\Core\Model\Config\Value
      * Default validation of a URL
      *
      * @param string $value
+     * @return void
      * @throws \Magento\Core\Exception
      */
     private function _validateFullyQualifiedUrl($value)
@@ -205,6 +209,8 @@ class Baseurl extends \Magento\Core\Model\Config\Value
 
     /**
      * Clean compiled JS/CSS when updating url configuration settings
+     *
+     * @return void
      */
     protected function _afterSave()
     {

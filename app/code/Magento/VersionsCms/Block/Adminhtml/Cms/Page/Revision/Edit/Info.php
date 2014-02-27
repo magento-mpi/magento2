@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit;
 
 /**
  * Cms page edit form revisions tab
  */
-namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit;
-
 class Info extends \Magento\Backend\Block\Widget\Container
 {
     /**
@@ -25,7 +24,7 @@ class Info extends \Magento\Backend\Block\Widget\Container
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
@@ -41,14 +40,14 @@ class Info extends \Magento\Backend\Block\Widget\Container
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param \Magento\User\Model\UserFactory $userFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\User\Model\UserFactory $userFactory,
         array $data = array()
@@ -59,6 +58,9 @@ class Info extends \Magento\Backend\Block\Widget\Container
         parent::__construct($context, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();

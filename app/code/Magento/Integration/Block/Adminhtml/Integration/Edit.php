@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Integration\Block\Adminhtml\Integration;
 
 use Magento\Integration\Block\Adminhtml\Integration\Edit\Tab\Info;
@@ -18,7 +17,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_registry = null;
 
@@ -29,13 +28,13 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
      * Initialize dependencies.
      *
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Integration\Helper\Data $integrationHelper
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Integration\Helper\Data $integrationHelper,
         array $data = array()
     ) {
@@ -47,6 +46,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     /**
      * Initialize Integration edit page
      *
+     * @return void
      */
     protected function _construct()
     {

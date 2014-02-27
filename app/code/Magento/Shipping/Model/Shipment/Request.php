@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Shipping\Model\Shipment;
 
 /**
  * @method \Magento\Shipping\Model\Shipment\Request setOrderShipment(\Magento\Sales\Model\Order\Shipment $orderShipment)
@@ -64,12 +65,8 @@
  * @method \Magento\Shipping\Model\Shipment\Request setPackageWeight(float $value)
  * @method float getPackageWeight()
  *
- * @category    Magento
- * @package     Magento_Shipping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Shipping\Model\Shipment;
-
 class Request extends \Magento\Object
 {
 }

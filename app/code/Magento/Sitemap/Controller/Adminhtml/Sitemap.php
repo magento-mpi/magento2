@@ -7,31 +7,29 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
-/**
- * XML sitemap controller
- */
 namespace Magento\Sitemap\Controller\Adminhtml;
 
 use Magento\Backend\App\Action;
 
+/**
+ * XML sitemap controller
+ */
 class Sitemap extends  \Magento\Backend\App\Action
 {
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
@@ -40,7 +38,7 @@ class Sitemap extends  \Magento\Backend\App\Action
     /**
      * Init actions
      *
-     * @return \Magento\Sitemap\Controller\Adminhtml\Sitemap
+     * @return $this
      */
     protected function _initAction()
     {
@@ -59,6 +57,8 @@ class Sitemap extends  \Magento\Backend\App\Action
 
     /**
      * Index action
+     *
+     * @return void
      */
     public function indexAction()
     {
@@ -69,6 +69,8 @@ class Sitemap extends  \Magento\Backend\App\Action
 
     /**
      * Create new sitemap
+     *
+     * @return void
      */
     public function newAction()
     {
@@ -78,6 +80,8 @@ class Sitemap extends  \Magento\Backend\App\Action
 
     /**
      * Edit sitemap
+     *
+     * @return void
      */
     public function editAction()
     {
@@ -120,6 +124,8 @@ class Sitemap extends  \Magento\Backend\App\Action
 
     /**
      * Save action
+     *
+     * @return void
      */
     public function saveAction()
     {
@@ -203,11 +209,12 @@ class Sitemap extends  \Magento\Backend\App\Action
             }
         }
         $this->_redirect('adminhtml/*/');
-
     }
 
     /**
      * Delete action
+     *
+     * @return void
      */
     public function deleteAction()
     {
@@ -254,6 +261,8 @@ class Sitemap extends  \Magento\Backend\App\Action
 
     /**
      * Generate sitemap
+     *
+     * @return void
      */
     public function generateAction()
     {
@@ -287,7 +296,7 @@ class Sitemap extends  \Magento\Backend\App\Action
     /**
      * Check the permission to run it
      *
-     * @return boolean
+     * @return bool
      */
     protected function _isAllowed()
     {

@@ -7,8 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Block\Product\ProductList;
+
+use Magento\Catalog\Model\Resource\Product\Collection;
+use Magento\View\Element\AbstractBlock;
 
 /**
  * Catalog product related items block
@@ -24,6 +26,9 @@ class Related extends \Magento\Catalog\Block\Product\AbstractProduct implements 
      */
     protected $_mapRenderer = 'msrp_noform';
 
+    /**
+     * @var Collection
+     */
     protected $_itemCollection;
 
     /**
@@ -50,7 +55,7 @@ class Related extends \Magento\Catalog\Block\Product\AbstractProduct implements 
     /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Catalog\Model\Config $catalogConfig
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Math\Random $mathRandom
@@ -64,13 +69,13 @@ class Related extends \Magento\Catalog\Block\Product\AbstractProduct implements 
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param array $data
      * @param array $priceBlockTypes
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Catalog\Model\Config $catalogConfig,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Math\Random $mathRandom,
@@ -106,6 +111,9 @@ class Related extends \Magento\Catalog\Block\Product\AbstractProduct implements 
         $this->_isScopePrivate = true;
     }
 
+    /**
+     * @return $this
+     */
     protected function _prepareData()
     {
         $product = $this->_coreRegistry->registry('product');
@@ -136,12 +144,18 @@ class Related extends \Magento\Catalog\Block\Product\AbstractProduct implements 
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     protected function _beforeToHtml()
     {
         $this->_prepareData();
         return parent::_beforeToHtml();
     }
 
+    /**
+     * @return Collection
+     */
     public function getItems()
     {
         return $this->_itemCollection;
