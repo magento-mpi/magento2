@@ -32,7 +32,8 @@ class CustomerBuilder extends \Magento\Service\Data\EAV\AbstractObjectBuilder
      */
     public function getCustomAttributesCodes()
     {
-        $attributeCodes = [];
+        /** Even though disable_auto_group_change is system attribute, it should be accessible to service clients */
+        $attributeCodes = ['disable_auto_group_change'];
         foreach ($this->_metadataService->getCustomCustomerAttributeMetadata() as $attribute) {
             $attributeCodes[] = $attribute->getAttributeCode();
         }
