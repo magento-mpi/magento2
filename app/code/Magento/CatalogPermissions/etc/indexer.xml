@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <indexer id="catalogpermissions_category" view_id="catalogpermissions_category" class="Magento\CatalogPermissions\Model\Indexer\Category">
+        <title translate="true">Catalog Category Permissions</title>
+        <description translate="true">Indexed permissions for categories</description>
+    </indexer>
+</config>

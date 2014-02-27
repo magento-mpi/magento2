@@ -9,13 +9,32 @@ namespace Magento\CatalogPermissions\Model\Indexer;
 
 class Category implements \Magento\Indexer\Model\ActionInterface, \Magento\Mview\ActionInterface
 {
+    /**
+     * Indexer ID in configuration
+     */
+    const INDEXER_ID = 'catalogpermissions_category';
+
+    /**
+     * @var Category\Action\FullFactory
+     */
+    protected $fullActionFactory;
+
+    /**
+     * @param Category\Action\FullFactory $fullActionFactory
+     */
+    public function __construct(
+        Category\Action\FullFactory $fullActionFactory
+    ) {
+        $this->fullActionFactory = $fullActionFactory;
+    }
 
     /**
      * Execute full indexation
      */
     public function executeFull()
     {
-        // TODO: Implement executeFull() method.
+        $this->fullActionFactory->create()
+            ->execute();
     }
 
     /**

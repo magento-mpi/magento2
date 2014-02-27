@@ -8,9 +8,10 @@
  */
 -->
 <config>
-    <module name="Magento_CatalogPermissions" version="1.11.0.0" active="false">
+    <module name="Magento_CatalogPermissions" version="1.11.0.1" active="false">
         <sequence>
             <module name="Magento_Catalog"/>
+            <module name="Magento_Indexer"/>
             <module name="Magento_CatalogSearch"/>
             <module name="Magento_Sales"/>
             <module name="Magento_Checkout"/>
@@ -21,7 +22,7 @@
             <module name="Magento_Catalog"/>
             <module name="Magento_Core"/>
             <module name="Magento_Customer"/>
-            <module name="Magento_Index"/>
+            <module name="Magento_Indexer"/>
             <module name="Magento_Eav"/>
             <module name="Magento_Sales"/>
             <module name="Magento_Theme"/>
