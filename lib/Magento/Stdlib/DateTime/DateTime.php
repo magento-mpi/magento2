@@ -12,9 +12,9 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Core\Model;
+namespace Magento\Stdlib\DateTime;
 
-class Date
+class DateTime
 {
     /**
      * Current config offset in seconds

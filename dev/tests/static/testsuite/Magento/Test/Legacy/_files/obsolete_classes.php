@@ -2143,4 +2143,21 @@ return array(
     ['Magento\Core\Helper\String', 'Magento\Code\NameBuilder'],
     ['Magento\Core\Model\Context', 'Magento\Model\Context'],
     ['Magento\Core\Model\Registry', 'Magento\Registry'],
+    [
+        'Magento\Core\Model\LocaleInterface',
+        'Magento\Locale\ResolverInterface, Magento\Locale\CurrencyInterface,'
+        . 'Magento\Locale\FormatInterface, Magento\Stdlib\DateTime\TimezoneInterface'
+    ],
+    [
+        'Magento\Core\Model\Locale',
+        'Magento\Locale\Resolver, Magento\Locale\Currency, Magento\Locale\Format, '
+        . 'Magento\Stdlib\DateTime\Timezone, Magento\Locale\Lists'
+    ],
+    ['Magento\Core\Model\Locale\Hierarchy\Config\Converter', 'Magento\Locale\Hierarchy\Config\Converter'],
+    ['Magento\Core\Model\Locale\Hierarchy\Config\FileResolver', 'Magento\Locale\Hierarchy\Config\FileResolver'],
+    ['Magento\Core\Model\Locale\Hierarchy\Config\Reader', 'Magento\Locale\Hierarchy\Config\Reader'],
+    ['Magento\Core\Model\Locale\Hierarchy\Config\SchemaLocator', 'Magento\Locale\Hierarchy\Config\SchemaLocator'],
+    ['Magento\Core\Model\Locale\Config', 'Magento\Locale\Config'],
+    ['Magento\Core\Model\Locale\Validator', 'Magento\Locale\Validator'],
+    ['Magento\Stdlib\DateTime\DateTime', 'Magento\Stdlib\DateTime\DateTime'],
 );

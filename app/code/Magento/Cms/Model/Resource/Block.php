@@ -19,7 +19,7 @@ namespace Magento\Cms\Model\Resource;
 class Block extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
-     * @var \Magento\Core\Model\Date
+     * @var \Magento\Stdlib\DateTime\DateTime
      */
     protected $_date;
 
@@ -34,12 +34,12 @@ class Block extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Construct
      *
      * @param \Magento\App\Resource $resource
-     * @param \Magento\Core\Model\Date $date
+     * @param \Magento\Stdlib\DateTime\DateTime $date
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\App\Resource $resource,
-        \Magento\Core\Model\Date $date,
+        \Magento\Stdlib\DateTime\DateTime $date,
         \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         parent::__construct($resource);

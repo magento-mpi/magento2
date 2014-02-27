@@ -9,12 +9,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\Core\Model\Locale;
+namespace Magento\Locale;
 
 class ValidatorTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\Locale\Validator
+     * @var \Magento\Locale\Validator
      */
     protected $_validatorModel;
 
@@ -25,7 +25,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
             ->method('getAllowedLocales')
             ->will($this->returnValue(array('en_US', 'de_DE', 'es_ES')));
 
-        $this->_validatorModel = new \Magento\Core\Model\Locale\Validator($localeConfigMock);
+        $this->_validatorModel = new \Magento\Locale\Validator($localeConfigMock);
     }
 
     /**
@@ -49,7 +49,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
      * @dataProvider testIsValidDataProvider
      * @param string $locale
      * @param boolean $valid
-     * @covers \Magento\Core\Model\Locale\Validator::isValid
+     * @covers \Magento\Locale\Validator::isValid
      */
     public function testIsValid($locale, $valid)
     {

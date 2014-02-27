@@ -15,7 +15,7 @@
  * @package    Magento_Core
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Core\Model\Locale;
+namespace Magento\Locale;
 
 class Validator
 {

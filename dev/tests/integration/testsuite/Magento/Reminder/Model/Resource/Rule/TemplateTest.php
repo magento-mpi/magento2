@@ -63,7 +63,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
             ))->save();
 
         $dateModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\Date');
+            ->create('Magento\Stdlib\DateTime\DateTime');
         $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Reminder\Model\Resource\Rule\Collection');
         $collection->addDateFilter($dateModel->date());

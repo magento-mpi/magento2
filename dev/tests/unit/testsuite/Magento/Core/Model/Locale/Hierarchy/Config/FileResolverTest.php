@@ -5,12 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Locale\Hierarchy\Config;
+namespace Magento\Locale\Hierarchy\Config;
 
 class FileResolverTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\Locale\Hierarchy\Config\FileResolver
+     * @var \Magento\Locale\Hierarchy\Config\FileResolver
      */
     protected $_model;
 
@@ -43,14 +43,14 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
             ->with('locale')
             ->will($this->returnValue(true));
         $this->iteratorFactory = $this->getMock('Magento\Config\FileIteratorFactory', array(), array(), '', false);
-        $this->_model = new \Magento\Core\Model\Locale\Hierarchy\Config\FileResolver(
+        $this->_model = new \Magento\Locale\Hierarchy\Config\FileResolver(
             $filesystem,
             $this->iteratorFactory
         );
     }
 
     /**
-     * @covers \Magento\Core\Model\Locale\Hierarchy\Config\FileResolver::get
+     * @covers \Magento\Locale\Hierarchy\Config\FileResolver::get
      */
     public function testGet()
     {

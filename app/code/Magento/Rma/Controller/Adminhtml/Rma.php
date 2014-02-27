@@ -263,8 +263,8 @@ class Rma extends \Magento\Backend\App\Action
     protected function _prepareNewRmaInstanceData(array $saveRequest)
     {
         $order = $this->_coreRegistry->registry('current_order');
-        /** @var $dateModel \Magento\Core\Model\Date */
-        $dateModel = $this->_objectManager->get('Magento\Core\Model\Date');
+        /** @var $dateModel \Magento\Stdlib\DateTime\DateTime */
+        $dateModel = $this->_objectManager->get('Magento\Stdlib\DateTime\DateTime');
         $rmaData = array(
             'status' => \Magento\Rma\Model\Rma\Source\Status::STATE_PENDING,
             'date_requested' => $dateModel->gmtDate(),
@@ -290,8 +290,8 @@ class Rma extends \Magento\Backend\App\Action
     {
         if (!empty($saveRequest['comment']['comment'])) {
             $visible = isset($saveRequest['comment']['is_visible_on_front']);
-            /** @var $dateModel \Magento\Core\Model\Date */
-            $dateModel = $this->_objectManager->get('Magento\Core\Model\Date');
+            /** @var $dateModel \Magento\Stdlib\DateTime\DateTime */
+            $dateModel = $this->_objectManager->get('Magento\Stdlib\DateTime\DateTime');
             /** @var $statusHistory \Magento\Rma\Model\Rma\Status\History */
             $statusHistory = $this->_objectManager->create('Magento\Rma\Model\Rma\Status\History');
             $statusHistory->setRmaEntityId($rma->getId())
@@ -509,8 +509,8 @@ class Rma extends \Magento\Backend\App\Action
             if (!$comment) {
                 throw new \Magento\Core\Exception(__('Please enter a valid message.'));
             }
-            /** @var $dateModel \Magento\Core\Model\Date */
-            $dateModel = $this->_objectManager->get('Magento\Core\Model\Date');
+            /** @var $dateModel \Magento\Stdlib\DateTime\DateTime */
+            $dateModel = $this->_objectManager->get('Magento\Stdlib\DateTime\DateTime');
             /** @var $history \Magento\Rma\Model\Rma\Status\History */
             $history = $this->_objectManager->create('Magento\Rma\Model\Rma\Status\History');
             $history->setRmaEntityId((int)$rma->getId())
@@ -628,8 +628,8 @@ class Rma extends \Magento\Backend\App\Action
             /** @var $rmaModel \Magento\Rma\Model\Rma */
             $rmaModel = $this->_objectManager->create('Magento\Rma\Model\Rma')->load($rmaId);
             if ($rmaModel) {
-                /** @var $dateModel \Magento\Core\Model\Date */
-                $dateModel = $this->_objectManager->get('Magento\Core\Model\Date');
+                /** @var $dateModel \Magento\Stdlib\DateTime\DateTime */
+                $dateModel = $this->_objectManager->get('Magento\Stdlib\DateTime\DateTime');
                 /** @var $pdfModel \Magento\Rma\Model\Pdf\Rma */
                 $pdfModel = $this->_objectManager->create('Magento\Rma\Model\Pdf\Rma');
                 $pdf = $pdfModel->getPdf(array($rmaModel));
@@ -1312,8 +1312,8 @@ class Rma extends \Magento\Backend\App\Action
             );
             $orderPdf->setPackageShippingBlock($block);
             $pdf = $orderPdf->getPdf($shipment);
-            /** @var $dateModel \Magento\Core\Model\Date */
-            $dateModel = $this->_objectManager->get('Magento\Core\Model\Date');
+            /** @var $dateModel \Magento\Stdlib\DateTime\DateTime */
+            $dateModel = $this->_objectManager->get('Magento\Stdlib\DateTime\DateTime');
             return $this->_fileFactory->create(
                 'packingslip' . $dateModel->date('Y-m-d_H-i-s') . '.pdf',
                 $pdf->render(),

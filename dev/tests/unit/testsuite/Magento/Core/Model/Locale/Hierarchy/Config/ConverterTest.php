@@ -9,12 +9,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\Core\Model\Locale\Hierarchy\Config;
+namespace Magento\Locale\Hierarchy\Config;
 
 class ConverterTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\Locale\Hierarchy\Config\Converter
+     * @var \Magento\Locale\Hierarchy\Config\Converter
      */
     protected $_model;
 
@@ -25,7 +25,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = new \Magento\Core\Model\Locale\Hierarchy\Config\Converter();
+        $this->_model = new \Magento\Locale\Hierarchy\Config\Converter();
     }
 
     /**

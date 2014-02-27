@@ -137,7 +137,7 @@ class User extends \Magento\Backend\App\AbstractAction
 
         $currentUser = $this->_objectManager->get('Magento\Backend\Model\Auth\Session')->getUser();
         if ($userId == $currentUser->getId()
-            && $this->_objectManager->get('Magento\Core\Model\Locale\Validator')->isValid($data['interface_locale'])
+            && $this->_objectManager->get('Magento\Locale\Validator')->isValid($data['interface_locale'])
         ) {
             $this->_objectManager->get('Magento\Backend\Model\Locale\Manager')
                 ->switchBackendInterfaceLocale($data['interface_locale']);

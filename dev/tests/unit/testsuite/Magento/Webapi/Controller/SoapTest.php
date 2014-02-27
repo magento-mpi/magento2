@@ -68,7 +68,7 @@ class SoapTest extends \PHPUnit_Framework_TestCase
         $this->_appStateMock =  $this->getMockBuilder('Magento\App\State')
             ->disableOriginalConstructor()
             ->getMock();
-        $localeMock =  $this->getMockBuilder('Magento\Core\Model\Locale')
+        $localeMock =  $this->getMockBuilder('Magento\Locale')
             ->disableOriginalConstructor()
             ->setMethods(array('getLanguage'))
             ->getMock();

@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Locale\Hierarchy\Config;
+namespace Magento\Locale\Hierarchy\Config;
 
 class Reader extends \Magento\Config\Reader\Filesystem
 {
@@ -29,9 +29,9 @@ class Reader extends \Magento\Config\Reader\Filesystem
      * @param string $defaultScope
      */
     public function __construct(
-        \Magento\Core\Model\Locale\Hierarchy\Config\FileResolver $fileResolver,
-        \Magento\Core\Model\Locale\Hierarchy\Config\Converter $converter,
-        \Magento\Core\Model\Locale\Hierarchy\Config\SchemaLocator $schemaLocator,
+        \Magento\Locale\Hierarchy\Config\FileResolver $fileResolver,
+        \Magento\Locale\Hierarchy\Config\Converter $converter,
+        \Magento\Locale\Hierarchy\Config\SchemaLocator $schemaLocator,
         \Magento\Config\ValidationStateInterface $validationState,
         $fileName = 'config.xml',
         $idAttributes = array(),

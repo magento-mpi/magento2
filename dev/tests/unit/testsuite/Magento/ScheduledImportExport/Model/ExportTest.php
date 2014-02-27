@@ -40,7 +40,7 @@ class ExportTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $dateModelMock = $this->getMock('Magento\Core\Model\Date', array('date'), array(), '', false);
+        $dateModelMock = $this->getMock('Magento\Stdlib\DateTime\DateTime', array('date'), array(), '', false);
         $dateModelMock->expects($this->any())
             ->method('date')
             ->will($this->returnCallback(array($this, 'getDateCallback')));
@@ -71,7 +71,7 @@ class ExportTest extends \PHPUnit_Framework_TestCase
     public function testGetDateModel()
     {
         $this->assertInstanceOf(
-            'Magento\Core\Model\Date',
+            'Magento\Stdlib\DateTime\DateTime',
             $this->_model->getDateModel(),
             'Date model getter retrieve instance with wrong type'
         );
@@ -209,7 +209,7 @@ class ExportTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Callback to use instead \Magento\Core\Model\Date::date()
+     * Callback to use instead \Magento\Stdlib\DateTime\DateTime::date()
      *
      * @param string $format
      * @param int|string $input

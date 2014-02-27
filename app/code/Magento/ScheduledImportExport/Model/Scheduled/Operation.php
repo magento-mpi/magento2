@@ -68,7 +68,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
     /**
      * Date model
      *
-     * @var \Magento\Core\Model\Date
+     * @var \Magento\Stdlib\DateTime\DateTime
      */
     protected $_dateModel;
 
@@ -124,7 +124,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation\GenericFactory $schedOperFactory
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation\DataFactory $operationFactory
      * @param \Magento\Core\Model\Config\ValueFactory $configValueFactory
-     * @param \Magento\Core\Model\Date $dateModel
+     * @param \Magento\Stdlib\DateTime\DateTime $dateModel
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
@@ -140,7 +140,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
         \Magento\ScheduledImportExport\Model\Scheduled\Operation\GenericFactory $schedOperFactory,
         \Magento\ScheduledImportExport\Model\Scheduled\Operation\DataFactory $operationFactory,
         \Magento\Core\Model\Config\ValueFactory $configValueFactory,
-        \Magento\Core\Model\Date $dateModel,
+        \Magento\Stdlib\DateTime\DateTime $dateModel,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\Stdlib\String $string,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
@@ -165,7 +165,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
     /**
      * Date model getter
      *
-     * @return \Magento\Core\Model\Date
+     * @return \Magento\Stdlib\DateTime\DateTime
      */
     public function getDateModel()
     {

@@ -851,11 +851,11 @@ class Callback extends \Magento\GoogleCheckout\Model\Api\Xml\AbstractXml
         $order->addStatusToHistory($order->getStatus(), $msg);
 
         $order->setPaymentAuthorizationAmount($payment->getAmountAuthorized());
-        $timestamp = $this->objectManager->create('Magento\Core\Model\Date')->gmtTimestamp(
+        $timestamp = $this->objectManager->create('Magento\Stdlib\DateTime\DateTime')->gmtTimestamp(
             $this->getData('root/authorization-expiration-date/VALUE')
         );
         $order->setPaymentAuthorizationExpiration(
-            $timestamp ? $timestamp : $this->objectManager->create('Magento\Core\Model\Date')->gmtTimestamp()
+            $timestamp ? $timestamp : $this->objectManager->create('Magento\Stdlib\DateTime\DateTime')->gmtTimestamp()
         );
 
         $order->save();

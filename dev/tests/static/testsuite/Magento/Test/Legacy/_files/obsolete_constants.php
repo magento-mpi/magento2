@@ -53,24 +53,24 @@ return array(
         'Mage_Core_Model_Resource',
         'Magento_Core_Model_Config_Resource::DEFAULT_WRITE_CONNECTION'
     ),
-    array('DEFAULT_CURRENCY', 'Magento\Core\Model\Locale', 'Magento_Core_Model_LocaleInterface::DEFAULT_CURRENCY'),
+    array('DEFAULT_CURRENCY', 'Magento\Locale', 'Magento_Core_Model_LocaleInterface::DEFAULT_CURRENCY'),
     array('DEFAULT_ERROR_HANDLER', 'Magento\Core\Model\App'),
     array('DEFAULT_READ_CONNECTION', 'Magento\App\Resource\Config'),
     array('DEFAULT_WRITE_CONNECTION', 'Magento\App\Resource\Config'),
     array('DEFAULT_ERROR_HANDLER', 'Mage'),
-    array('DEFAULT_LOCALE', 'Magento\Core\Model\Locale', 'Magento_Core_Model_LocaleInterface::DEFAULT_LOCALE'),
+    array('DEFAULT_LOCALE', 'Magento\Locale', 'Magento_Core_Model_LocaleInterface::DEFAULT_LOCALE'),
     array('DEFAULT_THEME_NAME', 'Magento\Core\Model\Design\PackageInterface'),
     array('DEFAULT_THEME_NAME', 'Magento\Core\Model\Design\Package'),
-    array('DEFAULT_TIMEZONE', 'Magento\Core\Model\Locale', 'Magento_Core_Model_LocaleInterface::DEFAULT_TIMEZONE'),
+    array('DEFAULT_TIMEZONE', 'Magento\Locale', 'Magento_Core_Model_LocaleInterface::DEFAULT_TIMEZONE'),
     array('DEFAULT_STORE_ID', 'Magento\Catalog\Model\AbstractModel', 'Magento\Core\Model\Store::DEFAULT_STORE_ID'),
     array('DEFAULT_VALUE_TABLE_PREFIX'),
     array('ENTITY_PRODUCT', 'Magento\Review\Model\Review'),
     array('EXCEPTION_CODE_IS_GROUPED_PRODUCT'),
     array('FALLBACK_MAP_DIR', 'Magento\Core\Model\Design\PackageInterface'),
-    array('FORMAT_TYPE_FULL', 'Magento\Core\Model\Locale', 'Magento_Core_Model_LocaleInterface::FORMAT_TYPE_FULL'),
-    array('FORMAT_TYPE_LONG', 'Magento\Core\Model\Locale', 'Magento_Core_Model_LocaleInterface::FORMAT_TYPE_LONG'),
-    array('FORMAT_TYPE_MEDIUM', 'Magento\Core\Model\Locale', 'Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM'),
-    array('FORMAT_TYPE_SHORT', 'Magento\Core\Model\Locale', 'Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT'),
+    array('FORMAT_TYPE_FULL', 'Magento\Locale', 'Magento_Core_Model_LocaleInterface::FORMAT_TYPE_FULL'),
+    array('FORMAT_TYPE_LONG', 'Magento\Locale', 'Magento_Core_Model_LocaleInterface::FORMAT_TYPE_LONG'),
+    array('FORMAT_TYPE_MEDIUM', 'Magento\Locale', 'Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM'),
+    array('FORMAT_TYPE_SHORT', 'Magento\Locale', 'Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT'),
     array('GALLERY_IMAGE_TABLE', 'Magento\Catalog\Model\Resource\Product\Attribute\Backend\Media'),
     array('HASH_ALGO'),
     array('INIT_OPTION_DIRS', 'Magento\Core\Model\App', 'Magento_Core_Model_App::PARAM_APP_DIRS'),
@@ -141,10 +141,10 @@ return array(
     ),
     array(
         'XML_PATH_ALLOW_CURRENCIES',
-        'Magento\Core\Model\Locale',
+        'Magento\Locale',
         'Magento_Core_Model_LocaleInterface::XML_PATH_ALLOW_CURRENCIES'
     ),
-    array('XML_PATH_ALLOW_CODES', 'Magento\Core\Model\LocaleInterface'),
+    array('XML_PATH_ALLOW_CODES', 'Magento\LocaleInterface'),
     array('XML_PATH_ALLOW_DUPLICATION', 'Magento\Core\Model\Design\PackageInterface',
         'Magento_Core_Model_Design_Package::XML_PATH_ALLOW_DUPLICATION'
     ),
@@ -164,15 +164,15 @@ return array(
         'Magento\View\Element\Template',
         'Magento\Core\Model\TemplateEngine\Plugin::XML_PATH_DEBUG_TEMPLATE_HINTS_BLOCKS'
     ),
-    array('XML_PATH_DEFAULT_COUNTRY', 'Magento\Core\Model\Locale'),
+    array('XML_PATH_DEFAULT_COUNTRY', 'Magento\Locale'),
     array(
         'XML_PATH_DEFAULT_LOCALE',
-        'Magento\Core\Model\Locale',
+        'Magento\Locale',
         'Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE'
     ),
     array(
         'XML_PATH_DEFAULT_TIMEZONE',
-        'Magento\Core\Model\Locale',
+        'Magento\Locale',
         'Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_TIMEZONE'
     ),
     array('XML_PATH_INDEXER_DATA', 'Magento\Index\Model\Process'),

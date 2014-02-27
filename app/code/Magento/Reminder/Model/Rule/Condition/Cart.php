@@ -19,7 +19,7 @@ use Magento\Core\Exception;
 class Cart extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
 {
     /**
-     * @var \Magento\Core\Model\Date
+     * @var \Magento\Stdlib\DateTime\DateTime
      */
     protected $_dateModel;
 
@@ -40,7 +40,7 @@ class Cart extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
     /**
      * @param \Magento\Rule\Model\Condition\Context $context
      * @param \Magento\Reminder\Model\Resource\Rule $ruleResource
-     * @param \Magento\Core\Model\Date $dateModel
+     * @param \Magento\Stdlib\DateTime\DateTime $dateModel
      * @param \Magento\Core\Model\Resource\Helper $resourceHelper
      * @param \Magento\Reminder\Model\Rule\Condition\Cart\CombineFactory $combineFactory
      * @param array $data
@@ -48,7 +48,7 @@ class Cart extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
     public function __construct(
         \Magento\Rule\Model\Condition\Context $context,
         \Magento\Reminder\Model\Resource\Rule $ruleResource,
-        \Magento\Core\Model\Date $dateModel,
+        \Magento\Stdlib\DateTime\DateTime $dateModel,
         \Magento\Core\Model\Resource\Helper $resourceHelper,
         \Magento\Reminder\Model\Rule\Condition\Cart\CombineFactory $combineFactory,
         array $data = array()

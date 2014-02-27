@@ -30,7 +30,7 @@ class Resolver extends \Magento\Locale\Resolver
     protected $_request;
 
     /**
-     * @var \Magento\Core\Model\Locale\Validator
+     * @var \Magento\Locale\Validator
      */
     protected $_localeValidator;
 
@@ -43,7 +43,7 @@ class Resolver extends \Magento\Locale\Resolver
      * @param Manager $localeManager
      * @param $defaultLocalePath
      * @param \Magento\App\RequestInterface $request
-     * @param \Magento\Core\Model\Locale\Validator $localeValidator
+     * @param \Magento\Locale\Validator $localeValidator
      * @param string|null $locale
      */
     public function __construct(
@@ -55,7 +55,7 @@ class Resolver extends \Magento\Locale\Resolver
         \Magento\Backend\Model\Locale\Manager $localeManager,
         $defaultLocalePath,
         \Magento\App\RequestInterface $request,
-        \Magento\Core\Model\Locale\Validator $localeValidator,
+        \Magento\Locale\Validator $localeValidator,
         $locale = null
     ) {
         $this->_session = $session;

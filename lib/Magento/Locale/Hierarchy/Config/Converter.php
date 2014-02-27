@@ -7,7 +7,7 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-namespace Magento\Core\Model\Locale\Hierarchy\Config;
+namespace Magento\Locale\Hierarchy\Config;
 
 class Converter implements \Magento\Config\ConverterInterface
 {

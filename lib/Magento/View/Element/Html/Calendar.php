@@ -18,7 +18,7 @@ class Calendar extends \Magento\View\Element\Template
     /**
      * Date model
      *
-     * @var \Magento\Core\Model\Date
+     * @var \Magento\Stdlib\DateTime\DateTime
      */
     protected $_date;
 
@@ -33,13 +33,13 @@ class Calendar extends \Magento\View\Element\Template
      * Constructor
      *
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Model\Date $date
+     * @param \Magento\Stdlib\DateTime\DateTime $date
      * @param \Magento\Json\EncoderInterface $encoder
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Model\Date $date,
+        \Magento\Stdlib\DateTime\DateTime $date,
         \Magento\Json\EncoderInterface $encoder,
         array $data = array()
     ) {

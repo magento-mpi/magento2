@@ -348,17 +348,12 @@
     </type>
     <type name="Magento\Locale\Hierarchy\Config">
         <arguments>
-            <argument name="reader" xsi:type="object">Magento\Core\Model\Locale\Hierarchy\Config\Reader</argument>
+            <argument name="reader" xsi:type="object">Magento\Locale\Hierarchy\Config\Reader</argument>
         </arguments>
     </type>
     <type name="Magento\Core\Model\Resource\Helper">
         <arguments>
             <argument name="modulePrefix" xsi:type="string">core</argument>
-        </arguments>
-    </type>
-    <type name="Magento\Core\Helper\Data">
-        <arguments>
-            <argument name="locale" xsi:type="object">Magento\Core\Model\Locale\Proxy</argument>
         </arguments>
     </type>
     <type name="Magento\Core\Model\Resource\Setup\Migration">

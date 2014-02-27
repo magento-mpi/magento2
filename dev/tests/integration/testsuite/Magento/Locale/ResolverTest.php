@@ -6,12 +6,9 @@
  * @license     {license_link}
  */
 
-/**
- * Test for \Magento\Core\Model\Locale class
- */
-namespace Magento\Core\Model;
+namespace Magento\Locale;
 
-class LocaleTest extends \PHPUnit_Framework_TestCase
+class ResolverTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetLocale()
     {

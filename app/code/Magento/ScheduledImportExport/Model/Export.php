@@ -28,7 +28,7 @@ class Export extends \Magento\ImportExport\Model\Export
     /**
      * Date model instance
      *
-     * @var \Magento\Core\Model\Date
+     * @var \Magento\Stdlib\DateTime\DateTime
      */
     protected $_dateModel;
 
@@ -39,7 +39,7 @@ class Export extends \Magento\ImportExport\Model\Export
      * @param \Magento\ImportExport\Model\Export\ConfigInterface $exportConfig
      * @param \Magento\ImportExport\Model\Export\Entity\Factory $entityFactory
      * @param \Magento\ImportExport\Model\Export\Adapter\Factory $exportAdapterFac
-     * @param \Magento\Core\Model\Date $coreDate
+     * @param \Magento\Stdlib\DateTime\DateTime $coreDate
      * @param array $data
      */
     public function __construct(
@@ -49,7 +49,7 @@ class Export extends \Magento\ImportExport\Model\Export
         \Magento\ImportExport\Model\Export\ConfigInterface $exportConfig,
         \Magento\ImportExport\Model\Export\Entity\Factory $entityFactory,
         \Magento\ImportExport\Model\Export\Adapter\Factory $exportAdapterFac,
-        \Magento\Core\Model\Date $coreDate,
+        \Magento\Stdlib\DateTime\DateTime $coreDate,
         array $data = array()
     ) {
         $this->_dateModel = $coreDate;
@@ -67,7 +67,7 @@ class Export extends \Magento\ImportExport\Model\Export
     /**
      * Date model instance getter
      *
-     * @return \Magento\Core\Model\Date
+     * @return \Magento\Stdlib\DateTime\DateTime
      */
     public function getDateModel()
     {
