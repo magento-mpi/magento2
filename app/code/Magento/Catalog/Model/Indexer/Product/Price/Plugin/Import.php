@@ -14,13 +14,9 @@ class Import extends AbstractPlugin
 {
     /**
      * After import handler
-     *
-     * @param Object $import
-     * @return Object
      */
-    public function afterImportSource($import)
+    public function afterImportSource()
     {
         $this->invalidateIndexer();
-        return $import;
     }
 }
