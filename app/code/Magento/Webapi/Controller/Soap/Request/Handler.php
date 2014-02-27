@@ -168,6 +168,7 @@ class Handler
             if ($this->_isDto($fieldValue)) {
                 $fieldValue = $this->_unpackDto($fieldValue);
             }
+            $fieldName = lcfirst(str_replace(' ', '', ucwords(str_replace('_', ' ', $fieldName))));
             $response->$fieldName = $fieldValue;
         }
         return $response;
