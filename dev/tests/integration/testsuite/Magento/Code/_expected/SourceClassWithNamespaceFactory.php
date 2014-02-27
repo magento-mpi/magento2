@@ -1,4 +1,6 @@
 <?php
+namespace Magento\Code\GeneratorTest;
+
 /**
  * Factory class for Magento\Code\GeneratorTest\SourceClassWithNamespace
  *
@@ -7,9 +9,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
-namespace Magento\Code\GeneratorTest;
-
 class SourceClassWithNamespaceFactory
 {
     /**
