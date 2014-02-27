@@ -242,7 +242,7 @@ class Onepage
      * Declare checkout quote instance
      *
      * @param \Magento\Sales\Model\Quote $quote
-     * @return \Magento\Checkout\Model\Type\Onepage
+     * @return $this
      */
     public function setQuote(\Magento\Sales\Model\Quote $quote)
     {
@@ -263,7 +263,7 @@ class Onepage
     /**
      * Initialize quote state to be valid for one page checkout
      *
-     * @return \Magento\Checkout\Model\Type\Onepage
+     * @return $this
      */
     public function initCheckout()
     {
@@ -337,7 +337,7 @@ class Onepage
      *
      * @param   array $data
      * @param   int $customerAddressId
-     * @return  \Magento\Checkout\Model\Type\Onepage
+     * @return  array
      */
     public function saveBilling($data, $customerAddressId)
     {
@@ -418,7 +418,7 @@ class Onepage
 
         if (!$this->getQuote()->isVirtual()) {
             /**
-             * Billing address using otions
+             * Billing address using options
              */
             $usingCase = isset($data['use_for_shipping']) ? (int)$data['use_for_shipping'] : 0;
 
@@ -556,7 +556,7 @@ class Onepage
      *
      * @param   array $data
      * @param   int $customerAddressId
-     * @return  \Magento\Checkout\Model\Type\Onepage
+     * @return  array
      */
     public function saveShipping($data, $customerAddressId)
     {
@@ -702,6 +702,7 @@ class Onepage
     /**
      * Validate quote state to be integrated with one page checkout process
      *
+     * @return void
      * @throws \Magento\Core\Exception
      */
     protected function validate()
@@ -722,7 +723,7 @@ class Onepage
     /**
      * Prepare quote for guest checkout order submit
      *
-     * @return \Magento\Checkout\Model\Type\Onepage
+     * @return $this
      */
     protected function _prepareGuestQuote()
     {
@@ -737,7 +738,7 @@ class Onepage
     /**
      * Prepare quote for customer registration and customer order submit
      *
-     * @return \Magento\Checkout\Model\Type\Onepage
+     * @return void
      */
     protected function _prepareNewCustomerQuote()
     {

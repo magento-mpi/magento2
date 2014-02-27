@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Model;
 
 /**
  * PayPal payment information model
@@ -15,8 +16,6 @@
  * Collects and provides access to PayPal-specific payment data
  * Provides business logic information about payment flow
  */
-namespace Magento\Paypal\Model;
-
 class Info
 {
     /**
@@ -131,7 +130,7 @@ class Info
     /**
      * Map of payment information available to customer
      *
-     * @var array
+     * @var string[]
      */
     protected $_paymentPublicMap = array(
         'paypal_payer_email',
@@ -187,6 +186,7 @@ class Info
      *
      * @param array|\Magento\Object|callback $from
      * @param \Magento\Payment\Model\Info $payment
+     * @return void
      */
     public function importToPayment($from, \Magento\Payment\Model\Info $payment)
     {
@@ -202,7 +202,7 @@ class Info
      *
      * @param \Magento\Payment\Model\Info $payment
      * @param array|\Magento\Object|callback $to
-     * @param array $map
+     * @param array|null $map
      * @return array|\Magento\Object
      */
     public function &exportFromPayment(\Magento\Payment\Model\Info $payment, $to, array $map = null)
@@ -331,7 +331,7 @@ class Info
     /**
      * Explain the refund or chargeback reason code
      *
-     * @param $code
+     * @param string $code
      * @return string
      * @link https://cms.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=developer/e_howto_html_IPNandPDTVariables
      * @link https://cms.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=developer/e_howto_api_nvp_r_GetTransactionDetails
@@ -395,6 +395,7 @@ class Info
      * @param array $keys
      * @param \Magento\Payment\Model\Info $payment
      * @param bool $labelValuesOnly
+     * @return array
      */
     protected function _getFullInfo(array $keys, \Magento\Payment\Model\Info $payment, $labelValuesOnly)
     {
@@ -428,6 +429,7 @@ class Info
      * Render info item labels
      *
      * @param string $key
+     * @return string
      */
     protected function _getLabel($key)
     {
@@ -516,9 +518,9 @@ class Info
     /**
      * Attempt to convert AVS check result code into label
      *
-     * @link https://cms.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=developer/e_howto_api_nvp_AVSResponseCodes
      * @param string $value
      * @return string
+     * @link https://cms.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=developer/e_howto_api_nvp_AVSResponseCodes
      */
     protected function _getAvsLabel($value)
     {
@@ -580,9 +582,9 @@ class Info
     /**
      * Attempt to convert CVV2 check result code into label
      *
-     * @link https://cms.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=developer/e_howto_api_nvp_AVSResponseCodes
      * @param string $value
      * @return string
+     * @link https://cms.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=developer/e_howto_api_nvp_AVSResponseCodes
      */
     protected function _getCvv2Label($value)
     {
@@ -619,9 +621,9 @@ class Info
     /**
      * Attempt to convert centinel VPAS result into label
      *
-     * @link https://cms.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=developer/e_howto_api_nvp_r_DoDirectPayment
      * @param string $value
      * @return string
+     * @link https://cms.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=developer/e_howto_api_nvp_r_DoDirectPayment
      */
     private function _getCentinelVpasLabel($value)
     {
@@ -653,9 +655,9 @@ class Info
     /**
      * Attempt to convert centinel ECI result into label
      *
-     * @link https://cms.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=developer/e_howto_api_nvp_r_DoDirectPayment
      * @param string $value
      * @return string
+     * @link https://cms.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=developer/e_howto_api_nvp_r_DoDirectPayment
      */
     private function _getCentinelEciLabel($value)
     {

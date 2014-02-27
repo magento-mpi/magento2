@@ -43,11 +43,17 @@ class Js extends \Magento\Backend\Block\Template
         parent::__construct($context, $data);
     }
 
+    /**
+     * @return int
+     */
     public function getCustomerWebsite()
     {
         return $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER)->getWebsiteId();
     }
 
+    /**
+     * @return string
+     */
     public function getWebsitesJson()
     {
         $result = array();

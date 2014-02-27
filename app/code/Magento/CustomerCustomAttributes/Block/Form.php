@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\CustomerCustomAttributes\Block;
 
 /**
  * Customer Dynamic attributes Form Block
@@ -16,14 +16,16 @@
  * @package     Magento_CustomerCustomAttributes
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\CustomerCustomAttributes\Block;
-
 class Form extends \Magento\CustomAttribute\Block\Form
 {
-    /** @var \Magento\Customer\Model\Metadata\Form */
+    /**
+     * @var \Magento\Customer\Model\Metadata\Form
+     */
     protected $_metadataForm;
 
-    /** @var \Magento\Customer\Model\Metadata\FormFactory  */
+    /**
+     * @var \Magento\Customer\Model\Metadata\FormFactory
+     */
     protected $_metadataFormFactory;
 
     /** @var \Magento\Customer\Model\Session */

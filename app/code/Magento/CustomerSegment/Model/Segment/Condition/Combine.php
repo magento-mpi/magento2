@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerSegment\Model\Segment\Condition;
+
+use Magento\CustomerSegment\Model\Condition\Combine\AbstractCombine;
 
 /**
  * Segment conditions container
@@ -15,10 +18,7 @@
  * @package     Magento_CustomerSegment
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\CustomerSegment\Model\Segment\Condition;
-
-class Combine
-    extends \Magento\CustomerSegment\Model\Condition\Combine\AbstractCombine
+class Combine extends AbstractCombine
 {
     /**
      * @param \Magento\Rule\Model\Condition\Context $context
@@ -87,8 +87,8 @@ class Combine
     /**
      * Prepare base condition select which related with current condition combine
      *
-     * @param $customer
-     * @param $website
+     * @param Customer|\Zend_Db_Expr $customer
+     * @param int|\Zend_Db_Expr $website $website
      * @return \Magento\DB\Select
      */
     protected function _prepareConditionsSql($customer, $website)
