@@ -511,7 +511,7 @@ return array(
         'Magento\Shipping\Model\Config\Source\Allspecificcountries'
     ),
     array('Mage_Adminhtml_Model_System_Config_Source_Shipping_Flatrate',
-        'Magento\Shipping\Model\Config\Source\Flatrate'
+        'Magento\OfflineShipping\Model\Config\Source\Flatrate'
     ),
     array('Mage_Adminhtml_Model_System_Config_Source_Shipping_Tablerate',
         'Magento\Shipping\Model\Config\Source\Tablerate'
@@ -2141,4 +2141,6 @@ return array(
     ['Magento\Core\Helper\String', 'Magento\Code\NameBuilder'],
     ['Magento\Core\Model\Context', 'Magento\Model\Context'],
     ['Magento\Core\Model\Registry', 'Magento\Registry'],
+    ['Magento\Shipping\Model\Config\Source\Flatrate', 'Magento\OfflineShipping\Model\Config\Source\Flatrate'],
+    ['Magento\Shipping\Model\Carrier\Flatrate', 'Magento\OfflineShipping\Model\Carrier\Flatrate'],
 );
