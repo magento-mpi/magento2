@@ -308,7 +308,7 @@ class Quote
                 $originalCustomerDto = $this->_customerService->getCustomer($customerDto->getCustomerId());
                 $originalAddresses = $this->_customerAddressService->getAddresses($customerDto->getCustomerId());
                 //Save updated data
-                $this->_customerService->saveCustomer($customerDto);
+                $this->_customerAccountService->saveCustomer($customerDto);
                 $this->_customerAddressService->saveAddresses($customerDto->getCustomerId(), $addresses);
             } else { //for new customers
                 $this->_createCustomerResponse = $this->_customerAccountService->createAccount(
@@ -414,7 +414,7 @@ class Quote
             );
         } catch (\Exception $e) {
             if ($originalCustomerDto) { //Restore original customer data if existing customer was updated
-                $this->_customerService->saveCustomer($originalCustomerDto);
+                $this->_customerAccountService->saveCustomer($originalCustomerDto);
                 $this->_customerAddressService->saveAddresses($customerDto->getCustomerId(), $originalAddresses);
             } else if ($customerDto->getCustomerId()) { // Delete if new customer created
                 $this->_customerService->deleteCustomer($customerDto->getCustomerId());

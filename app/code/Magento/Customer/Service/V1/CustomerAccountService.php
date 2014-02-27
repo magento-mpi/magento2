@@ -67,6 +67,11 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     private $_customerAddressService;
 
     /**
+     * @var CustomerMetadataService
+     */
+    private $_customerMetadataService;
+
+    /**
      * @var UrlInterface
      */
     private $_url;
@@ -83,6 +88,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
      * @param Dto\CustomerBuilder $customerBuilder
      * @param CustomerServiceInterface $customerService
      * @param CustomerAddressServiceInterface $customerAddressService
+     * @param CustomerMetadataService $customerMetadataService
      * @param UrlInterface $url
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -97,6 +103,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         Dto\CustomerBuilder $customerBuilder,
         CustomerServiceInterface $customerService,
         CustomerAddressServiceInterface $customerAddressService,
+        CustomerMetadataService $customerMetadataService,
         UrlInterface $url
     ) {
         $this->_customerFactory = $customerFactory;
@@ -108,6 +115,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         $this->_customerBuilder = $customerBuilder;
         $this->_customerService = $customerService;
         $this->_customerAddressService = $customerAddressService;
+        $this->_customerMetadataService = $customerMetadataService;
         $this->_url = $url;
     }
 
@@ -308,7 +316,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         }
 
         try {
-            $customerId = $this->_customerService->saveCustomer($customer, $password);
+            $customerId = $this->saveCustomer($customer, $password);
         } catch (\Magento\Customer\Exception $e) {
             if ($e->getCode() === CustomerModel::EXCEPTION_EMAIL_EXISTS) {
                 throw new StateException(__('Customer with the same email already exists in associated website.'),
@@ -341,7 +349,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     {
         // Making this call first will ensure the customer already exists.
         $this->_customerService->getCustomer($customer->getCustomerId());
-        $this->_customerService->saveCustomer($customer);
+        $this->saveCustomer($customer);
 
         if ($addresses != null) {
             $existingAddresses = $this->_customerAddressService->getAddresses($customer->getCustomerId());
@@ -356,6 +364,27 @@ class CustomerAccountService implements CustomerAccountServiceInterface
             }
             $this->_customerAddressService->saveAddresses($customer->getCustomerId(), $addresses);
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function saveCustomer(Dto\Customer $customer, $password = null)
+    {
+        $customerModel = $this->_converter->createCustomerModel($customer);
+
+        if ($password) {
+            $customerModel->setPassword($password);
+        } elseif (!$customerModel->getId()) {
+            $customerModel->setPassword($customerModel->generatePassword());
+        }
+
+        // Shouldn't we be calling validateCustomerData/Details here?
+        $this->_validate($customerModel);
+
+        $customerModel->save();
+
+        return $customerModel->getId();
     }
 
     /**
@@ -404,6 +433,51 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     }
 
     /**
+     * Validate customer attribute values.
+     *
+     * @param CustomerModel $customerModel
+     * @throws InputException
+     * @return void
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
+     */
+    private function _validate(CustomerModel $customerModel)
+    {
+        $exception = new InputException();
+        if (!\Zend_Validate::is(trim($customerModel->getFirstname()), 'NotEmpty')) {
+            $exception->addError(InputException::REQUIRED_FIELD, 'firstname', '');
+        }
+
+        if (!\Zend_Validate::is(trim($customerModel->getLastname()), 'NotEmpty')) {
+            $exception->addError(InputException::REQUIRED_FIELD, 'lastname', '');
+        }
+
+        if (!\Zend_Validate::is($customerModel->getEmail(), 'EmailAddress')) {
+            $exception->addError(InputException::INVALID_FIELD_VALUE, 'email', $customerModel->getEmail());
+        }
+
+        $dob = $this->_getAttributeMetadata('dob');
+        if (!is_null($dob) && $dob->isRequired() && '' == trim($customerModel->getDob())) {
+            $exception->addError(InputException::REQUIRED_FIELD, 'dob', '');
+        }
+
+        $taxvat = $this->_getAttributeMetadata('taxvat');
+        if (!is_null($taxvat) && $taxvat->isRequired() && '' == trim($customerModel->getTaxvat())) {
+            $exception->addError(InputException::REQUIRED_FIELD, 'taxvat', '');
+        }
+
+        $gender = $this->_getAttributeMetadata('gender');
+        if (!is_null($gender) && $gender->isRequired() && '' == trim($customerModel->getGender())) {
+            $exception->addError(InputException::REQUIRED_FIELD, 'gender', '');
+        }
+
+        if ($exception->getErrors()) {
+            throw $exception;
+        }
+    }
+
+    /**
      * Validate the Reset Password Token for a customer.
      *
      * @param int $customerId
@@ -440,6 +514,19 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         }
 
         return $customerModel;
+    }
+
+    /**
+     * @param $attributeCode
+     * @return Dto\Eav\AttributeMetadata|null
+     */
+    private function _getAttributeMetadata($attributeCode)
+    {
+        try {
+            return $this->_customerMetadataService->getCustomerAttributeMetadata($attributeCode);
+        } catch (NoSuchEntityException $e) {
+            return null;
+        }
     }
 
 

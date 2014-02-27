@@ -17,17 +17,6 @@ use Magento\Exception\NoSuchEntityException;
 interface CustomerServiceInterface
 {
     /**
-     * Create or update customer information
-     *
-     * @param Dto\Customer $customer
-     * @param string $password
-     * @throws \Magento\Customer\Exception If something goes wrong during save
-     * @throws InputException If bad input is provided
-     * @return int customer ID
-     */
-    public function saveCustomer(Dto\Customer $customer, $password = null);
-
-    /**
      * Retrieve Customer
      *
      * @param int $customerId

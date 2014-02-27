@@ -30,6 +30,9 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     /** @var  \Magento\Customer\Service\V1\CustomerServiceInterface */
     private $_customerService;
 
+    /** @var  \Magento\Customer\Service\V1\CustomerAccountServiceInterface */
+    private $_customerAccountService;
+
     /** @var  \Magento\Customer\Service\V1\CustomerGroupServiceInterface */
     private $_groupService;
 
@@ -53,6 +56,8 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         $this->_customerBuilder = $objectManager->get('Magento\Customer\Service\V1\Dto\CustomerBuilder');
         $this->_coreRegistry = $objectManager->get('Magento\Registry');
         $this->_customerService = $objectManager->get('Magento\Customer\Service\V1\CustomerServiceInterface');
+        $this->_customerAccountService = $objectManager
+            ->get('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
         $this->_groupService = $objectManager->get('Magento\Customer\Service\V1\CustomerGroupServiceInterface');
 
         $this->_block = $objectManager->get('Magento\View\LayoutInterface')
@@ -153,7 +158,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
             ->setLastname('lastname')
             ->setEmail('email@email.com')
             ->create();
-        $id = $this->_customerService->saveCustomer($customer);
+        $id = $this->_customerAccountService->saveCustomer($customer);
         $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER_ID, $id);
         $this->assertEquals('Confirmation Not Required', $this->_block->getIsConfirmedStatus());
     }

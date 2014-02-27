@@ -61,6 +61,17 @@ interface CustomerAccountServiceInterface
     public function updateAccount(Dto\Customer $customer, array $addresses = null);
 
     /**
+     * Create or update customer information
+     *
+     * @param Dto\Customer $customer
+     * @param string $password
+     * @throws \Magento\Customer\Exception If something goes wrong during save
+     * @throws \Magento\Exception\InputException If bad input is provided
+     * @return int customer ID
+     */
+    public function saveCustomer(Dto\Customer $customer, $password = null);
+
+    /**
      * Used to activate a customer account using a key that was sent in a confirmation e-mail.
      *
      * @param int $customerId
