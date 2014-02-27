@@ -15,11 +15,11 @@
 return array(
     'server' => 'http://localhost:9876',
     'load' => array(
+        '/dev/tests/js/framework',
         '/lib/web/mage/translate.js',
         '/lib/web/mage/webapi.js',
         '/lib/web/jquery/jquery-ui-timepicker-addon.js',
         '/lib/web/jquery/jquery.tmpl.min.js',
-        '/dev/tests/js/framework',
         '/app/code/Magento/DesignEditor/view/adminhtml/js/base.js',
         '/app/code/Magento/DesignEditor/view/adminhtml/js/design_editor.js',
         '/app/code/Magento/DesignEditor/view/frontend/js/change/layout.js',
