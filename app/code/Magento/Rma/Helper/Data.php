@@ -110,9 +110,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_addressFactory;
 
     /**
-     * Rma carrier factory
+     * Shipping carrier factory
      *
-     * @var \Magento\Rma\Model\CarrierFactory
+     * @var \Magento\Shipping\Model\CarrierFactory
      */
     protected $_carrierFactory;
 
@@ -154,7 +154,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param \Magento\Sales\Model\Quote\AddressFactory $addressFactory
-     * @param \Magento\Rma\Model\CarrierFactory $carrierFactory
+     * @param \Magento\Shipping\Model\CarrierFactory $carrierFactory
      * @param \Magento\Filter\FilterManager $filterManager
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Sales\Model\Order\Admin\Item $adminOrderItem
@@ -172,7 +172,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Sales\Model\Quote\AddressFactory $addressFactory,
-        \Magento\Rma\Model\CarrierFactory $carrierFactory,
+        \Magento\Shipping\Model\CarrierFactory $carrierFactory,
         \Magento\Filter\FilterManager $filterManager,
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Sales\Model\Order\Admin\Item $adminOrderItem,
@@ -464,15 +464,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         if (!$this->carrierHelper->getCarrierConfigValue($carrierCode, 'active_rma', $storeId)) {
             return false;
         }
-        $className = $this->carrierHelper->getCarrierConfigValue($carrierCode, 'model', $storeId);
-        if (!$className) {
-            return false;
-        }
-        $obj = $this->_carrierFactory->create($className);
-        if ($storeId) {
-            $obj->setStore($storeId);
-        }
-        return $obj;
+        return $this->_carrierFactory->create($carrierCode, $storeId);
     }
 
     /**

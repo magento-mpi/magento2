@@ -2,17 +2,14 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Usa
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Usa\Model\Simplexml;
+namespace Magento\Shipping\Model\Simplexml;
 
 /**
  * Extends SimpleXML to add valuable functionality to \SimpleXMLElement class
  *
- * @author   Magento Core Team <core@magentocommerce.com>
  */
 class Element extends \Magento\Simplexml\Element
 {
@@ -38,7 +35,7 @@ class Element extends \Magento\Simplexml\Element
      * @param string $name The name of the child element to add.
      * @param string $value If specified, the value of the child element.
      * @param string $namespace If specified, the namespace to which the child element belongs.
-     * @return \Magento\Usa\Model\Simplexml\Element
+     * @return \Magento\Shipping\Model\Simplexml\Element
      */
     public function addChild($name, $value = null, $namespace = null)
     {
