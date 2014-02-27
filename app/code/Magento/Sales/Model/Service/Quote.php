@@ -211,10 +211,12 @@ class Quote
             $order = $this->_convertor->addressToOrder($quote->getShippingAddress());
         }
         $order->setBillingAddress($this->_convertor->addressToOrderAddress($quote->getBillingAddress()));
-        $this->_setCustomerAddress('billing', $quote, $order);
+        $order->getBillingAddress()->setCustomerAddressData($quote->getBillingAddress()->getCustomerAddressData());
         if (!$isVirtual) {
             $order->setShippingAddress($this->_convertor->addressToOrderAddress($quote->getShippingAddress()));
-            $this->_setCustomerAddress('shipping', $quote, $order);
+            $order->getShippingAddress()->setCustomerAddressData(
+                $quote->getShippingAddress()->getCustomerAddressData()
+            );
         }
         $order->setPayment($this->_convertor->paymentToOrderPayment($quote->getPayment()));
 
@@ -280,55 +282,6 @@ class Quote
             ));
         $this->_order = $order;
         return $order;
-    }
-
-    /**
-     * Set customer address inside billing or shipping address withing the order.
-     *
-     * @param string $type 'billing' or 'shipping'
-     * @param \Magento\Sales\Model\Quote $quote
-     * @param \Magento\Sales\Model\Order $order
-     * @return $this
-     * @throws \InvalidArgumentException
-     */
-    protected function _setCustomerAddress($type, \Magento\Sales\Model\Quote $quote, \Magento\Sales\Model\Order $order)
-    {
-        if ($type !== 'billing' || $type !== 'shipping') {
-            throw new \InvalidArgumentException('$type expected to be either "billing" or "shipping"');
-        }
-
-        $isBilling = $type === 'billing';
-
-        $quoteCustomerAddress = $isBilling
-            ? $quote->getBillingAddress()->getCustomerAddress()
-            : $quote->getShippingAddress()->getCustomerAddress();
-
-        if (!$quoteCustomerAddress) {
-            return $this;
-        }
-
-        if ($quote->getCustomerId()) {
-            $customer = $quote->getCustomer();
-        }
-
-        $isDefaultBilling = isset($customer)
-            ? $quoteCustomerAddress->getId() == $customer->getDefaultBillingAddress()->getId()
-            : false;
-        $isDefaultShipping = isset($customer)
-            ? $quoteCustomerAddress->getId() == $customer->getDefaultShippingAddress()->getId()
-            : false;
-
-        $orderAddress = $isBilling ? $order->getBillingAddress() : $order->getShippingAddress();
-
-        $orderAddress->setCustomerAddressData(
-            $this->addressConverter->createAddressFromModel(
-                $quoteCustomerAddress,
-                $isDefaultBilling,
-                $isDefaultShipping
-            )
-        );
-
-        return $this;
     }
 
     /**
