@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Checkout\Block\Onepage\Payment;
 
 /**
  * Checkout payment information data
@@ -15,8 +16,6 @@
  * @package    Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Checkout\Block\Onepage\Payment;
-
 class Info extends \Magento\Payment\Block\Info\AbstractContainer
 {
     /**
@@ -44,7 +43,7 @@ class Info extends \Magento\Payment\Block\Info\AbstractContainer
     /**
      * Retrieve payment info model
      *
-     * @return \Magento\Payment\Model\Info
+     * @return \Magento\Payment\Model\Info|false
      */
     public function getPaymentInfo()
     {
@@ -55,6 +54,9 @@ class Info extends \Magento\Payment\Block\Info\AbstractContainer
         return false;
     }
 
+    /**
+     * @return string
+     */
     protected function _toHtml()
     {
         $html = '';

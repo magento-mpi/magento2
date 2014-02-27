@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage;
 
 /**
@@ -17,6 +16,8 @@ class Messages extends \Magento\View\Element\Messages
 {
     /**
      * Prepares layout for current block
+     *
+     * @return void
      */
     protected function _prepareLayout()
     {

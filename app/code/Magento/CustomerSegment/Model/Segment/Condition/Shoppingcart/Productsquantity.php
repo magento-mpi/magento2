@@ -7,14 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerSegment\Model\Segment\Condition\Shoppingcart;
+
+use Magento\Customer\Model\Customer;
+use Magento\CustomerSegment\Model\Condition\AbstractCondition;
 
 /**
  * Shopping cart product qty condition
  */
-namespace Magento\CustomerSegment\Model\Segment\Condition\Shoppingcart;
-
-class Productsquantity
-    extends \Magento\CustomerSegment\Model\Condition\AbstractCondition
+class Productsquantity extends AbstractCondition
 {
     /**
      * @var string
@@ -39,7 +40,7 @@ class Productsquantity
     /**
      * Get array of event names where segment with such conditions combine can be matched
      *
-     * @return array
+     * @return string[]
      */
     public function getMatchedEvents()
     {
@@ -73,8 +74,8 @@ class Productsquantity
     /**
      * Get SQL select for matching shopping cart products count
      *
-     * @param $customer
-     * @param int | \Zend_Db_Expr $website
+     * @param Customer|\Zend_Db_Expr $customer
+     * @param int|\Zend_Db_Expr $website
      * @return \Magento\DB\Select
      */
     public function getConditionsSql($customer, $website)

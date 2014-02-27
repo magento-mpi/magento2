@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerCustomAttributes\Model;
 
 /**
  * Customer observer
  */
-namespace Magento\CustomerCustomAttributes\Model;
-
 class Observer
 {
     const CONVERT_ALGORITM_SOURCE_TARGET_WITH_PREFIX = 1;
@@ -72,7 +71,7 @@ class Observer
      * After load observer for quote
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\CustomerCustomAttributes\Model\Observer
+     * @return $this
      */
     public function salesQuoteAfterLoad(\Magento\Event\Observer $observer)
     {
@@ -90,7 +89,7 @@ class Observer
      * After load observer for collection of quote address
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\CustomerCustomAttributes\Model\Observer
+     * @return $this
      */
     public function salesQuoteAddressCollectionAfterLoad(\Magento\Event\Observer $observer)
     {
@@ -107,7 +106,7 @@ class Observer
      * After save observer for quote
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\CustomerCustomAttributes\Model\Observer
+     * @return $this
      */
     public function salesQuoteAfterSave(\Magento\Event\Observer $observer)
     {
@@ -124,7 +123,7 @@ class Observer
      * After save observer for quote address
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\CustomerCustomAttributes\Model\Observer
+     * @return $this
      */
     public function salesQuoteAddressAfterSave(\Magento\Event\Observer $observer)
     {
@@ -141,7 +140,7 @@ class Observer
      * After load observer for order
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\CustomerCustomAttributes\Model\Observer
+     * @return $this
      */
     public function salesOrderAfterLoad(\Magento\Event\Observer $observer)
     {
@@ -159,7 +158,7 @@ class Observer
      * After load observer for collection of order address
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\CustomerCustomAttributes\Model\Observer
+     * @return $this
      */
     public function salesOrderAddressCollectionAfterLoad(\Magento\Event\Observer $observer)
     {
@@ -176,7 +175,7 @@ class Observer
      * After save observer for order
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\CustomerCustomAttributes\Model\Observer
+     * @return $this
      */
     public function salesOrderAfterSave(\Magento\Event\Observer $observer)
     {
@@ -193,7 +192,7 @@ class Observer
      * After load observer for order address
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\CustomerCustomAttributes\Model\Observer
+     * @return $this
      */
     public function salesOrderAddressAfterLoad(\Magento\Event\Observer $observer)
     {
@@ -210,7 +209,7 @@ class Observer
      * After save observer for order address
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\CustomerCustomAttributes\Model\Observer
+     * @return $this
      */
     public function salesOrderAddressAfterSave(\Magento\Event\Observer $observer)
     {
@@ -227,7 +226,7 @@ class Observer
      * Before save observer for customer attribute
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\CustomerCustomAttributes\Model\Observer
+     * @return $this
      * @throws \Magento\Eav\Exception
      */
     public function enterpriseCustomerAttributeBeforeSave(\Magento\Event\Observer $observer)
@@ -255,7 +254,7 @@ class Observer
      * After save observer for customer attribute
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\CustomerCustomAttributes\Model\Observer
+     * @return $this
      */
     public function enterpriseCustomerAttributeSave(\Magento\Event\Observer $observer)
     {
@@ -275,7 +274,7 @@ class Observer
      * After delete observer for customer attribute
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\CustomerCustomAttributes\Model\Observer
+     * @return $this
      */
     public function enterpriseCustomerAttributeDelete(\Magento\Event\Observer $observer)
     {
@@ -295,7 +294,7 @@ class Observer
      * After save observer for customer address attribute
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\CustomerCustomAttributes\Model\Observer
+     * @return $this
      */
     public function enterpriseCustomerAddressAttributeSave(\Magento\Event\Observer $observer)
     {
@@ -315,7 +314,7 @@ class Observer
      * After delete observer for customer address attribute
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\CustomerCustomAttributes\Model\Observer
+     * @return $this
      */
     public function enterpriseCustomerAddressAttributeDelete(\Magento\Event\Observer $observer)
     {
@@ -335,7 +334,7 @@ class Observer
      * Observer for converting quote to order
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\CustomerCustomAttributes\Model\Observer
+     * @return $this
      */
     public function coreCopyFieldsetSalesConvertQuoteToOrder(\Magento\Event\Observer $observer)
     {
@@ -352,7 +351,7 @@ class Observer
      * Observer for converting quote address to order address
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\CustomerCustomAttributes\Model\Observer
+     * @return $this
      */
     public function coreCopyFieldsetSalesConvertQuoteAddressToOrderAddress(\Magento\Event\Observer $observer)
     {
@@ -369,7 +368,7 @@ class Observer
      * Observer for converting order to quote
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\CustomerCustomAttributes\Model\Observer
+     * @return $this
      */
     public function coreCopyFieldsetSalesCopyOrderToEdit(\Magento\Event\Observer $observer)
     {
@@ -386,7 +385,7 @@ class Observer
      * Observer for converting order billing address to quote billing address
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\CustomerCustomAttributes\Model\Observer
+     * @return $this
      */
     public function coreCopyFieldsetSalesCopyOrderBillingAddressToOrder(\Magento\Event\Observer $observer)
     {
@@ -403,7 +402,7 @@ class Observer
      * Observer for converting order shipping address to quote shipping address
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\CustomerCustomAttributes\Model\Observer
+     * @return $this
      */
     public function coreCopyFieldsetSalesCopyOrderShippingAddressToOrder(\Magento\Event\Observer $observer)
     {
@@ -420,7 +419,7 @@ class Observer
      * Observer for converting customer to quote
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\CustomerCustomAttributes\Model\Observer
+     * @return $this
      */
     public function coreCopyFieldsetCustomerAccountToQuote(\Magento\Event\Observer $observer)
     {
@@ -437,7 +436,7 @@ class Observer
      * Observer for converting customer address to quote address
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\CustomerCustomAttributes\Model\Observer
+     * @return $this
      */
     public function coreCopyFieldsetCustomerAddressToQuoteAddress(\Magento\Event\Observer $observer)
     {
@@ -454,7 +453,7 @@ class Observer
      * Observer for converting quote address to customer address
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\CustomerCustomAttributes\Model\Observer
+     * @return $this
      */
     public function coreCopyFieldsetQuoteAddressToCustomerAddress(\Magento\Event\Observer $observer)
     {
@@ -471,7 +470,7 @@ class Observer
      * Observer for converting quote to customer
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\CustomerCustomAttributes\Model\Observer
+     * @return $this
      */
     public function coreCopyFieldsetCheckoutOnepageQuoteToCustomer(\Magento\Event\Observer $observer)
     {
@@ -490,7 +489,7 @@ class Observer
      * @param \Magento\Event\Observer $observer
      * @param int $algoritm
      * @param int $convertType
-     * @return \Magento\CustomerCustomAttributes\Model\Observer
+     * @return $this
      */
     protected function _copyFieldset(\Magento\Event\Observer $observer, $algoritm, $convertType)
     {

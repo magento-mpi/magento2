@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\CustomerSegment\Model\Resource;
 
 /**
  * Enterprise CustomerSegment Customer Resource Model
@@ -16,8 +16,6 @@
  * @package     Magento_CustomerSegment
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\CustomerSegment\Model\Resource;
-
 class Customer extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
@@ -37,6 +35,8 @@ class Customer extends \Magento\Core\Model\Resource\Db\AbstractDb
 
     /**
      * Intialize resource model
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -49,7 +49,7 @@ class Customer extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param int $customerId
      * @param int $websiteId
      * @param array $segmentIds
-     * @return \Magento\CustomerSegment\Model\Resource\Customer
+     * @return $this
      */
     public function addCustomerToWebsiteSegments($customerId, $websiteId, $segmentIds)
     {
@@ -73,7 +73,7 @@ class Customer extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param int $customerId
      * @param int $websiteId
      * @param array $segmentIds
-     * @return \Magento\CustomerSegment\Model\Resource\Customer
+     * @return $this
      */
     public function removeCustomerFromWebsiteSegments($customerId, $websiteId, $segmentIds)
     {
