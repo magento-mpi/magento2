@@ -8,5 +8,5 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <block class="Magento\Checkout\Block\Onepage\Shipping\Method\Available" name="root" output="1" template="onepage/shipping_method/available.phtml" cacheable="false"/>
+    <block class="Magento\Checkout\Block\Onepage\Shipping\Method\Available" name="root" output="1" template="onepage/shipping_method/available.phtml"/>
 </layout>

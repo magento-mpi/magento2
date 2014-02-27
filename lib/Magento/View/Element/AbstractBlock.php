@@ -713,6 +713,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      * @param array $params
      * @return string
      */
+
     public function getViewFileUrl($file = null, array $params = array())
     {
         try {

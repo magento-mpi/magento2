@@ -118,7 +118,7 @@ class Visitor extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Module\Manager $moduleManager
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
-     * @param array $ignoredUserAgents
+     * @param string[] $ignoredUserAgents
      * @param array $ignores
      * @param array $data
      */
