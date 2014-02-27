@@ -20,6 +20,31 @@
         <param name="catalogSession">
             <instance type="Magento\Catalog\Model\Session\Proxy" />
         </param>
+        <param name="reindexPriceIndexerData">
+            <array>
+                <item key="byDataResult">
+                    <array>
+                        <item key="group_price_changed"><value>group_price_changed</value></item>
+                        <item key="tier_price_changed"><value>tier_price_changed</value></item>
+                    </array>
+                </item>
+                <item key="byDataChange">
+                    <array>
+                        <item key="status"><value>status</value></item>
+                        <item key="price"><value>price</value></item>
+                        <item key="special_price"><value>special_price</value></item>
+                        <item key="special_from_date"><value>special_from_date</value></item>
+                        <item key="special_to_date"><value>special_to_date</value></item>
+                        <item key="website_ids"><value>website_ids</value></item>
+                        <item key="msrp"><value>msrp</value></item>
+                        <item key="msrp_enabled"><value>msrp_enabled</value></item>
+                        <item key="msrp_display_actual_price_type"><value>msrp_display_actual_price_type</value></item>
+                        <item key="gift_wrapping_price"><value>gift_wrapping_price</value></item>
+                        <item key="tax_class_id"><value>tax_class_id</value></item>
+                    </array>
+                </item>
+            </array>
+        </param>
     </type>
     <type name="Magento\Catalog\Model\Product">
         <param name="catalogProductStatus">
@@ -148,8 +173,7 @@
         <plugin name="storeGroupResourceAroundSave" type="Magento\Catalog\Model\Indexer\Category\Flat\Plugin\StoreGroup"/>
     </type>
     <type name="Magento\Customer\Model\Resource\Group">
-        <plugin name="invalidatePriceIndexerOnCustomerGroupDelete" type="Magento\Catalog\Model\Indexer\Product\Price\Plugin\CustomerGroup"/>
-        <plugin name="invalidatePriceIndexerOnCustomerGroupCreate" type="Magento\Catalog\Model\Indexer\Product\Price\Plugin\CustomerGroup"/>
+        <plugin name="invalidatePriceIndexerOnCustomerGroup" type="Magento\Catalog\Model\Indexer\Product\Price\Plugin\CustomerGroup"/>
     </type>
     <type name="Magento\Catalog\Model\Indexer\Product\Price\Plugin\AbstractPlugin">
         <param name="indexer">
@@ -188,33 +212,6 @@
                 <item key="links_related"><value type="const">Magento\Catalog\Model\Product\Link::LINK_TYPE_RELATED</value></item>
                 <item key="links_crosssell"><value type="const">Magento\Catalog\Model\Product\Link::LINK_TYPE_CROSSSELL</value></item>
                 <item key="links_upsell"><value type="const">Magento\Catalog\Model\Product\Link::LINK_TYPE_UPSELL</value></item>
-            </array>
-        </param>
-    </type>
-    <type name="Magento\Catalog\Helper\Product">
-        <param name="reindexPriceIndexerData">
-            <array>
-                <item key="byDataResult">
-                    <array>
-                        <item key="group_price_changed"><value>group_price_changed</value></item>
-                        <item key="tier_price_changed"><value>tier_price_changed</value></item>
-                    </array>
-                </item>
-                <item key="byDataChange">
-                    <array>
-                        <item key="status"><value>status</value></item>
-                        <item key="price"><value>price</value></item>
-                        <item key="special_price"><value>special_price</value></item>
-                        <item key="special_from_date"><value>special_from_date</value></item>
-                        <item key="special_to_date"><value>special_to_date</value></item>
-                        <item key="website_ids"><value>website_ids</value></item>
-                        <item key="msrp"><value>msrp</value></item>
-                        <item key="msrp_enabled"><value>msrp_enabled</value></item>
-                        <item key="msrp_display_actual_price_type"><value>msrp_display_actual_price_type</value></item>
-                        <item key="gift_wrapping_price"><value>gift_wrapping_price</value></item>
-                        <item key="tax_class_id"><value>tax_class_id</value></item>
-                    </array>
-                </item>
             </array>
         </param>
     </type>
