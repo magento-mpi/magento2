@@ -31,10 +31,13 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
         $indexerMock->expects($this->any())->method('getId')->will($this->returnValue(1));
 
         $priceHelperMock = $this->getMock('\Magento\Catalog\Helper\Product\Price', array(), array(), '', false);
-        $this->_model = $this->_objectManager->getObject('\Magento\Catalog\Model\Indexer\Product\Price\Processor', array(
-            'indexer' => $indexerMock,
-            'helper'  => $priceHelperMock
-        ));
+        $this->_model = $this->_objectManager->getObject(
+            '\Magento\Catalog\Model\Indexer\Product\Price\Processor',
+            array(
+                'indexer' => $indexerMock,
+                'helper'  => $priceHelperMock
+            )
+        );
     }
 
     public function testGetIndexer()

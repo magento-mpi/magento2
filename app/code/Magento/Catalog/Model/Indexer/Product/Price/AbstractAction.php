@@ -373,7 +373,7 @@ abstract class AbstractAction
     {
         $this->getTypeIndexers();
         if (!isset($this->_indexers[$productTypeId])) {
-            throw new \Magento\Catalog\Exception(__('Unsupported product type "%s".', $productTypeId));
+            throw new \Magento\Catalog\Exception(__('Unsupported product type "%s".', array($productTypeId)));
         }
         return $this->_indexers[$productTypeId];
     }
@@ -503,7 +503,7 @@ abstract class AbstractAction
             }
         }
         $this->_syncData($changedIds);
-        
+
         return $compositeIds + $notCompositeIds;
     }
 
