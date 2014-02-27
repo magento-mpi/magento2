@@ -7,7 +7,7 @@
  */
 namespace Magento\RecurringProfile\Block\Adminhtml\Product\Edit\Tab\Price;
 
-class SuccessTest extends \PHPUnit_Framework_TestCase
+class RecurringTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\View\Element\BlockFactory
