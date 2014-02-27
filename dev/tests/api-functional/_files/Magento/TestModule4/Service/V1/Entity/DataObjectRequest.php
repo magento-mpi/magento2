@@ -8,7 +8,7 @@
 
 namespace Magento\TestModule4\Service\V1\Entity;
 
-class DtoRequest extends \Magento\Service\Data\AbstractObject
+class DataObjectRequest extends \Magento\Service\Data\AbstractObject
 {
     /**
      * @return string

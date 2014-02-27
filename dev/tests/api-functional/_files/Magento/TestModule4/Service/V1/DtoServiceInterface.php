@@ -9,28 +9,28 @@
 namespace Magento\TestModule4\Service\V1;
 
 use Magento\TestModule4\Service\V1\Entity\NestedDtoRequest;
-use Magento\TestModule4\Service\V1\Entity\DtoRequest;
+use Magento\TestModule4\Service\V1\Entity\DataObjectRequest;
 
 interface DtoServiceInterface
 {
     /**
      * @param int $id
-     * @return \Magento\TestModule4\Service\V1\Entity\DtoResponse
+     * @return \Magento\TestModule4\Service\V1\Entity\DataObjectResponse
      */
     public function getData($id);
 
     /**
      * @param int $id
-     * @param \Magento\TestModule4\Service\V1\Entity\DtoRequest $request
-     * @return \Magento\TestModule4\Service\V1\Entity\DtoResponse
+     * @param \Magento\TestModule4\Service\V1\Entity\DataObjectRequest $request
+     * @return \Magento\TestModule4\Service\V1\Entity\DataObjectResponse
      */
-    public function updateData($id, DtoRequest $request);
+    public function updateData($id, DataObjectRequest $request);
 
 
     /**
      * @param int $id
      * @param \Magento\TestModule4\Service\V1\Entity\NestedDtoRequest $request
-     * @return \Magento\TestModule4\Service\V1\Entity\DtoResponse
+     * @return \Magento\TestModule4\Service\V1\Entity\DataObjectResponse
      */
     public function nestedData($id, NestedDtoRequest $request);
 

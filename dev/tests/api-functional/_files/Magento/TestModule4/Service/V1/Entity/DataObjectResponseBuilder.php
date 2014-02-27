@@ -8,11 +8,11 @@
 
 namespace Magento\TestModule4\Service\V1\Entity;
 
-class DtoResponseBuilder extends \Magento\Service\Data\AbstractObjectBuilder
+class DataObjectResponseBuilder extends \Magento\Service\Data\AbstractObjectBuilder
 {
     /**
      * @param int $entityId
-     * @return DtoResponseBuilder
+     * @return DataObjectResponseBuilder
      */
     public function setEntityId($entityId)
     {
@@ -21,7 +21,7 @@ class DtoResponseBuilder extends \Magento\Service\Data\AbstractObjectBuilder
 
     /**
      * @param string $name
-     * @return DtoResponseBuilder
+     * @return DataObjectResponseBuilder
      */
     public function setName($name)
     {

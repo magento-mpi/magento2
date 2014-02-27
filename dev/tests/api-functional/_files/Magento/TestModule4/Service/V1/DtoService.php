@@ -8,9 +8,9 @@
 
 namespace Magento\TestModule4\Service\V1;
 
-use Magento\TestModule4\Service\V1\Entity\DtoResponseBuilder;
+use Magento\TestModule4\Service\V1\Entity\DataObjectResponseBuilder;
 use Magento\TestModule4\Service\V1\Entity\NestedDtoRequest;
-use Magento\TestModule4\Service\V1\Entity\DtoRequest;
+use Magento\TestModule4\Service\V1\Entity\DataObjectRequest;
 
 class DtoService implements \Magento\TestModule4\Service\V1\DtoServiceInterface
 {
@@ -19,16 +19,16 @@ class DtoService implements \Magento\TestModule4\Service\V1\DtoServiceInterface
      */
     public function getData($id)
     {
-        $response = new DtoResponseBuilder();
+        $response = new DataObjectResponseBuilder();
         return $response->setEntityId($id)->setName("Test")->create();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function updateData($id, DtoRequest $request)
+    public function updateData($id, DataObjectRequest $request)
     {
-        $response = new DtoResponseBuilder();
+        $response = new DataObjectResponseBuilder();
         return $response->setEntityId($id)->setName($request->getName())->create();
     }
 
@@ -37,7 +37,7 @@ class DtoService implements \Magento\TestModule4\Service\V1\DtoServiceInterface
      */
     public function nestedData($id, NestedDtoRequest $request)
     {
-        $response = new DtoResponseBuilder();
+        $response = new DataObjectResponseBuilder();
         return $response->setEntityId($id)->setName($request->getDetails()->getName())->create();
     }
 
