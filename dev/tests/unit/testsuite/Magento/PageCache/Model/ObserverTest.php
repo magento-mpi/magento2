@@ -33,6 +33,9 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\PageCache\Helper\Data */
     protected $_helperMock;
 
+    /** @var  \Magento\App\Cache\TypeListInterface */
+    protected $_typeListMock;
+
     /** @var \Magento\Object */
     protected $_transport;
 
@@ -47,10 +50,12 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_configMock = $this->getMock('Magento\PageCache\Model\Config', ['getType'], [], '', false);
         $this->_cacheMock = $this->getMock('Magento\App\PageCache\Cache', ['clean'], [], '', false);
         $this->_helperMock = $this->getMock('Magento\PageCache\Helper\Data', [], [], '', false);
+        $this->_typeListMock  = $this->getMock('Magento\App\Cache\TypeList', [], [], '', false);
         $this->_model = new \Magento\PageCache\Model\Observer(
             $this->_configMock,
             $this->_cacheMock,
-            $this->_helperMock
+            $this->_helperMock,
+            $this->_typeListMock
         );
         $this->_observerMock = $this->getMock('Magento\Event\Observer', ['getEvent'], [], '', false);
         $this->_layoutMock = $this->getMock(
@@ -177,7 +182,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->method('clean')
             ->with($this->equalTo($expectedTags));
 
-        $this->_model->invalidateCache($this->_observerMock);
+        $this->_model->flushCacheByTags($this->_observerMock);
     }
 
     /**

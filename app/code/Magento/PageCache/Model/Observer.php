@@ -33,6 +33,11 @@ class Observer
     protected $_helper;
 
     /**
+     * @var \Magento\App\Cache\TypeListInterface
+     */
+    protected $_typeList;
+
+    /**
      * Constructor
      *
      * @param \Magento\PageCache\Model\Config $config
@@ -42,11 +47,13 @@ class Observer
     public function __construct(
         \Magento\PageCache\Model\Config $config,
         \Magento\App\PageCache\Cache $cache,
-        \Magento\PageCache\Helper\Data $helper
+        \Magento\PageCache\Helper\Data $helper,
+        \Magento\App\Cache\TypeListInterface $typeList
     ){
         $this->_config = $config;
         $this->_cache = $cache;
         $this->_helper = $helper;
+        $this->_typeList = $typeList;
     }
 
     /**
@@ -108,7 +115,7 @@ class Observer
      *
      * @param \Magento\Event\Observer $observer
      */
-    public function invalidateCache(\Magento\Event\Observer $observer)
+    public function flushCacheByTags(\Magento\Event\Observer $observer)
     {
         if($this->_config->getType() == \Magento\PageCache\Model\Config::BUILT_IN) {
             $object = $observer->getEvent()->getObject();
@@ -133,4 +140,15 @@ class Observer
             $this->_cache->clean();
         }
     }
+
+    /**
+     * Invalidate full page cache
+     * @return \Magento\PageCache\Model\Observer
+     */
+    public function invalidateCache()
+    {
+         $this->_typeList->invalidate('full_page');
+         return $this;
+    }
+
 }
