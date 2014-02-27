@@ -768,9 +768,11 @@ class Quote extends \Magento\Core\Model\AbstractModel
          * we need to retrieve from db every time to get the correct tax class
          */
         //if (!$this->getData('customer_group_id') && !$this->getData('customer_tax_class_id')) {
-        $classId = $this->_customerGroupService->getGroup($this->getCustomerGroupId())->getTaxClassId();
-        $this->setCustomerTaxClassId($classId);
-        //}
+        $groupId = $this->getCustomerGroupId();
+        if ($groupId) {
+            $classId = $this->_customerGroupService->getGroup($this->getCustomerGroupId())->getTaxClassId();
+            $this->setCustomerTaxClassId($classId);
+        }
 
         return $this->getData('customer_tax_class_id');
     }
