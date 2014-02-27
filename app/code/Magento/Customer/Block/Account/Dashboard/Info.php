@@ -33,10 +33,8 @@ class Info extends \Magento\View\Element\Template
      */
     protected $_subscriberFactory;
 
-    /**
-     * @var CustomerMetadataServiceInterface
-     */
-    protected $_metadataService;
+    /** @var \Magento\Customer\Helper\View */
+    protected $_helperView;
 
     /** @var  \Magento\Customer\Service\V1\CustomerServiceInterface */
     protected $_customerService;
@@ -45,22 +43,22 @@ class Info extends \Magento\View\Element\Template
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Customer\Service\V1\CustomerServiceInterface $customerService
-     * @param CustomerMetadataServiceInterface $metadataService
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
+     * @param \Magento\Customer\Helper\View $helperView
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Customer\Service\V1\CustomerServiceInterface $customerService,
-        CustomerMetadataServiceInterface $metadataService,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
+        \Magento\Customer\Helper\View $helperView,
         array $data = array()
     ) {
         $this->_customerSession = $customerSession;
         $this->_customerService = $customerService;
-        $this->_metadataService = $metadataService;
         $this->_subscriberFactory = $subscriberFactory;
+        $this->_helperView = $helperView;
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
     }
@@ -83,30 +81,10 @@ class Info extends \Magento\View\Element\Template
      * Get the full name of a customer
      *
      * @return string full name
-     *
-     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function getName()
     {
-        $name = '';
-
-        $customer = $this->getCustomer();
-
-        $prefixMetadata = $this->_getAttributeMetadata('prefix');
-        if (!is_null($prefixMetadata) && $prefixMetadata->isVisible() && $customer->getPrefix()) {
-            $name .= $customer->getPrefix() . ' ';
-        }
-        $name .= $customer->getFirstname();
-        $midNameMetadata = $this->_getAttributeMetadata('middlename');
-        if (!is_null($midNameMetadata) && $midNameMetadata->isVisible() && $customer->getMiddlename()) {
-            $name .= ' ' . $customer->getMiddlename();
-        }
-        $name .=  ' ' . $customer->getLastname();
-        $suffixMetadata = $this->_getAttributeMetadata('suffix');
-        if (!is_null($suffixMetadata) && $suffixMetadata->isVisible() && $customer->getSuffix()) {
-            $name .= ' ' . $customer->getSuffix();
-        }
-        return $name;
+        return $this->_helperView->getCustomerName($this->getCustomer());
     }
 
     public function getChangePasswordUrl()
@@ -159,18 +137,5 @@ class Info extends \Magento\View\Element\Template
     protected function _createSubscriber()
     {
         return $this->_subscriberFactory->create();
-    }
-
-    /**
-     * @param string $attributeCode
-     * @return \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata|null
-     */
-    protected function _getAttributeMetadata($attributeCode)
-    {
-        try {
-            return $this->_metadataService->getCustomerAttributeMetadata($attributeCode);
-        } catch (NoSuchEntityException $e) {
-            return null;
-        }
     }
 }
