@@ -62,7 +62,7 @@ class Shipment extends \Magento\Sales\Block\Items\AbstractItems
     /**
      * Load all tracks and save it to local cache by shipments
      *
-     * @return \Magento\Sales\Block\Order\PrintOrder\Shipment
+     * @return $this
      */
     protected function _beforeToHtml()
     {

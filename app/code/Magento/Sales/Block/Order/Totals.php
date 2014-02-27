@@ -22,6 +22,7 @@ class Totals extends \Magento\View\Element\Template
      * @var array
      */
     protected $_totals;
+
     /**
      * @var Order|null
      */
@@ -51,7 +52,7 @@ class Totals extends \Magento\View\Element\Template
     /**
      * Initialize self totals and children blocks totals before html building
      *
-     * @return \Magento\Sales\Block\Order\Totals
+     * @return $this
      */
     protected function _beforeToHtml()
     {

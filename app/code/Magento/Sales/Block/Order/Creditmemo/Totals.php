@@ -9,6 +9,8 @@
  */
 namespace Magento\Sales\Block\Order\Creditmemo;
 
+use Magento\Sales\Model\Order\Creditmemo;
+
 class Totals extends \Magento\Sales\Block\Order\Totals
 {
     /**
@@ -26,12 +28,12 @@ class Totals extends \Magento\Sales\Block\Order\Totals
     }
 
     /**
-     * @var \Magento\Sales\Model\Order\Creditmemo|null
+     * @var Creditmemo|null
      */
     protected $_creditmemo = null;
 
     /**
-     * @return \Magento\Sales\Model\Order\Creditmemo|null
+     * @return Creditmemo|null
      */
     public function getCreditmemo()
     {
@@ -48,7 +50,7 @@ class Totals extends \Magento\Sales\Block\Order\Totals
     }
 
     /**
-     * @param \Magento\Sales\Model\Order\Creditmemo $creditmemo
+     * @param Creditmemo $creditmemo
      * @return $this
      */
     public function setCreditmemo($creditmemo)
@@ -60,7 +62,7 @@ class Totals extends \Magento\Sales\Block\Order\Totals
     /**
      * Get totals source object
      *
-     * @return \Magento\Sales\Model\Order\Creditmemo
+     * @return Creditmemo
      */
     public function getSource()
     {
