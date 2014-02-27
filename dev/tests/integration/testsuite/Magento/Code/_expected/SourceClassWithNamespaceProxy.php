@@ -1,16 +1,15 @@
 <?php
+namespace Magento\Code\GeneratorTest\SourceClassWithNamespace;
+
 /**
- * Proxy class for \Magento\Code\GeneratorTest\SourceClassWithoutNamespace
+ * Proxy class for Magento\Code\GeneratorTest\SourceClassWithNamespace
  *
  * {license_notice}
  *
  * @copyright {copyright}
  * @license   {license_link}
  */
-namespace Magento\Code\GeneratorTest;
-
-class SourceClassWithoutNamespaceProxy
-    extends \Magento\Code\GeneratorTest\SourceClassWithoutNamespace
+class Proxy extends \Magento\Code\GeneratorTest\SourceClassWithNamespace
 {
     /**
      * Object Manager instance
@@ -29,7 +28,7 @@ class SourceClassWithoutNamespaceProxy
     /**
      * Proxied instance
      *
-     * @var \Magento\Code\GeneratorTest\SourceClassWithoutNamespace
+     * @var \Magento\Code\GeneratorTest\SourceClassWithNamespace
      */
     protected $_subject = null;
 
@@ -47,11 +46,8 @@ class SourceClassWithoutNamespaceProxy
      * @param string $instanceName
      * @param bool $shared
      */
-    public function __construct(
-        \Magento\ObjectManager $objectManager,
-        $instanceName = 'Magento\Code\GeneratorTest\SourceClassWithoutNamespace',
-        $shared = true
-    ) {
+    public function __construct(\Magento\ObjectManager $objectManager, $instanceName = 'Magento\Code\GeneratorTest\SourceClassWithNamespace', $shared = true)
+    {
         $this->_objectManager = $objectManager;
         $this->_instanceName = $instanceName;
         $this->_isShared = $shared;
@@ -84,7 +80,7 @@ class SourceClassWithoutNamespaceProxy
     /**
      * Get proxied instance
      *
-     * @return \Magento\Code\GeneratorTest\SourceClassWithoutNamespace
+     * @return \Magento\Code\GeneratorTest\SourceClassWithNamespace
      */
     protected function _getSubject()
     {
@@ -99,24 +95,16 @@ class SourceClassWithoutNamespaceProxy
     /**
      * {@inheritdoc}
      */
-    public function publicChildMethod(
-        \Zend\Code\Generator\ClassGenerator $classGenerator,
-        $param1 = '',
-        $param2 = '\\',
-        $param3 = '\'',
-        array $array = array()
-    ) {
+    public function publicChildMethod(\Zend\Code\Generator\ClassGenerator $classGenerator, $param1 = '', $param2 = '\\', $param3 = '\'', array $array = array())
+    {
         return $this->_getSubject()->publicChildMethod($classGenerator, $param1, $param2, $param3, $array);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function publicMethodWithReference(
-        \Zend\Code\Generator\ClassGenerator &$classGenerator,
-        &$param1,
-        array &$array
-    ) {
+    public function publicMethodWithReference(\Zend\Code\Generator\ClassGenerator &$classGenerator, &$param1, array &$array)
+    {
         return $this->_getSubject()->publicMethodWithReference($classGenerator, $param1, $array);
     }
 
@@ -131,13 +119,8 @@ class SourceClassWithoutNamespaceProxy
     /**
      * {@inheritdoc}
      */
-    public function publicParentMethod(
-        \Zend\Code\Generator\DocBlockGenerator $docBlockGenerator,
-        $param1 = '',
-        $param2 = '\\',
-        $param3 = '\'',
-        array $array = array()
-    ) {
+    public function publicParentMethod(\Zend\Code\Generator\DocBlockGenerator $docBlockGenerator, $param1 = '', $param2 = '\\', $param3 = '\'', array $array = array())
+    {
         return $this->_getSubject()->publicParentMethod($docBlockGenerator, $param1, $param2, $param3, $array);
     }
 

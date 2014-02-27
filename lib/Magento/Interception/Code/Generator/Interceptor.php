@@ -61,6 +61,16 @@ class Interceptor extends \Magento\Code\Generator\EntityAbstract
                     )
                 ),
             ),
+            array(
+                'name' => 'subjectType',
+                'visibility' => 'protected',
+                'docblock' => array(
+                    'shortDescription' => 'Subject type name',
+                    'tags' => array(
+                        array('name' => 'var', 'description' => 'string')
+                    )
+                ),
+            ),
         );
     }
 
@@ -138,11 +148,6 @@ class Interceptor extends \Magento\Code\Generator\EntityAbstract
                 array('name' => 'arguments', 'type' => 'array'),
                 array('name' => 'pluginInfo', 'type' => 'array'),
             ),
-            'docblock' => array(
-                'tags' => array(
-                    array('name' => 'var', 'description' => 'self')
-                )
-            ),
             'body' => "\$capMethod = ucfirst(\$method);\n"
                 . "\$result = null;\n"
                 . "if (isset(\$pluginInfo[\\Magento\\Interception\\Definition::LISTENER_BEFORE])) {\n"
@@ -174,7 +179,7 @@ class Interceptor extends \Magento\Code\Generator\EntityAbstract
                 . "if (isset(\$pluginInfo[\\Magento\\Interception\\Definition::LISTENER_AFTER])) {\n"
                 . "    foreach (\$pluginInfo[\\Magento\\Interception\\Definition::LISTENER_AFTER] as \$code) {\n"
                 . "        \$result = \$this->pluginList->getPlugin(\$this->subjectType, \$code)\n"
-                . "             ->{'after' . \$capMethod}(\$this, \$result);\n"
+                . "            ->{'after' . \$capMethod}(\$this, \$result);\n"
                 . "    }\n"
                 . "}\n"
                 . "return \$result;\n"
