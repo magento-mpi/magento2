@@ -17,6 +17,7 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
      * @var Category
      */
     protected $model;
+
     /**
      * @var \Magento\Filter\FilterManager|\PHPUnit_Framework_MockObject_MockObject
      */
