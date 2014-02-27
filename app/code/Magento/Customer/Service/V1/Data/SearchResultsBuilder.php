@@ -11,6 +11,11 @@ namespace Magento\Customer\Service\V1\Data;
 
 use Magento\Customer\Service\V1\Data\SearchCriteria;
 
+/**
+ * Builder for the SearchResults
+ *
+ * @method SearchResults create()
+ */
 class SearchResultsBuilder extends \Magento\Service\Data\AbstractObjectBuilder
 {
     /**

@@ -127,7 +127,7 @@ abstract class AbstractObjectBuilder
     }
 
     /**
-     * Builds the entity.
+     * Builds the Data Object
      *
      * @return AbstractObject
      */

@@ -11,6 +11,8 @@ use Magento\Service\Data\AbstractObjectBuilder;
 
 /**
  * Builder for Filter Data Object.
+ *
+ * @method Filter create()
  */
 class FilterBuilder extends AbstractObjectBuilder
 {

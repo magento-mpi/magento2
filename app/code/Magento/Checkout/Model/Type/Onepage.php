@@ -762,7 +762,7 @@ class Onepage
                 $customerShippingData = $shipping->exportCustomerAddressData();
                 $customerShippingData = $this->_addressBuilder->populate($customerShippingData)
                     ->setDefaultShipping(true)->create();
-                $shipping->setCustomerAddress($customerShippingData);
+                $shipping->setCustomerAddressData($customerShippingData);
                 // Add shipping address to quote since customer Data Object does not hold address information
                 $quote->addCustomerAddressData($customerShippingData);
             } else {

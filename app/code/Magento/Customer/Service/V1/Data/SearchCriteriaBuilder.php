@@ -16,7 +16,9 @@ use Magento\Service\Data\AbstractObjectBuilder;
 class SearchCriteriaBuilder extends AbstractObjectBuilder
 {
     /**
-     * {@inheritdoc}
+     * Builds the Data Object
+     *
+     * @return SearchCriteria
      */
     public function create()
     {

@@ -33,11 +33,11 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $customerAddressService = Bootstrap::getObjectManager()->get(
             'Magento\Customer\Service\V1\CustomerAddressServiceInterface'
         );
-        $order->loadByIncrementId(FIXTURE_ORDER_INCREMENT_ID);
+        $order->loadByIncrementId('100000001');
         $this->_model->setOrder($order);
-        $this->_model->setCustomerAddressData($customerAddressService->getAddressById(FIXTURE_CUSTOMER_ADDRESS_ID));
+        $this->_model->setCustomerAddressData($customerAddressService->getAddressById(1));
         $this->_model->save();
         $this->assertEquals($order->getId(), $this->_model->getParentId());
-        $this->assertEquals($this->_model->getCustomerAddressId(), FIXTURE_CUSTOMER_ADDRESS_ID);
+        $this->assertEquals($this->_model->getCustomerAddressId(), 1);
     }
 }

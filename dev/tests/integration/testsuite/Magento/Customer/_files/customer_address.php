@@ -7,14 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-define('FIXTURE_CUSTOMER_ADDRESS_ID', 1);
 /** @var \Magento\Customer\Model\Address $customerAddress */
 $customerAddress = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
     ->create('Magento\Customer\Model\Address');
 $customerAddress->isObjectNew(true);
 $customerAddress
     ->setData(array(
-        'entity_id' => FIXTURE_CUSTOMER_ADDRESS_ID,
+        'entity_id' => 1,
         'attribute_set_id' => 2,
         'telephone' => 3468676,
         'postcode' => 75477,

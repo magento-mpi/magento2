@@ -1,7 +1,5 @@
 <?php
 /**
- * Address class acts as a Service Data Object for the Customer Service
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -9,10 +7,14 @@
  */
 namespace Magento\Customer\Service\V1\Data;
 
-use Magento\Service\Data\AbstractObject;
 use Magento\Service\Data\EAV\AbstractObjectBuilder;
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
 
+/**
+ * Address class acts as a Service Data Object for the Customer Service
+ *
+ * @method Address create()
+ */
 class AddressBuilder extends AbstractObjectBuilder
 {
     /** @var RegionBuilder */

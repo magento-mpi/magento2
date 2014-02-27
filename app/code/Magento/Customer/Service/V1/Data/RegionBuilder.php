@@ -1,7 +1,5 @@
 <?php
 /**
- * Customer Service Address Interface
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -9,6 +7,11 @@
  */
 namespace Magento\Customer\Service\V1\Data;
 
+/**
+ * Customer Service Address Interface
+ *
+ * @method Region create()
+ */
 class RegionBuilder extends \Magento\Service\Data\AbstractObjectBuilder
 {
     /**
