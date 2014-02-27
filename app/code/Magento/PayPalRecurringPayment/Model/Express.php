@@ -14,7 +14,7 @@ use \Magento\RecurringProfile\Model\States;
 use \Magento\RecurringProfile\Model\RecurringProfile;
 use \Magento\RecurringProfile\Model\ManagerInterface;
 
-class Express extends \Magento\Object implements ManagerInterface
+class Express implements ManagerInterface
 {
     /**
      * @var PayPalExpress
@@ -25,10 +25,19 @@ class Express extends \Magento\Object implements ManagerInterface
      * @param PayPalExpress $paymentMethod
      * @param array $data
      */
-    public function __construct(PayPalExpress $paymentMethod, array $data = array())
+    public function __construct(PayPalExpress $paymentMethod)
     {
         $this->_paymentMethod = $paymentMethod;
-        parent::__construct($data);
+    }
+
+    /**
+     * Get  Payment Method code
+     *
+     * @return string
+     */
+    public function getPaymentMethodCode()
+    {
+        return $this->_paymentMethod->getCode();
     }
 
     /**
@@ -47,8 +56,8 @@ class Express extends \Magento\Object implements ManagerInterface
         if (strlen($refId) > 127) { //  || !preg_match('/^[a-z\d\s]+$/i', $refId)
             $errors[] = __('The merchant\'s reference ID format is not supported.');
         }
-        $profile->getScheduleDescription(); // up to 127 single-byte alphanumeric
-        if (strlen($refId) > 127) { //  || !preg_match('/^[a-z\d\s]+$/i', $scheduleDescription)
+        $scheduleDescription = $profile->getScheduleDescription(); // up to 127 single-byte alphanumeric
+        if (strlen($scheduleDescription) > 127) { //  || !preg_match('/^[a-z\d\s]+$/i', $scheduleDescription)
             $errors[] = __('The schedule description is too long.');
         }
         if ($errors) {

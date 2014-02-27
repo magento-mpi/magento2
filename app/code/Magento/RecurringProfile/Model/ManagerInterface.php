@@ -59,4 +59,11 @@ interface ManagerInterface
      * @param RecurringProfile $profile
      */
     public function updateStatus(RecurringProfile $profile);
+
+    /**
+     * Get  Payment Method code
+     *
+     * @return string
+     */
+    public function getPaymentMethodCode();
 }

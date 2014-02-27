@@ -13,22 +13,19 @@ class PaymentAvailabilityObserver
 {
     /** @var  \Magento\RecurringProfile\Model\Quote\Filter */
     protected $quoteFilter;
+    /** @var  \Magento\RecurringProfile\Model\Method\RecurringPaymentSpecification */
+    protected $specification;
 
     /**
      * @param \Magento\RecurringProfile\Model\Quote\Filter $quoteFilter
+     * @param \Magento\RecurringProfile\Model\Method\RecurringPaymentSpecification $specification
      */
-    public function __construct(\Magento\RecurringProfile\Model\Quote\Filter $quoteFilter)
-    {
+    public function __construct(
+        \Magento\RecurringProfile\Model\Quote\Filter $quoteFilter,
+        \Magento\RecurringProfile\Model\Method\RecurringPaymentSpecification $specification
+    ) {
         $this->quoteFilter = $quoteFilter;
-    }
-
-    /**
-     * @param \Magento\Payment\Model\Method\AbstractMethod $paymentMethod
-     * @return bool
-     */
-    private function canManageRecurringProfiles(\Magento\Payment\Model\Method\AbstractMethod $paymentMethod)
-    {
-        return $paymentMethod instanceof \Magento\RecurringProfile\Model\ManagerInterface;
+        $this->specification = $specification;
     }
 
     /**
@@ -44,7 +41,7 @@ class PaymentAvailabilityObserver
 
         if ($quote
             && $this->quoteFilter->hasRecurringItems($quote)
-            && !$this->canManageRecurringProfiles($paymentMethod)
+            && !$this->specification->isSatisfiedBy($paymentMethod->getCode())
         ) {
             $result->isAvailable = false;
         }

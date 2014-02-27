@@ -40,7 +40,7 @@ class RecurringProfile extends \Magento\Core\Model\AbstractModel
     protected $_errors = array();
 
     /**
-     *
+     * @todo: remove manager dependency
      * @var ManagerInterface
      */
     protected $_manager = null;
@@ -403,7 +403,7 @@ class RecurringProfile extends \Magento\Core\Model\AbstractModel
     {
         // determine payment method/code
         if ($this->_manager) {
-            $this->setMethodCode($this->_manager->getCode());
+            $this->setMethodCode($this->_manager->getPaymentMethodCode());
         } elseif ($this->getMethodCode()) {
             $this->getManager();
         }
@@ -466,7 +466,6 @@ class RecurringProfile extends \Magento\Core\Model\AbstractModel
                 array('paymentMethod' => $this->_paymentData->getMethodInstance($this->getMethodCode()))
             );
         }
-        $this->_manager->setStore($this->getStoreId());
         return $this->_manager;
     }
 
