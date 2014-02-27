@@ -314,7 +314,7 @@
     <type name="Magento\App\StaticResource">
         <arguments>
             <argument name="response" xsi:type="object" shared="false">Magento\Core\Model\File\Storage\Response</argument>
-            <argument name="themeList" xsi:type="object" shared="false">Magento\Core\Model\Theme\Collection</argument>
+            <argument name="themeList" xsi:type="object">Magento\Core\Model\Theme\Collection</argument>
         </arguments>
     </type>
 </config>
