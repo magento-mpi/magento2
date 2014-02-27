@@ -26,6 +26,9 @@ class UspsTest extends \PHPUnit_Framework_TestCase
      */
     protected $_helper;
 
+    /**
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     public function setUp()
     {
         $this->_helper = new \Magento\TestFramework\Helper\ObjectManager($this);
@@ -51,8 +54,11 @@ class UspsTest extends \PHPUnit_Framework_TestCase
             ->will(
                 $this->returnCallback(
                     function ($data) {
-                        $oM = new \Magento\TestFramework\Helper\ObjectManager($this);
-                        return  $oM->getObject('\Magento\Shipping\Model\Simplexml\Element', array('data' => $data['data']));
+                        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
+                        return  $helper->getObject(
+                            '\Magento\Shipping\Model\Simplexml\Element',
+                            array('data' => $data['data'])
+                        );
                     }
                 )
             );

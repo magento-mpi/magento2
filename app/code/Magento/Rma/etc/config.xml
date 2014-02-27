@@ -19,9 +19,6 @@
             </magento_rma>
         </sales>
         <carriers>
-            <dhl>
-                <active_rma>0</active_rma>
-            </dhl>
             <fedex>
                 <active_rma>0</active_rma>
             </fedex>

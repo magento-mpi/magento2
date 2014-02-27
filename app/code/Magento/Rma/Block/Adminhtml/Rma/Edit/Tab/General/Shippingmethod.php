@@ -157,20 +157,26 @@ class Shippingmethod
      */
     public function displayCustomsValue()
     {
-        $storeId    = $this->getRma()->getStoreId();
-        $order      = $this->getRma()->getOrder();
-        $carrierCode= $this->getShipment()->getCarrierCode();
+        $storeId = $this->getRma()->getStoreId();
+        $order = $this->getRma()->getOrder();
+        $carrierCode = $this->getShipment()->getCarrierCode();
         if (!$carrierCode) {
             return false;
         }
-        $address    = $order->getShippingAddress();
-        $shipperAddressCountryCode  = $address->getCountryId();
-        $recipientAddressCountryCode= $this->_rmaData->getReturnAddressModel($storeId)->getCountryId();
+        $address = $order->getShippingAddress();
+        $shipperAddressCountryCode = $address->getCountryId();
+        $recipientAddressCountryCode = $this->_rmaData->getReturnAddressModel($storeId)->getCountryId();
 
-        if (($carrierCode == 'fedex' || $carrierCode == 'dhl')
-            && $shipperAddressCountryCode != $recipientAddressCountryCode) {
-            return true;
-        }
+        return $shipperAddressCountryCode != $recipientAddressCountryCode && $this->canDisplayCustomValue();
+    }
+
+    /**
+     * Checks carrier for possibility to display custom value. The result updated using plugins
+     *
+     * @return bool
+     */
+    public function canDisplayCustomValue()
+    {
         return false;
     }
 
