@@ -34,3 +34,9 @@ dev/tests/js
 dev/tests/static/testsuite/Magento/Test/Php/Exemplar/CodeStyleTest/phpcs/input
 # Example files that are expected to fail code mess detector
 dev/tests/static/testsuite/Magento/Test/Php/Exemplar/CodeMessTest/phpmd/input
+# Template class produced by code generation tool
+dev/tests/integration/testsuite/Magento/Code/_expected/SourceClassWithNamespaceFactory.php
+# Template class produced by code generation tool
+dev/tests/integration/testsuite/Magento/Code/_expected/SourceClassWithNamespaceInterceptor.php
+# Template class produced by code generation tool
+dev/tests/integration/testsuite/Magento/Code/_expected/SourceClassWithNamespaceProxy.php

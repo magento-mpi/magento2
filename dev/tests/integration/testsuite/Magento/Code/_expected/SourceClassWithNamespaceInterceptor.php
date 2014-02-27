@@ -88,7 +88,7 @@ class Interceptor extends \Magento\Code\GeneratorTest\SourceClassWithNamespace
             $type = $this->subjectType;
             $subject = $this;
             $code = $pluginInfo[\Magento\Interception\Definition::LISTENER_AROUND];
-            $next = function() use ($chain, $type, $method, $subject, $code) {
+            $next = function () use ($chain, $type, $method, $subject, $code) {
                 return $chain->invokeNext($type, $method, $subject, func_get_args(), $code);
             };
             $result = call_user_func_array(

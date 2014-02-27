@@ -166,7 +166,7 @@ class Interceptor extends \Magento\Code\Generator\EntityAbstract
                 . "    \$type = \$this->subjectType;\n"
                 . "    \$subject = \$this;\n"
                 . "    \$code = \$pluginInfo[\\Magento\\Interception\\Definition::LISTENER_AROUND];\n"
-                . "    \$next = function() use (\$chain, \$type, \$method, \$subject, \$code) {\n"
+                . "    \$next = function () use (\$chain, \$type, \$method, \$subject, \$code) {\n"
                 . "        return \$chain->invokeNext(\$type, \$method, \$subject, func_get_args(), \$code);\n"
                 . "    };\n"
                 . "    \$result = call_user_func_array(\n"
