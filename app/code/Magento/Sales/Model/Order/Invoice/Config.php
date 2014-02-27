@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Model\Order\Invoice;
 
 /**
  * Order invoice configuration model
  */
-namespace Magento\Sales\Model\Order\Invoice;
-
 class Config extends \Magento\Sales\Model\Order\Total\Config\Base
 {
     /**

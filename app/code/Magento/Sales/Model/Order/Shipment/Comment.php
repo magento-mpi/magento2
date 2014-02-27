@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Model\Order\Shipment;
 
 /**
  * @method \Magento\Sales\Model\Resource\Order\Shipment\Comment _getResource()
@@ -22,8 +23,6 @@
  * @method string getCreatedAt()
  * @method \Magento\Sales\Model\Order\Shipment\Comment setCreatedAt(string $value)
  */
-namespace Magento\Sales\Model\Order\Shipment;
-
 class Comment extends \Magento\Sales\Model\AbstractModel
 {
     /**
@@ -72,6 +71,8 @@ class Comment extends \Magento\Sales\Model\AbstractModel
 
     /**
      * Initialize resource model
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -81,8 +82,8 @@ class Comment extends \Magento\Sales\Model\AbstractModel
     /**
      * Declare Shipment instance
      *
-     * @param   \Magento\Sales\Model\Order\Shipment $shipment
-     * @return  \Magento\Sales\Model\Order\Shipment\Comment
+     * @param \Magento\Sales\Model\Order\Shipment $shipment
+     * @return $this
      */
     public function setShipment(\Magento\Sales\Model\Order\Shipment $shipment)
     {
@@ -116,7 +117,7 @@ class Comment extends \Magento\Sales\Model\AbstractModel
     /**
      * Before object save
      *
-     * @return \Magento\Sales\Model\Order\Shipment\Comment
+     * @return $this
      */
     protected function _beforeSave()
     {

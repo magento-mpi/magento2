@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Sales\Model\Order\Pdf\Items\Creditmemo;
 
 /**
@@ -59,6 +58,8 @@ class DefaultCreditmemo extends \Magento\Sales\Model\Order\Pdf\Items\AbstractIte
 
     /**
      * Draw process
+     *
+     * @return void
      */
     public function draw()
     {

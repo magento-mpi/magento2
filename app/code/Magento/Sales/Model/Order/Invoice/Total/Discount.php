@@ -7,12 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\Sales\Model\Order\Invoice\Total;
 
-class Discount extends \Magento\Sales\Model\Order\Invoice\Total\AbstractTotal
+class Discount extends AbstractTotal
 {
+    /**
+     * @param \Magento\Sales\Model\Order\Invoice $invoice
+     * @return $this
+     */
     public function collect(\Magento\Sales\Model\Order\Invoice $invoice)
     {
         $invoice->setDiscountAmount(0);

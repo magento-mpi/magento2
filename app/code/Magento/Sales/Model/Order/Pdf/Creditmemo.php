@@ -7,13 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Model\Order\Pdf;
 
 /**
  * Sales Order Creditmemo PDF model
  */
-namespace Magento\Sales\Model\Order\Pdf;
-
-class Creditmemo extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
+class Creditmemo extends AbstractPdf
 {
     /**
      * @var \Magento\Core\Model\StoreManagerInterface
@@ -26,7 +25,7 @@ class Creditmemo extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\TranslateInterface $translate
      * @param \Magento\App\Filesystem $filesystem
-     * @param \Magento\Sales\Model\Order\Pdf\Config $pdfConfig
+     * @param Config $pdfConfig
      * @param \Magento\Sales\Model\Order\Pdf\Total\Factory $pdfTotalFactory
      * @param \Magento\Sales\Model\Order\Pdf\ItemsFactory $pdfItemsFactory
      * @param \Magento\Core\Model\LocaleInterface $locale
@@ -41,7 +40,7 @@ class Creditmemo extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\TranslateInterface $translate,
         \Magento\App\Filesystem $filesystem,
-        \Magento\Sales\Model\Order\Pdf\Config $pdfConfig,
+        Config $pdfConfig,
         \Magento\Sales\Model\Order\Pdf\Total\Factory $pdfTotalFactory,
         \Magento\Sales\Model\Order\Pdf\ItemsFactory $pdfItemsFactory,
         \Magento\Core\Model\LocaleInterface $locale,

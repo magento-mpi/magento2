@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Model\Order\Invoice;
 
 /**
  * @method \Magento\Sales\Model\Resource\Order\Invoice\Comment _getResource()
@@ -22,8 +23,6 @@
  * @method string getCreatedAt()
  * @method \Magento\Sales\Model\Order\Invoice\Comment setCreatedAt(string $value)
  */
-namespace Magento\Sales\Model\Order\Invoice;
-
 class Comment extends \Magento\Sales\Model\AbstractModel
 {
     /**
@@ -66,6 +65,8 @@ class Comment extends \Magento\Sales\Model\AbstractModel
 
     /**
      * Initialize resource model
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -75,8 +76,8 @@ class Comment extends \Magento\Sales\Model\AbstractModel
     /**
      * Declare invoice instance
      *
-     * @param   \Magento\Sales\Model\Order\Invoice $invoice
-     * @return  \Magento\Sales\Model\Order\Invoice\Comment
+     * @param \Magento\Sales\Model\Order\Invoice $invoice
+     * @return $this
      */
     public function setInvoice(\Magento\Sales\Model\Order\Invoice $invoice)
     {
@@ -110,7 +111,7 @@ class Comment extends \Magento\Sales\Model\AbstractModel
     /**
      * Before object save
      *
-     * @return \Magento\Sales\Model\Order\Invoice\Comment
+     * @return $this
      */
     protected function _beforeSave()
     {

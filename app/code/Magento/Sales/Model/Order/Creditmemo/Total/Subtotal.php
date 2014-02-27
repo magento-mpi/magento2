@@ -7,17 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\Sales\Model\Order\Creditmemo\Total;
 
-class Subtotal extends \Magento\Sales\Model\Order\Creditmemo\Total\AbstractTotal
+class Subtotal extends AbstractTotal
 {
     /**
      * Collect Creditmemo subtotal
      *
-     * @param   \Magento\Sales\Model\Order\Creditmemo $creditmemo
-     * @return  \Magento\Sales\Model\Order\Creditmemo\Total\Subtotal
+     * @param \Magento\Sales\Model\Order\Creditmemo $creditmemo
+     * @return $this
      */
     public function collect(\Magento\Sales\Model\Order\Creditmemo $creditmemo)
     {

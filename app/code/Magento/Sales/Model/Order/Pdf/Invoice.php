@@ -7,13 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Model\Order\Pdf;
 
 /**
  * Sales Order Invoice PDF model
  */
-namespace Magento\Sales\Model\Order\Pdf;
-
-class Invoice extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
+class Invoice extends AbstractPdf
 {
     /**
      * @var \Magento\Core\Model\StoreManagerInterface
@@ -25,8 +24,8 @@ class Invoice extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\TranslateInterface $translate
-     * @param \Magento\App\Filesystem $filesystem,
-     * @param \Magento\Sales\Model\Order\Pdf\Config $pdfConfig
+     * @param \Magento\App\Filesystem $filesystem
+     * @param Config $pdfConfig
      * @param \Magento\Sales\Model\Order\Pdf\Total\Factory $pdfTotalFactory
      * @param \Magento\Sales\Model\Order\Pdf\ItemsFactory $pdfItemsFactory
      * @param \Magento\Core\Model\LocaleInterface $locale
@@ -41,7 +40,7 @@ class Invoice extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\TranslateInterface $translate,
         \Magento\App\Filesystem $filesystem,
-        \Magento\Sales\Model\Order\Pdf\Config $pdfConfig,
+        Config $pdfConfig,
         \Magento\Sales\Model\Order\Pdf\Total\Factory $pdfTotalFactory,
         \Magento\Sales\Model\Order\Pdf\ItemsFactory $pdfItemsFactory,
         \Magento\Core\Model\LocaleInterface $locale,

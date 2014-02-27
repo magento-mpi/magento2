@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Model\Order\Creditmemo;
 
 /**
  * @method \Magento\Sales\Model\Resource\Order\Creditmemo\Comment _getResource()
@@ -22,8 +23,6 @@
  * @method string getCreatedAt()
  * @method \Magento\Sales\Model\Order\Creditmemo\Comment setCreatedAt(string $value)
  */
-namespace Magento\Sales\Model\Order\Creditmemo;
-
 class Comment extends \Magento\Sales\Model\AbstractModel
 {
     /**
@@ -66,6 +65,8 @@ class Comment extends \Magento\Sales\Model\AbstractModel
 
     /**
      * Initialize resource model
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -75,8 +76,8 @@ class Comment extends \Magento\Sales\Model\AbstractModel
     /**
      * Declare Creditmemo instance
      *
-     * @param   \Magento\Sales\Model\Order\Creditmemo $creditmemo
-     * @return  \Magento\Sales\Model\Order\Creditmemo\Comment
+     * @param \Magento\Sales\Model\Order\Creditmemo $creditmemo
+     * @return $this
      */
     public function setCreditmemo(\Magento\Sales\Model\Order\Creditmemo $creditmemo)
     {
@@ -110,7 +111,7 @@ class Comment extends \Magento\Sales\Model\AbstractModel
     /**
      * Before object save
      *
-     * @return \Magento\Sales\Model\Order\Creditmemo\Comment
+     * @return $this
      */
     protected function _beforeSave()
     {

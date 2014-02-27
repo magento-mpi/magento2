@@ -7,14 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Model\Order\Pdf\Total;
 
 /**
  * Sales Order Total PDF model
  *
  * @method \Magento\Sales\Model\Order getOrder()
  */
-namespace Magento\Sales\Model\Order\Pdf\Total;
-
 class DefaultTotal extends \Magento\Object
 {
     /**
@@ -61,6 +60,7 @@ class DefaultTotal extends \Magento\Object
      *      'font_size'=> $font_size
      *  )
      * )
+     *
      * @return array
      */
     public function getTotalsForDisplay()
@@ -95,6 +95,7 @@ class DefaultTotal extends \Magento\Object
      *      'font_size'=> $font_size
      *  )
      * )
+     *
      * @return array
      */
     public function getFullTaxInfo()

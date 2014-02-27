@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Model\Order\Pdf;
 
 /**
  * Sales Order PDF abstract model
  */
-namespace Magento\Sales\Model\Order\Pdf;
-
 abstract class AbstractPdf extends \Magento\Object
 {
     /**
@@ -24,7 +23,6 @@ abstract class AbstractPdf extends \Magento\Object
 
     /**
      * Item renderers with render type key
-     *
      * model    => the model name
      * renderer => the renderer model
      *
@@ -92,7 +90,7 @@ abstract class AbstractPdf extends \Magento\Object
      */
     protected $_rootDirectory;
     /**
-     * @var \Magento\Sales\Model\Order\Pdf\Config
+     * @var Config
      */
     protected $_pdfConfig;
 
@@ -112,7 +110,7 @@ abstract class AbstractPdf extends \Magento\Object
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\TranslateInterface $translate
      * @param \Magento\App\Filesystem $filesystem
-     * @param \Magento\Sales\Model\Order\Pdf\Config $pdfConfig
+     * @param Config $pdfConfig
      * @param \Magento\Sales\Model\Order\Pdf\Total\Factory $pdfTotalFactory
      * @param \Magento\Sales\Model\Order\Pdf\ItemsFactory $pdfItemsFactory
      * @param \Magento\Core\Model\LocaleInterface $locale
@@ -126,7 +124,7 @@ abstract class AbstractPdf extends \Magento\Object
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\TranslateInterface $translate,
         \Magento\App\Filesystem $filesystem,
-        \Magento\Sales\Model\Order\Pdf\Config $pdfConfig,
+        Config $pdfConfig,
         \Magento\Sales\Model\Order\Pdf\Total\Factory $pdfTotalFactory,
         \Magento\Sales\Model\Order\Pdf\ItemsFactory $pdfItemsFactory,
         \Magento\Core\Model\LocaleInterface $locale,
@@ -212,8 +210,9 @@ abstract class AbstractPdf extends \Magento\Object
     /**
      * Insert logo to pdf page
      *
-     * @param \Zend_Pdf_Page $page
+     * @param \Zend_Pdf_Page &$page
      * @param null $store
+     * @return void
      */
     protected function insertLogo(&$page, $store = null)
     {
@@ -258,8 +257,9 @@ abstract class AbstractPdf extends \Magento\Object
     /**
      * Insert address to pdf page
      *
-     * @param \Zend_Pdf_Page $page
+     * @param \Zend_Pdf_Page &$page
      * @param null $store
+     * @return void
      */
     protected function insertAddress(&$page, $store = null)
     {
@@ -329,9 +329,10 @@ abstract class AbstractPdf extends \Magento\Object
     /**
      * Insert order to pdf page
      *
-     * @param \Zend_Pdf_Page $page
+     * @param \Zend_Pdf_Page &$page
      * @param \Magento\Sales\Model\Order $obj
      * @param bool $putOrderId
+     * @return void
      */
     protected function insertOrder(&$page, $obj, $putOrderId = true)
     {
@@ -678,6 +679,8 @@ abstract class AbstractPdf extends \Magento\Object
 
     /**
      * Before getPdf processing
+     *
+     * @return void
      */
     protected function _beforeGetPdf()
     {
@@ -686,6 +689,8 @@ abstract class AbstractPdf extends \Magento\Object
 
     /**
      * After getPdf processing
+     *
+     * @return void
      */
     protected function _afterGetPdf()
     {
@@ -722,6 +727,7 @@ abstract class AbstractPdf extends \Magento\Object
      * Initialize renderer process
      *
      * @param string $type
+     * @return void
      */
     protected function _initRenderer($type)
     {
@@ -846,7 +852,7 @@ abstract class AbstractPdf extends \Magento\Object
      * Set PDF object
      *
      * @param  \Zend_Pdf $pdf
-     * @return \Magento\Sales\Model\Order\Pdf\AbstractPdf
+     * @return $this
      */
     protected function _setPdf(\Zend_Pdf $pdf)
     {
@@ -888,7 +894,7 @@ abstract class AbstractPdf extends \Magento\Object
     /**
      * Draw lines
      *
-     * draw items array format:
+     * Draw items array format:
      * lines        array;array of line blocks (required)
      * shift        int; full line height (optional)
      * height       int;line spacing (default 10)

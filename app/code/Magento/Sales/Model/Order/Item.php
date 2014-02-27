@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Model\Order;
 
 /**
  * Order Item Model
@@ -171,11 +172,8 @@
  * @method float getBaseDiscountRefunded()
  * @method \Magento\Sales\Model\Order\Item setBaseDiscountRefunded(float $value)
  */
-namespace Magento\Sales\Model\Order;
-
 class Item extends \Magento\Core\Model\AbstractModel
 {
-
     const STATUS_PENDING        = 1; // No items shipped, invoiced, canceled, refunded nor backordered
     const STATUS_SHIPPED        = 2; // When qty ordered - [qty canceled + qty returned] = qty shipped
     const STATUS_INVOICED       = 9; // When qty ordered - [qty canceled + qty returned] = qty invoiced
@@ -188,9 +186,19 @@ class Item extends \Magento\Core\Model\AbstractModel
 
     const STATUS_RETURNED       = 4; // When qty ordered = qty returned // not used at the moment
 
+    /**
+     * @var string
+     */
     protected $_eventPrefix = 'sales_order_item';
+
+    /**
+     * @var string
+     */
     protected $_eventObject = 'item';
 
+    /**
+     * @var array
+     */
     protected static $_statuses = null;
 
     /**
@@ -199,7 +207,15 @@ class Item extends \Magento\Core\Model\AbstractModel
      * @var \Magento\Sales\Model\Order
      */
     protected $_order       = null;
+
+    /**
+     * @var \Magento\Sales\Model\Order\Item|null
+     */
     protected $_parentItem  = null;
+
+    /**
+     * @var array
+     */
     protected $_children    = array();
 
     /**
@@ -237,6 +253,8 @@ class Item extends \Magento\Core\Model\AbstractModel
 
     /**
      * Init resource model
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -246,7 +264,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     /**
      * Prepare data before save
      *
-     * @return \Magento\Sales\Model\Order\Item
+     * @return $this
      */
     protected function _beforeSave()
     {
@@ -263,8 +281,8 @@ class Item extends \Magento\Core\Model\AbstractModel
     /**
      * Set parent item
      *
-     * @param   \Magento\Sales\Model\Order\Item $item
-     * @return  \Magento\Sales\Model\Order\Item
+     * @param Item $item
+     * @return $this
      */
     public function setParentItem($item)
     {
@@ -279,7 +297,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     /**
      * Get parent item
      *
-     * @return \Magento\Sales\Model\Order\Item || null
+     * @return \Magento\Sales\Model\Order\Item|null
      */
     public function getParentItem()
     {
@@ -384,8 +402,8 @@ class Item extends \Magento\Core\Model\AbstractModel
     /**
      * Declare order
      *
-     * @param   \Magento\Sales\Model\Order $order
-     * @return  \Magento\Sales\Model\Order\Item
+     * @param \Magento\Sales\Model\Order $order
+     * @return $this
      */
     public function setOrder(\Magento\Sales\Model\Order $order)
     {
@@ -503,7 +521,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     /**
      * Cancel order item
      *
-     * @return \Magento\Sales\Model\Order\Item
+     * @return $this
      */
     public function cancel()
     {
@@ -558,8 +576,8 @@ class Item extends \Magento\Core\Model\AbstractModel
     /**
      * Set product options
      *
-     * @param   array $options
-     * @return  \Magento\Sales\Model\Order\Item
+     * @param array $options
+     * @return $this
      */
     public function setProductOptions(array $options)
     {
@@ -617,7 +635,8 @@ class Item extends \Magento\Core\Model\AbstractModel
     /**
      * Adds child item to this item
      *
-     * @param \Magento\Sales\Model\Order\Item $item
+     * @param Item $item
+     * @return void
      */
     public function addChildItem($item)
     {
@@ -659,6 +678,7 @@ class Item extends \Magento\Core\Model\AbstractModel
         }
         return false;
     }
+
     /**
      * Check if discount has to be applied to parent item
      *

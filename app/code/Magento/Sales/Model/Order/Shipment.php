@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Model\Order;
 
 /**
  * Sales order shipment model
@@ -38,8 +39,6 @@
  * @method string getUpdatedAt()
  * @method \Magento\Sales\Model\Order\Shipment setUpdatedAt(string $value)
  */
-namespace Magento\Sales\Model\Order;
-
 class Shipment extends \Magento\Sales\Model\AbstractModel
 {
     const STATUS_NEW    = 1;
@@ -76,12 +75,34 @@ class Shipment extends \Magento\Sales\Model\AbstractModel
     const XML_PATH_STORE_ZIP = 'shipping/origin/postcode';
     const XML_PATH_STORE_COUNTRY_ID = 'shipping/origin/country_id';
 
+    /**
+     * @var mixed
+     */
     protected $_items;
+
+    /**
+     * @var \Magento\Sales\Model\Resource\Order\Shipment\Track\Collection
+     */
     protected $_tracks;
+
+    /**
+     * @var \Magento\Sales\Model\Order
+     */
     protected $_order;
+
+    /**
+     * @var \Magento\Sales\Model\Resource\Order\Shipment\Comment\Collection
+     */
     protected $_comments;
 
+    /**
+     * @var string
+     */
     protected $_eventPrefix = 'sales_order_shipment';
+
+    /**
+     * @var string
+     */
     protected $_eventObject = 'shipment';
 
     /**
@@ -185,6 +206,8 @@ class Shipment extends \Magento\Sales\Model\AbstractModel
 
     /**
      * Initialize shipment resource model
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -195,7 +218,7 @@ class Shipment extends \Magento\Sales\Model\AbstractModel
      * Load shipment by increment id
      *
      * @param string $incrementId
-     * @return \Magento\Sales\Model\Order\Shipment
+     * @return $this
      */
     public function loadByIncrementId($incrementId)
     {
@@ -214,8 +237,8 @@ class Shipment extends \Magento\Sales\Model\AbstractModel
     /**
      * Declare order for shipment
      *
-     * @param   \Magento\Sales\Model\Order $order
-     * @return  \Magento\Sales\Model\Order\Shipment
+     * @param \Magento\Sales\Model\Order $order
+     * @return $this
      */
     public function setOrder(\Magento\Sales\Model\Order $order)
     {
@@ -224,7 +247,6 @@ class Shipment extends \Magento\Sales\Model\AbstractModel
             ->setStoreId($order->getStoreId());
         return $this;
     }
-
 
     /**
      * Retrieve hash code of current order
@@ -252,7 +274,7 @@ class Shipment extends \Magento\Sales\Model\AbstractModel
     /**
      * Retrieve billing address
      *
-     * @return \Magento\Sales\Model\Order\Address
+     * @return Address
      */
     public function getBillingAddress()
     {
@@ -262,7 +284,7 @@ class Shipment extends \Magento\Sales\Model\AbstractModel
     /**
      * Retrieve shipping address
      *
-     * @return \Magento\Sales\Model\Order\Address
+     * @return Address
      */
     public function getShippingAddress()
     {
@@ -299,6 +321,9 @@ class Shipment extends \Magento\Sales\Model\AbstractModel
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
     public function getItemsCollection()
     {
         if (empty($this->_items)) {
@@ -434,7 +459,7 @@ class Shipment extends \Magento\Sales\Model\AbstractModel
      * @param \Magento\Sales\Model\Order\Shipment\Comment $comment
      * @param bool $notify
      * @param bool $visibleOnFront
-     * @return \Magento\Sales\Model\Order\Shipment
+     * @return $this
      */
     public function addComment($comment, $notify = false, $visibleOnFront = false)
     {
@@ -487,7 +512,7 @@ class Shipment extends \Magento\Sales\Model\AbstractModel
      *
      * @param boolean $notifyCustomer
      * @param string $comment
-     * @return \Magento\Sales\Model\Order\Shipment
+     * @return $this
      */
     public function sendEmail($notifyCustomer = true, $comment = '')
     {
@@ -579,7 +604,7 @@ class Shipment extends \Magento\Sales\Model\AbstractModel
      *
      * @param boolean $notifyCustomer
      * @param string $comment
-     * @return \Magento\Sales\Model\Order\Shipment
+     * @return $this
      */
     public function sendUpdateEmail($notifyCustomer = true, $comment = '')
     {
@@ -675,7 +700,7 @@ class Shipment extends \Magento\Sales\Model\AbstractModel
     /**
      * Before object save
      *
-     * @return \Magento\Sales\Model\Order\Shipment
+     * @return $this
      * @throws \Magento\Core\Exception
      */
     protected function _beforeSave()
@@ -704,7 +729,7 @@ class Shipment extends \Magento\Sales\Model\AbstractModel
     /**
      * After object save manipulations
      *
-     * @return \Magento\Sales\Model\Order\Shipment
+     * @return $this
      */
     protected function _afterSave()
     {
@@ -742,8 +767,8 @@ class Shipment extends \Magento\Sales\Model\AbstractModel
     /**
      * Set shipping label
      *
-     * @param string $label   label representation (image or pdf file)
-     * @return \Magento\Sales\Model\Order\Shipment
+     * @param string $label label representation (image or pdf file)
+     * @return $this
      */
     public function setShippingLabel($label)
     {
@@ -754,7 +779,7 @@ class Shipment extends \Magento\Sales\Model\AbstractModel
     /**
      * Get shipping label and decode by db adapter
      *
-     * @return void
+     * @return mixed
      */
     public function getShippingLabel()
     {

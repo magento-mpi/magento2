@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Model\Order\Shipment;
 
 /**
  * @method \Magento\Sales\Model\Resource\Order\Shipment\Item _getResource()
@@ -33,14 +34,26 @@
  * @method string getSku()
  * @method \Magento\Sales\Model\Order\Shipment\Item setSku(string $value)
  */
-namespace Magento\Sales\Model\Order\Shipment;
-
 class Item extends \Magento\Core\Model\AbstractModel
 {
+    /**
+     * @var string
+     */
     protected $_eventPrefix = 'sales_shipment_item';
+
+    /**
+     * @var string
+     */
     protected $_eventObject = 'shipment_item';
 
+    /**
+     * @var \Magento\Sales\Model\Order\Shipment|null
+     */
     protected $_shipment = null;
+
+    /**
+     * @var \Magento\Sales\Model\Order\Item|null
+     */
     protected $_orderItem = null;
 
     /**
@@ -76,6 +89,8 @@ class Item extends \Magento\Core\Model\AbstractModel
 
     /**
      * Initialize resource model
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -85,8 +100,8 @@ class Item extends \Magento\Core\Model\AbstractModel
     /**
      * Declare Shipment instance
      *
-     * @param   \Magento\Sales\Model\Order\Shipment $shipment
-     * @return  \Magento\Sales\Model\Order\Shipment\Item
+     * @param \Magento\Sales\Model\Order\Shipment $shipment
+     * @return $this
      */
     public function setShipment(\Magento\Sales\Model\Order\Shipment $shipment)
     {
@@ -107,8 +122,8 @@ class Item extends \Magento\Core\Model\AbstractModel
     /**
      * Declare order item instance
      *
-     * @param   \Magento\Sales\Model\Order\Item $item
-     * @return  \Magento\Sales\Model\Order\Shipment\Item
+     * @param \Magento\Sales\Model\Order\Item $item
+     * @return $this
      */
     public function setOrderItem(\Magento\Sales\Model\Order\Item $item)
     {
@@ -165,7 +180,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     /**
      * Applying qty to order item
      *
-     * @return \Magento\Sales\Model\Order\Shipment\Item
+     * @return $this
      */
     public function register()
     {
@@ -178,7 +193,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     /**
      * Before object save
      *
-     * @return \Magento\Sales\Model\Order\Shipment\Item
+     * @return $this
      */
     protected function _beforeSave()
     {

@@ -7,17 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\Sales\Model\Order\Invoice\Total;
 
-class Tax extends \Magento\Sales\Model\Order\Invoice\Total\AbstractTotal
+class Tax extends AbstractTotal
 {
     /**
      * Collect invoice tax amount
      *
      * @param \Magento\Sales\Model\Order\Invoice $invoice
-     * @return \Magento\Sales\Model\Order\Invoice\Total\Tax
+     * @return $this
      */
     public function collect(\Magento\Sales\Model\Order\Invoice $invoice)
     {
@@ -107,8 +105,9 @@ class Tax extends \Magento\Sales\Model\Order\Invoice\Total\AbstractTotal
 
     /**
      * Check if shipping tax calculation can be included to current invoice
+     *
      * @param \Magento\Sales\Model\Order\Invoice $invoice
-     * @return boolean
+     * @return bool
      */
     protected function _canIncludeShipping($invoice)
     {

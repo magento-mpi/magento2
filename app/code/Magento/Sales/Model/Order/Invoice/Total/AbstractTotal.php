@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Model\Order\Invoice\Total;
 
 /**
  * Base class for invoice total
@@ -15,15 +16,13 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Model\Order\Invoice\Total;
-
 abstract class AbstractTotal extends \Magento\Sales\Model\Order\Total\AbstractTotal
 {
     /**
      * Collect invoice subtotal
      *
      * @param \Magento\Sales\Model\Order\Invoice $invoice
-     * @return \Magento\Sales\Model\Order\Invoice\Total\AbstractTotal
+     * @return $this
      */
     public function collect(\Magento\Sales\Model\Order\Invoice $invoice)
     {

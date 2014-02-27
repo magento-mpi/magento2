@@ -7,12 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\Sales\Model\Order\Invoice\Total;
 
-class Grand extends \Magento\Sales\Model\Order\Invoice\Total\AbstractTotal
+class Grand extends AbstractTotal
 {
+    /**
+     * @param \Magento\Sales\Model\Order\Invoice $invoice
+     * @return $this
+     */
     public function collect(\Magento\Sales\Model\Order\Invoice $invoice)
     {
         /**

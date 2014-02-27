@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Model\Order\Invoice\Total;
 
 /**
  * Order invoice shipping total calculation model
@@ -15,10 +16,12 @@
  * @package    Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Model\Order\Invoice\Total;
-
-class Shipping extends \Magento\Sales\Model\Order\Invoice\Total\AbstractTotal
+class Shipping extends AbstractTotal
 {
+    /**
+     * @param \Magento\Sales\Model\Order\Invoice $invoice
+     * @return $this
+     */
     public function collect(\Magento\Sales\Model\Order\Invoice $invoice)
     {
         $invoice->setShippingAmount(0);

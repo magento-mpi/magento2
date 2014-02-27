@@ -7,17 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\Sales\Model\Order\Invoice\Total;
 
-class Subtotal extends \Magento\Sales\Model\Order\Invoice\Total\AbstractTotal
+class Subtotal extends AbstractTotal
 {
     /**
      * Collect invoice subtotal
      *
-     * @param   \Magento\Sales\Model\Order\Invoice $invoice
-     * @return  \Magento\Sales\Model\Order\Invoice\Total\Subtotal
+     * @param \Magento\Sales\Model\Order\Invoice $invoice
+     * @return $this
      */
     public function collect(\Magento\Sales\Model\Order\Invoice $invoice)
     {
