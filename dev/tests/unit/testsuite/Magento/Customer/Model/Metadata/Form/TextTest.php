@@ -32,6 +32,7 @@ class TextTest extends AbstractFormTestCase
             $this->localeMock,
             $this->loggerMock,
             $this->attributeMetadataMock,
+            $this->localeResolverMock,
             $value,
             0,
             false,

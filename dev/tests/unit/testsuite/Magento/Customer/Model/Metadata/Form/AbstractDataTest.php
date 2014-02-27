@@ -17,8 +17,10 @@ class AbstractDataTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Customer\Model\Metadata\Form\ExtendsAbstractData */
     protected $_model;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Core\Model\LocaleInterface */
+    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Stdlib\DateTime\TimezoneInterface */
     protected $_localeMock;
+    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Locale\ResolverInterface */
+    protected $_localeResolverMock;
     /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Logger */
     protected $_loggerMock;
     /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata */
@@ -33,7 +35,10 @@ class AbstractDataTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_localeMock = $this->getMockBuilder('Magento\Core\Model\LocaleInterface')
+        $this->_localeMock = $this->getMockBuilder('Magento\Stdlib\DateTime\TimezoneInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->_localeResolverMock = $this->getMockBuilder('Magento\Locale\ResolverInterface')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_loggerMock = $this->getMockBuilder('Magento\Logger')
@@ -50,6 +55,7 @@ class AbstractDataTest extends \PHPUnit_Framework_TestCase
             $this->_localeMock,
             $this->_loggerMock,
             $this->_attributeMock,
+            $this->_localeResolverMock,
             $this->_value,
             $this->_entityTypeCode,
             $this->_isAjax
@@ -145,7 +151,7 @@ class AbstractDataTest extends \PHPUnit_Framework_TestCase
             $this->_localeMock
                 ->expects($this->once())
                 ->method('getDateFormat')
-                ->with($this->equalTo(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT))
+                ->with($this->equalTo(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT))
                 ->will($this->returnValue($output));
         }
         $actual = $this->_model->dateFilterFormat($format);
@@ -281,6 +287,7 @@ class AbstractDataTest extends \PHPUnit_Framework_TestCase
             $this->_localeMock,
             $this->_loggerMock,
             $this->_attributeMock,
+            $this->_localeResolverMock,
             $this->_value,
             $this->_entityTypeCode,
             $ajaxRequest

@@ -79,7 +79,9 @@ class Matrix
      */
     public function renderPrice($price)
     {
-        return $this->_localeCurrency->getCurrency($this->_app->getBaseCurrencyCode())->toCurrency(sprintf('%f', $price));
+        return $this->_localeCurrency->getCurrency(
+            $this->_app->getBaseCurrencyCode())->toCurrency(sprintf('%f', $price)
+        );
     }
 
     /**

@@ -21,6 +21,7 @@ class TextareaTest extends TextTest
             $this->localeMock,
             $this->loggerMock,
             $this->attributeMetadataMock,
+            $this->localeResolverMock,
             $value,
             0,
             false,

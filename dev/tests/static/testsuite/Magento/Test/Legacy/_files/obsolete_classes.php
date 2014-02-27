@@ -2131,7 +2131,6 @@ return array(
     ['Magento\Sales\Controller\Adminhtml\Recurring\Profile', 'Magento\RecurringProfile\Controller\Adminhtml\Profile'],
     ['Magento\Sales\Controller\Recurring\Profile', 'Magento\RecurringProfile\Controller\Profile'],
     ['Magento\Backend\Model\Config\Source\Currency', 'Magento\Backend\Model\Config\Source\Locale\Currency'],
-    ['Magento\Core\Model\Locale\Config', 'Magento\Locale\Config'],
     ['Magento\Core\Model\Image\Adapter\Config', 'Magento\Image\Adapter\Config'],
     ['Magento\Core\Model\AbstractShell', 'Magento\App\AbstractShell'],
     ['Magento\Core\Model\Calculator', 'Magento\Math\Calculator'],
@@ -2159,5 +2158,5 @@ return array(
     ['Magento\Core\Model\Locale\Hierarchy\Config\SchemaLocator', 'Magento\Locale\Hierarchy\Config\SchemaLocator'],
     ['Magento\Core\Model\Locale\Config', 'Magento\Locale\Config'],
     ['Magento\Core\Model\Locale\Validator', 'Magento\Locale\Validator'],
-    ['Magento\Stdlib\DateTime\DateTime', 'Magento\Stdlib\DateTime\DateTime'],
+    ['Magento\Core\Model\Date', 'Magento\Stdlib\DateTime\DateTime'],
 );

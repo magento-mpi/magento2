@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Backend\Model;
+namespace Magento\Backend\Model\Locale;
 
 /**
  * Backend locale model

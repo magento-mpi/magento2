@@ -7,7 +7,6 @@
  */
 namespace Magento\Customer\Block\Widget;
 
-use Magento\Locale\ResolverInterface;
 use Magento\Exception\NoSuchEntityException;
 
 class DobTest extends \PHPUnit_Framework_TestCase
@@ -41,7 +40,9 @@ class DobTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $locale = $objectManager->getObject('\Magento\Locale');
+        $locale = $objectManager->getObject('\Magento\Locale', array(
+            'locale' => \Magento\Locale\ResolverInterface::DEFAULT_LOCALE
+        ));
         $localeResolver = $this->getMock('\Magento\Locale\ResolverInterface');
         $localeResolver->expects($this->any())
             ->method('getLocale')
@@ -231,7 +232,7 @@ class DobTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * The \Magento\Locale\ResolverInterface::DEFAULT_LOCALE is used to derive the Locale that is used to determine the
+     * The LocaleInterface::DEFAULT_LOCALE is used to derive the Locale that is used to determine the
      * value of Dob::getDateFormat() for that Locale.
      */
     public function testGetDateFormat()

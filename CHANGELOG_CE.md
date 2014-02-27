@@ -9,6 +9,8 @@
   * Resolved dependencies of Sales module on RecurringProfile module
   * Resolved dependencies between Email Templates functionality and other modules
   * Core module lib-only depended components moved to library
+  * Moved the framework part of the Locales functionality from Core module to the library
+  * Locale's logic has been splitted among appropriate classes in library, according to their responsibilities
 * Customer Service usage:
   * Sales module refactoring to use customer service layer
   * Checkout module refactoring to use customer service layer

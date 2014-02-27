@@ -16,9 +16,9 @@ class Lists implements \Magento\Locale\ListsInterface
     protected $_appState;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\BaseScopeResolverInterface
      */
-    protected $_storeManager;
+    protected $_scopeResolver;
 
     /**
      * @var \Magento\Locale\ConfigInterface
@@ -42,7 +42,7 @@ class Lists implements \Magento\Locale\ListsInterface
 
     /**
      * @param \Magento\App\State $appState
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\BaseScopeResolverInterface $scopeResolver
      * @param \Magento\Locale\ConfigInterface $config
      * @param \Magento\AppInterface $app
      * @param \Magento\Locale\ResolverInterface $localeResolver
@@ -51,7 +51,7 @@ class Lists implements \Magento\Locale\ListsInterface
      */
     public function __construct(
         \Magento\App\State $appState,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\BaseScopeResolverInterface $scopeResolver,
         \Magento\Locale\ConfigInterface $config,
         \Magento\AppInterface $app,
         \Magento\Locale\ResolverInterface $localeResolver,
@@ -59,7 +59,7 @@ class Lists implements \Magento\Locale\ListsInterface
         $locale = null
     ) {
         $this->_appState = $appState;
-        $this->_storeManager = $storeManager;
+        $this->_scopeResolver = $scopeResolver;
         $this->_config = $config;
         $this->_app = $app;
         $this->_localeResolver = $localeResolver;
@@ -202,14 +202,14 @@ class Lists implements \Magento\Locale\ListsInterface
     }
 
     /**
-     * Retrive array of allowed currencies
+     * Retrieve array of allowed currencies
      *
      * @return array
      */
     protected function _getAllowedCurrencies()
     {
         if ($this->_appState->isInstalled()) {
-            $allowed = explode(',', $this->_storeManager->getStore()
+            $allowed = explode(',', $this->_scopeResolver->getScope()
                 ->getConfig($this->_currencyInstalled)
             );
         } else {
