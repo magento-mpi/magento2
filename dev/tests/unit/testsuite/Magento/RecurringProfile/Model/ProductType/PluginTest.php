@@ -10,23 +10,50 @@ namespace Magento\RecurringProfile\Model\ProductType;
 
 class PluginTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var Plugin
+     */
+    protected $object;
 
-    public function testAroundHasOptions()
+    /**
+     * @var \Magento\Catalog\Model\Product\Type\AbstractType|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $subject;
+
+    /**
+     * @var \Magento\Catalog\Model\Product|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $product;
+
+    protected function setUp()
     {
-        $objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-
-        $product = $this->getMock(
+        $this->subject = $this->getMock('Magento\Catalog\Model\Product\Type\AbstractType', [], [], '', false);
+        $this->product = $this->getMock(
             'Magento\Catalog\Model\Product',
             ['getIsRecurring', '__wakeup', '__sleep'],
             [],
             '',
             false
         );
-        $product->expects($this->once())->method('getIsRecurring')->will($this->returnValue(true));
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->object = $objectManager->getObject('Magento\RecurringProfile\Model\ProductType\Plugin');
+    }
 
-        $chain = $this->getMock('Magento\Code\Plugin\InvocationChain', [], [], '', false);
+    public function testAroundHasOptionsForProductWithRecurringPayment()
+    {
+        $this->product->expects($this->once())->method('getIsRecurring')->will($this->returnValue(true));
+        $closure = function () {
+            throw new \Exception();
+        };
+        $this->assertEquals(true, $this->object->aroundHasOptions($this->subject, $closure, $this->product));
+    }
 
-        $model = $objectHelper->getObject('Magento\RecurringProfile\Model\ProductType\Plugin');
-        $this->assertEquals(true, $model->aroundHasOptions([$product], $chain));
+    public function testAroundHasOptionsForProductWithoutRecurringPayment()
+    {
+        $this->product->expects($this->once())->method('getIsRecurring')->will($this->returnValue(false));
+        $closure = function ($product) {
+            return $product;
+        };
+        $this->assertSame($this->product, $this->object->aroundHasOptions($this->subject, $closure, $this->product));
     }
 }

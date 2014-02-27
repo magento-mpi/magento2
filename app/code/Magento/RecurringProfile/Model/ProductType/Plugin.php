@@ -10,17 +10,18 @@ namespace Magento\RecurringProfile\Model\ProductType;
 class Plugin
 {
     /**
-     * @param array $arguments
-     * @param \Magento\Code\Plugin\InvocationChain $invocationChain
-     * @return array|mixed
+     * @param \Magento\Catalog\Model\Product\Type\AbstractType $subject
+     * @param callable $proceed
+     * @param \Magento\Catalog\Model\Product $product
+     * @return bool
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function aroundHasOptions(array $arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
-    {
-        $product = $arguments[0];
-        if ($product->getIsRecurring()) {
-            return true;
-        }
-        return $invocationChain->proceed($arguments);
+    public function aroundHasOptions(
+        \Magento\Catalog\Model\Product\Type\AbstractType $subject,
+        \Closure $proceed,
+        \Magento\Catalog\Model\Product $product
+    ) {
+        return $product->getIsRecurring() ?: $proceed($product);
     }
-
 }
