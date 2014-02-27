@@ -25,8 +25,8 @@ class VoidTest extends \PHPUnit_Framework_TestCase
         $paymentData = $objectManager->get('Magento\Payment\Helper\Data');
         $coreStoreConfig = $objectManager->get('Magento\Core\Model\Store\Config');
         $logger = $objectManager->get('Magento\Logger');
-        $logAdapterFactory = $objectManager->get('Magento\Core\Model\Log\AdapterFactory');
-        $locale = $objectManager->get('Magento\Core\Model\LocaleInterface');
+        $logAdapterFactory = $objectManager->get('Magento\Logger\AdapterFactory');
+        $locale = $objectManager->get('Magento\LocaleInterface');
         $centinelService = $objectManager->get('Magento\Centinel\Model\Service');
         $storeManager = $objectManager->get('Magento\Core\Model\StoreManagerInterface');
         $configFactory = $objectManager->get('Magento\Paypal\Model\ConfigFactory');

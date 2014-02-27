@@ -68,7 +68,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
         );
 
         $mapGet = [
-            ['Magento\Core\Model\LocaleInterface', $locale],
+            ['Magento\LocaleInterface', $locale],
             ['Magento\Checkout\Model\Cart', $cart],
             ['Magento\Catalog\Helper\Product', $product],
             ['Magento\Escaper', $escaper],
@@ -123,7 +123,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
 
         $wishlistModel = $this->getMock('\Magento\Wishlist\Model\Wishlist', [], [], '', false);
 
-        $coreRegistry = $this->getMock('\Magento\Core\Model\Registry', ['registry'], [], '', false);
+        $coreRegistry = $this->getMock('\Magento\Registry', ['registry'], [], '', false);
         $coreRegistry->expects($this->once())->method('registry')->will($this->returnValue($wishlistModel));
 
         $messageManager = $this->getMock('\Magento\Message\Manager', [], [], '', false);

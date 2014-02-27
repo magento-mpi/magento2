@@ -159,7 +159,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     protected $_storeManager;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\LocaleInterface
      */
     protected $_locale;
 
@@ -196,7 +196,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\LocaleInterface $locale
      * @param \Magento\Message\ManagerInterface $messageManager
      * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig
      * @param \Magento\Catalog\Model\Product\CartConfiguration $productConfiguration
@@ -216,7 +216,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\LocaleInterface $locale,
         \Magento\Message\ManagerInterface $messageManager,
         \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig,
         \Magento\Catalog\Model\Product\CartConfiguration $productConfiguration,

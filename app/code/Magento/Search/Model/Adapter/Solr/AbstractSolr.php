@@ -68,7 +68,7 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
@@ -101,7 +101,7 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Search\Model\Factory\Factory $searchFactory
      * @param \Magento\Search\Helper\ClientInterface $clientHelper
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param array $options
@@ -120,7 +120,7 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Search\Model\Factory\Factory $searchFactory,
         \Magento\Search\Helper\ClientInterface $clientHelper,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\Stdlib\DateTime $dateTime,
         $options = array()
@@ -213,10 +213,10 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
     {
         if (!isset($this->_dateFormats[$storeId])) {
             $timezone = $this->_coreStoreConfig->getConfig(
-                \Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_TIMEZONE, $storeId
+                \Magento\LocaleInterface::XML_PATH_DEFAULT_TIMEZONE, $storeId
             );
             $locale   = $this->_coreStoreConfig->getConfig(
-                \Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_LOCALE, $storeId
+                \Magento\LocaleInterface::XML_PATH_DEFAULT_LOCALE, $storeId
             );
             $locale   = new \Zend_Locale($locale);
 
@@ -375,7 +375,7 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
         $result = array();
 
         $localeCode = $this->_storeManager->getStore()
-            ->getConfig(\Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_LOCALE);
+            ->getConfig(\Magento\LocaleInterface::XML_PATH_DEFAULT_LOCALE);
         $languageSuffix = $this->_getLanguageSuffix($localeCode);
 
         /**
@@ -447,7 +447,7 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
     public function getAdvancedTextFieldName($filed, $suffix = '', $storeId = null)
     {
         $localeCode     = $this->_storeManager->getStore($storeId)
-            ->getConfig(\Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_LOCALE);
+            ->getConfig(\Magento\LocaleInterface::XML_PATH_DEFAULT_LOCALE);
         $languageSuffix = $this->_clientHelper->getLanguageSuffix($localeCode);
 
         if ($suffix) {
@@ -511,7 +511,7 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
 
         if ($fieldType == 'text') {
             $localeCode     = $this->_storeManager->getStore($attribute->getStoreId())
-                ->getConfig(\Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_LOCALE);
+                ->getConfig(\Magento\LocaleInterface::XML_PATH_DEFAULT_LOCALE);
             $languageSuffix = $this->_clientHelper->getLanguageSuffix($localeCode);
             $fieldName      = $fieldPrefix . $attributeCode . $languageSuffix;
         } else {

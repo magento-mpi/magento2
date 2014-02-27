@@ -17,7 +17,7 @@ namespace Magento\Backend\Model;
 class LocaleTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\LocaleInterface
      */
     protected $_model;
 
@@ -29,15 +29,15 @@ class LocaleTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Core\Model\LocaleInterface::setLocale
+     * @covers \Magento\LocaleInterface::setLocale
      */
     public function testSetLocaleWithDefaultLocale()
     {
-        $this->_checkSetLocale(\Magento\Core\Model\LocaleInterface::DEFAULT_LOCALE);
+        $this->_checkSetLocale(\Magento\LocaleInterface::DEFAULT_LOCALE);
     }
 
     /**
-     * @covers \Magento\Core\Model\LocaleInterface::setLocale
+     * @covers \Magento\LocaleInterface::setLocale
      */
     public function testSetLocaleWithBaseInterfaceLocale()
     {
@@ -51,7 +51,7 @@ class LocaleTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Core\Model\LocaleInterface::setLocale
+     * @covers \Magento\LocaleInterface::setLocale
      */
     public function testSetLocaleWithSessionLocale()
     {
@@ -61,7 +61,7 @@ class LocaleTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Core\Model\LocaleInterface::setLocale
+     * @covers \Magento\LocaleInterface::setLocale
      */
     public function testSetLocaleWithRequestLocale()
     {

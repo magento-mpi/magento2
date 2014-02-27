@@ -85,7 +85,7 @@ abstract class AbstractApi extends \Magento\Object
     protected $_logger;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\LocaleInterface
      */
     protected $_locale;
 
@@ -95,7 +95,7 @@ abstract class AbstractApi extends \Magento\Object
     protected $_regionFactory;
 
     /**
-     * @var \Magento\Core\Model\Log\AdapterFactory
+     * @var \Magento\Logger\AdapterFactory
      */
     protected $_logAdapterFactory;
 
@@ -107,17 +107,17 @@ abstract class AbstractApi extends \Magento\Object
      *
      * @param \Magento\Customer\Helper\Address $customerAddress
      * @param \Magento\Logger $logger
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\LocaleInterface $locale
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
-     * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
+     * @param \Magento\Logger\AdapterFactory $logAdapterFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Customer\Helper\Address $customerAddress,
         \Magento\Logger $logger,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\LocaleInterface $locale,
         \Magento\Directory\Model\RegionFactory $regionFactory,
-        \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
+        \Magento\Logger\AdapterFactory $logAdapterFactory,
         array $data = array()
     ) {
         $this->_customerAddress = $customerAddress;

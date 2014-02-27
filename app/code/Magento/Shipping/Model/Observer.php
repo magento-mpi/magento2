@@ -11,7 +11,7 @@ namespace Magento\Shipping\Model;
 class Observer
 {
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\LocaleInterface
      */
     protected $_coreLocale;
 
@@ -21,11 +21,11 @@ class Observer
     protected $_shippingFactory;
 
     /**
-     * @param \Magento\Core\Model\LocaleInterface $coreLocale
+     * @param \Magento\LocaleInterface $coreLocale
      * @param \Magento\Sales\Model\Resource\Report\ShippingFactory $shippingFactory
      */
     public function __construct(
-        \Magento\Core\Model\LocaleInterface $coreLocale,
+        \Magento\LocaleInterface $coreLocale,
         \Magento\Sales\Model\Resource\Report\ShippingFactory $shippingFactory
     ) {
         $this->_coreLocale = $coreLocale;

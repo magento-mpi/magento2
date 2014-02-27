@@ -28,14 +28,14 @@ class Info
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Json\EncoderInterface $jsonEncoder
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Core\Model\System\Store $systemStore
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Core\Model\System\Store $systemStore,
@@ -139,7 +139,7 @@ class Info
             'label'  => __('Expiration Date'),
             'title'  => __('Expiration Date'),
             'image'  => $this->getViewFileUrl('images/grid-cal.gif'),
-            'date_format' => $this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT)
+            'date_format' => $this->_locale->getDateFormat(\Magento\LocaleInterface::FORMAT_TYPE_SHORT)
         ));
 
         $form->setValues($model->getData());

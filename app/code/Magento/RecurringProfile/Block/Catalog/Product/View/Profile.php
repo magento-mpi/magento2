@@ -23,7 +23,7 @@ class Profile extends \Magento\View\Element\Template
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_registry = null;
 
@@ -36,13 +36,13 @@ class Profile extends \Magento\View\Element\Template
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\RecurringProfile\Model\RecurringProfileFactory $profileFactory
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\RecurringProfile\Model\RecurringProfileFactory $profileFactory,
         array $data = array()
     ) {
@@ -83,8 +83,8 @@ class Profile extends \Magento\View\Element\Template
                 ->setName(\Magento\RecurringProfile\Model\RecurringProfile::BUY_REQUEST_START_DATETIME)
                 ->setClass('datetime-picker input-text')
                 ->setImage($this->getViewFileUrl('Magento_Core::calendar.gif'))
-                ->setDateFormat($this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT))
-                ->setTimeFormat($this->_locale->getTimeFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT));
+                ->setDateFormat($this->_locale->getDateFormat(\Magento\LocaleInterface::FORMAT_TYPE_SHORT))
+                ->setTimeFormat($this->_locale->getTimeFormat(\Magento\LocaleInterface::FORMAT_TYPE_SHORT));
             return $calendar->getHtml();
         }
         return '';

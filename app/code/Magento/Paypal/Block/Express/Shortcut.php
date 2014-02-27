@@ -48,7 +48,7 @@ class Shortcut extends \Magento\View\Element\Template implements CatalogBlock\Sh
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_registry;
 
@@ -100,7 +100,7 @@ class Shortcut extends \Magento\View\Element\Template implements CatalogBlock\Sh
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Paypal\Helper\Data $paypalData
      * @param \Magento\Payment\Helper\Data $paymentData
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Paypal\Model\ConfigFactory $paypalConfigFactory
      * @param \Magento\Checkout\Model\Session $checkoutSession
@@ -113,7 +113,7 @@ class Shortcut extends \Magento\View\Element\Template implements CatalogBlock\Sh
         \Magento\View\Element\Template\Context $context,
         \Magento\Paypal\Helper\Data $paypalData,
         \Magento\Payment\Helper\Data $paymentData,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Paypal\Model\ConfigFactory $paypalConfigFactory,
         \Magento\Paypal\Model\Express\Checkout\Factory $checkoutFactory,

@@ -39,7 +39,7 @@ class Config
     /**
      * Locale model
      *
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\LocaleInterface
      */
     protected $_locale;
 
@@ -56,14 +56,14 @@ class Config
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\App\ConfigInterface $coreConfig
      * @param \Magento\Payment\Model\Method\Factory $paymentMethodFactory
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\LocaleInterface $locale
      * @param \Magento\Config\DataInterface $dataStorage
      */
     public function __construct(
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\App\ConfigInterface $coreConfig,
         \Magento\Payment\Model\Method\Factory $paymentMethodFactory,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\LocaleInterface $locale,
         \Magento\Config\DataInterface $dataStorage
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;

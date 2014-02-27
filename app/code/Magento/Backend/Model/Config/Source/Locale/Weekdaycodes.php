@@ -13,17 +13,17 @@
  */
 namespace Magento\Backend\Model\Config\Source\Locale;
 
-class Weekdaycodes implements \Magento\Core\Model\Option\ArrayInterface
+class Weekdaycodes implements \Magento\Option\ArrayInterface
 {
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\LocaleInterface
      */
     protected $_locale;
 
     /**
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\LocaleInterface $locale
      */
-    public function __construct(\Magento\Core\Model\LocaleInterface $locale)
+    public function __construct(\Magento\LocaleInterface $locale)
     {
         $this->_locale = $locale;
     }

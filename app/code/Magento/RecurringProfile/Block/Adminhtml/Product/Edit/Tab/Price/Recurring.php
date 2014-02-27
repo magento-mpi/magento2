@@ -2,24 +2,21 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\RecurringProfile\Block\Adminhtml\Product\Edit\Tab\Price;
 
 /**
  * Recurring profile attribute edit renderer
  */
-namespace Magento\RecurringProfile\Block\Adminhtml\Product\Edit\Tab\Price;
-
 class Recurring
     extends \Magento\Catalog\Block\Adminhtml\Form\Renderer\Fieldset\Element
 {
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -30,13 +27,13 @@ class Recurring
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\View\Element\BlockFactory $blockFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\View\Element\BlockFactory $blockFactory,
         array $data = array()
     ) {

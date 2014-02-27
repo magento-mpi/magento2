@@ -40,7 +40,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_checkoutSession;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\LocaleInterface
      */
     protected $_locale;
 
@@ -50,9 +50,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_agreementCollectionFactory;
 
     /**
-     * @var \Magento\Email\Model\TemplateFactory
+     * @var \Magento\Mail\Template\TransportBuilder
      */
-    protected $_emailTemplFactory;
+    protected $_transportBuilder;
 
     /**
      * Translator model
@@ -66,9 +66,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Checkout\Model\Session $checkoutSession
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\LocaleInterface $locale
      * @param \Magento\Checkout\Model\Resource\Agreement\CollectionFactory $agreementCollectionFactory
-     * @param \Magento\Email\Model\TemplateFactory $emailTemplFactory
+     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\TranslateInterface $translator
      */
     public function __construct(
@@ -76,9 +76,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Checkout\Model\Session $checkoutSession,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\LocaleInterface $locale,
         \Magento\Checkout\Model\Resource\Agreement\CollectionFactory $agreementCollectionFactory,
-        \Magento\Email\Model\TemplateFactory $emailTemplFactory,
+        \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\TranslateInterface $translator
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
@@ -86,7 +86,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         $this->_checkoutSession = $checkoutSession;
         $this->_locale = $locale;
         $this->_agreementCollectionFactory = $agreementCollectionFactory;
-        $this->_emailTemplFactory = $emailTemplFactory;
+        $this->_transportBuilder = $transportBuilder;
         $this->_translator = $translator;
         parent::__construct($context);
     }
@@ -204,17 +204,15 @@ class Data extends \Magento\App\Helper\AbstractHelper
     {
         $this->_translator->setTranslateInline(false);
 
-        /** @var \Magento\Email\Model\Template $mailTemplate */
-        $mailTemplate = $this->_emailTemplFactory->create();
-
         $template = $this->_coreStoreConfig->getConfig('checkout/payment_failed/template', $checkout->getStoreId());
 
         $copyTo = $this->_getEmails('checkout/payment_failed/copy_to', $checkout->getStoreId());
         $copyMethod = $this->_coreStoreConfig->getConfig(
             'checkout/payment_failed/copy_method', $checkout->getStoreId()
         );
+        $bcc = array();
         if ($copyTo && $copyMethod == 'bcc') {
-            $mailTemplate->addBcc($copyTo);
+            $bcc = $copyTo;
         }
 
         $_receiver = $this->_coreStoreConfig->getConfig('checkout/payment_failed/receiver', $checkout->getStoreId());
@@ -252,35 +250,37 @@ class Data extends \Magento\App\Helper\AbstractHelper
         foreach ($checkout->getAllVisibleItems() as $_item) {
             /* @var $_item \Magento\Sales\Model\Quote\Item */
             $items .= $_item->getProduct()->getName() . '  x '. $_item->getQty() . '  '
-                    . $checkout->getStoreCurrencyCode() . ' '
-                    . $_item->getProduct()->getFinalPrice($_item->getQty()) . "\n";
+                . $checkout->getStoreCurrencyCode() . ' '
+                . $_item->getProduct()->getFinalPrice($_item->getQty()) . "\n";
         }
         $total = $checkout->getStoreCurrencyCode() . ' ' . $checkout->getGrandTotal();
 
         foreach ($sendTo as $recipient) {
-            $mailTemplate->setDesignConfig(array(
-                'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
-                'store' => $checkout->getStoreId()
-            ))
-                ->sendTransactional(
-                    $template,
-                    $this->_coreStoreConfig->getConfig('checkout/payment_failed/identity', $checkout->getStoreId()),
-                    $recipient['email'],
-                    $recipient['name'],
-                    array(
-                        'reason' => $message,
-                        'checkoutType' => $checkoutType,
-                        'dateAndTime' => $this->_locale->date(),
-                        'customer' => $checkout->getCustomerFirstname() . ' ' . $checkout->getCustomerLastname(),
-                        'customerEmail' => $checkout->getCustomerEmail(),
-                        'billingAddress' => $checkout->getBillingAddress(),
-                        'shippingAddress' => $checkout->getShippingAddress(),
-                        'shippingMethod' => $this->_coreStoreConfig->getConfig('carriers/'.$shippingMethod.'/title'),
-                        'paymentMethod' => $this->_coreStoreConfig->getConfig('payment/'.$paymentMethod.'/title'),
-                        'items' => nl2br($items),
-                        'total' => $total
-                    )
-                );
+            $transport = $this->_transportBuilder
+                ->setTemplateIdentifier($template)
+                ->setTemplateOptions(array(
+                    'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
+                    'store' => $checkout->getStoreId()
+                ))
+                ->setTemplateVars(array(
+                    'reason' => $message,
+                    'checkoutType' => $checkoutType,
+                    'dateAndTime' => $this->_locale->date(),
+                    'customer' => $checkout->getCustomerFirstname() . ' ' . $checkout->getCustomerLastname(),
+                    'customerEmail' => $checkout->getCustomerEmail(),
+                    'billingAddress' => $checkout->getBillingAddress(),
+                    'shippingAddress' => $checkout->getShippingAddress(),
+                    'shippingMethod' => $this->_coreStoreConfig->getConfig('carriers/'.$shippingMethod.'/title'),
+                    'paymentMethod' => $this->_coreStoreConfig->getConfig('payment/'.$paymentMethod.'/title'),
+                    'items' => nl2br($items),
+                    'total' => $total
+                ))
+                ->setFrom($this->_coreStoreConfig->getConfig('checkout/payment_failed/identity', $checkout->getStoreId()))
+                ->addTo($recipient['email'], $recipient['name'])
+                ->addBcc($bcc)
+                ->getTransport();
+
+            $transport->sendMessage();
         }
 
         $this->_translator->setTranslateInline(true);

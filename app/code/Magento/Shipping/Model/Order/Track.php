@@ -39,9 +39,9 @@ class Track extends \Magento\Sales\Model\Order\Shipment\Track
     protected $_carrierFactory;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\LocaleInterface $coreLocale
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
+     * @param \Magento\LocaleInterface $coreLocale
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Sales\Model\Order\ShipmentFactory $shipmentFactory
@@ -53,9 +53,9 @@ class Track extends \Magento\Sales\Model\Order\Shipment\Track
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\LocaleInterface $coreLocale,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
+        \Magento\LocaleInterface $coreLocale,
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Sales\Model\Order\ShipmentFactory $shipmentFactory,

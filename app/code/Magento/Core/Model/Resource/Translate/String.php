@@ -20,7 +20,7 @@ namespace Magento\Core\Model\Resource\Translate;
 class String extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\LocaleInterface
      */
     protected $_locale;
 
@@ -31,12 +31,12 @@ class String extends \Magento\Core\Model\Resource\Db\AbstractDb
 
     /**
      * @param \Magento\App\Resource $resource
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\LocaleInterface $locale
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\App\Resource $resource,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\LocaleInterface $locale,
         \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         parent::__construct($resource);

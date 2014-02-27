@@ -30,6 +30,16 @@ class DirTest extends \PHPUnit_Framework_TestCase
      */
     protected $varDirectory;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $subjectMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $requestMock;
+
     protected function setUp()
     {
         $this->appStateMock = $this->getMock('Magento\App\State', array(), array(), '', false);
@@ -42,6 +52,8 @@ class DirTest extends \PHPUnit_Framework_TestCase
             ->with(\Magento\App\Filesystem::VAR_DIR)
             ->will($this->returnValue($this->varDirectory));
         $logger = $this->getMock('Magento\Logger', array(), array(), '', false);
+        $this->subjectMock = $this->getMock('Magento\Install\Controller\Index', array(), array(), '', false);
+        $this->requestMock = $this->getMock('Magento\App\RequestInterface');
         $this->plugin = new \Magento\Install\App\Action\Plugin\Dir(
             $this->appStateMock,
             $filesystem,
@@ -64,7 +76,7 @@ class DirTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(true));
         $this->varDirectory->expects($this->exactly(count($directories)))
             ->method('delete');
-        $this->assertEquals(array(), $this->plugin->beforeDispatch(array()));
+        $this->plugin->beforeDispatch($this->subjectMock, $this->requestMock);
     }
 
     /**
@@ -74,6 +86,6 @@ class DirTest extends \PHPUnit_Framework_TestCase
     {
         $this->appStateMock->expects($this->once())->method('isInstalled')->will($this->returnValue(true));
         $this->varDirectory->expects($this->never())->method('read');
-        $this->assertEquals(array(), $this->plugin->beforeDispatch(array()));
+        $this->plugin->beforeDispatch($this->subjectMock, $this->requestMock);
     }
 }

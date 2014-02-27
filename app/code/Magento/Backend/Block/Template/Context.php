@@ -33,7 +33,12 @@ class Context extends \Magento\View\Element\Template\Context
      * @var \Magento\Data\Form\FormKey
      */
     protected $formKey;
-    
+
+    /**
+     * @var \Magento\Code\NameBuilder
+     */
+    protected $nameBuilder;
+
     /**
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\View\LayoutInterface $layout
@@ -45,15 +50,13 @@ class Context extends \Magento\View\Element\Template\Context
      * @param \Magento\Core\Model\Session $session
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Magento\Core\Model\Store\Config $storeConfig
-     * @param \Magento\App\FrontController $frontController
      * @param \Magento\View\Url $viewUrl
      * @param \Magento\View\ConfigInterface $viewConfig
      * @param \Magento\App\Cache\StateInterface $cacheState
      * @param \Magento\Logger $logger
-     * @param \Magento\Core\Model\App $app
      * @param \Magento\Escaper $escaper
      * @param \Magento\Filter\FilterManager $filterManager
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\LocaleInterface $locale
      * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\View\FileSystem $viewFileSystem
      * @param \Magento\View\TemplateEnginePool $enginePool
@@ -63,8 +66,9 @@ class Context extends \Magento\View\Element\Template\Context
      * @param \Magento\Backend\Model\Session $backendSession
      * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Data\Form\FormKey $formKey
+     * @param \Magento\Code\NameBuilder $nameBuilder
      * @param array $data
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -78,15 +82,13 @@ class Context extends \Magento\View\Element\Template\Context
         \Magento\Core\Model\Session $session,
         \Magento\Session\SidResolverInterface $sidResolver,
         \Magento\Core\Model\Store\Config $storeConfig,
-        \Magento\App\FrontController $frontController,
         \Magento\View\Url $viewUrl,
         \Magento\View\ConfigInterface $viewConfig,
         \Magento\App\Cache\StateInterface $cacheState,
         \Magento\Logger $logger,
-        \Magento\Core\Model\App $app,
         \Magento\Escaper $escaper,
         \Magento\Filter\FilterManager $filterManager,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\LocaleInterface $locale,
         \Magento\App\Filesystem $filesystem,
         \Magento\View\FileSystem $viewFileSystem,
         \Magento\View\TemplateEnginePool $enginePool,
@@ -96,12 +98,14 @@ class Context extends \Magento\View\Element\Template\Context
         \Magento\Backend\Model\Session $backendSession,
         \Magento\Math\Random $mathRandom,
         \Magento\Data\Form\FormKey $formKey,
+        \Magento\Code\NameBuilder $nameBuilder,
         array $data = array()
     ) {
         $this->_authorization = $authorization;
         $this->_backendSession = $backendSession;
         $this->mathRandom = $mathRandom;
         $this->formKey = $formKey;
+        $this->nameBuilder = $nameBuilder;
         parent::__construct(
             $request,
             $layout,
@@ -113,12 +117,10 @@ class Context extends \Magento\View\Element\Template\Context
             $session,
             $sidResolver,
             $storeConfig,
-            $frontController,
             $viewUrl,
             $viewConfig,
             $cacheState,
             $logger,
-            $app,
             $escaper,
             $filterManager,
             $locale,
@@ -160,7 +162,7 @@ class Context extends \Magento\View\Element\Template\Context
     }
 
     /**
-     * @return \Magento\Core\Model\LocaleInterface
+     * @return \Magento\LocaleInterface
      */
     public function getLocale()
     {
@@ -181,5 +183,13 @@ class Context extends \Magento\View\Element\Template\Context
     public function getFormKey()
     {
         return $this->formKey;
+    }
+
+    /**
+     * @return \Magento\Data\Form\FormKey
+     */
+    public function getNameBuilder()
+    {
+        return $this->nameBuilder;
     }
 }

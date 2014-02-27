@@ -15,13 +15,6 @@ class Observer extends \Magento\Core\Model\AbstractModel
     const ATTRIBUTE_CODE = 'giftcard_amounts';
 
     /**
-     * Email template model instance
-     *
-     * @var \Magento\Email\Model\Template
-     */
-    protected $_emailTemplateModel;
-
-    /**
      * Gift card data
      *
      * @var \Magento\GiftCard\Helper\Data
@@ -55,11 +48,9 @@ class Observer extends \Magento\Core\Model\AbstractModel
     protected $_invoiceFactory;
 
     /**
-     * Template factory
-     *
-     * @var \Magento\Email\Model\TemplateFactory
+     * @var \Magento\Mail\Template\TransportBuilder
      */
-    protected $_templateFactory;
+    protected $_transportBuilder;
 
     /**
      * Invoice items collection factory
@@ -85,18 +76,18 @@ class Observer extends \Magento\Core\Model\AbstractModel
     /**
      * Locale
      *
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\LocaleInterface
      */
     protected $_locale;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\View\LayoutInterface $layout
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\LocaleInterface $locale
      * @param \Magento\Sales\Model\Resource\Order\Invoice\Item\CollectionFactory $itemsFactory
-     * @param \Magento\Email\Model\TemplateFactory $templateFactory
+     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder,
      * @param \Magento\Sales\Model\Order\InvoiceFactory $invoiceFactory
      * @param \Magento\Message\ManagerInterface $messageManager
      * @param \Magento\UrlInterface $urlModel
@@ -109,13 +100,13 @@ class Observer extends \Magento\Core\Model\AbstractModel
      * @throws \InvalidArgumentException
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\View\LayoutInterface $layout,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\LocaleInterface $locale,
         \Magento\Sales\Model\Resource\Order\Invoice\Item\CollectionFactory $itemsFactory,
-        \Magento\Email\Model\TemplateFactory $templateFactory,
+        \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Sales\Model\Order\InvoiceFactory $invoiceFactory,
         \Magento\Message\ManagerInterface $messageManager,
         \Magento\UrlInterface $urlModel,
@@ -129,22 +120,12 @@ class Observer extends \Magento\Core\Model\AbstractModel
         $this->_layout = $layout;
         $this->_locale = $locale;
         $this->_itemsFactory = $itemsFactory;
-        $this->_templateFactory = $templateFactory;
+        $this->_transportBuilder = $transportBuilder;
         $this->_invoiceFactory = $invoiceFactory;
         $this->messageManager = $messageManager;
         $this->_urlModel = $urlModel;
         $this->_giftCardData = $giftCardData;
         $this->_coreStoreConfig = $coreStoreConfig;
-        if (isset($data['email_template_model'])) {
-            if (!$data['email_template_model'] instanceof \Magento\Email\Model\Template) {
-                throw new \InvalidArgumentException(
-                    'Argument "email_template_model" is expected to be an'
-                        . ' instance of "Magento\Email\Model\Template".'
-                );
-            }
-            $this->_emailTemplateModel = $data['email_template_model'];
-            unset($data['email_template_model']);
-        }
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -307,25 +288,25 @@ class Observer extends \Magento\Core\Model\AbstractModel
                             'is_redeemable'          => $isRedeemable,
                         );
 
-                        $email = $this->_emailTemplateModel ?: $this->_templateFactory->create();
-                        $email->setDesignConfig(array(
-                            'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
-                            'store' => $item->getOrder()->getStoreId(),
-                        ));
-                        $email->sendTransactional(
-                            $item->getProductOptionByCode('giftcard_email_template'),
-                            $this->_coreStoreConfig->getConfig(
+                        $transport = $this->_transportBuilder
+                            ->setTemplateIdentifier($item->getProductOptionByCode('giftcard_email_template'))
+                            ->setTemplateOptions(array(
+                                'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
+                                'store' => $item->getOrder()->getStoreId(),
+                            ))
+                            ->setTemplateVars($templateData)
+                            ->setFrom($this->_coreStoreConfig->getConfig(
                                 \Magento\GiftCard\Model\Giftcard::XML_PATH_EMAIL_IDENTITY,
                                 $item->getOrder()->getStoreId()
-                            ),
-                            $item->getProductOptionByCode('giftcard_recipient_email'),
-                            $item->getProductOptionByCode('giftcard_recipient_name'),
-                            $templateData
-                        );
+                            ))
+                            ->addTo(
+                                $item->getProductOptionByCode('giftcard_recipient_email'),
+                                $item->getProductOptionByCode('giftcard_recipient_name')
+                            )
+                            ->getTransport();
 
-                        if ($email->getSentSuccess()) {
-                            $options['email_sent'] = 1;
-                        }
+                        $transport->sendMessage();
+                        $options['email_sent'] = 1;
                     }
                     $options['giftcard_created_codes'] = $codes;
                     $item->setProductOptions($options);

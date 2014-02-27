@@ -12,7 +12,7 @@ namespace Magento\GoogleAdwords\Model\Config\Source;
 /**
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Language implements \Magento\Core\Model\Option\ArrayInterface
+class Language implements \Magento\Option\ArrayInterface
 {
     /**
      * @var \Zend_Locale
@@ -32,12 +32,12 @@ class Language implements \Magento\Core\Model\Option\ArrayInterface
     /**
      * Constructor
      *
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\LocaleInterface $locale
      * @param \Magento\GoogleAdwords\Helper\Data $helper
      * @param \Magento\GoogleAdwords\Model\Filter\UppercaseTitle $uppercaseFilter
      */
     public function __construct(
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\LocaleInterface $locale,
         \Magento\GoogleAdwords\Helper\Data $helper,
         \Magento\GoogleAdwords\Model\Filter\UppercaseTitle $uppercaseFilter
     ) {

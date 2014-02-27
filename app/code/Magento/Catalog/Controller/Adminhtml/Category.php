@@ -51,8 +51,8 @@ class Category extends \Magento\Backend\App\Action
         if ($activeTabId) {
             $this->_objectManager->get('Magento\Backend\Model\Auth\Session')->setActiveTabId($activeTabId);
         }
-        $this->_objectManager->get('Magento\Core\Model\Registry')->register('category', $category);
-        $this->_objectManager->get('Magento\Core\Model\Registry')->register('current_category', $category);
+        $this->_objectManager->get('Magento\Registry')->register('category', $category);
+        $this->_objectManager->get('Magento\Registry')->register('current_category', $category);
         $this->_objectManager->get('Magento\Cms\Model\Wysiwyg\Config')->setStoreId($this->getRequest()->getParam('store'));
         return $category;
     }
@@ -299,8 +299,7 @@ class Category extends \Magento\Backend\App\Action
             $category->setAttributeSetId($category->getDefaultAttributeSetId());
 
             if (isset($data['category_products']) && !$category->getProductsReadonly()) {
-                $products = array();
-                parse_str($data['category_products'], $products);
+                $products = json_decode($data['category_products'], true);
                 $category->setPostedProducts($products);
             }
             $this->_eventManager->dispatch(

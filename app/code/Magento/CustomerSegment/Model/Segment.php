@@ -74,10 +74,10 @@ class Segment extends \Magento\Rule\Model\AbstractModel
     protected $_storeManager;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\LocaleInterface $locale
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Rule\Model\Action\CollectionFactory $collectionFactory
      * @param \Magento\Log\Model\Visitor $visitor
@@ -88,10 +88,10 @@ class Segment extends \Magento\Rule\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\LocaleInterface $locale,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Rule\Model\Action\CollectionFactory $collectionFactory,
         \Magento\Log\Model\Visitor $visitor,

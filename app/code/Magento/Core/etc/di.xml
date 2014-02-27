@@ -8,14 +8,14 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <preference for="Magento\Acl\CacheInterface" type="Magento\Core\Model\Acl\Cache" />
+    <preference for="Magento\Acl\CacheInterface" type="Magento\Acl\Cache" />
     <preference for="Magento\Module\Updater\SetupInterface" type="Magento\Core\Model\Resource\Setup" />
     <preference for="Magento\Module\ResourceResolverInterface" type="Magento\Module\ResourceResolver" />
     <preference for="Magento\AuthorizationInterface" type="Magento\Authorization" />
     <preference for="Magento\Authorization\Policy" type="Magento\Authorization\Policy\DefaultPolicy" />
     <preference for="Magento\Authorization\RoleLocator" type="Magento\Authorization\RoleLocator\DefaultRoleLocator" />
     <preference for="Magento\Session\SessionManagerInterface" type="Magento\Core\Model\Session" />
-    <preference for="Magento\Core\Model\LocaleInterface" type="Magento\Core\Model\Locale" />
+    <preference for="Magento\LocaleInterface" type="Magento\Core\Model\Locale" />
     <preference for="Magento\Core\Model\DataService\ConfigInterface" type="Magento\Core\Model\DataService\Config" />
     <preference for="Magento\App\ConfigInterface" type="Magento\App\Config" />
     <preference for="Magento\App\ReinitableConfigInterface" type="Magento\App\ReinitableConfig" />
@@ -80,7 +80,7 @@
         <arguments>
             <argument name="areas" xsi:type="array">
                 <item name="frontend" xsi:type="array">
-                    <item name="frontName" xsi:type="string"></item>
+                    <item name="frontName" xsi:type="null" />
                     <item name="router" xsi:type="string">standard</item>
                 </item>
             </argument>
@@ -101,7 +101,7 @@
             <argument name="url" xsi:type="object" shared="false">Magento\UrlInterface</argument>
         </arguments>
     </type>
-    <type name="Magento\Core\Model\Acl\Cache">
+    <type name="Magento\Acl\Cache">
         <arguments>
             <argument name="cacheKey" xsi:type="string">global_acl_resources</argument>
         </arguments>
@@ -231,7 +231,7 @@
     </type>
     <type name="Magento\Core\Model\Translate\Inline\Parser">
         <arguments>
-            <argument name="inputFilter" xsi:type="object">Magento\Core\Model\Input\Filter\MaliciousCode</argument>
+            <argument name="inputFilter" xsi:type="object">Magento\Filter\Input\MaliciousCode</argument>
         </arguments>
     </type>
     <type name="Magento\App\Config\ScopePool">
@@ -435,11 +435,6 @@
             <argument name="url" xsi:type="object">Magento\Backend\Model\UrlInterface\Proxy</argument>
         </arguments>
     </type>
-    <type name="Magento\Core\Model\App">
-        <arguments>
-            <argument name="frontController" xsi:type="object">Magento\App\FrontController\Proxy</argument>
-        </arguments>
-    </type>
     <type name="Magento\Core\Model\App\Area">
         <arguments>
             <argument name="translator" xsi:type="object">Magento\Translate</argument>
@@ -495,6 +490,11 @@
             <argument name="fileSource" xsi:type="object">Magento\Less\File\Source\Aggregated</argument>
         </arguments>
     </type>
+    <type name="Magento\Less\PreProcessor\Instruction\Import">
+        <arguments>
+            <argument name="preProcessor" xsi:type="object">Magento\Less\PreProcessor\Proxy</argument>
+        </arguments>
+    </type>
     <type name="Magento\Less\File\Source\Aggregated">
         <arguments>
             <argument name="libraryFiles" xsi:type="object">Magento\Less\File\Source\Library</argument>
@@ -503,10 +503,10 @@
         </arguments>
     </type>
     <type name="Magento\Css\PreProcessor\Less">
-        <plugin name="process_less" type="Magento\Css\PreProcessor\Cache\Plugin" sortOrder="10"/>
+        <plugin name="process_less" type="Magento\Css\PreProcessor\Cache\CssPlugin" sortOrder="10"/>
     </type>
-    <type name="Magento\Less\PreProcessor">
-        <plugin name="process_less_instructions" type="Magento\Css\PreProcessor\Cache\Plugin" sortOrder="10"/>
+    <type name="Magento\Less\PreProcessor">        
+        <plugin name="process_less_instructions" type="Magento\Css\PreProcessor\Cache\LessPlugin" sortOrder="10"/>
         <arguments>
             <argument name="preProcessors" xsi:type="array">
                 <item name="import" xsi:type="array">

@@ -59,7 +59,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
 
         $contextMock = $this->getMock(
-            '\Magento\Core\Model\Context',
+            '\Magento\Model\Context',
             array('getEventDispatcher', 'getCacheManager', 'getAppState'), array(), '', false
         );
 
@@ -77,7 +77,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
         $this->_model = new \Magento\Catalog\Model\Product(
             $contextMock,
-            $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false),
+            $this->getMock('Magento\Registry', array(), array(), '', false),
             $this->getMock('Magento\Core\Model\StoreManagerInterface', array(), array(), '', false),
             $this->getMock('Magento\Catalog\Model\Product\Url', array(), array(), '', false),
             $this->getMock('Magento\Catalog\Model\Product\Link', array(), array(), '', false),
@@ -86,7 +86,6 @@ class ProductTest extends \PHPUnit_Framework_TestCase
                 array(), array(), '', false
             ),
             $this->getMock('Magento\CatalogInventory\Model\Stock\ItemFactory', array(), array(), '', false),
-            $this->getMock('Magento\Catalog\Model\ProductFactory', array(), array(), '', false),
             $this->getMock('Magento\Catalog\Model\CategoryFactory', array(), array(), '', false),
             $this->getMock('Magento\Catalog\Model\Product\Option', array(), array(), '', false),
             $this->getMock('Magento\Catalog\Model\Product\Visibility', array(), array(), '', false),

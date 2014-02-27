@@ -92,7 +92,7 @@ class Observer
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -119,7 +119,7 @@ class Observer
 
     /**
      * @param \Magento\PricePermissions\Helper\Data $pricePermData
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -128,7 +128,7 @@ class Observer
      */
     public function __construct(
         \Magento\PricePermissions\Helper\Data $pricePermData,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\App\RequestInterface $request,
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Core\Model\StoreManagerInterface $storeManager,

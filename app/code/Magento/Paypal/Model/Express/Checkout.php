@@ -147,7 +147,7 @@ class Checkout
     protected $_logger;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\LocaleInterface
      */
     protected $_locale;
 
@@ -172,7 +172,7 @@ class Checkout
     protected $_cartFactory;
 
     /**
-     * @var \Magento\Core\Model\Log\AdapterFactory
+     * @var \Magento\Logger\AdapterFactory
      */
     protected $_logFactory;
 
@@ -215,12 +215,12 @@ class Checkout
      * @param \Magento\Checkout\Helper\Data $checkoutData
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\App\Cache\Type\Config $configCacheType
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\LocaleInterface $locale
      * @param \Magento\Paypal\Model\Info $paypalInfo
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\UrlInterface $coreUrl
      * @param \Magento\Paypal\Model\CartFactory $cartFactory
-     * @param \Magento\Core\Model\Log\AdapterFactory $logFactory
+     * @param \Magento\Logger\AdapterFactory $logFactory
      * @param \Magento\Checkout\Model\Type\OnepageFactory $onepageFactory
      * @param \Magento\Sales\Model\Service\QuoteFactory $serviceQuoteFactory
      * @param \Magento\Paypal\Model\Billing\AgreementFactory $agreementFactory
@@ -237,12 +237,12 @@ class Checkout
         \Magento\Checkout\Helper\Data $checkoutData,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\App\Cache\Type\Config $configCacheType,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\LocaleInterface $locale,
         \Magento\Paypal\Model\Info $paypalInfo,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\UrlInterface $coreUrl,
         \Magento\Paypal\Model\CartFactory $cartFactory,
-        \Magento\Core\Model\Log\AdapterFactory $logFactory,
+        \Magento\Logger\AdapterFactory $logFactory,
         \Magento\Checkout\Model\Type\OnepageFactory $onepageFactory,
         \Magento\Sales\Model\Service\QuoteFactory $serviceQuoteFactory,
         \Magento\Paypal\Model\Billing\AgreementFactory $agreementFactory,

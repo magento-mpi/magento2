@@ -28,7 +28,7 @@ class Design
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Theme\Model\Layout\Source\Layout $pageLayout
      * @param \Magento\View\Design\Theme\LabelFactory $labelFactory
@@ -36,7 +36,7 @@ class Design
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\Theme\Model\Layout\Source\Layout $pageLayout,
         \Magento\View\Design\Theme\LabelFactory $labelFactory,
@@ -109,7 +109,7 @@ class Design
             'disabled'  => $isElementDisabled
         ));
 
-        $dateFormat = $this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
+        $dateFormat = $this->_locale->getDateFormat(\Magento\LocaleInterface::FORMAT_TYPE_SHORT);
 
         $designFieldset->addField('custom_theme_from', 'date', array(
             'name'      => 'custom_theme_from',

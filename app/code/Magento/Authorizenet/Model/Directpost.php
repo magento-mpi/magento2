@@ -68,10 +68,10 @@ class Directpost extends \Magento\Authorizenet\Model\Authorizenet
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
+     * @param \Magento\Logger\AdapterFactory $logAdapterFactory
      * @param \Magento\Logger $logger
      * @param \Magento\Module\ModuleListInterface $moduleList
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\LocaleInterface $locale
      * @param \Magento\Centinel\Model\Service $centinelService
      * @param \Magento\Authorizenet\Model\Authorizenet\CardsFactory $cardsFactory
      * @param \Magento\Authorizenet\Model\Authorizenet\RequestFactory $requestFactory
@@ -92,10 +92,10 @@ class Directpost extends \Magento\Authorizenet\Model\Authorizenet
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
+        \Magento\Logger\AdapterFactory $logAdapterFactory,
         \Magento\Logger $logger,
         \Magento\Module\ModuleListInterface $moduleList,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\LocaleInterface $locale,
         \Magento\Centinel\Model\Service $centinelService,
         \Magento\Authorizenet\Model\Authorizenet\CardsFactory $cardsFactory,
         \Magento\Authorizenet\Model\Authorizenet\RequestFactory $requestFactory,

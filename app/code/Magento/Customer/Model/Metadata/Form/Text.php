@@ -12,12 +12,12 @@ namespace Magento\Customer\Model\Metadata\Form;
 class Text extends AbstractData
 {
     /**
-     * @var \Magento\Core\Helper\String
+     * @var \Magento\Stdlib\String
      */
     protected $_string;
 
     /**
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\LocaleInterface $locale
      * @param \Magento\Logger $logger
      * @param \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata $attribute
      * @param string $value
@@ -26,7 +26,7 @@ class Text extends AbstractData
      * @param \Magento\Stdlib\String $stringHelper
      */
     public function __construct(
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\LocaleInterface $locale,
         \Magento\Logger $logger,
         \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata $attribute,
         $value,

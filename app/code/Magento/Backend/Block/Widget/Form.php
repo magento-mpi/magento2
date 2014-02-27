@@ -29,7 +29,7 @@ class Form extends \Magento\Backend\Block\Widget
     protected $_template = 'Magento_Backend::widget/form.phtml';
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\LocaleInterface
      */
     protected $_locale;
 

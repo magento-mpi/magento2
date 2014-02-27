@@ -1,27 +1,58 @@
 * GitHub requests:
+  * [#454](https://github.com/magento/magento2/pull/454) -- Allow to specify list of IPs in a body on maintenance.flag which will be granted access even if the flag is on
+  * [#204](https://github.com/magento/magento2/issues/204) -- Mage_ImportExport: Exporting configurable products ignores multiple configurable options
+  * [#418](https://github.com/magento/magento2/issues/418) -- Echo vs print
+  * [#419](https://github.com/magento/magento2/issues/419) -- Some translation keys are not correct.
+  * [#244](https://github.com/magento/magento2/issues/244) -- Retrieve base host URL without path in error processor
+  * [#411](https://github.com/magento/magento2/issues/411) -- Missed column 'payment_method' of table 'sales_flat_quote_address'
+  * [#284](https://github.com/magento/magento2/pull/284) -- Fix for Issue #278 (Import -> Stores with large amount of Configurable Products)
+* Framework Improvements:
+  * Added ability to intercept of internal public calls
+  * Added ability to access public interface of intercepted object
+  * Added static integrity test for plugin inteface validation
+* GitHub requests:
   * [#235](https://github.com/magento/magento2/issues/235) -- Translation escaping
   * [#463](https://github.com/magento/magento2/pull/463) -- allow _resolveArguments to do sequential lookups
 * Fixed bugs:
-  * Fixed an issue with "Add to Cart" button on MAP popup of compound products
-  * Fixed an issue where the Add Address button for Customer in Admin was broken
-  * Fixed a Typo in Region of Austria (GitHub #134)
-  * Fixed issue where predefined data are not loaded for Newsletter after try to put it in a Queue
-* Indexer implementation:
-  * Implemented new optimized Catalog Category Product Indexer
-  * Implemented new optimized Catalog Category Flat Indexer
-  * Implemented new optimized Catalog Product Flat Indexer
+  * Fixed an exception that appears when trying to apply a coupon code
+  * Fixed Shopping Cart Price Rule which applied to products that aren't eligible
+  * Fixed Related Orders link from Recurring Profile page on frontend
+  * Fixed transaction rollback in fetchNewIncrementId on exception
+  * Fixed category saveing when it has more than 1000 products
+  * Fixed error messages displayed during installation when required extensions are not installed
+  * Fixed synopsis of install.php script
 * Modularity improvements:
-  * Moved all Configurable Product functionality to newly created module ConfigurableProduct
   * Resolved dependencies of Sales module on RecurringProfile module
-  * Finalised work on resolving dependencies between all other modules and Multishipping module. Module can be removed without impact on system
+  * Resolved dependencies between Email Templates functionality and other modules
+  * Core module lib-only depended components moved to library
 * Customer Service usage:
- * Updated Customer Group Grid to use Customer Service for retrieving data and filtering
- * Updated CustomerMetadataService::getAttributeMetadata to throw an exception if invalid code provided
- * Sales module refactoring to use customer service layer
- * Checkout module refactoring to use customer service layer
-* Unified format of specifying arguments for class constructors in DI and in Layout configuration
-  * Common xsd schema is being used for defining simple types. Layout and DI customize common types with their specific ones
-  * Arguments processing is unified and moved to library
+  * Sales module refactoring to use customer service layer
+  * Checkout module refactoring to use customer service layer
+
+2.0.0.0-dev66
+=============
+* GitHub requests:
+  * [#134] (https://github.com/magento/magento2/pull/134) Fixed a typo in "Vorarlberg" region of Austria (was Voralberg)
+* Fixed bugs:
+  * Fixed an issue with the "Add to Cart" button on the MAP popup of compound products
+  * Fixed an issue where the "Add Address" button for Customer in Admin was broken
+  * Fixed an issue where predefined data are not loaded for a newsletter when it is added to a queue
+* Indexer implementation:
+  * Implemented a new optimized Catalog Category Product Indexer
+  * Implemented a new optimized Catalog Category Flat Indexer
+  * Implemented a new optimized Catalog Product Flat Indexer
+* Modularity improvements:
+  * Moved all Configurable Product functionality to a newly created ConfigurableProduct module
+  * Moved the Shortcut Buttons abstraction from PayPal to Catalog
+  * Moved the Recurring profile functionality to a separate module
+  * Moved the Billing Agreements functionality to the PayPal module
+  * Finalized the work on resolving dependencies between the Multishipping module, and all other modules. Module can be removed without any impact on the system
+* Customer Service usage:
+  * Updated Customer Group Grid to use Customer Service for data retrieving and filtering
+  * Updated CustomerMetadataService::getAttributeMetadata to throw an exception if invalid code is provided
+* Unified the format of specifying arguments for class constructors in DI and in Layout configuration:
+  * A common xsd schema is being used for defining simple types. Layout and DI customize common types with their specific ones
+  * Argument processing is unified, and moved to library
 
 2.0.0.0-dev65
 =============
@@ -67,11 +98,6 @@
   * Fixed an issue with zooming on a configurable product page where the main product image was shown instead of the selected option images
 * Updated various PHPDoc with parameter and return types
 * Moved quote-related multishipping logic to the Multishipping module
-* Moved Quote Multishipping specifics logic to Multishipping module
-* Moved Recurring profile functionality into separate module
-* GitHub requests:
- * [#377] (https://github.com/magento/magento2/issues/377) Remove and avoid javascript eval() calls 
- * [#319] (https://github.com/magento/magento2/issues/319) No message was displayed when product added to shopping cart.
 * Resolved dependencies between the Payment and Multishipping modules
 * Moved the framework part of the Translate functionality from modules to the library
 * Created the architecture for the email template library

@@ -21,17 +21,17 @@ use Magento\App\RequestInterface;
 class Text extends \Magento\Eav\Model\Attribute\Data\AbstractData
 {
     /**
-     * @var \Magento\Core\Helper\String
+     * @var \Magento\Stdlib\String
      */
     protected $_string;
 
     /**
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\LocaleInterface $locale
      * @param \Magento\Logger $logger
      * @param \Magento\Stdlib\String $stringHelper
      */
     public function __construct(
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\LocaleInterface $locale,
         \Magento\Logger $logger,
         \Magento\Stdlib\String $stringHelper
     ) {

@@ -28,16 +28,22 @@ class QuoteItem
     /**
      * Append gift card additional data to order item options
      *
-     * @param array $arguments
-     * @param \Magento\Code\Plugin\InvocationChain $invocationChain
+     * @param \Magento\Sales\Model\Convert\Quote $subject
+     * @param callable $proceed
+     * @param \Magento\Sales\Model\Quote\Item\AbstractItem $item
+     *
      * @return \Magento\Sales\Model\Order\Item
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function aroundItemToOrderItem(array $arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
-    {
+    public function aroundItemToOrderItem(
+        \Magento\Sales\Model\Convert\Quote $subject,
+        \Closure $proceed,
+        \Magento\Sales\Model\Quote\Item\AbstractItem $item
+    ) {
         /** @var $orderItem \Magento\Sales\Model\Order\Item */
-        $orderItem = $invocationChain->proceed($arguments);
+        $orderItem = $proceed($item);
         /** @var $quoteItem \Magento\Sales\Model\Quote\Item */
-        $quoteItem = reset($arguments);
+        $quoteItem = $item;
 
         $keys = array(
             'giftcard_sender_name',
@@ -54,6 +60,7 @@ class QuoteItem
             }
         }
 
+        /** @var \Magento\Catalog\Model\Product $product */
         $product = $quoteItem->getProduct();
         // set lifetime
         if ($product->getUseConfigLifetime()) {

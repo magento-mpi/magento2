@@ -121,15 +121,15 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     protected $_iterator;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\LocaleInterface
      */
     protected $_locale;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\LocaleInterface $locale
      * @param \Magento\Core\Model\Resource\Iterator $iterator
      * @param \Magento\TargetRule\Model\Rule\Condition\CombineFactory $ruleFactory
      * @param \Magento\TargetRule\Model\Actions\Condition\CombineFactory $actionFactory
@@ -139,10 +139,10 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\LocaleInterface $locale,
         \Magento\Core\Model\Resource\Iterator $iterator,
         \Magento\TargetRule\Model\Rule\Condition\CombineFactory $ruleFactory,
         \Magento\TargetRule\Model\Actions\Condition\CombineFactory $actionFactory,
