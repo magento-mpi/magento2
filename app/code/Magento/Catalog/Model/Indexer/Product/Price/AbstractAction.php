@@ -373,7 +373,7 @@ abstract class AbstractAction
     {
         $this->getTypeIndexers();
         if (!isset($this->_indexers[$productTypeId])) {
-            throw new \Magento\Catalog\Exception(__('Unsupported product type "%s".', array($productTypeId)));
+            throw new \Magento\Catalog\Exception(__('Unsupported product type "%1".', $productTypeId));
         }
         return $this->_indexers[$productTypeId];
     }
