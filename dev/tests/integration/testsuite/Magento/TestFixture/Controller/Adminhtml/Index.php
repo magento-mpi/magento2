@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Testmodule\Controller\Adminhtml;
+namespace Magento\TestFixture\Controller\Adminhtml;
 
 /**
  * Mock index controller class

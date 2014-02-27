@@ -63,8 +63,7 @@ class DefaultRouterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @runInSeparateProcess
-     * @magentoDataFixture Magento/Backend/Controller/Adminhtml/Index.php
+     * @magentoDataFixture Magento/TestFixture/Controller/Adminhtml/Index.php
      */
     public function testMatchCustomNoRouteAction()
     {
@@ -74,9 +73,9 @@ class DefaultRouterTest extends \PHPUnit_Framework_TestCase
 
         $routers = array(
             'testmodule' => array(
-                'frontName' => 'testmodule',
-                'id' => 'testmodule',
-                'modules' => ['Magento_Testmodule_Adminhtml']
+                'frontName' => 'testfixture',
+                'id' => 'testfixture',
+                'modules' => ['Magento_TestFixture_Adminhtml']
             )
         );
 
@@ -103,9 +102,9 @@ class DefaultRouterTest extends \PHPUnit_Framework_TestCase
         /** @var $request \Magento\TestFramework\Request */
         $request = $this->objectManager->get('Magento\TestFramework\Request');
 
-        $request->setPathInfo('backend/testmodule/test_controller');
+        $request->setPathInfo('backend/testfixture/test_controller');
         $controller = $defaultRouter->match($request);
-        $this->assertInstanceOf('Magento\Testmodule\Controller\Adminhtml\Index', $controller);
+        $this->assertInstanceOf('Magento\TestFixture\Controller\Adminhtml\Index', $controller);
         $this->assertEquals('noroute', $request->getActionName());
     }
 }
