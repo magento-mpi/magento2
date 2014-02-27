@@ -10,7 +10,9 @@
 
 namespace Magento\Usa\Model\Shipping\Carrier\Dhl;
 
-abstract class AbstractDhl extends \Magento\Usa\Model\Shipping\Carrier\AbstractCarrier
+use Magento\Shipping\Model\Carrier\AbstractCarrierOnline;
+
+abstract class AbstractDhl extends AbstractCarrierOnline
 {
     /**
      * Response condition code for service is unavailable at the requested date
