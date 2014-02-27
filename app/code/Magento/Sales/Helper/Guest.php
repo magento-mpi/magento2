@@ -16,6 +16,8 @@ class Guest extends \Magento\Core\Helper\Data
 {
     /**
      * Cookie params
+     *
+     * @var string
      */
     protected $_cookieName  = 'guest-view';
 
@@ -98,7 +100,7 @@ class Guest extends \Magento\Core\Helper\Data
     /**
      * Try to load valid order by $_POST or $_COOKIE
      *
-     * @return bool|null
+     * @return bool
      */
     public function loadValidOrder()
     {
@@ -175,6 +177,8 @@ class Guest extends \Magento\Core\Helper\Data
 
     /**
      * Get Breadcrumbs for current controller action
+     *
+     * @return void
      */
     public function getBreadcrumbs()
     {

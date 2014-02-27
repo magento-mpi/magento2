@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Sales\Helper;
 
 class Admin extends \Magento\App\Helper\AbstractHelper

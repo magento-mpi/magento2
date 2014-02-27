@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Helper;
 
 /**
  * Sales module base helper
  */
-namespace Magento\Sales\Helper;
-
 class Reorder extends \Magento\Core\Helper\Data
 {
     const XML_PATH_SALES_REORDER_ALLOW = 'sales/reorder/allow';

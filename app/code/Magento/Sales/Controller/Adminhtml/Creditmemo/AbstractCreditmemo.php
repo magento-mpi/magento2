@@ -7,14 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Controller\Adminhtml\Creditmemo;
+
+use Magento\App\ResponseInterface;
 
 /**
  * Adminhtml sales orders controller
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Controller\Adminhtml\Creditmemo;
-
 class AbstractCreditmemo extends \Magento\Backend\App\Action
 {
     /**
@@ -50,6 +51,8 @@ class AbstractCreditmemo extends \Magento\Backend\App\Action
 
     /**
      * Creditmemos grid
+     *
+     * @return void
      */
     public function indexAction()
     {
@@ -60,6 +63,8 @@ class AbstractCreditmemo extends \Magento\Backend\App\Action
 
     /**
      * Creditmemo information page
+     *
+     * @return void
      */
     public function viewAction()
     {
@@ -72,6 +77,8 @@ class AbstractCreditmemo extends \Magento\Backend\App\Action
 
     /**
      * Notify user
+     *
+     * @return void
      */
     public function emailAction()
     {
@@ -96,6 +103,9 @@ class AbstractCreditmemo extends \Magento\Backend\App\Action
         }
     }
 
+    /**
+     * @return ResponseInterface
+     */
     public function pdfcreditmemosAction()
     {
         $creditmemosIds = $this->getRequest()->getPost('creditmemo_ids');
@@ -122,6 +132,9 @@ class AbstractCreditmemo extends \Magento\Backend\App\Action
         $this->_redirect('sales/*/');
     }
 
+    /**
+     * @return ResponseInterface|void
+     */
     public function printAction()
     {
         /** @see \Magento\Sales\Controller\Adminhtml\Order\Invoice */
@@ -144,6 +157,9 @@ class AbstractCreditmemo extends \Magento\Backend\App\Action
         }
     }
 
+    /**
+     * @return bool
+     */
     protected function _isAllowed()
     {
         return $this->_authorization->isAllowed('Magento_Sales::sales_creditmemo');

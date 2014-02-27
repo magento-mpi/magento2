@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Controller;
 
 /**
  * Sales Controller
  */
-namespace Magento\Sales\Controller;
-
 abstract class AbstractController extends \Magento\App\Action\Action
 {
     /**
@@ -54,6 +53,8 @@ abstract class AbstractController extends \Magento\App\Action\Action
 
     /**
      * Init layout, messages and set active block for customer
+     *
+     * @return void
      */
     protected function _viewAction()
     {
@@ -100,6 +101,8 @@ abstract class AbstractController extends \Magento\App\Action\Action
 
     /**
      * Order view page
+     *
+     * @return void
      */
     public function viewAction()
     {
@@ -108,6 +111,8 @@ abstract class AbstractController extends \Magento\App\Action\Action
 
     /**
      * Invoice page
+     *
+     * @return void
      */
     public function invoiceAction()
     {
@@ -116,6 +121,8 @@ abstract class AbstractController extends \Magento\App\Action\Action
 
     /**
      * Shipment page
+     *
+     * @return void
      */
     public function shipmentAction()
     {
@@ -124,6 +131,8 @@ abstract class AbstractController extends \Magento\App\Action\Action
 
     /**
      * Creditmemo page
+     *
+     * @return void
      */
     public function creditmemoAction()
     {
@@ -132,6 +141,8 @@ abstract class AbstractController extends \Magento\App\Action\Action
 
     /**
      * Action for reorder
+     *
+     * @return void
      */
     public function reorderAction()
     {
@@ -165,6 +176,8 @@ abstract class AbstractController extends \Magento\App\Action\Action
 
     /**
      * Print Order Action
+     *
+     * @return void
      */
     public function printAction()
     {
@@ -177,6 +190,8 @@ abstract class AbstractController extends \Magento\App\Action\Action
 
     /**
      * Print Invoice Action
+     *
+     * @return void
      */
     public function printInvoiceAction()
     {
@@ -207,6 +222,8 @@ abstract class AbstractController extends \Magento\App\Action\Action
 
     /**
      * Print Shipment Action
+     *
+     * @return void
      */
     public function printShipmentAction()
     {
@@ -236,6 +253,8 @@ abstract class AbstractController extends \Magento\App\Action\Action
 
     /**
      * Print Creditmemo Action
+     *
+     * @return void
      */
     public function printCreditmemoAction()
     {

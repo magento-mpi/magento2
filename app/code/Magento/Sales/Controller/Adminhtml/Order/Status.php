@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Controller\Adminhtml\Order;
 
 /**
  * Order status management controller
@@ -15,8 +16,6 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Controller\Adminhtml\Order;
-
 class Status extends \Magento\Backend\App\Action
 {
     /**
@@ -41,7 +40,7 @@ class Status extends \Magento\Backend\App\Action
     /**
      * Initialize status model based on status code in request
      *
-     * @return \Magento\Sales\Model\Order\Status | false
+     * @return \Magento\Sales\Model\Order\Status|false
      */
     protected function _initStatus()
     {
@@ -56,6 +55,8 @@ class Status extends \Magento\Backend\App\Action
 
     /**
      * Statuses grid page
+     *
+     * @return void
      */
     public function indexAction()
     {
@@ -67,6 +68,8 @@ class Status extends \Magento\Backend\App\Action
 
     /**
      * New status form
+     *
+     * @return void
      */
     public function newAction()
     {
@@ -85,6 +88,8 @@ class Status extends \Magento\Backend\App\Action
 
     /**
      * Editing existing status form
+     *
+     * @return void
      */
     public function editAction()
     {
@@ -106,6 +111,8 @@ class Status extends \Magento\Backend\App\Action
 
     /**
      * Save status form processing
+     *
+     * @return void
      */
     public function saveAction()
     {
@@ -166,6 +173,8 @@ class Status extends \Magento\Backend\App\Action
 
     /**
      * Assign status to state form
+     *
+     * @return void
      */
     public function assignAction()
     {
@@ -178,6 +187,8 @@ class Status extends \Magento\Backend\App\Action
 
     /**
      * Save status assignment to state
+     *
+     * @return void
      */
     public function assignPostAction()
     {
@@ -209,6 +220,9 @@ class Status extends \Magento\Backend\App\Action
         $this->_redirect('sales/*/');
     }
 
+    /**
+     * @return void
+     */
     public function unassignAction()
     {
         $state  = $this->getRequest()->getParam('state');

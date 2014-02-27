@@ -7,7 +7,9 @@
  */
 namespace Magento\Sales\Controller;
 
-use \Magento\Catalog\Model\Product\Type\AbstractType as AbstractProductType;
+use Magento\App\Action\Context;
+use Magento\Sales\Model\Download as ModelDownload;
+use Magento\Catalog\Model\Product\Type\AbstractType as AbstractProductType;
 
 /**
  * Sales controller for download purposes
@@ -19,7 +21,11 @@ class Download extends \Magento\App\Action\Action
      */
     protected $_download;
 
-    public function __construct(\Magento\App\Action\Context $context, \Magento\Sales\Model\Download $download)
+    /**
+     * @param Context $context
+     * @param ModelDownload $download
+     */
+    public function __construct(Context $context, ModelDownload $download)
     {
         $this->_download = $download;
         parent::__construct($context);
@@ -27,6 +33,8 @@ class Download extends \Magento\App\Action\Action
 
     /**
      * Custom options download action
+     *
+     * @return void
      */
     public function downloadCustomOptionAction()
     {

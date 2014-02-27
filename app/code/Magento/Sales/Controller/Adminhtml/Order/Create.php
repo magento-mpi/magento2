@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Controller\Adminhtml\Order;
+
+use Magento\Backend\App\Action;
 
 /**
  * Adminhtml sales orders creation process controller
@@ -15,10 +18,6 @@
  * @package    Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Controller\Adminhtml\Order;
-
-use Magento\Backend\App\Action;
-
 class Create extends \Magento\Backend\App\Action
 {
     /**
@@ -76,7 +75,7 @@ class Create extends \Magento\Backend\App\Action
     /**
      * Initialize order creation session data
      *
-     * @return \Magento\Sales\Controller\Adminhtml\Order\Create
+     * @return $this
      */
     protected function _initSession()
     {
@@ -107,7 +106,7 @@ class Create extends \Magento\Backend\App\Action
     /**
      * Processing request data
      *
-     * @return \Magento\Sales\Controller\Adminhtml\Order\Create
+     * @return $this
      */
     protected function _processData()
     {
@@ -118,7 +117,7 @@ class Create extends \Magento\Backend\App\Action
      * Process request data with additional logic for saving quote and creating order
      *
      * @param string $action
-     * @return \Magento\Sales\Controller\Adminhtml\Order\Create
+     * @return $this
      */
     protected function _processActionData($action = null)
     {
@@ -319,6 +318,8 @@ class Create extends \Magento\Backend\App\Action
 
     /**
      * Index page
+     *
+     * @return void
      */
     public function indexAction()
     {
@@ -331,7 +332,9 @@ class Create extends \Magento\Backend\App\Action
         $this->_view->renderLayout();
     }
 
-
+    /**
+     * @return void
+     */
     public function reorderAction()
     {
         $this->_getSession()->clearStorage();
@@ -353,6 +356,9 @@ class Create extends \Magento\Backend\App\Action
         }
     }
 
+    /**
+     * @return $this
+     */
     protected function _reloadQuote()
     {
         $id = $this->_getQuote()->getId();
@@ -362,6 +368,8 @@ class Create extends \Magento\Backend\App\Action
 
     /**
      * Loading page block
+     *
+     * @return void
      */
     public function loadBlockAction()
     {
@@ -412,6 +420,8 @@ class Create extends \Magento\Backend\App\Action
 
     /**
      * Adds configured product to quote
+     *
+     * @return void
      */
     public function addConfiguredAction()
     {
@@ -440,6 +450,8 @@ class Create extends \Magento\Backend\App\Action
 
     /**
      * Start order create action
+     *
+     * @return void
      */
     public function startAction()
     {
@@ -449,6 +461,8 @@ class Create extends \Magento\Backend\App\Action
 
     /**
      * Cancel order create
+     *
+     * @return void
      */
     public function cancelAction()
     {
@@ -466,6 +480,8 @@ class Create extends \Magento\Backend\App\Action
 
     /**
      * Saving quote and create order
+     *
+     * @return void
      */
     public function saveAction()
     {
@@ -527,7 +543,7 @@ class Create extends \Magento\Backend\App\Action
      * Get acl resource
      *
      * @return string
-    */
+     */
     protected function _getAclResource()
     {
         $action = strtolower($this->getRequest()->getActionName());
@@ -555,7 +571,7 @@ class Create extends \Magento\Backend\App\Action
     /**
      * Ajax handler to response configuration fieldset of composite product in order
      *
-     * @return \Magento\Sales\Controller\Adminhtml\Order\Create
+     * @return void
      */
     public function configureProductToAddAction()
     {
@@ -577,7 +593,7 @@ class Create extends \Magento\Backend\App\Action
     /**
      * Ajax handler to response configuration fieldset of composite product in quote items
      *
-     * @return \Magento\Sales\Controller\Adminhtml\Order\Create
+     * @return void
      */
     public function configureQuoteItemsAction()
     {
@@ -620,6 +636,7 @@ class Create extends \Magento\Backend\App\Action
      * Show item update result from loadBlockAction
      * to prevent popup alert with resend data question
      *
+     * @return void|false
      */
     public function showUpdateResultAction()
     {
@@ -635,6 +652,8 @@ class Create extends \Magento\Backend\App\Action
 
     /**
      * Process data and display index page
+     *
+     * @return void
      */
     public function processDataAction()
     {
