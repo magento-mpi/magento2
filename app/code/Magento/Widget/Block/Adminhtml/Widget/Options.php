@@ -25,31 +25,30 @@ class Options extends \Magento\Backend\Block\Widget\Form\Generic
      * @var string
      */
     protected $_defaultElementType = 'text';
-    
+
     /**
      * @var \Magento\Widget\Model\Widget
      */
     protected $_widget;
 
     /**
-     * @var \Magento\Widget\Model\Widget\Instance\OptionsFactory
-     * @var \Magento\Core\Model\Option\ArrayPool
+     * @var \Magento\Option\ArrayPool
      */
     protected $_sourceModelPool;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
-     * @param \Magento\Core\Model\Option\ArrayPool $sourceModelPool
+     * @param \Magento\Option\ArrayPool $sourceModelPool
      * @param \Magento\Widget\Model\Widget $widget
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
-        \Magento\Core\Model\Option\ArrayPool $sourceModelPool,
+        \Magento\Option\ArrayPool $sourceModelPool,
         \Magento\Widget\Model\Widget $widget,
         array $data = array()
     ) {
@@ -61,8 +60,10 @@ class Options extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Prepare Widget Options Form and values according to specified type
      *
-     * widget_type must be set in data before
+     * The widget_type must be set in data before
      * widget_values may be set before to render element values
+     *
+     * @return $this
      */
     protected function _prepareForm()
     {
@@ -116,7 +117,7 @@ class Options extends \Magento\Backend\Block\Widget\Form\Generic
      * Add fields to main fieldset based on specified widget type
      *
      * @throws \Magento\Core\Exception
-     * @return \Magento\Backend\Block\Widget\Form
+     * @return $this
      */
     public function addFields()
     {
@@ -158,8 +159,7 @@ class Options extends \Magento\Backend\Block\Widget\Form\Generic
 
         if ($values = $this->getWidgetValues()) {
             $data['value'] = (isset($values[$fieldName]) ? $values[$fieldName] : '');
-        }
-        else {
+        } else {
             $data['value'] = $parameter->getValue();
             //prepare unique id value
             if ($fieldName == 'unique_id' && $data['value'] == '') {

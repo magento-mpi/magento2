@@ -7,12 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\App\PageCache;
+namespace Magento\PageCache\Model;
+
+use Magento\App\Request\Http;
+use Magento\Stdlib\Cookie;
 
 /**
  * Class Version
- *
- * @package Magento\App\PageCache
+ * @package Magento\PageCache\Model
  */
 class Version
 {
@@ -29,23 +31,37 @@ class Version
     /**
      * Cookie
      *
-     * @var \Magento\Stdlib\Cookie
+     * @var Cookie
      */
-    protected $cookie;
+    private $cookie;
 
     /**
      * Request
      *
-     * @var \Magento\App\Request\Http
+     * @var Http
      */
-    protected $request;
+    private $request;
 
+    /**
+     * @param Cookie $cookie
+     * @param Http $request
+     */
     public function __construct(
-        \Magento\Stdlib\Cookie $cookie,
-        \Magento\App\Request\Http $request
+        Cookie $cookie,
+        Http $request
     ) {
         $this->cookie = $cookie;
         $this->request = $request;
+    }
+
+    /**
+     * Increment private content version cookie (for user to pull new private content)
+     *
+     * @return void
+     */
+    private function set()
+    {
+        $this->cookie->set(self::COOKIE_NAME, $this->generateValue(), self::COOKIE_PERIOD, '/');
     }
 
     /**
@@ -53,7 +69,7 @@ class Version
      *
      * @return string
      */
-    protected function generateValue()
+    private function generateValue()
     {
         return md5(rand() . time());
     }
@@ -63,11 +79,13 @@ class Version
      * Set cookie if it is not set.
      * Increment version on post requests.
      * In all other cases do nothing.
+     *
+     * @return void
      */
     public function process()
     {
         if ($this->request->isPost()) {
-            $this->cookie->set(self::COOKIE_NAME, $this->generateValue(), self::COOKIE_PERIOD, '/');
+                $this->set();
         }
     }
 }

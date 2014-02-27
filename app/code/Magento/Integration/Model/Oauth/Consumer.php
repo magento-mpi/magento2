@@ -5,7 +5,6 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento\Integration\Model\Oauth;
 
 use Magento\Oauth\ConsumerInterface;
@@ -42,8 +41,8 @@ class Consumer extends \Magento\Core\Model\AbstractModel implements ConsumerInte
     protected $_keyLengthFactory;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Integration\Model\Oauth\Consumer\Validator\KeyLengthFactory $keyLengthFactory
      * @param \Magento\Url\Validator $urlValidator
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
@@ -51,8 +50,8 @@ class Consumer extends \Magento\Core\Model\AbstractModel implements ConsumerInte
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Integration\Model\Oauth\Consumer\Validator\KeyLengthFactory $keyLengthFactory,
         \Magento\Url\Validator $urlValidator,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
@@ -78,7 +77,7 @@ class Consumer extends \Magento\Core\Model\AbstractModel implements ConsumerInte
     /**
      * BeforeSave actions
      *
-     * @return Consumer
+     * @return $this
      */
     protected function _beforeSave()
     {
@@ -131,7 +130,7 @@ class Consumer extends \Magento\Core\Model\AbstractModel implements ConsumerInte
      * Load consumer data by consumer key.
      *
      * @param string $key
-     * @return Consumer
+     * @return $this
      */
     public function loadByKey($key)
     {

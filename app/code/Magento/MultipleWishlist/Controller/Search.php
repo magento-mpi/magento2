@@ -29,7 +29,7 @@ class Search extends \Magento\App\Action\Action
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
@@ -100,7 +100,7 @@ class Search extends \Magento\App\Action\Action
      * Construct
      *
      * @param \Magento\App\Action\Context $context
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\Wishlist\Model\ItemFactory $itemFactory
      * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
      * @param \Magento\MultipleWishlist\Model\SearchFactory $searchFactory
@@ -113,7 +113,7 @@ class Search extends \Magento\App\Action\Action
      */
     public function __construct(
         \Magento\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\Wishlist\Model\ItemFactory $itemFactory,
         \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
         \Magento\MultipleWishlist\Model\SearchFactory $searchFactory,
@@ -174,6 +174,8 @@ class Search extends \Magento\App\Action\Action
 
     /**
      * Index action
+     *
+     * @return void
      */
     public function indexAction()
     {
@@ -189,6 +191,7 @@ class Search extends \Magento\App\Action\Action
     /**
      * Wishlist search action
      *
+     * @return void
      * @throws \Magento\Core\Exception
      */
     public function resultsAction()
@@ -238,6 +241,7 @@ class Search extends \Magento\App\Action\Action
     /**
      * View customer wishlist
      *
+     * @return void
      * @throws NotFoundException
      */
     public function viewAction()
@@ -266,6 +270,8 @@ class Search extends \Magento\App\Action\Action
 
     /**
      * Add wishlist item to cart
+     *
+     * @return void
      */
     public function addtocartAction()
     {

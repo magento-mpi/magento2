@@ -131,6 +131,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $dateTime;
 
     /**
+     * @var \Magento\Sales\Model\Order\Admin\Item
+     */
+    protected $adminOrderItem;
+
+    /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Store\ConfigInterface $storeConfig
@@ -145,6 +150,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Rma\Model\CarrierFactory $carrierFactory
      * @param \Magento\Filter\FilterManager $filterManager
      * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Sales\Model\Order\Admin\Item $adminOrderItem
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
@@ -160,7 +166,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\Sales\Model\Quote\AddressFactory $addressFactory,
         \Magento\Rma\Model\CarrierFactory $carrierFactory,
         \Magento\Filter\FilterManager $filterManager,
-        \Magento\Stdlib\DateTime $dateTime
+        \Magento\Stdlib\DateTime $dateTime,
+        \Magento\Sales\Model\Order\Admin\Item $adminOrderItem
     ) {
         $this->_coreData = $coreData;
         $this->_storeConfig = $storeConfig;
@@ -175,6 +182,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         $this->_carrierFactory = $carrierFactory;
         $this->_filterManager = $filterManager;
         $this->dateTime = $dateTime;
+        $this->adminOrderItem = $adminOrderItem;
         parent::__construct($context);
     }
 
@@ -230,13 +238,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
                 if ($item->getParentItemId()) {
                     $this->_orderItems[$orderId]->removeItemByKey($item->getId());
                 }
-                if ($item->getProductType() == \Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE) {
-                    $productOptions = $item->getProductOptions();
-                    $item->setName($productOptions['simple_name']);
-                }
+                $item->setName($this->adminOrderItem->getName($item));
             }
         }
-
         return $this->_orderItems[$orderId];
     }
 
@@ -608,13 +612,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getAdminProductSku($item)
     {
-        $name = $item->getSku();
-        if ($item->getProductType() == \Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE) {
-            $productOptions = $item->getProductOptions();
-
-            return $productOptions['simple_sku'];
-        }
-        return $name;
+        return $this->adminOrderItem->getSku($item);
     }
 
     /**

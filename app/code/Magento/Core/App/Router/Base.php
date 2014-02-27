@@ -24,7 +24,7 @@ class Base extends \Magento\App\Router\AbstractRouter
     /**
      * List of required request parameters
      * Order sensitive
-     * @var array
+     * @var string[]
      */
     protected $_requiredParams = array(
         'moduleFrontName',
@@ -77,16 +77,22 @@ class Base extends \Magento\App\Router\AbstractRouter
     protected $_defaultPath;
 
     /**
+     * @var \Magento\Code\NameBuilder
+     */
+    protected $nameBuilder;
+
+    /**
      * @param \Magento\App\ActionFactory $actionFactory
      * @param \Magento\App\DefaultPathInterface $defaultPath
      * @param \Magento\App\ResponseFactory $responseFactory
      * @param \Magento\App\Route\ConfigInterface $routeConfig
      * @param \Magento\App\State $appState
-     * @param \Magento\Core\Model\Url|\Magento\UrlInterface $url
+     * @param \Magento\UrlInterface $url
      * @param \Magento\Core\Model\StoreManagerInterface|\Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Store\Config $storeConfig
      * @param \Magento\Url\SecurityInfoInterface $urlSecurityInfo
-     * @param $routerId
+     * @param string $routerId
+     * @param \Magento\Code\NameBuilder $nameBuilder
      * @throws \InvalidArgumentException
      */
     public function __construct(
@@ -99,7 +105,8 @@ class Base extends \Magento\App\Router\AbstractRouter
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Store\Config $storeConfig,
         \Magento\Url\SecurityInfoInterface $urlSecurityInfo,
-        $routerId
+        $routerId,
+        \Magento\Code\NameBuilder $nameBuilder
     ) {
         parent::__construct($actionFactory);
 
@@ -111,6 +118,7 @@ class Base extends \Magento\App\Router\AbstractRouter
         $this->_url             = $url;
         $this->_storeManager    = $storeManager;
         $this->_appState        = $appState;
+        $this->nameBuilder = $nameBuilder;
     }
 
     /**
@@ -219,7 +227,7 @@ class Base extends \Magento\App\Router\AbstractRouter
     /**
      * Get not found controller instance
      *
-     * @param $currentModuleName
+     * @param string $currentModuleName
      * @param \Magento\App\RequestInterface $request
      * @return \Magento\App\Action\Action|null
      */
@@ -337,7 +345,7 @@ class Base extends \Magento\App\Router\AbstractRouter
      */
     public function getControllerClassName($module, $controller)
     {
-        return \Magento\Core\Helper\String::buildClassName(array(
+        return $this->nameBuilder->buildClassName(array(
             $module,
             'Controller',
             $controller

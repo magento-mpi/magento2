@@ -20,7 +20,7 @@ use Magento\CatalogRule\Model\Rule\Condition\Combine;
 use Magento\CatalogRule\Model\Rule;
 use Magento\CatalogRule\Model\Resource\Rule\Collection;
 use Magento\CatalogRule\Model\Rule\Product\Price;
-use Magento\Core\Model\Registry;
+use Magento\Registry;
 use Magento\Core\Model\StoreManagerInterface;
 use Magento\Core\Model\LocaleInterface;
 use Magento\Customer\Model\Group;
@@ -293,29 +293,6 @@ class Observer
             if ($this->_rulePrices[$key]!==false) {
                 $finalPrice = min($product->getData('final_price'), $this->_rulePrices[$key]);
                 $product->setFinalPrice($finalPrice);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * Calculate price using catalog price rules of configurable product
-     *
-     * @param EventObserver $observer
-     * @return $this
-     */
-    public function catalogProductTypeConfigurablePrice(EventObserver $observer)
-    {
-        $product = $observer->getEvent()->getProduct();
-        if ($product instanceof Product
-            && $product->getConfigurablePrice() !== null
-        ) {
-            $configurablePrice = $product->getConfigurablePrice();
-            $productPriceRule = $this->_ruleFactory->create()
-                ->calcProductPriceRule($product, $configurablePrice);
-            if ($productPriceRule !== null) {
-                $product->setConfigurablePrice($productPriceRule);
             }
         }
 

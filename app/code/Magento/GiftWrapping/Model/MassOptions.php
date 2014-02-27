@@ -17,7 +17,7 @@
  */
 namespace Magento\GiftWrapping\Model;
 
-class MassOptions implements \Magento\Core\Model\Option\ArrayInterface
+class MassOptions implements \Magento\Option\ArrayInterface
 {
     /**
      * Return statuses array

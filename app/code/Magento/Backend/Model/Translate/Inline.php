@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Model\Translate;
 
 /**
  * Inline Translations PHP part
  */
-namespace Magento\Backend\Model\Translate;
-
 class Inline extends \Magento\Translate\Inline
 {
     /**
@@ -28,7 +27,7 @@ class Inline extends \Magento\Translate\Inline
     /**
      * Replace translation templates with HTML fragments
      *
-     * @param array|string $body
+     * @param array|string &$body
      * @param bool $isJson
      * @return $this
      */

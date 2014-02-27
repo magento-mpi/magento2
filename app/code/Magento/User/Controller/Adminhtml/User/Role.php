@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\User\Controller\Adminhtml\User;
 
 use Magento\User\Model\Acl\Role\Group as RoleGroup;
@@ -15,7 +14,7 @@ class Role extends \Magento\Backend\App\AbstractAction
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -49,7 +48,7 @@ class Role extends \Magento\Backend\App\AbstractAction
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\User\Model\RoleFactory $roleFactory
      * @param \Magento\User\Model\UserFactory $userFactory
      * @param \Magento\User\Model\RulesFactory $rulesFactory
@@ -57,7 +56,7 @@ class Role extends \Magento\Backend\App\AbstractAction
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\User\Model\RoleFactory $roleFactory,
         \Magento\User\Model\UserFactory $userFactory,
         \Magento\User\Model\RulesFactory $rulesFactory,
@@ -109,6 +108,7 @@ class Role extends \Magento\Backend\App\AbstractAction
     /**
      * Show grid with roles existing in systems
      *
+     * @return void
      */
     public function indexAction()
     {
@@ -122,6 +122,7 @@ class Role extends \Magento\Backend\App\AbstractAction
     /**
      * Action for ajax request from grid
      *
+     * @return void
      */
     public function roleGridAction()
     {
@@ -132,6 +133,7 @@ class Role extends \Magento\Backend\App\AbstractAction
     /**
      * Edit role action
      *
+     * @return void
      */
     public function editRoleAction()
     {
@@ -161,6 +163,7 @@ class Role extends \Magento\Backend\App\AbstractAction
     /**
      * Remove role action
      *
+     * @return void
      */
     public function deleteAction()
     {
@@ -187,6 +190,7 @@ class Role extends \Magento\Backend\App\AbstractAction
     /**
      * Role form submit action to save or create new role
      *
+     * @return void
      */
     public function saveRoleAction()
     {
@@ -202,7 +206,7 @@ class Role extends \Magento\Backend\App\AbstractAction
 
         $isAll = $this->getRequest()->getParam('all');
         if ($isAll) {
-            $resource = array($this->_objectManager->get('Magento\Core\Model\Acl\RootResource')->getId());
+            $resource = array($this->_objectManager->get('Magento\Acl\RootResource')->getId());
         }
 
         $role = $this->_initRole('role_id');
@@ -248,6 +252,8 @@ class Role extends \Magento\Backend\App\AbstractAction
 
     /**
      * Action for ajax request from assigned users grid
+     *
+     * @return void
      */
     public function editrolegridAction()
     {

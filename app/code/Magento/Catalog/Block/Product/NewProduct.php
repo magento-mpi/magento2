@@ -26,7 +26,7 @@ class NewProduct extends \Magento\Catalog\Block\Product\AbstractProduct
     /**
      * Products count
      *
-     * @var null
+     * @var int
      */
     protected $_productsCount;
 
@@ -54,7 +54,7 @@ class NewProduct extends \Magento\Catalog\Block\Product\AbstractProduct
     /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Catalog\Model\Config $catalogConfig
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Math\Random $mathRandom
@@ -68,13 +68,13 @@ class NewProduct extends \Magento\Catalog\Block\Product\AbstractProduct
      * @param \Magento\Customer\Model\Session $customerSession
      * @param array $data
      * @param array $priceBlockTypes
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Catalog\Model\Config $catalogConfig,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Math\Random $mathRandom,
@@ -204,8 +204,8 @@ class NewProduct extends \Magento\Catalog\Block\Product\AbstractProduct
     /**
      * Set how much product should be displayed at once.
      *
-     * @param $count
-     * @return \Magento\Catalog\Block\Product\NewProduct
+     * @param int $count
+     * @return $this
      */
     public function setProductsCount($count)
     {

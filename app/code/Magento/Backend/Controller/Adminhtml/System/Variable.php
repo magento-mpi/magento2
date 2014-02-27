@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Controller\Adminhtml\System;
+
+use Magento\Backend\App\Action;
 
 /**
  * Custom Variables admin controller
@@ -15,24 +18,22 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Backend\Controller\Adminhtml\System;
-
-class Variable extends \Magento\Backend\App\Action
+class Variable extends Action
 {
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
@@ -41,7 +42,7 @@ class Variable extends \Magento\Backend\App\Action
     /**
      * Initialize Layout and set breadcrumbs
      *
-     * @return \Magento\Backend\Controller\Adminhtml\System\Variable
+     * @return $this
      */
     protected function _initLayout()
     {
@@ -74,6 +75,8 @@ class Variable extends \Magento\Backend\App\Action
 
     /**
      * Index Action
+     *
+     * @return void
      */
     public function indexAction()
     {
@@ -85,6 +88,8 @@ class Variable extends \Magento\Backend\App\Action
 
     /**
      * New Action (forward to edit action)
+     *
+     * @return void
      */
     public function newAction()
     {
@@ -93,6 +98,8 @@ class Variable extends \Magento\Backend\App\Action
 
     /**
      * Edit Action
+     *
+     * @return void
      */
     public function editAction()
     {
@@ -112,6 +119,8 @@ class Variable extends \Magento\Backend\App\Action
 
     /**
      * Validate Action
+     *
+     * @return void
      */
     public function validateAction()
     {
@@ -130,6 +139,8 @@ class Variable extends \Magento\Backend\App\Action
 
     /**
      * Save Action
+     *
+     * @return void
      */
     public function saveAction()
     {
@@ -162,6 +173,8 @@ class Variable extends \Magento\Backend\App\Action
 
     /**
      * Delete Action
+     *
+     * @return void
      */
     public function deleteAction()
     {
@@ -184,6 +197,8 @@ class Variable extends \Magento\Backend\App\Action
 
     /**
      * WYSIWYG Plugin Action
+     *
+     * @return void
      */
     public function wysiwygPluginAction()
     {
@@ -196,7 +211,7 @@ class Variable extends \Magento\Backend\App\Action
     /**
      * Check current user permission
      *
-     * @return boolean
+     * @return bool
      */
     protected function _isAllowed()
     {

@@ -9,9 +9,11 @@
  */
 namespace Magento\Backend\Model\Config\Source\Web;
 
-class Protocol implements \Magento\Core\Model\Option\ArrayInterface
+class Protocol implements \Magento\Option\ArrayInterface
 {
-
+    /**
+     * @return array
+     */
     public function toOptionArray()
     {
         return array(

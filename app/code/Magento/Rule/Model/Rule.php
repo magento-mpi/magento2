@@ -19,7 +19,7 @@
  */
 namespace Magento\Rule\Model;
 
-class Rule extends \Magento\Rule\Model\AbstractModel
+class Rule extends AbstractModel
 {
     /**
      * @var \Magento\Rule\Model\Condition\Combine
@@ -32,8 +32,8 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     protected $_actions;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Rule\Model\Condition\CombineFactory $conditionsFactory
@@ -43,8 +43,8 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Rule\Model\Condition\CombineFactory $conditionsFactory,

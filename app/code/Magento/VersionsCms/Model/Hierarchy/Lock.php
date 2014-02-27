@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\VersionsCms\Model\Hierarchy;
 
 /**
  * Cms Hierarchy Pages Lock Model
@@ -25,8 +25,6 @@
  *
  * @deprecated since 1.12.0.0
  */
-namespace Magento\VersionsCms\Model\Hierarchy;
-
 class Lock extends \Magento\Core\Model\AbstractModel
 {
     /**
@@ -56,8 +54,8 @@ class Lock extends \Magento\Core\Model\AbstractModel
     protected $_backendAuthSession;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
@@ -65,8 +63,8 @@ class Lock extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
@@ -80,6 +78,8 @@ class Lock extends \Magento\Core\Model\AbstractModel
 
     /**
      * Resource model initializing
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -90,7 +90,7 @@ class Lock extends \Magento\Core\Model\AbstractModel
      * Setter for session instance
      *
      * @param \Magento\Session\SessionManagerInterface $session
-     * @return \Magento\VersionsCms\Model\Hierarchy\Lock
+     * @return $this
      */
     public function setSession(\Magento\Session\SessionManagerInterface $session)
     {
@@ -114,7 +114,7 @@ class Lock extends \Magento\Core\Model\AbstractModel
     /**
      * Load lock data
      *
-     * @return \Magento\VersionsCms\Model\Hierarchy\Lock
+     * @return $this
      */
     public function loadLockData()
     {
@@ -159,7 +159,7 @@ class Lock extends \Magento\Core\Model\AbstractModel
     /**
      * Revalidate lock data
      *
-     * @return \Magento\VersionsCms\Model\Hierarchy\Lock
+     * @return $this
      */
     public function revalidate()
     {
@@ -215,7 +215,7 @@ class Lock extends \Magento\Core\Model\AbstractModel
     /**
      * Create lock for page, previously deleting existing lock
      *
-     * @return \Magento\VersionsCms\Model\Hierarchy\Lock
+     * @return $this
      */
     public function lock()
     {

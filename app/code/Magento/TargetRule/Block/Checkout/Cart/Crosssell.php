@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\TargetRule\Block\Checkout\Cart;
 
 /**
@@ -34,7 +33,7 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
     protected $_products;
 
     /**
-     * object of just added product to cart
+     * Object of just added product to cart
      *
      * @var \Magento\Catalog\Model\Product
      */
@@ -95,7 +94,7 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
     /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Catalog\Model\Config $catalogConfig
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Math\Random $mathRandom
@@ -122,7 +121,7 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Catalog\Model\Config $catalogConfig,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Math\Random $mathRandom,
@@ -348,7 +347,7 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
      * Retrieve Product Ids from Cross-sell rules based products index by product object
      *
      * @param \Magento\Catalog\Model\Product $product
-     * @param int $limit
+     * @param int $count
      * @param array $excludeProductIds
      * @return array
      */
@@ -384,7 +383,6 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
     /**
      * Retrieve Product Ids from Cross-sell rules based products index by products in shopping cart
      *
-     * @param \Magento\Catalog\Model\Product $product
      * @param int $limit
      * @param array $excludeProductIds
      * @return array

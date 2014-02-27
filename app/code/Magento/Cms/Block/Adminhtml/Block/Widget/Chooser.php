@@ -7,16 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Cms\Block\Adminhtml\Block\Widget;
 
 /**
  * CMS block chooser for Wysiwyg CMS widget
- *
- * @category   Magento
- * @package    Magento_Cms
- * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Cms\Block\Adminhtml\Block\Widget;
-
 class Chooser extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
@@ -50,6 +45,8 @@ class Chooser extends \Magento\Backend\Block\Widget\Grid\Extended
 
     /**
      * Block construction, prepare grid params
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -162,6 +159,11 @@ class Chooser extends \Magento\Backend\Block\Widget\Grid\Extended
         return parent::_prepareColumns();
     }
 
+    /**
+     * Get grid url
+     *
+     * @return string
+     */
     public function getGridUrl()
     {
         return $this->getUrl('cms/block_widget/chooser', array('_current' => true));

@@ -5,12 +5,11 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
+namespace Magento\Integration\Helper\Oauth;
 
 /**
  * OAuth View Helper for Controllers
  */
-namespace Magento\Integration\Helper\Oauth;
-
 class Data
 {
     /** @var \Magento\Core\Model\Store\Config */

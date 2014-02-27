@@ -63,7 +63,8 @@ class EditSimpleProductTest extends Functional
         $cachePage->getActionsBlock()->flushMagentoCache();
         //Verifying
         $this->assertOnGrid($editProduct);
-        $this->assertOnCategory($editProduct, $product->getCategoryName());
+        $this->assertOnCategoryPage($editProduct, $product->getCategoryName());
+        $this->assertOnProductPage($product, $editProduct);
     }
 
     /**
@@ -80,12 +81,12 @@ class EditSimpleProductTest extends Functional
     }
 
     /**
-     * Assert product data on category and product pages
+     * Assert product data on category page
      *
      * @param SimpleProduct $product
      * @param string $categoryName
      */
-    protected function assertOnCategory($product, $categoryName)
+    protected function assertOnCategoryPage($product, $categoryName)
     {
         //Pages
         $frontendHomePage = Factory::getPageFactory()->getCmsIndexIndex();
@@ -97,10 +98,22 @@ class EditSimpleProductTest extends Functional
         //Verification on category product list
         $productListBlock = $categoryPage->getListProductBlock();
         $this->assertTrue($productListBlock->isProductVisible($product->getProductName()));
-        $productListBlock->openProductViewPage($product->getProductName());
-        //Verification on product detail page
+    }
+
+    /**
+     * Assert product data on product page
+     *
+     * @param SimpleProduct $productOld
+     * @param SimpleProduct $productEdited
+     */
+    protected function assertOnProductPage($productOld, $productEdited)
+    {
+        $productPage = Factory::getPageFactory()->getCatalogProductView();
+        $productPage->init($productOld);
+        $productPage->open();
+
         $productViewBlock = $productPage->getViewBlock();
-        $this->assertEquals($product->getProductName(), $productViewBlock->getProductName());
-        $this->assertEquals($product->getProductPrice(), $productViewBlock->getProductPrice());
+        $this->assertEquals($productEdited->getProductName(), $productViewBlock->getProductName());
+        $this->assertEquals($productEdited->getProductPrice(), $productViewBlock->getProductPrice());
     }
 }

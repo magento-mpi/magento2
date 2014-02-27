@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\TargetRule\Block\Adminhtml\Targetrule\Edit\Tab;
 
 /**
  * TargetRule Adminhtml Edit Tab Conditions Block
@@ -15,8 +15,6 @@
  * @category   Magento
  * @package    Magento_TargetRule
  */
-namespace Magento\TargetRule\Block\Adminhtml\Targetrule\Edit\Tab;
-
 class Conditions
     extends \Magento\Backend\Block\Widget\Form\Generic
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
@@ -33,7 +31,7 @@ class Conditions
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Backend\Block\Widget\Form\Renderer\Fieldset $fieldset
      * @param \Magento\TargetRule\Block\Adminhtml\Rule\Conditions $conditions
@@ -41,7 +39,7 @@ class Conditions
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\Backend\Block\Widget\Form\Renderer\Fieldset $fieldset,
         \Magento\TargetRule\Block\Adminhtml\Rule\Conditions $conditions,
@@ -56,7 +54,7 @@ class Conditions
     /**
      * Prepare target rule actions form before rendering HTML
      *
-     * @return \Magento\TargetRule\Block\Adminhtml\Targetrule\Edit\Tab\Conditions
+     * @return $this
      */
     protected function _prepareForm()
     {

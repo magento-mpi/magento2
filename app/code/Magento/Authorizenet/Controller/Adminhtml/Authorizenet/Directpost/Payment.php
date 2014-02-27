@@ -1,6 +1,6 @@
 <?php
 /**
- * Admihtml DirtectPost Payment Controller
+ * Adminhtml DirectPost Payment Controller
  *
  * {license_notice}
  *
@@ -15,19 +15,19 @@ class Payment
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Catalog\Helper\Product $productHelper
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Catalog\Helper\Product $productHelper,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context, $productHelper);
@@ -66,6 +66,7 @@ class Payment
     /**
      * Send request to authorize.net
      *
+     * @return void
      */
     public function placeAction()
     {
@@ -162,6 +163,7 @@ class Payment
     /**
      * Retrieve params and put javascript into iframe
      *
+     * @return void
      */
     public function redirectAction()
     {
@@ -206,6 +208,7 @@ class Payment
     /**
      * Return order quote by ajax
      *
+     * @return void
      */
     public function returnQuoteAction()
     {
@@ -219,6 +222,7 @@ class Payment
      *
      * @param bool $cancelOrder
      * @param string $errorMsg
+     * @return void
      */
     protected function _returnQuote($cancelOrder = false, $errorMsg = '')
     {

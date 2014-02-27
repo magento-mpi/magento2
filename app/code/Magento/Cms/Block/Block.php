@@ -8,19 +8,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\Cms\Block;
 
 /**
  * Cms block content block
- *
- * @category   Magento
- * @package    Magento_Cms
- * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Cms\Block;
-
-use Magento\View\Element\AbstractBlock;
-
-class Block extends \Magento\View\Element\AbstractBlock implements \Magento\View\Block\IdentityInterface
+class Block extends \Magento\View\Element\AbstractBlock
 {
     /**
      * @var \Magento\Cms\Model\Template\FilterProvider
@@ -83,15 +76,5 @@ class Block extends \Magento\View\Element\AbstractBlock implements \Magento\View
             }
         }
         return $html;
-    }
-
-    /**
-     * Return identifiers for produced content
-     *
-     * @return array
-     */
-    public function getIdentities()
-    {
-        return array(\Magento\Cms\Model\Block::CACHE_TAG . '_' . $this->getBlockId());
     }
 }

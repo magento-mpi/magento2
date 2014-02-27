@@ -17,14 +17,14 @@
  */
 
 /**
- * TODO: Refactor use of \Magento\Core\Model\Option\ArrayInterface in library. Probably will be refactored while
+ * TODO: Refactor use of \Magento\Option\ArrayInterface in library. Probably will be refactored while
  * moving \Magento\Core to library
  */
 namespace Magento\Data;
 
 use Magento\Data\Collection\EntityFactoryInterface;
 
-class Collection implements \IteratorAggregate, \Countable, \Magento\Core\Model\Option\ArrayInterface
+class Collection implements \IteratorAggregate, \Countable, \Magento\Option\ArrayInterface
 {
     const SORT_ORDER_ASC    = 'ASC';
     const SORT_ORDER_DESC   = 'DESC';
@@ -132,6 +132,49 @@ class Collection implements \IteratorAggregate, \Countable, \Magento\Core\Model\
         $this->_filters[] = $filter;
         $this->_isFiltersRendered = false;
         return $this;
+    }
+
+    /**
+     * Add field filter to collection
+     *
+     * If $condition integer or string - exact value will be filtered ('eq' condition)
+     *
+     * If $condition is array - one of the following structures is expected:
+     * <pre>
+     * - ["from" => $fromValue, "to" => $toValue]
+     * - ["eq" => $equalValue]
+     * - ["neq" => $notEqualValue]
+     * - ["like" => $likeValue]
+     * - ["in" => [$inValues]]
+     * - ["nin" => [$notInValues]]
+     * - ["notnull" => $valueIsNotNull]
+     * - ["null" => $valueIsNull]
+     * - ["moreq" => $moreOrEqualValue]
+     * - ["gt" => $greaterValue]
+     * - ["lt" => $lessValue]
+     * - ["gteq" => $greaterOrEqualValue]
+     * - ["lteq" => $lessOrEqualValue]
+     * - ["finset" => $valueInSet]
+     * </pre>
+     *
+     * If non matched - sequential parallel arrays are expected and OR conditions
+     * will be built using above mentioned structure.
+     *
+     * Example:
+     * <pre>
+     * $field = ['age', 'name'];
+     * $condition = [42, ['like' => 'Mage']];
+     * </pre>
+     * The above would find where age equal to 42 OR name like %Mage%.
+     *
+     * @param string|array $field
+     * @param string|int|array $condition
+     * @throws \Magento\Exception if some error in the input could be detected.
+     * @return $this
+     */
+    public function addFieldToFilter($field, $condition)
+    {
+        throw new \Magento\Exception('Not implemented');
     }
 
     /**

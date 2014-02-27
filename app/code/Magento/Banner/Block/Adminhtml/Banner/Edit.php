@@ -15,18 +15,18 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_registry = null;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
         $this->_registry = $registry;
@@ -36,6 +36,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     /**
      * Initialize banner edit page. Set management buttons
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -62,6 +63,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     /**
      * Get current loaded banner ID
      *
+     * @return mixed
      */
     public function getBannerId()
     {
@@ -69,8 +71,9 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     }
 
     /**
-     * Get header text for banenr edit page
+     * Get header text for banner edit page
      *
+     * @return string
      */
     public function getHeaderText()
     {
@@ -84,6 +87,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     /**
      * Get form action URL
      *
+     * @return string
      */
     public function getFormActionUrl()
     {

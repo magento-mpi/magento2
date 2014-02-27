@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Edit\Tab;
 
 /**
  * Cms page edit form revisions tab
  */
-namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Edit\Tab;
-
 class Versions
     extends \Magento\Backend\Block\Widget\Grid\Extended
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
@@ -34,7 +33,7 @@ class Versions
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
@@ -57,7 +56,7 @@ class Versions
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\VersionsCms\Helper\Data $cmsData
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
      * @param \Magento\VersionsCms\Model\Config $cmsConfig
      * @param \Magento\VersionsCms\Model\Resource\Page\Version\CollectionFactory $versionCollectionFactory
@@ -67,7 +66,7 @@ class Versions
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\VersionsCms\Helper\Data $cmsData,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
         \Magento\VersionsCms\Model\Config $cmsConfig,
         \Magento\VersionsCms\Model\Resource\Page\Version\CollectionFactory $versionCollectionFactory,
@@ -81,6 +80,9 @@ class Versions
         parent::__construct($context, $backendHelper, $data);
     }
 
+    /**
+     * @return void
+     */
     public function _construct()
     {
         parent::_construct();
@@ -92,7 +94,7 @@ class Versions
     /**
      * Prepares collection of versions
      *
-     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Page\Edit\Tab\Versions
+     * @return $this
      */
     protected function _prepareCollection()
     {
@@ -131,7 +133,7 @@ class Versions
     /**
      * Prepare versions grid columns
      *
-     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Page\Edit\Tab\Versions
+     * @return $this
      */
     protected function _prepareColumns()
     {
@@ -216,9 +218,7 @@ class Versions
     }
 
     /**
-     * Returns status flag about this tab can be shown or not
-     *
-     * @return true
+     * {@inheritdoc}
      */
     public function canShowTab()
     {
@@ -226,9 +226,7 @@ class Versions
     }
 
     /**
-     * Returns status flag about this tab hidden or not
-     *
-     * @return true
+     * {@inheritdoc}
      */
     public function isHidden()
     {
@@ -239,7 +237,7 @@ class Versions
      * Prepare massactions for this grid.
      * For now it is only ability to remove versions
      *
-     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Page\Edit\Tab\Versions
+     * @return $this
      */
     protected function _prepareMassaction()
     {

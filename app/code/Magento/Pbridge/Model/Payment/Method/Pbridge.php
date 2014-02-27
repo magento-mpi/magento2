@@ -111,7 +111,7 @@ class Pbridge extends AbstractMethod
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
+     * @param \Magento\Logger\AdapterFactory $logAdapterFactory
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
      * @param \Magento\Pbridge\Model\Session $pbridgeSession
      * @param \Magento\UrlInterface $url
@@ -124,7 +124,7 @@ class Pbridge extends AbstractMethod
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
+        \Magento\Logger\AdapterFactory $logAdapterFactory,
         \Magento\Pbridge\Helper\Data $pbridgeData,
         \Magento\Pbridge\Model\Session $pbridgeSession,
         \Magento\UrlInterface $url,
@@ -346,9 +346,8 @@ class Pbridge extends AbstractMethod
             ->setData('is_first_capture', $payment->hasFirstCaptureFlag() ? $payment->getFirstCaptureFlag() : true);
 
         $request->setData('billing_address', $this->_getAddressInfo($order->getBillingAddress()));
-        if ($order->getCustomer() && $order->getCustomer()->getId()) {
-            $email = $order->getCustomerEmail();
-            $id = $order->getCustomer()->getId();
+        if ($order->getCustomerId()) {
+            $id = $order->getCustomerId();
             $request->setData('customer_id',
                 $this->_pbridgeData->getCustomerIdentifierByEmail($id, $order->getStore()->getId())
             );

@@ -22,7 +22,7 @@ class Upsell extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -47,7 +47,7 @@ class Upsell extends \Magento\Backend\Block\Widget\Grid\Extended
     protected $_type;
 
     /**
-     * @var \Magento\Catalog\Model\Product\Status
+     * @var \Magento\Catalog\Model\Product\Attribute\Source\Status
      */
     protected $_status;
 
@@ -63,11 +63,11 @@ class Upsell extends \Magento\Backend\Block\Widget\Grid\Extended
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $setsFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Catalog\Model\Product\Type $type
-     * @param \Magento\Catalog\Model\Product\Status $status
+     * @param \Magento\Catalog\Model\Product\Attribute\Source\Status $status
      * @param \Magento\Catalog\Model\Product\Visibility $visibility
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param array $data
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -77,9 +77,9 @@ class Upsell extends \Magento\Backend\Block\Widget\Grid\Extended
         \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $setsFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Catalog\Model\Product\Type $type,
-        \Magento\Catalog\Model\Product\Status $status,
+        \Magento\Catalog\Model\Product\Attribute\Source\Status $status,
         \Magento\Catalog\Model\Product\Visibility $visibility,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_linkFactory = $linkFactory;
@@ -95,6 +95,7 @@ class Upsell extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Set grid params
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -124,7 +125,7 @@ class Upsell extends \Magento\Backend\Block\Widget\Grid\Extended
      * Add filter
      *
      * @param object $column
-     * @return \Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Upsell
+     * @return $this
      */
     protected function _addColumnFilterToCollection($column)
     {
@@ -184,7 +185,7 @@ class Upsell extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Add columns to grid
      *
-     * @return \Magento\Backend\Block\Widget\Grid\Extended
+     * @return $this
      */
     protected function _prepareColumns()
     {

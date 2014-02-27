@@ -45,8 +45,8 @@ class File extends \Magento\Core\Model\Config\Value
     protected $_uploaderFactory;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\ConfigInterface $config
      * @param \Magento\Core\Model\File\UploaderFactory $uploaderFactory
@@ -57,8 +57,8 @@ class File extends \Magento\Core\Model\Config\Value
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\ConfigInterface $config,
         \Magento\Core\Model\File\UploaderFactory $uploaderFactory,
@@ -78,7 +78,7 @@ class File extends \Magento\Core\Model\Config\Value
     /**
      * Save uploaded file before saving config value
      *
-     * @return \Magento\Backend\Model\Config\Backend\File
+     * @return $this
      * @throws \Magento\Core\Exception
      */
     protected function _beforeSave()
@@ -127,6 +127,7 @@ class File extends \Magento\Core\Model\Config\Value
      * Validation callback for checking max file size
      *
      * @param  string $filePath Path to temporary uploaded file
+     * @return void
      * @throws \Magento\Core\Exception
      */
     public function validateMaxSize($filePath)

@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Resource\Product\Compare\Item;
 
 /**
@@ -68,7 +67,7 @@ class Collection
      * @param \Magento\Validator\UniversalFactory $universalFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Catalog\Helper\Product\Flat $catalogProductFlat
+     * @param \Magento\Catalog\Model\Indexer\Product\Flat\State $catalogProductFlatState
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory
      * @param \Magento\Catalog\Model\Resource\Url $catalogUrl
@@ -77,7 +76,7 @@ class Collection
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Catalog\Model\Resource\Product\Compare\Item $catalogProductCompareItem
      * @param \Magento\Catalog\Helper\Product\Compare $catalogProductCompare
-     * @param mixed $connection
+     * @param \Zend_Db_Adapter_Abstract $connection
      * 
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -93,7 +92,7 @@ class Collection
         \Magento\Validator\UniversalFactory $universalFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Catalog\Helper\Product\Flat $catalogProductFlat,
+        \Magento\Catalog\Model\Indexer\Product\Flat\State $catalogProductFlatState,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory,
         \Magento\Catalog\Model\Resource\Url $catalogUrl,
@@ -118,7 +117,7 @@ class Collection
             $universalFactory,
             $storeManager,
             $catalogData,
-            $catalogProductFlat,
+            $catalogProductFlatState,
             $coreStoreConfig,
             $productOptionFactory,
             $catalogUrl,
@@ -131,6 +130,8 @@ class Collection
 
     /**
      * Initialize resources
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -142,7 +143,7 @@ class Collection
      * Set customer filter to collection
      *
      * @param int $customerId
-     * @return \Magento\Catalog\Model\Resource\Product\Compare\Item\Collection
+     * @return $this
      */
     public function setCustomerId($customerId)
     {
@@ -155,7 +156,7 @@ class Collection
      * Set visitor filter to collection
      *
      * @param int $visitorId
-     * @return \Magento\Catalog\Model\Resource\Product\Compare\Item\Collection
+     * @return $this
      */
     public function setVisitorId($visitorId)
     {
@@ -205,7 +206,7 @@ class Collection
     /**
      * Add join to select
      *
-     * @return \Magento\Catalog\Model\Resource\Product\Compare\Item\Collection
+     * @return $this
      */
     public function _addJoinToSelect()
     {
@@ -330,7 +331,7 @@ class Collection
     /**
      * Load Comparable attributes
      *
-     * @return \Magento\Catalog\Model\Resource\Product\Compare\Item\Collection
+     * @return $this
      */
     public function loadComparableAttributes()
     {
@@ -347,7 +348,7 @@ class Collection
     /**
      * Use product as collection item
      *
-     * @return \Magento\Catalog\Model\Resource\Product\Compare\Item\Collection
+     * @return $this
      */
     public function useProductItem()
     {
@@ -362,7 +363,7 @@ class Collection
     /**
      * Retrieve product ids from collection
      *
-     * @return array
+     * @return int[]
      */
     public function getProductIds()
     {
@@ -377,7 +378,7 @@ class Collection
     /**
      * Clear compare items by condition
      *
-     * @return \Magento\Catalog\Model\Resource\Product\Compare\Item\Collection
+     * @return $this
      */
     public function clear()
     {

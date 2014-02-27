@@ -17,16 +17,16 @@ class Banner extends \Magento\Backend\App\Action
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_registry = null;
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $registry
+        \Magento\Registry $registry
     ) {
         $this->_registry = $registry;
         parent::__construct($context);
@@ -48,6 +48,8 @@ class Banner extends \Magento\Backend\App\Action
 
     /**
      * Create new banner
+     *
+     * @return void
      */
     public function newAction()
     {
@@ -58,6 +60,7 @@ class Banner extends \Magento\Backend\App\Action
     /**
      * Edit action
      *
+     * @return void
      */
     public function editAction()
     {
@@ -88,6 +91,8 @@ class Banner extends \Magento\Backend\App\Action
 
     /**
      * Save action
+     *
+     * @return void
      */
     public function saveAction()
     {
@@ -164,6 +169,7 @@ class Banner extends \Magento\Backend\App\Action
     /**
      * Delete action
      *
+     * @return void
      */
     public function deleteAction()
     {
@@ -209,6 +215,7 @@ class Banner extends \Magento\Backend\App\Action
     /**
      * Delete specified banners using grid massaction
      *
+     * @return void
      */
     public function massDeleteAction()
     {
@@ -274,6 +281,8 @@ class Banner extends \Magento\Backend\App\Action
 
     /**
      * Render Banner grid
+     *
+     * @return void
      */
     public function gridAction()
     {
@@ -286,6 +295,7 @@ class Banner extends \Magento\Backend\App\Action
      * Load banner by ID from post data
      * Register banner model
      *
+     * @return void
      */
     public function salesRuleGridAction()
     {
@@ -312,6 +322,7 @@ class Banner extends \Magento\Backend\App\Action
      * Load banner by ID from post data
      * Register banner model
      *
+     * @return void
      */
     public function catalogRuleGridAction()
     {
@@ -336,6 +347,7 @@ class Banner extends \Magento\Backend\App\Action
     /**
      * Banner binding tab grid action on sales rule
      *
+     * @return void
      */
     public function salesRuleBannersGridAction()
     {
@@ -365,6 +377,7 @@ class Banner extends \Magento\Backend\App\Action
     /**
      * Banner binding tab grid action on catalog rule
      *
+     * @return void
      */
     public function catalogRuleBannersGridAction()
     {

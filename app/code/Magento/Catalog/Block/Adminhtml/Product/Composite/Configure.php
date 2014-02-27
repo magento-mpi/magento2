@@ -24,12 +24,15 @@ class Configure extends \Magento\Backend\Block\Widget
      */
     protected $_product;
 
+    /**
+     * @var string
+     */
     protected $_template = 'catalog/product/composite/configure.phtml';
 
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -41,13 +44,13 @@ class Configure extends \Magento\Backend\Block\Widget
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Catalog\Model\Product $product
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Catalog\Model\Product $product,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
         $this->_catalogProduct = $product;
@@ -76,7 +79,7 @@ class Configure extends \Magento\Backend\Block\Widget
      * Set product object
      *
      * @param \Magento\Catalog\Model\Product $product
-     * @return \Magento\Catalog\Block\Adminhtml\Product\Composite\Configure
+     * @return $this
      */
     public function setProduct(\Magento\Catalog\Model\Product $product = null)
     {

@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Connect\Command;
 
 final class Package
@@ -27,9 +26,10 @@ extends \Magento\Connect\Command
 
     /**
      * Package command callback
+     *
      * @param string $command
      * @param array $options
-     * @param array $params
+     * @param string[] $params
      * @return void
      */
     public function doPackage($command, $options, $params)
@@ -64,10 +64,11 @@ extends \Magento\Connect\Command
 
     /**
      * Display/get dependencies
+     *
      * @param string $command
      * @param array $options
-     * @param array $params
-     * @return void/array
+     * @param string[] $params
+     * @return void
      */
     public function doPackageDependencies($command, $options, $params)
     {
@@ -99,6 +100,12 @@ extends \Magento\Connect\Command
         }
     }
 
+    /**
+     * @param string $command
+     * @param array $options
+     * @param string[] $params
+     * @return void
+     */
     public function doConvert($command, $options, $params)
     {
         $this->cleanupParams($params);

@@ -83,6 +83,6 @@ class Sku extends \Magento\AdvancedCheckout\Block\Adminhtml\Sku\AbstractSku
      */
     public function getContextSpecificJs()
     {
-        return 'Event.observe(window, \'load\', initSku);';
+        return 'jQuery(initSku);';
     }
 }

@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\TargetRule\Block\Adminhtml\Targetrule\Edit\Tab;
 
 /**
  * Main target rules properties edit form
@@ -15,8 +16,6 @@
  * @package    Magento_TargetRule
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\TargetRule\Block\Adminhtml\Targetrule\Edit\Tab;
-
 class Main
     extends \Magento\Backend\Block\Widget\Form\Generic
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
@@ -28,14 +27,14 @@ class Main
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\TargetRule\Model\Rule $rule
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\TargetRule\Model\Rule $rule,
         array $data = array()
@@ -48,7 +47,7 @@ class Main
     /**
      * Prepare Mail Target Rule Edit form
      *
-     * @return \Magento\TargetRule\Block\Adminhtml\Targetrule\Edit\Tab\Main
+     * @return $this
      */
     protected function _prepareForm()
     {

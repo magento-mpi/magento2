@@ -17,7 +17,7 @@ class Base extends \Magento\Simplexml\Config
     /**
      * List of instances
      *
-     * @var array
+     * @var Base[]
      */
     public static $instances = array();
 
@@ -33,6 +33,8 @@ class Base extends \Magento\Simplexml\Config
 
     /**
      * Cleanup objects because of simplexml memory leak
+     *
+     * @return void
      */
     public static function destroy()
     {

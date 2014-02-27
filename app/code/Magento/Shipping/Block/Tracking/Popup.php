@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Shipping\Block\Tracking;
 
 class Popup extends \Magento\View\Element\Template
@@ -15,18 +14,18 @@ class Popup extends \Magento\View\Element\Template
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_registry;
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
         $this->_registry = $registry;
@@ -99,11 +98,17 @@ class Popup extends \Magento\View\Element\Template
         return (bool) $this->_storeConfig->getConfig('contacts/contacts/enabled');
     }
 
+    /**
+     * @return string
+     */
     public function getStoreSupportEmail()
     {
         return $this->_storeConfig->getConfig('trans_email/ident_support/email');
     }
 
+    /**
+     * @return string
+     */
     public function getContactUs()
     {
         return $this->getUrl('contacts');

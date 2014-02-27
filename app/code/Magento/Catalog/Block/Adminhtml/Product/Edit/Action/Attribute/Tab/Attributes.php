@@ -18,6 +18,8 @@
  */
 namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Action\Attribute\Tab;
 
+use Magento\Data\Form\Element\AbstractElement;
+
 class Attributes
     extends \Magento\Catalog\Block\Adminhtml\Form
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
@@ -34,7 +36,7 @@ class Attributes
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Catalog\Helper\Product\Edit\Action\Attribute $attributeAction
@@ -42,7 +44,7 @@ class Attributes
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Catalog\Helper\Product\Edit\Action\Attribute $attributeAction,
@@ -53,12 +55,18 @@ class Attributes
         parent::__construct($context, $registry, $formFactory, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
         $this->setShowGlobalIcon(true);
     }
 
+    /**
+     * @return void
+     */
     protected function _prepareForm()
     {
         $this->setFormExcludedFieldList(array(
@@ -94,7 +102,7 @@ class Attributes
     /**
      * Retrieve attributes for product mass update
      *
-     * @return array
+     * @return \Magento\Object[]
      */
     public function getAttributes()
     {
@@ -120,7 +128,7 @@ class Attributes
     /**
      * Custom additional element html
      *
-     * @param \Magento\Data\Form\Element\AbstractElement $element
+     * @param AbstractElement $element
      * @return string
      */
     protected function _getAdditionalElementHtml($element)
@@ -148,21 +156,33 @@ HTML;
         return $html;
     }
 
+    /**
+     * @return string
+     */
     public function getTabLabel()
     {
         return __('Attributes');
     }
 
+    /**
+     * @return string
+     */
     public function getTabTitle()
     {
         return __('Attributes');
     }
 
+    /**
+     * @return bool
+     */
     public function canShowTab()
     {
         return true;
     }
 
+    /**
+     * @return bool
+     */
     public function isHidden()
     {
         return false;

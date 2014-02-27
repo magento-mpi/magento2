@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\VersionsCms\Controller\Adminhtml\Cms;
 
 /**
  * Cms manage pages controller
  */
-namespace Magento\VersionsCms\Controller\Adminhtml\Cms;
-
 class Page extends \Magento\Cms\Controller\Adminhtml\Page
 {
     /**
@@ -42,7 +41,7 @@ class Page extends \Magento\Cms\Controller\Adminhtml\Page
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\Core\Filter\Date $dateFilter
      * @param \Magento\VersionsCms\Model\Config $cmsConfig
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
@@ -51,7 +50,7 @@ class Page extends \Magento\Cms\Controller\Adminhtml\Page
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\Core\Filter\Date $dateFilter,
         \Magento\VersionsCms\Model\Config $cmsConfig,
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
@@ -68,7 +67,7 @@ class Page extends \Magento\Cms\Controller\Adminhtml\Page
     /**
      * Init actions
      *
-     * @return \Magento\VersionsCms\Controller\Adminhtml\Cms\Page
+     * @return $this
      */
     protected function _initAction()
     {
@@ -119,6 +118,8 @@ class Page extends \Magento\Cms\Controller\Adminhtml\Page
 
     /**
      * Edit CMS page
+     *
+     * @return void
      */
     public function editAction()
     {
@@ -150,7 +151,7 @@ class Page extends \Magento\Cms\Controller\Adminhtml\Page
     /**
      * Action for versions ajax tab
      *
-     * @return \Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Revision
+     * @return void
      */
     public function versionsAction()
     {
@@ -163,6 +164,7 @@ class Page extends \Magento\Cms\Controller\Adminhtml\Page
     /**
      * Mass deletion for versions
      *
+     * @return void
      */
     public function massDeleteVersionsAction()
     {
@@ -197,7 +199,7 @@ class Page extends \Magento\Cms\Controller\Adminhtml\Page
     /**
      * Check the permission to run action.
      *
-     * @return boolean
+     * @return bool
      */
     protected function _isAllowed()
     {

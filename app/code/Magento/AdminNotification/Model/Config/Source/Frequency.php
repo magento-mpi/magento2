@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\AdminNotification\Model\Config\Source;
 
 /**
  * AdminNotification update frequency source
@@ -16,10 +16,11 @@
  * @package    Magento_AdminNotification
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\AdminNotification\Model\Config\Source;
-
-class Frequency implements \Magento\Core\Model\Option\ArrayInterface
+class Frequency implements \Magento\Option\ArrayInterface
 {
+    /**
+     * @return array
+     */
     public function toOptionArray()
     {
         return array(

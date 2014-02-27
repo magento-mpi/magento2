@@ -26,7 +26,7 @@ class Config
     /**
      * Scope priority loading scheme
      *
-     * @var array
+     * @var string[]
      */
     protected $_scopePriorityScheme = array('global');
 
@@ -51,7 +51,7 @@ class Config
     /**
      * Get generic actions list
      *
-     * @return array
+     * @return mixed
      */
     public function getGenericActions()
     {
@@ -61,7 +61,7 @@ class Config
     /**
      * Get register actions list
      *
-     * @return array
+     * @return mixed
      */
     public function getRegisterActions()
     {

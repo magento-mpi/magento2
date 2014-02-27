@@ -33,7 +33,7 @@ class CatalogProductItem
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\FullPageCache\Model\Cache $fpcCache
      * @param \Magento\FullPageCache\Model\Container\Placeholder $placeholder
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\FullPageCache\Helper\Url $urlHelper
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\View\LayoutInterface $layout
@@ -44,7 +44,7 @@ class CatalogProductItem
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\FullPageCache\Model\Cache $fpcCache,
         \Magento\FullPageCache\Model\Container\Placeholder $placeholder,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\FullPageCache\Helper\Url $urlHelper,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\View\LayoutInterface $layout,
@@ -138,7 +138,7 @@ class CatalogProductItem
     /**
      * Saves informational cache, containing parameters used to show lists.
      *
-     * @return \Magento\FullPageCache\Model\Container\CatalogProductItem
+     * @return $this
      */
     protected function _saveInfoCache()
     {
@@ -195,8 +195,8 @@ class CatalogProductItem
      * Set shared info param
      *
      * @param string $key
-     * @param mixed $value
-     * @return \Magento\FullPageCache\Model\Container\CatalogProductItem
+     * @param bool|array $value
+     * @return $this
      */
     protected function _setSharedParam($key, $value)
     {
@@ -299,7 +299,7 @@ class CatalogProductItem
     /**
      * Generate and apply container content in controller after application is initialized
      *
-     * @param string $content
+     * @param string &$content
      * @return bool
      */
     public function applyInApp(&$content)
@@ -312,7 +312,7 @@ class CatalogProductItem
     /**
      * Check if could be applied without application
      *
-     * @param string $content
+     * @param string &$content
      * @return bool
      */
     public function applyWithoutApp(&$content)

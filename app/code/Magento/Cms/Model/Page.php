@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 
+namespace Magento\Cms\Model;
 
 /**
  * Cms Page Model
@@ -48,15 +49,12 @@
  * @method \Magento\Cms\Model\Page setCustomThemeFrom(string $value)
  * @method string getCustomThemeTo()
  * @method \Magento\Cms\Model\Page setCustomThemeTo(string $value)
- *
- * @category    Magento
- * @package     Magento_Cms
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Cms\Model;
-
-class Page extends \Magento\Core\Model\AbstractModel implements \Magento\Object\IdentityInterface
+class Page extends \Magento\Core\Model\AbstractModel
 {
+    /**
+     * No route page id
+     */
     const NOROUTE_PAGE_ID = 'no-route';
 
     /**
@@ -66,6 +64,10 @@ class Page extends \Magento\Core\Model\AbstractModel implements \Magento\Object\
     const STATUS_DISABLED = 0;
 
     const CACHE_TAG              = 'cms_page';
+
+    /**
+     * @var string
+     */
     protected $_cacheTag         = 'cms_page';
 
     /**
@@ -78,6 +80,7 @@ class Page extends \Magento\Core\Model\AbstractModel implements \Magento\Object\
     /**
      * Initialize resource model
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -87,11 +90,11 @@ class Page extends \Magento\Core\Model\AbstractModel implements \Magento\Object\
     /**
      * Load object data
      *
-     * @param mixed $id
+     * @param int|null $id
      * @param string $field
-     * @return \Magento\Cms\Model\Page
+     * @return $this
      */
-    public function load($id, $field=null)
+    public function load($id, $field = null)
     {
         if (is_null($id)) {
             return $this->noRoutePage();
@@ -134,15 +137,5 @@ class Page extends \Magento\Core\Model\AbstractModel implements \Magento\Object\
             self::STATUS_ENABLED => __('Enabled'),
             self::STATUS_DISABLED => __('Disabled'),
         );
-    }
-
-    /**
-     * Get identities
-     *
-     * @return array
-     */
-    public function getIdentities()
-    {
-        return array(self::CACHE_TAG . '_' . $this->getId());
     }
 }

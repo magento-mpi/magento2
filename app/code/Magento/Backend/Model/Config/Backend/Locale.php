@@ -36,8 +36,8 @@ class Locale extends \Magento\Core\Model\Config\Value
     protected $_storeFactory;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\ConfigInterface $config
      * @param \Magento\Core\Model\Resource\Config\Data\CollectionFactory $configsFactory
@@ -51,8 +51,8 @@ class Locale extends \Magento\Core\Model\Config\Value
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\ConfigInterface $config,
         \Magento\Core\Model\Resource\Config\Data\CollectionFactory $configsFactory,
@@ -71,7 +71,7 @@ class Locale extends \Magento\Core\Model\Config\Value
     }
 
     /**
-     * @return \Magento\Backend\Model\Config\Backend\Locale
+     * @return $this
      * @throws \Magento\Core\Exception
      */
     protected function _afterSave()

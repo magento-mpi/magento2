@@ -24,8 +24,8 @@ class Usecustom extends \Magento\Core\Model\Config\Value
     protected $_configWriter;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\ConfigInterface $config
      * @param \Magento\App\Config\Storage\WriterInterface $configWriter
@@ -34,8 +34,8 @@ class Usecustom extends \Magento\Core\Model\Config\Value
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\ConfigInterface $config,
         \Magento\App\Config\Storage\WriterInterface $configWriter,
@@ -58,7 +58,7 @@ class Usecustom extends \Magento\Core\Model\Config\Value
     /**
      * Validate custom url
      *
-     * @return \Magento\Backend\Model\Config\Backend\Admin\Usecustom
+     * @return $this
      * @throws \Magento\Core\Exception
      */
     protected function _beforeSave()
@@ -79,7 +79,7 @@ class Usecustom extends \Magento\Core\Model\Config\Value
     /**
      * Delete custom admin url from configuration if "Use Custom Admin Url" option disabled
      *
-     * @return \Magento\Backend\Model\Config\Backend\Admin\Usecustom
+     * @return $this
      */
     protected function _afterSave()
     {
@@ -87,14 +87,14 @@ class Usecustom extends \Magento\Core\Model\Config\Value
 
         if (!$value) {
             $this->_configWriter->delete(
-                \Magento\Backend\Model\Config\Backend\Admin\Custom::XML_PATH_SECURE_BASE_URL,
-                \Magento\Backend\Model\Config\Backend\Admin\Custom::CONFIG_SCOPE,
-                \Magento\Backend\Model\Config\Backend\Admin\Custom::CONFIG_SCOPE_ID
+                Custom::XML_PATH_SECURE_BASE_URL,
+                Custom::CONFIG_SCOPE,
+                Custom::CONFIG_SCOPE_ID
             );
             $this->_configWriter->delete(
-                \Magento\Backend\Model\Config\Backend\Admin\Custom::XML_PATH_UNSECURE_BASE_URL,
-                \Magento\Backend\Model\Config\Backend\Admin\Custom::CONFIG_SCOPE,
-                \Magento\Backend\Model\Config\Backend\Admin\Custom::CONFIG_SCOPE_ID
+                Custom::XML_PATH_UNSECURE_BASE_URL,
+                Custom::CONFIG_SCOPE,
+                Custom::CONFIG_SCOPE_ID
             );
         }
 

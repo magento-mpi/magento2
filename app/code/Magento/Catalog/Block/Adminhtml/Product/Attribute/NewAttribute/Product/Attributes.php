@@ -17,8 +17,13 @@
  */
 namespace Magento\Catalog\Block\Adminhtml\Product\Attribute\NewAttribute\Product;
 
+use Magento\Backend\Block\Widget\Form;
+
 class Attributes extends \Magento\Catalog\Block\Adminhtml\Form
 {
+    /**
+     * @return void
+     */
     protected function _prepareForm()
     {
         /** @var \Magento\Data\Form $form */
@@ -53,6 +58,9 @@ class Attributes extends \Magento\Catalog\Block\Adminhtml\Form
         $this->setForm($form);
     }
 
+    /**
+     * @return array
+     */
     protected function _getAdditionalElementTypes()
     {
         $result = array(
@@ -72,6 +80,9 @@ class Attributes extends \Magento\Catalog\Block\Adminhtml\Form
         return $result;
     }
 
+    /**
+     * @return string
+     */
     protected function _toHtml()
     {
         parent::_toHtml();

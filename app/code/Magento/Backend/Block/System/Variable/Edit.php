@@ -7,29 +7,28 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Block\System\Variable;
 
 /**
  * Custom Variable Edit Container
  */
-namespace Magento\Backend\Block\System\Variable;
-
 class Edit extends \Magento\Backend\Block\Widget\Form\Container
 {
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -39,6 +38,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     /**
      * Internal constructor
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -63,7 +63,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
      * Prepare layout.
      * Adding save_and_continue button
      *
-     * @return \Magento\Backend\Block\System\Variable\Edit
+     * @return $this
      */
     protected function _preparelayout()
     {

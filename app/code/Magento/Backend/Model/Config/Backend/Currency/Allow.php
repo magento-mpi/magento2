@@ -14,7 +14,7 @@
  */
 namespace Magento\Backend\Model\Config\Backend\Currency;
 
-class Allow extends \Magento\Backend\Model\Config\Backend\Currency\AbstractCurrency
+class Allow extends AbstractCurrency
 {
     /**
      * @var \Magento\Core\Model\LocaleInterface
@@ -22,8 +22,8 @@ class Allow extends \Magento\Backend\Model\Config\Backend\Currency\AbstractCurre
     protected $_locale;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\ConfigInterface $config
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
@@ -33,8 +33,8 @@ class Allow extends \Magento\Backend\Model\Config\Backend\Currency\AbstractCurre
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\ConfigInterface $config,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
@@ -52,7 +52,7 @@ class Allow extends \Magento\Backend\Model\Config\Backend\Currency\AbstractCurre
      * Check is isset default display currency in allowed currencies
      * Check allowed currencies is available in installed currencies
      *
-     * @return \Magento\Backend\Model\Config\Backend\Currency\Allow
+     * @return $this
      * @throws \Magento\Core\Exception
      */
     protected function _afterSave()

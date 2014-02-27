@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\TargetRule\Model;
 
+use Magento\Core\Exception;
 
 /**
  * TargetRule Rule Model
@@ -43,8 +45,6 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\TargetRule\Model;
-
 class Rule extends \Magento\Rule\Model\AbstractModel
 {
     /**
@@ -126,8 +126,8 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     protected $_locale;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Core\Model\Resource\Iterator $iterator
@@ -139,8 +139,8 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Core\Model\Resource\Iterator $iterator,
@@ -162,6 +162,8 @@ class Rule extends \Magento\Rule\Model\AbstractModel
 
     /**
      * Set resource model
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -209,7 +211,6 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      * Get options for `Apply to` field
      *
      * @param bool $withEmpty
-     *
      * @return array
      */
     public function getAppliesToOptions($withEmpty = false)
@@ -231,9 +232,8 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * Retrieve array of product objects which are matched by rule
      *
-     * @param $onlyId bool
-     *
-     * @return \Magento\TargetRule\Model\Rule
+     * @param bool $onlyId
+     * @return $this
      */
     public function prepareMatchingProducts($onlyId = false)
     {
@@ -267,9 +267,8 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * Retrieve array of product objects which are matched by rule
      *
-     * @deprecated
-     *
      * @return array
+     * @deprecated
      */
     public function getMatchingProducts()
     {
@@ -284,6 +283,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      * Callback function for product matching
      *
      * @param array $args
+     * @return void
      */
     public function callbackValidateProduct($args)
     {
@@ -316,7 +316,6 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      * Check if rule is applicable by date for specified store
      *
      * @param int $storeId
-     *
      * @return bool
      */
     public function checkDateForStore($storeId)
@@ -334,7 +333,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * Get product positions for current rule
      *
-     * @return int if positions limit is not set, then default limit will be returned
+     * @return int If positions limit is not set, then default limit will be returned
      */
     public function getPositionsLimit()
     {
@@ -365,8 +364,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      * Set action select bind array or serialized string
      *
      * @param array|string $bind
-     *
-     * @return \Magento\TargetRule\Model\Rule
+     * @return $this
      */
     public function setActionSelectBind($bind)
     {
@@ -380,8 +378,8 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      * Validate rule data
      *
      * @param \Magento\Object $object
-     *
-     * @return bool|array - return true if validation passed successfully. Array with errors description otherwise
+     * @return string[]|bool - Return true if validation passed successfully. Array with errors description otherwise
+     * @throws Exception
      */
     public function validateData(\Magento\Object $object)
     {
@@ -399,7 +397,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
                     continue;
                 }
                 if (!class_exists($actionArgs['type'])) {
-                    throw new \Magento\Core\Exception(
+                    throw new Exception(
                         __('Model class name for attribute is invalid')
                     );
                 }
@@ -415,9 +413,8 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * Retrieve Customer Segment Relations
      *
-     * @deprecated after 1.11.2.0
-     *
      * @return array
+     * @deprecated after 1.11.2.0
      */
     public function getCustomerSegmentRelations()
     {
@@ -427,11 +424,9 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * Set customer segment relations
      *
-     * @deprecated after 1.11.2.0
-     *
      * @param array|string $relations
-     *
-     * @return \Magento\TargetRule\Model\Rule
+     * @return $this
+     * @deprecated after 1.11.2.0
      */
     public function setCustomerSegmentRelations($relations)
     {

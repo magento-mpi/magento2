@@ -7,17 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Shipping\Model\Config\Backend;
+
+use Magento\Core\Model\AbstractModel;
 
 /**
  * Backend model for shipping table rates CSV importing
  *
- * @category   Magento
- * @package    Magento_Shipping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Shipping\Model\Config\Backend;
-
 class Tablerate extends \Magento\Core\Model\Config\Value
 {
     /**
@@ -26,8 +24,8 @@ class Tablerate extends \Magento\Core\Model\Config\Value
     protected $_tablerateFactory;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\ConfigInterface $config
      * @param \Magento\Shipping\Model\Resource\Carrier\TablerateFactory $tablerateFactory
@@ -36,8 +34,8 @@ class Tablerate extends \Magento\Core\Model\Config\Value
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\ConfigInterface $config,
         \Magento\Shipping\Model\Resource\Carrier\TablerateFactory $tablerateFactory,
@@ -49,6 +47,9 @@ class Tablerate extends \Magento\Core\Model\Config\Value
         parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
     }
 
+    /**
+     * @return AbstractModel|void
+     */
     public function _afterSave()
     {
         $this->_tablerateFactory->create()->uploadAndImport($this);

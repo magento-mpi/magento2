@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit\Tab;
 
 /**
  * Meta tab with cms page attributes and some modifications to CE version
@@ -16,9 +16,6 @@
  * @package     Magento_VersionsCms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit\Tab;
-
 class Meta
     extends \Magento\Cms\Block\Adminhtml\Page\Edit\Tab\Meta
 {
@@ -31,14 +28,14 @@ class Meta
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\VersionsCms\Helper\Data $cmsData
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\VersionsCms\Helper\Data $cmsData,
         array $data = array()
@@ -50,7 +47,7 @@ class Meta
     /**
      * Adding onchange js call
      *
-     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit\Tab\Meta
+     * @return $this
      */
     protected function _prepareForm()
     {

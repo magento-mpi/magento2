@@ -43,7 +43,7 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
@@ -62,7 +62,7 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
      * @param \Magento\Catalog\Model\Layer $catalogLayer
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Escaper $escaper
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
@@ -71,7 +71,7 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
         \Magento\Catalog\Model\Layer $catalogLayer,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Escaper $escaper,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_categoryFactory = $categoryFactory;
@@ -84,7 +84,7 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
     /**
      * Get filter value for reset current filter state
      *
-     * @return mixed
+     * @return mixed|null
      */
     public function getResetValue()
     {
@@ -106,7 +106,7 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
      *
      * @param   \Zend_Controller_Request_Abstract $request
      * @param   \Magento\View\Element\AbstractBlock $filterBlock
-     * @return  \Magento\Catalog\Model\Layer\Filter\Category
+     * @return  $this
      */
     public function apply(\Zend_Controller_Request_Abstract $request, $filterBlock)
     {
@@ -136,8 +136,8 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
     /**
      * Validate category for be using as filter
      *
-     * @param   \Magento\Catalog\Model\Category $category
-     * @return unknown
+     * @param  \Magento\Catalog\Model\Category $category
+     * @return mixed
      */
     protected function _isValidCategory($category)
     {

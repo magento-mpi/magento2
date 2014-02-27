@@ -41,6 +41,8 @@ class Footer extends \Magento\View\Element\Template implements \Magento\View\Blo
 
     /**
      * Set footer data
+     *
+     * @return void
      */
     protected function _construct()
     {

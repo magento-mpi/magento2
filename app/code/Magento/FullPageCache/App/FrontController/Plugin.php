@@ -35,7 +35,7 @@ class Plugin
         if (!empty($requestProcessors)) {
             usort($requestProcessors, array($this, '_cmp'));
 
-            foreach($requestProcessors as $processorConfig) {
+            foreach ($requestProcessors as $processorConfig) {
                 $this->_processors[] = $factory->create($processorConfig['class']);
             }
         }
@@ -61,8 +61,8 @@ class Plugin
     /**
      * Extract cached page or call front controller if page is not cached
      *
+     * @param array $arguments
      * @param \Magento\Code\Plugin\InvocationChain $invocationChain
-     * @param $arguments
      * @return mixed
      */
     public function aroundDispatch($arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)

@@ -1,6 +1,6 @@
 <?php
 /**
- * Admin system config sturtup page
+ * Admin system config startup page
  *
  * {license_notice}
  *
@@ -9,7 +9,7 @@
  */
 namespace Magento\Backend\Model\Config\Source\Admin;
 
-class Page implements \Magento\Core\Model\Option\ArrayInterface
+class Page implements \Magento\Option\ArrayInterface
 {
     /**
      * Menu model
@@ -35,6 +35,9 @@ class Page implements \Magento\Core\Model\Option\ArrayInterface
         $this->_iteratorFactory = $iteratorFactory;
     }
 
+    /**
+     * @return array
+     */
     public function toOptionArray()
     {
         $options = array();
@@ -58,9 +61,10 @@ class Page implements \Magento\Core\Model\Option\ArrayInterface
     /**
      * Create options array
      *
-     * @param array $optionArray
+     * @param array &$optionArray
      * @param \Magento\Backend\Model\Menu $menu
      * @param int $level
+     * @return void
      */
     protected function _createOptions(&$optionArray, \Magento\Backend\Model\Menu $menu, $level = 0)
     {

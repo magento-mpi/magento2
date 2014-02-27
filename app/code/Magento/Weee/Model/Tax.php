@@ -7,8 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Weee\Model;
+
+use Magento\Catalog\Model\Product;
+use Magento\Core\Model\Website;
 
 class Tax extends \Magento\Core\Model\AbstractModel
 {
@@ -29,7 +31,14 @@ class Tax extends \Magento\Core\Model\AbstractModel
      */
     const DISPLAY_EXCL              = 3;
 
+    /**
+     * @var array|null
+     */
     protected $_allAttributes = null;
+
+    /**
+     * @var array
+     */
     protected $_productDiscounts = array();
 
     /**
@@ -67,8 +76,8 @@ class Tax extends \Magento\Core\Model\AbstractModel
     protected $_customerSession;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Tax\Model\CalculationFactory $calculationFactory
@@ -80,8 +89,8 @@ class Tax extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Tax\Model\CalculationFactory $calculationFactory,
@@ -103,12 +112,23 @@ class Tax extends \Magento\Core\Model\AbstractModel
 
     /**
      * Initialize resource
+     *
+     * @return void
      */
     protected function _construct()
     {
         $this->_init('Magento\Weee\Model\Resource\Tax');
     }
 
+    /**
+     * @param Product $product
+     * @param null|false|\Magento\Object $shipping
+     * @param null|false|\Magento\Object $billing
+     * @param Website $website
+     * @param bool $calculateTax
+     * @param bool $ignoreDiscount
+     * @return int
+     */
     public function getWeeeAmount(
         $product,
         $shipping = null,
@@ -132,6 +152,10 @@ class Tax extends \Magento\Core\Model\AbstractModel
         return $amount;
     }
 
+    /**
+     * @param bool $forceEnabled
+     * @return array
+     */
     public function getWeeeAttributeCodes($forceEnabled = false)
     {
         return $this->getWeeeTaxAttributeCodes($forceEnabled);
@@ -155,6 +179,15 @@ class Tax extends \Magento\Core\Model\AbstractModel
         return $this->_allAttributes;
     }
 
+    /**
+     * @param Product $product
+     * @param null|false|\Magento\Object $shipping
+     * @param null|false|\Magento\Object $billing
+     * @param Website $website
+     * @param bool $calculateTax
+     * @param bool $ignoreDiscount
+     * @return \Magento\Object[]
+     */
     public function getProductWeeeAttributes(
         $product,
         $shipping = null,
@@ -246,6 +279,10 @@ class Tax extends \Magento\Core\Model\AbstractModel
         return $result;
     }
 
+    /**
+     * @param Product $product
+     * @return int
+     */
     protected function _getDiscountPercentForProduct($product)
     {
         $website = $this->_storeManager->getStore()->getWebsiteId();
@@ -265,7 +302,7 @@ class Tax extends \Magento\Core\Model\AbstractModel
     /**
      * Update discounts for FPT amounts of all products
      *
-     * @return \Magento\Weee\Model\Tax
+     * @return $this
      */
     public function updateDiscountPercents()
     {
@@ -277,7 +314,7 @@ class Tax extends \Magento\Core\Model\AbstractModel
      * Update discounts for FPT amounts base on products condiotion
      *
      * @param  mixed $products
-     * @return \Magento\Weee\Model\Tax
+     * @return $this
      */
     public function updateProductsDiscountPercent($products)
     {

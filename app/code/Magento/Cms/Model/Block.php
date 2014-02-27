@@ -8,6 +8,8 @@
  * @license     {license_link}
  */
 
+namespace Magento\Cms\Model;
+
 /**
  * CMS block model
  *
@@ -25,18 +27,18 @@
  * @method \Magento\Cms\Model\Block setUpdateTime(string $value)
  * @method int getIsActive()
  * @method \Magento\Cms\Model\Block setIsActive(int $value)
- *
- * @category    Magento
- * @package     Magento_Cms
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Cms\Model;
-
-class Block extends \Magento\Core\Model\AbstractModel implements \Magento\Object\IdentityInterface
+class Block extends \Magento\Core\Model\AbstractModel
 {
-    const CACHE_TAG     = 'cms_block';
-    protected $_cacheTag= 'cms_block';
+    /**
+     * CMS block cache tag
+     */
+    const CACHE_TAG = 'cms_block';
+
+    /**
+     * @var string
+     */
+    protected $_cacheTag = 'cms_block';
 
     /**
      * Prefix of model events names
@@ -45,6 +47,9 @@ class Block extends \Magento\Core\Model\AbstractModel implements \Magento\Object
      */
     protected $_eventPrefix = 'cms_block';
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_init('Magento\Cms\Model\Resource\Block');
@@ -65,15 +70,5 @@ class Block extends \Magento\Core\Model\AbstractModel implements \Magento\Object
         throw new \Magento\Core\Exception(
             __('Make sure that static block content does not reference the block itself.')
         );
-    }
-
-    /**
-     * Get identities
-     *
-     * @return array
-     */
-    public function getIdentities()
-    {
-        return array(self::CACHE_TAG . '_' . $this->getId());
     }
 }

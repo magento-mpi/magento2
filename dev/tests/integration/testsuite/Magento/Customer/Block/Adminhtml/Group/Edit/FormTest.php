@@ -12,6 +12,7 @@ use Magento\Backend\App\Area\FrontNameResolver;
 use Magento\Customer\Service\V1\Dto\CustomerGroup;
 use Magento\Customer\Service\V1\Dto\Filter;
 use Magento\Customer\Service\V1\Dto\SearchCriteria;
+use Magento\Customer\Service\V1\Dto\SearchCriteriaBuilder;
 use Magento\TestFramework\Helper\Bootstrap;
 
 /**
@@ -27,7 +28,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Customer\Service\V1\CustomerGroupService */
     private $customerGroupService;
 
-    /** @var \Magento\Core\Model\Registry */
+    /** @var \Magento\Registry */
     private $registry;
 
     public function setUp()
@@ -41,7 +42,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
             'Magento\Customer\Service\V1\CustomerGroupServiceInterface'
         );
 
-        $this->registry = Bootstrap::getObjectManager()->get('Magento\Core\Model\Registry');
+        $this->registry = Bootstrap::getObjectManager()->get('Magento\Registry');
     }
 
     public function tearDown()
@@ -77,13 +78,12 @@ class FormTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetFormExistInCustomGroup()
     {
-        $searchCriteria = new SearchCriteria([
-            'filters' => [new Filter([
-                'field'             => 'customer_group_code',
+        $searchCriteria = (new SearchCriteriaBuilder())
+            ->addFilter(new Filter([
+                'field'             => 'code',
                 'value'             => 'custom_group',
-                'condition_type'    => 'or',
-            ])]
-        ]);
+            ]))
+            ->create();
         /** @var CustomerGroup $customerGroup */
         $customerGroup = $this->customerGroupService->searchGroups($searchCriteria)->getItems()[0];
         $this->registry->register('current_group', $customerGroup);

@@ -18,11 +18,15 @@ use Magento\View\Design\ThemeInterface;
 class Theme implements RuleInterface
 {
     /**
+     * Rule
+     *
      * @var RuleInterface
      */
     protected $rule;
 
     /**
+     * Constructors
+     *
      * @param RuleInterface $rule
      */
     public function __construct(RuleInterface $rule)

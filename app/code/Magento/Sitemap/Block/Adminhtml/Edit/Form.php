@@ -7,16 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sitemap\Block\Adminhtml\Edit;
 
 /**
  * Sitemap edit form
  *
- * @category   Magento
- * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sitemap\Block\Adminhtml\Edit;
-
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
@@ -26,14 +23,14 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Core\Model\System\Store $systemStore
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\Core\Model\System\Store $systemStore,
         array $data = array()
@@ -44,6 +41,8 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
     /**
      * Init form
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -52,7 +51,9 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         $this->setTitle(__('Sitemap Information'));
     }
 
-
+    /**
+     * @return $this
+     */
     protected function _prepareForm()
     {
         $model = $this->_coreRegistry->registry('sitemap_sitemap');

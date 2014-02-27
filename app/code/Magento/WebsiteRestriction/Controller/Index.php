@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\WebsiteRestriction\Controller;
 
 /**
  * Website stub controller
@@ -15,10 +16,11 @@
  * @package     Magento_WebsiteRestriction
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\WebsiteRestriction\Controller;
-
 class Index extends \Magento\App\Action\Action
 {
+    /**
+     * @var string
+     */
     protected $_stubPageIdentifier = \Magento\WebsiteRestriction\Model\Config::XML_PATH_RESTRICTION_LANDING_PAGE;
 
     /**
@@ -26,17 +28,22 @@ class Index extends \Magento\App\Action\Action
      */
     protected $_configCacheType;
 
+    /**
+     * @var string
+     */
     protected $_cacheKey;
 
     /**
      * Prefix for cache id
+     *
+     * @var string
      */
     protected $_cacheKeyPrefix = 'RESTRICTION_LANGING_PAGE_';
 
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
@@ -62,7 +69,7 @@ class Index extends \Magento\App\Action\Action
 
     /**
      * @param \Magento\App\Action\Context $context
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\App\Cache\Type\Config $configCacheType
      * @param \Magento\Core\Model\Website $website
      * @param \Magento\Cms\Model\PageFactory $pageFactory
@@ -71,7 +78,7 @@ class Index extends \Magento\App\Action\Action
      */
     public function __construct(
         \Magento\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\App\Cache\Type\Config $configCacheType,
         \Magento\Core\Model\Website $website,
         \Magento\Cms\Model\PageFactory $pageFactory,
@@ -91,6 +98,7 @@ class Index extends \Magento\App\Action\Action
     /**
      * Display a pre-cached CMS-page if we have such or generate new one
      *
+     * @return void
      */
     public function stubAction()
     {

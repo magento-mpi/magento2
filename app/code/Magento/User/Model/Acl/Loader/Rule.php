@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\User\Model\Acl\Loader;
 
 class Rule implements \Magento\Acl\LoaderInterface
@@ -16,13 +15,13 @@ class Rule implements \Magento\Acl\LoaderInterface
     protected $_resource;
 
     /**
-     * @param \Magento\Core\Model\Acl\RootResource $rootResource
+     * @param \Magento\Acl\RootResource $rootResource
      * @param \Magento\App\Resource $resource
      * @param array $data
      * @SuppressWarnings(PHPMD.UnusedFormalParameter):
      */
     public function __construct(
-        \Magento\Core\Model\Acl\RootResource $rootResource,
+        \Magento\Acl\RootResource $rootResource,
         \Magento\App\Resource $resource,
         array $data = array()
     ) {
@@ -34,6 +33,7 @@ class Rule implements \Magento\Acl\LoaderInterface
      * Populate ACL with rules from external storage
      *
      * @param \Magento\Acl $acl
+     * @return void
      */
     public function populateAcl(\Magento\Acl $acl)
     {

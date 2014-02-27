@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Block\System\Store\Edit\Form;
 
 /**
  * Adminhtml store edit form for group
@@ -14,10 +15,7 @@
  * @category    Magento
  * @package     Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
- */
-namespace Magento\Backend\Block\System\Store\Edit\Form;
-
-/**
+ *
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 class Group
@@ -40,7 +38,7 @@ class Group
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Catalog\Model\Config\Source\Category $category
      * @param \Magento\Core\Model\StoreFactory $storeFactory
@@ -49,7 +47,7 @@ class Group
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\Catalog\Model\Config\Source\Category $category,
         \Magento\Core\Model\StoreFactory $storeFactory,
@@ -66,6 +64,7 @@ class Group
      * Prepare group specific fieldset
      *
      * @param \Magento\Data\Form $form
+     * @return void
      */
     protected function _prepareStoreFieldset(\Magento\Data\Form $form)
     {

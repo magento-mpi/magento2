@@ -19,7 +19,7 @@ class Metadata implements \Magento\FullPageCache\Model\MetadataInterface
     /**
      * Cache service info
      *
-     * @var mixed
+     * @var array
      */
     protected $_metaData = null;
 
@@ -53,7 +53,7 @@ class Metadata implements \Magento\FullPageCache\Model\MetadataInterface
      *
      * @param string $key
      *
-     * @return mixed
+     * @return string|null
      */
     public function getMetadata($key)
     {
@@ -65,6 +65,7 @@ class Metadata implements \Magento\FullPageCache\Model\MetadataInterface
      *
      * @param string $key
      * @param string $value
+     * @return void
      */
     public function setMetadata($key, $value)
     {
@@ -75,6 +76,7 @@ class Metadata implements \Magento\FullPageCache\Model\MetadataInterface
      * Save metadata for cache in cache storage
      *
      * @param array $requestTags
+     * @return void
      */
     public function saveMetadata(array $requestTags = array())
     {

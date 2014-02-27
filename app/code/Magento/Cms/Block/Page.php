@@ -7,20 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Cms\Block;
 
 /**
  * Cms page content block
- *
- * @category   Magento
- * @package    Magento_Cms
- * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Cms\Block;
-
-use Magento\View\Element\AbstractBlock;
-
-class Page extends \Magento\View\Element\AbstractBlock implements \Magento\View\Block\IdentityInterface
+class Page extends \Magento\View\Element\AbstractBlock
 {
     /**
      * @var \Magento\Cms\Model\Template\FilterProvider
@@ -96,7 +88,7 @@ class Page extends \Magento\View\Element\AbstractBlock implements \Magento\View\
     /**
      * Prepare global layout
      *
-     * @return \Magento\Cms\Block\Page
+     * @return $this
      */
     protected function _prepareLayout()
     {
@@ -144,15 +136,5 @@ class Page extends \Magento\View\Element\AbstractBlock implements \Magento\View\
         $html = $this->_filterProvider->getPageFilter()->filter($this->getPage()->getContent());
         $html = $this->getLayout()->renderElement('messages') . $html;
         return $html;
-    }
-
-    /**
-     * Return identifiers for produced content
-     *
-     * @return array
-     */
-    public function getIdentities()
-    {
-        return array(\Magento\Cms\Model\Page::CACHE_TAG . '_' . $this->getPageId());
     }
 }
