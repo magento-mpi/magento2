@@ -117,8 +117,8 @@ class Wishlist extends \Magento\Core\Model\AbstractModel implements \Magento\Obj
     protected $_useCurrentWebsite;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Catalog\Helper\Product $catalogProduct
      * @param \Magento\Wishlist\Helper\Data $wishlistData
      * @param ResourceWishlist $resource
@@ -134,8 +134,8 @@ class Wishlist extends \Magento\Core\Model\AbstractModel implements \Magento\Obj
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Catalog\Helper\Product $catalogProduct,
         \Magento\Wishlist\Helper\Data $wishlistData,
         ResourceWishlist $resource,

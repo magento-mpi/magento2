@@ -13,7 +13,7 @@ namespace Magento\CatalogRule\Controller\Adminhtml\Promo;
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Magento\Catalog\Model\Category;
-use Magento\Core\Model\Registry;
+use Magento\Registry;
 
 class Widget extends Action
 {
