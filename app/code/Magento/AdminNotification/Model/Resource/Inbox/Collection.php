@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\AdminNotification\Model\Resource\Inbox;
 
 /**
  * AdminNotification Inbox model
@@ -16,13 +16,12 @@
  * @package     Magento_AdminNotification
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\AdminNotification\Model\Resource\Inbox;
-
 class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Resource collection initialization
      *
+     * @return void
      */
     protected function _construct()
     {
