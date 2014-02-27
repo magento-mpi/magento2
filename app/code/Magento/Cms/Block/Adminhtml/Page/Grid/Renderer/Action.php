@@ -13,21 +13,21 @@ namespace Magento\Cms\Block\Adminhtml\Page\Grid\Renderer;
 class Action extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
-     * @var \Magento\Url
+     * @var Action\UrlBuilder
      */
-    protected $frontendUrlBuilder;
+    protected $actionUrlBuilder;
 
     /**
      * @param \Magento\Backend\Block\Context $context
-     * @param \Magento\Url $frontendUrlBuilder
+     * @param Action\UrlBuilder $actionUrlBuilder
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Context $context,
-        \Magento\Url $frontendUrlBuilder,
+        Action\UrlBuilder $actionUrlBuilder,
         array $data = array()
     ) {
-        $this->frontendUrlBuilder = $frontendUrlBuilder;
+        $this->actionUrlBuilder = $actionUrlBuilder;
         parent::__construct($context, $data);
     }
 
@@ -39,13 +39,10 @@ class Action extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abstract
      */
     public function render(\Magento\Object $row)
     {
-        $this->frontendUrlBuilder->setScope($row->getData('_first_store_id'));
-        $href = $this->frontendUrlBuilder->getUrl(
+        $href = $this->actionUrlBuilder->getUrl(
             $row->getIdentifier(),
-            array(
-                '_current' => false,
-                '_query' => '___store=' . $row->getStoreCode()
-           )
+            $row->getData('_first_store_id'),
+            $row->getStoreCode()
         );
         return '<a href="' . $href . '" target="_blank">' . __('Preview') . '</a>';
     }
