@@ -40,38 +40,21 @@ class Observer
     protected $_fields;
 
     /**
-     * @var \Magento\Checkout\Model\Session
-     */
-    protected $_checkoutSession;
-
-    /**
-     * @var \Magento\RecurringProfile\Model\QuoteImporter
-     */
-    protected $_quoteImporter;
-
-    /**
      * @param \Magento\LocaleInterface $locale
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param RecurringProfileFactory $recurringProfileFactory
-     * @param \Magento\View\Element\BlockFactory $blockFactory
      * @param \Magento\RecurringProfile\Block\Fields $fields
-     * @param \Magento\Checkout\Model\Session $checkoutSession
-     * @param QuoteImporter $quoteImporter
      */
     public function __construct(
         \Magento\LocaleInterface $locale,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\RecurringProfile\Model\RecurringProfileFactory $recurringProfileFactory,
-        \Magento\RecurringProfile\Block\Fields $fields,
-        \Magento\Checkout\Model\Session $checkoutSession,
-        \Magento\RecurringProfile\Model\QuoteImporter $quoteImporter
+        \Magento\RecurringProfile\Block\Fields $fields
     ) {
         $this->_locale = $locale;
         $this->_storeManager = $storeManager;
         $this->_recurringProfileFactory = $recurringProfileFactory;
         $this->_fields = $fields;
-        $this->_checkoutSession = $checkoutSession;
-        $this->_quoteImporter = $quoteImporter;
     }
 
     /**
@@ -117,40 +100,6 @@ class Observer
             );
         }
         $product->addCustomOption('additional_options', serialize($infoOptions));
-    }
-
-    /**
-     * Submit recurring profiles
-     *
-     * @param \Magento\Event\Observer $observer
-     * @throws \Magento\Core\Exception
-     */
-    public function submitRecurringPaymentProfiles($observer)
-    {
-        $profiles = $this->_quoteImporter->import($observer->getEvent()->getQuote());
-        foreach ($profiles as $profile) {
-            if (!$profile->isValid()) {
-                throw new \Magento\Core\Exception($profile->getValidationErrors());
-            }
-            $profile->submit();
-        }
-    }
-
-    /**
-     * Add recurring profile ids to session
-     *
-     * @param \Magento\Event\Observer $observer
-     */
-    public function addRecurringProfileIdsToSession($observer)
-    {
-        $profiles = $this->_quoteImporter->import($observer->getEvent()->getQuote());
-        if ($profiles) {
-            $ids = array();
-            foreach ($profiles as $profile) {
-                $ids[] = $profile->getId();
-            }
-            $this->_checkoutSession->setLastRecurringProfileIds($ids);
-        }
     }
 
     /**

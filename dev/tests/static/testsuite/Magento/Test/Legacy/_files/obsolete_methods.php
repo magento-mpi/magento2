@@ -173,7 +173,7 @@ return array(
     array('_shouldSkipProcessUpdates', 'Magento\Core\Model\App'),
     array('_sort', 'Magento\Backend\Model\Config\Structure\Converter'),
     array('_submitRecurringPaymentProfiles', 'Magento\Sales\Model\Service\Quote',
-        '\Magento\RecurringProfile\Model\Observer::submitRecurringPaymentProfiles'),
+        '\Magento\RecurringProfile\Model\Observer\CheckoutManagerObserver::submitRecurringPaymentProfiles'),
     array('_toHtml', 'Magento\Backend\Block\Widget\Container'),
     array('_unhookQueries', 'Magento\Core\Model\Resource\Setup'),
     array('_updateMediaPathUseRewrites', 'Magento\Core\Model\Store', '_getMediaScriptUrl'),
