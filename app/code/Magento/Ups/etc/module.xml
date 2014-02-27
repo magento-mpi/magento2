@@ -9,9 +9,12 @@
 -->
 <config>
     <module name="Magento_Ups" version="2.0.0.0" active="true">
-        <sequence>
-        </sequence>
         <depends>
+            <module name="Magento_Core"/>
+            <module name="Magento_Backend"/>
+            <module name="Magento_Sales"/>
+            <module name="Magento_Shipping"/>
+            <module name="Magento_Directory"/>
         </depends>
     </module>
 </config>

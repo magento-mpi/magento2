@@ -8,10 +8,12 @@
 
 namespace Magento\Ups\Model\Config\Source;
 
+use Magento\Shipping\Model\Carrier\Source\GenericInterface;
+
 /**
- * Class Generic
+ * Generic source model
  */
-class Generic implements \Magento\Option\ArrayInterface
+class Generic implements GenericInterface
 {
     /**
      * @var \Magento\Ups\Helper\Config

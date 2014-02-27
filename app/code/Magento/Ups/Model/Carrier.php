@@ -419,7 +419,7 @@ class Carrier extends AbstractCarrierOnline implements CarrierInterface
     protected function _getCgiQuotes()
     {
         $rowRequest = $this->_rawRequest;
-        if (AbstractCarrierOnline::USA_COUNTRY_ID == $rowRequest->getDestCountry()) {
+        if (self::USA_COUNTRY_ID == $rowRequest->getDestCountry()) {
             $destPostal = substr($rowRequest->getDestPostal(), 0, 5);
         } else {
             $destPostal = $rowRequest->getDestPostal();
@@ -570,7 +570,7 @@ class Carrier extends AbstractCarrierOnline implements CarrierInterface
         $xmlRequest=$this->_xmlAccessRequest;
 
         $rowRequest = $this->_rawRequest;
-        if (AbstractCarrierOnline::USA_COUNTRY_ID == $rowRequest->getDestCountry()) {
+        if (self::USA_COUNTRY_ID == $rowRequest->getDestCountry()) {
             $destPostal = substr($rowRequest->getDestPostal(), 0, 5);
         } else {
             $destPostal = $rowRequest->getDestPostal();
@@ -1302,7 +1302,7 @@ XMLAuth;
             ->addChild('AccountNumber', $this->getConfigData('shipper_number'));
 
         if ($request->getPackagingType() != $this->configHelper->getCode('container', 'ULE')
-            && $request->getShipperAddressCountryCode() == AbstractCarrierOnline::USA_COUNTRY_ID
+            && $request->getShipperAddressCountryCode() == self::USA_COUNTRY_ID
             && ($request->getRecipientAddressCountryCode() == 'CA' //Canada
                 || $request->getRecipientAddressCountryCode() == 'PR') //Puerto Rico
         ) {
@@ -1609,7 +1609,7 @@ XMLAuth;
             return null;
         }
 
-        if ($countyDestination == AbstractCarrierOnline::USA_COUNTRY_ID) {
+        if ($countyDestination == self::USA_COUNTRY_ID) {
             return self::DELIVERY_CONFIRMATION_PACKAGE;
         }
 

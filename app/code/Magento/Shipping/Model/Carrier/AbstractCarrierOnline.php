@@ -18,7 +18,6 @@ use Magento\Shipping\Model\Shipment\Request;
  */
 abstract class AbstractCarrierOnline extends AbstractCarrier
 {
-
     const USA_COUNTRY_ID = 'US';
     const PUERTORICO_COUNTRY_ID = 'PR';
     const GUAM_COUNTRY_ID = 'GU';
