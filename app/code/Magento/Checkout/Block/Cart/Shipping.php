@@ -212,7 +212,6 @@ class Shipping extends \Magento\Checkout\Block\Cart\AbstractCart
     public function getStateActive()
     {
         return (bool)$this->_storeConfig->getConfig('carriers/dhl/active')
-            || (bool)$this->_storeConfig->getConfig('carriers/tablerate/active')
             || (bool)$this->_storeConfig->getConfig('carriers/dhlint/active');
     }
 
