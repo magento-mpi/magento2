@@ -183,4 +183,24 @@ interface CustomerAccountServiceInterface
      * @return array|bool
      */
     public function validateCustomerData(Dto\Customer $customer, array $attributes);
+
+    /**
+     * Indicates if the Customer for the provided customerId is restricted to being read only
+     * for the currently logged in user, or if modifications can be made.
+     *
+     * @param int $customerId
+     * @throws \Magento\Exception\NoSuchEntityException If customer with customerId is not found.
+     * @return bool true if modifications can be made; false if read only.
+     */
+    public function canModify($customerId);
+
+    /**
+     * Indicates if the Customer for the currently logged in user as specified by the provided
+     * customerId can be deleted.
+     *
+     * @param int $customerId
+     * @throws \Magento\Exception\NoSuchEntityException If customer with customerId is not found.
+     * @return bool true if the customer can be deleted
+     */
+    public function canDelete($customerId);
 }

@@ -249,7 +249,7 @@ class Account extends GenericMetadata
      */
     protected function _handleReadOnlyCustomer($form, $customerId, $attributes)
     {
-        if ($customerId && $this->_customerService->isReadonly($customerId)) {
+        if ($customerId && !$this->_customerAccountService->canModify($customerId)) {
             foreach ($attributes as $attribute) {
                 $element = $form->getElement($attribute->getAttributeCode());
                 if ($element) {
@@ -370,7 +370,9 @@ class Account extends GenericMetadata
             $fieldset->removeField('website_id');
         }
 
-        if ($customerDto->getCustomerId() && $this->_customerService->isReadonly($customerDto->getCustomerId())) {
+        if ($customerDto->getCustomerId()
+            && !$this->_customerAccountService->canModify($customerDto->getCustomerId())
+        ) {
             return [];
         }
 

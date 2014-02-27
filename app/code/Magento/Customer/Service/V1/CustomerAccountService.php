@@ -441,4 +441,23 @@ class CustomerAccountService implements CustomerAccountServiceInterface
 
         return $customerModel;
     }
+
+
+    /**
+     * {@inheritdoc}
+     */
+    public function canModify($customerId)
+    {
+        $customerModel = $this->_converter->getCustomerModel($customerId);
+        return !$customerModel->isReadonly();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function canDelete($customerId)
+    {
+        $customerModel = $this->_converter->getCustomerModel($customerId);
+        return $customerModel->isDeleteable();
+    }
 }

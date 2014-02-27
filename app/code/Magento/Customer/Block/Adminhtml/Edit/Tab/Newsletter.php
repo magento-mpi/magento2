@@ -8,6 +8,7 @@
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 
 use Magento\Customer\Controller\RegistryConstants;
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 
 /**
  * Customer account form block
@@ -25,9 +26,9 @@ class Newsletter extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_subscriberFactory;
 
     /**
-     * @var \Magento\Customer\Service\V1\CustomerServiceInterface
+     * @var CustomerAccountServiceInterface
      */
-    protected $_customerService;
+    protected $_customerAccountService;
 
     /**
      * Constructor
@@ -36,7 +37,7 @@ class Newsletter extends \Magento\Backend\Block\Widget\Form\Generic
      * @param \Magento\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
-     * @param \Magento\Customer\Service\V1\CustomerServiceInterface $customerService
+     * @param CustomerAccountServiceInterface $customerAccountService
      * @param array $data
      */
     public function __construct(
@@ -44,11 +45,11 @@ class Newsletter extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
-        \Magento\Customer\Service\V1\CustomerServiceInterface $customerService,
+        CustomerAccountServiceInterface $customerAccountService,
         array $data = array()
     ) {
         $this->_subscriberFactory = $subscriberFactory;
-        $this->_customerService = $customerService;
+        $this->_customerAccountService = $customerAccountService;
         parent::__construct($context, $registry, $formFactory, $data);
     }
 
@@ -74,7 +75,7 @@ class Newsletter extends \Magento\Backend\Block\Widget\Form\Generic
             ]
         );
 
-        if ($this->_customerService->isReadonly($customerId)) {
+        if (!$this->_customerAccountService->canModify($customerId)) {
             $form->getElement('subscription')->setReadonly(true, true);
         }
 

@@ -132,6 +132,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
                     'getAddressItemById',
                     'getParentId',
                     'isConfirmationRequired',
+                    'isDeleteable',
+                    'isReadonly',
                     'addAddress',
                     'loadByEmail',
                     'sendNewAccountEmail',
@@ -984,6 +986,62 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             [CustomerAccountServiceInterface::ACCOUNT_CONFIRMED],
             [CustomerAccountServiceInterface::ACCOUNT_CONFIRMATION_REQUIRED],
             [CustomerAccountServiceInterface::ACCOUNT_CONFIRMATION_NOT_REQUIRED]
+        ];
+    }
+
+
+    /**
+     * @param bool $isBoolean If the customer is or is not readonly/deleteable
+     *
+     * @dataProvider isBooleanDataProvider
+     */
+    public function testCanModify($isBoolean)
+    {
+        $this->_mockReturnValue($this->_customerModelMock, ['getId' => self::ID]);
+
+        $this->_customerModelMock->expects($this->once())
+            ->method('load')->with(self::ID)->will($this->returnSelf());
+        $this->_customerModelMock->expects($this->once())->method('isReadonly')
+            ->will($this->returnValue($isBoolean));
+
+        $this->_customerFactoryMock->expects($this->once())
+            ->method('create')->will($this->returnValue($this->_customerModelMock));
+
+        $customerService = $this->_createService();
+        $this->assertEquals(!$isBoolean, $customerService->canModify(self::ID));
+    }
+
+    /**
+     * @param bool $isBoolean If the customer is or is not readonly/deleteable
+     *
+     * @dataProvider isBooleanDataProvider
+     */
+    public function testCanDelete($isBoolean)
+    {
+        $this->_mockReturnValue($this->_customerModelMock, ['getId' => self::ID]);
+
+        $this->_customerModelMock->expects($this->once())
+            ->method('load')->with(self::ID)->will($this->returnSelf());
+        $this->_customerModelMock->expects($this->once())->method('isDeleteable')
+            ->will($this->returnValue($isBoolean));
+
+        $this->_customerFactoryMock->expects($this->once())
+            ->method('create')->will($this->returnValue($this->_customerModelMock));
+
+        $customerService = $this->_createService();
+        $this->assertEquals($isBoolean, $customerService->canDelete(self::ID));
+    }
+
+    /**
+     * Data provider for checking isReadonly() and isDeleteable()
+     *
+     * @return array
+     */
+    public function isBooleanDataProvider()
+    {
+        return [
+            'true' => [true],
+            'false' => [false]
         ];
     }
 
