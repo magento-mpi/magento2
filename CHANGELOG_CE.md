@@ -14,6 +14,7 @@
 * Customer Service usage:
   * Sales module refactoring to use customer service layer
   * Checkout module refactoring to use customer service layer
+  * Customer module blocks and controllers refactoring to use customer service layer
 * Updated various PHPDoc with the parameter and return types
 
 2.0.0.0-dev66
