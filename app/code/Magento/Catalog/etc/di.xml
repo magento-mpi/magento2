@@ -149,8 +149,6 @@
     </type>
     <type name="Magento\Customer\Model\Resource\Group">
         <plugin name="invalidatePriceIndexerOnCustomerGroupDelete" type="Magento\Catalog\Model\Indexer\Product\Price\Plugin\CustomerGroup"/>
-    </type>
-    <type name="Magento\Customer\Model\Resource\Group">
         <plugin name="invalidatePriceIndexerOnCustomerGroupCreate" type="Magento\Catalog\Model\Indexer\Product\Price\Plugin\CustomerGroup"/>
     </type>
     <type name="Magento\Catalog\Model\Indexer\Product\Price\Plugin\AbstractPlugin">
