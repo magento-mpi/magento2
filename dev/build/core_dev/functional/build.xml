@@ -268,37 +268,6 @@
             <replacefilter token="{{url}}" value="${env.http_host}${env.build.key}/instance-${instanceIndex}"/>
         </replace>
 
-        <!-- Adds the parallelized instances to the phpunit.xml -->
-        <script language="javascript"><![CDATA[
-            importClass(java.io.File);
-
-            var file = project.getProperty('dir.build_directory') + '/instance-' + project.getProperty('instanceIndex')
-                + '/dev/tests/functional/phpunit.xml';
-
-            var replace = project.createTask('replace');
-            replace.setFile(new File(file));
-
-            var maxInstances = project.getProperty('env.max_instances');
-
-            var replaceText = '<env name="app_instances" value="' + maxInstances + '"/>' + "\n";
-            for (var instances = 0; instances < maxInstances; instances++) {
-                var backendUrlValue = project.getProperty('env.http_host') + project.getProperty('env.build.key')
-                    + "/instance-" + instances + "/backend/";
-                var frontendUrlValue = project.getProperty('env.http_host') + project.getProperty('env.build.key')
-                    + "/instance-" + instances;
-
-                var instanceText += '        <env name="app_frontend_url_' + instances + '" value="' + frontendUrlValue + '/"/>' + "\n" +
-                    '        <env name="app_backend_url_' + instances + '" value="' + backendUrlValue + '"/>' + "\n";
-                replaceText += instanceText;
-            }
-
-            var replaceFilter = replace.createReplacefilter();
-            replaceFilter.setToken('<!--{{parallel_instances}}-->');
-            replaceFilter.setValue(replaceText);
-
-            replace.execute();
-        ]]></script>
-
         <exec executable="php" dir="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional/" failonerror="true">
             <arg line="utils/generate/factory.php"/>
         </exec>
