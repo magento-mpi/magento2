@@ -11,11 +11,12 @@ namespace Magento\Customer\Service\V1\Data;
 
 
 use Magento\Customer\Service\V1\Data\SearchCriteria;
+use Magento\Service\Data\EAV\AbstractObject;
 
 class SearchResults extends \Magento\Service\Data\AbstractObject
 {
     /**
-     * @return array
+     * @return AbstractObject[]
      */
     public function getItems()
     {
