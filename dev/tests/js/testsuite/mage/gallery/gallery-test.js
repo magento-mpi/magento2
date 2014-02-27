@@ -112,8 +112,8 @@ GalleryTest.prototype.resetImageSelection = function(images) {
             delete image.selected;
         }
         return true;
-    })
-}
+    });
+};
 
 GalleryTest.prototype.testInit = function() {
     this.galleryElement.gallery();

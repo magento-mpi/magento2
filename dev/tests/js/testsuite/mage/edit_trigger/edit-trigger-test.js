@@ -75,8 +75,8 @@ EditTriggerTest.prototype.testDestroy = function() {
         editProcessed = false,
         mousemoveProcessed = false;
     $(document)
-        .on('edit.editTrigger', function() {editProcessed = true})
-        .on('mousemove.editTrigger', function() {mousemoveProcessed = true});
+        .on('edit.editTrigger', function() {editProcessed = true;})
+        .on('mousemove.editTrigger', function() {mousemoveProcessed = true;});
     editTrigger.editTrigger('destroy');
     assertEquals(false, editTriggerExist === editTrigger.is(':mage-editTrigger'));
     $(document).trigger('edit.editTrigger');
