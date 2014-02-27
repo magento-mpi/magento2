@@ -32,8 +32,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
      * @param string $code
      * @dataProvider getCodeDataProvider
      */
-    public function testGetData($result, $type = null, $code = null) {
-
+    public function testGetData($result, $type = null, $code = null)
+    {
         $this->assertEquals($result, $this->helper->getCode($type, $code));
     }
 

@@ -136,6 +136,13 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $adminOrderItem;
 
     /**
+     * Shipping carrier helper
+     *
+     * @var \Magento\Shipping\Helper\Carrier
+     */
+    protected $carrierHelper;
+
+    /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Store\ConfigInterface $storeConfig
@@ -151,6 +158,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Filter\FilterManager $filterManager
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Sales\Model\Order\Admin\Item $adminOrderItem
+     * @param \Magento\Shipping\Helper\Carrier $carrierHelper
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
@@ -167,7 +175,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\Rma\Model\CarrierFactory $carrierFactory,
         \Magento\Filter\FilterManager $filterManager,
         \Magento\Stdlib\DateTime $dateTime,
-        \Magento\Sales\Model\Order\Admin\Item $adminOrderItem
+        \Magento\Sales\Model\Order\Admin\Item $adminOrderItem,
+        \Magento\Shipping\Helper\Carrier $carrierHelper
     ) {
         $this->_coreData = $coreData;
         $this->_storeConfig = $storeConfig;
@@ -183,6 +192,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         $this->_filterManager = $filterManager;
         $this->dateTime = $dateTime;
         $this->adminOrderItem = $adminOrderItem;
+        $this->carrierHelper = $carrierHelper;
         parent::__construct($context);
     }
 
@@ -414,11 +424,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getShippingCarriers($store = null)
     {
-        $return = array();
-        foreach (array('dhl', 'fedex', 'ups', 'usps') as $carrier) {
-            $return[$carrier] = $this->_storeConfig->getConfig('carriers/' . $carrier . '/title', $store);
+        $carriers = array();
+        foreach ($this->carrierHelper->getOnlineCarrierCodes($store) as $carrierCode) {
+            $carriers[$carrierCode] = $this->carrierHelper->getCarrierConfigValue($carrierCode, 'title', $store);
         }
-        return $return;
+        return $carriers;
     }
 
     /**
@@ -430,13 +440,13 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getAllowedShippingCarriers($store = null)
     {
-        $return = $this->getShippingCarriers($store);
-        foreach (array_keys($return) as $carrier) {
-            if (!$this->_storeConfig->getConfig('carriers/' . $carrier . '/active_rma', $store)) {
-                unset ($return[$carrier]);
+        $allowedCarriers = $this->getShippingCarriers($store);
+        foreach (array_keys($allowedCarriers) as $carrier) {
+            if (!$this->carrierHelper->getCarrierConfigValue($carrier , 'active_rma', $store)) {
+                unset ($allowedCarriers[$carrier]);
             }
         }
-        return $return;
+        return $allowedCarriers;
     }
 
     /**
@@ -451,10 +461,10 @@ class Data extends \Magento\App\Helper\AbstractHelper
         $data           = explode('_', $code, 2);
         $carrierCode    = $data[0];
 
-        if (!$this->_storeConfig->getConfig('carriers/' . $carrierCode . '/active_rma', $storeId)) {
+        if (!$this->carrierHelper->getCarrierConfigValue($carrierCode, 'active_rma', $storeId)) {
             return false;
         }
-        $className = $this->_storeConfig->getConfig('carriers/' . $carrierCode . '/model', $storeId);
+        $className = $this->carrierHelper->getCarrierConfigValue($carrierCode, 'model', $storeId);
         if (!$className) {
             return false;
         }
