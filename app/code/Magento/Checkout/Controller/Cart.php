@@ -8,13 +8,13 @@
  * @license     {license_link}
  */
 
-/**
- * Shopping cart controller
- */
 namespace Magento\Checkout\Controller;
 
 use Magento\Checkout\Model\Cart as CustomerCart;
 
+/**
+ * Shopping cart controller
+ */
 class Cart
     extends \Magento\App\Action\Action
     implements \Magento\Catalog\Controller\Product\View\ViewInterface
@@ -71,7 +71,7 @@ class Cart
     /**
      * Set back redirect url to response
      *
-     * @return \Magento\Checkout\Controller\Cart
+     * @return $this
      */
     protected function _goBack()
     {
@@ -115,6 +115,8 @@ class Cart
 
     /**
      * Shopping cart display action
+     *
+     * @return void
      */
     public function indexAction()
     {
@@ -167,6 +169,8 @@ class Cart
 
     /**
      * Add product to shopping cart action
+     *
+     * @return void
      */
     public function addAction()
     {
@@ -241,6 +245,9 @@ class Cart
         }
     }
 
+    /**
+     * @return void
+     */
     public function addgroupAction()
     {
         $orderItemIds = $this->getRequest()->getParam('order_items', array());
@@ -273,6 +280,8 @@ class Cart
 
     /**
      * Action to reconfigure cart item
+     *
+     * @return void
      */
     public function configureAction()
     {
@@ -308,6 +317,8 @@ class Cart
 
     /**
      * Update product configuration for a cart item
+     *
+     * @return void
      */
     public function updateItemOptionsAction()
     {
@@ -387,6 +398,8 @@ class Cart
 
     /**
      * Update shopping cart data action
+     *
+     * @return void
      */
     public function updatePostAction()
     {
@@ -413,6 +426,8 @@ class Cart
 
     /**
      * Update customer's shopping cart
+     *
+     * @return void
      */
     protected function _updateShoppingCart()
     {
@@ -451,6 +466,8 @@ class Cart
 
     /**
      * Empty customer's shopping cart
+     *
+     * @return void
      */
     protected function _emptyShoppingCart()
     {
@@ -466,6 +483,8 @@ class Cart
 
     /**
      * Delete shopping cart item action
+     *
+     * @return void
      */
     public function deleteAction()
     {
@@ -485,6 +504,8 @@ class Cart
 
     /**
      * Initialize shipping information
+     *
+     * @return void
      */
     public function estimatePostAction()
     {
@@ -505,6 +526,9 @@ class Cart
         $this->_goBack();
     }
 
+    /**
+     * @return void
+     */
     public function estimateUpdatePostAction()
     {
         $code = (string) $this->getRequest()->getParam('estimate_method');
@@ -516,6 +540,8 @@ class Cart
 
     /**
      * Initialize coupon
+     *
+     * @return void
      */
     public function couponPostAction()
     {
@@ -577,7 +603,7 @@ class Cart
     }
 
     /**
-     * check if URL corresponds store
+     * Check if URL corresponds store
      *
      * @param string $url
      * @return bool

@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage;
 
 /**
  * Shopping Cart items grid
@@ -15,8 +16,6 @@
  * @package    Magento_AdvancedCheckout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage;
-
 class Items extends \Magento\Backend\Block\Template
 {
     /**
@@ -55,7 +54,7 @@ class Items extends \Magento\Backend\Block\Template
     }
 
     /**
-     * Rterieve grid id in template
+     * Retrieve grid id in template
      *
      * @return string
      */
@@ -67,7 +66,7 @@ class Items extends \Magento\Backend\Block\Template
     /**
      * Prepare items collection
      *
-     * @return array
+     * @return \Magento\Sales\Model\Resource\Quote\Item[]
      */
     public function getItems()
     {
@@ -100,7 +99,7 @@ class Items extends \Magento\Backend\Block\Template
     /**
      * Return quote subtotal
      *
-     * @return float|bool
+     * @return float
      */
     public function getSubtotal()
     {
@@ -146,7 +145,7 @@ class Items extends \Magento\Backend\Block\Template
     /**
      * Return formatted price
      *
-     * @param decimal $value
+     * @param float $value
      * @return string
      */
     public function formatPrice($value)
@@ -157,7 +156,7 @@ class Items extends \Magento\Backend\Block\Template
     /**
      * Check whether to use custom price for item
      *
-     * @param $item
+     * @param \Magento\Sales\Model\Quote\Item $item
      * @return bool
      */
     public function usedCustomPriceForItem($item)

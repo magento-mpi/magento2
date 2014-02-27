@@ -5,12 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Controller;
 
 /**
  * Payflow Advanced Checkout Controller
  */
-namespace Magento\Paypal\Controller;
-
 class Payflowadvanced extends \Magento\Paypal\Controller\Express\AbstractExpress
 {
     /**
@@ -81,6 +80,8 @@ class Payflowadvanced extends \Magento\Paypal\Controller\Express\AbstractExpress
 
     /**
      * When a customer cancel payment from payflow gateway.
+     *
+     * @return void
      */
     public function cancelPaymentAction()
     {
@@ -93,6 +94,8 @@ class Payflowadvanced extends \Magento\Paypal\Controller\Express\AbstractExpress
 
     /**
      * When a customer return to website from payflow gateway.
+     *
+     * @return void
      */
     public function returnUrlAction()
     {
@@ -123,6 +126,8 @@ class Payflowadvanced extends \Magento\Paypal\Controller\Express\AbstractExpress
 
     /**
      * Submit transaction to Payflow getaway into iframe
+     *
+     * @return void
      */
     public function formAction()
     {
@@ -133,6 +138,8 @@ class Payflowadvanced extends \Magento\Paypal\Controller\Express\AbstractExpress
 
     /**
      * Get response from PayPal by silent post method
+     *
+     * @return void
      */
     public function silentPostAction()
     {
@@ -152,7 +159,7 @@ class Payflowadvanced extends \Magento\Paypal\Controller\Express\AbstractExpress
      * Cancel order, return quote to customer
      *
      * @param string $errorMsg
-     * @return bool|string
+     * @return false|string
      */
     protected function _cancelPayment($errorMsg = '')
     {
