@@ -33,15 +33,17 @@ class InstructionPreProcessor
      * Add to cache all pre-processed files that are related to initial less file
      *
      * @param \Magento\Less\PreProcessor $subject
-     * @param \Magento\Less\PreProcessor\File\Less[] $fileList
+     * @param array $fileList
      *
-     * @return void
+     * @return array
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function afterProcessLessInstructions(\Magento\Less\PreProcessor $subject, array $fileList)
+    public function afterProcessLessInstructions(\Magento\Less\PreProcessor $subject, $fileList)
     {
         foreach ($fileList as $lessFile) {
             $this->cacheManager->addToCache(Cache::IMPORT_CACHE, $lessFile);
         }
+
+        return $fileList;
     }
 }
