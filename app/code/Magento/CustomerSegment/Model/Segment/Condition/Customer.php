@@ -7,14 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerSegment\Model\Segment\Condition;
+
+use Magento\CustomerSegment\Model\Condition\AbstractCondition;
 
 /**
  * Customer conditions options group
  */
-namespace Magento\CustomerSegment\Model\Segment\Condition;
-
-class Customer
-    extends \Magento\CustomerSegment\Model\Condition\AbstractCondition
+class Customer extends AbstractCondition
 {
     /**
      * @var \Magento\CustomerSegment\Model\ConditionFactory

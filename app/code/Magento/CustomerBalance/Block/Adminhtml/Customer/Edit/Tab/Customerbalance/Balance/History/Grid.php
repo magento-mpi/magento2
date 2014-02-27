@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbalance\Balance\History;
 
 /**
  * Customer balance history grid
  */
-namespace Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbalance\Balance\History;
-
 class Grid
     extends \Magento\Backend\Block\Widget\Grid\Extended
 {
@@ -61,6 +60,7 @@ class Grid
     /**
      * Initialize some params
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -73,7 +73,7 @@ class Grid
     /**
      * Prepare grid collection
      *
-     * @return \Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbalance\Balance\History\Grid
+     * @return $this
      */
     protected function _prepareCollection()
     {
@@ -88,7 +88,7 @@ class Grid
     /**
      * Prepare grid columns
      *
-     * @return \Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbalance\Balance\History\Grid
+     * @return $this
      */
     protected function _prepareColumns()
     {
