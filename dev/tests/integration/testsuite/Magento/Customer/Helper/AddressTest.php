@@ -13,20 +13,13 @@ class AddressTest extends \PHPUnit_Framework_TestCase
             ->get('Magento\Customer\Helper\Address');
     }
 
-    public function testGetStreetLines()
-    {
-        $lines = $this->helper->getStreetLines();
-        echo "**" . $lines . "**";
-    }
-
     /**
      * @param $attributeCode
      * @dataProvider getAttributeValidationClass
      */
     public function testGetAttributeValidationClass($attributeCode, $expectedClass)
     {
-        $this->helper->getAttributeValidationClass($attributeCode);
-        // $this->assertEquals($expectedClass, $this->helper->getAttributeValidationClass($attributeCode));
+        $this->assertEquals($expectedClass, $this->helper->getAttributeValidationClass($attributeCode));
     }
 
     public function getAttributeValidationClass()
