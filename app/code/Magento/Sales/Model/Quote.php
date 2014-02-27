@@ -573,7 +573,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
                 $this->setBillingAddress($billingAddress);
             } else {
                 try {
-                    $defaultBillingAddress = $this->_addressService->getAddressById($customer->getDefaultBilling());
+                    $defaultBillingAddress = $this->_addressService->getDefaultBillingAddress($customer->getId());
                 } catch (\Magento\Exception\NoSuchEntityException $e) {
                     /** Address does not exist */
                 }
@@ -587,7 +587,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
 
             if (null === $shippingAddress) {
                 try {
-                    $defaultShippingAddress = $this->_addressService->getAddressById($customer->getDefaultShipping());
+                    $defaultShippingAddress = $this->_addressService->getDefaultShippingAddress($customer->getId());
                 } catch (\Magento\Exception\NoSuchEntityException $e) {
                     /** Address does not exist */
                 }
@@ -769,9 +769,9 @@ class Quote extends \Magento\Core\Model\AbstractModel
          */
         //if (!$this->getData('customer_group_id') && !$this->getData('customer_tax_class_id')) {
         $groupId = $this->getCustomerGroupId();
-        if ($groupId) {
-            $classId = $this->_customerGroupService->getGroup($this->getCustomerGroupId())->getTaxClassId();
-            $this->setCustomerTaxClassId($classId);
+        if (!is_null($groupId)) {
+            $taxClassId = $this->_customerGroupService->getGroup($this->getCustomerGroupId())->getTaxClassId();
+            $this->setCustomerTaxClassId($taxClassId);
         }
 
         return $this->getData('customer_tax_class_id');
