@@ -5,14 +5,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * Billing agreements controller
- */
 namespace Magento\Paypal\Controller\Billing;
 
 use Magento\App\RequestInterface;
 
+/**
+ * Billing agreements controller
+ */
 class Agreement extends \Magento\App\Action\Action
 {
     /**
@@ -45,6 +44,7 @@ class Agreement extends \Magento\App\Action\Action
     /**
      * View billing agreements
      *
+     * @return void
      */
     public function indexAction()
     {
@@ -74,6 +74,7 @@ class Agreement extends \Magento\App\Action\Action
     /**
      * View billing agreement
      *
+     * @return void
      */
     public function viewAction()
     {
@@ -94,6 +95,7 @@ class Agreement extends \Magento\App\Action\Action
     /**
      * Wizard start action
      *
+     * @return \Zend_Controller_Response_Abstract
      */
     public function startWizardAction()
     {
@@ -123,6 +125,7 @@ class Agreement extends \Magento\App\Action\Action
     /**
      * Wizard return action
      *
+     * @return void
      */
     public function returnWizardAction()
     {
@@ -155,6 +158,7 @@ class Agreement extends \Magento\App\Action\Action
     /**
      * Wizard cancel action
      *
+     * @return void
      */
     public function cancelWizardAction()
     {
@@ -165,6 +169,7 @@ class Agreement extends \Magento\App\Action\Action
      * Cancel action
      * Set billing agreement status to 'Canceled'
      *
+     * @return void
      */
     public function cancelAction()
     {
@@ -191,7 +196,7 @@ class Agreement extends \Magento\App\Action\Action
     /**
      * Init billing agreement model from request
      *
-     * @return \Magento\Paypal\Model\Billing\Agreement|bool
+     * @return \Magento\Paypal\Model\Billing\Agreement|false
      */
     protected function _initAgreement()
     {

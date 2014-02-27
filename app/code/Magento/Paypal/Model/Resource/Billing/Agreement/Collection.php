@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Paypal\Model\Resource\Billing\Agreement;
 
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
@@ -66,6 +65,8 @@ class Collection
 
     /**
      * Collection initialization
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -75,7 +76,7 @@ class Collection
     /**
      * Add customer details(email, firstname, lastname) to select
      *
-     * @return \Magento\Paypal\Model\Resource\Billing\Agreement\Collection
+     * @return $this
      */
     public function addCustomerDetails()
     {

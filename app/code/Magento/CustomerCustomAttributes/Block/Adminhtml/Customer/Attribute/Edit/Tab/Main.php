@@ -77,7 +77,7 @@ class Main
     /**
      * Adding customer form elements for edit form
      *
-     * @return \Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Attribute\Edit\Tab\Main
+     * @return $this
      */
     protected function _prepareForm()
     {

@@ -7,14 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerSegment\Model\Segment\Condition\Customer\Address;
+
+use Magento\Customer\Model\Customer;
+use Magento\CustomerSegment\Model\Condition\AbstractCondition;
 
 /**
  * Customer address type selector
  */
-namespace Magento\CustomerSegment\Model\Segment\Condition\Customer\Address;
-
-class DefaultAddress
-    extends \Magento\CustomerSegment\Model\Condition\AbstractCondition
+class DefaultAddress extends AbstractCondition
 {
     /**
      * @var string
@@ -47,7 +48,7 @@ class DefaultAddress
     /**
      * Get array of event names where segment with such conditions combine can be matched
      *
-     * @return array
+     * @return string[]
      */
     public function getMatchedEvents()
     {
@@ -74,7 +75,7 @@ class DefaultAddress
     /**
      * Init list of available values
      *
-     * @return array
+     * @return $this
      */
     public function loadValueOptions()
     {
@@ -110,8 +111,8 @@ class DefaultAddress
     /**
      * Prepare is default billing/shipping condition for customer address
      *
-     * @param $customer
-     * @param $website
+     * @param Customer|\Zend_Db_Expr $customer
+     * @param int|\Zend_Db_Expr $website
      * @return \Magento\DB\Select
      */
     public function getConditionsSql($customer, $website)

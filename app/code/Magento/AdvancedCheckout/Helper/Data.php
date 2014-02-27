@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\AdvancedCheckout\Helper;
+
+use Magento\Sales\Model\Quote\Item;
 
 /**
  * Enterprise Checkout Helper
@@ -15,21 +18,19 @@
  * @package     Magento_AdvancedCheckout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\AdvancedCheckout\Helper;
-
 class Data extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * Items for requiring attention grid (doesn't include sku-failed items)
      *
-     * @var null|array
+     * @var null|Item[]
      */
     protected $_items;
 
     /**
      * Items for requiring attention grid (including sku-failed items)
      *
-     * @var null|array
+     * @var null|Item[]
      */
     protected $_itemsAll;
 
@@ -66,7 +67,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Customer Groups that allow Order by SKU
      *
-     * @var array|null
+     * @var int[]|null
      */
     protected $_allowedGroups;
 
@@ -80,7 +81,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * List of item statuses, that should be rendered by 'failed' template
      *
-     * @var array
+     * @var string[]
      */
     protected $_failedTemplateStatusCodes = array(
         self::ADD_ITEM_STATUS_FAILED_SKU,
@@ -252,6 +253,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * Sets session instance to use for saving data
      *
      * @param \Magento\Session\SessionManagerInterface $session
+     * @return void
      */
     public function setSession(\Magento\Session\SessionManagerInterface $session)
     {
@@ -353,7 +355,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Retrieve Customer Groups that allow Order by SKU from config
      *
-     * @return array
+     * @return int[]
      */
     public function getSkuCustomerGroups()
     {
@@ -369,7 +371,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * Get add by SKU failed items
      *
      * @param bool $all whether sku-failed items should be retrieved
-     * @return array
+     * @return Item[]
      */
     public function getFailedItems($all = true)
     {
@@ -477,7 +479,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Process SKU file uploading and get uploaded data
      *
-     * @return array|bool
+     * @return array|void
      */
     public function processSkuFileUploading()
     {

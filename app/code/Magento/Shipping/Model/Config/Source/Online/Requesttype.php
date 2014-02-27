@@ -2,22 +2,18 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Usa
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
+namespace Magento\Shipping\Model\Config\Source\Online;
+
+use Magento\Data\OptionSourceInterface;
+
 /**
  * Source model for Shippers Request Type
- *
- * @category   Magento
- * @package    Magento_Usa
- * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Usa\Model\Shipping\Carrier\AbstractCarrier\Source;
-
-class Requesttype implements \Magento\Option\ArrayInterface
+class Requesttype implements OptionSourceInterface
 {
     /**
      * Returns array to be used in packages request type on back-end

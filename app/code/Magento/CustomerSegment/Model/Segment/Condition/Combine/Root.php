@@ -7,12 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerSegment\Model\Segment\Condition\Combine;
+
+use Magento\Customer\Model\Customer;
+use Zend_Db_Expr;
+use Zend_Db_Select;
 
 /**
  * Root segment condition (top level condition)
  */
-namespace Magento\CustomerSegment\Model\Segment\Condition\Combine;
-
 class Root
     extends \Magento\CustomerSegment\Model\Segment\Condition\Combine
 {
@@ -43,7 +46,7 @@ class Root
     /**
      * Get array of event names where segment with such conditions combine can be matched
      *
-     * @return array
+     * @return string[]
      */
     public function getMatchedEvents()
     {
@@ -53,16 +56,16 @@ class Root
     /**
      * Prepare filter condition by customer
      *
-     * @param int|array|\Magento\Customer\Model\Customer|Zend_Db_Select $customer
+     * @param int|array|Customer|Zend_Db_Select $customer
      * @param string $fieldName
      * @return string
      */
     protected function _createCustomerFilter($customer, $fieldName)
     {
-        if ($customer instanceof \Magento\Customer\Model\Customer) {
+        if ($customer instanceof Customer) {
             $customer = $customer->getId();
         } else if ($customer instanceof \Zend_Db_Select) {
-            $customer = new \Zend_Db_Expr($customer);
+            $customer = new Zend_Db_Expr($customer);
         }
 
         return $this->getResource()->quoteInto("{$fieldName} IN (?)", $customer);
@@ -71,8 +74,8 @@ class Root
     /**
      * Prepare base select with limitation by customer
      *
-     * @param   null | array | int | \Magento\Customer\Model\Customer $customer
-     * @param   int | \Zend_Db_Expr $website
+     * @param   null|array|int|Customer $customer
+     * @param   int|Zend_Db_Expr $website
      * @return  \Magento\DB\Select
      */
     protected function _prepareConditionsSql($customer, $website)
@@ -82,7 +85,7 @@ class Root
 
         if ($customer) {
             // For existing customer
-            $select->from($table, new \Zend_Db_Expr(1));
+            $select->from($table, new Zend_Db_Expr(1));
         } else {
             $select->from($table, array('entity_id', 'website_id'));
             if ($customer === null && $this->_configShare->isWebsiteScope()) {

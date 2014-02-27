@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerSegment\Block\Adminhtml\Customersegment;
 
 /**
  * Customer Segments Grid
@@ -15,8 +16,6 @@
  * @package Magento_CustomerSegment
  * @author Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\CustomerSegment\Block\Adminhtml\Customersegment;
-
 class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
@@ -51,6 +50,8 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Initialize grid
      * Set sort settings
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -66,7 +67,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      * Add websites to customer segments collection
      * Set collection
      *
-     * @return \Magento\CustomerSegment\Block\Adminhtml\Customersegment\Grid
+     * @return $this
      */
     protected function _prepareCollection()
     {
@@ -83,7 +84,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Add grid columns
      *
-     * @return \Magento\CustomerSegment\Block\Adminhtml\Customersegment\Grid
+     * @return $this
      */
     protected function _prepareColumns()
     {
@@ -133,7 +134,6 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      * Retrieve row click URL
      *
      * @param \Magento\Object $row
-     *
      * @return string
      */
     public function getRowUrl($row)

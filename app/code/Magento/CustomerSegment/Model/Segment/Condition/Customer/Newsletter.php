@@ -7,14 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerSegment\Model\Segment\Condition\Customer;
+
+use Magento\Customer\Model\Customer;
+use Magento\CustomerSegment\Model\Condition\AbstractCondition;
 
 /**
  * Customer newsletter subscription
  */
-namespace Magento\CustomerSegment\Model\Segment\Condition\Customer;
-
-class Newsletter
-    extends \Magento\CustomerSegment\Model\Condition\AbstractCondition
+class Newsletter extends AbstractCondition
 {
     /**
      * @var string
@@ -39,9 +40,9 @@ class Newsletter
     /**
      * Set data with filtering
      *
-     * @param mixed $key
+     * @param array|string $key
      * @param mixed $value
-     * @return \Magento\CustomerSegment\Model\Segment\Condition\Customer\Newsletter
+     * @return $this
      */
     public function setData($key, $value = null)
     {
@@ -58,7 +59,7 @@ class Newsletter
     /**
      * Get array of event names where segment with such conditions combine can be matched
      *
-     * @return array
+     * @return string[]
      */
     public function getMatchedEvents()
     {
@@ -104,7 +105,7 @@ class Newsletter
     /**
      * Init list of available values
      *
-     * @return array
+     * @return $this
      */
     public function loadValueOptions()
     {
@@ -118,8 +119,8 @@ class Newsletter
     /**
      * Get condition query for customer balance
      *
-     * @param $customer
-     * @param int|Zend_Db_Expr $website
+     * @param Customer|\Zend_Db_Expr $customer
+     * @param int|\Zend_Db_Expr $website
      * @return \Magento\DB\Select
      */
     public function getConditionsSql($customer, $website)

@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\AdvancedCheckout\Block\Adminhtml\Sales\Order\Create;
 
 /**
  * "Add by SKU" accordion
@@ -15,13 +16,13 @@
  * @package     Magento_AdvancedCheckout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\AdvancedCheckout\Block\Adminhtml\Sales\Order\Create;
-
 class Sku
     extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
 {
     /**
      * Define ID
+     *
+     * @return void
      */
     protected function _construct()
     {

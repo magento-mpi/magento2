@@ -5,12 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Model\Billing\Agreement;
 
 /**
  * Interface for payment methods that support billing agreements management
  */
-namespace Magento\Paypal\Model\Billing\Agreement;
-
 interface MethodInterface
 {
     /**

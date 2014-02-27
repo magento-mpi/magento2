@@ -5,12 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Block\Billing\Agreement;
 
 /**
  * Customer account billing agreement view block
  */
-namespace Magento\Paypal\Block\Billing\Agreement;
-
 class View extends \Magento\View\Element\Template
 {
     /**
@@ -160,7 +159,7 @@ class View extends \Magento\View\Element\Template
     /**
      * Set pager
      *
-     * @return \Magento\View\Element\AbstractBlock
+     * @return $this
      */
     protected function _prepareLayout()
     {
