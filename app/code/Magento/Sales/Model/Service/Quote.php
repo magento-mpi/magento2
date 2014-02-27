@@ -523,7 +523,7 @@ class Quote
      * All created items will be set to the object
      *
      * @throws \Exception
-     * @return null
+     * @return void
      */
     public function submitAllWithDataObject()
     {
