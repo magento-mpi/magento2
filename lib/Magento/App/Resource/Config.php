@@ -9,8 +9,7 @@
  */ 
 namespace Magento\App\Resource;
 
-class Config extends \Magento\Config\Data\Scoped
-    implements \Magento\App\Resource\ConfigInterface
+class Config extends \Magento\Config\Data\Scoped implements ConfigInterface
 {
     const DEFAULT_SETUP_CONNECTION = 'default';
 

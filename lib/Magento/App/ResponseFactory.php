@@ -28,7 +28,7 @@ class ResponseFactory
      * Create response
      *
      * @param array $arguments
-     * @return \Magento\App\ResponseInterface
+     * @return ResponseInterface
      */
     public function create(array $arguments = array())
     {

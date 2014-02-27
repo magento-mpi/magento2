@@ -7,15 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\App;
 
-interface ReinitableConfigInterface extends \Magento\App\ConfigInterface
+interface ReinitableConfigInterface extends ConfigInterface
 {
     /**
      * Reinitialize config object
      *
-     * @return \Magento\App\ReinitableConfigInterface
+     * @return $this
      */
     public function reinit();
 }

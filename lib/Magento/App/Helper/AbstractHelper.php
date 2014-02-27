@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\App\Helper;
 
 /**
@@ -76,9 +75,9 @@ abstract class AbstractHelper
     protected $_remoteAddress;
 
     /**
-     * @param \Magento\App\Helper\Context $context
+     * @param Context $context
      */
-    public function __construct(\Magento\App\Helper\Context $context)
+    public function __construct(Context $context)
     {
         $this->_inlineFactory = $context->getInlineFactory();
         $this->_moduleManager = $context->getModuleManager();

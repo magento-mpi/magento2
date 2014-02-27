@@ -17,7 +17,7 @@ class ScopePool
     protected $_readerPool;
 
     /**
-     * @var \Magento\App\Config\DataFactory
+     * @var DataFactory
      */
     protected $_dataFactory;
 
@@ -32,19 +32,19 @@ class ScopePool
     protected $_cacheId;
 
     /**
-     * @var \Magento\App\Config\DataInterface[]
+     * @var DataInterface[]
      */
     protected $_scopes = array();
 
     /**
      * @param \Magento\App\Config\Scope\ReaderPoolInterface $readerPool
-     * @param \Magento\App\Config\DataFactory $dataFactory
+     * @param DataFactory $dataFactory
      * @param \Magento\Cache\FrontendInterface $cache
      * @param string $cacheId
      */
     public function __construct(
         \Magento\App\Config\Scope\ReaderPoolInterface $readerPool,
-        \Magento\App\Config\DataFactory $dataFactory,
+        DataFactory $dataFactory,
         \Magento\Cache\FrontendInterface $cache,
         $cacheId = 'default_config_cache'
     ) {
@@ -59,7 +59,7 @@ class ScopePool
      *
      * @param string $scopeType
      * @param string $scopeCode
-     * @return \Magento\App\Config\Data
+     * @return Data
      */
     public function getScope($scopeType, $scopeCode = null)
     {
@@ -85,6 +85,8 @@ class ScopePool
 
     /**
      * Clear cache of all scopes
+     *
+     * @return void
      */
     public function clean()
     {

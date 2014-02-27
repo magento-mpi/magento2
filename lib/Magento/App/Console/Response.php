@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\App\Console;
 
 /**
@@ -33,6 +32,7 @@ class Response implements \Magento\App\ResponseInterface
 
     /**
      * Send response to client
+     * @return int
      */
     public function sendResponse()
     {
@@ -44,6 +44,7 @@ class Response implements \Magento\App\ResponseInterface
 
     /**
      * @param int $code
+     * @return void
      */
     public function setCode($code)
     {
@@ -57,6 +58,7 @@ class Response implements \Magento\App\ResponseInterface
      * Set whether to terminate process on send or not
      *
      * @param bool $terminate
+     * @return void
      */
     public function terminateOnSend($terminate)
     {

@@ -7,7 +7,7 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
+namespace Magento\Backup\Filesystem\Iterator;
 
 /**
  * File lines iterator
@@ -16,8 +16,6 @@
  * @package     Magento_Backup
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Backup\Filesystem\Iterator;
-
 class File extends \SplFileObject
 {
     /**
@@ -39,6 +37,8 @@ class File extends \SplFileObject
 
     /**
      * Iterate to next sql statement in file
+     *
+     * @return void
      */
     public function next()
     {
@@ -56,6 +56,8 @@ class File extends \SplFileObject
 
     /**
      * Return to first statement
+     *
+     * @return void
      */
     public function rewind()
     {

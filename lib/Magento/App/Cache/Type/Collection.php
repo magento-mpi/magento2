@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\App\Cache\Type;
 
 /**
  * System / Cache Management / Cache type "Collections Data"
  */
-namespace Magento\App\Cache\Type;
-
 class Collection extends \Magento\Cache\Frontend\Decorator\TagScope
 {
     /**
@@ -26,9 +25,9 @@ class Collection extends \Magento\Cache\Frontend\Decorator\TagScope
     const CACHE_TAG = 'COLLECTION_DATA';
 
     /**
-     * @param \Magento\App\Cache\Type\FrontendPool $cacheFrontendPool
+     * @param FrontendPool $cacheFrontendPool
      */
-    public function __construct(\Magento\App\Cache\Type\FrontendPool $cacheFrontendPool)
+    public function __construct(FrontendPool $cacheFrontendPool)
     {
         parent::__construct($cacheFrontendPool->get(self::TYPE_IDENTIFIER), self::CACHE_TAG);
     }

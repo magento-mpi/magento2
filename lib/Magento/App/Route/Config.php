@@ -9,7 +9,7 @@
  */
 namespace Magento\App\Route;
 
-class Config implements \Magento\App\Route\ConfigInterface
+class Config implements ConfigInterface
 {
     /**
      * @var \Magento\App\Route\Config\Reader

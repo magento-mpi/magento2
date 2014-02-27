@@ -20,6 +20,7 @@ interface OptionsInterface
      * Save all options to option table
      *
      * @param  array $options
+     * @return $this
      */
     public function saveAllOptions($options);
 }

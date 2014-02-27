@@ -22,6 +22,7 @@ interface RequestInterface
      * Set Module name
      *
      * @param string $name
+     * @return $this
      */
     public function setModuleName($name);
 
@@ -36,6 +37,7 @@ interface RequestInterface
      * Set action name
      *
      * @param string $name
+     * @return $this
      */
     public function setActionName($name);
 

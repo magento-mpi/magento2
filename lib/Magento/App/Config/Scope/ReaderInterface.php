@@ -13,6 +13,8 @@ interface ReaderInterface
 {
     /**
      * Read configuration scope
+     *
+     * @return array
      */
     public function read();
 }

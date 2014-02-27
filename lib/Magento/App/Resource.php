@@ -9,6 +9,9 @@
  */
 namespace Magento\App;
 
+use Magento\App\Resource\ConfigInterface;
+use Magento\App\Resource\ConnectionFactory;
+
 class Resource
 {
     const AUTO_UPDATE_ONCE       = 0;
@@ -21,7 +24,7 @@ class Resource
     /**
      * Instances of actual connections
      *
-     * @var \Magento\DB\Adapter\Interface[]
+     * @var \Magento\DB\Adapter\AdapterInterface[]
      */
     protected $_connections = array();
 
@@ -35,21 +38,21 @@ class Resource
     /**
      * Resource config
      *
-     * @var \Magento\App\Resource\ConfigInterface
+     * @var ConfigInterface
      */
     protected $_config;
 
     /**
      * Resource connection adapter factory
      *
-     * @var \Magento\App\Resource\ConnectionFactory
+     * @var ConnectionFactory
      */
     protected $_connectionFactory;
 
     /**
      * Application cache
      *
-     * @var \Magento\App\CacheInterface
+     * @var CacheInterface
      */
     protected $_cache;
 
@@ -59,15 +62,15 @@ class Resource
     protected $_tablePrefix;
 
     /**
-     * @param \Magento\App\CacheInterface $cache
-     * @param \Magento\App\Resource\ConfigInterface $resourceConfig
-     * @param \Magento\App\Resource\ConnectionFactory $adapterFactory
+     * @param CacheInterface $cache
+     * @param ConfigInterface $resourceConfig
+     * @param ConnectionFactory $adapterFactory
      * @param string $tablePrefix
      */
     public function __construct(
-        \Magento\App\CacheInterface $cache,
-        Resource\ConfigInterface $resourceConfig,
-        Resource\ConnectionFactory $adapterFactory,
+        CacheInterface $cache,
+        ConfigInterface $resourceConfig,
+        ConnectionFactory $adapterFactory,
         $tablePrefix = ''
     ) {
         $this->_cache = $cache;
@@ -79,10 +82,10 @@ class Resource
     /**
      * Set cache instance
      *
-     * @param \Magento\App\CacheInterface $cache
+     * @param CacheInterface $cache
      * @return void
      */
-    public function setCache(\Magento\App\CacheInterface $cache)
+    public function setCache(CacheInterface $cache)
     {
         $this->_cache = $cache;
     }

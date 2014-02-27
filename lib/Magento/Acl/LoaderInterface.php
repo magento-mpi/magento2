@@ -15,8 +15,9 @@ interface LoaderInterface
     /**
      * Populate ACL with data from external storage
      *
-     * @abstract
      * @param \Magento\Acl $acl
+     * @return void
+     * @abstract
      */
     public function populateAcl(\Magento\Acl $acl);
 }

@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backup\Filesystem\Rollback;
 
 /**
  * Filesystem rollback workers abstract class
@@ -15,8 +16,6 @@
  * @package     Magento_Backup
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Backup\Filesystem\Rollback;
-
 abstract class AbstractRollback
 {
     /**
@@ -38,6 +37,8 @@ abstract class AbstractRollback
 
     /**
      * Main worker's function that makes files rollback
+     *
+     * @return void
      */
     abstract public function run();
 }

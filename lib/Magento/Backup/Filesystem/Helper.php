@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backup\Filesystem;
 
 /**
  * Filesystem helper
@@ -15,8 +16,6 @@
  * @package     Magento_Backup
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Backup\Filesystem;
-
 class Helper
 {
     /**
@@ -57,6 +56,7 @@ class Helper
      * @param string $path
      * @param array $skipPaths
      * @param bool $removeRoot
+     * @return void
      * @throws \Magento\Exception
      */
     public function rm($path, $skipPaths = array(), $removeRoot = false)
@@ -82,6 +82,7 @@ class Helper
      * @param string $path
      * @param int $infoOptions
      * @param array $skipFiles
+     * @return array
      */
     public function getInfo($path, $infoOptions = self::INFO_ALL, $skipFiles = array())
     {
