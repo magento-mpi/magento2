@@ -7,12 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerSegment\Model\Segment\Condition\Product\Combine;
+
+use Magento\Customer\Model\Customer;
+use Zend_Db_Expr;
 
 /**
  * Last viewed/orderd items conditions combine
  */
-namespace Magento\CustomerSegment\Model\Segment\Condition\Product\Combine;
-
 class History
     extends \Magento\CustomerSegment\Model\Condition\Combine\AbstractCombine
 {
@@ -51,7 +53,7 @@ class History
     /**
      * Get array of event names where segment with such conditions combine can be matched
      *
-     * @return array
+     * @return string[]
      */
     public function getMatchedEvents()
     {
@@ -80,7 +82,7 @@ class History
     /**
      * Initialize value select options
      *
-     * @return \Magento\CustomerSegment\Model\Segment\Condition\Product\Combine\History
+     * @return $this
      */
     public function loadValueOptions()
     {
@@ -97,7 +99,7 @@ class History
      * Modify value_option array if needed
      *
      * @param \Magento\Rule\Model\Rule $rule
-     * @return \Magento\CustomerSegment\Model\Segment\Condition\Product\Combine\History
+     * @return $this
      */
     public function setRule($rule)
     {
@@ -128,7 +130,7 @@ class History
     /**
      * Prepare operator select options
      *
-     * @return \Magento\CustomerSegment\Model\Segment\Condition\Product\Combine\History
+     * @return $this
      */
     public function loadOperatorOptions()
     {
@@ -155,8 +157,8 @@ class History
     /**
      * Build query for matching last viewed/orderd items
      *
-     * @param $customer
-     * @param int | \Zend_Db_Expr $website
+     * @param Customer|Zend_Db_Expr $customer
+     * @param int|Zend_Db_Expr $website
      * @return \Magento\DB\Select
      */
     protected function _prepareConditionsSql($customer, $website)

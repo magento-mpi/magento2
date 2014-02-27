@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CustomerCustomAttributes\Block\Account;
 
 /**
@@ -14,7 +13,7 @@ namespace Magento\CustomerCustomAttributes\Block\Account;
 class RegisterLink extends \Magento\Customer\Block\Account\RegisterLink
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function _toHtml()
     {

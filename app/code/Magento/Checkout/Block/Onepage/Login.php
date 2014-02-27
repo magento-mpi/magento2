@@ -5,12 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Checkout\Block\Onepage;
 
 use Magento\Customer\Service\V1\CustomerServiceInterface as CustomerService;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface as CustomerAddressService;
 use Magento\Customer\Model\Address\Config as AddressConfig;
+use Magento\Message\Collection;
 
 /**
  * One page checkout status
@@ -78,6 +78,9 @@ class Login extends AbstractOnepage
         $this->_isScopePrivate = true;
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         if (!$this->isCustomerLoggedIn()) {
@@ -86,31 +89,49 @@ class Login extends AbstractOnepage
         parent::_construct();
     }
 
+    /**
+     * @return Collection
+     */
     public function getMessages()
     {
         return $this->messageManager->getMessages(true);
     }
 
+    /**
+     * @return string
+     */
     public function getPostAction()
     {
         return $this->getUrl('customer/account/loginPost', array('_secure'=>true));
     }
 
+    /**
+     * @return string
+     */
     public function getMethod()
     {
         return $this->getQuote()->getMethod();
     }
 
+    /**
+     * @return mixed
+     */
     public function getMethodData()
     {
         return $this->getCheckout()->getMethodData();
     }
 
+    /**
+     * @return string
+     */
     public function getSuccessUrl()
     {
         return $this->getUrl('*/*');
     }
 
+    /**
+     * @return string
+     */
     public function getErrorUrl()
     {
         return $this->getUrl('*/*');

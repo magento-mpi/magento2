@@ -7,8 +7,6 @@
  */
 namespace Magento\Checkout\Block\Cart;
 
-use Magento\Customer\Service\V1\CustomerServiceInterface as CustomerService;
-
 class Shipping extends \Magento\Checkout\Block\Cart\AbstractCart
 {
     /**
@@ -53,7 +51,6 @@ class Shipping extends \Magento\Checkout\Block\Cart\AbstractCart
      * @param \Magento\Directory\Block\Data $directoryBlock
      * @param \Magento\Tax\Helper\Data $taxHelper
      * @param \Magento\Sales\Model\Quote\Address\CarrierFactoryInterface $carrierFactory
-     * @param CustomerService $customerService
      * @param array $data
      */
     public function __construct(
@@ -64,13 +61,12 @@ class Shipping extends \Magento\Checkout\Block\Cart\AbstractCart
         \Magento\Directory\Block\Data $directoryBlock,
         \Magento\Tax\Helper\Data $taxHelper,
         \Magento\Sales\Model\Quote\Address\CarrierFactoryInterface $carrierFactory,
-        CustomerService $customerService,
         array $data = array()
     ) {
         $this->_directoryBlock = $directoryBlock;
         $this->_taxHelper = $taxHelper;
         $this->_carrierFactory = $carrierFactory;
-        parent::__construct($context, $catalogData, $customerSession, $checkoutSession, $customerService, $data);
+        parent::__construct($context, $catalogData, $customerSession, $checkoutSession, $data);
         $this->_isScopePrivate = true;
     }
 
@@ -78,7 +74,7 @@ class Shipping extends \Magento\Checkout\Block\Cart\AbstractCart
      * Get config
      *
      * @param string $path
-     * @return mixed
+     * @return string|null
      */
     public function getConfig($path)
     {
@@ -124,7 +120,7 @@ class Shipping extends \Magento\Checkout\Block\Cart\AbstractCart
      * Get Carrier Name
      *
      * @param string $carrierCode
-     * @return mixed
+     * @return string
      */
     public function getCarrierName($carrierCode)
     {

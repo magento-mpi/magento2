@@ -7,8 +7,6 @@
  */
 namespace Magento\Checkout\Block;
 
-use Magento\Customer\Service\V1\CustomerServiceInterface as CustomerService;
-
 /**
  * Shopping cart block
  */
@@ -31,7 +29,6 @@ class Cart extends \Magento\Checkout\Block\Cart\AbstractCart
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Catalog\Model\Resource\Url $catalogUrlBuilder
      * @param \Magento\Checkout\Helper\Cart $cartHelper
-     * @param CustomerService $customerService
      * @param array $data
      */
     public function __construct(
@@ -41,18 +38,18 @@ class Cart extends \Magento\Checkout\Block\Cart\AbstractCart
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Catalog\Model\Resource\Url $catalogUrlBuilder,
         \Magento\Checkout\Helper\Cart $cartHelper,
-        CustomerService $customerService,
         array $data = array()
     ) {
         $this->_cartHelper = $cartHelper;
         $this->_catalogUrlBuilder = $catalogUrlBuilder;
-        parent::__construct($context, $catalogData, $customerSession, $checkoutSession, $customerService, $data);
+        parent::__construct($context, $catalogData, $customerSession, $checkoutSession, $data);
         $this->_isScopePrivate = true;
     }
 
     /**
      * Prepare Quote Item Product URLs
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -62,6 +59,8 @@ class Cart extends \Magento\Checkout\Block\Cart\AbstractCart
 
     /**
      * prepare cart items URLs
+     *
+     * @return void
      */
     public function prepareItemUrls()
     {
@@ -138,7 +137,7 @@ class Cart extends \Magento\Checkout\Block\Cart\AbstractCart
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getContinueShoppingUrl()
     {

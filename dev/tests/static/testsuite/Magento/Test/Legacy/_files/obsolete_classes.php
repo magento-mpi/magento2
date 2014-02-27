@@ -2141,4 +2141,6 @@ return array(
     ['Magento\Core\Helper\String', 'Magento\Code\NameBuilder'],
     ['Magento\Core\Model\Context', 'Magento\Model\Context'],
     ['Magento\Core\Model\Registry', 'Magento\Registry'],
+    ['Magento\Catalog\Helper\Product\Flat'],
+    ['Magento\Catalog\Helper\Flat\AbstractFlat']
 );

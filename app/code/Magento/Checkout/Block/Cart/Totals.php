@@ -7,12 +7,23 @@
  */
 namespace Magento\Checkout\Block\Cart;
 
-use Magento\Customer\Service\V1\CustomerServiceInterface as CustomerService;
+use Magento\View\Element\BlockInterface;
 
 class Totals extends \Magento\Checkout\Block\Cart\AbstractCart
 {
+    /**
+     * @var array
+     */
     protected $_totalRenderers;
+
+    /**
+     * @var string
+     */
     protected $_defaultRenderer = 'Magento\Checkout\Block\Total\DefaultTotal';
+
+    /**
+     * @var array
+     */
     protected $_totals = null;
 
     /**
@@ -26,7 +37,6 @@ class Totals extends \Magento\Checkout\Block\Cart\AbstractCart
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Sales\Model\Config $salesConfig
-     * @param CustomerService $customerService
      * @param array $data
      */
     public function __construct(
@@ -35,15 +45,17 @@ class Totals extends \Magento\Checkout\Block\Cart\AbstractCart
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Sales\Model\Config $salesConfig,
-        CustomerService $customerService,
         array $data = array()
     ) {
         $this->_salesConfig = $salesConfig;
-        parent::__construct($context, $catalogData, $customerSession, $checkoutSession, $customerService, $data);
+        parent::__construct($context, $catalogData, $customerSession, $checkoutSession, $data);
         $this->_isScopePrivate = true;
 
     }
 
+    /**
+     * @return array
+     */
     public function getTotals()
     {
         if (is_null($this->_totals)) {
@@ -52,12 +64,20 @@ class Totals extends \Magento\Checkout\Block\Cart\AbstractCart
         return $this->_totals;
     }
 
+    /**
+     * @param array $value
+     * @return $this
+     */
     public function setTotals($value)
     {
         $this->_totals = $value;
         return $this;
     }
 
+    /**
+     * @param string $code
+     * @return BlockInterface
+     */
     protected function _getTotalRenderer($code)
     {
         $blockName = $code . '_total_renderer';
@@ -79,6 +99,12 @@ class Totals extends \Magento\Checkout\Block\Cart\AbstractCart
         return $block;
     }
 
+    /**
+     * @param mixed $total
+     * @param int|null $area
+     * @param int $colspan
+     * @return string
+     */
     public function renderTotal($total, $area = null, $colspan = 1)
     {
         $code = $total->getCode();

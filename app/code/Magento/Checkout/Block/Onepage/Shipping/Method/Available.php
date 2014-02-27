@@ -5,6 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Checkout\Block\Onepage\Shipping\Method;
+
+use Magento\Sales\Model\Quote\Address;
 
 namespace Magento\Checkout\Block\Onepage\Shipping\Method;
 
@@ -17,7 +20,14 @@ use Magento\Customer\Model\Address\Config as AddressConfig;
  */
 class Available extends \Magento\Checkout\Block\Onepage\AbstractOnepage
 {
+    /**
+     * @var array
+     */
     protected $_rates;
+
+    /**
+     * @var Address
+     */
     protected $_address;
 
     /**
@@ -35,10 +45,10 @@ class Available extends \Magento\Checkout\Block\Onepage\AbstractOnepage
      * @param \Magento\Checkout\Model\Session $resourceSession
      * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory
      * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory
-     * @param \Magento\Tax\Helper\Data $taxData
      * @param CustomerService $customerService
      * @param CustomerAddressService $customerAddressService
      * @param AddressConfig $addressConfig
+     * @param \Magento\Tax\Helper\Data $taxData
      * @param array $data
      */
     public function __construct(
@@ -49,10 +59,10 @@ class Available extends \Magento\Checkout\Block\Onepage\AbstractOnepage
         \Magento\Checkout\Model\Session $resourceSession,
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory,
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory,
-        \Magento\Tax\Helper\Data $taxData,
         CustomerService $customerService,
         CustomerAddressService $customerAddressService,
         AddressConfig $addressConfig,
+        \Magento\Tax\Helper\Data $taxData,
         array $data = array()
     ) {
         $this->_taxData = $taxData;
@@ -72,6 +82,9 @@ class Available extends \Magento\Checkout\Block\Onepage\AbstractOnepage
         $this->_isScopePrivate = true;
     }
 
+    /**
+     * @return array
+     */
     public function getShippingRates()
     {
         if (empty($this->_rates)) {
@@ -81,6 +94,9 @@ class Available extends \Magento\Checkout\Block\Onepage\AbstractOnepage
         return $this->_rates;
     }
 
+    /**
+     * @return Address
+     */
     public function getAddress()
     {
         if (empty($this->_address)) {
@@ -89,6 +105,10 @@ class Available extends \Magento\Checkout\Block\Onepage\AbstractOnepage
         return $this->_address;
     }
 
+    /**
+     * @param string $carrierCode
+     * @return string
+     */
     public function getCarrierName($carrierCode)
     {
         if ($name = $this->_storeConfig->getConfig('carriers/'.$carrierCode.'/title')) {
@@ -97,11 +117,19 @@ class Available extends \Magento\Checkout\Block\Onepage\AbstractOnepage
         return $carrierCode;
     }
 
+    /**
+     * @return string
+     */
     public function getAddressShippingMethod()
     {
         return $this->getAddress()->getShippingMethod();
     }
 
+    /**
+     * @param float $price
+     * @param bool|null $flag
+     * @return float
+     */
     public function getShippingPrice($price, $flag)
     {
         return $this->getQuote()->getStore()->convertPrice(

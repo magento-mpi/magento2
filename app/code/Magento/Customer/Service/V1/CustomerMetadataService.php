@@ -202,7 +202,10 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
     {
         $customAttributes = [];
         foreach ($this->getAllCustomerAttributeMetadata() as $attributeMetadata) {
-            if (!$attributeMetadata->isSystem()) {
+            if (!$attributeMetadata->isSystem()
+                /** Even though disable_auto_group_change is system attribute, it should be available to the clients */
+                || $attributeMetadata->getAttributeCode() == 'disable_auto_group_change'
+            ) {
                 $customAttributes[] = $attributeMetadata;
             }
         }

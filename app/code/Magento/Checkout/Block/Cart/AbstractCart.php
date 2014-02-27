@@ -7,7 +7,7 @@
  */
 namespace Magento\Checkout\Block\Cart;
 
-use Magento\Customer\Service\V1\CustomerServiceInterface as CustomerService;
+use Magento\Sales\Model\Quote;
 
 /**
  * Shopping cart abstract block
@@ -20,11 +20,18 @@ class AbstractCart extends \Magento\View\Element\Template
     const DEFAULT_TYPE = 'default';
 
     /**
-     * @var \Magento\Customer\Service\V1\Data\Customer
+     * @var Quote|null
      */
-    protected $_customer = null;
-    protected $_quote    = null;
+    protected $_quote = null;
+
+    /**
+     * @var array
+     */
     protected $_totals;
+
+    /**
+     * @var array
+     */
     protected $_itemRenders = array();
 
     /**
@@ -43,17 +50,12 @@ class AbstractCart extends \Magento\View\Element\Template
      * @var \Magento\Customer\Model\Session
      */
     protected $_checkoutSession;
-    /**
-     * @var CustomerService
-     */
-    protected $_customerService;
 
     /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Checkout\Model\Session $checkoutSession
-     * @param CustomerService $customerService
      * @param array $data
      */
     public function __construct(
@@ -61,7 +63,6 @@ class AbstractCart extends \Magento\View\Element\Template
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Checkout\Model\Session $checkoutSession,
-        CustomerService $customerService,
         array $data = array()
     ) {
         $this->_customerSession = $customerSession;
@@ -69,7 +70,6 @@ class AbstractCart extends \Magento\View\Element\Template
         $this->_catalogData = $catalogData;
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
-        $this->_customerService = $customerService;
     }
 
     /**
@@ -88,7 +88,6 @@ class AbstractCart extends \Magento\View\Element\Template
      * Retrieve item renderer block
      *
      * @param string $type
-     *
      * @return \Magento\View\Element\Template
      * @throws \RuntimeException
      */
@@ -106,7 +105,7 @@ class AbstractCart extends \Magento\View\Element\Template
     /**
      * Get active quote
      *
-     * @return \Magento\Sales\Model\Quote
+     * @return Quote
      */
     public function getQuote()
     {
@@ -138,11 +137,17 @@ class AbstractCart extends \Magento\View\Element\Template
         return $renderer->toHtml();
     }
 
+    /**
+     * @return array
+     */
     public function getTotals()
     {
         return $this->getTotalsCache();
     }
 
+    /**
+     * @return array
+     */
     public function getTotalsCache()
     {
         if (empty($this->_totals)) {
