@@ -14,7 +14,7 @@ namespace Magento\App\View\Deployment\Version\Storage;
 class File implements \Magento\App\View\Deployment\Version\StorageInterface
 {
     /**
-     * @var \Magento\Filesystem\Directory\Write
+     * @var \Magento\Filesystem\Directory\WriteInterface
      */
     private $directory;
 
