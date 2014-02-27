@@ -462,9 +462,7 @@ class RecurringProfile extends \Magento\Core\Model\AbstractModel
     protected function getManager()
     {
         if (!$this->_manager) {
-            $this->_manager = $this->_managerFactory->create(
-                array('paymentMethod' => $this->_paymentData->getMethodInstance($this->getMethodCode()))
-            );
+            $this->_manager = $this->_managerFactory->create();
         }
         return $this->_manager;
     }
