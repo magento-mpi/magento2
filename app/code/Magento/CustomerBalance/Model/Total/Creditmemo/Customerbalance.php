@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CustomerBalance\Model\Total\Creditmemo;
 
 class Customerbalance extends \Magento\Sales\Model\Order\Creditmemo\Total\AbstractTotal
@@ -35,7 +34,7 @@ class Customerbalance extends \Magento\Sales\Model\Order\Creditmemo\Total\Abstra
      * Collect customer balance totals for credit memo
      *
      * @param \Magento\Sales\Model\Order\Creditmemo $creditmemo
-     * @return \Magento\CustomerBalance\Model\Total\Creditmemo\Customerbalance
+     * @return $this
      */
     public function collect(\Magento\Sales\Model\Order\Creditmemo $creditmemo)
     {

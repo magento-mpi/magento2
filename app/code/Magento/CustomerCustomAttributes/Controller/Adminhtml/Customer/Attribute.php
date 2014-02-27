@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerCustomAttributes\Controller\Adminhtml\Customer;
 
 /**
  * Controller for Customer Attributes Management
  */
-namespace Magento\CustomerCustomAttributes\Controller\Adminhtml\Customer;
-
 class Attribute
     extends \Magento\Backend\App\Action
 {
@@ -82,7 +81,7 @@ class Attribute
     /**
      * Load layout, set breadcrumbs
      *
-     * @return \Magento\CustomerCustomAttributes\Controller\Adminhtml\Customer\Attribute
+     * @return $this
      */
     protected function _initAction()
     {
@@ -116,6 +115,7 @@ class Attribute
     /**
      * Attributes grid
      *
+     * @return void
      */
     public function indexAction()
     {
@@ -127,6 +127,7 @@ class Attribute
     /**
      * Create new attribute action
      *
+     * @return void
      */
     public function newAction()
     {
@@ -137,6 +138,7 @@ class Attribute
     /**
      * Edit attribute action
      *
+     * @return void
      */
     public function editAction()
     {
@@ -184,6 +186,7 @@ class Attribute
     /**
      * Validate attribute action
      *
+     * @return void
      */
     public function validateAction()
     {
@@ -221,6 +224,7 @@ class Attribute
     /**
      * Save attribute action
      *
+     * @return void
      */
     public function saveAction()
     {
@@ -237,13 +241,13 @@ class Attribute
             try {
                 $data = $this->_filterPostData($data);
             } catch (\Magento\Core\Exception $e) {
-                    $this->messageManager->addError($e->getMessage());
-                    if (isset($data['attribute_id'])) {
-                        $this->_redirect('adminhtml/*/edit', array('_current' => true));
-                    } else {
-                        $this->_redirect('adminhtml/*/new', array('_current' => true));
-                    }
-                    return;
+                $this->messageManager->addError($e->getMessage());
+                if (isset($data['attribute_id'])) {
+                    $this->_redirect('adminhtml/*/edit', array('_current' => true));
+                } else {
+                    $this->_redirect('adminhtml/*/new', array('_current' => true));
+                }
+                return;
             }
 
             $attributeId = $this->getRequest()->getParam('attribute_id');
@@ -356,6 +360,7 @@ class Attribute
     /**
      * Delete attribute action
      *
+     * @return void
      */
     public function deleteAction()
     {

@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Checkout\Block\Onepage\Shipping;
 
 /**
  * One page checkout status
@@ -16,8 +17,6 @@
  * @package    Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Checkout\Block\Onepage\Shipping;
-
 class Method extends \Magento\Checkout\Block\Onepage\AbstractOnepage
 {
     protected function _construct()
