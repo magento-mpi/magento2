@@ -167,7 +167,7 @@ class Helper
             self::LEVEL => self::WARNING,
             self::MESSAGE => 'Ambiguous type "%s" for %s is NOT recommended'
         ),
-        self::MISSING => array(self::LEVEL => self::WARNING, self::MESSAGE => 'Missing %s doc comment'),
+        self::MISSING => array(self::LEVEL => self::ERROR, self::MESSAGE => 'Missing %s doc comment'),
         self::WRONG_STYLE => array(
             self::LEVEL => self::WARNING,
             self::MESSAGE => 'You must use "/**" style comments for a %s comment'
@@ -226,11 +226,11 @@ class Helper
             self::MESSAGE => '@see tag indented incorrectly; expected 1 spaces but found %s'
         ),
         self::DUPLICATE_RETURN => array(
-            self::LEVEL => self::WARNING,
+            self::LEVEL => self::ERROR,
             self::MESSAGE => 'Only 1 @return tag is allowed in function comment'
         ),
         self::MISSING_PARAM_TAG => array(
-            self::LEVEL => self::WARNING,
+            self::LEVEL => self::ERROR,
             self::MESSAGE => 'Doc comment for "%s" missing'
         ),
         self::SPACING_AFTER_LONG_NAME => array(
@@ -242,11 +242,11 @@ class Helper
             self::MESSAGE => 'Expected 1 space after the longest type'
         ),
         self::MISSING_PARAM_TYPE => array(
-            self::LEVEL => self::WARNING,
+            self::LEVEL => self::ERROR,
             self::MESSAGE => 'Missing type at position %s'
         ),
         self::MISSING_PARAM_NAME => array(
-            self::LEVEL => self::WARNING,
+            self::LEVEL => self::ERROR,
             self::MESSAGE => 'Missing parameter name at position %s'
         ),
         self::EXTRA_PARAM_COMMENT => array(
@@ -282,11 +282,11 @@ class Helper
             self::MESSAGE => 'The @return tag is in the wrong order; the tag follows @see (if used)'
         ),
         self::MISSING_RETURN_TYPE => array(
-            self::LEVEL => self::WARNING,
+            self::LEVEL => self::ERROR,
             self::MESSAGE => 'Return type missing for @return tag in function comment'
         ),
         self::INVALID_RETURN => array(
-            self::LEVEL => self::WARNING,
+            self::LEVEL => self::ERROR,
             self::MESSAGE => 'Function return type "%s" is invalid'
         ),
         self::INVALID_RETURN_VOID => array(
@@ -310,7 +310,7 @@ class Helper
             self::MESSAGE => '@return tag indented incorrectly; expected 1 space but found %s'
         ),
         self::MISSING_RETURN => array(
-            self::LEVEL => self::WARNING,
+            self::LEVEL => self::ERROR,
             self::MESSAGE => 'Missing @return tag in function comment'
         ),
         self::RETURN_NOT_REQUIRED => array(
@@ -358,7 +358,7 @@ class Helper
             self::MESSAGE => '@%s tag is not allowed in variable comment'
         ),
         self::DUPLICATE_VAR => array(
-            self::LEVEL => self::WARNING,
+            self::LEVEL => self::ERROR,
             self::MESSAGE => 'Only 1 @var tag is allowed in variable comment'
         ),
         self::VAR_ORDER => array(
@@ -366,11 +366,11 @@ class Helper
             self::MESSAGE => 'The @var tag must be the first tag in a variable comment'
         ),
         self::MISSING_VAR_TYPE => array(
-            self::LEVEL => self::WARNING,
+            self::LEVEL => self::ERROR,
             self::MESSAGE => 'Var type missing for @var tag in variable comment'
         ),
         self::INCORRECT_VAR_TYPE => array(
-            self::LEVEL => self::WARNING,
+            self::LEVEL => self::ERROR,
             self::MESSAGE => 'Expected "%s"; found "%s" for @var tag in variable comment'
         ),
         self::VAR_INDENT => array(
