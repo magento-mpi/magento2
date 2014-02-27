@@ -9,11 +9,13 @@
  */
 namespace Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab;
 
+use Magento\GiftCardAccount\Model\Resource\History\Collection;
+
 class History
     extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
-     * @var \Magento\GiftCardAccount\Model\Resource\History\Collection
+     * @var Collection
      */
     protected $_collection;
 

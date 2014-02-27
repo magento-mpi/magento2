@@ -22,6 +22,7 @@ class Collection
     /**
      * Resource constructor
      *
+     * @return void
      */
     protected function _construct()
     {

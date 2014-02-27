@@ -503,7 +503,7 @@ class Observer
     /**
      * Revert authorized amounts for all order's gift cards
      *
-     * @param   \Magento\Sales\Model\Order $order
+     * @param \Magento\Sales\Model\Order $order
      * @return $this
      */
     protected function _revertGiftCardsForOrder(\Magento\Sales\Model\Order $order)
@@ -523,7 +523,7 @@ class Observer
     /**
      * Revert authorized amounts for all order's gift cards
      *
-     * @param   \Magento\Event\Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return $this
      */
     public function revertGiftCardAccountBalance(\Magento\Event\Observer $observer)
@@ -539,7 +539,7 @@ class Observer
     /**
      * Revert gift cards for all orders
      *
-     * @param   \Magento\Event\Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return $this
      */
     public function revertGiftCardsForAllOrders(\Magento\Event\Observer $observer)
@@ -556,7 +556,7 @@ class Observer
     /**
      * Return funds to store credit
      *
-     * @param   \Magento\Event\Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return $this
      */
     public function returnFundsToStoreCredit(\Magento\Event\Observer $observer)
