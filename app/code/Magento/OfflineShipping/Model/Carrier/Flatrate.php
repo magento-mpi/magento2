@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Shipping
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,8 +11,6 @@ use Magento\Shipping\Model\Rate\Result;
 
 /**
  * Flat rate shipping model
- *
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Flatrate
     extends \Magento\Shipping\Model\Carrier\AbstractCarrier
