@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Block\Adminhtml\Settlement;
 
 /**
  * Adminhtml paypal settlement reports grid block
@@ -15,12 +16,12 @@
  * @package     Magento_Paypal
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Paypal\Block\Adminhtml\Settlement;
-
 class Report extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**
      * Prepare grid container, add additional buttons
+     *
+     * @return void
      */
     protected function _construct()
     {
