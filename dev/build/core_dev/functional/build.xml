@@ -278,7 +278,7 @@
             var replace = project.createTask('replace');
             replace.setFile(new File(file));
 
-            var maxInstances = project.getProperty('env.max_instances');
+            var maxInstances = project.getProperty('max_instances');
 
             var replaceText = '<env name="app_instances" value="' + maxInstances + '"/>' + "\n";
             for (var instances = 0; instances < maxInstances; instances++) {
