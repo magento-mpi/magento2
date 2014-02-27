@@ -9,8 +9,6 @@
  */
 namespace Magento\GiftCardAccount\Model;
 
-namespace Magento\GiftCardAccount\Model;
-
 /**
  * @method \Magento\GiftCardAccount\Model\Resource\Pool _getResource()
  * @method \Magento\GiftCardAccount\Model\Resource\Pool getResource()
