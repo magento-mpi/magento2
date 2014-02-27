@@ -252,9 +252,6 @@
             <argument name="fileWriteFactory" xsi:type="object">Magento\Filesystem\File\WriteFactory</argument>
         </arguments>
     </type>
-    <type name="Magento\App\FrontController">
-        <plugin name="install" type="Magento\Module\FrontController\Plugin\Install" sortOrder="40"/>
-    </type>
     <virtualType name="layoutArgumentInterpreterInternal" type="Magento\Data\Argument\Interpreter\Composite">
         <arguments>
             <argument name="interpreters" xsi:type="array">

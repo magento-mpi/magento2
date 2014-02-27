@@ -24,18 +24,27 @@ class IndexerConfigDataTest extends \PHPUnit_Framework_TestCase
     protected $helperMock;
 
     /**
+     * @var \Magento\Catalog\Model\Indexer\Product\Flat\State|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_stateMock;
+
+    /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $subjectMock;
 
     protected function setUp()
     {
-        $this->helperMock = $this->getMock(
-            'Magento\Catalog\Helper\Product\Flat', array('isEnabled'), array(), '', false
-        );
+        $this->_stateMock = $this->getMock(
+            'Magento\Catalog\Model\Indexer\Product\Flat\State', array('isFlatEnabled'), array(), '', false
+        );        
         $this->subjectMock = $this->getMock('Magento\Indexer\Model\Config\Data', array(), array(), '', false);
         $this->model = new \Magento\Catalog\Model\Indexer\Product\Flat\Plugin\IndexerConfigData(
             $this->helperMock
+        );
+
+        $this->_model = new \Magento\Catalog\Model\Indexer\Product\Flat\Plugin\IndexerConfigData(
+            $this->_stateMock
         );
     }
 
@@ -52,8 +61,8 @@ class IndexerConfigDataTest extends \PHPUnit_Framework_TestCase
         $closureMock = function () use ($inputData) {
             return $inputData;
         };
-        $this->helperMock->expects($this->once())
-            ->method('isEnabled')
+        $this->_stateMock->expects($this->once())
+            ->method('isFlatEnabled')
             ->will($this->returnValue($isFlat));
 
         $this->assertEquals($outputData, $this->model->aroundGet($this->subjectMock, $closureMock, $path, $default));

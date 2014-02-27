@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Cms\Model\Resource\Page;
 
 /**
  * Cms page service resource model
- *
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Service extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
