@@ -7,7 +7,8 @@
  */
 
 namespace Magento\Tax\Model\TaxClass\Type;
-use Magento\Service\Data\AbstractObject;
+
+use Magento\Customer\Service\V1\Data\CustomerGroup;
 
 /**
  * Customer Tax Class
@@ -65,10 +66,11 @@ class Customer extends \Magento\Tax\Model\TaxClass\AbstractType
     }
 
     /**
-     * @deprecated In favor of getAssignedDataObjects. This function should be removed once all the implementations of
-     * \Magento\Tax\Model\TaxClass\Type\TypeInterface::getAssignedToObjects are refactored to return Data Objects
-     *
      * Get Customer Groups with this tax class
+     *
+     * @deprecated In favor of getAssignedDataObjects. This function should be removed once all the implementations of
+     * \Magento\Tax\Model\TaxClass\Type\TypeInterface::getAssignedToObjects are refactored to return Data Objects.
+     * Will be revisited in MAGETWO-21827
      *
      * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
      */
@@ -82,13 +84,13 @@ class Customer extends \Magento\Tax\Model\TaxClass\AbstractType
     /**
      * Get Customer Groups Data Objects with this tax class
      *
-     * @return AbstractObject[]
+     * @return CustomerGroup[]
      */
     public function getAssignedDataObjects()
     {
-        $searchCriteria = $this->searchCriteriaBuilder->addFilter(
-            $this->filterBuilder->setField('tax_class_id')->setValue($this->getId())->create()
-        )->create();
+        $searchCriteria = $this->searchCriteriaBuilder
+            ->addFilter($this->filterBuilder->setField('tax_class_id')->setValue($this->getId())->create())
+            ->create();
         $result = $this->groupService->searchGroups($searchCriteria);
         return $result->getItems();
     }
