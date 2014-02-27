@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Shipping\Model\Config\Source;
+namespace Magento\OfflineShipping\Model\Config\Source;
 
 class Flatrate implements \Magento\Option\ArrayInterface
 {
