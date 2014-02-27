@@ -7,16 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerBalance\Controller;
+
+use Magento\App\RequestInterface;
 
 /**
  * Customerbalance controller for My Account
- *
  */
-namespace Magento\CustomerBalance\Controller;
-
-use Magento\App\Action\NotFoundException;
-use Magento\App\RequestInterface;
-
 class Info extends \Magento\App\Action\Action
 {
     /**
@@ -35,6 +32,8 @@ class Info extends \Magento\App\Action\Action
 
     /**
      * Store Credit dashboard
+     *
+     * @return void
      */
     public function indexAction()
     {

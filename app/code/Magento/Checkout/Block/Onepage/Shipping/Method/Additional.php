@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Checkout\Block\Onepage\Shipping\Method;
 
 /**
  * Block for additional information in shipping method
@@ -16,8 +16,6 @@
  * @package    Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Checkout\Block\Onepage\Shipping\Method;
-
 class Additional extends \Magento\Checkout\Block\Onepage\AbstractOnepage
 {
 

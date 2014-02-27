@@ -5,12 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Controller;
 
 /**
  * Express Checkout Controller
  */
-namespace Magento\Paypal\Controller;
-
 class Express extends \Magento\Paypal\Controller\Express\AbstractExpress
 {
     /**
@@ -84,6 +83,8 @@ class Express extends \Magento\Paypal\Controller\Express\AbstractExpress
 
     /**
      * Redirect to login page
+     *
+     * @return void
      */
     public function redirectLogin()
     {

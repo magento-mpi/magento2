@@ -111,7 +111,7 @@ class Form
         $ignoreInvisible = self::IGNORE_INVISIBLE,
         $filterAttributes = [],
         $isAjax = false
-    )  {
+    ) {
         $this->_eavMetadataService = $eavMetadataService;
         $this->_elementFactory = $elementFactory;
         $this->_attributeValues = $attributeValues;

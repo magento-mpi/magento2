@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\CustomerBalance\Model\Resource\Balance;
 
 /**
  * Customerbalance history collection
@@ -16,14 +16,12 @@
  * @package     Magento_CustomerBalance
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\CustomerBalance\Model\Resource\Balance;
-
-class Collection
-    extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Initialize resource
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -33,8 +31,8 @@ class Collection
     /**
      * Filter collection by specified websites
      *
-     * @param array|int $websiteIds
-     * @return \Magento\CustomerBalance\Model\Resource\Balance\Collection
+     * @param string $websiteIds
+     * @return $this
      */
     public function addWebsitesFilter($websiteIds)
     {
@@ -45,7 +43,7 @@ class Collection
     /**
      * Implement after load logic for each collection item
      *
-     * @return \Magento\CustomerBalance\Model\Resource\Balance\Collection
+     * @return $this
      */
     protected function _afterLoad()
     {

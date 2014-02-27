@@ -7,14 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerSegment\Model;
+
+use Magento\Logging\Model\Event;
 
 /**
  * Class \Magento\CustomerSegment\Model\Logging
  *
  * Model for logging event related to Customer Segment, active only if Magento_Logging module is enabled
  */
-namespace Magento\CustomerSegment\Model;
-
 class Logging
 {
     /**
@@ -43,13 +44,12 @@ class Logging
      * Handler for logging customer segment match
      *
      * @param array $config
-     * @param \Magento\Logging\Model\Event $eventModel
-     * @return \Magento\Logging\Model\Event
+     * @param Event $eventModel
+     * @return Event
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function postDispatchCustomerSegmentMatch($config,
-        \Magento\Logging\Model\Event $eventModel
-    ) {
+    public function postDispatchCustomerSegmentMatch($config, Event $eventModel)
+    {
         $segmentId = $this->_request->getParam('id');
         $customersQty = $this->_resourceModel->getSegmentCustomersQty($segmentId);
         return $eventModel->setInfo($segmentId ?

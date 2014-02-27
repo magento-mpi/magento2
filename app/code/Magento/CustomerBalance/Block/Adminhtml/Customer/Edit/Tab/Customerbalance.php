@@ -8,13 +8,13 @@
  * @license     {license_link}
  */
 
-/**
- * Customer account Store Credit tab
- */
 namespace Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab;
 
 use Magento\Customer\Controller\RegistryConstants;
 
+/**
+ * Customer account Store Credit tab
+ */
 class Customerbalance
     extends \Magento\Backend\Block\Widget
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
@@ -42,6 +42,8 @@ class Customerbalance
 
     /**
      * Set identifier and title
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -127,6 +129,7 @@ class Customerbalance
     /**
      * Tab URL getter
      *
+     * @return string
      */
     public function getTabUrl()
     {

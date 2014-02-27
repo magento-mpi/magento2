@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion;
+
+use Magento\Backend\Block\Widget\Grid\Column;
 
 /**
  * Accordion grid for catalog salable products
@@ -15,10 +18,7 @@
  * @package    Magento_AdvancedCheckout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion;
-
-class Products
-    extends \Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\AbstractAccordion
+class Products extends AbstractAccordion
 {
     /**
      * @var \Magento\Sales\Model\Config
@@ -31,7 +31,6 @@ class Products
     protected $_productFactory;
 
     /**
-     * @param \Magento\Data\CollectionFactory $collectionFactory
      * @var \Magento\Catalog\Model\Config
      */
     protected $_catalogConfig;
@@ -82,6 +81,8 @@ class Products
 
     /**
      * Block initializing, grid parameters
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -128,7 +129,7 @@ class Products
     /**
      * Prepare Grid columns
      *
-     * @return \Magento\Backend\Block\Widget\Grid\Extended
+     * @return $this
      */
     protected function _prepareColumns()
     {
@@ -169,7 +170,7 @@ class Products
     /**
      * Custom products grid search callback
      *
-     * @return \Magento\Backend\Block\Widget\Grid\Extended
+     * @return $this
      */
     protected function _prepareLayout()
     {
@@ -181,7 +182,8 @@ class Products
     /**
      * Search by selected products
      *
-     * @return \Magento\Backend\Block\Widget\Grid\Extended
+     * @param Column $column
+     * @return $this
      */
     protected function _addColumnFilterToCollection($column)
     {
@@ -193,7 +195,7 @@ class Products
             }
             if ($column->getFilter()->getValue()) {
                 $this->getCollection()->addFieldToFilter('entity_id', array('in' => $productIds));
-            } elseif($productIds) {
+            } elseif ($productIds) {
                 $this->getCollection()->addFieldToFilter('entity_id', array('nin'=>$productIds));
             }
         } else {
@@ -205,7 +207,7 @@ class Products
     /**
      * Return array of selected product ids from request
      *
-     * @return array
+     * @return array|false
      */
     protected function _getSelectedProducts()
     {
@@ -231,7 +233,7 @@ class Products
     /**
      * Add columns with controls to manage added products and their quantity
      *
-     * @return \Magento\Backend\Block\Widget\Grid\Extended
+     * @return void
      */
     protected function _addControlColumns()
     {
@@ -239,10 +241,10 @@ class Products
         $this->getColumn('in_products')->setHeader(" ");
     }
 
-    /*
+    /**
      * Add custom options to product collection
      *
-     * return \Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\Products
+     * @return $this
      */
     protected function _afterLoadCollection()
     {

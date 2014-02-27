@@ -7,8 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CustomerSegment\Model\Segment\Condition\Sales;
+
+use Magento\Customer\Model\Customer;
+use Zend_Db_Expr;
 
 class Purchasedquantity
     extends \Magento\CustomerSegment\Model\Segment\Condition\Sales\Combine
@@ -33,9 +35,9 @@ class Purchasedquantity
     /**
      * Set data with filtering
      *
-     * @param mixed $key
+     * @param string|array $key
      * @param mixed $value
-     * @return \Magento\CustomerSegment\Model\Segment\Condition\Sales\Purchasedquantity
+     * @return $this
      */
     public function setData($key, $value = null)
     {
@@ -52,7 +54,7 @@ class Purchasedquantity
     /**
      * Get array of event names where segment with such conditions combine can be matched
      *
-     * @return array
+     * @return string[]
      */
     public function getMatchedEvents()
     {
@@ -74,8 +76,8 @@ class Purchasedquantity
     /**
      * Build query for matching ordered items qty
      *
-     * @param $customer
-     * @param int | \Zend_Db_Expr $website
+     * @param Customer|Zend_Db_Expr $customer
+     * @param int|Zend_Db_Expr $website
      * @return \Magento\DB\Select
      */
     protected function _prepareConditionsSql($customer, $website)
@@ -101,7 +103,7 @@ class Purchasedquantity
     /**
      * Reset setValueOption() to prevent displaying incorrect actual values
      *
-     * @return \Magento\CustomerSegment\Model\Segment\Condition\Sales\Purchasedquantity
+     * @return $this
      */
     public function loadValueOptions()
     {
