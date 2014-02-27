@@ -186,7 +186,7 @@ class Quote
     /**
      * Submit the quote. Quote submit process will create the order based on quote data
      *
-     * @deprecated
+     * @deprecated in favor of submitOrderWithDataObject which is using Service Layer
      * @return \Magento\Sales\Model\Order
      * @throws \Exception
      */
@@ -495,6 +495,8 @@ class Quote
     /**
      * Submit all available items
      * All created items will be set to the object
+     *
+     * @deprecated in favor of submitAllWithDataObject which is using Service Layer
      */
     public function submitAll()
     {
@@ -519,6 +521,9 @@ class Quote
     /**
      * Submit all available items
      * All created items will be set to the object
+     *
+     * @throws \Exception
+     * @return null
      */
     public function submitAllWithDataObject()
     {
