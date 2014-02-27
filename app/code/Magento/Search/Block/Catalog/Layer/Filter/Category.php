@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Search\Block\Catalog\Layer\Filter;
 
 /**
  * Catalog layer category filter
@@ -15,12 +16,12 @@
  * @package     Magento_Search
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Search\Block\Catalog\Layer\Filter;
-
 class Category extends \Magento\Catalog\Block\Layer\Filter\AbstractFilter
 {
     /**
      * Set model name
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -31,7 +32,7 @@ class Category extends \Magento\Catalog\Block\Layer\Filter\AbstractFilter
     /**
      * Add params to faceted search
      *
-     * @return \Magento\Search\Block\Catalog\Layer\Filter\Category
+     * @return $this
      */
     public function addFacetCondition()
     {

@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Search\Block\Adminhtml\System\Config;
 
  /**
  * Enterprise test connection block
@@ -15,13 +16,13 @@
  * @package    Magento_Search
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Search\Block\Adminhtml\System\Config;
-
 class Testconnection
     extends \Magento\Backend\Block\System\Config\Form\Field
 {
     /**
      * Set template to itself
+     *
+     * @return $this
      */
     protected function _prepareLayout()
     {

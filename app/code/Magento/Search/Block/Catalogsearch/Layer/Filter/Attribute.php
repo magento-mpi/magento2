@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Search\Block\Catalogsearch\Layer\Filter;
 
 /**
  * Catalog attribute layer filter
@@ -15,12 +16,12 @@
  * @package    Magento_Search
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Search\Block\Catalogsearch\Layer\Filter;
-
 class Attribute extends \Magento\Catalog\Block\Layer\Filter\AbstractFilter
 {
     /**
      * Set model name
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -31,7 +32,7 @@ class Attribute extends \Magento\Catalog\Block\Layer\Filter\AbstractFilter
     /**
      * Set attribute model
      *
-     * @return \Magento\Search\Block\Catalogsearch\Layer\Filter\Attribute
+     * @return $this
      */
     protected function _prepareFilter()
     {
@@ -42,7 +43,7 @@ class Attribute extends \Magento\Catalog\Block\Layer\Filter\AbstractFilter
     /**
      * Add params to faceted search
      *
-     * @return \Magento\Search\Block\Catalogsearch\Layer\Filter\Attribute
+     * @return $this
      */
     public function addFacetCondition()
     {

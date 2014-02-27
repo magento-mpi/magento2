@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Search\Model;
 
  /**
  * Enterprise search suggestions model
@@ -15,11 +16,11 @@
  * @package    Magento_Search
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Search\Model;
-
 class Suggestions
 {
     /**
+     * Search layer
+     *
      * @var \Magento\Search\Model\Search\Layer
      */
     protected $_searchLayer;

@@ -22,7 +22,7 @@ class Options implements \Magento\Core\Model\Option\ArrayInterface
     protected $_registryManager;
 
     /**
-     * \Magento\Search\Model\Resource\Recommendations
+     * @var \Magento\Search\Model\Resource\Recommendations $_searchResourceModel
      */
     protected $_searchResourceModel;
 

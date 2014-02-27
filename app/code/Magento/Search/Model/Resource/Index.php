@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Search\Model\Resource;
 
 /**
  * Enterprise search index resource model
@@ -15,16 +16,13 @@
  * @package    Magento_Search
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Search\Model\Resource;
-
 class Index extends \Magento\CatalogSearch\Model\Resource\Fulltext
 {
     /**
      * Return array of price data per customer and website by products
      *
-     * @param   null|array $productIds
-     * @return  array
+     * @param null|array $productIds
+     * @return array
      */
     protected function _getCatalogProductPriceData($productIds = null)
     {
@@ -49,10 +47,9 @@ class Index extends \Magento\CatalogSearch\Model\Resource\Fulltext
     /**
      * Retrieve price data for product
      *
-     * @param   $productIds
-     * @param   $storeId
-     *
-     * @return  array
+     * @param null|array $productIds
+     * @param int $storeId
+     * @return array
      */
     public function getPriceIndexData($productIds, $storeId)
     {
@@ -69,10 +66,9 @@ class Index extends \Magento\CatalogSearch\Model\Resource\Fulltext
     /**
      * Prepare system index data for products.
      *
-     * @param   int $storeId
-     * @param   int|array|null $productIds
-     *
-     * @return  array
+     * @param int $storeId
+     * @param null|array $productIds
+     * @return array
      */
     public function getCategoryProductIndexData($storeId = null, $productIds = null)
     {
@@ -105,8 +101,8 @@ class Index extends \Magento\CatalogSearch\Model\Resource\Fulltext
     /**
      * Retrieve moved categories product ids
      *
-     * @param   int $categoryId
-     * @return  array
+     * @param int $categoryId
+     * @return array
      */
     public function getMovedCategoryProductIds($categoryId)
     {
@@ -129,24 +125,17 @@ class Index extends \Magento\CatalogSearch\Model\Resource\Fulltext
         return $adapter->fetchCol($select);
     }
 
-
-
-
-
     // Deprecated methods
-
 
     /**
      * Return array of category, position and visibility data (optionally) for products.
      *
+     * @param int $storeId
+     * @param null|array $productIds
+     * @param bool $visibility
+     * @return array
      * @deprecated after 1.11.2.0
      * @see $this->getSystemProductIndexData()
-     *
-     * @param   int $storeId
-     * @param   null|array $productIds
-     * @param   bool $visibility
-     *
-     * @return  array
      */
     protected function _getCatalogCategoryData($storeId, $productIds = null, $visibility = true)
     {
@@ -194,13 +183,11 @@ class Index extends \Magento\CatalogSearch\Model\Resource\Fulltext
     /**
      * Prepare advanced index for products.
      *
+     * @param array $index
+     * @param int $storeId
+     * @param array|null $productIds
+     * @return array
      * @deprecated after 1.11.2.0
-     *
-     * @param   array $index
-     * @param   int $storeId
-     * @param   array|null $productIds
-     *
-     * @return  array
      */
     public function addAdvancedIndex($index, $storeId, $productIds = null)
     {

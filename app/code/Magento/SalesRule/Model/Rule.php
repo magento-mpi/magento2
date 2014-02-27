@@ -126,9 +126,8 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * Contain sores labels
      *
-     * @deprecated after 1.6.2.0
-     *
      * @var array
+     * @deprecated after 1.6.2.0
      */
     protected $_labels = array();
 
@@ -556,11 +555,9 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * Collect all product attributes used in serialized rule's action or condition
      *
-     * @deprecated after 1.6.2.0 use \Magento\SalesRule\Model\Resource\Rule::getProductAttributes() instead
-     *
      * @param string $serializedString
-     *
      * @return array
+     * @deprecated after 1.6.2.0 use \Magento\SalesRule\Model\Resource\Rule::getProductAttributes() instead
      */
     protected function _getUsedAttributes($serializedString)
     {
@@ -568,10 +565,9 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     }
 
     /**
-     * @deprecated after 1.6.2.0
-     *
      * @param string $format
      * @return string
+     * @deprecated after 1.6.2.0
      */
     public function toString($format='')
     {
@@ -580,8 +576,6 @@ class Rule extends \Magento\Rule\Model\AbstractModel
 
     /**
      * Returns rule as an array for admin interface
-     *
-     * @deprecated after 1.6.2.0
      *
      * @param array $arrAttributes
      *
@@ -593,6 +587,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      * )
      *
      * @return array
+     * @deprecated after 1.6.2.0
      */
     public function toArray(array $arrAttributes = array())
     {

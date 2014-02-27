@@ -7,19 +7,23 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Search\Model\Factory;
+
 /**
  * Solr factories maker
  */
-namespace Magento\Search\Model\Factory;
-
 class Factory
 {
     /**
+     * Object manager
+     *
      * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
+     * Solr state
+     *
      * @var \Magento\Search\Model\Solr\State
      */
     protected $_solrState;

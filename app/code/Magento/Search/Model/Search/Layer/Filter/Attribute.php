@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Search\Model\Search\Layer\Filter;
 
 /**
  * Layer attribute filter
@@ -15,8 +16,6 @@
  * @package    Magento_Search
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Search\Model\Search\Layer\Filter;
-
 class Attribute extends \Magento\Search\Model\Catalog\Layer\Filter\Attribute
 {
     /**

@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Search\Model\Catalog\Layer\Filter;
 
 /**
  * Layer category filter
@@ -15,9 +16,6 @@
  * @package     Magento_Search
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Search\Model\Catalog\Layer\Filter;
-
 class Category extends \Magento\Catalog\Model\Layer\Filter\Category
 {
     /**
@@ -97,7 +95,7 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\Category
     /**
      * Add params to faceted search
      *
-     * @return \Magento\Search\Model\Catalog\Layer\Filter\Category
+     * @return $this
      */
     public function addFacetCondition()
     {

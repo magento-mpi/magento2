@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Search\Model\Resource;
 
 /**
  * Catalog search recommendations resource model
@@ -15,11 +16,11 @@
  * @package     Magento_Search
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Search\Model\Resource;
-
 class Recommendations extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
+     * Search query model
+     *
      * @var \Magento\CatalogSearch\Model\Query
      */
     protected $_searchQueryModel;
@@ -41,6 +42,7 @@ class Recommendations extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Init main table
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -52,7 +54,7 @@ class Recommendations extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param int $queryId
      * @param array $relatedQueries
-     * @return \Magento\Search\Model\Resource\Recommendations
+     * @return $this
      */
     public function saveRelatedQueries($queryId, $relatedQueries = array())
     {
@@ -90,6 +92,8 @@ class Recommendations extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Retrieve related search queries
      *
      * @param int|array $queryId
+     * @param bool $limit
+     * @param bool $order
      * @return array
      */
     public function getRelatedQueries($queryId, $limit = false, $order = false)
@@ -155,7 +159,7 @@ class Recommendations extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Retrieve search terms which are started with $queryWords
      *
-     * @param array $queryWords
+     * @param string $query
      * @param int $searchRecommendationsCount
      * @return array
      */

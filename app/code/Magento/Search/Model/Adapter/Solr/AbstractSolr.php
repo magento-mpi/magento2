@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Search\Model\Adapter\Solr;
 
 /**
@@ -28,7 +27,7 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
     /**
      * Define ping status
      *
-     * @var float | bool
+     * @var float|bool
      */
     protected $_ping = null;
 
@@ -148,7 +147,7 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
     /**
      * Connect to Solr Client by specified options that will be merged with default
      *
-     * @param  array $options
+     * @param array $options
      * @throws \RuntimeException
      * @return SolrClient|\Magento\Search\Model\Client\Solr
      */
@@ -171,6 +170,7 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
      * Set advanced index fields prefix
      *
      * @param string $prefix
+     * @return void
      */
     public function setAdvancedIndexFieldPrefix($prefix)
     {
@@ -192,7 +192,7 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
      * Prepare language suffix for text fields.
      * For not supported languages prefix _def will be returned.
      *
-     * @param  string $localeCode
+     * @param string $localeCode
      * @return string
      */
     protected function _getLanguageSuffix($localeCode)
@@ -205,8 +205,7 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
      * Example: 1995-12-31T23:59:59Z
      *
      * @param int $storeId
-     * @param string $date
-     *
+     * @param string|null $date
      * @return string|null
      */
     protected function _getSolrDate($storeId, $date = null)
@@ -239,7 +238,6 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
      * Prepare search conditions from query
      *
      * @param string|array $query
-     *
      * @return string
      */
     protected function prepareSearchConditions($query)
@@ -421,7 +419,7 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
     /**
      * Retrieve Solr server status
      *
-     * @return  float|bool Actual time taken to ping the server, FALSE if timeout or HTTP error status occurs
+     * @return float|bool Actual time taken to ping the server, FALSE if timeout or HTTP error status occurs
      */
     public function ping()
     {
@@ -439,10 +437,10 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
     /**
      * Prepare name for system text fields.
      *
-     * @param   string $filed
-     * @param   string $suffix
-     * @param   int  $storeId
-     * @return  string
+     * @param string $filed
+     * @param string $suffix
+     * @param int|null $storeId
+     * @return string
      */
     public function getAdvancedTextFieldName($filed, $suffix = '', $storeId = null)
     {
@@ -460,10 +458,9 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
     /**
      * Retrieve attribute solr field name
      *
-     * @param   \Magento\Catalog\Model\Resource\Eav\Attribute|string $attribute
-     * @param   string $target - default|sort|nav
-     *
-     * @return  string|bool
+     * @param \Magento\Catalog\Model\Resource\Eav\Attribute|string $attribute
+     * @param string $target - default|sort|nav
+     * @return string|bool
      */
     public function getSearchEngineFieldName($attribute, $target = 'default')
     {
@@ -521,10 +518,6 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
         return $fieldName;
     }
 
-
-
-
-
     // Deprecated methods
 
     /**
@@ -532,13 +525,11 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
      * Add language code suffix to text fields and type suffix for not text dynamic fields.
      * Prepare sorting fields.
      *
+     * @param array $data
+     * @param array $attributesParams
+     * @param string|null $localeCode
+     * @return array
      * @deprecated after 1.11.2.0
-     *
-     * @param   array $data
-     * @param   array $attributesParams
-     * @param   string|null $localeCode
-     *
-     * @return  array
      */
     protected function _prepareIndexData($data, $attributesParams = array(), $localeCode = null)
     {
@@ -555,11 +546,9 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
     /**
      * Retrieve attribute field's name for sorting
      *
-     * @deprecated after 1.11.2.0
-     *
      * @param string $attributeCode
-     *
      * @return string
+     * @deprecated after 1.11.2.0
      */
     public function getAttributeSolrFieldName($attributeCode)
     {

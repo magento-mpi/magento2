@@ -12,21 +12,29 @@ namespace Magento\Search\Model\Plugin;
 class FulltextIndexRebuild
 {
     /**
+     * Search helper
+     *
      * @var \Magento\Search\Helper\Data
      */
     protected $_searchHelper;
 
     /**
+     * Layer filter price
+     *
      * @var \Magento\Search\Model\Catalog\Layer\Filter\Price
      */
     protected $_layerFilterPrice;
 
     /**
+     * Cache
+     *
      * @var \Magento\App\CacheInterface
      */
     protected $_cache;
 
     /**
+     * Engine provider
+     *
      * @var \Magento\CatalogSearch\Model\Resource\EngineProvider
      */
     protected $_engineProvider = null;

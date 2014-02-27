@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Search\Model\Catalog\Layer\Filter;
 
 /**
  * Layer decimal attribute filter
@@ -16,8 +16,6 @@
  * @package     Magento_Search
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Search\Model\Catalog\Layer\Filter;
-
 class Decimal extends \Magento\Catalog\Model\Layer\Filter\Decimal
 {
     /**
@@ -55,7 +53,7 @@ class Decimal extends \Magento\Catalog\Model\Layer\Filter\Decimal
      *
      * @param \Zend_Controller_Request_Abstract $request
      * @param \Magento\Catalog\Block\Layer\Filter\Decimal $filterBlock
-     * @return \Magento\Catalog\Model\Layer\Filter\Decimal
+     * @return $this
      */
     public function apply(\Zend_Controller_Request_Abstract $request, $filterBlock)
     {
@@ -90,7 +88,7 @@ class Decimal extends \Magento\Catalog\Model\Layer\Filter\Decimal
     /**
      * Add params to faceted search
      *
-     * @return \Magento\Search\Model\Catalog\Layer\Filter\Decimal
+     * @return $this
      */
     public function addFacetCondition()
     {
@@ -121,8 +119,7 @@ class Decimal extends \Magento\Catalog\Model\Layer\Filter\Decimal
      * @param \Magento\Catalog\Model\Layer\Filter\Price $filter
      * @param int $range
      * @param int $index    the range factor
-     *
-     * @return \Magento\Search\Model\Catalog\Layer\Filter\Decimal
+     * @return $this
      */
     public function applyFilterToCollection($filter, $range, $index)
     {

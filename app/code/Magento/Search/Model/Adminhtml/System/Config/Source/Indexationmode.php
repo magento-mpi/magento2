@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Search\Model\Adminhtml\System\Config\Source;
 
 /**
  * Search engine indexation modes
@@ -16,14 +16,10 @@
  * @package     Magento_Search
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Search\Model\Adminhtml\System\Config\Source;
-
 class Indexationmode implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
-     * Prepare options for selection
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function toOptionArray()
     {

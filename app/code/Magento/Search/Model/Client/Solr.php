@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Search\Model\Client;
 
 /**
  * Solr client
  */
-namespace Magento\Search\Model\Client;
-
 class Solr extends \Apache_Solr_Service
 {
     /**
@@ -72,6 +71,11 @@ class Solr extends \Apache_Solr_Service
         return $this;
     }
 
+    /**
+     * Initialize urls
+     *
+     * @return void
+     */
     protected function _initUrls()
     {
         parent::_initUrls();
@@ -97,8 +101,8 @@ class Solr extends \Apache_Solr_Service
      * Create a delete document based on a multiple queries and submit it
      *
      * @param array $rawQueries Expected to be utf-8 encoded
-     * @param boolean $fromPending
-     * @param boolean $fromCommitted
+     * @param bool $fromPending
+     * @param bool $fromCommitted
      * @param float|int $timeout Maximum expected duration of the delete operation on the server (otherwise, will throw a communication exception)
      * @return \Apache_Solr_Response
      *
@@ -128,11 +132,10 @@ class Solr extends \Apache_Solr_Service
      * Alias to \Apache_Solr_Service::deleteByMultipleIds() method
      *
      * @param array $ids Expected to be utf-8 encoded strings
-     * @param boolean $fromPending
-     * @param boolean $fromCommitted
+     * @param bool $fromPending
+     * @param bool $fromCommitted
      * @param float|int $timeout Maximum expected duration of the delete operation on the server (otherwise, will throw a communication exception)
-     * @return \Apache_Solr_Response
-     *
+     * @return void
      * @throws \Exception If an error occurs during the service call
      */
     public function deleteByIds($ids, $fromPending = true, $fromCommitted = true, $timeout = 3600)
@@ -186,6 +189,7 @@ class Solr extends \Apache_Solr_Service
      * Set Authorization header to stream context.
      *
      * @param resource $context
+     * @return void
      */
     protected function _setAuthHeader($context)
     {
@@ -197,6 +201,7 @@ class Solr extends \Apache_Solr_Service
      * Setter for solr server username
      *
      * @param string $username
+     * @return void
      */
     public function setUserLogin($username)
     {
@@ -217,6 +222,7 @@ class Solr extends \Apache_Solr_Service
      * Setter for solr server password
      *
      * @param string $username
+     * @return void
      */
     public function setPassword($username)
     {

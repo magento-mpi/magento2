@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Search\Controller\Adminhtml;
 
  /**
  * Admin search controller for Ajax Grid in Catalog Search Terms
@@ -15,8 +16,6 @@
  * @package    Magento_Search
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Search\Controller\Adminhtml;
-
 class Search extends \Magento\Backend\App\Action
 {
     /**
@@ -52,6 +51,8 @@ class Search extends \Magento\Backend\App\Action
 
     /**
      * Ajax grid action
+     *
+     * @return void
      */
     public function relatedGridAction()
     {
