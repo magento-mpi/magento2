@@ -8,7 +8,6 @@
 namespace Magento\Customer\Controller;
 
 use Magento\App\RequestInterface;
-use Magento\Customer\Service\V1\CustomerServiceInterface;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 use Magento\Customer\Service\V1\Dto\Customer;
@@ -85,9 +84,6 @@ class Account extends \Magento\App\Action\Action
     /** @var \Magento\App\State */
     protected $appState;
 
-    /** @var CustomerServiceInterface  */
-    protected $_customerService;
-
     /** @var CustomerGroupServiceInterface */
     protected $_groupService;
 
@@ -118,7 +114,6 @@ class Account extends \Magento\App\Action\Action
      * @param \Magento\Core\Helper\Data $coreHelperData
      * @param \Magento\Escaper $escaper
      * @param \Magento\App\State $appState
-     * @param \Magento\Customer\Service\V1\CustomerServiceInterface $customerService
      * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService
      * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
      * @param \Magento\Customer\Service\V1\Dto\RegionBuilder $regionBuilder
@@ -142,7 +137,6 @@ class Account extends \Magento\App\Action\Action
         \Magento\Core\Helper\Data $coreHelperData,
         \Magento\Escaper $escaper,
         \Magento\App\State $appState,
-        CustomerServiceInterface $customerService,
         CustomerGroupServiceInterface $customerGroupService,
         CustomerAccountServiceInterface $customerAccountService,
         \Magento\Customer\Service\V1\Dto\RegionBuilder $regionBuilder,
@@ -162,7 +156,6 @@ class Account extends \Magento\App\Action\Action
         $this->coreHelperData = $coreHelperData;
         $this->escaper = $escaper;
         $this->appState = $appState;
-        $this->_customerService = $customerService;
         $this->_groupService = $customerGroupService;
         $this->_customerAccountService = $customerAccountService;
         $this->_regionBuilder = $regionBuilder;
@@ -592,7 +585,7 @@ class Account extends \Magento\App\Action\Action
     {
         try {
             /** @var \Magento\Customer\Service\V1\Dto\Customer $customer */
-            $customer = $this->_customerService->getCustomer($customerId);
+            $customer = $this->_customerAccountService->getCustomer($customerId);
             return $customer;
         } catch (NoSuchEntityException $e) {
             throw new \Exception(__('Wrong customer account specified.'));
@@ -844,7 +837,7 @@ class Account extends \Magento\App\Action\Action
 
         $data = $this->_getSession()->getCustomerFormData(true);
         $customerId = $this->_getSession()->getCustomerId();
-        $customerData = $this->_customerService->getCustomer($customerId)->__toArray();
+        $customerData = $this->_customerAccountService->getCustomer($customerId)->__toArray();
 
         if (!empty($data)) {
             array_merge($customerData, $data);

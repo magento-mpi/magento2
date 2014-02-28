@@ -11,6 +11,7 @@
 
 namespace Magento\Customer\Model;
 
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\Dto\Customer as CustomerDto;
 
 /**
@@ -63,12 +64,7 @@ class Session extends \Magento\Session\SessionManager
      */
     protected $_session;
 
-    /**
-     * @var \Magento\Customer\Service\V1\CustomerServiceInterface
-     */
-    protected $_customerService;
-
-    /** @var  \Magento\Customer\Service\V1\CustomerAccountServiceInterface */
+    /** @var  CustomerAccountServiceInterface */
     protected $_customerAccountService;
     /**
      * @var CustomerFactory
@@ -121,9 +117,9 @@ class Session extends \Magento\Session\SessionManager
      * @param \Magento\Core\Model\Session $session
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\App\ResponseInterface $response,
-     * @param \Magento\Customer\Service\V1\CustomerServiceInterface $customerService
-     * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
+     * @param Converter $converter
+     * @param \Magento\App\ResponseInterface $response ,
+     * @param CustomerAccountServiceInterface $customerAccountService
      * @param null $sessionName
      * @param array $data
      */
@@ -145,8 +141,7 @@ class Session extends \Magento\Session\SessionManager
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Customer\Model\Converter $converter,
         \Magento\App\ResponseInterface $response,
-        \Magento\Customer\Service\V1\CustomerServiceInterface $customerService,
-        \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService,
+        CustomerAccountServiceInterface $customerAccountService,
         $sessionName = null,
         array $data = array()
     ) {
@@ -157,7 +152,6 @@ class Session extends \Magento\Session\SessionManager
         $this->_customerFactory = $customerFactory;
         $this->_urlFactory = $urlFactory;
         $this->_session = $session;
-        $this->_customerService = $customerService;
         $this->_customerAccountService = $customerAccountService;
         $this->_eventManager = $eventManager;
         $this->_storeManager = $storeManager;
@@ -201,7 +195,7 @@ class Session extends \Magento\Session\SessionManager
     public function getCustomerDto()
     {
         if (!($this->_customer instanceof CustomerDto) && $this->getCustomerId()) {
-            $this->_customer = $this->_customerService->getCustomer($this->getCustomerId());
+            $this->_customer = $this->_customerAccountService->getCustomer($this->getCustomerId());
         }
 
         return $this->_customer;
@@ -367,7 +361,7 @@ class Session extends \Magento\Session\SessionManager
         }
 
         try {
-            $this->_customerService->getCustomer($customerId);
+            $this->_customerAccountService->getCustomer($customerId);
             $this->_isCustomerIdChecked = $customerId;
             return true;
         } catch (\Exception $e) {
@@ -425,7 +419,7 @@ class Session extends \Magento\Session\SessionManager
     public function loginById($customerId)
     {
         try {
-            $customer = $this->_customerService->getCustomer($customerId);
+            $customer = $this->_customerAccountService->getCustomer($customerId);
             $this->setCustomerDtoAsLoggedIn($customer);
             return true;
         } catch (\Exception $e) {

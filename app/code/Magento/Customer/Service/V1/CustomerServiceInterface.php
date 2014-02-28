@@ -17,15 +17,6 @@ use Magento\Exception\NoSuchEntityException;
 interface CustomerServiceInterface
 {
     /**
-     * Retrieve Customer
-     *
-     * @param int $customerId
-     * @throws NoSuchEntityException If customer with customerId is not found.
-     * @return Dto\Customer
-     */
-    public function getCustomer($customerId);
-
-    /**
      * Retrieve customer by his email.
      *
      * @param string $customerEmail

@@ -23,9 +23,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     /** @var CustomerAccountServiceInterface */
     private $_customerAccountService;
 
-    /** @var CustomerServiceInterface needed to setup tests */
-    private $_customerService;
-
     /** @var \Magento\ObjectManager */
     private $_objectManager;
 
@@ -43,8 +40,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_customerAccountService = $this->_objectManager
             ->create('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
-        $this->_customerService = $this->_objectManager->create('Magento\Customer\Service\V1\CustomerServiceInterface');
-
         $this->_addressBuilder = $this->_objectManager->create('Magento\Customer\Service\V1\Dto\AddressBuilder');
         $this->_customerBuilder = $this->_objectManager->create('Magento\Customer\Service\V1\Dto\CustomerBuilder');
 
@@ -261,10 +256,12 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testValidateResetPasswordLinkToken()
     {
-        $this->_customerBuilder->populateWithArray(array_merge($this->_customerService->getCustomer(1)->__toArray(), [
-            'rp_token' => 'token',
-            'rp_token_created_at' => date('Y-m-d')
-        ]));
+        $this->_customerBuilder->populateWithArray(
+            array_merge($this->_customerAccountService->getCustomer(1)->__toArray(), [
+                'rp_token' => 'token',
+                'rp_token_created_at' => date('Y-m-d')
+            ])
+        );
         $this->_customerAccountService->updateAccount($this->_customerBuilder->create());
 
         $this->_customerAccountService->validateResetPasswordLinkToken(1, 'token');
@@ -280,10 +277,12 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     {
         $resetToken = 'lsdj579slkj5987slkj595lkj';
 
-        $this->_customerBuilder->populateWithArray(array_merge($this->_customerService->getCustomer(1)->__toArray(), [
-            'rp_token' => $resetToken,
-            'rp_token_created_at' => '1970-01-01',
-        ]));
+        $this->_customerBuilder->populateWithArray(
+            array_merge($this->_customerAccountService->getCustomer(1)->__toArray(), [
+                'rp_token' => $resetToken,
+                'rp_token_created_at' => '1970-01-01',
+            ])
+        );
         $customerData = $this->_customerBuilder->create();
         $this->_customerAccountService->updateAccount($customerData);
 
@@ -299,10 +298,12 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $resetToken = 'lsdj579slkj5987slkj595lkj';
         $invalidToken = 0;
 
-        $this->_customerBuilder->populateWithArray(array_merge($this->_customerService->getCustomer(1)->__toArray(), [
-            'rp_token' => $resetToken,
-            'rp_token_created_at' => date('Y-m-d')
-        ]));
+        $this->_customerBuilder->populateWithArray(
+            array_merge($this->_customerAccountService->getCustomer(1)->__toArray(), [
+                'rp_token' => $resetToken,
+                'rp_token_created_at' => date('Y-m-d')
+            ])
+        );
         $this->_customerAccountService->updateAccount($this->_customerBuilder->create());
 
         try {
@@ -400,10 +401,12 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $resetToken = 'lsdj579slkj5987slkj595lkj';
         $password = 'password_secret';
 
-        $this->_customerBuilder->populateWithArray(array_merge($this->_customerService->getCustomer(1)->__toArray(), [
-            'rp_token' => $resetToken,
-            'rp_token_created_at' => date('Y-m-d')
-        ]));
+        $this->_customerBuilder->populateWithArray(
+            array_merge($this->_customerAccountService->getCustomer(1)->__toArray(), [
+                'rp_token' => $resetToken,
+                'rp_token_created_at' => date('Y-m-d')
+            ])
+        );
         $this->_customerAccountService->updateAccount($this->_customerBuilder->create());
 
         $this->_customerAccountService->changePassword(1, $password);
@@ -417,10 +420,12 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $resetToken = 'lsdj579slkj5987slkj595lkj';
         $password = 'password_secret';
 
-        $this->_customerBuilder->populateWithArray(array_merge($this->_customerService->getCustomer(1)->__toArray(), [
-            'rp_token' => $resetToken,
-            'rp_token_created_at' => date('Y-m-d')
-        ]));
+        $this->_customerBuilder->populateWithArray(
+            array_merge($this->_customerAccountService->getCustomer(1)->__toArray(), [
+                'rp_token' => $resetToken,
+                'rp_token_created_at' => date('Y-m-d')
+            ])
+        );
         $this->_customerAccountService->updateAccount($this->_customerBuilder->create());
         try {
             $this->_customerAccountService->changePassword(4200, $password);
@@ -484,7 +489,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $firstName = 'Firstsave';
         $lastname = 'Lastsave';
 
-        $customerBefore = $this->_customerService->getCustomer($existingCustId);
+        $customerBefore = $this->_customerAccountService->getCustomer($existingCustId);
 
         $customerData = array_merge($customerBefore->__toArray(), array(
             'id' => 1,
@@ -499,7 +504,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         $returnedCustomerId = $this->_customerAccountService->saveCustomer($modifiedCustomer, 'aPassword');
         $this->assertEquals($existingCustId, $returnedCustomerId);
-        $customerAfter = $this->_customerService->getCustomer($existingCustId);
+        $customerAfter = $this->_customerAccountService->getCustomer($existingCustId);
         $this->assertEquals($email, $customerAfter->getEmail());
         $this->assertEquals($firstName, $customerAfter->getFirstname());
         $this->assertEquals($lastname, $customerAfter->getLastname());
@@ -541,7 +546,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $firstName = 'Firstsave';
         $lastName = 'Lastsave';
 
-        $customerBefore = $this->_customerService->getCustomer($existingCustId);
+        $customerBefore = $this->_customerAccountService->getCustomer($existingCustId);
         $customerData = array_merge($customerBefore->__toArray(),
             [
                 'id' => 1,
@@ -556,7 +561,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         $returnedCustomerId = $this->_customerAccountService->saveCustomer($modifiedCustomer);
         $this->assertEquals($existingCustId, $returnedCustomerId);
-        $customerAfter = $this->_customerService->getCustomer($existingCustId);
+        $customerAfter = $this->_customerAccountService->getCustomer($existingCustId);
         $this->assertEquals($email, $customerAfter->getEmail());
         $this->assertEquals($firstName, $customerAfter->getFirstname());
         $this->assertEquals($lastName, $customerAfter->getLastname());
@@ -606,7 +611,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $firstName = 'Firstsave';
         $lastName = 'Lastsave';
 
-        $customerBefore = $this->_customerService->getCustomer($existingCustId);
+        $customerBefore = $this->_customerAccountService->getCustomer($existingCustId);
         $customerData = array_merge($customerBefore->__toArray(),
             [
                 'id' => 1,
@@ -622,7 +627,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         $returnedCustomerId = $this->_customerAccountService->saveCustomer($modifiedCustomer);
         $this->assertEquals($existingCustId, $returnedCustomerId);
-        $customerAfter = $this->_customerService->getCustomer($existingCustId);
+        $customerAfter = $this->_customerAccountService->getCustomer($existingCustId);
         $this->assertEquals($email, $customerAfter->getEmail());
         $this->assertEquals($firstName, $customerAfter->getFirstname());
         $this->assertEquals($lastName, $customerAfter->getLastname());
@@ -704,7 +709,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     public function testSaveNonexistingCustomer()
     {
         $existingCustId = 1;
-        $existingCustomer = $this->_customerService->getCustomer($existingCustId);
+        $existingCustomer = $this->_customerAccountService->getCustomer($existingCustId);
 
         $newCustId = 2;
         $email = 'savecustomer@example.com';
@@ -724,7 +729,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         $customerId = $this->_customerAccountService->saveCustomer($customerEntity, 'aPassword');
         $this->assertEquals($newCustId, $customerId);
-        $customerAfter = $this->_customerService->getCustomer($customerId);
+        $customerAfter = $this->_customerAccountService->getCustomer($customerId);
         $this->assertEquals($email, $customerAfter->getEmail());
         $this->assertEquals($firstName, $customerAfter->getFirstname());
         $this->assertEquals($lastName, $customerAfter->getLastname());
@@ -800,7 +805,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $newCustomerEntity = $this->_customerBuilder->create();
         $customerId = $this->_customerAccountService->saveCustomer($newCustomerEntity, $password);
         $this->assertNotNull($customerId);
-        $savedCustomer = $this->_customerService->getCustomer($customerId);
+        $savedCustomer = $this->_customerAccountService->getCustomer($customerId);
         $dataInService = $savedCustomer->getAttributes();
         $expectedDifferences = ['created_at', 'updated_at', 'email', 'is_active', 'entity_id', 'entity_type_id',
             'password_hash', 'attribute_set_id', 'disable_auto_group_change', 'confirmation',
@@ -839,7 +844,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $newCustomerEntity = $this->_customerBuilder->create();
         $customerId = $this->_customerAccountService->saveCustomer($newCustomerEntity, 'aPassword');
         $this->assertNotNull($customerId);
-        $savedCustomer = $this->_customerService->getCustomer($customerId);
+        $savedCustomer = $this->_customerAccountService->getCustomer($customerId);
         $this->assertEquals($email, $savedCustomer->getEmail());
         $this->assertEquals($storeId, $savedCustomer->getStoreId());
         $this->assertEquals($firstname, $savedCustomer->getFirstname());
@@ -859,7 +864,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $lastname = 'Lastsave';
 
         $existingCustId = 1;
-        $existingCustomer = $this->_customerService->getCustomer($existingCustId);
+        $existingCustomer = $this->_customerAccountService->getCustomer($existingCustId);
         $customerData = array_merge($existingCustomer->__toArray(),
             [
                 'email' => $email,
@@ -873,7 +878,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         $customerId = $this->_customerAccountService->saveCustomer($customerEntity, 'aPassword');
         $this->assertNotEmpty($customerId);
-        $customer = $this->_customerService->getCustomer($customerId);
+        $customer = $this->_customerAccountService->getCustomer($customerId);
         $this->assertEquals($email, $customer->getEmail());
         $this->assertEquals($firstName, $customer->getFirstname());
         $this->assertEquals($lastname, $customer->getLastname());
@@ -890,24 +895,28 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testSaveCustomerRpToken()
     {
-        $this->_customerBuilder->populateWithArray(array_merge($this->_customerService->getCustomer(1)->__toArray(), [
-            'rp_token' => 'token',
-            'rp_token_created_at' => '2013-11-05'
-        ]));
+        $this->_customerBuilder->populateWithArray(
+            array_merge($this->_customerAccountService->getCustomer(1)->__toArray(), [
+                'rp_token' => 'token',
+                'rp_token_created_at' => '2013-11-05'
+            ])
+        );
         $customer = $this->_customerBuilder->create();
         $this->_customerAccountService->saveCustomer($customer);
 
         // Empty current reset password token i.e. invalidate it
-        $this->_customerBuilder->populateWithArray(array_merge($this->_customerService->getCustomer(1)->__toArray(), [
-            'rp_token' => null,
-            'rp_token_created_at' => null
-        ]));
+        $this->_customerBuilder->populateWithArray(
+            array_merge($this->_customerAccountService->getCustomer(1)->__toArray(), [
+                'rp_token' => null,
+                'rp_token_created_at' => null
+            ])
+        );
         $this->_customerBuilder->setConfirmation(null);
         $customer = $this->_customerBuilder->create();
 
         $this->_customerAccountService->saveCustomer($customer, 'password');
 
-        $customer = $this->_customerService->getCustomer(1);
+        $customer = $this->_customerAccountService->getCustomer(1);
         $this->assertEquals('Firstname', $customer->getFirstname());
         $this->assertNull($customer->getAttribute('rp_token'));
     }
@@ -932,13 +941,45 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $newCustomerEntity = $this->_customerBuilder->create();
         $customerId = $this->_customerAccountService->saveCustomer($newCustomerEntity, 'aPassword');
 
-        $this->_customerBuilder->populate($this->_customerService->getCustomer($customerId));
+        $this->_customerBuilder->populate($this->_customerAccountService->getCustomer($customerId));
         $this->_customerBuilder->setFirstname('Tested');
         $this->_customerAccountService->saveCustomer($this->_customerBuilder->create());
 
-        $customer = $this->_customerService->getCustomer($customerId);
+        $customer = $this->_customerAccountService->getCustomer($customerId);
 
         $this->assertEquals('Tested', $customer->getFirstname());
         $this->assertEquals($lastname, $customer->getLastname());
+    }
+
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     * @magentoAppIsolation enabled
+     */
+    public function testGetCustomer()
+    {
+        // _files/customer.php sets the customer id to 1
+        $customer = $this->_customerAccountService->getCustomer(1);
+
+        // All these expected values come from _files/customer.php fixture
+        $this->assertEquals(1, $customer->getCustomerId());
+        $this->assertEquals('customer@example.com', $customer->getEmail());
+        $this->assertEquals('Firstname', $customer->getFirstname());
+        $this->assertEquals('Lastname', $customer->getLastname());
+    }
+
+    public function testGetCustomerNotExist()
+    {
+        try {
+            // No fixture, so customer with id 1 shouldn't exist, exception should be thrown
+            $this->_customerAccountService->getCustomer(1);
+            $this->fail('Did not throw expected exception.');
+        } catch (NoSuchEntityException $nsee) {
+            $expectedParams = [
+                'customerId' => '1',
+            ];
+            $this->assertEquals($expectedParams, $nsee->getParams());
+            $this->assertEquals('No such entity with customerId = 1', $nsee->getMessage());
+        }
     }
 }

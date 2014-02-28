@@ -38,16 +38,6 @@ class CustomerService implements CustomerServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function getCustomer($customerId)
-    {
-        $customerModel = $this->_converter->getCustomerModel($customerId);
-        return $this->_converter->createCustomerFromModel($customerModel);
-    }
-
-
-    /**
-     * {@inheritdoc}
-     */
     public function getCustomerByEmail($customerEmail, $websiteId = null)
     {
         $customerModel = $this->_converter->getCustomerModelByEmail($customerEmail, $websiteId);
@@ -61,23 +51,5 @@ class CustomerService implements CustomerServiceInterface
     {
         $customerModel = $this->_converter->getCustomerModel($customerId);
         $customerModel->delete();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isReadonly($customerId)
-    {
-        $customerModel = $this->_converter->getCustomerModel($customerId);
-        return $customerModel->isReadonly();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isDeleteable($customerId)
-    {
-        $customerModel = $this->_converter->getCustomerModel($customerId);
-        return $customerModel->isDeleteable();
     }
 }

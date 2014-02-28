@@ -47,7 +47,7 @@ interface CustomerAddressServiceInterface
      * @return Dto\Address
      * @throws \Magento\Exception\NoSuchEntityException If no address can be found for the provided id.
      */
-    public function getAddressById($addressId);
+    public function getAddress($addressId);
 
     /**
      * Removes an address by id.

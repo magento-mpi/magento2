@@ -387,11 +387,11 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
     public function testEditAction()
     {
         $this->_login();
+
         $this->dispatch('customer/account/edit');
 
-        $this->assertEquals(200, $this->getResponse()->getHttpResponseCode());
-
         $body = $this->getResponse()->getBody();
+        $this->assertEquals(200, $this->getResponse()->getHttpResponseCode(), $body);
         $this->assertContains('<div class="field name firstname required">', $body);
         // Verify the password check box is not checked
         $this->assertContains('<input type="checkbox" name="change_password" id="change-password" value="1" ' .
@@ -404,11 +404,11 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
     public function testChangePasswordEditAction()
     {
         $this->_login();
+
         $this->dispatch('customer/account/edit/changepass/1');
 
-        $this->assertEquals(200, $this->getResponse()->getHttpResponseCode());
-
         $body = $this->getResponse()->getBody();
+        $this->assertEquals(200, $this->getResponse()->getHttpResponseCode(), $body);
         $this->assertContains('<div class="field name firstname required">', $body);
         // Verify the password check box is checked
         $this->assertContains('<input type="checkbox" name="change_password" id="change-password" value="1" ' .
@@ -421,10 +421,10 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
      */
     public function testEditPostAction()
     {
-        /** @var $customerService \Magento\Customer\Service\V1\CustomerServiceInterface */
-        $customerService = Bootstrap::getObjectManager()
-            ->get('Magento\Customer\Service\V1\CustomerServiceInterface');
-        $customer = $customerService->getCustomer(1);
+        /** @var $customerAccountService \Magento\Customer\Service\V1\CustomerAccountServiceInterface */
+        $customerAccountService = Bootstrap::getObjectManager()
+            ->get('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
+        $customer = $customerAccountService->getCustomer(1);
         $this->assertEquals('Firstname', $customer->getFirstname());
         $this->assertEquals('Lastname', $customer->getLastname());
         $this->assertEquals('customer@example.com', $customer->getEmail());
@@ -447,7 +447,7 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
             \Magento\Message\MessageInterface::TYPE_SUCCESS
         );
 
-        $customer = $customerService->getCustomer(1);
+        $customer = $customerAccountService->getCustomer(1);
         $this->assertEquals('John', $customer->getFirstname());
         $this->assertEquals('Doe', $customer->getLastname());
         $this->assertEquals('johndoe@email.com', $customer->getEmail());
@@ -458,10 +458,10 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
      */
     public function testChangePasswordEditPostAction()
     {
-        /** @var $customerService \Magento\Customer\Service\V1\CustomerServiceInterface */
-        $customerService = Bootstrap::getObjectManager()
-            ->get('Magento\Customer\Service\V1\CustomerServiceInterface');
-        $customer = $customerService->getCustomer(1);
+        /** @var $customerAccountService \Magento\Customer\Service\V1\CustomerAccountServiceInterface */
+        $customerAccountService = Bootstrap::getObjectManager()
+            ->get('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
+        $customer = $customerAccountService->getCustomer(1);
         $this->assertEquals('Firstname', $customer->getFirstname());
         $this->assertEquals('Lastname', $customer->getLastname());
         $this->assertEquals('customer@example.com', $customer->getEmail());
@@ -493,7 +493,7 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
             \Magento\Message\MessageInterface::TYPE_SUCCESS
         );
 
-        $customer = $customerService->getCustomer(1);
+        $customer = $customerAccountService->getCustomer(1);
         $this->assertEquals('John', $customer->getFirstname());
         $this->assertEquals('Doe', $customer->getLastname());
         $this->assertEquals('johndoe@email.com', $customer->getEmail());

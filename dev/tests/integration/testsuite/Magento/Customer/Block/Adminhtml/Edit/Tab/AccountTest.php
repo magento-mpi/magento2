@@ -9,6 +9,7 @@
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 
 use Magento\Customer\Controller\RegistryConstants;
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 
 /**
  * Test for Account
@@ -32,8 +33,8 @@ class AccountTest extends \PHPUnit_Framework_TestCase
     /** @var  \Magento\Backend\Block\Template\Context */
     protected $context;
 
-    /** @var \Magento\Customer\Service\V1\CustomerServiceInterface */
-    protected $customerService;
+    /** @var CustomerAccountServiceInterface */
+    protected $customerAccountService;
 
     public function setUp()
     {
@@ -55,7 +56,8 @@ class AccountTest extends \PHPUnit_Framework_TestCase
                 ['context' => $this->context]
             );
 
-        $this->customerService = $this->objectManager->get('Magento\Customer\Service\V1\CustomerServiceInterface');
+        $this->customerAccountService = $this->objectManager
+            ->get('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
     }
 
     public function tearDown()
@@ -69,7 +71,7 @@ class AccountTest extends \PHPUnit_Framework_TestCase
     public function testToHtml()
     {
         $this->backendSession->setCustomerData(
-            ['customer_id' => 1, 'account' => $this->customerService->getCustomer(1)->__toArray()]
+            ['customer_id' => 1, 'account' => $this->customerAccountService->getCustomer(1)->__toArray()]
         );
 
         $result = $this->accountBlock->initForm()->toHtml();
@@ -96,7 +98,7 @@ class AccountTest extends \PHPUnit_Framework_TestCase
     public function testNeedsConfirmation()
     {
         $this->backendSession->setCustomerData(
-            ['customer_id' => 1, 'account' => $this->customerService->getCustomer(1)->__toArray()]
+            ['customer_id' => 1, 'account' => $this->customerAccountService->getCustomer(1)->__toArray()]
         );
 
         $result = $this->accountBlock->initForm()->toHtml();
@@ -114,7 +116,7 @@ class AccountTest extends \PHPUnit_Framework_TestCase
         $this->backendSession->setCustomerData(
             [
                 'customer_id' => 1,
-                'account' => array_merge($this->customerService->getCustomer(1)->__toArray(), ['prefix' => 'Mr']),
+                'account' => array_merge($this->customerAccountService->getCustomer(1)->__toArray(), ['prefix' => 'Mr']),
             ]
         );
         $result = $this->accountBlock->initForm()->toHtml();
@@ -131,7 +133,7 @@ class AccountTest extends \PHPUnit_Framework_TestCase
         $this->backendSession->setCustomerData(
             [
                 'customer_id' => 1,
-                'account' => $this->customerService->getCustomer(1)->__toArray(),
+                'account' => $this->customerAccountService->getCustomer(1)->__toArray(),
             ]
         );
 

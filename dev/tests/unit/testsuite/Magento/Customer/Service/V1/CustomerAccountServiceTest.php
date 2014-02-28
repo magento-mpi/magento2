@@ -78,11 +78,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     private $_customerBuilder;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\CustomerService
-     */
-    private $_customerServiceMock;
-
-    /**
      * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\CustomerAddressService
      */
     private $_customerAddressServiceMock;
@@ -188,10 +183,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerBuilder = new Dto\CustomerBuilder();
 
         $this->_converter = new Converter($this->_customerBuilder, $this->_customerFactoryMock);
-
-        $this->_customerServiceMock = $this->getMockBuilder('\Magento\Customer\Service\V1\CustomerService')
-            ->disableOriginalConstructor()
-            ->getMock();
 
         $this->_customerAddressServiceMock =
             $this->getMockBuilder('\Magento\Customer\Service\V1\CustomerAddressService')
@@ -1301,6 +1292,57 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+
+    public function testGetCustomer()
+    {
+        $attributeModelMock =
+            $this->getMockBuilder('\Magento\Customer\Model\Attribute')
+                ->disableOriginalConstructor()
+                ->getMock();
+
+        $this->_customerModelMock->expects($this->any())
+            ->method('load')
+            ->will($this->returnValue($this->_customerModelMock));
+
+        $this->_mockReturnValue(
+            $this->_customerModelMock,
+            array(
+                'getId' => self::ID,
+                'getFirstname' => self::FIRSTNAME,
+                'getLastname' => self::LASTNAME,
+                'getName' => self::NAME,
+                'getEmail' => self::EMAIL,
+                'getAttributes' => array($attributeModelMock),
+            )
+        );
+
+        $attributeModelMock
+            ->expects($this->any())
+            ->method('getAttributeCode')
+            ->will($this->returnValue('attribute_code'));
+
+        $this->_customerModelMock
+            ->expects($this->any())
+            ->method('getData')
+            ->with($this->equalTo('attribute_code'))
+            ->will($this->returnValue('ATTRIBUTE_VALUE'));
+
+        $this->_customerFactoryMock->expects($this->any())
+            ->method('create')
+            ->will($this->returnValue($this->_customerModelMock));
+
+        $customerService = $this->_createService();
+
+        $actualCustomer = $customerService->getCustomer(self::ID);
+        $this->assertEquals(self::ID, $actualCustomer->getCustomerId(), 'customer id does not match');
+        $this->assertEquals(self::FIRSTNAME, $actualCustomer->getFirstName());
+        $this->assertEquals(self::LASTNAME, $actualCustomer->getLastName());
+        $this->assertEquals(self::EMAIL, $actualCustomer->getEmail());
+        $this->assertEquals(4, count($actualCustomer->getAttributes()));
+        $attribute = $actualCustomer->getAttribute('attribute_code');
+        $this->assertNull($attribute, 'Arbitrary attributes must not be available do DTO users.');
+    }
+
     private function _setupStoreMock()
     {
         $this->_storeManagerMock =
@@ -1344,7 +1386,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             $this->_converter,
             $this->_validator,
             new Dto\CustomerBuilder,
-            $this->_customerServiceMock,
             $this->_customerAddressServiceMock,
             $this->_customerMetadataService,
             $this->_urlMock,

@@ -123,7 +123,7 @@ class CustomerAddressService implements CustomerAddressServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function getAddressById($addressId)
+    public function getAddress($addressId)
     {
         //TODO: use cache MAGETWO-16862
         $address = $this->_addressFactory->create();

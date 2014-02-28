@@ -193,7 +193,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo('customer_id'), $this->equalTo(0))
             ->will($this->returnValue($customerId));
 
-        $this->_customerServiceMock->expects($this->once())
+        $this->_acctServiceMock->expects($this->once())
             ->method('getCustomer')
             ->with($customerId)
             ->will($this->throwException(new NoSuchEntityException('customerId', $customerId)));
@@ -221,7 +221,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
         $error = new \Magento\Message\Error('Something Bad happened');
         $exception->addMessage($error);
 
-        $this->_customerServiceMock->expects($this->once())
+        $this->_acctServiceMock->expects($this->once())
             ->method('getCustomer')
             ->with($customerId)
             ->will($this->throwException($exception));
@@ -249,7 +249,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
         $error = new \Magento\Message\Warning('Something Not So Bad happened');
         $exception->addMessage($error);
 
-        $this->_customerServiceMock->expects($this->once())
+        $this->_acctServiceMock->expects($this->once())
             ->method('getCustomer')
             ->with($customerId)
             ->will($this->throwException($exception));
@@ -274,7 +274,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
         // Setup a core exception to return
         $exception = new \Exception('Something Really Bad happened');
 
-        $this->_customerServiceMock->expects($this->once())
+        $this->_acctServiceMock->expects($this->once())
             ->method('getCustomer')
             ->with($customerId)
             ->will($this->throwException($exception));
@@ -302,7 +302,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
 
         $customer = new Customer(['id' => $customerId, 'email' => $email, 'website_id' => $websiteId]);
 
-        $this->_customerServiceMock->expects($this->once())
+        $this->_acctServiceMock->expects($this->once())
             ->method('getCustomer')
             ->with($customerId)
             ->will($this->returnValue($customer));
