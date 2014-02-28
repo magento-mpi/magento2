@@ -69,6 +69,7 @@ class AddressBuilder extends AbstractDtoBuilder
                 foreach ([Region::KEY_REGION, Region::KEY_REGION_CODE, Region::KEY_REGION_ID] as $attrCode) {
                     if (isset($data[$attrCode])) {
                         $regionData[$attrCode] = $data[$attrCode];
+                        unset($data[$attrCode]);
                     }
                 }
             } else {

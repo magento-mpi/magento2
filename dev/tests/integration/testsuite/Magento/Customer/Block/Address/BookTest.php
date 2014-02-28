@@ -119,7 +119,8 @@ class BookTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetAddressHtml()
     {
-        $expected = "John Smith<br/>\n\nGreen str, 67<br />\n\n\n\nCityM,  Alabama, 75477<br/>\n<br/>\nT: 3468676\n\n";
+        $expected = "John Smith<br/>\n\nGreen str, 67<br />\n\n\n\nCityM,  Alabama, 75477<br/>
+United States<br/>\nT: 3468676\n\n";
         $address = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Customer\Service\V1\CustomerAddressServiceInterface')
             ->getAddressById(1);
@@ -167,9 +168,9 @@ class BookTest extends \PHPUnit_Framework_TestCase
     public function getDefaultBillingDataProvider()
     {
         return [
-            '0' => [0, Null],
+            '0' => [0, null],
             '1' => [1, 1],
-            '5' => [5, Null],
+            '5' => [5, null],
         ];
     }
 
@@ -190,9 +191,9 @@ class BookTest extends \PHPUnit_Framework_TestCase
     public function getDefaultShippingDataProvider()
     {
         return [
-            '0' => [0, Null],
+            '0' => [0, null],
             '1' => [1, 1],
-            '5' => [5, Null],
+            '5' => [5, null],
         ];
     }
 
