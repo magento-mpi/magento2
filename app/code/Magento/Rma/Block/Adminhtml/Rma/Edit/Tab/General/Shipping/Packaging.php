@@ -46,18 +46,18 @@ class Packaging extends \Magento\Backend\Block\Template
     protected $_orderFactory;
 
     /**
-     * Shipping carrier size
+     * Source size model
      *
      * @var \Magento\Shipping\Model\Carrier\Source\GenericInterface
      */
-    protected $_size;
+    protected $_sourceSizeModel;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Registry $registry
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
-     * @param \Magento\Shipping\Model\Carrier\Source\GenericInterface $size
+     * @param \Magento\Shipping\Model\Carrier\Source\GenericInterface $sourceSizeModel
      * @param array $data
      */
     public function __construct(
@@ -65,13 +65,13 @@ class Packaging extends \Magento\Backend\Block\Template
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Registry $registry,
         \Magento\Sales\Model\OrderFactory $orderFactory,
-        GenericInterface $size,
+        GenericInterface $sourceSizeModel,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
         $this->_rmaData = $rmaData;
         $this->_orderFactory = $orderFactory;
-        $this->_size = $size;
+        $this->_sourceSizeModel = $sourceSizeModel;
         parent::__construct($context, $data);
     }
 
@@ -255,13 +255,13 @@ class Packaging extends \Magento\Backend\Block\Template
     }
 
     /**
-     * Return shipping carrier usps source sizes
+     * Get source size model
      *
      * @return array
      */
-    public function getShippingCarrierUspsSourceSize()
+    public function getSourceSizeModel()
     {
-        return $this->_size->toOptionArray();
+        return $this->_sourceSizeModel->toOptionArray();
     }
 
     /**

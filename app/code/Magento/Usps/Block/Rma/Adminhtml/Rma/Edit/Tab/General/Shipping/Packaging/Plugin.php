@@ -66,12 +66,12 @@ class Plugin
     public function aroundCheckSizeAndGirthParameter(Packaging $subject, \Closure $proceed)
     {
         $carrier = $subject->getCarrier();
-        $regular = $subject->getShippingCarrierUspsSourceSize();
+        $size = $subject->getSourceSizeModel();
 
         $girthEnabled = false;
         $sizeEnabled = false;
-        if ($carrier && isset($regular[0]['value'])) {
-            if ($regular[0]['value'] == Carrier::SIZE_LARGE
+        if ($carrier && isset($size[0]['value'])) {
+            if ($size[0]['value'] == Carrier::SIZE_LARGE
                 && in_array(
                     key($subject->getContainers()),
                     array(

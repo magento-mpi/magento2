@@ -13,6 +13,8 @@ namespace Magento\Shipping\Block\Adminhtml\Order;
 class Packaging extends \Magento\Backend\Block\Template
 {
     /**
+     * Source size model
+     *
      * @var \Magento\Shipping\Model\Carrier\Source\GenericInterface
      */
     protected $_sourceSizeModel;
