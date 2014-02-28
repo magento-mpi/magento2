@@ -9,7 +9,7 @@ namespace Magento\Test\Integrity\Modular;
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class UsaConfigFilesTest extends \PHPUnit_Framework_TestCase
+class CarriersConfigFilesTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Backend\Model\Config\Structure\Reader
