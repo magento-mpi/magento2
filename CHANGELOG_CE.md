@@ -1,7 +1,11 @@
+2.0.0.0-dev67
+=============
 * GitHub requests:
   * [#235](https://github.com/magento/magento2/issues/235) -- Translation escaping
   * [#463](https://github.com/magento/magento2/pull/463) -- allow _resolveArguments to do sequential lookups
 * Fixed bugs:
+  * Unexistent store views flat tables cleanuper drops catalog_category_flat_cl table
+  * Product flat indexer must use State instead of helpers logic
   * Fixed an exception that appears when trying to apply a coupon code
   * Fixed Shopping Cart Price Rule which applied to products that aren't eligible
   * Fixed Related Orders link from Recurring Profile page on frontend
@@ -26,8 +30,6 @@
 * GitHub requests:
   * [#134] (https://github.com/magento/magento2/pull/134) Fixed a typo in "Vorarlberg" region of Austria (was Voralberg)
 * Fixed bugs:
-  * Unexistent store views flat tables cleanuper drops catalog_category_flat_cl table
-  * Product flat indexer must use State instead of helpers logic
   * Fixed an issue with the "Add to Cart" button on the MAP popup of compound products
   * Fixed an issue where the "Add Address" button for Customer in Admin was broken
   * Fixed an issue where predefined data are not loaded for a newsletter when it is added to a queue
