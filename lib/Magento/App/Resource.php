@@ -9,7 +9,7 @@
  */
 namespace Magento\App;
 
-use Magento\App\Resource\ConfigInterface;
+use Magento\App\Resource\ConfigInterface as ResourceConfigInterface;
 use Magento\App\Resource\ConnectionFactory;
 
 class Resource
@@ -38,7 +38,7 @@ class Resource
     /**
      * Resource config
      *
-     * @var ConfigInterface
+     * @var ResourceConfigInterface
      */
     protected $_config;
 
@@ -63,13 +63,13 @@ class Resource
 
     /**
      * @param CacheInterface $cache
-     * @param ConfigInterface $resourceConfig
+     * @param ResourceConfigInterface $resourceConfig
      * @param ConnectionFactory $adapterFactory
      * @param string $tablePrefix
      */
     public function __construct(
         CacheInterface $cache,
-        ConfigInterface $resourceConfig,
+        ResourceConfigInterface $resourceConfig,
         ConnectionFactory $adapterFactory,
         $tablePrefix = ''
     ) {
