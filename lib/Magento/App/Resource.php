@@ -106,7 +106,7 @@ class Resource
      * Retrieve connection to resource specified by $resourceName
      *
      * @param string $resourceName
-     * @return \Magento\DB\Adapter\AdapterInterface|bool
+     * @return \Magento\DB\Adapter\AdapterInterface|false
      */
     public function getConnection($resourceName)
     {
