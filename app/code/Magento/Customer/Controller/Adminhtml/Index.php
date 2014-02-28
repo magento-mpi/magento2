@@ -18,6 +18,7 @@ use Magento\Customer\Service\V1\CustomerServiceInterface;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 use Magento\Exception\NoSuchEntityException;
+use Magento\Customer\Service\V1\CustomerMetadataServiceInterface as CustomerMetadata;
 
 /**
  * Class Index
@@ -520,13 +521,14 @@ class Index extends \Magento\Backend\App\Action
         $customerData = [];
         if ($this->getRequest()->getPost('account')) {
             $serviceAttributes = [Customer::DEFAULT_BILLING, Customer::DEFAULT_SHIPPING, 'confirmation', 'sendemail'];
-
-            /** @var \Magento\Customer\Model\Customer $customerEntity */
-            $customerEntity = $this->_objectManager->get('Magento\Customer\Model\CustomerFactory')->create();
             /** @var \Magento\Customer\Helper\Data $customerHelper */
             $customerHelper = $this->_objectManager->get('Magento\Customer\Helper\Data');
             $customerData = $customerHelper->extractCustomerData(
-                $this->getRequest(), 'adminhtml_customer', $customerEntity, $serviceAttributes, 'account'
+                $this->getRequest(),
+                'adminhtml_customer',
+                CustomerMetadata::ENTITY_TYPE_CUSTOMER,
+                $serviceAttributes,
+                'account'
             );
         }
 
@@ -556,18 +558,18 @@ class Index extends \Magento\Backend\App\Action
                 unset($addresses['_template_']);
             }
 
-            /** @var \Magento\Customer\Model\Address\Form $eavForm */
-            $eavForm = $this->_objectManager->create('Magento\Customer\Model\Address\Form');
-            /** @var \Magento\Customer\Model\Address $addressEntity */
-            $addressEntity = $this->_objectManager->get('Magento\Customer\Model\AddressFactory')->create();
-
             $addressIdList = array_keys($addresses);
             /** @var \Magento\Customer\Helper\Data $customerHelper */
             $customerHelper = $this->_objectManager->get('Magento\Customer\Helper\Data');
             foreach ($addressIdList as $addressId) {
                 $scope = sprintf('address/%s', $addressId);
                 $addressData = $customerHelper->extractCustomerData(
-                    $this->getRequest(), 'adminhtml_customer_address', $addressEntity, array(), $scope, $eavForm);
+                    $this->getRequest(),
+                    'adminhtml_customer_address',
+                    CustomerMetadata::ENTITY_TYPE_ADDRESS,
+                    [],
+                    $scope
+                );
                 if (is_numeric($addressId)) {
                     $addressData['id'] = $addressId;
                 }

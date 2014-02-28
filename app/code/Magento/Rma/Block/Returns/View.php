@@ -13,6 +13,11 @@ namespace Magento\Rma\Block\Returns;
 use Magento\Rma\Model\Item;
 use Magento\Rma\Model\Rma;
 
+/**
+ * Class View
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class View extends \Magento\Rma\Block\Form
 {
     /**
@@ -32,9 +37,9 @@ class View extends \Magento\Rma\Block\Form
     /**
      * Customer data
      *
-     * @var \Magento\Customer\Helper\Data
+     * @var \Magento\Customer\Helper\View
      */
-    protected $_customerData = null;
+    protected $_customerView = null;
 
     /**
      * Core registry
@@ -79,6 +84,11 @@ class View extends \Magento\Rma\Block\Form
     protected $_customerSession;
 
     /**
+     * @var \Magento\Customer\Service\V1\CustomerServiceInterface
+     */
+    protected $_customerService;
+
+    /**
      * Eav configuration model
      *
      * @var \Magento\Eav\Model\Config
@@ -95,10 +105,13 @@ class View extends \Magento\Rma\Block\Form
      * @param \Magento\Rma\Model\ItemFactory $itemFactory
      * @param \Magento\Rma\Model\Item\FormFactory $itemFormFactory
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Customer\Helper\Data $customerData
+     * @param \Magento\Customer\Service\V1\CustomerServiceInterface $customerService
+     * @param \Magento\Customer\Helper\View $customerView
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Registry $registry
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
@@ -110,20 +123,22 @@ class View extends \Magento\Rma\Block\Form
         \Magento\Rma\Model\ItemFactory $itemFactory,
         \Magento\Rma\Model\Item\FormFactory $itemFormFactory,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Customer\Helper\Data $customerData,
+        \Magento\Customer\Service\V1\CustomerServiceInterface $customerService,
+        \Magento\Customer\Helper\View $customerView,
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Registry $registry,
         array $data = array()
     ) {
-        $this->_customerData = $customerData;
-        $this->_rmaData = $rmaData;
-        $this->_coreRegistry = $registry;
+        $this->_eavConfig = $eavConfig;
         $this->_itemsFactory = $itemsFactory;
         $this->_historiesFactory = $historiesFactory;
         $this->_itemFactory = $itemFactory;
         $this->_itemFormFactory = $itemFormFactory;
         $this->_customerSession = $customerSession;
-        $this->_eavConfig = $eavConfig;
+        $this->_customerService = $customerService;
+        $this->_customerView = $customerView;
+        $this->_rmaData = $rmaData;
+        $this->_coreRegistry = $registry;
         parent::__construct($context, $modelFactory, $formFactory, $eavConfig, $data);
     }
 
@@ -159,6 +174,8 @@ class View extends \Magento\Rma\Block\Form
      * Returns attributes that static
      *
      * @return string[]
+     *
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function getAttributeFilter()
     {
@@ -266,7 +283,8 @@ class View extends \Magento\Rma\Block\Form
      * @param null|int $itemId
      * @return array
      */
-    public function getRealValueAttributes($itemId = null) {
+    public function getRealValueAttributes($itemId = null)
+    {
         if (empty($this->_realValueAttributes)) {
             $this->_realValueAttributes = $this->_getAdditionalData();
         }
@@ -361,7 +379,7 @@ class View extends \Magento\Rma\Block\Form
     public function getCustomerName()
     {
         if ($this->_customerSession->isLoggedIn()) {
-            return $this->_customerData->getCustomerName();
+            return $this->_customerView->getCustomerName($this->getCustomerDto());
         } else {
             $billingAddress = $this->_coreRegistry->registry('current_order')->getBillingAddress();
 
@@ -381,6 +399,19 @@ class View extends \Magento\Rma\Block\Form
             }
             return $name;
         }
+    }
+
+    /**
+     * @return \Magento\Customer\Service\V1\Dto\Customer|null
+     * @throws \Magento\Exception\NoSuchEntityException
+     */
+    public function getCustomerDto()
+    {
+        if (empty($this->customerDto)) {
+            $customerId = $this->_customerSession->getCustomerId();
+            $this->customerDto = $this->_customerService->getCustomer($customerId);
+        }
+        return $this->customerDto;
     }
 
     /**

@@ -12,6 +12,9 @@ namespace Magento\Customer\Helper;
 
 /**
  * Customer Data Helper
+ *
+ * @SuppressWarnings(PHPMD.TooManyFields)
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Data extends \Magento\App\Helper\AbstractHelper
 {
@@ -122,12 +125,32 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_customerSession;
 
     /**
+     * @var \Magento\Customer\Service\V1\CustomerServiceInterface
+     */
+    protected $_customerService;
+
+    /**
+     * @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface
+     */
+    protected $_accountService;
+
+    /**
+     * @var \Magento\Customer\Service\V1\CustomerAddressServiceInterface
+     */
+    protected $_addressService;
+
+    /**
+     * @var \Magento\Customer\Service\V1\CustomerMetadataServiceInterface
+     */
+    protected $_metadataService;
+
+    /**
      * @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface
      */
     protected $_groupService;
 
     /**
-     * @var \Magento\Customer\Model\FormFactory
+     * @var \Magento\Customer\Model\Metadata\FormFactory
      */
     protected $_formFactory;
 
@@ -141,6 +164,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     protected $mathRandom;
 
+    /** @var \Magento\Customer\Service\V1\Dto\Customer */
+    protected $customerDto;
+
     /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Customer\Helper\Address $customerAddress
@@ -150,10 +176,16 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\App\ConfigInterface $coreConfig
      * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Customer\Service\V1\CustomerServiceInterface $customerService
+     * #param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $accountService
+     * @param \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $metadataService
+     * @param \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService
      * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService
-     * @param \Magento\Customer\Model\FormFactory $formFactory
+     * @param \Magento\Customer\Model\Metadata\FormFactory $formFactory
      * @param \Magento\Escaper $escaper
      * @param \Magento\Math\Random $mathRandom
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
@@ -164,8 +196,12 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\App\ConfigInterface $coreConfig,
         \Magento\Customer\Model\Session $customerSession,
+        \Magento\Customer\Service\V1\CustomerServiceInterface $customerService,
+        \Magento\Customer\Service\V1\CustomerAccountServiceInterface $accountService,
+        \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $metadataService,
+        \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService,
         \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService,
-        \Magento\Customer\Model\FormFactory $formFactory,
+        \Magento\Customer\Model\Metadata\FormFactory $formFactory,
         \Magento\Escaper $escaper,
         \Magento\Math\Random $mathRandom
     ) {
@@ -176,6 +212,10 @@ class Data extends \Magento\App\Helper\AbstractHelper
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_coreConfig = $coreConfig;
         $this->_customerSession = $customerSession;
+        $this->_customerService = $customerService;
+        $this->_accountService = $accountService;
+        $this->_metadataService = $metadataService;
+        $this->_addressService = $addressService;
         $this->_groupService = $groupService;
         $this->_formFactory = $formFactory;
         $this->_escaper = $escaper;
@@ -232,6 +272,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * Retrieve logged in customer
      *
      * @return \Magento\Customer\Model\Customer
+     * @deprecated use getCustomerDto() instead
      */
     public function getCustomer()
     {
@@ -242,33 +283,29 @@ class Data extends \Magento\App\Helper\AbstractHelper
     }
 
     /**
-     * Retrieve current (logged in) customer object
-     *
-     * @return \Magento\Customer\Model\Customer
+     * @return \Magento\Customer\Service\V1\Dto\Customer|null
+     * @throws  \Magento\Exception\NoSuchEntityException
      */
-    public function getCurrentCustomer()
+    public function getCustomerDto()
     {
-        return $this->getCustomer();
-    }
-
-    /**
-     * Retrieve current customer name
-     *
-     * @return string
-     */
-    public function getCustomerName()
-    {
-        return $this->getCustomer()->getName();
+        if (empty($this->customerDto)) {
+            $customerId = $this->_customerSession->getCustomerId();
+            $this->customerDto = $this->_customerService->getCustomer($customerId);
+        }
+        return $this->customerDto;
     }
 
     /**
      * Check customer has address
      *
      * @return bool
+     *
+     * @throws \Magento\Exception\NoSuchEntityException If the customer Id is invalid
      */
     public function customerHasAddresses()
     {
-        return count($this->getCustomer()->getAddresses()) > 0;
+        $customerId = $this->_customerSession->getCustomerId();
+        return count($this->_addressService->getAddresses($customerId)) > 0;
     }
 
     /**************************************************************************
@@ -413,7 +450,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isConfirmationRequired()
     {
-        return $this->getCustomer()->isConfirmationRequired();
+        $customerId = $this->_customerSession->getCustomerId();
+        return (\Magento\Customer\Service\V1\CustomerAccountServiceInterface::ACCOUNT_CONFIRMATION_REQUIRED
+            == $this->_accountService->getConfirmationStatus($customerId));
     }
 
     /**
@@ -609,6 +648,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param string $requesterVatNumber
      *
      * @return boolean
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function canCheckVatNumber($countryCode, $vatNumber, $requesterCountryCode, $requesterVatNumber)
     {
@@ -679,31 +720,33 @@ class Data extends \Magento\App\Helper\AbstractHelper
      *
      * @param \Magento\App\RequestInterface $request
      * @param string $formCode The code of EAV form to take the list of attributes from
-     * @param \Magento\Core\Model\AbstractModel $entity entity model for the form
+     * @param string $entity entity model for the form
      * @param array $additionalAttributes The list of attribute codes to skip filtration for
      * @param string $scope scope of the request
-     * @param \Magento\Eav\Model\Form|null $eavForm EAV form model to use for extraction
+     * @param \Magento\Customer\Model\Metadata\Form $metadataForm to use for extraction
      * @return array Filtered customer data
      */
     public function extractCustomerData(\Magento\App\RequestInterface $request, $formCode, $entity,
-        $additionalAttributes = array(), $scope = null, $eavForm = null
+        $additionalAttributes = array(), $scope = null, \Magento\Customer\Model\Metadata\Form $metadataForm = null
     ) {
-        if (is_null($eavForm)) {
-            $eavForm = $this->_createForm();
+        if (is_null($metadataForm)) {
+            $metadataForm = $this->_formFactory->create(
+                $entity,
+                $formCode,
+                [],
+                false,
+                \Magento\Customer\Model\Metadata\Form::DONT_IGNORE_INVISIBLE
+            );
         }
-        /** @var \Magento\Eav\Model\Form $eavForm */
-        $eavForm->setEntity($entity)
-            ->setFormCode($formCode)
-            ->ignoreInvisible(false);
-        $filteredData = $eavForm->extractData($request, $scope);
+        $filteredData = $metadataForm->extractData($request, $scope);
         $requestData = $request->getPost($scope);
         foreach ($additionalAttributes as $attributeCode) {
             $filteredData[$attributeCode] = isset($requestData[$attributeCode])
                 ? $requestData[$attributeCode] : false;
         }
 
-        $formAttributes = $eavForm->getAttributes();
-        /** @var \Magento\Customer\Model\Attribute $attribute */
+        $formAttributes = $metadataForm->getAttributes();
+        /** @var \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata $attribute */
         foreach ($formAttributes as $attribute) {
             $attributeCode = $attribute->getAttributeCode();
             $frontendInput = $attribute->getFrontendInput();
@@ -714,15 +757,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
 
         return $filteredData;
     }
-
-    /**
-     * @return \Magento\Customer\Model\Form
-     */
-    protected function _createForm()
-    {
-        return $this->_formFactory->create();
-    }
-
 
     /**
      * Check store availability for customer given the customerId

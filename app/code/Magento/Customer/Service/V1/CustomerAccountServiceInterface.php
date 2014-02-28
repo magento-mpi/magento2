@@ -160,6 +160,8 @@ interface CustomerAccountServiceInterface
      *
      * @param int $customerId
      * @return string returns one of the account confirmation statuses
+     *
+     * @throws \Magento\Exception\NoSuchEntityException If customer with customerId is not found.
      */
     public function getConfirmationStatus($customerId);
 

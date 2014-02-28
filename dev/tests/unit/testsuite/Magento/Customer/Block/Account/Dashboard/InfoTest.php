@@ -32,9 +32,9 @@ class InfoTest extends \PHPUnit_Framework_TestCase
     private $_customer;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\CustomerMetadataServiceInterface
+     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Helper\View
      */
-    private $_metadataService;
+    private $_helperView;
 
     /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Newsletter\Model\Subscriber */
     private $_subscriber;
@@ -73,10 +73,8 @@ class InfoTest extends \PHPUnit_Framework_TestCase
         $this->_customer->expects($this->any())->method('getEmail')->will($this->returnValue(self::EMAIL_ADDRESS));
         $this->_customerService
             ->expects($this->any())->method('getCustomer')->will($this->returnValue($this->_customer));
-
-        $this->_metadataService = $this->getMockForAbstractClass(
-            'Magento\Customer\Service\V1\CustomerMetadataServiceInterface', array(), '', false
-        );
+        $this->_helperView = $this->getMockBuilder('\Magento\Customer\Helper\View')->disableOriginalConstructor()
+            ->getMock();
         $this->_subscriberFactory =
             $this->getMock('Magento\Newsletter\Model\SubscriberFactory', array('create'), array(), '', false);
         $this->_subscriber = $this->getMock('Magento\Newsletter\Model\Subscriber', array(), array(), '', false);
@@ -88,8 +86,8 @@ class InfoTest extends \PHPUnit_Framework_TestCase
             $this->_context,
             $this->_customerSession,
             $this->_customerService,
-            $this->_metadataService,
-            $this->_subscriberFactory
+            $this->_subscriberFactory,
+            $this->_helperView
         );
     }
 
@@ -108,94 +106,18 @@ class InfoTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($this->_block->getCustomer());
     }
 
-    /**
-     * Tests variations of Account\Dashboard\Info::getName() by controlling the visibility of the prefix,
-     * middlename, and suffix Customer attributes. Also tests variations based on whether the Customer has
-     * values for these attributes. All Customers have a first and last name.
-     *
-     * @param array $isVisible Determines the visibility of the prefix, middlename, and suffix attriubtes
-     * @param string $prefix Customer prefix attribute value
-     * @param string $firstname Customer firstname attribute value
-     * @param string $middlename Customer middlename attribute value
-     * @param string $lastname Customer lastname attribute value
-     * @param string $suffix Customer suffix attribute value
-     * @param string $expectedValue Concatenation of all visible Customer attribute values
-     *
-     * @dataProvider getNameProvider
-     */
-    public function testGetName(
-        array $isVisible, $prefix, $firstname, $middlename, $lastname, $suffix, $expectedValue
-    ) {
-        $attributeMetadata =
-            $this->getMock('Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata', array(), array(), '', false);
+    public function testGetName()
+    {
+        $expectedValue = 'John Q Doe Jr';
 
         /**
          * Called three times, once for each attribute (i.e. prefix, middlename, and suffix)
          */
-        $this->_metadataService
+        $this->_helperView
             ->expects($this->any())
-            ->method('getCustomerAttributeMetadata')->will($this->returnValue($attributeMetadata));
-
-        /**
-         * Sets the value of AttributeMetadata::isVisible() for the prefix at(0), middlename at(1) and
-         * suffix at(2) Customer attributes.
-         */
-        foreach ($isVisible as $index => $boolean) {
-            $attributeMetadata
-                ->expects($this->at($index))->method('isVisible')->will($this->returnValue($boolean));
-        }
-
-        /**
-         * The AttributeMetadata::{getPrefix() | getMiddlename() | getSuffix()} methods are called twice,
-         * while getFirstname() and getLastname() are only called once. Hence the use of any() vs. once().
-         */
-        $this->_customer->expects($this->any())->method('getPrefix')->will($this->returnValue($prefix));
-        $this->_customer->expects($this->once())->method('getFirstname')->will($this->returnValue($firstname));
-        $this->_customer->expects($this->any())->method('getMiddlename')->will($this->returnValue($middlename));
-        $this->_customer->expects($this->once())->method('getLastname')->will($this->returnValue($lastname));
-        $this->_customer->expects($this->any())->method('getSuffix')->will($this->returnValue($suffix));
+            ->method('getCustomerName')->will($this->returnValue($expectedValue));
 
         $this->assertEquals($expectedValue, $this->_block->getName());
-    }
-
-    /**
-     * @return array
-     */
-    public function getNameProvider()
-    {
-        return array(
-            array([false, true,  true],  'Mr', 'John', 'Q',  'Doe', 'Jr', 'John Q Doe Jr'),
-            array([true,  false, true],  'Mr', 'John', 'Q',  'Doe', 'Jr', 'Mr John Doe Jr'),
-            array([true,  true,  false], 'Mr', 'John', 'Q',  'Doe', 'Jr', 'Mr John Q Doe'),
-            array([false, false, false], 'Mr', 'John', 'Q',  'Doe', 'Jr', 'John Doe'),
-            array([true,  true,  true],  null, 'John', 'Q',  'Doe', 'Jr', 'John Q Doe Jr'),
-            array([true,  true,  true],  'Mr', 'John', null, 'Doe', 'Jr', 'Mr John Doe Jr'),
-            array([true,  true,  true],  'Mr', 'John', 'Q',  'Doe', null, 'Mr John Q Doe'),
-            array([true,  true,  true],  null, 'John', null, 'Doe', null, 'John Doe')
-        );
-    }
-
-    public function testGetNameWithNoSuchEntityException()
-    {
-        /**
-         * Called three times, once for each attribute (i.e. prefix, middlename, and suffix)
-         */
-        $this->_metadataService
-            ->expects($this->any())
-            ->method('getCustomerAttributeMetadata')
-            ->will($this->throwException(new NoSuchEntityException('field', 'value')));
-
-        /**
-         * The AttributeMetadata::{getPrefix() | getMiddlename() | getSuffix()} methods are called twice,
-         * while getFirstname() and getLastname() are only called once. Hence the use of any() vs. once().
-         */
-        $this->_customer->expects($this->any())->method('getPrefix')->will($this->returnValue('prefix'));
-        $this->_customer->expects($this->once())->method('getFirstname')->will($this->returnValue('firstname'));
-        $this->_customer->expects($this->any())->method('getMiddlename')->will($this->returnValue('middlename'));
-        $this->_customer->expects($this->once())->method('getLastname')->will($this->returnValue('lastname'));
-        $this->_customer->expects($this->any())->method('getSuffix')->will($this->returnValue('suffix'));
-
-        $this->assertEquals('firstname lastname', $this->_block->getName());
     }
 
     public function testGetChangePasswordUrl()
