@@ -88,7 +88,7 @@ class TransportBuilderTest extends \Magento\Mail\Template\TransportBuilderTest
 
         $this->objectManagerMock->expects($this->at(1))
             ->method('create')
-            ->with($this->equalTo('\Magento\Mail\Message'))
+            ->with($this->equalTo('Magento\Mail\Message'))
             ->will($this->returnValue($transport));
 
         $this->builder->setTemplateIdentifier('identifier')
@@ -98,6 +98,6 @@ class TransportBuilderTest extends \Magento\Mail\Template\TransportBuilderTest
 
         $result = $this->builder->getTransport();
 
-        $this->assertInstanceOf('\Magento\Mail\TransportInterface', $result);
+        $this->assertInstanceOf('Magento\Mail\TransportInterface', $result);
     }
 }
