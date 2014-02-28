@@ -130,14 +130,17 @@ class Config
     }
 
     /**
-     * Get configuration for baseUrl
+     * Get base RequireJs configuration necessary for working with Magento application
      *
      * @return string
      */
-    public function getBaseUrlConfig()
+    public function getBaseConfig()
     {
         $config = array(
             'baseUrl' => $this->getBaseUrl() . $this->getContextPath(),
+            'paths' => array(
+                'magento' => 'mage/requirejs/plugin/id-normalizer',
+            ),
         );
         $config = json_encode($config, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
         return "require.config($config);" . PHP_EOL;

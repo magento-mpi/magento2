@@ -17,7 +17,7 @@ interface FilesManagerInterface
      * Get public file path
      *
      * @param string $filePath
-     * @param array $params
+     * @param array $params Required items: 'area', 'themeModel', 'locale'. Optional items: 'theme', 'themeId', 'module'
      * @return string
      */
     public function getPublicViewFile($filePath, array $params);
@@ -26,7 +26,7 @@ interface FilesManagerInterface
      * Get original file
      *
      * @param string $filePath
-     * @param array $params
+     * @param array $params Required items: 'area', 'themeModel', 'locale'. Optional items: 'theme', 'themeId', 'module'
      * @return string
      */
     public function getViewFile($filePath, array $params);
