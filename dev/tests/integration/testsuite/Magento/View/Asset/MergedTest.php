@@ -20,20 +20,12 @@ class MergedTest extends \PHPUnit_Framework_TestCase
      */
     protected static $_themePublicDir;
 
-    /**
-     * Path to the public directory for merged view files
-     *
-     * @var \Magento\Filesystem\Directory\WriteInterface
-     */
-    protected static $_viewPublicMergedDir;
-
     public static function setUpBeforeClass()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         /** @var \Magento\App\Filesystem $filesystem */
         $filesystem = $objectManager->get('Magento\App\Filesystem');
         self::$_themePublicDir = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::STATIC_VIEW_DIR);
-        self::$_viewPublicMergedDir = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::PUB_VIEW_CACHE_DIR);
     }
 
     protected function setUp()
@@ -52,7 +44,7 @@ class MergedTest extends \PHPUnit_Framework_TestCase
     protected function tearDown()
     {
         self::$_themePublicDir->delete('frontend');
-        self::$_viewPublicMergedDir->delete(\Magento\View\Asset\Merged::PUBLIC_MERGE_DIR);
+        self::$_themePublicDir->delete(\Magento\View\Asset\Merged::PUBLIC_MERGE_DIR);
     }
 
     /**
@@ -91,7 +83,7 @@ class MergedTest extends \PHPUnit_Framework_TestCase
      */
     public function testMerging($contentType, $files, $expectedFilename, $related = array())
     {
-        $resultingFile = self::$_viewPublicMergedDir->getAbsolutePath(
+        $resultingFile = self::$_themePublicDir->getAbsolutePath(
             \Magento\View\Asset\Merged::PUBLIC_MERGE_DIR . '/' . $expectedFilename
         );
         $this->assertFileNotExists($resultingFile);

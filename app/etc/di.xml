@@ -226,10 +226,6 @@
                     <item name="key" xsi:type="const">Magento\UrlInterface::URL_TYPE_STATIC</item>
                     <item name="value" xsi:type="const">Magento\App\Filesystem::STATIC_VIEW_DIR</item>
                 </item>
-                <item name="urlCache" xsi:type="array">
-                    <item name="key" xsi:type="const">Magento\UrlInterface::URL_TYPE_CACHE</item>
-                    <item name="value" xsi:type="const">Magento\App\Filesystem::PUB_VIEW_CACHE_DIR</item>
-                </item>
             </argument>
         </arguments>
     </type>

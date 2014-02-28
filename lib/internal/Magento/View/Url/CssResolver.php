@@ -94,7 +94,7 @@ class CssResolver
      * Calculate relative path from a public file to another public file
      *
      * Example: public file to public file:
-     *     pub/cache/_merged/hash.css -> pub/static/frontend/default/default/images/image.png
+     *     pub/static/_merged/hash.css -> pub/static/frontend/default/default/images/image.png
      *   Result: ../../frontend/default/default/images/image.png
      *
      * @param string $file Normalized absolute path to the file, which references $referencedFile

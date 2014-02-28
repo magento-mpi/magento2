@@ -120,7 +120,6 @@
         <copy todir="${dir.build_directory}/instance-${instanceIndex}" failonerror="true">
             <fileset dir="${basedir}"/>
         </copy>
-        <mkdir dir="{dir.build_directory}/instance-${instanceIndex}/pub/cache"/>
 
         <copy file="${basedir}/${env.build_customization_dir}/phpunit.xml" failonerror="true" overwrite="true"
               tofile="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional-old/phpunit.xml"/>
@@ -260,7 +259,6 @@
         <copy todir="${dir.build_directory}/instance-${instanceIndex}" failonerror="true">
             <fileset dir="${basedir}"/>
         </copy>
-        <mkdir dir="${dir.build_directory}/instance-${instanceIndex}/pub/cache"/>
 
         <copy file="${basedir}/${env.build_customization_dir}/phpunit.xml" failonerror="true" overwrite="true"
               tofile="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional-old/phpunit.xml"/>

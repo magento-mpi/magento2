@@ -27,7 +27,7 @@ class LiteTest extends \PHPUnit_Framework_TestCase
     /**
      * @var Write | \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $pubViewCacheDir;
+    protected $pubStaticViewDir;
 
     /**
      * @var \Magento\Code\Minifier\AdapterInterface | \PHPUnit_Framework_MockObject_MockObject
@@ -43,7 +43,7 @@ class LiteTest extends \PHPUnit_Framework_TestCase
             'Magento\Filesystem\Directory\Read',
             array(), array(), '', false
         );
-        $this->pubViewCacheDir = $this->getMock(
+        $this->pubStaticViewDir = $this->getMock(
             'Magento\Filesystem\Directory\Write',
             array(), array(), '', false
         );
@@ -58,8 +58,8 @@ class LiteTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->rootDirectory));
         $this->filesystem->expects($this->once())
             ->method('getDirectoryWrite')
-            ->with(\Magento\App\Filesystem::PUB_VIEW_CACHE_DIR)
-            ->will($this->returnValue($this->pubViewCacheDir));
+            ->with(\Magento\App\Filesystem::STATIC_VIEW_DIR)
+            ->will($this->returnValue($this->pubStaticViewDir));
         $this->adapter = $this->getMockForAbstractClass('Magento\Code\Minifier\AdapterInterface', array(), '', false);
     }
 
@@ -77,7 +77,7 @@ class LiteTest extends \PHPUnit_Framework_TestCase
             ->method('readFile')
             ->with($originalFile)
             ->will($this->returnValue($content));
-        $this->pubViewCacheDir->expects($this->once())
+        $this->pubStaticViewDir->expects($this->once())
             ->method('writeFile')
             ->with($minifiedFile, $minifiedContent);
 
@@ -98,14 +98,14 @@ class LiteTest extends \PHPUnit_Framework_TestCase
         $originalFile = __DIR__ . '/original/some.js';
         $minifiedFile = __DIR__ . '/some.min.js';
 
-        $this->pubViewCacheDir->expects($this->once())
+        $this->pubStaticViewDir->expects($this->once())
             ->method('isExist')
             ->with($minifiedFile)
             ->will($this->returnValue(true));
 
         $this->rootDirectory->expects($this->never())
             ->method('readFile');
-        $this->pubViewCacheDir->expects($this->never())
+        $this->pubStaticViewDir->expects($this->never())
             ->method('writeFile');
 
         $this->adapter->expects($this->never())->method('minify');

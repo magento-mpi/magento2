@@ -30,7 +30,7 @@ class Minifier
     /**
      * @var Read
      */
-    private $pubViewCacheDir;
+    private $staticViewDir;
 
     /**
      * @param \Magento\Code\Minifier\StrategyInterface $strategy
@@ -44,7 +44,7 @@ class Minifier
     ) {
         $this->_strategy = $strategy;
         $this->rootDirectory = $filesystem->getDirectoryRead(\Magento\App\Filesystem::ROOT_DIR);
-        $this->pubViewCacheDir = $filesystem->getDirectoryRead(\Magento\App\Filesystem::PUB_VIEW_CACHE_DIR);
+        $this->staticViewDir = $filesystem->getDirectoryRead(\Magento\App\Filesystem::STATIC_VIEW_DIR);
         $this->directoryName = $directoryName;
     }
 
@@ -66,8 +66,8 @@ class Minifier
             $this->_strategy->minifyFile($originalFileRelative, $minifiedFile);
         }
 
-        $minifiedFile = $this->pubViewCacheDir->getRelativePath($minifiedFile);
-        return $this->pubViewCacheDir->getAbsolutePath($minifiedFile);
+        $minifiedFile = $this->staticViewDir->getRelativePath($minifiedFile);
+        return $this->staticViewDir->getAbsolutePath($minifiedFile);
     }
 
     /**

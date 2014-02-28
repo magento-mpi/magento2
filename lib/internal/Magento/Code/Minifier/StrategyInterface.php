@@ -16,8 +16,8 @@ interface StrategyInterface
     /**
      * Generates minified file
      *
-     * @param string $originalFile path relative to pub/view_cache
-     * @param string $targetFile path relative to pub/view_cache
+     * @param string $originalFile path relative to pub/static
+     * @param string $targetFile path relative to pub/static
      *
      * @return void
      */

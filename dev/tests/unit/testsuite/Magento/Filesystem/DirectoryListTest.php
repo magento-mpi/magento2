@@ -33,22 +33,22 @@ class DirectoryListTest extends \PHPUnit_Framework_TestCase
     public function addDirectoryGetConfigDataProvider()
     {
         return array(
-            'view_cache' => array(
+            'static_view' => array(
                 __DIR__,
                 array(),
                 array(
-                    'custom2_' . AppFilesystem::PUB_VIEW_CACHE_DIR => array(
-                        'path' => 'view/cache',
-                        'uri' => 'view/cache',
+                    'custom2_' . AppFilesystem::STATIC_VIEW_DIR => array(
+                        'path' => 'some/static',
+                        'uri' => 'some/static',
                         'permissions' => 0777,
                         'read_only' => true,
                         'allow_create_dirs' => true
                     )
                 ),
                 array(
-                    'custom2_' . AppFilesystem::PUB_VIEW_CACHE_DIR => array(
-                        'path' => str_replace('\\', '/', __DIR__ . '/view/cache'),
-                        'uri' => 'view/cache',
+                    'custom2_' . AppFilesystem::STATIC_VIEW_DIR => array(
+                        'path' => str_replace('\\', '/', __DIR__ . '/some/static'),
+                        'uri' => 'some/static',
                         'permissions' => 0777,
                         'read_only' => true,
                         'allow_create_dirs' => true
@@ -63,9 +63,9 @@ class DirectoryListTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddDefinedDirectory()
     {
-        $directories = array(AppFilesystem::PUB_VIEW_CACHE_DIR => array('path' => ''));
+        $directories = array(AppFilesystem::STATIC_VIEW_DIR => array('path' => ''));
         $directoryList = new DirectoryList(__DIR__, $directories);
-        $directoryList->addDirectory(AppFilesystem::PUB_VIEW_CACHE_DIR, array('path' => ''));
+        $directoryList->addDirectory(AppFilesystem::STATIC_VIEW_DIR, array('path' => ''));
     }
 
     /**

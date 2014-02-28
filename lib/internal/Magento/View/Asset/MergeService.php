@@ -102,7 +102,7 @@ class MergeService
      */
     public function cleanMergedJsCss()
     {
-        $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::PUB_VIEW_CACHE_DIR)
+        $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::STATIC_VIEW_DIR)
             ->delete(Merged::PUBLIC_MERGE_DIR);
     }
 }

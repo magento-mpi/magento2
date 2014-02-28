@@ -134,7 +134,7 @@ class HeadTest extends \PHPUnit_Framework_TestCase
             )
         );
         $this->assertStringMatchesFormat(
-            '<script type="text/javascript" src="http://localhost/pub/cache/minify/%s_js.min.js"></script>',
+            '<script type="text/javascript" src="http://localhost/pub/static/_minify/%s_js.min.js"></script>',
             $this->_block->getCssJsHtml()
         );
     }
