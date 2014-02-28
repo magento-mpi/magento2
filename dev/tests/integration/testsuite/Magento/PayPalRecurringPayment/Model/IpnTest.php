@@ -42,7 +42,7 @@ class IpnTest extends \PHPUnit_Framework_TestCase
         /** @var  $ipnFactory \Magento\PayPal\Model\IpnFactory */
         $ipnFactory = $this->_objectManager->create(
             'Magento\PayPal\Model\IpnFactory',
-            array('mapping' => array('ipn' => 'Magento\PayPalRecurringPayment\Model\Ipn'))
+            array('mapping' => array('recurring_payment' => 'Magento\PayPalRecurringPayment\Model\Ipn'))
         );
 
         $model = $ipnFactory->create(

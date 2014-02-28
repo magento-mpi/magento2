@@ -12,7 +12,7 @@
     <type name="Magento\Paypal\Model\IpnFactory">
         <arguments>
             <argument name="mapping" xsi:type="array">
-                <item name="ipn" xsi:type="string">Magento\PayPalRecurringPayment\Model\Ipn</item>
+                <item name="recurring_payment" xsi:type="string">Magento\PayPalRecurringPayment\Model\Ipn</item>
             </argument>
         </arguments>
     </type>

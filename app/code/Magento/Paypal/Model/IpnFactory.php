@@ -17,11 +17,9 @@ class IpnFactory
     protected $_objectManager = null;
 
     /**
-     * Instance name to create
-     *
-     * @var string
+     * @var array
      */
-    protected $_instanceName = 'Magento\Paypal\Model\Ipn';
+    protected $mapping = array();
 
     /**
      * Factory constructor
@@ -31,10 +29,8 @@ class IpnFactory
      */
     public function __construct(\Magento\ObjectManager $objectManager, array $mapping = array())
     {
-        if (isset($mapping['ipn'])) {
-            $this->_instanceName = $mapping['ipn'];
-        }
         $this->_objectManager = $objectManager;
+        $this->mapping = $mapping;
     }
 
     /**
@@ -45,6 +41,8 @@ class IpnFactory
      */
     public function create(array $data = array())
     {
-        return $this->_objectManager->create($this->_instanceName, $data);
+        $type = isset($data['data']['txn_type']) ? $data['data']['txn_type'] : '';
+        $instanceType = isset($this->mapping[$type]) ? $this->mapping[$type] : 'Magento\Paypal\Model\Ipn';
+        return $this->_objectManager->create($instanceType, $data);
     }
 }
