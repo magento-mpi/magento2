@@ -7,13 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Model;
 
 /**
  * Sales abstract model
  * Provide date processing functionality
  */
-namespace Magento\Sales\Model;
-
 abstract class AbstractModel extends \Magento\Core\Model\AbstractModel
 {
     /**
@@ -62,7 +61,7 @@ abstract class AbstractModel extends \Magento\Core\Model\AbstractModel
      * Processing object after save data
      * Updates relevant grid table records.
      *
-     * @return \Magento\Sales\Model\AbstractModel
+     * @return $this
      */
     public function afterCommitCallback()
     {

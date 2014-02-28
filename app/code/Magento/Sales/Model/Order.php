@@ -7,6 +7,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Model;
+use Magento\Directory\Model\Currency;
+use Magento\Sales\Model\Order\Payment;
+use Magento\Sales\Model\Resource\Order\Address\Collection;
+use Magento\Sales\Model\Resource\Order\Creditmemo\Collection as CreditmemoCollection;
+use Magento\Sales\Model\Resource\Order\Invoice\Collection as InvoiceCollection;
+use Magento\Sales\Model\Resource\Order\Item\Collection as ImportCollection;
+use Magento\Sales\Model\Resource\Order\Payment\Collection as PaymentCollection;
+use Magento\Sales\Model\Resource\Order\Shipment\Collection as ShipmentCollection;
+use Magento\Sales\Model\Resource\Order\Shipment\Track\Collection as TrackCollection;
+use Magento\Sales\Model\Resource\Order\Status\History\Collection as HistoryCollection;
 
 /**
  * Order model
@@ -285,8 +296,6 @@
  * @method float getBaseShippingInclTax()
  * @method \Magento\Sales\Model\Order setBaseShippingInclTax(float $value)
  */
-namespace Magento\Sales\Model;
-
 class Order extends \Magento\Sales\Model\AbstractModel
 {
     const ENTITY                                = 'order';
@@ -344,23 +353,74 @@ class Order extends \Magento\Sales\Model\AbstractModel
     const REPORT_DATE_TYPE_UPDATED = 'updated';
     /*
      * Identifier for history item
+     *
+     * @var string
      */
     const HISTORY_ENTITY_NAME = 'order';
 
+    /**
+     * @var string
+     */
     protected $_eventPrefix = 'sales_order';
+
+    /**
+     * @var string
+     */
     protected $_eventObject = 'order';
 
+    /**
+     * @var  Collection|null
+     */
     protected $_addresses       = null;
+
+    /**
+     * @var ImportCollection|null
+     */
     protected $_items           = null;
+
+    /**
+     * @var PaymentCollection|null
+     */
     protected $_payments        = null;
+
+    /**
+     * @var HistoryCollection|null
+     */
     protected $_statusHistory   = null;
+
+    /**
+     * @var InvoiceCollection
+     */
     protected $_invoices;
+
+    /**
+     * @var TrackCollection
+     */
     protected $_tracks;
+
+    /**
+     * @var ShipmentCollection
+     */
     protected $_shipments;
+
+    /**
+     * @var CreditmemoCollection
+     */
     protected $_creditmemos;
 
+    /**
+     * @var array
+     */
     protected $_relatedObjects  = array();
+
+    /**
+     * @var Currency
+     */
     protected $_orderCurrency   = null;
+
+    /**
+     * @var Currency|null
+     */
     protected $_baseCurrency    = null;
 
     /**
@@ -589,6 +649,8 @@ class Order extends \Magento\Sales\Model\AbstractModel
 
     /**
      * Initialize resource model
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -599,7 +661,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
      * Clear order object data
      *
      * @param string $key data key
-     * @return \Magento\Sales\Model\Order
+     * @return $this
      */
     public function unsetData($key = null)
     {
@@ -629,7 +691,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
      *
      * @param string $action
      * @param boolean $flag
-     * @return \Magento\Sales\Model\Order
+     * @return $this
      */
     public function setActionFlag($action, $flag)
     {
@@ -651,7 +713,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
      * Set flag for order if it can sends new email to customer.
      *
      * @param bool $flag
-     * @return \Magento\Sales\Model\Order
+     * @return $this
      */
     public function setCanSendNewEmailFlag($flag)
     {
@@ -675,7 +737,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
      *
      * @param string $attribute
      * @param string $value
-     * @return \Magento\Sales\Model\Order
+     * @return $this
      */
     public function loadByAttribute($attribute, $value)
     {
@@ -1044,7 +1106,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
     /**
      * Place order payments
      *
-     * @return \Magento\Sales\Model\Order
+     * @return $this
      */
     protected function _placePayment()
     {
@@ -1055,7 +1117,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
     /**
      * Retrieve order payment model object
      *
-     * @return \Magento\Sales\Model\Order\Payment
+     * @return Payment|false
      */
     public function getPayment()
     {
@@ -1070,8 +1132,8 @@ class Order extends \Magento\Sales\Model\AbstractModel
     /**
      * Declare order billing address
      *
-     * @param   \Magento\Sales\Model\Order\Address $address
-     * @return  \Magento\Sales\Model\Order
+     * @param \Magento\Sales\Model\Order\Address $address
+     * @return $this
      */
     public function setBillingAddress(\Magento\Sales\Model\Order\Address $address)
     {
@@ -1087,8 +1149,8 @@ class Order extends \Magento\Sales\Model\AbstractModel
     /**
      * Declare order shipping address
      *
-     * @param   \Magento\Sales\Model\Order\Address $address
-     * @return  \Magento\Sales\Model\Order
+     * @param \Magento\Sales\Model\Order\Address $address
+     * @return $this
      */
     public function setShippingAddress(\Magento\Sales\Model\Order\Address $address)
     {
@@ -1104,7 +1166,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
     /**
      * Retrieve order billing address
      *
-     * @return \Magento\Sales\Model\Order\Address
+     * @return \Magento\Sales\Model\Order\Address|false
      */
     public function getBillingAddress()
     {
@@ -1119,7 +1181,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
     /**
      * Retrieve order shipping address
      *
-     * @return \Magento\Sales\Model\Order\Address|bool
+     * @return \Magento\Sales\Model\Order\Address|false
      */
     public function getShippingAddress()
     {
@@ -1157,7 +1219,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
      * @param string $comment
      * @param bool $isCustomerNotified
      * @param bool $shouldProtectState
-     * @return \Magento\Sales\Model\Order
+     * @return $this
      * @throws \Magento\Core\Exception
      */
     protected function _setState($state, $status = false, $comment = '',
@@ -1214,7 +1276,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
      * @param  string $status
      * @param  string $comment
      * @param  bool $isCustomerNotified
-     * @return \Magento\Sales\Model\Order
+     * @return $this
      */
     public function addStatusToHistory($status, $comment = '', $isCustomerNotified = false)
     {
@@ -1251,7 +1313,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
      * Overrides entity id, which will be saved to comments history status
      *
      * @param string $entityName
-     * @return \Magento\Sales\Model\Order
+     * @return $this
      */
     public function setHistoryEntityName($entityName)
     {
@@ -1262,7 +1324,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
     /**
      * Place order
      *
-     * @return \Magento\Sales\Model\Order
+     * @return $this
      */
     public function place()
     {
@@ -1290,7 +1352,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
     /**
      * Attempt to unhold the order
      *
-     * @return \Magento\Sales\Model\Order
+     * @return $this
      * @throws \Magento\Core\Exception
      */
     public function unhold()
@@ -1307,7 +1369,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
     /**
      * Cancel order
      *
-     * @return \Magento\Sales\Model\Order
+     * @return $this
      */
     public function cancel()
     {
@@ -1325,7 +1387,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
      * Prepare order totals to cancellation
      * @param string $comment
      * @param bool $graceful
-     * @return \Magento\Sales\Model\Order
+     * @return $this
      * @throws \Magento\Core\Exception
      */
     public function registerCancellation($comment = '', $graceful = true)
@@ -1401,7 +1463,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
     /**
      * Send email with order data
      *
-     * @return \Magento\Sales\Model\Order
+     * @return $this
      */
     public function sendNewOrderEmail()
     {
@@ -1482,7 +1544,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
      *
      * @param boolean $notifyCustomer
      * @param string $comment
-     * @return \Magento\Sales\Model\Order
+     * @return $this
      */
     public function sendOrderUpdateEmail($notifyCustomer = true, $comment = '')
     {
@@ -1562,7 +1624,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
 
     /**
      * @param string $configPath
-     * @return array|bool
+     * @return array|false
      */
     protected function _getEmails($configPath)
     {
@@ -1576,7 +1638,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
     /*********************** ADDRESSES ***************************/
 
     /**
-     * @return \Magento\Sales\Model\Resource\Order\Address\Collection
+     * @return Collection
      */
     public function getAddressesCollection()
     {
@@ -1594,6 +1656,10 @@ class Order extends \Magento\Sales\Model\AbstractModel
         return $this->_addresses;
     }
 
+    /**
+     * @param mixed $addressId
+     * @return false
+     */
     public function getAddressById($addressId)
     {
         foreach ($this->getAddressesCollection() as $address) {
@@ -1621,7 +1687,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
     /**
      * @param array $filterByTypes
      * @param bool $nonChildrenOnly
-     * @return \Magento\Sales\Model\Resource\Order\Item\Collection
+     * @return ImportCollection
      */
     public function getItemsCollection($filterByTypes = array(), $nonChildrenOnly = false)
     {
@@ -1649,7 +1715,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
      * Get random items collection with related children
      *
      * @param int $limit
-     * @return \Magento\Sales\Model\Resource\Order\Item\Collection
+     * @return ImportCollection
      */
     public function getItemsRandomCollection($limit = 1)
     {
@@ -1660,7 +1726,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
      * Get random items collection without related children
      *
      * @param int $limit
-     * @return \Magento\Sales\Model\Resource\Order\Item\Collection
+     * @return ImportCollection
      */
     public function getParentItemsRandomCollection($limit = 1)
     {
@@ -1672,7 +1738,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
      *
      * @param int $limit
      * @param bool $nonChildrenOnly
-     * @return \Magento\Sales\Model\Resource\Order\Item\Collection
+     * @return ImportCollection
      */
     protected function _getItemsRandomCollection($limit, $nonChildrenOnly = false)
     {
@@ -1735,11 +1801,19 @@ class Order extends \Magento\Sales\Model\AbstractModel
         return $items;
     }
 
+    /**
+     * @param mixed $itemId
+     * @return \Magento\Object
+     */
     public function getItemById($itemId)
     {
         return $this->getItemsCollection()->getItemById($itemId);
     }
 
+    /**
+     * @param mixed $quoteItemId
+     * @return  \Magento\Object|null
+     */
     public function getItemByQuoteItemId($quoteItemId)
     {
         foreach ($this->getItemsCollection() as $item) {
@@ -1781,7 +1855,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
     /*********************** PAYMENTS ***************************/
 
     /**
-     * @return \Magento\Sales\Model\Resource\Order\Payment\Collection
+     * @return PaymentCollection
      */
     public function getPaymentsCollection()
     {
@@ -1812,7 +1886,10 @@ class Order extends \Magento\Sales\Model\AbstractModel
         return $payments;
     }
 
-
+    /**
+     * @param mixed $paymentId
+     * @return Payment|false
+     */
     public function getPaymentById($paymentId)
     {
         foreach ($this->getPaymentsCollection() as $payment) {
@@ -1823,7 +1900,11 @@ class Order extends \Magento\Sales\Model\AbstractModel
         return false;
     }
 
-    public function addPayment(\Magento\Sales\Model\Order\Payment $payment)
+    /**
+     * @param Payment $payment
+     * @return $this
+     */
+    public function addPayment(Payment $payment)
     {
         $payment->setOrder($this)
             ->setParentId($this->getId());
@@ -1834,7 +1915,11 @@ class Order extends \Magento\Sales\Model\AbstractModel
         return $this;
     }
 
-    public function setPayment(\Magento\Sales\Model\Order\Payment $payment)
+    /**
+     * @param Payment $payment
+     * @return Payment
+     */
+    public function setPayment(Payment $payment)
     {
         if (!$this->getIsMultiPayment() && ($old = $this->getPayment())) {
             $payment->setId($old->getId());
@@ -1848,7 +1933,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
      * Return collection of order status history items.
      *
      * @param bool $reload
-     * @return \Magento\Sales\Model\Resource\Order\Status\History\Collection
+     * @return HistoryCollection
      */
     public function getStatusHistoryCollection($reload = false)
     {
@@ -1899,6 +1984,10 @@ class Order extends \Magento\Sales\Model\AbstractModel
         return $history;
     }
 
+    /**
+     * @param mixed $statusId
+     * @return string|false
+     */
     public function getStatusHistoryById($statusId)
     {
         foreach ($this->getStatusHistoryCollection() as $status) {
@@ -1916,7 +2005,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
      * Or the history record can be saved standalone after this.
      *
      * @param \Magento\Sales\Model\Order\Status\History $history
-     * @return \Magento\Sales\Model\Order
+     * @return $this
      */
     public function addStatusHistory(\Magento\Sales\Model\Order\Status\History $history)
     {
@@ -1944,7 +2033,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
     /**
      * Get currency model instance. Will be used currency with which order placed
      *
-     * @return \Magento\Directory\Model\Currency
+     * @return Currency
      */
     public function getOrderCurrency()
     {
@@ -1992,7 +2081,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
     /**
      * Retrieve order website currency for working with base prices
      *
-     * @return \Magento\Directory\Model\Currency
+     * @return Currency
      */
     public function getBaseCurrency()
     {
@@ -2072,7 +2161,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
     /**
      * Retrieve order invoices collection
      *
-     * @return \Magento\Sales\Model\Resource\Order\Invoice\Collection
+     * @return InvoiceCollection
      */
     public function getInvoiceCollection()
     {
@@ -2092,7 +2181,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
     /**
      * Retrieve order shipments collection
      *
-     * @return \Magento\Sales\Model\Resource\Order\Shipment\Collection|bool
+     * @return ShipmentCollection|false
      */
     public function getShipmentsCollection()
     {
@@ -2111,7 +2200,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
     /**
      * Retrieve order creditmemos collection
      *
-     * @return \Magento\Sales\Model\Resource\Order\Creditmemo\Collection|bool
+     * @return CreditmemoCollection|false
      */
     public function getCreditmemosCollection()
     {
@@ -2130,7 +2219,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
     /**
      * Retrieve order tracking numbers collection
      *
-     * @return \Magento\Sales\Model\Resource\Order\Shipment\Track\Collection
+     * @return TrackCollection
      */
     public function getTracksCollection()
     {
@@ -2203,8 +2292,8 @@ class Order extends \Magento\Sales\Model\AbstractModel
     /**
      * Add New object to related array
      *
-     * @param   \Magento\Core\Model\AbstractModel $object
-     * @return  \Magento\Sales\Model\Order
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return $this
      */
     public function addRelatedObject(\Magento\Core\Model\AbstractModel $object)
     {
@@ -2237,7 +2326,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
     /**
      * Processing object before save data
      *
-     * @return \Magento\Core\Model\AbstractModel
+     * @return $this
      */
     protected function _beforeSave()
     {
@@ -2292,6 +2381,8 @@ class Order extends \Magento\Sales\Model\AbstractModel
 
     /**
      * Check order state before saving
+     *
+     * @return $this
      */
     protected function _checkState()
     {
@@ -2333,7 +2424,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
     /**
      * Save order related objects
      *
-     * @return \Magento\Sales\Model\Order
+     * @return $this
      */
     protected function _afterSave()
     {
@@ -2388,7 +2479,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
      * Resets all data in object
      * so after another load it will be complete new object
      *
-     * @return \Magento\Sales\Model\Order
+     * @return $this
      */
     public function reset()
     {
@@ -2417,6 +2508,9 @@ class Order extends \Magento\Sales\Model\AbstractModel
         return !$this->getIsVirtual();
     }
 
+    /**
+     * @return array
+     */
     public function getFullTaxInfo()
     {
         $rates = $this->_orderTaxCollectionFactory->create()->loadByOrder($this)->toArray();
@@ -2459,7 +2553,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
 
     /**
      * Protect order delete from not admin scope
-     * @return \Magento\Sales\Model\Order
+     * @return $this
      */
     protected function _beforeDelete()
     {

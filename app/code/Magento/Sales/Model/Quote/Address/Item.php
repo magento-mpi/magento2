@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 namespace Magento\Sales\Model\Quote\Address;
+use Magento\Sales\Model\Quote;
 
 /**
  * @method \Magento\Sales\Model\Resource\Quote\Address\Item _getResource()
@@ -100,10 +101,13 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
     protected $_address;
 
     /**
-     * @var
+     * @var Quote
      */
     protected $_quote;
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_init('Magento\Sales\Model\Resource\Quote\Address\Item');
@@ -124,8 +128,8 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
     /**
      * Declare address model
      *
-     * @param   \Magento\Sales\Model\Quote\Address $address
-     * @return  \Magento\Sales\Model\Quote\Address\Item
+     * @param \Magento\Sales\Model\Quote\Address $address
+     * @return $this
      */
     public function setAddress(\Magento\Sales\Model\Quote\Address $address)
     {
@@ -147,7 +151,7 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
     /**
      * Retrieve quote model instance
      *
-     * @return \Magento\Sales\Model\Quote
+     * @return Quote
      */
     public function getQuote()
     {

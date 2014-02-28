@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Sales\Model;
 
 use Magento\Sales\Model\Quote\Address;
@@ -270,13 +269,19 @@ class Quote extends \Magento\Core\Model\AbstractModel
      */
     protected $_customerData;
 
-    /** @var \Magento\Customer\Model\Converter */
+    /**
+     * @var \Magento\Customer\Model\Converter
+     */
     protected $_converter;
 
-    /** @var \Magento\Customer\Service\V1\CustomerAddressService */
+    /**
+     * @var \Magento\Customer\Service\V1\CustomerAddressService
+     */
     protected $_addressService;
 
-    /** @var \Magento\Customer\Model\Address\Converter */
+    /**
+     * @var \Magento\Customer\Model\Address\Converter
+     */
     protected $_addressConverter;
 
     /**
@@ -355,6 +360,8 @@ class Quote extends \Magento\Core\Model\AbstractModel
 
     /**
      * Init resource model
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -859,7 +866,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
     /**
      *
      * @param int $addressId
-     * @return Address
+     * @return Address|false
      */
     public function getAddressById($addressId)
     {
@@ -873,7 +880,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
 
     /**
      * @param int|string $addressId
-     * @return bool
+     * @return Address|bool
      */
     public function getAddressByCustomerAddressId($addressId)
     {
@@ -889,7 +896,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
      * Get quote address by customer address ID.
      *
      * @param int|string $addressId
-     * @return \Magento\Sales\Model\Quote\Address|bool
+     * @return Address|bool
      */
     public function getShippingAddressByCustomerAddressId($addressId)
     {
