@@ -62,22 +62,4 @@ class CustomerService implements CustomerServiceInterface
         $customerModel = $this->_converter->getCustomerModel($customerId);
         $customerModel->delete();
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isReadonly($customerId)
-    {
-        $customerModel = $this->_converter->getCustomerModel($customerId);
-        return $customerModel->isReadonly();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isDeleteable($customerId)
-    {
-        $customerModel = $this->_converter->getCustomerModel($customerId);
-        return $customerModel->isDeleteable();
-    }
 }
