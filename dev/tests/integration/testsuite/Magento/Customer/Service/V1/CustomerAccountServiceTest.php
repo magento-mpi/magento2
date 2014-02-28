@@ -41,7 +41,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $this->_customerAccountService = $this->_objectManager->create('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
+        $this->_customerAccountService = $this->_objectManager
+            ->create('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
         $this->_customerService = $this->_objectManager->create('Magento\Customer\Service\V1\CustomerServiceInterface');
 
         $this->_addressBuilder = $this->_objectManager->create('Magento\Customer\Service\V1\Dto\AddressBuilder');
@@ -379,7 +380,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $email = 'foo@example.com';
 
         try {
-            $this->_customerAccountService->sendPasswordResetLink($email, 0, CustomerAccountServiceInterface::EMAIL_RESET);
+            $this->_customerAccountService->sendPasswordResetLink($email, 0,
+                CustomerAccountServiceInterface::EMAIL_RESET);
             $this->fail('Expected exception not thrown.');
         } catch (NoSuchEntityException $nsee) {
             $expectedParams = [
