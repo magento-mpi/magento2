@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Checkout\Block\Onepage;
 
 /**
  * One page checkout status
  */
-namespace Magento\Checkout\Block\Onepage;
-
 class Shipping extends \Magento\Checkout\Block\Onepage\AbstractOnepage
 {
     /**
@@ -65,6 +64,8 @@ class Shipping extends \Magento\Checkout\Block\Onepage\AbstractOnepage
 
     /**
      * Initialize shipping address step
+     *
+     * @return void
      */
     protected function _construct()
     {

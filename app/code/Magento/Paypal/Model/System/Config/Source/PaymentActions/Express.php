@@ -7,14 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Model\System\Config\Source\PaymentActions;
 
 /**
  * Source model for available paypal express payment actions
  */
-namespace Magento\Paypal\Model\System\Config\Source\PaymentActions;
-
 class Express
-    implements \Magento\Core\Model\Option\ArrayInterface
+    implements \Magento\Option\ArrayInterface
 {
     /**
      * @var \Magento\Paypal\Model\ConfigFactory
@@ -30,9 +29,7 @@ class Express
     }
 
     /**
-     * Options getter
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function toOptionArray()
     {

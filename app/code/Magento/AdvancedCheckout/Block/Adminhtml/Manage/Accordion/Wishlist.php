@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion;
 
 /**
  * Accordion grid for products in wishlist
@@ -15,10 +16,7 @@
  * @package    Magento_AdvancedCheckout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion;
-
-class Wishlist
-    extends \Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\AbstractAccordion
+class Wishlist extends AbstractAccordion
 {
     /**
      * Collection field name for using in controls
@@ -28,11 +26,15 @@ class Wishlist
 
     /**
      * Javascript list type name for this grid
+     *
+     * @var string
      */
     protected $_listType = 'wishlist';
 
     /**
      * Url to configure this grid's items
+     *
+     * @var string
      */
     protected $_configureRoute = '*/checkout/configureWishlistItem';
 
@@ -47,7 +49,7 @@ class Wishlist
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Data\CollectionFactory $collectionFactory
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\Wishlist\Model\ItemFactory $itemFactory
      * @param array $data
      */
@@ -55,7 +57,7 @@ class Wishlist
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Data\CollectionFactory $collectionFactory,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\Wishlist\Model\ItemFactory $itemFactory,
         array $data = array()
     ) {
@@ -66,6 +68,7 @@ class Wishlist
     /**
      * Initialize Grid
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -147,7 +150,7 @@ class Wishlist
      * Add columns with controls to manage added products and their quantity
      * Uses inherited methods, but modifies Qty column to change renderer
      *
-     * @return \Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\Wishlist
+     * @return $this
      */
     protected function _addControlColumns()
     {

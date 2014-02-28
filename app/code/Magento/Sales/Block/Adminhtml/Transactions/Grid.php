@@ -22,10 +22,10 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
-    
+
     /**
      * Payment data
      *
@@ -49,7 +49,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      * @param \Magento\Sales\Model\Order\Payment\Transaction $transaction
      * @param \Magento\Sales\Model\Resource\Order\Payment\Transaction\CollectionFactory $collectionFactory
      * @param \Magento\Payment\Helper\Data $paymentData
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
@@ -58,7 +58,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         \Magento\Sales\Model\Order\Payment\Transaction $transaction,
         \Magento\Sales\Model\Resource\Order\Payment\Transaction\CollectionFactory $collectionFactory,
         \Magento\Payment\Helper\Data $paymentData,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;

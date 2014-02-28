@@ -35,7 +35,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
         /** @var $event \Magento\CatalogEvent\Model\Event */
         $event = $objectManager->create('Magento\CatalogEvent\Model\Event');
         $event->load(1, 'category_id');
-        $objectManager->get('Magento\Core\Model\Registry')->register('magento_catalogevent_event', $event);
+        $objectManager->get('Magento\Registry')->register('magento_catalogevent_event', $event);
 
         /** @var \Magento\CatalogEvent\Block\Adminhtml\Event\Edit\Form $block */
         $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')

@@ -31,12 +31,23 @@ class Login extends Form
     protected $submitLogin = '#submitLogin';
 
     /**
+     * 'Pay with my PayPal account' section
+     *
+     * @var string
+     */
+    protected $loginSection = '[class$=":ClickLogin"]';
+
+    /**
      * Login to Paypal account
      *
      * @param Customer $fixture
      */
     public function login(Customer $fixture)
     {
+        $loginSection = $this->_rootElement->find($this->loginSection);
+        if ($loginSection->isVisible()) {
+            $loginSection->click();
+        }
         $this->waitForElementVisible($this->submitLogin);
         $this->fill($fixture);
         $this->_rootElement->find($this->submitLogin, Locator::SELECTOR_CSS)->click();

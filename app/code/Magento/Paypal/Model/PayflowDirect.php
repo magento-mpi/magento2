@@ -5,11 +5,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Paypal\Model;
 
 class PayflowDirect extends \Magento\Paypal\Model\Direct
 {
+    /**
+     * @var string
+     */
     protected $_code  = \Magento\Paypal\Model\Config::METHOD_WPP_PE_DIRECT;
 
     /**
@@ -49,8 +51,9 @@ class PayflowDirect extends \Magento\Paypal\Model\Direct
     /**
      * Import direct payment results to payment
      *
-     * @param \Magento\Paypal\Model\Api\Nvp
-     * @param \Magento\Sales\Model\Order\Payment
+     * @param \Magento\Paypal\Model\Api\Nvp $api
+     * @param \Magento\Sales\Model\Order\Payment $payment
+     * @return void
      */
     protected function _importResultToPayment($api, $payment)
     {

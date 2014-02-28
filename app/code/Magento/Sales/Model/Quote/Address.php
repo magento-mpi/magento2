@@ -17,8 +17,6 @@ use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 /**
  * Sales Quote address model
  *
- * @method \Magento\Sales\Model\Resource\Quote\Address _getResource()
- * @method \Magento\Sales\Model\Resource\Quote\Address getResource()
  * @method int getQuoteId()
  * @method Address setQuoteId(int $value)
  * @method string getCreatedAt()
@@ -37,27 +35,18 @@ use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
  * @method Address setAddressType(string $value)
  * @method string getEmail()
  * @method Address setEmail(string $value)
- * @method string getPrefix()
  * @method Address setPrefix(string $value)
- * @method string getFirstname()
  * @method Address setFirstname(string $value)
- * @method string getMiddlename()
  * @method Address setMiddlename(string $value)
- * @method string getLastname()
  * @method Address setLastname(string $value)
- * @method string getSuffix()
  * @method Address setSuffix(string $value)
  * @method string getCompany()
  * @method Address setCompany(string $value)
- * @method string getCity()
  * @method Address setCity(string $value)
  * @method Address setRegion(string $value)
  * @method Address setRegionId(int $value)
- * @method string getPostcode()
  * @method Address setPostcode(string $value)
- * @method string getCountryId()
  * @method Address setCountryId(string $value)
- * @method string getTelephone()
  * @method Address setTelephone(string $value)
  * @method string getFax()
  * @method Address setFax(string $value)
@@ -124,6 +113,8 @@ use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
  * @method float getShippingInclTax()
  * @method Address setShippingInclTax(float $value)
  * @method float getBaseShippingInclTax()
+ * @method \Magento\SalesRule\Model\Rule[] getCartFixedRules()
+ * @method int[] getAppliedRuleIds()
  * @method Address setBaseShippingInclTax(float $value)
  */
 class Address extends \Magento\Customer\Model\Address\AbstractAddress
@@ -254,8 +245,8 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     private $addressConverter;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Directory\Helper\Data $directoryData
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Customer\Model\Address\Config $addressConfig
@@ -281,8 +272,8 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Directory\Helper\Data $directoryData,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Customer\Model\Address\Config $addressConfig,

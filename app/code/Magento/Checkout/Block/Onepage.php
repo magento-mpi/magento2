@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Checkout\Block;
 
 /**
  * Onepage checkout block
@@ -15,8 +16,6 @@
  * @package    Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Checkout\Block;
-
 class Onepage extends \Magento\Checkout\Block\Onepage\AbstractOnepage
 {
     /**

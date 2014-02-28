@@ -56,7 +56,7 @@ class PriceTest extends \PHPUnit_Framework_TestCase
     protected $_algorithm;
 
     /**
-     * @var \Magento\Core\Model\Registry|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Registry|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_registry;
 
@@ -109,7 +109,7 @@ class PriceTest extends \PHPUnit_Framework_TestCase
         $this->_session = $this->getMock('\Magento\Customer\Model\Session', array(), array(), '', false);
         $this->_algorithm = $this->getMock('\Magento\Catalog\Model\Layer\Filter\Price\Algorithm', array(), array(), '',
             false);
-        $this->_registry = $this->getMock('\Magento\Core\Model\Registry', array(), array(), '', false);
+        $this->_registry = $this->getMock('\Magento\Registry', array(), array(), '', false);
         $this->_resourceEngine = $this->getMock('\Magento\Search\Model\Resource\Engine', array(), array(), '', false);
 
         $this->_cache = $this->getMock('\Magento\App\CacheInterface', array(), array(), '', false);

@@ -92,8 +92,8 @@ class Revision extends \Magento\Core\Model\AbstractModel
     protected $_pageRevisionFactory;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\VersionsCms\Model\Config $cmsConfig
      * @param \Magento\Core\Model\Date $coreDate
      * @param \Magento\VersionsCms\Model\IncrementFactory $cmsIncrementFactory
@@ -103,8 +103,8 @@ class Revision extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\VersionsCms\Model\Config $cmsConfig,
         \Magento\Core\Model\Date $coreDate,
         \Magento\VersionsCms\Model\IncrementFactory $cmsIncrementFactory,

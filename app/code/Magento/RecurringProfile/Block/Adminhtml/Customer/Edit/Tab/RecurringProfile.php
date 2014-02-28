@@ -19,7 +19,7 @@ class RecurringProfile
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -35,7 +35,7 @@ class RecurringProfile
      * @param \Magento\RecurringProfile\Model\States $recurringStates
      * @param \Magento\RecurringProfile\Block\Fields $fields
      * @param \Magento\RecurringProfile\Model\Method\PaymentMethodsList $payments
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
@@ -45,7 +45,7 @@ class RecurringProfile
         \Magento\RecurringProfile\Model\States $recurringStates,
         \Magento\RecurringProfile\Block\Fields $fields,
         \Magento\RecurringProfile\Model\Method\PaymentMethodsList $payments,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;

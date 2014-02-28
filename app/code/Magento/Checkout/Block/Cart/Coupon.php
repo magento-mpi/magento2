@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Checkout\Block\Cart;
 
 class Coupon extends \Magento\Checkout\Block\Cart\AbstractCart
@@ -30,6 +29,9 @@ class Coupon extends \Magento\Checkout\Block\Cart\AbstractCart
         $this->_isScopePrivate = true;
     }
 
+    /**
+     * @return string
+     */
     public function getCouponCode()
     {
         return $this->getQuote()->getCouponCode();

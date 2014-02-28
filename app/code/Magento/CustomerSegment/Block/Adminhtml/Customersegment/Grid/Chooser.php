@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerSegment\Block\Adminhtml\Customersegment\Grid;
 
 /**
  * Customer Segment grid
@@ -14,13 +15,13 @@
  * @category   Magento
  * @package    Magento_CustomerSegment
  */
-namespace Magento\CustomerSegment\Block\Adminhtml\Customersegment\Grid;
-
 class Chooser
     extends \Magento\CustomerSegment\Block\Adminhtml\Customersegment\Grid
 {
     /**
      * Intialize grid
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -47,7 +48,7 @@ class Chooser
     }
 
     /**
-     * Row click javasctipt callback getter
+     * Row click javascript callback getter
      *
      * @return string
      */
@@ -59,7 +60,7 @@ class Chooser
     /**
      * Prepare columns for grid
      *
-     * @return \Magento\CustomerSegment\Block\Adminhtml\Customersegment\Grid\Chooser
+     * @return $this
      */
     protected function _prepareColumns()
     {
