@@ -8,7 +8,7 @@
 
 namespace Magento\CatalogPermissions\Model\Indexer\Category\Action;
 
-class Rows extends \Magento\CatalogPermissions\Model\Indexer\Category\AbstractAction
+class Rows extends \Magento\CatalogPermissions\Model\Indexer\AbstractAction
 {
     /**
      * Limitation by categories
@@ -16,6 +16,13 @@ class Rows extends \Magento\CatalogPermissions\Model\Indexer\Category\AbstractAc
      * @var int[]
      */
     protected $entityIds;
+
+    /**
+     * Affected product IDs
+     *
+     * @var int[]
+     */
+    protected $productIds;
 
     /**
      * Refresh entities index
@@ -42,8 +49,12 @@ class Rows extends \Magento\CatalogPermissions\Model\Indexer\Category\AbstractAc
     protected function removeObsoleteIndexData()
     {
         $this->getWriteAdapter()->delete(
-            $this->getIndexTable(),
+            $this->getIndexTempTable(),
             ['category_id IN (?)' => $this->entityIds]
+        );
+        $this->getWriteAdapter()->delete(
+            $this->getProductIndexTempTable(),
+            ['product_id IN (?)' => $this->getProductList()]
         );
     }
 
@@ -58,7 +69,7 @@ class Rows extends \Magento\CatalogPermissions\Model\Indexer\Category\AbstractAc
     {
         $select = $this->getReadAdapter()->select()
             ->from($this->getTable('catalog_category_entity'), ['path'])
-            ->where('entity_id IN(?)', $this->entityIds);
+            ->where('entity_id IN (?)', $this->entityIds);
 
         $categoriesPathList = $this->getReadAdapter()->fetchCol($select);
 
@@ -72,7 +83,7 @@ class Rows extends \Magento\CatalogPermissions\Model\Indexer\Category\AbstractAc
             $calculatedEntityIds = array_merge($calculatedEntityIds, explode('/', $path));
         }
 
-        $select->orWhere('entity_id IN(?)', array_unique($calculatedEntityIds));
+        $select->orWhere('entity_id IN (?)', array_unique($calculatedEntityIds));
 
         return $this->getReadAdapter()->fetchPairs($select);
     }
@@ -85,5 +96,23 @@ class Rows extends \Magento\CatalogPermissions\Model\Indexer\Category\AbstractAc
     protected function isRangingNeeded()
     {
         return false;
+    }
+
+    /**
+     * Return list of product IDs to reindex
+     *
+     * @return int[]
+     */
+    protected function getProductList()
+    {
+        if (is_null($this->productIds)) {
+            $select = $this->getReadAdapter()->select()
+                ->from($this->getTable('catalog_category_product'), 'product_id')
+                ->distinct(true)
+                ->where('category_id IN (?)', $this->entityIds);
+
+            $this->productIds = $this->getReadAdapter()->fetchCol($select);
+        }
+        return $this->productIds;
     }
 }

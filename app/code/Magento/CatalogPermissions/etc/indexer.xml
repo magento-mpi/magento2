@@ -12,4 +12,8 @@
         <title translate="true">Catalog Category Permissions</title>
         <description translate="true">Indexed permissions for categories</description>
     </indexer>
+    <indexer id="catalogpermissions_product" view_id="catalogpermissions_product" class="Magento\CatalogPermissions\Model\Indexer\Product">
+        <title translate="true">Catalog Product Permissions</title>
+        <description translate="true">Indexed permissions for products</description>
+    </indexer>
 </config>

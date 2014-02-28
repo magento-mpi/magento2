@@ -19,6 +19,7 @@ use Magento\Customer\Model\Session;
  */
 class Data extends \Magento\App\Helper\AbstractHelper
 {
+    const XML_PATH_GRANT_BASE = 'catalog/magento_catalogpermissions/';
     const XML_PATH_GRANT_CATALOG_CATEGORY_VIEW = 'catalog/magento_catalogpermissions/grant_catalog_category_view';
     const XML_PATH_GRANT_CATALOG_PRODUCT_PRICE = 'catalog/magento_catalogpermissions/grant_catalog_product_price';
     const XML_PATH_GRANT_CHECKOUT_ITEMS = 'catalog/magento_catalogpermissions/grant_checkout_items';
@@ -54,16 +55,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
         $this->_customerSession = $customerSession;
         $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context);
-    }
-
-    /**
-     * Retrieve config value for permission enabled
-     *
-     * @return bool
-     */
-    public function isEnabled()
-    {
-        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_ENABLED);
     }
 
     /**
@@ -161,5 +152,16 @@ class Data extends \Magento\App\Helper\AbstractHelper
         }
 
         return $this->_coreStoreConfig->getConfig($configPath) == self::GRANT_ALL;
+    }
+
+    /**
+     * Return permission grant config value
+     *
+     * @param string $node
+     * @return mixed
+     */
+    public function getGrantConfig($node)
+    {
+        return $this->_coreStoreConfig->getConfig(self::XML_PATH_GRANT_BASE . $node);
     }
 }
