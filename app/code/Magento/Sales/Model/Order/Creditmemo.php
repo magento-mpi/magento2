@@ -9,6 +9,8 @@
  */
 namespace Magento\Sales\Model\Order;
 
+use Magento\Core\Exception;
+
 /**
  * Order creditmemo model
  *
@@ -522,7 +524,7 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
 
     /**
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws Exception
      */
     public function refund()
     {
@@ -538,7 +540,7 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
 
             $baseAvailableRefund = $this->getOrder()->getBaseTotalPaid()- $this->getOrder()->getBaseTotalRefunded();
 
-            throw new \Magento\Core\Exception(
+            throw new Exception(
                 __('The most money available to refund is %1.', $this->getOrder()->formatBasePrice($baseAvailableRefund))
             );
         }
@@ -637,12 +639,12 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
      * Apply to order, order items etc.
      *
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws Exception
      */
     public function register()
     {
         if ($this->getId()) {
-            throw new \Magento\Core\Exception(__('We cannot register an existing credit memo.'));
+            throw new Exception(__('We cannot register an existing credit memo.'));
         }
 
         foreach ($this->getAllItems() as $item) {
