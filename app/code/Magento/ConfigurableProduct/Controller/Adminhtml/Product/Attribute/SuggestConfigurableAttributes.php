@@ -48,6 +48,8 @@ class SuggestConfigurableAttributes extends Action
 
     /**
      * Search for attributes by part of attribute's label in admin store
+     *
+     * @return void
      */
     public function indexAction()
     {

@@ -434,6 +434,7 @@ class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
      * Delete data specific for Grouped product type
      *
      * @param \Magento\Catalog\Model\Product $product
+     * @return void
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function deleteTypeSpecificData(\Magento\Catalog\Model\Product $product)

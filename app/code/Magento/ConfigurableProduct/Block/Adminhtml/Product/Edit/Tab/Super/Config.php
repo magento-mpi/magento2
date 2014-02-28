@@ -23,6 +23,9 @@ class Config
     extends \Magento\Backend\Block\Widget
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
+    /**
+     * @var string
+     */
     protected $_template = 'catalog/product/edit/super/config.phtml';
 
     /**

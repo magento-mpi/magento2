@@ -49,7 +49,7 @@ class Plugin
     /**
      * Validate product data
      *
-     * @param $arguments
+     * @param array $arguments
      * @param InvocationChain $invocationChain
      * @return ResponseInterface
      */

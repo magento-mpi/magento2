@@ -14,6 +14,8 @@ class Grouped extends \Magento\Sales\Model\Order\Pdf\Items\Creditmemo\DefaultCre
 {
     /**
      * Draw process
+     *
+     * @return void
      */
     public function draw()
     {

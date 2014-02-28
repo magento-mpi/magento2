@@ -17,9 +17,9 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
     /**
      * Returns product final price depending on options chosen
      *
-     * @param   double $qty
+     * @param   float $qty
      * @param   \Magento\Catalog\Model\Product $product
-     * @return  double
+     * @return  float
      */
     public function getFinalPrice($qty, $product)
     {
