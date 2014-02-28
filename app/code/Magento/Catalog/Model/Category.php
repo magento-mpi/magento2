@@ -915,7 +915,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
      * @param bool $sorted
      * @param bool $asCollection
      * @param bool $toLoad
-     * @return mixed
+     * @return \Magento\Data\Tree\Node\Collection|\Magento\Catalog\Model\Resource\Category\Collection
      */
     public function getCategories($parent, $recursionLevel = 0, $sorted = false, $asCollection = false, $toLoad = true)
     {
@@ -927,7 +927,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
     /**
      * Return parent categories of current category
      *
-     * @return array
+     * @return \Magento\Object[]|\Magento\Catalog\Model\Category[]
      */
     public function getParentCategories()
     {
@@ -935,9 +935,9 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
     }
 
     /**
-     * Retuen children categories of current category
+     * Return children categories of current category
      *
-     * @return array
+     * @return \Magento\Catalog\Model\Resource\Category\Collection|\Magento\Catalog\Model\Category[]
      */
     public function getChildrenCategories()
     {

@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 
+namespace Magento\SalesRule\Model;
 
 /**
  * Shopping Cart Rule data model
@@ -65,13 +66,9 @@
  * @method \Magento\SalesRule\Model\Rule setUseAutoGeneration(int $value)
  * @method string getCouponCode()
  * @method \Magento\SalesRule\Model\Rule setCouponCode(string $value)
- *
- * @category    Magento
- * @package     Magento_SalesRule
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @method int getRuleId()
+ * @method \Magento\SalesRule\Model\Rule setRuleId(int $ruleId)
  */
-namespace Magento\SalesRule\Model;
-
 class Rule extends \Magento\Rule\Model\AbstractModel
 {
     /**

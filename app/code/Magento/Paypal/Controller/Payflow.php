@@ -5,12 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Controller;
 
 /**
  * Payflow Checkout Controller
  */
-namespace Magento\Paypal\Controller;
-
 class Payflow extends \Magento\App\Action\Action
 {
     /**
@@ -44,6 +43,7 @@ class Payflow extends \Magento\App\Action\Action
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Paypal\Model\PayflowlinkFactory $payflowlinkFactory
      * @param \Magento\Paypal\Helper\Checkout $checkoutHelper
+     * @param \Magento\Logger $logger
      */
     public function __construct(
         \Magento\App\Action\Context $context,
@@ -63,6 +63,8 @@ class Payflow extends \Magento\App\Action\Action
 
     /**
      * When a customer cancel payment from payflow gateway.
+     *
+     * @return void
      */
     public function cancelPaymentAction()
     {
@@ -75,6 +77,8 @@ class Payflow extends \Magento\App\Action\Action
 
     /**
      * When a customer return to website from payflow gateway.
+     *
+     * @return void
      */
     public function returnUrlAction()
     {
@@ -105,6 +109,8 @@ class Payflow extends \Magento\App\Action\Action
 
     /**
      * Submit transaction to Payflow getaway into iframe
+     *
+     * @return void
      */
     public function formAction()
     {
@@ -113,6 +119,8 @@ class Payflow extends \Magento\App\Action\Action
 
     /**
      * Get response from PayPal by silent post method
+     *
+     * @return void
      */
     public function silentPostAction()
     {
@@ -132,7 +140,7 @@ class Payflow extends \Magento\App\Action\Action
      * Cancel order, return quote to customer
      *
      * @param string $errorMsg
-     * @return mixed
+     * @return false|string
      */
     protected function _cancelPayment($errorMsg = '')
     {

@@ -10,6 +10,8 @@
 
 namespace Magento\CustomerSegment\Model\Condition;
 
+use Magento\Customer\Model\Customer;
+
 class AbstractCondition extends \Magento\Rule\Model\Condition\AbstractCondition
 {
     /**
@@ -34,7 +36,7 @@ class AbstractCondition extends \Magento\Rule\Model\Condition\AbstractCondition
     /**
      * Get array of event names where segment with such conditions combine can be matched
      *
-     * @return array
+     * @return string[]
      */
     public function getMatchedEvents()
     {
@@ -87,7 +89,7 @@ class AbstractCondition extends \Magento\Rule\Model\Condition\AbstractCondition
     /**
      * Generate customer condition string
      *
-     * @param mixed $customer
+     * @param Customer|\Zend_Db_Expr $customer
      * @param string $fieldName
      * @return string
      */
@@ -107,9 +109,9 @@ class AbstractCondition extends \Magento\Rule\Model\Condition\AbstractCondition
      * Limit select by website with joining to store table
      *
      * @param \Zend_Db_Select $select
-     * @param int | \Zend_Db_Expr $website
+     * @param int|\Zend_Db_Expr $website
      * @param string $storeIdField
-     * @return \Magento\CustomerSegment\Model\Condition\AbstractCondition
+     * @return $this
      */
     protected function _limitByStoreWebsite(\Zend_Db_Select $select, $website, $storeIdField)
     {

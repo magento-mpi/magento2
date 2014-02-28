@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Address\Attribute;
 
 /**
  * Customer Address Attribute Edit Container Block
@@ -16,8 +16,6 @@
  * @package     Magento_CustomerCustomAttributes
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Address\Attribute;
-
 class Edit
     extends \Magento\Backend\Block\Widget\Form\Container
 {
@@ -55,6 +53,7 @@ class Edit
     /**
      * Initialize Customer Address Attribute Edit Container
      *
+     * @return void
      */
     protected function _construct()
     {

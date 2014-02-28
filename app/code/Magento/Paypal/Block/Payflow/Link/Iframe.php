@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Block\Payflow\Link;
 
 /**
  * Payflow link iframe block
  */
-namespace Magento\Paypal\Block\Payflow\Link;
-
 class Iframe extends \Magento\Paypal\Block\Iframe
 {
     /**
@@ -44,6 +43,8 @@ class Iframe extends \Magento\Paypal\Block\Iframe
 
     /**
      * Set payment method code
+     *
+     * @return void
      */
     protected function _construct()
     {
