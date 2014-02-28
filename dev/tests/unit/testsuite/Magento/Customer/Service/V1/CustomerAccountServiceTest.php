@@ -134,7 +134,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
                     'getDefaultShippingAddress',
                     'getDefaultBillingAddress',
                     'getStoreId',
-                    'getAddress',
+                    'getAddressById',
                     'getAddresses',
                     'getAddressItemById',
                     'getParentId',
