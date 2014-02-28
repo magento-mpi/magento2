@@ -722,18 +722,18 @@ class Data extends \Magento\App\Helper\AbstractHelper
      *
      * @param \Magento\App\RequestInterface $request
      * @param string $formCode The code of EAV form to take the list of attributes from
-     * @param string $entity entity model for the form
+     * @param string $entityType entity type for the form
      * @param array $additionalAttributes The list of attribute codes to skip filtration for
      * @param string $scope scope of the request
      * @param \Magento\Customer\Model\Metadata\Form $metadataForm to use for extraction
      * @return array Filtered customer data
      */
-    public function extractCustomerData(\Magento\App\RequestInterface $request, $formCode, $entity,
+    public function extractCustomerData(\Magento\App\RequestInterface $request, $formCode, $entityType,
         $additionalAttributes = [], $scope = null, \Magento\Customer\Model\Metadata\Form $metadataForm = null
     ) {
         if (is_null($metadataForm)) {
             $metadataForm = $this->_formFactory->create(
-                $entity,
+                $entityType,
                 $formCode,
                 [],
                 false,
