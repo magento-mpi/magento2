@@ -24,7 +24,7 @@ class ImportTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var \Magento\Catalog\Model\Indexer\Product\Price\Processor|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Indexer\Model\Indexer|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_indexerMock;
 
