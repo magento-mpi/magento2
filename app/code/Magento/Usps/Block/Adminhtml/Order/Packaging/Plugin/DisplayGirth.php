@@ -8,8 +8,8 @@
 
 namespace Magento\Usps\Block\Adminhtml\Order\Packaging\Plugin;
 
-use Magento\Usps\Helper\Data as DataHelper;
 use Magento\Shipping\Block\Adminhtml\Order\Packaging;
+use Magento\Usps\Helper\Data as DataHelper;
 
 /**
  * Plugin class
@@ -42,10 +42,8 @@ class DisplayGirth
      * @return bool
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function aroundIsDisplayGirthValue(
-        Packaging $subject,
-        \Closure $proceed
-    ) {
+    public function aroundIsDisplayGirthValue(Packaging $subject, \Closure $proceed)
+    {
         return $this->helper->displayGirthValue($subject->getShipment()->getOrder()->getShippingMethod());
     }
 }
