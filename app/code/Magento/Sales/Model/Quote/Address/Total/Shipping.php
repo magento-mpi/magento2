@@ -166,7 +166,7 @@ class Shipping extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 
         if ($amount != 0 || $shippingDescription) {
             $title = $shippingDescription
-                ? __('Shipping & Handling (%s)', $shippingDescription)
+                ? __('Shipping & Handling (%1)', $shippingDescription)
                 : __('Shipping & Handling');
 
             $address->addTotal(array(
