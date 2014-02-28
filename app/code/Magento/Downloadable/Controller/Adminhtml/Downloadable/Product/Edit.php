@@ -6,15 +6,13 @@
  * @license     {license_link}
  */
 
-/**
- * Adminhtml downloadable product edit
- *
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Downloadable\Controller\Adminhtml\Downloadable\Product;
 
 use Magento\Downloadable\Helper\Download as DownloadHelper;
 
+/**
+ * Adminhtml downloadable product edit
+ */
 class Edit extends \Magento\Catalog\Controller\Adminhtml\Product
 {
     /**
@@ -41,9 +39,8 @@ class Edit extends \Magento\Catalog\Controller\Adminhtml\Product
      */
     protected function _processDownload($resource, $resourceType)
     {
-        $helper = $this->_objectManager->get('Magento\Downloadable\Helper\Download');
         /* @var $helper DownloadHelper */
-
+        $helper = $this->_objectManager->get('Magento\Downloadable\Helper\Download');
         $helper->setResource($resource, $resourceType);
 
         $fileName       = $helper->getFilename();
@@ -56,20 +53,16 @@ class Edit extends \Magento\Catalog\Controller\Adminhtml\Product
             ->setHeader('Content-type', $contentType, true);
 
         if ($fileSize = $helper->getFileSize()) {
-            $this->getResponse()
-                ->setHeader('Content-Length', $fileSize);
+            $this->getResponse()->setHeader('Content-Length', $fileSize);
         }
 
         if ($contentDisposition = $helper->getContentDisposition()) {
             $this->getResponse()
-                ->setHeader('Content-Disposition', $contentDisposition . '; filename='.$fileName);
+                ->setHeader('Content-Disposition', $contentDisposition . '; filename=' . $fileName);
         }
 
-        $this->getResponse()
-            ->clearBody();
-        $this->getResponse()
-            ->sendHeaders();
-
+        $this->getResponse()->clearBody();
+        $this->getResponse()->sendHeaders();
         $helper->output();
     }
 

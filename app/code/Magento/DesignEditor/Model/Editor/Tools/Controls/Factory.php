@@ -115,7 +115,6 @@ class Factory
                 break;
             default:
                 throw new \Magento\Exception("Unknown control configuration type: \"{$type}\"");
-                break;
         }
         $rootDirectory = $this->filesystem->getDirectoryRead(\Magento\App\Filesystem::ROOT_DIR);
         $paths = array();
@@ -127,10 +126,12 @@ class Factory
         $config = $this->_objectManager->create($class, array('configFiles' => $fileIterator));
 
         return $this->_objectManager->create(
-            'Magento\DesignEditor\Model\Editor\Tools\Controls\Configuration', array(
+            'Magento\DesignEditor\Model\Editor\Tools\Controls\Configuration',
+            [
                 'configuration' => $config,
                 'theme'         => $theme,
                 'parentTheme'   => $parentTheme
-        ));
+            ]
+        );
     }
 }

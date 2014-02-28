@@ -8,16 +8,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Pbridge\Block\Iframe;
 
 /**
  * Abstract payment block
- *
- * @category    Magento
- * @package     Magento_Pbridge
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Pbridge\Block\Iframe;
-
 abstract class AbstractIframe extends \Magento\Payment\Block\Form
 {
     /**

@@ -112,9 +112,7 @@ class Config implements \Magento\View\ConfigInterface
         if (empty($themeConfigFile) ||
             !$this->rootDirectory->isExist($this->rootDirectory->getRelativePath($themeConfigFile))
         ) {
-            $themeConfigFile = $this->viewFileSystem->getFilename(
-                $this->filename, $params
-            );
+            $themeConfigFile = $this->viewFileSystem->getFilename($this->filename, $params);
         }
         if ($themeConfigFile &&
             $this->rootDirectory->isExist($this->rootDirectory->getRelativePath($themeConfigFile))
