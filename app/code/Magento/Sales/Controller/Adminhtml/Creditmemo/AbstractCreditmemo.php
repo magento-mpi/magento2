@@ -104,7 +104,7 @@ class AbstractCreditmemo extends \Magento\Backend\App\Action
     }
 
     /**
-     * @return ResponseInterface
+     * @return ResponseInterface|void
      */
     public function pdfcreditmemosAction()
     {
