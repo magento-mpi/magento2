@@ -38,7 +38,7 @@ class Observer
     protected $_calculation;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\LocaleInterface
      */
     protected $_locale;
 
@@ -52,7 +52,7 @@ class Observer
      * @param \Magento\Tax\Model\Sales\Order\TaxFactory $orderTaxFactory
      * @param \Magento\Tax\Model\Sales\Order\Tax\ItemFactory $taxItemFactory
      * @param \Magento\Tax\Model\Calculation $calculation
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\LocaleInterface $locale
      * @param \Magento\Tax\Model\Resource\Report\TaxFactory $reportTaxFactory
      */
     public function __construct(
@@ -60,7 +60,7 @@ class Observer
         \Magento\Tax\Model\Sales\Order\TaxFactory $orderTaxFactory,
         \Magento\Tax\Model\Sales\Order\Tax\ItemFactory $taxItemFactory,
         \Magento\Tax\Model\Calculation $calculation,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\LocaleInterface $locale,
         \Magento\Tax\Model\Resource\Report\TaxFactory $reportTaxFactory
     ) {
         $this->_taxData = $taxData;

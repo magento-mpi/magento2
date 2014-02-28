@@ -5,6 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Ups\Model;
 
 use Magento\Sales\Model\Quote\Address\RateRequest;
@@ -108,7 +109,7 @@ class Carrier extends AbstractCarrierOnline implements CarrierInterface
     protected $_customizableContainerTypes = array('CP', 'CSP');
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\LocaleInterface
      */
     protected $_locale;
 
@@ -137,8 +138,8 @@ class Carrier extends AbstractCarrierOnline implements CarrierInterface
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
      * @param \Magento\Directory\Helper\Data $directoryData
      * @param \Magento\Logger $logger
-     * @param \Magento\Core\Model\LocaleInterface $locale
-     * @param \Magento\Ups\Helper\Config $configHelper,
+     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Ups\Helper\Config $configHelper
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -158,7 +159,7 @@ class Carrier extends AbstractCarrierOnline implements CarrierInterface
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
         \Magento\Directory\Helper\Data $directoryData,
         \Magento\Logger $logger,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\LocaleInterface $locale,
         \Magento\Ups\Helper\Config $configHelper,
         array $data = array()
     ) {

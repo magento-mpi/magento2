@@ -10,6 +10,8 @@ namespace Magento\AdminGws\Model\Plugin;
 class CategoryResource
 {
     /**
+     * Admin role
+     *
      * @var \Magento\AdminGws\Model\Role
      */
     protected $_role;
@@ -25,26 +27,29 @@ class CategoryResource
     /**
      * Check if category can be moved
      *
-     * @param array $methodArguments
-     * @return array
+     * @param \Magento\Catalog\Model\Resource\Category $subject
+     * @param \Magento\Catalog\Model\Category $category
+     * @param \Magento\Catalog\Model\Category $newParent
+     * @param null|int $afterCategoryId
+     *
+     * @return void
      * @throws \Magento\Core\Exception
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function beforeChangeParent(array $methodArguments)
-    {
-        if ($this->_role->getIsAll()) {
-            return $methodArguments;
-        }
-
-        /** @var $currentCategory \Magento\Catalog\Model\Category */
-        /** @var $parentCategory \Magento\Catalog\Model\Category */
-        list($currentCategory, $parentCategory,) = $methodArguments;
-        /** @var $category \Magento\Catalog\Model\Category */
-        foreach (array($parentCategory, $currentCategory) as $category) {
-            if (!$this->_role->hasExclusiveCategoryAccess($category->getData('path'))) {
-                throw new \Magento\Core\Exception(__('You need more permissions to save this item.'));
+    public function beforeChangeParent(
+        \Magento\Catalog\Model\Resource\Category $subject,
+        \Magento\Catalog\Model\Category $category,
+        \Magento\Catalog\Model\Category $newParent,
+        $afterCategoryId = null
+    ) {
+        if (!$this->_role->getIsAll()) {
+            /** @var $categoryItem \Magento\Catalog\Model\Category */
+            foreach (array($newParent, $category) as $categoryItem) {
+                if (!$this->_role->hasExclusiveCategoryAccess($categoryItem->getData('path'))) {
+                    throw new \Magento\Core\Exception(__('You need more permissions to save this item.'));
+                }
             }
         }
-        return $methodArguments;
     }
 }
 

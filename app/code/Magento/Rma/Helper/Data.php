@@ -77,7 +77,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Core locale interface
      *
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\LocaleInterface
      */
     protected $_locale;
 
@@ -149,7 +149,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Directory\Model\CountryFactory $countryFactory
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\LocaleInterface $locale
      * @param \Magento\Rma\Model\Resource\ItemFactory $itemFactory
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Backend\Model\Auth\Session $authSession
@@ -167,7 +167,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\Directory\Model\CountryFactory $countryFactory,
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\LocaleInterface $locale,
         \Magento\Rma\Model\Resource\ItemFactory $itemFactory,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Backend\Model\Auth\Session $authSession,
@@ -571,7 +571,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         $storeDate = $this->_locale->storeDate(
             $this->_storeManager->getStore(), $this->dateTime->toTimestamp($date), true
         );
-        return $this->_locale->formatDate($storeDate, \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
+        return $this->_locale->formatDate($storeDate, \Magento\LocaleInterface::FORMAT_TYPE_SHORT);
     }
 
     /**

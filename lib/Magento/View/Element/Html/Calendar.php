@@ -89,12 +89,12 @@ class Calendar extends \Magento\View\Element\Template
         $this->assign(
             'defaultFormat',
             $this->encoder->encode(
-                $this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM)
+                $this->_locale->getDateFormat(\Magento\LocaleInterface::FORMAT_TYPE_MEDIUM)
             )
         );
         $this->assign(
             'toolTipFormat',
-            $this->encoder->encode($this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_LONG))
+            $this->encoder->encode($this->_locale->getDateFormat(\Magento\LocaleInterface::FORMAT_TYPE_LONG))
         );
 
         // get days and months for en_US locale - calendar will parse exactly in this locale

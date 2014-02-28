@@ -667,7 +667,7 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
     /**
      * @param \Magento\Customer\Helper\Address $customerAddress
      * @param \Magento\Logger $logger
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\LocaleInterface $locale
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Logger\AdapterFactory $logAdapterFactory
      * @param \Magento\Directory\Model\CountryFactory $countryFactory
@@ -676,7 +676,7 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
     public function __construct(
         \Magento\Customer\Helper\Address $customerAddress,
         \Magento\Logger $logger,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\LocaleInterface $locale,
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Logger\AdapterFactory $logAdapterFactory,
         \Magento\Directory\Model\CountryFactory $countryFactory,

@@ -49,7 +49,7 @@ class Backup extends \Magento\Object implements \Magento\Backup\Db\BackupInterfa
     /**
      * Locale model
      *
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\LocaleInterface
      */
     protected $_locale;
 
@@ -72,7 +72,7 @@ class Backup extends \Magento\Object implements \Magento\Backup\Db\BackupInterfa
 
     /**
      * @param \Magento\Backup\Helper\Data $helper
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\LocaleInterface $locale
      * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param \Magento\Encryption\EncryptorInterface $encryptor
      * @param \Magento\App\Filesystem $filesystem
@@ -80,7 +80,7 @@ class Backup extends \Magento\Object implements \Magento\Backup\Db\BackupInterfa
      */
     public function __construct(
         \Magento\Backup\Helper\Data $helper,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\LocaleInterface $locale,
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Encryption\EncryptorInterface $encryptor,
         \Magento\App\Filesystem $filesystem,
