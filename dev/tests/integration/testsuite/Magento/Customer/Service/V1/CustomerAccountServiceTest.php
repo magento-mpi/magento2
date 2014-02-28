@@ -398,7 +398,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
      */
-    public function testChangePassword()
+    public function testResetPassword()
     {
         $resetToken = 'lsdj579slkj5987slkj595lkj';
         $password = 'password_secret';
@@ -411,7 +411,63 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         );
         $this->_customerAccountService->updateAccount($this->_customerBuilder->create());
 
-        $this->_customerAccountService->changePassword(1, $password);
+        $this->_customerAccountService->resetPassword(1, $resetToken, $password);
+    }
+
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     *
+     * @expectedException \Magento\Exception\StateException
+     * @expectedExceptionCode \Magento\Exception\StateException::EXPIRED
+     */
+    public function testResetPasswordTokenExpired()
+    {
+        $resetToken = 'lsdj579slkj5987slkj595lkj';
+        $password = 'password_secret';
+
+        $this->_customerBuilder->populateWithArray(
+            array_merge($this->_customerAccountService->getCustomer(1)->__toArray(), [
+                'rp_token' => $resetToken,
+                'rp_token_created_at' => '1970-01-01',
+            ])
+        );
+        $this->_customerAccountService->saveCustomer($this->_customerBuilder->create());
+
+        $this->_customerAccountService->resetPassword(1, $resetToken, $password);
+    }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     *
+     */
+    public function testResetPasswordTokenInvalid()
+    {
+        $resetToken = 'lsdj579slkj5987slkj595lkj';
+        $invalidToken = 0;
+        $password = 'password_secret';
+
+        $this->_customerBuilder->populateWithArray(
+            array_merge($this->_customerAccountService->getCustomer(1)->__toArray(), [
+                'rp_token' => $resetToken,
+                'rp_token_created_at' => date('Y-m-d')
+            ])
+        );
+        $this->_customerAccountService->saveCustomer($this->_customerBuilder->create());
+
+        try {
+            $this->_customerAccountService->resetPassword(1, $invalidToken, $password);
+            $this->fail('Expected exception not thrown.');
+        } catch (InputException $ie) {
+            $expectedParams = [
+                [
+                    'value' => $invalidToken,
+                    'fieldName' => 'resetPasswordLinkToken',
+                    'code' => InputException::INVALID_FIELD_VALUE,
+                ]
+            ];
+            $this->assertEquals($expectedParams, $ie->getParams());
+        }
     }
 
     /**
@@ -430,7 +486,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         );
         $this->_customerAccountService->updateAccount($this->_customerBuilder->create());
         try {
-            $this->_customerAccountService->changePassword(4200, $password);
+            $this->_customerAccountService->resetPassword(4200, $resetToken, $password);
             $this->fail('Expected exception not thrown.');
         } catch (NoSuchEntityException $nsee) {
             $expectedParams = [
@@ -438,6 +494,37 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             ];
             $this->assertEquals($expectedParams, $nsee->getParams());
         }
+    }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     */
+    public function testResetPasswordTokenInvalidUserId()
+    {
+        $resetToken = 'lsdj579slkj5987slkj595lkj';
+        $password = 'password_secret';
+
+        $this->_customerBuilder->populateWithArray(
+            array_merge($this->_customerAccountService->getCustomer(1)->__toArray(), [
+                'rp_token' => $resetToken,
+                'rp_token_created_at' => date('Y-m-d')
+            ])
+        );
+        $this->_customerAccountService->updateAccount($this->_customerBuilder->create());
+        try {
+            $this->_customerAccountService->resetPassword(0, $resetToken, $password);
+            $this->fail('Expected exception not thrown.');
+        } catch (InputException $ie) {
+            $expectedParams = [
+                [
+                    'value' => 0,
+                    'fieldName' => 'customerId',
+                    'code' => InputException::INVALID_FIELD_VALUE,
+                ]
+            ];
+            $this->assertEquals($expectedParams, $ie->getParams());
+        }
+
     }
 
     /**

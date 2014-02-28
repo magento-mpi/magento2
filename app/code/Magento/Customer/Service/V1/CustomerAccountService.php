@@ -260,12 +260,12 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function resetPassword($customerId, $password, $resetToken)
+    public function resetPassword($customerId, $resetToken, $newPassword)
     {
         $customerModel = $this->_validateResetPasswordToken($customerId, $resetToken);
         $customerModel->setRpToken(null);
         $customerModel->setRpTokenCreatedAt(null);
-        $customerModel->setPassword($password);
+        $customerModel->setPassword($newPassword);
         $customerModel->save();
     }
 

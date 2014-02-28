@@ -167,15 +167,14 @@ interface CustomerAccountServiceInterface
      * Reset customer password.
      *
      * @param int $customerId
-     * @param string $password
-     * @param string $resetToken
+     * @param string $resetToken Token sent to customer via e-mail
+     * @param string $newPassword
      * @return void
      * @throws \Magento\Exception\StateException If token is expired or mismatched
      * @throws \Magento\Exception\InputException If token or customer id is invalid
      * @throws \Magento\Exception\NoSuchEntityException If customer doesn't exist
-     * @deprecated Use changePassword and validateResetPasswordLinkToken instead
      */
-    public function resetPassword($customerId, $password, $resetToken);
+    public function resetPassword($customerId, $resetToken, $newPassword);
 
     /**
      * Gets the account confirmation status
