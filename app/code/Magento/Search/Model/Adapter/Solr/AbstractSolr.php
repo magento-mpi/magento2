@@ -325,7 +325,7 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
      * Prepare fq filter conditions
      *
      * @param array $filters
-     * @return array
+     * @return string[]
      */
     protected function _prepareFilters($filters)
     {

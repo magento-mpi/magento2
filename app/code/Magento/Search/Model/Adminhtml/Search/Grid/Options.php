@@ -42,9 +42,7 @@ class Options implements \Magento\Option\ArrayInterface
     }
 
     /**
-     * Retrieve selected related queries from grid
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function toOptionArray()
     {
