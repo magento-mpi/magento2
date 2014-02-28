@@ -114,7 +114,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
                     'getDefaultShippingAddress',
                     'getDefaultBillingAddress',
                     'getStoreId',
-                    'getAddressById',
+                    'getAddress',
                     'getAddresses',
                     'getAddressItemById',
                     'getParentId',
@@ -298,7 +298,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         $customerService = $this->_createService();
 
         $addressId = 1;
-        $address = $customerService->getAddressById($addressId);
+        $address = $customerService->getAddress($addressId);
 
         $expected = [
             'id' => 1,

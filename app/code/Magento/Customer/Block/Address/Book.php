@@ -178,7 +178,7 @@ class Book extends \Magento\View\Element\Template
     public function getAddressById($addressId)
     {
         try {
-            return $this->_addressService->getAddressById($addressId);
+            return $this->_addressService->getAddress($addressId);
         } catch (\Magento\Exception\NoSuchEntityException $e) {
             return null;
         }

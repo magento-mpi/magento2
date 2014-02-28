@@ -280,7 +280,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
          */
         $addresses = $this->customerAddressService->getAddresses($customerId);
         $this->assertEquals(2, count($addresses));
-        $updatedAddress = $this->customerAddressService->getAddressById(1);
+        $updatedAddress = $this->customerAddressService->getAddress(1);
         $this->assertEquals('update firstname', $updatedAddress->getFirstname());
         $newAddress = $this->customerAddressService->getDefaultShippingAddress($customerId);
         $this->assertEquals('new firstname', $newAddress->getFirstname());

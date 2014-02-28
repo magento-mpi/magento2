@@ -277,7 +277,7 @@ class Index extends \Magento\Backend\App\Action
                     }
 
                     try {
-                        $address = $this->_addressService->getAddressById($addressId);
+                        $address = $this->_addressService->getAddress($addressId);
                         if (!empty($customerId) && $address->getCustomerId() == $customerId) {
                             $this->_addressBuilder->populate($address);
                         }

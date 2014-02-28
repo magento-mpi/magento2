@@ -95,7 +95,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
     public function testSaveAddressChanges()
     {
         $customerId = 1;
-        $address = $this->_service->getAddressById(2);
+        $address = $this->_service->getAddress(2);
         $proposedAddressBuilder = $this->_addressBuilder->populate($address);
         $proposedAddressBuilder->setTelephone('555' . $address->getTelephone());
         $proposedAddress = $proposedAddressBuilder->create();
@@ -178,7 +178,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
     public function testGetAddressById()
     {
         $addressId = 2;
-        $addresses = $this->_service->getAddressById($addressId);
+        $addresses = $this->_service->getAddress($addressId);
         $this->assertEquals($this->_expectedAddresses[1], $addresses);
     }
 
@@ -189,7 +189,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
     {
         // Should throw the address not found exception
         try {
-            $this->_service->getAddressById(12345);
+            $this->_service->getAddress(12345);
             $this->fail("Expected NoSuchEntityException not caught");
         } catch (NoSuchEntityException $exception) {
             $this->assertSame($exception->getCode(), \Magento\Exception\NoSuchEntityException::NO_SUCH_ENTITY);
@@ -494,7 +494,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
     {
         $addressId = 1;
         // See that customer already has an address with expected addressId
-        $addressDto = $this->_service->getAddressById($addressId);
+        $addressDto = $this->_service->getAddress($addressId);
         $this->assertEquals($addressDto->getId(), $addressId);
 
         // Delete the address from the customer
@@ -502,7 +502,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
 
         // See that address is deleted
         try {
-            $addressDto = $this->_service->getAddressById($addressId);
+            $addressDto = $this->_service->getAddress($addressId);
             $this->fail("Expected NoSuchEntityException not caught");
         } catch (NoSuchEntityException $exception) {
             $this->assertSame($exception->getCode(), \Magento\Exception\NoSuchEntityException::NO_SUCH_ENTITY);

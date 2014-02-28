@@ -92,7 +92,7 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
                     'getDefaultShippingAddress',
                     'getDefaultBillingAddress',
                     'getStoreId',
-                    'getAddressById',
+                    'getAddress',
                     'getAddresses',
                     'getAddressItemById',
                     'getParentId',
