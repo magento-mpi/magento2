@@ -106,9 +106,7 @@ class Tax extends AbstractTotal
         $this->_store = $address->getQuote()->getStore();
         $customerData = $address->getQuote()->getCustomerData();
         if ($customerData) {
-            // TODO: Replace the following line with commented one after implementation of MAGETWO-20188
-            $this->_calculator->setCustomer($address->getQuote()->getCustomer());
-            // $this->_calculator->setCustomerData($customerData);
+            $this->_calculator->setCustomerData($address->getQuote()->getCustomerData());
         }
 
         if (!$address->getAppliedTaxesReset()) {

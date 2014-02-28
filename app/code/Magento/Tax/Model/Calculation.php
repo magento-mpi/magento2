@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Tax
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,6 +9,10 @@
 namespace Magento\Tax\Model;
 
 use Magento\Core\Model\Store;
+use Magento\Customer\Service\V1\Data\Customer as CustomerDataObject;
+use Magento\Customer\Service\V1\CustomerServiceInterface;
+use Magento\Customer\Service\V1\CustomerAddressServiceInterface as AddressServiceInterface;
+use Magento\Customer\Service\V1\CustomerGroupServiceInterface as GroupServiceInterface;
 
 /**
  * Tax Calculation Model
@@ -62,13 +64,6 @@ class Calculation extends \Magento\Core\Model\AbstractModel
     protected $_defaultCustomerTaxClass;
 
     /**
-     * Customer data
-     *
-     * @var \Magento\Customer\Helper\Data
-     */
-    protected $_customerData = null;
-
-    /**
      * Core store config
      *
      * @var \Magento\Core\Model\Store\Config
@@ -101,9 +96,23 @@ class Calculation extends \Magento\Core\Model\AbstractModel
     protected $_classesFactory;
 
     /**
+     * @var CustomerServiceInterface
+     */
+    protected $_customerService;
+
+    /**
+     * @var GroupServiceInterface
+     */
+    protected $_groupService;
+
+    /**
+     * @var \Magento\Customer\Model\Converter
+     */
+    protected $_converter;
+
+    /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Customer\Helper\Data $customerData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Model\GroupFactory $groupFactory
@@ -111,13 +120,16 @@ class Calculation extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Tax\Model\Resource\TaxClass\CollectionFactory $classesFactory
      * @param \Magento\Tax\Model\Resource\Calculation $resource
+     * @param CustomerServiceInterface $customerService
+     * @param AddressServiceInterface $addressService
+     * @param GroupServiceInterface $groupService
+     * @param \Magento\Customer\Model\Converter $converter
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\Customer\Helper\Data $customerData,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Customer\Model\GroupFactory $groupFactory,
@@ -125,16 +137,24 @@ class Calculation extends \Magento\Core\Model\AbstractModel
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Tax\Model\Resource\TaxClass\CollectionFactory $classesFactory,
         \Magento\Tax\Model\Resource\Calculation $resource,
+        CustomerServiceInterface $customerService,
+        AddressServiceInterface $addressService,
+        GroupServiceInterface $groupService,
+        \Magento\Customer\Model\Converter $converter,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_customerData = $customerData;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_storeManager = $storeManager;
         $this->_groupFactory = $groupFactory;
         $this->_customerSession = $customerSession;
         $this->_customerFactory = $customerFactory;
         $this->_classesFactory = $classesFactory;
+        $this->_customerService = $customerService;
+        $this->_addressService = $addressService;
+        $this->_groupService = $groupService;
+        $this->_converter = $converter;
+
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -159,16 +179,30 @@ class Calculation extends \Magento\Core\Model\AbstractModel
     }
 
     /**
+     * Specify customer object which can be used for rate calculation
+     *
+     * @param CustomerDataObject $customerData
+     * @return $this
+     */
+    public function setCustomerData(CustomerDataObject $customerData)
+    {
+        /* @TODO: remove model usage in favor of Data Object */
+        $customer = $this->_customerFactory->create();
+        $customer->setData(\Magento\Service\DataObjectConverter::toFlatArray($customerData));
+        $customer->setId($customerData->getId());
+        $this->setCustomer($customer);
+        return $this;
+    }
+
+    /**
      * @param null|Store|string|int $store
      * @return mixed
      */
     public function getDefaultCustomerTaxClass($store = null)
     {
         if ($this->_defaultCustomerTaxClass === null) {
-            $defaultCustomerGroup = $this->_customerData->getDefaultCustomerGroupId($store);
-            /** @var $customerGroup \Magento\Customer\Model\Group */
-            $customerGroup = $this->_groupFactory->create();
-            $this->_defaultCustomerTaxClass = $customerGroup->getTaxClassId($defaultCustomerGroup);
+            $defaultCustomerGroup = $this->_groupService->getDefaultGroup($store);
+            $this->_defaultCustomerTaxClass = $defaultCustomerGroup->getTaxClassId();
         }
         return $this->_defaultCustomerTaxClass;
     }
@@ -192,6 +226,18 @@ class Calculation extends \Magento\Core\Model\AbstractModel
             }
         }
         return $this->_customer;
+    }
+
+    /**
+     * Retrieve customer data object
+     *
+     * @return CustomerDataObject
+     */
+    public function getCustomerData()
+    {
+        /* @TODO: remove this code in favor of setCustomerData*/
+        $customerModel = $this->getCustomer();
+        return $this->_converter->createCustomerFromModel($customerModel);
     }
 
     /**
@@ -382,7 +428,7 @@ class Calculation extends \Magento\Core\Model\AbstractModel
             return $this->getRateOriginRequest($store);
         }
         $address    = new \Magento\Object();
-        $customer   = $this->getCustomer();
+        $customerData   = $this->getCustomerData();
         $basedOn    = $this->_coreStoreConfig->getConfig(\Magento\Tax\Model\Config::CONFIG_XML_PATH_BASED_ON, $store);
 
         if (($shippingAddress === false && $basedOn == 'shipping')
@@ -390,13 +436,26 @@ class Calculation extends \Magento\Core\Model\AbstractModel
             $basedOn = 'default';
         } else {
             if ((($billingAddress === false || is_null($billingAddress) || !$billingAddress->getCountryId())
-                && $basedOn == 'billing')
+                    && $basedOn == 'billing')
                 || (($shippingAddress === false || is_null($shippingAddress) || !$shippingAddress->getCountryId())
-                && $basedOn == 'shipping')
-            ){
-                if ($customer) {
-                    $defBilling = $customer->getDefaultBillingAddress();
-                    $defShipping = $customer->getDefaultShippingAddress();
+                    && $basedOn == 'shipping')
+            ) {
+                if ($customerData->getId()) {
+                    try {
+                        $defBilling = $this->_addressService->getDefaultBillingAddress(
+                            $customerData->getId()
+                        );
+                    } catch (\Magento\Exception\NoSuchEntityException $e) {
+                        /** Address does not exist */
+                    }
+
+                    try {
+                        $defShipping = $this->_addressService->getDefaultShippingAddress(
+                            $customerData->getId()
+                        );
+                    } catch (\Magento\Exception\NoSuchEntityException $e) {
+                        /** Address does not exist */
+                    }
 
                     if ($basedOn == 'billing' && $defBilling && $defBilling->getCountryId()) {
                         $billingAddress = $defBilling;
@@ -437,9 +496,9 @@ class Calculation extends \Magento\Core\Model\AbstractModel
                 break;
         }
 
-        if (is_null($customerTaxClass) && $customer) {
-            $customerTaxClass = $customer->getTaxClassId();
-        } elseif (($customerTaxClass === false) || !$customer) {
+        if (is_null($customerTaxClass) && $customerData->getId()) {
+            $customerTaxClass = $customerData->getTaxClassId();
+        } elseif (($customerTaxClass === false) || !$customerData) {
             $customerTaxClass = $this->getDefaultCustomerTaxClass($store);
         }
 
