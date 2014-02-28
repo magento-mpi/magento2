@@ -33,12 +33,12 @@ class ImportTest extends \PHPUnit_Framework_TestCase
         $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $this->_indexerMock = $this->getMock(
-            '\Magento\Indexer\Model\Indexer', array('getId', 'invalidate'), array(), '', false
+            'Magento\Indexer\Model\Indexer', array('getId', 'invalidate'), array(), '', false
         );
         $this->_indexerMock->expects($this->any())->method('getId')->will($this->returnValue(1));
 
         $this->_model = $this->_objectManager->getObject(
-            '\Magento\Catalog\Model\Indexer\Product\Price\Plugin\Import',
+            'Magento\Catalog\Model\Indexer\Product\Price\Plugin\Import',
             array('indexer' => $this->_indexerMock)
         );
     }
