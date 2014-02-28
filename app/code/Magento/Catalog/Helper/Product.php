@@ -150,13 +150,14 @@ class Product extends \Magento\Core\Helper\Url
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_logger = $context->getLogger();
         $this->_reindexPriceIndexerData = $reindexPriceIndexerData;
-        parent::__construct($context, $storeManager);        
+        parent::__construct($context, $storeManager);
     }
 
     /**
      * Retrieve data for price indexer update
      *
-     * @return  array
+     * @param \Magento\Catalog\Model\Product|array $data
+     * @return boolean
      */
     public function isDataForPriceIndexerWasChanged($data)
     {
@@ -178,7 +179,6 @@ class Product extends \Magento\Core\Helper\Url
                 }
             }
         }
-
         return false;
     }
 
