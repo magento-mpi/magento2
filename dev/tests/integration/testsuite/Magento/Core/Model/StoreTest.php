@@ -274,6 +274,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoAppIsolation enabled
      * @magentoAppArea adminhtml
+     * @magentoDbIsolation enabled
      */
     public function testCRUD()
     {
@@ -287,9 +288,9 @@ class StoreTest extends \PHPUnit_Framework_TestCase
                 'is_active'     => 1
             )
         );
-
-        /* emulate admin store */
-        $crud = new \Magento\TestFramework\Entity($this->_model, array('name' => 'new name'));
+        $crud = new \Magento\TestFramework\Entity(
+            $this->_model, array('name' => 'new name'), 'Magento\Core\Model\Store'
+        );
         $crud->testCrud();
     }
 
@@ -298,6 +299,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider saveValidationDataProvider
      * @magentoAppIsolation enabled
+     * @magentoAppArea adminhtml
      * @magentoDbIsolation enabled
      * @expectedException \Magento\Core\Exception
      */
@@ -312,10 +314,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
             'is_active'     => 1
         );
         $data = array_merge($normalStoreData, $badStoreData);
-
         $this->_model->setData($data);
-
-        /* emulate admin store */
         $this->_model->save();
     }
 
