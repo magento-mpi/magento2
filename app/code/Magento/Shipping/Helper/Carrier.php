@@ -21,7 +21,7 @@ class Carrier extends \Magento\App\Helper\AbstractHelper
     /**
      * Locale interface
      *
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\LocaleInterface
      */
     protected $locale;
 
@@ -34,12 +34,12 @@ class Carrier extends \Magento\App\Helper\AbstractHelper
 
     /**
      * @param \Magento\App\Helper\Context $context
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\LocaleInterface $locale
      * @param \Magento\Core\Model\Store\ConfigInterface $storeConfig
     */
     public function __construct(
         \Magento\App\Helper\Context $context,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\LocaleInterface $locale,
         \Magento\Core\Model\Store\ConfigInterface $storeConfig
     ) {
         $this->locale = $locale;
