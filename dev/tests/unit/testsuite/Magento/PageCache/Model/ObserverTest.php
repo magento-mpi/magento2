@@ -159,7 +159,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     /**
      * Test case for cache invalidation
      */
-    public function testInvalidateCache()
+    public function testFlushCacheByTags()
     {
         $tags = array('cache_1', 'cache_group');
         $expectedTags = array('cache_1', 'cache_group', 'cache');

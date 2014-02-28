@@ -39,18 +39,18 @@
         <observer name="flush_all_pagecache" instance="Magento\PageCache\Model\Observer" method="invalidateCache" />
     </event>
     <event name="controller_action_postdispatch_adminhtml_system_currency_saveRates">
-        <observer name="flush_all_pagecache" instance="Magento\PageCache\Model\Observer" method="flushCacheByTags" />
+        <observer name="flush_all_pagecache" instance="Magento\PageCache\Model\Observer" method="invalidateCache" />
     </event>
     <event name="controller_action_postdispatch_adminhtml_system_config_save_index">
-        <observer name="flush_all_pagecache" instance="Magento\PageCache\Model\Observer" method="flushCacheByTags" />
+        <observer name="flush_all_pagecache" instance="Magento\PageCache\Model\Observer" method="invalidateCache" />
     </event>
-    <event name="controller_action_postdispatch_adminhtml_catalog_product_action_attribute_save">
-        <observer name="flush_all_pagecache" instance="Magento\PageCache\Model\Observer" method="flushCacheByTags" />
+    <event name="controller_action_postdispatch_catalog_product_action_attribute_save">
+        <observer name="flush_all_pagecache" instance="Magento\PageCache\Model\Observer" method="invalidateCache" />
     </event>
-    <event name="controller_action_postdispatch_adminhtml_catalog_product_massStatus">
-        <observer name="flush_all_pagecache" instance="Magento\PageCache\Model\Observer" method="flushCacheByTags" />
+    <event name="controller_action_postdispatch_catalog_product_massStatus">
+        <observer name="flush_all_pagecache" instance="Magento\PageCache\Model\Observer" method="invalidateCache" />
     </event>
     <event name="controller_action_postdispatch_adminhtml_system_currencysymbol_save">
-        <observer name="flush_all_pagecache" instance="Magento\PageCache\Model\Observer" method="flushCacheByTags" />
+        <observer name="flush_all_pagecache" instance="Magento\PageCache\Model\Observer" method="invalidateCache" />
     </event>
 </config>
