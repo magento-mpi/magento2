@@ -72,7 +72,7 @@ class StaticResource implements \Magento\LauncherInterface
         \Magento\Module\ModuleList $moduleList,
         \Magento\View\Design\Theme\ListInterface $themeList,
         \Magento\ObjectManager $objectManager,
-        \Magento\App\ObjectManager\ConfigLoader $configLoader
+        ObjectManager\ConfigLoader $configLoader
     ) {
         $this->state = $state;
         $this->response = $response;
