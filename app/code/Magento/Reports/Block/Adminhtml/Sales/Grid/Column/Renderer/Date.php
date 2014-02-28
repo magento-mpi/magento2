@@ -39,7 +39,7 @@ class Date
 
                         default:
                             self::$_format = $this->_locale->getDateFormat(
-                                \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM
+                                \Magento\LocaleInterface::FORMAT_TYPE_MEDIUM
                             );
                             break;
                     }

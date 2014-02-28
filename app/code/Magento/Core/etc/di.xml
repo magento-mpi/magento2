@@ -15,7 +15,7 @@
     <preference for="Magento\Authorization\Policy" type="Magento\Authorization\Policy\DefaultPolicy" />
     <preference for="Magento\Authorization\RoleLocator" type="Magento\Authorization\RoleLocator\DefaultRoleLocator" />
     <preference for="Magento\Session\SessionManagerInterface" type="Magento\Core\Model\Session" />
-    <preference for="Magento\Core\Model\LocaleInterface" type="Magento\Core\Model\Locale" />
+    <preference for="Magento\LocaleInterface" type="Magento\Core\Model\Locale" />
     <preference for="Magento\Core\Model\DataService\ConfigInterface" type="Magento\Core\Model\DataService\Config" />
     <preference for="Magento\App\ConfigInterface" type="Magento\App\Config" />
     <preference for="Magento\App\ReinitableConfigInterface" type="Magento\App\ReinitableConfig" />
@@ -80,7 +80,7 @@
         <arguments>
             <argument name="areas" xsi:type="array">
                 <item name="frontend" xsi:type="array">
-                    <item name="frontName" xsi:type="string"></item>
+                    <item name="frontName" xsi:type="null" />
                     <item name="router" xsi:type="string">standard</item>
                 </item>
             </argument>
@@ -445,11 +445,6 @@
             <argument name="url" xsi:type="object">Magento\Backend\Model\UrlInterface\Proxy</argument>
         </arguments>
     </type>
-    <type name="Magento\Core\Model\App">
-        <arguments>
-            <argument name="frontController" xsi:type="object">Magento\App\FrontController\Proxy</argument>
-        </arguments>
-    </type>
     <type name="Magento\Core\Model\App\Area">
         <arguments>
             <argument name="translator" xsi:type="object">Magento\Translate</argument>
@@ -503,6 +498,11 @@
     <type name="Magento\Less\PreProcessor\Instruction\MagentoImport">
         <arguments>
             <argument name="fileSource" xsi:type="object">Magento\Less\File\Source\Aggregated</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Less\PreProcessor\Instruction\Import">
+        <arguments>
+            <argument name="preProcessor" xsi:type="object">Magento\Less\PreProcessor\Proxy</argument>
         </arguments>
     </type>
     <type name="Magento\Less\File\Source\Aggregated">

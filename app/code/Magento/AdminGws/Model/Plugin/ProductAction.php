@@ -25,25 +25,27 @@ class ProductAction
     /**
      * Check website access before adding/removing products to/from websites during mass update
      *
-     * @param array $methodArguments
-     * @return array
+     * @param \Magento\Catalog\Model\Product\Action $subject
+     * @param array $productIds
+     * @param array $websiteIds
+     * @param string $type
+     *
+     * @return void
      * @throws \Magento\Core\Exception
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function beforeUpdateWebsites(array $methodArguments)
-    {
-        if ($this->_role->getIsAll()) {
-            return $methodArguments;
-        }
-        list(, $websiteIds, $type) = $methodArguments;
-        if (in_array($type, array('remove', 'add'))) {
-            if (!$this->_role->getIsWebsiteLevel()) {
-                throw new \Magento\Core\Exception(__('You need more permissions to save this item.'));
+    public function beforeUpdateWebsites(
+        \Magento\Catalog\Model\Product\Action $subject, $productIds, $websiteIds, $type
+    ) {
+        if (!$this->_role->getIsAll()) {
+            if (in_array($type, array('remove', 'add'))) {
+                if (!$this->_role->getIsWebsiteLevel()) {
+                    throw new \Magento\Core\Exception(__('You need more permissions to save this item.'));
+                }
+                if (!$this->_role->hasWebsiteAccess($websiteIds, true)) {
+                    throw new \Magento\Core\Exception(__('You need more permissions to save this item.'));
+                }
             }
-            if (!$this->_role->hasWebsiteAccess($websiteIds, true)) {
-                throw new \Magento\Core\Exception(__('You need more permissions to save this item.'));
-            }
         }
-        return $methodArguments;
     }
-
 }

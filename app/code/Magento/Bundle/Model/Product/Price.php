@@ -46,7 +46,7 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
      *
      * @param \Magento\CatalogRule\Model\Resource\RuleFactory $ruleFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\LocaleInterface $locale
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Tax\Helper\Data $taxData
@@ -54,7 +54,7 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
     public function __construct(
         \Magento\CatalogRule\Model\Resource\RuleFactory $ruleFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\LocaleInterface $locale,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Tax\Helper\Data $taxData

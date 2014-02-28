@@ -14,17 +14,17 @@ use Magento\Eav\Exception as EavException;
 class Datetime extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\LocaleInterface
      */
     protected $_locale;
 
     /**
      * @param \Magento\Logger $logger
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\LocaleInterface $locale
      */
     public function __construct(
         \Magento\Logger $logger,
-        \Magento\Core\Model\LocaleInterface $locale
+        \Magento\LocaleInterface $locale
     ) {
         $this->_locale = $locale;
         parent::__construct($logger);
@@ -89,7 +89,7 @@ class Datetime extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBacke
         else {
             $date = $this->_locale->date(
                 $date,
-                $this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT),
+                $this->_locale->getDateFormat(\Magento\LocaleInterface::FORMAT_TYPE_SHORT),
                 null,
                 false
             );

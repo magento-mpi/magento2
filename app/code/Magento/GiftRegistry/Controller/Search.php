@@ -26,20 +26,20 @@ class Search extends \Magento\App\Action\Action
     protected $_coreRegistry = null;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\LocaleInterface
      */
     protected $locale;
 
     /**
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Registry $coreRegistry
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\LocaleInterface $locale
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\App\Action\Context $context,
         \Magento\Registry $coreRegistry,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\LocaleInterface $locale,
         \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         $this->_storeManager = $storeManager;
@@ -195,7 +195,7 @@ class Search extends \Magento\App\Action\Action
             return $array;
         }
         if (is_null($format)) {
-            $format = \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT;
+            $format = \Magento\LocaleInterface::FORMAT_TYPE_SHORT;
         }
 
         $filterInput = new \Zend_Filter_LocalizedToNormalized(array(

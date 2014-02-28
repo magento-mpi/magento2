@@ -23,6 +23,7 @@ class EventTest extends \Magento\Backend\Utility\Controller
     /**
      * @magentoDataFixture Magento/Core/_files/store.php
      * @magentoDataFixture Magento/CatalogEvent/_files/events.php
+     * @magentoConfigFixture current_store catalog/frontend/flat_catalog_product 1
      */
     public function testEditActionMultipleStore()
     {

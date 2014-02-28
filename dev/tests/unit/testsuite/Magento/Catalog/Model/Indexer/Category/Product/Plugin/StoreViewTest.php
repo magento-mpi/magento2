@@ -15,7 +15,7 @@ class StoreViewTest extends \PHPUnit_Framework_TestCase
     protected $indexerMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Code\Plugin\InvocationChain
+     * @var \PHPUnit_Framework_MockObject_MockObject|
      */
     protected $pluginMock;
 
@@ -24,17 +24,22 @@ class StoreViewTest extends \PHPUnit_Framework_TestCase
      */
     protected $model;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $subject;
+
     protected function setUp()
     {
-        $this->pluginMock = $this->getMock(
-            'Magento\Code\Plugin\InvocationChain', array('proceed'), array(), '', false
-        );
         $this->indexerMock = $this->getMockForAbstractClass(
             'Magento\Indexer\Model\IndexerInterface',
             array(), '', false, false, true, array('getId', 'getState', '__wakeup')
         );
         $this->model = new StoreView(
             $this->indexerMock
+        );
+        $this->subject = $this->getMock(
+            'Magento\Core\Model\Resource\Store\Group', array(), array(), '', false
         );
     }
 
@@ -47,9 +52,8 @@ class StoreViewTest extends \PHPUnit_Framework_TestCase
         $storeMock->expects($this->once())
             ->method('isObjectNew')
             ->will($this->returnValue(true));
-        $arguments = array($storeMock);
-        $this->mockPluginProceed($arguments);
-        $this->assertFalse($this->model->aroundSave($arguments, $this->pluginMock));
+        $proceed = $this->mockPluginProceed();
+        $this->assertFalse($this->model->aroundSave($this->subject, $proceed, $storeMock));
     }
 
     public function testAroundSaveHasChanged()
@@ -61,9 +65,8 @@ class StoreViewTest extends \PHPUnit_Framework_TestCase
             ->method('dataHasChangedFor')
             ->with('group_id')
             ->will($this->returnValue(true));
-        $arguments = array($storeMock);
-        $this->mockPluginProceed($arguments);
-        $this->assertFalse($this->model->aroundSave($arguments, $this->pluginMock));
+        $proceed = $this->mockPluginProceed();
+        $this->assertFalse($this->model->aroundSave($this->subject, $proceed, $storeMock));
     }
 
     public function testAroundSaveNoNeed()
@@ -75,9 +78,8 @@ class StoreViewTest extends \PHPUnit_Framework_TestCase
             ->method('dataHasChangedFor')
             ->with('group_id')
             ->will($this->returnValue(false));
-        $arguments = array($storeMock);
-        $this->mockPluginProceed($arguments);
-        $this->assertFalse($this->model->aroundSave($arguments, $this->pluginMock));
+        $proceed = $this->mockPluginProceed();
+        $this->assertFalse($this->model->aroundSave($this->subject, $proceed, $storeMock));
     }
 
     /**
@@ -108,11 +110,10 @@ class StoreViewTest extends \PHPUnit_Framework_TestCase
             ->method('invalidate');
     }
 
-    protected function mockPluginProceed($arguments, $returnValue = false)
+    protected function mockPluginProceed($returnValue = false)
     {
-        $this->pluginMock->expects($this->once())
-            ->method('proceed')
-            ->with($arguments)
-            ->will($this->returnValue($returnValue));
+        return function () use ($returnValue) {
+            return $returnValue;
+        };
     }
 }
