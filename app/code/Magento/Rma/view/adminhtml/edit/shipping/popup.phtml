@@ -18,7 +18,7 @@ document.observe("dom:loaded", function() {
     packaging.changeContainerType($$('select[name=package_container]')[0]);
     packaging.checkSizeAndGirthParameter(
         $$('select[name=package_container]')[0],
-        <?php echo $this->isGirthEnabled() ?>
+        <?php echo $this->isGirthAllowed() ?>
     );
 });
 //]]>
@@ -43,7 +43,7 @@ document.observe("dom:loaded", function() {
                     <table class="data-table" cellspacing="0">
                         <thead>
                             <th class="col-type"><?php echo __('Type') ?></th>
-                            <?php if ($this->isGirthEnabled()): ?>
+                            <?php if ($this->isGirthAllowed()): ?>
                                 <?php
                                     list($girthEnabled, $sizeEnabled) = $this->checkSizeAndGirthParameter();
                                     $girthClass     = '';
@@ -80,7 +80,7 @@ document.observe("dom:loaded", function() {
                             <td class="col-type">
                                 <?php $this->getCustomizableContainersStatus() ?>
                                 <?php $containers = $this->getContainers(); ?>
-                                <select name="package_container" onchange="packaging.changeContainerType(this);packaging.checkSizeAndGirthParameter(this, <?php echo  $this->isGirthEnabled() ?>);"<?php if (empty($containers)):?>
+                                <select name="package_container" onchange="packaging.changeContainerType(this);packaging.checkSizeAndGirthParameter(this, <?php echo  $this->isGirthAllowed() ?>);"<?php if (empty($containers)):?>
                                     disabled="disabled" class="disabled"
                                 <?php endif; ?>>
                                     <?php foreach ($this->getContainers() as $key => $value): ?>
@@ -90,9 +90,9 @@ document.observe("dom:loaded", function() {
                                     <?php endforeach; ?>
                                 </select>
                             </td>
-                            <?php if ($this->isGirthEnabled()): ?>
+                            <?php if ($this->isGirthAllowed()): ?>
                                 <td>
-                                    <select name="package_size" onchange="packaging.checkSizeAndGirthParameter(this, <?php echo  $this->isGirthEnabled() ?>);" class="<?php echo $sizeClass?>" <?php echo $sizeDisable?>>
+                                    <select name="package_size" onchange="packaging.checkSizeAndGirthParameter(this, <?php echo  $this->isGirthAllowed() ?>);" class="<?php echo $sizeClass?>" <?php echo $sizeDisable?>>
                                         <?php foreach ($sizeSource as $key => $value): ?>
                                         <option value="<?php echo $sizeSource[$key]['value'] ?>">
                                             <?php echo $sizeSource[$key]['label'] ?>

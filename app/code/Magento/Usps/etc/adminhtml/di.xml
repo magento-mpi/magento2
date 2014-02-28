@@ -7,11 +7,18 @@
  * @license     {license_link}
  */
 -->
-<config>
-    <type name="Magento\Shipping\Block\Adminhtml\Order\Packaging">
-        <plugin name="isDisplayGirthValuePlugin" type="Magento\Usps\Block\Backend\Order\Plugin\DisplayGirth"/>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <type name="Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shipping\Packaging">
         <arguments>
-            <argument name="sourceSizeModel" xsi:type="object">Magento\Usps\Model\Source\Size</argument>
+            <item name="size" xsi:type="object">Magento\Usps\Model\Source\Size</item>
         </arguments>
+        <plugin name="usps" type="Magento\Usps\Block\Rma\Adminhtml\Rma\Edit\Tab\General\Shipping\Packaging\Plugin"/>
+    </type>
+
+    <type name="Magento\Shipping\Block\Adminhtml\Order\Packaging">
+        <arguments>
+            <argument name="shipping" xsi:type="object">Magento\Usps\Model\Source\Size</argument>
+        </arguments>
+        <plugin name="isDisplayGirthValuePlugin" type="Magento\Usps\Block\Backend\Order\Plugin\DisplayGirth"/>
     </type>
 </config>

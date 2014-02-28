@@ -7,7 +7,7 @@
  */
 namespace Magento\Usps\Model;
 
-use Magento\Shipping\Helper\Carrier;
+use Magento\Shipping\Helper\Carrier as CarrierHelper;
 use Magento\Shipping\Model\Carrier\AbstractCarrierOnline;
 use Magento\Shipping\Model\Rate\Result;
 
@@ -152,7 +152,7 @@ class Carrier extends AbstractCarrierOnline implements \Magento\Shipping\Model\C
         \Magento\Directory\Model\CountryFactory $countryFactory,
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
         \Magento\Directory\Helper\Data $directoryData,
-        Carrier $carrierHelper,
+        CarrierHelper $carrierHelper,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
         \Zend_Http_ClientFactory $httpClientFactory,
         array $data = array()
