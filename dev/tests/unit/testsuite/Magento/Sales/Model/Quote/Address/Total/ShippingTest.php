@@ -23,7 +23,7 @@ class ShippingTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider fetchDataProvider
      */
-    public function testFetch($shippingAmount, $shippingDescription)
+    public function testFetch($shippingAmount, $shippingDescription, $expectedTotal)
     {
         $address = $this->getMock(
             'Magento\Sales\Model\Quote\Address',
@@ -43,6 +43,7 @@ class ShippingTest extends \PHPUnit_Framework_TestCase
 
         $address->expects($this->once())
             ->method('addTotal')
+            ->with($this->equalTo($expectedTotal))
             ->will($this->returnSelf());
 
         $this->assertEquals($this->shippingModel, $this->shippingModel->fetch($address));
@@ -53,11 +54,21 @@ class ShippingTest extends \PHPUnit_Framework_TestCase
         return [
             [
                 'shipping_amount' => 1,
-                'shipping_description' => 'Shipping Method'
+                'shipping_description' => 'Shipping Method',
+                'expected' => [
+                    'code'  => 'shipping',
+                    'title' => __('Shipping & Handling (%s)', 'Shipping Method'),
+                    'value' => 1
+                ]
             ],
             [
                 'shipping_amount' => 1,
-                'shipping_description' => ''
+                'shipping_description' => '',
+                'expected' => [
+                    'code'  => 'shipping',
+                    'title' => __('Shipping & Handling'),
+                    'value' => 1
+                ]
             ],
         ];
     }
