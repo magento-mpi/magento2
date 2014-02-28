@@ -357,7 +357,7 @@ class Onepage
 
         if (!empty($customerAddressId)) {
             try {
-                $customerAddress = $this->_customerAddressService->getAddressById($customerAddressId);
+                $customerAddress = $this->_customerAddressService->getAddress($customerAddressId);
             } catch (Exception $e) {
                 /** Address does not exist */
             }
@@ -577,7 +577,7 @@ class Onepage
         if (!empty($customerAddressId)) {
             $addressData = null;
             try {
-                $addressData = $this->_customerAddressService->getAddressById($customerAddressId);
+                $addressData = $this->_customerAddressService->getAddress($customerAddressId);
             } catch (NoSuchEntityException $e) {
                 // do nothing if customer is not found by id
             }

@@ -105,7 +105,7 @@ class Edit extends \Magento\Directory\Block\Data
         // Init address object
         if ($addressId = $this->getRequest()->getParam('id')) {
             try {
-                $this->_address = $this->_addressService->getAddressById($addressId);
+                $this->_address = $this->_addressService->getAddress($addressId);
             } catch (NoSuchEntityException $e) {
                 // something went wrong, but we are ignore it for now
             }

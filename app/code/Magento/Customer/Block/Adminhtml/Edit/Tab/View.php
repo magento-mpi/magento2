@@ -327,7 +327,7 @@ class View
     public function getBillingAddressHtml()
     {
         try {
-            $address = $this->_addressService->getAddressById($this->getCustomer()->getDefaultBilling());
+            $address = $this->_addressService->getAddress($this->getCustomer()->getDefaultBilling());
         } catch (NoSuchEntityException $e) {
             return __('The customer does not have default billing address.');
         }

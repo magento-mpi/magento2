@@ -125,7 +125,7 @@ class BookTest extends \PHPUnit_Framework_TestCase
         $expected = "John Smith<br/>\n\nGreen str, 67<br />\n\n\n\nCityM,  Alabama, 75477<br/>\n<br/>\nT: 3468676\n\n";
         $address = Bootstrap::getObjectManager()
             ->get('Magento\Customer\Service\V1\CustomerAddressServiceInterface')
-            ->getAddressById(1);
+            ->getAddress(1);
         $html = $this->_block->getAddressHtml($address);
         $this->assertEquals($expected, $html);
     }
