@@ -353,8 +353,6 @@ class RequireAnnotatedMethodsSniff implements PHP_CodeSniffer_Sniff
                 $index = array_keys($tagOrder, 'return');
                 $errorPos = $commentStart + $return->getLine();
                 $content = trim($return->getRawContent());
-                $parts = explode(' ', $content);
-                $content = $parts[0];
 
                 if (count($index) > 1) {
                     $this->helper->addMessage($errorPos, Helper::DUPLICATE_RETURN);
@@ -375,6 +373,9 @@ class RequireAnnotatedMethodsSniff implements PHP_CodeSniffer_Sniff
                         Helper::MISSING_RETURN_TYPE
                     );
                 } else {
+                    // Strip off any comments attached to our content
+                    $parts = explode(' ', $content);
+                    $content = $parts[0];
                     // Check return type (can be multiple, separated by '|').
                     $typeNames = explode('|', $content);
                     $suggestedNames = array();
