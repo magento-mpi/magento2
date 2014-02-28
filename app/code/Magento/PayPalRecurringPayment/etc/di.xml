@@ -9,4 +9,11 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <preference for="Magento\RecurringProfile\Model\ManagerInterface" type="Magento\PayPalRecurringPayment\Model\Express" />
+    <type name="Magento\Paypal\Model\IpnFactory">
+        <arguments>
+            <argument name="mapping" xsi:type="array">
+                <item name="ipn" xsi:type="string">Magento\PayPalRecurringPayment\Model\Ipn</item>
+            </argument>
+        </arguments>
+    </type>
 </config>

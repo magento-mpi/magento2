@@ -2,14 +2,11 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Paypal
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-namespace Magento\Paypal\Model;
+namespace Magento\Paypal\PayPalRecurringPayment;
 
 /**
  * @magentoAppArea frontend
@@ -27,50 +24,38 @@ class IpnTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test processIpnRequest() currency check for recurring profile
+     *
      * @param string $currencyCode
      * @dataProvider currencyProvider
-     * @magentoDataFixture Magento/Paypal/_files/order_express.php
+     * @magentoDataFixture Magento/PayPalRecurringPayment/_files/recurring_profile.php
      * @magentoConfigFixture current_store payment/paypal_direct/active 1
      * @magentoConfigFixture current_store payment/paypal_express/active 1
      * @magentoConfigFixture current_store paypal/general/merchant_country US
+     * @magentoConfigFixture current_store sales_email/order/enabled 0
      */
-    public function testProcessIpnRequestExpressCurrency($currencyCode)
+    public function testProcessIpnRequestRecurringCurrency($currencyCode)
     {
-        $this->_processIpnRequestCurrency($currencyCode);
-    }
-
-    /**
-     * @param string $currencyCode
-     * @dataProvider currencyProvider
-     * @magentoDataFixture Magento/Paypal/_files/order_standard.php
-     * @magentoConfigFixture current_store payment/paypal_standard/active 1
-     * @magentoConfigFixture current_store paypal/general/business_account merchant_2012050718_biz@example.com
-     */
-    public function testProcessIpnRequestStandardCurrency($currencyCode)
-    {
-        $this->_processIpnRequestCurrency($currencyCode);
-    }
-
-    /**
-     * Test processIpnRequest() currency check for paypal_express and paypal_standard payment methods
-     *
-     * @param string $currencyCode
-     */
-    protected function _processIpnRequestCurrency($currencyCode)
-    {
-        $ipnData = require(__DIR__ . '/../_files/ipn.php');
+        $ipnData = require(__DIR__ . '/../_files/ipn_recurring_profile.php');
         $ipnData['mc_currency'] = $currencyCode;
 
         /** @var  $ipnFactory \Magento\PayPal\Model\IpnFactory */
-        $ipnFactory = $this->_objectManager->create('Magento\PayPal\Model\IpnFactory');
+        $ipnFactory = $this->_objectManager->create(
+            'Magento\PayPal\Model\IpnFactory',
+            array('mapping' => array('ipn' => 'Magento\PayPalRecurringPayment\Model\Ipn'))
+        );
 
         $model = $ipnFactory->create(
             array('data' => $ipnData, 'curlFactory' => $this->_createMockedHttpAdapter())
         );
         $model->processIpnRequest();
 
+        $recurringProfile = $this->_objectManager->create('Magento\RecurringProfile\Model\Profile');
+        $recurringProfile->loadByInternalReferenceId('5-33949e201adc4b03fbbceafccba893ce');
+        $orderIds = $recurringProfile->getChildOrderIds();
+        $this->assertEquals(1, count($orderIds));
         $order = $this->_objectManager->create('Magento\Sales\Model\Order');
-        $order->loadByIncrementId('100000001');
+        $order->load($orderIds[0]);
         $this->_assertOrder($order, $currencyCode);
     }
 
