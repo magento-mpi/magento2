@@ -62,7 +62,8 @@ class AddressTest extends \PHPUnit_Framework_TestCase
      * @param int $expectedNumLines
      * @dataProvider providerGetStreetLines
      */
-    public function testGetStreetLines($numLines, $expectedNumLines) {
+    public function testGetStreetLines($numLines, $expectedNumLines)
+    {
         $attributeMock = $this->getMockBuilder('Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata')
             ->disableOriginalConstructor()->getMock();
         $attributeMock->expects($this->any())->method('getMultilineCount')->will($this->returnValue($numLines));
