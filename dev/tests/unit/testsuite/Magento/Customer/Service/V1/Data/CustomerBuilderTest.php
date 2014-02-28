@@ -146,7 +146,7 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
             'unknown_key' => 'Golden Necklace'
         ];
         $customer = $this->_customerBuilder->populateWithArray($customerData)->create();
-        $expectedData = $addressData = [
+        $expectedData = [
             'email' => 'test@example.com',
             'firstname' => 'John',
             'lastname' => 'Doe',

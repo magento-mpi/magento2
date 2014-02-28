@@ -55,7 +55,8 @@ class DefaultRendererTest extends \PHPUnit_Framework_TestCase
             [
                 $addressAttributes,
                 AttributeDataFactory::OUTPUT_FORMAT_HTML,
-                "John Smith<br/>\n\nGreen str, 67<br />\n\n\n\nCityM,  Alabama, 75477<br/>\nUnited States<br/>\nT: 3468676\n\n"
+                "John Smith<br/>\n\nGreen str, 67<br />\n\n\n\nCityM,  Alabama,
+                75477<br/>\nUnited States<br/>\nT: 3468676\n\n"
             ],
             [
                 $addressAttributes,
