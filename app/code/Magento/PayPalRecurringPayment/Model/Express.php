@@ -17,25 +17,27 @@ use \Magento\RecurringProfile\Model\ManagerInterface;
 class Express implements ManagerInterface
 {
     /**
-     * @var Api\Nvp
+     * @var PayPalExpress
      */
-    protected $_api;
+    protected $_paymentMethod;
 
     /**
-     * @param Api\Nvp $api
+     * @param PayPalExpress $paymentMethod
+     * @param array $data
      */
-    public function __construct(
-        Api\Nvp $api
-    ) {
-        $this->_api = $api;
+    public function __construct(PayPalExpress $paymentMethod)
+    {
+        $this->_paymentMethod = $paymentMethod;
     }
 
     /**
+     * Get  Payment Method code
+     *
      * @return string
      */
     public function getPaymentMethodCode()
     {
-        return \Magento\Paypal\Model\Config::METHOD_WPP_EXPRESS;
+        return $this->_paymentMethod->getCode();
     }
 
     /**
@@ -73,9 +75,10 @@ class Express implements ManagerInterface
     {
         $token = $paymentInfo->getAdditionalInformation(PayPalExpress\Checkout::PAYMENT_INFO_TRANSPORT_TOKEN);
         $profile->setToken($token);
+        $api = $this->_paymentMethod->getApi();
         \Magento\Object\Mapper::accumulateByMap(
             $profile,
-            $this->_api,
+            $api,
             array(
                 'token', // EC fields
                 // TODO: DP fields
@@ -101,11 +104,11 @@ class Express implements ManagerInterface
                 'init_may_fail'
             )
         );
-        $this->_api->callCreateRecurringPaymentsProfile();
-        $profile->setReferenceId($this->_api->getRecurringProfileId());
-        if ($this->_api->getIsProfileActive()) {
+        $api->callCreateRecurringPaymentsProfile();
+        $profile->setReferenceId($api->getRecurringProfileId());
+        if ($api->getIsProfileActive()) {
             $profile->setState(States::ACTIVE);
-        } elseif ($this->_api->getIsProfilePending()) {
+        } elseif ($api->getIsProfilePending()) {
             $profile->setState(States::PENDING);
         }
     }
@@ -118,7 +121,7 @@ class Express implements ManagerInterface
      */
     public function getDetails($referenceId, \Magento\Object $result)
     {
-        $this->_api->setRecurringProfileId($referenceId)
+        $this->_paymentMethod->getApi()->setRecurringProfileId($referenceId)
             ->callGetRecurringPaymentsProfileDetails($result);
     }
 
@@ -146,6 +149,7 @@ class Express implements ManagerInterface
      */
     public function updateStatus(RecurringProfile $profile)
     {
+        $api = $this->_paymentMethod->getApi();
         $action = null;
         switch ($profile->getNewState()) {
             case States::CANCELED:
@@ -159,7 +163,7 @@ class Express implements ManagerInterface
                 break;
         }
         $state = $profile->getState();
-        $this->_api->setRecurringProfileId($profile->getReferenceId())
+        $api->setRecurringProfileId($profile->getReferenceId())
             ->setIsAlreadyCanceled($state == States::CANCELED)
             ->setIsAlreadySuspended($state == States::SUSPENDED)
             ->setIsAlreadyActive($state == States::ACTIVE)

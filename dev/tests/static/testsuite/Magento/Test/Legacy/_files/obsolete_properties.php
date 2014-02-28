@@ -272,24 +272,4 @@ return array(
     array('_attributeCodes', 'Magento\Catalog\Model\Resource\Category\Flat'),
     array('_columnsSql', 'Magento\Catalog\Model\Resource\Category\Flat'),
     array('_columns', 'Magento\Catalog\Model\Resource\Category\Flat'),
-    [
-        '_createRecurringPaymentsProfileRequest',
-        'Magento\Paypal\Model\Api\Nvp',
-        '\Magento\PayPalRecurringPayment\Model\Api\Nvp::callGetExpressCheckoutDetails'
-    ],
-    [
-        '_manageRecurringPaymentsProfileStatusRequest',
-        'Magento\Paypal\Model\Api\Nvp',
-        '\Magento\PayPalRecurringPayment\Model\Api\Nvp::callGetExpressCheckoutDetails'
-    ],
-    [
-        '_getRecurringPaymentsProfileDetailsRequest',
-        'Magento\Paypal\Model\Api\Nvp',
-        '\Magento\PayPalRecurringPayment\Model\Api\Nvp::callGetExpressCheckoutDetails'
-    ],
-    [
-        '_getRecurringPaymentsProfileDetailsResponse',
-        'Magento\Paypal\Model\Api\Nvp',
-        '\Magento\PayPalRecurringPayment\Model\Api\Nvp::callGetExpressCheckoutDetails'
-    ],
 );
