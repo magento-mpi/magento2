@@ -8,9 +8,11 @@
  * @license     {license_link}
  */
 
-
 namespace Magento\Sales\Model\Email;
 
+/**
+ * Sales email template model
+ */
 class Template extends \Magento\Email\Model\Template
 {
     /**
