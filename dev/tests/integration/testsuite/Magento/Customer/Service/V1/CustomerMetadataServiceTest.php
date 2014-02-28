@@ -71,6 +71,7 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             'email'                     => 'customer@example.com',
             'default_billing'           => '1',
             'default_shipping'          => '1',
+            'disable_auto_group_change' => '0'
         );
 
         $customer = $this->_customerService->getCustomer(1);

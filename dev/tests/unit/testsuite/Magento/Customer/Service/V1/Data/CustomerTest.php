@@ -45,7 +45,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $customerMetadataService = $this->getMockForAbstractClass(
             'Magento\Customer\Service\V1\CustomerMetadataServiceInterface', [], '', false
         );

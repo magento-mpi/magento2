@@ -66,7 +66,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $objectManagerHelper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $regionBuilder = $objectManagerHelper->getObject('Magento\Customer\Service\V1\Data\RegionBuilder');
         /** @var \Magento\Customer\Service\V1\CustomerMetadataService $customerMetadataService */
         $this->_customerMetadataService = $this->getMockBuilder('Magento\Customer\Service\V1\CustomerMetadataService')
