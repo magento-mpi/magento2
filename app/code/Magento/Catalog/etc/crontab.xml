@@ -9,7 +9,7 @@
 -->
 <config>
     <group id="default">
-        <job name="enterprise_catalog_index_refresh_price" instance="\Magento\Catalog\Model\Indexer\Product\Price\Observer" method="refreshSpecialPrices">
+        <job name="catalog_index_refresh_price" instance="\Magento\Catalog\Model\Indexer\Product\Price\Observer" method="refreshSpecialPrices">
             <schedule>0 * * * *</schedule>
         </job>
     </group>

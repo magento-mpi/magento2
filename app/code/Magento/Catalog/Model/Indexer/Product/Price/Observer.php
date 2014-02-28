@@ -85,7 +85,7 @@ class Observer
     }
 
     /**
-     * Add products to changelog with price which depends on date
+     * Add products to changes list with price which depends on date
      */
     public function refreshSpecialPrices()
     {
