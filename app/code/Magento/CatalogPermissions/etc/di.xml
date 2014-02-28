@@ -16,4 +16,10 @@
             <argument name="customerSession" xsi:type="object">Magento\Customer\Model\Session\Proxy</argument>
         </arguments>
     </type>
+    <type name="Magento\Core\Model\Resource\Store">
+        <plugin name="catalogPermissionsIndexerStoreView" type="Magento\CatalogPermissions\Model\Indexer\Plugin\Store\View" />
+    </type>
+    <type name="Magento\Core\Model\Resource\Store\Group">
+        <plugin name="catalogPermissionsIndexerStoreGroup" type="Magento\CatalogPermissions\Model\Indexer\Plugin\Store\Group"/>
+    </type>
 </config>
