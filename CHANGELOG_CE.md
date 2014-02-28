@@ -4,25 +4,25 @@
   * [#235](https://github.com/magento/magento2/issues/235) -- Translation escaping
   * [#463](https://github.com/magento/magento2/pull/463) -- allow _resolveArguments to do sequential lookups
 * Fixed bugs:
-  * Unexistent store views flat tables cleanuper drops catalog_category_flat_cl table
-  * Product flat indexer must use State instead of helpers logic
-  * Fixed an exception that appears when trying to apply a coupon code
-  * Fixed Shopping Cart Price Rule which applied to products that aren't eligible
-  * Fixed Related Orders link from Recurring Profile page on frontend
-  * Fixed CMS preview function from CMS page gid
-  * Fixed sales report filters applying
-  * Fixed bundle product separately shipping doesn't work
-  * Fixed custom not found page action doesn't work
-  * Fixed Stop further rules processing is ignored
+  * Fixed an issue where nonexistent store views flat tables cleanuper dropped the catalog_category_flat_cl table
+  * Fixed an issue where the Product Flat Data indexer used the helpers logic instead of the Flat State logic
+  * Fixed an issue where an exception was thrown when applying a coupon code
+  * Fixed an issue where a Shopping Cart Price Rule was applied to the wrong products
+  * Fixed an issue with the broken Related Orders link on the Recurring Profile page
+  * Fixed an issue with CMS pages preview not working
+  * Fixed an issue with a sales report for a store view returning wrong result
+  * Fixed an issue where shipping did not work for orders containing only bundle products
+  * Fixed an issue where a custom not found page action did not work
+  * Fixed an issue where user configuration for s shopping cart rule to stop further rules processing was ignored
 * Modularity improvements:
-  * Resolved dependencies of Sales module on RecurringProfile module
-  * Resolved dependencies between Email Templates functionality and other modules
-  * Core module lib-only depended components moved to library
-  * CSS url resolving logic moved from publisher to separate css pre-processor
-  * View publisher re-factored
+  * Resolved dependencies of the Sales module on the RecurringProfile module
+  * Resolved dependencies of the Email Templates functionality on application modules
+  * Lib-only dependent components of the Core module moved to library
+  * CSS URL resolving logic moved from the publisher to a separate CSS pre-processor
+  * Refactored the View publisher
 * Customer Service usage:
-  * Sales module refactoring to use customer service layer
-  * Checkout module refactoring to use customer service layer
+  * Refactored the Sales module to use customer service layer
+  * Refactored the Checkout module to use customer service layer
 * Updated various PHPDoc with the parameter and return types
 
 2.0.0.0-dev66
