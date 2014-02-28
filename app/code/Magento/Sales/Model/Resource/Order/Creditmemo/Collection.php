@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Sales\Model\Resource\Order\Creditmemo;
 
 /**
  * Flat sales order creditmemo collection
@@ -16,8 +16,6 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Model\Resource\Order\Creditmemo;
-
 class Collection extends \Magento\Sales\Model\Resource\Order\Collection\AbstractCollection
 {
     /**
@@ -44,6 +42,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection\Abstract
     /**
      * Model initialization
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -53,7 +52,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection\Abstract
     /**
      * Used to emulate after load functionality for each item without loading them
      *
-     * @return \Magento\Sales\Model\Resource\Order\Creditmemo\Collection
+     * @return $this
      */
     protected function _afterLoad()
     {
@@ -65,7 +64,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection\Abstract
      * Add filtration conditions
      *
      * @param array|null $filter
-     * @return \Magento\Sales\Model\Resource\Order\Creditmemo\Collection
+     * @return $this
      */
     public function getFiltered($filter = null)
     {

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Sales\Model\Resource\Order;
 
 /**
  * Flat sales order shipment resource
@@ -16,9 +16,7 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Model\Resource\Order;
-
-class Shipment extends \Magento\Sales\Model\Resource\Order\AbstractOrder
+class Shipment extends AbstractOrder
 {
     /**
      * Event prefix
@@ -60,6 +58,7 @@ class Shipment extends \Magento\Sales\Model\Resource\Order\AbstractOrder
     /**
      * Model initialization
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -69,7 +68,7 @@ class Shipment extends \Magento\Sales\Model\Resource\Order\AbstractOrder
     /**
      * Init virtual grid records for entity
      *
-     * @return \Magento\Sales\Model\Resource\Order\Shipment
+     * @return $this
      */
     protected function _initVirtualGridColumns()
     {

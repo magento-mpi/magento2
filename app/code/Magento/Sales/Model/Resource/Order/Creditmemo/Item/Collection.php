@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Sales\Model\Resource\Order\Creditmemo\Item;
 
 /**
  * Flat sales order creditmemo items collection
@@ -16,8 +16,6 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Model\Resource\Order\Creditmemo\Item;
-
 class Collection extends \Magento\Sales\Model\Resource\Collection\AbstractCollection
 {
     /**
@@ -37,6 +35,7 @@ class Collection extends \Magento\Sales\Model\Resource\Collection\AbstractCollec
     /**
      * Model initialization
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -47,7 +46,7 @@ class Collection extends \Magento\Sales\Model\Resource\Collection\AbstractCollec
      * Set creditmemo filter
      *
      * @param int $creditmemoId
-     * @return \Magento\Sales\Model\Resource\Order\Creditmemo\Item\Collection
+     * @return $this
      */
     public function setCreditmemoFilter($creditmemoId)
     {

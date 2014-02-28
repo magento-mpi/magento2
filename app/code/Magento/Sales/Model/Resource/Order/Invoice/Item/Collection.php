@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Sales\Model\Resource\Order\Invoice\Item;
 
 /**
  * Flat sales order invoice item collection
@@ -16,8 +16,6 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Model\Resource\Order\Invoice\Item;
-
 class Collection extends \Magento\Sales\Model\Resource\Collection\AbstractCollection
 {
     /**
@@ -37,6 +35,7 @@ class Collection extends \Magento\Sales\Model\Resource\Collection\AbstractCollec
     /**
      * Model initialization
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -47,7 +46,7 @@ class Collection extends \Magento\Sales\Model\Resource\Collection\AbstractCollec
      * Set invoice filter
      *
      * @param int $invoiceId
-     * @return \Magento\Sales\Model\Resource\Order\Invoice\Item\Collection
+     * @return $this
      */
     public function setInvoiceFilter($invoiceId)
     {

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Sales\Model\Resource\Report\Bestsellers;
 
 /**
  * Report bestsellers collection
@@ -16,10 +16,7 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Model\Resource\Report\Bestsellers;
-
-class Collection
-    extends \Magento\Sales\Model\Resource\Report\Collection\AbstractCollection
+class Collection extends \Magento\Sales\Model\Resource\Report\Collection\AbstractCollection
 {
     /**
      * Rating limit
@@ -41,7 +38,7 @@ class Collection
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Sales\Model\Resource\Report $resource
-     * @param mixed $connection
+     * @param \Zend_Db_Adapter_Abstract $connection
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
@@ -88,8 +85,8 @@ class Collection
     /**
      * Make select object for date boundary
      *
-     * @param mixed $from
-     * @param mixed $to
+     * @param string $from
+     * @param string $to
      * @return \Zend_Db_Select
      */
     protected function _makeBoundarySelect($from, $to)
@@ -113,7 +110,7 @@ class Collection
     /**
      * Add selected data
      *
-     * @return \Magento\Sales\Model\Resource\Report\Bestsellers\Collection
+     * @return $this
      */
     protected function _initSelect()
     {
@@ -177,8 +174,8 @@ class Collection
     /**
      * Set ids for store restrictions
      *
-     * @param  array $storeIds
-     * @return \Magento\Sales\Model\Resource\Report\Bestsellers\Collection
+     * @param  int|int[] $storeIds
+     * @return $this
      */
     public function addStoreRestrictions($storeIds)
     {
@@ -203,7 +200,7 @@ class Collection
      * Redeclare parent method for applying filters after parent method
      * but before adding unions and calculating totals
      *
-     * @return \Magento\Sales\Model\Resource\Report\Bestsellers\Collection
+     * @return $this
      */
     protected function _beforeLoad()
     {
@@ -218,7 +215,7 @@ class Collection
             // apply date boundaries (before calling $this->_applyDateRangeFilter())
             $dtFormat   = \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT;
             $periodFrom = (!is_null($this->_from) ? new \Zend_Date($this->_from, $dtFormat) : null);
-            $periodTo   = (!is_null($this->_to)   ? new \Zend_Date($this->_to,   $dtFormat) : null);
+            $periodTo   = (!is_null($this->_to)   ? new \Zend_Date($this->_to, $dtFormat) : null);
             if ('year' == $this->_period) {
 
                 if ($periodFrom) {
@@ -278,8 +275,7 @@ class Collection
                     }
                 }
 
-            }
-            else if ('month' == $this->_period) {
+            } else if ('month' == $this->_period) {
                 if ($periodFrom) {
                     // not the first day of the month
                     if ($periodFrom->toValue(\Zend_Date::DAY) != 1) {

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Sales\Model\Resource\Order\Shipment\Attribute\Backend;
 
 /**
  * Invoice backend model for child attribute
@@ -16,16 +16,13 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Model\Resource\Order\Shipment\Attribute\Backend;
-
-class Child
-    extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
+class Child extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
     /**
      * Performed before data is saved
      *
-     * @param Varien_Object $object
-     * @return \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
+     * @param \Magento\Object $object
+     * @return $this
      */
     public function beforeSave($object)
     {

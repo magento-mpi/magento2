@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Sales\Model\Resource;
 
 /**
  * Flat sales order resource
@@ -16,8 +16,6 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Model\Resource;
-
 class Order extends \Magento\Sales\Model\Resource\Order\AbstractOrder
 {
     /**
@@ -37,14 +35,14 @@ class Order extends \Magento\Sales\Model\Resource\Order\AbstractOrder
     /**
      * Is grid
      *
-     * @var boolean
+     * @var bool
      */
     protected $_grid                         = true;
 
     /**
      * Use increment id
      *
-     * @var boolean
+     * @var bool
      */
     protected $_useIncrementId               = true;
 
@@ -58,6 +56,7 @@ class Order extends \Magento\Sales\Model\Resource\Order\AbstractOrder
     /**
      * Model Initialization
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -67,7 +66,7 @@ class Order extends \Magento\Sales\Model\Resource\Order\AbstractOrder
     /**
      * Init virtual grid records for entity
      *
-     * @return \Magento\Sales\Model\Resource\Order
+     * @return $this
      */
     protected function _initVirtualGridColumns()
     {

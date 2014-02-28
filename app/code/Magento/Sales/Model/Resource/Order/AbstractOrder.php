@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Sales\Model\Resource\Order;
 
 /**
@@ -18,21 +17,21 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
     /**
      * Is grid available
      *
-     * @var boolean
+     * @var bool
      */
     protected $_grid                         = false;
 
     /**
      * Use additional is object new check for this resource
      *
-     * @var boolean
+     * @var bool
      */
     protected $_useIsObjectNew               = true;
 
     /**
      * Flag for using of increment id
      *
-     * @var boolean
+     * @var bool
      */
     protected $_useIncrementId               = false;
 
@@ -107,7 +106,7 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
      * @param string $table
      * @param array $joinCondition
      * @param string $column
-     * @return \Magento\Sales\Model\Resource\Order\AbstractOrder
+     * @return $this
      * @throws \Magento\Core\Exception
      */
     public function addVirtualGridColumn($alias, $table, $joinCondition, $column)
@@ -144,7 +143,7 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
     /**
      * Init virtual grid records for entity
      *
-     * @return \Magento\Sales\Model\Resource\Order\AbstractOrder
+     * @return $this
      */
     protected function _initVirtualGridColumns()
     {
@@ -161,7 +160,7 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
      * Update records in grid table
      *
      * @param array|int $ids
-     * @return \Magento\Sales\Model\Resource\Order\AbstractOrder
+     * @return $this
      */
     public function updateGridRecords($ids)
     {
@@ -195,7 +194,7 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
      * Retrieve update grid records select
      *
      * @param array $ids
-     * @param array $flatColumnsToSelect
+     * @param array &$flatColumnsToSelect
      * @param array|null $gridColumns
      * @return \Magento\DB\Select
      */
@@ -227,8 +226,8 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
      *
      * @param string $mainTableAlias
      * @param \Zend_Db_Select $select
-     * @param array $columnsToSelect
-     * @return \Magento\Sales\Model\Resource\Order\AbstractOrder
+     * @param array &$columnsToSelect
+     * @return $this
      */
     public function joinVirtualGridColumnsToSelect($mainTableAlias, \Zend_Db_Select $select, &$columnsToSelect)
     {
@@ -298,7 +297,7 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
      *
      * @param \Magento\Core\Model\AbstractModel $object
      * @param string $attribute
-     * @return \Magento\Sales\Model\Resource\Order\AbstractOrder
+     * @return $this
      */
     protected function _beforeSaveAttribute(\Magento\Core\Model\AbstractModel $object, $attribute)
     {
@@ -317,7 +316,7 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
      *
      * @param \Magento\Core\Model\AbstractModel $object
      * @param string $attribute
-     * @return \Magento\Sales\Model\Resource\Order\AbstractOrder
+     * @return $this
      */
     protected function _afterSaveAttribute(\Magento\Core\Model\AbstractModel $object, $attribute)
     {
@@ -336,7 +335,7 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
      *
      * @param \Magento\Core\Model\AbstractModel $object
      * @param string $attribute
-     * @return \Magento\Sales\Model\Resource\Order\AbstractOrder
+     * @return $this
      * @throws \Exception
      */
     public function saveAttribute(\Magento\Core\Model\AbstractModel $object, $attribute)
@@ -380,7 +379,7 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
      * Perform actions before object save
      *
      * @param \Magento\Core\Model\AbstractModel|\Magento\Object $object
-     * @return \Magento\Sales\Model\Resource\Order\AbstractOrder
+     * @return $this
      */
     protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
     {
@@ -398,7 +397,7 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
      *
      * @param \Magento\Core\Model\AbstractModel $object
      * @param array $data
-     * @return \Magento\Sales\Model\Resource\Order\AbstractOrder
+     * @return $this
      */
     protected function _postSaveFieldsUpdate($object, $data)
     {
@@ -417,7 +416,7 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
      * Set main resource table
      *
      * @param string $table
-     * @return \Magento\Sales\Model\Resource\Order\AbstractOrder
+     * @return $this
      */
     public function setMainTable($table)
     {
@@ -429,7 +428,7 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
      * Save object data
      *
      * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Sales\Model\Resource\Order\AbstractOrder
+     * @return $this
      */
     public function save(\Magento\Core\Model\AbstractModel $object)
     {
@@ -445,7 +444,7 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
      *
      * @param string $field
      * @param int $entityId
-     * @return \Magento\Sales\Model\Resource\Order\AbstractOrder
+     * @return $this
      */
     public function updateOnRelatedRecordChanged($field, $entityId)
     {

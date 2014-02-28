@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Model\Resource\Order\Grid;
 
 /**
  * Sales orders statuses option array
  */
-namespace Magento\Sales\Model\Resource\Order\Grid;
-
 class StatusesArray implements \Magento\Option\ArrayInterface
 {
     /**

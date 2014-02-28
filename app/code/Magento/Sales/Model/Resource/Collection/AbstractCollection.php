@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Sales\Model\Resource\Collection;
 
 /**
  * Flat sales abstract collection
@@ -16,8 +16,6 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Model\Resource\Collection;
-
 abstract class AbstractCollection
     extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
@@ -47,7 +45,7 @@ abstract class AbstractCollection
      * Backward compatibility with EAV collection
      *
      * @param string $attribute
-     * @return \Magento\Sales\Model\Resource\Collection\AbstractCollection
+     * @return $this
      */
     public function addAttributeToSelect($attribute)
     {
@@ -60,8 +58,8 @@ abstract class AbstractCollection
      * Backward compatibility with EAV collection
      *
      * @param string|\Magento\Eav\Model\Entity\Attribute $attribute
-     * @param array|integer|string|null $condition
-     * @return \Magento\Sales\Model\Resource\Collection\AbstractCollection
+     * @param array|int|string|null $condition
+     * @return $this
      */
     public function addAttributeToFilter($attribute, $condition = null)
     {
@@ -75,7 +73,7 @@ abstract class AbstractCollection
      *
      * @param string $attribute
      * @param string $dir
-     * @return \Magento\Sales\Model\Resource\Collection\AbstractCollection
+     * @return $this
      */
     public function addAttributeToSort($attribute, $dir = 'asc')
     {
@@ -87,9 +85,9 @@ abstract class AbstractCollection
      * Set collection page start and records to show
      * Backward compatibility with EAV collection
      *
-     * @param integer $pageNum
-     * @param integer $pageSize
-     * @return \Magento\Sales\Model\Resource\Collection\AbstractCollection
+     * @param int $pageNum
+     * @param int $pageSize
+     * @return $this
      */
     public function setPage($pageNum, $pageSize)
     {
@@ -137,15 +135,15 @@ abstract class AbstractCollection
     /**
      * Backward compatibility with EAV collection
      *
-     * @todo implement join functionality if necessary
-     *
      * @param string $alias
      * @param string $attribute
      * @param string $bind
      * @param string $filter
      * @param string $joinType
      * @param int $storeId
-     * @return \Magento\Sales\Model\Resource\Collection\AbstractCollection
+     * @return $this
+     *
+     * @todo implement join functionality if necessary
      */
     public function joinAttribute($alias, $attribute, $bind, $filter = null, $joinType = 'inner', $storeId = null)
     {

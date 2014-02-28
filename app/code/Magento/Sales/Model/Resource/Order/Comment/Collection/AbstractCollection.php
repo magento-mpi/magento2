@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Sales\Model\Resource\Order\Comment\Collection;
 
 /**
  * Flat sales order abstract comments collection, used as parent for: invoice, shipment, creditmemo
@@ -16,8 +16,6 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Model\Resource\Order\Comment\Collection;
-
 abstract class AbstractCollection
     extends \Magento\Sales\Model\Resource\Collection\AbstractCollection
 {
@@ -25,7 +23,7 @@ abstract class AbstractCollection
      * Set filter on comments by their parent item
      *
      * @param \Magento\Core\Model\AbstractModel|int $parent
-     * @return \Magento\Sales\Model\Resource\Order\Comment\Collection\AbstractCollection
+     * @return $this
      */
     public function setParentFilter($parent)
     {
@@ -39,7 +37,7 @@ abstract class AbstractCollection
      * Adds filter to get only 'visible on front' comments
      *
      * @param int $flag
-     * @return \Magento\Sales\Model\Resource\Order\Comment\Collection\AbstractCollection
+     * @return $this
      */
     public function addVisibleOnFrontFilter($flag = 1)
     {
@@ -50,7 +48,7 @@ abstract class AbstractCollection
      * Set created_at sort order
      *
      * @param string $direction
-     * @return \Magento\Sales\Model\Resource\Order\Comment\Collection\AbstractCollection
+     * @return $this
      */
     public function setCreatedAtOrder($direction = 'desc')
     {

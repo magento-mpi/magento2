@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Sales\Model\Resource\Report\Shipping\Collection;
 
 /**
  * Sales report shipping collection
@@ -16,8 +16,6 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Model\Resource\Report\Shipping\Collection;
-
 class Order
     extends \Magento\Sales\Model\Resource\Report\Collection\AbstractCollection
 {
@@ -41,7 +39,7 @@ class Order
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Sales\Model\Resource\Report $resource
-     * @param mixed $connection
+     * @param \Zend_Db_Adapter_Abstract $connection
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
@@ -95,7 +93,7 @@ class Order
     /**
      * Add selected data
      *
-     * @return \Magento\Sales\Model\Resource\Report\Shipping\Collection\Order
+     * @return $this
      */
     protected function _initSelect()
     {

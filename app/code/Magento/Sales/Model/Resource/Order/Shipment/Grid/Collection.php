@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Sales\Model\Resource\Order\Shipment\Grid;
 
 /**
  * Flat sales order shipment collection
@@ -16,10 +16,7 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Model\Resource\Order\Shipment\Grid;
-
-class Collection
-    extends \Magento\Sales\Model\Resource\Order\Shipment\Collection
+class Collection extends \Magento\Sales\Model\Resource\Order\Shipment\Collection
 {
     /**
      * Event prefix
@@ -38,6 +35,7 @@ class Collection
     /**
      * Model initialization
      *
+     * @return void
      */
     protected function _construct()
     {

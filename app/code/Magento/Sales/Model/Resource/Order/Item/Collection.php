@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Sales\Model\Resource\Order\Item;
 
 /**
  * Flat sales order payment collection
@@ -16,8 +16,6 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Model\Resource\Order\Item;
-
 class Collection extends \Magento\Sales\Model\Resource\Order\Collection\AbstractCollection
 {
     /**
@@ -44,6 +42,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection\Abstract
     /**
      * Model initialization
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -53,7 +52,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection\Abstract
     /**
      * Assign parent items on after collection load
      *
-     * @return \Magento\Sales\Model\Resource\Order\Item\Collection
+     * @return $this
      */
     protected function _afterLoad()
     {
@@ -72,7 +71,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection\Abstract
     /**
      * Set random items order
      *
-     * @return \Magento\Sales\Model\Resource\Order\Item\Collection
+     * @return $this
      */
     public function setRandomOrder()
     {
@@ -84,7 +83,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection\Abstract
      * Set filter by item id
      *
      * @param mixed $item
-     * @return \Magento\Sales\Model\Resource\Order\Item\Collection
+     * @return $this
      */
     public function addIdFilter($item)
     {
@@ -102,7 +101,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection\Abstract
      * Filter collection by specified product types
      *
      * @param array $typeIds
-     * @return \Magento\Sales\Model\Resource\Order\Item\Collection
+     * @return $this
      */
     public function filterByTypes($typeIds)
     {
@@ -114,7 +113,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection\Abstract
      * Filter collection by parent_item_id
      *
      * @param int $parentId
-     * @return \Magento\Sales\Model\Resource\Order\Item\Collection
+     * @return $this
      */
     public function filterByParent($parentId = null)
     {

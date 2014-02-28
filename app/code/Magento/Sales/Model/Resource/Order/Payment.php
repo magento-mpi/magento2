@@ -7,13 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Sales\Model\Resource\Order;
 
 /**
  * Flat sales order payment resource
  */
-class Payment extends \Magento\Sales\Model\Resource\Order\AbstractOrder
+class Payment extends AbstractOrder
 {
     /**
      * Serializeable field: additional_information
@@ -56,6 +55,8 @@ class Payment extends \Magento\Sales\Model\Resource\Order\AbstractOrder
 
     /**
      * Model initialization
+     *
+     * @return void
      */
     protected function _construct()
     {

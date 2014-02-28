@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Model\Resource;
 
 /**
  * Factory class for \Magento\Sales\Model\Resource\Order\AbstractOrder
  */
-namespace Magento\Sales\Model\Resource;
-
 class Factory
 {
     /**

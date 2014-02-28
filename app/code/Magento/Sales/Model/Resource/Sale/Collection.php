@@ -7,12 +7,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Model\Resource\Sale;
+
+use Magento\Core\Model\EntityFactory;
+use Magento\Core\Model\Resource\Store\CollectionFactory;
+use Magento\Core\Model\StoreManagerInterface;
+use Magento\Data\Collection\Db\FetchStrategyInterface;
+use Magento\Event\ManagerInterface;
+use Magento\Logger;
+use Magento\Sales\Model\Resource\Order;
 
 /**
  * Sales Collection
  */
-namespace Magento\Sales\Model\Resource\Sale;
-
 class Collection extends \Magento\Data\Collection\Db
 {
     /**
@@ -35,7 +42,7 @@ class Collection extends \Magento\Data\Collection\Db
     /**
      * Order state value
      *
-     * @var null|string|array
+     * @var null|array
      */
     protected $_state = null;
 
@@ -49,34 +56,43 @@ class Collection extends \Magento\Data\Collection\Db
     /**
      * Core event manager proxy
      *
-     * @var \Magento\Event\ManagerInterface
+     * @var ManagerInterface
      */
     protected $_eventManager = null;
 
     /**
-     * @var \Magento\Sales\Model\Resource\Order
+     * @var Order
      */
     protected $_orderResource;
 
     /**
-     * @var \Magento\Core\Model\Resource\Store\CollectionFactory
+     * @var CollectionFactory
      */
     protected $_storeCollectionFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var StoreManagerInterface
      */
     protected $_storeManager;
 
 
+    /**
+     * @param EntityFactory $entityFactory
+     * @param Logger $logger
+     * @param FetchStrategyInterface $fetchStrategy
+     * @param ManagerInterface $eventManager
+     * @param Order $resource
+     * @param CollectionFactory $storeCollectionFactory
+     * @param StoreManagerInterface $storeManager
+     */
     public function __construct(
-        \Magento\Core\Model\EntityFactory $entityFactory,
-        \Magento\Logger $logger,
-        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Sales\Model\Resource\Order $resource,
-        \Magento\Core\Model\Resource\Store\CollectionFactory $storeCollectionFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        EntityFactory $entityFactory,
+        Logger $logger,
+        FetchStrategyInterface $fetchStrategy,
+        ManagerInterface $eventManager,
+        Order $resource,
+        CollectionFactory $storeCollectionFactory,
+        StoreManagerInterface $storeManager
     ) {
         $this->_eventManager = $eventManager;
         $this->_orderResource = $resource;
@@ -89,7 +105,7 @@ class Collection extends \Magento\Data\Collection\Db
      * Set filter by customer
      *
      * @param int $customerId
-     * @return \Magento\Sales\Model\Resource\Sale\Collection
+     * @return $this
      */
     public function setCustomerFilter($customerId)
     {
@@ -101,7 +117,7 @@ class Collection extends \Magento\Data\Collection\Db
      * Add filter by stores
      *
      * @param array $storeIds
-     * @return \Magento\Sales\Model\Resource\Sale\Collection
+     * @return $this
      */
     public function addStoreFilter($storeIds)
     {
@@ -113,7 +129,7 @@ class Collection extends \Magento\Data\Collection\Db
      *
      * @param string|array $state
      * @param bool $exclude
-     * @return \Magento\Sales\Model\Resource\Sale\Collection
+     * @return $this
      */
     public function setOrderStateFilter($state, $exclude = false)
     {
@@ -125,7 +141,7 @@ class Collection extends \Magento\Data\Collection\Db
     /**
      * Before load action
      *
-     * @return \Magento\Data\Collection\Db
+     * @return $this
      */
     protected function _beforeLoad()
     {
@@ -169,7 +185,7 @@ class Collection extends \Magento\Data\Collection\Db
      *
      * @param bool $printQuery
      * @param bool $logQuery
-     * @return  \Magento\Data\Collection\Db
+     * @return $this
      */
     public function load($printQuery = false, $logQuery = false)
     {
