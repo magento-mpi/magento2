@@ -281,25 +281,16 @@ class Onepage extends \Magento\Checkout\Controller\Action
     public function successAction()
     {
         $session = $this->getOnepage()->getCheckout();
-        if (!$session->getLastSuccessQuoteId()) {
+        if (!$this->_objectManager->get('Magento\Checkout\Model\Session\SuccessValidator')->isValid($session)) {
             $this->_redirect('checkout/cart');
             return;
         }
-
-        $lastQuoteId = $session->getLastQuoteId();
-        $lastOrderId = $session->getLastOrderId();
-        $lastRecurringProfiles = $session->getLastRecurringProfileIds();
-        if (!$lastQuoteId || (!$lastOrderId && empty($lastRecurringProfiles))) {
-            $this->_redirect('checkout/cart');
-            return;
-        }
-
-        $session->clearQuote();
+        $session->clearQuote(); //@todo: Refactor it to match CQRS
         $this->_view->loadLayout();
         $this->_view->getLayout()->initMessages();
         $this->_eventManager->dispatch(
             'checkout_onepage_controller_success_action',
-            array('order_ids' => array($lastOrderId))
+            array('order_ids' => array($session->getLastOrderId()))
         );
         $this->_view->renderLayout();
     }

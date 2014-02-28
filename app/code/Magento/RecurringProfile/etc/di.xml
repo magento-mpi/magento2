@@ -8,6 +8,7 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <preference for="Magento\Checkout\Model\Session\SuccessValidator" type="Magento\RecurringProfile\Model\SuccessValidator" />
     <type name="Magento\Module\Updater\SetupFactory">
         <arguments>
             <argument name="resourceTypes" xsi:type="array">

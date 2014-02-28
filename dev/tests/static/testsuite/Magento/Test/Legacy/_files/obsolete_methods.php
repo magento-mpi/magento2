@@ -883,7 +883,7 @@ return array(
     array('getValidateHttpUserAgentSkip', 'Magento\Core\Model\Session\AbstractSession'),
     array('addProductAttributes', 'Magento\SalesRule\Model\Observer'),
     ['addRecurringPaymentProfiles', 'Magento\Paypal\Model\Api\AbstractApi'],
-    array('addRecurringProfilesFilter', 'Magento\Sales\Model\Resource\Order',
+    array('addRecurringProfilesFilter', 'Magento\Sales\Model\Resource\Order\Collection',
         '\Magento\RecurringProfile\Model\Resource\Order\CollectionFilter::byIds'),
     array('_helper', 'Magento\Catalog\Model\Product\Type\AbstractType'),
     array('getHelper', 'Magento\Catalog\Model\Resource\Product\Type\Configurable\Attribute\Collection'),
