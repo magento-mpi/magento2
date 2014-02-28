@@ -148,7 +148,7 @@ class StrategyPool
      * @param string $fileType
      * @param bool $skipProxy
      * @return string
-     * @throws Exception
+     * @throws \Magento\Exception
      */
     protected function getStrategyClass($fileType, $skipProxy = false)
     {
