@@ -57,7 +57,7 @@ class Packaging extends \Magento\Backend\Block\Template
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Registry $registry
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
-     * @param \Magento\Shipping\Model\Carrier\Source\GenericInterfaceFactory $size
+     * @param \Magento\Shipping\Model\Carrier\Source\GenericInterface $size
      * @param array $data
      */
     public function __construct(

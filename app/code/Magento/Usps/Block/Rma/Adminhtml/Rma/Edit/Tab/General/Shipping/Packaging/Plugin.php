@@ -11,6 +11,7 @@ namespace Magento\Usps\Block\Rma\Adminhtml\Rma\Edit\Tab\General\Shipping\Packagi
 use Magento\App\RequestInterface;
 use Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shipping\Packaging;
 use Magento\Usps\Helper\Data as UspsHelper;
+use Magento\Usps\Model\Carrier;
 
 /**
  * Rma block plugin
@@ -62,7 +63,7 @@ class Plugin
      * @param \Closure $proceed
      * @return array
      */
-    public function overrideCheckSizeAndGirthParameter(Packaging $subject, \Closure $proceed)
+    public function aroundCheckSizeAndGirthParameter(Packaging $subject, \Closure $proceed)
     {
         $carrier = $subject->getCarrier();
         $regular = $subject->getShippingCarrierUspsSourceSize();
