@@ -299,4 +299,4 @@ Product.Config.prototype = {
 
         }
     }
-}
+};
