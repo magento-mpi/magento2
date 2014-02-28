@@ -24,6 +24,20 @@ use Zend\Soap\Exception\InvalidArgumentException;
 class PluginList extends Scoped implements InterceptionPluginList
 {
     /**
+     * Inherited plugin data
+     *
+     * @var array
+     */
+    protected $_inherited;
+
+    /**
+     * Inherited plugin data, preprocessed for read
+     *
+     * @var array
+     */
+    protected $_processed;
+
+    /**
      * Type config
      *
      * @var Config
@@ -104,7 +118,7 @@ class PluginList extends Scoped implements InterceptionPluginList
      */
     protected function _inheritPlugins($type)
     {
-        if (!array_key_exists($type, $this->_data['inherited'])) {
+        if (!array_key_exists($type, $this->_inherited)) {
             $realType = $this->_omConfig->getOriginalInstanceType($type);
 
             if ($realType !== $type) {
@@ -123,17 +137,17 @@ class PluginList extends Scoped implements InterceptionPluginList
             } else {
                 $plugins = array();
             }
-            if (isset($this->_data[$type]['plugins'])) {
+            if (isset($this->_data[$type])) {
                 if (!$plugins) {
-                    $plugins = $this->_data[$type]['plugins'];
+                    $plugins = $this->_data[$type];
                 } else {
-                    $plugins = array_replace_recursive($plugins, $this->_data[$type]['plugins']);
+                    $plugins = array_replace_recursive($plugins, $this->_data[$type]);
                 }
             }
-            $this->_data['inherited'][$type] = null;
+            $this->_inherited[$type] = null;
             if (is_array($plugins) && count($plugins)) {
                 uasort($plugins, array($this, '_sort'));
-                $this->_data['inherited'][$type] = $plugins;
+                $this->_inherited[$type] = $plugins;
                 $lastPerMethod = array();
                 foreach ($plugins as $key => $plugin) {
                     // skip disabled plugins
@@ -149,21 +163,21 @@ class PluginList extends Scoped implements InterceptionPluginList
                         $current = isset($lastPerMethod[$pluginMethod]) ? $lastPerMethod[$pluginMethod] : '__self';
                         $currentKey = $type . '_'. $pluginMethod . '_' . $current;
                         if ($methodTypes & Definition::LISTENER_AROUND) {
-                            $this->_data['processed'][$currentKey][Definition::LISTENER_AROUND] = $key;
+                            $this->_processed[$currentKey][Definition::LISTENER_AROUND] = $key;
                             $lastPerMethod[$pluginMethod] = $key;
                         }
                         if ($methodTypes & Definition::LISTENER_BEFORE) {
-                            $this->_data['processed'][$currentKey][Definition::LISTENER_BEFORE][] = $key;
+                            $this->_processed[$currentKey][Definition::LISTENER_BEFORE][] = $key;
                         }
                         if ($methodTypes & Definition::LISTENER_AFTER) {
-                            $this->_data['processed'][$currentKey][Definition::LISTENER_AFTER][] = $key;
+                            $this->_processed[$currentKey][Definition::LISTENER_AFTER][] = $key;
                         }
                     }
                 }
             }
             return $plugins;
         }
-        return $this->_data['inherited'][$type];
+        return $this->_inherited[$type];
     }
 
     /**
@@ -198,7 +212,7 @@ class PluginList extends Scoped implements InterceptionPluginList
     {
         if (!isset($this->_pluginInstances[$type][$code])) {
             $this->_pluginInstances[$type][$code] = $this->_objectManager->get(
-                $this->_data['inherited'][$type][$code]['instance']
+                $this->_inherited[$type][$code]['instance']
             );
         }
         return $this->_pluginInstances[$type][$code];
@@ -215,11 +229,11 @@ class PluginList extends Scoped implements InterceptionPluginList
     public function getNext($type, $method, $code = '__self')
     {
         $this->_loadScopedData();
-        if (!array_key_exists($type, $this->_data['inherited'])) {
+        if (!array_key_exists($type, $this->_inherited)) {
             $this->_inheritPlugins($type);
         }
         $key = $type . '_' . lcfirst($method) . '_' . $code;
-        return isset($this->_data['processed'][$key]) ? $this->_data['processed'][$key] : null;
+        return isset($this->_processed[$key]) ? $this->_processed[$key] : null;
     }
 
     /**
@@ -238,7 +252,7 @@ class PluginList extends Scoped implements InterceptionPluginList
             $cacheId = implode('|', $this->_scopePriorityScheme) . "|" . $this->_cacheId;
             $data = $this->_cache->load($cacheId);
             if ($data) {
-                $this->_data = unserialize($data);
+                list($this->_data, $this->_inherited, $this->_processed) = unserialize($data);
                 foreach ($this->_scopePriorityScheme as $scope) {
                     $this->_loadedScopes[$scope] = true;
                 }
@@ -251,8 +265,8 @@ class PluginList extends Scoped implements InterceptionPluginList
                         if (!count($data)) {
                             continue;
                         }
-                        $this->_data['inherited'] = array();
-                        $this->_data['processed'] = array();
+                        $this->_inherited = array();
+                        $this->_processed = array();
                         $this->merge($data);
                         $this->_loadedScopes[$scopeCode] = true;
                         foreach ($data as $class => $config) {
@@ -266,14 +280,33 @@ class PluginList extends Scoped implements InterceptionPluginList
                     }
                 }
                 foreach ($virtualTypes as $class) {
-                    $this->_inheritPlugins($class);
+                    $this->_inheritPlugins(ltrim($class, '\\'));
                 }
                 foreach ($this->_classDefinitions->getClasses() as $class) {
                     $this->_inheritPlugins($class);
                 }
-                $this->_cache->save(serialize($this->_data), $cacheId);
+                $this->_cache->save(serialize(array($this->_data, $this->_inherited, $this->_processed)), $cacheId);
             }
             $this->_pluginInstances = array();
+        }
+    }
+
+    /**
+     * Merge configuration
+     *
+     * @param array $config
+     */
+    public function merge(array $config)
+    {
+        foreach ($config as $type => $typeConfig) {
+            if (isset($typeConfig['plugins'])) {
+                $type = ltrim($type, '\\');
+                if (isset($this->_data[$type])) {
+                    $this->_data[$type] = array_replace_recursive($this->_data[$type], $typeConfig['plugins']);
+                } else {
+                    $this->_data[$type] = $typeConfig['plugins'];
+                }
+            }
         }
     }
 }

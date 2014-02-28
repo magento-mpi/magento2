@@ -96,11 +96,11 @@ class Config implements \Magento\Interception\Config
             unset($config['preferences']);
             foreach ($config as $typeName => $typeConfig) {
                 if (!empty($typeConfig['plugins'])) {
-                    $this->_intercepted[$typeName] = true;
+                    $this->_intercepted[ltrim($typeName, '\\')] = true;
                 }
             }
             foreach ($config as $typeName => $typeConfig) {
-                $this->hasPlugins($typeName);
+                $this->hasPlugins(ltrim($typeName, '\\'));
             }
             foreach ($classDefinitions->getClasses() as $class) {
                 $this->hasPlugins($class);
