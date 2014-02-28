@@ -19,6 +19,6 @@
         <arguments>
             <argument name="shipping" xsi:type="object">Magento\Usps\Model\Source\Size</argument>
         </arguments>
-        <plugin name="isDisplayGirthValuePlugin" type="Magento\Usps\Block\Backend\Order\Plugin\DisplayGirth"/>
+        <plugin name="isDisplayGirthValuePlugin" type="Magento\Usps\Block\Adminhtml\Order\Packaging\Plugin\DisplayGirth"/>
     </type>
 </config>

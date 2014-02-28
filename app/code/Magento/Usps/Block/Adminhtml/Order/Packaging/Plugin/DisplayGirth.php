@@ -5,7 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Usps\Block\Backend\Order\Plugin;
+
+namespace Magento\Usps\Block\Adminhtml\Order\Packaging\Plugin;
+
+use \Magento\Usps\Helper\Data as DataHelper;
 
 /**
  * Plugin class
@@ -24,7 +27,7 @@ class DisplayGirth
      *
      * @param \Magento\Usps\Helper\Data $helper
      */
-    public function __construct(\Magento\Usps\Helper\Data $helper)
+    public function __construct(DataHelper $helper)
     {
         $this->helper = $helper;
     }
@@ -33,13 +36,15 @@ class DisplayGirth
      * Is display girth value for specified shipping method
      *
      * @param \Magento\Shipping\Block\Adminhtml\Order\Packaging $subject
-     * @param $result
+     * @param \Closure $proceed
      *
      * @return bool
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function afterIsDisplayGirthValue(\Magento\Shipping\Block\Adminhtml\Order\Packaging $subject, $result)
-    {
+    public function aroundIsDisplayGirthValue(
+        \Magento\Shipping\Block\Adminhtml\Order\Packaging $subject,
+        \Closure $proceed
+    ) {
         return $this->helper->displayGirthValue($subject->getShipment()->getOrder()->getShippingMethod());
     }
 }
