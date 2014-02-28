@@ -99,7 +99,7 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvalidCustomerIds($custId)
     {
-        $this->_service->getCustomer($custId);
+        $this->_accountService->getCustomer($custId);
     }
 
     public function invalidCustomerIdsDataProvider()
@@ -116,37 +116,6 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @magentoDataFixture Magento/Customer/_files/customer.php
-     * @magentoAppIsolation enabled
-     */
-    public function testGetCustomer()
-    {
-        // _files/customer.php sets the customer id to 1
-        $customer = $this->_service->getCustomer(1);
-
-        // All these expected values come from _files/customer.php fixture
-        $this->assertEquals(1, $customer->getCustomerId());
-        $this->assertEquals('customer@example.com', $customer->getEmail());
-        $this->assertEquals('Firstname', $customer->getFirstname());
-        $this->assertEquals('Lastname', $customer->getLastname());
-    }
-
-    public function testGetCustomerNotExist()
-    {
-        try {
-            // No fixture, so customer with id 1 shouldn't exist, exception should be thrown
-            $this->_service->getCustomer(1);
-            $this->fail('Did not throw expected exception.');
-        } catch (NoSuchEntityException $nsee) {
-            $expectedParams = [
-                'customerId' => '1',
-            ];
-            $this->assertEquals($expectedParams, $nsee->getParams());
-            $this->assertEquals('No such entity with customerId = 1', $nsee->getMessage());
-        }
-    }
-
-    /**
      * @magentoAppArea adminhtml
      * @magentoDataFixture Magento/Customer/_files/customer.php
      * @magentoAppIsolation enabled
@@ -157,7 +126,7 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
     {
         // _files/customer.php sets the customer id to 1
         $this->_service->deleteCustomer(1);
-        $this->_service->getCustomer(1);
+        $this->_accountService->getCustomer(1);
     }
 
     /**

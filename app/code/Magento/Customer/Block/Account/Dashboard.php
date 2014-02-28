@@ -7,7 +7,7 @@
  */
 namespace Magento\Customer\Block\Account;
 
-use Magento\Customer\Service\V1\CustomerServiceInterface;
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 
 /**
@@ -31,9 +31,9 @@ class Dashboard extends \Magento\View\Element\Template
     protected $_subscriberFactory;
 
     /**
-     * @var CustomerServiceInterface
+     * @var CustomerAccountServiceInterface
      */
-    protected $_customerService;
+    protected $_customerAccountService;
 
     /**
      * @var CustomerAddressServiceInterface
@@ -46,7 +46,7 @@ class Dashboard extends \Magento\View\Element\Template
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
-     * @param CustomerServiceInterface $customerService
+     * @param CustomerAccountServiceInterface $customerService
      * @param CustomerAddressServiceInterface $addressService
      * @param array $data
      */
@@ -54,13 +54,13 @@ class Dashboard extends \Magento\View\Element\Template
         \Magento\View\Element\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
-        CustomerServiceInterface $customerService,
+        CustomerAccountServiceInterface $customerAccountService,
         CustomerAddressServiceInterface $addressService,
         array $data = array()
     ) {
         $this->_customerSession = $customerSession;
         $this->_subscriberFactory = $subscriberFactory;
-        $this->_customerService = $customerService;
+        $this->_customerAccountService = $customerAccountService;
         $this->_addressService = $addressService;
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
@@ -73,7 +73,7 @@ class Dashboard extends \Magento\View\Element\Template
      */
     public function getCustomer()
     {
-        return $this->_customerService->getCustomer($this->_customerSession->getCustomerId());
+        return $this->_customerAccountService->getCustomer($this->_customerSession->getCustomerId());
     }
 
     /**

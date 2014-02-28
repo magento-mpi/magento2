@@ -9,7 +9,6 @@ namespace Magento\Customer\Block\Adminhtml;
 
 use Magento\Customer\Controller\RegistryConstants;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
-use Magento\Customer\Service\V1\CustomerServiceInterface;
 
 /**
  * Customer edit block
@@ -23,14 +22,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
      */
     protected $_coreRegistry = null;
 
-    /**
-     * Customer service
-     *
-     * @var CustomerServiceInterface
-     */
-    protected $_customerService;
-
-    /** @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface */
+    /** @var CustomerAccountServiceInterface */
     protected $_customerAccountService;
 
     /**
@@ -45,7 +37,6 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
      *
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Registry $registry
-     * @param CustomerServiceInterface $customerService
      * @param CustomerAccountServiceInterface $customerAccountService
      * @param \Magento\Customer\Helper\View $viewHelper
      * @param array $data
@@ -53,13 +44,11 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Registry $registry,
-        CustomerServiceInterface $customerService,
         CustomerAccountServiceInterface $customerAccountService,
         \Magento\Customer\Helper\View $viewHelper,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
-        $this->_customerService = $customerService;
         $this->_customerAccountService = $customerAccountService;
         $this->_viewHelper = $viewHelper;
         parent::__construct($context, $data);
@@ -135,7 +124,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     {
         $customerId = $this->getCustomerId();
         if ($customerId) {
-            $customerData = $this->_customerService->getCustomer($customerId);
+            $customerData = $this->_customerAccountService->getCustomer($customerId);
             return $this->escapeHtml($this->_viewHelper->getCustomerName($customerData));
         } else {
             return __('New Customer');

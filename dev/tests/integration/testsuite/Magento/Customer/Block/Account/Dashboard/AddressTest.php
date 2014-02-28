@@ -8,6 +8,9 @@
 
 namespace Magento\Customer\Block\Account\Dashboard;
 
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+use Magento\TestFramework\Helper\Bootstrap;
+
 class AddressTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -20,9 +23,9 @@ class AddressTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_customerSession = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+        $this->_customerSession = Bootstrap::getObjectManager()
             ->get('\Magento\Customer\Model\Session');
-        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
+        $this->_block = Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
             ->createBlock(
                 'Magento\Customer\Block\Account\Dashboard\Address',
                 '',
@@ -40,9 +43,10 @@ class AddressTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetCustomer()
     {
-        $customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Customer\Service\V1\CustomerServiceInterface')
-            ->getCustomer(1);
+        /** @var CustomerAccountServiceInterface $customerAccountService */
+        $customerAccountService = Bootstrap::getObjectManager()
+            ->get('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
+        $customer = $customerAccountService->getCustomer(1);
 
         $this->_customerSession->setCustomerId(1);
         $object = $this->_block->getCustomer();

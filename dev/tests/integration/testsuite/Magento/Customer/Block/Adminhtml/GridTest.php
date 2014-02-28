@@ -10,7 +10,7 @@ namespace Magento\Customer\Block\Adminhtml;
 
 use Magento\Backend\App\Area\FrontNameResolver;
 use Magento\Core\Model\LocaleInterface;
-use Magento\Customer\Service\V1\CustomerService;
+use Magento\Customer\Service\V1\CustomerAccountService;
 use Magento\Stdlib\DateTime;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\View\LayoutInterface;
@@ -25,8 +25,8 @@ class GridTest extends \PHPUnit_Framework_TestCase
     /** @var LayoutInterface */
     private $layout;
 
-    /** @var CustomerService */
-    private $customerService;
+    /** @var CustomerAccountService */
+    private $customerAccountService;
 
     /** @var LocaleInterface */
     private $locale;
@@ -38,8 +38,8 @@ class GridTest extends \PHPUnit_Framework_TestCase
             'Magento\Core\Model\Layout',
             ['area' => FrontNameResolver::AREA_CODE]
         );
-        $this->customerService = Bootstrap::getObjectManager()->create(
-            'Magento\Customer\Service\V1\CustomerService'
+        $this->customerAccountService = Bootstrap::getObjectManager()->create(
+            'Magento\Customer\Service\V1\CustomerAccountService'
         );
         $this->locale = Bootstrap::getObjectManager()->create(
             'Magento\Core\Model\LocaleInterface'
@@ -56,8 +56,8 @@ class GridTest extends \PHPUnit_Framework_TestCase
         /** @var $block Grid */
         $block = $this->layout->createBlock('Magento\Customer\Block\Adminhtml\Grid', 'block');
         $csv = $block->getCsv();
-        $customer5ca = $this->formatDatetime($this->customerService->getCustomer(5)->getCreatedAt());
-        $customer1ca = $this->formatDatetime($this->customerService->getCustomer(1)->getCreatedAt());
+        $customer5ca = $this->formatDatetime($this->customerAccountService->getCustomer(5)->getCreatedAt());
+        $customer1ca = $this->formatDatetime($this->customerAccountService->getCustomer(1)->getCreatedAt());
         // @codingStandardsIgnoreStart
         $expected = <<<EOT
 "ID","Name","Email","Group","Phone","ZIP","Country","State/Province","Customer Since","Web Site"

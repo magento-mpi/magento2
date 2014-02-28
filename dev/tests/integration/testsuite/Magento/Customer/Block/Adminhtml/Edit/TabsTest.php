@@ -8,6 +8,7 @@
 namespace Magento\Customer\Block\Adminhtml\Edit;
 
 use Magento\Customer\Controller\RegistryConstants;
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\Customer\Service\V1\Dto\Customer;
 
@@ -28,9 +29,9 @@ class TabsTest extends \PHPUnit_Framework_TestCase
     /**
      * Customer service.
      *
-     * @var \Magento\Customer\Service\V1\CustomerServiceInterface
+     * @var CustomerAccountServiceInterface
      */
-    private $customerService;
+    private $customerAccountService;
 
     /**
      * Backend context.
@@ -55,7 +56,8 @@ class TabsTest extends \PHPUnit_Framework_TestCase
         $objectManager->get('Magento\App\State')->setAreaCode('adminhtml');
 
         $this->context = $objectManager->get('Magento\Backend\Block\Template\Context');
-        $this->customerService = $objectManager->get('Magento\Customer\Service\V1\CustomerServiceInterface');
+        $this->customerAccountService = $objectManager
+            ->get('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
 
         $this->coreRegistry = $objectManager->get('Magento\Registry');
         $this->coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER_ID, 1);
@@ -85,7 +87,7 @@ class TabsTest extends \PHPUnit_Framework_TestCase
      */
     public function testToHtml()
     {
-        $customer = $this->customerService
+        $customer = $this->customerAccountService
             ->getCustomer($this->coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID));
 
         $customerData['customer_id'] = $customer->getCustomerId();

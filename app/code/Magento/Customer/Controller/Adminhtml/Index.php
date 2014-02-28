@@ -79,7 +79,7 @@ class Index extends \Magento\Backend\App\Action
     protected $_addressService;
 
     /** @var CustomerAccountServiceInterface */
-    protected $_accountService;
+    protected $_customerAccountService;
 
     /** @var  \Magento\Customer\Helper\View */
     protected $_viewHelper;
@@ -134,7 +134,7 @@ class Index extends \Magento\Backend\App\Action
         $this->_formFactory = $formFactory;
         $this->_customerService = $customerService;
         $this->_addressService = $addressService;
-        $this->_accountService = $accountService;
+        $this->_customerAccountService = $accountService;
         $this->_viewHelper = $viewHelper;
         $this->_random = $random;
         parent::__construct($context);
@@ -226,7 +226,7 @@ class Index extends \Magento\Backend\App\Action
         $isExistingCustomer = (bool)$customerId;
         if ($isExistingCustomer) {
             try {
-                $customer = $this->_customerService->getCustomer($customerId);
+                $customer = $this->_customerAccountService->getCustomer($customerId);
                 $customerData['account'] = $customer->getAttributes();
                 $customerData['account']['id'] = $customerId;
                 try {
@@ -373,7 +373,7 @@ class Index extends \Magento\Backend\App\Action
 
                 $customerBuilder = $this->_customerBuilder;
                 if ($isExistingCustomer) {
-                    $savedCustomerData = $this->_customerService->getCustomer($customerId)->__toArray();
+                    $savedCustomerData = $this->_customerAccountService->getCustomer($customerId)->__toArray();
                     $customerData = array_merge($savedCustomerData, $customerData);
                 }
                 unset($customerData[Customer::DEFAULT_BILLING]);
@@ -394,9 +394,9 @@ class Index extends \Magento\Backend\App\Action
 
                 // Save customer
                 if ($isExistingCustomer) {
-                    $this->_accountService->updateAccount($customer, $addresses);
+                    $this->_customerAccountService->updateAccount($customer, $addresses);
                 } else {
-                    $customer = $this->_accountService->createAccount($customer, $addresses);
+                    $customer = $this->_customerAccountService->createAccount($customer, $addresses);
                 }
 
                 if ($customerData['is_subscribed']) {
@@ -463,8 +463,8 @@ class Index extends \Magento\Backend\App\Action
         }
 
         try {
-            $customer = $this->_customerService->getCustomer($customerId);
-            $this->_accountService->sendPasswordResetLink(
+            $customer = $this->_customerAccountService->getCustomer($customerId);
+            $this->_customerAccountService->sendPasswordResetLink(
                 $customer->getEmail(),
                 $customer->getWebsiteId(),
                 CustomerAccountServiceInterface::EMAIL_REMINDER
@@ -798,7 +798,7 @@ class Index extends \Magento\Backend\App\Action
             }
 
             $customer = $this->_customerBuilder->populateWithArray($data)->create();
-            $errors = $this->_accountService->validateCustomerData($customer, []);
+            $errors = $this->_customerAccountService->validateCustomerData($customer, []);
         } catch (\Magento\Core\Exception $exception) {
             /* @var $error \Magento\Message\Error */
             foreach ($exception->getMessages(\Magento\Message\MessageInterface::TYPE_ERROR) as $error) {
@@ -860,7 +860,7 @@ class Index extends \Magento\Backend\App\Action
         $customersUpdated = $this->actUponMultipleCustomers(
             function ($customerId) {
                 // Verify customer exists
-                $this->_customerService->getCustomer($customerId);
+                $this->_customerAccountService->getCustomer($customerId);
                 $this->_subscriberFactory->create()->updateSubscription($customerId, true);
             },
             $customerIds
@@ -882,7 +882,7 @@ class Index extends \Magento\Backend\App\Action
         $customersUpdated = $this->actUponMultipleCustomers(
             function ($customerId) {
                 // Verify customer exists
-                $this->_customerService->getCustomer($customerId);
+                $this->_customerAccountService->getCustomer($customerId);
                 $this->_subscriberFactory->create()->updateSubscription($customerId, false);
             },
             $customerIds
@@ -924,11 +924,11 @@ class Index extends \Magento\Backend\App\Action
         $customersUpdated = $this->actUponMultipleCustomers(
             function ($customerId) {
                 // Verify customer exists
-                $customer = $this->_customerService->getCustomer($customerId);
+                $customer = $this->_customerAccountService->getCustomer($customerId);
                 $this->_customerBuilder->populate($customer);
                 $customer = $this->_customerBuilder
                     ->setGroupId($this->getRequest()->getParam('group'))->create();
-                $this->_accountService->saveCustomer($customer);
+                $this->_customerAccountService->saveCustomer($customer);
             },
             $customerIds
         );

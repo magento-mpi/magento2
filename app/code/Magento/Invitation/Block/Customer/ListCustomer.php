@@ -7,7 +7,7 @@
  */
 namespace Magento\Invitation\Block\Customer;
 
-use Magento\Customer\Service\V1\CustomerServiceInterface;
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 
 /**
@@ -33,7 +33,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
-     * @param CustomerServiceInterface $customerService
+     * @param CustomerAccountServiceInterface $customerAccountService
      * @param CustomerAddressServiceInterface $addressService
      * @param \Magento\Invitation\Model\InvitationFactory $invitationFactory
      * @param \Magento\Invitation\Model\Source\Invitation\Status $invitationStatus
@@ -43,7 +43,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
         \Magento\View\Element\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
-        CustomerServiceInterface $customerService,
+        CustomerAccountServiceInterface $customerAccountService,
         CustomerAddressServiceInterface $addressService,
         \Magento\Invitation\Model\InvitationFactory $invitationFactory,
         \Magento\Invitation\Model\Source\Invitation\Status $invitationStatus,
@@ -52,7 +52,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
         $this->_invitationFactory = $invitationFactory;
         $this->_invitationStatus = $invitationStatus;
         parent::__construct(
-            $context, $customerSession, $subscriberFactory, $customerService, $addressService, $data
+            $context, $customerSession, $subscriberFactory, $customerAccountService, $addressService, $data
         );
         $this->_isScopePrivate = true;
     }

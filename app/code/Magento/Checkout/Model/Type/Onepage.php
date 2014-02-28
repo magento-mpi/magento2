@@ -117,11 +117,6 @@ class Onepage
      */
     protected $messageManager;
 
-    /**
-     * @var CustomerAccountServiceInterface
-     */
-    protected $_accountService;
-
     /** @var \Magento\Customer\Model\Metadata\FormFactory */
     protected $_formFactory;
 
@@ -139,6 +134,9 @@ class Onepage
 
     /** @var CustomerAddressServiceInterface */
     protected $_customerAddressService;
+
+    /** @var CustomerAccountServiceInterface */
+    protected $_customerAccountService;
 
     /**
      * @param \Magento\Event\ManagerInterface $eventManager
@@ -181,14 +179,14 @@ class Onepage
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Object\Copy $objectCopyService,
         \Magento\Message\ManagerInterface $messageManager,
-        CustomerAccountServiceInterface $accountService,
         \Magento\Customer\Model\Metadata\FormFactory $formFactory,
         CustomerBuilder $customerBuilder,
         AddressBuilder $addressBuilder,
         \Magento\Math\Random $mathRandom,
         \Magento\Encryption\EncryptorInterface $encryptor,
         CustomerServiceInterface $customerService,
-        CustomerAddressServiceInterface $customerAddressService
+        CustomerAddressServiceInterface $customerAddressService,
+        CustomerAccountServiceInterface $accountService
     ) {
         $this->_eventManager = $eventManager;
         $this->_customerData = $customerData;
@@ -205,7 +203,6 @@ class Onepage
         $this->_orderFactory = $orderFactory;
         $this->_objectCopyService = $objectCopyService;
         $this->messageManager = $messageManager;
-        $this->_accountService = $accountService;
         $this->_formFactory = $formFactory;
         $this->_customerBuilder = $customerBuilder;
         $this->_addressBuilder = $addressBuilder;
@@ -213,6 +210,7 @@ class Onepage
         $this->_encryptor = $encryptor;
         $this->_customerService = $customerService;
         $this->_customerAddressService = $customerAddressService;
+        $this->_customerAccountService = $accountService;
     }
 
     /**
@@ -338,6 +336,8 @@ class Onepage
      * @param   array $data
      * @param   int $customerAddressId
      * @return  array
+     *
+     * @SuppressWarnings(
      */
     public function saveBilling($data, $customerAddressId)
     {
@@ -534,7 +534,7 @@ class Onepage
 
         //validate customer
         $attributes = $customerForm->getAllowedAttributes();
-        $result = $this->_accountService->validateCustomerData($customer, $attributes);
+        $result = $this->_customerAccountService->validateCustomerData($customer, $attributes);
         if (true !== $result && is_array($result)) {
             return array(
                 'error'   => -1,
@@ -804,7 +804,7 @@ class Onepage
         $billing    = $quote->getBillingAddress();
         $shipping   = $quote->isVirtual() ? null : $quote->getShippingAddress();
 
-        $customer = $this->_customerService->getCustomer($this->getCustomerSession()->getCustomerId());
+        $customer = $this->_customerAccountService->getCustomer($this->getCustomerSession()->getCustomerId());
         if (!$billing->getCustomerId() || $billing->getSaveInAddressBook()) {
             $billingAddress = $billing->exportCustomerAddressData();
             $billing->setCustomerAddressData($billingAddress);
@@ -842,7 +842,7 @@ class Onepage
     protected function _involveNewCustomer()
     {
         $customer = $this->getQuote()->getCustomerData();
-        $confirmationStatus = $this->_accountService->getConfirmationStatus($customer->getCustomerId());
+        $confirmationStatus = $this->_customerAccountService->getConfirmationStatus($customer->getCustomerId());
         if ($confirmationStatus === CustomerAccountServiceInterface::ACCOUNT_CONFIRMATION_REQUIRED) {
             $url = $this->_customerData->getEmailConfirmationUrl($customer->getEmail());
             $this->messageManager->addSuccess(

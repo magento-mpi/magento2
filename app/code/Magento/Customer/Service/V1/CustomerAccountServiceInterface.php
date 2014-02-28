@@ -72,6 +72,15 @@ interface CustomerAccountServiceInterface
     public function saveCustomer(Dto\Customer $customer, $password = null);
 
     /**
+     * Retrieve Customer
+     *
+     * @param int $customerId
+     * @throws \Magento\Exception\NoSuchEntityException If customer with customerId is not found.
+     * @return Dto\Customer
+     */
+    public function getCustomer($customerId);
+
+    /**
      * Used to activate a customer account using a key that was sent in a confirmation e-mail.
      *
      * @param int $customerId

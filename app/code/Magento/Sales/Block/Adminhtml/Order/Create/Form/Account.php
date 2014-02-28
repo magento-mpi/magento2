@@ -15,15 +15,17 @@
  */
 namespace Magento\Sales\Block\Adminhtml\Order\Create\Form;
 
-class Account extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractForm
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+
+class Account extends AbstractForm
 {
     /**
      * @var \Magento\Customer\Model\Metadata\FormFactory
      */
     protected $_metadataFormFactory;
 
-    /** @var \Magento\Customer\Service\V1\CustomerServiceInterface */
-    protected $_customerService;
+    /** @var CustomerAccountServiceInterface */
+    protected $_customerAccountService;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
@@ -31,7 +33,7 @@ class Account extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
      * @param \Magento\Sales\Model\AdminOrder\Create $orderCreate
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory
-     * @param \Magento\Customer\Service\V1\CustomerServiceInterface $customerService
+     * @param CustomerAccountServiceInterface $customerAccountService
      * @param array $data
      */
     public function __construct(
@@ -40,11 +42,11 @@ class Account extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
         \Magento\Sales\Model\AdminOrder\Create $orderCreate,
         \Magento\Data\FormFactory $formFactory,
         \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory,
-        \Magento\Customer\Service\V1\CustomerServiceInterface $customerService,
+        CustomerAccountServiceInterface $customerAccountService,
         array $data = array()
     ) {
         $this->_metadataFormFactory = $metadataFormFactory;
-        $this->_customerService = $customerService;
+        $this->_customerAccountService = $customerAccountService;
         parent::__construct($context, $sessionQuote, $orderCreate, $formFactory, $data);
     }
 
@@ -114,7 +116,7 @@ class Account extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
      * Add additional data to form element
      *
      * @param \Magento\Data\Form\Element\AbstractElement $element
-     * @return \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractForm
+     * @return AbstractForm
      */
     protected function _addAdditionalFormElementData(\Magento\Data\Form\Element\AbstractElement $element)
     {
@@ -135,7 +137,7 @@ class Account extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
     public function getFormValues()
     {
         try {
-            $customer = $this->_customerService->getCustomer($this->getCustomerId());
+            $customer = $this->_customerAccountService->getCustomer($this->getCustomerId());
         } catch (\Exception $e) {
             /** If customer does not exist do nothing. */
         }

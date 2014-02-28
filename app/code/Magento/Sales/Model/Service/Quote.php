@@ -305,7 +305,7 @@ class Quote
             $addresses = $quote->getCustomerAddressData();
             if ($customerDto->getCustomerId()) {
                 //cache the original customer data for rollback if needed
-                $originalCustomerDto = $this->_customerService->getCustomer($customerDto->getCustomerId());
+                $originalCustomerDto = $this->_customerAccountService->getCustomer($customerDto->getCustomerId());
                 $originalAddresses = $this->_customerAddressService->getAddresses($customerDto->getCustomerId());
                 //Save updated data
                 $this->_customerAccountService->saveCustomer($customerDto);
@@ -319,7 +319,7 @@ class Quote
                     '',
                     $quote->getStoreId()
                 );
-                $customerDto = $this->_customerService->getCustomer($this->_createCustomerResponse->getCustomerId());
+                $customerDto = $this->_customerAccountService->getCustomer($this->_createCustomerResponse->getCustomerId());
                 $addresses = $this->_customerAddressService->getAddresses(
                     $this->_createCustomerResponse->getCustomerId()
                 );

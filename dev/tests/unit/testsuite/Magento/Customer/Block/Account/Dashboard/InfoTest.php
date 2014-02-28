@@ -67,7 +67,7 @@ class InfoTest extends \PHPUnit_Framework_TestCase
         $this->_customerSession->expects($this->any())->method('getId')->will($this->returnValue(self::CUSTOMER_ID));
 
         $this->_customerService = $this->getMockForAbstractClass(
-            'Magento\Customer\Service\V1\CustomerServiceInterface', array(), '', false
+            'Magento\Customer\Service\V1\CustomerAccountServiceInterface', array(), '', false
         );
         $this->_customer = $this->getMock('Magento\Customer\Service\V1\Dto\Customer', array(), array(), '', false);
         $this->_customer->expects($this->any())->method('getEmail')->will($this->returnValue(self::EMAIL_ADDRESS));

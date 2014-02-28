@@ -8,6 +8,8 @@
 namespace Magento\Customer\Controller\Adminhtml;
 
 use Magento\Customer\Controller\RegistryConstants;
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 use Magento\Newsletter\Model\Subscriber;
 use Magento\TestFramework\Helper\Bootstrap;
 
@@ -23,18 +25,18 @@ class IndexTest extends \Magento\Backend\Utility\Controller
      */
     protected $_baseControllerUrl;
 
-    /** @var \Magento\Customer\Service\V1\CustomerServiceInterface */
-    protected $customerService;
+    /** @var CustomerAccountServiceInterface */
+    protected $customerAccountService;
 
-    /** @var \Magento\Customer\Service\V1\CustomerAddressServiceInterface */
+    /** @var CustomerAddressServiceInterface */
     protected $customerAddressService;
 
     protected function setUp()
     {
         parent::setUp();
         $this->_baseControllerUrl = 'http://localhost/index.php/backend/customer/index/';
-        $this->customerService = Bootstrap::getObjectManager()
-            ->get('Magento\Customer\Service\V1\CustomerServiceInterface');
+        $this->customerAccountService = Bootstrap::getObjectManager()
+            ->get('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
         $this->customerAddressService = Bootstrap::getObjectManager()
             ->get('Magento\Customer\Service\V1\CustomerAddressServiceInterface');
     }
@@ -184,7 +186,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
          */
         $registry = $objectManager->get('Magento\Registry');
         $customerId = $registry->registry(RegistryConstants::CURRENT_CUSTOMER_ID);
-        $customer = $this->customerService->getCustomer($customerId);
+        $customer = $this->customerAccountService->getCustomer($customerId);
         $this->assertEquals('test firstname', $customer->getFirstname());
         $addresses = $this->customerAddressService->getAddresses($customerId);
         $this->assertEquals(1, count($addresses));
@@ -268,7 +270,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
          */
         $registry = $objectManager->get('Magento\Registry');
         $customerId = $registry->registry(RegistryConstants::CURRENT_CUSTOMER_ID);
-        $customer = $this->customerService->getCustomer($customerId);
+        $customer = $this->customerAccountService->getCustomer($customerId);
         $this->assertEquals('test firstname', $customer->getFirstname());
 
         /**
@@ -663,7 +665,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
      */
     public function testMassAssignGroupAction()
     {
-        $customer = $this->customerService->getCustomer(1);
+        $customer = $this->customerAccountService->getCustomer(1);
         $this->assertEquals(1, $customer->getGroupId());
 
         $this->getRequest()->setParam('group', 0)->setPost('customer', [1]);
@@ -674,7 +676,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
         );
         $this->assertRedirect($this->stringContains('customer/index'));
 
-        $customer = $this->customerService->getCustomer(1);
+        $customer = $this->customerAccountService->getCustomer(1);
         $this->assertEquals(0, $customer->getGroupId());
     }
 
@@ -709,8 +711,8 @@ class IndexTest extends \Magento\Backend\Utility\Controller
      */
     public function testMassAssignGroupActionPartialUpdate()
     {
-        $this->assertEquals(1, $this->customerService->getCustomer(1)->getGroupId());
-        $this->assertEquals(1, $this->customerService->getCustomer(2)->getGroupId());
+        $this->assertEquals(1, $this->customerAccountService->getCustomer(1)->getGroupId());
+        $this->assertEquals(1, $this->customerAccountService->getCustomer(2)->getGroupId());
 
         $this->getRequest()->setParam('group', 0)->setPost('customer', [1, 4200, 2]);
         $this->dispatch('backend/customer/index/massAssignGroup');
@@ -723,8 +725,8 @@ class IndexTest extends \Magento\Backend\Utility\Controller
             \Magento\Message\MessageInterface::TYPE_ERROR
         );
 
-        $this->assertEquals(0, $this->customerService->getCustomer(1)->getGroupId());
-        $this->assertEquals(0, $this->customerService->getCustomer(2)->getGroupId());
+        $this->assertEquals(0, $this->customerAccountService->getCustomer(1)->getGroupId());
+        $this->assertEquals(0, $this->customerAccountService->getCustomer(2)->getGroupId());
     }
 
 

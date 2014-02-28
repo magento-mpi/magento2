@@ -8,7 +8,7 @@
 
 namespace Magento\Sales\Model\AdminOrder;
 
-use Magento\Customer\Service\V1\CustomerServiceInterface;
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 use Magento\Customer\Service\V1\Dto\AddressBuilder as CustomerAddressBuilder;
@@ -133,9 +133,9 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
     protected $quoteInitializer;
 
     /**
-     * @var CustomerServiceInterface
+     * @var CustomerAccountServiceInterface
      */
-    protected $_customerService;
+    protected $_customerAccountService;
 
     /**
      * @var CustomerAddressServiceInterface
@@ -177,7 +177,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
      * @param \Magento\Object\Copy $objectCopyService
      * @param \Magento\Message\ManagerInterface $messageManager
      * @param Product\Quote\Initializer $quoteInitializer
-     * @param CustomerServiceInterface $customerService
+     * @param CustomerAccountServiceInterface $customerAccountService
      * @param CustomerAddressServiceInterface $customerAddressService
      * @param CustomerAddressBuilder $customerAddressBuilder
      * @param \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory
@@ -196,7 +196,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         \Magento\Object\Copy $objectCopyService,
         \Magento\Message\ManagerInterface $messageManager,
         Product\Quote\Initializer $quoteInitializer,
-        CustomerServiceInterface $customerService,
+        CustomerAccountServiceInterface $customerAccountService,
         CustomerAddressServiceInterface $customerAddressService,
         CustomerAddressBuilder $customerAddressBuilder,
         \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory,
@@ -214,7 +214,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         $this->_objectCopyService = $objectCopyService;
         $this->quoteInitializer = $quoteInitializer;
         $this->messageManager = $messageManager;
-        $this->_customerService = $customerService;
+        $this->_customerAccountService = $customerAccountService;
         $this->_customerAddressService = $customerAddressService;
         $this->_customerAddressBuilder = $customerAddressBuilder;
         $this->_metadataFormFactory = $metadataFormFactory;
@@ -583,7 +583,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         if ($customerId) {
             $this->_cart->setStore($this->getSession()->getStore())->loadByCustomer($customerId);
             if (!$this->_cart->getId()) {
-                $customerData = $this->_customerService->getCustomer($customerId);
+                $customerData = $this->_customerAccountService->getCustomer($customerId);
                 $this->_cart->assignCustomer($customerData);
                 $this->_cart->save();
             }
@@ -1479,7 +1479,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
     protected function _customerIsInStore($store)
     {
         $customerId = (int)$this->getSession()->getCustomerId();
-        $customerData = $this->_customerService->getCustomer($customerId);
+        $customerData = $this->_customerAccountService->getCustomer($customerId);
         return $customerData->getWebsiteId() == $store->getWebsiteId() ||
             $this->_customerHelper->isCustomerInStore($customerData->getWebsiteId(), $store->getId());
     }

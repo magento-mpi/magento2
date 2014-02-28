@@ -7,6 +7,7 @@
  */
 namespace Magento\Customer\Block\Address;
 
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\Dto\Address;
 use Magento\Customer\Service\V1\Dto\Customer;
 use Magento\Exception\NoSuchEntityException;
@@ -34,9 +35,9 @@ class Edit extends \Magento\Directory\Block\Data
     protected $_customerSession;
 
     /**
-     * @var \Magento\Customer\Service\V1\CustomerServiceInterface
+     * @var CustomerAccountServiceInterface
      */
-    protected $_customerService;
+    protected $_customerAccountService;
 
     /**
      * @var \Magento\Customer\Service\V1\CustomerAddressServiceInterface
@@ -59,7 +60,7 @@ class Edit extends \Magento\Directory\Block\Data
      * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory
      * @param \Magento\App\ConfigInterface $config
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Customer\Service\V1\CustomerServiceInterface $customerService
+     * @param CustomerAccountServiceInterface $customerAccountService
      * @param \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService
      * @param \Magento\Customer\Service\V1\Dto\AddressBuilder $addressBuilder
      * @param array $data
@@ -75,14 +76,14 @@ class Edit extends \Magento\Directory\Block\Data
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory,
         \Magento\App\ConfigInterface $config,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Customer\Service\V1\CustomerServiceInterface $customerService,
+        CustomerAccountServiceInterface $customerAccountService,
         \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService,
         \Magento\Customer\Service\V1\Dto\AddressBuilder $addressBuilder,
         array $data = array()
     ) {
         $this->_config = $config;
         $this->_customerSession = $customerSession;
-        $this->_customerService = $customerService;
+        $this->_customerAccountService = $customerAccountService;
         $this->_addressService = $addressService;
         $this->_addressBuilder = $addressBuilder;
         parent::__construct(
@@ -321,7 +322,7 @@ class Edit extends \Magento\Directory\Block\Data
      */
     public function getCustomer()
     {
-        return $this->_customerService->getCustomer($this->_customerSession->getId());
+        return $this->_customerAccountService->getCustomer($this->_customerSession->getId());
     }
 
     /**

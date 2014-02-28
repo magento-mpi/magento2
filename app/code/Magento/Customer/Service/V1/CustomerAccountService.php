@@ -57,11 +57,6 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     private $_validator;
 
     /**
-     * @var CustomerServiceInterface
-     */
-    private $_customerService;
-
-    /**
      * @var CustomerAddressServiceInterface
      */
     private $_customerAddressService;
@@ -86,7 +81,6 @@ class CustomerAccountService implements CustomerAccountServiceInterface
      * @param Converter $converter
      * @param Validator $validator
      * @param Dto\CustomerBuilder $customerBuilder
-     * @param CustomerServiceInterface $customerService
      * @param CustomerAddressServiceInterface $customerAddressService
      * @param CustomerMetadataService $customerMetadataService
      * @param UrlInterface $url
@@ -101,7 +95,6 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         Converter $converter,
         Validator $validator,
         Dto\CustomerBuilder $customerBuilder,
-        CustomerServiceInterface $customerService,
         CustomerAddressServiceInterface $customerAddressService,
         CustomerMetadataService $customerMetadataService,
         UrlInterface $url
@@ -113,7 +106,6 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         $this->_converter = $converter;
         $this->_validator = $validator;
         $this->_customerBuilder = $customerBuilder;
-        $this->_customerService = $customerService;
         $this->_customerAddressService = $customerAddressService;
         $this->_customerMetadataService = $customerMetadataService;
         $this->_url = $url;
@@ -348,7 +340,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     public function updateAccount(Dto\Customer $customer, array $addresses = null)
     {
         // Making this call first will ensure the customer already exists.
-        $this->_customerService->getCustomer($customer->getCustomerId());
+        $this->getCustomer($customer->getCustomerId());
         $this->saveCustomer($customer);
 
         if ($addresses != null) {
@@ -385,6 +377,15 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         $customerModel->save();
 
         return $customerModel->getId();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCustomer($customerId)
+    {
+        $customerModel = $this->_converter->getCustomerModel($customerId);
+        return $this->_converter->createCustomerFromModel($customerModel);
     }
 
     /**

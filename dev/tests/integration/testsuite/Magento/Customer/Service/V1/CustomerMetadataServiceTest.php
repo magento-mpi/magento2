@@ -13,16 +13,17 @@ use Magento\Exception\NoSuchEntityException;
 
 class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Magento\Customer\Service\V1\CustomerServiceInterface */
-    private $_customerService;
+    /** @var CustomerAccountServiceInterface */
+    private $_customerAccountService;
 
-    /** @var \Magento\Customer\Service\V1\CustomerMetadataServiceInterface */
+    /** @var CustomerMetadataServiceInterface */
     private $_service;
 
     protected function setUp()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $this->_customerService = $objectManager->create('Magento\Customer\Service\V1\CustomerServiceInterface');
+        $this->_customerAccountService = $objectManager
+            ->create('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
         $this->_service = $objectManager->create('Magento\Customer\Service\V1\CustomerMetadataServiceInterface');
     }
 
@@ -64,7 +65,7 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             'default_shipping'          => '1',
         );
 
-        $customer = $this->_customerService->getCustomer(1);
+        $customer = $this->_customerAccountService->getCustomer(1);
         $this->assertNotNull($customer);
 
         $attributes = $customer->getAttributes();

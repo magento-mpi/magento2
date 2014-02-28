@@ -71,7 +71,7 @@ abstract class Action extends \Magento\App\Action\Action
     {
         try {
             $customerId = $this->_customerSession->getCustomerId();
-            $customer = $this->_customerService->getCustomer($customerId);
+            $customer = $this->_customerAccountService->getCustomer($customerId);
         } catch (NoSuchEntityException $e) {
             return true;
         }

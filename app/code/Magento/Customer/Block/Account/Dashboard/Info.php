@@ -8,6 +8,7 @@
 
 namespace Magento\Customer\Block\Account\Dashboard;
 
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
 use Magento\Exception\NoSuchEntityException;
 
@@ -38,13 +39,13 @@ class Info extends \Magento\View\Element\Template
      */
     protected $_metadataService;
 
-    /** @var  \Magento\Customer\Service\V1\CustomerServiceInterface */
-    protected $_customerService;
+    /** @var  CustomerAccountServiceInterface */
+    protected $_customerAccountService;
 
     /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Customer\Service\V1\CustomerServiceInterface $customerService
+     * @param CustomerAccountServiceInterface $customerAccountService
      * @param CustomerMetadataServiceInterface $metadataService
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
      * @param array $data
@@ -52,13 +53,13 @@ class Info extends \Magento\View\Element\Template
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Customer\Service\V1\CustomerServiceInterface $customerService,
+        CustomerAccountServiceInterface $customerAccountService,
         CustomerMetadataServiceInterface $metadataService,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
         array $data = array()
     ) {
         $this->_customerSession = $customerSession;
-        $this->_customerService = $customerService;
+        $this->_customerAccountService = $customerAccountService;
         $this->_metadataService = $metadataService;
         $this->_subscriberFactory = $subscriberFactory;
         parent::__construct($context, $data);
@@ -73,7 +74,7 @@ class Info extends \Magento\View\Element\Template
     public function getCustomer()
     {
         try {
-            return $this->_customerService->getCustomer($this->_customerSession->getId());
+            return $this->_customerAccountService->getCustomer($this->_customerSession->getId());
         } catch (NoSuchEntityException $e) {
             return null;
         }
