@@ -89,6 +89,10 @@ class RequireAnnotatedMethodsSniff implements PHP_CodeSniffer_Sniff
     public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
         $this->helper = new Helper($phpcsFile);
+        // if we should skip this type we should do that
+        if ($this->helper->shouldFilter()) {
+            return;
+        }
 
         $tokens = $phpcsFile->getTokens();
 

@@ -148,10 +148,6 @@ class LiveCodeTest extends PHPUnit_Framework_TestCase
             $this->markTestSkipped('PHP Code Sniffer is not installed.');
         }
         self::setupFileLists('phpcs');
-        // TODO: Temporarily blacklist anything in dev/tests until a sweep of dev/tests can be made.
-        self::$blackList[] = 'dev/tests/';
-        // TODO: Remove the GoogleCheckout directory from the blacklist when MAGETWO-18110 is complete
-        self::$blackList[] = 'app/code/Magento/GoogleCheckout';
         $result = $codeSniffer->run(self::$whiteList, self::$blackList, array('php'), $warningSeverity);
         $this->markTestIncomplete("PHP Code Sniffer has found $result error(s): See detailed report in $reportFile");
         $this->assertEquals(
