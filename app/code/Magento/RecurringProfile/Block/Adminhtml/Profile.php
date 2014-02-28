@@ -5,12 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\RecurringProfile\Block\Adminhtml;
 
 /**
  * Adminhtml sales orders block
  */
-namespace Magento\RecurringProfile\Block\Adminhtml;
-
 class Profile extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**
@@ -19,10 +18,16 @@ class Profile extends \Magento\Backend\Block\Widget\Grid\Container
      * @var string
      */
     protected $_blockGroup = 'Magento_RecurringProfile';
+
+    /**
+     * @var string
+     */
     protected $_controller = 'adminhtml_profile';
 
     /**
      * Set header text and remove "add" btn
+     *
+     * @return void
      */
     protected function _construct()
     {

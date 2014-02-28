@@ -5,14 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * Recurring profiles grid
- */
 namespace Magento\RecurringProfile\Block\Adminhtml\Profile;
 
 /**
- * Class Grid
+ * Class Grid - Recurring profiles grid
  * @todo: convert to layout update
  */
 class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
@@ -32,7 +28,9 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected $_fields;
 
-    /** @var \Magento\RecurringProfile\Model\Method\PaymentMethodsList */
+    /**
+     * @var \Magento\RecurringProfile\Model\Method\PaymentMethodsList
+     */
     protected $payments;
 
     /**
@@ -60,6 +58,9 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         $this->_fields = $fields;
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -71,7 +72,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Prepare grid collection object
      *
-     * @return \Magento\Backend\Block\Widget\Grid
+     * @return $this
      */
     protected function _prepareCollection()
     {
@@ -86,7 +87,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Prepare grid columns
      *
-     * @return \Magento\RecurringProfile\Block\Adminhtml\Profile\Grid
+     * @return $this
      */
     protected function _prepareColumns()
     {
@@ -150,7 +151,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Return row url for js event handlers
      *
-     * @param \Magento\Object
+     * @param \Magento\Object $row
      * @return string
      */
     public function getRowUrl($row)

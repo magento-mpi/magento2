@@ -69,6 +69,8 @@ class RecurringProfile extends \Magento\App\Action\Action
 
     /**
      * Profiles listing
+     *
+     * @return void
      */
     public function indexAction()
     {
@@ -80,6 +82,8 @@ class RecurringProfile extends \Magento\App\Action\Action
 
     /**
      * Profile main view
+     *
+     * @return void
      */
     public function viewAction()
     {
@@ -88,6 +92,8 @@ class RecurringProfile extends \Magento\App\Action\Action
 
     /**
      * Profile related orders view
+     *
+     * @return void
      */
     public function ordersAction()
     {
@@ -96,6 +102,8 @@ class RecurringProfile extends \Magento\App\Action\Action
 
     /**
      * Attempt to set profile state
+     *
+     * @return void
      */
     public function updateStateAction()
     {
@@ -132,6 +140,8 @@ class RecurringProfile extends \Magento\App\Action\Action
 
     /**
      * Fetch an update with profile
+     *
+     * @return void
      */
     public function updateProfileAction()
     {
@@ -160,6 +170,8 @@ class RecurringProfile extends \Magento\App\Action\Action
 
     /**
      * Generic profile view action
+     *
+     * @return void
      */
     protected function _viewAction()
     {

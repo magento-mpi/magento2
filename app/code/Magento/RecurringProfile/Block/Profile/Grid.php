@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\RecurringProfile\Block\Profile;
 
 /**
@@ -26,7 +25,7 @@ class Grid extends \Magento\RecurringProfile\Block\Profiles
     /**
      * Profiles collection
      *
-     * @var \Magento\RecurringProfile\Model\Resource\Profile\Collection
+     * @var \Magento\RecurringProfile\Model\Resource\Profile\Collection|null
      */
     protected $_profiles = null;
 
@@ -60,6 +59,7 @@ class Grid extends \Magento\RecurringProfile\Block\Profiles
      * Instantiate profiles collection
      *
      * @param array|int|string $fields
+     * @return void
      */
     protected function _prepareProfiles($fields = '*')
     {

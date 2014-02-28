@@ -15,6 +15,7 @@ class Profile extends \Magento\Sales\Model\Resource\AbstractResource
     /**
      * Initialize main table and column
      *
+     * @return void
      */
     protected function _construct()
     {

@@ -5,14 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\RecurringProfile\Model\Quote\Total;
 
 /**
  * Total model for recurring profiles
  */
-namespace Magento\RecurringProfile\Model\Quote\Total;
-
-abstract class AbstractRecurring
-    extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
+abstract class AbstractRecurring extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 {
     /**
      * Don't add amounts to address
@@ -24,14 +22,14 @@ abstract class AbstractRecurring
     /**
      * By what key to set data into item
      *
-     * @var string
+     * @var string|null
      */
     protected $_itemRowTotalKey = null;
 
     /**
      * By what key to get data from profile
      *
-     * @var string
+     * @var string|null
      */
     protected $_profileDataKey = null;
 
@@ -39,7 +37,7 @@ abstract class AbstractRecurring
      * Collect recurring item parameters and copy to the address items
      *
      * @param \Magento\Sales\Model\Quote\Address $address
-     * @return \Magento\RecurringProfile\Model\Quote\Total\AbstractRecurring
+     * @return $this
      */
     public function collect(\Magento\Sales\Model\Quote\Address $address)
     {
@@ -87,6 +85,7 @@ abstract class AbstractRecurring
      *
      * @param \Magento\Sales\Model\Quote\Address $address
      * @param \Magento\Sales\Model\Quote\Item\AbstractItem $item
+     * @return void
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function _afterCollectSuccess($address, $item)

@@ -15,11 +15,17 @@ class Initial
     extends \Magento\RecurringProfile\Model\Quote\Total\AbstractRecurring
 {
     /**
-     * Custom row total/profile keys
+     * Custom row total key
      *
      * @var string
      */
     protected $_itemRowTotalKey = 'recurring_initial_fee';
+
+    /**
+     * Custom row profile key
+     *
+     * @var string
+     */
     protected $_profileDataKey = 'init_amount';
 
     /**

@@ -11,7 +11,9 @@ use \Magento\Sales\Model\Quote;
 
 class PaymentAvailabilityObserver
 {
-    /** @var  \Magento\RecurringProfile\Model\Quote\Filter */
+    /**
+     * @var  \Magento\RecurringProfile\Model\Quote\Filter
+     */
     protected $quoteFilter;
 
     /**
@@ -33,6 +35,7 @@ class PaymentAvailabilityObserver
 
     /**
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function observe(\Magento\Event\Observer $observer)
     {

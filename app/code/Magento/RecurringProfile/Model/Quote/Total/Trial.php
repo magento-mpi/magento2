@@ -15,11 +15,17 @@ class Trial
     extends \Magento\RecurringProfile\Model\Quote\Total\AbstractRecurring
 {
     /**
-     * Custom row total/profile keys
+     * Custom row total key
      *
      * @var string
      */
     protected $_itemRowTotalKey = 'recurring_trial_payment';
+
+    /**
+     * Custom row profile key
+     *
+     * @var string
+     */
     protected $_profileDataKey = 'trial_billing_amount';
 
     /**
@@ -35,9 +41,11 @@ class Trial
     /**
      * Prevent compounding nominal subtotal in case if the trial payment exists
      *
-     * @see \Magento\Sales\Model\Quote\Address\Total\Nominal\Subtotal
+     *
      * @param \Magento\Sales\Model\Quote\Address $address
      * @param \Magento\Sales\Model\Quote\Item\AbstractItem $item
+     * @return void
+     * @see \Magento\Sales\Model\Quote\Address\Total\Nominal\Subtotal
      */
     protected function _afterCollectSuccess($address, $item)
     {

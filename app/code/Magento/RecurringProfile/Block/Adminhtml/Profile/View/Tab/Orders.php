@@ -5,12 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\RecurringProfile\Block\Adminhtml\Profile\View\Tab;
 
 /**
  * Recurring profile orders grid
  */
-namespace Magento\RecurringProfile\Block\Adminhtml\Profile\View\Tab;
-
 class Orders
     extends \Magento\Backend\Block\Widget\Grid\Extended
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
@@ -18,7 +17,7 @@ class Orders
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Registry|null
      */
     protected $_coreRegistry = null;
 
@@ -43,6 +42,7 @@ class Orders
      * @param \Magento\Registry $coreRegistry
      * @param \Magento\Sales\Model\Resource\Order\CollectionFactory $orderCollection
      * @param \Magento\Sales\Model\Order\ConfigFactory $orderConfig
+     * @param \Magento\RecurringProfile\Model\Resource\Order\CollectionFilter $recurringCollectionFilter
      * @param array $data
      */
     public function __construct(
@@ -63,6 +63,8 @@ class Orders
 
     /**
      * Initialize basic parameters
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -75,7 +77,7 @@ class Orders
     /**
      * Prepare grid collection object
      *
-     * @return \Magento\RecurringProfile\Block\Adminhtml\Profile\View\Tab\Orders
+     * @return $this
      */
     protected function _prepareCollection()
     {
@@ -92,7 +94,7 @@ class Orders
      *
      * TODO: fix up this mess
      *
-     * @return \Magento\RecurringProfile\Block\Adminhtml\Profile\View\Tab\Orders
+     * @return $this
      */
     protected function _prepareColumns()
     {
@@ -179,7 +181,7 @@ class Orders
     /**
      * Return row url for js event handlers
      *
-     * @param \Magento\Object
+     * @param \Magento\Object $row
      * @return string
      */
     public function getRowUrl($row)

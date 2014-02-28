@@ -5,22 +5,21 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * Recurring profiles view/management controller
- *
- * TODO: implement ACL restrictions
- */
 namespace Magento\RecurringProfile\Controller\Adminhtml;
 
 use Magento\App\Action\NotFoundException;
 use Magento\Core\Exception as CoreException;
 use Magento\Customer\Controller\Adminhtml\Index as CustomerController;
 
+/**
+ * Recurring profiles view/management controller
+ *
+ * TODO: implement ACL restrictions
+ */
 class RecurringProfile extends \Magento\Backend\App\Action
 {
     /**#@+
-     * Request parameter keys
+     * Request parameter key
      */
     const PARAM_CUSTOMER_ID = 'id';
     const PARAM_PROFILE = 'profile';
@@ -28,7 +27,7 @@ class RecurringProfile extends \Magento\Backend\App\Action
     /**#@-*/
 
     /**#@+
-     * Values for PARAM_ACTION request parameter
+     * Value for PARAM_ACTION request parameter
      */
     const ACTION_CANCEL = 'cancel';
     const ACTION_SUSPEND = 'suspend';
@@ -72,6 +71,8 @@ class RecurringProfile extends \Magento\Backend\App\Action
 
     /**
      * Recurring profiles list
+     *
+     * @return void
      */
     public function indexAction()
     {
@@ -83,6 +84,8 @@ class RecurringProfile extends \Magento\Backend\App\Action
 
     /**
      * View recurring profile details
+     *
+     * @return void
      */
     public function viewAction()
     {
@@ -104,6 +107,8 @@ class RecurringProfile extends \Magento\Backend\App\Action
 
     /**
      * Profiles ajax grid
+     *
+     * @return void
      */
     public function gridAction()
     {
@@ -121,6 +126,7 @@ class RecurringProfile extends \Magento\Backend\App\Action
     /**
      * Profile orders ajax grid
      *
+     * @return void
      * @throws NotFoundException
      */
     public function ordersAction()
@@ -136,6 +142,8 @@ class RecurringProfile extends \Magento\Backend\App\Action
 
     /**
      * Profile state updater action
+     *
+     * @return void
      */
     public function updateStateAction()
     {
@@ -173,6 +181,8 @@ class RecurringProfile extends \Magento\Backend\App\Action
 
     /**
      * Profile information updater action
+     *
+     * @return void
      */
     public function updateProfileAction()
     {
@@ -202,6 +212,7 @@ class RecurringProfile extends \Magento\Backend\App\Action
     /**
      * Customer grid ajax action
      *
+     * @return void
      */
     public function customerGridAction()
     {

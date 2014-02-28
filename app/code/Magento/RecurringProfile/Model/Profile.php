@@ -186,6 +186,8 @@ class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
     /**
      * Submit a recurring profile right after an order is placed
      *
+     * @return void
+     * @throws \Exception
      */
     public function submit()
     {
@@ -205,6 +207,8 @@ class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
 
     /**
      * Activate the suspended profile
+     *
+     * @return void
      */
     public function activate()
     {
@@ -226,6 +230,8 @@ class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
 
     /**
      * Suspend active profile
+     *
+     * @return void
      */
     public function suspend()
     {
@@ -247,6 +253,8 @@ class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
 
     /**
      * Cancel active or suspended profile
+     *
+     * @return void
      */
     public function cancel()
     {
@@ -266,6 +274,9 @@ class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
         return $this->_checkWorkflow(States::CANCELED);
     }
 
+    /**
+     * @return void
+     */
     public function fetchUpdate()
     {
         $result = new \Magento\Object();
@@ -284,6 +295,9 @@ class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
         }
     }
 
+    /**
+     * @return bool
+     */
     public function canFetchUpdate()
     {
         return $this->getMethodInstance()->canGetRecurringProfileDetails();

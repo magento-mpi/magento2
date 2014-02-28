@@ -5,21 +5,21 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\RecurringProfile\Block\Adminhtml\Customer\Edit\Tab;
+
+use Magento\Backend\Block\Widget\Tab\TabInterface;
+use Magento\Customer\Controller\Adminhtml\Index as CustomerController;
+use Magento\RecurringProfile\Block\Adminhtml\Profile\Grid;
 
 /**
  * Adminhtml customer recurring profiles tab
  */
-namespace Magento\RecurringProfile\Block\Adminhtml\Customer\Edit\Tab;
-
-use Magento\Customer\Controller\Adminhtml\Index as CustomerController;
-class RecurringProfile
-    extends \Magento\RecurringProfile\Block\Adminhtml\Profile\Grid
-    implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class RecurringProfile extends Grid implements TabInterface
 {
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Registry|null
      */
     protected $_coreRegistry = null;
 
@@ -74,6 +74,7 @@ class RecurringProfile
     /**
      * Disable filters and paging
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -104,7 +105,7 @@ class RecurringProfile
     /**
      * Can show tab in tabs
      *
-     * @return boolean
+     * @return bool
      */
     public function canShowTab()
     {
@@ -114,7 +115,7 @@ class RecurringProfile
     /**
      * Tab is hidden
      *
-     * @return boolean
+     * @return bool
      */
     public function isHidden()
     {

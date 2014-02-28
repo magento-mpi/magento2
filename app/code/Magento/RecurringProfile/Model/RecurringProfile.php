@@ -31,14 +31,14 @@ class RecurringProfile extends \Magento\Core\Model\AbstractModel
 
     /**
      *
-     * @var \Magento\Payment\Model\Method\AbstractMethod
+     * @var \Magento\Payment\Model\Method\AbstractMethod|null
      */
     protected $_methodInstance = null;
 
     /**
      * Store instance used by locale or method instance
      *
-     * @var \Magento\Core\Model\Store
+     * @var \Magento\Core\Model\Store|null
      */
     protected $_store = null;
 
@@ -52,7 +52,7 @@ class RecurringProfile extends \Magento\Core\Model\AbstractModel
     /**
      * Payment data
      *
-     * @var \Magento\Payment\Helper\Data
+     * @var \Magento\Payment\Helper\Data|null
      */
     protected $_paymentData = null;
 
@@ -205,7 +205,7 @@ class RecurringProfile extends \Magento\Core\Model\AbstractModel
      * Setter for payment method instance
      *
      * @param \Magento\Payment\Model\Method\AbstractMethod $object
-     * @return \Magento\RecurringProfile\Model\RecurringProfile
+     * @return $this
      * @throws \Exception
      */
     public function setMethodInstance(\Magento\Payment\Model\Method\AbstractMethod $object)
@@ -223,7 +223,7 @@ class RecurringProfile extends \Magento\Core\Model\AbstractModel
      * Then filter data
      *
      * @param \Magento\Object $buyRequest
-     * @return \Magento\RecurringProfile\Model\RecurringProfile
+     * @return $this
      * @throws \Magento\Core\Exception
      * @throws \Exception
      */
@@ -251,7 +251,7 @@ class RecurringProfile extends \Magento\Core\Model\AbstractModel
      * Returns false if it cannot be imported
      *
      * @param \Magento\Catalog\Model\Product $product
-     * @return \Magento\RecurringProfile\Model\RecurringProfile|false
+     * @return $this|false
      */
     public function importProduct(\Magento\Catalog\Model\Product $product)
     {
@@ -309,7 +309,7 @@ class RecurringProfile extends \Magento\Core\Model\AbstractModel
      * Determine nearest possible profile start date
      *
      * @param \Zend_Date $minAllowed
-     * @return \Magento\RecurringProfile\Model\RecurringProfile
+     * @return $this
      */
     protected function setNearestStartDatetime(\Zend_Date $minAllowed = null)
     {
@@ -343,7 +343,7 @@ class RecurringProfile extends \Magento\Core\Model\AbstractModel
      * Store instance setter
      *
      * @param \Magento\Core\Model\Store $store
-     * @return \Magento\RecurringProfile\Model\RecurringProfile
+     * @return $this
      */
     public function setStore(\Magento\Core\Model\Store $store)
     {
@@ -355,7 +355,7 @@ class RecurringProfile extends \Magento\Core\Model\AbstractModel
      * Transform some specific data for output
      *
      * @param string $key
-     * @return mixed
+     * @return array|null
      */
     public function renderData($key)
     {
@@ -380,7 +380,7 @@ class RecurringProfile extends \Magento\Core\Model\AbstractModel
     /**
      * Filter self data to make sure it can be validated properly
      *
-     * @return \Magento\RecurringProfile\Model\RecurringProfile
+     * @return $this
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     protected function _filterValues()
@@ -467,6 +467,7 @@ class RecurringProfile extends \Magento\Core\Model\AbstractModel
     /**
      * Perform full validation before saving
      *
+     * @return void
      * @throws \Magento\Core\Exception
      */
     protected function _validateBeforeSave()

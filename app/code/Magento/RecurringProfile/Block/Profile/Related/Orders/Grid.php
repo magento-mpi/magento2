@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\RecurringProfile\Block\Profile\Related\Orders;
 
 /**
@@ -61,6 +60,7 @@ class Grid extends \Magento\RecurringProfile\Block\Profile\View
      * Prepare related orders collection
      *
      * @param array|string $fieldsToSelect
+     * @return void
      */
     protected function _prepareRelatedOrders($fieldsToSelect = '*')
     {

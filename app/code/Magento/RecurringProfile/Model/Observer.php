@@ -5,9 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\RecurringProfile\Model;
 
+use Magento\Event\Observer as EventObserver;
 /**
  * Recurring profile observer
  */
@@ -86,7 +86,8 @@ class Observer
      *
      * Also sets the collected information and schedule as informational static options
      *
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
+     * @return void
      */
     public function prepareProductRecurringProfileOptions($observer)
     {
@@ -129,7 +130,8 @@ class Observer
     /**
      * Add the recurring profile form when editing a product
      *
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
+     * @return void
      */
     public function addFieldsToProductEditForm($observer)
     {
@@ -161,7 +163,8 @@ class Observer
     /**
      * Submit recurring profiles
      *
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
+     * @return void
      * @throws \Magento\Core\Exception
      */
     public function submitRecurringPaymentProfiles($observer)
@@ -175,6 +178,10 @@ class Observer
         }
     }
 
+    /**
+     * @param EventObserver $observer
+     * @return void
+     */
     public function addRecurringProfileIdsToSession($observer)
     {
         $profiles = $this->_quoteImporter->prepareRecurringPaymentProfiles($observer->getEvent()->getQuote());

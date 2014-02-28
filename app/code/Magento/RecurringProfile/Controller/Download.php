@@ -9,9 +9,15 @@ namespace Magento\RecurringProfile\Controller;
 
 class Download extends \Magento\App\Action\Action
 {
-    /** @var \Magento\Sales\Model\Download */
+    /**
+     * @var \Magento\Sales\Model\Download
+     */
     protected $download;
 
+    /**
+     * @param \Magento\App\Action\Context $context
+     * @param \Magento\Sales\Model\Download $download
+     */
     public function __construct(\Magento\App\Action\Context $context, \Magento\Sales\Model\Download $download)
     {
         parent::__construct($context);
@@ -20,6 +26,8 @@ class Download extends \Magento\App\Action\Action
 
     /**
      * Profile custom options download action
+     *
+     * @return void
      */
     public function downloadProfileCustomOptionAction()
     {
@@ -55,7 +63,7 @@ class Download extends \Magento\App\Action\Action
         if (!isset($buyRequest['options'][$optionId])) {
             throw new \Exception();
         }
-        /** @var Magento\Catalog\Model\Product $product */
+        /** @var \Magento\Catalog\Model\Product $product */
         $product = $this->_objectManager->create('Magento\Catalog\Model\Product')->load($buyRequest['product']);
         if (!$product->getId()) {
             throw new \Exception();
