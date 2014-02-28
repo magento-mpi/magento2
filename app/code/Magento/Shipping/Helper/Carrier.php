@@ -2,35 +2,82 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Usa
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Shipping\Helper;
 
 /**
  * Carrier helper
- *
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Carrier extends \Magento\App\Helper\AbstractHelper
 {
+    /**
+     * Carriers root xml path
+     */
+    const XML_PATH_CARRIERS_ROOT = 'carriers';
+
     /**
      * Locale interface
      *
      * @var \Magento\Core\Model\LocaleInterface
      */
-    protected $_locale;
+    protected $locale;
+
+    /**
+     * Store config
+     *
+     * @var \Magento\Core\Model\Store\ConfigInterface
+     */
+    protected $storeConfig;
 
     /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Model\LocaleInterface $locale
-     */
-    public function __construct(\Magento\App\Helper\Context $context, \Magento\Core\Model\LocaleInterface $locale)
-    {
-        $this->_locale = $locale;
+     * @param \Magento\Core\Model\Store\ConfigInterface $storeConfig
+    */
+    public function __construct(
+        \Magento\App\Helper\Context $context,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Core\Model\Store\ConfigInterface $storeConfig
+    ) {
+        $this->locale = $locale;
+        $this->storeConfig = $storeConfig;
         parent::__construct($context);
+    }
+
+    /**
+     * Get online shipping carrier codes
+     *
+     * @param int|\Magento\Core\Model\Store|null $store
+     * @return array
+     */
+    public function getOnlineCarrierCodes($store = null)
+    {
+        $carriersCodes = array();
+        foreach ($this->storeConfig->getConfig(self::XML_PATH_CARRIERS_ROOT, $store) as $carrierCode => $carrier) {
+            if (isset($carrier['is_online']) && $carrier['is_online']) {
+                $carriersCodes[] = $carrierCode;
+            }
+        }
+        return $carriersCodes;
+    }
+
+    /**
+     * Get shipping carrier config value
+     *
+     * @param string $carrierCode
+     * @param string $configPath
+     * @param null $store
+     * @return string
+     */
+    public function getCarrierConfigValue($carrierCode, $configPath, $store = null)
+    {
+        return $this->storeConfig->getConfig(
+            sprintf('%s/%s/%s', self::XML_PATH_CARRIERS_ROOT, $carrierCode , $configPath),
+            $store
+        );
     }
 
     /**
@@ -44,7 +91,7 @@ class Carrier extends \Magento\App\Helper\AbstractHelper
     public function convertMeasureWeight($value, $sourceWeightMeasure, $toWeightMeasure)
     {
         if ($value) {
-            $locale = $this->_locale->getLocale();
+            $locale = $this->locale->getLocale();
             $unitWeight = new \Zend_Measure_Weight($value, $sourceWeightMeasure, $locale);
             $unitWeight->setType($toWeightMeasure);
             return $unitWeight->getValue();
@@ -63,7 +110,7 @@ class Carrier extends \Magento\App\Helper\AbstractHelper
     public function convertMeasureDimension($value, $sourceDimensionMeasure, $toDimensionMeasure)
     {
         if ($value) {
-            $locale = $this->_locale->getLocale();
+            $locale = $this->locale->getLocale();
             $unitDimension = new \Zend_Measure_Length($value, $sourceDimensionMeasure, $locale);
             $unitDimension->setType($toDimensionMeasure);
             return $unitDimension->getValue();

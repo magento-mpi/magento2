@@ -36,13 +36,13 @@ class Postcode extends \Magento\Eav\Model\Attribute\Data\Text
     protected $_directoryData = null;
 
     /**
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\LocaleInterface $locale
      * @param \Magento\Logger $logger
      * @param \Magento\Stdlib\String $stringHelper
      * @param \Magento\Directory\Helper\Data $directoryData
      */
     public function __construct(
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\LocaleInterface $locale,
         \Magento\Logger $logger,
         \Magento\Stdlib\String $stringHelper,
         \Magento\Directory\Helper\Data $directoryData

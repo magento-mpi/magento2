@@ -25,9 +25,6 @@
             <fedex>
                 <active_rma>0</active_rma>
             </fedex>
-            <ups>
-                <active_rma>0</active_rma>
-            </ups>
             <usps>
                 <active_rma>0</active_rma>
             </usps>

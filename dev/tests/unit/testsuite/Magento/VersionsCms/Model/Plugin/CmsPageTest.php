@@ -21,7 +21,8 @@ class CmsPageTest extends \PHPUnit_Framework_TestCase
 
     public function testAfterGetAvailableStatuses()
     {
-        $result = $this->_model->afterGetAvailableStatuses(array());
+        $subjectMock = $this->getMock('Magento\Cms\Model\Page', array(), array(), '', false);
+        $result = $this->_model->afterGetAvailableStatuses($subjectMock, array());
         $this->assertTrue(isset($result[\Magento\Cms\Model\Page::STATUS_ENABLED]));
         $this->assertEquals('Published', $result[\Magento\Cms\Model\Page::STATUS_ENABLED]);
     }

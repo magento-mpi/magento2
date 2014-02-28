@@ -46,6 +46,11 @@ class HeaderPluginTest extends \PHPUnit_Framework_TestCase
     protected $helperMock;
 
     /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $subjectMock;
+
+    /**
      * SetUp
      */
     protected function setUp()
@@ -56,6 +61,7 @@ class HeaderPluginTest extends \PHPUnit_Framework_TestCase
         $this->versionMock = $this->getMockBuilder('Magento\PageCache\Model\Version')
             ->disableOriginalConstructor()
             ->getMock();
+        $this->subjectMock = $this->getMock('Magento\App\FrontControllerInterface');
         $this->plugin = new HeaderPlugin($this->layoutMock, $this->configMock, $this->versionMock);
     }
 
@@ -87,7 +93,7 @@ class HeaderPluginTest extends \PHPUnit_Framework_TestCase
 
         $this->versionMock->expects($this->once())->method('process');
 
-        $result = $this->plugin->afterDispatch($this->responseMock);
+        $result = $this->plugin->afterDispatch($this->subjectMock, $this->responseMock);
         $this->assertInstanceOf('Magento\App\ResponseInterface', $result);
     }
 
@@ -117,7 +123,7 @@ class HeaderPluginTest extends \PHPUnit_Framework_TestCase
         $this->layoutMock->expects($this->never())->method('isCacheable');
         $this->versionMock->expects($this->never())->method('process');
 
-        $result = $this->plugin->afterDispatch($this->responseMock);
+        $result = $this->plugin->afterDispatch($this->subjectMock, $this->responseMock);
         $this->assertInstanceOf('Magento\App\ResponseInterface', $result);
     }
 
@@ -155,7 +161,7 @@ class HeaderPluginTest extends \PHPUnit_Framework_TestCase
 
         $this->versionMock->expects($this->once())->method('process');
 
-        $result = $this->plugin->afterDispatch($this->responseMock);
+        $result = $this->plugin->afterDispatch($this->subjectMock, $this->responseMock);
         $this->assertInstanceOf('Magento\App\ResponseInterface', $result);
     }
 }

@@ -18,7 +18,6 @@ use Magento\Shipping\Model\Shipment\Request;
  */
 abstract class AbstractCarrierOnline extends AbstractCarrier
 {
-
     const USA_COUNTRY_ID = 'US';
     const PUERTORICO_COUNTRY_ID = 'PR';
     const GUAM_COUNTRY_ID = 'GU';
@@ -46,7 +45,7 @@ abstract class AbstractCarrierOnline extends AbstractCarrier
     protected $_directoryData = null;
 
     /**
-     * @var \Magento\Usa\Model\Simplexml\ElementFactory
+     * @var \Magento\Shipping\Model\Simplexml\ElementFactory
      */
     protected $_xmlElFactory;
 
@@ -95,7 +94,7 @@ abstract class AbstractCarrierOnline extends AbstractCarrier
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Sales\Model\Quote\Address\RateResult\ErrorFactory $rateErrorFactory
      * @param \Magento\Logger\AdapterFactory $logAdapterFactory
-     * @param \Magento\Usa\Model\Simplexml\ElementFactory $xmlElFactory
+     * @param \Magento\Shipping\Model\Simplexml\ElementFactory $xmlElFactory
      * @param \Magento\Shipping\Model\Rate\ResultFactory $rateFactory
      * @param \Magento\Sales\Model\Quote\Address\RateResult\MethodFactory $rateMethodFactory
      * @param \Magento\Shipping\Model\Tracking\ResultFactory $trackFactory
@@ -113,7 +112,7 @@ abstract class AbstractCarrierOnline extends AbstractCarrier
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Sales\Model\Quote\Address\RateResult\ErrorFactory $rateErrorFactory,
         \Magento\Logger\AdapterFactory $logAdapterFactory,
-        \Magento\Usa\Model\Simplexml\ElementFactory $xmlElFactory,
+        \Magento\Shipping\Model\Simplexml\ElementFactory $xmlElFactory,
         \Magento\Shipping\Model\Rate\ResultFactory $rateFactory,
         \Magento\Sales\Model\Quote\Address\RateResult\MethodFactory $rateMethodFactory,
         \Magento\Shipping\Model\Tracking\ResultFactory $trackFactory,

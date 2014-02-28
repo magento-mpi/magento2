@@ -40,7 +40,7 @@ class InternationalTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnCallback(array($this, 'coreStoreConfigGetConfig')));
 
         // xml element factory
-        $xmlElFactory = $this->getMockBuilder('\Magento\Usa\Model\Simplexml\ElementFactory')
+        $xmlElFactory = $this->getMockBuilder('\Magento\Shipping\Model\Simplexml\ElementFactory')
             ->disableOriginalConstructor()
             ->setMethods(array('create'))
             ->getMock();
@@ -50,7 +50,7 @@ class InternationalTest extends \PHPUnit_Framework_TestCase
                 $this->returnCallback(
                     function ($data) {
                         $oM = new \Magento\TestFramework\Helper\ObjectManager($this);
-                        return  $oM->getObject('\Magento\Usa\Model\Simplexml\Element', array('data' => $data['data']));
+                        return  $oM->getObject('\Magento\Shipping\Model\Simplexml\Element', array('data' => $data['data']));
                     }
                 )
             );

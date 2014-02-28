@@ -32,12 +32,12 @@ class Language implements \Magento\Option\ArrayInterface
     /**
      * Constructor
      *
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\LocaleInterface $locale
      * @param \Magento\GoogleAdwords\Helper\Data $helper
      * @param \Magento\GoogleAdwords\Model\Filter\UppercaseTitle $uppercaseFilter
      */
     public function __construct(
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\LocaleInterface $locale,
         \Magento\GoogleAdwords\Helper\Data $helper,
         \Magento\GoogleAdwords\Model\Filter\UppercaseTitle $uppercaseFilter
     ) {
