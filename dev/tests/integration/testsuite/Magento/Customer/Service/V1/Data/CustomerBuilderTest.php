@@ -36,6 +36,7 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
         $userDefinedAttributeCode = FIXTURE_ATTRIBUTE_USER_DEFINED_CUSTOMER_NAME;
         $attributeCodes = $this->_customerBuilder->getCustomAttributesCodes();
         $expectedAttributes = [
+            'disable_auto_group_change',
             'prefix',
             'middlename',
             'suffix',
