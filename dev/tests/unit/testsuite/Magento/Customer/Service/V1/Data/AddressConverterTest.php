@@ -19,7 +19,7 @@ class AddressConverterTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         /** @var CustomerMetadataService $customerMetadataService */
         $this->_customerMetadataService = $this->getMockBuilder('Magento\Customer\Service\V1\CustomerMetadataService')
             ->setMethods(['getCustomAddressAttributeMetadata'])
