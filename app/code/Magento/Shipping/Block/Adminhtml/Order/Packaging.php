@@ -13,7 +13,7 @@ namespace Magento\Shipping\Block\Adminhtml\Order;
 class Packaging extends \Magento\Backend\Block\Template
 {
     /**
-     * @var \Magento\Usps\Model\Source\Size
+     * @var \Magento\Shipping\Model\Carrier\Source\GenericInterface
      */
     protected $_sourceSizeModel;
 
@@ -37,7 +37,7 @@ class Packaging extends \Magento\Backend\Block\Template
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Json\EncoderInterface $jsonEncoder
-     * @param \Magento\Usps\Model\Source\Size $sourceSizeModel
+     * @param \Magento\Shipping\Model\Carrier\Source\GenericInterface $sourceSizeModel
      * @param \Magento\Registry $coreRegistry
      * @param \Magento\Shipping\Model\CarrierFactory $carrierFactory
      * @param array $data
@@ -45,7 +45,7 @@ class Packaging extends \Magento\Backend\Block\Template
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Json\EncoderInterface $jsonEncoder,
-        \Magento\Usps\Model\Source\Size $sourceSizeModel,
+        \Magento\Shipping\Model\Carrier\Source\GenericInterface $sourceSizeModel,
         \Magento\Registry $coreRegistry,
         \Magento\Shipping\Model\CarrierFactory $carrierFactory,
         array $data = array()
@@ -317,6 +317,16 @@ class Packaging extends \Magento\Backend\Block\Template
     }
 
     /**
+     * Is display girth value
+     *
+     * @return bool
+     */
+    public function isDisplayGirthValue()
+    {
+        return false;
+    }
+
+    /**
      * Return content types of package
      *
      * @return array
@@ -389,9 +399,9 @@ class Packaging extends \Magento\Backend\Block\Template
     }
 
     /**
-     * Get Usps source size model
+     * Get source size model
      *
-     * @return \Magento\Usps\Model\Source\Size
+     * @return \Magento\Shipping\Model\Carrier\Source\GenericInterface
      */
     public function getSourceSizeModel()
     {
