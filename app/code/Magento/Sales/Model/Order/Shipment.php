@@ -146,7 +146,7 @@ class Shipment extends \Magento\Sales\Model\AbstractModel
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Sales\Model\Resource\Order\Shipment\Item\CollectionFactory $shipmentItemCollectionFactory
      * @param \Magento\Sales\Model\Resource\Order\Shipment\Track\CollectionFactory $trackCollectionFactory
-     * @param \Magento\Sales\Model\Order\Shipment\CommentFactory $commentFactory
+     * @param Shipment\CommentFactory $commentFactory
      * @param \Magento\Sales\Model\Resource\Order\Shipment\Comment\CollectionFactory $commentCollectionFactory
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Core\Model\Resource\AbstractResource $resource

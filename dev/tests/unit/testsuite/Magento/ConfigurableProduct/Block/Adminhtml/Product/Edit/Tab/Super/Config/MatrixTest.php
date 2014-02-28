@@ -18,17 +18,17 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
     protected $_block;
 
     /** @var \PHPUnit_Framework_MockObject_MockObject */
-    protected $_application;
+    protected $_appConfig;
 
     /** @var \Magento\Locale\CurrencyInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $_locale;
 
     protected function setUp()
     {
-        $this->_application = $this->getMock('Magento\Core\Model\App', array(), array(), '', false);
+        $this->_appConfig = $this->getMock('Magento\App\ConfigInterface');
         $this->_locale = $this->getMock('Magento\Locale\CurrencyInterface', array(), array(), '', false);
         $data = array(
-            'app' => $this->_application,
+            'applicationConfig' => $this->_appConfig,
             'localeCurrency' => $this->_locale,
             'formFactory' => $this->getMock('Magento\Data\FormFactory', array(), array(), '', false),
             'productFactory' => $this->getMock('Magento\Catalog\Model\ProductFactory', array(), array(), '', false),
@@ -42,8 +42,8 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
 
     public function testRenderPrice()
     {
-        $this->_application->expects($this->once())
-            ->method('getBaseCurrencyCode')->with()->will($this->returnValue('USD'));
+        $this->_appConfig->expects($this->once())
+            ->method('getValue')->will($this->returnValue('USD'));
         $currency = $this->getMock('Zend_Currency', array(), array(), '', false);
         $currency->expects($this->once())
             ->method('toCurrency')->with('100.0000')->will($this->returnValue('$100.00'));

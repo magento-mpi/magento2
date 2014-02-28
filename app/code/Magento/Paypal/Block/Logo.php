@@ -49,7 +49,7 @@ class Logo extends \Magento\View\Element\Template
      */
     public function getAboutPaypalPageUrl()
     {
-        return $this->_getConfig()->getPaymentMarkWhatIsPaypalUrl($this->_app->getLocaleResolver());
+        return $this->_getConfig()->getPaymentMarkWhatIsPaypalUrl($this->_localeResolver);
     }
 
     /**
@@ -71,7 +71,7 @@ class Logo extends \Magento\View\Element\Template
     {
         $type = $this->getLogoType(); // assigned in layout etc.
         $logoUrl = $this->_getConfig()->getAdditionalOptionsLogoUrl(
-            $this->_app->getLocaleResolver()->getLocaleCode(), $type
+            $this->_localeResolver->getLocaleCode(), $type
         );
         if (!$logoUrl) {
             return '';

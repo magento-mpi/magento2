@@ -16,6 +16,20 @@ class Date
     extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Date
 {
     /**
+     * @param \Magento\Backend\Block\Context $context
+     * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Backend\Block\Context $context,
+        \Magento\Locale\ResolverInterface $localeResolver,
+        array $data = array()
+    ) {
+        parent::__construct($context, $data);
+        $this->_localeResolver = $localeResolver;
+    }
+
+    /**
      * Retrieve date format
      *
      * @return string
@@ -26,7 +40,7 @@ class Date
         if (!$format) {
             if (is_null(self::$_format)) {
                 try {
-                    $localeCode = $this->_app->getLocaleResolver()->getLocaleCode();
+                    $localeCode = $this->_localeResolver->getLocaleCode();
                     $localeData = new \Zend_Locale_Data;
                     switch ($this->getColumn()->getPeriodType()) {
                         case 'month' :

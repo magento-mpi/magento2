@@ -20,9 +20,6 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
     {
         $localeMock = $this->getMock('\Magento\Locale\ResolverInterface');
         $appMock = $this->getMock('\Magento\AppInterface', array(), array(), '', false);
-        $appMock->expects($this->once())
-            ->method('getLocaleResolver')
-            ->will($this->returnValue($localeMock));
         $appStateMock = $this->getMock('\Magento\App\State', array(), array(), '', false);
         $appStateMock->expects($this->any())
             ->method('getAreaCode')
@@ -62,7 +59,8 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
             'appState' => $appStateMock,
             'scopeResolver' => $scopeResolverMock,
             'viewDesign' => $designMock,
-            'translateFactory' => $translateFactoryMock
+            'translateFactory' => $translateFactoryMock,
+            'localeResolver' => $localeMock
         ));
         $translate->init();
     }

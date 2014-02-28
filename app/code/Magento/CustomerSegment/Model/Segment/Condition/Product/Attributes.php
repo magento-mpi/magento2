@@ -7,12 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerSegment\Model\Segment\Condition\Product;
+
+use Zend_Db_Expr;
 
 /**
  * Product attribute value condition
  */
-namespace Magento\CustomerSegment\Model\Segment\Condition\Product;
-
 class Attributes
     extends \Magento\Rule\Model\Condition\Product\AbstractProduct
 {
@@ -60,6 +61,7 @@ class Attributes
 
     /**
      * Customize default operator input by type mapper for some types
+     *
      * @return array
      */
     public function getDefaultOperatorInputByType()
@@ -160,7 +162,7 @@ class Attributes
      *
      * @param string $fieldName base query field name
      * @param bool $requireValid strict validation flag
-     * @param $website
+     * @param int|Zend_Db_Expr $website
      * @return string
      */
     public function getSubfilterSql($fieldName, $requireValid, $website)

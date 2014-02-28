@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Block\Adminhtml\Settlement\Details;
 
 /**
  * Settlement reports transaction details
  */
-namespace Magento\Paypal\Block\Adminhtml\Settlement\Details;
-
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
@@ -49,7 +48,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Prepare read-only data and group it by fieldsets
      *
-     * @return \Magento\Paypal\Block\Adminhtml\Settlement\Details\Form
+     * @return $this
      */
     protected function _prepareForm()
     {

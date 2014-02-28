@@ -39,6 +39,15 @@ class DobTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
+        $zendCacheCore = new \Zend_Cache_Core();
+        $zendCacheCore->setBackend(new \Zend_Cache_Backend_BlackHole());
+
+        $frontendCache = $this->getMockForAbstractClass('Magento\Cache\FrontendInterface', [], '', false);
+        $frontendCache->expects($this->any())
+            ->method('getLowLevelFrontend')->will($this->returnValue($zendCacheCore));
+        $cache = $this->getMock('Magento\App\CacheInterface');
+        $cache->expects($this->any())->method('getFrontend')->will($this->returnValue($frontendCache));
+
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $locale = $objectManager->getObject('\Magento\Locale', array(
             'locale' => \Magento\Locale\ResolverInterface::DEFAULT_LOCALE
@@ -232,7 +241,7 @@ class DobTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * The LocaleInterface::DEFAULT_LOCALE is used to derive the Locale that is used to determine the
+     * The \Magento\Locale\ResolverInterface::DEFAULT_LOCALE is used to derive the Locale that is used to determine the
      * value of Dob::getDateFormat() for that Locale.
      */
     public function testGetDateFormat()

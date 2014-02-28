@@ -59,24 +59,30 @@ class Fault extends \RuntimeException
      */
     protected $_details = array();
 
-    /** @var \Magento\Core\Model\App */
+    /**
+     * @var \Magento\Core\Model\App
+     */
     protected $_application;
 
-    /** @var \Magento\Webapi\Model\Soap\Server */
+    /**
+     * @var Server
+     */
     protected $_soapServer;
 
-    /** @var \Magento\Locale\ResolverInterface */
+    /**
+     * @var \Magento\Locale\ResolverInterface
+     */
     protected $_localeResolver;
 
     /**
      * @param \Magento\Core\Model\App $application
-     * @param \Magento\Webapi\Model\Soap\Server $soapServer
+     * @param Server $soapServer
      * @param \Magento\Webapi\Exception $previousException
      * @param \Magento\Locale\ResolverInterface $localeResolver
      */
     public function __construct(
         \Magento\Core\Model\App $application,
-        \Magento\Webapi\Model\Soap\Server $soapServer,
+        Server $soapServer,
         \Magento\Webapi\Exception $previousException,
         \Magento\Locale\ResolverInterface $localeResolver
     ) {

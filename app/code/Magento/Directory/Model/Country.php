@@ -48,8 +48,8 @@ class Country extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Locale\ListsInterface $localeLists
-     * @param \Magento\Directory\Model\Country\FormatFactory $formatFactory
-     * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory
+     * @param Country\FormatFactory $formatFactory
+     * @param Resource\Region\CollectionFactory $regionCollectionFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data

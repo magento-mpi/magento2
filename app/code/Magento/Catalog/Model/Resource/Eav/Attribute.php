@@ -103,9 +103,9 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
     protected $_productFlatIndexerProcessor;
 
     /**
-     * @var \Magento\Catalog\Helper\Product\Flat
+     * @var \Magento\Catalog\Helper\Product\Flat\Indexer
      */
-    protected $_productFlatHelper;
+    protected $_productFlatIndexerHelper;
 
     /**
      * @param \Magento\Model\Context $context
@@ -121,7 +121,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
      * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param \Magento\Index\Model\Indexer $indexIndexer
      * @param \Magento\Catalog\Model\Indexer\Product\Flat\Processor $productFlatIndexerProcessor
-     * @param \Magento\Catalog\Helper\Product\Flat $productFlatHelper
+     * @param \Magento\Catalog\Helper\Product\Flat\Indexer $productFlatIndexerHelper
      * @param LockValidatorInterface $lockValidator
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
@@ -141,7 +141,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
         \Magento\Locale\ResolverInterface $localeResolver,
         \Magento\Index\Model\Indexer $indexIndexer,
         \Magento\Catalog\Model\Indexer\Product\Flat\Processor $productFlatIndexerProcessor,
-        \Magento\Catalog\Helper\Product\Flat $productFlatHelper,
+        \Magento\Catalog\Helper\Product\Flat\Indexer $productFlatIndexerHelper,
         LockValidatorInterface $lockValidator,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
@@ -149,7 +149,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
     ) {
         $this->_indexIndexer = $indexIndexer;
         $this->_productFlatIndexerProcessor = $productFlatIndexerProcessor;
-        $this->_productFlatHelper = $productFlatHelper;
+        $this->_productFlatIndexerHelper = $productFlatIndexerHelper;
         $this->attrLockValidator = $lockValidator;
         parent::__construct(
             $context,
@@ -226,11 +226,11 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
         $this->_eavConfig->clear();
 
         $enableBefore = ($this->getOrigData('backend_type') == 'static')
-            || ($this->_productFlatHelper->isAddFilterableAttributes() && $this->getOrigData('is_filterable') > 0)
+            || ($this->_productFlatIndexerHelper->isAddFilterableAttributes() && $this->getOrigData('is_filterable') > 0)
             || ($this->getOrigData('used_in_product_listing') == 1)
             || ($this->getOrigData('used_for_sort_by') == 1);
         $enableAfter = ($this->getData('backend_type') == 'static')
-            || ($this->_productFlatHelper->isAddFilterableAttributes() && $this->getData('is_filterable') > 0)
+            || ($this->_productFlatIndexerHelper->isAddFilterableAttributes() && $this->getData('is_filterable') > 0)
             || ($this->getData('used_in_product_listing') == 1)
             || ($this->getData('used_for_sort_by') == 1);
 

@@ -94,7 +94,7 @@ class Design extends \Magento\Core\Model\AbstractModel
                 return $this->_extractSettings($object);
             }
         } else {
-             return $this->_extractSettings($category);
+            return $this->_extractSettings($category);
         }
     }
 
@@ -113,9 +113,9 @@ class Design extends \Magento\Core\Model\AbstractModel
         $date = $object->getCustomDesignDate();
         if (array_key_exists('from', $date) && array_key_exists('to', $date)
             && $this->_localeDate->isScopeDateInInterval(null, $date['from'], $date['to'])) {
-                $settings->setCustomDesign($object->getCustomDesign())
-                    ->setPageLayout($object->getPageLayout())
-                    ->setLayoutUpdates((array)$object->getCustomLayoutUpdate());
+            $settings->setCustomDesign($object->getCustomDesign())
+                ->setPageLayout($object->getPageLayout())
+                ->setLayoutUpdates((array)$object->getCustomLayoutUpdate());
         }
         return $settings;
     }

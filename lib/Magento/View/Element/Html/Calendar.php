@@ -30,21 +30,29 @@ class Calendar extends \Magento\View\Element\Template
     protected $encoder;
 
     /**
+     * @var \Magento\Locale\ResolverInterface
+     */
+    protected $_localeResolver;
+
+    /**
      * Constructor
      *
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Stdlib\DateTime\DateTime $date
      * @param \Magento\Json\EncoderInterface $encoder
+     * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Stdlib\DateTime\DateTime $date,
         \Magento\Json\EncoderInterface $encoder,
+        \Magento\Locale\ResolverInterface $localeResolver,
         array $data = array()
     ) {
         $this->_date = $date;
         $this->encoder = $encoder;
+        $this->_localeResolver = $localeResolver;
         parent::__construct($context, $data);
     }
 
@@ -55,7 +63,7 @@ class Calendar extends \Magento\View\Element\Template
      */
     protected function _toHtml()
     {
-        $localeCode = $this->_app->getLocaleResolver()->getLocaleCode();
+        $localeCode = $this->_localeResolver->getLocaleCode();
 
         // get days names
         $days = \Zend_Locale_Data::getList($localeCode, 'days');

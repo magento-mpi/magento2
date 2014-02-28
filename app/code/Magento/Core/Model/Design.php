@@ -63,7 +63,7 @@ class Design extends AbstractModel
      * @param \Magento\Registry $registry
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Stdlib\DateTime $dateTime
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -72,7 +72,7 @@ class Design extends AbstractModel
         \Magento\Registry $registry,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Stdlib\DateTime $dateTime,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

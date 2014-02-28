@@ -94,13 +94,13 @@ class Form extends Generic
     {
         /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create(array(
-            'data' => array(
-                'id'      => 'edit_form',
-                'action'  => $this->getActionUrl(),
-                'method'  => 'post',
-                'field_name_suffix' => 'catalogevent',
-                'enctype' => 'multipart/form-data',
-            ))
+                'data' => array(
+                    'id'      => 'edit_form',
+                    'action'  => $this->getActionUrl(),
+                    'method'  => 'post',
+                    'field_name_suffix' => 'catalogevent',
+                    'enctype' => 'multipart/form-data',
+                ))
         );
 
         $form->setHtmlIdPrefix('event_edit_');
@@ -128,34 +128,34 @@ class Form extends Generic
         $timeFormat = $this->_localeDate->getTimeFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
 
         $fieldset->addField('date_start', 'date', array(
-                'label'        => __('Start Date'),
-                'name'         => 'date_start',
-                'required'     => true,
-                'image'        => $this->getViewFileUrl('images/grid-cal.gif'),
-                'date_format'  => $dateFormat,
-                'time_format'  => $timeFormat
-            ));
+            'label'        => __('Start Date'),
+            'name'         => 'date_start',
+            'required'     => true,
+            'image'        => $this->getViewFileUrl('images/grid-cal.gif'),
+            'date_format'  => $dateFormat,
+            'time_format'  => $timeFormat
+        ));
 
         $fieldset->addField('date_end', 'date', array(
-                'label'        => __('End Date'),
-                'name'         => 'date_end', 'required' => true,
-                'image'        => $this->getViewFileUrl('images/grid-cal.gif'),
-                'date_format'  => $dateFormat,
-                'time_format'  => $timeFormat
-            ));
+            'label'        => __('End Date'),
+            'name'         => 'date_end', 'required' => true,
+            'image'        => $this->getViewFileUrl('images/grid-cal.gif'),
+            'date_format'  => $dateFormat,
+            'time_format'  => $timeFormat
+        ));
 
         $fieldset->addField('image', 'image', array(
                 'label' => __('Image'),
                 'scope' => 'store',
                 'name'  => 'image'
-             )
+            )
         );
 
         $fieldset->addField('sort_order', 'text', array(
                 'label' => __('Sort Order'),
                 'name'  => 'sort_order',
                 'class' => 'validate-num qty'
-             )
+            )
         );
 
         $statuses = array(
@@ -165,18 +165,18 @@ class Form extends Generic
         );
 
         $fieldset->addField('display_state_array', 'checkboxes', array(
-                'label'  => __('Display Countdown Ticker On'),
-                'name'   => 'display_state[]',
-                'values' => array(
-                    Event::DISPLAY_CATEGORY_PAGE => __('Category Page'),
-                    Event::DISPLAY_PRODUCT_PAGE => __('Product Page')
-                )
-            ));
+            'label'  => __('Display Countdown Ticker On'),
+            'name'   => 'display_state[]',
+            'values' => array(
+                Event::DISPLAY_CATEGORY_PAGE => __('Category Page'),
+                Event::DISPLAY_PRODUCT_PAGE => __('Product Page')
+            )
+        ));
 
         if ($this->getEvent()->getId()) {
             $fieldset->addField('status', 'note', array(
-                    'label' => __('Status'),
-                    'text'  => ($this->getEvent()->getStatus() ? $statuses[$this->getEvent()->getStatus()] : $statuses[\Magento\CatalogEvent\Model\Event::STATUS_UPCOMING])
+                'label' => __('Status'),
+                'text'  => ($this->getEvent()->getStatus() ? $statuses[$this->getEvent()->getStatus()] : $statuses[\Magento\CatalogEvent\Model\Event::STATUS_UPCOMING])
             ));
         }
 
@@ -185,7 +185,7 @@ class Form extends Generic
         if ($currentCategory && $this->getEvent()->getId()) {
             $form->getElement('category_name')->setText(
                 '<a href="' . $this->_adminhtmlData->getUrl('catalog/category/edit',
-                                                            array('clear' => 1, 'id' => $currentCategory->getId()))
+                    array('clear' => 1, 'id' => $currentCategory->getId()))
                 . '">' . $currentCategory->getName() . '</a>'
             );
         } else {

@@ -22,7 +22,7 @@ class Notification extends \Magento\Backend\Block\System\Config\Form\Field
      */
     protected function _getElementHtml(AbstractElement $element)
     {
-        $element->setValue($this->_app->loadCache('admin_notifications_lastcheck'));
+        $element->setValue($this->_cache->load('admin_notifications_lastcheck'));
         $format = $this->_localeDate->getDateTimeFormat(
             \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM
         );

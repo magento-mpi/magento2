@@ -5,15 +5,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Block\Adminhtml\Billing\Agreement\View\Tab;
 
 /**
  * Adminhtml billing agreement info tab
  */
-namespace Magento\Paypal\Block\Adminhtml\Billing\Agreement\View\Tab;
-
 class Info extends \Magento\Backend\Block\Template
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
+    /**
+     * @var string
+     */
     protected $_template = 'billing/agreement/view/tab/info.phtml';
 
     /**
@@ -23,7 +25,11 @@ class Info extends \Magento\Backend\Block\Template
      */
     protected $_coreRegistry = null;
 
-    /** @var \Magento\Customer\Service\V1\CustomerServiceInterface */
+    /**
+     * Customer service
+     *
+     * @var \Magento\Customer\Service\V1\CustomerServiceInterface
+     */
     protected $_customerService;
 
     /**
@@ -44,9 +50,7 @@ class Info extends \Magento\Backend\Block\Template
     }
 
     /**
-     * Return Tab label
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getTabLabel()
     {
@@ -54,9 +58,7 @@ class Info extends \Magento\Backend\Block\Template
     }
 
     /**
-     * Return Tab title
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getTabTitle()
     {
@@ -64,9 +66,7 @@ class Info extends \Magento\Backend\Block\Template
     }
 
     /**
-     * Can show tab in tabs
-     *
-     * @return boolean
+     * {@inheritdoc}
      */
     public function canShowTab()
     {
@@ -74,9 +74,7 @@ class Info extends \Magento\Backend\Block\Template
     }
 
     /**
-     * Tab is hidden
-     *
-     * @return boolean
+     * {@inheritdoc}
      */
     public function isHidden()
     {

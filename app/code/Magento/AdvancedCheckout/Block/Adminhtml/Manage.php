@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\AdvancedCheckout\Block\Adminhtml;
 
 /**
@@ -52,6 +51,9 @@ class Manage extends \Magento\Backend\Block\Widget\Form\Container
         parent::__construct($context, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -70,7 +72,7 @@ class Manage extends \Magento\Backend\Block\Widget\Form\Container
     /**
      * Prepare layout, create buttons
      *
-     * @return \Magento\View\Element\AbstractBlock
+     * @return $this
      */
     protected function _prepareLayout()
     {
@@ -136,7 +138,7 @@ class Manage extends \Magento\Backend\Block\Widget\Form\Container
     }
 
     /**
-     * Return current customer from regisrty
+     * Return current customer from registry
      *
      * @return \Magento\Customer\Model\Customer
      */
@@ -146,7 +148,7 @@ class Manage extends \Magento\Backend\Block\Widget\Form\Container
     }
 
     /**
-     * Return current store from regisrty
+     * Return current store from registry
      *
      * @return \Magento\Core\Model\Store
      */
@@ -172,6 +174,7 @@ class Manage extends \Magento\Backend\Block\Widget\Form\Container
     /**
      * Return URL to controller action
      *
+     * @param string $action
      * @return string
      */
     public function getActionUrl($action)
@@ -199,6 +202,9 @@ class Manage extends \Magento\Backend\Block\Widget\Form\Container
         return $this->getUrl('checkout/*/loadBlock');
     }
 
+    /**
+     * @return string
+     */
     public function getOrderDataJson()
     {
         $actionUrls = array(
@@ -222,7 +228,7 @@ class Manage extends \Magento\Backend\Block\Widget\Form\Container
     }
 
     /**
-     * Retrieve curency name by code
+     * Retrieve currency name by code
      *
      * @param   string $code
      * @return  string

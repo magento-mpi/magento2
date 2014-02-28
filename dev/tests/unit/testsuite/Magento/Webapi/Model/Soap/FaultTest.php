@@ -8,8 +8,6 @@
 
 namespace Magento\Webapi\Model\Soap;
 
-use Magento\Webapi\Model\Soap\Fault;
-
 /**
  * Test SOAP fault model.
  */
@@ -23,11 +21,11 @@ class FaultTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Webapi\Model\Soap\Server */
     protected $_soapServerMock;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject*/
-    protected $_localeResolverMock;
-
     /** @var \Magento\Webapi\Model\Soap\Fault */
     protected $_soapFault;
+
+    /** @var \PHPUnit_Framework_MockObject_MockObject*/
+    protected $_localeResolverMock;
 
     protected function setUp()
     {
@@ -49,8 +47,7 @@ class FaultTest extends \PHPUnit_Framework_TestCase
         $this->_localeResolverMock =  $this->getMockBuilder('Magento\Locale\Resolver')->disableOriginalConstructor()
             ->getMock();
         $this->_localeResolverMock->expects(
-            $this->any())->method('getLocale')->will($this->returnValue(new \Zend_Locale('en_US'))
-        );
+            $this->any())->method('getLocale')->will($this->returnValue(new \Zend_Locale('en_US')));
 
         $this->_soapFault = new \Magento\Webapi\Model\Soap\Fault(
             $this->_appMock,

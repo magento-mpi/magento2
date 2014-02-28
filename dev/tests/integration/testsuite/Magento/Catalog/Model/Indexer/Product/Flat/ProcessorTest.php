@@ -18,9 +18,9 @@ namespace Magento\Catalog\Model\Indexer\Product\Flat;
 class ProcessorTest extends \Magento\TestFramework\Indexer\TestCase
 {
     /**
-     * @var \Magento\Catalog\Helper\Product\Flat
+     * @var \Magento\Catalog\Model\Indexer\Product\Flat\State
      */
-    protected $_helper;
+    protected $_state;
 
     /**
      * @var \Magento\Catalog\Model\Indexer\Product\Flat\Processor
@@ -29,8 +29,8 @@ class ProcessorTest extends \Magento\TestFramework\Indexer\TestCase
 
     protected function setUp()
     {
-        $this->_helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Catalog\Helper\Product\Flat');
+        $this->_state = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Catalog\Model\Indexer\Product\Flat\State');
         $this->_processor = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Catalog\Model\Indexer\Product\Flat\Processor');
     }
@@ -43,7 +43,7 @@ class ProcessorTest extends \Magento\TestFramework\Indexer\TestCase
      */
     public function testEnableProductFlat()
     {
-        $this->assertTrue($this->_helper->isEnabled());
+        $this->assertTrue($this->_state->isFlatEnabled());
         $this->assertTrue($this->_processor->getIndexer()->isInvalid());
     }
 
@@ -52,6 +52,7 @@ class ProcessorTest extends \Magento\TestFramework\Indexer\TestCase
      * @magentoAppIsolation enabled
      * @magentoAppArea adminhtml
      * @magentoDataFixture Magento/Catalog/_files/multiple_products.php
+     * @magentoConfigFixture current_store catalog/frontend/flat_catalog_product 1
      */
     public function testSaveAttribute()
     {
@@ -71,6 +72,7 @@ class ProcessorTest extends \Magento\TestFramework\Indexer\TestCase
      * @magentoAppIsolation enabled
      * @magentoAppArea adminhtml
      * @magentoDataFixture Magento/Catalog/_files/multiple_products.php
+     * @magentoConfigFixture current_store catalog/frontend/flat_catalog_product 1
      */
     public function testDeleteAttribute()
     {
@@ -90,6 +92,7 @@ class ProcessorTest extends \Magento\TestFramework\Indexer\TestCase
      * @magentoAppIsolation enabled
      * @magentoAppArea adminhtml
      * @magentoDataFixture Magento/Core/_files/store.php
+     * @magentoConfigFixture current_store catalog/frontend/flat_catalog_product 1
      */
     public function testAddNewStore()
     {
@@ -100,6 +103,7 @@ class ProcessorTest extends \Magento\TestFramework\Indexer\TestCase
      * @magentoDbIsolation enabled
      * @magentoAppIsolation enabled
      * @magentoAppArea adminhtml
+     * @magentoConfigFixture current_store catalog/frontend/flat_catalog_product 1
      */
     public function testAddNewStoreGroup()
     {

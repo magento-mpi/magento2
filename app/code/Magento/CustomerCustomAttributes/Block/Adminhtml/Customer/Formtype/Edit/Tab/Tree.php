@@ -7,12 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Formtype\Edit\Tab;
+
+use Magento\Core\Model\Store;
 
 /**
  * Form Type Edit General Tab Block
  */
-namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Formtype\Edit\Tab;
-
 class Tree
     extends \Magento\Backend\Block\Widget\Form
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
@@ -72,6 +73,9 @@ class Tree
         return $this->_coreRegistry->registry('current_form_type');
     }
 
+    /**
+     * @return string
+     */
     public function getTreeButtonsHtml()
     {
         $addButtonData = array(
@@ -84,6 +88,9 @@ class Tree
             ->setData($addButtonData)->toHtml();
     }
 
+    /**
+     * @return string
+     */
     public function getFieldsetButtonsHtml()
     {
         $buttons = array();
@@ -112,7 +119,7 @@ class Tree
     /**
      * Retrieve all store objects
      *
-     * @return array
+     * @return Store[]
      */
     public function getStores()
     {

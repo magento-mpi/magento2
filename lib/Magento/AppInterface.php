@@ -64,13 +64,6 @@ interface AppInterface
     public function getDistroLocaleCode();
 
     /**
-     * Retrieve application locale resolver object
-     *
-     * @return \Magento\Locale\ResolverInterface
-     */
-    public function getLocaleResolver();
-
-    /**
      * Retrieve layout object
      *
      * @return \Magento\View\LayoutInterface
@@ -90,13 +83,6 @@ interface AppInterface
      * @return \Magento\App\ConfigInterface
      */
     public function getConfig();
-
-    /**
-     * Retrieve front controller object
-     *
-     * @return \Magento\App\FrontController
-     */
-    public function getFrontController();
 
     /**
      * Get core cache model

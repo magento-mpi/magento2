@@ -7,9 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Cms\Model\Page;
 
 /**
+ * Page Url rewrite model
+ *
  * @method \Magento\Cms\Model\Resource\Page\Urlrewrite getResource() getResource()
  * @method int getCmsPageId() getCmsPageId()
  * @method int getUrlRewriteId() getUrlRewriteId()

@@ -72,12 +72,10 @@ class Context extends \Magento\View\Element\Context
      * @param \Magento\Session\SessionManagerInterface $session
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Magento\Core\Model\Store\Config $storeConfig
-     * @param \Magento\App\FrontController $frontController
      * @param \Magento\View\Url $viewUrl
      * @param \Magento\View\ConfigInterface $viewConfig
      * @param \Magento\App\Cache\StateInterface $cacheState
      * @param \Magento\Logger $logger
-     * @param \Magento\Core\Model\App $app
      * @param \Magento\Escaper $escaper
      * @param \Magento\Filter\FilterManager $filterManager
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
@@ -101,12 +99,10 @@ class Context extends \Magento\View\Element\Context
         \Magento\Session\SessionManagerInterface $session,
         \Magento\Session\SidResolverInterface $sidResolver,
         \Magento\Core\Model\Store\Config $storeConfig,
-        \Magento\App\FrontController $frontController,
         \Magento\View\Url $viewUrl,
         \Magento\View\ConfigInterface $viewConfig,
         \Magento\App\Cache\StateInterface $cacheState,
         \Magento\Logger $logger,
-        \Magento\Core\Model\App $app,
         \Magento\Escaper $escaper,
         \Magento\Filter\FilterManager $filterManager,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
@@ -128,12 +124,10 @@ class Context extends \Magento\View\Element\Context
             $session,
             $sidResolver,
             $storeConfig,
-            $frontController,
             $viewUrl,
             $viewConfig,
             $cacheState,
             $logger,
-            $app,
             $escaper,
             $filterManager,
             $localeDate,

@@ -30,7 +30,7 @@ USAGE
 $options = getopt('e:w:vd0');
 
 if (!isset($options['e'])) {
-    print USAGE;
+    echo USAGE;
     exit(1);
 }
 

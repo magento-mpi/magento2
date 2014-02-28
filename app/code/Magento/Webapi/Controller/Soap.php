@@ -47,17 +47,18 @@ class Soap implements \Magento\App\FrontControllerInterface
     /** @var \Magento\Core\Model\App */
     protected $_application;
 
-    /** @var \Magento\Oauth\OauthInterface */
+    /**
+     * @var \Magento\Oauth\OauthInterface
+     */
     protected $_oauthService;
 
-    /** @var \Magento\Locale\ResolverInterface */
+    /**
+     * @var \Magento\Locale\ResolverInterface
+     */
     protected $_localeResolver;
 
-
     /**
-     * Initialize dependencies.
-     *
-     * @param \Magento\Webapi\Controller\Soap\Request $request
+     * @param Soap\Request $request
      * @param Response $response
      * @param \Magento\Webapi\Model\Soap\Wsdl\Generator $wsdlGenerator
      * @param \Magento\Webapi\Model\Soap\Server $soapServer
@@ -166,9 +167,11 @@ class Soap implements \Magento\App\FrontControllerInterface
         }
         $this->_setResponseContentType($contentType);
         $this->_response->setHttpResponseCode($httpCode);
-
         $soapFault = new \Magento\Webapi\Model\Soap\Fault(
-            $this->_application, $this->_soapServer, $maskedException, $this->_localeResolver
+            $this->_application,
+            $this->_soapServer,
+            $maskedException,
+            $this->_localeResolver
         );
         // TODO: Generate list of available URLs when invalid WSDL URL specified
         $this->_setResponseBody($soapFault->toXml());

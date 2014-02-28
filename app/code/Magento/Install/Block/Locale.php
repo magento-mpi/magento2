@@ -44,12 +44,18 @@ class Locale extends \Magento\Install\Block\AbstractBlock
     protected $_localeLists;
 
     /**
+     * @var \Magento\Locale\ResolverInterface
+     */
+    protected $_localeResolver;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Install\Model\Installer $installer
      * @param \Magento\Install\Model\Wizard $installWizard
      * @param \Magento\Session\Generic $session
      * @param \Magento\Locale\CurrencyInterface $localeCurrency
      * @param \Magento\Locale\ListsInterface $localeLists
+     * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param array $data
      */
     public function __construct(
@@ -59,11 +65,13 @@ class Locale extends \Magento\Install\Block\AbstractBlock
         \Magento\Session\Generic $session,
         \Magento\Locale\CurrencyInterface $localeCurrency,
         \Magento\Locale\ListsInterface $localeLists,
+        \Magento\Locale\ResolverInterface $localeResolver,
         array $data = array()
     ) {
         $this->_localeLists = $localeLists;
         parent::__construct($context, $installer, $installWizard, $session, $data);
         $this->_localeCurrency = $localeCurrency;
+        $this->_localeResolver = $localeResolver;
     }
 
     /**
@@ -97,7 +105,7 @@ class Locale extends \Magento\Install\Block\AbstractBlock
     {
         $locale = $this->getData('locale');
         if (null === $locale) {
-            $locale = $this->_app->getLocaleResolver()->setLocaleCode(
+            $locale = $this->_localeResolver->setLocaleCode(
                 $this->getLocaleCode()
             )->getLocale();
             $this->setData('locale', $locale);

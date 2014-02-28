@@ -408,7 +408,7 @@ return array(
         'Magento\Cron\Model\Config\Source\Frequency'
     ),
     array('Mage_Adminhtml_Model_System_Config_Source_Currency_Service',
-        'Magento\Backend\Model\Config\Source\Locale\Currency'
+        'Magento\Backend\Model\Config\Source\Currency'
     ),
     array('Mage_Adminhtml_Model_System_Config_Source_Customer_Address_Type',
         'Magento\Customer\Model\Config\Source\Address\Type'
@@ -556,7 +556,7 @@ return array(
         'Magento\Directory\Model\Config\Source\Country'
     ),
     array('Mage_Adminhtml_Model_System_Config_Source_Currency',
-        'Magento\Backend\Model\Config\Source\Locale\Currency'
+        'Magento\Backend\Model\Config\Source\Currency'
     ),
     array('Mage_Adminhtml_Model_System_Config_Source_Enabledisable',
         'Magento\Backend\Model\Config\Source\Enabledisable'
@@ -743,6 +743,7 @@ return array(
     array('Magento\Core\Model\Template\Config\SchemaLocator', 'Magento\Email\Model\Template\Config\SchemaLocator'),
     array('Magento\Core\Model\Resource\Email\Template', 'Magento\Email\Model\Resource\Template'),
     array('Magento\Core\Model\Resource\Email\Template\Collection', 'Magento\Email\Model\Resource\Template\Collection'),
+    array('Magento\Core\Model\LocaleInterface', 'Magento\LocaleInterface'),
     array('Mage_Core_Model_Resource_Language'),
     array('Mage_Core_Model_Resource_Language_Collection'),
     array('Mage_Core_Model_Resource_Setup_Query_Modifier'),
@@ -2130,7 +2131,6 @@ return array(
     array('Magento\Catalog\Model\Resource\Product\Collection\AssociatedProductUpdater'),
     ['Magento\Sales\Controller\Adminhtml\Recurring\Profile', 'Magento\RecurringProfile\Controller\Adminhtml\Profile'],
     ['Magento\Sales\Controller\Recurring\Profile', 'Magento\RecurringProfile\Controller\Profile'],
-    ['Magento\Backend\Model\Config\Source\Currency', 'Magento\Backend\Model\Config\Source\Locale\Currency'],
     ['Magento\Core\Model\Image\Adapter\Config', 'Magento\Image\Adapter\Config'],
     ['Magento\Core\Model\AbstractShell', 'Magento\App\AbstractShell'],
     ['Magento\Core\Model\Calculator', 'Magento\Math\Calculator'],
@@ -2142,6 +2142,9 @@ return array(
     ['Magento\Core\Helper\String', 'Magento\Code\NameBuilder'],
     ['Magento\Core\Model\Context', 'Magento\Model\Context'],
     ['Magento\Core\Model\Registry', 'Magento\Registry'],
+    ['Magento\Code\Plugin\InvocationChain'],
+    ['Magento\Catalog\Helper\Product\Flat'],
+    ['Magento\Catalog\Helper\Flat\AbstractFlat'],
     [
         'Magento\Core\Model\LocaleInterface',
         'Magento\Locale\ResolverInterface, Magento\Locale\CurrencyInterface,'

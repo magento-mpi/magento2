@@ -1161,7 +1161,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
      * @throws \Magento\Core\Exception
      */
     protected function _setState($state, $status = false, $comment = '',
-        $isCustomerNotified = null, $shouldProtectState = false
+                                 $isCustomerNotified = null, $shouldProtectState = false
     ) {
         // attempt to set the specified state
         if ($shouldProtectState) {
@@ -2316,7 +2316,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
              * In case of "0" grand total order checking ForcedCanCreditmemo flag
              */
             elseif (floatval($this->getTotalRefunded()) || (!$this->getTotalRefunded()
-                && $this->hasForcedCanCreditmemo())
+                    && $this->hasForcedCanCreditmemo())
             ) {
                 if ($this->getState() !== self::STATE_CLOSED) {
                     $this->_setState(self::STATE_CLOSED, true, '', $userNotification);

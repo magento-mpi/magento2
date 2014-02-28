@@ -1246,6 +1246,12 @@ return array(
         'Magento\Data\Argument\Interpreter\ArrayType'),
     array('_processValueNode', 'Magento\ObjectManager\Config\Mapper\Dom',
         'Magento\Data\Argument\Interpreter\Composite'),
+    array('canSkipFilePublication', 'Magento\View\Publisher'),
+    array('_getExtension', 'Magento\View\Publisher'),
+    array('_buildPublishedFilePath', 'Magento\View\Publisher', 'Magento\View\Publisher\FileInterface'),
+    array('_buildPublicViewRedundantFilename', 'Magento\View\Publisher', 'Magento\View\Publisher\File'),
+    array('_buildPublicViewSufficientFilename', 'Magento\View\Publisher', 'Magento\View\Publisher\File'),
+    array('_buildPublicViewFilename', 'Magento\View\Publisher', 'Magento\View\Publisher\FileInterface'),
     array('cleanAction', 'Magento\PageCache\Controller\Adminhtml\PageCache'),
     array('_isAllowed', 'Magento\PageCache\Controller\Adminhtml\PageCache'),
     [

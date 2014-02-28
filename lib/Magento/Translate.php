@@ -154,9 +154,9 @@ class Translate implements \Magento\TranslateInterface
     protected $_translateResource;
 
     /**
-     * @var \Magento\AppInterface
+     * @var \Magento\Locale\ResolverInterface
      */
-    protected $_app;
+    protected $_locale;
 
     /**
      * @var \Magento\App\State
@@ -191,7 +191,7 @@ class Translate implements \Magento\TranslateInterface
      * @param \Magento\Module\Dir\Reader $modulesReader
      * @param \Magento\BaseScopeResolverInterface $scopeResolver
      * @param \Magento\Translate\ResourceInterface $translate
-     * @param \Magento\AppInterface $app
+     * @param \Magento\Locale\ResolverInterface $locale
      * @param \Magento\App\State $appState
      * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\Event\ManagerInterface $eventManager
@@ -209,11 +209,10 @@ class Translate implements \Magento\TranslateInterface
         \Magento\Module\Dir\Reader $modulesReader,
         \Magento\BaseScopeResolverInterface $scopeResolver,
         \Magento\Translate\ResourceInterface $translate,
-        \Magento\AppInterface $app,
+        \Magento\Locale\ResolverInterface $locale,
         \Magento\App\State $appState,
         \Magento\App\Filesystem $filesystem,
-        \Magento\Event\ManagerInterface $eventManager,
-        \Magento\View\DesignInterface $design
+        \Magento\Event\ManagerInterface $eventManager
     ) {
         $this->_viewDesign = $viewDesign;
         $this->_localeHierarchy = $config->getHierarchy();
@@ -225,12 +224,11 @@ class Translate implements \Magento\TranslateInterface
         $this->_modulesReader = $modulesReader;
         $this->_scopeResolver = $scopeResolver;
         $this->_translateResource = $translate;
-        $this->_app = $app;
+        $this->_locale = $locale;
         $this->_appState = $appState;
         $this->filesystem = $filesystem;
         $this->directory = $filesystem->getDirectoryRead(\Magento\App\Filesystem::ROOT_DIR);
         $this->_eventManager = $eventManager;
-        $this->_design = $design;
     }
 
     /**
@@ -503,7 +501,7 @@ class Translate implements \Magento\TranslateInterface
     protected function getLocale()
     {
         if (null === $this->_localeCode) {
-            $this->_localeCode = $this->_app->getLocaleResolver()->getLocaleCode();
+            $this->_localeCode = $this->_locale->getLocaleCode();
         }
         return $this->_localeCode;
     }

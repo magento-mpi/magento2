@@ -49,7 +49,7 @@ class Observer
 
     /**
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\RecurringProfile\Model\RecurringProfileFactory $recurringProfileFactory
+     * @param RecurringProfileFactory $recurringProfileFactory
      * @param \Magento\View\Element\BlockFactory $blockFactory
      * @param \Magento\RecurringProfile\Block\Fields $fields
      * @param \Magento\Checkout\Model\Session $checkoutSession

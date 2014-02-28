@@ -55,7 +55,7 @@ class Collection extends \Magento\Data\Collection
     /**
      * @param bool $printQuery
      * @param bool $logQuery
-     * @return \Magento\AdvancedCheckout\Model\Resource\Sku\Errors\Grid\Collection
+     * @return $this
      */
     public function loadData($printQuery = false, $logQuery = false)
     {

@@ -5,8 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Paypal\Model\Billing;
+
+use Magento\Sales\Model\Order\Payment;
 
 /**
  * Billing Agreement abstract model
@@ -79,6 +80,8 @@ class Agreement extends \Magento\Paypal\Model\Billing\AbstractAgreement
 
     /**
      * Init model
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -147,7 +150,7 @@ class Agreement extends \Magento\Paypal\Model\Billing\AbstractAgreement
      * Get billing agreement details
      * Data from response is inside this object
      *
-     * @return \Magento\Paypal\Model\Billing\Agreement
+     * @return $this
      */
     public function verifyToken()
     {
@@ -159,7 +162,7 @@ class Agreement extends \Magento\Paypal\Model\Billing\AbstractAgreement
     /**
      * Create billing agreement
      *
-     * @return \Magento\Paypal\Model\Billing\Agreement
+     * @return $this
      */
     public function place()
     {
@@ -180,7 +183,7 @@ class Agreement extends \Magento\Paypal\Model\Billing\AbstractAgreement
     /**
      * Cancel billing agreement
      *
-     * @return \Magento\Paypal\Model\Billing\Agreement
+     * @return $this
      */
     public function cancel()
     {
@@ -236,10 +239,10 @@ class Agreement extends \Magento\Paypal\Model\Billing\AbstractAgreement
      *  [billing_agreement_id]  => string
      *  [method_code]           => string
      *
-     * @param \Magento\Sales\Model\Order\Payment $payment
-     * @return \Magento\Paypal\Model\Billing\Agreement
+     * @param Payment $payment
+     * @return $this
      */
-    public function importOrderPayment(\Magento\Sales\Model\Order\Payment $payment)
+    public function importOrderPayment(Payment $payment)
     {
         $baData = $payment->getBillingAgreementData();
 
@@ -286,7 +289,7 @@ class Agreement extends \Magento\Paypal\Model\Billing\AbstractAgreement
      * Add order relation to current billing agreement
      *
      * @param int|\Magento\Sales\Model\Order $orderId
-     * @return \Magento\Paypal\Model\Billing\Agreement
+     * @return $this
      */
     public function addOrderRelation($orderId)
     {
@@ -296,6 +299,8 @@ class Agreement extends \Magento\Paypal\Model\Billing\AbstractAgreement
 
     /**
      * Save related orders
+     *
+     * @return void
      */
     protected function _saveOrderRelations()
     {

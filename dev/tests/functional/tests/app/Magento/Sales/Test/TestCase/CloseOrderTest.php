@@ -33,7 +33,6 @@ class CloseOrderTest extends Functional
      */
     public function testCloseOrder(OrderCheckout $fixture)
     {
-        $this->markTestSkipped('MAGETWO-20052');
         $fixture->persist();
 
         //Data

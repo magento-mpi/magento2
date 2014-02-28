@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Block\Standard;
 
 /**
  * PayPal Standard payment "form"
  */
-namespace Magento\Paypal\Block\Standard;
-
 class Form extends \Magento\Payment\Block\Form
 {
     /**
@@ -34,21 +33,31 @@ class Form extends \Magento\Payment\Block\Form
     protected $_paypalConfigFactory;
 
     /**
+     * @var \Magento\Locale\ResolverInterface
+     */
+    protected $_localeResolver;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Paypal\Model\ConfigFactory $paypalConfigFactory
+     * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Paypal\Model\ConfigFactory $paypalConfigFactory,
+        \Magento\Locale\ResolverInterface $localeResolver,
         array $data = array()
     ) {
         $this->_paypalConfigFactory = $paypalConfigFactory;
+        $this->_localeResolver = $localeResolver;
         parent::__construct($context, $data);
     }
 
     /**
      * Set template and redirect message
+     *
+     * @return null
      */
     protected function _construct()
     {
@@ -57,10 +66,10 @@ class Form extends \Magento\Payment\Block\Form
         $mark = $this->_layout->createBlock('Magento\View\Element\Template');
         $mark->setTemplate('Magento_Paypal::payment/mark.phtml')
             ->setPaymentAcceptanceMarkHref(
-                $this->_config->getPaymentMarkWhatIsPaypalUrl($this->_app->getLocaleResolver())
+                $this->_config->getPaymentMarkWhatIsPaypalUrl($this->_localeResolver)
             )
             ->setPaymentAcceptanceMarkSrc(
-                $this->_config->getPaymentMarkImageUrl($this->_app->getLocaleResolver()->getLocaleCode())
+                $this->_config->getPaymentMarkImageUrl($this->_localeResolver->getLocaleCode())
             );
         // known issue: code above will render only static mark image
         $this->setTemplate('Magento_Paypal::payment/redirect.phtml')

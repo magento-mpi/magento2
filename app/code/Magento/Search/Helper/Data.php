@@ -97,6 +97,11 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
     protected $dateTime;
 
     /**
+     * @var \Magento\Locale\ResolverInterface
+     */
+    protected $_localeResolver;
+
+    /**
      * @var array
      */
     protected $_languages;
@@ -109,6 +114,7 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param array $supportedLanguages
      */
     public function __construct(
@@ -119,6 +125,7 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Stdlib\DateTime $dateTime,
+        \Magento\Locale\ResolverInterface $localeResolver,
         array $supportedLanguages = array()
     ) {
         $this->_engineProvider = $engineProvider;
@@ -128,6 +135,7 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
         $this->_storeManager = $storeManager;
         $this->dateTime = $dateTime;
         $this->_languages = $supportedLanguages;
+        $this->_localeResolver = $localeResolver;
         parent::__construct($context);
     }
 
@@ -333,7 +341,7 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
         }
 
         $locale = $this->_storeManager->getStore()
-            ->getConfig($this->_app->getLocaleResolver()->getDefaultLocalePath());
+            ->getConfig($this->_localeResolver->getDefaultLocalePath());
         $languageSuffix = $this->getLanguageSuffix($locale);
 
         $field = $attribute->getAttributeCode();

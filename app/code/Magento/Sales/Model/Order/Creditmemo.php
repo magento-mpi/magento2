@@ -218,12 +218,12 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Sales\Helper\Data $salesData
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
-     * @param \Magento\Sales\Model\Order\Creditmemo\Config $creditmemoConfig
+     * @param Creditmemo\Config $creditmemoConfig
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Sales\Model\Resource\Order\Creditmemo\Item\CollectionFactory $cmItemCollectionFactory
      * @param \Magento\Math\CalculatorFactory $calculatorFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Sales\Model\Order\Creditmemo\CommentFactory $commentFactory
+     * @param Creditmemo\CommentFactory $commentFactory
      * @param \Magento\Sales\Model\Resource\Order\Creditmemo\Comment\CollectionFactory $commentCollectionFactory
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Core\Model\Resource\AbstractResource $resource

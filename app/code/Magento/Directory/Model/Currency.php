@@ -24,7 +24,7 @@ class Currency extends \Magento\Core\Model\AbstractModel
 {
     /**
      * CONFIG path constants
-    */
+     */
     const XML_PATH_CURRENCY_ALLOW   = 'currency/options/allow';
     const XML_PATH_CURRENCY_DEFAULT = 'currency/options/default';
     const XML_PATH_CURRENCY_BASE    = 'currency/options/base';
@@ -65,14 +65,14 @@ class Currency extends \Magento\Core\Model\AbstractModel
      * @var \Magento\Locale\CurrencyInterface
      */
     protected $_localeCurrency;
-
+    
     /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Locale\FormatInterface $localeFormat
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Directory\Helper\Data $directoryHelper
-     * @param \Magento\Directory\Model\Currency\FilterFactory $currencyFilterFactory
+     * @param Currency\FilterFactory $currencyFilterFactory
      * @param \Magento\Locale\CurrencyInterface $localeCurrency
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
@@ -279,7 +279,7 @@ class Currency extends \Magento\Core\Model\AbstractModel
         }
         if ($includeContainer) {
             return '<span class="price">' . ($addBrackets ? '[' : '')
-                . $this->formatTxt($price, $options) . ($addBrackets ? ']' : '') . '</span>';
+            . $this->formatTxt($price, $options) . ($addBrackets ? ']' : '') . '</span>';
         }
         return $this->formatTxt($price, $options);
     }

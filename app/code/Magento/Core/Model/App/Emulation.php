@@ -20,11 +20,6 @@ namespace Magento\Core\Model\App;
 class Emulation extends \Magento\Object
 {
     /**
-     * @var \Magento\Core\Model\App
-     */
-    protected $_app;
-
-    /**
      * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
@@ -33,6 +28,11 @@ class Emulation extends \Magento\Object
      * @var \Magento\TranslateInterface
      */
     protected $_translate;
+
+    /**
+     * @var \Magento\Core\Helper\Translate
+     */
+    protected $_helperTranslate;
 
     /**
      * Core store config
@@ -57,22 +57,22 @@ class Emulation extends \Magento\Object
     protected $_configFactory;
 
     /**
-     * @param \Magento\Core\Model\App $app
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\View\DesignInterface $viewDesign
      * @param \Magento\Core\Model\Design $design
      * @param \Magento\TranslateInterface $translate
+     * @param \Magento\Core\Helper\Translate $helperTranslate
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Translate\Inline\ConfigFactory $configFactory
      * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\App $app,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\View\DesignInterface $viewDesign,
         \Magento\Core\Model\Design $design,
         \Magento\TranslateInterface $translate,
+        \Magento\Core\Helper\Translate $helperTranslate,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Translate\Inline\ConfigFactory $configFactory,
         \Magento\Locale\ResolverInterface $localeResolver,
@@ -80,11 +80,11 @@ class Emulation extends \Magento\Object
     ) {
         $this->_localeResolver = $localeResolver;
         parent::__construct($data);
-        $this->_app = $app;
         $this->_storeManager = $storeManager;
         $this->_viewDesign = $viewDesign;
         $this->_design = $design;
         $this->_translate = $translate;
+        $this->_helperTranslate = $helperTranslate;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_configFactory = $configFactory;
     }
@@ -100,7 +100,7 @@ class Emulation extends \Magento\Object
      * @return \Magento\Object information about environment of the initial store
      */
     public function startEnvironmentEmulation($storeId, $area = \Magento\Core\Model\App\Area::AREA_FRONTEND,
-        $emulateStoreInlineTranslation = false
+                                              $emulateStoreInlineTranslation = false
     ) {
         if ($area === null) {
             $area = \Magento\Core\Model\App\Area::AREA_FRONTEND;
@@ -241,7 +241,7 @@ class Emulation extends \Magento\Object
      */
     protected function _restoreInitialLocale($initialLocaleCode, $initialArea = \Magento\Core\Model\App\Area::AREA_ADMIN)
     {
-        $this->_app->getLocaleResolver()->setLocaleCode($initialLocaleCode);
+        $this->_localeResolver->setLocaleCode($initialLocaleCode);
         $this->_translate->initLocale($initialLocaleCode);
         return $this;
     }

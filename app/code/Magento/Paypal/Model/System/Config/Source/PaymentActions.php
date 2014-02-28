@@ -7,11 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Model\System\Config\Source;
 
 /**
  * Source model for available payment actions
  */
-namespace Magento\Paypal\Model\System\Config\Source;
 
 class PaymentActions implements \Magento\Option\ArrayInterface
 {
@@ -29,9 +29,7 @@ class PaymentActions implements \Magento\Option\ArrayInterface
     }
 
     /**
-     * Options getter
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function toOptionArray()
     {

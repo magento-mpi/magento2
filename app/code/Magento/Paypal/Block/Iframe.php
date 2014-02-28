@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Block;
 
 /**
  * HSS iframe block
  */
-namespace Magento\Paypal\Block;
-
 class Iframe extends \Magento\Payment\Block\Form
 {
     /**
@@ -86,6 +85,8 @@ class Iframe extends \Magento\Payment\Block\Form
 
     /**
      * Internal constructor
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -112,7 +113,7 @@ class Iframe extends \Magento\Payment\Block\Form
     /**
      * Get current block instance
      *
-     * @return \Magento\Paypal\Block\Iframe
+     * @return \Magento\Payment\Block\Form
      * @throws \Magento\Core\Exception
      */
     protected function _getBlock()

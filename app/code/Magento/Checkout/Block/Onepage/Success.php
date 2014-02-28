@@ -94,7 +94,7 @@ class Success extends \Magento\View\Element\Template
     /**
      * Getter for recurring profile view page
      *
-     * @param $profile
+     * @param \Magento\Object $profile
      * @return string
      */
     public function getProfileUrl(\Magento\Object $profile)
@@ -104,6 +104,8 @@ class Success extends \Magento\View\Element\Template
 
     /**
      * Initialize data and prepare it for output
+     *
+     * @return string
      */
     protected function _beforeToHtml()
     {
@@ -114,6 +116,8 @@ class Success extends \Magento\View\Element\Template
 
     /**
      * Get last order ID from session, fetch it and check whether it can be viewed, printed etc
+     *
+     * @return void
      */
     protected function _prepareLastOrder()
     {
@@ -136,6 +140,8 @@ class Success extends \Magento\View\Element\Template
 
     /**
      * Prepare recurring payment profiles from the session
+     *
+     * @return void
      */
     protected function _prepareLastRecurringProfiles()
     {

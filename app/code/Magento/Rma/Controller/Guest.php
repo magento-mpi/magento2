@@ -39,7 +39,9 @@ class Guest extends \Magento\App\Action\Action
     public function returnsAction()
     {
         if (!$this->_objectManager->get('Magento\Rma\Helper\Data')->isEnabled()
-            || !$this->_objectManager->get('Magento\Sales\Helper\Guest')->loadValidOrder()) {
+            || !$this->_objectManager->get('Magento\Sales\Helper\Guest')->loadValidOrder(
+                $this->_request, $this->_response
+            )) {
             $this->_forward('noroute');
             return;
         }
@@ -92,7 +94,9 @@ class Guest extends \Magento\App\Action\Action
     protected function _loadValidRma($entityId = null)
     {
         if (!$this->_objectManager->get('Magento\Rma\Helper\Data')->isEnabled() ||
-            !$this->_objectManager->get('Magento\Sales\Helper\Guest')->loadValidOrder()) {
+            !$this->_objectManager->get('Magento\Sales\Helper\Guest')->loadValidOrder(
+                $this->_request, $this->_response
+            )) {
             return;
         }
 
@@ -123,7 +127,9 @@ class Guest extends \Magento\App\Action\Action
      */
     public function createAction()
     {
-        if (!$this->_objectManager->get('Magento\Sales\Helper\Guest')->loadValidOrder()) {
+        if (!$this->_objectManager->get('Magento\Sales\Helper\Guest')->loadValidOrder(
+            $this->_request, $this->_response
+        )) {
             return;
         }
         $order      = $this->_coreRegistry->registry('current_order');

@@ -7,18 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Model\System\Config\Source;
 
 /**
  * Source model for url method: GET/POST
  */
-namespace Magento\Paypal\Model\System\Config\Source;
-
 class UrlMethod implements \Magento\Option\ArrayInterface
 {
     /**
-     * Options getter
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function toOptionArray()
     {
