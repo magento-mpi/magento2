@@ -24,8 +24,6 @@ use Magento\Sales\Model\Quote\Address;
  * @method mixed getCustomerGroupId()
  * @method \Magento\SalesRule\Model\Validator setCustomerGroupId($id)
  */
-namespace Magento\SalesRule\Model;
-
 class Validator extends \Magento\Core\Model\AbstractModel
 {
     /**
