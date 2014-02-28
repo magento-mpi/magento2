@@ -26,7 +26,7 @@ $shortOpts = 'c:w:v';
 $options = getopt($shortOpts);
 
 if (!isset($options['c'])) {
-    print USAGE;
+    echo USAGE;
     exit(1);
 }
 $configFile = $options['c'];

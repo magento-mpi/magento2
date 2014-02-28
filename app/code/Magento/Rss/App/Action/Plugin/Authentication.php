@@ -9,8 +9,9 @@
  */
 namespace Magento\Rss\App\Action\Plugin;
 
+use Magento\App\RequestInterface;
 use Magento\App\ResponseInterface;
-use Magento\Code\Plugin\InvocationChain;
+use Magento\Backend\App\AbstractAction;
 
 class Authentication extends \Magento\Backend\App\Action\Plugin\Authentication
 {
@@ -70,21 +71,24 @@ class Authentication extends \Magento\Backend\App\Action\Plugin\Authentication
     /**
      * Replace standard admin login form with HTTP Basic authentication
      *
-     * @param array $arguments
-     * @param InvocationChain $invocationChain
-     * @return mixed|ResponseInterface
+     * @param AbstractAction $subject
+     * @param callable $proceed
+     * @param RequestInterface $request
+     * @return ResponseInterface
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function aroundDispatch(array $arguments, InvocationChain $invocationChain)
-    {
-        /** @var \Magento\App\RequestInterface $request */
-        $request = $arguments[0];
+    public function aroundDispatch(
+        AbstractAction $subject,
+        \Closure $proceed,
+        RequestInterface $request
+    ) {
         $resource = isset($this->_aclResources[$request->getControllerName()])
             ? (isset($this->_aclResources[$request->getControllerName()][$request->getActionName()])
                 ? $this->_aclResources[$request->getControllerName()][$request->getActionName()]
                 : $this->_aclResources[$request->getControllerName()])
             : null;
         if (!$resource) {
-            return parent::aroundDispatch($arguments, $invocationChain);
+            return parent::aroundDispatch($subject, $proceed, $request);
         }
 
         $session = $this->_auth->getAuthStorage();
@@ -105,6 +109,6 @@ class Authentication extends \Magento\Backend\App\Action\Plugin\Authentication
             return $this->_response;
         }
 
-        return parent::aroundDispatch($arguments, $invocationChain);
+        return parent::aroundDispatch($subject, $proceed, $request);
     }
 }

@@ -25,7 +25,7 @@ class Collection extends \Magento\Data\Collection\Filesystem
     /**
      * Locale model
      *
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\LocaleInterface
      */
     protected $_locale;
 
@@ -34,13 +34,13 @@ class Collection extends \Magento\Data\Collection\Filesystem
      *
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Logging\Model\Archive $archive
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\LocaleInterface $locale
      * @param \Magento\Filesystem $filesystem
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Logging\Model\Archive $archive,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\LocaleInterface $locale,
         \Magento\App\Filesystem $filesystem
     ) {
         parent::__construct($entityFactory);

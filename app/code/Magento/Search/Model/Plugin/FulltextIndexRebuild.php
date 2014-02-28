@@ -60,26 +60,22 @@ class FulltextIndexRebuild
     /**
      * Hold commit at indexation start if needed
      *
-     * @param array $arguments
-     * @return array
+     * @param \Magento\CatalogSearch\Model\Fulltext $subject
+     * @param int|null $storeId Store View Id
+     * @param int|array|null $productIds Product Entity Id
+     *
+     * @return void
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function beforeRebuildIndex(array $arguments)
-    {
-        /* input parameters processing (with default values emulation) */
-        if (isset($arguments[1])) {
-            list(,$productIds) = $arguments;
-        } else {
-            $productIds = null;
-        }
-
+    public function beforeRebuildIndex(
+        \Magento\CatalogSearch\Model\Fulltext $subject, $storeId = null, $productIds = null
+    ) {
         if ($this->_searchHelper->isThirdPartyEngineAvailable()) {
             $engine = $this->_engineProvider->get();
             if ($engine->holdCommit() && is_null($productIds)) {
                 $engine->setIndexNeedsOptimization();
             }
         }
-
-        return $arguments;
     }
 
     /**
@@ -87,11 +83,16 @@ class FulltextIndexRebuild
      * Make index optimization if documents were added to index.
      * Allow commit if it was held.
      *
+     * @param \Magento\CatalogSearch\Model\Fulltext $subject
      * @param \Magento\CatalogSearch\Model\Fulltext $result
+     *
      * @return \Magento\CatalogSearch\Model\Fulltext
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function afterRebuildIndex(\Magento\CatalogSearch\Model\Fulltext $result)
-    {
+    public function afterRebuildIndex(
+        \Magento\CatalogSearch\Model\Fulltext $subject,
+        \Magento\CatalogSearch\Model\Fulltext $result
+    ) {
         if ($this->_searchHelper->isThirdPartyEngineAvailable()) {
 
             $engine = $this->_engineProvider->get();

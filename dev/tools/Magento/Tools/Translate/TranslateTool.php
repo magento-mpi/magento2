@@ -249,7 +249,7 @@ class TranslateTool {
                     self::$allParseData = array_merge(self::$allParseData, self::$parseData);
                     if ($doSave) self::_saveInBatchMode($dir_en);
                 } else {
-                    print "Skip ".$file." (not found configuration for this module in config.inc.php\n";
+                    echo "Skip ".$file." (not found configuration for this module in config.inc.php\n";
                 }
             } else {
                 for($a=0;$a<count($file);$a++){
@@ -324,13 +324,13 @@ class TranslateTool {
             self::$csv -> saveData($dir_en.$file2save.'.'.EXTENSION,$csv_data);
         }
         if(isset($files_name_changed)){
-            print "Created files:\n";
+            echo "Created files:\n";
             foreach ($files_name_changed as $val){
-                print "\t".$val.".".EXTENSION."\n";
+                echo "\t".$val.".".EXTENSION."\n";
             }
-            print "Created diffs:\n";
+            echo "Created diffs:\n";
             foreach ($files_name_changed as $val){
-                print "\t".$val.".changes.".EXTENSION."\n";
+                echo "\t".$val.".changes.".EXTENSION."\n";
             }
 
         }
@@ -370,13 +370,13 @@ class TranslateTool {
             }
         }
         if(isset($files_name_changed)){
-            print "Created diffs:\n";
+            echo "Created diffs:\n";
             foreach ($files_name_changed as $val){
-                print "\t".$val."\n";
+                echo "\t".$val."\n";
             }
-            print "Created files:\n";
+            echo "Created files:\n";
             foreach ($files_name_changed as $val){
-                print "\t".basename($val).".changes.".EXTENSION."\n";
+                echo "\t".basename($val).".changes.".EXTENSION."\n";
             }
 
         }
@@ -415,9 +415,9 @@ class TranslateTool {
             }
         }
         if(isset($files_name_changed)){
-            print "Updated files:\n";
+            echo "Updated files:\n";
             foreach ($files_name_changed as $val){
-                print "\t".basename($val).'.'.EXTENSION."\n";
+                echo "\t".basename($val).'.'.EXTENSION."\n";
             }
 
         }
@@ -458,21 +458,21 @@ class TranslateTool {
         if($key===null){
             uksort($dup, 'strcasecmp');
             foreach ($dup as $key=>$val){
-                print '"'.$key.'":'."\n";
+                echo '"'.$key.'":'."\n";
                 $out = $dup[$key]['line'];
                 $out = explode(',',$out);
                 for($a=0;$a<count($out);$a++){
-                    print "\t".ltrim($out[$a]," ")."\n";
+                    echo "\t".ltrim($out[$a]," ")."\n";
                 }
-                print "\n\n";
+                echo "\n\n";
             }
         } else {
-            print '"'.$key.'":'."\n";
+            echo '"'.$key.'":'."\n";
             $out = $dup[$key]['line'];
 
             $out = explode(', ',$out);
             for($a=0;$a<count($out);$a++){
-                print "\t".ltrim($out[$a]," ")."\n";
+                echo "\t".ltrim($out[$a]," ")."\n";
             }
         }
 

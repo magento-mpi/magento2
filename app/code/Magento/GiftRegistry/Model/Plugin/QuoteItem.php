@@ -12,21 +12,25 @@ class QuoteItem
     /**
      * Copy gift registry item id flag from quote item to order item
      *
-     * @param array $arguments
-     * @param \Magento\Code\Plugin\InvocationChain $invocationChain
+     * @param \Magento\Sales\Model\Convert\Quote $subject
+     * @param callable $proceed
+     * @param \Magento\Sales\Model\Quote\Item\AbstractItem $item
+     *
      * @return \Magento\Sales\Model\Order\Item|mixed
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function aroundItemToOrderItem(array $arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
-    {
+    public function aroundItemToOrderItem(
+        \Magento\Sales\Model\Convert\Quote $subject,
+        \Closure $proceed,
+        \Magento\Sales\Model\Quote\Item\AbstractItem $item
+    ) {
         /** @var $orderItem \Magento\Sales\Model\Order\Item */
-        $orderItem = $invocationChain->proceed($arguments);
-        /** @var $quoteItem \Magento\Sales\Model\Quote\Item */
-        $quoteItem = reset($arguments);
+        $orderItem = $proceed($item);
 
-        if ($quoteItem instanceof \Magento\Sales\Model\Quote\Address\Item) {
-            $registryItemId = $quoteItem->getQuoteItem()->getGiftregistryItemId();
+        if ($item instanceof \Magento\Sales\Model\Quote\Address\Item) {
+            $registryItemId = $item->getQuoteItem()->getGiftregistryItemId();
         } else {
-            $registryItemId = $quoteItem->getGiftregistryItemId();
+            $registryItemId = $item->getGiftregistryItemId();
         }
 
         if ($registryItemId) {

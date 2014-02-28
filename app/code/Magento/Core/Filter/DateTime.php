@@ -10,7 +10,7 @@
  */
 namespace Magento\Core\Filter;
 
-use Magento\Core\Model\LocaleInterface;
+use Magento\LocaleInterface;
 
 class DateTime extends Date
 {

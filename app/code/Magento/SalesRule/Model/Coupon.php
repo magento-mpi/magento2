@@ -30,10 +30,6 @@ namespace Magento\SalesRule\Model;
  * @method \Magento\SalesRule\Model\Coupon setIsPrimary(int $value)
  * @method int getType()
  * @method \Magento\SalesRule\Model\Coupon setType(int $value)
- *
- * @category    Magento
- * @package     Magento_SalesRule
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Coupon extends \Magento\Core\Model\AbstractModel
 {

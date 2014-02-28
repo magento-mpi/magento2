@@ -40,7 +40,7 @@ class Observer
     protected $_reportRule;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\LocaleInterface
      */
     protected $_locale;
 
@@ -60,7 +60,7 @@ class Observer
      * @param \Magento\SalesRule\Model\Coupon $coupon
      * @param \Magento\SalesRule\Model\Resource\Coupon\Usage $couponUsage
      * @param \Magento\SalesRule\Model\Resource\Report\Rule $reportRule
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\LocaleInterface $locale
      * @param \Magento\SalesRule\Model\Resource\Rule\CollectionFactory $collectionFactory
      * @param \Magento\Message\ManagerInterface $messageManager
      */
@@ -70,7 +70,7 @@ class Observer
         \Magento\SalesRule\Model\Coupon $coupon,
         \Magento\SalesRule\Model\Resource\Coupon\Usage $couponUsage,
         \Magento\SalesRule\Model\Resource\Report\Rule $reportRule,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\LocaleInterface $locale,
         \Magento\SalesRule\Model\Resource\Rule\CollectionFactory $collectionFactory,
         \Magento\Message\ManagerInterface $messageManager
     ) {

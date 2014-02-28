@@ -23,12 +23,12 @@ class ElementTest extends \PHPUnit_Framework_TestCase
             ->createBlock('Magento\GiftRegistry\Block\Form\Element');
 
         $value = null;
-        $formatType = \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_FULL;
+        $formatType = \Magento\LocaleInterface::FORMAT_TYPE_FULL;
 
         $html = $block->getCalendarDateHtml('date_name', 'date_id', $value, $formatType);
 
         $dateFormat = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Core\Model\LocaleInterface')->getDateFormat($formatType);
+            ->get('Magento\LocaleInterface')->getDateFormat($formatType);
 
         $this->assertContains('dateFormat: "' . $dateFormat . '",', $html);
         $this->assertContains('value=""', $html);
