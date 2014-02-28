@@ -43,19 +43,19 @@ class Date
     {
          return array(
             array(
-                'value' => \Magento\LocaleInterface::FORMAT_TYPE_SHORT,
+                'value' => \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT,
                 'label' => __('Short')
             ),
             array(
-                'value' => \Magento\LocaleInterface::FORMAT_TYPE_MEDIUM,
+                'value' => \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM,
                 'label' => __('Medium')
             ),
             array(
-                'value' => \Magento\LocaleInterface::FORMAT_TYPE_LONG,
+                'value' => \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_LONG,
                 'label' => __('Long')
             ),
             array(
-                'value' => \Magento\LocaleInterface::FORMAT_TYPE_FULL,
+                'value' => \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_FULL,
                 'label' => __('Full')
             )
         );

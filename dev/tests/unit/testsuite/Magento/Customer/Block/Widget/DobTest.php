@@ -7,7 +7,7 @@
  */
 namespace Magento\Customer\Block\Widget;
 
-use Magento\LocaleInterface;
+use Magento\Core\Model\LocaleInterface;
 use Magento\Exception\NoSuchEntityException;
 
 class DobTest extends \PHPUnit_Framework_TestCase

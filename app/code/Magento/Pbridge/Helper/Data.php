@@ -74,7 +74,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Locale
      *
-     * @var \Magento\LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
@@ -138,7 +138,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Pbridge\Model\EncryptionFactory $encryptionFactory
      * @param \Magento\App\State $appState
@@ -151,7 +151,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\LocaleInterface $locale,
+        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\View\LayoutInterface $layout,
         \Magento\Pbridge\Model\EncryptionFactory $encryptionFactory,
         \Magento\App\State $appState,

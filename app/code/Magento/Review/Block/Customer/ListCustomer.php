@@ -151,7 +151,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
      */
     public function dateFormat($date)
     {
-        return $this->formatDate($date, \Magento\LocaleInterface::FORMAT_TYPE_SHORT);
+        return $this->formatDate($date, \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
     }
 
     /**

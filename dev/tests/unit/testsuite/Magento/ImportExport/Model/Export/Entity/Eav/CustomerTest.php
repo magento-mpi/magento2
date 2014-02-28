@@ -88,7 +88,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             $this->getMock(
                 'Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory', array(), array(), '', false
             ),
-            $this->getMock('Magento\LocaleInterface', array(), array(), '', false),
+            $this->getMock('Magento\Core\Model\LocaleInterface', array(), array(), '', false),
             $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false),
             $this->getMock('Magento\Customer\Model\Resource\Customer\CollectionFactory', array(), array(), '', false),
             $this->_getModelDependencies()

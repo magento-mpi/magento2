@@ -62,7 +62,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         $helper = new \Magento\CustomerCustomAttributes\Helper\Customer(
             $this->_contextMock,
             $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false),
-            $this->getMock('Magento\LocaleInterface'),
+            $this->getMockForAbstractClass('Magento\Core\Model\LocaleInterface'),
             $this->getMock('Magento\Filter\FilterManager', array(), array(), '', false),
             $this->_dataHelperMock,
             $this->_inputValidatorMock
@@ -90,7 +90,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         $helper = new \Magento\CustomerCustomAttributes\Helper\Customer(
             $this->_contextMock,
             $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false),
-            $this->getMock('Magento\LocaleInterface'),
+            $this->getMockForAbstractClass('Magento\Core\Model\LocaleInterface'),
             $this->getMock('Magento\Filter\FilterManager', array(), array(), '', false),
             $this->_dataHelperMock,
             $this->_inputValidatorMock

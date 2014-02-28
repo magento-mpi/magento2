@@ -36,7 +36,7 @@ class Advanced extends \Magento\Core\Model\Resource\AbstractResource
     /**
      * Locale
      *
-     * @var \Magento\LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
@@ -49,12 +49,12 @@ class Advanced extends \Magento\Core\Model\Resource\AbstractResource
      * Construct
      *
      * @param \Magento\Search\Model\Resource\Engine $resourceEngine
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Stdlib\DateTime $dateTime
      */
     public function __construct(
         \Magento\Search\Model\Resource\Engine $resourceEngine,
-        \Magento\LocaleInterface $locale,
+        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Stdlib\DateTime $dateTime
     ) {
         parent::__construct();
@@ -120,7 +120,7 @@ class Advanced extends \Magento\Core\Model\Resource\AbstractResource
         $field = $this->_resourceEngine->getSearchEngineFieldName($attribute, 'nav');
 
         if ($attribute->getBackendType() == 'datetime') {
-            $format = $this->_locale->getDateFormat(\Magento\LocaleInterface::FORMAT_TYPE_SHORT);
+            $format = $this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
             foreach ($value as &$val) {
                 if (!$this->dateTime->isEmptyDate($val)) {
                     $date = new \Zend_Date($val, $format);

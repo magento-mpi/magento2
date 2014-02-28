@@ -31,14 +31,14 @@ class Design extends \Magento\Core\Model\AbstractModel
     /**
      * Locale
      *
-     * @var \Magento\LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\View\DesignInterface $design
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
@@ -47,7 +47,7 @@ class Design extends \Magento\Core\Model\AbstractModel
     public function __construct(
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\LocaleInterface $locale,
+        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\View\DesignInterface $design,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
@@ -96,7 +96,7 @@ class Design extends \Magento\Core\Model\AbstractModel
                 return $this->_extractSettings($object);
             }
         } else {
-             return $this->_extractSettings($category);
+            return $this->_extractSettings($category);
         }
     }
 
@@ -115,9 +115,9 @@ class Design extends \Magento\Core\Model\AbstractModel
         $date = $object->getCustomDesignDate();
         if (array_key_exists('from', $date) && array_key_exists('to', $date)
             && $this->_locale->isStoreDateInInterval(null, $date['from'], $date['to'])) {
-                $settings->setCustomDesign($object->getCustomDesign())
-                    ->setPageLayout($object->getPageLayout())
-                    ->setLayoutUpdates((array)$object->getCustomLayoutUpdate());
+            $settings->setCustomDesign($object->getCustomDesign())
+                ->setPageLayout($object->getPageLayout())
+                ->setLayoutUpdates((array)$object->getCustomLayoutUpdate());
         }
         return $settings;
     }

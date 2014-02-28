@@ -42,7 +42,7 @@ class Emulation extends \Magento\Object
     protected $_coreStoreConfig;
 
     /**
-     * @var \Magento\LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
@@ -64,7 +64,7 @@ class Emulation extends \Magento\Object
      * @param \Magento\Core\Helper\Translate $helperTranslate
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Translate\Inline\ConfigFactory $configFactory
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param array $data
      */
     public function __construct(
@@ -75,7 +75,7 @@ class Emulation extends \Magento\Object
         \Magento\Core\Helper\Translate $helperTranslate,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Translate\Inline\ConfigFactory $configFactory,
-        \Magento\LocaleInterface $locale,
+        \Magento\Core\Model\LocaleInterface $locale,
         array $data = array()
     ) {
         $this->_locale = $locale;
@@ -200,7 +200,7 @@ class Emulation extends \Magento\Object
     {
         $initialLocaleCode = $this->_locale->getLocaleCode();
         $newLocaleCode = $this->_coreStoreConfig->getConfig(
-            \Magento\LocaleInterface::XML_PATH_DEFAULT_LOCALE,
+            \Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_LOCALE,
             $storeId
         );
         $this->_locale->setLocaleCode($newLocaleCode);

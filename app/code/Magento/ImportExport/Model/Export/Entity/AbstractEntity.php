@@ -141,7 +141,7 @@ abstract class AbstractEntity
     protected $_writer;
 
     /**
-     * @var \Magento\LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
@@ -151,13 +151,13 @@ abstract class AbstractEntity
     protected $_storeManager;
 
     /**
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Eav\Model\Config $config
      * @param \Magento\App\Resource $resource
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        \Magento\LocaleInterface $locale,
+        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Eav\Model\Config $config,
         \Magento\App\Resource $resource,
         \Magento\Core\Model\StoreManagerInterface $storeManager

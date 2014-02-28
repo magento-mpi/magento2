@@ -24,7 +24,7 @@ class Datetime extends \Magento\Backend\Block\System\Config\Form\Field
     protected function _getElementHtml(AbstractElement $element)
     {
         $format = $this->_locale->getDateTimeFormat(
-            \Magento\LocaleInterface::FORMAT_TYPE_MEDIUM
+            \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM
         );
         return $this->_locale->date(intval($element->getValue()))->toString($format);
     }

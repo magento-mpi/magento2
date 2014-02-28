@@ -64,7 +64,7 @@ class Index extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_catalogRuleFactory;
 
     /**
-     * @var \Magento\LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
@@ -76,7 +76,7 @@ class Index extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * @param \Magento\App\Resource $resource
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\CatalogRule\Model\Resource\RuleFactory $catalogRuleFactory
      * @param \Magento\Customer\Model\GroupFactory $customerGroup
      * @param \Magento\Catalog\Model\Config $config
@@ -85,7 +85,7 @@ class Index extends \Magento\Core\Model\Resource\Db\AbstractDb
     public function __construct(
         \Magento\App\Resource $resource,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\LocaleInterface $locale,
+        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\CatalogRule\Model\Resource\RuleFactory $catalogRuleFactory,
         \Magento\Customer\Model\GroupFactory $customerGroup,
         \Magento\Catalog\Model\Config $config,

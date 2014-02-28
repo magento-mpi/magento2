@@ -220,7 +220,7 @@ class Element extends \Magento\View\Element\Template
     public function getCalendarDateHtml($name, $id, $value = null, $formatType = null, $class = '')
     {
         if (is_null($formatType)) {
-            $formatType = \Magento\LocaleInterface::FORMAT_TYPE_MEDIUM;
+            $formatType = \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM;
         }
 
         $calendar = $this->getLayout()->createBlock('Magento\View\Element\Html\Date')

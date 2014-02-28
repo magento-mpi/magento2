@@ -194,7 +194,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
     protected $rowCustomizer;
 
     /**
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Eav\Model\Config $config
      * @param \Magento\App\Resource $resource
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -212,7 +212,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
      * @param \Magento\ImportExport\Model\Export\RowCustomizerInterface $rowCustomizer
      */
     public function __construct(
-        \Magento\LocaleInterface $locale,
+        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Eav\Model\Config $config,
         \Magento\App\Resource $resource,
         \Magento\Core\Model\StoreManagerInterface $storeManager,

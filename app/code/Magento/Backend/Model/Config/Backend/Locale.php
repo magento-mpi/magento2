@@ -21,7 +21,7 @@ class Locale extends \Magento\Core\Model\Config\Value
     protected $_configsFactory;
 
     /**
-     * @var \Magento\LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
@@ -41,7 +41,7 @@ class Locale extends \Magento\Core\Model\Config\Value
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\ConfigInterface $config
      * @param \Magento\Core\Model\Resource\Config\Data\CollectionFactory $configsFactory
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Core\Model\Website\Factory $websiteFactory
      * @param \Magento\Core\Model\StoreFactory $storeFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
@@ -56,7 +56,7 @@ class Locale extends \Magento\Core\Model\Config\Value
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\ConfigInterface $config,
         \Magento\Core\Model\Resource\Config\Data\CollectionFactory $configsFactory,
-        \Magento\LocaleInterface $locale,
+        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Core\Model\Website\Factory $websiteFactory,
         \Magento\Core\Model\StoreFactory $storeFactory,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,

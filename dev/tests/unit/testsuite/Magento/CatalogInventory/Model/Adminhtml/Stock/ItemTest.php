@@ -36,7 +36,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
             $this->getMock('Magento\CatalogInventory\Helper\Minsaleqty', array(), array(), '', false),
             $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false),
             $this->getMock('Magento\Core\Model\StoreManagerInterface', array(), array(), '', false),
-            $this->getMock('Magento\LocaleInterface', array(), array(), '', false),
+            $this->getMock('Magento\Core\Model\LocaleInterface', array(), array(), '', false),
             $this->getMock('Magento\Math\Division', array(), array(), '', false),
             $resourceMock,
             $this->getMock('Magento\Data\Collection\Db', array(), array(), '', false),

@@ -26,20 +26,20 @@ class Date extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
     /**
      * Locale model
      *
-     * @var \Magento\LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param array $data
      */
     public function __construct(
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\LocaleInterface $locale,
+        \Magento\Core\Model\LocaleInterface $locale,
         array $data = array()
     ) {
         $this->_locale = $locale;
@@ -129,7 +129,7 @@ class Date extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
 
             if ($this->_dateExists()) {
                 if ($this->useCalendar()) {
-                    $format = $this->_locale->getDateFormat(\Magento\LocaleInterface::FORMAT_TYPE_SHORT);
+                    $format = $this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
                     $timestamp += $this->_locale->date($value['date'], $format, null, false)->getTimestamp();
                 } else {
                     $timestamp += mktime(0, 0, 0, $value['month'], $value['day'], $value['year']);
@@ -176,11 +176,11 @@ class Date extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
 
             $option = $this->getOption();
             if ($this->getOption()->getType() == \Magento\Catalog\Model\Product\Option::OPTION_TYPE_DATE) {
-                $format = $this->_locale->getDateFormat(\Magento\LocaleInterface::FORMAT_TYPE_MEDIUM);
+                $format = $this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM);
                 $result = $this->_locale->date($optionValue, \Zend_Date::ISO_8601, null, false)
                     ->toString($format);
             } elseif ($this->getOption()->getType() == \Magento\Catalog\Model\Product\Option::OPTION_TYPE_DATE_TIME) {
-                $format = $this->_locale->getDateTimeFormat(\Magento\LocaleInterface::FORMAT_TYPE_SHORT);
+                $format = $this->_locale->getDateTimeFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
                 $result = $this->_locale
                     ->date($optionValue, \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT, null, false)->toString($format);
             } elseif ($this->getOption()->getType() == \Magento\Catalog\Model\Product\Option::OPTION_TYPE_TIME) {

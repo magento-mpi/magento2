@@ -201,7 +201,7 @@ class Graph extends \Magento\Backend\Block\Dashboard\AbstractDashboard
         }
 
         $timezoneLocal = $this->_storeConfig->getConfig(
-            \Magento\LocaleInterface::XML_PATH_DEFAULT_TIMEZONE
+            \Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_TIMEZONE
         );
 
         list ($dateStart, $dateEnd) = $this->_collectionFactory->create()

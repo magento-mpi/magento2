@@ -184,7 +184,7 @@ abstract class AbstractForm
                     }
                     $element->setValues($options);
                 } else if ($inputType == 'date') {
-                    $format = $this->_locale->getDateFormat(\Magento\LocaleInterface::FORMAT_TYPE_SHORT);
+                    $format = $this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
                     $element->setImage($this->getViewFileUrl('images/grid-cal.gif'));
                     $element->setDateFormat($format);
                 }

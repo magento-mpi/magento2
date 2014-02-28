@@ -65,14 +65,14 @@ abstract class AbstractData
     protected $_extractedData       = array();
 
     /**
-     * \Magento\LocaleInterface FORMAT
+     * \Magento\Core\Model\LocaleInterface FORMAT
      *
      * @var string
      */
     protected $_dateFilterFormat;
 
     /**
-     * @var \Magento\LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
@@ -84,11 +84,11 @@ abstract class AbstractData
     /**
      * Constructor
      *
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Logger $logger
      */
     public function __construct(
-        \Magento\LocaleInterface $locale,
+        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Logger $logger
     ) {
         $this->_locale = $locale;
@@ -251,7 +251,7 @@ abstract class AbstractData
         if (is_null($format)) {
             // get format
             if (is_null($this->_dateFilterFormat)) {
-                $this->_dateFilterFormat = \Magento\LocaleInterface::FORMAT_TYPE_SHORT;
+                $this->_dateFilterFormat = \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT;
             }
             return $this->_locale->getDateFormat($this->_dateFilterFormat);
         } else if ($format === false) {

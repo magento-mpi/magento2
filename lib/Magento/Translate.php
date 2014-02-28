@@ -184,7 +184,7 @@ class Translate implements \Magento\TranslateInterface
      * @param \Magento\Module\Dir\Reader $modulesReader
      * @param \Magento\BaseScopeResolverInterface $scopeResolver
      * @param \Magento\Translate\ResourceInterface $translate
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\App\State $appState
      * @param \Magento\App\Filesystem $filesystem
      *
@@ -201,7 +201,7 @@ class Translate implements \Magento\TranslateInterface
         \Magento\Module\Dir\Reader $modulesReader,
         \Magento\BaseScopeResolverInterface $scopeResolver,
         \Magento\Translate\ResourceInterface $translate,
-        \Magento\LocaleInterface $locale,
+        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\App\State $appState,
         \Magento\App\Filesystem $filesystem
     ) {

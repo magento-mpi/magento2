@@ -17,7 +17,7 @@ class AbstractDataTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Customer\Model\Metadata\Form\ExtendsAbstractData */
     protected $_model;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\LocaleInterface */
+    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Core\Model\LocaleInterface */
     protected $_localeMock;
     /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Logger */
     protected $_loggerMock;
@@ -33,7 +33,7 @@ class AbstractDataTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_localeMock = $this->getMockBuilder('Magento\LocaleInterface')
+        $this->_localeMock = $this->getMockBuilder('Magento\Core\Model\LocaleInterface')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_loggerMock = $this->getMockBuilder('Magento\Logger')
@@ -145,7 +145,7 @@ class AbstractDataTest extends \PHPUnit_Framework_TestCase
             $this->_localeMock
                 ->expects($this->once())
                 ->method('getDateFormat')
-                ->with($this->equalTo(\Magento\LocaleInterface::FORMAT_TYPE_SHORT))
+                ->with($this->equalTo(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT))
                 ->will($this->returnValue($output));
         }
         $actual = $this->_model->dateFilterFormat($format);

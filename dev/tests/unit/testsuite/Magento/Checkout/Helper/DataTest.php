@@ -44,7 +44,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
         $checkoutSession = $this->getMock('\Magento\Checkout\Model\Session', array(), array(), '', false);
 
-        $locale = $this->getMock('\Magento\LocaleInterface', array(), array(), '', false);
+        $locale = $this->getMock('\Magento\Core\Model\LocaleInterface', array(), array(), '', false);
         $locale->expects($this->any())->method('date')->will($this->returnValue('Oct 02, 2013'));
 
         $collectionFactory = $this->getMock(

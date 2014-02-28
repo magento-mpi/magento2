@@ -503,7 +503,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
     /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\LocaleInterface $coreLocale
+     * @param \Magento\Core\Model\LocaleInterface $coreLocale
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Sales\Helper\Data $salesData
@@ -534,7 +534,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
     public function __construct(
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\LocaleInterface $coreLocale,
+        \Magento\Core\Model\LocaleInterface $coreLocale,
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Sales\Helper\Data $salesData,
@@ -1161,7 +1161,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
      * @throws \Magento\Core\Exception
      */
     protected function _setState($state, $status = false, $comment = '',
-        $isCustomerNotified = null, $shouldProtectState = false
+                                 $isCustomerNotified = null, $shouldProtectState = false
     ) {
         // attempt to set the specified state
         if ($shouldProtectState) {
@@ -2316,7 +2316,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
              * In case of "0" grand total order checking ForcedCanCreditmemo flag
              */
             elseif (floatval($this->getTotalRefunded()) || (!$this->getTotalRefunded()
-                && $this->hasForcedCanCreditmemo())
+                    && $this->hasForcedCanCreditmemo())
             ) {
                 if ($this->getState() !== self::STATE_CLOSED) {
                     $this->_setState(self::STATE_CLOSED, true, '', $userNotification);

@@ -138,7 +138,7 @@ class Statistics extends \Magento\Backend\App\Action
     {
         try {
             $collectionsNames = $this->_getCollectionNames();
-            $currentDate = $this->_objectManager->get('Magento\LocaleInterface')->date();
+            $currentDate = $this->_objectManager->get('Magento\Core\Model\LocaleInterface')->date();
             $date = $currentDate->subHour(25);
             foreach ($collectionsNames as $collectionName) {
                 $this->_objectManager->create($collectionName)->aggregate($date);

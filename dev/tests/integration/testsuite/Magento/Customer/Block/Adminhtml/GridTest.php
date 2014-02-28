@@ -9,7 +9,7 @@
 namespace Magento\Customer\Block\Adminhtml;
 
 use Magento\Backend\App\Area\FrontNameResolver;
-use Magento\LocaleInterface;
+use Magento\Core\Model\LocaleInterface;
 use Magento\Customer\Service\V1\CustomerService;
 use Magento\Stdlib\DateTime;
 use Magento\TestFramework\Helper\Bootstrap;
@@ -28,7 +28,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
     /** @var CustomerService */
     private $customerService;
 
-    /** @var \Magento\LocaleInterface */
+    /** @var LocaleInterface */
     private $locale;
 
 
@@ -42,7 +42,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
             'Magento\Customer\Service\V1\CustomerService'
         );
         $this->locale = Bootstrap::getObjectManager()->create(
-            'Magento\LocaleInterface'
+            'Magento\Core\Model\LocaleInterface'
         );
     }
 

@@ -46,7 +46,7 @@ class Context extends \Magento\App\Action\Context
     protected $_title;
 
     /**
-     * @var \Magento\LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
@@ -77,7 +77,7 @@ class Context extends \Magento\App\Action\Context
      * @param \Magento\Backend\Model\UrlInterface $backendUrl
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      * @param \Magento\App\Action\Title $title
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param bool $canUseBaseUrl
      */
     public function __construct(
@@ -97,7 +97,7 @@ class Context extends \Magento\App\Action\Context
         \Magento\Backend\Model\UrlInterface $backendUrl,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
         \Magento\App\Action\Title $title,
-        \Magento\LocaleInterface $locale,
+        \Magento\Core\Model\LocaleInterface $locale,
         $canUseBaseUrl = false
     ) {
         parent::__construct(
@@ -172,7 +172,7 @@ class Context extends \Magento\App\Action\Context
     }
 
     /**
-     * @return \Magento\LocaleInterface
+     * @return \Magento\Core\Model\LocaleInterface
      */
     public function getLocale()
     {

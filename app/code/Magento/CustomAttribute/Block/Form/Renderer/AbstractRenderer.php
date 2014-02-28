@@ -103,7 +103,7 @@ abstract class AbstractRenderer extends \Magento\View\Element\Template
         if ($filterCode) {
             $filterClass = 'Magento\\Data\\Form\\Filter\\' . ucfirst($filterCode);
             if ($filterCode == 'date') {
-                $format = $this->_locale->getDateFormat(\Magento\LocaleInterface::FORMAT_TYPE_SHORT);
+                $format = $this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
                 $filter = new $filterClass($format);
             } else {
                 $filter = new $filterClass();

@@ -82,7 +82,7 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
     /**
      * Locale
      *
-     * @var \Magento\LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
@@ -108,7 +108,7 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
      * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param array $supportedLanguages
@@ -118,7 +118,7 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
         \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\LocaleInterface $locale,
+        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Stdlib\DateTime $dateTime,
         array $supportedLanguages = array()
@@ -335,7 +335,7 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
         }
 
         $locale = $this->_storeManager->getStore()
-            ->getConfig(\Magento\LocaleInterface::XML_PATH_DEFAULT_LOCALE);
+            ->getConfig(\Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_LOCALE);
         $languageSuffix = $this->getLanguageSuffix($locale);
 
         $field = $attribute->getAttributeCode();
@@ -351,7 +351,7 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
         } elseif ($backendType == 'datetime') {
             $field = 'attr_datetime_'. $field;
 
-            $format = $this->_locale->getDateFormat(\Magento\LocaleInterface::FORMAT_TYPE_SHORT);
+            $format = $this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
             if (is_array($value)) {
                 foreach ($value as &$val) {
                     if (!$this->dateTime->isEmptyDate($val)) {

@@ -164,11 +164,11 @@ class DesignTest extends \PHPUnit_Framework_TestCase
 
         $store = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Core\Model\StoreManagerInterface')->getStore($storeCode);
-        $store->setConfig(\Magento\LocaleInterface::XML_PATH_DEFAULT_TIMEZONE, $storeTimezone);
+        $store->setConfig(\Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_TIMEZONE, $storeTimezone);
         $storeId = $store->getId();
 
-        /** @var $locale \Magento\LocaleInterface|\PHPUnit_Framework_MockObject_MockObject */
-        $locale = $this->getMock('Magento\LocaleInterface');
+        /** @var $locale \Magento\Core\Model\LocaleInterface|\PHPUnit_Framework_MockObject_MockObject */
+        $locale = $this->getMock('Magento\Core\Model\LocaleInterface');
         $locale->expects($this->once())
             ->method('storeTimeStamp')
             ->with($storeId)

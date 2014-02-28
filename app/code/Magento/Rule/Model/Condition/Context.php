@@ -20,7 +20,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_viewUrl;
 
     /**
-     * @var \Magento\LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
@@ -41,14 +41,14 @@ class Context implements \Magento\ObjectManager\ContextInterface
 
     /**
      * @param \Magento\View\Url $viewUrl
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Rule\Model\ConditionFactory $conditionFactory
      * @param \Magento\Logger $logger
      */
     public function __construct(
         \Magento\View\Url $viewUrl,
-        \Magento\LocaleInterface $locale,
+        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\View\LayoutInterface $layout,
         \Magento\Rule\Model\ConditionFactory $conditionFactory,
         \Magento\Logger $logger
@@ -69,7 +69,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\LocaleInterface
+     * @return \Magento\Core\Model\LocaleInterface
      */
     public function getLocale()
     {

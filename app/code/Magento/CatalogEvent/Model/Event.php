@@ -13,7 +13,7 @@ use Magento\CatalogEvent\Model\Resource\Event as ResourceEvent;
 use Magento\Core\Exception;
 use Magento\Core\Model\AbstractModel;
 use Magento\Model\Context;
-use Magento\LocaleInterface;
+use Magento\Core\Model\LocaleInterface;
 use Magento\Registry;
 use Magento\Core\Model\Store;
 use Magento\Core\Model\StoreManagerInterface;
@@ -245,7 +245,7 @@ class Event extends AbstractModel
     {
         if ($this->getImage()) {
             return $this->_storeManager->getStore()->getBaseUrl(UrlInterface::URL_TYPE_MEDIA) . '/'
-                   . self::IMAGE_PATH . '/' . $this->getImage();
+            . self::IMAGE_PATH . '/' . $this->getImage();
         }
 
         return false;

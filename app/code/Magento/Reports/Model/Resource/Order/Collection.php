@@ -45,7 +45,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection
     protected $_storeManager;
 
     /**
-     * @var \Magento\LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
@@ -67,7 +67,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection
      * @param \Magento\Core\Model\Resource\Helper $coreResourceHelper
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Sales\Model\Order\Config $orderConfig
      * @param \Magento\Sales\Model\Resource\Report\OrderFactory $reportOrderFactory
      * @param mixed $connection
@@ -83,7 +83,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection
         \Magento\Core\Model\Resource\Helper $coreResourceHelper,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\LocaleInterface $locale,
+        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Sales\Model\Order\Config $orderConfig,
         \Magento\Sales\Model\Resource\Report\OrderFactory $reportOrderFactory,
         $connection = null,

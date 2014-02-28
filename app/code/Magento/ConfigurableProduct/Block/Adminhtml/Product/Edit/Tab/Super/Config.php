@@ -16,7 +16,7 @@ namespace Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super;
 use \Magento\ConfigurableProduct\Model\Product\Type\Configurable;
 
 use Magento\Catalog\Model\Product;
-use Magento\LocaleInterface;
+use Magento\Core\Model\LocaleInterface;
 
 class Config
     extends \Magento\Backend\Block\Widget
@@ -396,7 +396,7 @@ class Config
     }
 
     /**
-     * @return \Magento\LocaleInterface
+     * @return LocaleInterface
      */
     public function getLocale()
     {

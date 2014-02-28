@@ -61,7 +61,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_coreStoreConfig;
 
     /**
-     * @var \Magento\LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $locale;
 
@@ -77,7 +77,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\GiftRegistry\Model\EntityFactory $entityFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\UrlFactory $urlFactory
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Escaper $escaper
      */
     public function __construct(
@@ -87,7 +87,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\GiftRegistry\Model\EntityFactory $entityFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\UrlFactory $urlFactory,
-        \Magento\LocaleInterface $locale,
+        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Escaper $escaper
     ) {
         parent::__construct($context);

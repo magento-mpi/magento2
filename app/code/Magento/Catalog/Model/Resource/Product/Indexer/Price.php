@@ -42,7 +42,7 @@ class Price extends \Magento\Index\Model\Resource\AbstractResource
     /**
      * Locale
      *
-     * @var \Magento\LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
@@ -83,7 +83,7 @@ class Price extends \Magento\Index\Model\Resource\AbstractResource
      * @param \Magento\App\Resource $resource
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Catalog\Model\Product\Type $catalogProductType
      * @param \Magento\App\ConfigInterface $config
      * @param \Magento\Catalog\Model\Resource\Product\Indexer\Price\Factory $indexerPriceFactory
@@ -93,7 +93,7 @@ class Price extends \Magento\Index\Model\Resource\AbstractResource
         \Magento\App\Resource $resource,
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\LocaleInterface $locale,
+        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Catalog\Model\Product\Type $catalogProductType,
         \Magento\App\ConfigInterface $config,
         \Magento\Catalog\Model\Resource\Product\Indexer\Price\Factory $indexerPriceFactory,

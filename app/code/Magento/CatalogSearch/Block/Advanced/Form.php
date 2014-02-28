@@ -18,7 +18,7 @@
 namespace Magento\CatalogSearch\Block\Advanced;
 
 use Magento\CatalogSearch\Model\Advanced;
-use Magento\LocaleInterface;
+use Magento\Core\Model\LocaleInterface;
 use Magento\Data\Collection\Db;
 use Magento\Directory\Model\CurrencyFactory;
 use Magento\Eav\Model\Entity\Attribute\AbstractAttribute;

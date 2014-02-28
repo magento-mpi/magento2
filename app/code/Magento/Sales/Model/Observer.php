@@ -61,7 +61,7 @@ class Observer
     protected $_quoteCollectionFactory;
 
     /**
-     * @var \Magento\LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_coreLocale;
 
@@ -92,7 +92,7 @@ class Observer
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Model\Store\Config $storeConfig
      * @param \Magento\Sales\Model\Resource\Quote\CollectionFactory $quoteFactory
-     * @param \Magento\LocaleInterface $coreLocale
+     * @param \Magento\Core\Model\LocaleInterface $coreLocale
      * @param Resource\Report\OrderFactory $orderFactory
      * @param Resource\Report\InvoicedFactory $invoicedFactory
      * @param Resource\Report\RefundedFactory $refundedFactory
@@ -105,7 +105,7 @@ class Observer
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Model\Store\Config $storeConfig,
         \Magento\Sales\Model\Resource\Quote\CollectionFactory $quoteFactory,
-        \Magento\LocaleInterface $coreLocale,
+        \Magento\Core\Model\LocaleInterface $coreLocale,
         \Magento\Sales\Model\Resource\Report\OrderFactory $orderFactory,
         \Magento\Sales\Model\Resource\Report\InvoicedFactory $invoicedFactory,
         \Magento\Sales\Model\Resource\Report\RefundedFactory $refundedFactory,

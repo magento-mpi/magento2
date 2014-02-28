@@ -99,7 +99,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
     {
         $locale = $this->_model->getUserInterfaceLocale();
 
-        $this->assertEquals($locale, \Magento\LocaleInterface::DEFAULT_LOCALE);
+        $this->assertEquals($locale, \Magento\Core\Model\LocaleInterface::DEFAULT_LOCALE);
     }
 
     /**

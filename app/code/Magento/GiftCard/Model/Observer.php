@@ -76,7 +76,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
     /**
      * Locale
      *
-     * @var \Magento\LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
@@ -85,7 +85,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\View\LayoutInterface $layout
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Sales\Model\Resource\Order\Invoice\Item\CollectionFactory $itemsFactory
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder,
      * @param \Magento\Sales\Model\Order\InvoiceFactory $invoiceFactory
@@ -104,7 +104,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
         \Magento\Registry $registry,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\View\LayoutInterface $layout,
-        \Magento\LocaleInterface $locale,
+        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Sales\Model\Resource\Order\Invoice\Item\CollectionFactory $itemsFactory,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Sales\Model\Order\InvoiceFactory $invoiceFactory,

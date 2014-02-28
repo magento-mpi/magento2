@@ -10,7 +10,7 @@ namespace Magento\Customer\Model\Metadata\Form;
 /** Test Magento\Customer\Model\Metadata\Form\Multiline */
 abstract class AbstractFormTestCase extends \PHPUnit_Framework_TestCase
 {
-    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\LocaleInterface */
+    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Core\Model\LocaleInterface */
     protected $localeMock;
 
     /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Logger */
@@ -21,7 +21,7 @@ abstract class AbstractFormTestCase extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->localeMock = $this->getMockBuilder('Magento\LocaleInterface')->getMock();
+        $this->localeMock = $this->getMockBuilder('Magento\Core\Model\LocaleInterface')->getMock();
         $this->loggerMock = $this->getMockBuilder('Magento\Logger')->disableOriginalConstructor()->getMock();
         $this->attributeMetadataMock = $this->getMockBuilder('Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata')
             ->disableOriginalConstructor()

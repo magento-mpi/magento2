@@ -144,7 +144,7 @@ class Collection
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory
      * @param \Magento\Catalog\Model\Resource\Url $catalogUrl
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Search\Helper\Data $searchData
@@ -169,7 +169,7 @@ class Collection
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory,
         \Magento\Catalog\Model\Resource\Url $catalogUrl,
-        \Magento\LocaleInterface $locale,
+        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Search\Helper\Data $searchData,
@@ -401,7 +401,7 @@ class Collection
         $store  = $this->_storeManager->getStore();
         $params = array(
             'store_id'      => $store->getId(),
-            'locale_code'   => $store->getConfig(\Magento\LocaleInterface::XML_PATH_DEFAULT_LOCALE),
+            'locale_code'   => $store->getConfig(\Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_LOCALE),
             'filters'       => $this->_searchQueryFilters
         );
         $params['filters']     = $this->_searchQueryFilters;

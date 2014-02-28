@@ -17,7 +17,7 @@ class Text extends AbstractData
     protected $_string;
 
     /**
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Logger $logger
      * @param \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata $attribute
      * @param string $value
@@ -26,7 +26,7 @@ class Text extends AbstractData
      * @param \Magento\Stdlib\String $stringHelper
      */
     public function __construct(
-        \Magento\LocaleInterface $locale,
+        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Logger $logger,
         \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata $attribute,
         $value,

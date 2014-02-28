@@ -67,7 +67,7 @@ class RecurringProfile extends \Magento\Core\Model\AbstractModel
     protected $_fields;
 
     /**
-     * @var \Magento\LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
@@ -77,7 +77,7 @@ class RecurringProfile extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param PeriodUnits $periodUnits
      * @param \Magento\RecurringProfile\Block\Fields $fields
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -88,7 +88,7 @@ class RecurringProfile extends \Magento\Core\Model\AbstractModel
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\RecurringProfile\Model\PeriodUnits $periodUnits,
         \Magento\RecurringProfile\Block\Fields $fields,
-        \Magento\LocaleInterface $locale,
+        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -234,7 +234,7 @@ class RecurringProfile extends \Magento\Core\Model\AbstractModel
             if (!$this->_locale || !$this->_store) {
                 throw new \Exception('Locale and store instances must be set for this operation.');
             }
-            $dateFormat = $this->_locale->getDateTimeFormat(\Magento\LocaleInterface::FORMAT_TYPE_SHORT);
+            $dateFormat = $this->_locale->getDateTimeFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
             $localeCode = $this->_locale->getLocaleCode();
             if (!\Zend_Date::isDate($startDate, $dateFormat, $localeCode)) {
                 throw new \Magento\Core\Exception(__('The recurring profile start date has invalid format.'));
@@ -335,7 +335,7 @@ class RecurringProfile extends \Magento\Core\Model\AbstractModel
         }
         $date = $this->_locale->storeDate($this->_store, strtotime($datetime), true);
         return $date->toString(
-            $this->_locale->getDateTimeFormat(\Magento\LocaleInterface::FORMAT_TYPE_SHORT)
+            $this->_locale->getDateTimeFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT)
         );
     }
 

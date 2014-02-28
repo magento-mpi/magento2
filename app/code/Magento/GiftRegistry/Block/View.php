@@ -106,7 +106,7 @@ class View extends \Magento\GiftRegistry\Block\Customer\Items
     public function getFormattedDate($date)
     {
         if ($date) {
-            return $this->formatDate($date, \Magento\LocaleInterface::FORMAT_TYPE_MEDIUM);
+            return $this->formatDate($date, \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM);
         }
         return '';
     }

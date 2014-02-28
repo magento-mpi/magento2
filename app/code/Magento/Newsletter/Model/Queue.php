@@ -89,7 +89,7 @@ class Queue extends \Magento\Core\Model\Template
     /**
      * Locale
      *
-     * @var \Magento\LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
@@ -119,7 +119,7 @@ class Queue extends \Magento\Core\Model\Template
      * @param \Magento\Core\Model\App\Emulation $appEmulation
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Newsletter\Model\Template\Filter $templateFilter
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Core\Model\Date $date
      * @param \Magento\Newsletter\Model\TemplateFactory $templateFactory
      * @param \Magento\Newsletter\Model\ProblemFactory $problemFactory
@@ -134,7 +134,7 @@ class Queue extends \Magento\Core\Model\Template
         \Magento\Core\Model\App\Emulation $appEmulation,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Newsletter\Model\Template\Filter $templateFilter,
-        \Magento\LocaleInterface $locale,
+        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Core\Model\Date $date,
         \Magento\Newsletter\Model\TemplateFactory $templateFactory,
         \Magento\Newsletter\Model\ProblemFactory $problemFactory,
@@ -184,7 +184,7 @@ class Queue extends \Magento\Core\Model\Template
         if (is_null($startAt) || $startAt == '') {
             $this->setQueueStartAt(null);
         } else {
-            $format = $this->_locale->getDateTimeFormat(\Magento\LocaleInterface::FORMAT_TYPE_MEDIUM);
+            $format = $this->_locale->getDateTimeFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM);
             $time = $this->_locale->date($startAt, $format)->getTimestamp();
             $this->setQueueStartAt($this->_date->gmtDate(null, $time));
         }

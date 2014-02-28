@@ -70,7 +70,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
     /**
      * Core locale interface
      *
-     * @var \Magento\LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $locale;
 
@@ -260,7 +260,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Shipping\Model\ShippingFactory $shippingFactory
      * @param \Magento\Escaper $escaper
      * @param \Magento\Rma\Model\Resource\Rma $resource
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Message\ManagerInterface $messageManager
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -292,7 +292,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
         \Magento\Shipping\Model\ShippingFactory $shippingFactory,
         \Magento\Escaper $escaper,
         \Magento\Rma\Model\Resource\Rma $resource,
-        \Magento\LocaleInterface $locale,
+        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Message\ManagerInterface $messageManager,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()

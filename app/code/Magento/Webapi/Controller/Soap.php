@@ -53,7 +53,7 @@ class Soap implements \Magento\App\FrontControllerInterface
     protected $_oauthService;
 
     /**
-     * @var \Magento\LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
@@ -66,7 +66,7 @@ class Soap implements \Magento\App\FrontControllerInterface
      * @param \Magento\App\State $appState
      * @param \Magento\AppInterface $application
      * @param \Magento\Oauth\OauthInterface $oauthService
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Core\Model\LocaleInterface $locale
      */
     public function __construct(
         \Magento\Webapi\Controller\Soap\Request $request,
@@ -77,7 +77,7 @@ class Soap implements \Magento\App\FrontControllerInterface
         \Magento\App\State $appState,
         \Magento\AppInterface $application,
         \Magento\Oauth\OauthInterface $oauthService,
-        \Magento\LocaleInterface $locale
+        \Magento\Core\Model\LocaleInterface $locale
     ) {
         $this->_request = $request;
         $this->_response = $response;

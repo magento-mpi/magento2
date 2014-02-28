@@ -35,7 +35,7 @@ class Rule extends AbstractModel
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Rule\Model\Condition\CombineFactory $conditionsFactory
      * @param \Magento\Rule\Model\Action\CollectionFactory $actionsFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
@@ -46,7 +46,7 @@ class Rule extends AbstractModel
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
-        \Magento\LocaleInterface $locale,
+        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Rule\Model\Condition\CombineFactory $conditionsFactory,
         \Magento\Rule\Model\Action\CollectionFactory $actionsFactory,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,

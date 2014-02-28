@@ -33,7 +33,7 @@ abstract class AbstractReport extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_logger;
 
     /**
-     * @var \Magento\LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
@@ -45,7 +45,7 @@ abstract class AbstractReport extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * @param \Magento\App\Resource $resource
      * @param \Magento\Logger $logger
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Reports\Model\FlagFactory $reportsFlagFactory
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Stdlib\DateTime\Timezone\Validator $timezoneValidator
@@ -53,7 +53,7 @@ abstract class AbstractReport extends \Magento\Core\Model\Resource\Db\AbstractDb
     public function __construct(
         \Magento\App\Resource $resource,
         \Magento\Logger $logger,
-        \Magento\LocaleInterface $locale,
+        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Reports\Model\FlagFactory $reportsFlagFactory,
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Stdlib\DateTime\Timezone\Validator $timezoneValidator

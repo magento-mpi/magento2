@@ -35,7 +35,7 @@ class Datetime
             if (is_null(self::$_format)) {
                 try {
                     self::$_format = $this->_locale->getDateTimeFormat(
-                        \Magento\LocaleInterface::FORMAT_TYPE_MEDIUM
+                        \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM
                     );
                 }
                 catch (\Exception $e) {

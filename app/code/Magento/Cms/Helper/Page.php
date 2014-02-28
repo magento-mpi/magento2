@@ -51,7 +51,7 @@ class Page extends \Magento\App\Helper\AbstractHelper
     /**
      * Locale
      *
-     * @var \Magento\LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
@@ -87,7 +87,7 @@ class Page extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\View\DesignInterface $design
      * @param \Magento\Cms\Model\PageFactory $pageFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Escaper $escaper
      * @param \Magento\App\ViewInterface $view
      */
@@ -99,7 +99,7 @@ class Page extends \Magento\App\Helper\AbstractHelper
         \Magento\View\DesignInterface $design,
         \Magento\Cms\Model\PageFactory $pageFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\LocaleInterface $locale,
+        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Escaper $escaper,
         \Magento\App\ViewInterface $view
     ) {

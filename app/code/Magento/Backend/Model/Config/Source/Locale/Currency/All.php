@@ -18,14 +18,14 @@ class All implements \Magento\Option\ArrayInterface
     protected $_options;
 
     /**
-     * @var \Magento\LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Core\Model\LocaleInterface $locale
      */
-    public function __construct(\Magento\LocaleInterface $locale)
+    public function __construct(\Magento\Core\Model\LocaleInterface $locale)
     {
         $this->_locale = $locale;
     }

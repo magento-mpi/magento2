@@ -37,7 +37,7 @@ class File extends AbstractData
     protected $_fileSystem;
 
     /**
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Logger $logger
      * @param \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata $attribute
      * @param null $value
@@ -48,7 +48,7 @@ class File extends AbstractData
      * @param \Magento\App\Filesystem $fileSystem
      */
     public function __construct(
-        \Magento\LocaleInterface $locale,
+        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Logger $logger,
         \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata $attribute,
         $value = null,

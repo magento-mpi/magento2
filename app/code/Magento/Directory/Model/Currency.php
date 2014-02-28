@@ -24,7 +24,7 @@ class Currency extends \Magento\Core\Model\AbstractModel
 {
     /**
      * CONFIG path constants
-    */
+     */
     const XML_PATH_CURRENCY_ALLOW   = 'currency/options/allow';
     const XML_PATH_CURRENCY_DEFAULT = 'currency/options/default';
     const XML_PATH_CURRENCY_BASE    = 'currency/options/base';
@@ -42,7 +42,7 @@ class Currency extends \Magento\Core\Model\AbstractModel
     protected $_rates;
 
     /**
-     * @var \Magento\LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
@@ -64,7 +64,7 @@ class Currency extends \Magento\Core\Model\AbstractModel
     /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Directory\Helper\Data $directoryHelper
      * @param Currency\FilterFactory $currencyFilterFactory
@@ -75,7 +75,7 @@ class Currency extends \Magento\Core\Model\AbstractModel
     public function __construct(
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\LocaleInterface $locale,
+        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Directory\Helper\Data $directoryHelper,
         \Magento\Directory\Model\Currency\FilterFactory $currencyFilterFactory,
@@ -271,7 +271,7 @@ class Currency extends \Magento\Core\Model\AbstractModel
         }
         if ($includeContainer) {
             return '<span class="price">' . ($addBrackets ? '[' : '')
-                . $this->formatTxt($price, $options) . ($addBrackets ? ']' : '') . '</span>';
+            . $this->formatTxt($price, $options) . ($addBrackets ? ']' : '') . '</span>';
         }
         return $this->formatTxt($price, $options);
     }

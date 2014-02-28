@@ -9,10 +9,10 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
 {
     public function testFilter()
     {
-        $localeMock = $this->getMock('\Magento\LocaleInterface');
+        $localeMock = $this->getMock('\Magento\Core\Model\LocaleInterface');
         $localeMock->expects($this->once())
             ->method('getDateTimeFormat')
-            ->with(\Magento\LocaleInterface::FORMAT_TYPE_SHORT)
+            ->with(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT)
             ->will($this->returnValue('HH:mm:ss MM-dd-yyyy'));
         $model = new DateTime($localeMock);
         // Check that datetime is converted to 'yyyy-MM-dd HH:mm:ss' format

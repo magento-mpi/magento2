@@ -167,7 +167,7 @@ class Special extends \Magento\Rss\Block\Catalog\AbstractCatalog
                         if ($result['use_special']) {
                             $special = '<br />' . __('Special Expires On: %1',
                                     $this->formatDate($result['special_to_date'],
-                                        \Magento\LocaleInterface::FORMAT_TYPE_MEDIUM));
+                                        \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM));
                         }
                         $html .= sprintf('<p>%s %s%s</p>',
                             __('Price: %1', $this->_coreData->currency($result['price'])),

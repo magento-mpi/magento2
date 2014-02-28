@@ -10,7 +10,7 @@
  */
 namespace Magento\Core\Filter;
 
-use Magento\LocaleInterface;
+use Magento\Core\Model\LocaleInterface;
 
 class Date implements \Zend_Filter_Interface
 {
@@ -29,7 +29,7 @@ class Date implements \Zend_Filter_Interface
     protected $_normalToLocalFilter;
 
     /**
-     * @param \Magento\LocaleInterface $locale
+     * @param LocaleInterface $locale
      */
     public function __construct(
         LocaleInterface $locale

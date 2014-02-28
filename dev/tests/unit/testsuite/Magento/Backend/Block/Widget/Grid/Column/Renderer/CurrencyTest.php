@@ -56,7 +56,7 @@ class CurrencyTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_storeManagerMock = $this->getMock('Magento\Core\Model\StoreManagerInterface');
-        $this->_localeMock = $this->getMock('Magento\LocaleInterface');
+        $this->_localeMock = $this->getMock('Magento\Core\Model\LocaleInterface');
         $this->_requestMock = $this->getMock('Magento\App\RequestInterface');
 
         $this->_curLocatorMock = $this->getMock(

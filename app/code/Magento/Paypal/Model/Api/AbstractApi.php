@@ -99,7 +99,7 @@ abstract class AbstractApi extends \Magento\Object
     protected $_logger;
 
     /**
-     * @var \Magento\LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
@@ -121,7 +121,7 @@ abstract class AbstractApi extends \Magento\Object
      *
      * @param \Magento\Customer\Helper\Address $customerAddress
      * @param \Magento\Logger $logger
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Logger\AdapterFactory $logAdapterFactory
      * @param array $data
@@ -129,7 +129,7 @@ abstract class AbstractApi extends \Magento\Object
     public function __construct(
         \Magento\Customer\Helper\Address $customerAddress,
         \Magento\Logger $logger,
-        \Magento\LocaleInterface $locale,
+        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Logger\AdapterFactory $logAdapterFactory,
         array $data = array()

@@ -174,7 +174,7 @@ class Form
     public function getCreatedAt()
     {
         return $this->formatDate($this->getEntity()->getCreatedAt(),
-            \Magento\LocaleInterface::FORMAT_TYPE_MEDIUM, true
+            \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM, true
         );
     }
 

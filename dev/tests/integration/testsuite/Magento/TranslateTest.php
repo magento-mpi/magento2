@@ -79,7 +79,7 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
                 $objectManager->get('Magento\App\ConfigInterface'),
                 $objectManager->get('Magento\Core\Model\Store\Config'),
                 $objectManager->get('Magento\Core\Model\ThemeFactory'),
-                $objectManager->get('Magento\LocaleInterface'),
+                $objectManager->get('Magento\Core\Model\LocaleInterface'),
                 $objectManager->get('Magento\App\State'),
                 array('frontend' => 'test_default')
             )

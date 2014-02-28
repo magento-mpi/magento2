@@ -94,7 +94,7 @@ class Currencysymbol
     protected $_storeManager;
 
     /**
-     * @var \Magento\LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
@@ -116,7 +116,7 @@ class Currencysymbol
      * @param \Magento\Backend\Model\Config\Factory $configFactory
      * @param \Magento\App\Cache\TypeListInterface $cacheTypeList
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Core\Model\System\Store $systemStore
      * @param \Magento\Event\ManagerInterface $eventManager
      */
@@ -126,7 +126,7 @@ class Currencysymbol
         \Magento\Backend\Model\Config\Factory $configFactory,
         \Magento\App\Cache\TypeListInterface $cacheTypeList,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\LocaleInterface $locale,
+        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Core\Model\System\Store $systemStore,
         \Magento\Event\ManagerInterface $eventManager
     ) {

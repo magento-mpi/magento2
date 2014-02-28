@@ -74,7 +74,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
     {
         $this->_initTestTheme($allowDuplication);
 
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\LocaleInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\LocaleInterface')
             ->setLocale($locale);
         $url = $this->viewUrl->getViewFileUrl($file);
         $this->assertStringEndsWith($expectedUrl, $url);

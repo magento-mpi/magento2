@@ -16,7 +16,7 @@ class Observer
     /**
      * Locale model
      *
-     * @var \Magento\LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
@@ -55,7 +55,7 @@ class Observer
     protected $_quoteImporter;
 
     /**
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param RecurringProfileFactory $recurringProfileFactory
      * @param \Magento\View\Element\BlockFactory $blockFactory
@@ -64,7 +64,7 @@ class Observer
      * @param QuoteImporter $quoteImporter
      */
     public function __construct(
-        \Magento\LocaleInterface $locale,
+        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\RecurringProfile\Model\RecurringProfileFactory $recurringProfileFactory,
         \Magento\View\Element\BlockFactory $blockFactory,

@@ -86,7 +86,7 @@ class Newsletter extends \Magento\Backend\Block\Widget\Form\Generic
         $subscriber = $this->_coreRegistry->registry('subscriber');
         if($subscriber->getChangeStatusAt()) {
             return $this->formatDate(
-                $subscriber->getChangeStatusAt(), \Magento\LocaleInterface::FORMAT_TYPE_MEDIUM, true
+                $subscriber->getChangeStatusAt(), \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM, true
             );
         }
 

@@ -18,7 +18,7 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
      */
     public function testInit($area, $expectedScope)
     {
-        $localeMock = $this->getMock('\Magento\LocaleInterface');
+        $localeMock = $this->getMock('\Magento\Core\Model\LocaleInterface');
         $appMock = $this->getMock('\Magento\AppInterface', array(), array(), '', false);
         $appStateMock = $this->getMock('\Magento\App\State', array(), array(), '', false);
         $appStateMock->expects($this->any())
