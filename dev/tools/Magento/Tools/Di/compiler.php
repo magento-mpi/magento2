@@ -42,7 +42,6 @@ try {
     $compilationDirs = array(
         $rootDir . '/app/code',
         $rootDir . '/lib/Magento',
-        $generationDir,
     );
 
     /** @var Writer\WriterInterface $logWriter Writer model for success messages */
@@ -80,7 +79,14 @@ try {
         null,
         $generationDir
     );
-    $generator = new \Magento\Code\Generator(null, null, $generatorIo);
+    $generator = new \Magento\Code\Generator(null, $generatorIo, array(
+        \Magento\Interception\Code\Generator\Interceptor::ENTITY_TYPE
+            => 'Magento\Interception\Code\Generator\Interceptor',
+        \Magento\ObjectManager\Code\Generator\Proxy::ENTITY_TYPE
+            => 'Magento\ObjectManager\Code\Generator\Proxy',
+        \Magento\ObjectManager\Code\Generator\Factory::ENTITY_TYPE
+            => 'Magento\ObjectManager\Code\Generator\Factory',
+    ));
     foreach (array('php', 'additional') as $type) {
         sort($entities[$type]);
         foreach ($entities[$type] as $entityName) {
@@ -133,9 +139,8 @@ try {
         }
     }
 
-
     //2.1.2 Compile definitions for Proxy/Interceptor classes
-    $directoryCompiler->compile($generationDir);
+    $directoryCompiler->compile($generationDir, false);
 
     list($definitions, $relations) = $directoryCompiler->getResult();
 
@@ -155,9 +160,10 @@ try {
     $pluginScanner->addChild(new Scanner\PluginScanner(), 'di');
     $pluginDefinitions = array();
     $pluginList = $pluginScanner->collectEntities($files);
+    $pluginDefinitionList = new \Magento\Interception\Definition\Runtime();
     foreach ($pluginList as $type => $entityList) {
         foreach ($entityList as $entity) {
-            $pluginDefinitions[$entity] = get_class_methods($entity);
+            $pluginDefinitions[$entity] = $pluginDefinitionList->getMethodList($entity);
         }
     }
 

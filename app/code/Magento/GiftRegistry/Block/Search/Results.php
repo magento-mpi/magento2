@@ -49,7 +49,7 @@ class Results extends \Magento\View\Element\Template
     public function getFormattedDate($item)
     {
         if ($item->getEventDate()) {
-            return $this->formatDate($item->getEventDate(), \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM);
+            return $this->formatDate($item->getEventDate(), \Magento\LocaleInterface::FORMAT_TYPE_MEDIUM);
         }
     }
 }

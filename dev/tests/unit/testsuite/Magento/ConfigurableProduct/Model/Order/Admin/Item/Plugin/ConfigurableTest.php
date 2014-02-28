@@ -26,24 +26,32 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
     protected $itemMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \Closure
      */
-    protected $invocationChainMock;
+    protected $closureMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $productMock;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $subjectMock;
+
     protected function setUp()
     {
         $this->itemMock =
             $this->getMock('Magento\Sales\Model\Order\Item', array('getProductType', 'getProductOptions', '__wakeup'),
                 array(), '', false);
-        $this->invocationChainMock = $this->getMock('Magento\Code\Plugin\InvocationChain', array(), array(), '', false);
+        $this->closureMock = function () {
+            return 'Expected';
+        };
         $this->productFactoryMock =
             $this->getMock('Magento\Catalog\Model\ProductFactory', array('create'));
         $this->productMock = $this->getMock('Magento\Catalog\Model\Product', array(), array(), '', false);
+        $this->subjectMock = $this->getMock('Magento\Sales\Model\Order\Admin\Item', array(), array(), '', false);
         $this->configurable = new \Magento\ConfigurableProduct\Model\Order\Admin\Item\Plugin\Configurable(
             $this->productFactoryMock
         );
@@ -59,9 +67,8 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('getProductOptions')
             ->will($this->returnValue(array('simple_name' => 'simpleName')));
-        $this->invocationChainMock->expects($this->never())->method('proceed');
         $this->assertEquals('simpleName',
-            $this->configurable->aroundGetName(array($this->itemMock), $this->invocationChainMock));
+            $this->configurable->aroundGetName($this->subjectMock, $this->closureMock, $this->itemMock));
     }
 
     public function testAroundGetNameIfProductIsSimple()
@@ -73,8 +80,8 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
         $this->itemMock
             ->expects($this->never())
             ->method('getProductOptions');
-        $this->invocationChainMock->expects($this->once())->method('proceed')->with(array($this->itemMock));
-        $this->configurable->aroundGetName(array($this->itemMock), $this->invocationChainMock);
+        $this->assertEquals('Expected',
+            $this->configurable->aroundGetName($this->subjectMock, $this->closureMock, $this->itemMock));
     }
 
     public function testAroundGetSkuIfProductIsConfigurable()
@@ -87,9 +94,8 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('getProductOptions')
             ->will($this->returnValue(array('simple_sku' => 'simpleName')));
-        $this->invocationChainMock->expects($this->never())->method('proceed');
         $this->assertEquals('simpleName',
-            $this->configurable->aroundGetSku(array($this->itemMock), $this->invocationChainMock)
+            $this->configurable->aroundGetSku($this->subjectMock, $this->closureMock, $this->itemMock)
         );
     }
 
@@ -102,8 +108,9 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
         $this->itemMock
             ->expects($this->never())
             ->method('getProductOptions');
-        $this->invocationChainMock->expects($this->once())->method('proceed')->with(array($this->itemMock));
-        $this->configurable->aroundGetSku(array($this->itemMock), $this->invocationChainMock);
+        $this->assertEquals('Expected',
+            $this->configurable->aroundGetSku($this->subjectMock, $this->closureMock, $this->itemMock)
+        );
     }
 
     public function testAroundGetProductIdIfProductIsConfigurable()
@@ -125,9 +132,8 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
             ->method('getIdBySku')
             ->with('simpleName')
             ->will($this->returnValue('id'));
-        $this->invocationChainMock->expects($this->never())->method('proceed');
         $this->assertEquals('id',
-            $this->configurable->aroundGetProductId(array($this->itemMock), $this->invocationChainMock)
+            $this->configurable->aroundGetProductId($this->subjectMock, $this->closureMock, $this->itemMock)
         );
     }
 
@@ -140,7 +146,7 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
         $this->itemMock
             ->expects($this->never())
             ->method('getProductOptions');
-        $this->invocationChainMock->expects($this->once())->method('proceed')->with(array($this->itemMock));
-        $this->configurable->aroundGetProductId(array($this->itemMock), $this->invocationChainMock);
+        $this->assertEquals('Expected',
+            $this->configurable->aroundGetProductId($this->subjectMock, $this->closureMock, $this->itemMock));
     }
 }

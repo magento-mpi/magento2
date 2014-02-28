@@ -118,7 +118,9 @@ class Tracking extends \Magento\App\Action\Action
     protected function _loadValidRma($entityId = null)
     {
         if (!$this->_objectManager->get('Magento\Customer\Model\Session')->isLoggedIn()
-            && !$this->_objectManager->get('Magento\Sales\Helper\Guest')->loadValidOrder()
+            && !$this->_objectManager->get('Magento\Sales\Helper\Guest')->loadValidOrder(
+                $this->_request, $this->_response
+            )
         ) {
             return;
         }

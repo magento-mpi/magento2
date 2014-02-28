@@ -41,7 +41,7 @@ class Track extends \Magento\Sales\Model\Order\Shipment\Track
     /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Core\Model\LocaleInterface $coreLocale
+     * @param \Magento\LocaleInterface $coreLocale
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Sales\Model\Order\ShipmentFactory $shipmentFactory
@@ -55,7 +55,7 @@ class Track extends \Magento\Sales\Model\Order\Shipment\Track
     public function __construct(
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\Core\Model\LocaleInterface $coreLocale,
+        \Magento\LocaleInterface $coreLocale,
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Sales\Model\Order\ShipmentFactory $shipmentFactory,

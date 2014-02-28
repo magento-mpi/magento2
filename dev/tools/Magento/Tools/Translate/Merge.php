@@ -168,7 +168,7 @@ OPTIONAL PARAMETRS:
         }
         $this->_csv->saveData($this->_args['mf'], $outData);
 
-        print 'RESULT
+        echo 'RESULT
 -------------------------------------------------------------------------------
 modules on translate file:  '.count($result['translate_modules']).'
 string on translate file:   '.$result['translate_string'].'
