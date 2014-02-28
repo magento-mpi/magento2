@@ -39,14 +39,14 @@ class Config implements \Magento\View\ConfigInterface
     /**
      * View service
      *
-     * @var \Magento\View\Service
+     * @var Service
      */
     protected $viewService;
 
     /**
      * View file system model
      *
-     * @var \Magento\View\FileSystem
+     * @var FileSystem
      */
     protected $viewFileSystem;
 
@@ -69,16 +69,16 @@ class Config implements \Magento\View\ConfigInterface
      *
      * @param \Magento\Module\Dir\Reader $moduleReader
      * @param \Magento\App\Filesystem $filesystem
-     * @param \Magento\View\Service  $viewService
-     * @param \Magento\View\FileSystem $viewFileSystem
+     * @param Service  $viewService
+     * @param FileSystem $viewFileSystem
      * @param \Magento\Config\FileIteratorFactory $fileIteratorFactory
      * @param string $filename
      */
     public function __construct(
         \Magento\Module\Dir\Reader $moduleReader,
         \Magento\App\Filesystem $filesystem,
-        \Magento\View\Service $viewService,
-        \Magento\View\FileSystem $viewFileSystem,
+        Service $viewService,
+        FileSystem $viewFileSystem,
         \Magento\Config\FileIteratorFactory $fileIteratorFactory,
         $filename = self::CONFIG_FILE_NAME
     ) {
@@ -106,15 +106,12 @@ class Config implements \Magento\View\ConfigInterface
             return $this->viewConfigs[$key];
         }
 
-        $configFiles = $this->moduleReader->getConfigurationFiles($this->filename)->toArray();
-
+        $configFiles = $this->moduleReader->getConfigurationFiles(basename($this->filename))->toArray();
         $themeConfigFile = $currentTheme->getCustomization()->getCustomViewConfigPath();
         if (empty($themeConfigFile) ||
             !$this->rootDirectory->isExist($this->rootDirectory->getRelativePath($themeConfigFile))
         ) {
-            $themeConfigFile = $this->viewFileSystem->getFilename(
-                $this->filename, $params
-            );
+            $themeConfigFile = $this->viewFileSystem->getFilename($this->filename, $params);
         }
         if ($themeConfigFile &&
             $this->rootDirectory->isExist($this->rootDirectory->getRelativePath($themeConfigFile))

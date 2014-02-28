@@ -40,11 +40,6 @@ use Magento\View\Design\ThemeInterface;
 class Theme extends AbstractModel implements ThemeInterface
 {
     /**
-     * Filename of view configuration
-     */
-    const FILENAME_VIEW_CONFIG = 'view.xml';
-
-    /**
      * {@inheritdoc}
      *
      * @var string
