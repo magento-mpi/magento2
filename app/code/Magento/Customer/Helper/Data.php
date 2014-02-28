@@ -329,19 +329,19 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getLoginUrlParams()
     {
-        $params = array();
+        $params = [];
 
         $referer = $this->_getRequest()->getParam(self::REFERER_QUERY_PARAM_NAME);
 
         if (!$referer && !$this->_coreStoreConfig->getConfigFlag(self::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD)
             && !$this->_customerSession->getNoReferer()
         ) {
-            $referer = $this->_getUrl('*/*/*', array('_current' => true, '_use_rewrite' => true));
+            $referer = $this->_getUrl('*/*/*', ['_current' => true, '_use_rewrite' => true]);
             $referer = $this->_coreData->urlEncode($referer);
         }
 
         if ($referer) {
-            $params = array(self::REFERER_QUERY_PARAM_NAME => $referer);
+            $params = [self::REFERER_QUERY_PARAM_NAME => $referer];
         }
 
         return $params;
@@ -354,11 +354,13 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getLoginPostUrl()
     {
-        $params = array();
+        $params = [];
         if ($this->_getRequest()->getParam(self::REFERER_QUERY_PARAM_NAME)) {
-            $params = array(
-                self::REFERER_QUERY_PARAM_NAME => $this->_getRequest()->getParam(self::REFERER_QUERY_PARAM_NAME)
-            );
+            $params = [
+                self::REFERER_QUERY_PARAM_NAME => $this->_getRequest()->getParam(
+                        self::REFERER_QUERY_PARAM_NAME
+                    )
+            ];
         }
         return $this->_getUrl('customer/account/loginPost', $params);
     }
@@ -463,7 +465,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getEmailConfirmationUrl($email = null)
     {
-        return $this->_getUrl('customer/account/confirmation', array('email' => $email));
+        return $this->_getUrl('customer/account/confirmation', ['email' => $email]);
     }
 
     /**
@@ -514,7 +516,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         if (empty($options)) {
             return false;
         }
-        $result = array();
+        $result = [];
         $options = explode(';', $options);
         foreach ($options as $value) {
             $value = $this->_escaper->escapeHtml(trim($value));
@@ -571,12 +573,12 @@ class Data extends \Magento\App\Helper\AbstractHelper
 
         $vatClass = $this->getCustomerVatClass($customerCountryCode, $vatValidationResult, $store);
 
-        $vatClassToGroupXmlPathMap = array(
+        $vatClassToGroupXmlPathMap = [
             self::VAT_CLASS_DOMESTIC => self::XML_PATH_CUSTOMER_VIV_DOMESTIC_GROUP,
             self::VAT_CLASS_INTRA_UNION => self::XML_PATH_CUSTOMER_VIV_INTRA_UNION_GROUP,
             self::VAT_CLASS_INVALID => self::XML_PATH_CUSTOMER_VIV_INVALID_GROUP,
             self::VAT_CLASS_ERROR => self::XML_PATH_CUSTOMER_VIV_ERROR_GROUP
-        );
+        ];
 
         if (isset($vatClassToGroupXmlPathMap[$vatClass])) {
             $groupId = (int)$this->_coreStoreConfig->getConfig($vatClassToGroupXmlPathMap[$vatClass], $store);
@@ -598,12 +600,12 @@ class Data extends \Magento\App\Helper\AbstractHelper
     public function checkVatNumber($countryCode, $vatNumber, $requesterCountryCode = '', $requesterVatNumber = '')
     {
         // Default response
-        $gatewayResponse = new \Magento\Object(array(
+        $gatewayResponse = new \Magento\Object([
             'is_valid' => false,
             'request_date' => '',
             'request_identifier' => '',
             'request_success' => false
-        ));
+        ]);
 
         if (!extension_loaded('soap')) {
             $this->_logger->logException(new \Magento\Core\Exception(__('PHP SOAP extension is required.')));
@@ -617,11 +619,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
         try {
             $soapClient = $this->_createVatNumberValidationSoapClient();
 
-            $requestParams = array();
+            $requestParams = [];
             $requestParams['countryCode'] = $countryCode;
-            $requestParams['vatNumber'] = str_replace(array(' ', '-'), array('', ''), $vatNumber);
+            $requestParams['vatNumber'] = str_replace([' ', '-'], ['', ''], $vatNumber);
             $requestParams['requesterCountryCode'] = $requesterCountryCode;
-            $requestParams['requesterVatNumber'] = str_replace(array(' ', '-'), array('', ''), $requesterVatNumber);
+            $requestParams['requesterVatNumber'] = str_replace([' ', '-'], ['', ''], $requesterVatNumber);
 
             // Send request to service
             $result = $soapClient->checkVatApprox($requestParams);
@@ -712,7 +714,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     protected function _createVatNumberValidationSoapClient($trace = false)
     {
-        return new \SoapClient(self::VAT_VALIDATION_WSDL_URL, array('trace' => $trace));
+        return new \SoapClient(self::VAT_VALIDATION_WSDL_URL, ['trace' => $trace]);
     }
 
     /**
@@ -727,7 +729,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @return array Filtered customer data
      */
     public function extractCustomerData(\Magento\App\RequestInterface $request, $formCode, $entity,
-        $additionalAttributes = array(), $scope = null, \Magento\Customer\Model\Metadata\Form $metadataForm = null
+        $additionalAttributes = [], $scope = null, \Magento\Customer\Model\Metadata\Form $metadataForm = null
     ) {
         if (is_null($metadataForm)) {
             $metadataForm = $this->_formFactory->create(
@@ -779,7 +781,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getSharedStoreIds($customerWebsiteId)
     {
-        $ids = array();
+        $ids = [];
         if ((bool)$this->_configShare->isWebsiteScope()) {
             $ids = $this->_storeManager->getWebsite($customerWebsiteId)->getStoreIds();
         } else {
