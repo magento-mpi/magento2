@@ -2,17 +2,10 @@
 /**
  * {license_notice}
  *
- * @category   Magento
- * @package    Magento_File
  * @copyright  {copyright}
  * @license    {license_link}
  */
 
-/**
- * Csv parse
- *
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\File\Transfer\Adapter;
 
 class Http

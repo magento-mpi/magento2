@@ -97,7 +97,7 @@ class Publisher implements FilesManagerInterface
      */
     public function getPublicViewFile($filePath, array $params)
     {
-        $sourceFile = $this->getSourceFileContainer($filePath, $params);
+        $sourceFile = $this->getPreProcessedFileObject($filePath, $params);
 
         if (!$sourceFile->isPublicationAllowed()) {
             return $sourceFile->getSourcePath();
@@ -112,7 +112,7 @@ class Publisher implements FilesManagerInterface
      */
     public function getViewFile($file, array $params = array())
     {
-        $readyFile = $this->getSourceFileContainer($file, $params);
+        $readyFile = $this->getPreProcessedFileObject($file, $params);
         return $readyFile->getSourcePath();
     }
 
@@ -124,7 +124,7 @@ class Publisher implements FilesManagerInterface
      * @return Publisher\FileInterface
      * @throws \Magento\Exception
      */
-    protected function getSourceFileContainer($file, array $params = array())
+    protected function getPreProcessedFileObject($file, array $params = array())
     {
         $fileContainer = $this->fileFactory->create($file, $params);
 

@@ -40,6 +40,16 @@ class StaticResourceTest extends \PHPUnit_Framework_TestCase
     private $themeList;
 
     /**
+     * @var \Magento\ObjectManager|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $objectManager;
+
+    /**
+     * @var \Magento\App\ObjectManager\ConfigLoader|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $configLoader;
+
+    /**
      * @var \Magento\App\StaticResource
      */
     private $object;
@@ -52,11 +62,8 @@ class StaticResourceTest extends \PHPUnit_Framework_TestCase
         $this->fileResolver = $this->getMock('Magento\View\FileResolver', array(), array(), '', false);
         $this->moduleList = $this->getMock('Magento\Module\ModuleList', array(), array(), '', false);
         $this->themeList = $this->getMockForAbstractClass('Magento\View\Design\Theme\ListInterface');
-        $objectManager = $this->getMockForAbstractClass('Magento\ObjectManager');
-        $configLoader = $this->getMock('Magento\App\ObjectManager\ConfigLoader', array(), array(), '', false);
-        $configLoader->expects($this->any())
-            ->method('load')
-            ->will($this->returnValue(array()));
+        $this->objectManager = $this->getMockForAbstractClass('Magento\ObjectManager');
+        $this->configLoader = $this->getMock('Magento\App\ObjectManager\ConfigLoader', array(), array(), '', false);
         $this->object = new \Magento\App\StaticResource(
             $this->state,
             $this->response,
@@ -64,8 +71,8 @@ class StaticResourceTest extends \PHPUnit_Framework_TestCase
             $this->fileResolver,
             $this->moduleList,
             $this->themeList,
-            $objectManager,
-            $configLoader
+            $this->objectManager,
+            $this->configLoader
         );
     }
 
@@ -107,6 +114,16 @@ class StaticResourceTest extends \PHPUnit_Framework_TestCase
         $this->state->expects($this->once())
             ->method('getMode')
             ->will($this->returnValue($mode));
+        $this->state->expects($this->once())
+            ->method('setAreaCode')
+            ->with('area');
+        $this->configLoader->expects($this->once())
+            ->method('load')
+            ->with('area')
+            ->will($this->returnValue(array('config')));
+        $this->objectManager->expects($this->once())
+            ->method('configure')
+            ->with(array('config'));
         $this->request->expects($this->once())
             ->method('get')
             ->with('resource')
@@ -153,7 +170,7 @@ class StaticResourceTest extends \PHPUnit_Framework_TestCase
                 'area/theme',
                 'getPublicViewFile',
                 'Namespace_Module',
-                true,
+                array('some data'),
                 'dir/file.js',
                 array('area' => 'area', 'locale' => 'locale', 'module' => 'Namespace_Module'),
             ),
@@ -185,6 +202,10 @@ class StaticResourceTest extends \PHPUnit_Framework_TestCase
         $this->state->expects($this->once())
             ->method('getMode')
             ->will($this->returnValue(\Magento\App\State::MODE_DEVELOPER));
+        $this->configLoader->expects($this->once())
+            ->method('load')
+            ->with('area')
+            ->will($this->returnValue(array('config')));
         $this->request->expects($this->once())
             ->method('get')
             ->with('resource')
