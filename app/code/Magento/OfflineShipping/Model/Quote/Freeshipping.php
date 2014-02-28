@@ -9,14 +9,14 @@
  */
 
 
-namespace Magento\SalesRule\Model\Quote;
+namespace Magento\OfflineShipping\Model\Quote;
 
 class Freeshipping extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 {
     /**
      * Discount calculation object
      *
-     * @var \Magento\SalesRule\Model\Validator
+     * @var \Magento\OfflineShipping\Model\SalesRule\Calculator
      */
     protected $_calculator;
 
@@ -27,22 +27,22 @@ class Freeshipping extends \Magento\Sales\Model\Quote\Address\Total\AbstractTota
 
     /**
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\SalesRule\Model\Validator $validator
+     * @param \Magento\OfflineShipping\Model\SalesRule\Calculator $calculator
      */
     public function __construct(
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\SalesRule\Model\Validator $validator
+        \Magento\OfflineShipping\Model\SalesRule\Calculator $calculator
     ) {
         $this->setCode('discount');
-        $this->_calculator = $validator;
         $this->_storeManager = $storeManager;
+        $this->_calculator = $calculator;
     }
 
     /**
      * Collect information about free shipping for all address items
      *
      * @param   \Magento\Sales\Model\Quote\Address $address
-     * @return  \Magento\SalesRule\Model\Quote\Freeshipping
+     * @return  \Magento\OfflineShipping\Model\Quote\Freeshipping
      */
     public function collect(\Magento\Sales\Model\Quote\Address $address)
     {
@@ -97,11 +97,10 @@ class Freeshipping extends \Magento\Sales\Model\Quote\Address\Total\AbstractTota
     * By default we not present such information
     *
     * @param   \Magento\Sales\Model\Quote\Address $address
-    * @return  \Magento\SalesRule\Model\Quote\Freeshipping
+    * @return  \Magento\OfflineShipping\Model\Quote\Freeshipping
     */
     public function fetch(\Magento\Sales\Model\Quote\Address $address)
     {
         return $this;
     }
-
 }
