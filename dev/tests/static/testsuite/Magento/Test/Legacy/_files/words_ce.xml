@@ -68,6 +68,7 @@
             <path>dev/tests/static/testsuite/Magento/Test/Legacy/_files/obsolete_constants.php</path>
             <word>overriden</word>
             <word>base_lib_url</word>
+            <word>base_cache_url</word>
         </item>
         <item>
             <path>dev/tests/static/testsuite/Magento/Test/Legacy/_files/obsolete_config_nodes.php</path>
