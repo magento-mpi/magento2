@@ -10,7 +10,6 @@
 
 namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shipping;
 
-use Magento\Usps\Model\Carrier;
 use Magento\Shipping\Model\Carrier\Source\GenericInterface;
 
 /**
@@ -47,7 +46,7 @@ class Packaging extends \Magento\Backend\Block\Template
     protected $_orderFactory;
 
     /**
-     * Usps shipping carrier size
+     * Shipping carrier size
      *
      * @var \Magento\Shipping\Model\Carrier\Source\GenericInterface
      */

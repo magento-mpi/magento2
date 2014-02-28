@@ -33,6 +33,8 @@
                 <max_package_weight>70</max_package_weight>
                 <handling_type>F</handling_type>
                 <handling_action>O</handling_action>
+                <active_rma>0</active_rma>
+                <is_online>1</is_online>
             </usps>
         </carriers>
     </default>
