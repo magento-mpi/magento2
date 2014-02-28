@@ -16,9 +16,9 @@ use Magento\Theme\Block\Html\Head\AssetBlockInterface;
 class Config extends \Magento\View\Element\AbstractBlock implements AssetBlockInterface
 {
     /**
-     * @var \Magento\View\Asset\RemoteFactory
+     * @var \Magento\View\Asset\PublicFileFactory
      */
-    private $remoteAssetFactory;
+    private $publicAssetFactory;
 
     /**
      * @var \Magento\RequireJs\Config
@@ -26,19 +26,19 @@ class Config extends \Magento\View\Element\AbstractBlock implements AssetBlockIn
     private $requirejsConfig;
 
     /**
-     * @param \Magento\View\Element\Context|\Magento\View\Element\Template\Context $context
-     * @param \Magento\View\Asset\RemoteFactory $remoteFactory
+     * @param \Magento\View\Element\Context $context
+     * @param \Magento\View\Asset\PublicFileFactory $publicAssetFactory
      * @param \Magento\RequireJs\Config $requirejsConfig
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        \Magento\View\Asset\RemoteFactory $remoteFactory,
+        \Magento\View\Element\Context $context,
+        \Magento\View\Asset\PublicFileFactory $publicAssetFactory,
         \Magento\RequireJs\Config $requirejsConfig,
         array $data = array()
     ) {
         parent::__construct($context, $data);
-        $this->remoteAssetFactory = $remoteFactory;
+        $this->publicAssetFactory = $publicAssetFactory;
         $this->requirejsConfig = $requirejsConfig;
     }
 
@@ -50,10 +50,9 @@ class Config extends \Magento\View\Element\AbstractBlock implements AssetBlockIn
     public function getAsset()
     {
         $config = $this->requirejsConfig->getPathsUpdaterJs() . $this->requirejsConfig->getConfig();
-        $this->requirejsConfig->crateConfigFile($config);
 
-        $asset = $this->remoteAssetFactory->create(array(
-            'url'         => $this->requirejsConfig->getConfigUrl(),
+        $asset = $this->publicAssetFactory->create(array(
+            'file'        => $this->requirejsConfig->crateConfigFile($config),
             'contentType' => \Magento\View\Publisher::CONTENT_TYPE_JS,
         ));
         $this->setData('asset', $asset);

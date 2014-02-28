@@ -97,9 +97,10 @@ class Config
     }
 
     /**
-     * Save configuration into public file
+     * Save configuration into public file and return path to it
      *
      * @param string $content
+     * @return string
      */
     public function crateConfigFile($content)
     {
@@ -109,6 +110,7 @@ class Config
 
         $viewDir = $this->appFilesystem->getDirectoryWrite(\Magento\App\Filesystem::STATIC_VIEW_DIR);
         $viewDir->writeFile($relPath, $content);
+        return $viewDir->getAbsolutePath($relPath);
     }
 
     /**
