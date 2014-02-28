@@ -8,7 +8,7 @@
 
 namespace Magento\View\Layout\File;
 
-use Magento\View\Layout\File;
+use Magento\View\File;
 use Magento\View\Layout\File\FileList\CollateInterface;
 
 /**

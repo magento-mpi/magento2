@@ -6,12 +6,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\View\Layout\File\Source\Decorator;
+namespace Magento\View\File\Source\Decorator;
 
 class ModuleDependencyTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\View\Layout\File\Source\Decorator\ModuleDependency
+     * @var \Magento\View\File\Source\Decorator\ModuleDependency
      */
     private $_model;
 
@@ -39,10 +39,10 @@ class ModuleDependencyTest extends \PHPUnit_Framework_TestCase
             ),
         );
 
-        $this->_fileSource = $this->getMockForAbstractClass('Magento\View\Layout\File\SourceInterface');
+        $this->_fileSource = $this->getMockForAbstractClass('Magento\View\File\SourceInterface');
         $this->_moduleListMock = $this->getMock('Magento\Module\ModuleListInterface');
         $this->_moduleListMock->expects($this->any())->method('getModules')->will($this->returnValue($modulesConfig));
-        $this->_model = new \Magento\View\Layout\File\Source\Decorator\ModuleDependency(
+        $this->_model = new \Magento\View\File\Source\Decorator\ModuleDependency(
             $this->_fileSource, $this->_moduleListMock
         );
     }
@@ -67,12 +67,12 @@ class ModuleDependencyTest extends \PHPUnit_Framework_TestCase
 
     public function getFilesDataProvider()
     {
-        $fileOne = new \Magento\View\Layout\File('b.xml', 'Fixture_ModuleB');
-        $fileTwo = new \Magento\View\Layout\File('a.xml', 'Fixture_ModuleA');
-        $fileThree = new \Magento\View\Layout\File('b.xml', 'Fixture_ModuleA');
+        $fileOne = new \Magento\View\File('b.xml', 'Fixture_ModuleB');
+        $fileTwo = new \Magento\View\File('a.xml', 'Fixture_ModuleA');
+        $fileThree = new \Magento\View\File('b.xml', 'Fixture_ModuleA');
 
-        $unknownFileOne = new \Magento\View\Layout\File('b.xml', 'Unknown_ModuleA');
-        $unknownFileTwo = new \Magento\View\Layout\File('a.xml', 'Unknown_ModuleB');
+        $unknownFileOne = new \Magento\View\File('b.xml', 'Unknown_ModuleA');
+        $unknownFileTwo = new \Magento\View\File('a.xml', 'Unknown_ModuleB');
         return array(
             'same module' => array(
                 array($fileThree, $fileTwo),

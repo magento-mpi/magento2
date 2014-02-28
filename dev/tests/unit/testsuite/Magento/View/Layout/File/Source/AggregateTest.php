@@ -43,10 +43,10 @@ class AggregateTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_fileList = $this->getMock('Magento\View\Layout\File\FileList', array(), array(), '', false);
-        $this->_baseFiles = $this->getMockForAbstractClass('Magento\View\Layout\File\SourceInterface');
-        $this->_themeFiles = $this->getMockForAbstractClass('Magento\View\Layout\File\SourceInterface');
-        $this->_overridingBaseFiles = $this->getMockForAbstractClass('Magento\View\Layout\File\SourceInterface');
-        $this->_overridingThemeFiles = $this->getMockForAbstractClass('Magento\View\Layout\File\SourceInterface');
+        $this->_baseFiles = $this->getMockForAbstractClass('Magento\View\File\SourceInterface');
+        $this->_themeFiles = $this->getMockForAbstractClass('Magento\View\File\SourceInterface');
+        $this->_overridingBaseFiles = $this->getMockForAbstractClass('Magento\View\File\SourceInterface');
+        $this->_overridingThemeFiles = $this->getMockForAbstractClass('Magento\View\File\SourceInterface');
         $fileListFactory =
             $this->getMock('Magento\View\Layout\File\FileList\Factory', array(), array(), '', false);
         $fileListFactory->expects($this->once())->method('create')->will($this->returnValue($this->_fileList));
@@ -68,13 +68,13 @@ class AggregateTest extends \PHPUnit_Framework_TestCase
         );
 
         $files = array(
-            new \Magento\View\Layout\File('0.xml', 'Module_One'),
-            new \Magento\View\Layout\File('1.xml', 'Module_One', $parentTheme),
-            new \Magento\View\Layout\File('2.xml', 'Module_One', $parentTheme),
-            new \Magento\View\Layout\File('3.xml', 'Module_One', $parentTheme),
-            new \Magento\View\Layout\File('4.xml', 'Module_One', $theme),
-            new \Magento\View\Layout\File('5.xml', 'Module_One', $theme),
-            new \Magento\View\Layout\File('6.xml', 'Module_One', $theme),
+            new \Magento\View\File('0.xml', 'Module_One'),
+            new \Magento\View\File('1.xml', 'Module_One', $parentTheme),
+            new \Magento\View\File('2.xml', 'Module_One', $parentTheme),
+            new \Magento\View\File('3.xml', 'Module_One', $parentTheme),
+            new \Magento\View\File('4.xml', 'Module_One', $theme),
+            new \Magento\View\File('5.xml', 'Module_One', $theme),
+            new \Magento\View\File('6.xml', 'Module_One', $theme),
         );
 
         $this->_baseFiles

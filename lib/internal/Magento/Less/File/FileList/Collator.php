@@ -18,9 +18,9 @@ class Collator implements CollateInterface
     /**
      * Collate less files
      *
-     * @param \Magento\View\Layout\File[] $files
-     * @param \Magento\View\Layout\File[] $filesOrigin
-     * @return \Magento\View\Layout\File[]
+     * @param \Magento\View\File[] $files
+     * @param \Magento\View\File[] $filesOrigin
+     * @return \Magento\View\File[]
      */
     public function collate($files, $filesOrigin)
     {

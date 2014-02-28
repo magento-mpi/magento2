@@ -25,7 +25,7 @@ class MagentoImport implements PreProcessorInterface
     /**
      * Layout file source
      *
-     * @var \Magento\View\Layout\File\SourceInterface
+     * @var \Magento\View\File\SourceInterface
      */
     protected $fileSource;
 
@@ -51,13 +51,13 @@ class MagentoImport implements PreProcessorInterface
     protected $viewService;
 
     /**
-     * @param View\Layout\File\SourceInterface $fileSource
+     * @param View\File\SourceInterface $fileSource
      * @param View\Service $viewService
      * @param View\RelatedFile $relatedFile
      * @param PreProcessor\ErrorHandlerInterface $errorHandler
      */
     public function __construct(
-        View\Layout\File\SourceInterface $fileSource,
+        View\File\SourceInterface $fileSource,
         View\Service $viewService,
         View\RelatedFile $relatedFile,
         PreProcessor\ErrorHandlerInterface $errorHandler
@@ -96,7 +96,7 @@ class MagentoImport implements PreProcessorInterface
         try {
             $resolvedPath = $this->relatedFile->buildPath($matchContent['path'], $parentPath, $viewParams);
             $importFiles = $this->fileSource->getFiles($viewParams['themeModel'], $resolvedPath);
-            /** @var $importFile \Magento\View\Layout\File */
+            /** @var $importFile \Magento\View\File */
             foreach ($importFiles as $importFile) {
                 $importsContent .=  $importFile->getModule()
                     ? "@import '{$importFile->getModule()}::{$resolvedPath}';\n"

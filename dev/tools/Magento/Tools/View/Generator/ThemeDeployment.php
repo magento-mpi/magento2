@@ -63,11 +63,17 @@ class ThemeDeployment
     private $_isDryRun;
 
     /**
+     * @var \Magento\View\Path
+     */
+    private $_path;
+
+    /**
      * Constructor
      *
      * @param \Magento\View\Url\CssResolver $cssUrlResolver
      * @param \Magento\App\View\Deployment\Version\StorageInterface $versionStorage
      * @param \Magento\App\View\Deployment\Version\GeneratorInterface $versionGenerator
+     * @param \Magento\View\Path $path
      * @param string $destinationHomeDir
      * @param string $configPermitted
      * @param string|null $configForbidden
@@ -78,6 +84,7 @@ class ThemeDeployment
         \Magento\View\Url\CssResolver $cssUrlResolver,
         \Magento\App\View\Deployment\Version\StorageInterface $versionStorage,
         \Magento\App\View\Deployment\Version\GeneratorInterface $versionGenerator,
+        \Magento\View\Path $path,
         $destinationHomeDir,
         $configPermitted,
         $configForbidden = null,
@@ -88,6 +95,7 @@ class ThemeDeployment
         $this->_versionGenerator = $versionGenerator;
         $this->_destinationHomeDir = $destinationHomeDir;
         $this->_isDryRun = $isDryRun;
+        $this->_path = $path;
         $this->_permitted = $this->_loadConfig($configPermitted);
         if ($configForbidden) {
             $this->_forbidden = $this->_loadConfig($configForbidden);
@@ -133,8 +141,7 @@ class ThemeDeployment
                 'destinationContext' => $destinationContext,
             );
 
-            $destDir = \Magento\View\Url::getFullyQualifiedPath(
-                '',
+            $destDir = $this->_path->getFullyQualifiedPath(
                 $destinationContext['area'],
                 $destinationContext['themePath'],
                 $destinationContext['locale'],
@@ -218,13 +225,12 @@ class ThemeDeployment
                     if (!strlen($module) || !strlen($file)) {
                         throw new \Magento\Exception("Wrong module url: {$relativeUrl}");
                     }
-                    $relPath = \Magento\View\Url::getFullyQualifiedPath(
-                        $file,
+                    $relPath = $this->_path->getFullyQualifiedPath(
                         $destContext['area'],
                         $destContext['themePath'],
                         $destContext['locale'],
                         $module
-                    );
+                    ) . '/' . $file;
                     $relPath = str_replace('//', '/', $relPath); // workaround for missing locale code
                     $result = $destHomeDir . '/' . $relPath;
                 } else {

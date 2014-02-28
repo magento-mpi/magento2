@@ -8,11 +8,11 @@
 
 namespace Magento\Less\File\Source;
 
-use Magento\View\Layout\File\SourceInterface;
+use Magento\View\File\SourceInterface;
 use Magento\View\Design\ThemeInterface;
 use Magento\App\Filesystem;
 use Magento\Filesystem\Directory\ReadInterface;
-use Magento\View\Layout\File\Factory;
+use Magento\View\File\Factory;
 use Magento\View\Layout\File\FileList\Factory as FileListFactory;
 
 /**
@@ -61,7 +61,7 @@ class Library implements SourceInterface
      *
      * @param ThemeInterface $theme
      * @param string $filePath
-     * @return array|\Magento\View\Layout\File[]
+     * @return array|\Magento\View\File[]
      */
     public function getFiles(ThemeInterface $theme, $filePath = '*')
     {

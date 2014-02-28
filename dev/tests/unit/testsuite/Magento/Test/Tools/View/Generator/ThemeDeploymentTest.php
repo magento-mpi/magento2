@@ -45,6 +45,11 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
      */
     protected $versionGenerator;
 
+    /**
+     * @var \Magento\View\Path
+     */
+    protected $path;
+
     protected function setUp()
     {
         $methods = array('getDirectoryWrite', 'getPath', '__wakeup');
@@ -67,6 +72,8 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
 
         $this->versionStorage = $this->getMock('Magento\App\View\Deployment\Version\StorageInterface');
         $this->versionGenerator = $this->getMock('Magento\App\View\Deployment\Version\GeneratorInterface');
+
+        $this->path = new \Magento\View\Path();
     }
 
     protected function tearDown()
@@ -87,6 +94,7 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
             $this->_cssUrlResolver,
             $this->versionStorage,
             $this->versionGenerator,
+            $this->path,
             $this->_tmpDir,
             $permitted,
             $forbidden
@@ -130,6 +138,7 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
             $this->_cssUrlResolver,
             $this->versionStorage,
             $this->versionGenerator,
+            $this->path,
             $this->_tmpDir,
             $permitted,
             $forbidden
@@ -193,6 +202,7 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
             $this->_cssUrlResolver,
             $this->versionStorage,
             $this->versionGenerator,
+            $this->path,
             $this->_tmpDir,
             $permitted,
             $forbidden,
@@ -218,6 +228,7 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
             $this->_cssUrlResolver,
             $this->versionStorage,
             $this->versionGenerator,
+            $this->path,
             $this->_tmpDir,
             $permitted,
             $forbidden,
@@ -234,6 +245,7 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
             $this->_cssUrlResolver,
             $this->versionStorage,
             $this->versionGenerator,
+            $this->path,
             $this->_tmpDir,
             $permitted
         );

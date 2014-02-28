@@ -31,6 +31,11 @@ class FileAbstractTest extends \PHPUnit_Framework_TestCase
     protected $rootDirectory;
 
     /**
+     * @var \Magento\View\Path|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $path;
+
+    /**
      * @param string $filePath
      * @param array $viewParams
      * @param null|string $sourcePath
@@ -60,6 +65,7 @@ class FileAbstractTest extends \PHPUnit_Framework_TestCase
                 ->will($this->returnValue('related\\' . $fallback));
         }
 
+        $this->path = $this->getMock('\Magento\View\Path');
         $this->fileAbstract = $this->getMockForAbstractClass(
             'Magento\View\Publisher\FileAbstract',
             [
@@ -67,6 +73,7 @@ class FileAbstractTest extends \PHPUnit_Framework_TestCase
                 'viewService' => $this->serviceMock,
                 'modulesReader' => $this->readerMock,
                 'viewFileSystem' => $this->viewFileSystem,
+                'path' => $this->path,
                 'filePath' => $filePath,
                 'viewParams' => $viewParams,
                 'sourcePath' => $sourcePath
@@ -75,17 +82,21 @@ class FileAbstractTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param string $fileId
-     * @param string $module
+     * @param string $filePath
+     * @param array $viewParams
+     * @param string $sourcePath
+     * @param string $expectedSubPath
      * @param string $expected
      * @dataProvider buildUniquePathDataProvider
      */
-    public function testBuildUniquePath($fileId, $module, $expected)
+    public function testBuildUniquePath($filePath, $viewParams, $sourcePath, $expectedSubPath, $expected)
     {
-        $theme = $this->getMockForAbstractClass('\Magento\View\Design\ThemeInterface');
-        $theme->expects($this->once())->method('getThemePath')->will($this->returnValue('t'));
-        $this->initModelMock($fileId, ['area' => 'a', 'themeModel' => $theme, 'locale' => 'e', 'module' => $module]);
-        $this->assertEquals($expected, $this->fileAbstract->buildUniquePath());
+        $this->initModelMock($filePath, $viewParams, $sourcePath);
+        $this->path->expects($this->once())
+            ->method('getRelativePath')
+            ->with($viewParams['area'], $viewParams['themeModel'], $viewParams['locale'], $viewParams['module'])
+            ->will($this->returnValue($expectedSubPath));
+        $this->assertSame($expected, $this->fileAbstract->buildUniquePath());
     }
 
     /**
@@ -93,10 +104,47 @@ class FileAbstractTest extends \PHPUnit_Framework_TestCase
      */
     public function buildUniquePathDataProvider()
     {
+        $themeModelWithPath = $this->getMock('Magento\View\Design\ThemeInterface', [], [], '', false);
+        $themeModelWithPath->expects($this->any())->method('getThemePath')->will($this->returnValue('theme/path'));
+        $themeModelWithId = $this->getMock('Magento\View\Design\ThemeInterface', [], [], '', false);
+        $themeModelWithId->expects($this->any())->method('getId')->will($this->returnValue(11));
         return [
-            ['file.ext', 'module', 'a/t/e/module/file.ext'],
-            ['anotherModule::file.ext', 'module', 'a/t/e/anotherModule/file.ext'],
-            ['module::file.ext', '', 'a/t/e/module/file.ext'],
+            'theme with path' => [
+                'filePath' => 'some/file/path',
+                'viewParams' => [
+                    'themeModel' => $themeModelWithPath,
+                    'area' => 'frontend',
+                    'locale' => 'en_US',
+                    'module' => 'some_module',
+                ],
+                'sourcePath' => null,
+                'expectedSubPath' => 'frontend/theme/path/en_US/some_module',
+                'expected' => 'frontend/theme/path/en_US/some_module/some/file/path'
+            ],
+            'theme with id' => [
+                'filePath' => 'some/file/path2',
+                'viewParams' => [
+                    'themeModel' => $themeModelWithId,
+                    'area' => 'backend',
+                    'locale' => 'en_EN',
+                    'module' => 'some_other_module',
+                ],
+                'sourcePath' => null,
+                'expectedSubPath' => 'backend/_theme11/en_EN/some_other_module',
+                'expected' => 'backend/_theme11/en_EN/some_other_module/some/file/path2'
+            ],
+            'theme without any data' => [
+                'filePath' => 'some/file/path3',
+                'viewParams' => [
+                    'themeModel' => $this->getMock('Magento\View\Design\ThemeInterface', [], [], '', false),
+                    'locale' => 'fr_FR',
+                    'area' => 'some_area',
+                    'module' => null,
+                ],
+                'sourcePath' => null,
+                'expectedSubPath' => 'some_area/_view/fr_FR',
+                'expected' => 'some_area/_view/fr_FR/some/file/path3'
+            ],
         ];
     }
 
@@ -198,10 +246,13 @@ class FileAbstractTest extends \PHPUnit_Framework_TestCase
     public function testBuildPublicViewFilename()
     {
         $theme = $this->getMockForAbstractClass('\Magento\View\Design\ThemeInterface');
-        $theme->expects($this->once())->method('getThemePath')->will($this->returnValue('t'));
         $this->initModelMock('some\file', ['area' => 'a', 'themeModel' => $theme, 'locale' => 'e']);
         $this->serviceMock->expects($this->once())
             ->method('getPublicDir')->will($this->returnValue('/some/pub/dir'));
+        $this->path->expects($this->once())
+            ->method('getRelativePath')
+            ->with('a', $theme, 'e', '')
+            ->will($this->returnValue('a/t/e'));
         $this->assertSame('/some/pub/dir/a/t/e/some\\file', $this->fileAbstract->buildPublicViewFilename());
     }
 

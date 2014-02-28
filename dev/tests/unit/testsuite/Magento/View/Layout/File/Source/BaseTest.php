@@ -9,7 +9,7 @@
 namespace Magento\View\Layout\File\Source;
 
 use Magento\Filesystem\Directory\Read,
-    Magento\View\Layout\File\Factory;
+    Magento\View\File\Factory;
 
 class BaseTest extends \PHPUnit_Framework_TestCase
 {
@@ -49,7 +49,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
             ->with(\Magento\App\Filesystem::MODULES_DIR)
             ->will($this->returnValue($this->directory));
 
-        $this->fileFactory = $this->getMock('Magento\View\Layout\File\Factory', array(), array(), '', false);
+        $this->fileFactory = $this->getMock('Magento\View\File\Factory', array(), array(), '', false);
         $this->model = new Base($filesystem, $this->fileFactory);
     }
 
@@ -80,7 +80,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         $checkResult = array();
         foreach ($files as $key => $file) {
             $moduleName = 'Module_' . $file['module'];
-            $checkResult[$key] = new \Magento\View\Layout\File(
+            $checkResult[$key] = new \Magento\View\File(
                 $file['handle'] . '.xml',
                 $moduleName,
                 $theme

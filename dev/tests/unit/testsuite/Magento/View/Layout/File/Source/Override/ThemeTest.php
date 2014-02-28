@@ -36,7 +36,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
         $filesystem->expects($this->any())->method('getDirectoryRead')
             ->with($this->equalTo(\Magento\App\Filesystem::THEMES_DIR))
             ->will($this->returnValue($this->_directory));
-        $this->_fileFactory = $this->getMock('Magento\View\Layout\File\Factory', array(), array(), '', false);
+        $this->_fileFactory = $this->getMock('Magento\View\File\Factory', array(), array(), '', false);
         $this->_model = new \Magento\View\Layout\File\Source\Override\Theme(
             $filesystem, $this->_fileFactory
         );
@@ -62,8 +62,8 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo('area/theme_path/*_*/layout/override/theme/*/*.xml'))
             ->will($this->returnValue(array($filePathOne, $filePathTwo)));
 
-        $fileOne = new \Magento\View\Layout\File('1.xml', 'Module_One', $parentTheme);
-        $fileTwo = new \Magento\View\Layout\File('2.xml', 'Module_Two', $grandparentTheme);
+        $fileOne = new \Magento\View\File('1.xml', 'Module_One', $parentTheme);
+        $fileTwo = new \Magento\View\File('2.xml', 'Module_Two', $grandparentTheme);
         $this->_fileFactory
             ->expects($this->exactly(2))
             ->method('create')
@@ -96,7 +96,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(array($filePathOne)))
         ;
 
-        $fileOne = new \Magento\View\Layout\File('3.xml', 'Module_Two', $grandparentTheme);
+        $fileOne = new \Magento\View\File('3.xml', 'Module_Two', $grandparentTheme);
         $this->_fileFactory
             ->expects($this->once())
             ->method('create')

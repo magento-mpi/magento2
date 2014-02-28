@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\View\Layout;
+namespace Magento\View;
 
 use Magento\View\Design\ThemeInterface;
 

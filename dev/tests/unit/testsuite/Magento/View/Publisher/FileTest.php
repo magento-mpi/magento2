@@ -51,6 +51,11 @@ class FileTest extends \PHPUnit_Framework_TestCase
     protected $themeDir = '/some/theme/dir';
 
     /**
+     * @var \Magento\View\Path|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $path;
+
+    /**
      * @param string $filePath
      * @param array $viewParams
      * @param null|string $sourcePath
@@ -83,6 +88,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
                 ->will($this->returnValue(true));
         }
 
+        $this->path = $this->getMock('\Magento\View\Path');
         $this->objectManagerHelper = new ObjectManagerHelper($this);
         $this->file = $this->objectManagerHelper->getObject(
             'Magento\View\Publisher\File',
@@ -91,6 +97,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
                 'viewService' => $this->serviceMock,
                 'modulesReader' => $this->readerMock,
                 'viewFileSystem' => $this->viewFileSystem,
+                'path' => $this->path,
                 'filePath' => $filePath,
                 'viewParams' => $viewParams,
                 'sourcePath' => $sourcePath
@@ -153,12 +160,17 @@ class FileTest extends \PHPUnit_Framework_TestCase
      * @param string $filePath
      * @param array $viewParams
      * @param string|null $sourcePath
+     * @param string $expectedSubPath
      * @param string $expected
      * @dataProvider buildUniquePathDataProvider
      */
-    public function testBuildUniquePath($filePath, $viewParams, $sourcePath, $expected)
+    public function testBuildUniquePath($filePath, $viewParams, $sourcePath, $expectedSubPath, $expected)
     {
         $this->getModelMock($filePath, $viewParams, $sourcePath);
+        $this->path->expects($this->once())
+            ->method('getRelativePath')
+            ->with($viewParams['area'], $viewParams['themeModel'], $viewParams['locale'], $viewParams['module'])
+            ->will($this->returnValue($expectedSubPath));
         $this->assertSame($expected, $this->file->buildUniquePath());
     }
 
@@ -181,6 +193,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
                     'module' => 'some_module',
                 ],
                 'sourcePath' => null,
+                'expectedSubPath' => 'frontend/theme/path/en_US/some_module',
                 'expected' => 'frontend/theme/path/en_US/some_module/some/file/path'
             ],
             'theme with id' => [
@@ -192,6 +205,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
                     'module' => 'some_other_module',
                 ],
                 'sourcePath' => null,
+                'expectedSubPath' => 'backend/_theme11/en_EN/some_other_module',
                 'expected' => 'backend/_theme11/en_EN/some_other_module/some/file/path2'
             ],
             'theme without any data' => [
@@ -203,6 +217,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
                     'module' => null,
                 ],
                 'sourcePath' => null,
+                'expectedSubPath' => 'some_area/_view/fr_FR',
                 'expected' => 'some_area/_view/fr_FR/some/file/path3'
             ],
         ];

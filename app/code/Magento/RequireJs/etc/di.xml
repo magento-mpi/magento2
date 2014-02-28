@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <virtualType name="requirejsConfigFileSourceBaseFiltered" type="Magento\View\File\Source\Decorator\ModuleOutput">
+        <arguments>
+            <argument name="subject" xsi:type="object">Magento\RequireJs\File\Source\Base</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="requirejsConfigFileSourceBaseSorted" type="Magento\View\File\Source\Decorator\ModuleDependency">
+        <arguments>
+            <argument name="subject" xsi:type="object">requirejsConfigFileSourceBaseFiltered</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="requirejsFileSourceThemeFiltered" type="Magento\View\File\Source\Decorator\ModuleOutput">
+        <arguments>
+            <argument name="subject" xsi:type="object">Magento\RequireJs\File\Source\ThemeModular</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="requirejsFileSourceThemeSorted" type="Magento\View\File\Source\Decorator\ModuleDependency">
+        <arguments>
+            <argument name="subject" xsi:type="object">requirejsFileSourceThemeFiltered</argument>
+        </arguments>
+    </virtualType>
+    <type name="Magento\RequireJs\File\Source\Aggregated">
+        <arguments>
+            <argument name="baseFiles" xsi:type="object">requirejsConfigFileSourceBaseSorted</argument>
+            <argument name="themeModularFiles" xsi:type="object">requirejsFileSourceThemeSorted</argument>
+            <argument name="themeFiles" xsi:type="object">Magento\RequireJs\File\Source\Theme</argument>
+        </arguments>
+    </type>
+</config>

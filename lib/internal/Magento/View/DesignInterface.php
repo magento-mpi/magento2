@@ -72,6 +72,13 @@ interface DesignInterface
     public function getDesignTheme();
 
     /**
+     * Get locale
+     *
+     * @return string
+     */
+    public function getLocale();
+
+    /**
      * Get design settings for current request
      *
      * @return array

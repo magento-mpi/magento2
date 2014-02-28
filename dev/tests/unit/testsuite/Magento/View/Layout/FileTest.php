@@ -11,7 +11,7 @@ namespace Magento\View\Layout;
 class FileTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\View\Layout\File
+     * @var \Magento\View\File
      */
     private $_model;
 
@@ -23,7 +23,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_theme = $this->getMockForAbstractClass('Magento\View\Design\ThemeInterface');
-        $this->_model = new \Magento\View\Layout\File(__FILE__, 'Fixture_TestModule', $this->_theme);
+        $this->_model = new \Magento\View\File(__FILE__, 'Fixture_TestModule', $this->_theme);
     }
 
     public function testGetFilename()
