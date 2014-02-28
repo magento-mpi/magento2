@@ -606,11 +606,6 @@ return array(
         '\Magento\Catalog\Model\Indexer\Category\Flat\Config::XML_PATH_IS_ENABLED_FLAT_CATALOG_CATEGORY'),
     array('XML_PATH_UNSECURE_BASE_LIB_URL'),
     array('XML_PATH_SECURE_BASE_LIB_URL'),
-    [
-        'XML_PATH_STATIC_FILE_SIGNATURE',
-        'Magento\View\FileResolver',
-        'Magento\View\UrlResolver::XML_PATH_STATIC_FILE_SIGNATURE',
-    ],
-    array('XML_PATH_STATIC_FILE_SIGNATURE', 'Magento\View\UrlResolver',
+    array('XML_PATH_STATIC_FILE_SIGNATURE', 'Magento\View\FileResolver',
         'Magento\Theme\Model\Url\Plugin\Signature::XML_PATH_STATIC_FILE_SIGNATURE'),
 );

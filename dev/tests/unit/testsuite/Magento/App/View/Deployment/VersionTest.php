@@ -48,6 +48,7 @@ class VersionTest extends \PHPUnit_Framework_TestCase
         $this->versionStorage->expects($this->never())->method($this->anything());
         $this->versionGenerator->expects($this->once())->method('generate')->will($this->returnValue('123'));
         $this->assertEquals('123', $this->object->getValue());
+        $this->object->getValue(); // Ensure computation occurs only once and result is cached in memory
     }
 
     /**
@@ -65,6 +66,7 @@ class VersionTest extends \PHPUnit_Framework_TestCase
         $this->versionStorage->expects($this->never())->method('save');
         $this->versionGenerator->expects($this->never())->method('generate');
         $this->assertEquals('123', $this->object->getValue());
+        $this->object->getValue(); // Ensure caching in memory
     }
 
     public function getValueFromStorageDataProvider()
@@ -92,5 +94,6 @@ class VersionTest extends \PHPUnit_Framework_TestCase
         $this->versionGenerator->expects($this->once())->method('generate')->will($this->returnValue('123'));
         $this->versionStorage->expects($this->once())->method('save')->with('123');
         $this->assertEquals('123', $this->object->getValue());
+        $this->object->getValue(); // Ensure caching in memory
     }
 }

@@ -1330,11 +1330,6 @@ return array(
         'Magento\View\FileResolver::getPublicViewFile()',
     ],
     [
-        '_isStaticFilesSigned',
-        'Magento\View\FileResolver',
-        'Magento\View\UrlResolver::_isStaticFilesSigned()',
-    ],
-    [
         'getPublicFilePath',
         'Magento\View\PublicFilesManagerInterface',
         'Magento\View\FilesManagerInterface::getPublicViewFile()',
@@ -1345,6 +1340,6 @@ return array(
         'Magento\View\Publisher::getPublicViewFile()',
     ],
     array('_getVatRequiredCustomerAddress', 'Magento\Sales\Model\Observer'),
-    array('isStaticFilesSigned', 'Magento\View\UrlResolver',
+    array('_isStaticFilesSigned', 'Magento\View\FileResolver',
         'Magento\Theme\Model\Url\Plugin\Signature::isUrlSignatureEnabled()'),
 );

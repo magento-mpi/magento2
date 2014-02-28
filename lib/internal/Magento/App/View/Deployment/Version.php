@@ -29,6 +29,11 @@ class Version
     private $versionGenerator;
 
     /**
+     * @var string
+     */
+    private $cachedValue;
+
+    /**
      * @param \Magento\App\State $appState
      * @param Version\StorageInterface $versionStorage
      * @param Version\GeneratorInterface $versionGenerator
@@ -44,13 +49,27 @@ class Version
     }
 
     /**
-     * Retrieve deployment version of static files depending on the application mode
+     * Retrieve deployment version of static files
      *
      * @return string
      */
     public function getValue()
     {
-        switch ($this->appState->getMode()) {
+        if (!$this->cachedValue) {
+            $this->cachedValue = $this->readValue($this->appState->getMode());
+        }
+        return $this->cachedValue;
+    }
+
+    /**
+     * Load or generate deployment version of static files depending on the application mode
+     *
+     * @param string $appMode
+     * @return string
+     */
+    public function readValue($appMode)
+    {
+        switch ($appMode) {
             case \Magento\App\State::MODE_DEFAULT:
                 try {
                     $result = $this->versionStorage->load();

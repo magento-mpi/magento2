@@ -31,53 +31,38 @@ class Signature
     private $config;
 
     /**
-     * @var \Magento\UrlInterface
-     */
-    private $baseUrl;
-
-    /**
      * @var \Magento\App\View\Deployment\Version
      */
     private $deploymentVersion;
 
     /**
      * @param \Magento\View\Url\ConfigInterface $config
-     * @param \Magento\UrlInterface $baseUrl
      * @param \Magento\App\View\Deployment\Version $deploymentVersion
      */
     public function __construct(
         \Magento\View\Url\ConfigInterface $config,
-        \Magento\UrlInterface $baseUrl,
         \Magento\App\View\Deployment\Version $deploymentVersion
     ) {
         $this->config = $config;
-        $this->baseUrl = $baseUrl;
         $this->deploymentVersion = $deploymentVersion;
     }
 
     /**
-     * Incorporate signature into rendered URL depending on the configuration
+     * Append signature to rendered base URL for static view files
      *
      * @param array $methodArguments
      * @param InvocationChain $invocationChain
      * @return string
-     * @see \Magento\View\Url::getViewFileUrl()
+     * @see \Magento\Url\ScopeInterface::getBaseUrl()
      */
-    public function aroundGetViewFileUrl(array $methodArguments, InvocationChain $invocationChain)
+    public function aroundGetBaseUrl(array $methodArguments, InvocationChain $invocationChain)
     {
-        $url = $invocationChain->proceed($methodArguments);
-        if (!$this->isUrlSignatureEnabled()) {
-            return $url;
+        $baseUrl = $invocationChain->proceed($methodArguments);
+        $urlType = isset($methodArguments[0]) ? $methodArguments[0] : '';
+        if ($urlType == \Magento\UrlInterface::URL_TYPE_STATIC && $this->isUrlSignatureEnabled()) {
+            $baseUrl .= $this->renderUrlSignature() . '/';
         }
-        $urlParams = isset($methodArguments[1]) ? (array)$methodArguments[1] : array();
-        $isSecureUrl = isset($urlParams['_secure']) ? (bool)$urlParams['_secure'] : null;
-        $baseUrl = $this->baseUrl->getBaseUrl(array(
-            '_type' => \Magento\UrlInterface::URL_TYPE_STATIC,
-            '_secure' => $isSecureUrl
-        ));
-        $signedBaseUrl = $this->renderSignedUrl($baseUrl);
-        $url = str_replace($baseUrl, $signedBaseUrl, $url);
-        return $url;
+        return $baseUrl;
     }
 
     /**
@@ -91,14 +76,12 @@ class Signature
     }
 
     /**
-     * Incorporate deployment version of static files into URL
+     * Render URL signature from the template
      *
-     * @param string $url
      * @return string
      */
-    protected function renderSignedUrl($url)
+    protected function renderUrlSignature()
     {
-        $signature = sprintf(self::SIGNATURE_TEMPLATE, $this->deploymentVersion->getValue());
-        return $url . $signature . '/';
+        return sprintf(self::SIGNATURE_TEMPLATE, $this->deploymentVersion->getValue());
     }
 }
