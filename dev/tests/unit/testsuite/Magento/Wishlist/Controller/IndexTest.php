@@ -68,7 +68,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
         );
 
         $mapGet = [
-            ['Magento\Core\Model\LocaleInterface', $locale],
+            ['Magento\LocaleInterface', $locale],
             ['Magento\Checkout\Model\Cart', $cart],
             ['Magento\Catalog\Helper\Product', $product],
             ['Magento\Escaper', $escaper],

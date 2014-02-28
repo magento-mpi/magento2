@@ -58,7 +58,7 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
         ));
         $storeManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Core\Model\StoreManagerInterface');
-        $locale = $this->getMock('Magento\Core\Model\LocaleInterface', array(), array(), '', false);
+        $locale = $this->getMock('Magento\LocaleInterface', array(), array(), '', false);
         $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Theme\Block\Html', array(
                 'storeManager'  => $storeManager,

@@ -7,7 +7,7 @@
  */
 namespace Magento\GiftRegistry\Block\Customer;
 
-use Magento\Core\Model\LocaleInterface;
+use Magento\LocaleInterface;
 use Magento\Customer\Service\V1\CustomerServiceInterface;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 
