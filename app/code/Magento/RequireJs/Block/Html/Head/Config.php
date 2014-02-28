@@ -60,14 +60,14 @@ class Config extends \Magento\View\Element\AbstractBlock implements AssetBlockIn
     }
 
     /**
-     * Include configuration for baseUrl
+     * Include base RequireJs configuration necessary for working with Magento application
      *
      * @return string|void
      */
     protected function _toHtml()
     {
         return '<script type="text/javascript">' . PHP_EOL
-            . $this->requirejsConfig->getBaseUrlConfig()
+            . $this->requirejsConfig->getBaseConfig()
             . '</script>' . PHP_EOL;
     }
 }
