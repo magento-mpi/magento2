@@ -384,8 +384,7 @@ class Session extends \Magento\Session\SessionManager
         $this->setRedirectUrl(null)
             ->setLastOrderId(null)
             ->setLastRealOrderId(null)
-            ->setAdditionalMessages(null)
-        ;
+            ->setAdditionalMessages(null);
     }
 
     public function resetCheckout()

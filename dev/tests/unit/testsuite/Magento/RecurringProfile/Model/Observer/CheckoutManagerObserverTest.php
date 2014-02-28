@@ -116,7 +116,7 @@ class CheckoutManagerObserverTest extends \PHPUnit_Framework_TestCase
 
         $this->_testModel->submitRecurringPaymentProfiles($this->_observer);
 
-        $this->_testModel->addRecurringProfileIdsToSession($this->_observer);
+        $this->_testModel->addRecurringProfileIdsToSession();
     }
 
     protected function _prepareRecurringPaymentProfiles()

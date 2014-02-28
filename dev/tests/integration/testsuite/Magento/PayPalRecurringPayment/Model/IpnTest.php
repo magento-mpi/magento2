@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Paypal\PayPalRecurringPayment;
+namespace Magento\PayPalRecurringPayment\Model;
 
 /**
  * @magentoAppArea frontend

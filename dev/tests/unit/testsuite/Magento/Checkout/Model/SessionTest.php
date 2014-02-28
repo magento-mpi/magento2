@@ -124,6 +124,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     public function testClearHelperData($paramToClear)
     {
         $storage = new \Magento\Session\Storage('default', array($paramToClear => 'test_data'));
+        /** @var \Magento\Checkout\Model\Session $session */
         $session = $this->_helper->getObject(
             'Magento\Checkout\Model\Session',
             array('storage' => $storage)

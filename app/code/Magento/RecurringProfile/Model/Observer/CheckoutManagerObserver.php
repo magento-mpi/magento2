@@ -55,10 +55,8 @@ class CheckoutManagerObserver
 
     /**
      * Add recurring profile ids to session
-     *
-     * @param \Magento\Event\Observer $observer
      */
-    public function addRecurringProfileIdsToSession($observer)
+    public function addRecurringProfileIdsToSession()
     {
         if ($this->_recurringProfiles) {
             $ids = array();

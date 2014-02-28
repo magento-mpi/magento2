@@ -14,8 +14,6 @@
             <module name="Magento_Payment"/>
             <module name="Magento_Paypal"/>
             <module name="Magento_RecurringProfile"/>
-            <module name="Magento_Customer" />
-            <module name="Magento_Directory" />
         </depends>
     </module>
 </config>
