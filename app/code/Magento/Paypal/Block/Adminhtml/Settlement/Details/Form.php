@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Block\Adminhtml\Settlement\Details;
 
 /**
  * Settlement reports transaction details
  */
-namespace Magento\Paypal\Block\Adminhtml\Settlement\Details;
-
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
@@ -41,7 +40,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Prepare read-only data and group it by fieldsets
      *
-     * @return \Magento\Paypal\Block\Adminhtml\Settlement\Details\Form
+     * @return $this
      */
     protected function _prepareForm()
     {
@@ -74,7 +73,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
                         'label' => $this->_settlement->getFieldLabel('transaction_initiation_date'),
                         'value' => $this->formatDate(
                             $model->getData('transaction_initiation_date'),
-                            \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM,
+                            \Magento\LocaleInterface::FORMAT_TYPE_MEDIUM,
                             true
                         )
                     ),
@@ -82,7 +81,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
                         'label' => $this->_settlement->getFieldLabel('transaction_completion_date'),
                         'value' => $this->formatDate(
                             $model->getData('transaction_completion_date'),
-                            \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM,
+                            \Magento\LocaleInterface::FORMAT_TYPE_MEDIUM,
                             true
                         )
                     ),

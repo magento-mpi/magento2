@@ -7,8 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\Checkout\Block\Onepage;
 
 class Failure extends \Magento\View\Element\Template
@@ -33,6 +31,9 @@ class Failure extends \Magento\View\Element\Template
         $this->_isScopePrivate = true;
     }
 
+    /**
+     * @return mixed
+     */
     public function getRealOrderId()
     {
         return $this->_checkoutSession->getLastRealOrderId();
@@ -41,7 +42,7 @@ class Failure extends \Magento\View\Element\Template
     /**
      *  Payment custom error message
      *
-     *  @return	  string
+     *  @return	string
      */
     public function getErrorMessage ()
     {
@@ -52,7 +53,7 @@ class Failure extends \Magento\View\Element\Template
     /**
      * Continue shopping URL
      *
-     *  @return	  string
+     * @return string
      */
     public function getContinueShoppingUrl()
     {

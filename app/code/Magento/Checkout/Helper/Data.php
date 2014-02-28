@@ -7,19 +7,24 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Checkout\Helper;
+
+use Magento\Core\Model\Store;
+use Magento\Sales\Model\Quote\Item\AbstractItem;
 
 /**
  * Checkout default helper
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Checkout\Helper;
-
 class Data extends \Magento\App\Helper\AbstractHelper
 {
     const XML_PATH_GUEST_CHECKOUT = 'checkout/options/guest_checkout';
     const XML_PATH_CUSTOMER_MUST_BE_LOGGED = 'checkout/options/customer_must_be_logged';
 
+    /**
+     * @var array|null
+     */
     protected $_agreements = null;
 
     /**
@@ -40,7 +45,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_checkoutSession;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\LocaleInterface
      */
     protected $_locale;
 
@@ -66,7 +71,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Checkout\Model\Session $checkoutSession
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\LocaleInterface $locale
      * @param \Magento\Checkout\Model\Resource\Agreement\CollectionFactory $agreementCollectionFactory
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\TranslateInterface $translator
@@ -76,7 +81,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Checkout\Model\Session $checkoutSession,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\LocaleInterface $locale,
         \Magento\Checkout\Model\Resource\Agreement\CollectionFactory $agreementCollectionFactory,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\TranslateInterface $translator
@@ -111,16 +116,28 @@ class Data extends \Magento\App\Helper\AbstractHelper
         return $this->getCheckout()->getQuote();
     }
 
+    /**
+     * @param float $price
+     * @return string
+     */
     public function formatPrice($price)
     {
         return $this->getQuote()->getStore()->formatPrice($price);
     }
 
+    /**
+     * @param float $price
+     * @param bool $format
+     * @return float
+     */
     public function convertPrice($price, $format=true)
     {
         return $this->getQuote()->getStore()->convertPrice($price, $format);
     }
 
+    /**
+     * @return array
+     */
     public function getRequiredAgreementIds()
     {
         if (is_null($this->_agreements)) {
@@ -178,6 +195,10 @@ class Data extends \Magento\App\Helper\AbstractHelper
         return $item->getRowTotal() + $tax;
     }
 
+    /**
+     * @param AbstractItem $item
+     * @return float
+     */
     public function getBasePriceInclTax($item)
     {
         $qty = ($item->getQty() ? $item->getQty() : ($item->getQtyOrdered() ? $item->getQtyOrdered() : 1));
@@ -186,6 +207,10 @@ class Data extends \Magento\App\Helper\AbstractHelper
         return $this->_storeManager->getStore()->roundPrice($price);
     }
 
+    /**
+     * @param AbstractItem $item
+     * @return float
+     */
     public function getBaseSubtotalInclTax($item)
     {
         $tax = $item->getBaseTaxAmount() + $item->getBaseDiscountTaxCompensation();
@@ -198,7 +223,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Sales\Model\Quote $checkout
      * @param string $message
      * @param string $checkoutType
-     * @return \Magento\Checkout\Helper\Data
+     * @return $this
      */
     public function sendPaymentFailedEmail($checkout, $message, $checkoutType = 'onepage')
     {
@@ -288,6 +313,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
         return $this;
     }
 
+    /**
+     * @param string $configPath
+     * @param null|string|bool|int|Store $storeId
+     * @return array|false
+     */
     protected function _getEmails($configPath, $storeId)
     {
         $data = $this->_coreStoreConfig->getConfig($configPath, $storeId);
@@ -302,7 +332,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * Use config settings and observer
      *
      * @param \Magento\Sales\Model\Quote $quote
-     * @param int|\Magento\Core\Model\Store $store
+     * @param int|Store $store
      * @return bool
      */
     public function isAllowedGuestCheckout(\Magento\Sales\Model\Quote $quote, $store = null)

@@ -94,6 +94,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Data\Form $form
      * @param \Magento\Object $formData
      * @param \Magento\Backend\Block\Widget\Form\Element\Dependence $fieldDependencies
+     * @return void
      */
     public function addSegmentFieldsToForm(
         \Magento\Data\Form $form,

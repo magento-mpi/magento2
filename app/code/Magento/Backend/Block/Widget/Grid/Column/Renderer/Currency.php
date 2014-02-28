@@ -41,7 +41,7 @@ class Currency
     /**
      * Locale
      *
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\LocaleInterface
      */
     protected $_locale;
 
@@ -60,6 +60,7 @@ class Currency
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Directory\Model\Currency\DefaultLocator $currencyLocator
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
+     * @param \Magento\App\ConfigInterface $config
      * @param array $data
      */
     public function __construct(
@@ -67,12 +68,15 @@ class Currency
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Directory\Model\Currency\DefaultLocator $currencyLocator,
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
+        \Magento\App\ConfigInterface $config,
         array $data = array()
     ) {
         parent::__construct($context, $data);
         $this->_storeManager = $storeManager;
         $this->_currencyLocator = $currencyLocator;
-        $baseCurrencyCode = $this->_app->getBaseCurrencyCode();
+        $baseCurrencyCode = $config->getValue(
+            \Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE, 'default'
+        );
         $this->_baseCurrency = $currencyFactory->create()->load($baseCurrencyCode);
     }
 

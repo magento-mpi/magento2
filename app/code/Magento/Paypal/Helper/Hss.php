@@ -5,18 +5,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Helper;
 
 /**
  * Hosted Sole Solution helper
  */
-namespace Magento\Paypal\Helper;
-
 class Hss extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * Hosted Sole Solution methods
      *
-     * @var array
+     * @var string[]
      */
     protected $_hssMethods = array(
         \Magento\Paypal\Model\Config::METHOD_HOSTEDPRO,
@@ -77,7 +76,7 @@ class Hss extends \Magento\App\Helper\AbstractHelper
     /**
      * Get methods
      *
-     * @return array
+     * @return string[]
      */
     public function getHssMethods()
     {
