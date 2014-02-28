@@ -5,13 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Model\PayflowExpress;
 
 /**
  * Wrapper that performs Paypal Express and Checkout communication
  * Use current Paypal Express method instance
  */
-namespace Magento\Paypal\Model\PayflowExpress;
-
 class Checkout extends \Magento\Paypal\Model\Express\Checkout
 {
     /**
@@ -30,7 +29,9 @@ class Checkout extends \Magento\Paypal\Model\Express\Checkout
 
     /**
      * Set shipping method to quote, if needed
+     *
      * @param string $methodCode
+     * @return void
      */
     public function updateShippingMethod($methodCode)
     {

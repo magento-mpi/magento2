@@ -10,6 +10,11 @@
   * Fixed an exception that appears when trying to apply a coupon code
   * Fixed Shopping Cart Price Rule which applied to products that aren't eligible
   * Fixed Related Orders link from Recurring Profile page on frontend
+  * Fixed CMS preview function from CMS page gid
+  * Fixed sales report filters applying
+  * Fixed bundle product separately shipping doesn't work
+  * Fixed custom not found page action doesn't work
+  * Fixed Stop further rules processing is ignored
 * Modularity improvements:
   * Resolved dependencies of Sales module on RecurringProfile module
   * Resolved dependencies between Email Templates functionality and other modules
@@ -19,6 +24,7 @@
 * Customer Service usage:
   * Sales module refactoring to use customer service layer
   * Checkout module refactoring to use customer service layer
+* Updated various PHPDoc with the parameter and return types
 
 2.0.0.0-dev66
 =============
@@ -74,9 +80,12 @@
  * [#319] (https://github.com/magento/magento2/issues/319) No message was displayed when product added to shopping cart.
  * [#367] (https://github.com/magento/magento2/issues/367) Improve the error message from the contact form
  * [#469] (https://github.com/magento/magento2/issues/469) Can't change prices on different websites for custom options
-* Updated the Customer service exception handling, and added tests
-* Added usage of the Customer service to the Customer module, replacing some direct usage of the Customer model
-* Updated various PHPDoc with the parameter and return types
+ * [#484] (https://github.com/magento/magento2/pull/484) Calling clear / removeAllItems / removeItemByKey on Magento\Eav\Model\Entity\Collection\AbstractCollection does not remove model from protected _itemsById array
+ * [#474] (https://github.com/magento/magento2/pull/474) Change for Options Collection class
+ * [#483] (https://github.com/magento/magento2/pull/483) Update Category.php
+* Update Customer Service Exception handling and add tests
+* Add usage of Customer Service to Customer Module, replacing some direct usage of Customer Model
+* Updated various PHPDoc with parameter and return types
 
 2.0.0.0-dev64
 =============
