@@ -372,24 +372,6 @@ class Session extends \Magento\Session\SessionManager
     }
 
     /**
-     * Customer authorization
-     *
-     * @param   string $username
-     * @param   string $password
-     * @return  bool
-     */
-    public function login($username, $password)
-    {
-        try {
-            $customer = $this->_customerAccountService->authenticate($username, $password);
-            $this->setCustomerDtoAsLoggedIn($customer);
-            return true;
-        } catch (\Exception $e) {
-            return false;
-        }
-    }
-
-    /**
      * @param Customer $customer
      * @return \Magento\Customer\Model\Session
      */
