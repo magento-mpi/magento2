@@ -11,8 +11,6 @@ use Magento\App\Helper\AbstractHelper;
 
 /**
  * Usps data helper
- *
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Data extends AbstractHelper
 {
