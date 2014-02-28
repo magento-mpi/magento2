@@ -31,7 +31,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Add remove filter
      *
-     * @return \Magento\AdminNotification\Model\Resource\Inbox\Collection
+     * @return $this
      */
     public function addRemoveFilter()
     {
