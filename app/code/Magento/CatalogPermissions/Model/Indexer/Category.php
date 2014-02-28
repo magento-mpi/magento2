@@ -20,16 +20,29 @@ class Category implements \Magento\Indexer\Model\ActionInterface, \Magento\Mview
     protected $fullActionFactory;
 
     /**
+     * @var Category\Action\RowsFactory
+     */
+    protected $rowsActionFactory;
+
+    /**
      * @param Category\Action\FullFactory $fullActionFactory
+     * @param Category\Action\RowsFactory $rowsActionFactory
+     * @param \Magento\Indexer\Model\IndexerInterface $indexer
      */
     public function __construct(
-        Category\Action\FullFactory $fullActionFactory
+        Category\Action\FullFactory $fullActionFactory,
+        Category\Action\RowsFactory $rowsActionFactory,
+        \Magento\Indexer\Model\IndexerInterface $indexer
     ) {
         $this->fullActionFactory = $fullActionFactory;
+        $this->rowsActionFactory = $rowsActionFactory;
+        $this->indexer = $indexer;
     }
 
     /**
      * Execute full indexation
+     *
+     * @return void
      */
     public function executeFull()
     {
@@ -41,29 +54,51 @@ class Category implements \Magento\Indexer\Model\ActionInterface, \Magento\Mview
      * Execute partial indexation by ID list
      *
      * @param int[] $ids
+     * @return void
      */
     public function executeList($ids)
     {
-        // TODO: Implement executeList() method.
+        $this->executeAction($ids);
     }
 
     /**
      * Execute partial indexation by ID
      *
      * @param int $id
+     * @return void
      */
     public function executeRow($id)
     {
-        // TODO: Implement executeRow() method.
+        $this->executeAction([$id]);
     }
 
     /**
      * Execute materialization on ids entities
      *
      * @param int[] $ids
+     * @return void
      */
     public function execute($ids)
     {
-        // TODO: Implement execute() method.
+        $this->executeAction($ids);
+    }
+
+    /**
+     * Execute action for single entity or list of entities
+     *
+     * @param int[] $ids
+     * @return void
+     */
+    protected function executeAction($ids)
+    {
+        $ids = array_unique($ids);
+        $this->indexer->load(self::INDEXER_ID);
+
+        /** @var Category\Action\Rows $action */
+        $action = $this->rowsActionFactory->create();
+        if ($this->indexer->isWorking()) {
+            $action->execute($ids, true);
+        }
+        $action->execute($ids);
     }
 }
