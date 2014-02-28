@@ -13,6 +13,7 @@ use Magento\Customer\Service\V1\Data\Customer as CustomerDataObject;
 use Magento\Customer\Service\V1\CustomerServiceInterface;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface as AddressServiceInterface;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface as GroupServiceInterface;
+use \Magento\Exception\NoSuchEntityException;
 
 /**
  * Tax Calculation Model
@@ -59,7 +60,7 @@ class Calculation extends \Magento\Core\Model\AbstractModel
     protected $_customer;
 
     /**
-     * @var mixed
+     * @var int
      */
     protected $_defaultCustomerTaxClass;
 
@@ -195,12 +196,15 @@ class Calculation extends \Magento\Core\Model\AbstractModel
     }
 
     /**
+     * Fetch default customer tax class
+     *
      * @param null|Store|string|int $store
-     * @return mixed
+     * @return int
      */
     public function getDefaultCustomerTaxClass($store = null)
     {
         if ($this->_defaultCustomerTaxClass === null) {
+            //Not catching the exception here since default group is expected
             $defaultCustomerGroup = $this->_groupService->getDefaultGroup($store);
             $this->_defaultCustomerTaxClass = $defaultCustomerGroup->getTaxClassId();
         }
@@ -445,7 +449,7 @@ class Calculation extends \Magento\Core\Model\AbstractModel
                         $defBilling = $this->_addressService->getDefaultBillingAddress(
                             $customerData->getId()
                         );
-                    } catch (\Magento\Exception\NoSuchEntityException $e) {
+                    } catch (NoSuchEntityException $e) {
                         /** Address does not exist */
                     }
 
@@ -453,7 +457,7 @@ class Calculation extends \Magento\Core\Model\AbstractModel
                         $defShipping = $this->_addressService->getDefaultShippingAddress(
                             $customerData->getId()
                         );
-                    } catch (\Magento\Exception\NoSuchEntityException $e) {
+                    } catch (NoSuchEntityException $e) {
                         /** Address does not exist */
                     }
 
@@ -497,15 +501,15 @@ class Calculation extends \Magento\Core\Model\AbstractModel
         }
 
         if (is_null($customerTaxClass) && $customerData->getId()) {
-            $customerTaxClass = $customerData->getTaxClassId();
-        } elseif (($customerTaxClass === false) || !$customerData) {
+            $customerTaxClass = $this->_groupService->getGroup($customerData->getGroupId())->getTaxClassId();
+        } elseif (($customerTaxClass === false) || !$customerData->getId()) {
             $customerTaxClass = $this->getDefaultCustomerTaxClass($store);
         }
 
         $request = new \Magento\Object();
         $request
             ->setCountryId($address->getCountryId())
-            ->setRegionId($address->getRegionId())
+            ->setRegionId($address->getRegion() ? $address->getRegion()->getRegionId() : $address->getRegionId())
             ->setPostcode($address->getPostcode())
             ->setStore($store)
             ->setCustomerClassId($customerTaxClass);
