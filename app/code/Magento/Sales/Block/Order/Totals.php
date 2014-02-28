@@ -251,8 +251,8 @@ class Totals extends \Magento\View\Element\Template
     /**
      * Get Total object by code
      *
-     * @param mixed $code
-     * @return bool
+     * @param string $code
+     * @return mixed
      */
     public function getTotal($code)
     {
