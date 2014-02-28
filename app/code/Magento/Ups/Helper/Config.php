@@ -10,7 +10,7 @@ namespace Magento\Ups\Helper;
 /**
  * Configuration data of carrier
  */
-class Config //TODO: extend from abstract carrier
+class Config
 {
     /**
      * Get configuration data of carrier
