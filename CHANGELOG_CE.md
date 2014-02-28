@@ -13,7 +13,7 @@
   * Fixed an issue with a sales report for a store view returning wrong result
   * Fixed an issue where shipping did not work for orders containing only bundle products
   * Fixed an issue where a custom not found page action did not work
-  * Fixed an issue where user configuration for s shopping cart rule to stop further rules processing was ignored
+  * Fixed an issue where user configuration for a shopping cart rule to stop further rules processing was ignored
 * Modularity improvements:
   * Resolved dependencies of the Sales module on the RecurringProfile module
   * Resolved dependencies of the Email Templates functionality on application modules
@@ -21,8 +21,8 @@
   * CSS URL resolving logic moved from the publisher to a separate CSS pre-processor
   * Refactored the View publisher
 * Customer Service usage:
-  * Refactored the Sales module to use customer service layer
-  * Refactored the Checkout module to use customer service layer
+  * Refactored the Sales module to use Customer service layer
+  * Refactored the Checkout module to use Customer service layer
 * Updated various PHPDoc with the parameter and return types
 
 2.0.0.0-dev66
