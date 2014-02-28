@@ -245,7 +245,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         $customerService = $this->_createService();
 
-        $customer = $customerService->activateAccount(self::ID);
+        $customer = $customerService->activateCustomer(self::ID, self::EMAIL_CONFIRMATION_KEY);
 
         $this->assertEquals(self::ID, $customer->getCustomerId());
     }
@@ -313,7 +313,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         $customerService = $this->_createService();
 
-        $customerService->activateAccount(self::ID, self::EMAIL_CONFIRMATION_KEY);
+        $customerService->activateCustomer(self::ID, self::EMAIL_CONFIRMATION_KEY);
     }
 
     public function testActivateAccountDoesntExist()
@@ -342,7 +342,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $customerService = $this->_createService();
 
         try {
-            $customerService->activateAccount(self::ID, self::EMAIL_CONFIRMATION_KEY);
+            $customerService->activateCustomer(self::ID, self::EMAIL_CONFIRMATION_KEY);
             $this->fail('Expected exception not thrown.');
         } catch (\Magento\Exception\NoSuchEntityException $nsee) {
             $this->assertSame($nsee->getCode(), \Magento\Exception\NoSuchEntityException::NO_SUCH_ENTITY);
@@ -359,7 +359,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      * @expectedException \Magento\Exception\StateException
      * @expectedExceptionCode \Magento\Exception\StateException::INPUT_MISMATCH
      */
-    public function testValidateAccountConfirmationKeyBadKey()
+    public function testActivateAccountBadKey()
     {
         $this->_customerModelMock->expects($this->any())
             ->method('load')
@@ -385,7 +385,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         $customerService = $this->_createService();
 
-        $customerService->validateAccountConfirmationKey(self::ID, self::EMAIL_CONFIRMATION_KEY . 'BAD');
+        $customerService->activateCustomer(self::ID, self::EMAIL_CONFIRMATION_KEY . 'BAD');
     }
 
     /**
@@ -419,7 +419,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         $customerService = $this->_createService();
 
-        $customerService->activateAccount(self::ID, self::EMAIL_CONFIRMATION_KEY);
+        $customerService->activateCustomer(self::ID, self::EMAIL_CONFIRMATION_KEY);
     }
 
     public function testLoginAccount()

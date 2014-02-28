@@ -161,7 +161,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         // Assert in just one test that the fixture is working
         $this->assertNotNull($customerModel->getConfirmation(), 'New customer needs to be confirmed');
 
-        $this->_customerAccountService->activateAccount($customerModel->getId());
+        $this->_customerAccountService->activateCustomer($customerModel->getId(), $customerModel->getConfirmation());
 
         $customerModel = $this->_objectManager->create('Magento\Customer\Model\Customer');
         $customerModel->load(1);
@@ -222,8 +222,9 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Customer\Model\Customer $customerModel */
         $customerModel = $this->_objectManager->create('Magento\Customer\Model\Customer');
         $customerModel->load(1);
+        $key = $customerModel->getConfirmation();
         try {
-            $this->_customerAccountService->activateAccount('1234' . $customerModel->getId());
+            $this->_customerAccountService->activateCustomer('1234' . $customerModel->getId(), $key);
             $this->fail('Expected exception not thrown.');
         } catch (NoSuchEntityException $nsee) {
             $expectedParams = [
@@ -245,9 +246,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Customer\Model\Customer $customerModel */
         $customerModel = $this->_objectManager->create('Magento\Customer\Model\Customer');
         $customerModel->load(1);
-        $this->_customerAccountService->activateAccount($customerModel->getId());
+        $key = $customerModel->getConfirmation();
+        $this->_customerAccountService->activateCustomer($customerModel->getId(), $key);
 
-        $this->_customerAccountService->activateAccount($customerModel->getId());
+        $this->_customerAccountService->activateCustomer($customerModel->getId(), $key);
     }
 
 

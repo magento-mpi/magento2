@@ -610,7 +610,7 @@ class Account extends \Magento\App\Action\Action
                 throw new \Exception(__('Bad request.'));
             }
 
-            $customer = $this->_customerAccountService->activateAccount($customerId, $key);
+            $customer = $this->_customerAccountService->activateCustomer($customerId, $key);
 
             // log in and send greeting email, then die happy
             $this->_getSession()->setCustomerDtoAsLoggedIn($customer);

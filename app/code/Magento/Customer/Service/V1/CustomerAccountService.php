@@ -134,21 +134,23 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function activateAccount($customerId)
+    public function activateCustomer($customerId, $confirmationKey)
     {
         // load customer by id
         $customer = $this->_converter->getCustomerModel($customerId);
 
         // check if customer is inactive
-        if (!$customer->getConfirmation()) {
+        if ($customer->getConfirmation()) {
+            if ($customer->getConfirmation() !== $confirmationKey) {
+                throw new StateException('Invalid confirmation token', StateException::INPUT_MISMATCH);
+            }
+            // activate customer
+            $customer->setConfirmation(null);
+            $customer->save();
+            $customer->sendNewAccountEmail('confirmed', '', $this->_storeManager->getStore()->getId());
+        } else {
             throw new StateException('Account already active', StateException::INVALID_STATE);
         }
-
-        // activate customer
-        $customer->setConfirmation(null);
-        $customer->save();
-        $customer->sendNewAccountEmail(self::NEW_ACCOUNT_EMAIL_CONFIRMED, '',
-            $this->_storeManager->getStore()->getId());
 
         return $this->_converter->createCustomerFromModel($customer);
     }

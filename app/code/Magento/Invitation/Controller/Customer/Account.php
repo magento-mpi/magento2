@@ -257,7 +257,7 @@ class Account extends \Magento\Customer\Controller\Account
             if ($customer->getConfirmation() !== $key) {
                 throw new \Exception(__('Wrong confirmation key.'));
             }
-            $this->_customerAccountService->activateAccount($customer->getCustomerId(), $key);
+            $this->_customerAccountService->activateCustomer($customer->getCustomerId(), $key);
 
             // log in and send greeting email, then die happy
             $this->_getSession()->setCustomerAsLoggedIn($customer);

@@ -84,12 +84,14 @@ interface CustomerAccountServiceInterface
      * Used to activate a customer account using a key that was sent in a confirmation e-mail.
      *
      * @param int $customerId
+     * @param string $confirmationKey Sent to customer in an confirmation e-mail.
      * @return Dto\Customer
      * @throws \Magento\Exception\NoSuchEntityException If customer doesn't exist
      * @throws \Magento\Exception\StateException
+     *      StateException::INPUT_MISMATCH if key doesn't match expected.
      *      StateException::INVALID_STATE_CHANGE if account already active.
      */
-    public function activateAccount($customerId);
+    public function activateCustomer($customerId, $confirmationKey);
 
     /**
      * Validate an account confirmation key matches expected value for customer
