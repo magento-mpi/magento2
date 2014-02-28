@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Sales\Model\Quote\Address\Total;
 
 class Tax extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
@@ -54,7 +53,7 @@ class Tax extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 
     /**
      * @param \Magento\Sales\Model\Quote\Address $address
-     * @return $this|\Magento\Sales\Model\Quote\Address\Total\AbstractTotal
+     * @return $this
      */
     public function collect(\Magento\Sales\Model\Quote\Address $address)
     {
@@ -224,6 +223,7 @@ class Tax extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
      * @param int $amount
      * @param int $baseAmount
      * @param int $rate
+     * @return void
      */
     protected function _saveAppliedTaxes(\Magento\Sales\Model\Quote\Address $address, $applied, $amount, $baseAmount, $rate)
     {

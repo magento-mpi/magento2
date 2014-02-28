@@ -7,8 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\Sales\Model\Quote\Address\Total;
 
 class Shipping extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
@@ -24,8 +22,8 @@ class Shipping extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
     /**
      * Collect totals information about shipping
      *
-     * @param   \Magento\Sales\Model\Quote\Address $address
-     * @return  \Magento\Sales\Model\Quote\Address\Total\Shipping
+     * @param \Magento\Sales\Model\Quote\Address $address
+     * @return $this
      */
     public function collect(\Magento\Sales\Model\Quote\Address $address)
     {
@@ -159,8 +157,8 @@ class Shipping extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
     /**
      * Add shipping totals information to address object
      *
-     * @param   \Magento\Sales\Model\Quote\Address $address
-     * @return  \Magento\Sales\Model\Quote\Address\Total\Shipping
+     * @param \Magento\Sales\Model\Quote\Address $address
+     * @return $this
      */
     public function fetch(\Magento\Sales\Model\Quote\Address $address)
     {

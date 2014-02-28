@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Sales\Model\Quote\Address;
 
 /**
  * @method \Magento\Sales\Model\Resource\Quote\Address\Item _getResource()
@@ -90,8 +90,6 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Model\Quote\Address;
-
 class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
 {
     /**
@@ -100,6 +98,10 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
      * @var \Magento\Sales\Model\Quote\Address
      */
     protected $_address;
+
+    /**
+     * @var
+     */
     protected $_quote;
 
     protected function _construct()

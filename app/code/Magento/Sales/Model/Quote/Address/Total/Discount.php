@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Sales\Model\Quote\Address\Total;
 
 class Discount extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
@@ -38,7 +37,7 @@ class Discount extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 
     /**
      * @param \Magento\Sales\Model\Quote\Address $address
-     * @return $this|\Magento\Sales\Model\Quote\Address\Total\AbstractTotal
+     * @return $this
      */
     public function collect(\Magento\Sales\Model\Quote\Address $address)
     {

@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Model\Quote\Address\Total;
 
 /**
  * Address Total Collector model
  */
-namespace Magento\Sales\Model\Quote\Address\Total;
-
 class Collector extends \Magento\Sales\Model\Config\Ordered
 {
     /**
@@ -143,7 +142,7 @@ class Collector extends \Magento\Sales\Model\Config\Ordered
     /**
      * Initialize retrievers array
      *
-     * @return \Magento\Sales\Model\Quote\Address\Total\Collector
+     * @return $this
      */
     protected function _initRetrievers()
     {

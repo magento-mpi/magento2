@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Sales\Model\Observer\Frontend\Quote\Address;
 
 class CollectTotals
@@ -48,6 +47,7 @@ class CollectTotals
      * Handle customer VAT number if needed on collect_totals_before event of quote address
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function dispatch(\Magento\Event\Observer $observer)
     {

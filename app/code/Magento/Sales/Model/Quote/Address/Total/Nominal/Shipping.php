@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Model\Quote\Address\Total\Nominal;
 
 /**
  * Nominal shipping total
  */
-namespace Magento\Sales\Model\Quote\Address\Total\Nominal;
-
 class Shipping extends \Magento\Sales\Model\Quote\Address\Total\Shipping
 {
     /**
@@ -20,6 +19,10 @@ class Shipping extends \Magento\Sales\Model\Quote\Address\Total\Shipping
      * @var bool
      */
     protected $_canAddAmountToAddress = false;
+
+    /**
+     * @var bool
+     */
     protected $_canSetAddressAmount   = false;
 
     /**
@@ -40,7 +43,7 @@ class Shipping extends \Magento\Sales\Model\Quote\Address\Total\Shipping
      * Collect shipping amount individually for each item
      *
      * @param \Magento\Sales\Model\Quote\Address $address
-     * @return \Magento\Sales\Model\Quote\Address\Total\Nominal\Shipping
+     * @return $this
      */
     public function collect(\Magento\Sales\Model\Quote\Address $address)
     {

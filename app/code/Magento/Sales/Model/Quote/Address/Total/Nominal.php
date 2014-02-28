@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Model\Quote\Address\Total;
 
 /**
  * Nominal items total
@@ -14,8 +15,6 @@
  * Collects only items segregated by isNominal property
  * Aggregates row totals per item
  */
-namespace Magento\Sales\Model\Quote\Address\Total;
-
 class Nominal extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 {
     /**
@@ -36,7 +35,7 @@ class Nominal extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
      *
      * @param \Magento\Sales\Model\Quote\Address $address
      * @param \Magento\Sales\Model\Quote\Address\Total\Nominal
-     * @return $this|\Magento\Sales\Model\Quote\Address\Total\AbstractTotal
+     * @return $this
      */
     public function collect(\Magento\Sales\Model\Quote\Address $address)
     {
@@ -80,7 +79,7 @@ class Nominal extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
      * Fetch collected nominal items
      *
      * @param \Magento\Sales\Model\Quote\Address $address
-     * @return \Magento\Sales\Model\Quote\Address\Total\Nominal
+     * @return $this
      */
     public function fetch(\Magento\Sales\Model\Quote\Address $address)
     {

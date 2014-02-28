@@ -27,6 +27,7 @@ class CatalogProductQuote
      *
      * @param int $productId
      * @param int $status
+     * @return void
      */
     protected function _recollectQuotes($productId, $status)
     {
@@ -39,6 +40,7 @@ class CatalogProductQuote
      * Catalog Product After Save (change status process)
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function catalogProductSaveAfter(\Magento\Event\Observer $observer)
     {
@@ -50,6 +52,7 @@ class CatalogProductQuote
      * When deleting product, subtract it from all quotes quantities
      *
      * @param \Magento\Event\Observer
+     * @return void
      */
     public function subtractQtyFromQuotes($observer)
     {
