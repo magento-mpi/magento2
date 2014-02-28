@@ -5,6 +5,11 @@
   * Fixed an exception that appears when trying to apply a coupon code
   * Fixed Shopping Cart Price Rule which applied to products that aren't eligible
   * Fixed Related Orders link from Recurring Profile page on frontend
+  * Fixed CMS preview function from CMS page gid
+  * Fixed sales report filters applying
+  * Fixed bundle product separately shipping doesn't work
+  * Fixed custom not found page action doesn't work
+  * Fixed Stop further rules processing is ignored
 * Modularity improvements:
   * Resolved dependencies of Sales module on RecurringProfile module
   * Resolved dependencies between Email Templates functionality and other modules
