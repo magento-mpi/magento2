@@ -213,7 +213,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     /**
      * Locale
      *
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\LocaleInterface
      */
     protected $_locale;
 
@@ -259,7 +259,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
      * @param Store\Config $coreStoreConfig
      * @param \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory
      * @param \Magento\Catalog\Model\Resource\Url $catalogUrl
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\LocaleInterface $locale
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Zend_Db_Adapter_Abstract $connection
@@ -282,7 +282,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory,
         \Magento\Catalog\Model\Resource\Url $catalogUrl,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\LocaleInterface $locale,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Stdlib\DateTime $dateTime,
         $connection = null
@@ -2049,16 +2049,15 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
             if ($item->hasStockItem()) {
                 $item->unsStockItem();
             }
-            $item = $this->_items[$i] = null;
+            $this->_items[$i] = null;
         }
 
         foreach ($this->_itemsById as $i => $item) {
-            $item = $this->_itemsById[$i] = null;
+            $this->_itemsById[$i] = null;
         }
 
         unset($this->_items, $this->_data, $this->_itemsById);
         $this->_data = array();
-        $this->_itemsById = array();
         return parent::clear();
     }
 

@@ -743,6 +743,7 @@ return array(
     array('Magento\Core\Model\Template\Config\SchemaLocator', 'Magento\Email\Model\Template\Config\SchemaLocator'),
     array('Magento\Core\Model\Resource\Email\Template', 'Magento\Email\Model\Resource\Template'),
     array('Magento\Core\Model\Resource\Email\Template\Collection', 'Magento\Email\Model\Resource\Template\Collection'),
+    array('Magento\Core\Model\LocaleInterface', 'Magento\LocaleInterface'),
     array('Mage_Core_Model_Resource_Language'),
     array('Mage_Core_Model_Resource_Language_Collection'),
     array('Mage_Core_Model_Resource_Setup_Query_Modifier'),
@@ -2141,6 +2142,7 @@ return array(
     ['Magento\Core\Helper\String', 'Magento\Code\NameBuilder'],
     ['Magento\Core\Model\Context', 'Magento\Model\Context'],
     ['Magento\Core\Model\Registry', 'Magento\Registry'],
+    ['Magento\Code\Plugin\InvocationChain'],
     ['Magento\Catalog\Helper\Product\Flat'],
-    ['Magento\Catalog\Helper\Flat\AbstractFlat']
+    ['Magento\Catalog\Helper\Flat\AbstractFlat'],
 );

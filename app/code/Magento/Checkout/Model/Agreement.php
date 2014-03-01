@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Checkout\Model;
 
 /**
  * @method \Magento\Checkout\Model\Resource\Agreement _getResource()
@@ -28,10 +29,11 @@
  * @package     Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Checkout\Model;
-
 class Agreement extends \Magento\Core\Model\AbstractModel
 {
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_init('Magento\Checkout\Model\Resource\Agreement');

@@ -24,10 +24,16 @@ class CustomerRegistrationTest extends \PHPUnit_Framework_TestCase
      */
     protected $_invitationHelper;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $subjectMock;
+
     protected function setUp()
     {
         $this->_invitationConfig = $this->getMock('Magento\Invitation\Model\Config', array(), array(), '', false);
         $this->_invitationHelper = $this->getMock('Magento\Invitation\Helper\Data', array(), array(), '', false);
+        $this->subjectMock = $this->getMock('Magento\Customer\Helper\Data', array(), array(), '', false);
         $this->_model = new \Magento\Invitation\Model\Plugin\CustomerRegistration(
             $this->_invitationConfig,
             $this->_invitationHelper
@@ -46,6 +52,6 @@ class CustomerRegistrationTest extends \PHPUnit_Framework_TestCase
             ->method('isRegistrationAllowed')
             ->with(true);
 
-        $this->assertFalse($this->_model->afterIsRegistrationAllowed(true));
+        $this->assertFalse($this->_model->afterIsRegistrationAllowed($this->subjectMock, true));
     }
 }

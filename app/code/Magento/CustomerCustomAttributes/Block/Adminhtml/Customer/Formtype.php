@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer;
 
 /**
  * Form Types Grid Container Block
@@ -15,13 +15,12 @@
  * @category   Magento
  * @package    Magento_CustomerCustomAttributes
  */
-namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer;
-
 class Formtype extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**
      * Block constructor
      *
+     * @return void
      */
     protected function _construct()
     {

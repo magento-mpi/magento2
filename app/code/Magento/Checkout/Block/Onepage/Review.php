@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Checkout\Block\Onepage;
 
 /**
  * One page checkout status
@@ -16,10 +17,11 @@
  * @package    Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Checkout\Block\Onepage;
-
 class Review extends \Magento\Checkout\Block\Onepage\AbstractOnepage
 {
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->getCheckout()->setStepData('review', array(

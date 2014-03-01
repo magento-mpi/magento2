@@ -7,14 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerCustomAttributes\Model\Resource\Sales;
 
 /**
  * Customer Quote resource
  */
-namespace Magento\CustomerCustomAttributes\Model\Resource\Sales;
-
-class Quote
-    extends \Magento\CustomerCustomAttributes\Model\Resource\Sales\AbstractSales
+class Quote extends AbstractSales
 {
     /**
      * Main entity resource model
@@ -37,6 +35,8 @@ class Quote
 
     /**
      * Initialize resource
+     *
+     * @return void
      */
     protected function _construct()
     {

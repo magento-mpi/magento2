@@ -7,20 +7,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerCustomAttributes\Model\Sales;
 
 /**
  * Customer abstract model
  *
  */
-namespace Magento\CustomerCustomAttributes\Model\Sales;
-
 abstract class AbstractSales extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Save new attribute
      *
      * @param \Magento\Customer\Model\Attribute $attribute
-     * @return \Magento\CustomerCustomAttributes\Model\Sales\AbstractSales
+     * @return $this
      */
     public function saveNewAttribute(\Magento\Customer\Model\Attribute $attribute)
     {
@@ -32,7 +31,7 @@ abstract class AbstractSales extends \Magento\Core\Model\AbstractModel
      * Delete attribute
      *
      * @param \Magento\Customer\Model\Attribute $attribute
-     * @return \Magento\CustomerCustomAttributes\Model\Sales\AbstractSales
+     * @return $this
      */
     public function deleteAttribute(\Magento\Customer\Model\Attribute $attribute)
     {
@@ -44,7 +43,7 @@ abstract class AbstractSales extends \Magento\Core\Model\AbstractModel
      * Attach extended data to sales object
      *
      * @param \Magento\Core\Model\AbstractModel $sales
-     * @return \Magento\CustomerCustomAttributes\Model\Sales\AbstractSales
+     * @return $this
      */
     public function attachAttributeData(\Magento\Core\Model\AbstractModel $sales)
     {
@@ -56,7 +55,7 @@ abstract class AbstractSales extends \Magento\Core\Model\AbstractModel
      * Save extended attributes data
      *
      * @param \Magento\Core\Model\AbstractModel $sales
-     * @return \Magento\CustomerCustomAttributes\Model\Sales\AbstractSales
+     * @return $this
      */
     public function saveAttributeData(\Magento\Core\Model\AbstractModel $sales)
     {
@@ -72,7 +71,7 @@ abstract class AbstractSales extends \Magento\Core\Model\AbstractModel
      * Need to check if main entity is already deleted from the database:
      * we should not save additional attributes for deleted entities.
      *
-     * @return \Magento\CustomerCustomAttributes\Model\Sales\AbstractSales
+     * @return $this
      */
     protected function _beforeSave()
     {

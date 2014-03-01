@@ -48,25 +48,29 @@ class Plugin
     /**
      * Check cross-domain session messages
      *
-     * @param array $arguments
-     * @return array
+     * @param \Magento\App\Response\Http $subject
+     * @param string $url
+     * @param int $code
+     *
+     * @return void|array
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function beforeSendResponse($arguments)
+    public function beforeSetRedirect(\Magento\App\Response\Http $subject, $url, $code = 302)
     {
-        $url = isset($arguments[0]) ? $arguments[0] : null;
         if (!$url) {
-            return $arguments;
+            return;
         }
+
         $httpHost = $this->_request->getHttpHost();
         $urlHost = parse_url($url, PHP_URL_HOST);
         if ($httpHost != $urlHost && $this->messageManager->getMessages()->getCount() > 0) {
-            $arguments[0] = $this->_urlHelper->addRequestParam(
+            $url = $this->_urlHelper->addRequestParam(
                 $url,
                 array(
                     \Magento\FullPageCache\Model\Cache::REQUEST_MESSAGE_GET_PARAM => null
                 )
             );
         }
-        return $arguments;
+        return array('url' => $url, 'code' => $code);
     }
 }

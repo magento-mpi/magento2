@@ -7,14 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerSegment\Model\Segment\Condition\Customer;
+
+use Magento\Customer\Model\Customer;
+use Magento\CustomerSegment\Model\Condition\AbstractCondition;
 
 /**
  * Customer attributes condition
  */
-namespace Magento\CustomerSegment\Model\Segment\Condition\Customer;
-
-class Attributes
-    extends \Magento\CustomerSegment\Model\Condition\AbstractCondition
+class Attributes extends AbstractCondition
 {
     /**
      * @var \Magento\Eav\Model\Config
@@ -50,7 +51,7 @@ class Attributes
     /**
      * Get array of event names where segment with such conditions combine can be matched
      *
-     * @return array
+     * @return string[]
      */
     public function getMatchedEvents()
     {
@@ -86,7 +87,7 @@ class Attributes
     /**
      * Load condition options for castomer attributes
      *
-     * @return \Magento\CustomerSegment\Model\Segment\Condition\Customer\Attributes
+     * @return $this
      */
     public function loadAttributeOptions()
     {
@@ -212,7 +213,7 @@ class Attributes
     }
 
     /**
-     * Chechk if attribute value should be explicit
+     * Check if attribute value should be explicit
      *
      * @return bool
      */
@@ -295,7 +296,7 @@ class Attributes
     /**
      * Return values of start and end datetime for date if operator is equal
      *
-     * @return array|string
+     * @return array
      */
     public function getDateValue()
     {
@@ -328,8 +329,8 @@ class Attributes
     /**
      * Create SQL condition select for customer attribute
      *
-     * @param $customer
-     * @param $website
+     * @param Customer|\Zend_Db_Expr $customer
+     * @param int|\Zend_Db_Expr $website
      * @return \Magento\DB\Select
      */
     public function getConditionsSql($customer, $website)

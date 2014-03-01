@@ -5,12 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Model\Billing;
 
 /**
  * Billing Agreement abstaract class
  */
-namespace Magento\Paypal\Model\Billing;
-
 abstract class AbstractAgreement extends \Magento\Core\Model\AbstractModel
 {
     /**
@@ -29,25 +28,21 @@ abstract class AbstractAgreement extends \Magento\Core\Model\AbstractModel
 
     /**
      * Init billing agreement
-     *
      */
     abstract public function initToken();
 
     /**
      * Verify billing agreement details
-     *
      */
     abstract public function verifyToken();
 
     /**
      * Create billing agreement
-     *
      */
     abstract public function place();
 
     /**
      * Cancel billing agreement
-     *
      */
     abstract public function cancel();
 
