@@ -2176,4 +2176,10 @@ return array(
     ['Magento\Usa\Model\Shipping\Carrier\Dhl\International\Source\Method\Unitofmeasure', 'Magento\Dhl\Model\Source\Method\Unitofmeasure'],
     ['Magento\Usa\Model\Shipping\Carrier\Dhl\AbstractDhl', 'Magento\Dhl\Model\AbstractDhl'],
     ['Magento\Usa\Model\Shipping\Carrier\Dhl'],
+    ['Magento\Usa\Model\Shipping\Carrier\Fedex', 'Magento\Fedex\Model\Carrier'],
+    ['Magento\Usa\Model\Shipping\Carrier\Fedex\Source\Droppff', 'Magento\Fedex\Model\Source\Droppff'],
+    ['Magento\Usa\Model\Shipping\Carrier\Fedex\Source\Freemethod', 'Magento\Fedex\Model\Source\Freemethod'],
+    ['Magento\Usa\Model\Shipping\Carrier\Fedex\Source\Generic', 'Magento\Fedex\Model\Source\Generic'],
+    ['Magento\Usa\Model\Shipping\Carrier\Fedex\Source\Method', 'Magento\Fedex\Model\Source\Method'],
+    ['Magento\Usa\Model\Shipping\Carrier\Fedex\Source\Packaging', 'Magento\Fedex\Model\Source\Packaging'],
 );
