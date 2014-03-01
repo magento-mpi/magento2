@@ -29,7 +29,7 @@
         <tr>
             <th class="col updated"><?php echo __('Updated at');?></th>
             <td class="col updated">
-                <?php echo $this->formatDate($this->getWishlistInstance()->getUpdatedAt(), \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM);?>
+                <?php echo $this->formatDate($this->getWishlistInstance()->getUpdatedAt(), Magento\LocaleInterface::FORMAT_TYPE_MEDIUM);?>
             </td>
         </tr>
         </tbody>

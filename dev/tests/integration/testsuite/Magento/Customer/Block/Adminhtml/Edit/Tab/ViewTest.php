@@ -7,7 +7,7 @@
  */
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 
-use Magento\Core\Model\LocaleInterface;
+use Magento\LocaleInterface;
 use Magento\Customer\Model\Customer as CustomerModel;
 
 /**

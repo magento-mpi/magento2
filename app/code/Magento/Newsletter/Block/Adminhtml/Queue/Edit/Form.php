@@ -77,8 +77,8 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             'class'    =>  'fieldset-wide'
         ));
 
-        $dateFormat = $this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM);
-        $timeFormat = $this->_locale->getTimeFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM);
+        $dateFormat = $this->_locale->getDateFormat(\Magento\LocaleInterface::FORMAT_TYPE_MEDIUM);
+        $timeFormat = $this->_locale->getTimeFormat(\Magento\LocaleInterface::FORMAT_TYPE_MEDIUM);
 
         if ($queue->getQueueStatus() == \Magento\Newsletter\Model\Queue::STATUS_NEVER) {
             $fieldset->addField('date', 'date', array(

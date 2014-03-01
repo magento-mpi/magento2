@@ -30,7 +30,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_eavConfig;
     
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\LocaleInterface
      */
     protected $_locale;
 
@@ -42,13 +42,13 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\LocaleInterface $locale
      * @param \Magento\Filter\FilterManager $filterManager
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
         \Magento\Eav\Model\Config $eavConfig,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\LocaleInterface $locale,
         \Magento\Filter\FilterManager $filterManager
     ) {
         $this->_eavConfig = $eavConfig;
@@ -479,7 +479,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getDateFormat()
     {
-        return $this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
+        return $this->_locale->getDateFormat(\Magento\LocaleInterface::FORMAT_TYPE_SHORT);
     }
 
     /**

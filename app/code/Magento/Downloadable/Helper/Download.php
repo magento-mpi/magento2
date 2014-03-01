@@ -101,11 +101,6 @@ class Download extends \Magento\App\Helper\AbstractHelper
     protected $_coreStoreConfig;
 
     /**
-     * @var \Magento\Core\Model\App
-     */
-    protected $_app;
-
-    /**
      * @var \Magento\App\Filesystem
      */
     protected $_filesystem;
@@ -136,7 +131,6 @@ class Download extends \Magento\App\Helper\AbstractHelper
         $this->_downloadableFile = $downloadableFile;
         $this->_coreFileStorageDb = $coreFileStorageDb;
         $this->_coreStoreConfig = $coreStoreConfig;
-        $this->_app = $context->getApp();
         $this->_filesystem = $filesystem;
 
         parent::__construct($context);
@@ -266,7 +260,7 @@ class Download extends \Magento\App\Helper\AbstractHelper
     {
         $handle = $this->_getHandle();
         while (true == ($buffer = $handle->read(1024))) {
-            print $buffer;
+            echo $buffer;
         }
     }
 

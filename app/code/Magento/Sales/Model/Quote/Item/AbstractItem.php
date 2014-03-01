@@ -11,6 +11,8 @@ namespace Magento\Sales\Model\Quote\Item;
 
 use Magento\Sales\Model\Quote\Item;
 
+namespace Magento\Sales\Model\Quote\Item;
+
 /**
  * Quote item abstract model
  *
@@ -21,9 +23,22 @@ use Magento\Sales\Model\Quote\Item;
  *  - custom_price - new price that can be declared by user and recalculated during calculation process
  *  - original_custom_price - original defined value of custom price without any convertion
  *
- * @category   Magento
- * @package    Magento_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @method float getDiscountAmount()
+ * @method \Magento\Sales\Model\Quote\Item\AbstractItem setDiscountAmount(float $amount)
+ * @method float getBaseDiscountAmount()
+ * @method \Magento\Sales\Model\Quote\Item\AbstractItem setBaseDiscountAmount(float $amount)
+ * @method float getDiscountPercent()
+ * @method \Magento\Sales\Model\Quote\Item\AbstractItem setDiscountPercent()
+ * @method float getOriginalDiscountAmount()
+ * @method \Magento\Sales\Model\Quote\Item\AbstractItem setOriginalDiscountAmount()
+ * @method float getBaseOriginalDiscountAmount()
+ * @method \Magento\Sales\Model\Quote\Item\AbstractItem setBaseOriginalDiscountAmount()
+ * @method float getDiscountCalculationPrice()
+ * @method \Magento\Sales\Model\Quote\Item\AbstractItem setDiscountCalculationPrice()
+ * @method float getBaseDiscountCalculationPrice()
+ * @method \Magento\Sales\Model\Quote\Item\AbstractItem setBaseDiscountCalculationPrice($price)
+ * @method int[] getAppliedRuleIds()
+ * @method \Magento\Sales\Model\Quote\Item\AbstractItem setAppliedRuleIds(array $ruleIds)
  */
 abstract class AbstractItem extends \Magento\Core\Model\AbstractModel
     implements \Magento\Catalog\Model\Product\Configuration\Item\ItemInterface
@@ -145,7 +160,6 @@ abstract class AbstractItem extends \Magento\Core\Model\AbstractModel
         }
         return $this;
     }
-
 
     /**
      * Set parent item

@@ -48,11 +48,6 @@ abstract class AbstractHelper
     protected $_logger;
 
     /**
-     * @var \Magento\Core\Model\App
-     */
-    protected $_app;
-
-    /**
      * @var \Magento\UrlInterface
      */
     protected $_urlBuilder;
@@ -83,7 +78,6 @@ abstract class AbstractHelper
         $this->_moduleManager = $context->getModuleManager();
         $this->_logger = $context->getLogger();
         $this->_request = $context->getRequest();
-        $this->_app = $context->getApp();
         $this->_urlBuilder = $context->getUrlBuilder();
         $this->_httpHeader = $context->getHttpHeader();
         $this->_eventManager = $context->getEventManager();

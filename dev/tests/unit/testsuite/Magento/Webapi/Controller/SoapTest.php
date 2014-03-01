@@ -39,6 +39,11 @@ class SoapTest extends \PHPUnit_Framework_TestCase
     protected $_oauthServiceMock;
 
     /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_localeMock;
+
+    /**
      * Set up Controller object.
      */
     protected function setUp()
@@ -68,18 +73,17 @@ class SoapTest extends \PHPUnit_Framework_TestCase
         $this->_appStateMock =  $this->getMockBuilder('Magento\App\State')
             ->disableOriginalConstructor()
             ->getMock();
-        $localeMock =  $this->getMockBuilder('Magento\Core\Model\Locale')
-            ->disableOriginalConstructor()
-            ->setMethods(array('getLocale', 'getLanguage'))
-            ->getMock();
-        $localeMock->expects($this->any())->method('getLocale')->will($this->returnValue($localeMock));
-        $localeMock->expects($this->any())->method('getLanguage')->will($this->returnValue('en'));
+        $this->_localeMock = $this->getMock(
+            'Magento\Core\Model\Locale', array('getLocale', 'getLanguage'), array(), '', false
+        );
+
+        $this->_localeMock->expects($this->any())->method('getLocale')->will($this->returnValue($this->_localeMock));
+        $this->_localeMock->expects($this->any())->method('getLanguage')->will($this->returnValue('en'));
 
         $this->_applicationMock =  $this->getMockBuilder('Magento\Core\Model\App')
             ->disableOriginalConstructor()
-            ->setMethods(array('getLocale', 'isDeveloperMode'))
+            ->setMethods(array('isDeveloperMode'))
             ->getMock();
-        $this->_applicationMock->expects($this->any())->method('getLocale')->will($this->returnValue($localeMock));
         $this->_applicationMock->expects($this->any())->method('isDeveloperMode')->will($this->returnValue(false));
 
         $this->_oauthServiceMock = $this->getMockBuilder('Magento\Oauth\Oauth')
@@ -99,7 +103,8 @@ class SoapTest extends \PHPUnit_Framework_TestCase
             $this->_errorProcessorMock,
             $this->_appStateMock,
             $this->_applicationMock,
-            $this->_oauthServiceMock
+            $this->_oauthServiceMock,
+            $this->_localeMock
         );
     }
 

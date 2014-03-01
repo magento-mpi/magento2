@@ -7,20 +7,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * Adminhtml catalog super product configurable tab
- */
 namespace Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super;
-
 
 use Magento\Backend\Block\Widget;
 use Magento\Backend\Block\Widget\Tab\TabInterface;
 use Magento\Catalog\Model\Product;
 use Magento\ConfigurableProduct\Model\Product\Type\Configurable;
 use Magento\Core\Model\App;
-use Magento\Core\Model\LocaleInterface;
+use Magento\LocaleInterface;
 
+/**
+ * Adminhtml catalog super product configurable tab
+ */
 class Config extends Widget implements TabInterface
 {
     /**
@@ -53,11 +51,17 @@ class Config extends Widget implements TabInterface
     protected $_jsonEncoder;
 
     /**
+     * @var \Magento\App\ConfigInterface
+     */
+    protected $_config;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param Configurable $configurableType
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Registry $coreRegistry
+     * @param \Magento\App\ConfigInterface $config
      * @param array $data
      */
     public function __construct(
@@ -66,12 +70,14 @@ class Config extends Widget implements TabInterface
         Configurable $configurableType,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Registry $coreRegistry,
+        \Magento\App\ConfigInterface $config,
         array $data = array()
     ) {
         $this->_configurableType = $configurableType;
         $this->_coreRegistry = $coreRegistry;
         $this->_catalogData = $catalogData;
         $this->_jsonEncoder = $jsonEncoder;
+        $this->_config = $config;
         parent::__construct($context, $data);
     }
 
@@ -392,14 +398,6 @@ class Config extends Widget implements TabInterface
     }
 
     /**
-     * @return App
-     */
-    public function getApp()
-    {
-        return $this->_app;
-    }
-
-    /**
      * @return LocaleInterface
      */
     public function getLocale()
@@ -414,6 +412,8 @@ class Config extends Widget implements TabInterface
      */
     public function getBaseCurrency()
     {
-        return $this->getLocale()->currency($this->getApp()->getBaseCurrencyCode());
+        return $this->getLocale()->currency(
+            $this->_config->getValue(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE, 'default')
+        );
     }
 }
