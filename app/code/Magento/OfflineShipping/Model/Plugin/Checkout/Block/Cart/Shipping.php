@@ -31,12 +31,12 @@ class Shipping
     }
 
     /**
-     * @todo Uncomment first parameter after merge with mainline
-     *
+     * @param \Magento\Checkout\Block\Cart\Shipping $subject
      * @param  bool $result
      * @return bool
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function afterGetStateActive(/*\Magento\Checkout\Block\Cart\Shipping $subject, */$result)
+    public function afterGetStateActive(\Magento\Checkout\Block\Cart\Shipping $subject, $result)
     {
         return (bool)$result || (bool)$this->_storeConfig->getConfig('carriers/tablerate/active');
     }
