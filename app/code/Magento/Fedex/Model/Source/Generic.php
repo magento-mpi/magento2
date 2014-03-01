@@ -6,12 +6,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\Usa\Model\Shipping\Carrier\Fedex\Source;
+namespace Magento\Fedex\Model\Source;
 
 class Generic implements \Magento\Option\ArrayInterface
 {
     /**
-     * @var \Magento\Usa\Model\Shipping\Carrier\Fedex
+     * @var \Magento\Fedex\Model\Carrier
      */
     protected $_shippingFedex;
 
@@ -23,9 +23,9 @@ class Generic implements \Magento\Option\ArrayInterface
     protected $_code = '';
 
     /**
-     * @param \Magento\Usa\Model\Shipping\Carrier\Fedex $shippingFedex
+     * @param \Magento\Fedex\Model\Carrier $shippingFedex
      */
-    public function __construct(\Magento\Usa\Model\Shipping\Carrier\Fedex $shippingFedex)
+    public function __construct(\Magento\Fedex\Model\Carrier $shippingFedex)
     {
         $this->_shippingFedex = $shippingFedex;
     }

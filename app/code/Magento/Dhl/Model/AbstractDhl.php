@@ -29,13 +29,12 @@ abstract class AbstractDhl extends AbstractCarrierOnline
     /**
      * Get shipping date
      *
-     * @param bool $domestic
      * @return string
      */
-    protected function _getShipDate($domestic = true)
+    protected function _getShipDate()
     {
         return $this->_determineShippingDay(
-            $this->getConfigData($domestic ? 'shipment_days' : 'intl_shipment_days'),
+            $this->getConfigData('shipment_days'),
             date(self::REQUEST_DATE_FORMAT)
         );
     }

@@ -25,10 +25,4 @@
             <argument name="storage" xsi:type="object">Magento\Checkout\Model\Session\Storage</argument>
         </arguments>
     </type>
-    <type name="Magento\Checkout\Block\Cart\Shipping">
-        <plugin name="checkout_cart_shipping_dhl" type="Magento\Dhl\Model\Plugin\Checkout\Block\Shipping"/>
-    </type>
-    <type name="Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shippingmethod">
-        <plugin name="rma_tab_shippingmethod_dhl" type="Magento\Dhl\Model\Plugin\Rma\Block\Tab\Shippingmethod"/>
-    </type>
 </config>

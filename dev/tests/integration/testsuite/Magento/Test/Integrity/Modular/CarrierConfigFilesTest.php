@@ -2,7 +2,7 @@
 namespace Magento\Test\Integrity\Modular;
 
 /**
- * Test configuration of Usa shipping carriers
+ * Test configuration of Online Shipping carriers
  *
  * {license_notice}
  *

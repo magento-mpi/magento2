@@ -5,7 +5,7 @@
  * @copyright {copyright}
  * @license {license_link}
  */
-namespace Magento\Dhl\Model\Plugin\Checkout\Block;
+namespace Magento\Dhl\Model\Plugin\Checkout\Block\Cart;
 
 /**
  * Checkout cart shipping block plugin

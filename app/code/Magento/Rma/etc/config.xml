@@ -19,9 +19,6 @@
             </magento_rma>
         </sales>
         <carriers>
-            <fedex>
-                <active_rma>0</active_rma>
-            </fedex>
             <usps>
                 <active_rma>0</active_rma>
             </usps>

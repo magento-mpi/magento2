@@ -5,7 +5,7 @@
  * @copyright {copyright}
  * @license {license_link}
  */
-namespace Magento\Dhl\Model\Plugin\Rma\Block\Tab;
+namespace Magento\Dhl\Model\Plugin\Rma\Block\Adminhtml\Rma\Edit\Tab\General;
 
 /**
  * Checkout cart shipping block plugin
@@ -29,12 +29,15 @@ class Shippingmethod
      * @param \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shippingmethod $subject
      * @param bool $result
      * @return bool
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function afterCanDisplayCustomValue(
         \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shippingmethod $subject,
         $result
     ) {
-        return (bool)$result || (bool)$this->_storeConfig->getConfig('carriers/dhl/active');
+        $carrierCode = $subject->getShipment()->getCarrierCode();
+        if (!$carrierCode) {
+            return (bool)$result || false;
+        }
+        return (bool)$result || (bool)$carrierCode == \Magento\Dhl\Model\Carrier::CODE;
     }
 }

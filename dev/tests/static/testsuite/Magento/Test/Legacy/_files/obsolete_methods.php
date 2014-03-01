@@ -135,7 +135,7 @@ return array(
     array('_getAddressForm', 'Magento\Sales\Block\Adminhtml\Order\Create\Form\Address'),
     array('_parseDescription', 'Magento\Sales\Model\Order\Pdf\Items\AbstractItems'),
     array('_parsePackageTheme', 'Magento\Widget\Model\Widget\Instance'),
-    array('_parseXmlTrackingResponse', 'Magento\Usa\Model\Shipping\Carrier\Fedex'),
+    array('_parseXmlTrackingResponse', 'Magento\Fedex\Model\Carrier'),
     array('_prepareCondition', 'Magento\CatalogSearch\Model\Advanced'),
     array('_prepareConfigurableProductData', 'Magento\ImportExport\Model\Export\Entity\Product'),
     array('_prepareConfigurableProductPrice', 'Magento\ImportExport\Model\Export\Entity\Product'),

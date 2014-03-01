@@ -3,11 +3,10 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Usa
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Usa\Model\Shipping\Carrier;
+namespace Magento\Fedex\Model;
 
 use Magento\Sales\Model\Quote\Address\RateRequest;
 use Magento\Shipping\Model\Carrier\AbstractCarrierOnline;
@@ -18,7 +17,7 @@ use Magento\Shipping\Model\Rate\Result;
  *
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Fedex extends AbstractCarrierOnline implements \Magento\Shipping\Model\Carrier\CarrierInterface
+class Carrier extends AbstractCarrierOnline implements \Magento\Shipping\Model\Carrier\CarrierInterface
 {
 
     /**
@@ -173,7 +172,7 @@ class Fedex extends AbstractCarrierOnline implements \Magento\Shipping\Model\Car
             $directoryData,
             $data
         );
-        $wsdlBasePath = $configReader->getModuleDir('etc', 'Magento_Usa')  . '/wsdl/FedEx/';
+        $wsdlBasePath = $configReader->getModuleDir('etc', 'Magento_Fedex')  . '/wsdl/';
         $this->_shipServiceWsdl = $wsdlBasePath . 'ShipService_v10.wsdl';
         $this->_rateServiceWsdl = $wsdlBasePath . 'RateService_v10.wsdl';
         $this->_trackServiceWsdl = $wsdlBasePath . 'TrackService_v5.wsdl';

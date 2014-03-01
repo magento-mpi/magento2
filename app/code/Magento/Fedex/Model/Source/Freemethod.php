@@ -3,21 +3,19 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Usa
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Usa\Model\Shipping\Carrier\Fedex\Source;
+namespace Magento\Fedex\Model\Source;
 
 /**
  * Fedex freemethod source implementation
  *
  * @category   Magento
- * @package    Magento_Usa
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Freemethod
-    extends \Magento\Usa\Model\Shipping\Carrier\Fedex\Source\Method
+    extends \Magento\Fedex\Model\Source\Method
 {
     /**
      * {@inheritdoc}

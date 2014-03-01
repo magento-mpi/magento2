@@ -11,8 +11,8 @@ namespace Magento\Shipping\Model\Tracking\Result;
 
 /**
  * Fields:
- * - carrier: fedex
- * - carrierTitle: Federal Express
+ * - carrier: carrier_code
+ * - carrierTitle: Carrier Title
  * - tracking: 749011111111
  * - status: delivered
  * - service: home delivery

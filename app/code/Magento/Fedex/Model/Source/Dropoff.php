@@ -3,26 +3,24 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Usa
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Fedex packaging source implementation
+ * Fedex dropoff source implementation
  *
  * @category   Magento
- * @package    Magento_Usa
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Usa\Model\Shipping\Carrier\Fedex\Source;
+namespace Magento\Fedex\Model\Source;
 
-class Packaging extends \Magento\Usa\Model\Shipping\Carrier\Fedex\Source\Generic
+class Dropoff extends \Magento\Fedex\Model\Source\Generic
 {
     /**
      * Carrier code
      *
      * @var string
      */
-    protected $_code = 'packaging';
+    protected $_code = 'dropoff';
 }
