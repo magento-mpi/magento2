@@ -14,6 +14,7 @@ use Magento\Catalog\Model\Product\Type;
 use Magento\Sales\Model\Order\Shipment;
 use Magento\Sales\Model\Quote\Address\RateRequest;
 use Magento\Sales\Model\Quote\Address\RateResult\Error;
+use Magento\Shipping\Helper\Carrier;
 use Magento\Shipping\Model\Carrier\AbstractCarrier;
 use Magento\Shipping\Model\Rate\Result;
 
@@ -72,7 +73,7 @@ class International
     /**
      * Countries parameters data
      *
-     * @var \Magento\Usa\Model\Simplexml\Element|null
+     * @var \Magento\Shipping\Model\Simplexml\Element|null
      */
     protected $_countryParams = null;
 
@@ -150,11 +151,11 @@ class International
     protected $string;
 
     /**
-     * Usa data
+     * Carrier helper
      *
-     * @var \Magento\Usa\Helper\Data
+     * @var \Magento\Shipping\Helper\Carrier
      */
-    protected $_usaData;
+    protected $_carrierHelper;
 
     /**
      * @var \Magento\Stdlib\DateTime\DateTime
@@ -197,7 +198,7 @@ class International
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Sales\Model\Quote\Address\RateResult\ErrorFactory $rateErrorFactory
      * @param \Magento\Logger\AdapterFactory $logAdapterFactory
-     * @param \Magento\Usa\Model\Simplexml\ElementFactory $xmlElFactory
+     * @param \Magento\Shipping\Model\Simplexml\ElementFactory $xmlElFactory
      * @param \Magento\Shipping\Model\Rate\ResultFactory $rateFactory
      * @param \Magento\Sales\Model\Quote\Address\RateResult\MethodFactory $rateMethodFactory
      * @param \Magento\Shipping\Model\Tracking\ResultFactory $trackFactory
@@ -207,7 +208,7 @@ class International
      * @param \Magento\Directory\Model\CountryFactory $countryFactory
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
      * @param \Magento\Directory\Helper\Data $directoryData
-     * @param \Magento\Usa\Helper\Data $usaData
+     * @param \Magento\Shipping\Helper\Carrier $carrierHelper
      * @param \Magento\Stdlib\DateTime\DateTime $coreDate
      * @param \Magento\Module\Dir\Reader $configReader
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -222,7 +223,7 @@ class International
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Sales\Model\Quote\Address\RateResult\ErrorFactory $rateErrorFactory,
         \Magento\Logger\AdapterFactory $logAdapterFactory,
-        \Magento\Usa\Model\Simplexml\ElementFactory $xmlElFactory,
+        \Magento\Shipping\Model\Simplexml\ElementFactory $xmlElFactory,
         \Magento\Shipping\Model\Rate\ResultFactory $rateFactory,
         \Magento\Sales\Model\Quote\Address\RateResult\MethodFactory $rateMethodFactory,
         \Magento\Shipping\Model\Tracking\ResultFactory $trackFactory,
@@ -232,7 +233,7 @@ class International
         \Magento\Directory\Model\CountryFactory $countryFactory,
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
         \Magento\Directory\Helper\Data $directoryData,
-        \Magento\Usa\Helper\Data $usaData,
+        Carrier $carrierHelper,
         \Magento\Stdlib\DateTime\DateTime $coreDate,
         \Magento\Module\Dir\Reader $configReader,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
@@ -244,7 +245,7 @@ class International
         array $data = array()
     ) {
         $this->modulesDirectory = $filesystem->getDirectoryRead(\Magento\App\Filesystem::MODULES_DIR);
-        $this->_usaData = $usaData;
+        $this->_carrierHelper = $carrierHelper;
         $this->_coreDate = $coreDate;
         $this->_storeManager = $storeManager;
         $this->_configReader = $configReader;
@@ -673,7 +674,7 @@ class International
         $countryWeightUnit = $this->getCode('dimensions_variables', $this->_getWeightUnit());
 
         if ($configWeightUnit != $countryWeightUnit) {
-            $weight = $this->_usaData->convertMeasureWeight(
+            $weight = $this->_carrierHelper->convertMeasureWeight(
                 round($weight, 3),
                 $configWeightUnit,
                 $countryWeightUnit
@@ -768,10 +769,10 @@ class International
     /**
      * Make pieces
      *
-     * @param \Magento\Usa\Model\Simplexml\Element $nodeBkgDetails
+     * @param \Magento\Shipping\Model\Simplexml\Element $nodeBkgDetails
      * @return void
      */
-    protected function _makePieces(\Magento\Usa\Model\Simplexml\Element $nodeBkgDetails)
+    protected function _makePieces(\Magento\Shipping\Model\Simplexml\Element $nodeBkgDetails)
     {
         $divideOrderWeight = (string)$this->getConfigData('divide_order_weight');
         $nodePieces = $nodeBkgDetails->addChild('Pieces', '', '');
@@ -860,7 +861,7 @@ class International
         $countryDimensionUnit = $this->getCode('dimensions_variables', $this->_getDimensionUnit());
 
         if ($configDimensionUnit != $countryDimensionUnit) {
-            $dimension = $this->_usaData->convertMeasureDimension(
+            $dimension = $this->_carrierHelper->convertMeasureDimension(
                 round($dimension, 3),
                 $configDimensionUnit,
                 $countryDimensionUnit
@@ -873,7 +874,7 @@ class International
     /**
      * Add dimension to piece
      *
-     * @param \Magento\Usa\Model\Simplexml\Element $nodePiece
+     * @param \Magento\Shipping\Model\Simplexml\Element $nodePiece
      * @return void
      */
     protected function _addDimension($nodePiece)
@@ -1549,7 +1550,7 @@ class International
     /**
      * Generation Shipment Details Node according to origin region
      *
-     * @param \Magento\Usa\Model\Simplexml\Element $xml
+     * @param \Magento\Shipping\Model\Simplexml\Element $xml
      * @param RateRequest $rawRequest
      * @param string $originRegion
      * @return void

@@ -44,21 +44,31 @@ class Rma extends \Magento\Backend\App\Action
     protected $_fileFactory;
 
     /**
+     * Shipping carrier helper
+     *
+     * @var \Magento\Shipping\Helper\Carrier
+     */
+    protected $carrierHelper;
+
+    /**
      * @param Action\Context $context
      * @param \Magento\Registry $coreRegistry
      * @param \Magento\App\Response\Http\FileFactory $fileFactory
      * @param \Magento\App\Filesystem $filesystem
+     * @param \Magento\Shipping\Helper\Carrier $carrierHelper
      */
     public function __construct(
         Action\Context $context,
         \Magento\Registry $coreRegistry,
         \Magento\App\Response\Http\FileFactory $fileFactory,
-        \Magento\App\Filesystem $filesystem
+        \Magento\App\Filesystem $filesystem,
+        \Magento\Shipping\Helper\Carrier $carrierHelper
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->filesystem = $filesystem;
         $this->readDirectory = $filesystem->getDirectoryRead(\Magento\App\Filesystem::MEDIA_DIR);
         $this->_fileFactory = $fileFactory;
+        $this->carrierHelper = $carrierHelper;
         parent::__construct($context);
     }
 
@@ -1221,8 +1231,8 @@ class Rma extends \Magento\Backend\App\Action
                 $shipment->save();
 
                 $carrierCode = $carrier->getCarrierCode();
-                $carrierTitle = $this->_objectManager->get('Magento\Core\Model\Store\Config')
-                    ->getConfig('carriers/'.$carrierCode.'/title', $shipment->getStoreId());
+                $carrierTitle = $this->carrierHelper
+                    ->getCarrierConfigValue($carrierCode, 'title', $shipment->getStoreId());
                 if ($trackingNumbers) {
                     /** @var $shippingResource \Magento\Rma\Model\Resource\Shipping */
                     $shippingResource = $this->_objectManager->create('Magento\Rma\Model\Resource\Shipping');
