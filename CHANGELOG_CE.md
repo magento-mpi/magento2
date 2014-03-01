@@ -1,11 +1,31 @@
 * GitHub requests:
+  * [#454](https://github.com/magento/magento2/pull/454) -- Allow to specify list of IPs in a body on maintenance.flag which will be granted access even if the flag is on
+  * [#204](https://github.com/magento/magento2/issues/204) -- Mage_ImportExport: Exporting configurable products ignores multiple configurable options
+  * [#418](https://github.com/magento/magento2/issues/418) -- Echo vs print
+  * [#419](https://github.com/magento/magento2/issues/419) -- Some translation keys are not correct.
+  * [#244](https://github.com/magento/magento2/issues/244) -- Retrieve base host URL without path in error processor
+  * [#411](https://github.com/magento/magento2/issues/411) -- Missed column 'payment_method' of table 'sales_flat_quote_address'
+  * [#284](https://github.com/magento/magento2/pull/284) -- Fix for Issue #278 (Import -> Stores with large amount of Configurable Products)
   * [#235](https://github.com/magento/magento2/issues/235) -- Translation escaping
   * [#463](https://github.com/magento/magento2/pull/463) -- allow _resolveArguments to do sequential lookups
   * [#499] (https://github.com/magento/magento2/issues/499) Deleted unclosed comment in calendar.css
+* Framework Improvements:
+  * Added ability to intercept of internal public calls
+  * Added ability to access public interface of intercepted object
+  * Added static integrity test for plugin inteface validation
 * Fixed bugs:
   * Fixed an exception that appears when trying to apply a coupon code
   * Fixed Shopping Cart Price Rule which applied to products that aren't eligible
   * Fixed Related Orders link from Recurring Profile page on frontend
+  * Fixed CMS preview function from CMS page gid
+  * Fixed sales report filters applying
+  * Fixed bundle product separately shipping doesn't work
+  * Fixed custom not found page action doesn't work
+  * Fixed Stop further rules processing is ignored
+  * Fixed transaction rollback in fetchNewIncrementId on exception
+  * Fixed category saveing when it has more than 1000 products
+  * Fixed error messages displayed during installation when required extensions are not installed
+  * Fixed synopsis of install.php script
 * Modularity improvements:
   * Resolved dependencies of Sales module on RecurringProfile module
   * Resolved dependencies between Email Templates functionality and other modules
@@ -22,6 +42,8 @@
 * GitHub requests:
   * [#134] (https://github.com/magento/magento2/pull/134) Fixed a typo in "Vorarlberg" region of Austria (was Voralberg)
 * Fixed bugs:
+  * Unexistent store views flat tables cleanuper drops catalog_category_flat_cl table
+  * Product flat indexer must use State instead of helpers logic
   * Fixed an issue with the "Add to Cart" button on the MAP popup of compound products
   * Fixed an issue where the "Add Address" button for Customer in Admin was broken
   * Fixed an issue where predefined data are not loaded for a newsletter when it is added to a queue
@@ -69,9 +91,12 @@
  * [#319] (https://github.com/magento/magento2/issues/319) No message was displayed when product added to shopping cart.
  * [#367] (https://github.com/magento/magento2/issues/367) Improve the error message from the contact form
  * [#469] (https://github.com/magento/magento2/issues/469) Can't change prices on different websites for custom options
-* Updated the Customer service exception handling, and added tests
-* Added usage of the Customer service to the Customer module, replacing some direct usage of the Customer model
-* Updated various PHPDoc with the parameter and return types
+ * [#484] (https://github.com/magento/magento2/pull/484) Calling clear / removeAllItems / removeItemByKey on Magento\Eav\Model\Entity\Collection\AbstractCollection does not remove model from protected _itemsById array
+ * [#474] (https://github.com/magento/magento2/pull/474) Change for Options Collection class
+ * [#483] (https://github.com/magento/magento2/pull/483) Update Category.php
+* Update Customer Service Exception handling and add tests
+* Add usage of Customer Service to Customer Module, replacing some direct usage of Customer Model
+* Updated various PHPDoc with parameter and return types
 
 2.0.0.0-dev64
 =============

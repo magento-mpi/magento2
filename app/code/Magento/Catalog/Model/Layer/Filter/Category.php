@@ -179,9 +179,8 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
      */
     protected function _getItemsData()
     {
-        $categoty   = $this->getCategory();
-        /** @var $category \Magento\Catalog\Model\Categeory */
-        $categories = $categoty->getChildrenCategories();
+        $category   = $this->getCategory();
+        $categories = $category->getChildrenCategories();
 
         $this->getLayer()->getProductCollection()
             ->addCountToCategories($categories);

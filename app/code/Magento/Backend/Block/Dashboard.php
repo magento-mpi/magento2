@@ -13,7 +13,7 @@ namespace Magento\Backend\Block;
 class Dashboard extends \Magento\Backend\Block\Template
 {
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\LocaleInterface
      */
     protected $_locale;
 

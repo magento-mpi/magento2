@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Model\Resource;
 
 /**
  * PayPal resource model for certificate based authentication
  */
-namespace Magento\Paypal\Model\Resource;
-
 class Cert extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
@@ -42,6 +41,8 @@ class Cert extends \Magento\Core\Model\Resource\Db\AbstractDb
 
     /**
      * Initialize connection
+     *
+     * @return void
      */
     protected function _construct()
     {
