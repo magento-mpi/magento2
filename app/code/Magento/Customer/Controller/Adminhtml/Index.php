@@ -26,6 +26,7 @@ use Magento\Exception\NoSuchEntityException;
  *
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * @SuppressWarnings(PHPMD.TooManyFields)
  */
 class Index extends \Magento\Backend\App\Action
 {

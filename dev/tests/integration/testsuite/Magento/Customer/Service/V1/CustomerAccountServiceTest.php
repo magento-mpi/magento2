@@ -16,6 +16,7 @@ use Magento\Exception\StateException;
  *
  * @SuppressWarnings(PHPMD.TooManyMethods)
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @magentoAppArea frontend
  */
 class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
