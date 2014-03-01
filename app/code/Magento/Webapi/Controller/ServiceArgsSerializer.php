@@ -117,6 +117,7 @@ class ServiceArgsSerializer
                 $methodReflection = $class->getMethod($getterName);
                 if ($methodReflection->isPublic()) {
                     $returnType = $this->_typeProcessor->getGetterReturnType($methodReflection)['type'];
+                    $propertyName = strtolower(preg_replace("/(?<=\\w)(?=[A-Z])/", "_$1", $propertyName));
                     $data[$propertyName] = $this->_convertValue($value, $returnType);
                 }
             }
