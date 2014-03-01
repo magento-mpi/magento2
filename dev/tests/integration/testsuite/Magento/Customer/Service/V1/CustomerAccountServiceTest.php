@@ -258,7 +258,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $customerModel->load(1);
         $key = $customerModel->getConfirmation();
         $this->_customerAccountService->activateCustomer($customerModel->getId(), $key);
-
+        // activate it one more time to produce an exception
         $this->_customerAccountService->activateCustomer($customerModel->getId(), $key);
     }
 
@@ -462,12 +462,12 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     public function testResetPasswordTokenWrongUser()
     {
         $resetToken = 'lsdj579slkj5987slkj595lkj';
-        $password = 'password_secret';
         $this->_customerAccountService->updateCustomer(
             $this->getCustomerDetailsDtoWithToken(1, $resetToken, date('Y-m-d'))
         );
+
         try {
-            $this->_customerAccountService->resetPassword(4200, $resetToken, $password);
+            $this->_customerAccountService->resetPassword(4200, $resetToken, 'password');
             $this->fail('Expected exception not thrown.');
         } catch (NoSuchEntityException $nsee) {
             $expectedParams = [
@@ -483,17 +483,12 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     public function testResetPasswordTokenInvalidUserId()
     {
         $resetToken = 'lsdj579slkj5987slkj595lkj';
-        $password = 'password_secret';
-
-        $this->_customerBuilder->populateWithArray(
-            array_merge($this->_customerAccountService->getCustomer(1)->__toArray(), [
-                'rp_token' => $resetToken,
-                'rp_token_created_at' => date('Y-m-d')
-            ])
+        $this->_customerAccountService->updateCustomer(
+            $this->getCustomerDetailsDtoWithToken(1, $resetToken, date('Y-m-d'))
         );
-        $this->_customerAccountService->updateAccount($this->_customerBuilder->create());
+
         try {
-            $this->_customerAccountService->resetPassword(0, $resetToken, $password);
+            $this->_customerAccountService->resetPassword(0, $resetToken, 'password');
             $this->fail('Expected exception not thrown.');
         } catch (InputException $ie) {
             $expectedParams = [
