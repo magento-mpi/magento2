@@ -2,18 +2,16 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Backend\Block\System\Config\Form\Field;
+namespace Magento\OfflineShipping\Block\Adminhtml\Form\Field;
 
 /**
  * Custom import CSV file field for shipping table rates
  *
  * @category   Magento
- * @package    Magento_Backend
+ * @package    Magento_OfflineShipping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Import extends \Magento\Data\Form\Element\AbstractElement
@@ -55,5 +53,4 @@ EndHTML;
 
         return $html;
     }
-
 }

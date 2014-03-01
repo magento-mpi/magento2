@@ -117,7 +117,7 @@ return array(
     array('_inludeControllerClass', '', '_includeControllerClass'),
     array('_isApplyDesign', 'Magento\Catalog\Model\Design'),
     array('_isApplyFor', 'Magento\Catalog\Model\Design'),
-    array('_isPositiveDecimalNumber', 'Magento\Shipping\Model\Resource\Carrier\Tablerate'),
+    array('_isPositiveDecimalNumber', 'Magento\OfflineShipping\Model\Resource\Carrier\Tablerate'),
     array('_isRuntimeValidated', 'Magento\ObjectManager\Config\Reader\Dom'),
     array('_loadCache', 'Magento\Backend\Model\Menu\Config'),
     array('_loadCache', 'Magento\Core\Model\Config'),

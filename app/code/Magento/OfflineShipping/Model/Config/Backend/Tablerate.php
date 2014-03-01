@@ -2,12 +2,10 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Shipping
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Shipping\Model\Config\Backend;
+namespace Magento\OfflineShipping\Model\Config\Backend;
 
 use Magento\Core\Model\AbstractModel;
 
@@ -19,7 +17,7 @@ use Magento\Core\Model\AbstractModel;
 class Tablerate extends \Magento\Core\Model\Config\Value
 {
     /**
-     * @var \Magento\Shipping\Model\Resource\Carrier\TablerateFactory
+     * @var \Magento\OfflineShipping\Model\Resource\Carrier\TablerateFactory
      */
     protected $_tablerateFactory;
 
@@ -28,7 +26,7 @@ class Tablerate extends \Magento\Core\Model\Config\Value
      * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\ConfigInterface $config
-     * @param \Magento\Shipping\Model\Resource\Carrier\TablerateFactory $tablerateFactory
+     * @param \Magento\OfflineShipping\Model\Resource\Carrier\TablerateFactory $tablerateFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -38,7 +36,7 @@ class Tablerate extends \Magento\Core\Model\Config\Value
         \Magento\Registry $registry,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\ConfigInterface $config,
-        \Magento\Shipping\Model\Resource\Carrier\TablerateFactory $tablerateFactory,
+        \Magento\OfflineShipping\Model\Resource\Carrier\TablerateFactory $tablerateFactory,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()

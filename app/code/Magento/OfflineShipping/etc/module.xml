@@ -14,9 +14,11 @@
         </sequence>
         <depends>
             <module name="Magento_Core"/>
+            <module name="Magento_Backend"/>
             <module name="Magento_Logger"/>
             <module name="Magento_Shipping"/>
             <module name="Magento_Sales"/>
+            <module name="Magento_Directory"/>
         </depends>
     </module>
 </config>

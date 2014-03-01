@@ -2,26 +2,24 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Backend\Block\System\Config\Form\Field;
+namespace Magento\OfflineShipping\Block\Adminhtml\Form\Field;
 
 /**
  * Export CSV button for shipping table rates
  *
  * @category   Magento
- * @package    Magento_Backend
+ * @package    Magento_OfflineShipping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Export extends \Magento\Data\Form\Element\AbstractElement
 {
     /**
-     * @var \Magento\Backend\Helper\Data
+     * @var \Magento\Backend\Model\UrlInterface
      */
-    protected $_helper;
+    protected $_backendUrl;
 
     /**
      * @param \Magento\Data\Form\Element\Factory $factoryElement
@@ -34,11 +32,11 @@ class Export extends \Magento\Data\Form\Element\AbstractElement
         \Magento\Data\Form\Element\Factory $factoryElement,
         \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
         \Magento\Escaper $escaper,
-        \Magento\Backend\Helper\Data $helper,
+        \Magento\Backend\Model\UrlInterface $backendUrl,
         array $data = array()
     ) {
-        $this->_helper = $helper;
         parent::__construct($factoryElement, $factoryCollection, $escaper, $data);
+        $this->_backendUrl = $backendUrl;
     }
 
     /**
@@ -56,7 +54,7 @@ class Export extends \Magento\Data\Form\Element\AbstractElement
             'website' => $buttonBlock->getRequest()->getParam('website')
         );
 
-        $url = $this->_helper->getUrl("*/*/exportTablerates", $params);
+        $url = $this->_backendUrl->getUrl("*/*/exportTablerates", $params);
         $data = array(
             'label'     =>  __('Export CSV'),
             'onclick'   => "setLocation('" . $url

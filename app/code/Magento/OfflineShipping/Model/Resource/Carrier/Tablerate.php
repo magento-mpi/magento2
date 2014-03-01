@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Shipping
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,7 +13,7 @@
  * @package    Magento_Shipping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Shipping\Model\Resource\Carrier;
+namespace Magento\OfflineShipping\Model\Resource\Carrier;
 
 class Tablerate extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
@@ -99,7 +97,7 @@ class Tablerate extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_storeManager;
 
     /**
-     * @var \Magento\Shipping\Model\Carrier\Tablerate
+     * @var \Magento\OfflineShipping\Model\Carrier\Tablerate
      */
     protected $_carrierTablerate;
 
@@ -125,7 +123,7 @@ class Tablerate extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param \Magento\Logger $logger
      * @param \Magento\App\ConfigInterface $coreConfig
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Shipping\Model\Carrier\Tablerate $carrierTablerate
+     * @param \Magento\OfflineShipping\Model\Carrier\Tablerate $carrierTablerate
      * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory
      * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory
      * @param \Magento\App\Filesystem $filesystem
@@ -135,7 +133,7 @@ class Tablerate extends \Magento\Core\Model\Resource\Db\AbstractDb
         \Magento\Logger $logger,
         \Magento\App\ConfigInterface $coreConfig,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Shipping\Model\Carrier\Tablerate $carrierTablerate,
+        \Magento\OfflineShipping\Model\Carrier\Tablerate $carrierTablerate,
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory,
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory,
         \Magento\App\Filesystem $filesystem
@@ -235,7 +233,7 @@ class Tablerate extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param \Magento\Object $object
      * @throws \Magento\Core\Exception
-     * @return \Magento\Shipping\Model\Resource\Carrier\Tablerate
+     * @return \Magento\OfflineShipping\Model\Resource\Carrier\Tablerate
      * @todo: this method should be refactored as soon as updated design will be provided
      * @see https://wiki.corp.x.com/display/MCOMS/Magento+Filesystem+Decisions
      */
@@ -331,7 +329,7 @@ class Tablerate extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Load directory countries
      *
-     * @return \Magento\Shipping\Model\Resource\Carrier\Tablerate
+     * @return \Magento\OfflineShipping\Model\Resource\Carrier\Tablerate
      */
     protected function _loadDirectoryCountries()
     {
@@ -355,7 +353,7 @@ class Tablerate extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Load directory regions
      *
-     * @return \Magento\Shipping\Model\Resource\Carrier\Tablerate
+     * @return \Magento\OfflineShipping\Model\Resource\Carrier\Tablerate
      */
     protected function _loadDirectoryRegions()
     {
@@ -477,7 +475,7 @@ class Tablerate extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Save import data batch
      *
      * @param array $data
-     * @return \Magento\Shipping\Model\Resource\Carrier\Tablerate
+     * @return \Magento\OfflineShipping\Model\Resource\Carrier\Tablerate
      */
     protected function _saveImportData(array $data)
     {

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,7 +14,7 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Backend\Block\System\Config\Form\Field;
+namespace Magento\OfflineShipping\Block\Adminhtml\Form\Field;
 
 class ImportTest extends \PHPUnit_Framework_TestCase
 {
@@ -38,7 +36,7 @@ class ImportTest extends \PHPUnit_Framework_TestCase
         );
         $testData = array ('name' => 'test_name', 'html_id' => 'test_html_id');
         $testHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_object = $testHelper->getObject('Magento\Backend\Block\System\Config\Form\Field\Import', array(
+        $this->_object = $testHelper->getObject('Magento\OfflineShipping\Block\Adminhtml\Form\Field\Import', array(
             'data' => $testData
         ));
         $this->_object->setForm($this->_formMock);
