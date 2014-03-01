@@ -9,7 +9,7 @@
 namespace Magento\RequireJs;
 
 /**
- * Class responsible for preparing and providing RequireJs config
+ * Provider of RequireJs config information
  */
 class Config
 {
@@ -22,6 +22,17 @@ class Config
      * File name of RequireJs config
      */
     const CONFIG_FILE_NAME = 'requirejs-config.js';
+
+    /**
+     * Template for combined RequireJs config file
+     */
+    const CONFIG_TEMPLATE = <<<DOD
+(function(require){
+%function%
+
+%usages%
+})(require);
+DOD;
 
     /**
      * @var \Magento\RequireJs\Config\File\Source\Aggregated
@@ -69,29 +80,27 @@ class Config
     }
 
     /**
-     * Get declaration of JS function that updates paths basing on module context
-     *
-     * @return string
-     */
-    public function getPathsUpdaterJs()
-    {
-        $functionSource = __DIR__ . '/paths-updater.js';
-        return $this->baseDir->readFile($this->baseDir->getRelativePath($functionSource));
-    }
-
-    /**
      * Get aggregated distributed configuration
      *
      * @return string
      */
     public function getConfig()
     {
-        $fullConfig = '';
+        $functionSource = __DIR__ . '/paths-updater.js';
+        $functionDeclaration = $this->baseDir->readFile($this->baseDir->getRelativePath($functionSource));
+
+        $distributedConfig = '';
         $customConfigFiles = $this->fileSource->getFiles($this->design->getDesignTheme(), self::CONFIG_FILE_NAME);
         foreach ($customConfigFiles as $file) {
             $config = $this->baseDir->readFile($this->baseDir->getRelativePath($file->getFilename()));
-            $fullConfig .= $this->wrapConfig($config, $file->getModule());
+            $distributedConfig .= $this->wrapConfig($config, $file->getModule());
         }
+
+        $fullConfig = str_replace(
+            array('%function%', '%usages%'),
+            array($functionDeclaration, $distributedConfig),
+            self::CONFIG_TEMPLATE
+        );
 
         return $fullConfig;
     }
