@@ -171,7 +171,7 @@ class Shippingmethod
     }
 
     /**
-     * Checks carrier for possibility to display custom value. The result updated using plugins
+     * Checks carrier for possibility to display custom value. Result updated using plugins
      *
      * @return bool
      */
