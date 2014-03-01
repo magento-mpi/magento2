@@ -10,6 +10,7 @@ namespace Magento\Tax\Model;
 
 use Magento\Core\Model\Store;
 use Magento\Customer\Service\V1\Data\Customer as CustomerDataObject;
+use Magento\Customer\Service\V1\Data\Region as RegionDataObject;
 use Magento\Customer\Service\V1\CustomerServiceInterface;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface as AddressServiceInterface;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface as GroupServiceInterface;
@@ -507,9 +508,15 @@ class Calculation extends \Magento\Core\Model\AbstractModel
         }
 
         $request = new \Magento\Object();
+        //TODO: Address is not completely refactored to use Data objects
+        if ($address->getRegion() instanceof RegionDataObject) {
+            $regionId = $address->getRegion()->getRegionId();
+        } else {
+            $regionId = $address->getRegionId();
+        }
         $request
             ->setCountryId($address->getCountryId())
-            ->setRegionId($address->getRegion() ? $address->getRegion()->getRegionId() : $address->getRegionId())
+            ->setRegionId($regionId)
             ->setPostcode($address->getPostcode())
             ->setStore($store)
             ->setCustomerClassId($customerTaxClass);
