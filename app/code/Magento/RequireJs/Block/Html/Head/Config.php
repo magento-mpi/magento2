@@ -9,6 +9,7 @@
 namespace Magento\RequireJs\Block\Html\Head;
 
 use Magento\Theme\Block\Html\Head\AssetBlockInterface;
+use Magento\RequireJs\Config as RequireJsConfig;
 
 /**
  * Block responsible for including RequireJs config on the page
@@ -26,20 +27,36 @@ class Config extends \Magento\View\Element\AbstractBlock implements AssetBlockIn
     private $requirejsConfig;
 
     /**
+     * @var \Magento\RequireJs\Config\File\Manager\Caching
+     */
+    private $refreshConfigFileStrategy;
+
+    /**
+     * @var \Magento\RequireJs\Config\File\Manager\Reuse
+     */
+    private $reuseConfigFileStrategy;
+
+    /**
      * @param \Magento\View\Element\Context $context
      * @param \Magento\View\Asset\PublicFileFactory $publicAssetFactory
-     * @param \Magento\RequireJs\Config $requirejsConfig
+     * @param RequireJsConfig $requirejsConfig
+     * @param RequireJsConfig\File\Manager\Refresh $refreshConfigFileStrategy
+     * @param RequireJsConfig\File\Manager\Caching $reuseConfigFileStrategy
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Context $context,
         \Magento\View\Asset\PublicFileFactory $publicAssetFactory,
-        \Magento\RequireJs\Config $requirejsConfig,
+        RequireJsConfig $requirejsConfig,
+        RequireJsConfig\File\Manager\Refresh $refreshConfigFileStrategy,
+        RequireJsConfig\File\Manager\Caching $reuseConfigFileStrategy,
         array $data = array()
     ) {
         parent::__construct($context, $data);
-        $this->publicAssetFactory = $publicAssetFactory;
+        $this->refreshConfigFileStrategy = $refreshConfigFileStrategy;
+        $this->reuseConfigFileStrategy = $reuseConfigFileStrategy;
         $this->requirejsConfig = $requirejsConfig;
+        $this->publicAssetFactory = $publicAssetFactory;
     }
 
     /**
@@ -49,10 +66,8 @@ class Config extends \Magento\View\Element\AbstractBlock implements AssetBlockIn
      */
     public function getAsset()
     {
-        $config = $this->requirejsConfig->getPathsUpdaterJs() . $this->requirejsConfig->getConfig();
-
         $asset = $this->publicAssetFactory->create(array(
-            'file'        => $this->requirejsConfig->crateConfigFile($config),
+            'file'        => $this->getRequireJsConfigManager()->getConfigFile(),
             'contentType' => \Magento\View\Publisher::CONTENT_TYPE_JS,
         ));
         $this->setData('asset', $asset);
@@ -69,5 +84,19 @@ class Config extends \Magento\View\Element\AbstractBlock implements AssetBlockIn
         return '<script type="text/javascript">' . PHP_EOL
             . $this->requirejsConfig->getBaseConfig()
             . '</script>' . PHP_EOL;
+    }
+
+    /**
+     * Get RequireJs config manager depending on application mode
+     *
+     * @return \Magento\RequireJs\Config\File\ManagerInterface
+     */
+    protected function getRequireJsConfigManager()
+    {
+        if ($this->_app->isDeveloperMode()) {
+            return $this->refreshConfigFileStrategy;
+        } else {
+            return $this->reuseConfigFileStrategy;
+        }
     }
 }

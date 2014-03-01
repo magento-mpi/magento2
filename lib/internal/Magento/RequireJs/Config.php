@@ -24,7 +24,7 @@ class Config
     const CONFIG_FILE_NAME = 'requirejs-config.js';
 
     /**
-     * @var File\Source\Aggregated
+     * @var \Magento\RequireJs\Config\File\Source\Aggregated
      */
     private $fileSource;
 
@@ -54,7 +54,7 @@ class Config
     private $baseDir;
 
     public function __construct(
-        File\Source\Aggregated $fileSource,
+        Config\File\Source\Aggregated $fileSource,
         \Magento\View\DesignInterface $design,
         \Magento\App\Filesystem $appFilesystem,
         \Magento\View\Path $path,
@@ -97,20 +97,13 @@ class Config
     }
 
     /**
-     * Save configuration into public file and return path to it
+     * Get path to config file relative to directory for, where all config files with different context are located
      *
-     * @param string $content
      * @return string
      */
-    public function crateConfigFile($content)
+    public function getConfigFileRelativePath()
     {
-        $relPath = self::DIR_NAME . '/' . $this->getContextPath() . '/' . self::CONFIG_FILE_NAME;
-
-        // todo: check existence depending on application mode
-
-        $viewDir = $this->appFilesystem->getDirectoryWrite(\Magento\App\Filesystem::STATIC_VIEW_DIR);
-        $viewDir->writeFile($relPath, $content);
-        return $viewDir->getAbsolutePath($relPath);
+        return self::DIR_NAME . '/' . $this->getContextPath() . '/' . self::CONFIG_FILE_NAME;
     }
 
     /**
@@ -153,7 +146,6 @@ class Config
      */
     public function getConfigUrl()
     {
-        // todo: check signing
         return $this->getBaseUrl() . self::DIR_NAME . '/' . $this->getContextPath() . '/' . self::CONFIG_FILE_NAME;
     }
 
