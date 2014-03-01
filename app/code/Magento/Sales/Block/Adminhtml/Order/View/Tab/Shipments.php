@@ -65,6 +65,9 @@ class Shipments
         return 'Magento\Sales\Model\Resource\Order\Shipment\Grid\Collection';
     }
 
+    /**
+     * @return $this
+     */
     protected function _prepareCollection()
     {
         $collection = $this->_collectionFactory->create($this->_getCollectionClass())
@@ -79,6 +82,9 @@ class Shipments
         return parent::_prepareCollection();
     }
 
+    /**
+     * @return $this
+     */
     protected function _prepareColumns()
     {
         $this->addColumn('increment_id', array(

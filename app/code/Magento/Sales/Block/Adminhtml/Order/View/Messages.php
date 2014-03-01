@@ -51,6 +51,9 @@ class Messages extends \Magento\View\Element\Messages
         return $this->coreRegistry->registry('sales_order');
     }
 
+    /**
+     * @return $this
+     */
     protected function _prepareLayout()
     {
         /**

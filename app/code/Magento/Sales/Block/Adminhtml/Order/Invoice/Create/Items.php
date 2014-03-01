@@ -45,7 +45,7 @@ class Items extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
     /**
      * Prepare child blocks
      *
-     * @return \Magento\Sales\Block\Adminhtml\Order\Invoice\Create\Items
+     * @return $this
      */
     protected function _beforeToHtml()
     {
@@ -85,7 +85,7 @@ class Items extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
     /**
      * Get is submit button disabled or not
      *
-     * @return boolean
+     * @return bool
      */
     public function getDisableSubmitButton()
     {

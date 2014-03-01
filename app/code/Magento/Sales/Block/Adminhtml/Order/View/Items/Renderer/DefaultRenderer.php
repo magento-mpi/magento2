@@ -79,7 +79,7 @@ class DefaultRenderer extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
     /**
      * Indicate that block can display container
      *
-     * @return boolean
+     * @return bool
      */
     public function canDisplayContainer()
     {
@@ -153,7 +153,7 @@ class DefaultRenderer extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
     /**
      * Initialize gift message for entity
      *
-     * @return \Magento\Sales\Block\Adminhtml\Order\View\Giftmessage
+     * @return $this
      */
     protected function _initMessage()
     {
@@ -212,7 +212,7 @@ class DefaultRenderer extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
     /**
      * Indicates that block can display giftmessages form
      *
-     * @return boolean
+     * @return bool
      */
     public function canDisplayGiftmessage()
     {

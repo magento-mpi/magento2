@@ -63,7 +63,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Prepare collection for grid
      *
-     * @return \Magento\Backend\Block\Widget\Grid\Extended
+     * @return $this
      */
     protected function _prepareCollection()
     {
@@ -80,7 +80,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Add columns to grid
      *
-     * @return \Magento\Backend\Block\Widget\Grid\Extended
+     * @return $this
      */
     protected function _prepareColumns()
     {

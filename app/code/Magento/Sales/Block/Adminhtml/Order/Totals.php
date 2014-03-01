@@ -22,7 +22,7 @@ class Totals extends \Magento\Sales\Block\Adminhtml\Totals//\Magento\Sales\Block
     /**
      * Initialize order totals array
      *
-     * @return \Magento\Sales\Block\Order\Totals
+     * @return $this
      */
     protected function _initTotals()
     {

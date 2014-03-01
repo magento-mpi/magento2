@@ -45,7 +45,7 @@ class Form extends \Magento\Reports\Block\Adminhtml\Filter\Form
     /**
      * Add fields to base fieldset which are general to sales reports
      *
-     * @return \Magento\Sales\Block\Adminhtml\Report\Filter\Form
+     * @return $this
      */
     protected function _prepareForm()
     {

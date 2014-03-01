@@ -50,6 +50,9 @@ class History extends \Magento\Backend\Block\Template
         parent::__construct($context, $data);
     }
 
+    /**
+     * @return $this
+     */
     protected function _prepareLayout()
     {
         $onclick = "submitAndReloadArea($('order_history_block').parentNode, '".$this->getSubmitUrl()."')";
@@ -100,7 +103,7 @@ class History extends \Magento\Backend\Block\Template
      * Customer Notification Applicable check method
      *
      * @param  \Magento\Sales\Model\Order\Status\History $history
-     * @return boolean
+     * @return bool
      */
     public function isCustomerNotificationNotApplicable(\Magento\Sales\Model\Order\Status\History $history)
     {

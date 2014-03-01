@@ -202,7 +202,7 @@ class View extends \Magento\Backend\Block\Widget\Form\Container
     /**
      * Update 'back' button url
      *
-     * @return \Magento\Backend\Block\Widget\Container | \Magento\Sales\Block\Adminhtml\Order\Creditmemo\View
+     * @return \Magento\Backend\Block\Widget\Container|$this
      */
     public function updateBackButtonUrl($flag)
     {

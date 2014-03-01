@@ -88,6 +88,9 @@ class Detail extends \Magento\Backend\Block\Widget\Container
         return __("Transaction # %1 | %2", $this->_txn->getTxnId(), $this->formatDate($this->_txn->getCreatedAt(), \Magento\LocaleInterface::FORMAT_TYPE_MEDIUM, true));
     }
 
+    /**
+     * @return string
+     */
     protected function _toHtml()
     {
         $this->setTxnIdHtml($this->escapeHtml($this->_txn->getTxnId()));

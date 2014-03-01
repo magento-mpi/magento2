@@ -91,7 +91,7 @@ class Giftmessage extends \Magento\Backend\Block\Widget
     /**
      * Prepares layout of block
      *
-     * @return \Magento\Sales\Block\Adminhtml\Order\View\Giftmessage
+     * @return $this
      */
     protected function _prepareLayout()
     {
@@ -121,7 +121,7 @@ class Giftmessage extends \Magento\Backend\Block\Widget
      * Set entity for form
      *
      * @param \Magento\Object $entity
-     * @return \Magento\Sales\Block\Adminhtml\Order\View\Giftmessage
+     * @return $this
      */
     public function setEntity(\Magento\Object $entity)
     {
@@ -224,7 +224,7 @@ class Giftmessage extends \Magento\Backend\Block\Widget
     /**
      * Initialize gift message for entity
      *
-     * @return \Magento\Sales\Block\Adminhtml\Order\View\Giftmessage
+     * @return $this
      */
     protected function _initMessage()
     {
@@ -281,7 +281,7 @@ class Giftmessage extends \Magento\Backend\Block\Widget
     /**
      * Indicates that block can display giftmessages form
      *
-     * @return boolean
+     * @return bool
      */
     public function canDisplayGiftmessage()
     {

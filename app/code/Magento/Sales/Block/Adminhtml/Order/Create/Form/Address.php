@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Block\Adminhtml\Order\Create\Form;
+
+use Magento\Data\Form\Element\AbstractElement;
 
 /**
  * Order create address form
@@ -15,36 +18,46 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Block\Adminhtml\Order\Create\Form;
-
 class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractForm
 {
     /**
+     * Customer form factory
+     *
      * @var \Magento\Customer\Model\Metadata\FormFactory
      */
     protected $_customerFormFactory;
 
     /**
+     * Json encoder
+     *
      * @var \Magento\Json\EncoderInterface
      */
     protected $_jsonEncoder;
 
     /**
+     * Core data
+     *
      * @var \Magento\Core\Helper\Data
      */
     protected $_coreData;
 
     /**
+     * Customer helper
+     *
      * @var \Magento\Customer\Helper\Data
      */
     protected $_customerHelper;
 
     /**
+     * Address service
+     *
      * @var \Magento\Customer\Service\V1\CustomerAddressServiceInterface
      */
     protected $_addressService;
 
     /**
+     * Address helper
+     *
      * @var \Magento\Customer\Helper\Address
      */
     protected $_addressHelper;
@@ -90,7 +103,7 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
      * Get config
      *
      * @param string $path
-     * @return mixed
+     * @return string|null
      */
     public function getConfig($path)
     {
@@ -139,9 +152,9 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
     /**
      * Prepare Form and add elements to form
      *
+     * @return $this
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
-     * @return \Magento\Sales\Block\Adminhtml\Order\Create\Form\Address
      */
     protected function _prepareForm()
     {
@@ -229,10 +242,10 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
     /**
      * Add additional data to form element
      *
-     * @param \Magento\Data\Form\Element\AbstractElement $element
-     * @return \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractForm
+     * @param AbstractElement $element
+     * @return $this
      */
-    protected function _addAdditionalFormElementData(\Magento\Data\Form\Element\AbstractElement $element)
+    protected function _addAdditionalFormElementData(AbstractElement $element)
     {
         if ($element->getId() == 'region_id') {
             $element->setNoDisplay(true);
@@ -243,7 +256,7 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
     /**
      * Return customer address id
      *
-     * @return int|boolean
+     * @return false
      */
     public function getAddressId()
     {

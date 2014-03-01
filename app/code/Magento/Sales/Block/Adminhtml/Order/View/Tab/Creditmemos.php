@@ -77,7 +77,9 @@ class Creditmemos
         return 'Magento\Sales\Model\Resource\Order\Creditmemo\Grid\Collection';
     }
 
-
+    /**
+     * @return $this
+     */
     protected function _prepareCollection()
     {
         $collection = $this->_collectionFactory->create($this->_getCollectionClass())
@@ -97,6 +99,9 @@ class Creditmemos
         return parent::_prepareCollection();
     }
 
+    /**
+     * @return $this
+     */
     protected function _prepareColumns()
     {
         $this->addColumn('increment_id', array(

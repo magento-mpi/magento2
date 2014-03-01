@@ -172,7 +172,7 @@ class History
      * Check whether status history comment is with customer notification
      *
      * @param array $item
-     * @param boolean $isSimpleCheck
+     * @param bool $isSimpleCheck
      * @return bool
      */
     public function isItemNotified(array $item, $isSimpleCheck = true)
@@ -215,9 +215,7 @@ class History
     }
 
     /**
-     * Get Tab Label
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getTabLabel()
     {
@@ -225,9 +223,7 @@ class History
     }
 
     /**
-     * Get Tab Title
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getTabTitle()
     {
@@ -265,9 +261,7 @@ class History
     }
 
     /**
-     * Can Show Tab
-     *
-     * @return boolean
+     * {@inheritdoc}
      */
     public function canShowTab()
     {
@@ -275,9 +269,7 @@ class History
     }
 
     /**
-     * Is Hidden
-     *
-     * @return boolean
+     * {@inheritdoc}
      */
     public function isHidden()
     {
@@ -288,7 +280,7 @@ class History
      * Customer Notification Applicable check method
      *
      * @param array $historyItem
-     * @return boolean
+     * @return bool
      */
     public function isCustomerNotificationNotApplicable($historyItem)
     {

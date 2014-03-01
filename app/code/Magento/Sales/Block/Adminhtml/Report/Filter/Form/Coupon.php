@@ -54,7 +54,7 @@ class Coupon extends \Magento\Sales\Block\Adminhtml\Report\Filter\Form
     /**
      * Prepare form
      *
-     * @return \Magento\Sales\Block\Adminhtml\Report\Filter\Form\Coupon
+     * @return $this
      */
     protected function _prepareForm()
     {

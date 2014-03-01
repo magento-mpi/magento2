@@ -24,7 +24,7 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Status\NewStatus\Form
     /**
      * Modify structure of new status form
      *
-     * @return \Magento\Backend\Block\Widget\Form
+     * @return $this
      */
     protected function _prepareForm()
     {

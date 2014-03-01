@@ -63,7 +63,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Prepare and set collection of grid
      *
-     * @return \Magento\Backend\Block\Widget\Grid\Extended
+     * @return $this
      */
     protected function _prepareCollection()
     {
@@ -75,7 +75,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Prepare and add columns to grid
      *
-     * @return \Magento\Backend\Block\Widget\Grid\Extended
+     * @return $this
      */
     protected function _prepareColumns()
     {
@@ -173,7 +173,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Prepare and set options for massaction
      *
-     * @return \Magento\Sales\Block\Adminhtml\Shipment\Grid
+     * @return $this
      */
     protected function _prepareMassaction()
     {

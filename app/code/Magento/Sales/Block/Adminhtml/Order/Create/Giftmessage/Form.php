@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Block\Adminhtml\Order\Create\Giftmessage;
 
+use Magento\Data\Form\Element\Fieldset;
 
 /**
  * Adminhtml order creating gift message item form
@@ -16,7 +18,6 @@
  * @package    Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Block\Adminhtml\Order\Create\Giftmessage;
 
 /**
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
@@ -38,11 +39,15 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_giftMessage;
 
     /**
+     * Session quote
+     *
      * @var \Magento\Backend\Model\Session\Quote
      */
     protected $_sessionQuote;
 
     /**
+     * Message helper
+     *
      * @var \Magento\GiftMessage\Helper\Message
      */
     protected $_messageHelper;
@@ -72,7 +77,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      * Set entity for form
      *
      * @param \Magento\Object $entity
-     * @return \Magento\Sales\Block\Adminhtml\Order\Create\Giftmessage\Form
+     * @return $this
      */
     public function setEntity(\Magento\Object $entity)
     {
@@ -152,7 +157,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Prepares form
      *
-     * @return \Magento\Sales\Block\Adminhtml\Order\Create\Giftmessage\Form
+     * @return $this
      */
     public function _prepareForm()
     {
@@ -197,11 +202,10 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      * Prepare form fieldset
      * All fields are hidden
      *
-     * @param \Magento\Data\Form\Element\Fieldset $fieldset
-     *
-     * @return \Magento\Sales\Block\Adminhtml\Order\Create\Giftmessage\Form
+     * @param Fieldset $fieldset
+     * @return $this
      */
-    protected function _prepareHiddenFields(\Magento\Data\Form\Element\Fieldset $fieldset)
+    protected function _prepareHiddenFields(Fieldset $fieldset)
     {
         $fieldset->addField('sender', 'hidden',
             array(
@@ -226,11 +230,10 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      * Prepare form fieldset
      * All fields are visible
      *
-     * @param \Magento\Data\Form\Element\Fieldset $fieldset
-     *
-     * @return \Magento\Sales\Block\Adminhtml\Order\Create\Giftmessage\Form
+     * @param Fieldset $fieldset
+     * @return $this
      */
-    protected function _prepareVisibleFields(\Magento\Data\Form\Element\Fieldset $fieldset)
+    protected function _prepareVisibleFields(Fieldset $fieldset)
     {
         $fieldset->addField('sender', 'text',
             array(
@@ -261,7 +264,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Initialize gift message for entity
      *
-     * @return \Magento\Sales\Block\Adminhtml\Order\Create\Giftmessage\Form
+     * @return $this
      */
     protected function _initMessage()
     {
@@ -299,7 +302,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Retrieve real html id for field
      *
-     * @param string $name
+     * @param string $id
      * @return string
      */
     protected  function _getFieldId($id)
@@ -310,7 +313,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Retrieve field html id prefix
      *
-     * @return unknown
+     * @return string
      */
     protected  function _getFieldIdPrefix()
     {
@@ -320,7 +323,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Applies posted data to gift message
      *
-     * @return \Magento\Sales\Block\Adminhtml\Order\Create\Giftmessage\Form
+     * @return $this
      */
     protected function _applyPostData()
     {
@@ -331,5 +334,4 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
         return $this;
     }
-
 }

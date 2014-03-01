@@ -7,14 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Block\Adminhtml\Invoice;
 
 /**
  * Adminhtml sales orders grid
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Block\Adminhtml\Invoice;
-
 class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
@@ -46,6 +45,11 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         parent::__construct($context, $backendHelper, $data);
     }
 
+    /**
+     * Constructor
+     *
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -66,6 +70,11 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         return 'Magento\Sales\Model\Resource\Order\Invoice\Grid\Collection';
     }
 
+    /**
+     * Prepare collection
+     *
+     * @return $this
+     */
     protected function _prepareCollection()
     {
         $collection = $this->_collectionFactory->create();
@@ -73,6 +82,11 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         return parent::_prepareCollection();
     }
 
+    /**
+     * Prepare columns
+     *
+     * @return $this
+     */
     protected function _prepareColumns()
     {
         $this->addColumn('increment_id', array(
@@ -159,6 +173,11 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         return parent::_prepareColumns();
     }
 
+    /**
+     * Prepare mass action
+     *
+     * @return $this
+     */
     protected function _prepareMassaction()
     {
         $this->setMassactionIdField('entity_id');
@@ -173,6 +192,12 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         return $this;
     }
 
+    /**
+     * Get row url
+     *
+     * @param \Magento\Object $row
+     * @return false|string
+     */
     public function getRowUrl($row)
     {
         if (!$this->_authorization->isAllowed(null)) {
@@ -186,9 +211,13 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         );
     }
 
+    /**
+     * Get grid url
+     *
+     * @return string
+     */
     public function getGridUrl()
     {
         return $this->getUrl('sales/*/grid', array('_current' => true));
     }
-
 }

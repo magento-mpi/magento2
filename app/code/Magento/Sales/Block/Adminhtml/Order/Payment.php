@@ -52,6 +52,12 @@ class Payment extends \Magento\Backend\Block\Template
         parent::_beforeToHtml();
     }
 
+    /**
+     * Set payment
+     *
+     * @param $payment
+     * @return $this
+     */
     public function setPayment($payment)
     {
         $paymentInfoBlock = $this->_paymentData->getInfoBlock($payment);

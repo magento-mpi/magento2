@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Sales\Block\Adminhtml\Order\Create;
 
 /**
@@ -13,10 +12,18 @@ namespace Magento\Sales\Block\Adminhtml\Order\Create;
  */
 class Header extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
 {
-    /** @var \Magento\Customer\Service\V1\CustomerServiceInterface */
+    /**
+     * Customer service
+     *
+     * @var \Magento\Customer\Service\V1\CustomerServiceInterface
+     */
     protected $_customerService;
 
-    /** @var \Magento\Customer\Helper\View */
+    /**
+     * Customer view helper
+     *
+     * @var \Magento\Customer\Helper\View
+     */
     protected $_customerViewHelper;
 
     /**

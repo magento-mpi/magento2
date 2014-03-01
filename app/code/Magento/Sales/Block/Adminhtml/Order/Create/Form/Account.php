@@ -7,22 +7,29 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Block\Adminhtml\Order\Create\Form;
+
+use Magento\Data\Form\Element\AbstractElement;
 
 /**
  * Create order account form
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Block\Adminhtml\Order\Create\Form;
-
 class Account extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractForm
 {
     /**
+     * Metadata form factory
+     *
      * @var \Magento\Customer\Model\Metadata\FormFactory
      */
     protected $_metadataFormFactory;
 
-    /** @var \Magento\Customer\Service\V1\CustomerServiceInterface */
+    /**
+     * Customer service
+     *
+     * @var \Magento\Customer\Service\V1\CustomerServiceInterface
+     */
     protected $_customerService;
 
     /**
@@ -71,7 +78,7 @@ class Account extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
     /**
      * Prepare Form and add elements to form
      *
-     * @return \Magento\Sales\Block\Adminhtml\Order\Create\Form\Account
+     * @return $this
      */
     protected function _prepareForm()
     {
@@ -113,10 +120,10 @@ class Account extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
     /**
      * Add additional data to form element
      *
-     * @param \Magento\Data\Form\Element\AbstractElement $element
-     * @return \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractForm
+     * @param AbstractElement $element
+     * @return $this
      */
-    protected function _addAdditionalFormElementData(\Magento\Data\Form\Element\AbstractElement $element)
+    protected function _addAdditionalFormElementData(AbstractElement $element)
     {
         switch ($element->getId()) {
             case 'email':

@@ -46,6 +46,12 @@ class Totalbar extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
         return $this->_totals;
     }
 
+    /**
+     * @param $label
+     * @param $value
+     * @param bool $grand
+     * @return $this
+     */
     public function addTotal($label, $value, $grand = false)
     {
         $this->_totals[] = array(

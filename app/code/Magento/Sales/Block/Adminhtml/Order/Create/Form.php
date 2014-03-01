@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Sales\Block\Adminhtml\Order\Create;
 
 /**
@@ -13,20 +12,32 @@ namespace Magento\Sales\Block\Adminhtml\Order\Create;
  */
 class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
 {
-    /** @var \Magento\Customer\Model\Metadata\FormFactory */
+    /**
+     * Customer form factory
+     *
+     * @var \Magento\Customer\Model\Metadata\FormFactory
+     */
     protected $_customerFormFactory;
 
-    /** @var \Magento\Json\EncoderInterface */
+    /**
+     * Json encoder
+     *
+     * @var \Magento\Json\EncoderInterface
+     */
     protected $_jsonEncoder;
 
-    /** @var \Magento\Customer\Service\V1\CustomerAddressServiceInterface */
+    /**
+     * Address service
+     *
+     * @var \Magento\Customer\Service\V1\CustomerAddressServiceInterface
+     */
     protected $_addressService;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Backend\Model\Session\Quote $sessionQuote
      * @param \Magento\Sales\Model\AdminOrder\Create $orderCreate
+     * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Customer\Model\Metadata\FormFactory $customerFormFactory
      * @param \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService
      * @param array $data
@@ -46,6 +57,11 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
         parent::__construct($context, $sessionQuote, $orderCreate, $data);
     }
 
+    /**
+     * Constructor
+     *
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -72,6 +88,11 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
         return $this->getUrl('sales/*/save');
     }
 
+    /**
+     * Get customer selector display
+     *
+     * @return string
+     */
     public function getCustomerSelectorDisplay()
     {
         $customerId = $this->getCustomerId();
@@ -81,6 +102,11 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
         return 'none';
     }
 
+    /**
+     * Get store selector display
+     *
+     * @return string
+     */
     public function getStoreSelectorDisplay()
     {
         $storeId = $this->getStoreId();
@@ -91,6 +117,11 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
         return 'none';
     }
 
+    /**
+     * Get data selector display
+     *
+     * @return string
+     */
     public function getDataSelectorDisplay()
     {
         $storeId = $this->getStoreId();
@@ -101,6 +132,11 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
         return 'none';
     }
 
+    /**
+     * Get order data jason
+     *
+     * @return string
+     */
     public function getOrderDataJson()
     {
         $data = array();
