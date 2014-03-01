@@ -19,17 +19,6 @@
             </origin>
         </shipping>
         <carriers>
-            <flatrate>
-                <active>0</active>
-                <sallowspecific>0</sallowspecific>
-                <model>Magento\Shipping\Model\Carrier\Flatrate</model>
-                <name>Fixed</name>
-                <price>5.00</price>
-                <title>Flat Rate</title>
-                <type>I</type>
-                <specificerrmsg>This shipping method is not available. To use this shipping method, please contact us.</specificerrmsg>
-                <handling_type>F</handling_type>
-            </flatrate>
             <freeshipping>
                 <active>0</active>
                 <sallowspecific>0</sallowspecific>

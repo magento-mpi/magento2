@@ -511,7 +511,7 @@ return array(
         'Magento\Shipping\Model\Config\Source\Allspecificcountries'
     ),
     array('Mage_Adminhtml_Model_System_Config_Source_Shipping_Flatrate',
-        'Magento\Shipping\Model\Config\Source\Flatrate'
+        'Magento\OfflineShipping\Model\Config\Source\Flatrate'
     ),
     array('Mage_Adminhtml_Model_System_Config_Source_Shipping_Tablerate',
         'Magento\Shipping\Model\Config\Source\Tablerate'
@@ -2162,4 +2162,6 @@ return array(
     ['Magento\Core\Model\Locale\Config', 'Magento\Locale\Config'],
     ['Magento\Core\Model\Locale\Validator', 'Magento\Locale\Validator'],
     ['Magento\Core\Model\Date', 'Magento\Stdlib\DateTime\DateTime'],
+    ['Magento\Shipping\Model\Config\Source\Flatrate', 'Magento\OfflineShipping\Model\Config\Source\Flatrate'],
+    ['Magento\Shipping\Model\Carrier\Flatrate', 'Magento\OfflineShipping\Model\Carrier\Flatrate'],
 );
