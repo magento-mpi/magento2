@@ -5,12 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Block\Billing;
 
 /**
  * Customer account billing agreements block
  */
-namespace Magento\Paypal\Block\Billing;
-
 class Agreements extends \Magento\View\Element\Template
 {
     /**
@@ -66,7 +65,7 @@ class Agreements extends \Magento\View\Element\Template
     /**
      * Set Billing Agreement instance
      *
-     * @return \Magento\View\Element\AbstractBlock
+     * @return $this
      */
     protected function _prepareLayout()
     {
@@ -99,7 +98,7 @@ class Agreements extends \Magento\View\Element\Template
      *
      * @param \Magento\Object|\Magento\Paypal\Model\Billing\Agreement $item
      * @param string $key
-     * @return mixed
+     * @return string
      */
     public function getItemValue(\Magento\Paypal\Model\Billing\Agreement $item, $key)
     {

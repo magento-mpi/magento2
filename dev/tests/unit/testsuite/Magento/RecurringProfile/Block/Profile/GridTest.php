@@ -77,7 +77,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
         $storeManager->expects($this->once())->method('getStore')
             ->will($this->returnValue($store));
 
-        $locale = $this->getMockBuilder('\Magento\Core\Model\LocaleInterface')
+        $locale = $this->getMockBuilder('\Magento\LocaleInterface')
             ->disableOriginalConstructor()
             ->setMethods(array('formatDate'))
             ->getMockForAbstractClass();

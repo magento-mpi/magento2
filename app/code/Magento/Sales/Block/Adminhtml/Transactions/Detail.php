@@ -85,7 +85,7 @@ class Detail extends \Magento\Backend\Block\Widget\Container
      */
     public function getHeaderText()
     {
-        return __("Transaction # %1 | %2", $this->_txn->getTxnId(), $this->formatDate($this->_txn->getCreatedAt(), \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM, true));
+        return __("Transaction # %1 | %2", $this->_txn->getTxnId(), $this->formatDate($this->_txn->getCreatedAt(), \Magento\LocaleInterface::FORMAT_TYPE_MEDIUM, true));
     }
 
     protected function _toHtml()
@@ -113,7 +113,7 @@ class Detail extends \Magento\Backend\Block\Widget\Container
         );
 
         $createdAt = (strtotime($this->_txn->getCreatedAt()))
-            ? $this->formatDate($this->_txn->getCreatedAt(), \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM, true)
+            ? $this->formatDate($this->_txn->getCreatedAt(), \Magento\LocaleInterface::FORMAT_TYPE_MEDIUM, true)
             : __('N/A');
         $this->setCreatedAtHtml($this->escapeHtml($createdAt));
 

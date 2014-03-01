@@ -7,7 +7,7 @@
  */
 namespace Magento\Customer\Block\Widget;
 
-use Magento\Core\Model\LocaleInterface;
+use Magento\LocaleInterface;
 use Magento\Exception\NoSuchEntityException;
 
 class DobTest extends \PHPUnit_Framework_TestCase
@@ -46,12 +46,12 @@ class DobTest extends \PHPUnit_Framework_TestCase
         $frontendCache = $this->getMockForAbstractClass('Magento\Cache\FrontendInterface', [], '', false);
         $frontendCache->expects($this->any())
             ->method('getLowLevelFrontend')->will($this->returnValue($zendCacheCore));
-        $app = $this->getMock('Magento\Core\Model\App', [], [], '', false);
-        $app->expects($this->any())->method('getCache')->will($this->returnValue($frontendCache));
+        $cache = $this->getMock('Magento\App\CacheInterface');
+        $cache->expects($this->any())->method('getFrontend')->will($this->returnValue($frontendCache));
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $locale = $objectManager
-            ->getObject('Magento\Core\Model\Locale', ['app' => $app, 'locale' => LocaleInterface::DEFAULT_LOCALE]);
+            ->getObject('Magento\Core\Model\Locale', ['cache' => $cache, 'locale' => LocaleInterface::DEFAULT_LOCALE]);
 
         $context = $this->getMock('Magento\View\Element\Template\Context', [], [], '', false);
         $context->expects($this->any())->method('getLocale')->will($this->returnValue($locale));

@@ -7,16 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerBalance\Controller;
+
+use Magento\App\RequestInterface;
 
 /**
  * Customer balance controller for shopping cart
- *
  */
-namespace Magento\CustomerBalance\Controller;
-
-use Magento\App\Action\NotFoundException;
-use Magento\App\RequestInterface;
-
 class Cart extends \Magento\App\Action\Action
 {
     /**
@@ -37,6 +34,7 @@ class Cart extends \Magento\App\Action\Action
     /**
      * Remove Store Credit from current quote
      *
+     * @return void
      */
     public function removeAction()
     {

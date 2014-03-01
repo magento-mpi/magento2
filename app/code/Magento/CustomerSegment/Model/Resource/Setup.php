@@ -27,7 +27,7 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
      * @param \Magento\App\CacheInterface $cache
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGroupCollectionFactory
      * @param \Magento\Enterprise\Model\Resource\Setup\MigrationFactory $migrationFactory
-     * @param Segment\CollectionFactory $collectionFactory
+     * @param \Magento\CustomerSegment\Model\Resource\Segment\CollectionFactory $collectionFactory
      * @param string $moduleName
      * @param string $connectionName
      */

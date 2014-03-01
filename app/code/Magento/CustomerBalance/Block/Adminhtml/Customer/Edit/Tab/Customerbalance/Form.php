@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbalance;
 
 /**
  * Enterprise CustomerBalance
@@ -15,8 +16,6 @@
  * @package     Magento_CustomerBalance
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbalance;
-
 class Form
     extends \Magento\Backend\Block\Widget\Form\Generic
 {
@@ -54,7 +53,7 @@ class Form
     /**
      * Prepare form fields
      *
-     * @return \Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbalance\Form
+     * @return $this
      */
     protected function _prepareForm()
     {

@@ -100,7 +100,7 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
     /**
      * Locale
      *
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\LocaleInterface
      */
     protected $_locale = null;
 
@@ -141,7 +141,7 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder,
      * @param \Magento\CustomerBalance\Model\Balance $customerBalance
      * @param \Magento\Core\Model\Date $coreDate
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\LocaleInterface $locale
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Customer\Model\Session $customerSession
@@ -158,7 +158,7 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\CustomerBalance\Model\Balance $customerBalance,
         \Magento\Core\Model\Date $coreDate,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\LocaleInterface $locale,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Customer\Model\Session $customerSession,
@@ -196,7 +196,7 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
 
         if (!$this->getId()) {
             $now = $this->_locale->date()
-                ->setTimezone(\Magento\Core\Model\LocaleInterface::DEFAULT_TIMEZONE)
+                ->setTimezone(\Magento\LocaleInterface::DEFAULT_TIMEZONE)
                 ->toString(\Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT);
 
             $this->setDateCreated($now);

@@ -7,14 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * Paypal express checkout shortcut link
- */
 namespace Magento\Paypal\Block\Express;
 
 use Magento\Catalog\Block as CatalogBlock;
 
+/**
+ * Paypal express checkout shortcut link
+ */
 class Shortcut extends \Magento\View\Element\Template implements CatalogBlock\ShortcutInterface
 {
     /**
@@ -103,10 +102,10 @@ class Shortcut extends \Magento\View\Element\Template implements CatalogBlock\Sh
      * @param \Magento\Registry $registry
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Paypal\Model\ConfigFactory $paypalConfigFactory
-     * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Paypal\Model\Express\Checkout\Factory $checkoutFactory
      * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig
+     * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param array $data
      */
     public function __construct(

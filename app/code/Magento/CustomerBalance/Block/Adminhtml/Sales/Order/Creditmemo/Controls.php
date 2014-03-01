@@ -7,17 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * Refund to customer balance functionality block
- *
- */
 namespace Magento\CustomerBalance\Block\Adminhtml\Sales\Order\Creditmemo;
 
 use Magento\Registry;
 use Magento\View\Element\Template;
 use Magento\View\Element\Template\Context;
 
+/**
+ * Refund to customer balance functionality block
+ */
 class Controls extends Template
 {
     /**

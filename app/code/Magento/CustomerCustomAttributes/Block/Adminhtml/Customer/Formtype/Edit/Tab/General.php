@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Formtype\Edit\Tab;
 
 /**
  * Form Type Edit General Tab Block
  */
-namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Formtype\Edit\Tab;
-
 class General
     extends \Magento\Backend\Block\Widget\Form\Generic
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
@@ -50,6 +49,8 @@ class General
 
     /**
      * Initialize Edit Form
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -61,7 +62,7 @@ class General
     /**
      * Prepare form before rendering HTML
      *
-     * @return \Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Formtype\Edit\Tab\General
+     * @return $this
      */
     protected function _prepareForm()
     {

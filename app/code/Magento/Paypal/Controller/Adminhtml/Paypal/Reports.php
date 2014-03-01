@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Controller\Adminhtml\Paypal;
 
 /**
  * PayPal Settlement Reports Controller
  */
-namespace Magento\Paypal\Controller\Adminhtml\Paypal;
-
 class Reports extends \Magento\Backend\App\Action
 {
     /**
@@ -60,6 +59,8 @@ class Reports extends \Magento\Backend\App\Action
 
     /**
      * Grid action
+     *
+     * @return void
      */
     public function indexAction()
     {
@@ -69,6 +70,8 @@ class Reports extends \Magento\Backend\App\Action
 
     /**
      * Ajax callback for grid actions
+     *
+     * @return void
      */
     public function gridAction()
     {
@@ -78,6 +81,8 @@ class Reports extends \Magento\Backend\App\Action
 
     /**
      * View transaction details action
+     *
+     * @return void
      */
     public function detailsAction()
     {
@@ -100,6 +105,7 @@ class Reports extends \Magento\Backend\App\Action
     /**
      * Forced fetch reports action
      *
+     * @return void
      * @throws \Magento\Core\Exception
      */
     public function fetchAction()
@@ -137,7 +143,8 @@ class Reports extends \Magento\Backend\App\Action
 
     /**
      * Initialize titles, navigation
-     * @return \Magento\Paypal\Controller\Adminhtml\Paypal\Reports
+     *
+     * @return $this
      */
     protected function _initAction()
     {
@@ -152,6 +159,7 @@ class Reports extends \Magento\Backend\App\Action
 
     /**
      * ACL check
+     *
      * @return bool
      */
     protected function _isAllowed()

@@ -60,6 +60,7 @@ class Agreement
     /**
      * Disable filters and paging
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -68,9 +69,7 @@ class Agreement
     }
 
     /**
-     * Return Tab label
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getTabLabel()
     {
@@ -78,9 +77,7 @@ class Agreement
     }
 
     /**
-     * Return Tab title
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getTabTitle()
     {
@@ -88,9 +85,7 @@ class Agreement
     }
 
     /**
-     * Can show tab in tabs
-     *
-     * @return boolean
+     * {@inheritdoc}
      */
     public function canShowTab()
     {
@@ -99,15 +94,18 @@ class Agreement
     }
 
     /**
-     * Tab is hidden
-     *
-     * @return boolean
+     * {@inheritdoc}
      */
     public function isHidden()
     {
         return false;
     }
 
+    /**
+     * Get grid url
+     *
+     * @return string
+     */
     public function getGridUrl()
     {
         return $this->getUrl('paypal/billing_agreement/customerGrid', array('_current' => true));
@@ -126,7 +124,7 @@ class Agreement
     /**
      * Prepare collection for grid
      *
-     * @return \Magento\Paypal\Block\Adminhtml\Customer\Edit\Tab\Agreement
+     * @return $this
      */
     protected function _prepareCollection()
     {

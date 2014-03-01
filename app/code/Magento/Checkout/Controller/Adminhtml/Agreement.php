@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Checkout\Controller\Adminhtml;
 
 class Agreement extends \Magento\Backend\App\Action
@@ -31,6 +30,9 @@ class Agreement extends \Magento\Backend\App\Action
         parent::__construct($context);
     }
 
+    /**
+     * @return void
+     */
     public function indexAction()
     {
         $this->_title->add(__('Terms and Conditions'));
@@ -42,11 +44,17 @@ class Agreement extends \Magento\Backend\App\Action
         $this->_view->renderLayout();
     }
 
+    /**
+     * @return void
+     */
     public function newAction()
     {
         $this->_forward('edit');
     }
 
+    /**
+     * @return void
+     */
     public function editAction()
     {
         $this->_title->add(__('Terms and Conditions'));
@@ -85,6 +93,9 @@ class Agreement extends \Magento\Backend\App\Action
         $this->_view->renderLayout();
     }
 
+    /**
+     * @return void
+     */
     public function saveAction()
     {
         $postData = $this->getRequest()->getPost();
@@ -110,6 +121,9 @@ class Agreement extends \Magento\Backend\App\Action
         }
     }
 
+    /**
+     * @return void
+     */
     public function deleteAction()
     {
         $id = (int)$this->getRequest()->getParam('id');
@@ -138,7 +152,7 @@ class Agreement extends \Magento\Backend\App\Action
     /**
      * Initialize action
      *
-     * @return \Magento\Backend\App\Action
+     * @return $this
      */
     protected function _initAction()
     {
@@ -149,6 +163,9 @@ class Agreement extends \Magento\Backend\App\Action
         return $this;
     }
 
+    /**
+     * @return bool
+     */
     protected function _isAllowed()
     {
         return $this->_authorization->isAllowed('Magento_Checkout::checkoutagreement');

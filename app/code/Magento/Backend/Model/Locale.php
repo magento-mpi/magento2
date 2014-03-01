@@ -43,7 +43,7 @@ class Locale extends \Magento\Core\Model\Locale
      * @param \Magento\App\State $appState
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Locale\Config $config
-     * @param \Magento\Core\Model\App $app
+     * @param \Magento\App\CacheInterface $cache
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Core\Model\Date $dateModel
      * @param \Magento\Backend\Model\Session $session
@@ -61,7 +61,7 @@ class Locale extends \Magento\Core\Model\Locale
         \Magento\App\State $appState,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Locale\Config $config,
-        \Magento\Core\Model\App $app,
+        \Magento\App\CacheInterface $cache,
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Core\Model\Date $dateModel,
         \Magento\Backend\Model\Session $session,
@@ -81,7 +81,7 @@ class Locale extends \Magento\Core\Model\Locale
             $appState,
             $storeManager,
             $config,
-            $app,
+            $cache,
             $dateTime,
             $dateModel,
             $locale

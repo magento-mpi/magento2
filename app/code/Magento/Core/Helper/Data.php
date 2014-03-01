@@ -30,10 +30,10 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @var string[]
      */
     protected $_allowedFormats = array(
-        \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_FULL,
-        \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_LONG,
-        \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM,
-        \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT
+        \Magento\LocaleInterface::FORMAT_TYPE_FULL,
+        \Magento\LocaleInterface::FORMAT_TYPE_LONG,
+        \Magento\LocaleInterface::FORMAT_TYPE_MEDIUM,
+        \Magento\LocaleInterface::FORMAT_TYPE_SHORT
     );
 
     /**

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\AdvancedCheckout\Block\Sku;
 
 /**
  * SKU failed products Block
@@ -15,8 +15,6 @@
  * @category   Magento
  * @package    Magento_AdvancedCheckout
  */
-namespace Magento\AdvancedCheckout\Block\Sku;
-
 class Products extends \Magento\Checkout\Block\Cart
 {
     /**
@@ -78,7 +76,7 @@ class Products extends \Magento\Checkout\Block\Cart
     /**
      * Return list of product items
      *
-     * @return array
+     * @return \Magento\Sales\Model\Quote\Item[]
      */
     public function getItems()
     {
@@ -117,6 +115,8 @@ class Products extends \Magento\Checkout\Block\Cart
 
     /**
      * Prepare cart items URLs
+     *
+     * @return void
      */
     public function prepareItemUrls()
     {
