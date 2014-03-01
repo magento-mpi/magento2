@@ -30,6 +30,7 @@ class Plugin
     }
 
     /**
+     * @param \Magento\Locale\ResolverInterface $subject
      * @param string|null $localeCode
      */
     public function afterEmulate(\Magento\Locale\ResolverInterface $subject, $localeCode)
@@ -38,6 +39,7 @@ class Plugin
     }
 
     /**
+     * @param \Magento\Locale\ResolverInterface $subject
      * @param string|null $localeCode
      */
     public function afterRevert(\Magento\Locale\ResolverInterface $subject, $localeCode)
