@@ -148,8 +148,11 @@ class LiveCodeTest extends PHPUnit_Framework_TestCase
             $this->markTestSkipped('PHP Code Sniffer is not installed.');
         }
         self::setupFileLists('phpcs');
-        $result = $codeSniffer->run(self::$whiteList, self::$blackList, array('php'), $warningSeverity);
-        $this->markTestIncomplete("PHP Code Sniffer has found $result error(s): See detailed report in $reportFile");
+        // Scan for error amount
+        $result = $codeSniffer->run(self::$whiteList, self::$blackList, array('php'), 0);
+        // Rescan to generate report with warnings.
+        $codeSniffer->run(self::$whiteList, self::$blackList, array('php'), $warningSeverity);
+        // Fail if there are errors in report.
         $this->assertEquals(
             0,
             $result,
