@@ -94,6 +94,15 @@ interface CustomerAccountServiceInterface
     public function activateCustomer($customerId, $confirmationKey);
 
     /**
+     * Retrieve customer accounts which match a specified criteria
+     *
+     * @param Dto\SearchCriteria $searchCriteria
+     * @throws InputException if there is a problem with the input
+     * @return Dto\SearchResults containing Dto\CustomerAccount objects
+     */
+    public function searchAccounts(Dto\SearchCriteria $searchCriteria);
+
+    /**
      * Validate an account confirmation key matches expected value for customer
      *
      * @param int $customerId

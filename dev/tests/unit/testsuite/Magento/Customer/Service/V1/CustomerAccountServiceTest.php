@@ -1497,6 +1497,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             $this->_converter,
             $this->_validator,
             new Dto\CustomerBuilder,
+            new Dto\SearchResultsBuilder,
             $this->_customerAddressServiceMock,
             $this->_customerMetadataService,
             $this->_urlMock,
