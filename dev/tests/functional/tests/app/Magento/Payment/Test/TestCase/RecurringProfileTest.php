@@ -14,7 +14,9 @@ use Mtf\TestCase\Functional;
 class RecurringProfileTest extends Functional
 {
     /**
-     * Verify that a product with recurring options, added to the cart, has those options displayed in the cart
+     * Displaying payment schedule in shopping cart for products with recurring profile
+     *
+     * @ZephyrId MAGETWO-21881
      */
     public function testRecurringOptionsInCart()
     {
