@@ -358,12 +358,14 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function updateAccount(Dto\Customer $customer, array $addresses = null)
+    public function updateCustomer(Dto\CustomerDetails $customerDetails)
     {
+        $customer = $customerDetails->getCustomer();
         // Making this call first will ensure the customer already exists.
         $this->getCustomer($customer->getCustomerId());
         $this->saveCustomer($customer);
 
+        $addresses = $customerDetails->getAddresses();
         if ($addresses != null) {
             $existingAddresses = $this->_customerAddressService->getAddresses($customer->getCustomerId());
             /** @var Dto\Address[] $deletedAddresses */
@@ -618,8 +620,8 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         }
 
         $customerModel = $this->_converter->getCustomerModel($customerId);
-
         $customerToken = $customerModel->getRpToken();
+
         if (strcmp($customerToken, $resetPasswordLinkToken) !== 0) {
             throw new StateException('Reset password token mismatch.', StateException::INPUT_MISMATCH);
         } else if ($customerModel->isResetPasswordLinkTokenExpired($customerId)) {

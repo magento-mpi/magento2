@@ -11,6 +11,7 @@ use Magento\App\RequestInterface;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 use Magento\Customer\Service\V1\Dto\Customer;
+use Magento\Customer\Service\V1\Dto\CustomerDetails;
 use Magento\Exception\AuthenticationException;
 use Magento\Exception\InputException;
 use Magento\Exception\NoSuchEntityException;
@@ -99,6 +100,9 @@ class Account extends \Magento\App\Action\Action
     /** @var \Magento\Customer\Service\V1\Dto\CustomerBuilder */
     protected $_customerBuilder;
 
+    /** @var \Magento\Customer\Service\V1\Dto\CustomerDetailsBuilder */
+    protected $_customerDetailsBuilder;
+
     /**
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
@@ -119,6 +123,7 @@ class Account extends \Magento\App\Action\Action
      * @param \Magento\Customer\Service\V1\Dto\RegionBuilder $regionBuilder
      * @param \Magento\Customer\Service\V1\Dto\AddressBuilder $addressBuilder
      * @param \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerBuilder
+     * @param \Magento\Customer\Service\V1\Dto\CustomerDetailsBuilder $customerDetailsBuilder
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -141,7 +146,8 @@ class Account extends \Magento\App\Action\Action
         CustomerAccountServiceInterface $customerAccountService,
         \Magento\Customer\Service\V1\Dto\RegionBuilder $regionBuilder,
         \Magento\Customer\Service\V1\Dto\AddressBuilder $addressBuilder,
-        \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerBuilder
+        \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerBuilder,
+        \Magento\Customer\Service\V1\Dto\CustomerDetailsBuilder $customerDetailsBuilder
     ) {
         $this->_session = $customerSession;
         $this->_addressHelper = $addressHelper;
@@ -161,6 +167,7 @@ class Account extends \Magento\App\Action\Action
         $this->_regionBuilder = $regionBuilder;
         $this->_addressBuilder = $addressBuilder;
         $this->_customerBuilder = $customerBuilder;
+        $this->_customerDetailsBuilder = $customerDetailsBuilder;
         parent::__construct($context);
     }
 
@@ -867,6 +874,7 @@ class Account extends \Magento\App\Action\Action
             $this->_customerBuilder->setCustomerId($customerId);
             $customer = $this->_customerBuilder->create();
 
+
             if ($this->getRequest()->getParam('change_password')) {
                 $currPass   = $this->getRequest()->getPost('current_password');
                 $newPass    = $this->getRequest()->getPost('password');
@@ -892,7 +900,10 @@ class Account extends \Magento\App\Action\Action
             }
 
             try {
-                $this->_customerAccountService->updateAccount($customer);
+                $this->_customerDetailsBuilder->populateWithArray(
+                    [CustomerDetails::KEY_CUSTOMER => $customer->getAttributes()]
+                );
+                $this->_customerAccountService->updateCustomer($this->_customerDetailsBuilder->create());
             } catch (AuthenticationException $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (InputException $e) {

@@ -38,6 +38,9 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Customer\Service\V1\Dto\CustomerBuilder */
     private $_customerBuilder;
 
+    /** @var \Magento\Customer\Service\V1\Dto\CustomerDetailsBuilder */
+    private $_customerDetailsBuilder;
+
     protected function setUp()
     {
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
@@ -48,6 +51,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->_addressBuilder = $this->_objectManager->create('Magento\Customer\Service\V1\Dto\AddressBuilder');
         $this->_customerBuilder = $this->_objectManager->create('Magento\Customer\Service\V1\Dto\CustomerBuilder');
+        $this->_customerDetailsBuilder =
+            $this->_objectManager->create('Magento\Customer\Service\V1\Dto\CustomerDetailsBuilder');
 
         $this->_addressBuilder->setId(1)
             ->setCountryId('US')
@@ -87,7 +92,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->_expectedAddresses = [$address, $address2];
     }
-
 
     /**
      * @magentoAppArea frontend
@@ -264,14 +268,9 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testValidateResetPasswordLinkToken()
     {
-        $this->_customerBuilder->populateWithArray(
-            array_merge($this->_customerAccountService->getCustomer(1)->__toArray(), [
-                'rp_token' => 'token',
-                'rp_token_created_at' => date('Y-m-d')
-            ])
+        $this->_customerAccountService->updateCustomer(
+            $this->getCustomerDetailsDtoWithToken(1, 'token', date('Y-m-d'))
         );
-        $this->_customerAccountService->updateAccount($this->_customerBuilder->create());
-
         $this->_customerAccountService->validateResetPasswordLinkToken(1, 'token');
     }
 
@@ -284,16 +283,9 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     public function testValidateResetPasswordLinkTokenExpired()
     {
         $resetToken = 'lsdj579slkj5987slkj595lkj';
-
-        $this->_customerBuilder->populateWithArray(
-            array_merge($this->_customerAccountService->getCustomer(1)->__toArray(), [
-                'rp_token' => $resetToken,
-                'rp_token_created_at' => '1970-01-01',
-            ])
+        $this->_customerAccountService->updateCustomer(
+            $this->getCustomerDetailsDtoWithToken(1, $resetToken, '1970-01-01')
         );
-        $customerData = $this->_customerBuilder->create();
-        $this->_customerAccountService->updateAccount($customerData);
-
         $this->_customerAccountService->validateResetPasswordLinkToken(1, $resetToken);
     }
 
@@ -305,14 +297,9 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     {
         $resetToken = 'lsdj579slkj5987slkj595lkj';
         $invalidToken = 0;
-
-        $this->_customerBuilder->populateWithArray(
-            array_merge($this->_customerAccountService->getCustomer(1)->__toArray(), [
-                'rp_token' => $resetToken,
-                'rp_token_created_at' => date('Y-m-d')
-            ])
+        $this->_customerAccountService->updateCustomer(
+            $this->getCustomerDetailsDtoWithToken(1, $resetToken, date('Y-m-d'))
         );
-        $this->_customerAccountService->updateAccount($this->_customerBuilder->create());
 
         try {
             $this->_customerAccountService->validateResetPasswordLinkToken(1, $invalidToken);
@@ -407,17 +394,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     public function testResetPassword()
     {
         $resetToken = 'lsdj579slkj5987slkj595lkj';
-        $password = 'password_secret';
-
-        $this->_customerBuilder->populateWithArray(
-            array_merge($this->_customerAccountService->getCustomer(1)->__toArray(), [
-                'rp_token' => $resetToken,
-                'rp_token_created_at' => date('Y-m-d')
-            ])
+        $this->_customerAccountService->updateCustomer(
+            $this->getCustomerDetailsDtoWithToken(1, $resetToken, date('Y-m-d'))
         );
-        $this->_customerAccountService->updateAccount($this->_customerBuilder->create());
-
-        $this->_customerAccountService->resetPassword(1, $resetToken, $password);
+        $this->_customerAccountService->resetPassword(1, $resetToken, 'password');
     }
 
 
@@ -430,7 +410,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     public function testResetPasswordTokenExpired()
     {
         $resetToken = 'lsdj579slkj5987slkj595lkj';
-        $password = 'password_secret';
 
         $this->_customerBuilder->populateWithArray(
             array_merge($this->_customerAccountService->getCustomer(1)->__toArray(), [
@@ -440,7 +419,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         );
         $this->_customerAccountService->saveCustomer($this->_customerBuilder->create());
 
-        $this->_customerAccountService->resetPassword(1, $resetToken, $password);
+        $this->_customerAccountService->resetPassword(1, $resetToken, 'password');
     }
 
     /**
@@ -474,6 +453,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             ];
             $this->assertEquals($expectedParams, $ie->getParams());
         }
+        $this->_customerAccountService->changePassword(1, $password);
     }
 
     /**
@@ -483,14 +463,9 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     {
         $resetToken = 'lsdj579slkj5987slkj595lkj';
         $password = 'password_secret';
-
-        $this->_customerBuilder->populateWithArray(
-            array_merge($this->_customerAccountService->getCustomer(1)->__toArray(), [
-                'rp_token' => $resetToken,
-                'rp_token_created_at' => date('Y-m-d')
-            ])
+        $this->_customerAccountService->updateCustomer(
+            $this->getCustomerDetailsDtoWithToken(1, $resetToken, date('Y-m-d'))
         );
-        $this->_customerAccountService->updateAccount($this->_customerBuilder->create());
         try {
             $this->_customerAccountService->resetPassword(4200, $resetToken, $password);
             $this->fail('Expected exception not thrown.');
@@ -1255,5 +1230,26 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
                 $this->_customerAddressService->saveAddresses($customerDetailData['customer']['id'], $addressDtoArray);
             }
         }
+    }
+
+    /**
+     * Build a CustomerDetails instance with a special rp_token
+     * @param $customerId
+     * @param $rpToken
+     * @return Dto\CustomerDetails
+     */
+    protected function getCustomerDetailsDtoWithToken($customerId, $rpToken, $date)
+    {
+        $this->_customerDetailsBuilder->populateWithArray(
+            [V1\Dto\CustomerDetails::KEY_CUSTOMER => array_merge(
+                $this->_customerAccountService->getCustomer($customerId)->__toArray(),
+                [
+                    'rp_token' => $rpToken,
+                    'rp_token_created_at' => $date
+                ])
+            ]
+        );
+
+        return $this->_customerDetailsBuilder->create();
     }
 }

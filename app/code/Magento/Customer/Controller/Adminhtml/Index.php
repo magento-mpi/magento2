@@ -13,6 +13,8 @@ use Magento\App\Action\NotFoundException;
 use Magento\Customer\Controller\RegistryConstants;
 use Magento\Customer\Service\V1\Dto\Customer;
 use Magento\Customer\Service\V1\Dto\CustomerBuilder;
+use Magento\Customer\Service\V1\Dto\CustomerDetails;
+use Magento\Customer\Service\V1\Dto\CustomerDetailsBuilder;
 use Magento\Customer\Service\V1\Dto\AddressBuilder;
 use Magento\Customer\Service\V1\CustomerServiceInterface;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
@@ -51,6 +53,9 @@ class Index extends \Magento\Backend\App\Action
 
     /** @var  CustomerBuilder */
     protected $_customerBuilder;
+
+    /** @var  CustomerDetailsBuilder */
+    protected $_customerDetailsBuilder;
 
     /** @var  AddressBuilder */
     protected $_addressBuilder;
@@ -96,6 +101,7 @@ class Index extends \Magento\Backend\App\Action
      * @param \Magento\Customer\Model\Metadata\FormFactory $formFactory
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
      * @param CustomerBuilder $customerBuilder
+     * @param CustomerDetailsBuilder $customerDetailsBuilder
      * @param AddressBuilder $addressBuilder
      * @param CustomerServiceInterface $customerService
      * @param CustomerAddressServiceInterface $addressService
@@ -115,6 +121,7 @@ class Index extends \Magento\Backend\App\Action
         \Magento\Customer\Model\Metadata\FormFactory $formFactory,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
         CustomerBuilder $customerBuilder,
+        CustomerDetailsBuilder $customerDetailsBuilder,
         AddressBuilder $addressBuilder,
         CustomerServiceInterface $customerService,
         CustomerAddressServiceInterface $addressService,
@@ -127,6 +134,7 @@ class Index extends \Magento\Backend\App\Action
         $this->_coreRegistry = $coreRegistry;
         $this->_customerFactory = $customerFactory;
         $this->_customerBuilder = $customerBuilder;
+        $this->_customerDetailsBuilder = $customerDetailsBuilder;
         $this->_addressBuilder = $addressBuilder;
         $this->_addressFactory = $addressFactory;
         $this->_subscriberFactory = $subscriberFactory;
@@ -394,7 +402,11 @@ class Index extends \Magento\Backend\App\Action
 
                 // Save customer
                 if ($isExistingCustomer) {
-                    $this->_customerAccountService->updateAccount($customer, $addresses);
+                    $this->_customerDetailsBuilder->populateWithArray([
+                        CustomerDetails::KEY_CUSTOMER => $customerData,
+                        CustomerDetails::KEY_ADDRESSES => $addressesData
+                    ]);
+                    $this->_customerAccountService->updateCustomer($this->_customerDetailsBuilder->create());
                 } else {
                     $customer = $this->_customerAccountService->createAccount($customer, $addresses);
                 }

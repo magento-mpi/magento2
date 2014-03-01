@@ -51,14 +51,12 @@ interface CustomerAccountServiceInterface
     public function createAccount(Dto\Customer $customer, array $addresses, $password = null, $redirectUrl = '');
 
     /**
-     * Update Customer Account
+     * Update Customer Account and its details
      *
-     * @param Dto\Customer $customer
-     * @param Dto\Address[]|null $addresses Full array of addresses to associate with customer,
-     *                                      or null if no change to addresses
+     * @param Dto\CustomerDetails $customer
      * @return void
      */
-    public function updateAccount(Dto\Customer $customer, array $addresses = null);
+    public function updateCustomer(Dto\CustomerDetails $customerDetails);
 
     /**
      * Create or update customer information
