@@ -93,10 +93,11 @@ class DepersonalizePlugin
     /**
      * After layout generate
      *
-     * @param mixed $arguments
+     * @param \Magento\Core\Model\Layout $subject
+     * @param $result
      * @return mixed
      */
-    public function afterGenerateXml($arguments = null)
+    public function afterGenerateXml(\Magento\Core\Model\Layout $subject, $result)
     {
         if ($this->moduleManager->isEnabled('Magento_PageCache')
             && !$this->request->isAjax()
@@ -113,6 +114,6 @@ class DepersonalizePlugin
             $this->customer->setGroupId($this->customerGroupId);
             $this->customerSession->setCustomer($this->customer);
         }
-        return $arguments;
+        return $result;
     }
 }

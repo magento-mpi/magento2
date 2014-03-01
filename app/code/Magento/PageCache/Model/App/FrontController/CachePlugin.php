@@ -43,23 +43,25 @@ class CachePlugin
     }
 
     /**
-     * Try load response from cache and preventing application from being processing if cache hit
-     *
-     * @param array $arguments
-     * @param \Magento\Code\Plugin\InvocationChain $invocationChain
-     * @return \Magento\App\Response\Http
+     * @param \Magento\App\FrontControllerInterface $subject
+     * @param \Closure $proceed
+     * @param \Magento\App\RequestInterface $request
+     * @return false|\Magento\App\Response\Http
      */
-    public function aroundDispatch(array $arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
-    {
+    public function aroundDispatch(
+        \Magento\App\FrontControllerInterface $subject,
+        \Closure $proceed,
+        \Magento\App\RequestInterface $request
+    ) {
         $this->version->process();
         if ($this->config->getType() == \Magento\PageCache\Model\Config::BUILT_IN) {
             $response = $this->kernel->load();
             if ($response === false) {
-                $response = $invocationChain->proceed($arguments);
+                $response = $proceed($request);
                 $this->kernel->process($response);
             }
         } else {
-            $response = $invocationChain->proceed($arguments);
+            $response = $proceed($request);
         }
         return $response;
     }
