@@ -17,11 +17,6 @@ use \Magento\View\Asset\PreProcessorFactory;
 class Composite implements PreProcessorInterface
 {
     /**
-     * Temporary directory prefix
-     */
-    const TMP_VIEW_DIR   = 'view';
-
-    /**
      * @var PreProcessorInterface[]
      */
     protected $preProcessors = array();

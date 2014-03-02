@@ -49,7 +49,7 @@ class RelatedFile
      */
     public function buildPath($relativeFilePath, $parentRelativePath, &$params)
     {
-        if (strpos($relativeFilePath, \Magento\View\Service::SCOPE_SEPARATOR)) {
+        if (strpos($relativeFilePath, \Magento\View\Asset\FileId::FILE_ID_SEPARATOR)) {
             $relativeFilePath = $this->viewService->extractScope($relativeFilePath, $params);
         } else {
             $relativeFilePath = dirname($parentRelativePath) . '/' . $relativeFilePath;

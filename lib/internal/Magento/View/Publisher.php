@@ -68,28 +68,30 @@ class Publisher implements PublicFilesManagerInterface
     /**
      * Public directory
      *
-     * @var WriteInterface
+     * @var Service
      */
-    protected $pubDirectory;
+    protected $viewService;
 
     /**
      * @param \Magento\App\Filesystem $filesystem
      * @param FileSystem $viewFileSystem
      * @param Asset\PreProcessor\PreProcessorInterface $preProcessor
      * @param Publisher\FileFactory $fileFactory
+     * @param Service $viewService
      */
     public function __construct(
         \Magento\App\Filesystem $filesystem,
         \Magento\View\FileSystem $viewFileSystem,
         \Magento\View\Asset\PreProcessor\PreProcessorInterface $preProcessor,
-        Publisher\FileFactory $fileFactory
+        Publisher\FileFactory $fileFactory,
+        Service $viewService
     ) {
         $this->rootDirectory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::ROOT_DIR);
         $this->tmpDirectory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::VAR_DIR);
-        $this->pubDirectory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::STATIC_VIEW_DIR);
         $this->viewFileSystem = $viewFileSystem;
         $this->preProcessor = $preProcessor;
         $this->fileFactory = $fileFactory;
+        $this->viewService = $viewService;
     }
 
     /**
@@ -163,30 +165,11 @@ class Publisher implements PublicFilesManagerInterface
      * Publish file
      *
      * @param Publisher\FileInterface $publisherFile
-     * @return $this
      */
     protected function publishFile(Publisher\FileInterface $publisherFile)
     {
-        $sourcePath = $publisherFile->getSourcePath();
-        $sourcePathRelative = $this->rootDirectory->getRelativePath($sourcePath);
-
-        $targetPathRelative = $publisherFile->buildUniquePath();
-
-        $targetDirectory = $this->pubDirectory;
-
-        $fileMTime = $this->rootDirectory->stat($sourcePathRelative)['mtime'];
-        if (!$targetDirectory->isExist($targetPathRelative)
-            || $fileMTime != $targetDirectory->stat($targetPathRelative)['mtime']
-        ) {
-            if ($this->rootDirectory->isFile($sourcePathRelative)) {
-                $this->rootDirectory->copyFile($sourcePathRelative, $targetPathRelative, $targetDirectory);
-                $targetDirectory->touch($targetPathRelative, $fileMTime);
-            } elseif (!$targetDirectory->isDirectory($targetPathRelative)) {
-                $targetDirectory->create($targetPathRelative);
-            }
-        }
-
+        $asset = $this->viewService->createAsset($publisherFile->getFilePath(), $publisherFile->getViewParams());
+        $this->viewService->publishAsset($asset);
         $this->viewFileSystem->notifyViewFileLocationChanged($publisherFile);
-        return $this;
     }
 }

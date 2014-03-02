@@ -80,20 +80,12 @@ class FileSystem
      *
      * @param string $fileId
      * @param array $params
-     * @return string
+     * @return string|bool
      */
     public function getViewFile($fileId, array $params = array())
     {
-        $filePath = $this->_viewService->extractScope($this->normalizePath($fileId), $params);
-        $this->_viewService->updateDesignParams($params);
-        $skipProxy = isset($params['skipProxy']) && $params['skipProxy'];
-        return $this->_resolutionPool->getViewStrategy($skipProxy)->getViewFile(
-            $params['area'],
-            $params['themeModel'],
-            $params['locale'],
-            $filePath,
-            $params['module']
-        );
+        $asset = $this->_viewService->createAsset($fileId, $params);
+        return $asset->getSourceFile();
     }
 
     /**
@@ -123,12 +115,14 @@ class FileSystem
     }
 
     /**
-     * Remove unmeaning path chunks from path
+     * Remove excessive "." and ".." parts from a path
+     *
+     * For example foo/bar/../file.ext -> foo/file.ext
      *
      * @param string $path
      * @return string
      */
-    public function normalizePath($path)
+    public static function normalizePath($path)
     {
         $parts = explode('/', $path);
         $result = array();
@@ -145,5 +139,44 @@ class FileSystem
             }
         }
         return implode('/', $result);
+    }
+
+    /**
+     * Get a relative path between $from and $to paths as if $from was to refer to $to relatively of itself
+     *
+     * Returns new calculated relative path.
+     * Examples:
+     *   /some/directory/one/file.ext -> /some/directory/two/another/file.ext
+     *       Result: ../two/another
+     *   http://example.com/themes/demo/css/styles.css -> http://example.com/images/logo.gif
+     *       Result: ../../../images
+     *
+     * @param string $from
+     * @param string $to
+     * @return string
+     */
+    public static function offsetPath($from, $to)
+    {
+        list($from, $to) = self::ltrimSamePart($from, $to);
+        $offset = str_repeat('../', count(explode('/', ltrim(dirname($to), '/'))));
+        return rtrim($offset . dirname($from), '/');
+    }
+
+    /**
+     * Left-trim same part of two paths
+     *
+     * @param string $pathOne
+     * @param string $pathTwo
+     * @return array
+     */
+    private static function ltrimSamePart($pathOne, $pathTwo)
+    {
+        $one = explode('/', $pathOne);
+        $two = explode('/', $pathTwo);
+        while (isset($one[0]) && isset($two[0]) && $one[0] == $two[0]) {
+            array_shift($one);
+            array_shift($two);
+        }
+        return array(implode('/', $one), implode('/', $two));
     }
 }

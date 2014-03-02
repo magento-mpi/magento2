@@ -30,9 +30,9 @@ class StaticResource implements \Magento\LauncherInterface
     private $request;
 
     /**
-     * @var \Magento\View\FileResolver
+     * @var \Magento\View\Service
      */
-    private $fileResolver;
+    private $viewService;
 
     /**
      * @var \Magento\Module\ModuleList
@@ -48,7 +48,7 @@ class StaticResource implements \Magento\LauncherInterface
      * @param State $state
      * @param Response\FileInterface $response
      * @param Request\Http $request
-     * @param \Magento\View\FileResolver $resolver
+     * @param \Magento\View\Service $viewService
      * @param \Magento\Module\ModuleList $moduleList
      * @param \Magento\View\Design\Theme\ListInterface $themeList
      */
@@ -56,14 +56,14 @@ class StaticResource implements \Magento\LauncherInterface
         State $state,
         Response\FileInterface $response,
         Request\Http $request,
-        \Magento\View\FileResolver $resolver,
+        \Magento\View\Service $viewService,
         \Magento\Module\ModuleList $moduleList,
         \Magento\View\Design\Theme\ListInterface $themeList
     ) {
         $this->state = $state;
         $this->response = $response;
         $this->request = $request;
-        $this->fileResolver = $resolver;
+        $this->viewService = $viewService;
         $this->moduleList = $moduleList;
         $this->themeList = $themeList;
     }
@@ -87,13 +87,9 @@ class StaticResource implements \Magento\LauncherInterface
             $params['themeModel'] = $this->getThemeModel($params['area'], $params['theme']);
             unset($params['file'], $params['theme']);
 
-            if ($appMode == \Magento\App\State::MODE_DEVELOPER) {
-                $resourceFile = $this->fileResolver->getViewFile($file, $params);
-            } else {
-                $resourceFile = $this->fileResolver->getPublicViewFile($file, $params);
-            }
-
-            $this->response->setFilePath($resourceFile);
+            $asset = $this->viewService->createAsset($file, $params);
+            $this->response->setFilePath($asset->getSourceFile());
+            $this->viewService->publish($asset);
         }
         return $this->response;
     }

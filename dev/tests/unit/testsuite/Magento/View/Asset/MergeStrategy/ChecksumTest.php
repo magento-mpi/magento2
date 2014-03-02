@@ -111,7 +111,7 @@ class ChecksumTest extends \PHPUnit_Framework_TestCase
             ->expects($this->never())
             ->method('mergeFiles');
 
-        $this->_object->mergeFiles($this->_filesArray, $this->_mergedFileAbs, 'contentType');
+        $this->_object->merge($this->_filesArray, $this->_mergedFileAbs, 'contentType');
     }
 
     /**
@@ -138,7 +138,7 @@ class ChecksumTest extends \PHPUnit_Framework_TestCase
             ->method('writeFile')
             ->with($this->_mergedMetaFile, '123456');
 
-        $this->_object->mergeFiles($this->_filesArray, $this->_mergedFileAbs, 'contentType');
+        $this->_object->merge($this->_filesArray, $this->_mergedFileAbs, 'contentType');
     }
 
     /**
@@ -178,6 +178,6 @@ class ChecksumTest extends \PHPUnit_Framework_TestCase
             ->method('writeFile')
             ->with($this->_mergedMetaFile, '123456');
 
-        $this->_object->mergeFiles($this->_filesArray, $this->_mergedFile, 'contentType');
+        $this->_object->merge($this->_filesArray, $this->_mergedFile, 'contentType');
     }
 }

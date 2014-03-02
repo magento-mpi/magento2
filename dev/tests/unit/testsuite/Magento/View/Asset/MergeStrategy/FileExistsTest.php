@@ -88,7 +88,7 @@ class FileExistsTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo($this->_mergedFile))
             ->will($this->returnValue(true));
 
-        $this->_object->mergeFiles($this->_filesArray, $this->_mergedFileAbs, 'contentType');
+        $this->_object->merge($this->_filesArray, $this->_mergedFileAbs, 'contentType');
     }
 
     public function testMergeFilesFileDoesNotExist()
@@ -103,6 +103,6 @@ class FileExistsTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo($this->_mergedFile))
             ->will($this->returnValue(false));
 
-        $this->_object->mergeFiles($this->_filesArray, $this->_mergedFileAbs, 'contentType');
+        $this->_object->merge($this->_filesArray, $this->_mergedFileAbs, 'contentType');
     }
 }

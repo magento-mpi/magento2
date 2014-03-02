@@ -117,7 +117,7 @@ class ThemeDeployment
                 'destinationContext' => $destinationContext,
             );
 
-            $destDir = \Magento\View\Url::getFullyQualifiedPath(
+            $destDir = \Magento\View\Asset\FileId::buildRelativePath(
                 '',
                 $destinationContext['area'],
                 $destinationContext['themePath'],
@@ -194,13 +194,13 @@ class ThemeDeployment
             $destContext = $context['destinationContext'];
             $destHomeDir = $this->_destinationHomeDir;
             $callback = function ($relativeUrl) use ($destContext, $destFileDir, $destHomeDir) {
-                $parts = explode(\Magento\View\Service::SCOPE_SEPARATOR, $relativeUrl);
+                $parts = explode(\Magento\View\Asset\FileId::FILE_ID_SEPARATOR, $relativeUrl);
                 if (count($parts) == 2) {
                     list($module, $file) = $parts;
                     if (!strlen($module) || !strlen($file)) {
                         throw new \Magento\Exception("Wrong module url: {$relativeUrl}");
                     }
-                    $relPath = \Magento\View\Url::getFullyQualifiedPath(
+                    $relPath = \Magento\View\Asset\FileId::buildRelativePath(
                         $file,
                         $destContext['area'],
                         $destContext['themePath'],
@@ -217,12 +217,7 @@ class ThemeDeployment
 
             // Replace relative urls and write the modified content (if not dry run)
             $content = file_get_contents($fileSource);
-            $content = $this->_cssUrlResolver->replaceCssRelativeUrls(
-                $content,
-                $fileSource,
-                $fileDestination,
-                $callback
-            );
+            $this->_cssUrlResolver->replaceRelativeUrls($content, $callback);
 
             if (!$this->_isDryRun) {
                 file_put_contents($fileDestination, $content);

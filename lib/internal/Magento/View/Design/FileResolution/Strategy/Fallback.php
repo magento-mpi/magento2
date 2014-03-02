@@ -57,15 +57,25 @@ class Fallback implements FileInterface, LocaleInterface, ViewInterface
     protected $rootDirectory;
 
     /**
+     * @var array
+     */
+    private $staticExtensionRule;
+
+    /**
      * Constructor
      *
      * @param Filesystem $filesystem
      * @param Factory $fallbackFactory
+     * @param array $staticExtensionRule
      */
-    public function __construct(Filesystem $filesystem, Factory $fallbackFactory)
-    {
+    public function __construct(
+        Filesystem $filesystem,
+        Factory $fallbackFactory,
+        array $staticExtensionRule = array('css' => array('less'))
+    ) {
         $this->rootDirectory = $filesystem->getDirectoryRead(Filesystem::ROOT_DIR);
         $this->fallbackFactory = $fallbackFactory;
+        $this->staticExtensionRule = $staticExtensionRule;
     }
 
     /**
@@ -75,7 +85,7 @@ class Fallback implements FileInterface, LocaleInterface, ViewInterface
      * @param ThemeInterface $themeModel
      * @param string $file
      * @param string|null $module
-     * @return string
+     * @return string|bool
      */
     public function getFile($area, ThemeInterface $themeModel, $file, $module = null)
     {
@@ -93,7 +103,7 @@ class Fallback implements FileInterface, LocaleInterface, ViewInterface
      * @param ThemeInterface $themeModel
      * @param string $locale
      * @param string $file
-     * @return string
+     * @return string|bool
      */
     public function getLocaleFile($area, ThemeInterface $themeModel, $locale, $file)
     {
@@ -102,14 +112,14 @@ class Fallback implements FileInterface, LocaleInterface, ViewInterface
     }
 
     /**
-     * Get theme file name, using fallback mechanism
+     * Get a static view file name, using fallback mechanism
      *
      * @param string $area
      * @param ThemeInterface $themeModel
      * @param string $locale
      * @param string $file
      * @param string|null $module
-     * @return string
+     * @return string|bool
      */
     public function getViewFile($area, ThemeInterface $themeModel, $locale, $file, $module = null)
     {
@@ -119,7 +129,37 @@ class Fallback implements FileInterface, LocaleInterface, ViewInterface
         if ($module) {
             list($params['namespace'], $params['module']) = explode('_', $module, 2);
         }
-        return $this->resolveFile($this->getViewFileRule(), $file, $params);
+        $rule = $this->getViewFileRule();
+        $result = $this->resolveFile($rule, $file, $params);
+        if (!$result) {
+            $result = $this->lookupAdditionalExtensions($rule, $file, $params);
+        }
+        return $result;
+    }
+
+    /**
+     * Using additional rule for static view file extensions, lookup specified file with these extensions
+     *
+     * A first matched file with alternative extension will be returned
+     *
+     * @param $rule
+     * @param $file
+     * @param $params
+     * @return string|bool
+     */
+    private function lookupAdditionalExtensions($rule, $file, $params)
+    {
+        $extension = pathinfo($file, PATHINFO_EXTENSION);
+        if (isset($this->staticExtensionRule[$extension])) {
+            foreach ($this->staticExtensionRule[$extension] as $newExtension) {
+                $newFile = substr($file, 0, strlen($file) - strlen($extension)) . $newExtension;
+                $result = $this->resolveFile($rule, $newFile, $params);
+                if ($result) {
+                    return $result;
+                }
+            }
+        }
+        return false;
     }
 
     /**
@@ -167,17 +207,16 @@ class Fallback implements FileInterface, LocaleInterface, ViewInterface
      * @param RuleInterface $fallbackRule
      * @param string $file
      * @param array $params
-     * @return string
+     * @return string|bool
      */
     protected function resolveFile(RuleInterface $fallbackRule, $file, $params = array())
     {
-        $path = '';
         foreach ($fallbackRule->getPatternDirs($params) as $dir) {
             $path = "{$dir}/{$file}";
             if ($this->rootDirectory->isExist($this->rootDirectory->getRelativePath($path))) {
                 return $path;
             }
         }
-        return $path;
+        return false;
     }
 }

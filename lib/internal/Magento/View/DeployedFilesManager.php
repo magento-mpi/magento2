@@ -14,20 +14,16 @@ namespace Magento\View;
 class DeployedFilesManager implements \Magento\View\PublicFilesManagerInterface
 {
     /**
-     * View service
-     *
-     * @var \Magento\View\Service
+     * @var \Magento\App\Filesystem
      */
-    protected $_viewService;
+    protected $filesystem;
 
     /**
-     * Constructor
-     *
-     * @param \Magento\View\Service $viewService
+     * @param \Magento\App\Filesystem $filesystem
      */
-    public function __construct(Service $viewService)
+    public function __construct(\Magento\App\Filesystem $filesystem)
     {
-        $this->_viewService = $viewService;
+        $this->filesystem = $filesystem;
     }
 
     /**
@@ -62,9 +58,9 @@ class DeployedFilesManager implements \Magento\View\PublicFilesManagerInterface
             $themePath = $themeModel->getThemePath();
             $themeModel = $themeModel->getParentTheme();
         }
-        $subPath = Url::getFullyQualifiedPath($filePath, $params['area'], $themePath, '', $params['module']);
+        $subPath = Asset\FileId::buildRelativePath($filePath, $params['area'], $themePath, '', $params['module']);
         $subPath = str_replace('//', '/', $subPath); // workaround while locale support is not implemented
-        $deployedFilePath = $this->_viewService->getPublicDir() . '/' . $subPath;
+        $deployedFilePath = $this->filesystem->getPath(\Magento\App\Filesystem::STATIC_VIEW_DIR) . '/' . $subPath;
 
         return $deployedFilePath;
     }

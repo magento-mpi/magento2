@@ -25,7 +25,7 @@ interface ViewInterface
      * @param string $locale
      * @param string $file
      * @param string|null $module
-     * @return string
+     * @return string|bool
      */
     public function getViewFile($area, ThemeInterface $themeModel, $locale, $file, $module = null);
 }

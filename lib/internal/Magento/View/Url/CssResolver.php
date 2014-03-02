@@ -8,6 +8,8 @@
 
 namespace Magento\View\Url;
 
+use Magento\View\FileSystem;
+
 /**
  * Helper to work with CSS files
  */
@@ -20,108 +22,92 @@ class CssResolver
         = '#url\s*\(\s*(?(?=\'|").)(?!http\://|https\://|/|data\:)(.+?)(?:[\#\?].*?|[\'"])?\s*\)#';
 
     /**
-     * File system
+     * Adjust relative URLs in CSS content as if the file with this content is to be moved to new location
      *
-     * @var \Magento\App\Filesystem
+     * @param string $cssContent
+     * @param string $from
+     * @param string $to
+     * @return mixed
      */
-    protected $filesystem;
-
-    /**
-     * View file system
-     *
-     * @var \Magento\View\FileSystem
-     */
-    protected $viewFileSystem;
-
-    /**
-     * Constructor
-     *
-     * @param \Magento\App\Filesystem $filesystem
-     * @param \Magento\View\FileSystem $viewFileSystem
-     */
-    public function __construct(
-        \Magento\App\Filesystem $filesystem,
-        \Magento\View\FileSystem $viewFileSystem
-    ) {
-        $this->filesystem = $filesystem;
-        $this->viewFileSystem = $viewFileSystem;
+    public static function relocateRelativeUrls($cssContent, $from, $to)
+    {
+        $offset = FileSystem::offsetPath($from, $to);
+        $callback = function($path) use ($offset) {
+            return FileSystem::normalizePath($offset . '/' . $path);
+        };
+        return self::replaceRelativeUrls($cssContent, $callback);
     }
 
     /**
-     * Replace relative URLs
+     * A generic method for applying certain callback to all found relative URLs in CSS content
      *
-     * Go through CSS content and modify relative urls, when content is read at $originalPath and then put to $newPath
+     * Traverse through all relative URLs and apply a callback to each path
+     * The $inlineCallback is a user function that obtains the URL value and must return a replacement
      *
      * @param string $cssContent
-     * @param string $originalPath
-     * @param string $newPath
-     * @param callable|null $cbRelUrlToPublicPath Optional custom callback to resolve relative urls to file paths
+     * @param callback $inlineCallback
      * @return string
      */
-    public function replaceCssRelativeUrls($cssContent, $originalPath, $newPath, $cbRelUrlToPublicPath = null)
+    public static function replaceRelativeUrls($cssContent, $inlineCallback)
     {
-        $relativeUrls = $this->_extractCssRelativeUrls($cssContent);
-        foreach ($relativeUrls as $urlNotation => $originalRelativeUrl) {
-            if ($cbRelUrlToPublicPath) {
-                $filePath = call_user_func($cbRelUrlToPublicPath, $originalRelativeUrl);
-            } else {
-                $filePath = dirname($originalPath) . '/' . $originalRelativeUrl;
+        $patterns = self::extractRelativeUrls($cssContent);
+        if ($patterns) {
+            $replace = array();
+            foreach ($patterns as $pattern => $path) {
+                if (!isset($replace[$pattern])) {
+                    $newPath = $inlineCallback($path);
+                    $newPattern = str_replace($path, $newPath, $pattern);
+                    $replace[$pattern] = $newPattern;
+                }
             }
-            $filePath = $this->viewFileSystem->normalizePath(str_replace('\\', '/', $filePath));
-            $relativePath = $this->_getFileRelativePath(str_replace('\\', '/', $newPath), $filePath);
-            $urlNotationNew = str_replace($originalRelativeUrl, $relativePath, $urlNotation);
-            $cssContent = str_replace($urlNotation, $urlNotationNew, $cssContent);
+            if ($replace) {
+                $cssContent = str_replace(array_keys($replace), array_values($replace), $cssContent);
+            }
         }
         return $cssContent;
     }
 
     /**
-     * Extract non-absolute URLs from a CSS content
+     * Extract all "import" directives from CSS-content and put them to the top of document
+     *
+     * @param string $cssContent
+     * @return string
+     */
+    public static function aggregateImportDirectives($cssContent)
+    {
+        $parts = preg_split('/(@import\s.+?;\s*)/', $cssContent, -1, PREG_SPLIT_DELIM_CAPTURE);
+        $imports = array();
+        $css = array();
+        foreach ($parts as $part) {
+            if (0 === strpos($part, '@import', 0)) {
+                $imports[] = trim($part);
+            } else {
+                $css[] = $part;
+            }
+        }
+
+        $result = implode($css);
+        if ($imports) {
+            $result = implode("\n", $imports)
+                . "\n/* The above import directives are aggregated from content. */\n"
+                . $result
+            ;
+        }
+        return $result;
+    }
+
+    /**
+     * Subroutine for obtaining url() fragments from the CSS content
      *
      * @param string $cssContent
      * @return array
      */
-    protected function _extractCssRelativeUrls($cssContent)
+    private static function extractRelativeUrls($cssContent)
     {
         preg_match_all(self::REGEX_CSS_RELATIVE_URLS, $cssContent, $matches);
         if (!empty($matches[0]) && !empty($matches[1])) {
             return array_combine($matches[0], $matches[1]);
         }
         return array();
-    }
-
-    /**
-     * Calculate relative path from a public file to another public file
-     *
-     * Example: public file to public file:
-     *     pub/cache/_merged/hash.css -> pub/static/frontend/default/default/images/image.png
-     *   Result: ../../frontend/default/default/images/image.png
-     *
-     * @param string $file Normalized absolute path to the file, which references $referencedFile
-     * @param string $referencedFile Normalized absolute  path to the referenced file
-     * @return string
-     * @throws \Magento\Exception
-     */
-    protected function _getFileRelativePath($file, $referencedFile)
-    {
-        /**
-         * We would like to properly calculate url relations, and do it for public files only.
-         * However, directory locations are not related to each other and to any of their urls.
-         * Thus, calculating relative path is not possible in general case. So we just assume,
-         * that urls follow the structure of directory paths.
-         */
-        $topDir = $this->filesystem->getPath(\Magento\App\Filesystem::ROOT_DIR);
-        if (strpos($file, $topDir) !== 0 || strpos($referencedFile, $topDir) !== 0) {
-            throw new \Magento\Exception('Offset can be calculated for internal resources only.');
-        }
-
-        $offset = '';
-        $currentDir = dirname($file);
-        while (strpos($referencedFile, $currentDir . '/') !== 0) {
-            $currentDir = dirname($currentDir);
-            $offset .= '../';
-        }
-        $suffix = substr($referencedFile, strlen($currentDir) + 1);
-        return $offset . $suffix;
     }
 }

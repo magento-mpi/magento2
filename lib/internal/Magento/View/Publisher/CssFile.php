@@ -14,6 +14,25 @@ namespace Magento\View\Publisher;
 class CssFile extends FileAbstract
 {
     /**
+     * @var \Magento\View\Service
+     */
+    private $viewService;
+
+    public function __construct(
+        \Magento\App\Filesystem $filesystem,
+        \Magento\Module\Dir\Reader $modulesReader,
+        \Magento\View\FileSystem $viewFileSystem,
+        \Magento\View\Service $viewService,
+        $filePath,
+        array $viewParams,
+        $sourcePath = null
+    ) {
+        $this->viewService = $viewService;
+        parent::__construct($filesystem, $modulesReader, $viewFileSystem, $filePath, $viewParams, $sourcePath);
+    }
+
+
+    /**
      * Determine whether a file needs to be published
      *
      * If sourcePath points to CSS file and developer mode is enabled - publish file
@@ -28,9 +47,19 @@ class CssFile extends FileAbstract
             if (!$this->isViewStaticFile($filePath)) {
                 $this->isPublicationAllowed = true;
             } else {
-                $this->isPublicationAllowed = $this->viewService->getAppMode() === \Magento\App\State::MODE_DEVELOPER;
+                $this->isPublicationAllowed = $this->viewService->isPublishingDisallowed();
             }
         }
         return $this->isPublicationAllowed;
+    }
+
+    /**
+     * Restore view service object at unserialization
+     */
+    public function __wakeup()
+    {
+        $objectManager = \Magento\App\ObjectManager::getInstance();
+        $this->viewService = $objectManager->get('\Magento\View\Service');
+        parent::__wakeup();
     }
 }

@@ -56,7 +56,7 @@ class DirectTest extends \PHPUnit_Framework_TestCase
      */
     public function testMergeFilesNoFilesException()
     {
-        $this->_object->mergeFiles(array('no_file.js'), 'some_file.js', 'js');
+        $this->_object->merge(array('no_file.js'), 'some_file.js', 'js');
     }
 
     /**
@@ -109,6 +109,6 @@ class DirectTest extends \PHPUnit_Framework_TestCase
             ->method('writeFile')
             ->with($mergedFile, 'script1script2');
 
-        $this->_object->mergeFiles(array('/pub/script_one.js', '/pub/script_two.js'), $mergedFile, $contentType);
+        $this->_object->merge(array('/pub/script_one.js', '/pub/script_two.js'), $mergedFile, $contentType);
     }
 }

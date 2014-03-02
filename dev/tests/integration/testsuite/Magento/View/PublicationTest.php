@@ -341,7 +341,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
         $actualCssContent = file_get_contents($expectedCssFile);
 
         $this->assertNotRegExp(
-            '/url\(.*?' . preg_quote(\Magento\View\Service::SCOPE_SEPARATOR, '/') . '.*?\)/',
+            '/url\(.*?' . preg_quote(\Magento\View\Asset\FileId::FILE_ID_SEPARATOR, '/') . '.*?\)/',
             $actualCssContent,
             'Published CSS file must not contain scope separators in URLs.'
         );

@@ -14,9 +14,20 @@ namespace Magento\View\Asset;
 interface LocalInterface extends AssetInterface
 {
     /**
-     * Retrieve source file
+     * Get original source file where the asset contents can be read from
+     *
+     * Returns absolute path to file in local file system
      *
      * @return string
      */
     public function getSourceFile();
+
+    /**
+     * Get relative path to the asset file
+     *
+     * This path is an invariant that may be used either for referring to the file in file system or for building URL
+     *
+     * @return string
+     */
+    public function getRelativePath();
 }

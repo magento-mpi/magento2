@@ -88,7 +88,7 @@ class UrlResolver
                         )
                     ) . $relativePath;
 
-                if ($this->isStaticFilesSigned() && $this->viewService->isViewFileOperationAllowed()) {
+                if ($this->isStaticFilesSigned() && $this->viewService->isPublishingAllowed()) {
                     $directory = $this->filesystem->getDirectoryRead(\Magento\App\Filesystem::ROOT_DIR);
                     $fileMTime = $directory->stat($directory->getRelativePath($publicFilePath))['mtime'];
                     $url .= '?' . $fileMTime;

@@ -19,65 +19,59 @@ class Merged implements \Iterator
     const PUBLIC_MERGE_DIR  = '_merged';
 
     /**
-     * ObjectManager
-     *
-     * @var \Magento\ObjectManager
-     */
-    protected $objectManager;
-
-    /**
-     * Logger
-     *
      * @var \Magento\Logger
      */
     protected $logger;
 
     /**
-     * MergeStrategyInterface
-     *
      * @var MergeStrategyInterface
      */
     protected $mergeStrategy;
 
     /**
-     * Assets
-     *
+     * @var \Magento\App\Filesystem
+     */
+    private $appFileSystem;
+
+    /**
+     * @var \Magento\View\Service
+     */
+    private $viewService;
+
+    /**
      * @var MergeableInterface[]
      */
     protected $assets;
 
     /**
-     * Content type
-     *
      * @var string
      */
     protected $contentType;
 
     /**
-     * Whether initialization has been performed or not
-     *
      * @var bool
      */
     protected $isInitialized = false;
 
     /**
-     * Constructor
-     *
-     * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Logger $logger
      * @param MergeStrategyInterface $mergeStrategy
+     * @param \Magento\App\Filesystem $appFileSystem
+     * @param \Magento\View\Service $viewService
      * @param array $assets
      * @throws \InvalidArgumentException
      */
     public function __construct(
-        \Magento\ObjectManager $objectManager,
         \Magento\Logger $logger,
         MergeStrategyInterface $mergeStrategy,
+        \Magento\App\Filesystem $appFileSystem,
+        \Magento\View\Service $viewService,
         array $assets
     ) {
-        $this->objectManager = $objectManager;
         $this->logger = $logger;
         $this->mergeStrategy = $mergeStrategy;
+        $this->appFileSystem = $appFileSystem;
+        $this->viewService = $viewService;
 
         if (!$assets) {
             throw new \InvalidArgumentException('At least one asset has to be passed for merging.');
@@ -110,7 +104,9 @@ class Merged implements \Iterator
         if (!$this->isInitialized) {
             $this->isInitialized = true;
             try {
-                $this->assets = array($this->getMergedAsset($this->assets));
+                $mergedAsset = $this->createMergedAsset($this->assets);
+                $this->mergeStrategy->merge($this->assets, $mergedAsset);
+                $this->assets = array($mergedAsset);
             } catch (\Exception $e) {
                 $this->logger->logException($e);
             }
@@ -118,60 +114,22 @@ class Merged implements \Iterator
     }
 
     /**
-     * Retrieve asset instance representing a merged file
+     * Create an asset object for merged file
      *
-     * @param MergeableInterface[] $assets
-     * @return AssetInterface
+     * @param array $assets
+     * @return FileId
      */
-    protected function getMergedAsset(array $assets)
+    private function createMergedAsset(array $assets)
     {
-        $sourceFiles = $this->getPublicFilesToMerge($assets);
-        $destinationFile = $this->getMergedFilePath($sourceFiles);
-
-        $this->mergeStrategy->mergeFiles($sourceFiles, $destinationFile, $this->contentType);
-        return $this->objectManager->create('Magento\View\Asset\PublicFile', array(
-            'file' => $destinationFile,
-            'contentType' => $this->contentType,
-        ));
-    }
-
-    /**
-     * Go through all the files to merge, ensure that they are public (publish if needed), and compose
-     * array of public paths to merge
-     *
-     * @param MergeableInterface[] $assets
-     * @return array
-     */
-    protected function getPublicFilesToMerge(array $assets)
-    {
-        $result = array();
+        $paths = array();
+        /** @var MergeableInterface $asset */
         foreach ($assets as $asset) {
-            $publicFile = $asset->getSourceFile();
-            $result[$publicFile] = $publicFile;
+            $paths[] = $asset->getRelativePath();
         }
-        return $result;
-    }
-
-    /**
-     * Return file name for the resulting merged file
-     *
-     * @param array $publicFiles
-     * @return string
-     */
-    protected function getMergedFilePath(array $publicFiles)
-    {
-        /** @var \Magento\App\Filesystem $filesystem */
-        $filesystem = $this->objectManager->get('Magento\App\Filesystem');
-        $publicDir = $filesystem->getPath(\Magento\App\Filesystem::STATIC_VIEW_DIR);
-
-        $relFileNames = array();
-        foreach ($publicFiles as $file) {
-            $relFileNames[] = ltrim(str_replace($publicDir, '', $file), '/');
-        }
-
-        $mergedDir = $filesystem->getDirectoryRead(\Magento\App\Filesystem::PUB_VIEW_CACHE_DIR)
-            ->getAbsolutePath(self::PUBLIC_MERGE_DIR);
-        return $mergedDir . '/' . md5(implode('|', $relFileNames)) . '.' . $this->contentType;
+        $paths = array_unique($paths);
+        $filePath = self::PUBLIC_MERGE_DIR . '/' . md5(implode('|', $paths)) . '.' . $this->contentType;
+        $sourceFile = $this->appFileSystem->getPath(\Magento\App\Filesystem::STATIC_VIEW_DIR) . '/' . $filePath;
+        return $this->viewService->createFileAsset($filePath, $sourceFile);
     }
 
     /**
