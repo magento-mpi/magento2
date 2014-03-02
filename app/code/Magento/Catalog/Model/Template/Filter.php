@@ -36,7 +36,7 @@ class Filter extends \Magento\Filter\Template
     protected $_useSessionInUrl = false;
 
     /**
-     * @var \Magento\View\Url
+     * @var \Magento\View\Service
      */
     protected $_viewUrl;
 
@@ -50,13 +50,13 @@ class Filter extends \Magento\Filter\Template
     /**
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\View\Url $viewUrl
+     * @param \Magento\View\Service $viewUrl
      * @param array $variables
      */
     public function __construct(
         \Magento\Stdlib\String $string,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\View\Url $viewUrl,
+        \Magento\View\Service $viewUrl,
         $variables = array()
     ) {
         $this->_storeManager = $storeManager;
@@ -100,8 +100,20 @@ class Filter extends \Magento\Filter\Template
     {
         $params = $this->_getIncludeParameters($construction[2]);
         $params['_absolute'] = $this->_useAbsoluteLinks;
-
-        $url = $this->_viewUrl->getViewFileUrl($params['url'], $params);
+        /**
+         * @bug: the "_absolute" key is not supported by underlying services
+         * probably this happened because of multitude of refactorings in past
+         * The original intent of _absolute parameter was to simply append specified path to a base URL
+         * bypassing any kind of processing.
+         * For example, normally you would use {{view url="css/styles.css"}} directive which would automatically resolve
+         * into something like http://example.com/pub/static/area/theme/en_US/css/styles.css
+         * But with _absolute, the expected behavior is this: {{view url="favicon.ico" _absolute=true}} should resolve
+         * into something like http://example.com/favicon.ico
+         *
+         * To fix the issue, it is better not to maintain the _absolute parameter anymore in undrelying services,
+         * but instead just create a different type of directive, for example {{baseUrl path="favicon.ico"}}
+         */
+        $url = $this->_viewUrl->getAssetUrlWithParams($params['url'], $params);
 
         return $url;
     }

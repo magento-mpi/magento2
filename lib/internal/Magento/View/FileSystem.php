@@ -158,7 +158,12 @@ class FileSystem
     public static function offsetPath($from, $to)
     {
         list($from, $to) = self::ltrimSamePart($from, $to);
-        $offset = str_repeat('../', count(explode('/', ltrim(dirname($to), '/'))));
+        $toDir = ltrim(dirname($to), '/');
+        if ($toDir == '.') {
+            $offset = '';
+        } else {
+            $offset = str_repeat('../', count(explode('/', $toDir)));
+        }
         return rtrim($offset . dirname($from), '/');
     }
 

@@ -15,100 +15,119 @@ class DirectTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \Magento\View\Asset\MergeStrategy\Direct
      */
-    protected $_object;
+    protected $object;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\View\Url\CssResolver
      */
-    protected $_filesystem;
+    protected $cssUrlResolver;
 
     /**
-     * @var Write | \PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Filesystem\Directory\WriteInterface
      */
-    protected $_directory;
+    protected $writeDir;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Filesystem\Directory\ReadInterface
      */
-    protected $_cssUrlResolver;
+    protected $readDir;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\View\Asset\LocalInterface
+     */
+    protected $resultAsset;
 
     protected function setUp()
     {
-        $this->_cssUrlResolver = $this->getMock('Magento\View\Url\CssResolver', array(), array(), '', false);
-        $this->_filesystem = $this->getMock('Magento\App\Filesystem', array(), array(), '', false);
-        $this->_directory = $this->getMock('Magento\Filesystem\Directory\Write', array(), array(), '', false);
-        $this->_filesystem->expects($this->once())
+        $this->cssUrlResolver = $this->getMock('\Magento\View\Url\CssResolver');
+        $filesystem = $this->getMock('\Magento\App\Filesystem', array(), array(), '', false);
+        $this->writeDir = $this->getMockForAbstractClass('\Magento\Filesystem\Directory\WriteInterface');
+        $filesystem->expects($this->any())
             ->method('getDirectoryWrite')
-            ->with(\Magento\App\Filesystem::PUB_DIR)
-            ->will($this->returnValue($this->_directory));
-        $this->_directory->expects($this->any())
-            ->method('getRelativePath')
-            ->will($this->returnArgument(0));
+            ->with(\Magento\App\Filesystem::STATIC_VIEW_DIR)
+            ->will($this->returnValue($this->writeDir))
+        ;
+        $this->readDir = $this->getMockForAbstractClass('\Magento\Filesystem\Directory\ReadInterface');
+        $filesystem->expects($this->once())
+            ->method('getDirectoryRead')
+            ->with(\Magento\App\Filesystem::ROOT_DIR)
+            ->will($this->returnValue($this->readDir))
+        ;
+        $this->resultAsset = $this->getMockForAbstractClass('\Magento\View\Asset\LocalInterface');
+        $this->object = new Direct($filesystem, $this->cssUrlResolver);
+    }
 
-        $this->_object = new \Magento\View\Asset\MergeStrategy\Direct(
-            $this->_filesystem, $this->_cssUrlResolver
-        );
+    public function testMergeNoAssets()
+    {
+        $this->resultAsset->expects($this->once())->method('getRelativePath')->will($this->returnValue('foo/result'));
+        $this->writeDir->expects($this->once())->method('writeFile')->with('foo/result', '');
+        $this->object->merge(array(), $this->resultAsset);
+    }
+
+    public function testMergeGeneric()
+    {
+        $this->resultAsset->expects($this->once())->method('getRelativePath')->will($this->returnValue('foo/result'));
+        $assets = $this->prepareAssetsToMerge(array(' one', 'two')); // note leading space intentionally
+        $this->readDir->expects($this->exactly(2))->method('isExist')->will($this->returnValue(true));
+        $this->writeDir->expects($this->once())->method('writeFile')->with('foo/result', 'onetwo');
+        $this->object->merge($assets, $this->resultAsset);
+    }
+
+    public function testMergeCss()
+    {
+        $this->resultAsset->expects($this->exactly(3))
+            ->method('getRelativePath')
+            ->will($this->returnValue('foo/result'))
+        ;
+        $this->resultAsset->expects($this->exactly(3))->method('getContentType')->will($this->returnValue('css'));
+        $assets = $this->prepareAssetsToMerge(array('one', 'two'));
+        $this->readDir->expects($this->exactly(2))->method('isExist')->will($this->returnValue(true));
+        $this->cssUrlResolver->expects($this->exactly(2))
+            ->method('relocateRelativeUrls')
+            ->will($this->onConsecutiveCalls('1', '2'))
+        ;
+        $this->cssUrlResolver->expects($this->once())
+            ->method('aggregateImportDirectives')
+            ->with('12')
+            ->will($this->returnValue('1020'))
+        ;
+        $this->writeDir->expects($this->once())->method('writeFile')->with('foo/result', '1020');
+        $this->object->merge($assets, $this->resultAsset);
     }
 
     /**
      * @expectedException \Magento\Exception
-     * @expectedExceptionMessage Unable to locate file 'no_file.js' for merging.
+     * @expectedExceptionMessage Unable to locate file 'foo' for merging.
      */
-    public function testMergeFilesNoFilesException()
+    public function testMergeFileNotExists()
     {
-        $this->_object->merge(array('no_file.js'), 'some_file.js', 'js');
+        $assets = $this->prepareAssetsToMerge(array('one', 'two'));
+        $this->readDir->expects($this->once())
+            ->method('getRelativePath')
+            ->with('/absolute/path.ext')
+            ->will($this->returnValue('foo'))
+        ;
+        $this->readDir->expects($this->once())->method('isExist')->will($this->returnValue(false));
+        $this->writeDir->expects($this->never())->method('writeFile');
+        $this->object->merge($assets, $this->resultAsset);
     }
 
     /**
-     * Test mergeFiles() for css content type
-     */
-    public function testMergeFilesCss()
-    {
-        $this->_cssUrlResolver
-            ->expects($this->exactly(2))
-            ->method('replaceCssRelativeUrls')
-            ->will($this->returnArgument(0));
-        $this->_testMergeFiles('css');
-    }
-
-    /**
-     * Test mergeFiles() for js content type
-     */
-    public function testMergeFilesJs()
-    {
-        $this->_cssUrlResolver
-            ->expects($this->never())
-            ->method('replaceCssRelativeUrls');
-        $this->_testMergeFiles('js');
-    }
-
-    /**
-     * Test mergeFiles itself
+     * Prepare a few assets for merging with specified content
      *
-     * @param string $contentType
+     * @param array $data
+     * @return array
      */
-    protected function _testMergeFiles($contentType)
+    private function prepareAssetsToMerge(array $data)
     {
-        $mergedFile = '/merged_file.js';
-
-        $this->_directory
-            ->expects($this->any())
-            ->method('isExist')
-            ->will($this->returnValue(true));
-
-        $this->_directory->expects($this->at(3))
+        $result = array();
+        for ($i = 0; $i < count($data); $i++) {
+            $result[] = new \Magento\View\Asset\File('path.ext', '/absolute/path.ext', 'http://example.com/');
+        }
+        $this->readDir->expects($this->any())
             ->method('readFile')
-            ->with('/pub/script_one.js')
-            ->will($this->returnValue('script1'));
-        $this->_directory->expects($this->at(7))
-            ->method('readFile')
-            ->with('/pub/script_two.js')
-            ->will($this->returnValue('script2'));
-
-        $this->_directory->expects($this->once())
-            ->method('writeFile')
-            ->with($mergedFile, 'script1script2');
-
-        $this->_object->merge(array('/pub/script_one.js', '/pub/script_two.js'), $mergedFile, $contentType);
+            ->will(call_user_func_array(array($this, 'onConsecutiveCalls'), $data))
+        ;
+        return $result;
     }
 }

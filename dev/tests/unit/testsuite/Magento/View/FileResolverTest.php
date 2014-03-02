@@ -38,6 +38,7 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        $this->markTestIncomplete('MAGETWO-21654');
         $this->viewService = $this->getMock('Magento\View\Service', array(), array(), '', false);
         $this->publisher = $this->getMock('Magento\View\Publisher', array(), array(), '', false);
         $this->deployedFilesManager = $this->getMock('Magento\View\DeployedFilesManager', array(), array(), '', false);

@@ -44,6 +44,7 @@ class PublisherTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        $this->markTestIncomplete('MAGETWO-21654');
         $this->rootDirectory = $this->getMock('Magento\Filesystem\Directory\WriteInterface', [], [], '', false);
         $this->tmpDirectory = $this->getMock('Magento\Filesystem\Directory\WriteInterface', [], [], '', false);
         $this->pubDirectory = $this->getMock('Magento\Filesystem\Directory\WriteInterface', [], [], '', false);

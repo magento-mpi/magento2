@@ -100,7 +100,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     /**
      * View URL
      *
-     * @var \Magento\View\Url
+     * @var \Magento\View\Service
      */
     protected $_viewUrl;
 
@@ -711,7 +711,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     {
         try {
             $params = array_merge(['_secure' => $this->getRequest()->isSecure()], $params);
-            return $this->_viewUrl->getViewFileUrl($file, $params);
+            return $this->_viewUrl->getAssetUrlWithParams($file, $params);
         } catch (\Magento\Exception $e) {
             $this->_logger->logException($e);
             return $this->_getNotFoundUrl();

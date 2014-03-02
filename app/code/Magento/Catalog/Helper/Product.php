@@ -47,7 +47,7 @@ class Product extends \Magento\Core\Helper\Url
     protected $_priceBlock;
 
     /**
-     * @var \Magento\View\Url
+     * @var \Magento\View\Service
      */
     protected $_viewUrl;
 
@@ -112,7 +112,7 @@ class Product extends \Magento\Core\Helper\Url
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Catalog\Model\Session $catalogSession
-     * @param \Magento\View\Url $viewUrl
+     * @param \Magento\View\Service $viewUrl
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Catalog\Model\Attribute\Config $attributeConfig
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
@@ -125,7 +125,7 @@ class Product extends \Magento\Core\Helper\Url
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Catalog\Model\Session $catalogSession,
-        \Magento\View\Url $viewUrl,
+        \Magento\View\Service $viewUrl,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Catalog\Model\Attribute\Config $attributeConfig,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
@@ -196,7 +196,7 @@ class Product extends \Magento\Core\Helper\Url
         $url = false;
         $attribute = $product->getResource()->getAttribute('image');
         if (!$product->getImage()) {
-            $url = $this->_viewUrl->getViewFileUrl('Magento_Catalog::images/product/placeholder/image.jpg');
+            $url = $this->_viewUrl->getAssetUrl('Magento_Catalog::images/product/placeholder/image.jpg');
         } elseif ($attribute) {
             $url = $attribute->getFrontend()->getUrl($product);
         }
@@ -214,7 +214,7 @@ class Product extends \Magento\Core\Helper\Url
         $url = false;
         $attribute = $product->getResource()->getAttribute('small_image');
         if (!$product->getSmallImage()) {
-            $url = $this->_viewUrl->getViewFileUrl('Magento_Catalog::images/product/placeholder/small_image.jpg');
+            $url = $this->_viewUrl->getAssetUrl('Magento_Catalog::images/product/placeholder/small_image.jpg');
         } elseif ($attribute) {
             $url = $attribute->getFrontend()->getUrl($product);
         }

@@ -30,6 +30,11 @@ class FileAbstractTest extends \PHPUnit_Framework_TestCase
      */
     protected $rootDirectory;
 
+    protected function setUp()
+    {
+        $this->markTestIncomplete('MAGETWO-21654');
+    }
+
     /**
      * @param string $filePath
      * @param array $viewParams

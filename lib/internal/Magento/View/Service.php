@@ -76,12 +76,12 @@ class Service implements Asset\SourceFileInterface, Asset\PublishInterface
      */
     public function __construct(
         \Magento\App\State $appState,
-        \Magento\View\DesignInterface $design,
-        \Magento\View\Design\Theme\FlyweightFactory $themeFactory,
+        DesignInterface $design,
+        Design\Theme\FlyweightFactory $themeFactory,
         \Magento\App\Filesystem $filesystem,
         \Magento\UrlInterface $baseUrl,
         Asset\PreProcessor\Factory $preprocessorFactory,
-        \Magento\View\Design\FileResolution\StrategyPool $resolutionPool
+        Design\FileResolution\StrategyPool $resolutionPool
     ) {
         $this->appState = $appState;
         $this->design = $design;

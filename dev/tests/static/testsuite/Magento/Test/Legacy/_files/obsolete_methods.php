@@ -1345,4 +1345,5 @@ return array(
         'Magento\View\Publisher::getPublicViewFile()',
     ],
     array('_getVatRequiredCustomerAddress', 'Magento\Sales\Model\Observer'),
+    ['getViewFileUrl', 'Magento\View\Url', 'Magento\View\Service::getAssetUrl'],
 );

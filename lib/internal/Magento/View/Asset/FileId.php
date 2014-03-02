@@ -23,7 +23,7 @@ class FileId extends File
     /**
      * @var SourceFileInterface
      */
-    private $fileSource;
+    protected $fileSource;
 
     /**
      * @var string
@@ -33,17 +33,17 @@ class FileId extends File
     /**
      * @var string
      */
-    private $module;
+    protected $module;
 
     /**
      * @var string
      */
-    private $area;
+    protected $area;
 
     /**
      * @var string
      */
-    private $themePath;
+    protected $themePath;
 
     /**
      * @var string

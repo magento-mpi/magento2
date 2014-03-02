@@ -104,6 +104,14 @@ class Minified implements MergeableInterface
     }
 
     /**
+     * @inheritdoc
+     */
+    public function getRelativePath()
+    {
+        return ''; // TODO MAGETWO-21654
+    }
+
+    /**
      * Minify content of child asset
      *
      * @return void

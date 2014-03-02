@@ -27,7 +27,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_assetFactory;
+    protected $_viewService;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -95,19 +95,17 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_configMock = $this->getMock('\Magento\App\ReinitableConfigInterface',
             array(), array(), '', false, false);
 
-        $this->_assetFactory = $this->getMock('Magento\View\Asset\PublicFileFactory',
-            array('create'), array(), '', false);
+        $this->_viewService = $this->getMock('Magento\View\Service',
+            array('createFileAsset'), array(), '', false);
 
-        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_model = $objectManagerHelper->getObject(
-            'Magento\Core\Model\Observer',
-            array(
-                'cacheFrontendPool' => $this->_frontendPoolMock,
-                'design'            => $designMock,
-                'assets'            => $this->_assetsMock,
-                'config'            => $this->_configMock,
-                'assetFileFactory'  => $this->_assetFactory
-            )
+        $this->_model = new Observer(
+            $this->_frontendPoolMock,
+            $designMock,
+            $this->_assetsMock,
+            $this->_configMock,
+            $this->_viewService,
+            $this->getMock('\Magento\Core\Model\Theme\Registration', array(), array(), '', false),
+            $this->getMock('\Magento\Logger', array(), array(), '', false)
         );
     }
 
@@ -140,22 +138,17 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
     public function testApplyThemeCustomization()
     {
-        $asset = new \Magento\View\Asset\Remote('http://127.0.0.1/test.css');
+        $asset = $this->getMockForAbstractClass('\Magento\View\Asset\LocalInterface');
         $file = $this->getMock('Magento\Core\Model\Theme\File', array(), array(), '', false);
         $fileService = $this->getMock('Magento\View\Design\Theme\Customization\File\Css', array(), array(), '', false);
-
-        $fileService->expects($this->atLeastOnce())->method('getContentType')->will($this->returnValue('css'));
-
         $file->expects($this->any())->method('getCustomizationService')->will($this->returnValue($fileService));
         $file->expects($this->atLeastOnce())->method('getFullPath')->will($this->returnValue('test.css'));
 
-        $this->_assetFactory->expects($this->any())
-            ->method('create')
-            ->with(array('file' => 'test.css', 'contentType' => 'css'))
+        $this->_viewService->expects($this->once())
+            ->method('createFileAsset')
             ->will($this->returnValue($asset));
 
         $this->_themeCustomization->expects($this->once())->method('getFiles')->will($this->returnValue(array($file)));
-
         $this->_assetsMock->expects($this->once())->method('add')->with($this->anything(), $asset);
 
         $observer = new \Magento\Event\Observer;

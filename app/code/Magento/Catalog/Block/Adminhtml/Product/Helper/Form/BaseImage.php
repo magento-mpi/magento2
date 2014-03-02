@@ -42,7 +42,7 @@ class BaseImage extends \Magento\Data\Form\Element\AbstractElement
     protected $_fileConfig;
 
     /**
-     * @var \Magento\View\Url
+     * @var \Magento\View\Service
      */
     protected $_viewUrl;
 
@@ -50,7 +50,7 @@ class BaseImage extends \Magento\Data\Form\Element\AbstractElement
      * @param \Magento\Data\Form\Element\Factory $factoryElement
      * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
      * @param \Magento\Escaper $escaper
-     * @param \Magento\View\UrlFactory $coreViewUrlFactory
+     * @param \Magento\View\Service $viewUrl
      * @param \Magento\Backend\Model\UrlFactory $backendUrlFactory
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\File\Size $fileConfig
@@ -60,7 +60,7 @@ class BaseImage extends \Magento\Data\Form\Element\AbstractElement
         \Magento\Data\Form\Element\Factory $factoryElement,
         \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
         \Magento\Escaper $escaper,
-        \Magento\View\UrlFactory $coreViewUrlFactory,
+        \Magento\View\Service $viewUrl,
         \Magento\Backend\Model\UrlFactory $backendUrlFactory,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\File\Size $fileConfig,
@@ -68,7 +68,7 @@ class BaseImage extends \Magento\Data\Form\Element\AbstractElement
     ) {
         parent::__construct($factoryElement, $factoryCollection, $escaper, $data);
 
-        $this->_viewUrl = $coreViewUrlFactory->create();
+        $this->_viewUrl = $viewUrl;
         $this->_url = $backendUrlFactory->create();
         $this->_catalogHelperData = $catalogData;
         $this->_fileConfig = $fileConfig;
@@ -94,7 +94,7 @@ class BaseImage extends \Magento\Data\Form\Element\AbstractElement
     {
         $htmlId = $this->_escaper->escapeHtml($this->getHtmlId());
         $uploadUrl = $this->_escaper->escapeHtml($this->_getUploadUrl());
-        $spacerImage = $this->_viewUrl->getViewFileUrl('images/spacer.gif');
+        $spacerImage = $this->_viewUrl->getAssetUrl('images/spacer.gif');
         $imagePlaceholderText = __('Click here or drag and drop to add images');
         $deleteImageText = __('Delete image');
         $makeBaseText = __('Make Base');

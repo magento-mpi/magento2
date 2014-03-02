@@ -95,7 +95,7 @@ class Image extends AbstractHelper
     protected $_placeholder;
 
     /**
-     * @var \Magento\View\Url
+     * @var \Magento\View\Service
      */
     protected $_viewUrl;
 
@@ -116,13 +116,13 @@ class Image extends AbstractHelper
     /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Catalog\Model\Product\ImageFactory $productImageFactory
-     * @param \Magento\View\Url $viewUrl
+     * @param \Magento\View\Service $viewUrl
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
         \Magento\Catalog\Model\Product\ImageFactory $productImageFactory,
-        \Magento\View\Url $viewUrl,
+        \Magento\View\Service $viewUrl,
         \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
         $this->_productImageFactory = $productImageFactory;
@@ -404,7 +404,7 @@ class Image extends AbstractHelper
     protected function getDefaultPlaceholderUrl()
     {
         try {
-            $url = $this->_viewUrl->getViewFileUrl($this->getPlaceholder());
+            $url = $this->_viewUrl->getAssetUrl($this->getPlaceholder());
         } catch (\Exception $e) {
             $this->_logger->logException($e);
             $url = $this->_urlBuilder->getUrl('', array('_direct' => 'core/index/notfound'));

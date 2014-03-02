@@ -15,17 +15,17 @@ namespace Magento\View;
 class FileSystemTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\View\FileSystem|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\View\FileSystem|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_model;
 
     /**
-     * @var \Magento\View\Design\FileResolution\StrategyPool|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\View\Design\FileResolution\StrategyPool|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_strategyPool;
 
     /**
-     * @var \Magento\View\Service|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\View\Service|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_viewService;
 
@@ -36,7 +36,7 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
             array(), '', false
         );
         $this->_viewService = $this->getMock('Magento\View\Service',
-            array('extractScope', 'updateDesignParams'), array(), '', false
+            array('extractScope', 'updateDesignParams', 'createAsset'), array(), '', false
         );
 
         $this->_model = new \Magento\View\FileSystem($this->_strategyPool, $this->_viewService);
@@ -100,34 +100,13 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
 
     public function testGetViewFile()
     {
-        $params = array(
-            'area'       => 'some_area',
-            'themeModel' => $this->getMock('Magento\View\Design\ThemeInterface', array(), array(), '', false, false),
-            'locale'     => 'some_locale',
-            'module'     => 'Some_Module'   //It should be set in \Magento\View\Service::extractScope
-                                            // but PHPUnit has problems with passing arguments by reference
-        );
-        $file = 'Some_Module::some_file.ext';
-        $expected = 'path/to/some_file.ext';
-
-        $strategyMock = $this->getMock('Magento\View\Design\FileResolution\Strategy\ViewInterface');
-        $strategyMock->expects($this->once())
-            ->method('getViewFile')
-            ->with($params['area'], $params['themeModel'], $params['locale'], 'some_file.ext', 'Some_Module')
-            ->will($this->returnValue($expected));
-
-        $this->_strategyPool->expects($this->once())
-            ->method('getViewStrategy')
-            ->with(false)
-            ->will($this->returnValue($strategyMock));
-
-        $this->_viewService->expects($this->any())
-            ->method('extractScope')
-            ->with($file, $params)
-            ->will($this->returnValue('some_file.ext'));
-
-        $actual = $this->_model->getViewFile($file, $params);
-        $this->assertEquals($expected, $actual);
+        $asset = $this->getMockForAbstractClass('\Magento\View\Asset\LocalInterface');
+        $asset->expects($this->once())->method('getSourceFile')->will($this->returnValue('/source/file'));
+        $this->_viewService->expects($this->once())
+            ->method('createAsset')
+            ->with('file', array())
+            ->will($this->returnValue($asset));
+        $this->assertEquals('/source/file', $this->_model->getViewFile('file'));
     }
 
     /**

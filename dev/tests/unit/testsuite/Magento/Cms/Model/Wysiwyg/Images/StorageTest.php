@@ -120,7 +120,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
         $this->_adapterFactoryMock = $this->getMock(
             'Magento\Image\AdapterFactory', array(), array(), '', false
         );
-        $this->_viewUrlMock = $this->getMock('Magento\View\Url', array(), array(), '', false);
+        $this->_viewUrlMock = $this->getMock('Magento\View\Service', array(), array(), '', false);
         $this->_imageHelperMock = $this->getMock(
             'Magento\Cms\Helper\Wysiwyg\Images', array('getStorageRoot'), array(), '', false
         );

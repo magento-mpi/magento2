@@ -29,7 +29,7 @@ class CssResolver
      * @param string $to
      * @return mixed
      */
-    public static function relocateRelativeUrls($cssContent, $from, $to)
+    public function relocateRelativeUrls($cssContent, $from, $to)
     {
         $offset = FileSystem::offsetPath($from, $to);
         $callback = function($path) use ($offset) {
@@ -73,7 +73,7 @@ class CssResolver
      * @param string $cssContent
      * @return string
      */
-    public static function aggregateImportDirectives($cssContent)
+    public function aggregateImportDirectives($cssContent)
     {
         $parts = preg_split('/(@import\s.+?;\s*)/', $cssContent, -1, PREG_SPLIT_DELIM_CAPTURE);
         $imports = array();

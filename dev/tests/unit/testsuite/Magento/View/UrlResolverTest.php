@@ -74,6 +74,7 @@ class UrlResolverTest extends \PHPUnit_Framework_TestCase
 
     public function testGetPublicFileUrlSigned()
     {
+        $this->markTestIncomplete('MAGETWO-21654');
         $map = array(
             array('value' => '/root/magento/theme/lib', 'key' => 'theme/lib'),
             array('value' => '/root/magento/lib/web', 'key' => 'lib/web'),

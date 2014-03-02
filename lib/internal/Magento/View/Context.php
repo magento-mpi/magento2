@@ -13,7 +13,6 @@ use Magento\App\FrontControllerInterface;
 
 use Magento\TranslateInterface;
 use Magento\Core\Model\Store\Config as StoreConfig;
-use Magento\View\Url as ViewUrl;
 use Magento\View\ConfigInterface as ViewConfig;
 use Magento\Logger;
 use Magento\Core\Model\App;
@@ -99,13 +98,6 @@ class Context
     protected $frontController;
 
     /**
-     * View URL
-     *
-     * @var \Magento\View\Url
-     */
-    protected $viewUrl;
-
-    /**
      * Layout
      *
      * @var \Magento\View\LayoutInterface
@@ -159,7 +151,6 @@ class Context
      * @param SessionManager $session
      * @param StoreConfig $storeConfig
      * @param FrontControllerInterface $frontController
-     * @param ViewUrl $viewUrl
      * @param ViewConfig $viewConfig
      * @param CacheState $cacheState
      * @param Logger $logger
@@ -180,7 +171,6 @@ class Context
         SessionManager $session,
         StoreConfig $storeConfig,
         FrontControllerInterface $frontController,
-        ViewUrl $viewUrl,
         ViewConfig $viewConfig,
         CacheState $cacheState,
         Logger $logger,
@@ -196,7 +186,6 @@ class Context
         $this->session         = $session;
         $this->storeConfig     = $storeConfig;
         $this->frontController = $frontController;
-        $this->viewUrl         = $viewUrl;
         $this->viewConfig      = $viewConfig;
         $this->cacheState      = $cacheState;
         $this->logger          = $logger;
@@ -302,16 +291,6 @@ class Context
     public function getUrlBuilder()
     {
         return $this->urlBuilder;
-    }
-
-    /**
-     * Retrieve View URL
-     *
-     * @return \Magento\View\Url
-     */
-    public function getViewUrl()
-    {
-        return $this->viewUrl;
     }
 
     /**

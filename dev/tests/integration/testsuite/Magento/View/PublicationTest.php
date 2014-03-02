@@ -29,11 +29,6 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
     protected $fileSystem;
 
     /**
-     * @var \Magento\View\Url
-     */
-    protected $viewUrl;
-
-    /**
      * @var \Magento\View\FileResolver
      */
     protected $fileResolver;
@@ -59,17 +54,6 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @magentoAppIsolation enabled
-     */
-    public function testGetPublicDir()
-    {
-        /** @var \Magento\App\Filesystem $filesystem */
-        $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Filesystem');
-        $expectedPublicDir = $filesystem->getPath(\Magento\App\Filesystem::STATIC_VIEW_DIR);
-        $this->assertEquals($expectedPublicDir, $this->viewService->getPublicDir());
-    }
-
-    /**
      * @magentoDataFixture Magento/Core/Model/_files/design/themes.php
      * @magentoAppIsolation enabled
      * @dataProvider getViewUrlFilesDuplicationDataProvider
@@ -79,9 +63,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
         $this->_initTestTheme();
 
         Bootstrap::getObjectManager()->get('Magento\Core\Model\LocaleInterface')->setLocale($locale);
-        /** @var \Magento\View\Url $urlModel */
-        $urlModel = Bootstrap::getObjectManager()->create('Magento\View\Url');
-        $this->assertStringEndsWith($expectedUrl, $urlModel->getViewFileUrl($file));
+        $this->assertStringEndsWith($expectedUrl, $this->viewService->getAssetUrl($file));
         $viewFile = $this->fileSystem->getViewFile($file);
         $this->assertFileExists($viewFile);
     }

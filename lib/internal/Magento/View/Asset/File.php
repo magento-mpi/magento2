@@ -34,11 +34,6 @@ class File implements MergeableInterface
     protected $baseUrl;
 
     /**
-     * @var string
-     */
-    protected $urlPathPrefix;
-
-    /**
      * @param string $filePath
      * @param string $sourceFile
      * @param string $baseUrl

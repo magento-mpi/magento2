@@ -101,7 +101,7 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
 
         $filename = $fallback->getFile('area', $this->theme, 'file.txt', $fullModuleName);
 
-        $this->assertEquals($expectedFileName, $filename);
+        $this->assertSame($expectedFileName, $filename);
     }
 
     /**
@@ -129,14 +129,14 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
                 null,
                 null,
                 null,
-                'not_found_folder/file.txt',
+                false,
             ),
             'module, file not found' => array(
                 'Namespace_Module',
                 'Namespace',
                 'Module',
                 null,
-                'not_found_folder/file.txt',
+                false,
             ),
         );
     }
@@ -162,7 +162,7 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
 
         $filename = $fallback->getLocaleFile('area', $this->theme, 'locale', 'file.txt');
 
-        $this->assertEquals($expectedFileName, $filename);
+        $this->assertSame($expectedFileName, $filename);
     }
 
     /**
@@ -177,7 +177,7 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
             ),
             'file not found' => array(
                 null,
-                'not_found_folder/file.txt',
+                false,
             )
         );
     }
@@ -204,7 +204,7 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
 
         $filename = $fallback->getViewFile('area', $this->theme, 'locale', 'file.txt', $fullModuleName);
 
-        $this->assertEquals($expectedFileName, $filename);
+        $this->assertSame($expectedFileName, $filename);
     }
 
     /**

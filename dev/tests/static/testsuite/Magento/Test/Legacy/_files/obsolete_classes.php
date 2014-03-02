@@ -1555,7 +1555,7 @@ return array(
     array('Magento\Core\Model\View\Publisher', 'Magento\View\Publisher'),
     array('Magento\Core\Model\View\FileSystem', 'Magento\View\FileSystem'),
     array('Magento\Core\Model\View\Service', 'Magento\View\Service'),
-    array('Magento\Core\Model\View\Url', 'Magento\View\Url'),
+    array('Magento\Core\Model\View\Url', 'Magento\View\Service'),
     array('Magento\Core\Model\View\Config', 'Magento\View\Config'),
     array('Magento\Core\Model\Image\Factory', 'Magento\Image\Factory'),
     array('Magento\Core\Model\Theme\Image', 'Magento\View\Design\Theme\Image'),
@@ -2118,4 +2118,5 @@ return array(
     array('Magento\Catalog\Model\Resource\Product\Collection\AssociatedProductUpdater'),
     ['Magento\Sales\Controller\Adminhtml\Recurring\Profile', 'Magento\RecurringProfile\Controller\Adminhtml\Profile'],
     ['Magento\Sales\Controller\Recurring\Profile', 'Magento\RecurringProfile\Controller\Profile'],
+    ['Magento\View\Url', 'Magento\View\Service'],
 );

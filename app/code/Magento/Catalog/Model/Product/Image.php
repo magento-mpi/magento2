@@ -128,7 +128,7 @@ class Image extends \Magento\Core\Model\AbstractModel
     protected $_imageFactory;
 
     /**
-     * @var \Magento\View\Url
+     * @var \Magento\View\Service
      */
     protected $_viewUrl;
 
@@ -173,7 +173,7 @@ class Image extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase
      * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\Image\Factory $imageFactory
-     * @param \Magento\View\Url $viewUrl
+     * @param \Magento\View\Service $viewUrl
      * @param \Magento\View\FileSystem $viewFileSystem
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
@@ -188,7 +188,7 @@ class Image extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase,
         \Magento\App\Filesystem $filesystem,
         \Magento\Image\Factory $imageFactory,
-        \Magento\View\Url $viewUrl,
+        \Magento\View\Service $viewUrl,
         \Magento\View\FileSystem $viewFileSystem,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
@@ -673,7 +673,7 @@ class Image extends \Magento\Core\Model\AbstractModel
     public function getUrl()
     {
         if ($this->_newFile === true) {
-            $url = $this->_viewUrl->getViewFileUrl(
+            $url = $this->_viewUrl->getAssetUrl(
                 "Magento_Catalog::images/product/placeholder/{$this->getDestinationSubdir()}.jpg"
             );
         } else {

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category   Tools
- * @package    view
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -135,7 +133,6 @@ class ThemeDeployment
         }
     }
 
-
     /**
      * Copy dir structure and files from $sourceDir to $destinationDir
      *
@@ -191,33 +188,18 @@ class ThemeDeployment
         $extension = pathinfo($fileSource, PATHINFO_EXTENSION);
         if (strtolower($extension) == 'css') { // For CSS files we need to process content and fix urls
             // Callback to resolve relative urls to the file names
-            $destContext = $context['destinationContext'];
-            $destHomeDir = $this->_destinationHomeDir;
-            $callback = function ($relativeUrl) use ($destContext, $destFileDir, $destHomeDir) {
-                $parts = explode(\Magento\View\Asset\FileId::FILE_ID_SEPARATOR, $relativeUrl);
-                if (count($parts) == 2) {
-                    list($module, $file) = $parts;
-                    if (!strlen($module) || !strlen($file)) {
-                        throw new \Magento\Exception("Wrong module url: {$relativeUrl}");
-                    }
-                    $relPath = \Magento\View\Asset\FileId::buildRelativePath(
-                        $file,
-                        $destContext['area'],
-                        $destContext['themePath'],
-                        $destContext['locale'],
-                        $module
-                    );
-                    $relPath = str_replace('//', '/', $relPath); // workaround for missing locale code
-                    $result = $destHomeDir . '/' . $relPath;
-                } else {
-                    $result = $destFileDir . '/' . $relativeUrl;
-                }
-                return $result;
+            $fileId = ltrim(str_replace('\\', '/', str_replace($context['source'], '', $fileSource)), '/');
+            $thisAsset = new \Magento\Tools\View\Generator\Asset(
+                $fileId,
+                $context['destinationContext']['area'],
+                $context['destinationContext']['themePath']
+            );
+            $callback = function ($path) use ($thisAsset) {
+                return \Magento\View\Asset\PreProcessor\ModuleNotation::convertModuleNotationToPath($thisAsset, $path);
             };
-
             // Replace relative urls and write the modified content (if not dry run)
             $content = file_get_contents($fileSource);
-            $this->_cssUrlResolver->replaceRelativeUrls($content, $callback);
+            $content = $this->_cssUrlResolver->replaceRelativeUrls($content, $callback);
 
             if (!$this->_isDryRun) {
                 file_put_contents($fileDestination, $content);

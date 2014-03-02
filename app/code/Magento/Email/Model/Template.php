@@ -116,7 +116,7 @@ class Template extends \Magento\Core\Model\Template
     protected $_filesystem;
 
     /**
-     * @var \Magento\View\Url
+     * @var \Magento\View\Service
      */
     protected $_viewUrl;
 
@@ -159,7 +159,7 @@ class Template extends \Magento\Core\Model\Template
      * @param \Magento\Core\Model\App\Emulation $appEmulation
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\Filesystem $filesystem
-     * @param \Magento\View\Url $viewUrl
+     * @param \Magento\View\Service $viewUrl
      * @param \Magento\View\FileSystem $viewFileSystem
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\App\ConfigInterface $coreConfig
@@ -176,7 +176,7 @@ class Template extends \Magento\Core\Model\Template
         \Magento\Core\Model\App\Emulation $appEmulation,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\Filesystem $filesystem,
-        \Magento\View\Url $viewUrl,
+        \Magento\View\Service $viewUrl,
         \Magento\View\FileSystem $viewFileSystem,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\App\ConfigInterface $coreConfig,
@@ -232,7 +232,7 @@ class Template extends \Magento\Core\Model\Template
      */
     public function getDefaultEmailLogo()
     {
-        return $this->_viewUrl->getViewFileUrl(
+        return $this->_viewUrl->getAssetUrlWithParams(
             'Magento_Email::logo_email.gif',
             array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND)
         );

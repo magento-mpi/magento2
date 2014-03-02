@@ -32,7 +32,7 @@ class Config extends \Magento\Object
     protected $_authorization;
 
     /**
-     * @var \Magento\View\Url
+     * @var \Magento\View\Service
      */
     protected $_viewUrl;
 
@@ -82,7 +82,7 @@ class Config extends \Magento\Object
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Cms\Helper\Data $cmsData
      * @param \Magento\AuthorizationInterface $authorization
-     * @param \Magento\View\Url $viewUrl
+     * @param \Magento\View\Service $viewUrl
      * @param \Magento\Core\Model\Variable\Config $variableConfig
      * @param \Magento\Widget\Model\Widget\Config $widgetConfig
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
@@ -94,7 +94,7 @@ class Config extends \Magento\Object
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Cms\Helper\Data $cmsData,
         \Magento\AuthorizationInterface $authorization,
-        \Magento\View\Url $viewUrl,
+        \Magento\View\Service $viewUrl,
         \Magento\Core\Model\Variable\Config $variableConfig,
         \Magento\Widget\Model\Widget\Config $widgetConfig,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
@@ -143,10 +143,10 @@ class Config extends \Magento\Object
             'translator'                    => $this->_cmsData,
             'encode_directives'             => true,
             'directives_url'                => $this->_backendUrl->getUrl('cms/wysiwyg/directive'),
-            'popup_css'                     => $this->_viewUrl->getViewFileUrl(
+            'popup_css'                     => $this->_viewUrl->getAssetUrl(
                 'mage/adminhtml/wysiwyg/tiny_mce/themes/advanced/skins/default/dialog.css'
             ),
-            'content_css'                   => $this->_viewUrl->getViewFileUrl(
+            'content_css'                   => $this->_viewUrl->getAssetUrl(
                 'mage/adminhtml/wysiwyg/tiny_mce/themes/advanced/skins/default/content.css'
             ),
             'width'                         => '100%',
@@ -188,7 +188,7 @@ class Config extends \Magento\Object
      */
     public function getSkinImagePlaceholderUrl()
     {
-        return $this->_viewUrl->getViewFileUrl('Magento_Cms::images/wysiwyg_skin_image.png');
+        return $this->_viewUrl->getAssetUrl('Magento_Cms::images/wysiwyg_skin_image.png');
     }
 
     /**
