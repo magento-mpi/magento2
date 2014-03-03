@@ -899,9 +899,7 @@ class Account extends \Magento\App\Action\Action
             }
 
             try {
-                $this->_customerDetailsBuilder->populateWithArray(
-                    [CustomerDetails::KEY_CUSTOMER => $customer->getAttributes()]
-                );
+                $this->_customerDetailsBuilder->setCustomer($customer);
                 $this->_customerAccountService->updateCustomer($this->_customerDetailsBuilder->create());
             } catch (AuthenticationException $e) {
                 $this->messageManager->addError($e->getMessage());

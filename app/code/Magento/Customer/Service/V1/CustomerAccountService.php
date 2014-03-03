@@ -366,7 +366,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         $this->saveCustomer($customer);
 
         $addresses = $customerDetails->getAddresses();
-        if ($addresses != null) {
+        if (count($addresses) > 0) {
             $existingAddresses = $this->_customerAddressService->getAddresses($customer->getCustomerId());
             /** @var Dto\Address[] $deletedAddresses */
             $deletedAddresses = array_udiff(

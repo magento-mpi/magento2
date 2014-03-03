@@ -403,10 +403,7 @@ class Index extends \Magento\Backend\App\Action
 
                 // Save customer
                 if ($isExistingCustomer) {
-                    $this->_customerDetailsBuilder->populateWithArray([
-                        CustomerDetails::KEY_CUSTOMER => $customerData,
-                        CustomerDetails::KEY_ADDRESSES => $addressesData
-                    ]);
+                    $this->_customerDetailsBuilder->setCustomer($customer)->setAddresses($addresses);
                     $this->_customerAccountService->updateCustomer($this->_customerDetailsBuilder->create());
                 } else {
                     $customer = $this->_customerAccountService->createAccount($customer, $addresses);
