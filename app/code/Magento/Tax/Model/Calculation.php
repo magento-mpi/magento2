@@ -10,6 +10,7 @@ namespace Magento\Tax\Model;
 
 use Magento\Core\Model\Store;
 use Magento\Customer\Service\V1\Data\Customer as CustomerDataObject;
+use Magento\Customer\Service\V1\Data\CustomerBuilder;
 use Magento\Customer\Service\V1\Data\Region as RegionDataObject;
 use Magento\Customer\Service\V1\CustomerServiceInterface;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface as AddressServiceInterface;
@@ -113,6 +114,11 @@ class Calculation extends \Magento\Core\Model\AbstractModel
     protected $_converter;
 
     /**
+     * @var CustomerBuilder
+     */
+    protected $_customerBuilder;
+
+    /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
@@ -126,6 +132,7 @@ class Calculation extends \Magento\Core\Model\AbstractModel
      * @param AddressServiceInterface $addressService
      * @param GroupServiceInterface $groupService
      * @param \Magento\Customer\Model\Converter $converter
+     * @param CustomerBuilder $customerBuilder
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -143,6 +150,7 @@ class Calculation extends \Magento\Core\Model\AbstractModel
         AddressServiceInterface $addressService,
         GroupServiceInterface $groupService,
         \Magento\Customer\Model\Converter $converter,
+        CustomerBuilder $customerBuilder,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -156,6 +164,7 @@ class Calculation extends \Magento\Core\Model\AbstractModel
         $this->_addressService = $addressService;
         $this->_groupService = $groupService;
         $this->_converter = $converter;
+        $this->_customerBuilder = $customerBuilder;
 
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
@@ -215,6 +224,8 @@ class Calculation extends \Magento\Core\Model\AbstractModel
     /**
      * Get customer object
      *
+     * @deprecated in favor of \Magento\Tax\Model\Calculation::getCustomerData
+     *
      * @return  \Magento\Customer\Model\Customer|bool
      */
     public function getCustomer()
@@ -242,6 +253,11 @@ class Calculation extends \Magento\Core\Model\AbstractModel
     {
         /* @TODO: remove this code in favor of setCustomerData*/
         $customerModel = $this->getCustomer();
+        //getCustomer can return false. Returning empty data object as a workaround. This  behavior needs to be fixed
+        // for now till the time \Magento\Tax\Model\Calculation::getCustomer is removed.
+        if (!$customerModel) {
+            return $this->_customerBuilder->create();
+        }
         return $this->_converter->createCustomerFromModel($customerModel);
     }
 
