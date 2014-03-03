@@ -1304,4 +1304,9 @@ return array(
     array('sendTransactional', 'Magento\Email\Model\Template'),
     array('_getMail', 'Magento\Email\Model\Template'),
     array('send', 'Magento\Email\Model\Template'),
+    ['convertMeasureWeight', 'Magento\Usa\Helper\Data', 'Magento\Shipping\Helper\Carrier::convertMeasureWeight'],
+    ['convertMeasureDimension', 'Magento\Usa\Helper\Data', 'Magento\Shipping\Helper\Carrier::convertMeasureDimension'],
+    ['getMeasureWeightName', 'Magento\Usa\Helper\Data', 'Magento\Shipping\Helper\Carrier::getMeasureWeightName'],
+    ['getMeasureDimensionName', 'Magento\Usa\Helper\Data', 'Magento\Shipping\Helper\Carrier::getMeasureDimensionName'],
+    ['displayGirthValue', 'Magento\Usa\Helper\Data', 'Magento\Usps\Helper\Data::displayGirthValue'],
 );
