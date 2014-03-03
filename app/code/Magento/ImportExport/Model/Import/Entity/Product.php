@@ -122,7 +122,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         'status',
         'tax_class_id',
         'visibility',
-        'enable_googlecheckout',
         'gift_message_available',
         'custom_design'
     );

@@ -188,7 +188,6 @@ return array (
     'googlebase_attributes' => 'Magento_GoogleShopping',
     'googlebase_items' => 'Magento_GoogleShopping',
     'googlebase_types' => 'Magento_GoogleShopping',
-    'googlecheckout_notification' => 'Magento_GoogleCheckout',
     'googleoptimizer_code' => 'Magento_GoogleOptimizer',
     'googleshopping_attributes' => 'Magento_GoogleShopping',
     'googleshopping_items' => 'Magento_GoogleShopping',

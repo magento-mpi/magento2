@@ -1120,7 +1120,6 @@ return array(
     array('getRequest', '\Magento\Core\Model\Session\Context'),
 
     array('getSessionSavePath', '\Magento\Core\Model\Session\AbstractSession', '\Magento\Core\Model\Session\Config'),
-    array('getMethod', '\Magento\GoogleCheckout\Block\Redirect', 'getFormMethod'),
     array('getCookie', 'Magento\View\Element\Js\Cookie'),
     array('setCopyright', 'Magento\Theme\Block\Html\Footer'),
     array('setLogo', 'Magento\Theme\Block\Html\Header'),
@@ -1393,4 +1392,8 @@ return array(
     array('sendTransactional', 'Magento\Email\Model\Template'),
     array('_getMail', 'Magento\Email\Model\Template'),
     array('send', 'Magento\Email\Model\Template'),
+    array('processOrderCreateBefore', 'Magento\GiftCardAccount\Model\Observer'),
+    array('googleCheckoutDiscoutItem', 'Magento\GiftCardAccount\Model\Observer'),
+    array('googlecheckoutCheckoutBefore', 'Magento\GiftWrapping\Model\Observer'),
+    array('injectAnalyticsInGoogleCheckoutLink', 'Magento\GoogleAnalytics\Model\Observer'),
 );

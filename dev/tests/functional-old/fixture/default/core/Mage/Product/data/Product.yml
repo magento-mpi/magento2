@@ -528,7 +528,6 @@ simple_product:
     prices_special_price_from: %currentDate%
     prices_special_price_to: %currentDate%
     prices_tier_price_data: *tierPriceData
-    prices_enable_googlecheckout: No
     prices_enable_recurring_payment: Yes
     prices_customer_define_start_date: No
     prices_schedule_description: Shedule Description
@@ -598,7 +597,6 @@ duplicate_simple:
     prices_special_price_from: %currentDate%
     prices_special_price_to: %currentDate%
     prices_tier_price_data: *tierPriceData
-    prices_enable_googlecheckout: No
     prices_enable_recurring_payment: Yes
     prices_customer_define_start_date: No
     prices_schedule_description: Shedule Description
@@ -695,7 +693,6 @@ virtual_product:
     prices_special_price_from: %currentDate%
     prices_special_price_to: %currentDate%
     prices_tier_price_data: *tierPriceData
-    prices_enable_googlecheckout: No
     prices_enable_recurring_payment: Yes
     prices_customer_define_start_date: No
     prices_schedule_description: Shedule Description
@@ -764,7 +761,6 @@ duplicate_virtual:
     prices_special_price_from: %currentDate%
     prices_special_price_to: %currentDate%
     prices_tier_price_data: *tierPriceData
-    prices_enable_googlecheckout: No
     prices_enable_recurring_payment: Yes
     prices_customer_define_start_date: No
     prices_schedule_description: Shedule Description
@@ -1129,7 +1125,6 @@ grouped_product:
     meta_information_meta_title: Meta Title for Grouped Product
     meta_information_meta_keywords: Meta Keywords for Grouped Product
     meta_information_meta_description: Meta Description for Product
-    prices_enable_googlecheckout: No
     design_custom_design: %design_theme%
     design_active_from: %currentDate%
     design_active_to: %currentDate%
@@ -1167,7 +1162,6 @@ duplicate_grouped:
     meta_information_meta_title: Meta Title for Grouped Product
     meta_information_meta_keywords: Meta Keywords for Grouped Product
     meta_information_meta_description: Meta Description for Product
-    prices_enable_googlecheckout: No
     design_custom_design: %design_theme%
     design_active_from: %currentDate%
     design_active_to: %currentDate%
@@ -1258,7 +1252,6 @@ configurable_product:
     prices_apply_map: %noValue%
     prices_display_actual_price: %noValue%
     prices_manu_suggested_retail_price: %noValue%
-    prices_enable_googlecheckout: No
     design_custom_design: %design_theme%
     design_active_from: %currentDate%
     design_active_to: %currentDate%
@@ -1307,7 +1300,6 @@ duplicate_configurable:
     prices_apply_map: %noValue%
     prices_display_actual_price: %noValue%
     prices_manu_suggested_retail_price: %noValue%
-    prices_enable_googlecheckout: No
     design_custom_design: %design_theme%
     design_active_from: %currentDate%
     design_active_to: %currentDate%
@@ -1385,7 +1377,6 @@ downloadable_product:
     prices_special_price_from: %currentDate%
     prices_special_price_to: %currentDate%
     prices_tier_price_data: *tierPriceData
-    prices_enable_googlecheckout: No
     design_custom_design: %design_theme%
     design_active_from: %currentDate%
     design_active_to: %currentDate%
@@ -1439,7 +1430,6 @@ duplicate_downloadable:
     prices_special_price_from: %currentDate%
     prices_special_price_to: %currentDate%
     prices_tier_price_data: *tierPriceData
-    prices_enable_googlecheckout: No
     design_custom_design: %design_theme%
     design_active_from: %currentDate%
     design_active_to: %currentDate%
@@ -2271,8 +2261,6 @@ product_update_attributes_tab:
     attributes_allow_gift_message: Yes
     attributes_change_tax_class: Yes
     attributes_tax_class: Taxable Goods
-    attributes_change_is_product_available_for_purchase_with_google_checkout: Yes
-    attributes_is_product_available_for_purchase_with_google_checkout: Yes
 
 product_update_inventory_tab:
     inventory_change_manage_stock: Yes

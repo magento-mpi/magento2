@@ -127,7 +127,6 @@ class Core_Mage_AttributeSet_UnassignSystemAttributeTest extends Mage_Selenium_T
             array('custom_design_from'),
             array('custom_design_to'),
             array('custom_layout_update'),
-            array('enable_googlecheckout'),
             array('gallery'),
             array('is_recurring'),
             array('media_gallery'),

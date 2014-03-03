@@ -101,6 +101,7 @@ return array(
     array('Mage_Adminhtml_Block_Report_Refresh_Statistics_Grid'),
     array('Mage_Adminhtml_Block_Report_Search_Grid'),
     array('Mage_Adminhtml_Block_Sales'),
+    array('Magento\GoogleCheckout'), // removed module
     array('Magento\Sales\Block\Adminhtml\Order\Shipment\Create\Form', 'Magento\Shipping\Block\Adminhtml\Create\Form'),
     array('Magento\Sales\Block\Adminhtml\Order\Shipment\Create\Items', 'Magento\Shipping\Block\Adminhtml\Create\Items'),
     array('Magento\Sales\Block\Adminhtml\Order\Shipment\View\Comments', 'Magento\Shipping\Block\Adminhtml\View\Comments'),

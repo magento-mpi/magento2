@@ -212,8 +212,6 @@ return array(
     'googlebase/attributes' => 'googlebase_attributes',
     'googlebase/items' => 'googlebase_items',
     'googlebase/types' => 'googlebase_types',
-    'googlecheckout/api_debug' => 'googlecheckout_api_debug',
-    'googlecheckout/notification' => 'googlecheckout_notification',
     'googleoptimizer/code' => 'googleoptimizer_code',
     'googleshopping/attributes' => 'googleshopping_attributes',
     'googleshopping/items' => 'googleshopping_items',
