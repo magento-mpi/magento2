@@ -31,7 +31,7 @@
         <word>BannerCustomerSegment</word>
         <word>CatalogEvent</word>
         <word>CatalogPermissions</word>
-        <word>CustomAttribute</word>
+        <word>CustomAttributeManagement</word>
         <word>CustomerCustomAttributes</word>
         <word>CustomerSegment</word>
         <word>CustomerBalance</word>
@@ -183,7 +183,7 @@
             <word>BannerCustomerSegment</word>
             <word>CatalogEvent</word>
             <word>CatalogPermissions</word>
-            <word>CustomAttribute</word>
+            <word>CustomAttributeManagement</word>
             <word>CustomerCustomAttributes</word>
             <word>CustomerSegment</word>
             <word>CustomerBalance</word>

@@ -15,7 +15,7 @@ namespace Magento\CustomerCustomAttributes\Helper;
  * @category   Magento
  * @package    Magento_CustomerCustomAttributes
  */
-class Data extends \Magento\CustomAttribute\Helper\Data
+class Data extends \Magento\CustomAttributeManagement\Helper\Data
 {
     /**
      * Customer customer

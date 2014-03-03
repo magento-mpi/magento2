@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_CustomAttribute
+ * @package     Magento_CustomAttributeManagement
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,10 +13,10 @@
  * EAV entity Attribute Form Renderer Abstract Block
  *
  * @category    Magento
- * @package     Magento_CustomAttribute
+ * @package     Magento_CustomAttributeManagement
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\CustomAttribute\Block\Form\Renderer;
+namespace Magento\CustomAttributeManagement\Block\Form\Renderer;
 
 abstract class AbstractRenderer extends \Magento\View\Element\Template
 {
@@ -52,7 +52,7 @@ abstract class AbstractRenderer extends \Magento\View\Element\Template
      * Set attribute instance
      *
      * @param \Magento\Eav\Model\Attribute $attribute
-     * @return \Magento\CustomAttribute\Block\Form\Renderer\AbstractRenderer
+     * @return \Magento\CustomAttributeManagement\Block\Form\Renderer\AbstractRenderer
      */
     public function setAttributeObject(\Magento\Eav\Model\Attribute $attribute)
     {
@@ -74,7 +74,7 @@ abstract class AbstractRenderer extends \Magento\View\Element\Template
      * Set Entity object
      *
      * @param \Magento\Core\Model\AbstractModel
-     * @return \Magento\CustomAttribute\Block\Form\Renderer\AbstractRenderer
+     * @return \Magento\CustomAttributeManagement\Block\Form\Renderer\AbstractRenderer
      */
     public function setEntity(\Magento\Core\Model\AbstractModel $entity)
     {
@@ -260,7 +260,7 @@ abstract class AbstractRenderer extends \Magento\View\Element\Template
      * Set format for HTML element(s) id attribute
      *
      * @param string $format
-     * @return \Magento\CustomAttribute\Block\Form\Renderer\AbstractRenderer
+     * @return \Magento\CustomAttributeManagement\Block\Form\Renderer\AbstractRenderer
      */
     public function setFieldIdFormat($format)
     {
@@ -272,7 +272,7 @@ abstract class AbstractRenderer extends \Magento\View\Element\Template
      * Set format for HTML element(s) name attribute
      *
      * @param string $format
-     * @return \Magento\CustomAttribute\Block\Form\Renderer\AbstractRenderer
+     * @return \Magento\CustomAttributeManagement\Block\Form\Renderer\AbstractRenderer
      */
     public function setFieldNameFormat($format)
     {

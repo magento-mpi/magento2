@@ -8,7 +8,7 @@
  */
 -->
 <config>
-    <module name="Magento_CustomAttribute" version="1.11.0.0" active="false">
+    <module name="Magento_CustomAttributeManagement" version="1.11.0.0" active="false">
         <sequence>
             <module name="Magento_Eav"/>
         </sequence>

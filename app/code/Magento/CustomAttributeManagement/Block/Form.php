@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_CustomAttribute
+ * @package     Magento_CustomAttributeManagement
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,10 +13,10 @@
  * EAV Dynamic attributes Form Block
  *
  * @category    Magento
- * @package     Magento_CustomAttribute
+ * @package     Magento_CustomAttributeManagement
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\CustomAttribute\Block;
+namespace Magento\CustomAttributeManagement\Block;
 
 class Form extends \Magento\View\Element\Template
 {
@@ -122,7 +122,7 @@ class Form extends \Magento\View\Element\Template
      * Try to get EAV Form Template Block
      * Get Attribute renderers from it, and add to self
      *
-     * @return \Magento\CustomAttribute\Block\Form
+     * @return \Magento\CustomAttributeManagement\Block\Form
      * @throws \Magento\Core\Exception
      */
     protected function _prepareLayout()
@@ -141,7 +141,7 @@ class Form extends \Magento\View\Element\Template
      * Return attribute renderer by frontend input type
      *
      * @param string $type
-     * @return \Magento\CustomAttribute\Block\Form\Renderer\AbstractRenderer
+     * @return \Magento\CustomAttributeManagement\Block\Form\Renderer\AbstractRenderer
      */
     public function getRenderer($type)
     {
@@ -152,7 +152,7 @@ class Form extends \Magento\View\Element\Template
      * Set Entity object
      *
      * @param \Magento\Core\Model\AbstractModel $entity
-     * @return \Magento\CustomAttribute\Block\Form
+     * @return \Magento\CustomAttributeManagement\Block\Form
      */
     public function setEntity(\Magento\Core\Model\AbstractModel $entity)
     {
@@ -164,7 +164,7 @@ class Form extends \Magento\View\Element\Template
      * Set entity model class for new object
      *
      * @param string $model
-     * @return \Magento\CustomAttribute\Block\Form
+     * @return \Magento\CustomAttributeManagement\Block\Form
      */
     public function setEntityModelClass($model)
     {
@@ -176,7 +176,7 @@ class Form extends \Magento\View\Element\Template
      * Set Entity type if entity model entity type is not defined or is different
      *
      * @param int|string|\Magento\Eav\Model\Entity\Type $entityType
-     * @return \Magento\CustomAttribute\Block\Form
+     * @return \Magento\CustomAttributeManagement\Block\Form
      */
     public function setEntityType($entityType)
     {
@@ -203,7 +203,7 @@ class Form extends \Magento\View\Element\Template
      * Set EAV entity form instance
      *
      * @param \Magento\Eav\Model\Form $form
-     * @return \Magento\CustomAttribute\Block\Form
+     * @return \Magento\CustomAttributeManagement\Block\Form
      */
     public function setForm(\Magento\Eav\Model\Form $form)
     {
@@ -215,7 +215,7 @@ class Form extends \Magento\View\Element\Template
      * Set EAV entity Form code
      *
      * @param string $code
-     * @return \Magento\CustomAttribute\Block\Form
+     * @return \Magento\CustomAttributeManagement\Block\Form
      */
     public function setFormCode($code)
     {
@@ -295,7 +295,7 @@ class Form extends \Magento\View\Element\Template
      * Set format for HTML elements id attribute
      *
      * @param string $format
-     * @return \Magento\CustomAttribute\Block\Form
+     * @return \Magento\CustomAttributeManagement\Block\Form
      */
     public function setFieldIdFormat($format)
     {
@@ -307,7 +307,7 @@ class Form extends \Magento\View\Element\Template
      * Set format for HTML elements name attribute
      *
      * @param string $format
-     * @return \Magento\CustomAttribute\Block\Form
+     * @return \Magento\CustomAttributeManagement\Block\Form
      */
     public function setFieldNameFormat($format)
     {

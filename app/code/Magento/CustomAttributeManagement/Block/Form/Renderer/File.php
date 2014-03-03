@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_CustomAttribute
+ * @package     Magento_CustomAttributeManagement
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,15 +13,15 @@
  * EAV Entity Attribute Form Renderer Block for File
  *
  * @category    Magento
- * @package     Magento_CustomAttribute
+ * @package     Magento_CustomAttributeManagement
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\CustomAttribute\Block\Form\Renderer;
+namespace Magento\CustomAttributeManagement\Block\Form\Renderer;
 
 use Magento\View\Element\AbstractBlock;
 use Magento\View\Element\Template;
 
-class File extends \Magento\CustomAttribute\Block\Form\Renderer\AbstractRenderer
+class File extends \Magento\CustomAttributeManagement\Block\Form\Renderer\AbstractRenderer
 {
     /**
      * @var \Magento\Core\Helper\Data

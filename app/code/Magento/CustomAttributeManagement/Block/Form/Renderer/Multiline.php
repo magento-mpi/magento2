@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_CustomAttribute
+ * @package     Magento_CustomAttributeManagement
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,12 +13,12 @@
  * EAV entity Attribute Form Renderer Block for Multiply line
  *
  * @category    Magento
- * @package     Magento_CustomAttribute
+ * @package     Magento_CustomAttributeManagement
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\CustomAttribute\Block\Form\Renderer;
+namespace Magento\CustomAttributeManagement\Block\Form\Renderer;
 
-class Multiline extends \Magento\CustomAttribute\Block\Form\Renderer\AbstractRenderer
+class Multiline extends \Magento\CustomAttributeManagement\Block\Form\Renderer\AbstractRenderer
 {
     /**
      * Return original entity value
