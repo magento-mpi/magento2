@@ -242,6 +242,16 @@ class Compare extends \Magento\Core\Helper\Url
     }
 
     /**
+     * Get parameters to clear compare list
+     *
+     * @return string
+     */
+    public function getPostDataClearList()
+    {
+        return $this->_coreHelper->getPostData($this->_getUrl('catalog/product_compare/clear'));
+    }
+
+    /**
      * Retrieve compare list items collection
      *
      * @return Collection

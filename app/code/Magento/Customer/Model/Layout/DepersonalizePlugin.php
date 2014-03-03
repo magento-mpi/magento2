@@ -53,6 +53,11 @@ class DepersonalizePlugin
     protected $moduleManager;
 
     /**
+     * @var \Magento\Log\Model\Visitor
+     */
+    protected $visitor;
+
+    /**
      * @var int
      */
     protected $customerGroupId;
@@ -70,6 +75,7 @@ class DepersonalizePlugin
      * @param \Magento\Event\Manager $eventManager
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\Module\Manager $moduleManager
+     * @param \Magento\Log\Model\Visitor $visitor
      */
     public function __construct(
         \Magento\View\LayoutInterface $layout,
@@ -78,7 +84,8 @@ class DepersonalizePlugin
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Event\Manager $eventManager,
         \Magento\App\RequestInterface $request,
-        \Magento\Module\Manager $moduleManager
+        \Magento\Module\Manager $moduleManager,
+        \Magento\Log\Model\Visitor $visitor
     ) {
         $this->layout           = $layout;
         $this->session          = $session;
@@ -87,6 +94,7 @@ class DepersonalizePlugin
         $this->eventManager     = $eventManager;
         $this->request          = $request;
         $this->moduleManager    = $moduleManager;
+        $this->visitor          = $visitor;
 
     }
 
@@ -109,6 +117,8 @@ class DepersonalizePlugin
      */
     protected function afterSessionWriteClose()
     {
+        $this->visitor->setSkipRequestLogging(true);
+        $this->visitor->unsetData();
         $this->session->clearStorage();
         $this->customerSession->clearStorage();
         $this->session->setData(\Magento\Data\Form\FormKey::FORM_KEY, $this->formKey);

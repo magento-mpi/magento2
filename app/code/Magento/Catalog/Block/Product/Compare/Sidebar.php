@@ -22,6 +22,13 @@ class Sidebar extends \Magento\Catalog\Block\Product\Compare\AbstractCompare
     implements \Magento\View\Block\IdentityInterface
 {
     /**
+     * The property is used to define content-scope of block. Can be private or public.
+     *
+     * @var bool
+     */
+     protected $_isScopePrivate = true;
+
+    /**
      * Compare Products Collection
      *
      * @var null|\Magento\Catalog\Model\Resource\Product\Compare\Item\Collection
