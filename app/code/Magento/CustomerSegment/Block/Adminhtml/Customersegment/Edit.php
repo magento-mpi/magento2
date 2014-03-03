@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerSegment\Block\Adminhtml\Customersegment;
 
 /**
  * Edit form for customer segment configuration
@@ -15,8 +16,6 @@
  * @package     Magento_CustomerSegment
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\CustomerSegment\Block\Adminhtml\Customersegment;
-
 class Edit extends \Magento\Backend\Block\Widget\Form\Container
 {
     /**
@@ -45,6 +44,8 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
      * Add standard buttons
      * Add "Refresh Segment Data" button
      * Add "Save and Continue" button
+     *
+     * @return void
      */
     protected function _construct()
     {

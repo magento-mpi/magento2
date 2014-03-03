@@ -5,12 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Block\Adminhtml\Billing\Agreement;
 
 /**
  * Adminhtml billing agreement view
  */
-namespace Magento\Paypal\Block\Adminhtml\Billing\Agreement;
-
 class View extends \Magento\Backend\Block\Widget\Form\Container
 {
     /**
@@ -37,6 +36,7 @@ class View extends \Magento\Backend\Block\Widget\Form\Container
     /**
      * Initialize view container
      *
+     * @return void
      */
     protected function _construct()
     {

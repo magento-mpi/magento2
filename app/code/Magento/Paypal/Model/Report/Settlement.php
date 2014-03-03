@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Model\Report;
 
 /**
  * Paypal Settlement Report model
@@ -25,8 +26,6 @@
  * @method string getLastModified()
  * @method \Magento\Paypal\Model\Report\Settlement setLastModified(string $value)
  */
-namespace Magento\Paypal\Model\Report;
-
 class Settlement extends \Magento\Core\Model\AbstractModel
 {
     /**
@@ -56,6 +55,7 @@ class Settlement extends \Magento\Core\Model\AbstractModel
 
     /**
      * Reports rows storage
+     *
      * @var array
      */
     protected $_rows = array();
@@ -177,6 +177,8 @@ class Settlement extends \Magento\Core\Model\AbstractModel
 
     /**
      * Initialize resource model
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -284,7 +286,7 @@ class Settlement extends \Magento\Core\Model\AbstractModel
      *
      * @param string $localCsv Path to CSV file
      * @param string $format CSV format(column names)
-     * @return \Magento\Paypal\Model\Report\Settlement
+     * @return $this
      */
     public function parseCsv($localCsv, $format = 'new')
     {
@@ -345,7 +347,7 @@ class Settlement extends \Magento\Core\Model\AbstractModel
     /**
      * Load report by unique key (accoutn + report date)
      *
-     * @return \Magento\Paypal\Model\Report\Settlement
+     * @return $this
      */
     public function loadByAccountAndDate()
     {

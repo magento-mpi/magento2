@@ -26,14 +26,14 @@ class FaultTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Webapi\Model\Soap\Fault */
     protected $_soapFault;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_localeMock;
+
     protected function setUp()
     {
         $this->_appMock = $this->getMockBuilder('Magento\Core\Model\App')->disableOriginalConstructor()->getMock();
-        $localeMock = $this->getMockBuilder('Magento\Core\Model\LocaleInterface')
-            ->disableOriginalConstructor()
-            ->getMockForAbstractClass();
-        $localeMock->expects($this->any())->method('getLocale')->will($this->returnValue(new \Zend_Locale('en_US')));
-        $this->_appMock->expects($this->any())->method('getLocale')->will($this->returnValue($localeMock));
         /** Initialize SUT. */
         $message = "Soap fault reason.";
         $details = array('param1' => 'value1', 'param2' => 2);
@@ -48,10 +48,16 @@ class FaultTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $this->_soapServerMock->expects($this->any())->method('generateUri')->will($this->returnValue(self::WSDL_URL));
 
+        $this->_localeMock = $this->getMock('Magento\LocaleInterface');
+        $this->_localeMock->expects($this->any())
+            ->method('getLocale')
+            ->will($this->returnValue(new \Zend_Locale('en_US')));
+
         $this->_soapFault = new \Magento\Webapi\Model\Soap\Fault(
             $this->_appMock,
             $this->_soapServerMock,
-            $webapiException
+            $webapiException,
+            $this->_localeMock
         );
         parent::setUp();
     }
@@ -206,7 +212,8 @@ XML;
         $soapFault = new \Magento\Webapi\Model\Soap\Fault(
             $this->_appMock,
             $this->_soapServerMock,
-            $webapiException
+            $webapiException,
+            $this->_localeMock
         );
         $actualXml = $soapFault->toXml();
         $wsdlUrl = urlencode(self::WSDL_URL);

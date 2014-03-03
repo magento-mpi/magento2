@@ -211,7 +211,7 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
     public function getCalendarDateHtml($name, $id, $value, $formatType = false, $class = '')
     {
         if ($formatType === false) {
-            $formatType = \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM;
+            $formatType = \Magento\LocaleInterface::FORMAT_TYPE_MEDIUM;
         }
 
         $calendar = $this->getLayout()

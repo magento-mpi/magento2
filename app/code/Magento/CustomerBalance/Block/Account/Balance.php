@@ -7,13 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerBalance\Block\Account;
 
 /**
  * Customer balance block
- *
  */
-namespace Magento\CustomerBalance\Block\Account;
-
 class Balance extends \Magento\View\Element\Template
 {
     /**

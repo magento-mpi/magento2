@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Paypal\Model\System\Config\Backend;
 
 class Cron extends \Magento\Core\Model\Config\Value
@@ -48,6 +47,8 @@ class Cron extends \Magento\Core\Model\Config\Value
 
     /**
      * Cron settings after save
+     *
+     * @return $this
      */
     protected function _afterSave()
     {

@@ -53,10 +53,13 @@ class Dir
     /**
      * Clear temporary directories
      *
-     * @param array $arguments
-     * @return array
+     * @param \Magento\Install\Controller\Index $subject
+     * @param \Magento\App\RequestInterface $request
+     *
+     * @return void
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function beforeDispatch($arguments)
+    public function beforeDispatch(\Magento\Install\Controller\Index $subject, \Magento\App\RequestInterface $request)
     {
         if (!$this->appState->isInstalled()) {
             foreach ($this->varDirectory->read() as $dir) {
@@ -69,6 +72,5 @@ class Dir
                 }
             }
         }
-        return $arguments;
     }
 } 

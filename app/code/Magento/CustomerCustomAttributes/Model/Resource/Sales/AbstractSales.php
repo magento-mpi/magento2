@@ -7,13 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\CustomerCustomAttributes\Model\Resource\Sales;
 
 /**
  * Customer Sales abstract resource
  */
-namespace Magento\CustomerCustomAttributes\Model\Resource\Sales;
-
 abstract class AbstractSales extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
@@ -49,7 +47,7 @@ abstract class AbstractSales extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Saves a new attribute
      *
      * @param \Magento\Customer\Model\Attribute $attribute
-     * @return \Magento\CustomerCustomAttributes\Model\Resource\Sales\AbstractSales
+     * @return $this
      */
     public function saveNewAttribute(\Magento\Customer\Model\Attribute $attribute)
     {
@@ -101,7 +99,7 @@ abstract class AbstractSales extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Deletes an attribute
      *
      * @param \Magento\Customer\Model\Attribute $attribute
-     * @return \Magento\CustomerCustomAttributes\Model\Resource\Sales\AbstractSales
+     * @return $this
      */
     public function deleteAttribute(\Magento\Customer\Model\Attribute $attribute)
     {

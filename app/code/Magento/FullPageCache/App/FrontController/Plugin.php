@@ -61,17 +61,22 @@ class Plugin
     /**
      * Extract cached page or call front controller if page is not cached
      *
-     * @param array $arguments
-     * @param \Magento\Code\Plugin\InvocationChain $invocationChain
-     * @return mixed
+     * @param \Magento\App\FrontController $subject
+     * @param callable $proceed
+     * @param \Magento\App\RequestInterface $request
+     *
+     * @return \Magento\App\ResponseInterface
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function aroundDispatch($arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
-    {
+    public function aroundDispatch(
+        \Magento\App\FrontController $subject,
+        \Closure $proceed,
+        \Magento\App\RequestInterface $request
+    ) {
         if (empty($this->_processors)) {
-            return $invocationChain->proceed($arguments);
+            return $proceed($request);
         }
 
-        $request = $arguments[0];
         $content = false;
         $response = $this->_responseFactory->create();
         foreach ($this->_processors as $processor) {
@@ -82,6 +87,6 @@ class Plugin
             $response->appendBody($content);
             return $response;
         }
-        return $invocationChain->proceed($arguments);
+        return $proceed($request);
     }
 }

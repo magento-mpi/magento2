@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Formtype\Edit;
 
 /**
  * Form Type Edit Form Block
  */
-namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Formtype\Edit;
-
 class Form
     extends \Magento\Backend\Block\Widget\Form\Generic
 {
@@ -60,7 +59,7 @@ class Form
     /**
      * Prepare form before rendering HTML
      *
-     * @return \Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Formtype\Edit\Form
+     * @return $this
      */
     protected function _prepareForm()
     {

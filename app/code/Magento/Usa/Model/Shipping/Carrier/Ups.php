@@ -112,7 +112,7 @@ class Ups
     protected $_customizableContainerTypes = array('CP', 'CSP');
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\LocaleInterface
      */
     protected $_locale;
 
@@ -136,7 +136,7 @@ class Ups
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
      * @param \Magento\Directory\Helper\Data $directoryData
      * @param \Magento\Logger $logger
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\LocaleInterface $locale
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -156,7 +156,7 @@ class Ups
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
         \Magento\Directory\Helper\Data $directoryData,
         \Magento\Logger $logger,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\LocaleInterface $locale,
         array $data = array()
     ) {
         $this->_logger = $logger;

@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Model\System\Config\Backend;
 
 /**
  * Backend model for saving certificate file in case of using certificate based authentication
  */
-namespace Magento\Paypal\Model\System\Config\Backend;
-
 class Cert extends \Magento\Core\Model\Config\Value
 {
     /**
@@ -63,7 +62,7 @@ class Cert extends \Magento\Core\Model\Config\Value
     /**
      * Process additional data before save config
      *
-     * @return \Magento\Paypal\Model\System\Config\Backend\Cert
+     * @return $this
      * @throws \Magento\Core\Exception
      */
     protected function _beforeSave()
@@ -96,7 +95,7 @@ class Cert extends \Magento\Core\Model\Config\Value
     /**
      * Process object after delete data
      *
-     * @return \Magento\Paypal\Model\System\Config\Backend\Cert
+     * @return $this
      */
     protected function _afterDelete()
     {

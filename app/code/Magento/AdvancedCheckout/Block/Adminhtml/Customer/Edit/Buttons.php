@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\AdvancedCheckout\Block\Adminhtml\Customer\Edit;
 
 /**
  * Additional buttons on customer edit form
@@ -15,14 +16,12 @@
  * @package     Magento_AdvancedCheckout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\AdvancedCheckout\Block\Adminhtml\Customer\Edit;
-
 class Buttons extends \Magento\Customer\Block\Adminhtml\Edit
 {
     /**
      * Add "Manage Shopping Cart" button on customer management page
      *
-     * @return \Magento\AdvancedCheckout\Block\Adminhtml\Customer\Edit\Buttons
+     * @return $this
      */
     public function addButtons()
     {

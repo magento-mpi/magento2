@@ -45,7 +45,6 @@ class OrdersUpdater implements \Magento\View\Layout\Argument\UpdaterInterface
      * Add billing agreement filter
      *
      * @param mixed $argument
-     * @throws \DomainException
      * @return mixed
      * @throws \DomainException
      */

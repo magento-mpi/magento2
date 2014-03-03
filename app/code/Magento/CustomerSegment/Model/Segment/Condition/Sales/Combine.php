@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerSegment\Model\Segment\Condition\Sales;
 
 /**
  * Sales conditions combine
  */
-namespace Magento\CustomerSegment\Model\Segment\Condition\Sales;
-
 class Combine
     extends \Magento\CustomerSegment\Model\Condition\Combine\AbstractCombine
 {
@@ -60,7 +59,7 @@ class Combine
     /**
      * Init attribute select options
      *
-     * @return \Magento\CustomerSegment\Model\Segment\Condition\Sales\Combine
+     * @return $this
      */
     public function loadAttributeOptions()
     {

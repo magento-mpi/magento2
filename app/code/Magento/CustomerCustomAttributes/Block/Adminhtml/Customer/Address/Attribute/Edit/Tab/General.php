@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Address\Attribute\Edit\Tab;
 
 /**
  * Customer Address Attribute General Tab Block
  */
-namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Address\Attribute\Edit\Tab;
-
 class General
     extends \Magento\Eav\Block\Adminhtml\Attribute\Edit\Main\AbstractMain
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
@@ -77,7 +76,7 @@ class General
     /**
      * Adding customer address attribute form elements for edit form
      *
-     * @return \Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Address\Attribute\Edit\Tab\General
+     * @return $this
      */
     protected function _prepareForm()
     {
