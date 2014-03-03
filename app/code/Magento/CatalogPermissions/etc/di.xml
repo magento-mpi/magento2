@@ -22,4 +22,21 @@
     <type name="Magento\Core\Model\Resource\Store\Group">
         <plugin name="catalogPermissionsIndexerStoreGroup" type="Magento\CatalogPermissions\Model\Indexer\Plugin\Store\Group"/>
     </type>
+    <type name="Magento\Indexer\Model\Indexer\State">
+        <plugin name="setStatusForIndexer" type="Magento\CatalogPermissions\Model\Indexer\Plugin\IndexerState" />
+    </type>
+    <type name="Magento\CatalogPermissions\Model\Indexer\Plugin\IndexerState">
+        <arguments>
+            <argument name="state" xsi:type="object" shared="false">Magento\Indexer\Model\Indexer\State</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Mview\View\StateInterface">
+        <plugin name="setStatusForMview" type="Magento\CatalogPermissions\Model\Indexer\Plugin\MviewState" />
+    </type>
+    <type name="Magento\CatalogPermissions\Model\Indexer\Plugin\MviewState">
+        <arguments>
+            <argument name="state" xsi:type="object" shared="false">Magento\Mview\View\StateInterface</argument>
+            <argument name="changelog" xsi:type="object" shared="false">Magento\Mview\View\ChangelogInterface</argument>
+        </arguments>
+    </type>
 </config>

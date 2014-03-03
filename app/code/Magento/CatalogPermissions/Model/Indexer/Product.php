@@ -7,44 +7,23 @@
  */
 namespace Magento\CatalogPermissions\Model\Indexer;
 
-class Product implements \Magento\Indexer\Model\ActionInterface, \Magento\Mview\ActionInterface
+class Product extends Category
 {
+    /**
+     * Indexer ID in configuration
+     */
+    const INDEXER_ID = 'catalogpermissions_product';
 
     /**
-     * Execute full indexation
+     * @param Category\Action\FullFactory $fullActionFactory
+     * @param Product\Action\RowsFactory $rowsActionFactory
+     * @param \Magento\Indexer\Model\IndexerInterface $indexer
      */
-    public function executeFull()
-    {
-        // TODO: Implement executeFull() method.
-    }
-
-    /**
-     * Execute partial indexation by ID list
-     *
-     * @param int[] $ids
-     */
-    public function executeList($ids)
-    {
-        // TODO: Implement executeList() method.
-    }
-
-    /**
-     * Execute partial indexation by ID
-     *
-     * @param int $id
-     */
-    public function executeRow($id)
-    {
-        // TODO: Implement executeRow() method.
-    }
-
-    /**
-     * Execute materialization on ids entities
-     *
-     * @param int[] $ids
-     */
-    public function execute($ids)
-    {
-        // TODO: Implement execute() method.
+    public function __construct(
+        Category\Action\FullFactory $fullActionFactory,
+        Product\Action\RowsFactory $rowsActionFactory,
+        \Magento\Indexer\Model\IndexerInterface $indexer
+    ) {
+        parent::__construct($fullActionFactory, $rowsActionFactory, $indexer);
     }
 }
