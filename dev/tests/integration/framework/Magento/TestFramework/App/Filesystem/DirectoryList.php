@@ -10,6 +10,17 @@ namespace Magento\TestFramework\App\Filesystem;
 class DirectoryList extends \Magento\App\Filesystem\DirectoryList
 {
     /**
+     * Check whether configured directory
+     *
+     * @param string $code
+     * @return bool
+     */
+    public function isConfigured($code)
+    {
+        return false;
+    }
+
+    /**
      * Add directory configuration
      *
      * @param string $code
