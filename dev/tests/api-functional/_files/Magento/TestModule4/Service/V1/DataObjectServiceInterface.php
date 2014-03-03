@@ -8,10 +8,10 @@
 
 namespace Magento\TestModule4\Service\V1;
 
-use Magento\TestModule4\Service\V1\Entity\NestedDtoRequest;
+use Magento\TestModule4\Service\V1\Entity\NestedDataObjectRequest;
 use Magento\TestModule4\Service\V1\Entity\DataObjectRequest;
 
-interface DtoServiceInterface
+interface DataObjectServiceInterface
 {
     /**
      * @param int $id
@@ -29,10 +29,10 @@ interface DtoServiceInterface
 
     /**
      * @param int $id
-     * @param \Magento\TestModule4\Service\V1\Entity\NestedDtoRequest $request
+     * @param \Magento\TestModule4\Service\V1\Entity\NestedDataObjectRequest $request
      * @return \Magento\TestModule4\Service\V1\Entity\DataObjectResponse
      */
-    public function nestedData($id, NestedDtoRequest $request);
+    public function nestedData($id, NestedDataObjectRequest $request);
 
     /**
      * Test return scalar value

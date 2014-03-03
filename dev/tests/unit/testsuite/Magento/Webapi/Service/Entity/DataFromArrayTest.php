@@ -91,7 +91,7 @@ class DataFromArrayTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('value_two', $associativeArray['key_two']);
     }
 
-    public function testArrayOfDtoProperties()
+    public function testArrayOfDataObjectProperties()
     {
         $data = ['dataObjects' => [ ['entityId' => 14, 'name' => 'First'], [ 'entityId' => 15, 'name' => 'Second' ] ]];
         $result = $this->serializer->getInputData(
@@ -146,7 +146,7 @@ class DataFromArrayTest extends \PHPUnit_Framework_TestCase
         $this->assertNotNull($result);
         /** @var array $result */
         $this->assertEquals(1, count($result));
-        /** @var AssociativeArrayDto $dataObject */
+        /** @var AssociativeArrayData $dataObject */
         $dataObject = $result[0];
         $this->assertTrue($dataObject instanceof AssociativeArrayData);
         /** @var array $associativeArray */
@@ -156,7 +156,7 @@ class DataFromArrayTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('value2', $associativeArray['key2']);
     }
 
-    public function testNestedArrayOfDtoProperties()
+    public function testNestedArrayOfDataObjectProperties()
     {
         $data = [
             'dataObjects' => [

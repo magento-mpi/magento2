@@ -260,7 +260,7 @@ class Account extends \Magento\App\Action\Action
             if (!empty($login['username']) && !empty($login['password'])) {
                 try {
                     $customer = $this->_customerAccountService->authenticate($login['username'], $login['password']);
-                    $this->_getSession()->setCustomerDtoAsLoggedIn($customer);
+                    $this->_getSession()->setCustomerDataAsLoggedIn($customer);
                     $this->_getSession()->regenerateId();
                 } catch (AuthenticationException $e) {
                     switch ($e->getCode()) {
@@ -422,7 +422,7 @@ class Account extends \Magento\App\Action\Action
                 $url = $this->_createUrl()->getUrl('*/*/index', array('_secure' => true));
                 $this->getResponse()->setRedirect($this->_redirect->success($url));
             } else {
-                $this->_getSession()->setCustomerDtoAsLoggedIn($customer);
+                $this->_getSession()->setCustomerDataAsLoggedIn($customer);
                 $url = $this->_welcomeCustomer($customer);
                 $this->getResponse()->setRedirect($this->_redirect->success($url));
             }
@@ -627,7 +627,7 @@ class Account extends \Magento\App\Action\Action
             $customer = $this->_customerAccountService->activateAccount($customerId, $key);
 
             // log in and send greeting email, then die happy
-            $this->_getSession()->setCustomerDtoAsLoggedIn($customer);
+            $this->_getSession()->setCustomerDataAsLoggedIn($customer);
             $successUrl = $this->_welcomeCustomer();
             $this->getResponse()->setRedirect($this->_redirect->success($backUrl ? $backUrl : $successUrl));
             return;

@@ -95,7 +95,7 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
         return $this->_storeConfig->getConfig($path);
     }
     /**
-     * Retrieve current customer address DTOs collection.
+     * Retrieve current customer address DATA collection.
      *
      * @return \Magento\Customer\Service\V1\Data\Address[]
      */
@@ -121,13 +121,13 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
             [\Magento\Customer\Service\V1\Data\Address::KEY_COUNTRY_ID => $defaultCountryId]
         );
         $data = [0 => $emptyAddressForm->outputData(\Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_JSON)];
-        foreach ($this->getAddressCollection() as $addressDto) {
+        foreach ($this->getAddressCollection() as $addressData) {
             $addressForm = $this->_customerFormFactory->create(
                 'customer_address',
                 'adminhtml_customer_address',
-                AddressConverter::toFlatArray($addressDto)
+                AddressConverter::toFlatArray($addressData)
             );
-            $data[$addressDto->getId()] = $addressForm->outputData(
+            $data[$addressData->getId()] = $addressForm->outputData(
                 \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_JSON
             );
         }

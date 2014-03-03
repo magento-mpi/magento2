@@ -194,7 +194,7 @@ class Session extends \Magento\Session\SessionManager
      * @deprecated
      * @return CustomerData
      */
-    public function getCustomerDto()
+    public function getCustomerData()
     {
         /*** XXX: shouldn't this be CustomerData? ***/
         if ($this->_customer instanceof Customer) {
@@ -213,7 +213,7 @@ class Session extends \Magento\Session\SessionManager
      *
      * @return CustomerData
      */
-    public function getCustomerData()
+    public function getCustomerDataObject()
     {
         /* TODO refactor this after all usages of the setCustomer is refactored */
         return $this->_converter->createCustomerFromModel($this->getCustomer());
@@ -325,8 +325,8 @@ class Session extends \Magento\Session\SessionManager
         if ($this->storage->getData('customer_group_id')) {
             return $this->storage->getData('customer_group_id');
         }
-        if ($this->getCustomerDto()) {
-            $customerGroupId = $this->getCustomerDto()->getGroupId();
+        if ($this->getCustomerData()) {
+            $customerGroupId = $this->getCustomerData()->getGroupId();
             $this->setCustomerGroupId($customerGroupId);
             return $customerGroupId;
         }
@@ -365,6 +365,24 @@ class Session extends \Magento\Session\SessionManager
     }
 
     /**
+     * Customer authorization
+     *
+     * @param   string $username
+     * @param   string $password
+     * @return  bool
+     */
+    public function login($username, $password)
+    {
+        try {
+            $customer = $this->_customerAccountService->authenticate($username, $password);
+            $this->setCustomerDataAsLoggedIn($customer);
+            return true;
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
+
+    /**
      * @param Customer $customer
      * @return \Magento\Customer\Model\Session
      */
@@ -380,9 +398,9 @@ class Session extends \Magento\Session\SessionManager
      * @param CustomerData $customer
      * @return \Magento\Customer\Model\Session
      */
-    public function setCustomerDtoAsLoggedIn($customer)
+    public function setCustomerDataAsLoggedIn($customer)
     {
-        $this->setCustomerDto($customer);
+        $this->setCustomerData($customer);
         $this->_eventManager->dispatch('customer_login', array('customer' => $this->getCustomer()));
         return $this;
     }
@@ -397,7 +415,7 @@ class Session extends \Magento\Session\SessionManager
     {
         try {
             $customer = $this->_customerService->getCustomer($customerId);
-            $this->setCustomerDtoAsLoggedIn($customer);
+            $this->setCustomerDataAsLoggedIn($customer);
             return true;
         } catch (\Exception $e) {
             return false;

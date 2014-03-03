@@ -13,7 +13,7 @@ use Magento\Customer\Service\V1\Data\CustomerBuilder;
 use Magento\Customer\Service\V1\Data\AddressBuilder;
 use Magento\Customer\Service\V1\Data\Region;
 use Magento\Customer\Service\V1\Data\RegionBuilder;
-use Magento\Customer\Service\V1\Data\Customer as CustomerDto;
+use Magento\Customer\Service\V1\Data\Customer as CustomerData;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\CustomerServiceInterface;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
@@ -114,19 +114,19 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('registered', $response->getStatus());
 
         $existingCustomerId = $response->getCustomerId();
-        $customerDto = $this->_customerService->getCustomer($existingCustomerId);
-        $customerDto = $this->_customerBuilder->populate($customerDto)
+        $customerData = $this->_customerService->getCustomer($existingCustomerId);
+        $customerData = $this->_customerBuilder->populate($customerData)
             ->setEmail('new@example.com')->create();
         $addresses = $this->_customerAddressService->getAddresses($existingCustomerId);
-        $this->_serviceQuote->getQuote()->setCustomerData($customerDto);
+        $this->_serviceQuote->getQuote()->setCustomerData($customerData);
         $this->_serviceQuote->getQuote()->setCustomerAddressData($addresses);
         $this->_serviceQuote->submitOrderWithDataObject();
         $customerId = $this->_serviceQuote->getQuote()->getCustomerData()->getId();
         $this->assertNotNull($customerId);
         //Make sure no new customer is created
         $this->assertEquals($existingCustomerId, $customerId);
-        $customerDto = $this->_customerService->getCustomer($existingCustomerId);
-        $this->assertEquals('new@example.com', $customerDto->getEmail());
+        $customerData = $this->_customerService->getCustomer($existingCustomerId);
+        $this->assertEquals('new@example.com', $customerData->getEmail());
     }
 
     /**
@@ -182,11 +182,11 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('registered', $response->getStatus());
 
         $existingCustomerId = $response->getCustomerId();
-        $customerDto = $this->_customerService->getCustomer($existingCustomerId);
-        $customerDto = $this->_customerBuilder->populate($customerDto)
+        $customerData = $this->_customerService->getCustomer($existingCustomerId);
+        $customerData = $this->_customerBuilder->populate($customerData)
             ->setEmail('new@example.com')->create();
         $addresses = $this->_customerAddressService->getAddresses($existingCustomerId);
-        $this->_serviceQuote->getQuote()->setCustomerData($customerDto);
+        $this->_serviceQuote->getQuote()->setCustomerData($customerData);
         $this->_serviceQuote->getQuote()->setCustomerAddressData($addresses);
         try {
             $this->_serviceQuote->submitOrderWithDataObject();
@@ -233,7 +233,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
     /**
      * Sample customer data
      *
-     * @return CustomerDto
+     * @return CustomerData
      */
     private function getSampleCustomerEntity()
     {

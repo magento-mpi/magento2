@@ -31,7 +31,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param \Magento\Customer\Service\V1\Data\Customer $customerDto
+     * @param \Magento\Customer\Service\V1\Data\Customer $customerData
      * @param string $expectedCustomerName
      * @param bool $isPrefixAllowed
      * @param bool $isMiddleNameAllowed
@@ -39,7 +39,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
      * @dataProvider getCustomerNameDataProvider
      */
     public function testGetCustomerName(
-        $customerDto,
+        $customerData,
         $expectedCustomerName,
         $isPrefixAllowed = false,
         $isMiddleNameAllowed = false,
@@ -72,7 +72,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             $expectedCustomerName,
-            $this->_helper->getCustomerName($customerDto),
+            $this->_helper->getCustomerName($customerData),
             'Full customer name is invalid'
         );
     }

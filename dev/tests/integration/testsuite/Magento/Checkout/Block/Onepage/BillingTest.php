@@ -39,10 +39,10 @@ class BillingTest extends \PHPUnit_Framework_TestCase
         $objectManager = Bootstrap::getObjectManager();
         $this->_customerBuilder = $objectManager->create('Magento\Customer\Service\V1\Data\CustomerBuilder');
         $this->_customerService = $objectManager->create('Magento\Customer\Service\V1\CustomerService');
-        $customerDto = $this->_customerService->getCustomer(self::FIXTURE_CUSTOMER_ID);
+        $customerData = $this->_customerService->getCustomer(self::FIXTURE_CUSTOMER_ID);
 
         $customerSession = $objectManager->get('\Magento\Customer\Model\Session');
-        $customerSession->setCustomerData($customerDto);
+        $customerSession->setCustomerData($customerData);
 
         $this->_addressService = $objectManager->get('Magento\Customer\Service\V1\CustomerAddressService');
         //fetch sample address
@@ -52,7 +52,7 @@ class BillingTest extends \PHPUnit_Framework_TestCase
         $quoteCollection = $objectManager->get('Magento\Sales\Model\Resource\Quote\Collection');
         /** @var $quote \Magento\Sales\Model\Quote */
         $quote = $quoteCollection->getLastItem();
-        $quote->setCustomerData($customerDto);
+        $quote->setCustomerData($customerData);
         /** @var $quoteAddressFactory \Magento\Sales\Model\Quote\AddressFactory */
         $this->_quoteAddressFactory = $objectManager->get('Magento\Sales\Model\Quote\AddressFactory');
         $billingAddress = $this->_quoteAddressFactory->create()->importCustomerAddressData($address);
@@ -123,10 +123,10 @@ class BillingTest extends \PHPUnit_Framework_TestCase
         $emptyAddress->setFirstname(null);
         $emptyAddress->setLastname(null);
         $this->_block->getQuote()->setBillingAddress($emptyAddress);
-        $customerDto = $this->_customerService->getCustomer(self::FIXTURE_CUSTOMER_ID);
-        $customerDto = $this->_customerBuilder->populate($customerDto)
+        $customerData = $this->_customerService->getCustomer(self::FIXTURE_CUSTOMER_ID);
+        $customerData = $this->_customerBuilder->populate($customerData)
             ->setFirstname(self::SAMPLE_FIRST_NAME)->setLastname(self::SAMPLE_LAST_NAME)->create();
-        $this->_block->getQuote()->setCustomerData($customerDto);
+        $this->_block->getQuote()->setCustomerData($customerData);
         $this->_block->getQuote()->save();
 
         $this->assertEquals(self::SAMPLE_FIRST_NAME, $this->_block->getFirstname());

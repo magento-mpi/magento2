@@ -12,7 +12,7 @@ use Magento\Customer\Service\V1\Data\Filter;
 use Magento\Service\Data\AbstractObjectBuilder;
 
 /**
- * Abstract Builder for AbstractFilterGroup DTOs.
+ * Abstract Builder for AbstractFilterGroup DATA.
  */
 abstract class AbstractFilterGroupBuilder extends AbstractObjectBuilder
 {

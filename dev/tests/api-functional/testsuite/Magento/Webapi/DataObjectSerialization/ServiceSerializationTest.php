@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Webapi\DtoSerialization;
+namespace Magento\Webapi\DataObjectSerialization;
 
 class ServiceSerializationTest extends \Magento\TestFramework\TestCase\WebapiAbstract
 {
