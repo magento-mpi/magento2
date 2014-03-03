@@ -189,7 +189,7 @@ class Session extends \Magento\Session\SessionManager
     {
         $this->_customer = $customer;
         $this->_httpContext->setValue('customer_group', $customer->getGroupId());
-        $this->setCustomerId($customer->getCustomerId());
+        $this->setCustomerId($customer->getId());
         return $this;
     }
 
