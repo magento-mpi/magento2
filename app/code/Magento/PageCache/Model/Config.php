@@ -87,6 +87,16 @@ class Config
     }
 
     /**
+     * Return page lifetime
+     *
+     * @return int
+     */
+    public function getTtl()
+    {
+        return $this->_config->getValue(self::XML_PAGECACHE_TTL);
+    }
+
+    /**
      * Return generated varnish.vcl configuration file
      *
      * @return string
@@ -151,8 +161,8 @@ class Config
     {
         $result = '';
         $tpl = "%s (req.http.user-agent ~ \"%s\") {\n"
-             . "        hash_data(\"%s\");\n"
-             . "    }";
+            . "        hash_data(\"%s\");\n"
+            . "    }";
 
         $expressions = $this->_coreStoreConfig->getConfig(self::XML_VARNISH_PAGECACHE_DESIGN_THEME_REGEX);
         if ($expressions) {

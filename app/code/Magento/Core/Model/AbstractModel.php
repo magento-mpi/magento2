@@ -572,6 +572,7 @@ abstract class AbstractModel extends \Magento\Object
         try {
             $this->_beforeDelete();
             $this->_getResource()->delete($this);
+            $this->isDeleted(true);
             $this->_afterDelete();
 
             $this->_getResource()->commit();

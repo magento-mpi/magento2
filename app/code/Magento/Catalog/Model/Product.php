@@ -33,6 +33,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
     const ENTITY                 = 'catalog_product';
 
     const CACHE_TAG              = 'catalog_product';
+    const CACHE_CATEGORY_TAG     = 'catalog_category_product';
 
     /**
      * @var string
@@ -1807,22 +1808,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
     }
 
     /**
-     * Set original loaded data if needed
-     *
-     * @param string $key
-     * @param mixed $data
-     * @return \Magento\Object
-     */
-    public function setOrigData($key=null, $data=null)
-    {
-        if ($this->_appState->getAreaCode() === \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE) {
-            return parent::setOrigData($key, $data);
-        }
-
-        return $this;
-    }
-
-    /**
      * Reset all model data
      *
      * @return \Magento\Catalog\Model\Product
@@ -2027,6 +2012,31 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
      */
     public function getIdentities()
     {
-        return array(self::CACHE_TAG  . '_' . $this->getId());
+        $identities = array(self::CACHE_TAG . '_' . $this->getId());
+
+        $isDataChanged = ($this->getOrigData() == null && $this->getData()) || $this->isDeleted();
+        if (!$isDataChanged) {
+            foreach($this->getOrigData() as $key => $value) {
+                if ($this->getData($key) != $value) {
+                    $isDataChanged = true;
+                    break;
+                }
+            }
+        }
+        if ($isDataChanged) {
+            $categoryIds = $this->getAffectedCategoryIds();
+            if (!$categoryIds) {
+                $categoryIds = $this->getCategoryIds();
+            }
+            foreach ($categoryIds as $categoryId) {
+                $identities[] = Category::CACHE_TAG . '_' . $categoryId;
+            }
+        } else {
+            $categoryIds = $this->getCategoryIds();
+            foreach($categoryIds as $categoryId) {
+                $identities[] = self::CACHE_CATEGORY_TAG . '_' . $categoryId;
+            }
+        }
+        return $identities;
     }
 }
