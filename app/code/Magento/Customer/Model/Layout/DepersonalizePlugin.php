@@ -130,10 +130,11 @@ class DepersonalizePlugin
     /**
      * After layout generate
      *
-     * @param mixed $arguments
+     * @param \Magento\Core\Model\Layout $subject
+     * @param $result
      * @return mixed
      */
-    public function afterGenerateXml($arguments = null)
+    public function afterGenerateXml(\Magento\Core\Model\Layout $subject, $result)
     {
         if ($this->moduleManager->isEnabled('Magento_PageCache')
             && !$this->request->isAjax()
@@ -144,6 +145,6 @@ class DepersonalizePlugin
             session_write_close();
             $this->afterSessionWriteClose();
         }
-        return $arguments;
+        return $result;
     }
 }

@@ -16,7 +16,7 @@ namespace Magento\Checkout\Block\Cart;
  * @package     Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart implements \Magento\View\Block\IdentityInterface
+class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart  implements \Magento\View\Block\IdentityInterface
 {
     const XML_PATH_CHECKOUT_SIDEBAR_COUNT   = 'checkout/sidebar/count';
 

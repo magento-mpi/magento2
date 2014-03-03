@@ -72,6 +72,8 @@ class LayoutPluginTest extends \PHPUnit_Framework_TestCase
     public function testAfterGenerateXml($layoutIsCacheable)
     {
         $maxAge = 180;
+        $result = 'test';
+
         $this->layoutMock->expects($this->once())
             ->method('isCacheable')
             ->will($this->returnValue($layoutIsCacheable));
@@ -87,8 +89,9 @@ class LayoutPluginTest extends \PHPUnit_Framework_TestCase
             $this->responseMock->expects($this->never())
                 ->method('setPublicHeaders');
         }
+        $output = $this->model->afterGenerateXml($this->layoutMock, $result);
+        $this->assertSame($result, $output);
 
-        $this->assertEquals($this->layoutMock, $this->model->afterGenerateXml($this->layoutMock));
     }
 
     public function afterGenerateXmlDataProvider()
@@ -106,6 +109,7 @@ class LayoutPluginTest extends \PHPUnit_Framework_TestCase
     public function testAfterGetOutput($layoutIsCacheable)
     {
         $html = 'html';
+
         $this->layoutMock->expects($this->once())
             ->method('isCacheable')
             ->will($this->returnValue($layoutIsCacheable));
@@ -117,7 +121,8 @@ class LayoutPluginTest extends \PHPUnit_Framework_TestCase
             $this->responseMock->expects($this->never())
                 ->method('setHeader');
         }
-        $this->assertEquals($html, $this->model->afterGetOutput($html));
+        $output = $this->model->afterGetOutput($this->layoutMock, $html);
+        $this->assertSame($output, $html);
     }
 
     public function afterGetOutputDataProvider()

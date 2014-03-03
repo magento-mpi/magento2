@@ -2146,5 +2146,4 @@ return array(
     ['Magento\Catalog\Helper\Product\Flat'],
     ['Magento\Catalog\Helper\Flat\AbstractFlat'],
     ['Magento\Core\App\Action\Plugin\Session', 'Magento\Core\Block\RequireCookie']
-    ['Magento\Catalog\Helper\Flat\AbstractFlat'],
 );
