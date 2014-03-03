@@ -49,11 +49,23 @@ class Edit extends \Magento\Directory\Block\Data
     protected $customerCurrentService;
 
     /**
-     * @var \Magento\Customer\Service\V1\CustomerAddressCurrentServiceInterface
+     * Constructor
+     *
+     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Json\EncoderInterface $jsonEncoder
+     * @param \Magento\App\Cache\Type\Config $configCacheType
+     * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory
+     * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory
+     * @param \Magento\App\ConfigInterface $config
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService
+     * @param \Magento\Customer\Service\V1\Dto\AddressBuilder $addressBuilder
+     * @param \Magento\Customer\Service\V1\CustomerCurrentServiceInterface $customerCurrentService
+     * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
-    protected $customerAddressCurrentService;
-
-
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
