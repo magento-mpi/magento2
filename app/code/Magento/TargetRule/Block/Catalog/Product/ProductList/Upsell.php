@@ -89,4 +89,21 @@ class Upsell
 
         return $this->_allProductIds;
     }
+
+    /**
+     * Get all items
+     *
+     * @return array
+     */
+    public function getAllItems()
+    {
+        $collection = parent::getAllItems();
+        $collectionMock = new \Magento\Object(array('items' => $collection));
+        $this->_eventManager->dispatch('catalog_product_upsell', array(
+            'product'       => $this->getProduct(),
+            'collection'    => $collectionMock,
+            'limit'         => null,
+        ));
+        return $collectionMock->getItems();
+    }
 }
