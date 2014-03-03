@@ -126,7 +126,7 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
 
         $optionBuilder = new \Magento\Customer\Service\V1\Dto\Eav\OptionBuilder();
 
-        $attributeMetadataBuilder = new \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadataBuilder();
+        $attributeMetadataBuilder = new \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadataBuilder($optionBuilder);
 
         $service = new CustomerMetadataService($this->_eavConfigMock, $attributeColFactoryMock, $storeManagerMock,
             $optionBuilder, $attributeMetadataBuilder);
@@ -158,7 +158,7 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
 
         $optionBuilder = new \Magento\Customer\Service\V1\Dto\Eav\OptionBuilder();
 
-        $attributeMetadataBuilder = new \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadataBuilder();
+        $attributeMetadataBuilder = new \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadataBuilder($optionBuilder);
 
         $service = new CustomerMetadataService($this->_eavConfigMock, $attributeColFactoryMock, $storeManagerMock,
             $optionBuilder, $attributeMetadataBuilder);
@@ -199,10 +199,9 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
         $storeManagerMock = $this->getMockBuilder('\Magento\Core\Model\StoreManager')
             ->disableOriginalConstructor()
             ->getMock();
-
-        $attributeMetadataBuilder = new \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadataBuilder();
-
         $optionBuilder = new \Magento\Customer\Service\V1\Dto\Eav\OptionBuilder();
+
+        $attributeMetadataBuilder = new \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadataBuilder($optionBuilder);
 
         $service = new CustomerMetadataService($this->_eavConfigMock, $attributeColFactoryMock, $storeManagerMock,
             $optionBuilder, $attributeMetadataBuilder);
@@ -234,7 +233,7 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
 
         $optionBuilder = new \Magento\Customer\Service\V1\Dto\Eav\OptionBuilder();
 
-        $attributeMetadataBuilder = new \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadataBuilder();
+        $attributeMetadataBuilder = new \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadataBuilder($optionBuilder);
 
         $service = new CustomerMetadataService($this->_eavConfigMock, $attributeColFactoryMock, $storeManagerMock,
             $optionBuilder, $attributeMetadataBuilder);
@@ -262,7 +261,7 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
 
         $optionBuilder = new \Magento\Customer\Service\V1\Dto\Eav\OptionBuilder();
 
-        $attributeMetadataBuilder = new \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadataBuilder();
+        $attributeMetadataBuilder = new \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadataBuilder($optionBuilder);
 
         $service = new CustomerMetadataService($this->_eavConfigMock, $attributeColFactoryMock, $storeManagerMock,
             $optionBuilder, $attributeMetadataBuilder);
@@ -298,7 +297,7 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
 
         $optionBuilder = new \Magento\Customer\Service\V1\Dto\Eav\OptionBuilder();
 
-        $attributeMetadataBuilder = new \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadataBuilder();
+        $attributeMetadataBuilder = new \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadataBuilder($optionBuilder);
 
         $service = new CustomerMetadataService($this->_eavConfigMock, $attributeColFactoryMock, $storeManagerMock,
             $optionBuilder, $attributeMetadataBuilder);
@@ -339,7 +338,7 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
 
         $optionBuilder = new \Magento\Customer\Service\V1\Dto\Eav\OptionBuilder();
 
-        $attributeMetadataBuilder = new \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadataBuilder();
+        $attributeMetadataBuilder = new \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadataBuilder($optionBuilder);
 
         $service = new CustomerMetadataService($this->_eavConfigMock, $attributeColFactoryMock, $storeManagerMock,
             $optionBuilder, $attributeMetadataBuilder);

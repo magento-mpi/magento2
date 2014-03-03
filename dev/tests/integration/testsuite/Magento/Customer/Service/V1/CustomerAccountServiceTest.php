@@ -156,7 +156,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testChangePasswordWrongUser()
     {
-        $this->_customerAccountService->validatePassword(4200, 'password', 'new_password');
+        $this->_customerAccountService->changePassword(4200, 'password', 'new_password');
     }
 
     /**

@@ -52,11 +52,15 @@ abstract class AbstractDto
             if (method_exists($value, '__toArray')) {
                 $data[$key] = $value->__toArray();
             } else if (is_array($value)) {
+                $arrayValue = [];
                 foreach ($value as $nestedArrayKey => $nestedArrayValue) {
                     if (method_exists($nestedArrayValue, '__toArray')) {
-                        $data[$nestedArrayKey] = $nestedArrayValue->__toArray();
+                        $arrayValue[$nestedArrayKey] = $nestedArrayValue->__toArray();
+                    } else {
+                        $arrayValue[$nestedArrayKey] = $nestedArrayValue;
                     }
                 }
+                $data[$key] = $arrayValue;
             }
         }
         return $data;

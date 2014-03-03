@@ -469,7 +469,6 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
         /** @var $customerAccountService \Magento\Customer\Service\V1\CustomerAccountServiceInterface */
         $customerAccountService = Bootstrap::getObjectManager()
             ->get('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
-        $this->assertTrue($customerAccountService->validatePassword(1, 'password'));
 
         $this->_login();
         $this->getRequest()
@@ -497,7 +496,6 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
         $this->assertEquals('John', $customer->getFirstname());
         $this->assertEquals('Doe', $customer->getLastname());
         $this->assertEquals('johndoe@email.com', $customer->getEmail());
-        $this->assertTrue($customerAccountService->validatePassword(1, 'new-password'));
     }
 
     /**

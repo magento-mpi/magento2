@@ -12,11 +12,18 @@ namespace Magento\Customer\Service\V1\Dto\Eav;
 class AttributeMetadataBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
 {
     /**
+     * Option builder
+     *
+     * @var OptionBuilder
+     */
+    protected $_optionBuilder;
+    /**
      * Initializes builder.
      */
-    public function __construct()
+    public function __construct(OptionBuilder $optionBuilder)
     {
         parent::__construct();
+        $this->_optionBuilder = $optionBuilder;
         $this->_data[AttributeMetadata::OPTIONS] = array();
     }
 
@@ -163,5 +170,34 @@ class AttributeMetadataBuilder extends \Magento\Service\Entity\AbstractDtoBuilde
     public function setNote($note)
     {
         return $this->_set(AttributeMetadata::NOTE, $note);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function populateWithArray(array $data)
+    {
+        if (array_key_exists(AttributeMetadata::OPTIONS, $data)) {
+            $options = [];
+            if (is_array($data[AttributeMetadata::OPTIONS])) {
+                foreach ($data[AttributeMetadata::OPTIONS] as $key => $option) {
+                    $options[$key] = $this->_optionBuilder->populateWithArray($option)->create();
+                }
+            }
+
+            $data[AttributeMetadata::OPTIONS] = $options;
+        }
+
+        return parent::populateWithArray($data);
+    }
+
+    /**
+     * Builds the entity.
+     *
+     * @return AttributeMetadata
+     */
+    public function create()
+    {
+        return parent::create();
     }
 }

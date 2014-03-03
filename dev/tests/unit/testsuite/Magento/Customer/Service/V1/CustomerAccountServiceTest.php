@@ -473,58 +473,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $customerService->authenticate(self::EMAIL, self::PASSWORD, self::WEBSITE_ID);
     }
 
-    public function testValidatePassword()
-    {
-        $this->_mockReturnValue(
-            $this->_customerModelMock,
-            array(
-                'getId' => self::ID,
-                'authenticate' => true,
-                'load' => $this->_customerModelMock,
-                'getAttributes' => array(),
-                'validatePassword' => true,
-            )
-        );
-
-        $this->_customerFactoryMock->expects($this->any())
-            ->method('create')
-            ->will($this->returnValue($this->_customerModelMock));
-
-        $customerService = $this->_createService();
-
-        $result = $customerService->validatePassword(self::ID, self::PASSWORD);
-
-        $this->assertTrue($result);
-    }
-
-    /**
-     * @expectedException \Magento\Exception\AuthenticationException
-     * @expectedExceptionMessage Password doesn't match for this account.
-     */
-    public function testValidatePasswordWithException()
-    {
-        $this->_mockReturnValue(
-            $this->_customerModelMock,
-            array(
-                'getId' => self::ID,
-                'load' => $this->_customerModelMock,
-                'validatePassword' => false,
-            )
-        );
-
-        $this->_customerModelMock->expects($this->any())
-            ->method('authenticate')
-            ->will($this->throwException(new \Magento\Core\Exception('exception message') ));
-
-        $this->_customerFactoryMock->expects($this->any())
-            ->method('create')
-            ->will($this->returnValue($this->_customerModelMock));
-
-        $customerService = $this->_createService();
-
-        $customerService->validatePassword(self::ID, self::PASSWORD);
-    }
-
     public function testValidateResetPasswordLinkToken()
     {
         $resetToken = 'lsdj579slkj5987slkj595lkj';

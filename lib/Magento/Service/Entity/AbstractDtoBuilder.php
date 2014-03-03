@@ -67,8 +67,8 @@ abstract class AbstractDtoBuilder
      */
     public function mergeDtos(AbstractDto $firstDto, AbstractDto $secondDto)
     {
-        $this->_data = array_merge($firstDto->__toArray(), $secondDto->__toArray());
-        return $this->create();
+        $mergedArray = array_replace_recursive($firstDto->__toArray(), $secondDto->__toArray());
+        return $this->populateWithArray($mergedArray)->create();
     }
 
     /**
@@ -80,7 +80,7 @@ abstract class AbstractDtoBuilder
      */
     public function mergeDtoWithArray(AbstractDto $dto, array $data)
     {
-        $newData = array_merge($dto->__toArray(), $data);
+        $newData = array_replace_recursive($dto->__toArray(), $data);
         return $this->populateWithArray($newData)->create();
     }
 
