@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Shipping
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,10 +11,10 @@
  * Free shipping model
  *
  * @category   Magento
- * @package    Magento_Shipping
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @package    Magento_OfflineShipping
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Shipping\Model\Carrier;
+namespace Magento\OfflineShipping\Model\Carrier;
 
 class Freeshipping
     extends \Magento\Shipping\Model\Carrier\AbstractCarrier
@@ -132,7 +130,7 @@ class Freeshipping
      */
     public function getAllowedMethods()
     {
-        return array('freeshipping'=>$this->getConfigData('name'));
+        return array('freeshipping' => $this->getConfigData('name'));
     }
 
 }

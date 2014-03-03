@@ -143,17 +143,6 @@ class Actions
             'values'    => $this->_sourceYesno->toOptionArray(),
         ));
 
-        $fieldset->addField('simple_free_shipping', 'select', array(
-            'label'     => __('Free Shipping'),
-            'title'     => __('Free Shipping'),
-            'name'      => 'simple_free_shipping',
-            'options'    => array(
-                0 => __('No'),
-                \Magento\SalesRule\Model\Rule::FREE_SHIPPING_ITEM => __('For matching items only'),
-                \Magento\SalesRule\Model\Rule::FREE_SHIPPING_ADDRESS => __('For shipment with matching items'),
-            ),
-        ));
-
         $fieldset->addField('stop_rules_processing', 'select', array(
             'label'     => __('Stop Further Rules Processing'),
             'title'     => __('Stop Further Rules Processing'),
