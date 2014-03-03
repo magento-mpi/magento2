@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerCustomAttributes\Model\Resource\Sales\Quote;
 
 /**
  * Customer Quote Address resource model
  */
-namespace Magento\CustomerCustomAttributes\Model\Resource\Sales\Quote;
-
 class Address
     extends \Magento\CustomerCustomAttributes\Model\Resource\Sales\Address\AbstractAddress
 {
@@ -37,6 +36,8 @@ class Address
 
     /**
      * Initialize resource
+     *
+     * @return void
      */
     protected function _construct()
     {

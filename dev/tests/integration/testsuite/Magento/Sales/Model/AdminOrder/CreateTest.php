@@ -47,7 +47,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
 
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = Bootstrap::getObjectManager();
-        $objectManager->get('Magento\Core\Model\Registry')->unregister('rule_data');
+        $objectManager->get('Magento\Registry')->unregister('rule_data');
         $this->_model->initFromOrder($order);
 
         $this->assertFalse($order->getShippingAddress());
@@ -68,7 +68,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
 
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = Bootstrap::getObjectManager();
-        $objectManager->get('Magento\Core\Model\Registry')->unregister('rule_data');
+        $objectManager->get('Magento\Registry')->unregister('rule_data');
         $this->_model->initFromOrder($order);
 
         $this->assertTrue($order->getShippingAddress()->getSameAsBilling());
@@ -90,7 +90,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
 
         $this->assertNull($order->getShippingAddress()->getSameAsBilling());
 
-        $objectManager->get('Magento\Core\Model\Registry')->unregister('rule_data');
+        $objectManager->get('Magento\Registry')->unregister('rule_data');
         $this->_model->initFromOrder($order);
 
         $this->assertFalse($order->getShippingAddress()->getSameAsBilling());
@@ -114,7 +114,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('AE', $payment->getCcType());
         $this->assertEquals('0005', $payment->getCcLast4());
 
-        $objectManager->get('Magento\Core\Model\Registry')->unregister('rule_data');
+        $objectManager->get('Magento\Registry')->unregister('rule_data');
         $payment = $this->_model->initFromOrder($order)->getQuote()->getPayment();
 
         $this->assertNull($payment->getCcExpMonth());
@@ -141,7 +141,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('AE', $payment->getCcType());
         $this->assertEquals('0005', $payment->getCcLast4());
 
-        $objectManager->get('Magento\Core\Model\Registry')->unregister('rule_data');
+        $objectManager->get('Magento\Registry')->unregister('rule_data');
         $payment = $this->_model->initFromOrder($order)->getQuote()->getPayment();
 
         $this->assertEquals('5', $payment->getCcExpMonth());

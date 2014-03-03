@@ -12,17 +12,17 @@ namespace Magento\Eav\Model\Entity\Attribute\Frontend;
 class Datetime extends \Magento\Eav\Model\Entity\Attribute\Frontend\AbstractFrontend
 {
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\LocaleInterface
      */
     protected $_locale;
 
     /**
      * @param \Magento\Eav\Model\Entity\Attribute\Source\BooleanFactory $attrBooleanFactory
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\LocaleInterface $locale
      */
     function __construct(
         \Magento\Eav\Model\Entity\Attribute\Source\BooleanFactory $attrBooleanFactory,
-        \Magento\Core\Model\LocaleInterface $locale
+        \Magento\LocaleInterface $locale
     ) {
         parent::__construct($attrBooleanFactory);
         $this->_locale = $locale;
@@ -39,7 +39,7 @@ class Datetime extends \Magento\Eav\Model\Entity\Attribute\Frontend\AbstractFron
         $data = '';
         $value = parent::getValue($object);
         $format = $this->_locale->getDateFormat(
-            \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM
+            \Magento\LocaleInterface::FORMAT_TYPE_MEDIUM
         );
 
         if ($value) {

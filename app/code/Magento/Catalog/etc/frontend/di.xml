@@ -47,4 +47,9 @@
             <argument name="orPosition" xsi:type="const">Magento\Catalog\Block\ShortcutButtons::POSITION_AFTER</argument>
         </arguments>
     </virtualType>
+    <type name="Magento\Catalog\Model\Indexer\Product\Flat\State">
+        <arguments>
+            <argument name="isAvailable" xsi:type="boolean">true</argument>
+        </arguments>
+    </type>
 </config>

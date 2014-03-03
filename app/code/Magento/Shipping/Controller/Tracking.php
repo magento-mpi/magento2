@@ -17,7 +17,7 @@ class Tracking extends \Magento\App\Action\Action
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
@@ -33,13 +33,13 @@ class Tracking extends \Magento\App\Action\Action
 
     /**
      * @param \Magento\App\Action\Context $context
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\Shipping\Model\InfoFactory $shippingInfoFactory
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      */
     public function __construct(
         \Magento\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\Shipping\Model\InfoFactory $shippingInfoFactory,
         \Magento\Sales\Model\OrderFactory $orderFactory
     ) {

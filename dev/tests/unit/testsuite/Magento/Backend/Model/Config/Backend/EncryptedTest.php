@@ -26,7 +26,7 @@ class EncryptedTest extends \PHPUnit_Framework_TestCase
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $eventDispatcherMock = $this->getMock('Magento\Event\Manager', array(), array(), '', false);
-        $contextMock = $this->getMock('Magento\Core\Model\Context', array(), array(), '', false);
+        $contextMock = $this->getMock('Magento\Model\Context', array(), array(), '', false);
         $contextMock->expects($this->any())
             ->method('getEventDispatcher')
             ->will($this->returnValue($eventDispatcherMock));

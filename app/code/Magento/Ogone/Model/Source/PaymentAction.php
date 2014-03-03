@@ -13,7 +13,7 @@
  */
 namespace Magento\Ogone\Model\Source;
 
-class PaymentAction implements \Magento\Core\Model\Option\ArrayInterface
+class PaymentAction implements \Magento\Option\ArrayInterface
 {
     /**
      * Prepare payment action list as optional array

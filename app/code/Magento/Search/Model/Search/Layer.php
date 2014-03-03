@@ -39,7 +39,7 @@ class Layer extends \Magento\CatalogSearch\Model\Layer
      * @param \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\CatalogSearch\Model\Resource\Fulltext\CollectionFactory $fulltextCollectionFactory
      * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
      * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
@@ -57,7 +57,7 @@ class Layer extends \Magento\CatalogSearch\Model\Layer
         \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
         \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\CatalogSearch\Model\Resource\Fulltext\CollectionFactory $fulltextCollectionFactory,
         \Magento\CatalogSearch\Helper\Data $catalogSearchData,
         \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider,

@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Model\Express\Checkout;
 
 /**
  * Factory class for \Magento\Paypal\Model\Express\Checkout
  */
-namespace Magento\Paypal\Model\Express\Checkout;
-
 class Factory
 {
     /**

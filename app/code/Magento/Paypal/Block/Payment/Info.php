@@ -7,13 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Block\Payment;
 
 /**
  * PayPal common payment info block
  * Uses default templates
  */
-namespace Magento\Paypal\Block\Payment;
-
 class Info extends \Magento\Payment\Block\Info\Cc
 {
     /**
@@ -52,7 +51,7 @@ class Info extends \Magento\Payment\Block\Info\Cc
     /**
      * Prepare PayPal-specific payment information
      *
-     * @param \Magento\Object|array $transport
+     * @param \Magento\Object|array|null $transport
      * @return \Magento\Object
      */
     protected function _prepareSpecificInformation($transport = null)

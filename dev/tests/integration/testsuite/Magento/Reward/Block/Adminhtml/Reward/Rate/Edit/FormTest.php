@@ -26,10 +26,10 @@ class FormTest extends \PHPUnit_Framework_TestCase
             ->create('Magento\Core\Model\Layout');
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        if (!$objectManager->get('Magento\Core\Model\Registry')->registry('current_reward_rate')) {
+        if (!$objectManager->get('Magento\Registry')->registry('current_reward_rate')) {
             $rate = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Reward\Model\Reward\Rate');
-            $objectManager->get('Magento\Core\Model\Registry')->register('current_reward_rate', $rate);
+            $objectManager->get('Magento\Registry')->register('current_reward_rate', $rate);
         }
 
         $this->_block = $layout

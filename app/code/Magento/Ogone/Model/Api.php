@@ -199,7 +199,7 @@ class Api extends \Magento\Payment\Model\Method\AbstractMethod
     protected $_storeManager;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\LocaleInterface
      */
     protected $_locale;
 
@@ -207,9 +207,9 @@ class Api extends \Magento\Payment\Model\Method\AbstractMethod
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
+     * @param \Magento\Logger\AdapterFactory $logAdapterFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\LocaleInterface $locale
      * @param \Magento\UrlInterface $urlBuilder
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Ogone\Model\Config $config
@@ -219,9 +219,9 @@ class Api extends \Magento\Payment\Model\Method\AbstractMethod
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
+        \Magento\Logger\AdapterFactory $logAdapterFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\LocaleInterface $locale,
         \Magento\UrlInterface $urlBuilder,
         \Magento\Stdlib\String $string,
         \Magento\Ogone\Model\Config $config,

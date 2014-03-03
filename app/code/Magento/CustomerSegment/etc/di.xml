@@ -14,7 +14,7 @@
             <argument name="customer" xsi:type="object">Magento\CustomerSegment\Model\Customer</argument>
             <argument name="configSourceYesno" xsi:type="object">Magento\Backend\Model\Config\Source\Yesno</argument>
             <argument name="segmentHelper" xsi:type="object">Magento\CustomerSegment\Helper\Data</argument>
-            <argument name="coreRegistry" xsi:type="object">Magento\Core\Model\Registry</argument>
+            <argument name="coreRegistry" xsi:type="object">Magento\Registry</argument>
         </arguments>
     </type>
     <type name="Magento\CustomerSegment\Helper\Data">

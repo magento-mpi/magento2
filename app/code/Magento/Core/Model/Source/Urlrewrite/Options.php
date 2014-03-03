@@ -17,9 +17,7 @@
  */
 namespace Magento\Core\Model\Source\Urlrewrite;
 
-use Magento\Core\Model\Option\ArrayInterface;
-
-class Options implements ArrayInterface
+class Options implements \Magento\Option\ArrayInterface
 {
     const TEMPORARY = 'R';
     const PERMANENT = 'RP';

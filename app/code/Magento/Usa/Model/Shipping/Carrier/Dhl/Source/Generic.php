@@ -1,14 +1,14 @@
 <?php
 /**
  * {license_notice}
- *   
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 namespace Magento\Usa\Model\Shipping\Carrier\Dhl\Source;
 
-class Generic implements \Magento\Core\Model\Option\ArrayInterface
+class Generic implements \Magento\Option\ArrayInterface
 {
     /**
      * @var \Magento\Usa\Model\Shipping\Carrier\Dhl

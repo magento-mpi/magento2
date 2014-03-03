@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CustomerBalance\Model\Total\Invoice;
 
 class Customerbalance extends \Magento\Sales\Model\Order\Invoice\Total\AbstractTotal
@@ -35,7 +34,7 @@ class Customerbalance extends \Magento\Sales\Model\Order\Invoice\Total\AbstractT
      * Collect customer balance totals for invoice
      *
      * @param \Magento\Sales\Model\Order\Invoice $invoice
-     * @return \Magento\CustomerBalance\Model\Total\Invoice\Customerbalance
+     * @return $this
      */
     public function collect(\Magento\Sales\Model\Order\Invoice $invoice)
     {

@@ -45,9 +45,9 @@ class FulltextIndexRebuildTest extends \PHPUnit_Framework_TestCase
     protected $_fulltextSearchMock;
 
     /**
-     * @var array
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_arguments;
+    protected $subjectMock;
 
     protected function setUp()
     {
@@ -63,8 +63,7 @@ class FulltextIndexRebuildTest extends \PHPUnit_Framework_TestCase
             'Magento\Search\Model\Catalog\Layer\Filter\Price', array(), array(), '', false
         );
 
-        $this->_arguments = array(1, array(1,2));
-
+        $this->subjectMock = $this->getMock('Magento\CatalogSearch\Model\Fulltext', array(), array(), '', false);
         $this->_model = new \Magento\Search\Model\Plugin\FulltextIndexRebuild(
             $this->_engineProviderMock,
             $this->_searchHelperMock,
@@ -85,7 +84,7 @@ class FulltextIndexRebuildTest extends \PHPUnit_Framework_TestCase
         $this->_engineProviderMock->expects($this->never())
             ->method('get');
 
-        $this->assertEquals($this->_arguments, $this->_model->beforeRebuildIndex($this->_arguments));
+        $this->_model->beforeRebuildIndex($this->subjectMock, 1, array(1, 2));
     }
 
     /**
@@ -108,7 +107,7 @@ class FulltextIndexRebuildTest extends \PHPUnit_Framework_TestCase
             ->method('get')
             ->will($this->returnValue($this->_searchEngineMock));
 
-        $this->assertEquals($this->_arguments, $this->_model->beforeRebuildIndex($this->_arguments));
+            $this->_model->beforeRebuildIndex($this->subjectMock, 1, array(1, 2));
     }
 
     /**
@@ -131,9 +130,7 @@ class FulltextIndexRebuildTest extends \PHPUnit_Framework_TestCase
             ->method('get')
             ->will($this->returnValue($this->_searchEngineMock));
 
-        $arguments = $this->_arguments;
-        unset($arguments[1]);
-        $this->assertEquals($arguments, $this->_model->beforeRebuildIndex($arguments));
+        $this->_model->beforeRebuildIndex($this->subjectMock, 1, null);
     }
 
     /**
@@ -156,7 +153,7 @@ class FulltextIndexRebuildTest extends \PHPUnit_Framework_TestCase
             ->method('get')
             ->will($this->returnValue($this->_searchEngineMock));
 
-        $this->assertEquals($this->_arguments, $this->_model->beforeRebuildIndex($this->_arguments));
+            $this->_model->beforeRebuildIndex($this->subjectMock, 1, array(1, 2));
     }
 
     /**
@@ -171,7 +168,8 @@ class FulltextIndexRebuildTest extends \PHPUnit_Framework_TestCase
         $this->_engineProviderMock->expects($this->never())
             ->method('get');
 
-        $this->assertEquals($this->_fulltextSearchMock, $this->_model->afterRebuildIndex($this->_fulltextSearchMock));
+        $this->assertEquals($this->_fulltextSearchMock,
+            $this->_model->afterRebuildIndex($this->subjectMock, $this->_fulltextSearchMock));
     }
 
     /**
@@ -194,7 +192,8 @@ class FulltextIndexRebuildTest extends \PHPUnit_Framework_TestCase
             ->method('get')
             ->will($this->returnValue($this->_searchEngineMock));
 
-        $this->assertEquals($this->_fulltextSearchMock, $this->_model->afterRebuildIndex($this->_fulltextSearchMock));
+        $this->assertEquals($this->_fulltextSearchMock,
+            $this->_model->afterRebuildIndex($this->subjectMock, $this->_fulltextSearchMock));
     }
 
     /**
@@ -233,7 +232,8 @@ class FulltextIndexRebuildTest extends \PHPUnit_Framework_TestCase
             ->method('clean')
             ->will($this->returnValue(array($cacheTag)));
 
-        $this->assertEquals($this->_fulltextSearchMock, $this->_model->afterRebuildIndex($this->_fulltextSearchMock));
+        $this->assertEquals($this->_fulltextSearchMock,
+            $this->_model->afterRebuildIndex($this->subjectMock, $this->_fulltextSearchMock));
     }
 
     /**
@@ -272,6 +272,7 @@ class FulltextIndexRebuildTest extends \PHPUnit_Framework_TestCase
             ->method('clean')
             ->will($this->returnValue(array($cacheTag)));
 
-        $this->assertEquals($this->_fulltextSearchMock, $this->_model->afterRebuildIndex($this->_fulltextSearchMock));
+        $this->assertEquals($this->_fulltextSearchMock,
+            $this->_model->afterRebuildIndex($this->subjectMock, $this->_fulltextSearchMock));
     }
 }

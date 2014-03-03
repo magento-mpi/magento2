@@ -17,7 +17,7 @@
 namespace Magento\Invitation\Model\Source\Invitation;
 
 class Options
-    implements \Magento\Core\Model\Option\ArrayInterface
+    implements \Magento\Option\ArrayInterface
 
 {
     /**

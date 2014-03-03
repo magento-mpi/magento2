@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Block\Payflow\Advanced;
 
 /**
  * Payflow Advanced iframe block
@@ -15,10 +16,11 @@
  * @package    Magento_Paypal
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Paypal\Block\Payflow\Advanced;
-
 class Form extends \Magento\Paypal\Block\Payflow\Link\Form
 {
+    /**
+     * @var string
+     */
     protected $_template = 'payflowadvanced/info.phtml';
 
     /**

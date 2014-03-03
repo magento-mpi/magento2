@@ -56,14 +56,6 @@ interface MessageInterface
     public function setFrom($fromAddress);
 
     /**
-     * Set to address
-     *
-     * @param string|array $toAddress
-     * @return $this
-     */
-    public function setTo($toAddress);
-
-    /**
      * Add to address
      *
      * @param string|array $toAddress
@@ -72,27 +64,12 @@ interface MessageInterface
     public function addTo($toAddress);
 
     /**
-     * Set cc address
-     * @param string|array $ccAddress
-     * @return $this
-     */
-    public function setCc($ccAddress);
-
-    /**
      * Add cc address
      *
      * @param string|array $ccAddress
      * @return $this
      */
     public function addCc($ccAddress);
-
-    /**
-     * Set bcc address
-     *
-     * @param string|array $bccAddress
-     * @return $this
-     */
-    public function setBcc($bccAddress);
 
     /**
      * Add bcc address
@@ -109,14 +86,6 @@ interface MessageInterface
      * @return $this
      */
     public function setReplyTo($replyToAddress);
-
-    /**
-     * Add reply-to address
-     *
-     * @param string|array $replyToAddress
-     * @return $this
-     */
-    public function addReplyTo($replyToAddress);
 
     /**
      * Set message type

@@ -5,18 +5,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Paypal\Model\Resource\Billing;
 
 /**
  * Billing agreement resource model
  */
-namespace Magento\Paypal\Model\Resource\Billing;
-
 class Agreement extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Resource initialization
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -28,7 +27,7 @@ class Agreement extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param int $agreementId
      * @param int $orderId
-     * @return \Magento\Paypal\Model\Resource\Billing\Agreement
+     * @return $this
      */
     public function addOrderRelation($agreementId, $orderId)
     {

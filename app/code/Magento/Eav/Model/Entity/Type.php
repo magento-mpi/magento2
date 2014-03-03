@@ -87,8 +87,8 @@ class Type extends \Magento\Core\Model\AbstractModel
     protected $_universalFactory;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory
      * @param \Magento\Eav\Model\Entity\Attribute\SetFactory $attSetFactory
      * @param \Magento\Eav\Model\Entity\StoreFactory $storeFactory
@@ -98,8 +98,8 @@ class Type extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory,
         \Magento\Eav\Model\Entity\Attribute\SetFactory $attSetFactory,
         \Magento\Eav\Model\Entity\StoreFactory $storeFactory,
@@ -216,35 +216,40 @@ class Type extends \Magento\Core\Model\AbstractModel
         // Start transaction to run SELECT ... FOR UPDATE
         $this->_getResource()->beginTransaction();
 
-        $entityStoreConfig = $this->_storeFactory->create()
-            ->loadByEntityStore($this->getId(), $storeId);
+        try {
+            $entityStoreConfig = $this->_storeFactory->create()
+                ->loadByEntityStore($this->getId(), $storeId);
 
-        if (!$entityStoreConfig->getId()) {
-            $entityStoreConfig
-                ->setEntityTypeId($this->getId())
-                ->setStoreId($storeId)
-                ->setIncrementPrefix($storeId)
-                ->save();
+            if (!$entityStoreConfig->getId()) {
+                $entityStoreConfig
+                    ->setEntityTypeId($this->getId())
+                    ->setStoreId($storeId)
+                    ->setIncrementPrefix($storeId)
+                    ->save();
+            }
+
+            $incrementInstance = $this->_universalFactory->create($this->getIncrementModel())
+                ->setPrefix($entityStoreConfig->getIncrementPrefix())
+                ->setPadLength($this->getIncrementPadLength())
+                ->setPadChar($this->getIncrementPadChar())
+                ->setLastId($entityStoreConfig->getIncrementLastId())
+                ->setEntityTypeId($entityStoreConfig->getEntityTypeId())
+                ->setStoreId($entityStoreConfig->getStoreId());
+
+            /**
+             * do read lock on eav/entity_store to solve potential timing issues
+             * (most probably already done by beginTransaction of entity save)
+             */
+            $incrementId = $incrementInstance->getNextId();
+            $entityStoreConfig->setIncrementLastId($incrementId);
+            $entityStoreConfig->save();
+
+            // Commit increment_last_id changes
+            $this->_getResource()->commit();
+        } catch (\Exception $exception) {
+            $this->_getResource()->rollBack();
+            throw $exception;
         }
-
-        $incrementInstance = $this->_universalFactory->create($this->getIncrementModel())
-            ->setPrefix($entityStoreConfig->getIncrementPrefix())
-            ->setPadLength($this->getIncrementPadLength())
-            ->setPadChar($this->getIncrementPadChar())
-            ->setLastId($entityStoreConfig->getIncrementLastId())
-            ->setEntityTypeId($entityStoreConfig->getEntityTypeId())
-            ->setStoreId($entityStoreConfig->getStoreId());
-
-        /**
-         * do read lock on eav/entity_store to solve potential timing issues
-         * (most probably already done by beginTransaction of entity save)
-         */
-        $incrementId = $incrementInstance->getNextId();
-        $entityStoreConfig->setIncrementLastId($incrementId);
-        $entityStoreConfig->save();
-
-        // Commit increment_last_id changes
-        $this->_getResource()->commit();
 
         return $incrementId;
     }

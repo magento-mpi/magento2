@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Attribute\Edit;
 
 /**
  * Customer Attributes Edit container
@@ -16,15 +16,13 @@
  * @package     Magento_CustomerCustomAttributes
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Attribute\Edit;
-
 class Form
     extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Prepare form before rendering HTML
      *
-     * @return \Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Attribute\Edit\Form
+     * @return $this
      */
     protected function _prepareForm()
     {

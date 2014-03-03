@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\CustomerCustomAttributes\Helper;
 
 /**
  * Enterprise Customer EAV Attributes Data Helper
@@ -15,14 +15,12 @@
  * @category   Magento
  * @package    Magento_CustomerCustomAttributes
  */
-namespace Magento\CustomerCustomAttributes\Helper;
-
 class Customer extends \Magento\CustomAttribute\Helper\Data
 {
     /**
      * Data helper
      *
-     * @var \Magento\CustomerCustomAttributes\Helper\Data $_dataHelper
+     * @var Data $_dataHelper
      */
     protected $_dataHelper;
 
@@ -36,17 +34,17 @@ class Customer extends \Magento\CustomAttribute\Helper\Data
     /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\LocaleInterface $locale
      * @param \Magento\Filter\FilterManager $filterManager
-     * @param \Magento\CustomerCustomAttributes\Helper\Data $dataHelper
+     * @param Data $dataHelper
      * @param \Magento\Eav\Model\Adminhtml\System\Config\Source\Inputtype\Validator $inputValidator
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
         \Magento\Eav\Model\Config $eavConfig,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\LocaleInterface $locale,
         \Magento\Filter\FilterManager $filterManager,
-        \Magento\CustomerCustomAttributes\Helper\Data $dataHelper,
+        Data $dataHelper,
         \Magento\Eav\Model\Adminhtml\System\Config\Source\Inputtype\Validator $inputValidator
     ) {
         parent::__construct($context, $eavConfig, $locale, $filterManager);
