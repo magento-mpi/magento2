@@ -6,8 +6,8 @@
  * @license     {license_link}
  */
 
-$installer = $this;
 /** @var $installer \Magento\Core\Model\Resource\Setup */
+$installer = $this;
 
 $installer->startSetup();
 
