@@ -14,6 +14,9 @@ namespace Magento\Tools\Formatter\PrettyPrinter;
  */
 class IndentConsumer
 {
+    /**
+     * @return string
+     */
     public function __toString()
     {
         return '';

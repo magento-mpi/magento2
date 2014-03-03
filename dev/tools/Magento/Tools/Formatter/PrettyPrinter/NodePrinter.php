@@ -18,13 +18,16 @@ class NodePrinter extends LevelNodeVisitor
 
     /**
      * This member holds the result of the traversal.
+     *
      * @var string
      */
     public $result = '';
 
     /**
      * This method is called when first visiting a node.
+     *
      * @param TreeNode $treeNode
+     * @return void
      */
     public function nodeEntry(TreeNode $treeNode)
     {
@@ -48,6 +51,9 @@ class NodePrinter extends LevelNodeVisitor
         }
     }
 
+    /**
+     * @return void
+     */
     protected function cleanupUseStatements()
     {
         // remove blank lines between use statements
@@ -65,8 +71,9 @@ class NodePrinter extends LevelNodeVisitor
 
     /**
      * This method returns true if $haystack start with the string in $needle.
-     * @param $haystack
-     * @param $needle
+     *
+     * @param string $haystack
+     * @param string $needle
      * @return bool
      */
     protected function startsWith($haystack, $needle)

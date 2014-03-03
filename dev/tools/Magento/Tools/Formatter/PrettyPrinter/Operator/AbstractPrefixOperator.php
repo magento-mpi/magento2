@@ -17,6 +17,10 @@ abstract class AbstractPrefixOperator extends AbstractOperator
         return $operatorString . $this->pPrec($node, $precedence, $associativity, 1);
     }
     */
+    /**
+     * @param TreeNode $treeNode
+     * @return string
+     */
     protected function resolvePrefixOperator(TreeNode $treeNode)
     {
         // Resolve the children according to precedence.
@@ -35,6 +39,9 @@ abstract class AbstractPrefixOperator extends AbstractOperator
         return $this->resolvePrefixOperator($treeNode);
     }
 
+    /**
+     * @return mixed
+     */
     public function expr()
     {
         return $this->node->expr;

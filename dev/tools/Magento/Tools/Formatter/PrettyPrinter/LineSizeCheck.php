@@ -13,12 +13,14 @@ class LineSizeCheck extends LevelNodeVisitor
 {
     /**
      * This member holds the result of the traversal.
+     *
      * @var bool
      */
     public $fits = true;
 
     /**
      * This method constructs a new visitor with the given starting level.
+     *
      * @param int $level Starting level for the traversal.
      */
     public function __construct($level = -1)
@@ -28,7 +30,9 @@ class LineSizeCheck extends LevelNodeVisitor
 
     /**
      * This method is called when first visiting a node.
+     *
      * @param TreeNode $treeNode
+     * @return void
      */
     public function nodeEntry(TreeNode $treeNode)
     {
@@ -42,7 +46,9 @@ class LineSizeCheck extends LevelNodeVisitor
     /**
      * This method determines if the line fits on the current level. To fit, it must resolve to a
      * single line and must be narrow enough to fit after the indents.
+     *
      * @param Line $line Instance to resolve.
+     * @return bool
      */
     protected function fitsOnLine(Line $line)
     {

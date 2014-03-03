@@ -15,11 +15,14 @@ class ConstantReference extends AbstractReference
 {
     /**
      * This member holds the tokens that need to be replaced.
+     *
+     * @var string[]
      */
     protected $replacements = array('false', 'true', 'null');
 
     /**
      * This method constructs a new reference based on the specified constant.
+     *
      * @param PHPParser_Node_Expr_ConstFetch $node
      */
     public function __construct(PHPParser_Node_Expr_ConstFetch $node)
@@ -29,6 +32,7 @@ class ConstantReference extends AbstractReference
 
     /**
      * This method resolves the current reference, presumably held in the passed in tree node, into lines.
+     *
      * @param TreeNode $treeNode Node containing the current statement.
      * @return TreeNode
      */
@@ -50,8 +54,10 @@ class ConstantReference extends AbstractReference
 
     /**
      * This method checks to see if the line ends with the specified replacement and replaces it if so.
+     *
      * @param Line $line Line to look at.
      * @param string $replacement String containing the searched for value; assumes what is suppose to be replaced.
+     * @return bool
      */
     protected function checkAndReplace(Line $line, $replacement)
     {
