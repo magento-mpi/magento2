@@ -57,6 +57,7 @@ app/code/Magento/Cron/Model/ConfigInterface.php
 app/code/Magento/Directory/Helper
 app/code/Magento/Customer/Block
 app/code/Magento/Customer/Controller
+app/code/Magento/Customer/Helper
 app/code/Magento/Customer/Model/Address/Config
 app/code/Magento/Customer/Model/Address/Config.php
 app/code/Magento/Customer/Service

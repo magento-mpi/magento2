@@ -174,8 +174,6 @@ class View extends \Magento\Rma\Block\Form
      * Returns attributes that static
      *
      * @return string[]
-     *
-     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function getAttributeFilter()
     {
@@ -185,7 +183,7 @@ class View extends \Magento\Rma\Block\Form
         $collection = $this->_itemsFactory->create();
         $collection->addFilter('rma_entity_id', $this->getRma()->getEntityId());
         foreach ($collection as $item) {
-            foreach ($item->getData() as $attributeCode=>$value) {
+            foreach (array_keys($item->getData()) as $attributeCode) {
                 $array[] = $attributeCode;
             }
             break;
