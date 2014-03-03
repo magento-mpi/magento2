@@ -172,7 +172,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
     /**
      * @var CustomerBuilder
      */
-    protected $_customerDtoBuilder;
+    protected $_customerDataBuilder;
 
     /**
      * @param \Magento\Model\Context $context
@@ -192,7 +192,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Data\Collection\Db $resourceCollection
-     * @param CustomerBuilder $customerDtoBuilder
+     * @param CustomerBuilder $customerDataBuilder
      * @param array $data
      */
     public function __construct(
@@ -213,7 +213,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
         \Magento\Math\Random $mathRandom,
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Data\Collection\Db $resourceCollection = null,
-        CustomerBuilder $customerDtoBuilder,
+        CustomerBuilder $customerDataBuilder,
         array $data = array()
     ) {
         $this->_customerData = $customerData;
@@ -229,7 +229,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
         $this->_encryptor = $encryptor;
         $this->mathRandom = $mathRandom;
         $this->dateTime = $dateTime;
-        $this->_customerDtoBuilder = $customerDtoBuilder;
+        $this->_customerDataBuilder = $customerDataBuilder;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -318,10 +318,10 @@ class Customer extends \Magento\Core\Model\AbstractModel
     {
         $customerData = (array)$this->getData();
         $customerData[\Magento\Customer\Service\V1\Data\Customer::ID] = $this->getId();
-        $dataObject = $this->_customerDtoBuilder->populateWithArray($customerData)->create();
+        $dataObject = $this->_customerDataBuilder->populateWithArray($customerData)->create();
         $customerOrigData = (array)$this->getOrigData();
         $customerOrigData[\Magento\Customer\Service\V1\Data\Customer::ID] = $this->getId();
-        $origDataObject = $this->_customerDtoBuilder->populateWithArray($customerOrigData)->create();
+        $origDataObject = $this->_customerDataBuilder->populateWithArray($customerOrigData)->create();
         $this->_eventManager->dispatch(
             'customer_save_after_data_object',
             array('customer_data_object' => $dataObject, 'orig_customer_data_object' => $origDataObject)

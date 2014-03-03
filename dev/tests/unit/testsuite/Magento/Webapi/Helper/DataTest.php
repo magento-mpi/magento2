@@ -80,12 +80,12 @@ class DataTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testDtoGetterNameToFieldName()
+    public function testDataGetterNameToFieldName()
     {
         $this->assertEquals('id', $this->_helper->dataObjectGetterNameToFieldName('getId'));
     }
 
-    public function testDtoFieldNameToSetterName()
+    public function testDataFieldNameToSetterName()
     {
         $this->assertEquals('setId', $this->_helper->dataObjectFieldNameToSetterName('id'));
     }

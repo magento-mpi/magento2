@@ -115,7 +115,7 @@ abstract class AbstractType extends \Magento\Object
      */
     public function getCustomer()
     {
-        return $this->_customerSession->getCustomerData();
+        return $this->_customerSession->getCustomerDataObject();
     }
 
     /**

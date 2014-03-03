@@ -9,10 +9,10 @@
 namespace Magento\TestModule4\Service\V1;
 
 use Magento\TestModule4\Service\V1\Entity\DataObjectResponseBuilder;
-use Magento\TestModule4\Service\V1\Entity\NestedDtoRequest;
+use Magento\TestModule4\Service\V1\Entity\NestedDataObjectRequest;
 use Magento\TestModule4\Service\V1\Entity\DataObjectRequest;
 
-class DtoService implements \Magento\TestModule4\Service\V1\DtoServiceInterface
+class DataObjectService implements \Magento\TestModule4\Service\V1\DataObjectServiceInterface
 {
     /**
      * {@inheritdoc}
@@ -35,7 +35,7 @@ class DtoService implements \Magento\TestModule4\Service\V1\DtoServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function nestedData($id, NestedDtoRequest $request)
+    public function nestedData($id, NestedDataObjectRequest $request)
     {
         $response = new DataObjectResponseBuilder();
         return $response->setEntityId($id)->setName($request->getDetails()->getName())->create();

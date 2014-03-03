@@ -110,7 +110,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $converter = new Converter($customerBuilder, $customerFactory);
-        $customerDto = $converter->createCustomerFromModel($customerModelMock);
+        $customerDataObject = $converter->createCustomerFromModel($customerModelMock);
 
         $customerBuilder = new CustomerBuilder($this->_metadataService);
         $customerData = [
@@ -123,9 +123,9 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         ];
         // There will be no attribute_code3: it has a value of null, so the converter will drop it
         $customerBuilder->populateWithArray($customerData);
-        $expectedCustomerDto = $customerBuilder->create();
+        $expectedCustomerData = $customerBuilder->create();
 
-        $this->assertEquals($expectedCustomerDto, $customerDto);
+        $this->assertEquals($expectedCustomerData, $customerDataObject);
     }
 
     /**

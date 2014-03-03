@@ -61,7 +61,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
         $customer = $customerService->getCustomer($customerIdFromFixture);
         /** @var \Magento\Customer\Model\Session $customerSession */
         $customerSession = Bootstrap::getObjectManager()->get('Magento\Customer\Model\Session');
-        $customerSession->setCustomerData($customer);
+        $customerSession->setCustomerDataObject($customer);
 
         /** Execute SUT */
         $quote = $this->_checkoutSession->getQuote();
@@ -94,7 +94,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
         $customer = $customerService->getCustomer($customerIdFromFixture);
         /** @var \Magento\Customer\Model\Session $customerSession */
         $customerSession = Bootstrap::getObjectManager()->get('Magento\Customer\Model\Session');
-        $customerSession->setCustomerData($customer);
+        $customerSession->setCustomerDataObject($customer);
 
         /** Ensure that customer data is still unavailable before SUT invocation */
         $quote = $this->_checkoutSession->getQuote();

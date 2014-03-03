@@ -240,7 +240,7 @@ class Session extends \Magento\Session\SessionManager
                 if ($this->_customer) {
                     $quote->setCustomerData($this->_customer);
                 } else if ($this->_customerSession->isLoggedIn()) {
-                    $quote->setCustomerData($this->_customerSession->getCustomerData());
+                    $quote->setCustomerData($this->_customerSession->getCustomerDataObject());
                 }
             }
 
@@ -314,7 +314,7 @@ class Session extends \Magento\Session\SessionManager
         } else {
             $this->getQuote()->getBillingAddress();
             $this->getQuote()->getShippingAddress();
-            $this->getQuote()->setCustomerData($this->_customerSession->getCustomerData())
+            $this->getQuote()->setCustomerData($this->_customerSession->getCustomerDataObject())
                 ->setTotalsCollectedFlag(false)
                 ->collectTotals()
                 ->save();

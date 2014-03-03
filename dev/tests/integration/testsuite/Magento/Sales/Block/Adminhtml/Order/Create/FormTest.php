@@ -105,7 +105,7 @@ ORDER_DATA_JSON;
         /** @var \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService */
         $addressService = $this->_objectManager->create('Magento\Customer\Service\V1\CustomerAddressServiceInterface');
 
-        $addressDto1 = $addressBuilder->setId(1)
+        $addressData1 = $addressBuilder->setId(1)
             ->setCountryId('US')
             ->setCustomerId(1)
             ->setDefaultBilling(true)
@@ -125,7 +125,7 @@ ORDER_DATA_JSON;
             ->setLastname('Smith')
             ->create();
 
-        $addressDto2 = $addressBuilder->setId(2)
+        $addressData2 = $addressBuilder->setId(2)
             ->setCountryId('US')
             ->setCustomerId(1)
             ->setDefaultBilling(false)
@@ -145,6 +145,6 @@ ORDER_DATA_JSON;
             ->setLastname('Smith')
             ->create();
 
-        return $addressService->saveAddresses(1, [$addressDto1, $addressDto2]);
+        return $addressService->saveAddresses(1, [$addressData1, $addressData2]);
     }
 }

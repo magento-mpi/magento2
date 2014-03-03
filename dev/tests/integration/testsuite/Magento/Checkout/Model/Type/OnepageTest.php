@@ -173,8 +173,8 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
             '\Magento\Customer\Model\Session');
         /** @var $customerService \Magento\Customer\Service\V1\CustomerService*/
         $customerService = Bootstrap::getObjectManager()->create('\Magento\Customer\Service\V1\CustomerService');
-        $customerDto = $customerService->getCustomer($customerIdFromFixture);
-        $customerSession->setCustomerData($customerDto);
+        $customerData = $customerService->getCustomer($customerIdFromFixture);
+        $customerSession->setCustomerDataObject($customerData);
         $this->_model = Bootstrap::getObjectManager()->create(
             'Magento\Checkout\Model\Type\Onepage',
             ['customerSession' => $customerSession]

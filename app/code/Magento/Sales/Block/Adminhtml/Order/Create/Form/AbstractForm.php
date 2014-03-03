@@ -179,8 +179,8 @@ abstract class AbstractForm
 
                 if ($inputType == 'select' || $inputType == 'multiselect') {
                     $options = array();
-                    foreach ($attribute->getOptions() as $optionDto) {
-                        $options[] = \Magento\Service\DataObjectConverter::toFlatArray($optionDto);
+                    foreach ($attribute->getOptions() as $optionData) {
+                        $options[] = \Magento\Service\DataObjectConverter::toFlatArray($optionData);
                     }
                     $element->setValues($options);
                 } else if ($inputType == 'date') {

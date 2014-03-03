@@ -189,13 +189,13 @@ class AddressTest extends \PHPUnit_Framework_TestCase
 
         /** @var \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder */
         $addressBuilder = Bootstrap::getObjectManager()->create('Magento\Customer\Service\V1\Data\AddressBuilder');
-        $addressDto = $addressBuilder
+        $addressData = $addressBuilder
             ->setCustomerId($customerIdFromFixture)
             ->setCity($city)
             ->setStreet($street)
             ->create();
         $this->_address->setQuote($this->_quote);
-        $this->_address->importCustomerAddressData($addressDto);
+        $this->_address->importCustomerAddressData($addressData);
 
         $this->assertEquals($customerEmailFromFixture, $this->_address->getEmail(), 'Email was imported incorrectly.');
         $this->assertEquals(
