@@ -38,10 +38,10 @@ class Resolver extends \Magento\Locale\Resolver
      * @param \Magento\Locale\ScopeConfigInterface $scopeConfig
      * @param \Magento\AppInterface $app
      * @param \Magento\LocaleFactory $localeFactory
+     * @param $defaultLocalePath
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Backend\Model\Session $session
      * @param Manager $localeManager
-     * @param $defaultLocalePath
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\Locale\Validator $localeValidator
      * @param string|null $locale
@@ -50,10 +50,10 @@ class Resolver extends \Magento\Locale\Resolver
         \Magento\Locale\ScopeConfigInterface $scopeConfig,
         \Magento\AppInterface $app,
         \Magento\LocaleFactory $localeFactory,
+        $defaultLocalePath,
         \Magento\ObjectManager $objectManager,
         \Magento\Backend\Model\Session $session,
         \Magento\Backend\Model\Locale\Manager $localeManager,
-        $defaultLocalePath,
         \Magento\App\RequestInterface $request,
         \Magento\Locale\Validator $localeValidator,
         $locale = null
