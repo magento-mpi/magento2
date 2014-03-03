@@ -19,7 +19,7 @@ class LayoutPlugin
     protected $layout;
 
     /**
-     * @var \Magento\App\ConfigInterface
+     * @var \Magento\PageCache\Model\Config
      */
     protected $config;
 
@@ -33,12 +33,12 @@ class LayoutPlugin
      *
      * @param \Magento\Core\Model\Layout $layout
      * @param \Magento\App\ResponseInterface $response
-     * @param \Magento\App\ConfigInterface $config
+     * @param \Magento\PageCache\Model\Config $config
      */
     public function __construct(
         \Magento\Core\Model\Layout $layout,
         \Magento\App\ResponseInterface $response,
-        \Magento\App\ConfigInterface $config
+        \Magento\PageCache\Model\Config $config
     ) {
         $this->layout = $layout;
         $this->response = $response;
@@ -55,8 +55,7 @@ class LayoutPlugin
     public function afterGenerateXml($layout)
     {
         if ($this->layout->isCacheable()) {
-            $maxAge = $this->config->getValue(\Magento\PageCache\Model\Config::XML_PAGECACHE_TTL);
-            $this->response->setPublicHeaders($maxAge);
+            $this->response->setPublicHeaders($this->config->getTtl());
         }
         return $layout;
     }
@@ -73,7 +72,11 @@ class LayoutPlugin
             $tags = array();
             foreach($this->layout->getAllBlocks() as $block) {
                 if ($block instanceof \Magento\View\Block\IdentityInterface) {
-                    $tags = array_merge($tags, $block->getIdentities());
+                    $blockTtl = $block->getTtl();
+                    $varnishIsEnabledFlag = $this->config->getType() == \Magento\PageCache\Model\Config::VARNISH;
+                    if (!$varnishIsEnabledFlag || !isset($blockTtl)) {
+                        $tags = array_merge($tags, $block->getIdentities());
+                    }
                 }
             }
             $tags = array_unique($tags);

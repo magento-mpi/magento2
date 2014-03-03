@@ -16,15 +16,15 @@ namespace Magento\Stdlib;
 class Cookie
 {
     /**
-     * @var \Magento\App\RequestInterface
+     * @var \Zend_Controller_Request_Http
      */
     protected $httpRequest;
 
     /**
-     * @param \Magento\App\RequestInterface $request
+     * @param \Zend_Controller_Request_Http $request
      */
     public function __construct(
-        \Magento\App\RequestInterface $request
+        \Zend_Controller_Request_Http $request
     ) {
         $this->httpRequest = $request;
     }
