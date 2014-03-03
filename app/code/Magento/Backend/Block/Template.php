@@ -23,7 +23,7 @@ class Template extends \Magento\View\Element\Template
     protected $_authorization;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\LocaleInterface
      */
     protected $_locale;
 

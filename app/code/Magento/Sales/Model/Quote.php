@@ -23,8 +23,6 @@ use \Magento\Customer\Service\V1\CustomerGroupServiceInterface;
  *  sales_quote_delete_before
  *  sales_quote_delete_after
  *
- * @method \Magento\Sales\Model\Resource\Quote _getResource()
- * @method \Magento\Sales\Model\Resource\Quote getResource()
  * @method Quote setStoreId(int $value)
  * @method string getCreatedAt()
  * @method Quote setCreatedAt(string $value)
@@ -388,7 +386,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
     /**
      * Declare quote store model
      *
-     * @param   \Magento\Core\Model\Store $store
+     * @param \Magento\Core\Model\Store $store
      * @return $this
      */
     public function setStore(\Magento\Core\Model\Store $store)

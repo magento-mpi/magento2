@@ -32,7 +32,7 @@ class Price extends \Magento\Data\Form\Element\Text
     protected $_storeManager;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\LocaleInterface
      */
     protected $_locale;
 
@@ -41,7 +41,7 @@ class Price extends \Magento\Data\Form\Element\Text
      * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
      * @param \Magento\Escaper $escaper
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\LocaleInterface $locale
      * @param \Magento\Tax\Helper\Data $taxData
      * @param array $data
      */
@@ -50,7 +50,7 @@ class Price extends \Magento\Data\Form\Element\Text
         \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
         \Magento\Escaper $escaper,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\LocaleInterface $locale,
         \Magento\Tax\Helper\Data $taxData,
         array $data = array()
     ) {

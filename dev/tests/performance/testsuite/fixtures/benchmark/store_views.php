@@ -17,7 +17,7 @@ $storesCount = \Magento\TestFramework\Helper\Cli::getOption('store_views', 4);
 /**
  * @var \Magento\Core\Model\StoreManager $storeManager
  */
-$storeManager = $this->getObjectManager()->create('\Magento\Core\Model\StoreManager');
+$storeManager = $this->getObjectManager()->create('Magento\Core\Model\StoreManager');
 
 /** @var $defaultStoreView \Magento\Core\Model\Store */
 $defaultStoreView = $storeManager->getDefaultStoreView();

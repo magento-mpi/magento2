@@ -9,7 +9,7 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <preference for="Magento\Authorization\RoleLocator" type="Magento\Backend\Model\Authorization\RoleLocator" />
-    <preference for="Magento\Core\Model\LocaleInterface" type="Magento\Backend\Model\Locale" />
+    <preference for="Magento\LocaleInterface" type="Magento\Backend\Model\Locale" />
     <preference for="Magento\App\Action\Context" type="Magento\Backend\App\Action\Context" />
     <preference for="Magento\UrlInterface" type="Magento\Backend\Model\UrlInterface" />
     <preference for="Magento\Backend\Model\Auth\StorageInterface" type="Magento\Backend\Model\Auth\Session" />
@@ -97,11 +97,6 @@
                     <item name="sortOrder" xsi:type="string">100</item>
                 </item>
             </argument>
-        </arguments>
-    </type>
-    <type name="Magento\Core\App\Action\Plugin\Session">
-        <arguments>
-            <argument name="sessionNamespace" xsi:type="const">Magento\Backend\App\AbstractAction::SESSION_NAMESPACE</argument>
         </arguments>
     </type>
     <type name="Magento\Backend\App\AbstractAction">

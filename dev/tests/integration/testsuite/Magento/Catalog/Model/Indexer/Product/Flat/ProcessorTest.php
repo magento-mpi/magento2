@@ -52,6 +52,7 @@ class ProcessorTest extends \Magento\TestFramework\Indexer\TestCase
      * @magentoAppIsolation enabled
      * @magentoAppArea adminhtml
      * @magentoDataFixture Magento/Catalog/_files/multiple_products.php
+     * @magentoConfigFixture current_store catalog/frontend/flat_catalog_product 1
      */
     public function testSaveAttribute()
     {
@@ -71,6 +72,7 @@ class ProcessorTest extends \Magento\TestFramework\Indexer\TestCase
      * @magentoAppIsolation enabled
      * @magentoAppArea adminhtml
      * @magentoDataFixture Magento/Catalog/_files/multiple_products.php
+     * @magentoConfigFixture current_store catalog/frontend/flat_catalog_product 1
      */
     public function testDeleteAttribute()
     {
@@ -90,6 +92,7 @@ class ProcessorTest extends \Magento\TestFramework\Indexer\TestCase
      * @magentoAppIsolation enabled
      * @magentoAppArea adminhtml
      * @magentoDataFixture Magento/Core/_files/store.php
+     * @magentoConfigFixture current_store catalog/frontend/flat_catalog_product 1
      */
     public function testAddNewStore()
     {
@@ -100,6 +103,7 @@ class ProcessorTest extends \Magento\TestFramework\Indexer\TestCase
      * @magentoDbIsolation enabled
      * @magentoAppIsolation enabled
      * @magentoAppArea adminhtml
+     * @magentoConfigFixture current_store catalog/frontend/flat_catalog_product 1
      */
     public function testAddNewStoreGroup()
     {
