@@ -12,6 +12,7 @@
   * Added ability to intercept of internal public calls
   * Added ability to access public interface of intercepted object
   * Added static integrity test for plugin inteface validation
+  * Added support of both class addressing approaches in DI (with and without slash at the beginning of class name)
 * Fixed bugs:
   * Fixed an exception that appears when trying to apply a coupon code
   * Fixed Shopping Cart Price Rule which applied to products that aren't eligible
