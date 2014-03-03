@@ -53,7 +53,7 @@ class CachePluginTest extends \PHPUnit_Framework_TestCase
     /**
      * SetUp
      */
-    protected function setUp()
+    public function setUp()
     {
         $this->config = $this->getMock('Magento\PageCache\Model\Config', array(), array(), '', false);
         $this->version = $this->getMock('Magento\App\PageCache\Version', array(), array(), '', false);
@@ -62,7 +62,7 @@ class CachePluginTest extends \PHPUnit_Framework_TestCase
         $this->request = $this->getMock('Magento\App\RequestInterface', array(), array(), '', false);
         $this->response = $this->getMock('Magento\App\Response\Http', array(), array(), '', false);
         $response = $this->response;
-        $this->closure = function($request) use ($response) {
+        $this->closure = function ($request) use ($response) {
             return $response;
         };
         $this->plugin = new CachePlugin($this->config, $this->version, $this->kernel);
