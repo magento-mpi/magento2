@@ -27,12 +27,12 @@ class CustomerCurrentServiceTest extends \PHPUnit_Framework_TestCase
     protected $layoutMock;
 
     /**
-     * @var \Magento\Customer\Service\V1\Dto\CustomerBuilder|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Customer\Service\V1\Data\CustomerBuilder|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $customerDtoBuilderMock;
 
     /**
-     * @var \Magento\Customer\Service\V1\Dto\Customer|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Customer\Service\V1\Data\Customer|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $customerDtoMock;
 
@@ -74,9 +74,9 @@ class CustomerCurrentServiceTest extends \PHPUnit_Framework_TestCase
             array(), array(), '', false);
         $this->layoutMock = $this->getMock('Magento\Core\Model\Layout',
             array(), array(), '', false);
-        $this->customerDtoBuilderMock = $this->getMock('Magento\Customer\Service\V1\Dto\CustomerBuilder',
+        $this->customerDtoBuilderMock = $this->getMock('Magento\Customer\Service\V1\Data\CustomerBuilder',
             array('create', 'setGroupId'), array(), '', false);
-        $this->customerDtoMock = $this->getMock('Magento\Customer\Service\V1\Dto\Customer',
+        $this->customerDtoMock = $this->getMock('Magento\Customer\Service\V1\Data\Customer',
             array(), array(), '', false);
         $this->customerServiceMock = $this->getMock('Magento\Customer\Service\V1\CustomerService',
             array(), array(), '', false);

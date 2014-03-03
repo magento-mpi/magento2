@@ -23,7 +23,7 @@ class CustomerCurrentService implements \Magento\Customer\Service\V1\CustomerCur
     protected $layout;
 
     /**
-     * @var \Magento\Customer\Service\V1\Dto\CustomerBuilder
+     * @var \Magento\Customer\Service\V1\Data\CustomerBuilder
      */
     protected $customerBuilder;
 
@@ -45,7 +45,7 @@ class CustomerCurrentService implements \Magento\Customer\Service\V1\CustomerCur
     /**
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\View\LayoutInterface $layout
-     * @param Dto\CustomerBuilder $customerBuilder
+     * @param Data\CustomerBuilder $customerBuilder
      * @param CustomerServiceInterface $customerService
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\Module\Manager $moduleManager
@@ -54,7 +54,7 @@ class CustomerCurrentService implements \Magento\Customer\Service\V1\CustomerCur
     public function __construct(
         \Magento\Customer\Model\Session                         $customerSession,
         \Magento\View\LayoutInterface                           $layout,
-        \Magento\Customer\Service\V1\Dto\CustomerBuilder        $customerBuilder,
+        \Magento\Customer\Service\V1\Data\CustomerBuilder        $customerBuilder,
         \Magento\Customer\Service\V1\CustomerServiceInterface   $customerService,
         \Magento\App\RequestInterface                           $request,
         \Magento\Module\Manager                                 $moduleManager,
@@ -72,7 +72,7 @@ class CustomerCurrentService implements \Magento\Customer\Service\V1\CustomerCur
     /**
      * Returns customer Dto with customer group only
      *
-     * @return Dto\Customer
+     * @return Data\Customer
      */
     protected function getDepersonalizedCustomer()
     {
@@ -82,7 +82,7 @@ class CustomerCurrentService implements \Magento\Customer\Service\V1\CustomerCur
     /**
      * Returns customer Dto from service
      *
-     * @return Dto\Customer
+     * @return Data\Customer
      */
     protected function getCustomerFromService()
     {
@@ -92,7 +92,7 @@ class CustomerCurrentService implements \Magento\Customer\Service\V1\CustomerCur
     /**
      * Returns current customer according to session and context
      *
-     * @return Dto\Customer
+     * @return Data\Customer
      */
     public function getCustomer()
     {

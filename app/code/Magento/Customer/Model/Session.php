@@ -68,6 +68,8 @@ class Session extends \Magento\Session\SessionManager
      */
     protected $_customerService;
 
+    /** @var  \Magento\Customer\Service\V1\CustomerAccountServiceInterface */
+    protected $_customerAccountService;
     /**
      * @var CustomerFactory
      */
@@ -122,6 +124,7 @@ class Session extends \Magento\Session\SessionManager
      * @param \Magento\App\Http\Context $httpContext
      * @param Converter $converter
      * @param \Magento\Customer\Service\V1\CustomerServiceInterface $customerService
+     * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
      * @param null $sessionName
      * @param array $data
      */
@@ -144,6 +147,7 @@ class Session extends \Magento\Session\SessionManager
         \Magento\App\Http\Context $httpContext,
         \Magento\Customer\Model\Converter $converter,
         \Magento\Customer\Service\V1\CustomerServiceInterface $customerService,
+        \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService,
         $sessionName = null,
         array $data = array()
     ) {
@@ -155,6 +159,7 @@ class Session extends \Magento\Session\SessionManager
         $this->_urlFactory = $urlFactory;
         $this->_session = $session;
         $this->_customerService = $customerService;
+        $this->_customerAccountService = $customerAccountService;
         $this->_eventManager = $eventManager;
         $this->_storeManager = $storeManager;
         $this->_httpContext = $httpContext;
@@ -180,7 +185,7 @@ class Session extends \Magento\Session\SessionManager
      * @param   CustomerData $customer
      * @return  \Magento\Customer\Model\Session
      */
-    public function setCustomerDto(CustomerData $customer)
+    public function setCustomerData(CustomerData $customer)
     {
         $this->_customer = $customer;
         $this->_httpContext->setValue('customer_group', $customer->getGroupId());
@@ -225,7 +230,7 @@ class Session extends \Magento\Session\SessionManager
      * @param CustomerData $customerData
      * @return $this
      */
-    public function setCustomerData(CustomerData $customerData)
+    public function setCustomerDataObject(CustomerData $customerData)
     {
         $this->setId($customerData->getId());
         $this->_converter->updateCustomerModel($this->getCustomer(), $customerData);

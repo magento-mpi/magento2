@@ -58,7 +58,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $moduleManager = $this->objectManager->get('Magento\Module\Manager');
         if ($moduleManager->isEnabled('Magento_PageCache')) {
             $customerDtoBuilder = $this->objectManager
-                ->create('Magento\Customer\Service\V1\Dto\CustomerBuilder');
+                ->create('Magento\Customer\Service\V1\Data\CustomerBuilder');
             $customerDto = $customerDtoBuilder
                 ->setGroupId($this->_customerSession->getCustomerGroupId())->create();
             $this->assertEquals($customerDto, $this->_block->getCustomer());

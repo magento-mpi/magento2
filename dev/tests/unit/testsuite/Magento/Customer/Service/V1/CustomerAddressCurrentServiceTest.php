@@ -27,7 +27,7 @@ class CustomerAddressCurrentServiceTest extends \PHPUnit_Framework_TestCase
     protected $customerAddressServiceMock;
 
     /**
-     * @var \Magento\Customer\Service\V1\Dto\Address
+     * @var \Magento\Customer\Service\V1\Data\Address
      */
     protected $customerAddressDtoMock;
 
