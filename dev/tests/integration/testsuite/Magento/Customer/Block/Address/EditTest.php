@@ -25,22 +25,27 @@ class EditTest extends \PHPUnit_Framework_TestCase
     /** @var string */
     protected $_requestId;
 
+    /**
+     * @var \Magento\ObjectManager
+     */
+    protected $objectManager;
+
     protected function setUp()
     {
-        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $this->objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-        $this->_customerSession = $objectManager->get('\Magento\Customer\Model\Session');
+        $this->_customerSession = $this->objectManager->get('Magento\Customer\Model\Session');
 
         $this->_customerSession->setCustomerId(1);
 
-        $this->_context = $objectManager->get('Magento\Backend\Block\Template\Context');
+        $this->_context = $this->objectManager->get('Magento\Backend\Block\Template\Context');
         $this->_requestId = $this->_context->getRequest()->getParam('id');
         $this->_context->getRequest()->setParam('id', '1');
 
-        $objectManager->get('Magento\App\State')->setAreaCode('frontend');
+        $this->objectManager->get('Magento\App\State')->setAreaCode('frontend');
 
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = $objectManager->get('Magento\View\LayoutInterface');
+        $layout = $this->objectManager->get('Magento\View\LayoutInterface');
 
         $this->_block = $layout->createBlock(
             'Magento\Customer\Block\Address\Edit',

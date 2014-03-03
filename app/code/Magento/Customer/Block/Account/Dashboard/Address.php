@@ -16,45 +16,37 @@ namespace Magento\Customer\Block\Account\Dashboard;
 class Address extends \Magento\View\Element\Template
 {
     /**
-     * @var \Magento\Customer\Model\Session
-     */
-    protected $_customerSession;
-
-    /**
-     * @var \Magento\Customer\Service\V1\CustomerServiceInterface
-     */
-    protected $_customerService;
-
-    /**
-     * @var \Magento\Customer\Service\V1\CustomerAddressServiceInterface
-     */
-    protected $_addressService;
-
-    /**
      * @var \Magento\Customer\Model\Address\Config
      */
     protected $_addressConfig;
-    
+
+    /**
+     * @var \Magento\Customer\Service\V1\CustomerCurrentServiceInterface
+     */
+    protected $customerCurrentService;
+
+    /**
+     * @var \Magento\Customer\Service\V1\CustomerAddressCurrentServiceInterface
+     */
+    protected $customerAddressCurrentService;
+
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Customer\Service\V1\CustomerServiceInterface $customerService
-     * @param \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService
+     * @param \Magento\Customer\Service\V1\CustomerCurrentServiceInterface $customerCurrentService
+     * @param \Magento\Customer\Service\V1\CustomerAddressCurrentServiceInterface $customerAddressCurrentService
      * @param \Magento\Customer\Model\Address\Config $addressConfig
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        \Magento\Customer\Model\Session $customerSession,
-        \Magento\Customer\Service\V1\CustomerServiceInterface $customerService,
-        \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService,
-        \Magento\Customer\Model\Address\Config $addressConfig,
+        \Magento\View\Element\Template\Context                              $context,
+        \Magento\Customer\Service\V1\CustomerCurrentServiceInterface        $customerCurrentService,
+        \Magento\Customer\Service\V1\CustomerAddressCurrentServiceInterface $customerAddressCurrentService,
+        \Magento\Customer\Model\Address\Config                              $addressConfig,
         array $data = array()
     ) {
-        $this->_customerSession = $customerSession;
-        $this->_customerService = $customerService;
-        $this->_addressService = $addressService;
-        $this->_addressConfig = $addressConfig;
+        $this->customerCurrentService           = $customerCurrentService;
+        $this->customerAddressCurrentService    = $customerAddressCurrentService;
+        $this->_addressConfig                   = $addressConfig;
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
     }
@@ -67,7 +59,7 @@ class Address extends \Magento\View\Element\Template
     public function getCustomer()
     {
         try {
-            return $this->_customerService->getCustomer($this->_customerSession->getId());
+            return $this->customerCurrentService->getCustomer();
         } catch (\Magento\Exception\NoSuchEntityException $e) {
             return null;
         }
@@ -81,7 +73,7 @@ class Address extends \Magento\View\Element\Template
     public function getPrimaryShippingAddressHtml()
     {
         try {
-            $address = $this->_addressService->getDefaultShippingAddress($this->_customerSession->getCustomerId());
+            $address = $this->customerAddressCurrentService->getDefaultShippingAddress();
         } catch (\Magento\Exception\NoSuchEntityException $e) {
             return __('You have not set a default shipping address.');
         }
@@ -101,7 +93,7 @@ class Address extends \Magento\View\Element\Template
     public function getPrimaryBillingAddressHtml()
     {
         try {
-            $address = $this->_addressService->getDefaultBillingAddress($this->_customerSession->getCustomerId());
+            $address = $this->customerAddressCurrentService->getDefaultBillingAddress();
         } catch (\Magento\Exception\NoSuchEntityException $e) {
             return __('You have not set a default billing address.');
         }
@@ -118,7 +110,8 @@ class Address extends \Magento\View\Element\Template
         if (is_null($this->getCustomer())) {
             return '';
         } else {
-            return $this->_urlBuilder->getUrl('customer/address/edit', array('id'=>$this->getCustomer()->getDefaultShipping()));
+            return $this->_urlBuilder->getUrl('customer/address/edit',
+                array('id'=>$this->getCustomer()->getDefaultShipping()));
         }
     }
 
@@ -127,7 +120,8 @@ class Address extends \Magento\View\Element\Template
         if (is_null($this->getCustomer())) {
             return '';
         } else {
-            return $this->_urlBuilder->getUrl('customer/address/edit', array('id'=>$this->getCustomer()->getDefaultBilling()));
+            return $this->_urlBuilder->getUrl('customer/address/edit',
+                array('id'=>$this->getCustomer()->getDefaultBilling()));
         }
     }
 
