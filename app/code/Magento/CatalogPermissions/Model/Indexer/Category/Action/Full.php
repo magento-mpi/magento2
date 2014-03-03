@@ -121,13 +121,13 @@ class Full extends \Magento\CatalogPermissions\Model\Indexer\AbstractAction
             ->joinLeft(
                 ['t' => $this->getIndexTempTable()],
                 'm.category_id = t.category_id'
-                . ' AND m.website_id = t.website_id'
-                . ' AND m.customer_group_id = t.customer_group_id'
+                    . ' AND m.website_id = t.website_id'
+                    . ' AND m.customer_group_id = t.customer_group_id'
             )
             ->where('t.category_id IS NULL');
 
         $this->getWriteAdapter()->query(
-            $this->getWriteAdapter()->deleteFromSelect($query, $this->getIndexTable())
+            $this->getWriteAdapter()->deleteFromSelect($query, 'm')
         );
     }
 
@@ -143,13 +143,13 @@ class Full extends \Magento\CatalogPermissions\Model\Indexer\AbstractAction
             ->joinLeft(
                 ['t' => $this->getProductIndexTempTable()],
                 'm.product_id = t.product_id'
-                . ' AND m.store_id = t.store_id'
-                . ' AND m.customer_group_id = t.customer_group_id'
+                    . ' AND m.store_id = t.store_id'
+                    . ' AND m.customer_group_id = t.customer_group_id'
             )
             ->where('t.product_id IS NULL');
 
         $this->getWriteAdapter()->query(
-            $this->getWriteAdapter()->deleteFromSelect($query, $this->getProductIndexTable())
+            $this->getWriteAdapter()->deleteFromSelect($query, 'm')
         );
     }
 

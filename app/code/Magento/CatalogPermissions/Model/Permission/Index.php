@@ -62,19 +62,6 @@ class Index extends AbstractModel
     }
 
     /**
-     * Add index to product count select in product collection
-     *
-     * @param ProductCollection $collection
-     * @param int $customerGroupId
-     * @return $this
-     */
-    public function addIndexToProductCount($collection, $customerGroupId)
-    {
-        $this->getResource()->addIndexToProductCount($collection, $customerGroupId);
-        return $this;
-    }
-
-    /**
      * Add index to category collection
      *
      * @param CategoryCollection|FlatCollection $collection
@@ -85,19 +72,6 @@ class Index extends AbstractModel
     public function addIndexToCategoryCollection($collection, $customerGroupId, $websiteId)
     {
         $this->getResource()->addIndexToCategoryCollection($collection, $customerGroupId, $websiteId);
-        return $this;
-    }
-
-    /**
-     * Apply price grant on price index select
-     *
-     * @param \Magento\Object $data
-     * @param int $customerGroupId
-     * @return $this
-     */
-    public function applyPriceGrantToPriceIndex($data, $customerGroupId)
-    {
-        $this->getResource()->applyPriceGrantToPriceIndex($data, $customerGroupId);
         return $this;
     }
 
@@ -113,7 +87,6 @@ class Index extends AbstractModel
         return $this->getResource()->getRestrictedCategoryIds($customerGroupId, $websiteId);
     }
 
-
     /**
      * Add index select in product collection
      *
@@ -127,7 +100,7 @@ class Index extends AbstractModel
         return $this;
     }
 
-     /**
+    /**
      * Add permission index to product model
      *
      * @param Product $product

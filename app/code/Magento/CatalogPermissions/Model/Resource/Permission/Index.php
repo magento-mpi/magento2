@@ -8,14 +8,6 @@
  * @license     {license_link}
  */
 
-
-/**
- * Permission indexer resource
- *
- * @category    Magento
- * @package     Magento_CatalogPermissions
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\CatalogPermissions\Model\Resource\Permission;
 
 use Magento\Catalog\Model\Product;
@@ -67,6 +59,16 @@ class Index extends AbstractResource
     protected function _construct()
     {
         $this->_init('magento_catalogpermissions_index', 'category_id');
+    }
+
+    /**
+     * Return product index table
+     *
+     * @return string
+     */
+    protected function getProductTable()
+    {
+        return $this->getMainTable() . \Magento\CatalogPermissions\Model\Indexer\AbstractAction::PRODUCT_SUFFIX;
     }
 
     /**
@@ -141,47 +143,6 @@ class Index extends AbstractResource
         }
 
         return $adapter->fetchCol($select);
-    }
-
-
-    /**
-     * Add index to product count select in product collection
-     *
-     * @param ProductCollection $collection
-     * @param int $customerGroupId
-     * @return $this
-     */
-    public function addIndexToProductCount(ProductCollection $collection, $customerGroupId)
-    {
-        $adapter = $this->_getReadAdapter();
-        $parts = $collection->getSelect()->getPart(\Zend_Db_Select::FROM);
-
-        if (isset($parts['permission_index_product'])) {
-            return $this;
-        }
-
-        $collection->getProductCountSelect()
-            ->joinLeft(
-                array('permission_index_product_count'=>$this->getTable('magento_catalogpermissions_index_product')),
-                'permission_index_product_count.category_id = count_table.category_id'
-                . ' AND permission_index_product_count.product_id = count_table.product_id'
-                . ' AND permission_index_product_count.store_id = count_table.store_id'
-                . ' AND ' . $adapter->quoteInto('permission_index_product_count.customer_group_id=?', $customerGroupId),
-                array()
-            );
-
-        if (!$this->helper->isAllowedCategoryView()) {
-            $collection->getProductCountSelect()
-                ->where('permission_index_product_count.grant_catalog_category_view = ?',
-                    Permission::PERMISSION_ALLOW);
-        } else {
-            $collection->getProductCountSelect()
-                ->where('permission_index_product_count.grant_catalog_category_view != ?'
-                    . ' OR permission_index_product_count.grant_catalog_category_view IS NULL',
-                    Permission::PERMISSION_DENY);
-        }
-
-        return $this;
     }
 
     /**
@@ -302,7 +263,20 @@ class Index extends AbstractResource
                     Permission::PERMISSION_DENY);
         }
 
-        if ($this->isLinkCollection($collection)) {
+        $this->addLinkLimitation($collection);
+
+        return $this;
+    }
+
+    /**
+     * Add link limitations to product collection
+     *
+     * @param ProductCollection $collection
+     * @return $this
+     */
+    protected function addLinkLimitation($collection)
+    {
+        if (method_exists($collection, 'getLinkModel') || $collection->getFlag('is_link_collection')) {
             $collection->getSelect()
                 ->where('perm.grant_catalog_product_price != ?'
                     . ' OR perm.grant_catalog_product_price IS NULL',
@@ -311,19 +285,7 @@ class Index extends AbstractResource
                     . ' OR perm.grant_checkout_items IS NULL',
                     Permission::PERMISSION_DENY);
         }
-
         return $this;
-    }
-
-    /**
-     * Check if its linked collection
-     *
-     * @param ProductCollection $collection
-     * @return bool
-     */
-    protected function isLinkCollection($collection)
-    {
-        return method_exists($collection, 'getLinkModel') || $collection->getFlag('is_link_collection');
     }
 
     /**

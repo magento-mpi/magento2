@@ -8,7 +8,7 @@
  */
 -->
 <config>
-    <module name="Magento_CatalogPermissions" version="1.11.0.1" active="false">
+    <module name="Magento_CatalogPermissions" version="1.11.0.2" active="false">
         <sequence>
             <module name="Magento_Catalog"/>
             <module name="Magento_Indexer"/>

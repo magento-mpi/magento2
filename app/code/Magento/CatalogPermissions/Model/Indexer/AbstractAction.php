@@ -11,7 +11,7 @@ namespace Magento\CatalogPermissions\Model\Indexer;
 use \Magento\Core\Model\Resource\Website\CollectionFactory as WebsiteCollectionFactory;
 use \Magento\Customer\Model\Resource\Group\CollectionFactory as GroupCollectionFactory;
 use \Magento\CatalogPermissions\Model\Permission;
-use \Magento\CatalogPermissions\Helper\Data as Helper;
+use \Magento\CatalogPermissions\App\ConfigInterface;
 use \Magento\Core\Model\StoreManagerInterface;
 
 abstract class AbstractAction
@@ -64,12 +64,12 @@ abstract class AbstractAction
     protected $groupCollectionFactory;
 
     /**
-     * @var array
+     * @var int[]
      */
     protected $websitesIds = [];
 
     /**
-     * @var array
+     * @var int[]
      */
     protected $customerGroupIds = [];
 
@@ -99,9 +99,9 @@ abstract class AbstractAction
     ];
 
     /**
-     * @var Helper
+     * @var ConfigInterface
      */
-    protected $helper;
+    protected $config;
 
     /**
      * @var StoreManagerInterface
@@ -112,20 +112,20 @@ abstract class AbstractAction
      * @param \Magento\App\Resource $resource
      * @param WebsiteCollectionFactory $websiteCollectionFactory
      * @param GroupCollectionFactory $groupCollectionFactory
-     * @param Helper $helper
+     * @param ConfigInterface $config
      * @param StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\App\Resource $resource,
         WebsiteCollectionFactory $websiteCollectionFactory,
         GroupCollectionFactory $groupCollectionFactory,
-        Helper $helper,
+        ConfigInterface $config,
         StoreManagerInterface $storeManager
     ) {
         $this->resource = $resource;
         $this->websiteCollectionFactory = $websiteCollectionFactory;
         $this->groupCollectionFactory = $groupCollectionFactory;
-        $this->helper = $helper;
+        $this->config = $config;
         $this->storeManager = $storeManager;
     }
 
@@ -226,7 +226,7 @@ abstract class AbstractAction
      *
      * Return identifiers for all customer groups that exist in the system
      *
-     * @return array
+     * @return int[]
      */
     protected function getCustomerGroupIds()
     {
@@ -242,7 +242,7 @@ abstract class AbstractAction
      *
      * Return identifiers for all websites that exist in the system
      *
-     * @return array
+     * @return int[]
      */
     protected function getWebsitesIds()
     {
@@ -415,7 +415,8 @@ abstract class AbstractAction
             if (isset($this->indexCategoryPermissions[$parentPath])) {
                 foreach (array_keys($this->indexCategoryPermissions[$parentPath]) as $uniqKey) {
                     if (!isset($this->indexCategoryPermissions[$path][$uniqKey])) {
-                        $this->indexCategoryPermissions[$path][$uniqKey] = $this->indexCategoryPermissions[$parentPath][$uniqKey];
+                        $this->indexCategoryPermissions[$path][$uniqKey] =
+                            $this->indexCategoryPermissions[$parentPath][$uniqKey];
                     }
                 }
             }
@@ -460,9 +461,18 @@ abstract class AbstractAction
      */
     protected function getPermissionColumns()
     {
-        $grantView = $this->getConfigGrantDbExpr('grant_catalog_category_view', 'permission_index_product');
-        $grantPrice = $this->getConfigGrantDbExpr('grant_catalog_product_price', 'permission_index_product');
-        $grantCheckout = $this->getConfigGrantDbExpr('grant_checkout_items', 'permission_index_product');
+        $grantView = $this->getConfigGrantDbExpr(
+            $this->config->getCatalogCategoryViewMode(),
+            $this->config->getCatalogCategoryViewGroups()
+        );
+        $grantPrice = $this->getConfigGrantDbExpr(
+            $this->config->getCatalogProductPriceMode(),
+            $this->config->getCatalogProductPriceGroups()
+        );
+        $grantCheckout = $this->getConfigGrantDbExpr(
+            $this->config->getCheckoutItemsMode(),
+            $this->config->getCheckoutItemsGroups()
+        );
 
         $adapter = $this->getReadAdapter();
 
@@ -516,13 +526,9 @@ abstract class AbstractAction
                     [
                         'category_product.product_id',
                         'store.store_id',
-                        'category_id' => new \Zend_Db_Expr('NULL'),
                         'customer_group.customer_group_id',
                     ],
-                    $this->getPermissionColumns(),
-                    [
-                        'is_config' => new \Zend_Db_Expr('1'),
-                    ]
+                    $this->getPermissionColumns()
                 )
             )
             ->join(
@@ -582,8 +588,8 @@ abstract class AbstractAction
                     $select,
                     $this->getProductIndexTempTable(),
                     [
-                        'product_id', 'store_id', 'category_id', 'customer_group_id', 'grant_catalog_category_view',
-                        'grant_catalog_product_price', 'grant_checkout_items', 'is_config'
+                        'product_id', 'store_id', 'customer_group_id', 'grant_catalog_category_view',
+                        'grant_catalog_product_price', 'grant_checkout_items'
                     ]
                 )
             );
@@ -600,7 +606,7 @@ abstract class AbstractAction
     protected function fixProductPermissions()
     {
         $deny = (int)Permission::PERMISSION_DENY;
-        $data = array(
+        $data = [
             'grant_catalog_product_price' => $this->getReadAdapter()->getCheckSql(
                     $this->getReadAdapter()->quoteInto('grant_catalog_category_view = ?', $deny),
                     $deny,
@@ -612,7 +618,7 @@ abstract class AbstractAction
                     $deny,
                     'grant_checkout_items'
                 )
-        );
+        ];
 
         $condition = $this->getProductList() ? ['product_id IN (?)' => $this->getProductList()] : '';
 
@@ -624,41 +630,32 @@ abstract class AbstractAction
     /**
      * Generates CASE ... WHEN .... THEN expression for grant depends on config
      *
-     * @param string $grant
-     * @param string $tableAlias
+     * @param string $mode
+     * @param string[] $groups
      * @return \Zend_Db_Expr
      */
-    protected function getConfigGrantDbExpr($grant, $tableAlias)
+    protected function getConfigGrantDbExpr($mode, $groups)
     {
         $result      = new \Zend_Db_Expr('0');
-        $conditions  = array();
+        $conditions  = [];
         $readAdapter = $this->getReadAdapter();
 
         foreach ($this->storeManager->getStores() as $store) {
-
-            $config = $this->helper->getGrantConfig($grant);
-
-            if ($config == Helper::GRANT_CUSTOMER_GROUP) {
-                $groups = explode(',', trim($this->helper->getGrantConfig($grant . '_groups')));
-
+            if ($mode == ConfigInterface::GRANT_CUSTOMER_GROUP) {
                 foreach ($groups as $groupId) {
                     if (is_numeric($groupId)) {
                         // Case per customer group
-                        $condition = $readAdapter->quoteInto($tableAlias . '.store_id = ?', $store->getId())
-                            . ' AND ' . $readAdapter->quoteInto($tableAlias . '.customer_group_id = ?', (int) $groupId);
+                        $condition = $readAdapter->quoteInto('store.store_id = ?', $store->getId())
+                            . ' AND ' . $readAdapter->quoteInto('customer_group.customer_group_id = ?', (int) $groupId);
                         $conditions[$condition] = Permission::PERMISSION_ALLOW;
                     }
                 }
 
-                $condition = $readAdapter->quoteInto($tableAlias . '.store_id = ?', $store->getId());
+                $condition = $readAdapter->quoteInto('store.store_id = ?', $store->getId());
                 $conditions[$condition] = Permission::PERMISSION_DENY;
             } else {
-                $condition = $readAdapter->quoteInto($tableAlias . '.store_id = ?', $store->getId());
-                $conditions[$condition] = (
-                $config ?
-                    Permission::PERMISSION_ALLOW :
-                    Permission::PERMISSION_DENY
-                );
+                $condition = $readAdapter->quoteInto('store.store_id = ?', $store->getId());
+                $conditions[$condition] = $mode ? Permission::PERMISSION_ALLOW : Permission::PERMISSION_DENY;
             }
         }
 

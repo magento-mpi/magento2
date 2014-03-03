@@ -202,23 +202,6 @@ class Observer
     }
 
     /**
-     * Applies permissions on product count for categories
-     *
-     * @param EventObserver $observer
-     * @return $this
-     */
-    public function applyCategoryPermissionOnProductCount(EventObserver $observer)
-    {
-        if (!$this->_permissionsConfig->isEnabled()) {
-            return $this;
-        }
-
-        $collection = $observer->getEvent()->getCollection();
-        $this->_permissionIndex->addIndexToProductCount($collection, $this->_getCustomerGroupId());
-        return $this;
-    }
-
-    /**
      * Applies category permission on model afterload
      *
      * @param EventObserver $observer
