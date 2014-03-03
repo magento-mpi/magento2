@@ -47,7 +47,7 @@
     <event name="controller_action_postdispatch_catalog_product_attribute_save">
         <observer name="flush_all_pagecache" instance="Magento\PageCache\Model\Observer" method="invalidateCache" />
     </event>
-    <event name="controller_action_postdispatch_catalog_product_action_attribute_save">
+    <event name="controller_action_postdispatch_catalog_product_save">
         <observer name="flush_all_pagecache" instance="Magento\PageCache\Model\Observer" method="flushCacheByTags" />
     </event>
     <event name="controller_action_postdispatch_catalog_product_massStatus">
