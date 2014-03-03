@@ -18,11 +18,6 @@
                 <enabled_on_product>1</enabled_on_product>
             </magento_rma>
         </sales>
-        <carriers>
-            <usps>
-                <active_rma>0</active_rma>
-            </usps>
-        </carriers>
         <sales_email>
             <magento_rma>
                 <enabled>1</enabled>

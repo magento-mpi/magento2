@@ -1,6 +1,4 @@
 <?php
-namespace Magento\Test\Integrity\Modular;
-
 /**
  * Test configuration of Online Shipping carriers
  *
@@ -9,6 +7,8 @@ namespace Magento\Test\Integrity\Modular;
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Test\Integrity\Modular;
+
 class CarrierConfigFilesTest extends \PHPUnit_Framework_TestCase
 {
     /**
