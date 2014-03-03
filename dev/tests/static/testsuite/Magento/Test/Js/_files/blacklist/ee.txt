@@ -1,2 +1,2 @@
-app/code/Magento/Rma/view/web/adminhtml/rma.js
-app/code/Magento/VersionsCms/view/web/adminhtml/cms.js
+app/code/Magento/Rma/view/adminhtml/web/rma.js
+app/code/Magento/VersionsCms/view/adminhtml/web/cms.js
