@@ -19,7 +19,7 @@ use Magento\Filesystem\Directory\Read;
  *
  * Resolver, which performs full search of files, according to fallback rules
  */
-class Fallback implements FileInterface, LocaleInterface, ViewInterface
+class Fallback implements FileInterface, LocaleInterface, ViewInterface, TemplateInterface
 {
     /**
      * Fallback factory
@@ -34,6 +34,13 @@ class Fallback implements FileInterface, LocaleInterface, ViewInterface
      * @var RuleInterface
      */
     protected $ruleFile;
+
+    /**
+     * Template rule file
+     *
+     * @var RuleInterface
+     */
+    protected $ruleTemplateFile;
 
     /**
      * Rule locale file
@@ -79,11 +86,23 @@ class Fallback implements FileInterface, LocaleInterface, ViewInterface
      */
     public function getFile($area, ThemeInterface $themeModel, $file, $module = null)
     {
-        $params = array('area' => $area, 'theme' => $themeModel, 'namespace' => null, 'module' => null);
-        if ($module) {
-            list($params['namespace'], $params['module']) = explode('_', $module, 2);
-        }
+        $params = $this->prepareFileParams($area, $themeModel, $module);
         return $this->resolveFile($this->getFileRule(), $file, $params);
+    }
+
+    /**
+     * Get existing file name, using fallback mechanism
+     *
+     * @param string $area
+     * @param ThemeInterface $themeModel
+     * @param string $file
+     * @param string|null $module
+     * @return string
+     */
+    public function getTemplateFile($area, ThemeInterface $themeModel, $file, $module = null)
+    {
+        $params = $this->prepareFileParams($area, $themeModel, $module);
+        return $this->resolveFile($this->getTemplateFileRule(), $file, $params);
     }
 
     /**
@@ -123,6 +142,24 @@ class Fallback implements FileInterface, LocaleInterface, ViewInterface
     }
 
     /**
+     * Prepare file params
+     *
+     * @param string  $area
+     * @param ThemeInterface $themeModel
+     * @param null|string $module
+     * @return array
+     */
+    protected function prepareFileParams($area, ThemeInterface $themeModel, $module = null)
+    {
+        $params = array('area' => $area, 'theme' => $themeModel, 'namespace' => null, 'module' => null);
+        if ($module) {
+            list($params['namespace'], $params['module']) = explode('_', $module, 2);
+        }
+
+        return $params;
+    }
+
+    /**
      * Retrieve fallback rule for dynamic view files
      *
      * @return RuleInterface
@@ -133,6 +170,19 @@ class Fallback implements FileInterface, LocaleInterface, ViewInterface
             $this->ruleFile = $this->fallbackFactory->createFileRule();
         }
         return $this->ruleFile;
+    }
+
+    /**
+     * Retrieve fallback rule for template files
+     *
+     * @return RuleInterface
+     */
+    protected function getTemplateFileRule()
+    {
+        if (!$this->ruleTemplateFile) {
+            $this->ruleTemplateFile = $this->fallbackFactory->createTemplateFileRule();
+        }
+        return $this->ruleTemplateFile;
     }
 
     /**

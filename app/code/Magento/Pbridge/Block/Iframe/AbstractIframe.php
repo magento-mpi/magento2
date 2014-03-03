@@ -269,7 +269,7 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
         // lookup each file basing on current theme configuration
         foreach ($skinItems as $params => $rows) {
             foreach ($rows as $name) {
-                $items[$params][] = $mergeCallback ? $this->_viewFileSystem->getFilename($name)
+                $items[$params][] = $mergeCallback ? $this->_viewFileSystem->getViewFile($name)
                     : $this->_viewUrl->getViewFileUrl($name);
             }
         }

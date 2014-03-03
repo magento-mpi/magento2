@@ -19,7 +19,7 @@ return array(
         '/lib/web/mage/webapi.js',
         '/lib/web/jquery/jquery-ui-timepicker-addon.js',
         '/lib/web/jquery/jquery.tmpl.min.js',
-        '/dev/tests/js/framework/stub.js',
+        '/dev/tests/js/framework',
         '/app/code/Magento/DesignEditor/view/adminhtml/js/base.js',
         '/app/code/Magento/DesignEditor/view/adminhtml/js/design_editor.js',
         '/app/code/Magento/DesignEditor/view/frontend/js/change/layout.js',
@@ -45,7 +45,8 @@ return array(
         '/lib/web/mage/backend/tree-suggest.js',
         '/lib/web/mage/gallery.js',
         '/lib/web/mage/gallery-fullscreen.js',
-        '/lib/web/mage/zoom.js'
+        '/lib/web/mage/zoom.js',
+        '/lib/web/mage/requirejs'
     ),
     'test' => array('/dev/tests/js/testsuite'),
     'JsTestDriver' => '{{path_to_jstestdriver_jar}}'

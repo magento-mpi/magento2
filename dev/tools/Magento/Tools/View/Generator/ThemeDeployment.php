@@ -23,6 +23,16 @@ class ThemeDeployment
     private $_cssUrlResolver;
 
     /**
+     * @var \Magento\App\View\Deployment\Version\StorageInterface
+     */
+    private $_versionStorage;
+
+    /**
+     * @var \Magento\App\View\Deployment\Version\GeneratorInterface
+     */
+    private $_versionGenerator;
+
+    /**
      * Destination dir, where files will be copied to
      *
      * @var string
@@ -56,6 +66,8 @@ class ThemeDeployment
      * Constructor
      *
      * @param \Magento\View\Url\CssResolver $cssUrlResolver
+     * @param \Magento\App\View\Deployment\Version\StorageInterface $versionStorage
+     * @param \Magento\App\View\Deployment\Version\GeneratorInterface $versionGenerator
      * @param string $destinationHomeDir
      * @param string $configPermitted
      * @param string|null $configForbidden
@@ -64,12 +76,16 @@ class ThemeDeployment
      */
     public function __construct(
         \Magento\View\Url\CssResolver $cssUrlResolver,
+        \Magento\App\View\Deployment\Version\StorageInterface $versionStorage,
+        \Magento\App\View\Deployment\Version\GeneratorInterface $versionGenerator,
         $destinationHomeDir,
         $configPermitted,
         $configForbidden = null,
         $isDryRun = false
     ) {
         $this->_cssUrlResolver = $cssUrlResolver;
+        $this->_versionStorage = $versionStorage;
+        $this->_versionGenerator = $versionGenerator;
         $this->_destinationHomeDir = $destinationHomeDir;
         $this->_isDryRun = $isDryRun;
         $this->_permitted = $this->_loadConfig($configPermitted);
@@ -133,6 +149,8 @@ class ThemeDeployment
                 $context
             );
         }
+
+        $this->_versionStorage->save($this->_versionGenerator->generate());
     }
 
 

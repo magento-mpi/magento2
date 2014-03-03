@@ -48,12 +48,34 @@ class Factory
     {
         $themesDir = $this->filesystem->getPath(Filesystem::THEMES_DIR);
         return new Theme(
-            new Simple("$themesDir/<area>/<theme_path>/i18n/<locale>")
+            new Simple("$themesDir/<area>/<theme_path>")
         );
     }
 
     /**
-     * Retrieve newly created fallback rule for dynamic view files, such as layouts and templates
+     * Retrieve newly created fallback rule for template files
+     *
+     * @return RuleInterface
+     */
+    public function createTemplateFileRule()
+    {
+        $themesDir = $this->filesystem->getPath(Filesystem::THEMES_DIR);
+        $modulesDir = $this->filesystem->getPath(Filesystem::MODULES_DIR);
+        return new ModularSwitch(
+            new Theme(
+                new Simple("$themesDir/<area>/<theme_path>/templates")
+            ),
+            new Composite(
+                array(
+                    new Theme(new Simple("$themesDir/<area>/<theme_path>/<namespace>_<module>/templates")),
+                    new Simple("$modulesDir/<namespace>/<module>/view/<area>/templates"),
+                )
+            )
+        );
+    }
+
+    /**
+     * Retrieve newly created fallback rule for dynamic view files
      *
      * @return RuleInterface
      */
@@ -62,21 +84,11 @@ class Factory
         $themesDir = $this->filesystem->getPath(Filesystem::THEMES_DIR);
         $modulesDir = $this->filesystem->getPath(Filesystem::MODULES_DIR);
         return new ModularSwitch(
-            new Theme(
-                new Simple(
-                    "$themesDir/<area>/<theme_path>"
-                )
-            ),
+            new Theme(new Simple("$themesDir/<area>/<theme_path>")),
             new Composite(
                 array(
-                    new Theme(
-                        new Simple(
-                            "$themesDir/<area>/<theme_path>/<namespace>_<module>"
-                        )
-                    ),
-                    new Simple(
-                        "$modulesDir/<namespace>/<module>/view/<area>"
-                    ),
+                    new Theme(new Simple("$themesDir/<area>/<theme_path>/<namespace>_<module>")),
+                    new Simple("$modulesDir/<namespace>/<module>/view/<area>"),
                 )
             )
         );
@@ -98,13 +110,8 @@ class Factory
                     new Theme(
                         new Composite(
                             array(
-                                new Simple(
-                                    "$themesDir/<area>/<theme_path>/i18n/<locale>",
-                                    array('locale')
-                                ),
-                                new Simple(
-                                    "$themesDir/<area>/<theme_path>"
-                                ),
+                                new Simple("$themesDir/<area>/<theme_path>/web/i18n/<locale>", array('locale')),
+                                new Simple("$themesDir/<area>/<theme_path>/web"),
                             )
                         )
                     ),
@@ -117,22 +124,18 @@ class Factory
                         new Composite(
                             array(
                                 new Simple(
-                                    "$themesDir/<area>/<theme_path>/i18n/<locale>/<namespace>_<module>",
+                                    "$themesDir/<area>/<theme_path>/<namespace>_<module>/web/i18n/<locale>",
                                     array('locale')
                                 ),
-                                new Simple(
-                                    "$themesDir/<area>/<theme_path>/<namespace>_<module>"
-                                ),
+                                new Simple("$themesDir/<area>/<theme_path>/<namespace>_<module>/web"),
                             )
                         )
                     ),
                     new Simple(
-                        "$modulesDir/<namespace>/<module>/view/<area>/i18n/<locale>",
+                        "$modulesDir/<namespace>/<module>/view/<area>/web/i18n/<locale>",
                         array('locale')
                     ),
-                    new Simple(
-                        "$modulesDir/<namespace>/<module>/view/<area>"
-                    ),
+                    new Simple("$modulesDir/<namespace>/<module>/view/<area>/web"),
                 )
             )
         );

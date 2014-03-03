@@ -46,31 +46,49 @@ if (isset($options['help'])) {
 
 $logger->log('Deploying...', \Zend_Log::INFO);
 try {
-
     $objectManagerFactory = new \Magento\App\ObjectManagerFactory();
-    $objectManager = $objectManagerFactory->create(BP, $_SERVER);
+    $objectManager = $objectManagerFactory->create(BP, array());
 
-    $config = $objectManager->create(
-        'Magento\Tools\View\Generator\Config',
-        array('cmdOptions' => $options, 'allowedFiles' => array('.htaccess'))
-    );
+    /** @var \Magento\Tools\View\Generator\Config $config */
+    $config = $objectManager->create('Magento\Tools\View\Generator\Config', array(
+        'cmdOptions' => $options,
+        'allowedFiles' => array('.htaccess'),
+    ));
+
+    // Register the deployment directory
+    /** @var \Magento\Filesystem\DirectoryList $directoryList */
+    $directoryList = $objectManager->get('Magento\Filesystem\DirectoryList');
+    $directoryList->addDirectory('deployment', array('path' => $config->getDestinationDir()));
+
+    /** @var \Magento\Core\Model\Theme\Collection $themes */
     $themes = $objectManager->create('Magento\Core\Model\Theme\Collection');
     $themes->setItemObjectClass('Magento\Tools\View\Generator\ThemeLight');
     $themes->addDefaultPattern('*');
+
     /** @var \Magento\View\Design\Fallback\Factory $fallbackFactory */
     $fallbackFactory = $objectManager->create('Magento\View\Design\Fallback\Factory');
+
     /** @var \Magento\Tools\View\Generator\CopyRule $generator */
     $generator = $objectManager->create('Magento\Tools\View\Generator\CopyRule', array(
-            'themes' => $themes,
-            'fallbackRule' => $fallbackFactory->createViewFileRule()
-        ));
+        'themes' => $themes,
+        'fallbackRule' => $fallbackFactory->createViewFileRule()
+    ));
+
     $copyRules = $generator->getCopyRules();
+
+    /** @var \Magento\App\View\Deployment\Version\Storage\File $versionFile */
+    $versionFile = $objectManager->create('Magento\App\View\Deployment\Version\Storage\File', array(
+        'directoryCode' => 'deployment',
+    ));
+
+    /** @var \Magento\Tools\View\Generator\ThemeDeployment $deployment */
     $deployment = $objectManager->create('Magento\Tools\View\Generator\ThemeDeployment', array(
-            'destinationHomeDir' => $config->getDestinationDir(),
-            'configPermitted' => __DIR__ . '/config/permitted.php',
-            'configForbidden' => __DIR__ . '/config/forbidden.php',
-            'isDryRun' => $config->isDryRun()
-        ));
+        'destinationHomeDir' => $config->getDestinationDir(),
+        'configPermitted' => __DIR__ . '/config/permitted.php',
+        'configForbidden' => __DIR__ . '/config/forbidden.php',
+        'versionStorage' => $versionFile,
+        'isDryRun' => $config->isDryRun()
+    ));
     $deployment->run($copyRules);
 } catch (\Exception $e) {
     $logger->log('Error: ' . $e->getMessage(), \Zend_Log::ERR);

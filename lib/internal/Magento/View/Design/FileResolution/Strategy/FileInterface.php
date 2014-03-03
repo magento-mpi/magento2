@@ -18,7 +18,7 @@ use Magento\View\Design\ThemeInterface;
 interface FileInterface
 {
     /**
-     * Get a usual file path (e.g. template)
+     * Get a usual file path
      *
      * @param string $area
      * @param ThemeInterface $themeModel

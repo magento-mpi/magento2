@@ -13,6 +13,7 @@ app/code/Magento/Sales/view/adminhtml/order/create/scripts.js
 app/code/Magento/Sales/view/adminhtml/order/giftoptions_tooltip.js
 app/code/Magento/Shipping/view/adminhtml/order/packaging.js
 app/code/Magento/Theme/view/frontend/menu.js
+dev/tests/js/testsuite/mage/translate_inline_vde/translate-inline-vde-test.js
 lib/web/mage/adminhtml
 lib/web/mage/backend/editablemultiselect.js
 lib/web/mage/captcha.js

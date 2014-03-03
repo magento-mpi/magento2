@@ -457,7 +457,7 @@ MageValidationTest.prototype.testValidateCCExp = function () {
     var year = $('#year'),
         currentTime  = new Date(),
         currentMonth = currentTime.getMonth() + 1,
-        currentYear  = currentTime.getFullYear();;
+        currentYear  = currentTime.getFullYear();
     year.val(currentYear);
     if (currentMonth > 1) {
         assertFalse($.validator.methods['validate-cc-exp'].call(this, currentMonth - 1, null, '#year'));

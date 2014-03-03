@@ -5,9 +5,8 @@
  * @license     {license_link}
  */
 
-"use strict";
-
 (function ($, window) {
+    "use strict";
 
     function wrapMethod(object, property, method, copyProperties) {
         if (!object) {
@@ -61,7 +60,7 @@
                 if (!Object.prototype.hasOwnProperty.call(method, prop)) {
                     method[prop] = wrappedMethod[prop];
                 }
-            };
+            }
         }
 
         return method;

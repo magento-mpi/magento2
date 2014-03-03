@@ -12,6 +12,7 @@ use Magento\App\Filesystem;
 use Magento\View\Design\FileResolution\Strategy\Fallback;
 use Magento\View\Design\FileResolution\Strategy\FileInterface;
 use Magento\View\Design\FileResolution\Strategy\LocaleInterface;
+use Magento\View\Design\FileResolution\Strategy\TemplateInterface;
 use Magento\View\Design\FileResolution\Strategy\View\NotifiableInterface;
 use Magento\View\Design\FileResolution\Strategy\ViewInterface;
 use Magento\View\Design\ThemeInterface;
@@ -23,7 +24,7 @@ use Magento\Filesystem\Directory\Write;
  * A proxy for the Fallback resolver. This proxy processes fallback resolution calls by either using map of cached
  * paths, or passing resolution to the Fallback resolver.
  */
-class CachingProxy implements FileInterface, LocaleInterface, ViewInterface, NotifiableInterface
+class CachingProxy implements FileInterface, LocaleInterface, ViewInterface, NotifiableInterface, TemplateInterface
 {
     /**
      * Proxied fallback model
@@ -130,6 +131,25 @@ class CachingProxy implements FileInterface, LocaleInterface, ViewInterface, Not
         if (!$result) {
             $result = $this->fallback->getFile($area, $themeModel, $file, $module);
             $this->setToMap('file', $area, $themeModel, null, $module, $file, $result);
+        }
+        return $result;
+    }
+
+    /**
+     * Proxy to \Magento\View\Design\FileResolution\Strategy\Fallback::getTemplateFile()
+     *
+     * @param string $area
+     * @param ThemeInterface $themeModel
+     * @param string $file
+     * @param string|null $module
+     * @return string
+     */
+    public function getTemplateFile($area, ThemeInterface $themeModel, $file, $module = null)
+    {
+        $result = $this->getFromMap('template', $area, $themeModel, null, $module, $file);
+        if (!$result) {
+            $result = $this->fallback->getTemplateFile($area, $themeModel, $file, $module);
+            $this->setToMap('template', $area, $themeModel, null, $module, $file, $result);
         }
         return $result;
     }

@@ -61,16 +61,19 @@ class StrategyPool
     protected $strategies = array(
         'production_mode' => array(
             'file' => 'Magento\View\Design\FileResolution\Strategy\Fallback\CachingProxy',
-            'locale' => 'Magento\View\Design\FileResolution\Strategy\Fallback',
+            'template' => 'Magento\View\Design\FileResolution\Strategy\Fallback\CachingProxy',
+            'locale' => 'Magento\View\Design\FileResolution\Strategy\Fallback\CachingProxy',
             'view' => 'Magento\View\Design\FileResolution\Strategy\Fallback',
         ),
         'caching_map' => array(
             'file' => 'Magento\View\Design\FileResolution\Strategy\Fallback\CachingProxy',
+            'template' => 'Magento\View\Design\FileResolution\Strategy\Fallback\CachingProxy',
             'locale' => 'Magento\View\Design\FileResolution\Strategy\Fallback\CachingProxy',
             'view' => 'Magento\View\Design\FileResolution\Strategy\Fallback\CachingProxy',
         ),
         'full_check' => array(
             'file' => 'Magento\View\Design\FileResolution\Strategy\Fallback',
+            'template' => 'Magento\View\Design\FileResolution\Strategy\Fallback',
             'locale' => 'Magento\View\Design\FileResolution\Strategy\Fallback',
             'view' => 'Magento\View\Design\FileResolution\Strategy\Fallback',
         ),
@@ -94,7 +97,7 @@ class StrategyPool
     }
 
     /**
-     * Get strategy to resolve dynamic files (e.g. templates)
+     * Get strategy to resolve dynamic files
      *
      * @param bool $skipProxy
      * @return \Magento\View\Design\FileResolution\Strategy\FileInterface
@@ -113,6 +116,17 @@ class StrategyPool
     public function getLocaleStrategy($skipProxy = false)
     {
         return $this->getStrategy('locale', $skipProxy);
+    }
+
+    /**
+     * Get strategy to resolve template files (e.g. templates)
+     *
+     * @param bool $skipProxy
+     * @return \Magento\View\Design\FileResolution\Strategy\TemplateInterface
+     */
+    public function getTemplateStrategy($skipProxy = false)
+    {
+        return $this->getStrategy('template', $skipProxy);
     }
 
     /**
