@@ -27,5 +27,10 @@
       <component>Tax (CS)</component>
     </components>
     <testId>MAGETWO-20913</testId>
+    <ticketId>MTA-3</ticketId>
+    <steps/>
+  </testcase>
+  <testcase>
+    <id>MTA-46</id>
   </testcase>
 </testcases>

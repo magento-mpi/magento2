@@ -107,6 +107,7 @@ class TestCase extends AbstractGenerate
         }
 
         $ticketData = [];
+        $ticketData['ticketId'] = $jiraTicket['id'];
         // Get ticket name
         $stringRemove = [
             'Cover ',
@@ -130,20 +131,13 @@ class TestCase extends AbstractGenerate
             }
         }
 
-        // Get linked test case with flow description
-        if (empty($issue['fields']['issuelinks'])) {
-            throw new \Exception('Zephyr test is not linked to Jira ticket ' . $ticketId);
-        }
-        foreach($issue['fields']['issuelinks'] as $link) {
-            if ($link['type']['name'] == 'Parent') {
-                $ticketData['testId'] = $link['outwardIssue']['key'];
-                break;
-            }
-        }
+        // Get test case steps form ticket description
+        $stepsDelimiter = "*Test Flow:*\r\n";
+        preg_match('/' . preg_quote($stepsDelimiter) . '((\s)*\S)*/', $issue['fields']['description'], $matches);
 
-        if (!isset($ticketData['testId'])) {
-            throw new \Exception('Zephyr test is not linked as child to Jira ticket ' . $ticketId);
-        }
+        $ticketData['steps'] = empty($matches)
+            ? []
+            : explode("\r\n", str_replace([$stepsDelimiter, '#'], '', $matches[0]));
 
         return $ticketData;
     }
@@ -172,7 +166,7 @@ class TestCase extends AbstractGenerate
     private function generateTestCaseClass(\SimpleXMLElement $item)
     {
         $className = (string)$item->name;
-        $ticketId = (string)$item->testId;
+        $ticketId = (string)$item->ticketId;
         $description = (string)$item->description;
         $module = property_exists($item->attributes(), 'module')
             ? (string)$item->attributes()->module
@@ -191,13 +185,16 @@ class TestCase extends AbstractGenerate
         $content .= " * @license     {license_link}\n";
         $content .= " */\n\n";
         $content .= "namespace {$namespace};\n\n";
-        $content .= "use Mtf\\TestCase\\Functional; \n\n";
+        $content .= "use Mtf\\TestCase\\Injectable;\n\n";
 
         $content .= "/**\n";
         $content .= " * {$description}\n";
-        $content .= " *";
+        $content .= " *\n";
+        $content .= " * Test Flow:";
+        $stepNum = 1;
         foreach ($steps as $step) {
-            $content .= "\n * " . $step;
+            $content .= "\n * {$stepNum}." . htmlspecialchars_decode($step);
+            ++$stepNum;
         }
         if ($groups) {
             $content .= "\n *";
@@ -207,7 +204,7 @@ class TestCase extends AbstractGenerate
         $content .= "\n * @ZephyrId {$ticketId}\n";
         $content .= " */\n";
 
-        $content .= "class {$className} extends Functional\n";
+        $content .= "class {$className} extends Injectable\n";
         $content .= "{\n";
 
         $injectArgumentsArray = [];
