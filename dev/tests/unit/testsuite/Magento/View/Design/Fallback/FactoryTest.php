@@ -82,14 +82,8 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateLocaleFileRuleGetPatternDirs()
     {
-        $expectedResult = array(
-            '/area/current_theme_path/i18n/en_US',
-            '/area/parent_theme_path/i18n/en_US',
-        );
-        $this->assertSame(
-            $expectedResult,
-            $this->model->createLocaleFileRule()->getPatternDirs($this->defaultParams)
-        );
+        $expectedResult = array('/area/current_theme_path', '/area/parent_theme_path');
+        $this->assertSame($expectedResult, $this->model->createLocaleFileRule()->getPatternDirs($this->defaultParams));
     }
 
     /**
@@ -116,11 +110,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
             'no area' => array(
                 array('area' => null),
                 "Required parameter 'area' was not passed",
-            ),
-            'no locale' => array(
-                array('locale' => null),
-                "Required parameter 'locale' was not passed",
-            ),
+            )
         );
     }
 
@@ -168,7 +158,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param array $overriddenParams
-     * @param $expectedErrorMessage
+     * @param string $expectedErrorMessage
      * @dataProvider createRuleGetPatternDirsExceptionDataProvider
      */
     public function testCreateFileRuleGetPatternDirsException(array $overriddenParams, $expectedErrorMessage)
@@ -204,37 +194,37 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
             'modular localized' => array(
                 array(),
                 array(
-                    '/area/current_theme_path/i18n/en_US/namespace_module',
-                    '/area/current_theme_path/namespace_module',
-                    '/area/parent_theme_path/i18n/en_US/namespace_module',
-                    '/area/parent_theme_path/namespace_module',
-                    '/namespace/module/view/area/i18n/en_US',
-                    '/namespace/module/view/area',
+                    '/area/current_theme_path/namespace_module/web/i18n/en_US',
+                    '/area/current_theme_path/namespace_module/web',
+                    '/area/parent_theme_path/namespace_module/web/i18n/en_US',
+                    '/area/parent_theme_path/namespace_module/web',
+                    '/namespace/module/view/area/web/i18n/en_US',
+                    '/namespace/module/view/area/web',
                 ),
             ),
             'modular non-localized' => array(
                 array('locale' => null),
                 array(
-                    '/area/current_theme_path/namespace_module',
-                    '/area/parent_theme_path/namespace_module',
-                    '/namespace/module/view/area',
+                    '/area/current_theme_path/namespace_module/web',
+                    '/area/parent_theme_path/namespace_module/web',
+                    '/namespace/module/view/area/web',
                 ),
             ),
             'non-modular localized' => array(
                 array('module' => null, 'namespace' => null),
                 array(
-                    '/area/current_theme_path/i18n/en_US',
-                    '/area/current_theme_path',
-                    '/area/parent_theme_path/i18n/en_US',
-                    '/area/parent_theme_path',
+                    '/area/current_theme_path/web/i18n/en_US',
+                    '/area/current_theme_path/web',
+                    '/area/parent_theme_path/web/i18n/en_US',
+                    '/area/parent_theme_path/web',
                     '',
                 ),
             ),
             'non-modular non-localized' => array(
                 array('module' => null, 'namespace' => null, 'locale' => null),
                 array(
-                    '/area/current_theme_path',
-                    '/area/parent_theme_path',
+                    '/area/current_theme_path/web',
+                    '/area/parent_theme_path/web',
                     '',
                 ),
             ),

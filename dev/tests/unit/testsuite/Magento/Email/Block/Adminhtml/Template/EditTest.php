@@ -85,9 +85,9 @@ class EditTest extends \PHPUnit_Framework_TestCase
             array('getFilesystem', '__wakeup', 'getPath', 'getDirectoryRead'), array(), '', false);
 
         $viewFilesystem = $this->getMock('\Magento\View\Filesystem',
-            array('getFilename'), array(), '', false
+            array('getTemplateFileName'), array(), '', false
         );
-        $viewFilesystem->expects($this->any())->method('getFilename')
+        $viewFilesystem->expects($this->any())->method('getTemplateFileName')
             ->will($this->returnValue('var/www/magento\rootdir/app\custom/filename.phtml'));
 
         $params = array(
