@@ -125,19 +125,6 @@ interface CustomerAccountServiceInterface
     public function authenticate($username, $password);
 
     /**
-     * Checks if a given password matches the customer password.
-     *
-     * This function can be used instead of authenticate to re-verify that a logged in
-     * user knows the password for sensitive actions.
-     *
-     * @param int $customerId
-     * @param string $password
-     * @return true
-     * @throws \Magento\Exception\AuthenticationException
-     */
-    public function validatePassword($customerId, $password);
-
-    /**
      * Change customer password.
      *
      * @param int $customerId
