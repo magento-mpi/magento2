@@ -19,7 +19,12 @@ class Substitution extends \Magento\Payment\Block\Info
      */
     protected function _beforeToHtml()
     {
-        $container = $this->getParentBlock()->getParentBlock();
+        $parentBlock = $this->getParentBlock();
+        if (!$parentBlock) {
+            return $this;
+        }
+
+        $container = $parentBlock->getParentBlock();
         if ($container) {
             $block = $this->_layout->createBlock(
                 'Magento\View\Element\Template',
