@@ -56,6 +56,44 @@ class Payment extends \Magento\Payment\Model\Info
     protected $_quote;
 
     /**
+     * @var \Magento\Payment\Model\Checks\SpecificationFactory
+     */
+    protected $methodSpecificationFactory;
+
+    /**
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
+     * @param \Magento\Payment\Helper\Data $paymentData
+     * @param \Magento\Encryption\EncryptorInterface $encryptor
+     * @param \Magento\Payment\Model\Checks\SpecificationFactory $methodSpecificationFactory
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
+        \Magento\Payment\Helper\Data $paymentData,
+        \Magento\Encryption\EncryptorInterface $encryptor,
+        \Magento\Payment\Model\Checks\SpecificationFactory $methodSpecificationFactory,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->methodSpecificationFactory = $methodSpecificationFactory;
+        parent::__construct(
+            $context,
+            $registry,
+            $paymentData,
+            $encryptor,
+            $resource,
+            $resourceCollection,
+            $data
+        );
+
+    }
+
+    /**
      * Initialize resource model
      */
     protected function _construct()
@@ -116,7 +154,8 @@ class Payment extends \Magento\Payment\Model\Info
         $this->getQuote()->collectTotals();
 
         if (!$method->isAvailable($this->getQuote())
-            || !$method->isApplicableToQuote($this->getQuote(), $data->getChecks())
+            || !$this->methodSpecificationFactory->create($data->getChecks())
+                ->isApplicableToQuote($method, $this->getQuote())
         ) {
             throw new \Magento\Core\Exception(__('The requested Payment Method is not available.'));
         }
