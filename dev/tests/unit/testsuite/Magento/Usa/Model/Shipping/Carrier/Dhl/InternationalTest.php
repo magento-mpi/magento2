@@ -50,7 +50,8 @@ class InternationalTest extends \PHPUnit_Framework_TestCase
                 $this->returnCallback(
                     function ($data) {
                         $oM = new \Magento\TestFramework\Helper\ObjectManager($this);
-                        return  $oM->getObject('\Magento\Shipping\Model\Simplexml\Element', array('data' => $data['data']));
+                        return  $oM->getObject('\Magento\Shipping\Model\Simplexml\Element',
+                            array('data' => $data['data']));
                     }
                 )
             );
