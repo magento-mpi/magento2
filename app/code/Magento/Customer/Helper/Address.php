@@ -203,6 +203,8 @@ class Address extends \Magento\App\Helper\AbstractHelper
      *
      * @param string $attributeCode
      * @return string
+     *
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function getAttributeValidationClass($attributeCode)
     {
@@ -281,7 +283,7 @@ class Address extends \Magento\App\Helper\AbstractHelper
      *
      * @return bool
      */
-    public function getDisableAutoGroupAssignDefaultValue()
+    public function isDisableAutoGroupAssignDefaultValue()
     {
         return (bool)$this->_coreStoreConfig->getConfig(self::XML_PATH_VIV_DISABLE_AUTO_ASSIGN_DEFAULT);
     }
@@ -292,7 +294,7 @@ class Address extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Core\Model\Store|string|int $store
      * @return bool
      */
-    public function getValidateOnEachTransaction($store = null)
+    public function hasValidateOnEachTransaction($store = null)
     {
         return (bool)$this->_coreStoreConfig->getConfig(self::XML_PATH_VIV_ON_EACH_TRANSACTION, $store);
     }
