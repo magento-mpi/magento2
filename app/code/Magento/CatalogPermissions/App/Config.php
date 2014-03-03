@@ -9,7 +9,6 @@
  */
 
 namespace Magento\CatalogPermissions\App;
-use string;
 
 /**
  * Global configs

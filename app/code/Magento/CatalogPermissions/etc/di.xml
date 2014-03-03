@@ -23,7 +23,7 @@
         <plugin name="catalogPermissionsIndexerStoreGroup" type="Magento\CatalogPermissions\Model\Indexer\Plugin\Store\Group"/>
     </type>
     <type name="Magento\Indexer\Model\Indexer\State">
-        <plugin name="setStatusForIndexer" type="Magento\CatalogPermissions\Model\Indexer\Plugin\IndexerState" />
+        <plugin name="catalogPermissionsIndexerSetStatusForIndexer" type="Magento\CatalogPermissions\Model\Indexer\Plugin\IndexerState" />
     </type>
     <type name="Magento\CatalogPermissions\Model\Indexer\Plugin\IndexerState">
         <arguments>
@@ -31,12 +31,20 @@
         </arguments>
     </type>
     <type name="Magento\Mview\View\StateInterface">
-        <plugin name="setStatusForMview" type="Magento\CatalogPermissions\Model\Indexer\Plugin\MviewState" />
+        <plugin name="catalogPermissionsIndexerSetStatusForMview" type="Magento\CatalogPermissions\Model\Indexer\Plugin\MviewState" />
     </type>
     <type name="Magento\CatalogPermissions\Model\Indexer\Plugin\MviewState">
         <arguments>
             <argument name="state" xsi:type="object" shared="false">Magento\Mview\View\StateInterface</argument>
             <argument name="changelog" xsi:type="object" shared="false">Magento\Mview\View\ChangelogInterface</argument>
         </arguments>
+    </type>
+    <type name="Magento\CatalogPermissions\Model\Indexer\System\Config\Mode">
+        <arguments>
+            <argument name="indexer" xsi:type="object" shared="false">Magento\Indexer\Model\IndexerInterface</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Indexer\Model\Config\Data">
+        <plugin name="catalogPermissionsIndexerConfigGet" type="Magento\CatalogPermissions\Model\Indexer\Plugin\IndexerConfigData" disabled="true"/>
     </type>
 </config>
