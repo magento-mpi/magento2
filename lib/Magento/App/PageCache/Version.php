@@ -7,14 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\PageCache\Model;
-
-use Magento\App\Request\Http;
-use Magento\Stdlib\Cookie;
+namespace Magento\App\PageCache;
 
 /**
  * Class Version
- * @package Magento\PageCache\Model
+ *
+ * @package Magento\App\PageCache
  */
 class Version
 {
@@ -31,37 +29,27 @@ class Version
     /**
      * Cookie
      *
-     * @var Cookie
+     * @var \Magento\Stdlib\Cookie
      */
-    private $cookie;
+    protected $cookie;
 
     /**
      * Request
      *
-     * @var Http
+     * @var \Magento\App\Request\Http
      */
-    private $request;
+    protected $request;
 
     /**
-     * @param Cookie $cookie
-     * @param Http $request
+     * @param \Magento\Stdlib\Cookie $cookie
+     * @param \Magento\App\Request\Http $request
      */
     public function __construct(
-        Cookie $cookie,
-        Http $request
+        \Magento\Stdlib\Cookie $cookie,
+        \Magento\App\Request\Http $request
     ) {
         $this->cookie = $cookie;
         $this->request = $request;
-    }
-
-    /**
-     * Increment private content version cookie (for user to pull new private content)
-     *
-     * @return void
-     */
-    private function set()
-    {
-        $this->cookie->set(self::COOKIE_NAME, $this->generateValue(), self::COOKIE_PERIOD, '/');
     }
 
     /**
@@ -69,7 +57,7 @@ class Version
      *
      * @return string
      */
-    private function generateValue()
+    protected function generateValue()
     {
         return md5(rand() . time());
     }
@@ -85,7 +73,7 @@ class Version
     public function process()
     {
         if ($this->request->isPost()) {
-                $this->set();
+            $this->cookie->set(self::COOKIE_NAME, $this->generateValue(), self::COOKIE_PERIOD, '/');
         }
     }
 }

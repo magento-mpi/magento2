@@ -1,3 +1,8 @@
+* Cache:
+  * Depersonalize private content generation
+  * Content invalidation
+  * Added Edge side includes(ESI) supporting
+  * Added Built-in caching application
 * GitHub requests:
   * [#454](https://github.com/magento/magento2/pull/454) -- Allow to specify list of IPs in a body on maintenance.flag which will be granted access even if the flag is on
   * [#204](https://github.com/magento/magento2/issues/204) -- Mage_ImportExport: Exporting configurable products ignores multiple configurable options
