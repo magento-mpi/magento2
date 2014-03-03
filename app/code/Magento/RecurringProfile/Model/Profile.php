@@ -414,7 +414,7 @@ class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
      * Import quote information to the profile
      *
      * @param \Magento\Sales\Model\Quote $quote
-     * @return Profile
+     * @return $this
      */
     public function importQuote(\Magento\Sales\Model\Quote $quote)
     {
@@ -448,7 +448,7 @@ class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
      * Import quote item information to the profile
      *
      * @param \Magento\Sales\Model\Quote\Item\AbstractItem $item
-     * @return Profile
+     * @return $this
      */
     public function importQuoteItem(\Magento\Sales\Model\Quote\Item\AbstractItem $item)
     {
@@ -479,7 +479,7 @@ class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
      * Render state as label
      *
      * @param string $key
-     * @return mixed
+     * @return array|null
      */
     public function renderData($key)
     {
@@ -498,7 +498,7 @@ class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
      *
      * @param string $infoKey
      * @param string $infoValueKey
-     * @return mixed|null
+     * @return mixed
      */
     public function getInfoValue($infoKey, $infoValueKey)
     {
@@ -521,6 +521,8 @@ class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
 
     /**
      * Initialize resource model
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -530,7 +532,7 @@ class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
     /**
      * Automatically set "unknown" state if not defined
      *
-     * @return \Magento\RecurringProfile\Model\RecurringProfile
+     * @return $this
      */
     protected function _filterValues()
     {
@@ -545,6 +547,8 @@ class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
 
     /**
      * Initialize the workflow reference
+     *
+     * @return void
      */
     protected function _initWorkflow()
     {
@@ -584,7 +588,7 @@ class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
     /**
      * Return recurring profile child orders Ids
      *
-     * @return array
+     * @return string[]
      */
     public function getChildOrderIds()
     {
@@ -599,7 +603,7 @@ class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
      * Add order relation to recurring profile
      *
      * @param int $orderId
-     * @return Profile
+     * @return $this
      */
     public function addOrderRelation($orderId)
     {
@@ -729,6 +733,7 @@ class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
      *
      * @param \Magento\Sales\Model\Order\Item $item
      * @param array $option
+     * @return void
      */
     protected function _addAdditionalOptionToItem($item, $option)
     {
@@ -747,6 +752,7 @@ class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
      * Recursively cleanup array from objects
      *
      * @param array &$array
+     * @return void
      */
     private function _cleanupArray(&$array)
     {
