@@ -11,8 +11,6 @@ namespace Magento\Sales\Model\Quote\Item;
 
 use Magento\Sales\Model\Quote\Item;
 
-namespace Magento\Sales\Model\Quote\Item;
-
 /**
  * Quote item abstract model
  *
