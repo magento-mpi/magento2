@@ -57,7 +57,7 @@ class ShippingTest extends \PHPUnit_Framework_TestCase
                 'shipping_description' => 'Shipping Method',
                 'expected' => [
                     'code'  => 'shipping',
-                    'title' => __('Shipping & Handling (%s)', 'Shipping Method'),
+                    'title' => __('Shipping & Handling (%1)', 'Shipping Method'),
                     'value' => 1
                 ]
             ],
