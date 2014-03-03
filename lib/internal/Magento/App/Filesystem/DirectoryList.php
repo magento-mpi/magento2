@@ -17,6 +17,11 @@ use Magento\App\Filesystem;
 class DirectoryList extends \Magento\Filesystem\DirectoryList
 {
     /**
+     * Directory for dynamically generated public view files, relative to STATIC_VIEW_DIR
+     */
+    const CACHE_VIEW_REL_DIR = '_cache';
+
+    /**
      * Directories configurations
      *
      * @var array

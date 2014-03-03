@@ -14,11 +14,6 @@ namespace Magento\View\Asset;
 class MinifyService
 {
     /**
-     * Sub path for minified files relative to public static directory
-     */
-    const PUBLIC_MINIFY_DIR = '_minify';
-
-    /**
      * Config
      *
      * @var ConfigInterface
@@ -128,7 +123,7 @@ class MinifyService
             }
             $baseDir = $this->_filesystem
                 ->getDirectoryRead(\Magento\App\Filesystem::STATIC_VIEW_DIR)
-                ->getAbsolutePath(self::PUBLIC_MINIFY_DIR);
+                ->getAbsolutePath(self::getRelativeDir());
 
             $this->minifiers[$contentType] = $this->objectManager->create('Magento\Code\Minifier',
                 array(
@@ -172,5 +167,15 @@ class MinifyService
 
         $adapter = $this->objectManager->create($adapterClass);
         return $adapter;
+    }
+
+    /**
+     * Returns directory for storing minified files relative to STATIC_VIEW_DIR
+     *
+     * @return string
+     */
+    public static function getRelativeDir()
+    {
+        return \Magento\App\Filesystem\DirectoryList::CACHE_VIEW_REL_DIR . '/minified';
     }
 }

@@ -120,7 +120,7 @@ class MergedTest extends \PHPUnit_Framework_TestCase
     public function testIteratorInterfaceMerge()
     {
         $hash = md5(implode('|', array('script_one.js', 'script_two.js')));
-        $mergedFile = 'pub/static/_merged/' . $hash . '.js';
+        $mergedFile = 'pub/static/_cache/merged/' . $hash . '.js';
 
         $this->_logger->expects($this->never())->method('logException');
 
@@ -139,8 +139,8 @@ class MergedTest extends \PHPUnit_Framework_TestCase
         $merged = $this->_object;
         $readDirectoryMock->expects($this->once())
             ->method('getAbsolutePath')
-            ->with($this->equalTo($merged::PUBLIC_MERGE_DIR))
-            ->will($this->returnValue('pub/static/_merged'));
+            ->with($this->equalTo($merged::getRelativeDir()))
+            ->will($this->returnValue('pub/static/_cache/merged'));
 
         $this->_filesystem->expects($this->any())
             ->method('getDirectoryRead')

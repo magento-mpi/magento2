@@ -28,7 +28,7 @@ class MinifierTest extends \PHPUnit_Framework_TestCase
     /**
      * @var string
      */
-    protected $minifyDir = '_minify';
+    protected $minifyDir = '_cache/minified';
 
     /**
      * @var \Magento\Filesystem\Directory\Read|\PHPUnit_Framework_MockObject_MockObject

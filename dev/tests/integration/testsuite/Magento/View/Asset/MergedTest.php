@@ -44,7 +44,7 @@ class MergedTest extends \PHPUnit_Framework_TestCase
     protected function tearDown()
     {
         self::$_themePublicDir->delete('frontend');
-        self::$_themePublicDir->delete(\Magento\View\Asset\Merged::PUBLIC_MERGE_DIR);
+        self::$_themePublicDir->delete(\Magento\View\Asset\Merged::getRelativeDir());
     }
 
     /**
@@ -84,7 +84,7 @@ class MergedTest extends \PHPUnit_Framework_TestCase
     public function testMerging($contentType, $files, $expectedFilename, $related = array())
     {
         $resultingFile = self::$_themePublicDir->getAbsolutePath(
-            \Magento\View\Asset\Merged::PUBLIC_MERGE_DIR . '/' . $expectedFilename
+            \Magento\View\Asset\Merged::getRelativeDir() . '/' . $expectedFilename
         );
         $this->assertFileNotExists($resultingFile);
 
