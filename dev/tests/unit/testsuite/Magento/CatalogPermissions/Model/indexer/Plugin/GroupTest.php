@@ -20,20 +20,18 @@ class GroupTest extends \PHPUnit_Framework_TestCase
     protected $configMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Code\Plugin\InvocationChain
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\Resource\Store\Group
      */
-    protected $pluginMock;
+    protected $subjectMock;
 
     /**
-     * @var StoreView
+     * @var Group
      */
     protected $model;
 
     protected function setUp()
     {
-        $this->pluginMock = $this->getMock(
-            'Magento\Code\Plugin\InvocationChain', array('proceed'), array(), '', false
-        );
+        $this->subjectMock = $this->getMock('Magento\Core\Model\Resource\Store\Group', array(), array(), '', false);
         $this->indexerMock = $this->getMockForAbstractClass(
             'Magento\Indexer\Model\IndexerInterface',
             array(), '', false, false, true, array('getId', 'getState', '__wakeup')
@@ -65,9 +63,10 @@ class GroupTest extends \PHPUnit_Framework_TestCase
             ->method('isObjectNew')
             ->will($this->returnValue(false));
 
-        $arguments = array($groupMock);
-        $this->mockPluginProceed($arguments);
-        $this->assertFalse($this->model->aroundSave($arguments, $this->pluginMock));
+        $closureMock = function () use ($groupMock) {
+            return $this->subjectMock;
+        };
+        $this->assertEquals($this->subjectMock, $this->model->aroundSave($this->subjectMock, $closureMock, $groupMock));
     }
 
     /**
@@ -85,10 +84,10 @@ class GroupTest extends \PHPUnit_Framework_TestCase
         $groupMock->expects($this->once())
             ->method('isObjectNew')
             ->will($this->returnValue(true));
-
-        $arguments = array($groupMock);
-        $this->mockPluginProceed($arguments);
-        $this->assertFalse($this->model->aroundSave($arguments, $this->pluginMock));
+        $closureMock = function () use ($groupMock) {
+            return $this->subjectMock;
+        };
+        $this->assertEquals($this->subjectMock, $this->model->aroundSave($this->subjectMock, $closureMock, $groupMock));
     }
 
     public function changedDataProvider()
@@ -119,9 +118,10 @@ class GroupTest extends \PHPUnit_Framework_TestCase
         $groupMock->expects($this->never())
             ->method('isObjectNew');
 
-        $arguments = array($groupMock);
-        $this->mockPluginProceed($arguments);
-        $this->assertFalse($this->model->aroundSave($arguments, $this->pluginMock));
+        $closureMock = function () use ($groupMock) {
+            return $this->subjectMock;
+        };
+        $this->assertEquals($this->subjectMock, $this->model->aroundSave($this->subjectMock, $closureMock, $groupMock));
 
     }
 
@@ -132,13 +132,5 @@ class GroupTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(1));
         $this->indexerMock->expects($this->once())
             ->method('invalidate');
-    }
-
-    protected function mockPluginProceed($arguments, $returnValue = false)
-    {
-        $this->pluginMock->expects($this->once())
-            ->method('proceed')
-            ->with($arguments)
-            ->will($this->returnValue($returnValue));
     }
 }

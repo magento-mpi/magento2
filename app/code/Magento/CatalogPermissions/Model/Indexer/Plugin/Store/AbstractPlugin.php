@@ -47,24 +47,6 @@ abstract class AbstractPlugin
     }
 
     /**
-     * Process to invalidate indexer
-     *
-     * @param array $arguments
-     * @param \Magento\Code\Plugin\InvocationChain $invocationChain
-     * @return \Magento\Core\Model\Resource\Db\AbstractDb
-     */
-    public function aroundSave(array $arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
-    {
-        $needInvalidating = $this->validate($arguments[0]);
-        $objectResource = $invocationChain->proceed($arguments);
-        if ($needInvalidating && $this->appConfig->isEnabled()) {
-            $this->getIndexer()->invalidate();
-        }
-
-        return $objectResource;
-    }
-
-    /**
      * @param \Magento\Core\Model\AbstractModel $model
      * @return bool
      */

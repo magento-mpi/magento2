@@ -20,4 +20,26 @@ class View extends AbstractPlugin
     {
         return $store->isObjectNew() || $store->dataHasChangedFor('group_id');
     }
+
+    /**
+     * Process to invalidate indexer
+     *
+     * @param \Magento\Core\Model\Resource\Store $subject
+     * @param callable $proceed
+     * @param \Magento\Core\Model\AbstractModel $store
+     * @return mixed
+     */
+    public function aroundSave(
+        \Magento\Core\Model\Resource\Store $subject,
+        \Closure $proceed,
+        \Magento\Core\Model\AbstractModel $store
+    ) {
+        $needInvalidating = $this->validate($store);
+        $objectResource = $proceed($store);
+        if ($needInvalidating && $this->appConfig->isEnabled()) {
+            $this->getIndexer()->invalidate();
+        }
+
+        return $objectResource;
+    }
 }
