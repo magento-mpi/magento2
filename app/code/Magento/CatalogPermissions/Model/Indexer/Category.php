@@ -92,7 +92,7 @@ class Category implements \Magento\Indexer\Model\ActionInterface, \Magento\Mview
     protected function executeAction($ids)
     {
         $ids = array_unique($ids);
-        $this->indexer->load(self::INDEXER_ID);
+        $this->indexer->load(static::INDEXER_ID);
 
         /** @var Category\Action\Rows $action */
         $action = $this->rowsActionFactory->create();
