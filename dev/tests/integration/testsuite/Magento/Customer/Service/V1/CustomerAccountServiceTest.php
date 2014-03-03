@@ -16,12 +16,16 @@ use Magento\Exception\StateException;
  *
  * @SuppressWarnings(PHPMD.TooManyMethods)
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @magentoAppArea frontend
  */
 class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 {
     /** @var CustomerAccountServiceInterface */
     private $_customerAccountService;
+
+    /** @var CustomerAddressServiceInterface needed to setup tests */
+    private $_customerAddressService;
 
     /** @var \Magento\ObjectManager */
     private $_objectManager;
@@ -35,13 +39,21 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Customer\Service\V1\Dto\CustomerBuilder */
     private $_customerBuilder;
 
+    /** @var \Magento\Customer\Service\V1\Dto\CustomerDetailsBuilder */
+    private $_customerDetailsBuilder;
+
     protected function setUp()
     {
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_customerAccountService = $this->_objectManager
             ->create('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
+        $this->_customerAddressService =
+            $this->_objectManager->create('Magento\Customer\Service\V1\CustomerAddressServiceInterface');
+
         $this->_addressBuilder = $this->_objectManager->create('Magento\Customer\Service\V1\Dto\AddressBuilder');
         $this->_customerBuilder = $this->_objectManager->create('Magento\Customer\Service\V1\Dto\CustomerBuilder');
+        $this->_customerDetailsBuilder =
+            $this->_objectManager->create('Magento\Customer\Service\V1\Dto\CustomerDetailsBuilder');
 
         $this->_addressBuilder->setId(1)
             ->setCountryId('US')
@@ -82,7 +94,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_expectedAddresses = [$address, $address2];
     }
 
-
     /**
      * @magentoAppArea frontend
      * @magentoDataFixture Magento/Customer/_files/customer.php
@@ -122,10 +133,11 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      * @magentoAppArea frontend
      * @magentoDataFixture Magento/Customer/_files/customer.php
      */
-    public function testValidatePassword()
+    public function testChangePassword()
     {
-        // Customer e-mail and password are pulled from the fixture customer.php
-        $this->_customerAccountService->validatePassword(1, 'password');
+        $this->_customerAccountService->changePassword(1, 'password', 'new_password');
+
+        $this->_customerAccountService->authenticate('customer@example.com', 'new_password');
     }
 
     /**
@@ -134,19 +146,17 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      * @expectedException \Magento\Exception\AuthenticationException
      * @expectedExceptionMessage Password doesn't match for this account
      */
-    public function testValidatePasswordWrongPassword()
+    public function testChangePasswordWrongPassword()
     {
-        // Customer e-mail and password are pulled from the fixture customer.php
-        $this->_customerAccountService->validatePassword(1, 'wrongPassword');
+        $this->_customerAccountService->changePassword(1, 'wrongPassword', 'new_password');
     }
 
     /**
      * @expectedException \Magento\Exception\NoSuchEntityException
      */
-    public function testValidatePasswordWrongUser()
+    public function testChangePasswordWrongUser()
     {
-        // Customer e-mail and password are pulled from the fixture customer.php
-        $this->_customerAccountService->validatePassword(4200, 'password');
+        $this->_customerAccountService->validatePassword(4200, 'password', 'new_password');
     }
 
     /**
@@ -161,7 +171,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         // Assert in just one test that the fixture is working
         $this->assertNotNull($customerModel->getConfirmation(), 'New customer needs to be confirmed');
 
-        $this->_customerAccountService->activateAccount($customerModel->getId());
+        $this->_customerAccountService->activateCustomer($customerModel->getId(), $customerModel->getConfirmation());
 
         $customerModel = $this->_objectManager->create('Magento\Customer\Model\Customer');
         $customerModel->load(1);
@@ -222,8 +232,9 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Customer\Model\Customer $customerModel */
         $customerModel = $this->_objectManager->create('Magento\Customer\Model\Customer');
         $customerModel->load(1);
+        $key = $customerModel->getConfirmation();
         try {
-            $this->_customerAccountService->activateAccount('1234' . $customerModel->getId());
+            $this->_customerAccountService->activateCustomer('1234' . $customerModel->getId(), $key);
             $this->fail('Expected exception not thrown.');
         } catch (NoSuchEntityException $nsee) {
             $expectedParams = [
@@ -245,9 +256,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Customer\Model\Customer $customerModel */
         $customerModel = $this->_objectManager->create('Magento\Customer\Model\Customer');
         $customerModel->load(1);
-        $this->_customerAccountService->activateAccount($customerModel->getId());
-
-        $this->_customerAccountService->activateAccount($customerModel->getId());
+        $key = $customerModel->getConfirmation();
+        $this->_customerAccountService->activateCustomer($customerModel->getId(), $key);
+        // activate it one more time to produce an exception
+        $this->_customerAccountService->activateCustomer($customerModel->getId(), $key);
     }
 
 
@@ -256,14 +268,9 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testValidateResetPasswordLinkToken()
     {
-        $this->_customerBuilder->populateWithArray(
-            array_merge($this->_customerAccountService->getCustomer(1)->__toArray(), [
-                'rp_token' => 'token',
-                'rp_token_created_at' => date('Y-m-d')
-            ])
+        $this->_customerAccountService->updateCustomer(
+            $this->getCustomerDetailsDtoWithToken(1, 'token', date('Y-m-d'))
         );
-        $this->_customerAccountService->updateAccount($this->_customerBuilder->create());
-
         $this->_customerAccountService->validateResetPasswordLinkToken(1, 'token');
     }
 
@@ -276,16 +283,9 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     public function testValidateResetPasswordLinkTokenExpired()
     {
         $resetToken = 'lsdj579slkj5987slkj595lkj';
-
-        $this->_customerBuilder->populateWithArray(
-            array_merge($this->_customerAccountService->getCustomer(1)->__toArray(), [
-                'rp_token' => $resetToken,
-                'rp_token_created_at' => '1970-01-01',
-            ])
+        $this->_customerAccountService->updateCustomer(
+            $this->getCustomerDetailsDtoWithToken(1, $resetToken, '1970-01-01')
         );
-        $customerData = $this->_customerBuilder->create();
-        $this->_customerAccountService->updateAccount($customerData);
-
         $this->_customerAccountService->validateResetPasswordLinkToken(1, $resetToken);
     }
 
@@ -297,14 +297,9 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     {
         $resetToken = 'lsdj579slkj5987slkj595lkj';
         $invalidToken = 0;
-
-        $this->_customerBuilder->populateWithArray(
-            array_merge($this->_customerAccountService->getCustomer(1)->__toArray(), [
-                'rp_token' => $resetToken,
-                'rp_token_created_at' => date('Y-m-d')
-            ])
+        $this->_customerAccountService->updateCustomer(
+            $this->getCustomerDetailsDtoWithToken(1, $resetToken, date('Y-m-d'))
         );
-        $this->_customerAccountService->updateAccount($this->_customerBuilder->create());
 
         try {
             $this->_customerAccountService->validateResetPasswordLinkToken(1, $invalidToken);
@@ -396,9 +391,45 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
      */
-    public function testChangePassword()
+    public function testResetPassword()
     {
         $resetToken = 'lsdj579slkj5987slkj595lkj';
+        $this->_customerAccountService->updateCustomer(
+            $this->getCustomerDetailsDtoWithToken(1, $resetToken, date('Y-m-d'))
+        );
+        $this->_customerAccountService->resetPassword(1, $resetToken, 'password');
+    }
+
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     *
+     * @expectedException \Magento\Exception\StateException
+     * @expectedExceptionCode \Magento\Exception\StateException::EXPIRED
+     */
+    public function testResetPasswordTokenExpired()
+    {
+        $resetToken = 'lsdj579slkj5987slkj595lkj';
+
+        $this->_customerBuilder->populateWithArray(
+            array_merge($this->_customerAccountService->getCustomer(1)->__toArray(), [
+                'rp_token' => $resetToken,
+                'rp_token_created_at' => '1970-01-01',
+            ])
+        );
+        $this->_customerAccountService->saveCustomer($this->_customerBuilder->create());
+
+        $this->_customerAccountService->resetPassword(1, $resetToken, 'password');
+    }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     *
+     */
+    public function testResetPasswordTokenInvalid()
+    {
+        $resetToken = 'lsdj579slkj5987slkj595lkj';
+        $invalidToken = 0;
         $password = 'password_secret';
 
         $this->_customerBuilder->populateWithArray(
@@ -407,9 +438,21 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
                 'rp_token_created_at' => date('Y-m-d')
             ])
         );
-        $this->_customerAccountService->updateAccount($this->_customerBuilder->create());
+        $this->_customerAccountService->saveCustomer($this->_customerBuilder->create());
 
-        $this->_customerAccountService->changePassword(1, $password);
+        try {
+            $this->_customerAccountService->resetPassword(1, $invalidToken, $password);
+            $this->fail('Expected exception not thrown.');
+        } catch (InputException $ie) {
+            $expectedParams = [
+                [
+                    'value' => $invalidToken,
+                    'fieldName' => 'resetPasswordLinkToken',
+                    'code' => InputException::INVALID_FIELD_VALUE,
+                ]
+            ];
+            $this->assertEquals($expectedParams, $ie->getParams());
+        }
     }
 
     /**
@@ -418,17 +461,12 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     public function testResetPasswordTokenWrongUser()
     {
         $resetToken = 'lsdj579slkj5987slkj595lkj';
-        $password = 'password_secret';
-
-        $this->_customerBuilder->populateWithArray(
-            array_merge($this->_customerAccountService->getCustomer(1)->__toArray(), [
-                'rp_token' => $resetToken,
-                'rp_token_created_at' => date('Y-m-d')
-            ])
+        $this->_customerAccountService->updateCustomer(
+            $this->getCustomerDetailsDtoWithToken(1, $resetToken, date('Y-m-d'))
         );
-        $this->_customerAccountService->updateAccount($this->_customerBuilder->create());
+
         try {
-            $this->_customerAccountService->changePassword(4200, $password);
+            $this->_customerAccountService->resetPassword(4200, $resetToken, 'password');
             $this->fail('Expected exception not thrown.');
         } catch (NoSuchEntityException $nsee) {
             $expectedParams = [
@@ -436,6 +474,32 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             ];
             $this->assertEquals($expectedParams, $nsee->getParams());
         }
+    }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     */
+    public function testResetPasswordTokenInvalidUserId()
+    {
+        $resetToken = 'lsdj579slkj5987slkj595lkj';
+        $this->_customerAccountService->updateCustomer(
+            $this->getCustomerDetailsDtoWithToken(1, $resetToken, date('Y-m-d'))
+        );
+
+        try {
+            $this->_customerAccountService->resetPassword(0, $resetToken, 'password');
+            $this->fail('Expected exception not thrown.');
+        } catch (InputException $ie) {
+            $expectedParams = [
+                [
+                    'value' => 0,
+                    'fieldName' => 'customerId',
+                    'code' => InputException::INVALID_FIELD_VALUE,
+                ]
+            ];
+            $this->assertEquals($expectedParams, $ie->getParams());
+        }
+
     }
 
     /**
@@ -981,5 +1045,205 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals($expectedParams, $nsee->getParams());
             $this->assertEquals('No such entity with customerId = 1', $nsee->getMessage());
         }
+    }
+
+    /**
+     * @param Dto\Filter[] $filters
+     * @param Dto\Filter[] $orGroup
+     * @param array $expectedResult array of expected results indexed by ID
+     *
+     * @dataProvider searchAccountsDataProvider
+     *
+     * @magentoDbIsolation enabled
+     */
+    public function testSearchAccounts($filters, $orGroup, $expectedResult)
+    {
+        $this->generateCustomers();
+        $searchBuilder = new Dto\SearchCriteriaBuilder();
+        foreach ($filters as $filter) {
+            $searchBuilder->addFilter($filter);
+        }
+        if (!is_null($orGroup)) {
+            $searchBuilder->addOrGroup($orGroup);
+        }
+
+        $searchResults = $this->_customerAccountService->searchAccounts($searchBuilder->create());
+
+        $this->assertEquals(count($expectedResult), $searchResults->getTotalCount());
+
+        /** @var $item Dto\Customer */
+        foreach ($searchResults->getItems() as $item) {
+            $this->assertEquals($expectedResult[$item->getCustomerId()]['email'], $item->getEmail());
+            unset($expectedResult[$item->getCustomerId()]);
+        }
+    }
+
+    public function searchAccountsDataProvider()
+    {
+        return [
+            'Customer with specific email' => [
+                [(new Dto\FilterBuilder())->setField('email')->setValue('customer@search.example.com')->create()],
+                null,
+                [101 => ['email' => 'customer@search.example.com']]
+            ],
+            'Customer with specific first name' => [
+                [(new Dto\FilterBuilder())->setField('firstname')->setValue('Firstname2')->create()],
+                null,
+                [102 => ['email' => 'customer2@search.example.com']]
+            ],
+            'Customers with either email' => [
+                [],
+                [
+                    (new Dto\FilterBuilder())->setField('firstname')->setValue('Firstname')->create(),
+                    (new Dto\FilterBuilder())->setField('firstname')->setValue('Firstname2')->create()
+                ],
+                [
+                    101 => ['email' => 'customer@search.example.com'],
+                    102 => ['email' => 'customer2@search.example.com'],
+                ]
+            ],
+            'Customers created since' => [
+                [(new Dto\FilterBuilder())
+                     ->setField('created_at')->setValue('2011-02-28 15:52:26')->setConditionType('gt')->create()],
+                [],
+                [
+                    101 => ['email' => 'customer@search.example.com'],
+                    103 => ['email' => 'customer3@search.example.com'],
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * Test ordering
+     *
+     * @magentoDbIsolation enabled
+     */
+    public function testSearchAccountsOrder()
+    {
+        $this->generateCustomers();
+        $searchBuilder = new Dto\SearchCriteriaBuilder();
+
+        // Filter for 'firstname' like 'First'
+        $filterBuilder = new Dto\FilterBuilder();
+        $firstnameFilter = $filterBuilder->
+            setField('Firstname')->setConditionType('like')->setValue('First%')->create();
+        $searchBuilder->addFilter($firstnameFilter);
+
+        // Search ascending order
+        $searchBuilder->addSortOrder('lastname', Dto\SearchCriteria::SORT_ASC);
+        $searchResults = $this->_customerAccountService->searchAccounts($searchBuilder->create());
+        $this->assertEquals(3, $searchResults->getTotalCount());
+        $this->assertEquals('Lastname', $searchResults->getItems()[0]->getLastname());
+        $this->assertEquals('Lastname2', $searchResults->getItems()[1]->getLastname());
+        $this->assertEquals('Lastname3', $searchResults->getItems()[2]->getLastname());
+
+        // Search descending order
+        $searchBuilder->addSortOrder('lastname', Dto\SearchCriteria::SORT_DESC);
+        $searchResults = $this->_customerAccountService->searchAccounts($searchBuilder->create());
+        $this->assertEquals('Lastname3', $searchResults->getItems()[0]->getLastname());
+        $this->assertEquals('Lastname2', $searchResults->getItems()[1]->getLastname());
+        $this->assertEquals('Lastname', $searchResults->getItems()[2]->getLastname());
+    }
+
+    /**
+     * Setup test data for testSearchAccounts to query against
+     */
+    protected function generateCustomers()
+    {
+        $customerDetailDataArray = [
+            [
+                'customer' => [
+                    'id' => '101',
+                    'website_id' => '1',
+                    'store_id' => '1',
+                    'group_id' => '1',
+                    'firstname' => 'Firstname',
+                    'lastname' => 'Lastname',
+                    'email' => 'customer@search.example.com',
+                    'created_at' => '2014-02-28 15:52:26',
+                ],
+                'addresses' => [
+                    [
+                        'id' => '101',
+                        'firstname' => 'Ferb',
+                        'lastname' => 'Lerb',
+                        'street' => '123 Main St',
+                        'city' => 'Austin',
+                        'telephone' => '512-555-5555',
+                        'postcode' => '78777',
+                        'countryId' => 'US',
+                    ],
+                    [
+                        'id' => '102',
+                        'firstname' => 'Ferb',
+                        'lastname' => 'Lerb',
+                        'street' => '123 Main St',
+                        'city' => 'Austin',
+                        'telephone' => '512-555-5555',
+                        'postcode' => '78777',
+                        'countryId' => 'US',
+                    ]
+                ]
+            ],
+            [
+                'customer' => [
+                    'id' => '102',
+                    'website_id' => '1',
+                    'store_id' => '1',
+                    'group_id' => '1',
+                    'firstname' => 'Firstname2',
+                    'lastname' => 'Lastname2',
+                    'email' => 'customer2@search.example.com',
+                    'created_at' => '2010-02-28 15:52:26',
+                ]
+            ],
+            [
+                'customer' => [
+                    'id' => '103',
+                    'website_id' => '1',
+                    'store_id' => '1',
+                    'group_id' => '1',
+                    'firstname' => 'Firstname3',
+                    'lastname' => 'Lastname3',
+                    'email' => 'customer3@search.example.com',
+                    'created_at' => '2012-02-28 15:52:26'
+                ]
+            ],
+        ];
+
+        foreach ($customerDetailDataArray as $customerDetailData) {
+            // TODO: when createCustomer is available, use that
+            $this->_customerBuilder->populateWithArray($customerDetailData['customer']);
+            $this->_customerAccountService->saveCustomer($this->_customerBuilder->create());
+
+            if (isset($customerDetailData['addresses'])) {
+                foreach ($customerDetailData['addresses'] as $addressData) {
+                    $addressDtoArray[] = $this->_addressBuilder->populateWithArray($addressData)->create();
+                }
+                $this->_customerAddressService->saveAddresses($customerDetailData['customer']['id'], $addressDtoArray);
+            }
+        }
+    }
+
+    /**
+     * Build a CustomerDetails instance with a special rp_token
+     * @param $customerId
+     * @param $rpToken
+     * @return Dto\CustomerDetails
+     */
+    protected function getCustomerDetailsDtoWithToken($customerId, $rpToken, $date)
+    {
+        $this->_customerDetailsBuilder->populateWithArray(
+            [V1\Dto\CustomerDetails::KEY_CUSTOMER => array_merge(
+                $this->_customerAccountService->getCustomer($customerId)->__toArray(),
+                [
+                    'rp_token' => $rpToken,
+                    'rp_token_created_at' => $date
+                ])
+            ]
+        );
+
+        return $this->_customerDetailsBuilder->create();
     }
 }

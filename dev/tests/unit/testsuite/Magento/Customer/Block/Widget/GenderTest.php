@@ -35,19 +35,18 @@ class GenderTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_attribute =
-            $this->getMock('Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata', [], [], '', false);
+        $this->_attribute = $this->getMockBuilder('Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata')
+            ->disableOriginalConstructor()->getMock();
 
         $this->_attributeMetadata =
-            $this->getMockForAbstractClass(
-                'Magento\Customer\Service\V1\CustomerMetadataServiceInterface', [], '', false
-            );
+            $this->getMockBuilder('Magento\Customer\Service\V1\CustomerMetadataServiceInterface')
+            ->getMockForAbstractClass();
         $this->_attributeMetadata->expects($this->any())->method('getCustomerAttributeMetadata')
             ->with(self::GENDER_ATTRIBUTE_CODE)
             ->will($this->returnValue($this->_attribute));
 
-        $this->_customerService =
-            $this->getMockForAbstractClass('Magento\Customer\Service\V1\CustomerAccountServiceInterface', [], '', false);
+        $this->_customerService = $this->getMockBuilder('Magento\Customer\Service\V1\CustomerAccountServiceInterface')
+            ->getMockForAbstractClass();
         $this->_customerSession = $this->getMock('Magento\Customer\Model\Session', [], [], '', false);
 
         $this->_block = new Gender(
