@@ -139,6 +139,7 @@ class CustomerDetailsBuilderTest extends \PHPUnit_Framework_TestCase
         return [
             [['customer' => ['customerData']], 'customerMock', []],
             [['customer' => ['customerData'], 'addresses' => []], 'customerMock', []],
+            [['customer' => ['customerData'], 'addresses' => null], 'customerMock', []],
             [
                 ['customer' => ['customerData'], 'addresses' => [['addressData']]],
                 'customerMock',
@@ -150,6 +151,7 @@ class CustomerDetailsBuilderTest extends \PHPUnit_Framework_TestCase
                 ['addressMock', 'addressMock'],
             ],
             [['addresses' => [['addressData']]], 'customerMock', ['addressMock'],],
+            [['customer' => null, 'addresses' => [['addressData']]], 'customerMock', ['addressMock'],],
             [[], 'customerMock', [],],
         ];
     }

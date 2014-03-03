@@ -50,7 +50,7 @@ class CustomerDetailsBuilder extends AbstractDtoBuilder
     public function populateWithArray(array $data)
     {
         $newData = [];
-        if (array_key_exists(CustomerDetails::KEY_CUSTOMER, $data)) {
+        if (isset($data[CustomerDetails::KEY_CUSTOMER])) {
             $newData[CustomerDetails::KEY_CUSTOMER] = $this->_customerBuilder
                 ->populateWithArray($data[CustomerDetails::KEY_CUSTOMER])
                 ->create();
@@ -59,7 +59,7 @@ class CustomerDetailsBuilder extends AbstractDtoBuilder
         }
 
         $newData[CustomerDetails::KEY_ADDRESSES] = [];
-        if (array_key_exists(CustomerDetails::KEY_ADDRESSES, $data)) {
+        if (isset($data[CustomerDetails::KEY_ADDRESSES])) {
             $addresses = $data[CustomerDetails::KEY_ADDRESSES];
             foreach ($addresses as $address) {
                 $newData[CustomerDetails::KEY_ADDRESSES][] = $this->_addressBuilder

@@ -112,8 +112,10 @@ class CustomerDetailsBuilderTest extends \PHPUnit_Framework_TestCase
         return [
             [[]],
             [['customer' => $customer]],
+            [['customer' => $customer, 'addresses' => null]],
             [['customer' => $customer, 'addresses' => [$address1, $address2]]],
             [['addresses' => [$address1, $address2]]],
+            [['customer' => null, 'addresses' => [$address1, $address2]]],
         ];
     }
 

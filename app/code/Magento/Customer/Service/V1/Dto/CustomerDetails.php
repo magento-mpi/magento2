@@ -1,7 +1,5 @@
 <?php
 /**
- * CustomerDatails class
- *
  * {license_notice}
  *
  * @copyright   {copyright}
