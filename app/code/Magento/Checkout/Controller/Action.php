@@ -23,11 +23,6 @@ abstract class Action extends \Magento\App\Action\Action
     protected $_customerSession;
 
     /**
-     * @var CustomerService
-     */
-    protected $_customerService;
-
-    /**
      * @var CustomerAccountService
      */
     protected $_customerAccountService;
@@ -40,19 +35,16 @@ abstract class Action extends \Magento\App\Action\Action
     /**
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param CustomerService $customerService
      * @param CustomerAccountService $customerAccountService
      * @param CustomerMetadataService $customerMetadataService
      */
     public function __construct(
         \Magento\App\Action\Context $context,
         \Magento\Customer\Model\Session $customerSession,
-        CustomerService $customerService,
         CustomerAccountService $customerAccountService,
         CustomerMetadataService $customerMetadataService
     ) {
         $this->_customerSession = $customerSession;
-        $this->_customerService = $customerService;
         $this->_customerAccountService = $customerAccountService;
         $this->_customerMetadataService = $customerMetadataService;
         parent::__construct($context);

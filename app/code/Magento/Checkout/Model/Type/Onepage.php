@@ -336,8 +336,6 @@ class Onepage
      * @param   array $data
      * @param   int $customerAddressId
      * @return  array
-     *
-     * @SuppressWarnings(
      */
     public function saveBilling($data, $customerAddressId)
     {

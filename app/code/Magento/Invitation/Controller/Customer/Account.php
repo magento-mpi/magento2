@@ -53,8 +53,9 @@ class Account extends \Magento\Customer\Controller\Account
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Store\Config $storeConfig
+     * @param \Magento\Core\Helper\Data $coreHelperData
      * @param \Magento\Escaper $escaper
-     * @param \Magento\Customer\Service\V1\CustomerServiceInterface $customerService
+     * @param \Magento\App\State $appState
      * @param CustomerGroupServiceInterface $customerGroupService
      * @param CustomerAccountServiceInterface $customerAccountService
      * @param \Magento\Customer\Service\V1\Dto\RegionBuilder $regionBuilder
@@ -79,7 +80,6 @@ class Account extends \Magento\Customer\Controller\Account
         \Magento\Core\Helper\Data $coreHelperData,
         \Magento\Escaper $escaper,
         \Magento\App\State $appState,
-        CustomerServiceInterface $customerService,
         CustomerGroupServiceInterface $customerGroupService,
         CustomerAccountServiceInterface $customerAccountService,
         \Magento\Customer\Service\V1\Dto\RegionBuilder $regionBuilder,
@@ -104,7 +104,6 @@ class Account extends \Magento\Customer\Controller\Account
             $coreHelperData,
             $escaper,
             $appState,
-            $customerService,
             $customerGroupService,
             $customerAccountService,
             $regionBuilder,
