@@ -111,6 +111,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods(
                 array(
+                    'getCollection',
                     'getId',
                     'getFirstname',
                     'getLastname',
@@ -1452,6 +1453,110 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(4, count($actualCustomer->getAttributes()));
         $attribute = $actualCustomer->getAttribute('attribute_code');
         $this->assertNull($attribute, 'Arbitrary attributes must not be available do DTO users.');
+    }
+
+    public function testSearchAccountsEmpty()
+    {
+        $collectionMock = $this->getMockBuilder('\Magento\Customer\Model\Resource\Customer\Collection')
+            ->disableOriginalConstructor()
+            ->setMethods(
+                [
+                    'addNameToSelect',
+                    'addFieldToFilter',
+                    'getSize',
+                    'load'
+                ]
+            )
+            ->getMock();
+
+        $this->_mockReturnValue(
+            $collectionMock,
+            ['getSize' => 0]
+        );
+        $this->_customerFactoryMock->expects($this->atLeastOnce())
+            ->method('create')
+            ->will($this->returnValue($this->_customerModelMock));
+
+        $this->_customerModelMock->expects($this->any())
+            ->method('load')
+            ->will($this->returnSelf());
+
+        $this->_mockReturnValue(
+            $this->_customerModelMock,
+            array(
+                'getId' => self::ID,
+                'getCollection' => $collectionMock,
+            )
+        );
+
+        $this->_customerFactoryMock->expects($this->any())
+            ->method('create')
+            ->will($this->returnValue($this->_customerModelMock));
+
+        $customerService = $this->_createService();
+        $searchBuilder = new Dto\SearchCriteriaBuilder();
+        $filterBuilder = new Dto\FilterBuilder();
+        $filter = $filterBuilder->setField('email')->setValue('customer@search.example.com')->create();
+        $searchBuilder->addFilter($filter);
+
+        $searchResults = $customerService->searchAccounts($searchBuilder->create());
+        $this->assertEquals(0, $searchResults->getTotalCount());
+    }
+
+
+    public function testSearchAccounts()
+    {
+        $collectionMock = $this->getMockBuilder('\Magento\Customer\Model\Resource\Customer\Collection')
+            ->disableOriginalConstructor()
+            ->setMethods(
+                [
+                    'addNameToSelect',
+                    'addFieldToFilter',
+                    'getSize',
+                    'load',
+                    'getItems',
+                    'getIterator',
+                ]
+            )
+            ->getMock();
+
+        $this->_mockReturnValue(
+            $collectionMock,
+            [
+                'getSize' => 1,
+                '_getItems' => [$this->_customerModelMock],
+                'getIterator' => new \ArrayIterator([$this->_customerModelMock])
+            ]
+        );
+
+        $this->_customerFactoryMock->expects($this->atLeastOnce())
+            ->method('create')
+            ->will($this->returnValue($this->_customerModelMock));
+
+        $this->_mockReturnValue(
+            $this->_customerModelMock,
+            [
+                'load' => $this->returnSelf(),
+                'getId' => self::ID,
+                'getEmail' => self::EMAIL,
+                'getCollection' => $collectionMock,
+                'getAttributes' => array(),
+            ]
+        );
+
+        $this->_customerFactoryMock->expects($this->any())
+            ->method('create')
+            ->will($this->returnValue($this->_customerModelMock));
+
+        $customerService = $this->_createService();
+        $searchBuilder = new Dto\SearchCriteriaBuilder();
+        $filterBuilder = new Dto\FilterBuilder();
+        $filter = $filterBuilder->setField('email')->setValue(self::EMAIL)->create();
+        $searchBuilder->addFilter($filter);
+
+        $searchResults = $customerService->searchAccounts($searchBuilder->create());
+        $this->assertEquals(1, $searchResults->getTotalCount());
+        $this->assertEquals(self::EMAIL, $searchResults->getItems()[0]->getEmail());
     }
 
     private function _setupStoreMock()
