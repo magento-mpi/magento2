@@ -71,7 +71,6 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         $ttl = 120;
         $pragma = 'cache';
         $cacheControl = 'public, max-age=' . $ttl . ', s-maxage=' . $ttl;
-        $expires = gmdate('D, d M Y H:i:s T', strtotime('+' . $ttl . ' seconds'));
         $between = 1000;
 
         $this->_model->setPublicHeaders($ttl);

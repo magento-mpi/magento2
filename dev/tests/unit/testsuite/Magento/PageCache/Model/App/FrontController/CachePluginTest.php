@@ -62,7 +62,7 @@ class CachePluginTest extends \PHPUnit_Framework_TestCase
         $this->request = $this->getMock('Magento\App\RequestInterface', array(), array(), '', false);
         $this->response = $this->getMock('Magento\App\Response\Http', array(), array(), '', false);
         $response = $this->response;
-        $this->closure = function ($request) use ($response) {
+        $this->closure = function () use ($response) {
             return $response;
         };
         $this->plugin = new CachePlugin($this->config, $this->version, $this->kernel);
