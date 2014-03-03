@@ -12,8 +12,6 @@ namespace Magento\Widget\Model\Widget;
 /**
  * Widget Instance Model
  *
- * @method \Magento\Widget\Model\Resource\Widget\Instance _getResource()
- * @method \Magento\Widget\Model\Resource\Widget\Instance getResource()
  * @method string getTitle()
  * @method \Magento\Widget\Model\Widget\Instance setTitle(string $value)
  * @method \Magento\Widget\Model\Widget\Instance setStoreIds(string $value)
@@ -22,10 +20,6 @@ namespace Magento\Widget\Model\Widget;
  * @method \Magento\Widget\Model\Widget\Instance setSortOrder(int $value)
  * @method \Magento\Widget\Model\Widget\Instance setThemeId(int $value)
  * @method int getThemeId()
- *
- * @category    Magento
- * @package     Magento_Widget
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Instance extends \Magento\Core\Model\AbstractModel
 {
@@ -351,7 +345,7 @@ class Instance extends \Magento\Core\Model\AbstractModel
     {
         if (is_string($this->getData('widget_parameters'))) {
             return unserialize($this->getData('widget_parameters'));
-        } else if (is_null($this->getData('widget_parameters'))) {
+        } elseif (null === $this->getData('widget_parameters')) {
             return array();
         }
         return (is_array($this->getData('widget_parameters'))) ? $this->getData('widget_parameters') : array();
@@ -524,11 +518,14 @@ class Instance extends \Magento\Core\Model\AbstractModel
      */
     public function generateLayoutUpdateXml($container, $templatePath = '')
     {
-        $templateFilename = $this->_viewFileSystem->getFilename($templatePath, array(
-            'area'    => $this->getArea(),
-            'themeId' => $this->getThemeId(),
-            'module'  => \Magento\View\Element\AbstractBlock::extractModuleName($this->getType()),
-        ));
+        $templateFilename = $this->_viewFileSystem->getTemplateFileName(
+            $templatePath,
+            [
+                'area'    => $this->getArea(),
+                'themeId' => $this->getThemeId(),
+                'module'  => \Magento\View\Element\AbstractBlock::extractModuleName($this->getType()),
+            ]
+        );
         if (!$this->getId() && !$this->isCompleteToCreate() || ($templatePath && !is_readable($templateFilename))) {
             return '';
         }

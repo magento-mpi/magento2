@@ -11,16 +11,15 @@ namespace Magento\Backup\Model;
  * Backup file item model
  *
  * @method string getPath()
- * @method \Magento\Backup\Model\Backup setPath() setPath($path)
  * @method string getName()
- * @method \Magento\Backup\Model\Backup setName() setName($name)
  * @method string getTime()
- * @method \Magento\Backup\Model\Backup setTime() setTime($time)
  */
 class Backup extends \Magento\Object implements \Magento\Backup\Db\BackupInterface
 {
-    /* internal constants */
-    const COMPRESS_RATE     = 9;
+    /**
+     * Compress rate
+     */
+    const COMPRESS_RATE = 9;
 
     /**
      * Type of backup file
@@ -295,8 +294,7 @@ class Backup extends \Magento\Object implements \Magento\Backup\Db\BackupInterfa
                 $mode,
                 \Magento\App\Filesystem::WRAPPER_CONTENT_ZLIB
             );
-        }
-        catch (\Magento\Filesystem\FilesystemException $e) {
+        } catch (\Magento\Filesystem\FilesystemException $e) {
             throw new \Magento\Backup\Exception\NotEnoughPermissions(
                 __('Sorry, but we cannot read from or write to backup file "%1".', $this->getFileName())
             );
@@ -351,10 +349,10 @@ class Backup extends \Magento\Object implements \Magento\Backup\Db\BackupInterfa
     {
         try {
             $this->_getStream()->write($string);
-        }
-        catch (\Magento\Filesystem\FilesystemException $e) {
-            throw new \Magento\Backup\Exception(__('Something went wrong writing to the backup file "%1".',
-                $this->getFileName()));
+        } catch (\Magento\Filesystem\FilesystemException $e) {
+            throw new \Magento\Backup\Exception(
+                __('Something went wrong writing to the backup file "%1".', $this->getFileName())
+            );
         }
 
         return $this;

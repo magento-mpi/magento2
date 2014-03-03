@@ -11,14 +11,14 @@ namespace Magento\View\Design\FileResolution\Strategy;
 use Magento\View\Design\ThemeInterface;
 
 /**
- * File Interface
+ * Template Interface
  *
- * Interface for 'file' file resolution strategy
+ * Interface for 'template' file resolution strategy
  */
-interface FileInterface
+interface TemplateInterface
 {
     /**
-     * Get a usual file path
+     * Get a usual file path (e.g. template)
      *
      * @param string $area
      * @param ThemeInterface $themeModel
@@ -26,5 +26,5 @@ interface FileInterface
      * @param string|null $module
      * @return string
      */
-    public function getFile($area, ThemeInterface $themeModel, $file, $module = null);
+    public function getTemplateFile($area, ThemeInterface $themeModel, $file, $module = null);
 }

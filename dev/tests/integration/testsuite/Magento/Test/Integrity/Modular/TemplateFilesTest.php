@@ -38,7 +38,7 @@ class TemplateFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrit
                 );
                 $file = \Magento\TestFramework\Helper\Bootstrap::getObjectmanager()
                     ->get('Magento\View\FileSystem')
-                    ->getFilename($template, $params);
+                    ->getTemplateFileName($template, $params);
                 $this->assertFileExists($file, "Block class: {$class}");
             },
             $this->allTemplatesDataProvider()

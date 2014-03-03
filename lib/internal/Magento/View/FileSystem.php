@@ -76,6 +76,21 @@ class FileSystem
     }
 
     /**
+     * Get a template file
+     *
+     * @param string $fileId
+     * @param array $params
+     * @return string
+     */
+    public function getTemplateFileName($fileId, array $params = array())
+    {
+        $filePath = $this->_viewService->extractScope($this->normalizePath($fileId), $params);
+        $this->_viewService->updateDesignParams($params);
+        return $this->_resolutionPool->getTemplateStrategy(!empty($params['skipProxy']))
+            ->getTemplateFile($params['area'], $params['themeModel'], $filePath, $params['module']);
+    }
+
+    /**
      * Find a view file using fallback mechanism
      *
      * @param string $fileId

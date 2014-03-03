@@ -447,8 +447,8 @@ class Translate implements TranslateInterface
     protected function _getThemeTranslationFile($locale, $area = null)
     {
         $area = isset($area) ? $area : $this->_appState->getAreaCode();
-        return $this->_viewFileSystem
-            ->getFilename(\Magento\App\Filesystem::LOCALE_DIR . '/' . $locale . '.csv', array('area' => $area));
+        $filePath = \Magento\App\Filesystem::LOCALE_DIR . '/' . $locale . '.csv';
+        return $this->_viewFileSystem->getLocaleFileName($filePath, array('area' => $area));
     }
 
     /**

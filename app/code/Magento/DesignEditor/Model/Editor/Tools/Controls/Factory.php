@@ -83,7 +83,7 @@ class Factory
         if (!isset($this->_fileNames[$type])) {
             throw new \Magento\Exception("Unknown control configuration type: \"{$type}\"");
         }
-        return $this->_viewFileSystem->getFilename($this->_fileNames[$type], array(
+        return $this->_viewFileSystem->getViewFile($this->_fileNames[$type], array(
             'area'       => \Magento\View\DesignInterface::DEFAULT_AREA,
             'themeModel' => $theme
         ));

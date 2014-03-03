@@ -22,7 +22,7 @@ class Template extends \Magento\Email\Model\Template
      */
     public function getInclude($template, array $variables)
     {
-        $filename = $this->_viewFileSystem->getFilename($template);
+        $filename = $this->_viewFileSystem->getTemplateFileName($template);
         if (!$filename) {
             return '';
         }
