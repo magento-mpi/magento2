@@ -19,4 +19,7 @@
             <container name="customer.form.register.fields.before" as="form_fields_before" label="Form Fields Before" htmlTag="div" htmlClass="customer-form-before"/>
         </block>
     </referenceContainer>
+    <referenceContainer name="form.additional.info">
+        <block class="Magento\View\Element\Template" name="form_additional_info_customer" template="Magento_Customer::additionalinfocustomer.phtml"/>
+    </referenceContainer>
 </layout>

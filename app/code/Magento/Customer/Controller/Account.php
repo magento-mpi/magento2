@@ -531,11 +531,7 @@ class Account extends \Magento\App\Action\Action
         $this->_addWelcomeMessage();
 
         $successUrl = $this->_createUrl()->getUrl('*/*/index', array('_secure' => true));
-        if (!$this->_objectManager->get('Magento\Core\Model\Store\Config')->getConfigFlag(
-                \Magento\Customer\Helper\Data::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD
-            )
-            && $this->_getSession()->getBeforeAuthUrl()
-        ) {
+        if ($this->_getSession()->getBeforeAuthUrl()) {
             $successUrl = $this->_getSession()->getBeforeAuthUrl(true);
         }
         return $successUrl;
