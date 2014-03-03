@@ -18,7 +18,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         );
         $storeConfigMock->expects($this->once())
             ->method('getConfigFlag')
-            ->with(ConfigInterface::XML_PATH_ENABLED)
+            ->with(ConfigInterface::XML_PATH_ENABLED, null)
             ->will($this->returnValue('some value'));
         $model = new Config($storeConfigMock);
         $this->assertEquals('some value', $model->isEnabled());
