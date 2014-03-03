@@ -329,7 +329,6 @@ class PayflowNvp extends \Magento\Paypal\Model\Api\Nvp
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Logger\AdapterFactory $logAdapterFactory
      * @param \Magento\Directory\Model\CountryFactory $countryFactory
-     * @param \Magento\RecurringProfile\Model\QuoteImporter $quoteImporter
      * @param \Magento\Math\Random $mathRandom
      * @param array $data
      */
@@ -340,7 +339,6 @@ class PayflowNvp extends \Magento\Paypal\Model\Api\Nvp
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Logger\AdapterFactory $logAdapterFactory,
         \Magento\Directory\Model\CountryFactory $countryFactory,
-        \Magento\RecurringProfile\Model\QuoteImporter $quoteImporter,
         \Magento\Math\Random $mathRandom,
         array $data = array()
     ) {
@@ -352,7 +350,6 @@ class PayflowNvp extends \Magento\Paypal\Model\Api\Nvp
             $regionFactory,
             $logAdapterFactory,
             $countryFactory,
-            $quoteImporter,
             $data
         );
     }
