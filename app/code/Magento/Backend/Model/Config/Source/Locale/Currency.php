@@ -21,14 +21,14 @@ class Currency implements \Magento\Option\ArrayInterface
     protected $_option;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\LocaleInterface
      */
     protected $_locale;
 
     /**
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\LocaleInterface $locale
      */
-    public function __construct(\Magento\Core\Model\LocaleInterface $locale)
+    public function __construct(\Magento\LocaleInterface $locale)
     {
         $this->_locale = $locale;
     }

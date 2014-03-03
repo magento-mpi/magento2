@@ -243,13 +243,12 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param Product\Url $url
      * @param Product\Link $productLink
-     * @param \Magento\Catalog\Model\Product\Configuration\Item\OptionFactory $itemOptionFactory
+     * @param Product\Configuration\Item\OptionFactory $itemOptionFactory
      * @param \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
+     * @param CategoryFactory $categoryFactory
      * @param Product\Option $catalogProductOption
      * @param Product\Visibility $catalogProductVisibility
-     * @param \Magento\Catalog\Model\Product\Attribute\Source\Status $catalogProductStatus
+     * @param Product\Attribute\Source\Status $catalogProductStatus
      * @param Product\Media\Config $catalogProductMediaConfig
      * @param \Magento\Index\Model\Indexer $indexIndexer
      * @param Product\Type $catalogProductType
@@ -274,7 +273,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
         Product\Link $productLink,
         \Magento\Catalog\Model\Product\Configuration\Item\OptionFactory $itemOptionFactory,
         \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory,
-        \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Catalog\Model\Product\Option $catalogProductOption,
         \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
@@ -295,7 +293,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
     ) {
         $this->_itemOptionFactory = $itemOptionFactory;
         $this->_stockItemFactory = $stockItemFactory;
-        $this->_productFactory = $productFactory;
         $this->_categoryFactory = $categoryFactory;
         $this->_optionInstance = $catalogProductOption;
         $this->_catalogProductVisibility = $catalogProductVisibility;

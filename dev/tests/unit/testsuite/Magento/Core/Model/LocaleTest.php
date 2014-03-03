@@ -26,7 +26,7 @@ class LocaleTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \Magento\Core\Model\App
      */
-    protected $_app;
+    protected $_cacheFrontend;
 
     /**
      * @var \Magento\Core\Model\App
@@ -42,13 +42,9 @@ class LocaleTest extends \PHPUnit_Framework_TestCase
     {
         $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        $this->_app = $this->getMock(
-            '\Magento\Core\Model\App',
-            array('getCache', 'getLowLevelFrontend', 'getStore'),
-            array(),
-            '',
-            false
-        );
+        $this->_cacheFrontend = $this->getMock('\Magento\Cache\FrontendInterface');
+        $this->_cache = $this->getMock('\Magento\App\CacheInterface');
+        $this->_cache->expects($this->any())->method('getFrontend')->will($this->returnValue($this->_cacheFrontend));
 
         $this->_storeManager = $this->getMock(
             '\Magento\Core\Model\StoreManager',
@@ -97,12 +93,8 @@ class LocaleTest extends \PHPUnit_Framework_TestCase
 
     protected function _getConstructArgsForDateFormatting()
     {
-        $this->_app->expects($this->once())
-            ->method('getCache')
-            ->will($this->returnValue($this->_app));
-
         $cache = $this->getMock('Zend_Cache_Core');
-        $this->_app->expects($this->once())
+        $this->_cacheFrontend->expects($this->once())
             ->method('getLowLevelFrontend')
             ->will($this->returnValue($cache));
 
@@ -114,6 +106,6 @@ class LocaleTest extends \PHPUnit_Framework_TestCase
             ->method('getConfig')
             ->will($this->returnValue(self::DEFAULT_TIME_ZONE));
 
-        return array('app' => $this->_app, 'storeManager' => $this->_storeManager);
+        return array('cache' => $this->_cache, 'storeManager' => $this->_storeManager);
     }
 }

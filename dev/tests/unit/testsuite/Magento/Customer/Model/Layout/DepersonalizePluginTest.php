@@ -63,10 +63,16 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
     protected $moduleManagerMock;
 
     /**
+     * @var \Magento\App\Http\Context|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $httpContext;
+
+    /**
      * SetUp
      */
     public function setUp()
     {
+        $this->httpContext = $this->getMock('Magento\App\Http\Context', array(), array(), '', false);
         $this->layoutMock = $this->getMock('Magento\Core\Model\Layout', array(), array(), '', false);
         $this->sessionMock = $this->getMock(
             'Magento\Core\Model\Session',
@@ -111,7 +117,8 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
             $this->customerFactoryMock,
             $this->eventManagerMock,
             $this->requestMock,
-            $this->moduleManagerMock
+            $this->moduleManagerMock,
+            $this->httpContext
         );
     }
 
@@ -162,6 +169,11 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('setGroupId')
             ->with($this->equalTo($expectedCustomerGroupId));
+        $this->httpContext
+            ->expects($this->once())
+            ->method('setValue')
+            ->with($this->equalTo(\Magento\App\Http\Context::CUSTOMER_GROUP),
+                $this->equalTo($expectedCustomerGroupId));
         $this->sessionMock
             ->expects($this->once())
             ->method('setData')

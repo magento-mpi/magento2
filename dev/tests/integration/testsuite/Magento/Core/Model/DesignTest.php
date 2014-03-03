@@ -105,7 +105,7 @@ class DesignTest extends \PHPUnit_Framework_TestCase
     public function testLoadChangeCache()
     {
         /** @var \Magento\Stdlib\DateTime $dateTime */
-        $dateTime = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('\Magento\Stdlib\DateTime');
+        $dateTime = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Stdlib\DateTime');
         $date = $dateTime->now(true);
         $storeId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Core\Model\StoreManagerInterface')->getAnyStoreView()->getId(); // fixture design_change
@@ -164,11 +164,11 @@ class DesignTest extends \PHPUnit_Framework_TestCase
 
         $store = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Core\Model\StoreManagerInterface')->getStore($storeCode);
-        $store->setConfig(\Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_TIMEZONE, $storeTimezone);
+        $store->setConfig(\Magento\LocaleInterface::XML_PATH_DEFAULT_TIMEZONE, $storeTimezone);
         $storeId = $store->getId();
 
-        /** @var $locale \Magento\Core\Model\LocaleInterface|\PHPUnit_Framework_MockObject_MockObject */
-        $locale = $this->getMock('Magento\Core\Model\LocaleInterface');
+        /** @var $locale \Magento\LocaleInterface|\PHPUnit_Framework_MockObject_MockObject */
+        $locale = $this->getMock('Magento\LocaleInterface');
         $locale->expects($this->once())
             ->method('storeTimeStamp')
             ->with($storeId)
