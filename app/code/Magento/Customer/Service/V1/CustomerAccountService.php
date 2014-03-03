@@ -390,8 +390,6 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     {
         $this->_searchResultsBuilder->setSearchCriteria($searchCriteria);
 
-        $customers = array();
-
         /** @var Collection $collection */
         $collection = $this->_customerFactory->create()->getCollection();
         $this->addFiltersToCollection($searchCriteria->getFilters(), $collection);
@@ -404,6 +402,8 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         }
         $collection->setCurPage($searchCriteria->getCurrentPage());
         $collection->setPageSize($searchCriteria->getPageSize());
+
+        $customers = [];
 
         /** @var CustomerModel $customerModel */
         foreach ($collection as $customerModel) {
@@ -466,7 +466,6 @@ class CustomerAccountService implements CustomerAccountServiceInterface
             $fields[] = ['attribute' => $filter->getField(), $condition => $filter->getValue()];
         }
         if ($fields) {
-
             $collection->addFieldToFilter($fields, $conditions);
         }
     }
