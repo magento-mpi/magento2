@@ -15,6 +15,11 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     protected $indexerMock;
 
     /**
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\CatalogPermissions\App\ConfigInterface
+     */
+    protected $configMock;
+
+    /**
      * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Code\Plugin\InvocationChain
      */
     protected $pluginMock;
@@ -33,7 +38,14 @@ class ViewTest extends \PHPUnit_Framework_TestCase
             'Magento\Indexer\Model\IndexerInterface',
             array(), '', false, false, true, array('getId', 'getState', '__wakeup')
         );
-        $this->model = new View($this->indexerMock);
+        $this->configMock = $this->getMockForAbstractClass(
+            'Magento\CatalogPermissions\App\ConfigInterface',
+            array(), '', false, false, true, array('isEnabled')
+        );
+        $this->configMock->expects($this->any())
+            ->method('isEnabled')
+            ->will($this->returnValue(true));
+        $this->model = new View($this->indexerMock, $this->configMock);
     }
 
     public function testAroundSaveNewObject()

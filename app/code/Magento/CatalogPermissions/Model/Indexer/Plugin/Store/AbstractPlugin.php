@@ -16,12 +16,21 @@ abstract class AbstractPlugin
     protected $indexer;
 
     /**
+     * @var \Magento\CatalogPermissions\App\ConfigInterface
+     */
+    protected $appConfig;
+
+    /**
      * @param \Magento\Indexer\Model\IndexerInterface $indexer
+     * @param \Magento\CatalogPermissions\App\ConfigInterface $appConfig
      */
     public function __construct(
-        \Magento\Indexer\Model\IndexerInterface $indexer
+        \Magento\Indexer\Model\IndexerInterface $indexer,
+        \Magento\CatalogPermissions\App\ConfigInterface $appConfig
     ) {
         $this->indexer = $indexer;
+        $this->appConfig = $appConfig;
+
     }
 
     /**
@@ -48,7 +57,7 @@ abstract class AbstractPlugin
     {
         $needInvalidating = $this->validate($arguments[0]);
         $objectResource = $invocationChain->proceed($arguments);
-        if ($needInvalidating) {
+        if ($needInvalidating && $this->appConfig->isEnabled()) {
             $this->getIndexer()->invalidate();
         }
 
