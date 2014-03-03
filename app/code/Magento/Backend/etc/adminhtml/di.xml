@@ -121,4 +121,10 @@
             <argument name="defaultGroup" xsi:type="string">backend</argument>
         </arguments>
     </type>
+    <type name="Magento\Translate">
+        <arguments>
+            <argument name="cache" xsi:type="object">Magento\App\Cache\Type\Translate</argument>
+            <argument name="locale" xsi:type="object">Magento\Backend\Model\Locale\Resolver\Proxy</argument>
+        </arguments>
+    </type>
 </config>
