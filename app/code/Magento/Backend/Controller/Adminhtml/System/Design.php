@@ -26,17 +26,25 @@ class Design extends Action
     protected $dateFilter;
 
     /**
+     * @var \Magento\Event\ManagerInterface
+     */
+    protected $_eventManager;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Core\Filter\Date $dateFilter
+     * @param \Magento\Event\ManagerInterface
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\Core\Filter\Date $dateFilter
+        \Magento\Core\Filter\Date $dateFilter,
+        \Magento\Event\ManagerInterface $eventManager
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->dateFilter = $dateFilter;
+        $this->_eventManager = $eventManager;
         parent::__construct($context);
     }
 
@@ -119,7 +127,7 @@ class Design extends Action
             }
             try {
                 $design->save();
-
+                $this->_eventManager->dispatch('theme_save_after');
                 $this->messageManager->addSuccess(__('You saved the design change.'));
             } catch (\Exception $e){
                 $this->messageManager->addError($e->getMessage());
