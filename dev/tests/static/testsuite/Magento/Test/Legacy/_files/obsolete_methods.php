@@ -1338,4 +1338,9 @@ return array(
     ['getCountryTranslationList', 'Magento\Core\Model\Locale', 'Magento\Locale\Lists'],
     ['getAllowLocales', 'Magento\Core\Model\Locale'],
     ['getAllowCurrencies', 'Magento\Core\Model\Locale'],
+    ['convertMeasureWeight', 'Magento\Usa\Helper\Data', 'Magento\Shipping\Helper\Carrier::convertMeasureWeight'],
+    ['convertMeasureDimension', 'Magento\Usa\Helper\Data', 'Magento\Shipping\Helper\Carrier::convertMeasureDimension'],
+    ['getMeasureWeightName', 'Magento\Usa\Helper\Data', 'Magento\Shipping\Helper\Carrier::getMeasureWeightName'],
+    ['getMeasureDimensionName', 'Magento\Usa\Helper\Data', 'Magento\Shipping\Helper\Carrier::getMeasureDimensionName'],
+    ['displayGirthValue', 'Magento\Usa\Helper\Data', 'Magento\Usps\Helper\Data::displayGirthValue'],
 );

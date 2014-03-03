@@ -9,7 +9,6 @@
 namespace Magento\Usps\Block\Rma\Adminhtml\Rma\Edit\Tab\General\Shipping\Packaging;
 
 use Magento\App\RequestInterface;
-use Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shipping\Packaging;
 use Magento\Usps\Helper\Data as UspsHelper;
 use Magento\Usps\Model\Carrier;
 
@@ -51,8 +50,10 @@ class Plugin
      * @param bool $result
      * @return bool
      */
-    public function afterIsGirthAllowed(Packaging $subject, $result)
-    {
+    public function afterIsGirthAllowed(
+        \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shipping\Packaging $subject,
+        $result
+    ) {
         return $result && $this->uspsHelper->displayGirthValue($this->request->getParam('method'));
     }
 
@@ -63,8 +64,10 @@ class Plugin
      * @param \Closure $proceed
      * @return array
      */
-    public function aroundCheckSizeAndGirthParameter(Packaging $subject, \Closure $proceed)
-    {
+    public function aroundCheckSizeAndGirthParameter(
+        \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shipping\Packaging $subject,
+        \Closure $proceed
+    ) {
         $carrier = $subject->getCarrier();
         $size = $subject->getSourceSizeModel();
 
