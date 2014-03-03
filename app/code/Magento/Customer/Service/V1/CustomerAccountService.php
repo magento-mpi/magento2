@@ -212,21 +212,6 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function validatePassword($customerId, $password)
-    {
-        $customerModel = $this->_converter->getCustomerModel($customerId);
-        if (!$customerModel->validatePassword($password)) {
-            throw new AuthenticationException(
-                __("Password doesn't match for this account."),
-                AuthenticationException::INVALID_EMAIL_OR_PASSWORD
-            );
-        }
-        return true;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function validateResetPasswordLinkToken($customerId, $resetPasswordLinkToken)
     {
         $this->_validateResetPasswordToken($customerId, $resetPasswordLinkToken);

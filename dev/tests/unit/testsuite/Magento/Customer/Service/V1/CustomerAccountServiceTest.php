@@ -156,7 +156,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
                     'changeResetPasswordLinkToken',
                     'sendPasswordResetConfirmationEmail',
                     'sendPasswordResetNotificationEmail',
-                    'validatePassword',
                 )
             )
             ->getMock();
