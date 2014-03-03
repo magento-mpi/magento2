@@ -560,7 +560,7 @@ abstract class AbstractItem extends \Magento\Core\Model\AbstractModel
      * Specify item price (base calculation price and converted price will be refreshed too)
      *
      * @param   float $value
-     * @return  \Magento\Sales\Model\Quote\Item\AbstractItem
+     * @return  $this
      */
     public function setPrice($value)
     {

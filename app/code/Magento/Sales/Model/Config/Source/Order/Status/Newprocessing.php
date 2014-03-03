@@ -15,7 +15,7 @@ namespace Magento\Sales\Model\Config\Source\Order\Status;
 class Newprocessing extends \Magento\Sales\Model\Config\Source\Order\Status
 {
     /**
-     * @var array
+     * @var string[]
      */
     protected $_stateStatuses = array(
         \Magento\Sales\Model\Order::STATE_NEW,

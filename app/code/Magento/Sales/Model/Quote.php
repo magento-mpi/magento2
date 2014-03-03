@@ -878,7 +878,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
 
     /**
      * @param int|string $addressId
-     * @return Address|bool
+     * @return Address|false
      */
     public function getAddressByCustomerAddressId($addressId)
     {
@@ -894,7 +894,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
      * Get quote address by customer address ID.
      *
      * @param int|string $addressId
-     * @return Address|bool
+     * @return Address|false
      */
     public function getShippingAddressByCustomerAddressId($addressId)
     {

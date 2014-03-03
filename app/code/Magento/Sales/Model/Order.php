@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 namespace Magento\Sales\Model;
+
 use Magento\Directory\Model\Currency;
 use Magento\Sales\Model\Order\Payment;
 use Magento\Sales\Model\Resource\Order\Address\Collection;

@@ -112,7 +112,7 @@ interface AbstractCarrierInterface
     /**
      *  Retrieve sort order of current carrier
      *
-     * @return mixed
+     * @return string|null
      */
     public function getSortOrder();
 

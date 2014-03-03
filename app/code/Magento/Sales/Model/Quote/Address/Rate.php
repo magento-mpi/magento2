@@ -57,7 +57,7 @@ class Rate extends AbstractModel
     }
 
     /**
-     * @return $this|\Magento\Core\Model\AbstractModel
+     * @return $this
      */
     protected function _beforeSave()
     {

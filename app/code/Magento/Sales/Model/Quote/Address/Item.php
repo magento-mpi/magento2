@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 namespace Magento\Sales\Model\Quote\Address;
+
 use Magento\Sales\Model\Quote;
 
 /**

@@ -559,6 +559,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
      * Import address data from order address
      *
      * @param   \Magento\Sales\Model\Order\Address $address
+     * @return $this
      * @deprecated Use \Magento\Sales\Model\Quote\Address::importCustomerAddressData() instead
      */
     public function importOrderAddress(\Magento\Sales\Model\Order\Address $address)
@@ -1258,7 +1259,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
      * Set applied taxes
      *
      * @param array $data
-     * @return \Magento\Sales\Model\Quote\Address
+     * @return $this
      */
     public function setAppliedTaxes($data)
     {
@@ -1270,7 +1271,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
      *
      * @param float $value
      * @param bool $alreadyExclTax
-     * @return \Magento\Sales\Model\Quote\Address
+     * @return $this
      */
     public function setShippingAmount($value, $alreadyExclTax = false)
     {
@@ -1282,7 +1283,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
      *
      * @param float $value
      * @param bool $alreadyExclTax
-     * @return \Magento\Sales\Model\Quote\Address
+     * @return $this
      */
     public function setBaseShippingAmount($value, $alreadyExclTax = false)
     {
