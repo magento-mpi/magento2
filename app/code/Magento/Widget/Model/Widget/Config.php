@@ -14,7 +14,7 @@ namespace Magento\Widget\Model\Widget;
 class Config
 {
     /**
-     * @var \Magento\View\Url
+     * @var \Magento\View\Service
      */
     protected $_viewUrl;
 
@@ -41,13 +41,13 @@ class Config
     /**
      * @param \Magento\Backend\Model\UrlInterface $backendUrl
      * @param \Magento\Core\Helper\Data $coreHelper
-     * @param \Magento\View\Url $viewUrl
+     * @param \Magento\View\Service $viewUrl
      * @param \Magento\Widget\Model\WidgetFactory $widgetFactory
      */
     public function __construct(
         \Magento\Backend\Model\UrlInterface $backendUrl,
         \Magento\Core\Helper\Data $coreHelper,
-        \Magento\View\Url $viewUrl,
+        \Magento\View\Service $viewUrl,
         \Magento\Widget\Model\WidgetFactory $widgetFactory
     ) {
         $this->_backendUrl = $backendUrl;
@@ -64,7 +64,7 @@ class Config
      */
     public function getPluginSettings($config)
     {
-        $url = $this->_viewUrl->getViewFileUrl(
+        $url = $this->_viewUrl->getAssetUrl(
             'mage/adminhtml/wysiwyg/tiny_mce/plugins/magentowidget/editor_plugin.js'
         );
         $settings = array(

@@ -122,7 +122,7 @@ class CachingProxy implements FileInterface, LocaleInterface, ViewInterface, Not
      * @param ThemeInterface $themeModel
      * @param string $file
      * @param string|null $module
-     * @return string
+     * @return string|bool
      */
     public function getFile($area, ThemeInterface $themeModel, $file, $module = null)
     {
@@ -141,7 +141,7 @@ class CachingProxy implements FileInterface, LocaleInterface, ViewInterface, Not
      * @param ThemeInterface $themeModel
      * @param string $locale
      * @param string $file
-     * @return string
+     * @return string|bool
      */
     public function getLocaleFile($area, ThemeInterface $themeModel, $locale, $file)
     {
@@ -161,7 +161,7 @@ class CachingProxy implements FileInterface, LocaleInterface, ViewInterface, Not
      * @param string $locale
      * @param string $file
      * @param string|null $module
-     * @return string
+     * @return string|bool
      */
     public function getViewFile($area, ThemeInterface $themeModel, $locale, $file, $module = null)
     {

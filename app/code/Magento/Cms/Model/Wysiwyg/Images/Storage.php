@@ -47,7 +47,7 @@ class Storage extends \Magento\Object
     protected $_imageFactory;
 
     /**
-     * @var \Magento\View\Url
+     * @var \Magento\View\Service
      */
     protected $_viewUrl;
 
@@ -134,7 +134,7 @@ class Storage extends \Magento\Object
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb
      * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\Image\AdapterFactory $imageFactory
-     * @param \Magento\View\Url $viewUrl
+     * @param \Magento\View\Service $viewUrl
      * @param \Magento\Cms\Model\Wysiwyg\Images\Storage\CollectionFactory $storageCollectionFactory
      * @param \Magento\Core\Model\File\Storage\FileFactory $storageFileFactory
      * @param \Magento\Core\Model\File\Storage\DatabaseFactory $storageDatabaseFactory
@@ -154,7 +154,7 @@ class Storage extends \Magento\Object
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb,
         \Magento\App\Filesystem $filesystem,
         \Magento\Image\AdapterFactory $imageFactory,
-        \Magento\View\Url $viewUrl,
+        \Magento\View\Service $viewUrl,
         \Magento\Cms\Model\Wysiwyg\Images\Storage\CollectionFactory $storageCollectionFactory,
         \Magento\Core\Model\File\Storage\FileFactory $storageFileFactory,
         \Magento\Core\Model\File\Storage\DatabaseFactory $storageDatabaseFactory,
@@ -286,7 +286,7 @@ class Storage extends \Magento\Object
                     $item->setHeight($size[1]);
                 }
             } else {
-                $thumbUrl = $this->_viewUrl->getViewFileUrl(self::THUMB_PLACEHOLDER_PATH_SUFFIX);
+                $thumbUrl = $this->_viewUrl->getAssetUrl(self::THUMB_PLACEHOLDER_PATH_SUFFIX);
             }
 
             $item->setThumbUrl($thumbUrl);

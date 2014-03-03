@@ -30,6 +30,11 @@ class FileAbstractTest extends \PHPUnit_Framework_TestCase
      */
     protected $rootDirectory;
 
+    protected function setUp()
+    {
+        $this->markTestIncomplete('MAGETWO-21654');
+    }
+
     /**
      * @var \Magento\View\Path|\PHPUnit_Framework_MockObject_MockObject
      */

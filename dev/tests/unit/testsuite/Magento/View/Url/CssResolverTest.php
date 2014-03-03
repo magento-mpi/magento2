@@ -100,15 +100,18 @@ class CssResolverTest extends \PHPUnit_Framework_TestCase
      * @param string $newPath
      * @param callable $callback
      * @param string $expected
-     * @dataProvider replaceCssRelativeUrlsDataProvider
+     * @dataProvider replaceRelativeUrlsDataProvider
      */
-    public function testReplaceCssRelativeUrls($cssContent, $originalPath, $newPath, $callback, $expected)
+    public function testReplaceRelativeUrls($cssContent, $originalPath, $newPath, $callback, $expected)
     {
-        $actual = $this->object->replaceCssRelativeUrls($cssContent, $originalPath, $newPath, $callback);
+        $this->markTestIncomplete(
+            'MAGETWO-21654. Major part of this logic moved to \Magento\View\Asset\PreProcessor\ModuleNotation'
+        );
+        $actual = $this->object->replaceRelativeUrls($cssContent, $originalPath, $newPath, $callback);
         $this->assertEquals($expected, $actual);
     }
 
-    public static function replaceCssRelativeUrlsDataProvider()
+    public static function replaceRelativeUrlsDataProvider()
     {
         $fixturePath = __DIR__ . '/_files/';
         $callback = function ($relativeUrl) {
@@ -149,35 +152,6 @@ class CssResolverTest extends \PHPUnit_Framework_TestCase
                 '/base_dir/pub/any_new_name.css',
                 $objectCallback,
                 'body {background: url(dir/body.gif);}',
-            ),
-        );
-    }
-
-    /**
-     * @param string $originalFile
-     * @param string $newFile
-     * @expectedException \Magento\Exception
-     * @expectedExceptionMessage Offset can be calculated for internal resources only.
-     * @dataProvider replaceCssRelativeUrlsExceptionDataProvider
-     */
-    public function testReplaceCssRelativeUrlsException($originalFile, $newFile)
-    {
-        $this->object->replaceCssRelativeUrls('body {background: url(body.gif);}', $originalFile, $newFile);
-    }
-
-    /**
-     * @return array
-     */
-    public static function replaceCssRelativeUrlsExceptionDataProvider()
-    {
-        return array(
-            'new css path is out of reach' => array(
-                '/base_dir/pub/css/file.css',
-                '/not/base_dir/pub/new/file.css',
-            ),
-            'referenced path is out of reach' => array(
-                '/not/base_dir/pub/css/file.css',
-                '/base_dir/pub/new/file.css',
             ),
         );
     }

@@ -20,7 +20,7 @@ namespace Magento\Core\Model\Variable;
 class Config
 {
     /**
-     * @var \Magento\View\Url
+     * @var \Magento\View\Service
      */
     protected $_viewUrl;
 
@@ -30,10 +30,10 @@ class Config
     protected $_url;
 
     /**
-     * @param \Magento\View\Url $viewUrl
+     * @param \Magento\View\Service $viewUrl
      * @param \Magento\Backend\Model\UrlInterface $url
      */
-    public function __construct(\Magento\View\Url $viewUrl, \Magento\Backend\Model\UrlInterface $url)
+    public function __construct(\Magento\View\Service $viewUrl, \Magento\Backend\Model\UrlInterface $url)
     {
         $this->_viewUrl = $viewUrl;
         $this->_url = $url;
@@ -74,7 +74,7 @@ class Config
     public function getWysiwygJsPluginSrc()
     {
         $editorPluginJs = 'mage/adminhtml/wysiwyg/tiny_mce/plugins/magentovariable/editor_plugin.js';
-        return $this->_viewUrl->getViewFileUrl($editorPluginJs);
+        return $this->_viewUrl->getAssetUrl($editorPluginJs);
     }
 
     /**

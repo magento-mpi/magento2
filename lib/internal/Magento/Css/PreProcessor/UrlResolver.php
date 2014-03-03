@@ -62,12 +62,18 @@ class UrlResolver implements PreProcessorInterface
     protected $fileFactory;
 
     /**
+     * @var \Magento\View\Service
+     */
+    protected $viewService;
+
+    /**
      * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\View\RelatedFile $relatedFile
      * @param \Magento\View\Url\CssResolver $cssUrlResolver
      * @param \Magento\View\FileResolver $fileResolver
      * @param \Magento\Logger $logger
      * @param \Magento\View\Publisher\FileFactory $fileFactory
+     * @param \Magento\View\Service $viewService
      */
     public function __construct(
         \Magento\App\Filesystem $filesystem,
@@ -75,7 +81,8 @@ class UrlResolver implements PreProcessorInterface
         \Magento\View\Url\CssResolver $cssUrlResolver,
         \Magento\View\FileResolver $fileResolver,
         \Magento\Logger $logger,
-        \Magento\View\Publisher\FileFactory $fileFactory
+        \Magento\View\Publisher\FileFactory $fileFactory,
+        \Magento\View\Service $viewService
     ) {
         $this->rootDirectory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::ROOT_DIR);
         $this->relatedFile = $relatedFile;
@@ -83,6 +90,7 @@ class UrlResolver implements PreProcessorInterface
         $this->fileResolver = $fileResolver;
         $this->logger = $logger;
         $this->fileFactory = $fileFactory;
+        $this->viewService = $viewService;
     }
 
     /**
@@ -101,23 +109,32 @@ class UrlResolver implements PreProcessorInterface
         $sourcePath = $publisherFile->getSourcePath();
         $content = $this->rootDirectory->readFile($this->rootDirectory->getRelativePath($sourcePath));
         $params = $publisherFile->getViewParams();
+        $asset = $this->viewService->createAsset($filePath, $params);
 
-        $callback = function ($fileId) use ($filePath, $params) {
-            $relatedPathPublic = $this->getRelatedViewFilePath($fileId, $filePath, $params);
-            return $relatedPathPublic;
+        /**
+         * Don't replace anything actually, but publish and preprocess related files
+         *
+         * @bug: some files end up "published" as DIRECTORIES (but with the file names)
+         *
+         * @param string $path
+         * @return string
+         */
+        $callback = function($path) use ($asset, $filePath, $params) {
+            $this->getRelatedViewFilePath($path, $filePath, $params);
+            return $path;
         };
+
         try {
-            $content = $this->cssUrlResolver->replaceCssRelativeUrls(
-                $content,
-                $sourcePath,
-                $publisherFile->buildPublicViewFilename(),
-                $callback
-            );
+            /**
+             * The CSS content already has relative URLs pre-processed (module notation converted into relative URLs)
+             * This hack is needed only to support legacy implementation of LESS preprocessor that relies on publication
+             */
+            $this->cssUrlResolver->replaceRelativeUrls($content, $callback);
         } catch (\Magento\Exception $e) {
             $this->logger->logException($e);
         }
 
-        $tmpFilePath = Composite::TMP_VIEW_DIR . '/' . self::TMP_RESOLVER_DIR . '/'
+        $tmpFilePath = \Magento\View\Service::TMP_MATERIALIZATION_DIR . '/' . self::TMP_RESOLVER_DIR . '/'
             . $publisherFile->buildUniquePath();
         $targetDirectory->writeFile($tmpFilePath, $content);
 

@@ -86,7 +86,7 @@ class FileResolver
      */
     protected function getFilesManager()
     {
-        if ($this->viewService->isViewFileOperationAllowed()) {
+        if ($this->viewService->isPublishingAllowed()) {
             $filesManager = $this->publisher;
         } else {
             $filesManager = $this->deployedFileManager;

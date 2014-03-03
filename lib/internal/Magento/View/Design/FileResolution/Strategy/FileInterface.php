@@ -24,7 +24,7 @@ interface FileInterface
      * @param ThemeInterface $themeModel
      * @param string $file
      * @param string|null $module
-     * @return string
+     * @return string|bool
      */
     public function getFile($area, ThemeInterface $themeModel, $file, $module = null);
 }

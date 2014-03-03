@@ -28,7 +28,15 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
             'Magento\View\Design\Theme\FlyweightFactory', array(), array(), '', false
         );
         $filesystem = $this->getMock('Magento\App\Filesystem', array(), array(), '', false);
-        $this->object = new \Magento\View\Service($appState, $design, $this->themeFactory, $filesystem);
+        $this->object = new Service(
+            $appState,
+            $design,
+            $this->themeFactory,
+            $filesystem,
+            $this->getMockForAbstractClass('\Magento\UrlInterface'),
+            $this->getMock('\Magento\View\Asset\PreProcessor\Factory', array(), array(), '', false),
+            $this->getMock('\Magento\View\Design\FileResolution\StrategyPool', array(), array(), '', false)
+        );
     }
 
     public function testExtractScope()
@@ -41,27 +49,6 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('file.ext', $this->object->extractScope('Module_One::file.ext', $params));
         $this->assertArrayHasKey('module', $params);
         $this->assertEquals('Module_One', $params['module']);
-    }
-
-    /**
-     * @param string $file
-     * @expectedException \Magento\Exception
-     * @dataProvider extractScopeExceptionDataProvider
-     */
-    public function testExtractScopeException($file)
-    {
-        \Magento\View\Service::extractModule($file);
-    }
-
-    /**
-     * @return array
-     */
-    public function extractScopeExceptionDataProvider()
-    {
-        return array(
-            array('::no_scope.ext'),
-            array('../file.ext'),
-        );
     }
 
     /**

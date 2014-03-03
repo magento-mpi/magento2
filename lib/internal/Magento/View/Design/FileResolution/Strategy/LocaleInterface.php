@@ -24,7 +24,7 @@ interface LocaleInterface
      * @param ThemeInterface $themeModel
      * @param string $locale
      * @param string $file
-     * @return string
+     * @return string|bool
      */
     public function getLocaleFile($area, ThemeInterface $themeModel, $locale, $file);
 }

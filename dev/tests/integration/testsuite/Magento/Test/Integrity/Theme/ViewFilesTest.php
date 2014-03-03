@@ -103,7 +103,7 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
                 $viewFile = $this->viewFileSystem->getViewFile($file, $params);
                 $this->assertFileExists($viewFile);
 
-                $fileParts = explode(\Magento\View\Service::SCOPE_SEPARATOR, $file);
+                $fileParts = explode(\Magento\View\Asset\FileId::FILE_ID_SEPARATOR, $file);
                 if (count($fileParts) > 1) {
                     $params['module'] = $fileParts[0];
                 }

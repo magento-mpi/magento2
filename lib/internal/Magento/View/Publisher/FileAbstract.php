@@ -21,11 +21,6 @@ abstract class FileAbstract implements FileInterface
     protected $filesystem;
 
     /**
-     * @var \Magento\View\Service
-     */
-    protected $viewService;
-
-    /**
      * @var \Magento\Module\Dir\Reader
      */
     protected $modulesReader;
@@ -86,7 +81,6 @@ abstract class FileAbstract implements FileInterface
 
     /**
      * @param \Magento\App\Filesystem $filesystem
-     * @param \Magento\View\Service $viewService
      * @param \Magento\Module\Dir\Reader $modulesReader
      * @param \Magento\View\FileSystem $viewFileSystem
      * @param \Magento\View\Path $path
@@ -96,7 +90,6 @@ abstract class FileAbstract implements FileInterface
      */
     public function __construct(
         \Magento\App\Filesystem $filesystem,
-        \Magento\View\Service $viewService,
         \Magento\Module\Dir\Reader $modulesReader,
         \Magento\View\FileSystem $viewFileSystem,
         \Magento\View\Path $path,
@@ -105,7 +98,6 @@ abstract class FileAbstract implements FileInterface
         $sourcePath = null
     ) {
         $this->filesystem = $filesystem;
-        $this->viewService = $viewService;
         $this->modulesReader = $modulesReader;
         $this->path = $path;
         $this->filePath = $filePath;
@@ -135,7 +127,7 @@ abstract class FileAbstract implements FileInterface
     {
         $module = isset($this->viewParams['module']) ? $this->viewParams['module'] : '';
         $fileId = $this->getFilePath();
-        list($overrideModule, $fileId) = \Magento\View\Service::extractModule($fileId);
+        list($overrideModule, $fileId) = \Magento\View\Asset\FileId::extractModule($fileId);
         if ($overrideModule) {
             $module = $overrideModule;
         }
@@ -191,7 +183,7 @@ abstract class FileAbstract implements FileInterface
      */
     public function buildPublicViewFilename()
     {
-        return $this->viewService->getPublicDir() . '/' . $this->buildUniquePath();
+        return $this->filesystem->getPath(\Magento\App\Filesystem::STATIC_VIEW_DIR) . '/' . $this->buildUniquePath();
     }
 
     /**
@@ -261,17 +253,19 @@ abstract class FileAbstract implements FileInterface
     }
 
     /**
-     * return void
+     * Restore a bunch of objects at unserialization
      */
     public function __wakeup()
     {
         $objectManager = \Magento\App\ObjectManager::getInstance();
         $this->filesystem = $objectManager->get('\Magento\App\Filesystem');
-        $this->viewService = $objectManager->get('\Magento\View\Service');
+
         $this->modulesReader = $objectManager->get('\Magento\Module\Dir\Reader');
         $this->viewFileSystem = $objectManager->get('\Magento\View\FileSystem');
 
-        $this->viewService->updateDesignParams($this->viewParams);
+        /** @var \Magento\View\Service $viewService */
+        $viewService = $objectManager->get('\Magento\View\Service');
+        $viewService->updateDesignParams($this->viewParams);
 
         $this->rootDirectory = $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::ROOT_DIR);
     }

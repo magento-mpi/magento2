@@ -21,7 +21,7 @@ namespace Magento\Customer\Block\Adminhtml\Form\Element;
 class File extends \Magento\Data\Form\Element\AbstractElement
 {
     /**
-     * @var \Magento\View\Url
+     * @var \Magento\View\Service
      */
     protected $_viewUrl;
 
@@ -37,7 +37,7 @@ class File extends \Magento\Data\Form\Element\AbstractElement
      * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
      * @param \Magento\Escaper $escaper
      * @param \Magento\Backend\Helper\Data $adminhtmlData
-     * @param \Magento\View\Url $viewUrl
+     * @param \Magento\View\Service $viewUrl
      * @param array $data
      */
     public function __construct(
@@ -45,7 +45,7 @@ class File extends \Magento\Data\Form\Element\AbstractElement
         \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
         \Magento\Escaper $escaper,
         \Magento\Backend\Helper\Data $adminhtmlData,
-        \Magento\View\Url $viewUrl,
+        \Magento\View\Service $viewUrl,
         $data = array()
     ) {
         $this->_adminhtmlData = $adminhtmlData;
@@ -143,7 +143,7 @@ class File extends \Magento\Data\Form\Element\AbstractElement
             $image = array(
                 'alt'   => __('Download'),
                 'title' => __('Download'),
-                'src'   => $this->_viewUrl->getViewFileUrl('images/fam_bullet_disk.gif'),
+                'src'   => $this->_viewUrl->getAssetUrl('images/fam_bullet_disk.gif'),
                 'class' => 'v-middle'
             );
             $url = $this->_getPreviewUrl();

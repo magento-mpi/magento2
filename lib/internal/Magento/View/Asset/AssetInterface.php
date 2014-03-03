@@ -9,7 +9,7 @@
 namespace Magento\View\Asset;
 
 /**
- * Interface of a resource linked to a page
+ * An abstraction for static view file (or resource) that may be embedded to a web page
  */
 interface AssetInterface
 {

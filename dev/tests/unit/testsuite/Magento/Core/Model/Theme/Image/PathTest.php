@@ -27,7 +27,7 @@ class PathTest extends \PHPUnit_Framework_TestCase
     protected $_filesystem;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\View\Url
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\View\Service
      */
     protected $_viewUrlMock;
 
@@ -39,7 +39,7 @@ class PathTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_filesystem = $this->getMock('Magento\App\Filesystem', array(), array(), '', false);
-        $this->_viewUrlMock = $this->getMock('Magento\View\Url', array(), array(), '', false);
+        $this->_viewUrlMock = $this->getMock('Magento\View\Service', array(), array(), '', false);
         $this->_storeManagerMock = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
 
         $this->_filesystem->expects($this->any())->method('getPath')->with(\Magento\App\Filesystem::MEDIA_DIR)
@@ -77,7 +77,7 @@ class PathTest extends \PHPUnit_Framework_TestCase
      */
     public function testDefaultPreviewImageUrlGetter()
     {
-        $this->_viewUrlMock->expects($this->once())->method('getViewFileUrl')
+        $this->_viewUrlMock->expects($this->once())->method('getAssetUrl')
             ->with(\Magento\Core\Model\Theme\Image\Path::DEFAULT_PREVIEW_IMAGE);
         $this->_model->getPreviewImageDefaultUrl();
     }

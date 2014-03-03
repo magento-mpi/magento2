@@ -7,7 +7,6 @@
  */
 
 namespace Magento\Theme\Block\Html\Head;
-use Magento\Theme\Block\Html\Head\AssetBlockInterface;
 
 /**
  * Script page block
@@ -15,31 +14,31 @@ use Magento\Theme\Block\Html\Head\AssetBlockInterface;
 class Script extends \Magento\View\Element\AbstractBlock implements AssetBlockInterface
 {
     /**
+     * @var \Magento\View\Service
+     */
+    private $viewService;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\View\Asset\ViewFileFactory $viewFileFactory
+     * @param \Magento\View\Service $viewService
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\View\Asset\ViewFileFactory $viewFileFactory,
+        \Magento\View\Service $viewService,
         array $data = array()
     ) {
+        $this->viewService = $viewService;
         parent::__construct($context, $data);
-        $this->setAsset(
-            $viewFileFactory->create(array(
-                'file' => (string)$this->getFile(),
-                'contentType' => \Magento\View\Publisher::CONTENT_TYPE_JS
-            ))
-        );
     }
 
     /**
      * Get block asset
      *
-     * @return \Magento\View\Asset\AssetInterface
+     * @return \Magento\View\Asset\LocalInterface
      */
     public function getAsset()
     {
-        return $this->getData('asset');
+        return $this->viewService->createAsset($this->_getData('file'));
     }
 }

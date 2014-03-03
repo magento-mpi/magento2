@@ -86,7 +86,10 @@ class Less implements PreProcessorInterface
             return $publisherFile; // It has 'null' source path
         }
 
-        $tmpFilePath = Composite::TMP_VIEW_DIR . '/' . self::TMP_LESS_DIR . '/' . $publisherFile->buildUniquePath();
+
+        $tmpFilePath = \Magento\View\Service::TMP_MATERIALIZATION_DIR
+            . '/' . self::TMP_LESS_DIR . '/' . $publisherFile->buildUniquePath()
+        ;
         $targetDirectory->writeFile($tmpFilePath, $cssContent);
 
         $processedFile = $this->fileFactory->create(

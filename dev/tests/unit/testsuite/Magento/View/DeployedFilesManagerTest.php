@@ -69,8 +69,8 @@ class DeployedFilesManagerTest extends \PHPUnit_Framework_TestCase
     protected function _testGetFile(
         $method, $pubDir, $area, $themePath, $module, $filePath, $expectedSubPath, $expected
     ) {
-        $viewService = $this->getMock('\Magento\View\Service', array('getPublicDir'), array(), '', false);
-        $viewService->expects($this->once())->method('getPublicDir')->will($this->returnValue($pubDir));
+        $filesystem = $this->getMock('\Magento\App\FileSystem', array('getPath'), array(), '', false);
+        $filesystem->expects($this->once())->method('getPath')->will($this->returnValue($pubDir));
 
         $theme = $this->getMockForAbstractClass('\Magento\View\Design\ThemeInterface');
         $theme->expects($this->at(0))->method('getThemePath')->will($this->returnValue(false));
@@ -86,7 +86,7 @@ class DeployedFilesManagerTest extends \PHPUnit_Framework_TestCase
             ->with($area, $themePath, '', $module)
             ->will($this->returnValue($expectedSubPath));
 
-        $model = new DeployedFilesManager($viewService, $path);
+        $model = new DeployedFilesManager($filesystem, $path);
         $result = $model->$method($filePath, $params);
         $this->assertStringEndsWith($expected, $result);
     }

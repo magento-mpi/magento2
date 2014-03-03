@@ -47,7 +47,7 @@ abstract class AbstractCondition extends \Magento\Object implements ConditionInt
     protected $_arrayInputTypes = array();
 
     /**
-     * @var \Magento\View\Url
+     * @var \Magento\View\Service
      */
     protected $_viewUrl;
 
@@ -586,7 +586,7 @@ abstract class AbstractCondition extends \Magento\Object implements ConditionInt
      */
     public function getAddLinkHtml()
     {
-        $src = $this->_viewUrl->getViewFileUrl('images/rule_component_add.gif');
+        $src = $this->_viewUrl->getAssetUrl('images/rule_component_add.gif');
         $html = '<img src="' . $src . '" class="rule-param-add v-middle" alt="" title="'
             . __('Add') . '"/>';
         return $html;
@@ -597,7 +597,7 @@ abstract class AbstractCondition extends \Magento\Object implements ConditionInt
      */
     public function getRemoveLinkHtml()
     {
-        $src = $this->_viewUrl->getViewFileUrl('images/rule_component_remove.gif');
+        $src = $this->_viewUrl->getAssetUrl('images/rule_component_remove.gif');
         $html = ' <span class="rule-param"><a href="javascript:void(0)" class="rule-param-remove" title="'
             . __('Remove') . '"><img src="' . $src
             . '"  alt="" class="v-middle" /></a></span>';

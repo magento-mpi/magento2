@@ -38,9 +38,9 @@ class Observer
     protected $_config;
 
     /**
-     * @var \Magento\View\Asset\PublicFileFactory
+     * @var \Magento\View\Service
      */
-    protected $_assetFileFactory;
+    protected $_viewService;
 
     /**
      * @var \Magento\Core\Model\Theme\Registration
@@ -57,7 +57,7 @@ class Observer
      * @param \Magento\View\DesignInterface $design
      * @param \Magento\View\Asset\GroupedCollection $assets
      * @param \Magento\App\ReinitableConfigInterface $config
-     * @param \Magento\View\Asset\PublicFileFactory $assetFileFactory
+     * @param \Magento\View\Service $viewService
      * @param \Magento\Core\Model\Theme\Registration $registration
      * @param \Magento\Logger $logger
      */
@@ -66,7 +66,7 @@ class Observer
         \Magento\View\DesignInterface $design,
         \Magento\View\Asset\GroupedCollection $assets,
         \Magento\App\ReinitableConfigInterface $config,
-        \Magento\View\Asset\PublicFileFactory $assetFileFactory,
+        \Magento\View\Service $viewService,
         \Magento\Core\Model\Theme\Registration $registration,
         \Magento\Logger $logger
     ) {
@@ -74,7 +74,7 @@ class Observer
         $this->_currentTheme = $design->getDesignTheme();
         $this->_pageAssets = $assets;
         $this->_config = $config;
-        $this->_assetFileFactory = $assetFileFactory;
+        $this->_viewService = $viewService;
         $this->_registration = $registration;
         $this->_logger = $logger;
     }
@@ -126,11 +126,9 @@ class Observer
             try {
                 $service = $themeFile->getCustomizationService();
                 if ($service instanceof \Magento\View\Design\Theme\Customization\FileAssetInterface) {
-                    $asset = $this->_assetFileFactory->create(array(
-                        'file'        => $themeFile->getFullPath(),
-                        'contentType' => $service->getContentType()
-                    ));
-                    $this->_pageAssets->add($themeFile->getData('file_path'), $asset);
+                    $identifier = $themeFile->getData('file_path');
+                    $asset = $this->_viewService->createFileAsset($identifier, $themeFile->getFullPath());
+                    $this->_pageAssets->add($identifier, $asset);
                 }
             } catch (\InvalidArgumentException $e) {
                 $this->_logger->logException($e);
