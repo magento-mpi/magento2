@@ -100,7 +100,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             $form->addValues($this->_backendSession->getCustomerGroupData());
             $this->_backendSession->setCustomerGroupData(null);
         } else {
-            // TODO: need to figure out how the DTOs can work with forms
+            // TODO: need to figure out how the DATA can work with forms
             $form->addValues([
                 'id'                  => $customerGroup->getId(),
                 'customer_group_code' => $customerGroup->getCode(),

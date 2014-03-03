@@ -95,7 +95,7 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
         return $this->_storeConfig->getConfig($path);
     }
     /**
-     * Retrieve current customer address DTOs collection.
+     * Retrieve current customer address DATA collection.
      *
      * @return \Magento\Customer\Service\V1\Data\Address[]
      */

@@ -20,7 +20,7 @@ use Magento\Validator\ValidatorException;
 class CustomerService implements CustomerServiceInterface
 {
 
-    /** @var array Cache of DTOs */
+    /** @var array Cache of DATA */
     private $_cache = [];
 
     /**
