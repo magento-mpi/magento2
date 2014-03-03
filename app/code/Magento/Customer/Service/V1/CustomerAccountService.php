@@ -407,7 +407,6 @@ class CustomerAccountService implements CustomerAccountServiceInterface
 
         /** @var CustomerModel $customerModel */
         foreach ($collection as $customerModel) {
-            $customerModel->load($customerModel->getId());
             $customers[] = $this->_converter->createCustomerFromModel($customerModel);
         }
         $this->_searchResultsBuilder->setItems($customers);
