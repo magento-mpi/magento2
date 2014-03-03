@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Rma\Block\Adminhtml\Customer\Edit\Tab;
 
 /**
  * Order RMA Grid
  */
-namespace Magento\Rma\Block\Adminhtml\Customer\Edit\Tab;
-
 class Rma
     extends \Magento\Rma\Block\Adminhtml\Rma\Grid
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
@@ -20,7 +19,7 @@ class Rma
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
@@ -29,7 +28,7 @@ class Rma
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory
      * @param \Magento\Rma\Model\RmaFactory $rmaFactory
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
@@ -37,13 +36,18 @@ class Rma
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory,
         \Magento\Rma\Model\RmaFactory $rmaFactory,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context, $backendHelper, $collectionFactory, $rmaFactory, $data);
     }
 
+    /**
+     * Initialize customer edit tab rma
+     *
+     * @return void
+     */
     public function _construct()
     {
         parent::_construct();
@@ -54,7 +58,7 @@ class Rma
     /**
      * Prepare massaction
      *
-     * @return \Magento\Rma\Block\Adminhtml\Rma\Grid
+     * @return $this
      */
     protected function _prepareMassaction()
     {
@@ -64,7 +68,7 @@ class Rma
     /**
      * Configuring and setting collection
      *
-     * @return \Magento\Rma\Block\Adminhtml\Customer\Edit\Tab\Rma
+     * @return $this
      */
     protected function _beforePrepareCollection()
     {

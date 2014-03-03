@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\AdminNotification\Helper;
 
 /**
  * AdminNotification Data helper
@@ -16,8 +16,6 @@
  * @package    Magento_AdminNotification
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\AdminNotification\Helper;
-
 class Data extends \Magento\App\Helper\AbstractHelper
 {
     const XML_PATH_POPUP_URL    = 'system/adminnotification/popup_url';
@@ -44,7 +42,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_latestNotice;
 
     /**
-     * count of unread notes by type
+     * Count of unread notes by type
      *
      * @var array
      */
@@ -60,6 +58,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     protected $_inboxFactory;
 
+    /**
+     * @param \Magento\App\Helper\Context $context
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\AdminNotification\Model\InboxFactory $inboxFactory
+     */
     public function __construct(
         \Magento\App\Helper\Context $context,
         \Magento\Core\Model\Store\Config $coreStoreConfig,

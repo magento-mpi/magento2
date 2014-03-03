@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Block\Widget\Grid;
+
+use Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFilter;
 
 /**
  * Grid column block
@@ -15,8 +18,6 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Backend\Block\Widget\Grid;
-
 class Column extends \Magento\Backend\Block\Widget
 {
     /**
@@ -36,7 +37,7 @@ class Column extends \Magento\Backend\Block\Widget
     /**
      * Column filter
      *
-     * @var \Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFilter
+     * @var AbstractFilter
      */
     protected $_filter;
 
@@ -104,6 +105,9 @@ class Column extends \Magento\Backend\Block\Widget
      */
     protected $_isGrouped = false;
 
+    /**
+     * @return void
+     */
     public function _construct()
     {
         if ($this->hasData('grouped')) {
@@ -127,7 +131,7 @@ class Column extends \Magento\Backend\Block\Widget
      * Set grid block to column
      *
      * @param \Magento\Backend\Block\Widget\Grid $grid
-     * @return \Magento\Backend\Block\Widget\Grid\Column
+     * @return $this
      */
     public function setGrid($grid)
     {
@@ -214,7 +218,8 @@ class Column extends \Magento\Backend\Block\Widget
     /**
      * Set is column sortable
      *
-     * @param boolean $value
+     * @param bool $value
+     * @return void
      */
     public function setSortable($value)
     {
@@ -243,7 +248,9 @@ class Column extends \Magento\Backend\Block\Widget
 
     /**
      * Add css class to column header
-     * @param $className
+     *
+     * @param string $className
+     * @return void
      */
     public function addHeaderCssClass($className)
     {
@@ -363,7 +370,7 @@ class Column extends \Magento\Backend\Block\Widget
      * Set column renderer
      *
      * @param \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer $renderer
-     * @return \Magento\Backend\Block\Widget\Grid\Column
+     * @return $this
      */
     public function setRenderer($renderer)
     {
@@ -376,6 +383,7 @@ class Column extends \Magento\Backend\Block\Widget
      *
      * @param string $type type of renderer
      * @param string $className renderer class name
+     * @return void
      */
     public function setRendererType($type, $className)
     {
@@ -419,6 +427,7 @@ class Column extends \Magento\Backend\Block\Widget
      * Set column filter
      *
      * @param string $filterClass filter class name
+     * @return void
      */
     public function setFilter($filterClass)
     {
@@ -429,8 +438,10 @@ class Column extends \Magento\Backend\Block\Widget
 
     /**
      * Set filter type class name
+     *
      * @param string $type type of filter
      * @param string $className filter class name
+     * @return void
      */
     public function setFilterType($type, $className)
     {
@@ -440,7 +451,7 @@ class Column extends \Magento\Backend\Block\Widget
     /**
      * Get column filter class name by filter type
      *
-     * @return mixed
+     * @return string
      */
     protected function _getFilterByType()
     {
@@ -455,7 +466,7 @@ class Column extends \Magento\Backend\Block\Widget
     /**
      * Get filter block
      *
-     * @return \Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFilter|bool
+     * @return AbstractFilter|false
      */
     public function getFilter()
     {

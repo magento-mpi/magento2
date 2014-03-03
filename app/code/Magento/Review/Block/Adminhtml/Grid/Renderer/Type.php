@@ -20,6 +20,9 @@ namespace Magento\Review\Block\Adminhtml\Grid\Renderer;
 class Type extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
+     * Render review type
+     *
+     * @param \Magento\Object $row
      * @return string
      */
     public function render(\Magento\Object $row)

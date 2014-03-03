@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <type name="Magento\BannerCustomerSegment\Model\Observer">
-        <param name="segmentCustomer">
-            <instance type="Magento\CustomerSegment\Model\Customer\Proxy" />
-        </param>
+        <arguments>
+            <argument name="segmentCustomer" xsi:type="object">Magento\CustomerSegment\Model\Customer\Proxy</argument>
+        </arguments>
     </type>
 </config>

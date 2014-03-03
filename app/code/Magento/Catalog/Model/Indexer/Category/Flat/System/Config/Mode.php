@@ -19,8 +19,8 @@ class Mode extends \Magento\Core\Model\Config\Value
     protected $flatIndexer;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\ConfigInterface $config
      * @param \Magento\Indexer\Model\IndexerInterface $flatIndexer
@@ -29,8 +29,8 @@ class Mode extends \Magento\Core\Model\Config\Value
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\ConfigInterface $config,
         \Magento\Indexer\Model\IndexerInterface $flatIndexer,
@@ -45,7 +45,7 @@ class Mode extends \Magento\Core\Model\Config\Value
     /**
      * Set after commit callback
      *
-     * @return \Magento\Catalog\Model\Indexer\Category\Flat\System\Config\Mode
+     * @return $this
      */
     protected function _afterSave()
     {
@@ -55,6 +55,8 @@ class Mode extends \Magento\Core\Model\Config\Value
 
     /**
      * Process flat enabled mode change
+     *
+     * @return void
      */
     public function processValue()
     {

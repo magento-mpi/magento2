@@ -21,6 +21,8 @@ class PropertyGroupFactory
     protected $objectManager;
 
     /**
+     * Constructor
+     *
      * @param \Magento\ObjectManager $objectManager
      */
     public function __construct(\Magento\ObjectManager $objectManager)

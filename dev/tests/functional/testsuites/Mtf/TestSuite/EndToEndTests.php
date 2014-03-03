@@ -1,6 +1,6 @@
 <?php
 /**
- * End-to-end scenarios without 3-rd party solutions (L3 plan)
+ * End-to-end scenarios without 3-rd party solutions
  *
  * {license_notice}
  *
@@ -81,6 +81,9 @@ class EndToEndTests
 
         // Cms
         $suite->addTestSuite('Magento\Cms\Test\TestCase\CreatePageTest');
+
+        // Layered navigation
+        $suite->addTestSuite('Magento\Catalog\Test\TestCase\Layer\FilterProductListTest');
 
         return $suite;
     }

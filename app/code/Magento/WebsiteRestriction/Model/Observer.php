@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * Private sales and stubs observer 
- */
 namespace Magento\WebsiteRestriction\Model;
 
+/**
+ * Private sales and stubs observer
+ */
 class Observer
 {
     /**
@@ -91,6 +90,7 @@ class Observer
      * Implement website stub or private sales restriction
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function restrictWebsite($observer)
     {
@@ -187,6 +187,7 @@ class Observer
      * Make layout load additional handler when in private sales mode
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function addPrivateSalesLayoutUpdate($observer)
     {
@@ -204,7 +205,7 @@ class Observer
     /**
      * @param string $route
      * @param array $params
-     * @return \Magento\UrlInterface
+     * @return string
      */
     public function getUrl($route = '', $params = array())
     {

@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Payment\Model\Method;
 
 /**
  * Cash on delivery payment method model
  */
-namespace Magento\Payment\Model\Method;
-
 class Cashondelivery extends \Magento\Payment\Model\Method\AbstractMethod
 {
 
@@ -29,6 +28,12 @@ class Cashondelivery extends \Magento\Payment\Model\Method\AbstractMethod
      * @var string
      */
     protected $_formBlockType = 'Magento\Payment\Block\Form\Cashondelivery';
+
+    /**
+     * Info instructions block path
+     *
+     * @var string
+     */
     protected $_infoBlockType = 'Magento\Payment\Block\Info\Instructions';
 
     /**

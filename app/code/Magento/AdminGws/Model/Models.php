@@ -7,13 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\AdminGws\Model;
+
+use Magento\Core\Exception;
 
 /**
  * Models limiter
- *
  */
-namespace Magento\AdminGws\Model;
-
 class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
 {
     /**
@@ -57,6 +57,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * Limit CMS page save
      *
      * @param \Magento\Cms\Model\Page $model
+     * @return void
      */
     public function cmsPageSaveBefore($model)
     {
@@ -77,6 +78,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * Limit CMS block save
      *
      * @param \Magento\Cms\Model\Block $model
+     * @return void
      */
     public function cmsBlockSaveBefore($model)
     {
@@ -98,7 +100,6 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * Limit Rule entity saving
      *
      * @param \Magento\Rule\Model\Rule $model
-     *
      * @return void
      */
     public function ruleSaveBefore($model)
@@ -177,7 +178,6 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * Limit rule entity model on after load
      *
      * @param \Magento\Rule\Model\Rule $model
-     *
      * @return void
      */
     public function ruleLoadAfter($model)
@@ -199,13 +199,15 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * Limit newsletter queue save
      *
      * @param \Magento\Newsletter\Model\Queue $model
+     * @return void
+     * @throws Exception
      */
     public function newsletterQueueSaveBefore($model)
     {
         // force to assign to SV
         $storeIds = $model->getStores();
         if (!$storeIds || !$this->_role->hasStoreAccess($storeIds)) {
-            throw new \Magento\Core\Exception(__('Please assign this entity to a store view.'));
+            throw new Exception(__('Please assign this entity to a store view.'));
         }
 
         // make sure disallowed store ids won't be modified
@@ -217,6 +219,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * Prevent loading disallowed queue
      *
      * @param \Magento\Newsletter\Model\Queque $model
+     * @return void
      */
     public function newsletterQueueLoadAfter($model)
     {
@@ -304,6 +307,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * Catalog product validate before saving
      *
      * @param \Magento\Catalog\Model\Product $model
+     * @return void
      */
     public function catalogProductSaveBefore($model)
     {
@@ -340,7 +344,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * Catalog product validate after
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\AdminGws\Model\Models
+     * @return void
      */
     public function catalogProductValidateAfter(\Magento\Event\Observer $observer)
     {
@@ -357,6 +361,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * Catalog product validate before delete
      *
      * @param \Magento\Catalog\Model\Product $model
+     * @return void
      */
     public function catalogProductDeleteBefore($model)
     {
@@ -369,9 +374,11 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Catalog Product Review before save
      *
-     * @param  \Magento\Review\Model\Review
+     * @param  \Magento\Review\Model\Review $model
+     * @return void
      */
-    public function catalogProductReviewSaveBefore($model){
+    public function catalogProductReviewSaveBefore($model)
+    {
         $reviewStores = $model->getStores();
         $storeIds = $this->_role->getStoreIds();
 
@@ -385,9 +392,11 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Catalog Product Review before delete
      *
-     * @param  \Magento\Review\Model\Review
+     * @param  \Magento\Review\Model\Review $model
+     * @return void
      */
-    public function catalogProductReviewDeleteBefore($model){
+    public function catalogProductReviewDeleteBefore($model)
+    {
         $reviewStores = $model->getStores();
         $storeIds = $this->_role->getStoreIds();
 
@@ -434,7 +443,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * Save correct website list in giftwrapping
      *
      * @param \Magento\GiftWrapping\Model\Wrapping $model
-     * @return \Magento\AdminGws\Model\Models
+     * @return $this
      */
     public function giftWrappingSaveBefore($model)
     {
@@ -456,7 +465,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * Save correct store list in rating (while Managing Ratings)
      *
      * @param \Magento\Rating\Model\Rating $model
-     * @return \Magento\AdminGws\Model\Models
+     * @return void
      */
     public function ratingSaveBefore($model)
     {
@@ -588,11 +597,12 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      *
      * @param \Magento\Sales\Model\Order $model
      * @return void
+     * @throws Exception
      */
     public function salesOrderBeforeSave($model)
     {
         if (!$this->_role->hasWebsiteAccess($model->getStore()->getWebsiteId(), true)) {
-            throw new \Magento\Core\Exception(
+            throw new Exception(
                 __('You can create an order in an active store only.')
             );
         }
@@ -637,6 +647,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * Validate catalog category save
      *
      * @param \Magento\Catalog\Model\Category $model
+     * @return void
      */
     public function catalogCategorySaveBefore($model)
     {
@@ -677,6 +688,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * Validate catalog event save
      *
      * @param \Magento\CatalogEvent\Model\Event $model
+     * @return void
      */
     public function catalogEventSaveBefore($model)
     {
@@ -713,6 +725,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * Validate catalog event delete
      *
      * @param \Magento\CatalogEvent\Model\Event $model
+     * @return void
      */
     public function catalogEventDeleteBefore($model)
     {
@@ -730,6 +743,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * Validate catalog event load
      *
      * @param \Magento\CatalogEvent\Model\Event $model
+     * @return void
      */
     public function catalogEventLoadAfter($model)
     {
@@ -748,6 +762,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * Make websites read-only
      *
      * @param \Magento\Core\Model\Website $model
+     * @return void
      */
     public function coreWebsiteLoadAfter($model)
     {
@@ -758,6 +773,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * Disallow saving websites
      *
      * @param \Magento\Core\Model\Website $model
+     * @return void
      */
     public function coreWebsiteSaveBefore($model)
     {
@@ -768,6 +784,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * Disallow deleting websites
      *
      * @param \Magento\Core\Model\Website $model
+     * @return void
      */
     public function coreWebsiteDeleteBefore($model)
     {
@@ -778,6 +795,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * Set store group or store read-only
      *
      * @param \Magento\Core\Model\Store|\Magento\Core\Model\Store\Group $model
+     * @return void
      */
     public function coreStoreGroupLoadAfter($model)
     {
@@ -791,6 +809,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * Disallow saving store group or store
      *
      * @param \Magento\Core\Model\Store|\Magento\Core\Model\Store\Group $model
+     * @return void
      */
     public function coreStoreGroupSaveBefore($model)
     {
@@ -804,6 +823,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * Update role store group ids in helper and role
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function coreStoreGroupSaveAfter($observer)
     {
@@ -822,6 +842,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * Update role store ids in helper and role
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function coreStoreSaveAfter($observer)
     {
@@ -840,6 +861,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * Disallow deleting store group or store
      *
      * @param \Magento\Core\Model\Store|\Magento\Core\Model\Store\Group $model
+     * @return void
      */
     public function coreStoreGroupDeleteBefore($model)
     {
@@ -853,6 +875,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * Prevent loading disallowed urlrewrites
      *
      * @param \Magento\Core\Model\Url\Rewrite $model
+     * @return void
      */
     public function coreUrlRewriteLoadAfter($model)
     {
@@ -868,6 +891,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * Check whether order may be saved
      *
      * @param \Magento\Sales\Model\AbstractModel $model
+     * @return void
      */
     public function salesOrderSaveBefore($model)
     {
@@ -880,6 +904,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * Invoice, shipment, creditmemo (address & item?)
      *
      * @param \Magento\Sales\Model\AbstractModel $model
+     * @return void
      */
     public function salesOrderEntitySaveBefore($model)
     {
@@ -892,19 +917,21 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * Check whether order transaction may be saved
      *
      * @param \Magento\Sales\Model\Order\Payment\Transaction $model
+     * @return void
      */
     public function salesOrderTransactionSaveBefore($model)
     {
         $websiteId = $model->getOrderWebsiteId();
-            if (!$this->_role->hasWebsiteAccess($websiteId, true)) {
+        if (!$this->_role->hasWebsiteAccess($websiteId, true)) {
                 $this->_throwSave();
-            }
+        }
     }
 
     /**
      * Check whether order transaction can be loaded
      *
      * @param \Magento\Sales\Model\Order\Payment\Transaction $model
+     * @return void
      */
     public function salesOrderTransactionLoadAfter($model)
     {
@@ -917,6 +944,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * Disallow attribute save method when role scope is not 'all'
      *
      * @param \Magento\Sales\Model\AbstractModel $model
+     * @return void
      */
     public function catalogEntityAttributeSaveBefore($model)
     {
@@ -927,6 +955,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * Disallow attribute delete method when role scope is not 'all'
      *
      * @param \Magento\Sales\Model\AbstractModel $model
+     * @return void
      */
     public function catalogEntityAttributeDeleteBefore($model)
     {
@@ -937,6 +966,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * Disallow attribute set save method when role scope is not 'all'
      *
      * @param \Magento\Sales\Model\AbstractModel $model
+     * @return void
      */
     public function eavEntityAttributeSetSaveBefore($model)
     {
@@ -947,6 +977,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * Disallow attribute set delete method when role scope is not 'all'
      *
      * @param \Magento\Sales\Model\AbstractModel $model
+     * @return void
      */
     public function eavEntityAttributeSetDeleteBefore($model)
     {
@@ -957,6 +988,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * Disallow attribute option delete method when role scope is not 'all'
      *
      * @param \Magento\Sales\Model\AbstractModel $model
+     * @return void
      */
     public function eavEntityAttributeOptionDeleteBefore($model)
     {
@@ -967,6 +999,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * Disallow attribute group delete method when role scope is not 'all'
      *
      * @param \Magento\Sales\Model\AbstractModel $model
+     * @return void
      */
     public function eavEntityAttributeGroupDeleteBefore($model)
     {
@@ -977,6 +1010,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * Disallow attribute group save method when role scope is not 'all'
      *
      * @param \Magento\Sales\Model\AbstractModel $model
+     * @return void
      */
     public function eavEntityAttributeGroupSaveBefore($model)
     {
@@ -987,6 +1021,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * Disallow attribute option save method when role scope is not 'all'
      *
      * @param \Magento\Sales\Model\AbstractModel $model
+     * @return void
      */
     public function eavEntityAttributeOptionSaveBefore($model)
     {
@@ -997,6 +1032,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * Generic sales entity before save logic
      *
      * @param int $websiteId
+     * @return void
      */
     protected function _salesEntitySaveBefore($websiteId)
     {
@@ -1043,14 +1079,14 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * Prevent loosing disallowed websites from model
      *
      * @param array $websiteIds
-     * @throws \Magento\Core\Exception
      * @return array
+     * @throws Exception
      */
     protected function _forceAssignToWebsite($websiteIds)
     {
         if (count(array_intersect($websiteIds, $this->_role->getWebsiteIds())) === 0 &&
             count($this->_role->getWebsiteIds())) {
-            throw new \Magento\Core\Exception(__('Please assign this item to a store view.'));
+            throw new Exception(__('Please assign this item to a store view.'));
         }
         return $websiteIds;
     }
@@ -1059,39 +1095,42 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * Prevent losing disallowed store views from model
      *
      * @param array $storeIds
-     * @throws \Magento\Core\Exception
      * @return array
+     * @throws Exception
      */
     protected function _forceAssignToStore($storeIds)
     {
         if (count(array_intersect($storeIds, $this->_role->getStoreIds())) === 0 &&
             count($this->_role->getStoreIds())) {
-            throw new \Magento\Core\Exception(__('Please assign this item to a store view.'));
+            throw new Exception(__('Please assign this item to a store view.'));
         }
         return $storeIds;
     }
 
     /**
-     * @throws \Magento\Core\Exception
+     * @return void
+     * @throws Exception
      */
     protected function _throwSave()
     {
-        throw new \Magento\Core\Exception(
+        throw new Exception(
             __('You need more permissions to save this item.')
         );
     }
 
     /**
-     * @throws \Magento\Core\Exception
+     * @return void
+     * @throws Exception
      */
     protected function _throwDelete()
     {
-        throw new \Magento\Core\Exception(
+        throw new Exception(
             __('You need more permissions to delete this item.')
         );
     }
 
     /**
+     * @return void
      * @throws \Magento\AdminGws\Controller\Exception
      */
     private function _throwLoad()
@@ -1103,6 +1142,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * Validate widget instance availability after load
      *
      * @param \Magento\Widget\Model\Widget\Instance $model
+     * @return void
      */
     public function widgetInstanceLoadAfter($model)
     {
@@ -1118,6 +1158,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * Validate widget instance before save
      *
      * @param \Magento\Widget\Model\Widget\Instance $model
+     * @return void
      */
     public function widgetInstanceSaveBefore($model)
     {
@@ -1137,6 +1178,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * Validate widget instance before delete
      *
      * @param \Magento\Widget\Model\Widget\Instance $model
+     * @return void
      */
     public function widgetInstanceDeleteBefore($model)
     {
@@ -1150,6 +1192,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * Validate banner before save
      *
      * @param \Magento\Banner\Model\Banner $model
+     * @return void
      */
     public function bannerSaveBefore($model)
     {
@@ -1162,6 +1205,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * Validate banner before edit
      *
      * @param \Magento\Banner\Model\Banner $model
+     * @return void
      */
     public function bannerLoadAfter($model)
     {
@@ -1185,6 +1229,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * Validate banner before delete
      *
      * @param \Magento\Banner\Model\Banner $model
+     * @return void
      */
     public function bannerDeleteBefore($model)
     {
@@ -1197,6 +1242,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * Validate Gift Card Account before save
      *
      * @param \Magento\Banner\Model\Banner $model
+     * @return void
      */
     public function giftCardAccountSaveBefore($model)
     {
@@ -1209,6 +1255,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * Validate Gift Card Account before delete
      *
      * @param \Magento\Banner\Model\Banner $model
+     * @return void
      */
     public function giftCardAccountDeleteBefore($model)
     {
@@ -1221,6 +1268,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * Validate Gift Card Account after load
      *
      * @param \Magento\Banner\Model\Banner $model
+     * @return void
      */
     public function giftCardAccountLoadAfter($model)
     {
@@ -1257,20 +1305,15 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      */
     public function giftRegistryTypeDeleteBefore($model)
     {
-       $this->_throwDelete();
+        $this->_throwDelete();
     }
-
-
-
-
 
     /**
      * Limit customer segment save
      *
-     * @deprecated after 1.12.0.0 use $this->ruleSaveBefore() instead
-     *
      * @param \Magento\CustomerSegment\Model\Segment $model
      * @return void
+     * @deprecated after 1.12.0.0 use $this->ruleSaveBefore() instead
      */
     public function customerSegmentSaveBefore($model)
     {
@@ -1280,10 +1323,9 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Validate customer segment before delete
      *
-     * @deprecated after 1.12.0.0 use $this->ruleDeleteBefore() instead
-     *
      * @param \Magento\CustomerSegment\Model\Segment $model
      * @return void
+     * @deprecated after 1.12.0.0 use $this->ruleDeleteBefore() instead
      */
     public function customerSegmentDeleteBefore($model)
     {
@@ -1293,10 +1335,9 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Limit customer segment model on after load
      *
-     * @deprecated after 1.12.0.0 use $this->ruleLoadAfter() instead
-     *
      * @param \Magento\CustomerSegment\Model\Segment $model
      * @return void
+     * @deprecated after 1.12.0.0 use $this->ruleLoadAfter() instead
      */
     public function customerSegmentLoadAfter($model)
     {

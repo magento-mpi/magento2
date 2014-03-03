@@ -8,17 +8,13 @@
  * @license     {license_link}
  */
 
-/**
- * Wysiwyg Images content block
- *
- * @category   Magento
- * @package    Magento_Cms
- * @author     Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Cms\Block\Adminhtml\Wysiwyg\Images;
 
 use Magento\View\Element\Template;
 
+/**
+ * Wysiwyg Images content block
+ */
 class Content extends \Magento\Backend\Block\Widget\Container
 {
     /**
@@ -42,6 +38,8 @@ class Content extends \Magento\Backend\Block\Widget\Container
 
     /**
      * Block construction
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -132,8 +130,7 @@ class Content extends \Magento\Backend\Block\Widget\Container
     /**
      * Description goes here...
      *
-     * @param none
-     * @return void
+     * @return string
      */
     public function getDeleteFilesUrl()
     {

@@ -19,32 +19,23 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var \Magento\Catalog\Model\Indexer\Product\Price\Processor
+     * @var \Magento\Indexer\Model\IndexerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_priceProcessorMock;
+    protected $categoryIndexerMock;
 
     /**
-     * @var \Magento\Index\Model\Indexer
+     * @var \Magento\Catalog\Model\Indexer\Product\Flat\Processor|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_indexIndexerMock;
-
-    /**
-     * @var \Magento\Catalog\Helper\Product
-     */
-    protected $_catalogProductHelperMock;
+    protected $_processor;
 
     public function setUp()
     {
-        $this->_priceProcessorMock = $this->getMock(
-            'Magento\Catalog\Model\Indexer\Product\Price\Processor', array(), array(), '', false
+        $this->categoryIndexerMock = $this->getMockForAbstractClass(
+            '\Magento\Indexer\Model\IndexerInterface', array(), '', false, false, true, array()
         );
 
-        $this->_indexIndexerMock = $this->getMock(
-            'Magento\Index\Model\Indexer', array(), array(), '', false
-        );
-
-        $this->_catalogProductHelperMock = $this->getMock(
-            'Magento\Catalog\Helper\Product', array(), array(), '', false
+        $this->_processor = $this->getMock(
+            'Magento\Catalog\Model\Indexer\Product\Flat\Processor', array(), array(), '', false
         );
 
         $stateMock = $this->getMock(
@@ -66,8 +57,9 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             array(), array(), '', false
         );
 
+
         $contextMock = $this->getMock(
-            '\Magento\Core\Model\Context',
+            '\Magento\Model\Context',
             array('getEventDispatcher', 'getCacheManager', 'getAppState'), array(), '', false
         );
 
@@ -83,71 +75,54 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             ->method('getCacheManager')
             ->will($this->returnValue($cacheInterfaceMock));
 
-        $arguments = array(
-            'context' => $contextMock,
-            'productPriceIndexerProcessor' => $this->_priceProcessorMock,
-            'indexIndexer' => $this->_indexIndexerMock,
-            'catalogProduct' => $this->_catalogProductHelperMock
+        $this->_model = new \Magento\Catalog\Model\Product(
+            $contextMock,
+            $this->getMock('Magento\Registry', array(), array(), '', false),
+            $this->getMock('Magento\Core\Model\StoreManagerInterface', array(), array(), '', false),
+            $this->getMock('Magento\Catalog\Model\Product\Url', array(), array(), '', false),
+            $this->getMock('Magento\Catalog\Model\Product\Link', array(), array(), '', false),
+            $this->getMock(
+                'Magento\Catalog\Model\Product\Configuration\Item\OptionFactory',
+                array(), array(), '', false
+            ),
+            $this->getMock('Magento\CatalogInventory\Model\Stock\ItemFactory', array(), array(), '', false),
+            $this->getMock('Magento\Catalog\Model\CategoryFactory', array(), array(), '', false),
+            $this->getMock('Magento\Catalog\Model\Product\Option', array(), array(), '', false),
+            $this->getMock('Magento\Catalog\Model\Product\Visibility', array(), array(), '', false),
+            $this->getMock('Magento\Catalog\Model\Product\Attribute\Source\Status', array(), array(), '', false),
+            $this->getMock('Magento\Catalog\Model\Product\Media\Config', array(), array(), '', false),
+            $this->getMock('Magento\Index\Model\Indexer', array(), array(), '', false),
+            $this->getMock('Magento\Catalog\Model\Product\Type', array(), array(), '', false),
+            $this->getMock('Magento\Catalog\Helper\Image', array(), array(), '', false),
+            $this->getMock('Magento\Catalog\Helper\Data', array(), array(), '', false),
+            $this->getMock('Magento\Catalog\Helper\Product', array(), array(), '', false),
+            $this->getMock('Magento\Catalog\Model\Resource\Product', array(), array(), '', false),
+            $this->getMock('Magento\Catalog\Model\Resource\Product\Collection', array(), array(), '', false),
+            $this->getMock('Magento\Data\CollectionFactory', array(), array(), '', false),
+            $this->getMock('Magento\App\Filesystem', array(), array(), '', false),
+            $this->categoryIndexerMock,
+            $this->_processor,
+            array('id' => 1)
         );
-
-        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_model = $objectManager->getObject('Magento\Catalog\Model\Product', $arguments);
     }
 
-    public function testPriceIndexerAfterDeleteCommitProduct()
+    public function testIndexerAfterDeleteCommitProduct()
     {
-        $this->_priceProcessorMock->expects($this->once())
-            ->method('reindexRow')
-            ->with($this->equalTo(1));
+        $this->categoryIndexerMock->expects($this->once())
+            ->method('reindexRow');
+        $this->_processor->expects($this->once())
+            ->method('reindexRow');
 
-        $this->_indexIndexerMock->expects($this->once())
-            ->method('indexEvents')
-            ->with(\Magento\Catalog\Model\Product::ENTITY,\Magento\Index\Model\Event::TYPE_DELETE);
-
-        $this->_model->setId(1);
         $this->_model->delete();
     }
-    /**
-     *
-     * @param boolean $isNewObject
-     * @param boolean $isDataForPriceIndexerWasChanged
-     * @dataProvider getData
-     */
-    public function testReindexCallback($isNewObject, $isDataForPriceIndexerWasChanged)
+
+    public function testReindex()
     {
-        if ($isNewObject) {
-            $this->_model->setId(null);
-        } else {
-            $this->_model->setId(1);
-        }
+        $this->categoryIndexerMock->expects($this->once())
+            ->method('reindexRow');
+        $this->_processor->expects($this->once())
+            ->method('reindexRow');
 
-        $this->_catalogProductHelperMock->expects($this->any())
-            ->method('isDataForPriceIndexerWasChanged')
-            ->with($this->equalTo($this->_model))
-            ->will($this->returnValue($isDataForPriceIndexerWasChanged));
-
-        if ($isNewObject || $isDataForPriceIndexerWasChanged) {
-            $this->_priceProcessorMock->expects($this->once())
-                ->method('reindexRow');
-        } else {
-            $this->_priceProcessorMock->expects($this->never())
-                ->method('reindexRow');
-        }
-
-        $this->assertEquals($this->_model, $this->_model->reindexCallback());
-    }
-
-    /**
-     * Data provider for testReindexCallback
-     * @return array
-     */
-    public function getData()
-    {
-        return array(
-            array(false, true),
-            array(true, false),
-            array(true, true),
-            array(false, false),
-        );
+        $this->_model->reindex();
     }
 }

@@ -34,7 +34,7 @@ class Layer extends \Magento\Object
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -105,7 +105,7 @@ class Layer extends \Magento\Object
      * @param \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
@@ -117,7 +117,7 @@ class Layer extends \Magento\Object
         \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
         \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_layerStateFactory = $layerStateFactory;

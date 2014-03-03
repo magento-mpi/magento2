@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Pbridge\Model\Payment\Method;
 
 /**
  * Paypal Direct dummy payment method model
  */
-namespace Magento\Pbridge\Model\Payment\Method;
-
 class Paypal extends \Magento\Paypal\Model\Direct
 {
     /**
@@ -47,10 +46,10 @@ class Paypal extends \Magento\Paypal\Model\Direct
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
+     * @param \Magento\Logger\AdapterFactory $logAdapterFactory
      * @param \Magento\Logger $logger
      * @param \Magento\Module\ModuleListInterface $moduleList
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\LocaleInterface $locale
      * @param \Magento\Centinel\Model\Service $centinelService
      * @param \Magento\Paypal\Model\Method\ProTypeFactory $proTypeFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -60,17 +59,17 @@ class Paypal extends \Magento\Paypal\Model\Direct
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
      * @param string $formBlock
      * @param array $data
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
+        \Magento\Logger\AdapterFactory $logAdapterFactory,
         \Magento\Logger $logger,
         \Magento\Module\ModuleListInterface $moduleList,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\LocaleInterface $locale,
         \Magento\Centinel\Model\Service $centinelService,
         \Magento\Paypal\Model\Method\ProTypeFactory $proTypeFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
@@ -207,7 +206,7 @@ class Paypal extends \Magento\Paypal\Model\Direct
     /**
      * Prepare info instance for save
      *
-     * @return \Magento\Pbridge\Model\Payment\Method\Paypal
+     * @return $this
      */
     public function prepareSave()
     {
@@ -224,7 +223,7 @@ class Paypal extends \Magento\Paypal\Model\Direct
     /**
      * Validate payment method information object
      *
-     * @return \Magento\Pbridge\Model\Payment\Method\Paypal
+     * @return $this
      */
     public function validate()
     {
@@ -233,8 +232,10 @@ class Paypal extends \Magento\Paypal\Model\Direct
     }
 
     /**
+     * Authorize payment
+     *
      * @param \Magento\Object $payment
-     * @param float amount
+     * @param float $amount
      * @return $this
      */
     public function authorize(\Magento\Object $payment, $amount)
@@ -248,8 +249,10 @@ class Paypal extends \Magento\Paypal\Model\Direct
     }
 
     /**
+     * Capture payment
+     *
      * @param \Magento\Object $payment
-     * @param float amount
+     * @param float $amount
      * @return $this
      */
     public function capture(\Magento\Object $payment, $amount)
@@ -261,8 +264,10 @@ class Paypal extends \Magento\Paypal\Model\Direct
     }
 
     /**
+     * Refund payment
+     *
      * @param \Magento\Object $payment
-     * @param float amount
+     * @param float $amount
      * @return $this
      */
     public function refund(\Magento\Object $payment, $amount)
@@ -272,8 +277,9 @@ class Paypal extends \Magento\Paypal\Model\Direct
     }
 
     /**
+     * Void payment
+     *
      * @param \Magento\Object $payment
-     * @param float amount
      * @return $this
      */
     public function void(\Magento\Object $payment)
@@ -295,7 +301,7 @@ class Paypal extends \Magento\Paypal\Model\Direct
      * Store id setter, also set storeId to helper
      *
      * @param int $store
-     * @return \Magento\Pbridge\Model\Payment\Method\Paypal
+     * @return $this
      */
     public function setStore($store)
     {

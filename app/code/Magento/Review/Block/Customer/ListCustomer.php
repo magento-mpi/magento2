@@ -26,6 +26,8 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
     protected $_collection;
 
     /**
+     * Review resource model
+     *
      * @var \Magento\Review\Model\Resource\Review\Product\CollectionFactory
      */
     protected $_collectionFactory;
@@ -50,6 +52,8 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
     }
 
     /**
+     * Initialize review collection
+     *
      * @return $this
      */
     protected function _initCollection()
@@ -147,10 +151,12 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
      */
     public function dateFormat($date)
     {
-        return $this->formatDate($date, \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
+        return $this->formatDate($date, \Magento\LocaleInterface::FORMAT_TYPE_SHORT);
     }
 
     /**
+     * Add review summary
+     *
      * @return \Magento\View\Element\AbstractBlock
      */
     protected function _beforeToHtml()

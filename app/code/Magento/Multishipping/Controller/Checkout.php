@@ -2,25 +2,45 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Checkout
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Multishipping\Controller;
+
+use Magento\App\RequestInterface;
+use Magento\Multishipping\Model\Checkout\Type\Multishipping\State;
+use Magento\Customer\Service\V1\CustomerServiceInterface as CustomerService;
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface as CustomerAccountService;
+use Magento\Customer\Service\V1\CustomerMetadataServiceInterface as CustomerMetadataService;
 
 /**
  * Multishipping checkout controller
- *
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Multishipping\Controller;
-
-use Magento\App\Action\NotFoundException;
-use Magento\App\RequestInterface;
-use Magento\Multishipping\Model\Checkout\Type\Multishipping\State;
-
 class Checkout extends \Magento\Checkout\Controller\Action
 {
+    /**
+     * @param \Magento\App\Action\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param CustomerService $customerService
+     * @param CustomerAccountService $customerAccountService
+     * @param CustomerMetadataService $customerMetadataService
+     */
+    public function __construct(
+        \Magento\App\Action\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
+        CustomerService $customerService,
+        CustomerAccountService $customerAccountService,
+        CustomerMetadataService $customerMetadataService
+    ) {
+        parent::__construct(
+            $context,
+            $customerSession,
+            $customerService,
+            $customerAccountService,
+            $customerMetadataService
+        );
+    }
+
     /**
      * Retrieve checkout model
      *
@@ -62,17 +82,6 @@ class Checkout extends \Magento\Checkout\Controller\Action
     }
 
     /**
-     * @param \Magento\App\Action\Context $context
-     * @param \Magento\Customer\Model\Session $customerSession
-     */
-    public function __construct(
-        \Magento\App\Action\Context $context,
-        \Magento\Customer\Model\Session $customerSession
-    ) {
-        parent::__construct($context, $customerSession);
-    }
-
-    /**
      * Dispatch request
      *
      * @param RequestInterface $request
@@ -110,7 +119,7 @@ class Checkout extends \Magento\Checkout\Controller\Action
                 $this->_actionFlag->set('', self::FLAG_NO_DISPATCH, true);
             }
 
-            if (!$this->_objectManager->get('Magento\Checkout\Helper\Data')->isMultishippingCheckoutAvailable()) {
+            if (!$this->_objectManager->get('Magento\Multishipping\Helper\Data')->isMultishippingCheckoutAvailable()) {
                 $error = $this->_getCheckout()->getMinimumAmountError();
                 $this->messageManager->addError($error);
                 $this->getResponse()->setRedirect($this->_getHelper()->getCartUrl());

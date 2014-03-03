@@ -30,6 +30,7 @@ class Tabs extends \Magento\View\Element\Template
      * @param string $block
      * @param string $template
      * @param string $header
+     * @return void
      */
     public function addTab($alias, $title, $block, $template, $header = null)
     {

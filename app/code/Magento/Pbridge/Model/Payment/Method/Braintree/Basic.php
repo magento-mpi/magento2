@@ -7,15 +7,14 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
-/**
- * Braintree payment method model
- */
 namespace Magento\Pbridge\Model\Payment\Method\Braintree;
 
 use Magento\Sales\Model\Order\Invoice;
 use Magento\Sales\Model\Order\Payment;
 
+/**
+ * Braintree payment method model
+ */
 class Basic extends \Magento\Pbridge\Model\Payment\Method
 {
     /**
@@ -25,6 +24,8 @@ class Basic extends \Magento\Pbridge\Model\Payment\Method
     protected $_code  = 'braintree_basic';
 
     /**
+     * Array of allowed currency codes
+     *
      * @var array
      */
     protected $_allowCurrencyCode = array('USD');

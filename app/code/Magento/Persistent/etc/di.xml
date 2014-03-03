@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <type name="Magento\Persistent\Helper\Data">
-        <param name="persistentSession">
-            <instance type="Magento\Persistent\Helper\Session\Proxy" />
-        </param>
+        <arguments>
+            <argument name="persistentSession" xsi:type="object">Magento\Persistent\Helper\Session\Proxy</argument>
+        </arguments>
     </type>
 </config>

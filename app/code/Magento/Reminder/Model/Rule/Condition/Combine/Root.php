@@ -74,7 +74,7 @@ class Root
     /**
      * Get SQL select.
      *
-     * Rewrited for cover root conditions combination with additional condition by customer
+     * Rewritten for cover root conditions combination with additional condition by customer
      *
      * @param Customer|\Zend_Db_Select|\Zend_Db_Expr $customer
      * @param int|\Zend_Db_Expr $website

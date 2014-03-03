@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Preview;
 
 /**
  * Tool block with buttons
  */
-namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Preview;
-
 class Buttons extends \Magento\Backend\Block\Widget\Container
 {
     /**
@@ -37,7 +36,7 @@ class Buttons extends \Magento\Backend\Block\Widget\Container
     /**
      * Adding two main buttons
      *
-     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Page\Preview\Buttons
+     * @return void
      */
     protected function _construct()
     {

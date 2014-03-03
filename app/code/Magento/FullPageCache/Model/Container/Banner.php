@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\FullPageCache\Model\Container;
 
 /**
  * Banner widget container, renders and caches banner content.
@@ -15,19 +16,20 @@
  * @package     Magento_FullPageCache
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\FullPageCache\Model\Container;
-
-class Banner
-    extends \Magento\FullPageCache\Model\Container\AbstractContainer
+class Banner extends \Magento\FullPageCache\Model\Container\AbstractContainer
 {
 
     /**
      * Array of ids of banner chosen to be shown to user this time
+     *
+     * @var int[]
      */
     protected $_bannersSelected = null;
 
     /**
-     * Array of ids of banners already shown during current serie
+     * Array of ids of banners already shown during current series
+     *
+     * @var int[]
      */
     protected $_bannersSequence = null;
 
@@ -61,7 +63,7 @@ class Banner
      * after app is started, while this method can be called without app after rendering serie/shuffle banners.
      *
      * @param array $renderedParams
-     * @return \Magento\FullPageCache\Model\Container\Banner
+     * @return $this
      */
     protected function _saveInfoCache($renderedParams)
     {
@@ -117,7 +119,7 @@ class Banner
      * First we get meta-data with list of prepared banner ids and shown ids. Then we select banners to render and
      * check whether we already have that content in cache.
      *
-     * @param string $content
+     * @param string &$content
      * @return bool
      */
     public function applyWithoutApp(&$content)
@@ -154,7 +156,7 @@ class Banner
      * The banners depend on the list of banner ids and rotation mode, that chooses banners to show from that list.
      *
      * @param array $renderedParams
-     * @return array
+     * @return int[]
      */
     protected function _selectBannersToRender($renderedParams)
     {

@@ -7,66 +7,84 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Pci\Model\Backend;
+
+use Magento\Event\Observer as EventObserver;
 
 /**
  * Pci backend observer model
  *
  * Implements hashes upgrading
  */
-namespace Magento\Pci\Model\Backend;
-
-use Magento\Event\Observer as EventObserver;
-
 class Observer
 {
     const ADMIN_USER_LOCKED = 243;
 
     /**
+     * Authorization interface
+     *
      * @var \Magento\AuthorizationInterface
      */
     protected $_authorization;
 
     /**
+     * Backend configuration interface
+     *
      * @var \Magento\Backend\App\ConfigInterface
      */
     protected $_backendConfig;
 
     /**
-     * @var \Magento\Pci\Model\Resource\Admin\User
+     * Admin user resource model
      *
+     * @var \Magento\Pci\Model\Resource\Admin\User
      */
     protected $_userResource;
     /**
+     * Backend url interface
+     *
      * @var \Magento\Backend\Model\UrlInterface
      */
     protected $_url;
 
     /**
+     * Backend session
+     *
      * @var \Magento\Backend\Model\Session
      */
     protected $_session;
 
     /**
+     * Backend authorization session
+     *
      * @var \Magento\Backend\Model\Auth\Session
      */
     protected $_authSession;
 
     /**
+     * Factory class for user model
+     *
      * @var \Magento\User\Model\UserFactory
      */
     protected $_userFactory;
 
     /**
+     * Pci encryption model
+     *
      * @var \Magento\Pci\Model\Encryption
      */
     protected $_encryptor;
 
     /**
+     * Action flag
+     *
      * @var \Magento\App\ActionFlag
      */
     protected $_actionFlag;
 
     /**
+     * Message manager interface
+     *
      * @var \Magento\Message\ManagerInterface
      */
     protected $messageManager;

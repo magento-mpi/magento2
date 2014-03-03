@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Authorizenet\Model\Authorizenet;
 
 class Cards
@@ -36,7 +35,7 @@ class Cards
      * Set payment instance for storing credit card information and partial authorizations
      *
      * @param \Magento\Payment\Model\Info $payment
-     * @return \Magento\Authorizenet\Model\Authorizenet\Cards
+     * @return $this
      */
     public function setPayment(\Magento\Payment\Model\Info $payment)
     {
@@ -47,6 +46,8 @@ class Cards
 
     /**
      * Init cards data
+     *
+     * @return void
      */
     protected function _initCards()
     {
@@ -83,7 +84,7 @@ class Cards
      * Save data from card object in cards storage
      *
      * @param \Magento\Object $card
-     * @return \Magento\Authorizenet\Model\Authorizenet\Cards
+     * @return $this
      */
     public function updateCard($card)
     {
@@ -99,7 +100,7 @@ class Cards
      * Retrieve card by ID
      *
      * @param string $cardId
-     * @return \Magento\Object|bool
+     * @return \Magento\Object|false
      */
     public function getCard($cardId)
     {
@@ -119,7 +120,7 @@ class Cards
     {
         $this->_isPaymentValid();
         $_cards = array();
-        foreach(array_keys($this->_cards) as $key) {
+        foreach (array_keys($this->_cards) as $key) {
             $_cards[$key] = $this->getCard($key);
         }
         return $_cards;
@@ -169,7 +170,7 @@ class Cards
     /**
      * Remove all cards from payment instance
      *
-     * @return \Magento\Authorizenet\Model\Authorizenet\Cards
+     * @return $this
      */
     public function flushCards()
     {
@@ -179,8 +180,9 @@ class Cards
     }
 
     /**
-     * Check for payment instace present
+     * Check for payment instance present
      *
+     * @return void
      * @throws \Exception
      */
     protected function _isPaymentValid()
@@ -189,10 +191,11 @@ class Cards
             throw new \Exception('Payment instance is not set');
         }
     }
+
     /**
      * Return total for cards data fields
      *
-     * $param string $key
+     * @param string $key
      * @return float
      */
     public function _getAmount($key)

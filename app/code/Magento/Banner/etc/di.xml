@@ -7,23 +7,23 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <type name="Magento\Banner\Model\Config">
-        <param name="bannerTypes">
-            <array>
-                <item key="content"><value>Content Area</value></item>
-                <item key="footer"><value>Footer</value></item>
-                <item key="header"><value>Header</value></item>
-                <item key="leftcol"><value>Left Column</value></item>
-                <item key="rightcol"><value>Right Column</value></item>
-            </array>
-        </param>
+        <arguments>
+            <argument name="bannerTypes" xsi:type="array">
+                <item name="content" xsi:type="string">Content Area</item>
+                <item name="footer" xsi:type="string">Footer</item>
+                <item name="header" xsi:type="string">Header</item>
+                <item name="leftcol" xsi:type="string">Left Column</item>
+                <item name="rightcol" xsi:type="string">Right Column</item>
+            </argument>
+        </arguments>
     </type>
     <type name="Magento\Module\Updater\SetupFactory">
-        <param name="resourceTypes">
-            <array>
-                <item key="banner_setup"><value>Magento\Banner\Model\Resource\Setup</value></item>
-            </array>
-        </param>
+        <arguments>
+            <argument name="resourceTypes" xsi:type="array">
+                <item name="banner_setup" xsi:type="string">Magento\Banner\Model\Resource\Setup</item>
+            </argument>
+        </arguments>
     </type>
 </config>

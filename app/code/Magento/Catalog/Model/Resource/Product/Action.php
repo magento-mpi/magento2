@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Catalog\Model\Resource\Product;
 
 /**
  * Catalog Product Mass processing resource model
@@ -16,13 +16,12 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Model\Resource\Product;
-
 class Action extends \Magento\Catalog\Model\Resource\AbstractResource
 {
     /**
-     * Intialize connection
+     * Initialize connection
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -40,7 +39,8 @@ class Action extends \Magento\Catalog\Model\Resource\AbstractResource
      * @param array $entityIds
      * @param array $attrData
      * @param int $storeId
-     * @return \Magento\Catalog\Model\Resource\Product\Action
+     * @return $this
+     * @throws \Exception
      */
     public function updateAttributes($entityIds, $attrData, $storeId)
     {

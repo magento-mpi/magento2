@@ -7,11 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Controller\Adminhtml\Product;
 
 class Group extends \Magento\Backend\App\Action
 {
+    /**
+     * @return void
+     */
     public function saveAction()
     {
         $model = $this->_objectManager->create('Magento\Eav\Model\Entity\Attribute\Group');
@@ -30,6 +32,9 @@ class Group extends \Magento\Backend\App\Action
         }
     }
 
+    /**
+     * @return bool
+     */
     protected function _isAllowed()
     {
         return $this->_authorization->isAllowed('Magento_Catalog::products');

@@ -22,7 +22,7 @@ class Pbridge extends \Magento\Backend\App\Action
     /**
      * Load only action layout handles
      *
-     * @return \Magento\Pbridge\Controller\Adminhtml\Pbridge
+     * @return $this
      */
     protected function _initActionLayout()
     {

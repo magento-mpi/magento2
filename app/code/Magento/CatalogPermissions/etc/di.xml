@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <preference for="Magento\CatalogPermissions\App\ConfigInterface" type="Magento\CatalogPermissions\App\Config" />
     <type name="Magento\CatalogPermissions\Helper\Data">
-        <param name="customerSession">
-            <instance type="Magento\Customer\Model\Session\Proxy" />
-        </param>
+        <arguments>
+            <argument name="customerSession" xsi:type="object">Magento\Customer\Model\Session\Proxy</argument>
+        </arguments>
     </type>
 </config>

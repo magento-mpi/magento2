@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\VersionsCms\Model\Page;
 
 /**
  * Cms page revision model
@@ -46,8 +47,6 @@
  * @method int getRevisionNumber()
  * @method \Magento\VersionsCms\Model\Page\Revision setRevisionNumber(int $value)
  */
-namespace Magento\VersionsCms\Model\Page;
-
 class Revision extends \Magento\Core\Model\AbstractModel
 {
     /**
@@ -93,8 +92,8 @@ class Revision extends \Magento\Core\Model\AbstractModel
     protected $_pageRevisionFactory;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\VersionsCms\Model\Config $cmsConfig
      * @param \Magento\Core\Model\Date $coreDate
      * @param \Magento\VersionsCms\Model\IncrementFactory $cmsIncrementFactory
@@ -104,8 +103,8 @@ class Revision extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\VersionsCms\Model\Config $cmsConfig,
         \Magento\Core\Model\Date $coreDate,
         \Magento\VersionsCms\Model\IncrementFactory $cmsIncrementFactory,
@@ -123,6 +122,8 @@ class Revision extends \Magento\Core\Model\AbstractModel
 
     /**
      * Constructor
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -133,7 +134,7 @@ class Revision extends \Magento\Core\Model\AbstractModel
     /**
      * Get cache tags associated with object id
      *
-     * @return array
+     * @return string[]
      */
     public function getCacheIdTags()
     {
@@ -147,7 +148,7 @@ class Revision extends \Magento\Core\Model\AbstractModel
     /**
      * Preparing data before save
      *
-     * @return \Magento\VersionsCms\Model\Page\Revision
+     * @return $this
      */
     protected function _beforeSave()
     {
@@ -174,7 +175,7 @@ class Revision extends \Magento\Core\Model\AbstractModel
     /**
      * Check data which is under revision control if it was modified.
      *
-     * @return array
+     * @return bool
      */
     protected function _revisionedDataWasModified()
     {
@@ -215,7 +216,7 @@ class Revision extends \Magento\Core\Model\AbstractModel
     /**
      * Publishing current revision
      *
-     * @return \Magento\VersionsCms\Model\Page\Revision
+     * @return $this
      * @throws \Exception
      */
     public function publish()
@@ -237,7 +238,7 @@ class Revision extends \Magento\Core\Model\AbstractModel
     /**
      * Checking some moments before we can actually delete revision
      *
-     * @return \Magento\VersionsCms\Model\Page\Revision
+     * @return void
      * @throws \Magento\Core\Exception
      */
     protected function _beforeDelete()
@@ -258,7 +259,7 @@ class Revision extends \Magento\Core\Model\AbstractModel
      * @param int $userId
      * @param int|string $value
      * @param string|null $field
-     * @return \Magento\VersionsCms\Model\Page\Revision
+     * @return $this
      */
     public function loadWithRestrictions($accessLevel, $userId, $value, $field = null)
     {
@@ -277,7 +278,7 @@ class Revision extends \Magento\Core\Model\AbstractModel
      * @param int $pageId
      * @param array|string $accessLevel
      * @param int $userId
-     * @return \Magento\VersionsCms\Model\Page\Revision
+     * @return $this
      */
     public function loadByVersionPageWithRestrictions($versionId, $pageId, $accessLevel, $userId)
     {

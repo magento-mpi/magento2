@@ -46,21 +46,21 @@ class Banner extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @var bool
      */
-    protected $_isSalesRuleJoined       = false;
+    protected $_isSalesRuleJoined = false;
 
     /**
      * Define if joining related catalog rule to banner is already preformed
      *
      * @var bool
      */
-    protected $_isCatalogRuleJoined     = false;
+    protected $_isCatalogRuleJoined = false;
 
     /**
      * Whether to filter banners by specified types
      *
      * @var array
      */
-    protected $_bannerTypesFilter                = array();
+    protected $_bannerTypesFilter = array();
 
     /**
      * @var \Magento\Event\ManagerInterface
@@ -110,6 +110,7 @@ class Banner extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Initialize banner resource model
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -123,7 +124,7 @@ class Banner extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Set filter by specified types
      *
      * @param string|array $types
-     * @return \Magento\Banner\Model\Resource\Banner
+     * @return $this
      */
     public function filterByTypes($types = array())
     {
@@ -137,7 +138,7 @@ class Banner extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param int $bannerId
      * @param array $contents
      * @param array $notuse
-     * @return \Magento\Banner\Model\Resource\Banner
+     * @return $this
      */
     public function saveStoreContents($bannerId, $contents, $notuse = array())
     {
@@ -173,7 +174,7 @@ class Banner extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param int $bannerId
      * @param array $rules
-     * @return \Magento\Banner\Model\Resource\Banner
+     * @return $this
      */
     public function saveCatalogRules($bannerId, $rules)
     {
@@ -202,7 +203,7 @@ class Banner extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param int $bannerId
      * @param array $rules
-     * @return \Magento\Banner\Model\Resource\Banner
+     * @return $this
      */
     public function saveSalesRules($bannerId, $rules)
     {
@@ -358,7 +359,7 @@ class Banner extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param int $ruleId
      * @param array $banners
-     * @return \Magento\Banner\Model\Resource\Banner
+     * @return $this
      */
     public function bindBannersToCatalogRule($ruleId, $banners)
     {
@@ -386,7 +387,7 @@ class Banner extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param int $ruleId
      * @param array $banners
-     * @return \Magento\Banner\Model\Resource\Banner
+     * @return $this
      */
     public function bindBannersToSalesRule($ruleId, $banners)
     {
@@ -478,7 +479,7 @@ class Banner extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Prepare banner types for saving
      *
      * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Banner\Model\Resource\Banner
+     * @return $this
      */
     protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
     {

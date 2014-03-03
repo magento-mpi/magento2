@@ -44,6 +44,8 @@ interface AdapterInterface
 
     /**
      * Reassign image dimensions
+     *
+     * @return void
      */
     public function refreshImageDimensions();
 
@@ -51,7 +53,7 @@ interface AdapterInterface
      * Checks required dependencies
      *
      * @return void
-     * @throws \Exception if some of dependencies are missing
+     * @throws \Exception If some of dependencies are missing
      */
     public function checkDependencies();
 
@@ -67,7 +69,7 @@ interface AdapterInterface
     /**
      * Open image for processing
      *
-     * @param $filename
+     * @param string $filename
      * @return void
      */
     public function open($filename);
@@ -99,7 +101,7 @@ interface AdapterInterface
      * @param null|string $destination
      * @param null|string $newName
      * @return void
-     * @throws \Exception  if destination path is not writable
+     * @throws \Exception  If destination path is not writable
      */
     public function save($destination = null, $newName = null);
 

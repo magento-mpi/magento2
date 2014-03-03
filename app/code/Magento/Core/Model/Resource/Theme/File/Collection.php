@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Core\Model\Resource\Theme\File;
 
 /**
  * Theme files collection
  */
-namespace Magento\Core\Model\Resource\Theme\File;
-
 class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
     implements \Magento\View\Design\Theme\File\CollectionInterface
 {
@@ -27,11 +26,12 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Add select order
      *
-     * $field is properly quoted, lately it was treated field "order" as special SQL word and was not working
+     * The $field parameter is properly quoted, lately it was treated field "order" as special SQL
+     * word and was not working
      *
      * @param string $field
      * @param string $direction
-     * @return \Magento\Core\Model\Resource\Theme\File\Collection|\Magento\Data\Collection|\Magento\Data\Collection\Db
+     * @return $this
      */
     public function setOrder($field, $direction = self::SORT_ORDER_DESC)
     {
@@ -42,7 +42,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Set default order
      *
      * @param string $direction
-     * @return \Magento\Core\Model\Resource\Theme\File\Collection
+     * @return $this
      */
     public function setDefaultOrder($direction = self::SORT_ORDER_ASC)
     {
@@ -53,7 +53,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Filter out files that do not belong to a theme
      *
      * @param \Magento\View\Design\ThemeInterface $theme
-     * @return \Magento\Core\Model\Resource\Theme\File\Collection
+     * @return $this
      */
     public function addThemeFilter(\Magento\View\Design\ThemeInterface $theme)
     {

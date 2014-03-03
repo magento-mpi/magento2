@@ -7,16 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\PricePermissions\Model\System\Config\Backend\Catalog\Product\Price;
 
 /**
  * Catalog Default Product Price Backend Model
  *
- * @category    Magento
- * @package     Magento_PricePermissions
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\PricePermissions\Model\System\Config\Backend\Catalog\Product\Price;
-
 class DefaultPrice
     extends \Magento\Core\Model\Config\Value
 {
@@ -28,8 +25,8 @@ class DefaultPrice
     protected $_pricePermData = null;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\ConfigInterface $config
      * @param \Magento\PricePermissions\Helper\Data $pricePermData
@@ -38,8 +35,8 @@ class DefaultPrice
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\ConfigInterface $config,
         \Magento\PricePermissions\Helper\Data $pricePermData,
@@ -54,7 +51,7 @@ class DefaultPrice
     /**
      * Check permission to edit product prices before the value is saved
      *
-     * @return \Magento\PricePermissions\Model\System\Config\Backend\Catalog\Product\Price\DefaultPrice
+     * @return $this
      */
     protected function _beforeSave()
     {
@@ -72,7 +69,7 @@ class DefaultPrice
     /**
      * Check permission to read product prices before the value is shown to user
      *
-     * @return \Magento\PricePermissions\Model\System\Config\Backend\Catalog\Product\Price\DefaultPrice
+     * @return $this
      */
     protected function _afterLoad()
     {

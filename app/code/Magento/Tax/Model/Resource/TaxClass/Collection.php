@@ -22,6 +22,8 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
 {
     /**
      * Resource initialization
+     *
+     * @return void
      */
     public function _construct()
     {
@@ -32,7 +34,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Add class type filter to result
      *
      * @param int $classTypeId
-     * @return \Magento\Tax\Model\Resource\TaxClass\Collection
+     * @return $this
      */
     public function setClassTypeFilter($classTypeId)
     {

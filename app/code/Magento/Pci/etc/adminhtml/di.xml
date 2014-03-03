@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <type name="Magento\Pci\Model\Backend\Observer">
-        <param name="authorization">
-            <instance type="Magento\Authorization" />
-        </param>
+        <arguments>
+            <argument name="authorization" xsi:type="object">Magento\Authorization</argument>
+        </arguments>
     </type>
 </config>

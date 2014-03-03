@@ -34,6 +34,8 @@
  */
 namespace Magento\Cron\Model;
 
+use Magento\Cron\Exception;
+
 class Schedule extends \Magento\Core\Model\AbstractModel
 {
     const STATUS_PENDING = 'pending';
@@ -48,16 +50,16 @@ class Schedule extends \Magento\Core\Model\AbstractModel
     protected $_date;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\Date $date
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Core\Model\Date $date,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
@@ -67,16 +69,24 @@ class Schedule extends \Magento\Core\Model\AbstractModel
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
+    /**
+     * @return void
+     */
     public function _construct()
     {
         $this->_init('Magento\Cron\Model\Resource\Schedule');
     }
 
+    /**
+     * @param string $expr
+     * @return $this
+     * @throws Exception
+     */
     public function setCronExpr($expr)
     {
         $e = preg_split('#\s+#', $expr, null, PREG_SPLIT_NO_EMPTY);
         if (sizeof($e) < 5 || sizeof($e) > 6) {
-            throw new \Magento\Cron\Exception('Invalid cron expression: ' . $expr);
+            throw new Exception('Invalid cron expression: ' . $expr);
         }
 
         $this->setCronExprArr($e);
@@ -88,8 +98,8 @@ class Schedule extends \Magento\Core\Model\AbstractModel
      *
      * Supports $this->setCronExpr('* 0-5,10-59/5 2-10,15-25 january-june/2 mon-fri')
      *
-     * @param \Magento\Event $event
-     * @return boolean
+     * @param int|string $time
+     * @return bool
      */
     public function trySchedule($time)
     {
@@ -116,6 +126,12 @@ class Schedule extends \Magento\Core\Model\AbstractModel
         return $match;
     }
 
+    /**
+     * @param string $expr
+     * @param int $num
+     * @return bool
+     * @throws Exception
+     */
     public function matchCronExpression($expr, $num)
     {
         // handle ALL match
@@ -137,12 +153,12 @@ class Schedule extends \Magento\Core\Model\AbstractModel
         if (strpos($expr, '/') !== false) {
             $e = explode('/', $expr);
             if (sizeof($e) !== 2) {
-                throw new \Magento\Cron\Exception(
+                throw new Exception(
                     "Invalid cron expression, expecting 'match/modulus': " . $expr
                 );
             }
             if (!is_numeric($e[1])) {
-                throw new \Magento\Cron\Exception(
+                throw new Exception(
                     "Invalid cron expression, expecting numeric modulus: " . $expr
                 );
             }
@@ -160,7 +176,7 @@ class Schedule extends \Magento\Core\Model\AbstractModel
         } elseif (strpos($expr, '-') !== false) {
             $e = explode('-', $expr);
             if (sizeof($e) !== 2) {
-                throw new \Magento\Cron\Exception(
+                throw new Exception(
                     "Invalid cron expression, expecting 'from-to' structure: " . $expr
                 );
             }
@@ -174,12 +190,16 @@ class Schedule extends \Magento\Core\Model\AbstractModel
         }
 
         if ($from === false || $to === false) {
-            throw new \Magento\Cron\Exception("Invalid cron expression: " . $expr);
+            throw new Exception("Invalid cron expression: " . $expr);
         }
 
         return ($num >= $from) && ($num <= $to) && ($num % $mod === 0);
     }
 
+    /**
+     * @param int|string $value
+     * @return bool|int|string
+     */
     public function getNumeric($value)
     {
         static $data = array(

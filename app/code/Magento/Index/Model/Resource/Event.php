@@ -7,7 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Index\Model\Resource;
 
+use Magento\Core\Model\AbstractModel;
+use Magento\Index\Model\Process as ProcessModel;
 
 /**
  * Index Event Resource Model
@@ -16,13 +19,11 @@
  * @package     Magento_Index
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Index\Model\Resource;
-
-use Magento\Core\Model\AbstractModel;
-use Magento\Index\Model\Process as ProcessModel;
-
 class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_init('index_event', 'event_id');

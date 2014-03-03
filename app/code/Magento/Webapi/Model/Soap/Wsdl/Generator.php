@@ -22,7 +22,7 @@ class Generator
     /**
      * WSDL factory instance.
      *
-     * @var \Magento\Webapi\Model\Soap\Wsdl\Factory
+     * @var Factory
      */
     protected $_wsdlFactory;
 
@@ -50,13 +50,13 @@ class Generator
      * Initialize dependencies.
      *
      * @param \Magento\Webapi\Model\Soap\Config $apiConfig
-     * @param \Magento\Webapi\Model\Soap\Wsdl\Factory $wsdlFactory
+     * @param Factory $wsdlFactory
      * @param \Magento\Webapi\Model\Cache\Type $cache
      * @param \Magento\Webapi\Model\Config\ClassReflector\TypeProcessor $typeProcessor
      */
     public function __construct(
         \Magento\Webapi\Model\Soap\Config $apiConfig,
-        \Magento\Webapi\Model\Soap\Wsdl\Factory $wsdlFactory,
+        Factory $wsdlFactory,
         \Magento\Webapi\Model\Cache\Type $cache,
         \Magento\Webapi\Model\Config\ClassReflector\TypeProcessor $typeProcessor
     ) {
@@ -330,6 +330,7 @@ class Generator
      * Walks through all requested services and checks all methods 'in' and 'out' parameters.
      *
      * @param array $requestedServices
+     * @return void
      */
     protected function _collectCallInfo($requestedServices)
     {
@@ -346,6 +347,7 @@ class Generator
      * @param array $interface
      * @param string $serviceName
      * @param string $methodName
+     * @return void
      */
     protected function _processInterfaceCallInfo($interface, $serviceName, $methodName)
     {

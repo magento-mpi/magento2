@@ -43,7 +43,7 @@ class Css
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Theme\Model\Uploader\Service $uploaderService
@@ -52,7 +52,7 @@ class Css
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\ObjectManager $objectManager,
         \Magento\Theme\Model\Uploader\Service $uploaderService,
@@ -67,7 +67,7 @@ class Css
     /**
      * Create a form element with necessary controls
      *
-     * @return \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\Css
+     * @return $this
      */
     protected function _prepareForm()
     {
@@ -99,7 +99,7 @@ class Css
     /**
      * Set theme css fieldset
      *
-     * @return \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\Css
+     * @return $this
      */
     protected function _addThemeCssFieldset()
     {
@@ -143,7 +143,7 @@ class Css
     /**
      * Set custom css fieldset
      *
-     * @return \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\Css
+     * @return $this
      */
     protected function _addCustomCssFieldset()
     {

@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model\Search;
 
 /**
@@ -54,7 +53,7 @@ class Catalog extends \Magento\Object
     /**
      * Load search results
      *
-     * @return \Magento\Backend\Model\Search\Catalog
+     * @return $this
      */
     public function load()
     {

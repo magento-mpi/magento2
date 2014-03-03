@@ -15,6 +15,8 @@ class BannerSegmentLink extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Setup association with a table
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -41,6 +43,7 @@ class BannerSegmentLink extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param int $bannerId
      * @param array $segmentIds
+     * @return void
      */
     public function saveBannerSegments($bannerId, array $segmentIds)
     {
@@ -65,6 +68,7 @@ class BannerSegmentLink extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param \Zend_Db_Select $select
      * @param array $segmentIds
+     * @return void
      */
     public function addBannerSegmentFilter(\Zend_Db_Select $select, array $segmentIds)
     {

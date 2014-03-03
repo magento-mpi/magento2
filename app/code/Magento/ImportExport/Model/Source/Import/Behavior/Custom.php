@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ImportExport\Model\Source\Import\Behavior;
 
 /**
  * Import behavior source model used for customers' components import entities.
@@ -16,15 +17,11 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\ImportExport\Model\Source\Import\Behavior;
-
 class Custom
     extends \Magento\ImportExport\Model\Source\Import\AbstractBehavior
 {
     /**
-     * Get possible behaviours
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function toArray()
     {
@@ -39,9 +36,7 @@ class Custom
     }
 
     /**
-     * Get current behaviour code
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getCode()
     {

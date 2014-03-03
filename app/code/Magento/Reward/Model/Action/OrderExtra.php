@@ -7,18 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * Reward action for converting spent money to points
- *
- * @category    Magento
- * @package     Magento_Reward
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Reward\Model\Action;
 
 use Magento\Sales\Model\Quote;
 
+/**
+ * Reward action for converting spent money to points
+ *
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
 class OrderExtra extends \Magento\Reward\Model\Action\AbstractAction
 {
     /**
@@ -68,7 +65,7 @@ class OrderExtra extends \Magento\Reward\Model\Action\AbstractAction
      * Setter for $_entity and add some extra data to history
      *
      * @param \Magento\Object $entity
-     * @return \Magento\Reward\Model\Action\AbstractAction
+     * @return $this
      */
     public function setEntity($entity)
     {
@@ -125,7 +122,6 @@ class OrderExtra extends \Magento\Reward\Model\Action\AbstractAction
      * Checking for the history records is intentionaly omitted
      *
      * @return bool
-     *
      */
     public function canAddRewardPoints()
     {

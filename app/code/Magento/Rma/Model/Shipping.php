@@ -61,44 +61,57 @@ class Shipping extends \Magento\Core\Model\AbstractModel
     protected $_coreStoreConfig;
 
     /**
+     * Sales order factory
+     *
      * @var \Magento\Sales\Model\OrderFactory
      */
     protected $_orderFactory;
 
     /**
+     * Core store manager interface
+     *
      * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
+     * Directory region factory
+     *
      * @var \Magento\Directory\Model\RegionFactory
      */
     protected $_regionFactory;
 
     /**
+     * Shipping return shipment factory
+     *
      * @var \Magento\Shipping\Model\Shipment\ReturnShipmentFactory
      */
     protected $_returnFactory;
 
     /**
+     * Shipping carrier factory
+     *
      * @var \Magento\Shipping\Model\CarrierFactory
      */
     protected $_carrierFactory;
 
     /**
+     * Rma factory
+     *
      * @var \Magento\Rma\Model\RmaFactory
      */
     protected $_rmaFactory;
 
     /**
+     * Application filesystem
+     *
      * @var \Magento\App\Filesystem
      */
     protected $filesystem;
 
     /**
-     * @param \Magento\Rma\Helper\Data $rmaData
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
@@ -113,8 +126,8 @@ class Shipping extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Sales\Model\OrderFactory $orderFactory,
@@ -143,6 +156,8 @@ class Shipping extends \Magento\Core\Model\AbstractModel
 
     /**
      * Init resource model
+     *
+     * @return void
      */
     protected function _construct()
     {

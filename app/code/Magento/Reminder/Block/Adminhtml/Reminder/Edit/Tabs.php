@@ -9,7 +9,7 @@
  */
 namespace Magento\Reminder\Block\Adminhtml\Reminder\Edit;
 
-use Magento\Core\Model\Registry;
+use Magento\Registry;
 
 /**
  * Reminder rules edit tabs block
@@ -61,7 +61,7 @@ class Tabs
     /**
      * Add tab sections
      *
-     * @return \Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tabs
+     * @return $this
      */
     protected function _beforeToHtml()
     {

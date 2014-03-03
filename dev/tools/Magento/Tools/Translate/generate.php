@@ -127,13 +127,13 @@ function parseDir($path, $basicModuleName, $exclude = array(), $_isRecursion = f
     static $skipDirs = array();
 
     if (!file_exists($path)) {
-        print (sprintf("Config path not found %s\n", $path));
+        echo (sprintf("Config path not found %s\n", $path));
         return false;
     }
 
     if (is_file($path)) {
         if ($CONFIG['generate']['print_file']) {
-            print 'check file ' . $path . "\n";
+            echo 'check file ' . $path . "\n";
         }
 
         if (preg_match('/\.'.$CONFIG['generate']['allow_ext'].'$/', $path)) {
@@ -146,7 +146,7 @@ function parseDir($path, $basicModuleName, $exclude = array(), $_isRecursion = f
     }
 
     if ($CONFIG['generate']['print_dir']) {
-        print 'check dir ' . $path . "\n";
+        echo 'check dir ' . $path . "\n";
     }
 
     // skip excluded dirs
@@ -197,7 +197,7 @@ function parseFile($fileName, $basicModuleName)
         return ;
     }
     if ($CONFIG['generate']['print_file']) {
-        print '    parse file ' . $fileName . "\n";
+        echo '    parse file ' . $fileName . "\n";
     }
 
     $CONFIG['generate']['parse_file'] ++;
@@ -214,7 +214,7 @@ function parseFile($fileName, $basicModuleName)
                 $CONFIG['generate']['match_helper'] ++;
 
                 if (!isset($CONFIG['helpers'][$match[2]])) {
-                    print '    ignore unknown helper ' . $match[2] . "\n";
+                    echo '    ignore unknown helper ' . $match[2] . "\n";
                     continue;
                 }
                 $moduleName     = $CONFIG['helpers'][$match[2]];
@@ -259,7 +259,7 @@ function parseXmlFile($fileName, $basicModuleName)
     global $CONFIG;
 
     if ($CONFIG['generate']['print_file']) {
-        print '    parse file ' . $fileName . "\n";
+        echo '    parse file ' . $fileName . "\n";
     }
 
     if (in_array(basename($fileName), $CONFIG['generate']['xml_ignore'])) {
@@ -394,7 +394,7 @@ foreach ($CONFIG['translates'] as $basicModuleName => $modulePaths) {
     }
 }
 
-print sprintf("\nParsed %d file(s)\n- Found %d helpers\n- Found %d module this\n- Found %d __ calls\n- Found %d translate attributes in xml\n",
+echo sprintf("\nParsed %d file(s)\n- Found %d helpers\n- Found %d module this\n- Found %d __ calls\n- Found %d translate attributes in xml\n",
     $CONFIG['generate']['parse_file'],
     $CONFIG['generate']['match_helper'],
     $CONFIG['generate']['match_this'],

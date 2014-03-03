@@ -26,7 +26,7 @@ class Session
     protected $_cookie;
 
     /**
-     * @var array
+     * @var string[]
      */
     protected $_cookieCheckActions;
 
@@ -64,7 +64,7 @@ class Session
      * @param \Magento\Core\Model\Store\Config $storeConfig
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param string $sessionNamespace
-     * @param array $cookieCheckActions
+     * @param string[] $cookieCheckActions
      */
     public function __construct(
         \Magento\App\ActionFlag $flag,
@@ -89,13 +89,17 @@ class Session
     }
 
     /**
-     * @param array $arguments
-     * @param \Magento\Code\Plugin\InvocationChain $invocationChain
-     * @return array
+     * @param \Magento\App\Action\Action $subject
+     * @param callable $proceed
+     * @param \Magento\App\RequestInterface $request
+     * @return \Magento\App\ResponseInterface
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function aroundDispatch(array $arguments = array(), \Magento\Code\Plugin\InvocationChain $invocationChain)
-    {
-        $request = $arguments[0];
+    public function aroundDispatch(
+        \Magento\App\Action\Action $subject,
+        \Closure $proceed,
+        \Magento\App\RequestInterface $request
+    ) {
         $checkCookie = in_array($request->getActionName(), $this->_cookieCheckActions)
             && !$request->getParam('nocookie', false);
 
@@ -120,7 +124,7 @@ class Session
                 }
             }
         }
-        return $invocationChain->proceed($arguments);
+        return $proceed($request);
     }
 
     /**

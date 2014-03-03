@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Block\Widget\Form\Element;
+
+use Magento\Data\Form\Element\AbstractElement;
 
 /**
  * Backend image gallery item renderer
@@ -15,38 +18,58 @@
  * @package    Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Backend\Block\Widget\Form\Element;
-
 class Gallery extends \Magento\Backend\Block\Template
     implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
-
+    /**
+     * @var AbstractElement|null
+     */
     protected $_element = null;
 
+    /**
+     * @var string
+     */
     protected $_template = 'Magento_Backend::widget/form/element/gallery.phtml';
 
-    public function render(\Magento\Data\Form\Element\AbstractElement $element)
+    /**
+     * @param AbstractElement $element
+     * @return string
+     */
+    public function render(AbstractElement $element)
     {
         $this->setElement($element);
         return $this->toHtml();
     }
 
-    public function setElement(\Magento\Data\Form\Element\AbstractElement $element)
+    /**
+     * @param AbstractElement $element
+     * @return $this
+     */
+    public function setElement(AbstractElement $element)
     {
         $this->_element = $element;
         return $this;
     }
 
+    /**
+     * @return AbstractElement|null
+     */
     public function getElement()
     {
         return $this->_element;
     }
 
+    /**
+     * @return array
+     */
     public function getValues()
     {
         return $this->getElement()->getValue();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function _prepareLayout()
     {
         $this->addChild('delete_button', 'Magento\Backend\Block\Widget\Button', array(
@@ -63,11 +86,18 @@ class Gallery extends \Magento\Backend\Block\Template
         return parent::_prepareLayout();
     }
 
+    /**
+     * @return string
+     */
     public function getAddButtonHtml()
     {
         return $this->getChildHtml('add_button');
     }
 
+    /**
+     * @param string $image
+     * @return string|string[]
+     */
     public function getDeleteButtonHtml($image)
     {
         return str_replace('#image#', $image, $this->getChildHtml('delete_button'));

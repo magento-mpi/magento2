@@ -7,108 +7,106 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <virtualType name="Magento\Pbridge\Model\Session\Storage" type="Magento\Session\Storage">
-        <param name="namespace">
-            <value>magento_pbridge</value>
-        </param>
+        <arguments>
+            <argument name="namespace" xsi:type="string">magento_pbridge</argument>
+        </arguments>
     </virtualType>
     <type name="Magento\Pbridge\Model\Session">
-        <param name="storage">
-            <instance type="Magento\Pbridge\Model\Session\Storage" />
-        </param>
-        <param name="sessionName">
-            <value>adminhtml</value>
-        </param>
+        <arguments>
+            <argument name="storage" xsi:type="object">Magento\Pbridge\Model\Session\Storage</argument>
+            <argument name="sessionName" xsi:type="string">adminhtml</argument>
+        </arguments>
     </type>
 
     <type name="Magento\Pbridge\Model\Payment\Method\Authorizenet">
-        <param name="formBlock">
-            <value>Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Authorizenet</value>
-        </param>
+        <arguments>
+            <argument name="formBlock" xsi:type="string">Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Authorizenet</argument>
+        </arguments>
     </type>
 
     <type name="Magento\Pbridge\Model\Payment\Method\Dibs">
-        <param name="formBlock">
-            <value>Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Dibs</value>
-        </param>
+        <arguments>
+            <argument name="formBlock" xsi:type="string">Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Dibs</argument>
+        </arguments>
     </type>
 
     <type name="Magento\Pbridge\Model\Payment\Method\Firstdata">
-        <param name="formBlock">
-            <value>Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Firstdata</value>
-        </param>
+        <arguments>
+            <argument name="formBlock" xsi:type="string">Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Firstdata</argument>
+        </arguments>
     </type>
 
     <type name="Magento\Pbridge\Model\Payment\Method\Ogone">
-        <param name="formBlock">
-            <value>Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Ogone</value>
-        </param>
+        <arguments>
+            <argument name="formBlock" xsi:type="string">Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Ogone</argument>
+        </arguments>
     </type>
 
     <type name="Magento\Pbridge\Model\Payment\Method\Paypal">
-        <param name="formBlock">
-            <value>Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Paypal</value>
-        </param>
+        <arguments>
+            <argument name="formBlock" xsi:type="string">Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Paypal</argument>
+        </arguments>
     </type>
 
     <type name="Magento\Pbridge\Model\Payment\Method\PayflowDirect">
-        <param name="formBlock">
-            <value>Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Paypal</value>
-        </param>
+        <arguments>
+            <argument name="formBlock" xsi:type="string">Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Paypal</argument>
+        </arguments>
     </type>
 
     <type name="Magento\Pbridge\Model\Payment\Method\Braintree\Basic">
-        <param name="formBlock">
-            <value>Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Braintree\Basic</value>
-        </param>
+        <arguments>
+            <argument name="formBlock" xsi:type="string">Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Braintree\Basic</argument>
+        </arguments>
     </type>
 
     <type name="Magento\Pbridge\Model\Payment\Method\Cybersource\Soap">
-        <param name="formBlock">
-            <value>Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Cybersource</value>
-        </param>
+        <arguments>
+            <argument name="formBlock" xsi:type="string">Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Cybersource</argument>
+        </arguments>
     </type>
 
     <type name="Magento\Pbridge\Model\Payment\Method\Eway\Direct">
-        <param name="formBlock">
-            <value>Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Eway</value>
-        </param>
+        <arguments>
+            <argument name="formBlock" xsi:type="string">Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Eway</argument>
+        </arguments>
     </type>
 
     <type name="Magento\Pbridge\Model\Payment\Method\Paybox\Direct">
-        <param name="formBlock">
-            <value>Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Paybox\Direct</value>
-        </param>
+        <arguments>
+            <argument name="formBlock" xsi:type="string">Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Paybox\Direct</argument>
+        </arguments>
     </type>
 
     <type name="Magento\Pbridge\Model\Payment\Method\Payflowpro">
-        <param name="formBlock">
-            <value>Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Payflowpro</value>
-        </param>
+        <arguments>
+            <argument name="formBlock" xsi:type="string">Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Payflowpro</argument>
+        </arguments>
     </type>
 
     <type name="Magento\Pbridge\Model\Payment\Method\Payone\Gate">
-        <param name="formBlock">
-            <value>Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Payone\Gate</value>
-        </param>
+        <arguments>
+            <argument name="formBlock" xsi:type="string">Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Payone\Gate</argument>
+        </arguments>
     </type>
 
     <type name="Magento\Pbridge\Model\Payment\Method\Psigate\Basic">
-        <param name="formBlock">
-            <value>Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Psigate\Basic</value>
-        </param>
+        <arguments>
+            <argument name="formBlock" xsi:type="string">Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Psigate\Basic</argument>
+        </arguments>
     </type>
 
     <type name="Magento\Pbridge\Model\Payment\Method\Sagepay\Direct">
-        <param name="formBlock">
-            <value>Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Sagepay\Direct</value>
-        </param>
+        <arguments>
+            <argument name="formBlock" xsi:type="string">Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Sagepay\Direct</argument>
+        </arguments>
     </type>
 
     <type name="Magento\Pbridge\Model\Payment\Method\Worldpay\Direct">
-        <param name="formBlock">
-            <value>Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Worldpay\Direct</value>
-        </param>
+        <arguments>
+            <argument name="formBlock" xsi:type="string">Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Worldpay\Direct</argument>
+        </arguments>
     </type>
 </config>

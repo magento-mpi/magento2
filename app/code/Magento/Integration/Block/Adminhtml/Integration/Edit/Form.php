@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Integration\Block\Adminhtml\Integration\Edit;
 
 use Magento\Integration\Block\Adminhtml\Integration\Edit\Tab\Info;
@@ -21,7 +20,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Prepare form before rendering HTML
      *
-     * @return \Magento\Backend\Block\Widget\Form
+     * @return $this
      */
     protected function _prepareForm()
     {

@@ -13,8 +13,6 @@ namespace Magento\Rma\Block\Adminhtml\Rma\Item\Attribute;
 /**
  * RMA Item Attributes Edit container
  *
- * @category    Magento
- * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Edit
@@ -23,18 +21,18 @@ class Edit
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -54,6 +52,7 @@ class Edit
     /**
      * Initialize Customer Address Attribute Edit Container
      *
+     * @return void
      */
     protected function _construct()
     {

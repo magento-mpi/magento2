@@ -20,6 +20,9 @@ class Pickup extends \Magento\Usa\Model\Shipping\Carrier\Ups\Source\Generic
      */
     protected $_code = 'pickup';
 
+    /**
+     * {@inheritdoc}
+     */
     public function toOptionArray()
     {
         $ups = $this->_shippingUps->getCode($this->_code);

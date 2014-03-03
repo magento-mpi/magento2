@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\CustomerCustomAttributes\Helper;
 
 /**
  * Enterprise Customer Data Helper
@@ -15,39 +15,37 @@
  * @category   Magento
  * @package    Magento_CustomerCustomAttributes
  */
-namespace Magento\CustomerCustomAttributes\Helper;
-
 class Data extends \Magento\CustomAttribute\Helper\Data
 {
     /**
      * Customer customer
      *
-     * @var \Magento\CustomerCustomAttributes\Helper\Customer
+     * @var Customer
      */
     protected $_customerCustomer = null;
 
     /**
      * Customer address
      *
-     * @var \Magento\CustomerCustomAttributes\Helper\Address
+     * @var Address
      */
     protected $_customerAddress = null;
 
     /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\LocaleInterface $locale
      * @param \Magento\Filter\FilterManager $filterManager
-     * @param \Magento\CustomerCustomAttributes\Helper\Address $customerAddress
-     * @param \Magento\CustomerCustomAttributes\Helper\Customer $customerCustomer
+     * @param Address $customerAddress
+     * @param Customer $customerCustomer
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
         \Magento\Eav\Model\Config $eavConfig,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\LocaleInterface $locale,
         \Magento\Filter\FilterManager $filterManager,
-        \Magento\CustomerCustomAttributes\Helper\Address $customerAddress,
-        \Magento\CustomerCustomAttributes\Helper\Customer $customerCustomer
+        Address $customerAddress,
+        Customer $customerCustomer
     ) {
         $this->_customerAddress = $customerAddress;
         $this->_customerCustomer = $customerCustomer;
@@ -57,6 +55,7 @@ class Data extends \Magento\CustomAttribute\Helper\Data
     /**
      * Return available customer attribute form as select options
      *
+     * @return void
      * @throws \Magento\Core\Exception
      */
     public function getAttributeFormOptions()
@@ -67,6 +66,7 @@ class Data extends \Magento\CustomAttribute\Helper\Data
     /**
      * Default attribute entity type code
      *
+     * @return void
      * @throws \Magento\Core\Exception
      */
     protected function _getEntityTypeCode()

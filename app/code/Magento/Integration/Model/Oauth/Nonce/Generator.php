@@ -5,7 +5,6 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento\Integration\Model\Oauth\Nonce;
 
 use Magento\Oauth\OauthInterface;
@@ -14,16 +13,24 @@ use Magento\Oauth\NonceGeneratorInterface;
 
 class Generator implements NonceGeneratorInterface
 {
-    /** @var \Magento\Oauth\Helper\Oauth */
+    /**
+     * @var \Magento\Oauth\Helper\Oauth
+     */
     protected $_oauthHelper;
 
-    /** @var  \Magento\Integration\Model\Oauth\Nonce\Factory */
+    /**
+     * @var  \Magento\Integration\Model\Oauth\Nonce\Factory
+     */
     protected $_nonceFactory;
 
-    /** @var  int */
+    /**
+     * @var  int
+     */
     protected $_nonceLength;
 
-    /** @var \Magento\Core\Model\Date */
+    /**
+     * @var \Magento\Core\Model\Date
+     */
     protected $_date;
 
     /**

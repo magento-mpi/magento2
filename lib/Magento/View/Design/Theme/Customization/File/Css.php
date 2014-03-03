@@ -21,6 +21,8 @@ class Css extends \Magento\View\Design\Theme\Customization\AbstractFile
     /**#@-*/
 
     /**
+     * Get type
+     *
      * @return string
      */
     public function getType()
@@ -29,6 +31,8 @@ class Css extends \Magento\View\Design\Theme\Customization\AbstractFile
     }
 
     /**
+     * Get content type
+     *
      * @return string
      */
     public function getContentType()

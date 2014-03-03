@@ -35,7 +35,7 @@ class Config implements \Magento\Cron\Model\ConfigInterface
     /**
      * Return cron full cron jobs
      *
-     * @return array|mixed
+     * @return array
      */
     public function getJobs()
     {

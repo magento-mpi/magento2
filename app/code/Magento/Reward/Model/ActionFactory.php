@@ -15,6 +15,8 @@ use Magento\Reward\Model\Action\AbstractAction;
 class ActionFactory
 {
     /**
+     * Object manager
+     *
      * @var \Magento\ObjectManager
      */
     protected $_objectManager;

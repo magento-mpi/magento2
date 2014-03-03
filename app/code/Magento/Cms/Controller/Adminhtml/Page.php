@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Cms\Controller\Adminhtml;
 
 /**
  * Cms manage pages controller
@@ -16,14 +16,12 @@
  * @package    Magento_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Cms\Controller\Adminhtml;
-
 class Page extends \Magento\Backend\App\Action
 {
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -34,12 +32,12 @@ class Page extends \Magento\Backend\App\Action
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\Core\Filter\Date $dateFilter
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\Core\Filter\Date $dateFilter
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -50,7 +48,7 @@ class Page extends \Magento\Backend\App\Action
     /**
      * Init actions
      *
-     * @return \Magento\Cms\Controller\Adminhtml\Page
+     * @return $this
      */
     protected function _initAction()
     {
@@ -65,6 +63,8 @@ class Page extends \Magento\Backend\App\Action
 
     /**
      * Index action
+     *
+     * @return void
      */
     public function indexAction()
     {
@@ -76,6 +76,8 @@ class Page extends \Magento\Backend\App\Action
 
     /**
      * Create new CMS page
+     *
+     * @return void
      */
     public function newAction()
     {
@@ -85,6 +87,8 @@ class Page extends \Magento\Backend\App\Action
 
     /**
      * Edit CMS page
+     *
+     * @return void
      */
     public function editAction()
     {
@@ -127,6 +131,8 @@ class Page extends \Magento\Backend\App\Action
 
     /**
      * Save action
+     *
+     * @return void
      */
     public function saveAction()
     {
@@ -185,6 +191,8 @@ class Page extends \Magento\Backend\App\Action
 
     /**
      * Delete action
+     *
+     * @return void
      */
     public function deleteAction()
     {
@@ -223,7 +231,7 @@ class Page extends \Magento\Backend\App\Action
     /**
      * Check the permission to run it
      *
-     * @return boolean
+     * @return bool
      */
     protected function _isAllowed()
     {
@@ -241,7 +249,7 @@ class Page extends \Magento\Backend\App\Action
     /**
      * Filtering posted data. Converting localized data if needed
      *
-     * @param array
+     * @param array $data
      * @return array
      */
     protected function _filterPostData($data)

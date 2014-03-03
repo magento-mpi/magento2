@@ -38,7 +38,7 @@ class Observer
     protected $_calculation;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\LocaleInterface
      */
     protected $_locale;
 
@@ -52,7 +52,7 @@ class Observer
      * @param \Magento\Tax\Model\Sales\Order\TaxFactory $orderTaxFactory
      * @param \Magento\Tax\Model\Sales\Order\Tax\ItemFactory $taxItemFactory
      * @param \Magento\Tax\Model\Calculation $calculation
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\LocaleInterface $locale
      * @param \Magento\Tax\Model\Resource\Report\TaxFactory $reportTaxFactory
      */
     public function __construct(
@@ -60,7 +60,7 @@ class Observer
         \Magento\Tax\Model\Sales\Order\TaxFactory $orderTaxFactory,
         \Magento\Tax\Model\Sales\Order\Tax\ItemFactory $taxItemFactory,
         \Magento\Tax\Model\Calculation $calculation,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\LocaleInterface $locale,
         \Magento\Tax\Model\Resource\Report\TaxFactory $reportTaxFactory
     ) {
         $this->_taxData = $taxData;
@@ -75,6 +75,7 @@ class Observer
      * Put quote address tax information into order
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function salesEventConvertQuoteAddressToOrder(\Magento\Event\Observer $observer)
     {
@@ -95,6 +96,7 @@ class Observer
      * Save order tax information
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function salesEventOrderAfterSave(\Magento\Event\Observer $observer)
     {
@@ -200,7 +202,7 @@ class Observer
      * Add tax percent values to product collection items
      *
      * @param   \Magento\Event\Observer $observer
-     * @return  \Magento\Tax\Model\Observer
+     * @return  $this
      */
     public function addTaxPercentToProductCollection($observer)
     {
@@ -232,7 +234,7 @@ class Observer
      * Refresh sales tax report statistics for last day
      *
      * @param \Magento\Cron\Model\Schedule $schedule
-     * @return \Magento\Tax\Model\Observer
+     * @return $this
      */
     public function aggregateSalesReportTaxData($schedule)
     {
@@ -250,7 +252,7 @@ class Observer
      * Reset extra tax amounts on quote addresses before recollecting totals
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\Tax\Model\Observer
+     * @return $this
      */
     public function quoteCollectTotalsBefore(\Magento\Event\Observer $observer)
     {

@@ -7,22 +7,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Sitemap\Model\Resource\Sitemap;
 
 /**
  * Sitemap resource model collection
  *
- * @category    Magento
- * @package     Magento_Sitemap
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sitemap\Model\Resource\Sitemap;
-
 class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Init collection
      *
+     * @return void
      */
     public function _construct()
     {
@@ -32,8 +29,8 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Filter collection by specified store ids
      *
-     * @param array|int $storeIds
-     * @return \Magento\Sitemap\Model\Resource\Sitemap\Collection
+     * @param array|int[] $storeIds
+     * @return $this
      */
     public function addStoreFilter($storeIds)
     {

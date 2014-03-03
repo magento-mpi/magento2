@@ -13,13 +13,6 @@
             <argument name="value" xsi:type="string">send-to-friend</argument>
         </action>
     </referenceBlock>
-    <referenceBlock name="head">
-        <block class="Magento\Theme\Block\Html\Head\Script" name="varien-product-js">
-            <arguments>
-                <argument name="file" xsi:type="string">varien/product.js</argument>
-            </arguments>
-        </block>
-    </referenceBlock>
     <referenceContainer name="content">
         <block class="Magento\Sendfriend\Block\Send" name="sendfriend.send" template="send.phtml" cacheable="false"/>
     </referenceContainer>

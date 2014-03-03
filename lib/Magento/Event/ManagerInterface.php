@@ -17,6 +17,7 @@ interface ManagerInterface
      *
      * @param string $eventName
      * @param array $data
+     * @return void
      */
     public function dispatch($eventName, array $data = array());
 }

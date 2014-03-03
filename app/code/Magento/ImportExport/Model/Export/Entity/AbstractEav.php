@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ImportExport\Model\Export\Entity;
 
 /**
  * Export EAV entity abstract model
@@ -15,8 +16,6 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\ImportExport\Model\Export\Entity;
-
 abstract class AbstractEav
     extends \Magento\ImportExport\Model\Export\AbstractEntity
 {
@@ -44,19 +43,19 @@ abstract class AbstractEav
     /**
      * Attributes with index (not label) value
      *
-     * @var array
+     * @var string[]
      */
     protected $_indexValueAttributes = array();
 
     /**
      * Permanent entity columns
      *
-     * @var array
+     * @var string[]
      */
     protected $_permanentAttributes = array();
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\LocaleInterface
      */
     protected $_locale;
 
@@ -65,7 +64,7 @@ abstract class AbstractEav
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\ImportExport\Model\Export\Factory $collectionFactory
      * @param \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $resourceColFactory
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\LocaleInterface $locale
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param array $data
      */
@@ -74,7 +73,7 @@ abstract class AbstractEav
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\ImportExport\Model\Export\Factory $collectionFactory,
         \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $resourceColFactory,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\LocaleInterface $locale,
         \Magento\Eav\Model\Config $eavConfig,
         array $data = array()
     ) {
@@ -121,7 +120,7 @@ abstract class AbstractEav
     /**
      * Initialize attribute option values
      *
-     * @return \Magento\ImportExport\Model\Export\Entity\AbstractEav
+     * @return $this
      */
     protected function _initAttributeValues()
     {

@@ -167,6 +167,8 @@ class Category extends \Magento\FullPageCache\Model\Processor\DefaultProcessor
 
     /**
      * Update catalog session from GET or cookies
+     *
+     * @return void
      */
     protected function _prepareCatalogSession()
     {
@@ -206,7 +208,7 @@ class Category extends \Magento\FullPageCache\Model\Processor\DefaultProcessor
      * Update last visited category id cookie
      *
      * @param \Magento\FullPageCache\Model\Processor $processor
-     * @return \Magento\FullPageCache\Model\Processor\Category
+     * @return $this
      */
     protected function _updateCategoryViewedCookie(\Magento\FullPageCache\Model\Processor $processor)
     {

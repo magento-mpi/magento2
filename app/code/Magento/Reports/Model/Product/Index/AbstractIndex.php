@@ -53,8 +53,8 @@ abstract class AbstractIndex extends \Magento\Core\Model\AbstractModel
     protected $dateTime;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Log\Model\Visitor $logVisitor
      * @param \Magento\Customer\Model\Session $customerSession
@@ -66,8 +66,8 @@ abstract class AbstractIndex extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Log\Model\Visitor $logVisitor,
         \Magento\Customer\Model\Session $customerSession,
@@ -90,7 +90,7 @@ abstract class AbstractIndex extends \Magento\Core\Model\AbstractModel
     /**
      * Prepare customer/visitor, store data before save
      *
-     * @return \Magento\Reports\Model\Product\Index\AbstractIndex
+     * @return $this
      */
     protected function _beforeSave()
     {

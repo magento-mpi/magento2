@@ -1,7 +1,5 @@
 <?php
 /**
- * EAV attribute metadata service
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -10,7 +8,13 @@
 namespace Magento\Customer\Service\V1;
 
 use Magento\Eav\Model\Entity\Attribute\AbstractAttribute;
+use Magento\Exception\NoSuchEntityException;
 
+/**
+ * EAV attribute metadata service
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class CustomerMetadataService implements CustomerMetadataServiceInterface
 {
     /**
@@ -64,11 +68,7 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
     }
 
     /**
-     * Retrieve EAV attribute metadata
-     *
-     * @param   mixed $entityType
-     * @param   mixed $attributeCode
-     * @return Dto\Eav\AttributeMetadata
+     * {@inheritdoc}
      */
     public function getAttributeMetadata($entityType, $attributeCode)
     {
@@ -79,18 +79,18 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
 
         /** @var AbstractAttribute $attribute */
         $attribute = $this->_eavConfig->getAttribute($entityType, $attributeCode);
-        $attributeMetadata = $this->_createMetadataAttribute($attribute);
-        $dtoCache[$attributeCode] = $attributeMetadata;
-        return $attributeMetadata;
+        if ($attribute) {
+            $attributeMetadata = $this->_createMetadataAttribute($attribute);
+            $dtoCache[$attributeCode] = $attributeMetadata;
+            return $attributeMetadata;
+        } else {
+            throw (new NoSuchEntityException('entityType', $entityType))
+                ->addField('attributeCode', $attributeCode);
+        }
     }
 
     /**
-     * Returns all known attributes metadata for a given entity type and attribute set
-     *
-     * @param string $entityType
-     * @param int $attributeSetId
-     * @param int $storeId
-     * @return Dto\Eav\AttributeMetadata[]
+     * {@inheritdoc}
      */
     public function getAllAttributeSetMetadata($entityType, $attributeSetId = 0, $storeId = null)
     {
@@ -105,17 +105,17 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
 
         $attributesMetadata = [];
         foreach ($attributeCodes as $attributeCode) {
-            $attributesMetadata[] = $this->getAttributeMetadata($entityType, $attributeCode);
+            try {
+                $attributesMetadata[] = $this->getAttributeMetadata($entityType, $attributeCode);
+            } catch (NoSuchEntityException $e) {
+                //If no such entity, skip
+            }
         }
         return $attributesMetadata;
     }
 
     /**
-     * Retrieve all attributes for entityType filtered by form code
-     *
-     * @param $entityType
-     * @param $formCode
-     * @return Dto\Eav\AttributeMetadata[]
+     * {@inheritdoc}
      */
     public function getAttributes($entityType, $formCode)
     {
@@ -126,40 +126,6 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
         }
         return $attributes;
     }
-
-    /**
-     * @inheritdoc
-     */
-    public function getCustomerAttributeMetadata($attributeCode)
-    {
-        return $this->getAttributeMetadata('customer', $attributeCode);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getAllCustomerAttributeMetadata()
-    {
-        return $this->getAllAttributeSetMetadata('customer', self::CUSTOMER_ATTRIBUTE_SET_ID);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getAddressAttributeMetadata($attributeCode)
-    {
-        return $this->getAttributeMetadata('customer_address', $attributeCode);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getAllAddressAttributeMetadata()
-    {
-        return $this->getAllAttributeSetMetadata('customer_address', self::ADDRESS_ATTRIBUTE_SET_ID);
-    }
-
-
 
     /**
      * Load collection with filters applied
@@ -212,6 +178,39 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
 
         return $this->_attributeMetadataBuilder->create();
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function getCustomerAttributeMetadata($attributeCode)
+    {
+        return $this->getAttributeMetadata('customer', $attributeCode);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAllCustomerAttributeMetadata()
+    {
+        return $this->getAllAttributeSetMetadata('customer', self::ATTRIBUTE_SET_ID_CUSTOMER);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAddressAttributeMetadata($attributeCode)
+    {
+        return $this->getAttributeMetadata('customer_address', $attributeCode);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAllAddressAttributeMetadata()
+    {
+        return $this->getAllAttributeSetMetadata('customer_address', self::ATTRIBUTE_SET_ID_ADDRESS);
+    }
+
 
     /**
      * Helper for getting access to an entity types DTO cache.

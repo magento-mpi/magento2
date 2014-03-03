@@ -18,7 +18,7 @@ class Filter implements \Zend_Filter_Interface
     /**
      * Rate value
      *
-     * @var decimal
+     * @var float
      */
     protected $_rate;
 
@@ -30,7 +30,7 @@ class Filter implements \Zend_Filter_Interface
     protected $_currency;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\LocaleInterface
      */
     protected $_locale;
 
@@ -40,13 +40,13 @@ class Filter implements \Zend_Filter_Interface
     protected $_storeManager;
 
     /**
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\LocaleInterface $locale
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param string $code
      * @param int $rate
      */
     public function __construct(
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\LocaleInterface $locale,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         $code,
         $rate = 1
@@ -60,7 +60,8 @@ class Filter implements \Zend_Filter_Interface
     /**
      * Set filter rate
      *
-     * @param double $rate
+     * @param float $rate
+     * @return void
      */
     public function setRate($rate)
     {
@@ -70,8 +71,8 @@ class Filter implements \Zend_Filter_Interface
     /**
      * Filter value
      *
-     * @param   double $value
-     * @return  string
+     * @param float $value
+     * @return string
      */
     public function filter($value)
     {

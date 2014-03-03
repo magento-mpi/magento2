@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Invitation\Block\Adminhtml\Invitation;
 
 /**
  * Invitation view block
@@ -14,25 +15,23 @@
  * @category   Magento
  * @package    Magento_Invitation
  */
-namespace Magento\Invitation\Block\Adminhtml\Invitation;
-
 class View extends \Magento\Backend\Block\Widget\Container
 {
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -42,7 +41,7 @@ class View extends \Magento\Backend\Block\Widget\Container
     /**
      * Set header text, add some buttons
      *
-     * @return \Magento\Invitation\Block\Adminhtml\Invitation\View
+     * @return void
      */
     protected function _prepareLayout()
     {

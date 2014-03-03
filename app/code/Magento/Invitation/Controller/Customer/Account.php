@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 namespace Magento\Invitation\Controller\Customer;
+
 use Magento\App\Action\NotFoundException;
 use Magento\App\RequestInterface;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
@@ -34,7 +35,7 @@ class Account extends \Magento\Customer\Controller\Account
 
     /**
      * @param \Magento\App\Action\Context $context
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\UrlFactory $urlFactory
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
@@ -54,7 +55,7 @@ class Account extends \Magento\Customer\Controller\Account
      */
     public function __construct(
         \Magento\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\UrlFactory $urlFactory,
         \Magento\Customer\Model\CustomerFactory $customerFactory,

@@ -17,23 +17,29 @@ namespace Magento\Rma\Helper;
 class Eav extends \Magento\Eav\Helper\Data
 {
     /**
-     * complicated array of select-typed attribute values for all stores
+     * Complicated array of select-typed attribute values for all stores
      *
      * @var array
      */
     protected $_attributeOptionValues = array();
 
     /**
+     * Core store manager interface
+     *
      * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
+     * Eav entity attribute option collection
+     *
      * @var \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory
      */
     protected $_collectionFactory;
 
     /**
+     * Application resource
+     *
      * @var \Magento\App\Resource
      */
     protected $_resource;
@@ -42,6 +48,7 @@ class Eav extends \Magento\Eav\Helper\Data
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Eav\Model\Entity\Attribute\Config $attributeConfig
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $collectionFactory
      * @param \Magento\App\Resource $resource
@@ -50,6 +57,7 @@ class Eav extends \Magento\Eav\Helper\Data
         \Magento\App\Helper\Context $context,
         \Magento\Eav\Model\Entity\Attribute\Config $attributeConfig,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Eav\Model\Config $eavConfig,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $collectionFactory,
         \Magento\App\Resource $resource
@@ -57,7 +65,7 @@ class Eav extends \Magento\Eav\Helper\Data
         $this->_storeManager = $storeManager;
         $this->_collectionFactory = $collectionFactory;
         $this->_resource = $resource;
-        parent::__construct($context, $attributeConfig, $coreStoreConfig);
+        parent::__construct($context, $attributeConfig, $coreStoreConfig, $eavConfig);
     }
 
     /**

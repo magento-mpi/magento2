@@ -18,14 +18,14 @@ class File extends \Magento\Data\Form\Element\File
     /**
      * Additional html attributes
      *
-     * @var array
+     * @var string[]
      */
     protected $_htmlAttributes = array('accept', 'multiple');
 
     /**
      * Html attributes
      *
-     * @return array
+     * @return string[]
      */
     public function getHtmlAttributes()
     {

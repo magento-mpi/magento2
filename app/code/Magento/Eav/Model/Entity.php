@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Eav\Model;
 
 /**
  * EAV entity model
@@ -15,8 +15,6 @@
  * @category   Magento
  * @package    Magento_Eav
  */
-namespace Magento\Eav\Model;
-
 class Entity extends \Magento\Eav\Model\Entity\AbstractEntity
 {
     const DEFAULT_ENTITY_MODEL      = 'Magento\Eav\Model\Entity';
@@ -32,7 +30,7 @@ class Entity extends \Magento\Eav\Model\Entity\AbstractEntity
      * @param \Magento\App\Resource $resource
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Eav\Model\Entity\Attribute\Set $attrSetEntity
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\LocaleInterface $locale
      * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
      * @param \Magento\Validator\UniversalFactory $universalFactory
      * @param array $data
@@ -41,7 +39,7 @@ class Entity extends \Magento\Eav\Model\Entity\AbstractEntity
         \Magento\App\Resource $resource,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Eav\Model\Entity\Attribute\Set $attrSetEntity,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\LocaleInterface $locale,
         \Magento\Eav\Model\Resource\Helper $resourceHelper,
         \Magento\Validator\UniversalFactory $universalFactory,
         $data = array()

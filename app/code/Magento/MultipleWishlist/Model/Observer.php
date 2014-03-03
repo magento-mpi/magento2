@@ -68,6 +68,8 @@ class Observer
     /**
      * Set collection of all items from all wishlists to wishlist helper
      * So all the information about number of items in wishlists will take all wishlist into account
+     *
+     * @return void
      */
     public function initHelperItemCollection()
     {

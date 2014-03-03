@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Eav\Model\Resource\Entity\Attribute\Option;
 
 /**
  * Entity attribute option collection
@@ -16,8 +16,6 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Eav\Model\Resource\Entity\Attribute\Option;
-
 class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
@@ -130,14 +128,14 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     }
 
     /**
-     * Add option id(s) frilter to collection
+     * Add option id(s) filter to collection
      *
      * @param int|array $optionId
      * @return $this
      */
     public function setIdFilter($optionId)
     {
-        return $this->addFieldToFilter('option_id', array('in' => $optionId));
+        return $this->addFieldToFilter('main_table.option_id', array('in' => $optionId));
     }
 
     /**

@@ -142,7 +142,7 @@ abstract class AbstractCombine extends \Magento\Rule\Model\Condition\Combine
         $gotConditions = false;
 
         /**
-         * Add children subselects conditions
+         * Add children sub-selects conditions
          */
         foreach ($this->getConditions() as $condition) {
             if ($sql = $condition->getConditionsSql($customer, $website)) {
@@ -153,7 +153,7 @@ abstract class AbstractCombine extends \Magento\Rule\Model\Condition\Combine
         }
 
         /**
-         * Process combine subfilters. Subfilters are part of base select which can be affected by children.
+         * Process combine sub-filters. Sub-filters are part of base select which can be affected by children.
          */
         $subfilterMap = $this->_getSubfilterMap();
         if ($subfilterMap) {
@@ -181,7 +181,7 @@ abstract class AbstractCombine extends \Magento\Rule\Model\Condition\Combine
      *
      * Map contain children condition type and associated column name from itself select.
      * Example: array('my_subtype'=>'my_table.my_column')
-     * In practice - date range can be as subfilter for different types of condition combines.
+     * In practice - date range can be as sub-filter for different types of condition combines.
      * Logic of this filter apply is same - but column names different
      *
      * @return array

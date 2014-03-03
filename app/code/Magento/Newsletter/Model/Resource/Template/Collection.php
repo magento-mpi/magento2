@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Newsletter\Model\Resource\Template;
 
 /**
  * Newsletter templates collection
@@ -16,13 +16,12 @@
  * @package     Magento_Newsletter
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Newsletter\Model\Resource\Template;
-
 class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Define resource model and model
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -32,7 +31,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Load only actual template
      *
-     * @return \Magento\Newsletter\Model\Resource\Template\Collection
+     * @return $this
      */
     public function useOnlyActual()
     {

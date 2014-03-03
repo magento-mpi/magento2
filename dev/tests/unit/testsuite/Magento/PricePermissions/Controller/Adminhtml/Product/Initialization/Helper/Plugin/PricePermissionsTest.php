@@ -39,6 +39,11 @@ class PricePermissionsTest extends \PHPUnit_Framework_TestCase
      */
     protected $userMock;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $subjectMock;
+
     protected function setUp()
     {
         $this->authSessionMock = $this->getMock('\Magento\Backend\Model\Auth\Session',
@@ -47,10 +52,12 @@ class PricePermissionsTest extends \PHPUnit_Framework_TestCase
         $this->pricePermDataMock = $this->getMock('\Magento\PricePermissions\Helper\Data', array(), array(), '', false);
         $this->productMock = $this->getMock('\Magento\Catalog\Model\Product', array(), array(), '', false);
         $this->productHandlerMock = $this->getMock(
-            '\Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\HandlerInterface'
+            '\Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\HandlerInterface'
         );
         $this->userMock = $this->getMock('\Magento\User\Model\User', array(), array(), '', false);
 
+        $this->subjectMock = $this->getMock('Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper',
+            array(), array(), '', false);
         $this->_model = new PricePermissions(
             $this->authSessionMock, $this->pricePermDataMock, $this->productHandlerMock
         );
@@ -63,7 +70,7 @@ class PricePermissionsTest extends \PHPUnit_Framework_TestCase
 
         $this->productHandlerMock->expects($this->once())->method('handle')->with($this->productMock);
 
-        $this->assertEquals($this->productMock, $this->_model->afterInitialize($this->productMock));
+        $this->assertEquals($this->productMock, $this->_model->afterInitialize($this->subjectMock, $this->productMock));
     }
 
     public function testAfterInitializeWithUserWithoutRole()
@@ -74,7 +81,7 @@ class PricePermissionsTest extends \PHPUnit_Framework_TestCase
         $this->pricePermDataMock->expects($this->never())->method('getCanAdminEditProductPrice');
         $this->productHandlerMock->expects($this->once())->method('handle')->with($this->productMock);
 
-        $this->assertEquals($this->productMock, $this->_model->afterInitialize($this->productMock));
+        $this->assertEquals($this->productMock, $this->_model->afterInitialize($this->subjectMock, $this->productMock));
     }
 
     public function testAfterInitializeWhenAdminCanNotEditProductPrice()
@@ -88,7 +95,7 @@ class PricePermissionsTest extends \PHPUnit_Framework_TestCase
 
         $this->productHandlerMock->expects($this->once())->method('handle')->with($this->productMock);
 
-        $this->assertEquals($this->productMock, $this->_model->afterInitialize($this->productMock));
+        $this->assertEquals($this->productMock, $this->_model->afterInitialize($this->subjectMock, $this->productMock));
     }
 
     public function testAfterInitializeWhenAdminCanEditProductPrice()
@@ -101,6 +108,6 @@ class PricePermissionsTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(true));
         $this->productHandlerMock->expects($this->never())->method('handle');
 
-        $this->assertEquals($this->productMock, $this->_model->afterInitialize($this->productMock));
+        $this->assertEquals($this->productMock, $this->_model->afterInitialize($this->subjectMock, $this->productMock));
     }
 }

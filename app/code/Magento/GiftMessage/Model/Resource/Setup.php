@@ -1,15 +1,11 @@
 <?php
 /**
+ * Gift Message resource setup
+ *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftMessage
  * @copyright   {copyright}
  * @license     {license_link}
- */
-
-/**
- * Gift Message resource setup
  */
 namespace Magento\GiftMessage\Model\Resource;
 
@@ -21,7 +17,7 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
     protected $_catalogSetupFactory;
 
     /**
-     * @param \Magento\Core\Model\Resource\Setup\Context $context
+     * @param \Magento\Eav\Model\Entity\Setup\Context $context
      * @param string $resourceName
      * @param \Magento\App\CacheInterface $cache
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGroupCollectionFactory
@@ -31,7 +27,7 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
      * @param string $connectionName
      */
     public function __construct(
-        \Magento\Core\Model\Resource\Setup\Context $context,
+        \Magento\Eav\Model\Entity\Setup\Context $context,
         $resourceName,
         \Magento\App\CacheInterface $cache,
         \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGroupCollectionFactory,
@@ -41,7 +37,9 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
         $connectionName = ''
     ) {
         $this->_catalogSetupFactory = $catalogSetupFactory;
-        parent::__construct($context, $resourceName, $cache, $attrGroupCollectionFactory, $config, $moduleName, $connectionName);
+        parent::__construct(
+            $context, $resourceName, $cache, $attrGroupCollectionFactory, $config, $moduleName, $connectionName
+        );
     }
 
     /**

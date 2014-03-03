@@ -45,10 +45,10 @@ class Handler implements HandlerInterface
      */
     public function processException(\Exception $exception, array $params = array())
     {
-        print '<pre>';
-        print $exception->getMessage() . "\n\n";
-        print $exception->getTraceAsString();
-        print '</pre>';
+        echo '<pre>';
+        echo $exception->getMessage() . "\n\n";
+        echo $exception->getTraceAsString();
+        echo '</pre>';
     }
 
     /**
@@ -70,7 +70,6 @@ class Handler implements HandlerInterface
      * @param string $errorStr
      * @param string $errorFile
      * @param int $errorLine
-     * @return bool
      */
     public function handler($errorNo, $errorStr, $errorFile, $errorLine)
     {

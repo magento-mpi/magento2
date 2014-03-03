@@ -7,22 +7,20 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
-/**
- * Reward history resource model
- *
- * @category    Magento
- * @package     Magento_Reward
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Reward\Model\Resource\Reward;
 
 use Magento\Reward\Model\Reward\History as ModelRewardHistory;
 
+/**
+ * Reward history resource model
+ *
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
 class History extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
+     * Date time formatter
+     *
      * @var \Magento\Stdlib\DateTime
      */
     protected $dateTime;
@@ -39,6 +37,8 @@ class History extends \Magento\Core\Model\Resource\Db\AbstractDb
 
     /**
      * Internal constructor
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -111,6 +111,7 @@ class History extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param ModelRewardHistory $history
      * @param int $required Points total that required
      * @return $this
+     * @throws \Exception
      */
     public function useAvailablePoints($history, $required)
     {
@@ -165,11 +166,12 @@ class History extends \Magento\Core\Model\Resource\Db\AbstractDb
         return $this;
     }
 
-     /**
+    /**
      * Update history expired_at_dynamic field for specified websites when config changed
      *
      * @param int $days Reward Points Expire in (days)
      * @param array $websiteIds Array of website ids that must be updated
+     * @return $this
      */
     public function updateExpirationDate($days, $websiteIds)
     {

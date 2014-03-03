@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Core\Model\Resource\Store;
 
 /**
  * Store group resource model
@@ -16,13 +16,10 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Core\Model\Resource\Store;
-
 class Group extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Define main table
-     *
      */
     protected function _construct()
     {
@@ -33,7 +30,7 @@ class Group extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Update default store group for website
      *
      * @param \Magento\Core\Model\AbstractModel $model
-     * @return \Magento\Core\Model\Resource\Store\Group
+     * @return $this
      */
     protected function _afterSave(\Magento\Core\Model\AbstractModel $model)
     {
@@ -49,7 +46,7 @@ class Group extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param int $websiteId
      * @param int $groupId
-     * @return \Magento\Core\Model\Resource\Store\Group
+     * @return $this
      */
     protected function _updateWebsiteDefaultGroup($websiteId, $groupId)
     {
@@ -70,7 +67,7 @@ class Group extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Change store group website
      *
      * @param \Magento\Core\Model\AbstractModel $model
-     * @return \Magento\Core\Model\Resource\Store\Group
+     * @return $this
      */
     protected function _changeWebsite(\Magento\Core\Model\AbstractModel $model)
     {
@@ -94,7 +91,7 @@ class Group extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param int $groupId
      * @param int $websiteId
-     * @return \Magento\Core\Model\Resource\Store\Group
+     * @return $this
      */
     protected function _updateStoreWebsite($groupId, $websiteId)
     {
@@ -109,7 +106,7 @@ class Group extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param int $groupId
      * @param int $storeId
-     * @return \Magento\Core\Model\Resource\Store\Group
+     * @return $this
      */
     protected function _saveDefaultStore($groupId, $storeId)
     {

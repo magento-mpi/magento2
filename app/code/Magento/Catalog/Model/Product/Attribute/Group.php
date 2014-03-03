@@ -22,16 +22,16 @@ class Group extends \Magento\Eav\Model\Entity\Attribute\Group
     protected $_attributeCollectionFactory;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
@@ -54,26 +54,6 @@ class Group extends \Magento\Eav\Model\Entity\Attribute\Group
         $attributesCollection->setAttributeGroupFilter($this->getId());
         foreach ($attributesCollection as $attribute) {
             if (!$attribute->getIsUserDefined()) {
-                $result = true;
-                break;
-            }
-        }
-        return $result;
-    }
-
-    /**
-     * Check if contains attributes used in the configurable products
-     *
-     * @return bool
-     */
-    public function hasConfigurableAttributes()
-    {
-        $result = false;
-        /** @var $attributesCollection \Magento\Catalog\Model\Resource\Product\Attribute\Collection */
-        $attributesCollection = $this->_attributeCollectionFactory->create();
-        $attributesCollection->setAttributeGroupFilter($this->getId());
-        foreach ($attributesCollection as $attribute) {
-            if ($attribute->getIsConfigurable()) {
                 $result = true;
                 break;
             }

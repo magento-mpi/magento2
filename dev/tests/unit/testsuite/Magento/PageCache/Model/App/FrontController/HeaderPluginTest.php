@@ -46,6 +46,11 @@ class HeaderPluginTest extends \PHPUnit_Framework_TestCase
     protected $helperMock;
 
     /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $subjectMock;
+
+    /**
      * SetUp
      */
     protected function setUp()
@@ -53,11 +58,11 @@ class HeaderPluginTest extends \PHPUnit_Framework_TestCase
         $this->layoutMock = $this->getMock('Magento\Core\Model\Layout', array(), array(), '', false);
         $this->configMock = $this->getMock('Magento\App\ConfigInterface', array(), array(), '', false);
         $this->responseMock = $this->getMock('Magento\App\Response\Http', array(), array(), '', false);
-        $this->helperMock = $this->getMock('Magento\PageCache\Helper\Data', array(), array(), '', false);
         $this->versionMock = $this->getMockBuilder('Magento\PageCache\Model\Version')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->plugin = new HeaderPlugin($this->layoutMock, $this->configMock, $this->helperMock, $this->versionMock);
+        $this->subjectMock = $this->getMock('Magento\App\FrontControllerInterface');
+        $this->plugin = new HeaderPlugin($this->layoutMock, $this->configMock, $this->versionMock);
     }
 
     /**
@@ -88,7 +93,8 @@ class HeaderPluginTest extends \PHPUnit_Framework_TestCase
 
         $this->versionMock->expects($this->once())->method('process');
 
-        $this->plugin->afterDispatch($this->responseMock);
+        $result = $this->plugin->afterDispatch($this->subjectMock, $this->responseMock);
+        $this->assertInstanceOf('Magento\App\ResponseInterface', $result);
     }
 
     /**
@@ -117,7 +123,8 @@ class HeaderPluginTest extends \PHPUnit_Framework_TestCase
         $this->layoutMock->expects($this->never())->method('isCacheable');
         $this->versionMock->expects($this->never())->method('process');
 
-        $this->plugin->afterDispatch($this->responseMock);
+        $result = $this->plugin->afterDispatch($this->subjectMock, $this->responseMock);
+        $this->assertInstanceOf('Magento\App\ResponseInterface', $result);
     }
 
     /**
@@ -125,9 +132,14 @@ class HeaderPluginTest extends \PHPUnit_Framework_TestCase
      */
     public function testAfterDispatchPublicCache()
     {
-        $maxAge = 0;
+        $maxAge = 120;
         $pragma = 'cache';
-        $cacheControl = 'public, max-age=' . $maxAge;
+        $cacheControl = 'public, max-age=' . $maxAge . ', s-maxage=' . $maxAge;
+
+        $this->configMock->expects($this->once())
+            ->method('getValue')
+            ->with($this->equalTo(\Magento\PageCache\Model\Config::XML_PAGECACHE_TTL))
+            ->will($this->returnValue($maxAge));
 
         $this->layoutMock->expects($this->once())
             ->method('isPrivate')
@@ -136,8 +148,6 @@ class HeaderPluginTest extends \PHPUnit_Framework_TestCase
         $this->layoutMock->expects($this->once())
             ->method('isCacheable')
             ->will($this->returnValue(true));
-
-        $this->helperMock->expects($this->once())->method('getPublicMaxAgeCache')->will($this->returnValue(0));
 
         $this->responseMock->expects($this->at(0))
             ->method('setHeader')
@@ -151,6 +161,7 @@ class HeaderPluginTest extends \PHPUnit_Framework_TestCase
 
         $this->versionMock->expects($this->once())->method('process');
 
-        $this->plugin->afterDispatch($this->responseMock);
+        $result = $this->plugin->afterDispatch($this->subjectMock, $this->responseMock);
+        $this->assertInstanceOf('Magento\App\ResponseInterface', $result);
     }
 }

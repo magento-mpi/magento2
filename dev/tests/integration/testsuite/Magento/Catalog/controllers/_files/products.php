@@ -47,7 +47,7 @@ $productOne->setId(1)
     ->setMetaDescription('Simple Product 1 Meta Description')
 
     ->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH)
-    ->setStatus(\Magento\Catalog\Model\Product\Status::STATUS_ENABLED)
+    ->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED)
 
     ->addImageToMediaGallery($baseTmpMediaPath . '/product_image.png', null, false, false)
 
@@ -75,6 +75,6 @@ $productTwo->setId(2)
     ))
 
     ->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH)
-    ->setStatus(\Magento\Catalog\Model\Product\Status::STATUS_ENABLED)
+    ->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED)
 
     ->save();

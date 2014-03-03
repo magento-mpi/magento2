@@ -7,8 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\TargetRule\Block\Catalog\Product\ProductList;
+
+use Magento\Core\Exception;
 
 /**
  * TargetRule Catalog Product List Abstract Block
@@ -59,7 +60,7 @@ abstract class AbstractProductList
     /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Catalog\Model\Config $catalogConfig
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Math\Random $mathRandom
@@ -75,13 +76,13 @@ abstract class AbstractProductList
      * @param \Magento\TargetRule\Model\IndexFactory $indexFactory
      * @param array $data
      * @param array $priceBlockTypes
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Catalog\Model\Config $catalogConfig,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Math\Random $mathRandom,
@@ -136,6 +137,7 @@ abstract class AbstractProductList
      * without last underscore
      *
      * @return string
+     * @throws Exception
      */
     protected function _getTypePrefix()
     {
@@ -149,7 +151,7 @@ abstract class AbstractProductList
                 break;
 
             default:
-                throw new \Magento\Core\Exception(__('Undefined Catalog Product List Type'));
+                throw new Exception(__('Undefined Catalog Product List Type'));
         }
         return $prefix;
     }
@@ -233,9 +235,9 @@ abstract class AbstractProductList
     /**
      * Get link collection with limit parameter
      *
-     * @throws \Magento\Core\Exception
      * @param null|int $limit
      * @return \Magento\Catalog\Model\Resource\Product\Link\Product\Collection|null
+     * @throws Exception
      */
     protected function _getPreparedTargetLinkCollection($limit = null)
     {
@@ -252,7 +254,7 @@ abstract class AbstractProductList
                 break;
 
             default:
-                throw new \Magento\Core\Exception(__('Undefined Catalog Product List Type'));
+                throw new Exception(__('Undefined Catalog Product List Type'));
         }
 
         if (!is_null($limit)) {

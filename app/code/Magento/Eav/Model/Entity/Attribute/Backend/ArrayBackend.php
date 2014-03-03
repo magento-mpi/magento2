@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Eav\Model\Entity\Attribute\Backend;
 
 /**
  * Backend model for attribute with multiple values
@@ -15,8 +16,6 @@
  * @package    Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Eav\Model\Entity\Attribute\Backend;
-
 class ArrayBackend extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
     /**

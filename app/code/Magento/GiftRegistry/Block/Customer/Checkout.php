@@ -33,15 +33,9 @@ class Checkout extends \Magento\View\Element\Template
     protected $customerSession;
 
     /**
-     * @var \Magento\Multishipping\Model\Checkout\Type\MultishippingFactory
-     */
-    protected $typeMultiShippingFactory;
-
-    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
      * @param \Magento\Checkout\Model\Session $customerSession
-     * @param \Magento\Multishipping\Model\Checkout\Type\MultishippingFactory $typeMultiShippingFactory
      * @param \Magento\GiftRegistry\Model\EntityFactory $entityFactory
      * @param array $data
      */
@@ -49,13 +43,11 @@ class Checkout extends \Magento\View\Element\Template
         \Magento\View\Element\Template\Context $context,
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
         \Magento\Checkout\Model\Session $customerSession,
-        \Magento\Multishipping\Model\Checkout\Type\MultishippingFactory $typeMultiShippingFactory,
         \Magento\GiftRegistry\Model\EntityFactory $entityFactory,
         array $data = array()
     ) {
         $this->_giftRegistryData = $giftRegistryData;
         $this->customerSession = $customerSession;
-        $this->typeMultiShippingFactory = $typeMultiShippingFactory;
         $this->entityFactory = $entityFactory;
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
@@ -106,22 +98,6 @@ class Checkout extends \Magento\View\Element\Template
         return $items;
     }
 
-   /**
-     * Get quote gift registry items for multishipping checkout
-     *
-     * @return array
-     */
-    public function getItems()
-    {
-        $items = array();
-        foreach ($this->_getGiftRegistryQuoteItems() as $quoteItemId => $item) {
-            if ($item['is_address']) {
-                $items[$quoteItemId] = $item;
-            }
-        }
-        return $items;
-    }
-
     /**
      * Get quote unique gift registry item for onepage checkout
      *
@@ -150,24 +126,5 @@ class Checkout extends \Magento\View\Element\Template
     public function getAddressIdPrefix()
     {
         return $this->_giftRegistryData->getAddressIdPrefix();
-    }
-
-    /**
-     * Retrieve giftregistry selected addresses indexes
-     *
-     * @return array
-     */
-    public function getGiftregistrySelectedAddressesIndexes()
-    {
-        $result = array();
-        $registryQuoteItemIds = array_keys($this->getItems());
-        $quoteAddressItems = $this->typeMultiShippingFactory->create()->getQuoteShippingAddressesItems();
-        foreach ($quoteAddressItems as $index => $quoteAddressItem) {
-            $quoteItemId = $quoteAddressItem->getQuoteItem()->getId();
-            if (!$quoteAddressItem->getCustomerAddressId() && in_array($quoteItemId, $registryQuoteItemIds)) {
-                $result[] = $index;
-            }
-        }
-        return $result;
     }
 }

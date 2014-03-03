@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\User\Block;
 
 /**
  * User block
@@ -15,8 +16,6 @@
  * @package    Magento_User
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\User\Block;
-
 class User extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**
@@ -38,6 +37,11 @@ class User extends \Magento\Backend\Block\Widget\Grid\Container
         $this->_resourceModel = $resourceModel;
     }
 
+    /**
+     * Class constructor
+     *
+     * @return void
+     */
     protected function _construct()
     {
         $this->addData(array(

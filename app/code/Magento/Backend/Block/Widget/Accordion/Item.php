@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Block\Widget\Accordion;
+
+use Magento\Backend\Block\Widget\Accordion;
 
 /**
  * Accordion item
@@ -15,23 +18,34 @@
  * @package    Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Backend\Block\Widget\Accordion;
-
 class Item extends \Magento\Backend\Block\Widget
 {
+    /**
+     * @var Accordion
+     */
     protected $_accordion;
 
+    /**
+     * @param Accordion $accordion
+     * @return $this
+     */
     public function setAccordion($accordion)
     {
         $this->_accordion = $accordion;
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getTarget()
     {
         return ($this->getAjax()) ? 'ajax' : '';
     }
 
+    /**
+     * @return string
+     */
     public function getTitle()
     {
         $title = $this->getData('title');
@@ -42,6 +56,9 @@ class Item extends \Magento\Backend\Block\Widget
         return $title;
     }
 
+    /**
+     * @return null|string
+     */
     public function getContent()
     {
         $content = $this->getData('content');
@@ -54,6 +71,9 @@ class Item extends \Magento\Backend\Block\Widget
         return null;
     }
 
+    /**
+     * @return string
+     */
     public function getClass()
     {
         $class = $this->getData('class');
@@ -63,6 +83,9 @@ class Item extends \Magento\Backend\Block\Widget
         return $class;
     }
 
+    /**
+     * @return string
+     */
     protected function _toHtml()
     {
         $content = $this->getContent();

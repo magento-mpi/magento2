@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Version\Edit;
 
 /**
  * Grid with revisions on version page
  */
-namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Version\Edit;
-
 class Revisions
     extends \Magento\Backend\Block\Widget\Grid\Extended
 {
@@ -25,7 +24,7 @@ class Revisions
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
@@ -43,7 +42,7 @@ class Revisions
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\VersionsCms\Helper\Data $cmsData
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\VersionsCms\Model\Resource\Page\Revision\CollectionFactory $revisionCollectionFactory
      * @param \Magento\VersionsCms\Model\Config $cmsConfig
      * @param array $data
@@ -52,7 +51,7 @@ class Revisions
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\VersionsCms\Helper\Data $cmsData,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\VersionsCms\Model\Resource\Page\Revision\CollectionFactory $revisionCollectionFactory,
         \Magento\VersionsCms\Model\Config $cmsConfig,
         array $data = array()
@@ -64,6 +63,9 @@ class Revisions
         parent::__construct($context, $backendHelper, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -76,7 +78,7 @@ class Revisions
     /**
      * Prepares collection of revisions
      *
-     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Page\Version\Edit\Revisions
+     * @return $this
      */
     protected function _prepareCollection()
     {
@@ -114,7 +116,7 @@ class Revisions
     /**
      * Prepare event grid columns
      *
-     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Page\Version\Edit\Revisions
+     * @return $this
      */
     protected function _prepareColumns()
     {
@@ -191,7 +193,7 @@ class Revisions
      * Prepare massactions for this grid.
      * For now it is only ability to remove revisions
      *
-     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Page\Version\Edit\Revisions
+     * @return $this
      */
     protected function _prepareMassaction()
     {

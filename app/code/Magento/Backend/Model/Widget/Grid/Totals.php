@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model\Widget\Grid;
 
 class Totals extends \Magento\Backend\Model\Widget\Grid\AbstractTotals

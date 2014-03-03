@@ -7,13 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Model\System\Config\Source;
 
 /**
  * Source model for available logo types
  */
-namespace Magento\Paypal\Model\System\Config\Source;
-
-class Logo implements \Magento\Core\Model\Option\ArrayInterface
+class Logo implements \Magento\Option\ArrayInterface
 {
     /**
      * @var \Magento\Paypal\Model\ConfigFactory
@@ -29,7 +28,7 @@ class Logo implements \Magento\Core\Model\Option\ArrayInterface
     }
 
     /**
-     * @return array
+     * {@inheritdoc}
      */
     public function toOptionArray()
     {

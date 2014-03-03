@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors;
 
 /**
  * "Add by SKU" error block
@@ -18,8 +19,6 @@
  * @package     Magento_AdvancedCheckout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors;
-
 abstract class AbstractErrors extends \Magento\Backend\Block\Widget
 {
     /*
@@ -41,6 +40,9 @@ abstract class AbstractErrors extends \Magento\Backend\Block\Widget
      */
     protected $_cart;
 
+    /**
+     * @var string
+     */
     protected $_template = 'sku/errors.phtml';
 
     /**
@@ -66,11 +68,12 @@ abstract class AbstractErrors extends \Magento\Backend\Block\Widget
 
     /**
      * Define ID
+     *
+     * @return void
      */
     protected function _construct()
     {
         $this->setListType(self::LIST_TYPE);
-
     }
 
     /**
@@ -96,7 +99,7 @@ abstract class AbstractErrors extends \Magento\Backend\Block\Widget
     /**
      * Retrieve "Add to order" button
      *
-     * @return mixed
+     * @return string
      */
     public function getButtonsHtml()
     {

@@ -10,7 +10,7 @@
 namespace Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation\Options;
 
 class Entities
-    implements \Magento\Core\Model\Option\ArrayInterface
+    implements \Magento\Option\ArrayInterface
 {
     /**
      * @var \Magento\ScheduledImportExport\Model\Scheduled\Operation\Data
@@ -26,8 +26,7 @@ class Entities
     }
 
     /**
-     * Return entities array
-     * @return array
+     * {@inheritdoc}
      */
     public function toOptionArray()
     {

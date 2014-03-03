@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Widget;
 
 /**
  * Cms Pages Hierarchy Grid Block
@@ -14,8 +15,6 @@
  * @method \Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Widget\Chooser setScope(string $value)
  * @method \Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Widget\Chooser setScopeId(int $value)
  */
-namespace Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Widget;
-
 class Chooser extends \Magento\Backend\Block\Template
 {
     /**
@@ -44,7 +43,7 @@ class Chooser extends \Magento\Backend\Block\Template
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\VersionsCms\Model\Hierarchy\NodeFactory $nodeFactory,
-        \Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Widget\Radio $widgetRadio,
+        Radio $widgetRadio,
         array $data = array()
     ) {
         $this->_jsonEncoder = $jsonEncoder;

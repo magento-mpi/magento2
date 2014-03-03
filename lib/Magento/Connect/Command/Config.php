@@ -7,8 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\Connect\Command;
 
 class Config
@@ -21,9 +19,10 @@ extends \Magento\Connect\Command
 
     /**
      * Show config variable
+     *
      * @param string $command
      * @param array $options
-     * @param array $params
+     * @param string[] $params
      * @return void
      */
     public function doConfigShow($command, $options, $params)
@@ -59,9 +58,10 @@ extends \Magento\Connect\Command
 
     /**
      * Set config variable
+     *
      * @param string $command
      * @param array $options
-     * @param array $params
+     * @param string[] $params
      * @return void
      */
     public function doConfigSet($command, $options, $params)
@@ -107,9 +107,10 @@ extends \Magento\Connect\Command
 
     /**
      * Get config var
+     *
      * @param string $command
      * @param array $options
-     * @param array $params
+     * @param string[] $params
      * @return void
      */
     public function doConfigGet($command, $options, $params)
@@ -145,9 +146,10 @@ extends \Magento\Connect\Command
 
     /**
      * Config help
+     *
      * @param string $command
      * @param array $options
-     * @param array $params
+     * @param string[] $params
      * @return void
      */
     public function doConfigHelp($command, $options, $params)

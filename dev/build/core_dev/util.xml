@@ -99,4 +99,13 @@
         </replace>
     </target>
 
+    <target name="_code_coverage_configuration_clover_xml" depends="_product_location" description="Code Coverage configuration for clover xml report generation (used by Sonar)">
+        <fail unless="configuration_file" message="Code coverage configuration variable 'configuration_file' must be defined"/>
+        <replace file="${configuration_file}">
+            <replacefilter token="{{coverage_dir}}" value="${product_root_dir}"/>
+            <replacefilter token="--coverage_clover_placeholder" value="-- --&gt;"/>
+            <replacefilter token="coverage_clover_placeholder--" value="&lt;!-- --"/>
+        </replace>
+    </target>
+
 </project>

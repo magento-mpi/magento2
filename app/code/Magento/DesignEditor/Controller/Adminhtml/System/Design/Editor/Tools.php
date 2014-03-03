@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\DesignEditor\Controller\Adminhtml\System\Design\Editor;
 
 use Magento\Core\Exception as CoreException;

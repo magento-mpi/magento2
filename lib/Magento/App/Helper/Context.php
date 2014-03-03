@@ -42,11 +42,6 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_cacheConfig;
 
     /**
-     * @var \Magento\Core\Model\App
-     */
-    protected $_app;
-
-    /**
      * @var \Magento\UrlInterface
      */
     protected $_urlBuilder;
@@ -68,7 +63,6 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\App\RequestInterface $httpRequest
      * @param \Magento\Cache\ConfigInterface $cacheConfig
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Core\Model\App $app
      * @param \Magento\UrlInterface $urlBuilder
      * @param \Magento\HTTP\Header $httpHeader
      * @param \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
@@ -82,7 +76,6 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\App\RequestInterface $httpRequest,
         \Magento\Cache\ConfigInterface $cacheConfig,
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Core\Model\App $app,
         \Magento\UrlInterface $urlBuilder,
         \Magento\HTTP\Header $httpHeader,
         \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
@@ -93,7 +86,6 @@ class Context implements \Magento\ObjectManager\ContextInterface
         $this->_cacheConfig = $cacheConfig;
         $this->_eventManager = $eventManager;
         $this->_logger = $logger;
-        $this->_app = $app;
         $this->_urlBuilder = $urlBuilder;
         $this->_httpHeader = $httpHeader;
         $this->_remoteAddress = $remoteAddress;
@@ -113,14 +105,6 @@ class Context implements \Magento\ObjectManager\ContextInterface
     public function getModuleManager()
     {
         return $this->_moduleManager;
-    }
-
-    /**
-     * @return \Magento\Core\Model\App
-     */
-    public function getApp()
-    {
-        return $this->_app;
     }
 
     /**

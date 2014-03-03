@@ -59,6 +59,8 @@ class Config extends \Magento\Object
     protected $_coreStoreConfig;
 
     /**
+     * Core store manager interface
+     *
      * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;

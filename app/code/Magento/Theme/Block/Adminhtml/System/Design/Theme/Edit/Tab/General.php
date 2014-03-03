@@ -37,7 +37,7 @@ class General
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\View\Design\Theme\Image\PathInterface $themeImagePath
@@ -46,7 +46,7 @@ class General
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\ObjectManager $objectManager,
         \Magento\View\Design\Theme\Image\PathInterface $themeImagePath,
@@ -61,7 +61,7 @@ class General
     /**
      * Create a form element with necessary controls
      *
-     * @return \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\General|\Magento\Backend\Block\Widget\Form
+     * @return $this
      */
     protected function _prepareForm()
     {
@@ -97,7 +97,7 @@ class General
      *
      * @param \Magento\Data\Form $form
      * @param array $formData
-     * @return \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\General
+     * @return $this
      */
     protected function _addThemeFieldset($form, $formData)
     {
@@ -194,7 +194,7 @@ class General
     /**
      * No field notes if theme is not editable
      *
-     * @param $text
+     * @param string $text
      * @return string
      */
     protected function _filterFieldNote($text)
@@ -271,7 +271,7 @@ class General
     /**
      * Get theme default values while inheriting other theme
      *
-     * @param $themesCollections
+     * @param array $themesCollections
      * @return array
      */
     protected function _getDefaultsInherited($themesCollections)

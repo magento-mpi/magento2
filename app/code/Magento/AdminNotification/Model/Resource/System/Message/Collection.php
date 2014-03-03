@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\AdminNotification\Model\Resource\System\Message;
 
 class Collection
@@ -49,6 +48,8 @@ class Collection
 
     /**
      * Resource collection initialization
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -60,7 +61,7 @@ class Collection
     /**
      * Initialize db query
      *
-     * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection|void
+     * @return void
      */
     protected function _initSelect()
     {
@@ -72,7 +73,7 @@ class Collection
     /**
      * Initialize system messages after load
      *
-     * @return \Magento\Core\Model\Resource\Db\AbstractDb
+     * @return void
      */
     protected function _afterLoad()
     {
@@ -95,7 +96,7 @@ class Collection
      * Set message severity filter
      *
      * @param int $severity
-     * @return \Magento\Core\Model\Resource\Db\AbstractDb
+     * @return $this
      */
     public function setSeverity($severity)
     {

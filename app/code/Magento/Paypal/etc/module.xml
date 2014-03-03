@@ -26,6 +26,7 @@
             <module name="Magento_Centinel"/>
             <module name="Magento_Catalog"/>
             <module name="Magento_RecurringProfile"/>
+            <module name="Magento_Eav"/>
         </depends>
     </module>
 </config>

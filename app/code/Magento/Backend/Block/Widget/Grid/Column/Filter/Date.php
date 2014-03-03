@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Block\Widget\Grid\Column\Filter;
 
 /**
  * Date grid column filter
  */
-namespace Magento\Backend\Block\Widget\Grid\Column\Filter;
-
 class Date
     extends \Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFilter
 {
@@ -37,6 +36,9 @@ class Date
         parent::__construct($context, $resourceHelper, $data);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function _prepareLayout()
     {
         if ($head = $this->getLayout()->getBlock('head')) {
@@ -45,10 +47,13 @@ class Date
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getHtml()
     {
         $htmlId = $this->mathRandom->getUniqueHash($this->_getHtmlId());
-        $format = $this->getLocale()->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
+        $format = $this->getLocale()->getDateFormat(\Magento\LocaleInterface::FORMAT_TYPE_SHORT);
         $html = '<div class="range" id="' . $htmlId . '_range"><div class="range-line date">'
             . '<input type="text" name="' . $this->_getHtmlName() . '[from]" id="' . $htmlId . '_from"'
                 . ' value="' . $this->getEscapedValue('from') . '" class="input-text no-changes" placeholder="' . __('From') . '" '
@@ -79,15 +84,23 @@ class Date
         return $html;
     }
 
+    /**
+     * @param string|null $index
+     * @return string
+     */
     public function getEscapedValue($index=null)
     {
         $value = $this->getValue($index);
         if ($value instanceof \Zend_Date) {
-            return $value->toString($this->getLocale()->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT));
+            return $value->toString($this->getLocale()->getDateFormat(\Magento\LocaleInterface::FORMAT_TYPE_SHORT));
         }
         return $value;
     }
 
+    /**
+     * @param string|null $index
+     * @return array|string|int|float|null
+     */
     public function getValue($index=null)
     {
         if ($index) {
@@ -103,6 +116,9 @@ class Date
         return $value;
     }
 
+    /**
+     * @return array|string|int|float|null
+     */
     public function getCondition()
     {
         $value = $this->getValue();
@@ -110,6 +126,10 @@ class Date
         return $value;
     }
 
+    /**
+     * @param array|string|int|float $value
+     * @return $this
+     */
     public function setValue($value)
     {
         if (isset($value['locale'])) {
@@ -132,7 +152,7 @@ class Date
     /**
      * Retrieve locale
      *
-     * @return \Magento\Core\Model\LocaleInterface
+     * @return \Magento\LocaleInterface
      */
     public function getLocale()
     {
@@ -144,7 +164,7 @@ class Date
      *
      * @param string $date
      * @param string $locale
-     * @return \Zend_Date
+     * @return \Zend_Date|null
      */
     protected function _convertDate($date, $locale)
     {
@@ -153,7 +173,7 @@ class Date
 
             //set default timezone for store (admin)
             $dateObj->setTimezone(
-                $this->_storeConfig->getConfig(\Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_TIMEZONE)
+                $this->_storeConfig->getConfig(\Magento\LocaleInterface::XML_PATH_DEFAULT_TIMEZONE)
             );
 
             //set beginning of day
@@ -165,7 +185,7 @@ class Date
             $dateObj->set($date, \Zend_Date::DATE_SHORT, $locale);
 
             //convert store date to default date in UTC timezone without DST
-            $dateObj->setTimezone(\Magento\Core\Model\LocaleInterface::DEFAULT_TIMEZONE);
+            $dateObj->setTimezone(\Magento\LocaleInterface::DEFAULT_TIMEZONE);
 
             return $dateObj;
         } catch (\Exception $e) {

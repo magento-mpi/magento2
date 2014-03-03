@@ -7,19 +7,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\AdminGws\Block\Adminhtml\Permissions\Grid;
 
 /**
  * Admin roles grid
  *
  */
-namespace Magento\AdminGws\Block\Adminhtml\Permissions\Grid;
-
 class Role extends \Magento\Backend\Block\Widget\Grid
 {
     /**
      * Add allowed websites/stores column
      *
-     * @return \Magento\AdminGws\Block\Adminhtml\Permissions\Grid\Role
+     * @return $this
      */
     protected function _prepareColumns()
     {

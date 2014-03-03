@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Block\Widget\Grid\Column\Filter;
 
 /**
  * Checkbox grid column filter
@@ -15,10 +16,11 @@
  * @package    Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Backend\Block\Widget\Grid\Column\Filter;
-
 class Radio extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Select
 {
+    /**
+     * @return array
+     */
     protected function _getOptions()
     {
         return array(
@@ -36,7 +38,10 @@ class Radio extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Select
             ),
         );
     }
-    
+
+    /**
+     * {@inheritdoc}
+     */
     public function getCondition()
     {
         if ($this->getValue()) {

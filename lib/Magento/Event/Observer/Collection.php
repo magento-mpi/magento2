@@ -29,7 +29,6 @@ class Collection
     
     /**
      * Initializes observers
-     *
      */
     public function __construct()
     {
@@ -61,7 +60,7 @@ class Collection
      * Adds an observer to the collection
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\Event\Observer\Collection
+     * @return $this
      */
     public function addObserver(\Magento\Event\Observer $observer)
     {
@@ -73,7 +72,7 @@ class Collection
      * Removes an observer from the collection by its name
      *
      * @param string $observerName
-     * @return \Magento\Event\Observer\Collection
+     * @return $this
      */
     public function removeObserverByName($observerName)
     {
@@ -85,7 +84,7 @@ class Collection
      * Dispatches an event to all observers in the collection
      *
      * @param \Magento\Event $event
-     * @return \Magento\Event\Observer\Collection
+     * @return $this
      */
     public function dispatch(\Magento\Event $event)
     {

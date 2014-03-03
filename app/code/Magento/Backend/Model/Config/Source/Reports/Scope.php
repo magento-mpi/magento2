@@ -17,10 +17,12 @@
  */
 namespace Magento\Backend\Model\Config\Source\Reports;
 
-class Scope implements \Magento\Core\Model\Option\ArrayInterface
+class Scope implements \Magento\Option\ArrayInterface
 {
     /**
      * Scope filter
+     *
+     * @return array
      */
     public function toOptionArray()
     {

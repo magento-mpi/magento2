@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Backend\Model\Widget\Grid\Row;
 
 /**
  * Grid row url generator factory
@@ -16,8 +16,6 @@
  * @package     Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Backend\Model\Widget\Grid\Row;
-
 class UrlGeneratorFactory
 {
     /**

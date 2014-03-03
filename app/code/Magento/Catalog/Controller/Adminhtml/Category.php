@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Catalog\Controller\Adminhtml;
 
 /**
  * Catalog category controller
  */
-namespace Magento\Catalog\Controller\Adminhtml;
-
 class Category extends \Magento\Backend\App\Action
 {
     /**
@@ -52,13 +51,16 @@ class Category extends \Magento\Backend\App\Action
         if ($activeTabId) {
             $this->_objectManager->get('Magento\Backend\Model\Auth\Session')->setActiveTabId($activeTabId);
         }
-        $this->_objectManager->get('Magento\Core\Model\Registry')->register('category', $category);
-        $this->_objectManager->get('Magento\Core\Model\Registry')->register('current_category', $category);
+        $this->_objectManager->get('Magento\Registry')->register('category', $category);
+        $this->_objectManager->get('Magento\Registry')->register('current_category', $category);
         $this->_objectManager->get('Magento\Cms\Model\Wysiwyg\Config')->setStoreId($this->getRequest()->getParam('store'));
         return $category;
     }
+
     /**
      * Catalog categories index action
+     *
+     * @return void
      */
     public function indexAction()
     {
@@ -67,6 +69,8 @@ class Category extends \Magento\Backend\App\Action
 
     /**
      * Add new category form
+     *
+     * @return void
      */
     public function addAction()
     {
@@ -76,6 +80,8 @@ class Category extends \Magento\Backend\App\Action
 
     /**
      * Edit category page
+     *
+     * @return void
      */
     public function editAction()
     {
@@ -192,6 +198,7 @@ class Category extends \Magento\Backend\App\Action
     /**
      * WYSIWYG editor action for ajax request
      *
+     * @return void
      */
     public function wysiwygAction()
     {
@@ -217,6 +224,8 @@ class Category extends \Magento\Backend\App\Action
 
     /**
      * Get tree node (Ajax version)
+     *
+     * @return void
      */
     public function categoriesJsonAction()
     {
@@ -241,6 +250,8 @@ class Category extends \Magento\Backend\App\Action
 
     /**
      * Category save
+     *
+     * @return void
      */
     public function saveAction()
     {
@@ -288,8 +299,7 @@ class Category extends \Magento\Backend\App\Action
             $category->setAttributeSetId($category->getDefaultAttributeSetId());
 
             if (isset($data['category_products']) && !$category->getProductsReadonly()) {
-                $products = array();
-                parse_str($data['category_products'], $products);
+                $products = json_decode($data['category_products'], true);
                 $category->setPostedProducts($products);
             }
             $this->_eventManager->dispatch(
@@ -384,6 +394,8 @@ class Category extends \Magento\Backend\App\Action
 
     /**
      * Move category action
+     *
+     * @return void
      */
     public function moveAction()
     {
@@ -410,11 +422,12 @@ class Category extends \Magento\Backend\App\Action
             $this->getResponse()->setBody(__('There was a category move error %1', $e));
             $this->_objectManager->get('Magento\Logger')->logException($e);
         }
-
     }
 
     /**
      * Delete category action
+     *
+     * @return void
      */
     public function deleteAction()
     {
@@ -446,6 +459,8 @@ class Category extends \Magento\Backend\App\Action
     /**
      * Grid Action
      * Display list of products related to current category
+     *
+     * @return void
      */
     public function gridAction()
     {
@@ -461,6 +476,8 @@ class Category extends \Magento\Backend\App\Action
     /**
      * Tree Action
      * Retrieve category tree
+     *
+     * @return void
      */
     public function treeAction()
     {
@@ -495,6 +512,8 @@ class Category extends \Magento\Backend\App\Action
 
     /**
      * Build response for refresh input element 'path' in form
+     *
+     * @return void
      */
     public function refreshPathAction()
     {
@@ -512,6 +531,8 @@ class Category extends \Magento\Backend\App\Action
 
     /**
      * Category list suggestion based on already entered symbols
+     *
+     * @return void
      */
     public function suggestCategoriesAction()
     {
@@ -522,7 +543,7 @@ class Category extends \Magento\Backend\App\Action
     /**
      * Check if admin has permissions to visit related pages
      *
-     * @return boolean
+     * @return bool
      */
     protected function _isAllowed()
     {

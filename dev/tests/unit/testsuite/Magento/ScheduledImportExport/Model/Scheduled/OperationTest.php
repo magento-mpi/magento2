@@ -80,7 +80,6 @@ class OperationTest extends \PHPUnit_Framework_TestCase
         $operationFactory = $this->getMOck(
             'Magento\ScheduledImportExport\Model\Scheduled\Operation\DataFactory', array(), array(), '', false
         );
-        $emailInfoFactory = $this->getMOck('Magento\Email\Model\InfoFactory', array(), array(), '', false);
 
         $directory = $this->getMockBuilder('Magento\Filesystem\Directory\Write')
             ->disableOriginalConstructor()
@@ -97,7 +96,6 @@ class OperationTest extends \PHPUnit_Framework_TestCase
 
         $params = array(
             'operationFactory' => $operationFactory,
-            'emailInfoFactory' => $emailInfoFactory,
             'filesystem' => $filesystem
         );
         $arguments = $objectManagerHelper->getConstructArguments(

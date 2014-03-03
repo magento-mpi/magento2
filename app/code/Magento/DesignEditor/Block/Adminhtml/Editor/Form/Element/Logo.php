@@ -24,7 +24,7 @@ class Logo
     /**
      * Add form elements
      *
-     * @return \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Logo
+     * @return $this
      */
     protected function _addFields()
     {
@@ -47,7 +47,7 @@ class Logo
     /**
      * Add element types used in composite font element
      *
-     * @return \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Logo
+     * @return $this
      */
     protected function _addElementTypes()
     {

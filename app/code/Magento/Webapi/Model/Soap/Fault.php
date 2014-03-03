@@ -59,23 +59,32 @@ class Fault extends \RuntimeException
      */
     protected $_details = array();
 
-    /** @var \Magento\Core\Model\App */
+    /**
+     * @var \Magento\Core\Model\App
+     */
     protected $_application;
 
-    /** @var \Magento\Webapi\Model\Soap\Server */
+    /**
+     * @var Server
+     */
     protected $_soapServer;
 
     /**
-     * Construct exception.
-     *
+     * @var \Magento\LocaleInterface
+     */
+    protected $_locale;
+
+    /**
      * @param \Magento\Core\Model\App $application
+     * @param Server $soapServer
      * @param \Magento\Webapi\Exception $previousException
-     * @param \Magento\Webapi\Model\Soap\Server $soapServer
+     * @param \Magento\LocaleInterface $locale
      */
     public function __construct(
         \Magento\Core\Model\App $application,
-        \Magento\Webapi\Model\Soap\Server $soapServer,
-        \Magento\Webapi\Exception $previousException
+        Server $soapServer,
+        \Magento\Webapi\Exception $previousException,
+        \Magento\LocaleInterface $locale
     ) {
         parent::__construct($previousException->getMessage(), $previousException->getCode(), $previousException);
         $this->_soapCode = $previousException->getOriginator();
@@ -83,6 +92,7 @@ class Fault extends \RuntimeException
         $this->_errorCode = $previousException->getCode();
         $this->_application = $application;
         $this->_soapServer = $soapServer;
+        $this->_locale = $locale;
         $this->_setFaultName($previousException->getName());
     }
 
@@ -129,7 +139,8 @@ class Fault extends \RuntimeException
     /**
      * Define current SOAP fault name. It is used as a name of the wrapper node for SOAP fault details.
      *
-     * @param $exceptionName
+     * @param string $exceptionName
+     * @return void
      */
     protected function _setFaultName($exceptionName)
     {
@@ -157,7 +168,7 @@ class Fault extends \RuntimeException
      * Add details about current fault.
      *
      * @param array $details Associative array containing details about current fault
-     * @return \Magento\Webapi\Model\Soap\Fault
+     * @return $this
      */
     public function addDetails($details)
     {
@@ -192,7 +203,7 @@ class Fault extends \RuntimeException
      */
     public function getLanguage()
     {
-        return $this->_application->getLocale()->getLocale()->getLanguage();
+        return $this->_locale->getLocale()->getLanguage();
     }
 
     /**

@@ -51,6 +51,9 @@ class Urlkey
         parent::__construct($context, $data);
     }
 
+    /**
+     * @return string
+     */
     public function getElementHtml()
     {
         /** @var \Magento\Data\Form\Element\AbstractElement $element */

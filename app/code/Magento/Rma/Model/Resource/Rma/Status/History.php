@@ -7,20 +7,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Rma\Model\Resource\Rma\Status;
 
 /**
  * RMA entity resource model
  *
- * @category   Magento
- * @package    Magento_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Rma\Model\Resource\Rma\Status;
-
 class History extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Internal constructor
+     *
+     * @return void
      */
     protected function _construct()
     {

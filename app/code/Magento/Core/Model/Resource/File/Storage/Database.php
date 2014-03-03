@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model\Resource\File\Storage;
 
 /**
@@ -44,7 +43,7 @@ class Database extends \Magento\Core\Model\Resource\File\Storage\AbstractStorage
     /**
      * Create database scheme for storing files
      *
-     * @return \Magento\Core\Model\Resource\File\Storage\Database
+     * @return $this
      */
     public function createDatabaseScheme()
     {
@@ -125,7 +124,7 @@ class Database extends \Magento\Core\Model\Resource\File\Storage\AbstractStorage
      * @param  \Magento\Core\Model\File\Storage\Database $object
      * @param  string $filename
      * @param  string $path
-     * @return \Magento\Core\Model\Resource\File\Storage\Database
+     * @return $this
      */
     public function loadByFilename(\Magento\Core\Model\File\Storage\Database $object, $filename, $path)
     {
@@ -149,7 +148,7 @@ class Database extends \Magento\Core\Model\Resource\File\Storage\AbstractStorage
     /**
      * Clear files in storage
      *
-     * @return \Magento\Core\Model\Resource\File\Storage\Database
+     * @return $this
      */
     public function clearFiles()
     {
@@ -185,8 +184,8 @@ class Database extends \Magento\Core\Model\Resource\File\Storage\AbstractStorage
     /**
      * Save file to storage
      *
-     * @param  \Magento\Core\Model\File\Storage\Database|array $object
-     * @return \Magento\Core\Model\Resource\File\Storage\Database
+     * @param  array $file
+     * @return $this
      */
     public function saveFile($file)
     {
@@ -214,7 +213,7 @@ class Database extends \Magento\Core\Model\Resource\File\Storage\AbstractStorage
      * @param  string $oldPath
      * @param  string $newFilename
      * @param  string $newPath
-     * @return \Magento\Core\Model\Resource\File\Storage\Database
+     * @return $this
      */
     public function renameFile($oldFilename, $oldPath, $newFilename, $newPath)
     {
@@ -236,7 +235,7 @@ class Database extends \Magento\Core\Model\Resource\File\Storage\AbstractStorage
      * @param  string $oldPath
      * @param  string $newFilename
      * @param  string $newPath
-     * @return \Magento\Core\Model\Resource\File\Storage\Database
+     * @return $this
      */
     public function copyFile($oldFilename, $oldPath, $newFilename, $newPath)
     {
@@ -289,6 +288,7 @@ class Database extends \Magento\Core\Model\Resource\File\Storage\AbstractStorage
      * Delete files that starts with given $folderName
      *
      * @param string $folderName
+     * @return void
      */
     public function deleteFolder($folderName = '')
     {
@@ -307,6 +307,7 @@ class Database extends \Magento\Core\Model\Resource\File\Storage\AbstractStorage
      *
      * @param string $filename
      * @param string $directory
+     * @return void
      */
     public function deleteFile($filename, $directory)
     {
@@ -322,7 +323,7 @@ class Database extends \Magento\Core\Model\Resource\File\Storage\AbstractStorage
      * Return directory file listing
      *
      * @param string $directory
-     * @return mixed
+     * @return array
      */
     public function getDirectoryFiles($directory)
     {

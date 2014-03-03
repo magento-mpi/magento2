@@ -24,16 +24,20 @@ class Create extends \Magento\Rma\Block\Form
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
     /**
+     * Rma item factory
+     *
      * @var \Magento\Rma\Model\ItemFactory
      */
     protected $_itemFactory;
 
     /**
+     * Rma item form factory
+     *
      * @var \Magento\Rma\Model\Item\FormFactory
      */
     protected $_itemFormFactory;
@@ -46,7 +50,7 @@ class Create extends \Magento\Rma\Block\Form
      * @param \Magento\Rma\Model\ItemFactory $itemFactory
      * @param \Magento\Rma\Model\Item\FormFactory $itemFormFactory
      * @param \Magento\Rma\Helper\Data $rmaData
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
@@ -57,7 +61,7 @@ class Create extends \Magento\Rma\Block\Form
         \Magento\Rma\Model\ItemFactory $itemFactory,
         \Magento\Rma\Model\Item\FormFactory $itemFormFactory,
         \Magento\Rma\Helper\Data $rmaData,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -67,6 +71,11 @@ class Create extends \Magento\Rma\Block\Form
         parent::__construct($context, $modelFactory, $formFactory, $eavConfig, $data);
     }
 
+    /**
+     * Initialize current order
+     *
+     * @return void
+     */
     public function _construct()
     {
         $order = $this->_coreRegistry->registry('current_order');

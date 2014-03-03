@@ -7,13 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Model\System\Config\Source;
 
 /**
  * Source model for buyer countries supported by PayPal
  */
-namespace Magento\Paypal\Model\System\Config\Source;
-
-class BuyerCountry implements \Magento\Core\Model\Option\ArrayInterface
+class BuyerCountry implements \Magento\Option\ArrayInterface
 {
     /**
      * @var \Magento\Paypal\Model\ConfigFactory
@@ -38,8 +37,7 @@ class BuyerCountry implements \Magento\Core\Model\Option\ArrayInterface
     }
 
     /**
-     * @param bool $isMultiselect
-     * @return array
+     * {@inheritdoc}
      */
     public function toOptionArray($isMultiselect = false)
     {

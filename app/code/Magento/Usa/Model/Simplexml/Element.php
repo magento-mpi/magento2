@@ -7,17 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Usa\Model\Simplexml;
 
 /**
  * Extends SimpleXML to add valuable functionality to \SimpleXMLElement class
  *
- * @category Magento
- * @package  Magento_Usa
  * @author   Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Usa\Model\Simplexml;
-
 class Element extends \Magento\Simplexml\Element
 {
     /**
@@ -55,7 +51,7 @@ class Element extends \Magento\Simplexml\Element
     /**
      * Converts meaningful xml characters to xml entities
      *
-     * @param string
+     * @param string|null $value
      * @return string
      */
     public function xmlentities($value = null)

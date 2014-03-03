@@ -29,7 +29,7 @@ class FieldFactory
      * Create dependency field model instance.
      *
      * @param array $arguments
-     * @return \Magento\Backend\Model\Config\Structure\Element\Dependency\Field
+     * @return Field
      */
     public function create(array $arguments = array())
     {

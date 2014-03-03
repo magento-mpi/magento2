@@ -7,16 +7,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Block\Adminhtml\System\Config;
 
 /**
  * Custom renderer for PayPal API credentials wizard popup
  */
-namespace Magento\Paypal\Block\Adminhtml\System\Config;
-
 class ApiWizard extends \Magento\Backend\Block\System\Config\Form\Field
 {
     /**
      * Set template to itself
+     *
+     * @return $this
      */
     protected function _prepareLayout()
     {

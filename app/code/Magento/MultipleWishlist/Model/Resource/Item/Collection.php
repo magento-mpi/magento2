@@ -97,7 +97,7 @@ class Collection extends \Magento\Wishlist\Model\Resource\Item\Collection
      * Add filtration by customer id
      *
      * @param int $customerId
-     * @return \Magento\MultipleWishlist\Model\Resource\Item\Collection
+     * @return $this
      */
     public function addCustomerIdFilter($customerId)
     {

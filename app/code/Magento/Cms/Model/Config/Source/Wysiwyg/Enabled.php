@@ -8,17 +8,16 @@
  * @license     {license_link}
  */
 
-/**
- * Configuration source model for Wysiwyg toggling
- *
- * @category    Magento
- * @package     Magento_Cms
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Cms\Model\Config\Source\Wysiwyg;
 
-class Enabled implements \Magento\Core\Model\Option\ArrayInterface
+/**
+ * Configuration source model for Wysiwyg toggling
+ */
+class Enabled implements \Magento\Option\ArrayInterface
 {
+    /**
+     * {@inheritdoc}
+     */
     public function toOptionArray()
     {
         return array(

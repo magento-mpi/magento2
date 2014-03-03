@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\FullPageCache\Helper;
 
 /**
  * Url processing helper
  */
-namespace Magento\FullPageCache\Helper;
-
 class Url
 {
     /**
@@ -58,7 +57,7 @@ class Url
     /**
      * Replace all occurrences of session_id with unique marker
      *
-     * @param  string $content
+     * @param  string &$content
      * @return bool
      */
     public function replaceSid(&$content)
@@ -80,7 +79,7 @@ class Url
     /**
      * Restore session_id from marker value
      *
-     * @param string $content
+     * @param string &$content
      * @param string $sidValue
      * @return bool
      */

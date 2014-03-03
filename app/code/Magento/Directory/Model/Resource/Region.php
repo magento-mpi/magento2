@@ -23,17 +23,17 @@ class Region extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_regionNameTable;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\LocaleInterface
      */
     protected $_locale;
 
     /**
      * @param \Magento\App\Resource $resource
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\LocaleInterface $locale
      */
     public function __construct(
         \Magento\App\Resource $resource,
-        \Magento\Core\Model\LocaleInterface $locale
+        \Magento\LocaleInterface $locale
     ) {
         parent::__construct($resource);
         $this->_locale = $locale;
@@ -41,6 +41,8 @@ class Region extends \Magento\Core\Model\Resource\Db\AbstractDb
 
     /**
      * Define main and locale region name tables
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -93,7 +95,7 @@ class Region extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param int $countryId
      * @param string $value
      * @param string $field
-     * @return \Magento\Directory\Model\Resource\Region
+     * @return $this
      */
     protected function _loadByCountry($object, $countryId, $value, $field)
     {
@@ -126,7 +128,7 @@ class Region extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param string $regionCode
      * @param string $countryId
      *
-     * @return \Magento\Directory\Model\Resource\Region
+     * @return $this
      */
     public function loadByCode(\Magento\Directory\Model\Region $region, $regionCode, $countryId)
     {
@@ -139,7 +141,7 @@ class Region extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param \Magento\Directory\Model\Region $region
      * @param string $regionName
      * @param string $countryId
-     * @return \Magento\Directory\Model\Resource\Region
+     * @return $this
      */
     public function loadByName(\Magento\Directory\Model\Region $region, $regionName, $countryId)
     {

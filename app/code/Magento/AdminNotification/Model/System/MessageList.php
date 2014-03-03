@@ -38,6 +38,7 @@ class MessageList
     /**
      * Load messages to display
      *
+     * @return void
      * @throws \InvalidArgumentException
      */
     protected function _loadMessages()

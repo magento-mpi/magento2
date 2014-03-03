@@ -7,13 +7,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\TargetRule\Block\Adminhtml\Rule;
+
+use Magento\Data\Form\Element\AbstractElement;
 
 class Conditions implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
-    public function render(\Magento\Data\Form\Element\AbstractElement $element)
+    /**
+     * @param AbstractElement $element
+     * @return string
+     */
+    public function render(AbstractElement $element)
     {
         if ($element->getRule() && $element->getRule()->getConditions()) {
             return $element->getRule()->getConditions()->asHtmlRecursive();

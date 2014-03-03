@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <virtualType name="Magento\Reports\Model\Session">
-        <param name="sessionName">
-            <value>frontend</value>
-        </param>
+        <arguments>
+            <argument name="sessionName" xsi:type="string">frontend</argument>
+        </arguments>
     </virtualType>
 </config>

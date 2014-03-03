@@ -29,7 +29,7 @@ class StoreFactory
      * Create store instance
      *
      * @param array $arguments
-     * @return \Magento\Core\Model\Store
+     * @return Store
      */
     public function create(array $arguments = array())
     {

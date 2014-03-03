@@ -117,6 +117,8 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\Shopcart
     }
 
     /**
+     * @param \Magento\Object $row
+     *
      * @return string
      */
     public function getRowUrl($row)

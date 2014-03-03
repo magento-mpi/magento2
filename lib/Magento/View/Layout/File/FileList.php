@@ -17,16 +17,22 @@ use Magento\View\Layout\File\FileList\CollateInterface;
 class FileList
 {
     /**
+     * Array of files
+     *
      * @var File[]
      */
     protected $files = array();
 
     /**
+     * Collator
+     *
      * @var CollateInterface
      */
     protected $collator;
 
     /**
+     * Constructor
+     *
      * @param CollateInterface $collator
      */
     public function __construct(CollateInterface $collator)
@@ -48,6 +54,7 @@ class FileList
      * Add layout file instances to the list, preventing identity coincidence
      *
      * @param File[] $files
+     * @return void
      * @throws \LogicException
      */
     public function add(array $files)
@@ -68,6 +75,7 @@ class FileList
      * Replace already added layout files with specified ones, checking for identity match
      *
      * @param File[] $files
+     * @return void
      */
     public function replace(array $files)
     {

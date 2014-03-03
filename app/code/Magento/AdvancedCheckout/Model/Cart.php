@@ -7,6 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\AdvancedCheckout\Model;
+
+use Magento\Catalog\Model\Product;
+use Magento\Message\MessageInterface;
 
 /**
  * Admin Checkout processing model
@@ -18,8 +22,6 @@
  * @category   Magento
  * @package    Magento_AdvancedCheckout
  */
-namespace Magento\AdvancedCheckout\Model;
-
 class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartInterface
 {
     /**
@@ -59,7 +61,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     /**
      * List of currently affected items skus
      *
-     * @var array
+     * @var string[]
      */
     protected $_currentlyAffectedItems = array();
 
@@ -159,7 +161,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     protected $_storeManager;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\LocaleInterface
      */
     protected $_locale;
 
@@ -196,7 +198,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\LocaleInterface $locale
      * @param \Magento\Message\ManagerInterface $messageManager
      * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig
      * @param \Magento\Catalog\Model\Product\CartConfiguration $productConfiguration
@@ -216,7 +218,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\LocaleInterface $locale,
         \Magento\Message\ManagerInterface $messageManager,
         \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig,
         \Magento\Catalog\Model\Product\CartConfiguration $productConfiguration,
@@ -246,7 +248,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      * Set context of the cart
      *
      * @param string $context
-     * @return \Magento\AdvancedCheckout\Model\Cart
+     * @return $this
      */
     public function setContext($context)
     {
@@ -258,7 +260,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      * Setter for $_customer
      *
      * @param \Magento\Customer\Model\Customer $customer
-     * @return \Magento\AdvancedCheckout\Model\Cart
+     * @return $this
      */
     public function setCustomer($customer)
     {
@@ -315,7 +317,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      * Sets different quote model
      *
      * @param \Magento\Sales\Model\Quote $quote
-     * @return \Magento\AdvancedCheckout\Model\Cart
+     * @return $this
      */
     public function setQuote(\Magento\Sales\Model\Quote $quote)
     {
@@ -343,7 +345,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      * Return appropriate store ids for retrieving quote in current store
      * Correct customer shared store ids when customer has Admin Store
      *
-     * @return array
+     * @return int[]
      */
     public function getQuoteSharedStoreIds()
     {
@@ -381,7 +383,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      * Recollect quote and save it
      *
      * @param bool $recollect Collect quote totals or not
-     * @return \Magento\AdvancedCheckout\Model\Cart
+     * @return $this
      */
     public function saveQuote($recollect = true)
     {
@@ -427,16 +429,16 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     /**
      * Add product to current order quote
      *
-     * $config can be integer qty (older behaviour, when no product configuration was possible)
+     * Parameter $config can be integer qty (older behaviour, when no product configuration was possible)
      * or it can be array of options (newer behaviour).
      *
      * In case of older behaviour same product ids are not added, but quote item qty is increased.
      * In case of newer behaviour same product ids with different configs are added as separate quote items.
      *
-     * @param   mixed $product
+     * @param   Product|int $product
      * @param   array|float|int|\Magento\Object $config
+     * @return  $this
      * @throws  \Magento\Core\Exception
-     * @return  \Magento\Sales\Model\AdminOrder\Create
      */
     public function addProduct($product, $config = 1)
     {
@@ -451,7 +453,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
             $separateSameProducts = false;
         }
 
-        if (!($product instanceof \Magento\Catalog\Model\Product)) {
+        if (!($product instanceof Product)) {
             $productId = $product;
             $product = $this->_productFactory->create()
                 ->setStore($this->getStore())
@@ -547,7 +549,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      * Errors can be received via getResultErrors() or directly into session if it was set via setSession().
      *
      * @param   array $products
-     * @return  \Magento\AdvancedCheckout\Model\Cart|Exception
+     * @return  $this|\Exception
      */
     public function addProducts(array $products)
     {
@@ -569,7 +571,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      * Remove items from quote or move them to wishlist etc.
      *
      * @param array $data Array of items
-     * @return \Magento\AdvancedCheckout\Model\Cart
+     * @return $this
      */
     public function updateQuoteItems($data)
     {
@@ -631,7 +633,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      *
      * @param \Magento\Sales\Model\Quote\Item|int $item
      * @param string $moveTo Destination storage
-     * @return \Magento\AdvancedCheckout\Model\Cart
+     * @return $this
      */
     public function moveQuoteItem($item, $moveTo)
     {
@@ -738,8 +740,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     {
         if ($item instanceof \Magento\Sales\Model\Quote\Item) {
             return $item;
-        }
-        elseif (is_numeric($item)) {
+        } elseif (is_numeric($item)) {
             return $this->getQuote()->getItemById($item);
         }
         return false;
@@ -782,9 +783,10 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     /**
      * Check submitted SKUs
      *
-     * @see saveAffectedProducts()
      * @param array $items Example: [['sku' => 'simple1', 'qty' => 2], ['sku' => 'simple2', 'qty' => 3], ...]
-     * @return \Magento\AdvancedCheckout\Model\Cart
+     * @return $this
+     *
+     * @see saveAffectedProducts()
      */
     public function prepareAddProductsBySku(array $items)
     {
@@ -809,13 +811,13 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      * ]
      *
      * @param \Magento\CatalogInventory\Model\Stock\Item $stockItem
-     * @param \Magento\Catalog\Model\Product             $product
+     * @param Product             $product
      * @param float                                  $requestedQty
      * @return array|true
      */
     public function getQtyStatus(
         \Magento\CatalogInventory\Model\Stock\Item $stockItem,
-        \Magento\Catalog\Model\Product $product,
+        Product $product,
         $requestedQty
     ) {
         $result = $stockItem->checkQuoteItemQty($requestedQty, $requestedQty);
@@ -852,11 +854,11 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      * Load product by specified sku
      *
      * @param string $sku
-     * @return bool|\Magento\Catalog\Model\Product
+     * @return bool|Product
      */
     protected function _loadProductBySku($sku)
     {
-        /** @var $product \Magento\Catalog\Model\Product */
+        /** @var $product Product */
         $product = $this->_productFactory->create()
             ->setStore($this->getCurrentStore())
             ->loadByAttribute('sku', $sku);
@@ -870,7 +872,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     /**
      * Check whether required option is not missed, add values to configuration
      *
-     * @param array $skuParts
+     * @param array &$skuParts
      * @param \Magento\Catalog\Model\Product\Option $option
      * @return bool
      */
@@ -910,7 +912,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      *
      * @param string $sku
      * @param array $config
-     * @return bool|\Magento\Catalog\Model\Product
+     * @return Product|false
      */
     protected function _loadProductWithOptionsBySku($sku, $config = array())
     {
@@ -987,7 +989,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      *
      * @param \Magento\Catalog\Model\Product\Option $option
      * @param \Magento\Catalog\Model\Product\Option\Value $value
-     * @return \Magento\AdvancedCheckout\Model\Cart
+     * @return $this
      */
     protected function _addSuccessOption($option, $value)
     {
@@ -1060,7 +1062,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
             $this->setAffectedItemConfig($sku, $config);
         }
 
-        /** @var $product \Magento\Catalog\Model\Product */
+        /** @var $product Product */
         $product = $this->_loadProductWithOptionsBySku($item['sku'], $config);
 
         if ($product && $product->hasConfiguredOptions()) {
@@ -1131,7 +1133,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     /**
      * Check product availability for current website
      *
-     * @param \Magento\Catalog\Model\Product $product
+     * @param Product $product
      * @return bool|string
      */
     protected function _validateProductWebsite($product)
@@ -1180,7 +1182,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     /**
      * Check whether specified product is out of stock
      *
-     * @param \Magento\Catalog\Model\Product $product
+     * @param Product $product
      * @return bool
      */
     protected function _isProductOutOfStock($product)
@@ -1212,7 +1214,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     /**
      * Check whether specified product should be configured
      *
-     * @param \Magento\Catalog\Model\Product $product
+     * @param Product $product
      * @return bool
      */
     protected function _shouldBeConfigured($product)
@@ -1241,7 +1243,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      *
      * @param string $sku
      * @param array  $config
-     * @return \Magento\AdvancedCheckout\Model\Cart
+     * @return $this
      */
     public function setAffectedItemConfig($sku, $config)
     {
@@ -1265,10 +1267,10 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     /**
      * Add products previously successfully processed by prepareAddProductsBySku() to cart
      *
-     * @param \Magento\Checkout\Model\Cart\CartInterface|null $cart                 Custom cart model (different from
-     *                                                                      checkout/cart)
-     * @param bool                                    $saveQuote            Whether cart quote should be saved
-     * @return \Magento\AdvancedCheckout\Model\Cart
+     * @param \Magento\Checkout\Model\Cart\CartInterface|null $cart Custom cart model (different from
+     *                                                              checkout/cart)
+     * @param bool $saveQuote Whether cart quote should be saved
+     * @return $this
      */
     public function saveAffectedProducts(\Magento\Checkout\Model\Cart\CartInterface $cart = null, $saveQuote = true)
     {
@@ -1290,11 +1292,11 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     /**
      * Safely add product to cart, revert cart in error case
      *
-     * @param array                              $item
-     * @param \Magento\Checkout\Model\Cart\CartInterface $cart                 If we need to add product to different cart from
-     *                                                                 checkout/cart
-     * @param bool                               $suppressSuperMode
-     * @return \Magento\AdvancedCheckout\Model\Cart
+     * @param array &$item
+     * @param \Magento\Checkout\Model\Cart\CartInterface $cart If we need to add product to different cart from
+     *                                                         checkout/cart
+     * @param bool $suppressSuperMode
+     * @return $this
      */
     protected function _safeAddProduct(&$item, \Magento\Checkout\Model\Cart\CartInterface $cart, $suppressSuperMode = false)
     {
@@ -1396,9 +1398,10 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      *  'code' => string (see \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_*)
      * ]
      *
-     * @see prepareAddProductsBySku()
      * @param null|int $storeId
      * @return array
+     *
+     * @see prepareAddProductsBySku()
      */
     public function getAffectedItems($storeId = null)
     {
@@ -1431,7 +1434,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      *
      * @param array $items
      * @param null|int $storeId
-     * @return \Magento\AdvancedCheckout\Model\Cart
+     * @return $this
      */
     public function setAffectedItems($items, $storeId = null)
     {
@@ -1449,7 +1452,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     /**
      * Retrieve info message
      *
-     * @return array
+     * @return MessageInterface[]
      */
     public function getMessages()
     {
@@ -1473,13 +1476,13 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
             $message = ($addedItemsCount == 1)
                     ? __('You added %1 product to your shopping cart.', $addedItemsCount)
                     : __('You added %1 products to your shopping cart.', $addedItemsCount);
-            $messages[] = $this->messageFactory->create(\Magento\Message\MessageInterface::TYPE_SUCCESS, $message);
+            $messages[] = $this->messageFactory->create(MessageInterface::TYPE_SUCCESS, $message);
         }
         if ($failedItemsCount) {
             $warning = ($failedItemsCount == 1)
                     ? __('%1 product requires your attention.', $failedItemsCount)
                     : __('%1 products require your attention.', $failedItemsCount);
-            $messages[] = $this->messageFactory->create(\Magento\Message\MessageInterface::TYPE_ERROR, $warning);
+            $messages[] = $this->messageFactory->create(MessageInterface::TYPE_ERROR, $warning);
         }
         return $messages;
     }
@@ -1516,7 +1519,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      *
      * @param array $item
      * @param string $code
-     * @return array
+     * @return array|$this
      */
     protected function _addAffectedItem($item, $code)
     {
@@ -1536,7 +1539,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      *
      * @param string $sku
      * @param int $qty
-     * @return \Magento\AdvancedCheckout\Model\Cart
+     * @return $this
      */
     public function updateItemQty($sku, $qty)
     {
@@ -1568,7 +1571,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     /**
      * Remove all affected items from storage
      *
-     * @return \Magento\AdvancedCheckout\Model\Cart
+     * @return $this
      */
     public function removeAllAffectedItems()
     {
@@ -1579,7 +1582,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     /**
      * Remove all affected items with code=success
      *
-     * @return \Magento\AdvancedCheckout\Model\Cart
+     * @return $this
      */
     public function removeSuccessItems()
     {
@@ -1607,7 +1610,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      * Sets session where data is going to be stored
      *
      * @param \Magento\Session\SessionManagerInterface $session
-     * @return \Magento\AdvancedCheckout\Model\Cart
+     * @return $this
      */
     public function setSession(\Magento\Session\SessionManagerInterface $session)
     {
@@ -1642,7 +1645,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      * Set current store
      *
      * @param mixed $store
-     * @return \Magento\AdvancedCheckout\Model\Cart
+     * @return $this
      */
     public function setCurrentStore($store)
     {

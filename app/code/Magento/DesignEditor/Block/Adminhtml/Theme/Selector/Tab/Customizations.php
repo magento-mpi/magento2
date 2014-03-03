@@ -7,17 +7,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\DesignEditor\Block\Adminhtml\Theme\Selector\Tab;
 
 /**
  * Theme selector tab for customized themes
  */
-namespace Magento\DesignEditor\Block\Adminhtml\Theme\Selector\Tab;
-
 class Customizations
     extends \Magento\DesignEditor\Block\Adminhtml\Theme\Selector\Tab\AbstractTab
 {
     /**
      * Initialize tab block
+     *
+     * @return void
      */
     protected function _construct()
     {

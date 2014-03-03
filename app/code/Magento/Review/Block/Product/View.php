@@ -21,11 +21,15 @@ use Magento\Review\Model\Resource\Review\Collection as ReviewCollection;
 class View extends \Magento\Catalog\Block\Product\View
 {
     /**
+     * Review collection
+     *
      * @var ReviewCollection
      */
     protected $_reviewsCollection;
 
     /**
+     * Review resource model
+     *
      * @var \Magento\Review\Model\Resource\Review\CollectionFactory
      */
     protected $_reviewsColFactory;
@@ -33,7 +37,7 @@ class View extends \Magento\Catalog\Block\Product\View
     /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Catalog\Model\Config $catalogConfig
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Math\Random $mathRandom
@@ -58,7 +62,7 @@ class View extends \Magento\Catalog\Block\Product\View
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Catalog\Model\Config $catalogConfig,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Math\Random $mathRandom,
@@ -120,7 +124,7 @@ class View extends \Magento\Catalog\Block\Product\View
      * Reviews collection count will be jerked here
      *
      * @param \Magento\Catalog\Model\Product $product
-     * @param string $templateType
+     * @param bool $templateType
      * @param bool $displayIfNoReviews
      * @return string
      */
@@ -141,6 +145,8 @@ class View extends \Magento\Catalog\Block\Product\View
     }
 
     /**
+     * Get collection of reviews
+     *
      * @return ReviewCollection
      */
     public function getReviewsCollection()
@@ -158,7 +164,7 @@ class View extends \Magento\Catalog\Block\Product\View
     /**
      * Force product view page behave like without options
      *
-     * @return false
+     * @return bool
      */
     public function hasOptions()
     {

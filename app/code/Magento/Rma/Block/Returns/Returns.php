@@ -18,20 +18,24 @@ class Returns extends \Magento\View\Element\Template
      * @var \Magento\Rma\Helper\Data
      */
     protected $_rmaData = null;
-    
+
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
     /**
+     * Rma grid collection
+     *
      * @var \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory
      */
     protected $_collectionFactory;
 
     /**
+     * Customer session model
+     *
      * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
@@ -41,7 +45,7 @@ class Returns extends \Magento\View\Element\Template
      * @param \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Rma\Helper\Data $rmaData
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
@@ -49,7 +53,7 @@ class Returns extends \Magento\View\Element\Template
         \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Rma\Helper\Data $rmaData,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
         $this->_rmaData = $rmaData;
@@ -60,6 +64,11 @@ class Returns extends \Magento\View\Element\Template
         $this->_isScopePrivate = true;
     }
 
+    /**
+     * Initialize returns content
+     *
+     * @return void
+     */
     public function _construct()
     {
         parent::_construct();
@@ -79,6 +88,8 @@ class Returns extends \Magento\View\Element\Template
     }
 
     /**
+     * Prepare rma returns layout
+     *
      * @return $this
      */
     protected function _prepareLayout()
@@ -94,6 +105,8 @@ class Returns extends \Magento\View\Element\Template
     }
 
     /**
+     * Get pager html
+     *
      * @return string
      */
     public function getPagerHtml()
@@ -102,6 +115,9 @@ class Returns extends \Magento\View\Element\Template
     }
 
     /**
+     * Get rma returns view url
+     *
+     * @param \Magento\Object $return
      * @return string
      */
     public function getViewUrl($return)
@@ -110,6 +126,8 @@ class Returns extends \Magento\View\Element\Template
     }
 
     /**
+     * Get sales order history url
+     *
      * @return string
      */
     public function getBackUrl()
@@ -118,6 +136,9 @@ class Returns extends \Magento\View\Element\Template
     }
 
     /**
+     * Get sales order reorder url
+     *
+     * @param \Magento\Object $order
      * @return string
      */
     public function getReorderUrl($order)
@@ -126,6 +147,9 @@ class Returns extends \Magento\View\Element\Template
     }
 
     /**
+     * Get sales guest print url
+     *
+     * @param \Magento\Object $order
      * @return string
      */
     public function getPrintUrl($order)

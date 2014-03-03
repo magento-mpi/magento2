@@ -16,21 +16,23 @@ namespace Magento\Rma\Model;
 class Grid extends \Magento\Core\Model\AbstractModel
 {
     /**
+     * Rma source status factory
+     *
      * @var \Magento\Rma\Model\Rma\Source\StatusFactory
      */
     protected $_statusFactory;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Rma\Model\Rma\Source\StatusFactory $statusFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Rma\Model\Rma\Source\StatusFactory $statusFactory,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
@@ -42,6 +44,8 @@ class Grid extends \Magento\Core\Model\AbstractModel
 
     /**
      * Init resource model
+     *
+     * @return void
      */
     protected function _construct()
     {

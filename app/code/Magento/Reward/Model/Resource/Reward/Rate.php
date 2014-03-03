@@ -7,24 +7,21 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
-/**
- * Reward rate resource model
- *
- * @category    Magento
- * @package     Magento_Reward
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Reward\Model\Resource\Reward;
 
 use Magento\Reward\Model\Reward\Rate as RewardRate;
 
+/**
+ * Reward rate resource model
+ *
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
 class Rate extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Internal constructor
      *
+     * @return void
      */
     protected function _construct()
     {

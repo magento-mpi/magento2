@@ -17,7 +17,9 @@
  */
 namespace Magento\Catalog\Block\Adminhtml\Product\Attribute;
 
-class Grid extends \Magento\Eav\Block\Adminhtml\Attribute\Grid\AbstractGrid
+use Magento\Eav\Block\Adminhtml\Attribute\Grid\AbstractGrid;
+
+class Grid extends AbstractGrid
 {
     /**
      * @var \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory
@@ -44,7 +46,7 @@ class Grid extends \Magento\Eav\Block\Adminhtml\Attribute\Grid\AbstractGrid
     /**
      * Prepare product attributes grid collection object
      *
-     * @return \Magento\Catalog\Block\Adminhtml\Product\Attribute\Grid
+     * @return $this
      */
     protected function _prepareCollection()
     {
@@ -58,7 +60,7 @@ class Grid extends \Magento\Eav\Block\Adminhtml\Attribute\Grid\AbstractGrid
     /**
      * Prepare product attributes grid columns
      *
-     * @return \Magento\Catalog\Block\Adminhtml\Product\Attribute\Grid
+     * @return $this
      */
     protected function _prepareColumns()
     {

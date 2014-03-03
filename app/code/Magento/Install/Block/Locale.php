@@ -36,8 +36,8 @@ class Locale extends \Magento\Install\Block\AbstractBlock
     /**
      * Set locale code
      *
-     * @param $localeCode
-     * @return \Magento\Install\Block\Locale
+     * @param string $localeCode
+     * @return $this
      */
     public function setLocaleCode($localeCode)
     {
@@ -138,7 +138,7 @@ class Locale extends \Magento\Install\Block\AbstractBlock
         $timezone = $this->_session->getTimezone()
             ? $this->_session->getTimezone()
             : $this->_locale->getTimezone();
-        if ($timezone == \Magento\Core\Model\LocaleInterface::DEFAULT_TIMEZONE) {
+        if ($timezone == \Magento\LocaleInterface::DEFAULT_TIMEZONE) {
             $timezone = 'America/Los_Angeles';
         }
         return $timezone;

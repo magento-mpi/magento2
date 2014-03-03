@@ -231,8 +231,9 @@ abstract class Grid extends Block
      *
      * @param string $actionType
      * @param array $items
+     * @param bool $acceptAlert
      */
-    protected function massaction($actionType, array $items = array())
+    protected function massaction($actionType, array $items = array(), $acceptAlert = false)
     {
         if ($items) {
             foreach ($items as $item) {
@@ -243,7 +244,9 @@ abstract class Grid extends Block
         }
         $this->_rootElement->find($this->massactionSelect, Locator::SELECTOR_CSS, 'select')->setValue($actionType);
         $this->_rootElement->find($this->massactionSubmit, Locator::SELECTOR_CSS)->click();
-        $this->_rootElement->acceptAlert();
+        if ($acceptAlert) {
+            $this->_rootElement->acceptAlert();
+        }
     }
 
     /**
@@ -253,7 +256,7 @@ abstract class Grid extends Block
      */
     public function delete($items = array())
     {
-        $this->massaction('Delete', $items);
+        $this->massaction('Delete', $items, true);
     }
 
     /**

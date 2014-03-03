@@ -12,26 +12,36 @@ use Magento\Event\Observer;
 class PlaceOrder
 {
     /**
+     * Reward place order restriction interface
+     *
      * @var \Magento\Reward\Model\Observer\PlaceOrder\RestrictionInterface
      */
     protected $_restriction;
 
     /**
+     * Reward model factory
+     *
      * @var \Magento\Reward\Model\RewardFactory
      */
     protected $_modelFactory;
 
     /**
+     * Reward resource model factory
+     *
      * @var \Magento\Reward\Model\Resource\RewardFactory
      */
     protected $_resourceFactory;
 
     /**
+     * Core model store manager interface
+     *
      * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
+     * Reward balance validator
+     *
      * @var \Magento\Reward\Model\Reward\Balance\Validator
      */
     protected $_validator;

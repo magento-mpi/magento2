@@ -38,6 +38,8 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
     protected $_rmaEav;
 
     /**
+     * Core store manager interface
+     *
      * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
@@ -51,7 +53,7 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
      * @param \Magento\Sales\Model\Order\Pdf\Config $pdfConfig
      * @param \Magento\Sales\Model\Order\Pdf\Total\Factory $pdfTotalFactory
      * @param \Magento\Sales\Model\Order\Pdf\ItemsFactory $pdfItemsFactory
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\LocaleInterface $locale
      * @param \Magento\Rma\Helper\Eav $rmaEav
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -68,7 +70,7 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
         \Magento\Sales\Model\Order\Pdf\Config $pdfConfig,
         \Magento\Sales\Model\Order\Pdf\Total\Factory $pdfTotalFactory,
         \Magento\Sales\Model\Order\Pdf\ItemsFactory $pdfItemsFactory,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\LocaleInterface $locale,
         \Magento\Rma\Helper\Eav $rmaEav,
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Core\Model\StoreManagerInterface $storeManager,

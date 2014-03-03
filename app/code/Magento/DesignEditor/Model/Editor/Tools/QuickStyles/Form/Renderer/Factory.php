@@ -67,8 +67,8 @@ class Factory
     /**
      * Storage of renderers that could be shared between elements
      *
-     * @see self::create()
      * @var array
+     * @see self::create()
      */
     protected $_sharedRenderers = array();
 
@@ -109,7 +109,7 @@ class Factory
      *   reuse of renderer and then will not be restored.
      *
      * @param string $elementClassName
-     * @param string|null $rendererName
+     * @param string $rendererName
      * @return RendererInterface
      */
     public function getSharedInstance($elementClassName, $rendererName = null)

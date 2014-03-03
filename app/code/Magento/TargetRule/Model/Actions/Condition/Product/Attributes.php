@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\TargetRule\Model\Actions\Condition\Product;
 
 /**
  * TargetRule Action Product Attributes Condition Model
@@ -16,8 +16,6 @@
  * @package  Magento_TargetRule
  * @author   Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\TargetRule\Model\Actions\Condition\Product;
-
 class Attributes
     extends \Magento\TargetRule\Model\Rule\Condition\Product\Attributes
 {
@@ -72,7 +70,8 @@ class Attributes
     /**
      * Add special action product attributes
      *
-     * @param array $attributes
+     * @param array &$attributes
+     * @return void
      */
     protected function _addSpecialAttributes(array &$attributes)
     {
@@ -147,7 +146,15 @@ class Attributes
      */
     public function asHtml()
     {
-        return __('Product %1%2%3%4%5%6%7', $this->getTypeElementHtml(), $this->getAttributeElementHtml(), $this->getOperatorElementHtml(), $this->getValueTypeElementHtml(), $this->getValueElementHtml(), $this->getRemoveLinkHtml(), $this->getChooserContainerHtml());
+        return __('Product %1%2%3%4%5%6%7',
+            $this->getTypeElementHtml(),
+            $this->getAttributeElementHtml(),
+            $this->getOperatorElementHtml(),
+            $this->getValueTypeElementHtml(),
+            $this->getValueElementHtml(),
+            $this->getRemoveLinkHtml(),
+            $this->getChooserContainerHtml()
+        );
     }
 
     /**
@@ -232,7 +239,7 @@ class Attributes
      * Load attribute property from array
      *
      * @param array $array
-     * @return \Magento\TargetRule\Model\Actions\Condition\Product\Attributes
+     * @return $this
      */
     public function loadArray($array)
     {
@@ -280,9 +287,9 @@ class Attributes
      * Retrieve SELECT WHERE condition for product collection
      *
      * @param \Magento\Catalog\Model\Resource\Product\Collection $collection
-     * @param \Magento\TargetRule\Model\Index                         $object
-     * @param array                                                     $bind
-     * @return \Zend_Db_Expr
+     * @param \Magento\TargetRule\Model\Index $object
+     * @param array &$bind
+     * @return \Zend_Db_Expr|false
      */
     public function getConditionForCollection($collection, $object, &$bind)
     {

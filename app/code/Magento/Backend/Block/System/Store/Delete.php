@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Backend\Block\System\Store;
 
 /**
  * Store / store view / website delete form container
@@ -16,14 +16,12 @@
  * @package     Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Backend\Block\System\Store;
-
 class Delete extends \Magento\Backend\Block\Widget\Form\Container
 {
-
     /**
      * Class constructor
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -67,7 +65,7 @@ class Delete extends \Magento\Backend\Block\Widget\Form\Container
      * Set store type title
      *
      * @param string $title
-     * @return \Magento\Backend\Block\System\Store\Delete
+     * @return $this
      */
     public function setStoreTypeTitle($title)
     {
@@ -79,7 +77,7 @@ class Delete extends \Magento\Backend\Block\Widget\Form\Container
      * Set back URL for "Cancel" and "Back" buttons
      *
      * @param string $url
-     * @return \Magento\Backend\Block\System\Store\Delete
+     * @return $this
      */
     public function setBackUrl($url)
     {

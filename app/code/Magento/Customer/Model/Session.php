@@ -68,8 +68,6 @@ class Session extends \Magento\Session\SessionManager
      */
     protected $_customerService;
 
-    /** @var  \Magento\Customer\Service\V1\CustomerAccountServiceInterface */
-    protected $_customerAccountService;
     /**
      * @var CustomerFactory
      */
@@ -94,6 +92,17 @@ class Session extends \Magento\Session\SessionManager
      * @var \Magento\App\ResponseInterface
      */
     protected $response;
+
+    /**
+     * @var \Magento\Customer\Service\V1\Dto\Customer
+     */
+    protected $_customerDataObject;
+
+    /**
+     * @var \Magento\Customer\Model\Converter
+     */
+    protected $_converter;
+
     /**
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\Session\SidResolverInterface $sidResolver
@@ -110,8 +119,9 @@ class Session extends \Magento\Session\SessionManager
      * @param \Magento\Core\Model\Session $session
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param Converter $converter
+     * @param \Magento\App\ResponseInterface $response
      * @param \Magento\Customer\Service\V1\CustomerServiceInterface $customerService
-     * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
      * @param null $sessionName
      * @param array $data
      */
@@ -131,9 +141,9 @@ class Session extends \Magento\Session\SessionManager
         \Magento\Core\Model\Session $session,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Customer\Model\Converter $converter,
         \Magento\App\ResponseInterface $response,
         \Magento\Customer\Service\V1\CustomerServiceInterface $customerService,
-        \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService,
         $sessionName = null,
         array $data = array()
     ) {
@@ -145,12 +155,12 @@ class Session extends \Magento\Session\SessionManager
         $this->_urlFactory = $urlFactory;
         $this->_session = $session;
         $this->_customerService = $customerService;
-        $this->_customerAccountService = $customerAccountService;
         $this->_eventManager = $eventManager;
         $this->_storeManager = $storeManager;
         $this->response = $response;
         parent::__construct($request, $sidResolver, $sessionConfig, $saveHandler, $validator, $storage);
         $this->start($sessionName);
+        $this->_converter = $converter;
         $this->_eventManager->dispatch('customer_session_init', array('customer_session' => $this));
     }
 
@@ -173,12 +183,8 @@ class Session extends \Magento\Session\SessionManager
     public function setCustomerDto(CustomerDto $customer)
     {
         $this->_customer = $customer;
-        if ($customer === null) {
-            $this->setCustomerId(null);
-        } else {
-            $this->response->setVary('customer_group', $customer->getGroupId());
-            $this->setCustomerId($customer->getCustomerId());
-        }
+        $this->response->setVary('customer_group', $customer->getGroupId());
+        $this->setCustomerId($customer->getCustomerId());
         return $this;
     }
 
@@ -202,6 +208,30 @@ class Session extends \Magento\Session\SessionManager
         return $this->_customer;
     }
 
+    /**
+     * Returns Customer data object with the customer information
+     *
+     * @return \Magento\Customer\Service\V1\Dto\Customer
+     */
+    public function getCustomerData()
+    {
+        /* TODO refactor this after all usages of the setCustomer is refactored */
+        return $this->_converter->createCustomerFromModel($this->getCustomer());
+    }
+
+    /**
+     * Set Customer data object with the customer information
+     *
+     * @param \Magento\Customer\Service\V1\Dto\Customer $customerData
+     * @return $this
+     */
+    public function setCustomerData(\Magento\Customer\Service\V1\Dto\Customer $customerData)
+    {
+        $this->setId($customerData->getCustomerId());
+        $this->_converter->updateCustomerModel($this->getCustomer(), $customerData);
+        return $this;
+    }
+
 
     /**
      * Set customer model and the customer id in session
@@ -212,16 +242,12 @@ class Session extends \Magento\Session\SessionManager
     public function setCustomer(Customer $customerModel)
     {
         $this->_customerModel = $customerModel;
-        if ($customerModel === null) {
-            $this->setCustomerId(null);
-        } else {
-            $this->response->setVary('customer_group', $customerModel->getGroupId());
-            $this->setCustomerId($customerModel->getId());
-            if ((!$customerModel->isConfirmationRequired()) && $customerModel->getConfirmation()) {
-                $customerModel->setConfirmation(null)->save();
-            }
+        $this->response->setVary('customer_group', $customerModel->getGroupId());
+        $this->setCustomerId($customerModel->getId());
+        if ((!$customerModel->isConfirmationRequired()) && $customerModel->getConfirmation()) {
+            $customerModel->setConfirmation(null)->save();
         }
-        
+
         return $this;
     }
 
@@ -332,24 +358,6 @@ class Session extends \Magento\Session\SessionManager
         try {
             $this->_customerService->getCustomer($customerId);
             $this->_isCustomerIdChecked = $customerId;
-            return true;
-        } catch (\Exception $e) {
-            return false;
-        }
-    }
-
-    /**
-     * Customer authorization
-     *
-     * @param   string $username
-     * @param   string $password
-     * @return  bool
-     */
-    public function login($username, $password)
-    {
-        try {
-            $customer = $this->_customerAccountService->authenticate($username, $password);
-            $this->setCustomerDtoAsLoggedIn($customer);
             return true;
         } catch (\Exception $e) {
             return false;

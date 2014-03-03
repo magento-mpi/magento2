@@ -43,6 +43,7 @@ class Field
      * Init current element
      *
      * @param array $element
+     * @return void
      * @throws \LogicException
      */
     protected function _initFlyweight(array $element)

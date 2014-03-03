@@ -7,22 +7,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backup\Controller\Adminhtml;
 
 /**
  * Backup admin controller
  *
- * @category   Magento
- * @package    Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Backup\Controller\Adminhtml;
-
 class Index extends \Magento\Backend\App\Action
 {
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -43,14 +40,14 @@ class Index extends \Magento\Backend\App\Action
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\Backup\Factory $backupFactory
      * @param \Magento\App\Response\Http\FileFactory $fileFactory
      * @param \Magento\Backup\Model\BackupFactory $backupModelFactory
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\Backup\Factory $backupFactory,
         \Magento\App\Response\Http\FileFactory $fileFactory,
         \Magento\Backup\Model\BackupFactory $backupModelFactory
@@ -64,6 +61,8 @@ class Index extends \Magento\Backend\App\Action
 
     /**
      * Backup list action
+     *
+     * @return void
      */
     public function indexAction()
     {
@@ -85,6 +84,8 @@ class Index extends \Magento\Backend\App\Action
 
     /**
      * Backup list action
+     *
+     * @return void
      */
     public function gridAction()
     {
@@ -95,7 +96,7 @@ class Index extends \Magento\Backend\App\Action
     /**
      * Create backup action
      *
-     * @return \Magento\Backend\App\Action
+     * @return void|\Magento\Backend\App\Action
      */
     public function createAction()
     {
@@ -179,7 +180,7 @@ class Index extends \Magento\Backend\App\Action
     /**
      * Download backup action
      *
-     * @return \Magento\Backend\App\Action
+     * @return void|\Magento\Backend\App\Action
      */
     public function downloadAction()
     {
@@ -213,7 +214,7 @@ class Index extends \Magento\Backend\App\Action
     /**
      * Rollback Action
      *
-     * @return \Magento\Backend\App\Action
+     * @return void|\Magento\Backend\App\Action
      */
     public function rollbackAction()
     {

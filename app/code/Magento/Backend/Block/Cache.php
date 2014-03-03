@@ -7,13 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Block;
 
 class Cache extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**
      * Class constructor
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -37,6 +38,8 @@ class Cache extends \Magento\Backend\Block\Widget\Grid\Container
 
     /**
      * Get url for clean cache storage
+     *
+     * @return string
      */
     public function getFlushStorageUrl()
     {
@@ -45,6 +48,8 @@ class Cache extends \Magento\Backend\Block\Widget\Grid\Container
 
     /**
      * Get url for clean cache storage
+     *
+     * @return string
      */
     public function getFlushSystemUrl()
     {

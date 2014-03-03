@@ -25,11 +25,13 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
     /**
+     * Review model factory
+     *
      * @var \Magento\Review\Model\ReviewFactory
      */
     protected $_reviewFactory;
@@ -38,14 +40,14 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Review\Model\ReviewFactory $reviewFactory
      * @param \Magento\Review\Helper\Action\Pager $reviewActionPager
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Review\Model\ReviewFactory $reviewFactory,
         \Magento\Review\Helper\Action\Pager $reviewActionPager,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -54,6 +56,11 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
         parent::__construct($context, $data);
     }
 
+    /**
+     * Initialize edit review
+     *
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -198,6 +205,8 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     }
 
     /**
+     * Get edit review header text
+     *
      * @return string
      */
     public function getHeaderText()

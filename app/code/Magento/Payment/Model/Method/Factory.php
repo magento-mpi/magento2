@@ -5,12 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Payment\Model\Method;
 
 /**
  * Class \Magento\Payment\Model\Method\Factory
  */
-namespace Magento\Payment\Model\Method;
-
 class Factory
 {
     /**

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Catalog\Model\Resource\Product;
 
 /**
  * Catalog Product Relations Resource model
@@ -16,13 +16,12 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Model\Resource\Product;
-
 class Relation extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Initialize resource model and define main table
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -34,7 +33,7 @@ class Relation extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param int $parentId
      * @param array $childIds
-     * @return \Magento\Catalog\Model\Resource\Product\Relation
+     * @return $this
      */
     public function processRelations($parentId, $childIds)
     {

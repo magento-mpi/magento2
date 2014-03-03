@@ -45,13 +45,13 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
         $coreDataMock = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
         $fileStorageDbMock = $this->getMock('Magento\Core\Helper\File\Storage\Database', array(), array(), '', false);
         $filesystem = $this->getMock('Magento\App\Filesystem', array(), array(), '', false);
-        $coreRegistry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
+        $coreRegistry = $this->getMock('Magento\Registry', array(), array(), '', false);
         $this->product = $this->getMock('Magento\Catalog\Model\Product', array(), array(), '', false);
         $logger = $this->getMock('Magento\Logger', array(), array(), '', false);
         $productFactoryMock = $this->getMock('Magento\Catalog\Model\ProductFactory', array(), array(), '', false);
         $this->catalogProductLink = $this->getMock('\Magento\GroupedProduct\Model\Resource\Product\Link',
             array(), array(), '', false);
-        $this->productStatusMock = $this->getMock('\Magento\Catalog\Model\Product\Status',
+        $this->productStatusMock = $this->getMock('\Magento\Catalog\Model\Product\Attribute\Source\Status',
             array(), array(), '', false);
         $this->_model = $this->objectHelper->getObject('Magento\GroupedProduct\Model\Product\Type\Grouped', array(
             'eventManager' => $eventManager,
@@ -139,8 +139,8 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
     public function testGetStatusFiltersNoData()
     {
         $result = array(
-            \Magento\Catalog\Model\Product\Status::STATUS_ENABLED,
-            \Magento\Catalog\Model\Product\Status::STATUS_DISABLED
+            \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED,
+            \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED
         );
         $this->product->expects($this->once())->method('hasData')->will($this->returnValue(false));
         $this->assertEquals($result, $this->_model->getStatusFilters($this->product));
@@ -149,8 +149,8 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
     public function testGetStatusFiltersWithData()
     {
         $result = array(
-            \Magento\Catalog\Model\Product\Status::STATUS_ENABLED,
-            \Magento\Catalog\Model\Product\Status::STATUS_DISABLED
+            \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED,
+            \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED
         );
         $this->product->expects($this->once())->method('hasData')->will($this->returnValue(true));
         $this->product->expects($this->once())->method('getData')->will($this->returnValue($result));

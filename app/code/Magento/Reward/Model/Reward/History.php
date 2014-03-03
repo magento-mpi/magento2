@@ -61,28 +61,36 @@ class History extends \Magento\Core\Model\AbstractModel
     protected $_rewardData = null;
 
     /**
+     * Core model store manager interface
+     *
      * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
+     * Reward model
+     *
      * @var \Magento\Reward\Model\Reward
      */
     protected $_reward;
 
     /**
+     * Date time formatter
+     *
      * @var \Magento\Stdlib\DateTime
      */
     protected $dateTime;
 
     /**
+     * Reward rate model
+     *
      * @var Rate
      */
     protected $rewardRate;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Reward\Helper\Data $rewardData
      * @param \Magento\Reward\Model\Resource\Reward\History $resource
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -93,8 +101,8 @@ class History extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Reward\Helper\Data $rewardData,
         \Magento\Reward\Model\Resource\Reward\History $resource,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
@@ -114,6 +122,8 @@ class History extends \Magento\Core\Model\AbstractModel
 
     /**
      * Internal constructor
+     *
+     * @return void
      */
     protected function _construct()
     {

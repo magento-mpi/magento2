@@ -50,6 +50,7 @@ class Proxy
      *
      * @param array $data
      * @param string $scope
+     * @return void
      */
     public function setData(array $data, $scope)
     {
@@ -120,6 +121,8 @@ class Proxy
     /**
      * Check whether element should be displayed
      *
+     * @param string $websiteCode
+     * @param string $storeCode
      * @return bool
      */
     public function isVisible($websiteCode = '', $storeCode = '')
@@ -182,6 +185,7 @@ class Proxy
      * Populate form fieldset with group data
      *
      * @param \Magento\Data\Form\Element\Fieldset $fieldset
+     * @return void
      */
     public function populateFieldset(\Magento\Data\Form\Element\Fieldset $fieldset)
     {

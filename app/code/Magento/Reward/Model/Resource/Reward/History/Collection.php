@@ -7,17 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Reward\Model\Resource\Reward\History;
 
 /**
  * Reward history collection
  *
- * @category    Magento
- * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Reward\Model\Resource\Reward\History;
-
 class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
@@ -28,16 +24,22 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     protected $_expiryConfig     = array();
 
     /**
+     * Core model locale
+     *
      * @var \Magento\Core\Model\Locale
      */
     protected $_locale;
 
     /**
+     * Customer factory
+     *
      * @var \Magento\Customer\Model\CustomerFactory
      */
     protected $_customerFactory;
 
     /**
+     * Date time formatter
+     *
      * @var \Magento\Stdlib\DateTime
      */
     protected $dateTime;
@@ -74,6 +76,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Internal constructor
      *
+     * @return void
      */
     protected function _construct()
     {

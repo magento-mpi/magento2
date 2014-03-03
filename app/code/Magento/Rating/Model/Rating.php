@@ -45,8 +45,8 @@ class Rating extends \Magento\Core\Model\AbstractModel
     protected $_ratingCollectionF;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Rating\Model\Rating\OptionFactory $ratingOptionFactory
      * @param \Magento\Rating\Model\Resource\Rating\Option\CollectionFactory $ratingCollectionF
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
@@ -54,8 +54,8 @@ class Rating extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Rating\Model\Rating\OptionFactory $ratingOptionFactory,
         \Magento\Rating\Model\Resource\Rating\Option\CollectionFactory $ratingCollectionF,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,

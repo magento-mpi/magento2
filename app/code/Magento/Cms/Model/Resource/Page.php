@@ -8,16 +8,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Cms\Model\Resource;
 
 /**
  * Cms page mysql resource
- *
- * @category    Magento
- * @package     Magento_Cms
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Cms\Model\Resource;
-
 class Page extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
@@ -67,6 +62,7 @@ class Page extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Initialize resource model
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -77,13 +73,11 @@ class Page extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Process page data before deleting
      *
      * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Cms\Model\Resource\Page
+     * @return $this
      */
     protected function _beforeDelete(\Magento\Core\Model\AbstractModel $object)
     {
-        $condition = array(
-            'page_id = ?'     => (int) $object->getId(),
-        );
+        $condition = array('page_id = ?' => (int) $object->getId());
 
         $this->_getWriteAdapter()->delete($this->getTable('cms_page_store'), $condition);
 
@@ -94,7 +88,7 @@ class Page extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Process page data before saving
      *
      * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Cms\Model\Resource\Page
+     * @return $this
      * @throws \Magento\Core\Exception
      */
     protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
@@ -136,7 +130,7 @@ class Page extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Assign page to store views
      *
      * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Cms\Model\Resource\Page
+     * @return $this
      */
     protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
     {
@@ -180,7 +174,7 @@ class Page extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param \Magento\Core\Model\AbstractModel $object
      * @param mixed $value
      * @param string $field
-     * @return \Magento\Cms\Model\Resource\Page
+     * @return $this
      */
     public function load(\Magento\Core\Model\AbstractModel $object, $value, $field = null)
     {
@@ -195,7 +189,7 @@ class Page extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Perform operations after object load
      *
      * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Cms\Model\Resource\Page
+     * @return $this
      */
     protected function _afterLoad(\Magento\Core\Model\AbstractModel $object)
     {
@@ -292,8 +286,6 @@ class Page extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      *  Check whether page identifier is numeric
      *
-     * @date Wed Mar 26 18:12:28 EET 2008
-     *
      * @param \Magento\Core\Model\AbstractModel $object
      * @return bool
      */
@@ -305,8 +297,8 @@ class Page extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      *  Check whether page identifier is valid
      *
-     *  @param    \Magento\Core\Model\AbstractModel $object
-     *  @return   bool
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return bool
      */
     protected function isValidPageIdentifier(\Magento\Core\Model\AbstractModel $object)
     {
@@ -402,7 +394,7 @@ class Page extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Get store ids to which specified item is assigned
      *
-     * @param int $id
+     * @param int $pageId
      * @return array
      */
     public function lookupStoreIds($pageId)
@@ -411,7 +403,7 @@ class Page extends \Magento\Core\Model\Resource\Db\AbstractDb
 
         $select  = $adapter->select()
             ->from($this->getTable('cms_page_store'), 'store_id')
-            ->where('page_id = ?',(int)$pageId);
+            ->where('page_id = ?', (int)$pageId);
 
         return $adapter->fetchCol($select);
     }
@@ -420,7 +412,7 @@ class Page extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Set store model
      *
      * @param \Magento\Core\Model\Store $store
-     * @return \Magento\Cms\Model\Resource\Page
+     * @return $this
      */
     public function setStore($store)
     {

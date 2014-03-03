@@ -13,8 +13,6 @@ namespace Magento\Rma\Block\Adminhtml\Rma\Item\Attribute\Edit;
 /**
  * RMA Items Attributes Edit JavaScript Block
  *
- * @category    Magento
- * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Js
@@ -28,6 +26,8 @@ class Js
     protected $_attributeHelper = null;
 
     /**
+     * Json encoder interface
+     *
      * @var \Magento\Json\EncoderInterface
      */
     protected $_jsonEncoder;

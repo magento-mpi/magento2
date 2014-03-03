@@ -85,7 +85,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
 
         // Get addresses
         /** @var $customers \Magento\Customer\Model\Customer[] */
-        $customers = $objectManager->get('Magento\Core\Model\Registry')
+        $customers = $objectManager->get('Magento\Registry')
             ->registry('_fixture/Magento_ImportExport_Customers_Array');
         foreach ($customers as $customer) {
             /** @var $address \Magento\Customer\Model\Address */
@@ -158,7 +158,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
 
         // Get expected address count
         /** @var $customers \Magento\Customer\Model\Customer[] */
-        $customers = $objectManager->get('Magento\Core\Model\Registry')
+        $customers = $objectManager->get('Magento\Registry')
             ->registry('_fixture/Magento_ImportExport_Customers_Array');
         $expectedCount = 0;
         foreach ($customers as $customer) {

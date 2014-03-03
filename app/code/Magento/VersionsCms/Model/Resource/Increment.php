@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\VersionsCms\Model\Resource;
 
 /**
  * Increment resource model
@@ -16,12 +16,12 @@
  * @package     Magento_VersionsCms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\VersionsCms\Model\Resource;
-
 class Increment extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Resource initialization
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -72,7 +72,7 @@ class Increment extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param int $type
      * @param int $node
      * @param int $level
-     * @return \Magento\VersionsCms\Model\Resource\Increment
+     * @return $this
      */
     public function cleanIncrementRecord($type, $node, $level)
     {

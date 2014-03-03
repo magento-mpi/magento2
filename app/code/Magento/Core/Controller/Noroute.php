@@ -15,6 +15,8 @@ class Noroute extends Action
 {
     /**
      * Noroute application handler
+     *
+     * @return void
      */
     public function indexAction()
     {

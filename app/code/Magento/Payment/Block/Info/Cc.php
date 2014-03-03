@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Payment\Block\Info;
 
 /**
  * Credit card generic payment info
  */
-namespace Magento\Payment\Block\Info;
-
 class Cc extends \Magento\Payment\Block\Info
 {
     /**

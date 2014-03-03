@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model\Resource\Layout\Link;
 
 /**
@@ -67,7 +66,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Join with layout update table
      *
      * @param array $fields
-     * @return \Magento\Core\Model\Resource\Layout\Link\Collection
+     * @return $this
      */
     protected function _joinWithUpdate($fields = array())
     {
@@ -89,7 +88,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Filter by temporary flag
      *
      * @param bool $isTemporary
-     * @return \Magento\Core\Model\Resource\Layout\Link\Collection
+     * @return $this
      */
     public function addTemporaryFilter($isTemporary)
     {
@@ -98,10 +97,10 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     }
 
     /**
-     * Get links for layouts that are older then specified number of days
+     * Get links for layouts that are older than specified number of days
      *
-     * @param $days
-     * @return \Magento\Core\Model\Resource\Layout\Link\Collection
+     * @param string $days
+     * @return $this
      */
     public function addUpdatedDaysBeforeFilter($days)
     {

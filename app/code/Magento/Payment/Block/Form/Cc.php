@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Payment\Block\Form;
 
 class Cc extends \Magento\Payment\Block\Form
@@ -93,13 +92,13 @@ class Cc extends \Magento\Payment\Block\Form
     /**
      * Retrieve has verification configuration
      *
-     * @return boolean
+     * @return bool
      */
     public function hasVerification()
     {
         if ($this->getMethod()) {
             $configData = $this->getMethod()->getConfigData('useccv');
-            if(is_null($configData)){
+            if (is_null($configData)) {
                 return true;
             }
             return (bool) $configData;
@@ -107,9 +106,11 @@ class Cc extends \Magento\Payment\Block\Form
         return true;
     }
 
-    /*
-    * Whether switch/solo card type available
-    */
+    /**
+     * Whether switch/solo card type available
+     *
+     * @return bool
+     */
     public function hasSsCardType()
     {
         $availableTypes = explode(',', $this->getMethod()->getConfigData('cctypes'));
@@ -120,11 +121,12 @@ class Cc extends \Magento\Payment\Block\Form
         return false;
     }
 
-    /*
-    * solo/switch card start year
-    * @return array
-    */
-     public function getSsStartYears()
+    /**
+     * Solo/switch card start year
+     *
+     * @return array
+     */
+    public function getSsStartYears()
     {
         $years = array();
         $first = date("Y");

@@ -81,6 +81,8 @@ class Service extends \Magento\Object
     protected $_validationState;
 
     /**
+     * Url prefix
+     *
      * @var string
      */
     protected $_urlPrefix;
@@ -334,7 +336,7 @@ class Service extends \Magento\Object
     /**
      * Reset validation state and drop api object
      *
-     * @return \Magento\Centinel\Model\Service
+     * @return $this
      */
     public function reset()
     {

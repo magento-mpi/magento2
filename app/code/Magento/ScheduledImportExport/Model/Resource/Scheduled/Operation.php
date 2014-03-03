@@ -8,6 +8,8 @@
  * @license     {license_link}
  */
 
+namespace Magento\ScheduledImportExport\Model\Resource\Scheduled;
+
 /**
  * Operation resource model
  *
@@ -15,13 +17,12 @@
  * @package     Magento_ScheduledImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\ScheduledImportExport\Model\Resource\Scheduled;
-
 class Operation extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Initialize resource operation model
      *
+     * @return void
      */
     protected function _construct()
     {

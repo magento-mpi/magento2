@@ -55,7 +55,7 @@ class Group extends \Magento\Core\Model\AbstractModel
     /**
      * Delete groups
      *
-     * @return \Magento\Eav\Model\Entity\Attribute\Group
+     * @return $this
      */
     public function deleteGroups()
     {
@@ -65,7 +65,7 @@ class Group extends \Magento\Core\Model\AbstractModel
     /**
      * Processing object before save data
      *
-     * @return \Magento\Eav\Model\Entity\Attribute\Group
+     * @return $this
      */
     protected function _beforeSave()
     {

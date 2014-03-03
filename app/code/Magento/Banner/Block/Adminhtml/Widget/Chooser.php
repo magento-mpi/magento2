@@ -17,6 +17,8 @@
  */
 namespace Magento\Banner\Block\Adminhtml\Widget;
 
+use Magento\Backend\Block\Widget\Grid\Column;
+
 class Chooser extends \Magento\Banner\Block\Adminhtml\Banner\Grid
 {
     /**
@@ -62,7 +64,7 @@ class Chooser extends \Magento\Banner\Block\Adminhtml\Banner\Grid
     /**
      * Block construction, prepare grid params
      *
-     * @param array $arguments Object data
+     * @return void
      */
     public function _construct()
     {
@@ -263,7 +265,7 @@ class Chooser extends \Magento\Banner\Block\Adminhtml\Banner\Grid
     /**
      * Create grid columns
      *
-     * @return \Magento\Banner\Block\Adminhtml\Widget\Chooser
+     * @return $this
      */
     protected function _prepareColumns()
     {
@@ -292,10 +294,11 @@ class Chooser extends \Magento\Banner\Block\Adminhtml\Banner\Grid
         return parent::_prepareColumns();
     }
 
-    /* Set custom filter for in banner flag
+    /**
+     * Set custom filter for in banner flag
      *
-     * @param string $column
-     * @return \Magento\Banner\Block\Adminhtml\Widget\Chooser
+     * @param Column $column
+     * @return $this
      */
     protected function _addColumnFilterToCollection($column)
     {
@@ -318,9 +321,9 @@ class Chooser extends \Magento\Banner\Block\Adminhtml\Banner\Grid
     }
 
     /**
-     * Disable massaction functioanality
+     * Disable mass action functionality
      *
-     * @return \Magento\Banner\Block\Adminhtml\Widget\Chooser
+     * @return $this
      */
     protected function _prepareMassaction()
     {
@@ -346,7 +349,7 @@ class Chooser extends \Magento\Banner\Block\Adminhtml\Banner\Grid
      * Setter
      *
      * @param array $selectedBanners
-     * @return \Magento\Banner\Block\Adminhtml\Widget\Chooser
+     * @return $this
      */
     public function setSelectedBanners($selectedBanners)
     {
@@ -360,7 +363,7 @@ class Chooser extends \Magento\Banner\Block\Adminhtml\Banner\Grid
     /**
      * Set banners' positions of saved banners
      *
-     * @return \Magento\Banner\Block\Adminhtml\Widget\Chooser
+     * @return $this
      */
     protected function _prepareCollection()
     {

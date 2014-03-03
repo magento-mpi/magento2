@@ -7,22 +7,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
-/**
- * Resource authorizenet debug collection model
- *
- * @category    Magento
- * @package     Magento_Authorizenet
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Authorizenet\Model\Resource\Authorizenet\Debug;
 
+/**
+ * Resource Authorize.net debug collection model
+ *
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
 class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Resource initialization
      *
+     * @return void
      */
     protected function _construct()
     {

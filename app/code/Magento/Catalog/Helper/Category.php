@@ -7,15 +7,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Helper;
+
+use Magento\App\Helper\AbstractHelper;
+use Magento\Catalog\Model\Category as ModelCategory;
+use Magento\Core\Model\Store;
 
 /**
  * Catalog category helper
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Category extends \Magento\App\Helper\AbstractHelper
+class Category extends AbstractHelper
 {
     const XML_PATH_CATEGORY_URL_SUFFIX          = 'catalog/seo/category_url_suffix';
     const XML_PATH_USE_CATEGORY_CANONICAL_TAG   = 'catalog/seo/category_canonical_tag';
@@ -87,9 +90,10 @@ class Category extends \Magento\App\Helper\AbstractHelper
     /**
      * Retrieve current store categories
      *
-     * @param   boolean|string $sorted
-     * @param   boolean $asCollection
-     * @return  \Magento\Data\Tree\Node\Collection|\Magento\Catalog\Model\Resource\Category\Collection|array
+     * @param bool|string $sorted
+     * @param bool $asCollection
+     * @param bool $toLoad
+     * @return \Magento\Data\Tree\Node\Collection|\Magento\Catalog\Model\Resource\Category\Collection|array
      */
     public function getStoreCategories($sorted=false, $asCollection=false, $toLoad=true)
     {
@@ -103,7 +107,7 @@ class Category extends \Magento\App\Helper\AbstractHelper
          * Check if parent node of the store still exists
          */
         $category = $this->_categoryFactory->create();
-        /* @var $category \Magento\Catalog\Model\Category */
+        /* @var $category ModelCategory */
         if (!$category->checkId($parent)) {
             if ($asCollection) {
                 return $this->_dataCollectionFactory->create();
@@ -121,12 +125,12 @@ class Category extends \Magento\App\Helper\AbstractHelper
     /**
      * Retrieve category url
      *
-     * @param   \Magento\Catalog\Model\Category $category
-     * @return  string
+     * @param ModelCategory $category
+     * @return string
      */
     public function getCategoryUrl($category)
     {
-        if ($category instanceof \Magento\Catalog\Model\Category) {
+        if ($category instanceof ModelCategory) {
             return $category->getUrl();
         }
         return $this->_categoryFactory->create()
@@ -137,8 +141,8 @@ class Category extends \Magento\App\Helper\AbstractHelper
     /**
      * Check if a category can be shown
      *
-     * @param  \Magento\Catalog\Model\Category|int $category
-     * @return boolean
+     * @param ModelCategory|int $category
+     * @return bool
      */
     public function canShow($category)
     {
@@ -160,8 +164,8 @@ class Category extends \Magento\App\Helper\AbstractHelper
         return true;
     }
 
-/**
-     * Retrieve category rewrite sufix for store
+    /**
+     * Retrieve category rewrite suffix for store
      *
      * @param int $storeId
      * @return string
@@ -181,12 +185,11 @@ class Category extends \Magento\App\Helper\AbstractHelper
     }
 
     /**
-     * Retrieve clear url for category as parrent
+     * Retrieve clear url for category as parent
      *
-     * @param string $url
+     * @param string $urlPath
      * @param bool $slash
      * @param int $storeId
-     *
      * @return string
      */
     public function getCategoryUrlPath($urlPath, $slash = false, $storeId = null)
@@ -210,7 +213,7 @@ class Category extends \Magento\App\Helper\AbstractHelper
     /**
      * Check if <link rel="canonical"> can be used for category
      *
-     * @param $store
+     * @param null|string|bool|int|Store $store
      * @return bool
      */
     public function canUseCanonicalTag($store = null)

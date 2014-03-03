@@ -7,16 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Rma\Model\Resource\Item\Attribute;
 
 /**
  * RMA entity resource model
  *
- * @category   Magento
- * @package    Magento_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Rma\Model\Resource\Item\Attribute;
-
 class Collection extends \Magento\Eav\Model\Resource\Attribute\Collection
 {
     /**

@@ -132,6 +132,8 @@ class Inline implements \Magento\Translate\InlineInterface
 
     /**
      * Disable inline translation functionality
+     *
+     * @return void
      */
     public function disable()
     {
@@ -141,7 +143,7 @@ class Inline implements \Magento\Translate\InlineInterface
     /**
      * Replace translation templates with HTML fragments
      *
-     * @param array|string $body
+     * @param array|string &$body
      * @param bool $isJson
      * @return $this
      */
@@ -169,8 +171,8 @@ class Inline implements \Magento\Translate\InlineInterface
     /**
      * Additional translation mode html attribute is not needed for base inline translation.
      *
-     * @param mixed|string $tagName
-     * @return string
+     * @param mixed|string|null $tagName
+     * @return null
      */
     public function getAdditionalHtmlAttribute($tagName = null)
     {
@@ -179,6 +181,9 @@ class Inline implements \Magento\Translate\InlineInterface
 
     /**
      * Create block to render script and html with added inline translation content.
+     *
+     * @param string $content
+     * @return void
      */
     protected function _insertInlineScriptsHtml($content)
     {
@@ -214,7 +219,7 @@ class Inline implements \Magento\Translate\InlineInterface
     /**
      * Strip inline translations from text
      *
-     * @param array|string $body
+     * @param array|string &$body
      * @return $this
      */
     protected function _stripInlineTranslations(&$body)

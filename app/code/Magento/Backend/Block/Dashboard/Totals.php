@@ -22,6 +22,9 @@ use Magento\Backend\Block\Widget;
 
 class Totals extends \Magento\Backend\Block\Dashboard\Bar
 {
+    /**
+     * @var string
+     */
     protected $_template = 'dashboard/totalbar.phtml';
 
     /**
@@ -30,9 +33,9 @@ class Totals extends \Magento\Backend\Block\Dashboard\Bar
     protected $_moduleManager;
 
     /**
-     * @param \Magento\Module\Manager $moduleManager
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Reports\Model\Resource\Order\CollectionFactory $collectionFactory
+     * @param \Magento\Module\Manager $moduleManager
      * @param array $data
      */
     public function __construct(
@@ -45,6 +48,9 @@ class Totals extends \Magento\Backend\Block\Dashboard\Bar
         parent::__construct($context, $collectionFactory, $data);
     }
 
+    /**
+     * @return $this|void
+     */
     protected function _prepareLayout()
     {
         if (!$this->_moduleManager->isEnabled('Magento_Reports')) {

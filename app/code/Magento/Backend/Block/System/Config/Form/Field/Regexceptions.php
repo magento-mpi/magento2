@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Block\System\Config\Form\Field;
 
 /**
  * Backend system config array field renderer
  */
-namespace Magento\Backend\Block\System\Config\Form\Field;
-
 class Regexceptions
     extends \Magento\Backend\Block\System\Config\Form\Field\FieldArray\AbstractFieldArray
 {
@@ -45,6 +44,8 @@ class Regexceptions
 
     /**
      * Initialise form fields
+     *
+     * @return void
      */
     protected function _construct()
     {

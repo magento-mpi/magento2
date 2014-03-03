@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Log\Model\Resource;
 
 /**
  * Log aggregation resource model 
@@ -16,13 +16,12 @@
  * @package     Magento_Log
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Log\Model\Resource;
-
 class Aggregation extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Resource initialization
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -91,6 +90,7 @@ class Aggregation extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param array $data
      * @param int $id
+     * @return void
      */
     public function saveLog($data, $id = null)
     {

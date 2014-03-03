@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion;
 
 /**
  * "Add by SKU" accordion
@@ -18,12 +19,12 @@
  * @package    Magento_AdvancedCheckout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion;
-
 class Sku extends \Magento\AdvancedCheckout\Block\Adminhtml\Sku\AbstractSku
 {
     /**
      * Define accordion header
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -83,6 +84,6 @@ class Sku extends \Magento\AdvancedCheckout\Block\Adminhtml\Sku\AbstractSku
      */
     public function getContextSpecificJs()
     {
-        return 'Event.observe(window, \'load\', initSku);';
+        return 'jQuery(initSku);';
     }
 }

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Authorizenet\Model\Authorizenet;
 
 /**
  * @method \Magento\Authorizenet\Model\Resource\Authorizenet\Debug _getResource()
@@ -25,14 +25,13 @@
  * @method string getResultDump()
  * @method \Magento\Authorizenet\Model\Authorizenet\Debug setResultDump(string $value)
  *
- * @category    Magento
- * @package     Magento_Authorizenet
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Authorizenet\Model\Authorizenet;
-
 class Debug extends \Magento\Core\Model\AbstractModel
 {
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_init('Magento\Authorizenet\Model\Resource\Authorizenet\Debug');

@@ -118,6 +118,7 @@ class Survey
      * Save survey viewed flag in core flag
      *
      * @param boolean $viewed
+     * @return void
      */
     public function saveSurveyViewed($viewed)
     {

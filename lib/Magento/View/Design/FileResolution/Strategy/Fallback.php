@@ -22,21 +22,29 @@ use Magento\Filesystem\Directory\Read;
 class Fallback implements FileInterface, LocaleInterface, ViewInterface
 {
     /**
+     * Fallback factory
+     *
      * @var Factory
      */
     protected $fallbackFactory;
 
     /**
+     * Rule file
+     *
      * @var RuleInterface
      */
     protected $ruleFile;
 
     /**
+     * Rule locale file
+     *
      * @var RuleInterface
      */
     protected $ruleLocaleFile;
 
     /**
+     * Rule view file
+     *
      * @var RuleInterface
      */
     protected $ruleViewFile;
@@ -49,6 +57,8 @@ class Fallback implements FileInterface, LocaleInterface, ViewInterface
     protected $rootDirectory;
 
     /**
+     * Constructor
+     *
      * @param Filesystem $filesystem
      * @param Factory $fallbackFactory
      */

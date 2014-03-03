@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Index\Model\Process;
 
 /**
  * Process file entity
  */
-namespace Magento\Index\Model\Process;
-
 class FileFactory
 {
     /**

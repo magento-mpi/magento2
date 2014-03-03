@@ -11,7 +11,7 @@
 
 namespace Magento\Directory\Model\Config\Source;
 
-class Country implements \Magento\Core\Model\Option\ArrayInterface
+class Country implements \Magento\Option\ArrayInterface
 {
     /**
      * Countries
@@ -31,7 +31,7 @@ class Country implements \Magento\Core\Model\Option\ArrayInterface
     /**
      * Options array
      *
-     * @var type
+     * @var array
      */
     protected $_options;
 

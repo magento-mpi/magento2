@@ -18,8 +18,14 @@ namespace Magento\Tax\Block\Adminhtml\Rate;
 
 class Title extends \Magento\View\Element\Template
 {
+    /**
+     * @var array
+     */
     protected $_titles;
 
+    /**
+     * @var string
+     */
     protected $_template = 'rate/title.phtml';
 
     /**
@@ -49,6 +55,9 @@ class Title extends \Magento\View\Element\Template
         parent::__construct($context, $data);
     }
 
+    /**
+     * @return array
+     */
     public function getTitles()
     {
         if (is_null($this->_titles)) {
@@ -66,6 +75,9 @@ class Title extends \Magento\View\Element\Template
         return $this->_titles;
     }
 
+    /**
+     * @return mixed
+     */
     public function getStores()
     {
         $stores = $this->getData('stores');

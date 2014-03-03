@@ -10,13 +10,15 @@
 
 namespace Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Promotions;
 
+use Magento\Backend\Block\Widget\Grid\Column;
+
 class Catalogrule
   extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_registry = null;
 
@@ -24,14 +26,14 @@ class Catalogrule
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\CatalogRule\Model\Resource\Rule\Collection $ruleCollection
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\CatalogRule\Model\Resource\Rule\Collection $ruleCollection,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
         $this->_registry = $registry;
@@ -42,6 +44,7 @@ class Catalogrule
     /**
      * Initialize grid, set defaults
      *
+     * @return void
      */
     public function _construct()
     {
@@ -60,8 +63,8 @@ class Catalogrule
     /**
      * Set custom filter for in banner catalog flag
      *
-     * @param string $column
-     * @return \Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Promotions\Salesrule
+     * @param Column $column
+     * @return $this
      */
     protected function _addColumnFilterToCollection($column)
     {
@@ -86,7 +89,7 @@ class Catalogrule
     /**
      * Create grid columns
      *
-     * @return \Magento\Backend\Block\Widget\Grid\Extended
+     * @return $this
      */
     protected function _prepareColumns()
     {
@@ -147,12 +150,16 @@ class Catalogrule
     /**
      * Ajax grid URL getter
      *
+     * @return string
      */
     public function getGridUrl()
     {
         return $this->getUrl('adminhtml/*/catalogRuleGrid', array('_current'=>true));
     }
 
+    /**
+     * @return array
+     */
     protected function _getSelectedRules()
     {
         $rules = $this->getSelectedCatalogRules();

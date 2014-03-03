@@ -40,6 +40,8 @@ class Attribute extends \Magento\Eav\Model\Attribute
 
     /**
      * Init resource model
+     *
+     * @return void
      */
     protected function _construct()
     {

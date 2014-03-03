@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Catalog\Controller\Adminhtml\Product\Action;
 
+use Magento\Backend\App\Action;
 
 /**
  * Adminhtml catalog product action attribute update controller
@@ -16,12 +18,13 @@
  * @package    Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Controller\Adminhtml\Product\Action;
-
-use Magento\Backend\App\Action;
-
-class Attribute extends \Magento\Backend\App\Action
+class Attribute extends Action
 {
+    /**
+     * @var \Magento\Catalog\Model\Indexer\Product\Flat\Processor
+     */
+    protected $_productFlatIndexerProcessor;
+
     /**
      * @var \Magento\Catalog\Model\Indexer\Product\Price\Processor
      */
@@ -37,21 +40,27 @@ class Attribute extends \Magento\Backend\App\Action
     /**
      * @param Action\Context $context
      * @param \Magento\Catalog\Helper\Product\Edit\Action\Attribute $helper
+     * @param \Magento\Catalog\Model\Indexer\Product\Flat\Processor $productFlatIndexerProcessor
      * @param \Magento\Catalog\Model\Indexer\Product\Price\Processor $productPriceIndexerProcessor
      * @param \Magento\Catalog\Helper\Product $catalogProduct
      */
     public function __construct(
         Action\Context $context,
         \Magento\Catalog\Helper\Product\Edit\Action\Attribute $helper,
+        \Magento\Catalog\Model\Indexer\Product\Flat\Processor $productFlatIndexerProcessor,
         \Magento\Catalog\Model\Indexer\Product\Price\Processor $productPriceIndexerProcessor,
         \Magento\Catalog\Helper\Product $catalogProduct
     ) {
         parent::__construct($context);
         $this->_helper = $helper;
+        $this->_productFlatIndexerProcessor = $productFlatIndexerProcessor;
         $this->_productPriceIndexerProcessor = $productPriceIndexerProcessor;
         $this->_catalogProduct = $catalogProduct;
     }
 
+    /**
+     * @return void
+     */
     public function editAction()
     {
         if (!$this->_validateProducts()) {
@@ -64,6 +73,8 @@ class Attribute extends \Magento\Backend\App\Action
 
     /**
      * Update product attributes
+     *
+     * @return void
      */
     public function saveAction()
     {
@@ -87,8 +98,8 @@ class Attribute extends \Magento\Backend\App\Action
 
         try {
             if ($attributesData) {
-                $dateFormat = $this->_objectManager->get('Magento\Core\Model\LocaleInterface')
-                    ->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
+                $dateFormat = $this->_objectManager->get('Magento\LocaleInterface')
+                    ->getDateFormat(\Magento\LocaleInterface::FORMAT_TYPE_SHORT);
                 $storeId    = $this->_helper->getSelectedStoreId();
 
                 foreach ($attributesData as $attributeCode => $value) {
@@ -185,15 +196,15 @@ class Attribute extends \Magento\Backend\App\Action
                 __('A total of %1 record(s) were updated.', count($this->_helper->getProductIds()))
             );
 
+            $this->_productFlatIndexerProcessor->reindexList($this->_helper->getProductIds());
+
             if ($this->_catalogProduct->isDataForPriceIndexerWasChanged($attributesData)
                 || !empty($websiteRemoveData) || !empty($websiteAddData)) {
                 $this->_productPriceIndexerProcessor->reindexList($this->_helper->getProductIds());
             }
-        }
-        catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->messageManager->addError($e->getMessage());
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             $this->messageManager->addException(
                 $e,
                 __('Something went wrong while updating the product(s) attributes.')
@@ -226,6 +237,9 @@ class Attribute extends \Magento\Backend\App\Action
         return !$error;
     }
 
+    /**
+     * @return bool
+     */
     protected function _isAllowed()
     {
         return $this->_authorization->isAllowed('Magento_Catalog::update_attributes');
@@ -234,6 +248,7 @@ class Attribute extends \Magento\Backend\App\Action
     /**
      * Attributes validation action
      *
+     * @return void
      */
     public function validateAction()
     {

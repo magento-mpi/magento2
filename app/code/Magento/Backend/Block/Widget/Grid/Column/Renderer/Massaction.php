@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Backend\Block\Widget\Grid\Column\Renderer;
 
 /**
  * Grid widget column renderer massaction
@@ -16,11 +16,12 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Backend\Block\Widget\Grid\Column\Renderer;
-
 class Massaction
     extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Checkbox
 {
+    /**
+     * @var int
+     */
     protected $_defaultWidth = 20;
 
     /**

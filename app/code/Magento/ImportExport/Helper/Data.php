@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ImportExport\Helper;
 
 /**
  * ImportExport data helper
@@ -15,8 +16,6 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\ImportExport\Helper;
-
 class Data extends \Magento\Core\Helper\Data
 {
     /**#@+
@@ -79,7 +78,7 @@ class Data extends \Magento\Core\Helper\Data
     /**
      * Get valid path masks to files for importing/exporting
      *
-     * @return array
+     * @return string[]
      */
     public function getLocalValidPaths()
     {

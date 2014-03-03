@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Payment\Model\Recurring\Profile;
 
 /**
  * Recurring profile gateway management interface
  */
-namespace Magento\Payment\Model\Recurring\Profile;
-
 interface MethodInterface
 {
     /**

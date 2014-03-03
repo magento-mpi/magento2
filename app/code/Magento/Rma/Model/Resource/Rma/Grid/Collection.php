@@ -36,6 +36,7 @@ class Collection extends \Magento\Rma\Model\Resource\Rma\Collection
     /**
      * Model initialization
      *
+     * @return void
      */
     protected function _construct()
     {

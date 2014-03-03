@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Block\System\Store\Delete;
 
 /**
  * Adminhtml store delete group block
@@ -15,11 +16,11 @@
  * @package    Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Backend\Block\System\Store\Delete;
-
 class Website extends \Magento\Backend\Block\Template
 {
-
+    /**
+     * {@inheritdoc}
+     */
     protected function _prepareLayout()
     {
         $itemId = $this->getRequest()->getParam('website_id');

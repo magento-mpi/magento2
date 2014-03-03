@@ -68,7 +68,7 @@ abstract class AbstractReport extends \Magento\Backend\App\Action
     /**
      * Add report breadcrumbs
      *
-     * @return \Magento\Reports\Controller\Adminhtml\Report\AbstractReport
+     * @return $this
      */
     public function _initAction()
     {
@@ -81,7 +81,7 @@ abstract class AbstractReport extends \Magento\Backend\App\Action
      * Report action init operations
      *
      * @param array|\Magento\Object $blocks
-     * @return \Magento\Reports\Controller\Adminhtml\Report\AbstractReport
+     * @return $this
      */
     public function _initReportAction($blocks)
     {
@@ -118,13 +118,13 @@ abstract class AbstractReport extends \Magento\Backend\App\Action
      *
      * @param string $flagCode
      * @param string $refreshCode
-     * @return \Magento\Reports\Controller\Adminhtml\Report\AbstractReport
+     * @return $this
      */
     protected function _showLastExecutionTime($flagCode, $refreshCode)
     {
         $flag = $this->_objectManager->create('Magento\Reports\Model\Flag')->setReportFlagCode($flagCode)->loadSelf();
         $updatedAt = ($flag->hasData())
-            ? $this->_objectManager->get('Magento\Core\Model\LocaleInterface')->storeDate(
+            ? $this->_objectManager->get('Magento\LocaleInterface')->storeDate(
                 0, new \Zend_Date($flag->getLastUpdate(), \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT), true
             )
             : 'undefined';

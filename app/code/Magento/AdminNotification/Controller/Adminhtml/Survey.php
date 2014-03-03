@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\AdminNotification\Controller\Adminhtml;
 
 /**
  * Adminhtml Survey Action
@@ -16,13 +16,12 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\AdminNotification\Controller\Adminhtml;
-
 class Survey extends \Magento\Backend\App\Action
 {
     /**
      * Index Action
      *
+     * @return void
      */
     public function indexAction()
     {
@@ -35,7 +34,7 @@ class Survey extends \Magento\Backend\App\Action
     /**
      * Check if user has enough privileges
      *
-     * @return boolean
+     * @return bool
      */
     protected function _isAllowed()
     {

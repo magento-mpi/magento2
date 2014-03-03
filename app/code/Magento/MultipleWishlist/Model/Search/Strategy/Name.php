@@ -53,6 +53,7 @@ class Name implements \Magento\MultipleWishlist\Model\Search\Strategy\StrategyIn
      * Validate search params
      *
      * @param array $params
+     * @return void
      * @throws \InvalidArgumentException
      */
     public function setSearchParams(array $params)

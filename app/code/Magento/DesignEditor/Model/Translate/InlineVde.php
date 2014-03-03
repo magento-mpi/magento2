@@ -120,7 +120,7 @@ class InlineVde implements \Magento\Translate\InlineInterface
     /**
      * Replace VDE specific translation templates with HTML fragments
      *
-     * @param string[]|string $body
+     * @param string[]|string &$body
      * @param bool $isJson
      * @return $this
      */
@@ -153,6 +153,7 @@ class InlineVde implements \Magento\Translate\InlineInterface
     /**
      * Create block to render script and html with added inline translation content specific for vde.
      *
+     * @param string $content
      * @return void
      */
     private function _insertInlineScriptsHtml($content)

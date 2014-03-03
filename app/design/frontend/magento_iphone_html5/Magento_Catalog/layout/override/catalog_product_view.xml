@@ -13,18 +13,6 @@
             <argument name="template" xsi:type="string">1column.phtml</argument>
         </action>
     </referenceBlock>
-    <referenceBlock name="head">
-        <block class="Magento\Theme\Block\Html\Head\Script" name="varien-product-js">
-            <arguments>
-                <argument name="file" xsi:type="string">varien/product.js</argument>
-            </arguments>
-        </block>
-        <block class="Magento\Theme\Block\Html\Head\Script" name="varien-configurable-js">
-            <arguments>
-                <argument name="file" xsi:type="string">varien/configurable.js</argument>
-            </arguments>
-        </block>
-    </referenceBlock>
     <update handle="page_calendar"/>
     <referenceContainer name="content">
         <remove name="breadcrumbs"/>
@@ -60,7 +48,9 @@
                 </action>
             </block>
             <block class="Magento\Catalog\Block\Product\View" name="product.info.addto" as="addto" template="product/view/addto.phtml"/>
-            <block class="Magento\Catalog\Block\Product\View" name="product.info.addtocart" as="addtocart" template="product/view/addtocart.phtml"/>
+            <block class="Magento\Catalog\Block\Product\View" name="product.info.addtocart" as="addtocart" template="product/view/addtocart.phtml">
+                <block class="Magento\Catalog\Block\ShortcutButtons\InCatalog" name="addtocart.shortcut.buttons" />
+            </block>
             <container name="product.info.extrahint" as="extrahint" label="Product View Extra Hint"/>
             <block class="Magento\Catalog\Block\Product\ProductList\Related" name="catalog.product.related" as="relatedProducts" template="product/list/related.phtml"/>
             <block class="Magento\View\Element\Template" name="product.info.container" as="options_container">

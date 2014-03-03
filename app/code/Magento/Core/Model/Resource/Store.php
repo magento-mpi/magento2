@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Core\Model\Resource;
 
 /**
  * Core Store Resource Model
@@ -16,8 +16,6 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Core\Model\Resource;
-
 class Store extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
@@ -50,7 +48,7 @@ class Store extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Initialize unique fields
      *
-     * @return \Magento\Core\Model\Resource\Store
+     * @return $this
      */
     protected function _initUniqueFields()
     {
@@ -65,7 +63,7 @@ class Store extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Update Store Group data after save store
      *
      * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Core\Model\Resource\Store
+     * @return $this
      */
     protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
     {
@@ -80,7 +78,7 @@ class Store extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Remove core configuration data after delete store
      *
      * @param \Magento\Core\Model\AbstractModel $model
-     * @return \Magento\Core\Model\Resource\Store
+     * @return $this
      */
     protected function _afterDelete(\Magento\Core\Model\AbstractModel $model)
     {
@@ -101,7 +99,7 @@ class Store extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param int $groupId
      * @param int $storeId
-     * @return \Magento\Core\Model\Resource\Store
+     * @return $this
      */
     protected function _updateGroupDefaultStore($groupId, $storeId)
     {
@@ -126,7 +124,7 @@ class Store extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Change store group for store
      *
      * @param \Magento\Core\Model\AbstractModel $model
-     * @return \Magento\Core\Model\Resource\Store
+     * @return $this
      */
     protected function _changeGroup(\Magento\Core\Model\AbstractModel $model)
     {

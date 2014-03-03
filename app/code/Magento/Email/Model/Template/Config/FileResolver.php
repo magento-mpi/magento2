@@ -34,7 +34,7 @@ class FileResolver implements \Magento\Config\FileResolverInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function get($filename, $scope)
     {

@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Invitation\Block\Adminhtml\Invitation\View\Tab;
 
 /**
  * Invitation view general tab block
@@ -14,13 +15,11 @@
  * @category   Magento
  * @package    Magento_Invitation
  */
-namespace Magento\Invitation\Block\Adminhtml\Invitation\View\Tab;
-
 class General extends \Magento\Backend\Block\Template
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
-     * @inheritdoc
+     * @var string
      */
     protected $_template = 'view/tab/general.phtml';
 
@@ -30,11 +29,11 @@ class General extends \Magento\Backend\Block\Template
      * @var \Magento\Invitation\Helper\Data
      */
     protected $_invitationData;
-    
+
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
@@ -55,7 +54,7 @@ class General extends \Magento\Backend\Block\Template
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Invitation\Helper\Data $invitationData
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Customer\Model\GroupFactory $groupFactory
      * @param array $data
@@ -63,7 +62,7 @@ class General extends \Magento\Backend\Block\Template
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Invitation\Helper\Data $invitationData,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Customer\Model\GroupFactory $groupFactory,
         array $data = array()
