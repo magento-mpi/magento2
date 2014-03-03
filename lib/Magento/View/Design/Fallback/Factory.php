@@ -23,6 +23,8 @@ use Magento\View\Design\Fallback\Rule\Theme;
 class Factory
 {
     /**
+     * File system
+     *
      * @var Filesystem
      */
     protected $filesystem;

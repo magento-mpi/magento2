@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerCustomAttributes\Model\Resource\Sales\Order;
 
 /**
  * Customer Order Address resource model
  */
-namespace Magento\CustomerCustomAttributes\Model\Resource\Sales\Order;
-
 class Address
     extends \Magento\CustomerCustomAttributes\Model\Resource\Sales\Address\AbstractAddress
 {
@@ -37,6 +36,8 @@ class Address
 
     /**
      * Initializes resource
+     *
+     * @return void
      */
     protected function _construct()
     {

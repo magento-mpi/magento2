@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Backend\Block\Page;
 
 /**
  * Adminhtml footer block
@@ -16,12 +16,16 @@
  * @package    Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Backend\Block\Page;
-
 class Footer extends \Magento\Backend\Block\Template
 {
+    /**
+     * @var string
+     */
     protected $_template = 'page/footer.phtml';
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->setShowProfiler(true);

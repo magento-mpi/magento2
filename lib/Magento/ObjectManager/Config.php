@@ -31,10 +31,9 @@ interface Config
      * Retrieve list of arguments per type
      *
      * @param string $type
-     * @param array $arguments
      * @return array
      */
-    public function getArguments($type, $arguments);
+    public function getArguments($type);
 
     /**
      * Check whether type is shared

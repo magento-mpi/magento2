@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Catalog\Model\Resource\Category;
 
 /**
  * Category resource collection
@@ -16,8 +16,6 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Model\Resource\Category;
-
 class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractCollection
 {
     /**
@@ -65,6 +63,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     /**
      * Init collection and determine table names
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -78,7 +77,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
      * Add Id filter
      *
      * @param array $categoryIds
-     * @return \Magento\Catalog\Model\Resource\Category\Collection
+     * @return $this
      */
     public function addIdFilter($categoryIds)
     {
@@ -106,7 +105,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
      * Set flag for loading product count
      *
      * @param boolean $flag
-     * @return \Magento\Catalog\Model\Resource\Category\Collection
+     * @return $this
      */
     public function setLoadProductCount($flag)
     {
@@ -117,7 +116,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     /**
      * Before collection load
      *
-     * @return \Magento\Catalog\Model\Resource\Category\Collection
+     * @return $this
      */
     protected function _beforeLoad()
     {
@@ -129,7 +128,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     /**
      * After collection load
      *
-     * @return \Magento\Catalog\Model\Resource\Category\Collection
+     * @return $this
      */
     protected function _afterLoad()
     {
@@ -143,7 +142,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
      * Set id of the store that we should count products on
      *
      * @param int $storeId
-     * @return \Magento\Catalog\Model\Resource\Category\Collection
+     * @return $this
      */
     public function setProductStoreId($storeId)
     {
@@ -169,7 +168,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
      *
      * @param bool $printQuery
      * @param bool $logQuery
-     * @return \Magento\Catalog\Model\Resource\Category\Collection
+     * @return $this
      */
     public function load($printQuery = false, $logQuery = false)
     {
@@ -194,6 +193,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     /**
      * Load categories product count
      *
+     * @return void
      */
     protected function _loadProductCount()
     {
@@ -206,7 +206,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
      * @param array $items
      * @param boolean $countRegular get product count for regular (non-anchor) categories
      * @param boolean $countAnchor get product count for anchor categories
-     * @return \Magento\Catalog\Model\Resource\Category\Collection
+     * @return $this
      */
     public function loadProductCount($items, $countRegular = true, $countAnchor = true)
     {
@@ -291,7 +291,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
      * Add category path filter
      *
      * @param string $regexp
-     * @return \Magento\Catalog\Model\Resource\Category\Collection
+     * @return $this
      */
     public function addPathFilter($regexp)
     {
@@ -302,7 +302,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     /**
      * Joins url rewrite rules to collection
      *
-     * @return \Magento\Catalog\Model\Resource\Category\Collection
+     * @return $this
      */
     public function joinUrlRewrite()
     {
@@ -323,7 +323,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     /**
      * Add active category filter
      *
-     * @return \Magento\Catalog\Model\Resource\Category\Collection
+     * @return $this
      */
     public function addIsActiveFilter()
     {
@@ -336,7 +336,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     /**
      * Add name attribute to result
      *
-     * @return \Magento\Catalog\Model\Resource\Category\Collection
+     * @return $this
      */
     public function addNameToResult()
     {
@@ -347,7 +347,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     /**
      * Add url rewrite rules to collection
      *
-     * @return \Magento\Catalog\Model\Resource\Category\Collection
+     * @return $this
      */
     public function addUrlRewriteToResult()
     {
@@ -359,7 +359,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
      * Add category path filter
      *
      * @param array|string $paths
-     * @return \Magento\Catalog\Model\Resource\Category\Collection
+     * @return $this
      */
     public function addPathsFilter($paths)
     {
@@ -381,7 +381,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
      * Add category level filter
      *
      * @param int|string $level
-     * @return \Magento\Catalog\Model\Resource\Category\Collection
+     * @return $this
      */
     public function addLevelFilter($level)
     {
@@ -392,7 +392,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     /**
      * Add root category filter
      *
-     * @return \Magento\Catalog\Model\Resource\Category\Collection
+     * @return $this
      */
     public function addRootLevelFilter()
     {
@@ -405,7 +405,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
      * Add order field
      *
      * @param string $field
-     * @return \Magento\Catalog\Model\Resource\Category\Collection
+     * @return $this
      */
     public function addOrderField($field)
     {

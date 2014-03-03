@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\User\Helper;
 
 /**
  * User data helper
@@ -15,8 +16,6 @@
  * @package  Magento_User
  * @author   Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\User\Helper;
-
 class Data extends \Magento\App\Helper\AbstractHelper
 {
     /**

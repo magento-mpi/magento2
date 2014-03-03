@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Core\Model\Resource;
 
 /**
  * Resource transaction model
@@ -17,8 +17,6 @@
  * @package    Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Core\Model\Resource;
-
 class Transaction
 {
     /**
@@ -41,10 +39,11 @@ class Transaction
      * @var array
      */
     protected $_beforeCommitCallbacks = array();
+
     /**
      * Begin transaction for all involved object resources
      *
-     * @return \Magento\Core\Model\Resource\Transaction
+     * @return $this
      */
     protected function _startTransaction()
     {
@@ -57,7 +56,7 @@ class Transaction
     /**
      * Commit transaction for all resources
      *
-     * @return \Magento\Core\Model\Resource\Transaction
+     * @return $this
      */
     protected function _commitTransaction()
     {
@@ -70,7 +69,7 @@ class Transaction
     /**
      * Rollback transaction
      *
-     * @return \Magento\Core\Model\Resource\Transaction
+     * @return $this
      */
     protected function _rollbackTransaction()
     {
@@ -83,7 +82,7 @@ class Transaction
     /**
      * Run all configured object callbacks
      *
-     * @return \Magento\Core\Model\Resource\Transaction
+     * @return $this
      */
     protected function _runCallbacks()
     {
@@ -98,7 +97,7 @@ class Transaction
      *
      * @param \Magento\Core\Model\AbstractModel $object
      * @param string $alias
-     * @return \Magento\Core\Model\Resource\Transaction
+     * @return $this
      */
     public function addObject(\Magento\Core\Model\AbstractModel $object, $alias='')
     {
@@ -113,7 +112,7 @@ class Transaction
      * Add callback function which will be called before commit transactions
      *
      * @param callback $callback
-     * @return \Magento\Core\Model\Resource\Transaction
+     * @return $this
      */
     public function addCommitCallback($callback)
     {
@@ -124,7 +123,7 @@ class Transaction
     /**
      * Initialize objects save transaction
      *
-     * @return \Magento\Core\Model\Resource\Transaction
+     * @return $this
      * @throws \Exception
      */
     public function save()
@@ -161,7 +160,7 @@ class Transaction
     /**
      * Initialize objects delete transaction
      *
-     * @return \Magento\Core\Model\Resource\Transaction
+     * @return $this
      * @throws \Exception
      */
     public function delete()

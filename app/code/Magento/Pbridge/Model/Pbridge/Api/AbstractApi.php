@@ -56,7 +56,7 @@ class AbstractApi extends \Magento\Object
     /**
      * Log adapter factory
      *
-     * @var \Magento\Core\Model\Log\AdapterFactory
+     * @var \Magento\Logger\AdapterFactory
      */
     protected $_logAdapterFactory;
 
@@ -67,7 +67,7 @@ class AbstractApi extends \Magento\Object
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
+     * @param \Magento\Logger\AdapterFactory $logAdapterFactory
      * @param array $data
      */
     public function __construct(
@@ -75,7 +75,7 @@ class AbstractApi extends \Magento\Object
         \Magento\Pbridge\Helper\Data $pbridgeData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
+        \Magento\Logger\AdapterFactory $logAdapterFactory,
         array $data = array()
     ) {
         $this->_pbridgeData = $pbridgeData;

@@ -21,7 +21,7 @@ class Config extends \Magento\Config\Data\Scoped
     /**
      * Scope priority loading scheme
      *
-     * @var array
+     * @var string[]
      */
     protected $_scopePriorityScheme = array('global');
 
@@ -54,7 +54,7 @@ class Config extends \Magento\Config\Data\Scoped
      * Return Context Menu layout by its name
      *
      * @param string $layoutName
-     * @return \Magento\Object|boolean
+     * @return \Magento\Object|bool
      */
     public function getContextMenuLayout($layoutName)
     {

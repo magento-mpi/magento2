@@ -57,7 +57,7 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Catalog product status
      *
-     * @var \Magento\Catalog\Model\Product\Status
+     * @var \Magento\Catalog\Model\Product\Attribute\Source\Status
      */
     protected $_catalogProductStatus;
 
@@ -131,7 +131,7 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param \Magento\App\Resource $resource
      * @param \Magento\Catalog\Model\Product\Type $catalogProductType
      * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\Catalog\Model\Product\Status $catalogProductStatus
+     * @param \Magento\Catalog\Model\Product\Attribute\Source\Status $catalogProductStatus
      * @param \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $productAttributeCollectionFactory
      * @param EngineProvider $engineProvider
      * @param \Magento\Event\ManagerInterface $eventManager
@@ -146,7 +146,7 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
         \Magento\App\Resource $resource,
         \Magento\Catalog\Model\Product\Type $catalogProductType,
         \Magento\Eav\Model\Config $eavConfig,
-        \Magento\Catalog\Model\Product\Status $catalogProductStatus,
+        \Magento\Catalog\Model\Product\Attribute\Source\Status $catalogProductStatus,
         \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $productAttributeCollectionFactory,
         \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider,
         \Magento\Event\ManagerInterface $eventManager,
@@ -884,10 +884,10 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
     {
         if (!isset($this->_dates[$storeId])) {
             $timezone = $this->_coreStoreConfig->getConfig(
-                \Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_TIMEZONE, $storeId
+                \Magento\LocaleInterface::XML_PATH_DEFAULT_TIMEZONE, $storeId
             );
             $locale   = $this->_coreStoreConfig->getConfig(
-                \Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_LOCALE, $storeId
+                \Magento\LocaleInterface::XML_PATH_DEFAULT_LOCALE, $storeId
             );
             $locale   = new \Zend_Locale($locale);
 

@@ -66,6 +66,7 @@ interface ChangelogInterface
      * Set view's identifier
      *
      * @param string $viewId
+     * @return ChangelogInterface
      */
     public function setViewId($viewId);
 

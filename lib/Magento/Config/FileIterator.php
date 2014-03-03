@@ -14,26 +14,36 @@ namespace Magento\Config;
 class FileIterator implements \Iterator, \Countable
 {
     /**
+     * Cache
+     *
      * @var array
      */
     protected $cached = array();
 
     /**
+     * Paths
+     *
      * @var array
      */
     protected $paths = array();
 
     /**
+     * Position
+     *
      * @var int
      */
     protected $position;
 
     /**
+     * Read directory
+     *
      * @var \Magento\Filesystem\Directory\ReadInterface
      */
     protected $directoryRead;
 
     /**
+     * Constructor
+     *
      * @param \Magento\Filesystem\Directory\ReadInterface $directory
      * @param array $paths
      */
@@ -47,7 +57,9 @@ class FileIterator implements \Iterator, \Countable
     }
 
     /**
+     *Rewind
      *
+     * @return void
      */
     function rewind()
     {
@@ -55,6 +67,8 @@ class FileIterator implements \Iterator, \Countable
     }
 
     /**
+     * Current
+     *
      * @return string
      */
     function current()
@@ -67,6 +81,8 @@ class FileIterator implements \Iterator, \Countable
     }
 
     /**
+     * Key
+     *
      * @return mixed
      */
     function key()
@@ -75,7 +91,9 @@ class FileIterator implements \Iterator, \Countable
     }
 
     /**
+     * Next
      *
+     * @return void
      */
     function next()
     {
@@ -83,6 +101,8 @@ class FileIterator implements \Iterator, \Countable
     }
 
     /**
+     * Valid
+     *
      * @return bool
      */
     function valid()
@@ -91,6 +111,8 @@ class FileIterator implements \Iterator, \Countable
     }
 
     /**
+     * Convert to an array
+     *
      * @return array
      */
     public function toArray()
@@ -103,6 +125,8 @@ class FileIterator implements \Iterator, \Countable
     }
 
     /**
+     * Count
+     *
      * @return int
      */
     public function count()

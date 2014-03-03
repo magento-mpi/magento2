@@ -14,6 +14,8 @@ class Crawler extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Internal constructor
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -23,7 +25,7 @@ class Crawler extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Retrieve URLs paths that must be visited by crawler
      *
-     * @param  $storeId
+     * @param  int $storeId
      * @return array
      */
     public function getUrlsPaths($storeId)

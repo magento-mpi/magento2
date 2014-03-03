@@ -49,14 +49,14 @@ class AvailablePath extends \Zend_Validate_Abstract
     /**
      * Protected paths
      *
-     * @var array
+     * @var string[]
      */
     protected $_protectedPaths = array();
 
     /**
      * Available paths
      *
-     * @var array
+     * @var string[]
      */
     protected $_availablePaths = array();
 
@@ -78,7 +78,7 @@ class AvailablePath extends \Zend_Validate_Abstract
     /**
      * Initialize message templates with translating
      *
-     * @return \Magento\Core\Model\File\Validator\AvailablePath
+     * @return $this
      */
     protected function _initMessageTemplates()
     {
@@ -100,7 +100,7 @@ class AvailablePath extends \Zend_Validate_Abstract
      *
      * @param array $paths  All paths masks types.
      *                      E.g.: array('available' => array(...), 'protected' => array(...))
-     * @return \Magento\Core\Model\File\Validator\AvailablePath
+     * @return $this
      */
     public function setPaths(array $paths)
     {
@@ -117,7 +117,7 @@ class AvailablePath extends \Zend_Validate_Abstract
      * Set protected paths masks
      *
      * @param array $paths
-     * @return \Magento\Core\Model\File\Validator\AvailablePath
+     * @return $this
      */
     public function setProtectedPaths(array $paths)
     {
@@ -128,8 +128,8 @@ class AvailablePath extends \Zend_Validate_Abstract
     /**
      * Add protected paths masks
      *
-     * @param string|array $path
-     * @return \Magento\Core\Model\File\Validator\AvailablePath
+     * @param string|string[] $path
+     * @return $this
      */
     public function addProtectedPath($path)
     {
@@ -144,7 +144,7 @@ class AvailablePath extends \Zend_Validate_Abstract
     /**
      * Get protected paths masks
      *
-     * @return array
+     * @return string[]
      */
     public function getProtectedPaths()
     {
@@ -155,7 +155,7 @@ class AvailablePath extends \Zend_Validate_Abstract
      * Set available paths masks
      *
      * @param array $paths
-     * @return \Magento\Core\Model\File\Validator\AvailablePath
+     * @return $this
      */
     public function setAvailablePaths(array $paths)
     {
@@ -166,8 +166,8 @@ class AvailablePath extends \Zend_Validate_Abstract
     /**
      * Add available paths mask
      *
-     * @param string|array $path
-     * @return \Magento\Core\Model\File\Validator\AvailablePath
+     * @param string|string[] $path
+     * @return $this
      */
     public function addAvailablePath($path)
     {
@@ -182,7 +182,7 @@ class AvailablePath extends \Zend_Validate_Abstract
     /**
      * Get available paths masks
      *
-     * @return array
+     * @return string[]
      */
     public function getAvailablePaths()
     {
@@ -197,9 +197,9 @@ class AvailablePath extends \Zend_Validate_Abstract
      * getMessages() will return an array of messages that explain why the
      * validation failed.
      *
-     * @throws \Exception        Throw exception on empty both paths masks types
      * @param string $value     File/dir path
      * @return bool
+     * @throws \Exception       Throw exception on empty both paths masks types
      */
     public function isValid($value)
     {
@@ -238,7 +238,7 @@ class AvailablePath extends \Zend_Validate_Abstract
      * Validate value by path masks
      *
      * @param array $valuePathInfo  Path info from value path
-     * @param array $paths          Protected/available paths masks
+     * @param string[] $paths          Protected/available paths masks
      * @param bool $protected       Paths masks is protected?
      * @return bool
      */

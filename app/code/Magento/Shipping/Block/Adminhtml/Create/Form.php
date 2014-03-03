@@ -7,13 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Shipping\Block\Adminhtml\Create;
 
 /**
  * Adminhtml shipment create form
  */
-
-namespace Magento\Shipping\Block\Adminhtml\Create;
-
 class Form extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
 {
     /**
@@ -29,7 +27,7 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
     /**
      * Retrieve source
      *
-     * @return \Magento\Sales\Model\Order\Invoice
+     * @return \Magento\Sales\Model\Order\Shipment
      */
     public function getSource()
     {
@@ -46,22 +44,34 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
         return $this->_coreRegistry->registry('current_shipment');
     }
 
+    /**
+     * @return \Magento\View\Element\AbstractBlock
+     */
     protected function _prepareLayout()
     {
         $this->addChild('items', 'Magento\Shipping\Block\Adminhtml\Create\Items');
         return parent::_prepareLayout();
     }
 
+    /**
+     * @return string
+     */
     public function getPaymentHtml()
     {
         return $this->getChildHtml('order_payment');
     }
 
+    /**
+     * @return string
+     */
     public function getItemsHtml()
     {
         return $this->getChildHtml('order_items');
     }
 
+    /**
+     * @return string
+     */
     public function getSaveUrl()
     {
         return $this->getUrl('*/*/save', array('order_id' => $this->getShipment()->getOrderId()));

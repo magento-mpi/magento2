@@ -7,18 +7,18 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <type name="Magento\Customer\Model\Session">
-        <param name="sessionName">
-            <value>frontend</value>
-        </param>
+        <arguments>
+            <argument name="sessionName" xsi:type="string">frontend</argument>
+        </arguments>
     </type>
     <type name="Magento\Core\Model\Url\SecurityInfo">
-        <param name="secureUrlList">
-            <array>
-                <item key="customer"><value>/customer/</value></item>
-            </array>
-        </param>
+        <arguments>
+            <argument name="secureUrlList" xsi:type="array">
+                <item name="customer" xsi:type="string">/customer/</item>
+            </argument>
+        </arguments>
     </type>
     <type name="Magento\Core\Model\Layout">
         <plugin name="customer-session-stab" type="Magento\Customer\Model\Layout\DepersonalizePlugin" sortOrder="20"/>

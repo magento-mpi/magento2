@@ -71,6 +71,8 @@ class Config
 
     /**
      * Save config in cache file
+     *
+     * @return void
      */
     public function save()
     {

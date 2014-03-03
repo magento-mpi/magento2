@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Payment\Block;
 
 /**
  * Payment method form base block
  */
-namespace Magento\Payment\Block;
-
 class Form extends \Magento\View\Element\Template
 {
     /**
@@ -50,15 +49,5 @@ class Form extends \Magento\View\Element\Template
     public function getInfoData($field)
     {
         return $this->escapeHtml($this->getMethod()->getInfoInstance()->getData($field));
-    }
-
-    /**
-     * Check whether current payment method can create billing agreement
-     *
-     * @return bool
-     */
-    public function canCreateBillingAgreement()
-    {
-        return $this->getMethod()->canCreateBillingAgreement();
     }
 }

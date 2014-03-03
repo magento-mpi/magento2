@@ -7,12 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\Usa\Model\Shipping\Carrier\Dhl\Source;
 
 class Freemethod extends \Magento\Usa\Model\Shipping\Carrier\Dhl\Source\Method
 {
+    /**
+     * {@inheritdoc}
+     */
     public function toOptionArray()
     {
         $arr = parent::toOptionArray();

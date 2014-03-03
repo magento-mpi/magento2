@@ -5,7 +5,6 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento\Integration\Controller;
 
 use Magento\Integration\Service\OauthV1Interface as IntegrationOauthService;
@@ -52,6 +51,8 @@ class Token extends \Magento\App\Action\Action
 
     /**
      *  Initiate RequestToken request operation
+     *
+     * @return void
      */
     public function requestAction()
     {
@@ -73,6 +74,8 @@ class Token extends \Magento\App\Action\Action
 
     /**
      * Initiate AccessToken request operation
+     *
+     * @return void
      */
     public function accessAction()
     {

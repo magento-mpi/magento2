@@ -14,6 +14,7 @@ class UrlGeneratorId
 {
     /**
      * Create url for passed item using passed url model
+     *
      * @param \Magento\Object $item
      * @return string
      */

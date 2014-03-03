@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Block\Hosted\Pro;
 
 /**
  * Hosted Pro iframe block
@@ -15,14 +16,13 @@
  * @package    Magento_Paypal
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Paypal\Block\Hosted\Pro;
-
 class Iframe extends \Magento\Paypal\Block\Iframe
 {
     /**
      * Internal constructor
      * Set payment method code
      *
+     * @return void
      */
     protected function _construct()
     {

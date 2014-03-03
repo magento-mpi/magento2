@@ -13,6 +13,8 @@ namespace Magento\Usa\Model\Resource;
 class Setup extends \Magento\Core\Model\Resource\Setup
 {
     /**
+     * Locale model
+     *
      * @var \Magento\Core\Model\Locale
      */
     protected $_localeModel;
@@ -30,13 +32,14 @@ class Setup extends \Magento\Core\Model\Resource\Setup
         $moduleName,
         \Magento\Core\Model\Locale $localeModel,
         $connectionName = ''
-    )
-    {
+    ) {
         $this->_localeModel = $localeModel;
         parent::__construct($context, $resourceName, $moduleName, $connectionName);
     }
 
     /**
+     * Get locale
+     *
      * @return \Magento\Core\Model\Locale
      */
     public function getLocale()

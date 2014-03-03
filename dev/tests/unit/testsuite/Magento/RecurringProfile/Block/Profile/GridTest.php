@@ -29,7 +29,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
             ->setMethods(array('getId', '__wakeup'))
             ->getMock();
         $customer->expects($this->once())->method('getId')->will($this->returnValue(1));
-        $registry = $this->getMockBuilder('Magento\Core\Model\Registry')
+        $registry = $this->getMockBuilder('Magento\Registry')
             ->disableOriginalConstructor()
             ->setMethods(array('registry'))
             ->getMock();
@@ -77,7 +77,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
         $storeManager->expects($this->once())->method('getStore')
             ->will($this->returnValue($store));
 
-        $locale = $this->getMockBuilder('\Magento\Core\Model\LocaleInterface')
+        $locale = $this->getMockBuilder('\Magento\LocaleInterface')
             ->disableOriginalConstructor()
             ->setMethods(array('formatDate'))
             ->getMockForAbstractClass();

@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\User\Block\User\Edit\Tab;
 
 /**
@@ -22,14 +21,14 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\Backend\Model\Auth\Session $authSession,
         array $data = array()
@@ -37,7 +36,7 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic
         $this->_authSession = $authSession;
         parent::__construct($context, $registry, $formFactory, $data);
     }
-    
+
     /**
      * Prepare form fields
      *
@@ -156,6 +155,7 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic
      * @param string $passwordLabel
      * @param string $confirmationLabel
      * @param bool $isRequired
+     * @return void
      */
     protected function _addPasswordFields(
         \Magento\Data\Form\Element\Fieldset $fieldset, $passwordLabel, $confirmationLabel, $isRequired = false

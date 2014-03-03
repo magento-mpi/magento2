@@ -2,22 +2,13 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * Sales orders grid massaction items updater
- *
- * @category   Magento
- * @package    Magento_Sales
- * @author     Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Sales\Model\Order\Grid\Massaction;
 
-class ItemsUpdater implements \Magento\Core\Model\Layout\Argument\UpdaterInterface
+class ItemsUpdater implements \Magento\View\Layout\Argument\UpdaterInterface
 {
     /**
      * @var \Magento\AuthorizationInterface

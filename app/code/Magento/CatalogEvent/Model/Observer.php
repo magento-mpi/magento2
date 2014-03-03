@@ -15,7 +15,7 @@ use Magento\Catalog\Model\Category;
 use Magento\Catalog\Model\Product;
 use Magento\CatalogEvent\Helper\Data;
 use Magento\CatalogEvent\Model\Resource\Event\Collection as EventCollection;
-use Magento\Core\Model\Registry;
+use Magento\Registry;
 use Magento\Core\Model\StoreManagerInterface;
 use Magento\Data\Collection;
 use Magento\Data\Tree\Node;
@@ -68,7 +68,7 @@ class Observer
 
     /**
      * Construct
-     * 
+     *
      * @param Data $catalogEventData
      * @param Registry $coreRegistry
      * @param StoreManagerInterface $storeManager

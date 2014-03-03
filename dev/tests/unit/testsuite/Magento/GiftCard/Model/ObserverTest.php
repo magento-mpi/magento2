@@ -39,42 +39,14 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
                 'itemsFactory' => $this->getMock(
                     'Magento\Sales\Model\Resource\Order\Invoice\Item\CollectionFactory', [], [], '', false
                 ),
-                'templateFactory' => $this->getMock(
-                    'Magento\Email\Model\TemplateFactory', [], [], '', false
-                ),
                 'invoiceFactory' => $this->getMock(
                     'Magento\Sales\Model\Order\InvoiceFactory', [], [], '', false
                 ),
                 'data' => [
-                    'email_template_model' => $this->getMock('Magento\Email\Model\Template', [], [], '', false),
-                    'custom_field'         => 'custom_value',
+                    'custom_field'         => 'custom_value'
                 ]
             ]
         );
         $this->assertEquals(array('custom_field' => 'custom_value'), $this->_model->getData());
-    }
-
-    /**
-     * Test that only valid model instance can be passed to the constructor
-     *
-     * @expectedException \InvalidArgumentException
-     */
-    public function testConstructorInvalidArgument()
-    {
-        $this->_objectManager->getObject(
-            'Magento\GiftCard\Model\Observer',
-            [
-                'itemsFactory' => $this->getMock(
-                    'Magento\Sales\Model\Resource\Order\Invoice\Item\CollectionFactory', [], [], '', false
-                ),
-                'templateFactory' => $this->getMock(
-                    'Magento\Email\Model\TemplateFactory', [], [], '', false
-                ),
-                'invoiceFactory' => $this->getMock(
-                    'Magento\Sales\Model\Order\InvoiceFactory', [], [], '', false
-                ),
-                'data' => ['email_template_model' => new \stdClass()],
-            ]
-        );
     }
 }

@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Integration\Model\Oauth\Consumer;
 
 class Factory

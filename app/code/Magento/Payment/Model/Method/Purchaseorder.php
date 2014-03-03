@@ -7,21 +7,30 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\Payment\Model\Method;
 
 class Purchaseorder extends \Magento\Payment\Model\Method\AbstractMethod
 {
+    /**
+     * @var string
+     */
     protected $_code  = 'purchaseorder';
+
+    /**
+     * @var string
+     */
     protected $_formBlockType = 'Magento\Payment\Block\Form\Purchaseorder';
+
+    /**
+     * @var string
+     */
     protected $_infoBlockType = 'Magento\Payment\Block\Info\Purchaseorder';
 
     /**
      * Assign data to info model instance
      *
-     * @param   mixed $data
-     * @return  \Magento\Payment\Model\Method\Purchaseorder
+     * @param \Magento\Object|mixed $data
+     * @return $this
      */
     public function assignData($data)
     {

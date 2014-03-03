@@ -7,23 +7,23 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
- 
+
 /**
  * Locale country source
  */
 namespace Magento\Backend\Model\Config\Source\Locale;
 
-class Country implements \Magento\Core\Model\Option\ArrayInterface
+class Country implements \Magento\Option\ArrayInterface
 {
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\LocaleInterface
      */
     protected $_locale;
 
     /**
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\LocaleInterface $locale
      */
-    public function __construct(\Magento\Core\Model\LocaleInterface $locale)
+    public function __construct(\Magento\LocaleInterface $locale)
     {
         $this->_locale = $locale;
     }

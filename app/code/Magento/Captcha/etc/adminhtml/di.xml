@@ -7,19 +7,17 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <preference for="Magento\Captcha\Block\Captcha\DefaultCaptcha" type="Magento\Captcha\Block\Adminhtml\Captcha\DefaultCaptcha" />
     <type name="Magento\Captcha\Model\DefaultModel">
-        <param name="session">
-            <instance type="Magento\Backend\Model\Auth\Session" />
-        </param>
-        <param name="captchaData">
-            <instance type="Magento\Captcha\Helper\Adminhtml\Data" />
-        </param>
+        <arguments>
+            <argument name="session" xsi:type="object">Magento\Backend\Model\Auth\Session</argument>
+            <argument name="captchaData" xsi:type="object">Magento\Captcha\Helper\Adminhtml\Data</argument>
+        </arguments>
     </type>
     <type name="Magento\Captcha\Model\Observer">
-        <param name="session">
-            <instance type="Magento\Backend\Model\Session" />
-        </param>
+        <arguments>
+            <argument name="session" xsi:type="object">Magento\Backend\Model\Session</argument>
+        </arguments>
     </type>
 </config>

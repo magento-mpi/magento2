@@ -7,16 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backup\Block\Adminhtml;
+
+use Magento\View\Element\AbstractBlock;
 
 /**
  * Adminhtml backup page content block
  *
- * @category   Magento
- * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Backup\Block\Adminhtml;
-
 class Backup extends \Magento\Backend\Block\Template
 {
     /**
@@ -26,6 +25,9 @@ class Backup extends \Magento\Backend\Block\Template
      */
     protected $_template = 'Magento_Backup::backup/list.phtml';
 
+    /**
+     * @return AbstractBlock|void
+     */
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
@@ -48,6 +50,9 @@ class Backup extends \Magento\Backend\Block\Template
         $this->addChild('dialogs', 'Magento\Backup\Block\Adminhtml\Dialogs');
     }
 
+    /**
+     * @return string
+     */
     public function getCreateButtonHtml()
     {
         return $this->getChildHtml('createButton');
@@ -73,6 +78,9 @@ class Backup extends \Magento\Backend\Block\Template
         return $this->getChildHtml('createMediaBackupButton');
     }
 
+    /**
+     * @return string
+     */
     public function getGridHtml()
     {
         return $this->getChildHtml('backupsGrid');

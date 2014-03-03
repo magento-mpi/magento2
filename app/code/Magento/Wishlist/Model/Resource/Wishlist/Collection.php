@@ -10,7 +10,7 @@
 
 
 /**
- * Wislist model collection
+ * Wishlist model collection
  *
  * @category    Magento
  * @package     Magento_Wishlist
@@ -23,6 +23,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Initialize resource
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -33,7 +34,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Filter collection by customer
      *
      * @param \Magento\Customer\Model\Customer $customer
-     * @return \Magento\Wishlist\Model\Resource\Wishlist\Collection
+     * @return $this
      */
     public function filterByCustomer(\Magento\Customer\Model\Customer $customer)
     {
@@ -44,7 +45,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Filter collection by customer id
      *
      * @param int $customerId
-     * @return \Magento\Wishlist\Model\Resource\Wishlist\Collection
+     * @return $this
      */
     public function filterByCustomerId($customerId)
     {
@@ -56,7 +57,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Filter collection by customer ids
      *
      * @param array $customerIds
-     * @return \Magento\Wishlist\Model\Resource\Wishlist\Collection
+     * @return $this
      */
     public function filterByCustomerIds(array $customerIds)
     {

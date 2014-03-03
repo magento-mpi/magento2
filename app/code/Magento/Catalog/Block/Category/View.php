@@ -22,7 +22,7 @@ class View extends \Magento\View\Element\Template implements \Magento\View\Block
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -41,14 +41,14 @@ class View extends \Magento\View\Element\Template implements \Magento\View\Block
     /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Catalog\Model\Layer $catalogLayer
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Catalog\Helper\Category $categoryHelper
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Catalog\Model\Layer $catalogLayer,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Catalog\Helper\Category $categoryHelper,
         array $data = array()
     ) {
@@ -58,6 +58,9 @@ class View extends \Magento\View\Element\Template implements \Magento\View\Block
         parent::__construct($context, $data);
     }
 
+    /**
+     * @return $this
+     */
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
@@ -108,16 +111,25 @@ class View extends \Magento\View\Element\Template implements \Magento\View\Block
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function isRssCatalogEnable()
     {
         return $this->_storeConfig->getConfig('rss/catalog/category');
     }
 
+    /**
+     * @return bool
+     */
     public function isTopCategory()
     {
         return $this->getCurrentCategory()->getLevel()==2;
     }
 
+    /**
+     * @return string
+     */
     public function getRssLink()
     {
         return $this->_urlBuilder->getUrl('rss/catalog/category', array(
@@ -126,6 +138,9 @@ class View extends \Magento\View\Element\Template implements \Magento\View\Block
         );
     }
 
+    /**
+     * @return string
+     */
     public function getProductListHtml()
     {
         return $this->getChildHtml('product_list');
@@ -144,6 +159,9 @@ class View extends \Magento\View\Element\Template implements \Magento\View\Block
         return $this->getData('current_category');
     }
 
+    /**
+     * @return mixed
+     */
     public function getCmsBlockHtml()
     {
         if (!$this->getData('cms_block_html')) {

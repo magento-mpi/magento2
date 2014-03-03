@@ -267,7 +267,7 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
      * Set template object for the collection
      *
      * @param   \Magento\Object $object
-     * @return  $this
+     * @return $this
      */
     public function setObject($object = null)
     {
@@ -356,7 +356,7 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
             $this->getSelect()->where($conditionSql, null, \Magento\DB\Select::TYPE_CONDITION);
         } else {
             throw new \Magento\Core\Exception(
-                __('Invalid attribute identifier for filter (' . get_class($attribute) . ')')
+                __('Invalid attribute identifier for filter (%1)', get_class($attribute))
             );
         }
 
@@ -1081,7 +1081,7 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
      */
     public function _loadEntities($printQuery = false, $logQuery = false)
     {
-        $entity = $this->getEntity();
+        $this->getEntity();
 
         if ($this->_pageSize) {
             $this->getSelect()->limitPage($this->getCurPage(), $this->_pageSize);
@@ -1298,8 +1298,7 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
      *
      * @param   string $attributeCode
      * @param   string $joinType inner|left
-     * @return  $this
-     * @throws \Magento\Core\Exception
+     * @return $this
      * @throws \Magento\Eav\Exception
      */
     protected function _addAttributeJoin($attributeCode, $joinType = 'inner')
@@ -1386,7 +1385,7 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
      * @param   array $condition
      * @param   string $fieldCode
      * @param   string $fieldAlias
-     * @return  $this
+     * @return $this
      */
     protected function _joinAttributeToSelect($method, $attribute, $tableAlias, $condition, $fieldCode, $fieldAlias)
     {
@@ -1530,5 +1529,39 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
     public function getLoadedIds()
     {
         return array_keys($this->_items);
+    }
+
+    /**
+     * Clear collection
+     * @return $this
+     */
+    public function clear()
+    {
+        $this->_itemsById = array();
+        return parent::clear();
+    }
+
+    /**
+     * Remove all items from collection
+     * @return $this
+     */
+    public function removeAllItems()
+    {
+        $this->_itemsById = array();
+        return parent::removeAllItems();
+    }
+
+    /**
+     * Remove item from collection by item key
+     *
+     * @param mixed $key
+     * @return $this
+     */
+    public function removeItemByKey($key)
+    {
+        if (isset($this->_items[$key])) {
+            unset($this->_itemsById[$this->_items[$key]->getId()]);
+        }
+        return parent::removeItemByKey($key);
     }
 }

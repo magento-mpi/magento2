@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ImportExport\Model\Resource\Customer;
 
 /**
  * Customer storage
@@ -14,10 +15,7 @@
  * @category    Magento
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
- *
  */
-namespace Magento\ImportExport\Model\Resource\Customer;
-
 class Storage
 {
     /**
@@ -81,6 +79,8 @@ class Storage
 
     /**
      * Load needed data from customer collection
+     *
+     * @return void
      */
     public function load()
     {
@@ -102,7 +102,7 @@ class Storage
      * Add customer to array
      *
      * @param \Magento\Object|\Magento\Customer\Model\Customer $customer
-     * @return \Magento\ImportExport\Model\Resource\Customer\Storage
+     * @return $this
      */
     public function addCustomer(\Magento\Object $customer)
     {

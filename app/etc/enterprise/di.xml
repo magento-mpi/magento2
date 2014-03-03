@@ -7,62 +7,52 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <preference for="Magento\FullPageCache\Model\Processor\RestrictionInterface" type="Magento\FullPageCache\Model\Processor\Restriction" />
     <preference for="Magento\FullPageCache\Model\Placeholder\ConfigInterface" type="Magento\FullPageCache\Model\Placeholder\Config" />
     <type name="Magento\FullPageCache\Model\Request\Identifier">
-        <param name="scopeCode">
-            <value type="argument">Magento\Core\Model\App::PARAM_RUN_CODE</value>
-        </param>
+        <arguments>
+            <argument name="scopeCode" xsi:type="init_parameter">Magento\Core\Model\App::PARAM_RUN_CODE</argument>
+        </arguments>
     </type>
     <type name="Magento\FullPageCache\Model\Processor">
-        <param name="storeManager">
-            <instance type="Magento\Core\Model\StoreManager\Proxy" />
-        </param>
-        <param name="metadata">
-            <instance type="Magento\FullPageCache\Model\Metadata\Proxy" />
-        </param>
-        <param name="requestIdentifier">
-            <instance type="Magento\FullPageCache\Model\Request\Identifier\Proxy" />
-        </param>
+        <arguments>
+            <argument name="storeManager" xsi:type="object">Magento\Core\Model\StoreManager\Proxy</argument>
+            <argument name="metadata" xsi:type="object">Magento\FullPageCache\Model\Metadata\Proxy</argument>
+            <argument name="requestIdentifier" xsi:type="object">Magento\FullPageCache\Model\Request\Identifier\Proxy</argument>
+        </arguments>
     </type>
     <type name="Magento\FullPageCache\Model\DesignPackage\Rules">
-        <param name="designChange">
-            <instance type="Magento\Core\Model\Design\Proxy" />
-        </param>
+        <arguments>
+            <argument name="designChange" xsi:type="object">Magento\Core\Model\Design\Proxy</argument>
+        </arguments>
     </type>
     <type name="Magento\FullPageCache\App\FrontController\Plugin">
-        <param name="requestProcessors">
-            <array>
-                <item key="ee">
-                    <array>
-                        <item key="class"><value>Magento\FullPageCache\Model\Processor</value></item>
-                        <item key="sortOrder"><value>50</value></item>
-                    </array>
+        <arguments>
+            <argument name="requestProcessors" xsi:type="array">
+                <item name="ee" xsi:type="array">
+                    <item name="class" xsi:type="string">Magento\FullPageCache\Model\Processor</item>
+                    <item name="sortOrder" xsi:type="string">50</item>
                 </item>
-            </array>
-        </param>
+            </argument>
+        </arguments>
     </type>
     <type name="Magento\App\Cache\Frontend\Pool">
-        <param name="frontendSettings">
-            <array>
-                <item key="full_page_cache">
-                    <array>
-                        <item key="backend_options">
-                            <array>
-                                <item key="cache_dir"><value>full_page_cache</value></item>
-                            </array>
-                        </item>
-                    </array>
+        <arguments>
+            <argument name="frontendSettings" xsi:type="array">
+                <item name="full_page_cache" xsi:type="array">
+                    <item name="backend_options" xsi:type="array">
+                        <item name="cache_dir" xsi:type="string">full_page_cache</item>
+                    </item>
                 </item>
-            </array>
-        </param>
+            </argument>
+        </arguments>
     </type>
     <type name="Magento\App\Cache\Type\FrontendPool">
-        <param name="typeFrontendMap">
-            <array>
-                <item key="full_page"><value>full_page_cache</value></item>
-            </array>
-        </param>
+        <arguments>
+            <argument name="typeFrontendMap" xsi:type="array">
+                <item name="full_page" xsi:type="string">full_page_cache</item>
+            </argument>
+        </arguments>
     </type>
 </config>

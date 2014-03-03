@@ -14,7 +14,7 @@ namespace Magento\Reward\Model\Source\Customer;
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Groups implements \Magento\Core\Model\Option\ArrayInterface
+class Groups implements \Magento\Option\ArrayInterface
 {
     /**
      * Customer collection

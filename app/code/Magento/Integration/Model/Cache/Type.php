@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Integration\Model\Cache;
 
 /**
  * System / Cache Management / Cache type "Integration Configuration"
  */
-namespace Magento\Integration\Model\Cache;
-
 class Type extends \Magento\Cache\Frontend\Decorator\TagScope
 {
     /**

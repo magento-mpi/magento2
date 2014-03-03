@@ -9,8 +9,11 @@
  */
 namespace Magento\Shipping\Model\Source;
 
-class HandlingType implements \Magento\Core\Model\Option\ArrayInterface
+class HandlingType implements \Magento\Option\ArrayInterface
 {
+    /**
+     * {@inheritdoc}
+     */
     public function toOptionArray()
     {
         return array(

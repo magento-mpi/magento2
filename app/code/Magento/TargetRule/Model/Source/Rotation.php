@@ -10,7 +10,7 @@
 
 namespace Magento\TargetRule\Model\Source;
 
-class Rotation implements \Magento\Core\Model\Option\ArrayInterface
+class Rotation implements \Magento\Option\ArrayInterface
 {
 
     /**

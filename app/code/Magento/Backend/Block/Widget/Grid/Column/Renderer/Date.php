@@ -7,18 +7,23 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Block\Widget\Grid\Column\Renderer;
 
 /**
  * Backend grid item renderer date
  */
-namespace Magento\Backend\Block\Widget\Grid\Column\Renderer;
-
 class Date
     extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
+    /**
+     * @var int
+     */
     protected $_defaultWidth = 160;
+
     /**
      * Date format string
+     *
+     * @var string
      */
     protected static $_format = null;
 
@@ -34,7 +39,7 @@ class Date
             if (is_null(self::$_format)) {
                 try {
                     self::$_format = $this->_locale->getDateFormat(
-                        \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM
+                        \Magento\LocaleInterface::FORMAT_TYPE_MEDIUM
                     );
                 }
                 catch (\Exception $e) {

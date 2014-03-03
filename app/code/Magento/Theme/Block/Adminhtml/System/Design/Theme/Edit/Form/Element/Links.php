@@ -89,7 +89,7 @@ class Links
     /**
      * Prepare array of anchor attributes
      *
-     * @return array
+     * @return string[]
      */
     public function getHtmlAttributes()
     {

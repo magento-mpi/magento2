@@ -19,5 +19,8 @@ namespace Magento\Backend\Model\Config\Backend;
 
 class Cookie extends \Magento\Core\Model\Config\Value
 {
+    /**
+     * @var string
+     */
     protected $_eventPrefix = 'adminhtml_system_config_backend_cookie';
 }

@@ -10,7 +10,7 @@
 namespace Magento\Reminder\Controller\Adminhtml;
 
 use Magento\Backend\App\Action;
-use Magento\Core\Model\Registry;
+use Magento\Registry;
 
 /**
  * Reminder grid and edit controller

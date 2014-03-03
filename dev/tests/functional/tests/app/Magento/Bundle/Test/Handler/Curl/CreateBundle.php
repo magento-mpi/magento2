@@ -104,7 +104,7 @@ class CreateBundle extends Curl
         foreach ($requestParams as $key => $value) {
             $params .= $key . '/' . $value . '/';
         }
-        return $_ENV['app_backend_url'] . 'catalog/product/save/' . $params . 'popup/1/';
+        return $_ENV['app_backend_url'] . 'catalog/product/save/' . $params . 'popup/1/back/edit';
     }
 
     /**

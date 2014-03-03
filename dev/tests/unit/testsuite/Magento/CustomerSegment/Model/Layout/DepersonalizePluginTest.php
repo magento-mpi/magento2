@@ -84,6 +84,8 @@ class DepersonalizePluginTest  extends \PHPUnit_Framework_TestCase
     public function testDepersonalize()
     {
         $expectedCustomerSegmentIds = array(1, 2, 3);
+        $result = 'test';
+
         $this->requestMock->expects($this->once())
             ->method('isAjax')
             ->will($this->returnValue(false));
@@ -97,9 +99,9 @@ class DepersonalizePluginTest  extends \PHPUnit_Framework_TestCase
         $this->customerSessionMock->expects($this->once())
             ->method('setCustomerSegmentIds')
             ->with($this->equalTo($expectedCustomerSegmentIds));
-        $this->plugin->beforeGenerateXml();
-        $output = $this->plugin->afterGenerateXml();
-        $this->assertNull($output);
+        $this->plugin->beforeGenerateXml($this->layoutMock);
+        $output = $this->plugin->afterGenerateXml($this->layoutMock, $result);
+        $this->assertSame($result, $output);
     }
 
     /**
@@ -107,14 +109,16 @@ class DepersonalizePluginTest  extends \PHPUnit_Framework_TestCase
      */
     public function testUsualBehaviorIsAjax()
     {
+        $result = 'test';
+
         $this->requestMock->expects($this->once())
             ->method('isAjax')
             ->will($this->returnValue(true));
         $this->layoutMock->expects($this->never())
             ->method('isCacheable');
-        $this->plugin->beforeGenerateXml();
-        $output = $this->plugin->afterGenerateXml();
-        $this->assertNull($output);
+        $this->plugin->beforeGenerateXml($this->layoutMock);
+        $output = $this->plugin->afterGenerateXml($this->layoutMock, $result);
+        $this->assertSame($result, $output);
     }
 
     /**
@@ -122,6 +126,8 @@ class DepersonalizePluginTest  extends \PHPUnit_Framework_TestCase
      */
     public function testUsualBehaviorNonCacheable()
     {
+        $result = 'test';
+
         $this->requestMock->expects($this->once())
             ->method('isAjax')
             ->will($this->returnValue(false));
@@ -130,8 +136,8 @@ class DepersonalizePluginTest  extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(false));
         $this->customerSessionMock->expects($this->never())
             ->method('setCustomerSegmentIds');
-        $this->plugin->beforeGenerateXml();
-        $output = $this->plugin->afterGenerateXml();
-        $this->assertNull($output);
+        $this->plugin->beforeGenerateXml($this->layoutMock, $result);
+        $output = $this->plugin->afterGenerateXml($this->layoutMock, $result);
+        $this->assertSame($result, $output);
     }
 }

@@ -140,11 +140,11 @@ class Collection
      * @param \Magento\Validator\UniversalFactory $universalFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Catalog\Helper\Product\Flat $catalogProductFlat
+     * @param \Magento\Catalog\Model\Indexer\Product\Flat\State $catalogProductFlatState
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory
      * @param \Magento\Catalog\Model\Resource\Url $catalogUrl
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\LocaleInterface $locale
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Search\Helper\Data $searchData
@@ -165,11 +165,11 @@ class Collection
         \Magento\Validator\UniversalFactory $universalFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Catalog\Helper\Product\Flat $catalogProductFlat,
+        \Magento\Catalog\Model\Indexer\Product\Flat\State $catalogProductFlatState,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory,
         \Magento\Catalog\Model\Resource\Url $catalogUrl,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\LocaleInterface $locale,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Search\Helper\Data $searchData,
@@ -190,7 +190,7 @@ class Collection
             $universalFactory,
             $storeManager,
             $catalogData,
-            $catalogProductFlat,
+            $catalogProductFlatState,
             $coreStoreConfig,
             $productOptionFactory,
             $catalogUrl,
@@ -401,7 +401,7 @@ class Collection
         $store  = $this->_storeManager->getStore();
         $params = array(
             'store_id'      => $store->getId(),
-            'locale_code'   => $store->getConfig(\Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_LOCALE),
+            'locale_code'   => $store->getConfig(\Magento\LocaleInterface::XML_PATH_DEFAULT_LOCALE),
             'filters'       => $this->_searchQueryFilters
         );
         $params['filters']     = $this->_searchQueryFilters;

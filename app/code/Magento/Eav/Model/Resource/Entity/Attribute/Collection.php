@@ -150,7 +150,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Filter for selecting of attributes that is in all sets
      *
-     * @param array $setIds
+     * @param int[] $setIds
      * @return $this
      */
     public function setInAllAttributeSetsFilter(array $setIds)

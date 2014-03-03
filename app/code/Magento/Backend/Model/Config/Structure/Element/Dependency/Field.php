@@ -15,7 +15,7 @@ class Field
     /**
      * Values for dependence
      *
-     * @var array
+     * @var string[]
      */
     protected $_values;
 
@@ -75,7 +75,7 @@ class Field
     /**
      * Get values for dependence
      *
-     * @return array
+     * @return string[]
      */
     public function getValues()
     {

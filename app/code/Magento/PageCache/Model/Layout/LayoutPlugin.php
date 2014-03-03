@@ -49,25 +49,27 @@ class LayoutPlugin
      * Set appropriate Cache-Control headers
      * We have to set public headers in order to tell Varnish and Builtin app that page should be cached
      *
-     * @param \Magento\Core\Model\Layout $layout
-     * @return \Magento\Core\Model\Layout
+     * @param \Magento\Core\Model\Layout $subject
+     * @param $result
+     * @return mixed
      */
-    public function afterGenerateXml($layout)
+    public function afterGenerateXml(\Magento\Core\Model\Layout $subject, $result)
     {
         if ($this->layout->isCacheable()) {
             $maxAge = $this->config->getValue(\Magento\PageCache\Model\Config::XML_PAGECACHE_TTL);
             $this->response->setPublicHeaders($maxAge);
         }
-        return $layout;
+        return $result;
     }
 
     /**
      * Retrieve all identities from blocks for further cache invalidation
      *
-     * @param string $html
-     * @return string
+     * @param \Magento\Core\Model\Layout $subject
+     * @param $result
+     * @return mixed
      */
-    public function afterGetOutput($html)
+    public function afterGetOutput(\Magento\Core\Model\Layout $subject, $result)
     {
         if ($this->layout->isCacheable()) {
             $tags = array();
@@ -79,6 +81,6 @@ class LayoutPlugin
             $tags = array_unique($tags);
             $this->response->setHeader('X-Magento-Tags', implode(',', $tags));
         }
-        return $html;
+        return $result;
     }
 }

@@ -86,6 +86,8 @@ class Restriction
 
     /**
      * Set is denied mode for FPC processors
+     *
+     * @return void
      */
     public function setIsDenied()
     {

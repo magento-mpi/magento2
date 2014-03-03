@@ -61,7 +61,7 @@ class Observer
     protected $_quoteCollectionFactory;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\LocaleInterface
      */
     protected $_coreLocale;
 
@@ -92,7 +92,7 @@ class Observer
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Model\Store\Config $storeConfig
      * @param \Magento\Sales\Model\Resource\Quote\CollectionFactory $quoteFactory
-     * @param \Magento\Core\Model\LocaleInterface $coreLocale
+     * @param \Magento\LocaleInterface $coreLocale
      * @param Resource\Report\OrderFactory $orderFactory
      * @param Resource\Report\InvoicedFactory $invoicedFactory
      * @param Resource\Report\RefundedFactory $refundedFactory
@@ -105,7 +105,7 @@ class Observer
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Model\Store\Config $storeConfig,
         \Magento\Sales\Model\Resource\Quote\CollectionFactory $quoteFactory,
-        \Magento\Core\Model\LocaleInterface $coreLocale,
+        \Magento\LocaleInterface $coreLocale,
         \Magento\Sales\Model\Resource\Report\OrderFactory $orderFactory,
         \Magento\Sales\Model\Resource\Report\InvoicedFactory $invoicedFactory,
         \Magento\Sales\Model\Resource\Report\RefundedFactory $refundedFactory,
@@ -300,6 +300,7 @@ class Observer
      */
     protected function _getVatRequiredSalesAddress($salesModel, $store = null)
     {
+        /** TODO: References to Magento\Customer\Model\Address will be eliminated in scope of MAGETWO-21105 */
         $configAddressType = $this->_customerAddress->getTaxCalculationAddressType($store);
         $requiredAddress = null;
         switch ($configAddressType) {
@@ -314,34 +315,13 @@ class Observer
     }
 
     /**
-     * Retrieve customer address (default billing or default shipping) ID on which tax calculation must be based
-     *
-     * @param \Magento\Customer\Model\Customer $customer
-     * @param \Magento\Core\Model\Store|string|int|null $store
-     * @return int|string
-     */
-    protected function _getVatRequiredCustomerAddress(\Magento\Customer\Model\Customer $customer, $store = null)
-    {
-        $configAddressType = $this->_customerAddress->getTaxCalculationAddressType($store);
-        $requiredAddress = null;
-        switch ($configAddressType) {
-            case \Magento\Customer\Model\Address\AbstractAddress::TYPE_SHIPPING:
-                $requiredAddress = $customer->getDefaultShipping();
-                break;
-            default:
-                $requiredAddress = $customer->getDefaultBilling();
-                break;
-        }
-        return $requiredAddress;
-    }
-
-    /**
      * Restore initial customer group ID in quote if needed on collect_totals_after event of quote address
      *
      * @param \Magento\Event\Observer $observer
      */
     public function restoreQuoteCustomerGroupId($observer)
     {
+        /** TODO: References to Magento\Customer\Model\Address will be eliminated in scope of MAGETWO-21105 */
         $quoteAddress = $observer->getQuoteAddress();
         $configAddressType = $this->_customerAddress->getTaxCalculationAddressType();
         // Restore initial customer group ID in quote only if VAT is calculated based on shipping address

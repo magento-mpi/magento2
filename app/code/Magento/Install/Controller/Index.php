@@ -29,6 +29,8 @@ class Index extends \Magento\Install\Controller\Action
 
     /**
      * Index action
+     *
+     * @return void
      */
     public function indexAction()
     {

@@ -47,7 +47,7 @@ class Rewrite extends \Magento\Core\Model\AbstractModel
     /**
      * Cache tag for clear cache in after save and after delete
      *
-     * @var mixed | array | string | boolean
+     * @var array|string|boolean
      */
     protected $_cacheTag = false;
 
@@ -74,8 +74,8 @@ class Rewrite extends \Magento\Core\Model\AbstractModel
     protected $_httpContext;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\App $app
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -85,8 +85,8 @@ class Rewrite extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\App $app,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
@@ -102,6 +102,9 @@ class Rewrite extends \Magento\Core\Model\AbstractModel
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_init('Magento\Core\Model\Resource\Url\Rewrite');
@@ -110,7 +113,7 @@ class Rewrite extends \Magento\Core\Model\AbstractModel
     /**
      * Clean cache for front-end menu
      *
-     * @return  \Magento\Core\Model\Url\Rewrite
+     * @return  $this
      */
     protected function _afterSave()
     {
@@ -128,7 +131,7 @@ class Rewrite extends \Magento\Core\Model\AbstractModel
      * If $path is array - we must load possible records and choose one matching earlier record in array
      *
      * @param   mixed $path
-     * @return  \Magento\Core\Model\Url\Rewrite
+     * @return  $this
      */
     public function loadByRequestPath($path)
     {
@@ -140,12 +143,20 @@ class Rewrite extends \Magento\Core\Model\AbstractModel
         return $this;
     }
 
+    /**
+     * @param int $path
+     * @return $this
+     */
     public function loadByIdPath($path)
     {
         $this->setId(null)->load($path, 'id_path');
         return $this;
     }
 
+    /**
+     * @param mixed $tags
+     * @return $this
+     */
     public function loadByTags($tags)
     {
         $this->setId(null);
@@ -174,6 +185,10 @@ class Rewrite extends \Magento\Core\Model\AbstractModel
         return $this;
     }
 
+    /**
+     * @param mixed $key
+     * @return bool
+     */
     public function hasOption($key)
     {
         $optArr = explode(',', $this->getOptions());
@@ -181,6 +196,10 @@ class Rewrite extends \Magento\Core\Model\AbstractModel
         return array_search($key, $optArr) !== false;
     }
 
+    /**
+     * @param mixed $tags
+     * @return $this
+     */
     public function addTag($tags)
     {
         $curTags = $this->getTags();
@@ -201,6 +220,10 @@ class Rewrite extends \Magento\Core\Model\AbstractModel
         return $this;
     }
 
+    /**
+     * @param mixed $tags
+     * @return $this
+     */
     public function removeTag($tags)
     {
         $curTags = $this->getTags();
@@ -327,6 +350,9 @@ class Rewrite extends \Magento\Core\Model\AbstractModel
         return true;
     }
 
+    /**
+     * @return bool|string
+     */
     protected function _getQueryString()
     {
         if (!empty($_SERVER['QUERY_STRING'])) {
@@ -348,6 +374,9 @@ class Rewrite extends \Magento\Core\Model\AbstractModel
         return false;
     }
 
+    /**
+     * @return mixed
+     */
     public function getStoreId()
     {
         return $this->_getData('store_id');
@@ -358,6 +387,7 @@ class Rewrite extends \Magento\Core\Model\AbstractModel
      *
      * @param string $url
      * @param bool $isPermanent
+     * @return void
      */
     protected function _sendRedirectHeaders($url, $isPermanent = false)
     {

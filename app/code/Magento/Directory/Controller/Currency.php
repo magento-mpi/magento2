@@ -15,6 +15,9 @@ namespace Magento\Directory\Controller;
 
 class Currency extends \Magento\App\Action\Action
 {
+    /**
+     * @return void
+     */
     public function switchAction()
     {
         /** @var \Magento\Core\Model\StoreManagerInterface $storeManager */

@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Catalog\Model\Resource;
 
+use \Magento\Catalog\Model\Attribute\LockValidatorInterface;
 
 /**
  * Catalog attribute resource model
@@ -16,7 +18,6 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Model\Resource;
 
 class Attribute extends \Magento\Eav\Model\Resource\Entity\Attribute
 {
@@ -28,19 +29,25 @@ class Attribute extends \Magento\Eav\Model\Resource\Entity\Attribute
     protected $_eavConfig;
 
     /**
-     * Class constructor
-     *
+     * @var LockValidatorInterface
+     */
+    protected $attrLockValidator;
+
+    /**
      * @param \Magento\App\Resource $resource
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Resource\Entity\Type $eavEntityType
      * @param \Magento\Eav\Model\Config $eavConfig
+     * @param LockValidatorInterface $lockValidator
      */
     public function __construct(
         \Magento\App\Resource $resource,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Eav\Model\Resource\Entity\Type $eavEntityType,
-        \Magento\Eav\Model\Config $eavConfig
+        \Magento\Eav\Model\Config $eavConfig,
+        LockValidatorInterface $lockValidator
     ) {
+        $this->attrLockValidator = $lockValidator;
         $this->_eavConfig = $eavConfig;
         parent::__construct($resource, $storeManager, $eavEntityType);
     }
@@ -49,7 +56,7 @@ class Attribute extends \Magento\Eav\Model\Resource\Entity\Attribute
      * Perform actions before object save
      *
      * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Catalog\Model\Resource\Attribute
+     * @return $this
      */
     protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
     {
@@ -63,8 +70,8 @@ class Attribute extends \Magento\Eav\Model\Resource\Entity\Attribute
     /**
      * Perform actions after object save
      *
-     * @param  \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Catalog\Model\Resource\Attribute
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return $this
      */
     protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
     {
@@ -76,7 +83,7 @@ class Attribute extends \Magento\Eav\Model\Resource\Entity\Attribute
      * Clear useless attribute values
      *
      * @param  \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Catalog\Model\Resource\Attribute
+     * @return $this
      */
     protected function _clearUselessAttributeValues(\Magento\Core\Model\AbstractModel $object)
     {
@@ -104,7 +111,7 @@ class Attribute extends \Magento\Eav\Model\Resource\Entity\Attribute
      * Delete entity
      *
      * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Catalog\Model\Resource\Attribute
+     * @return $this
      * @throws \Magento\Core\Exception
      */
     public function deleteEntity(\Magento\Core\Model\AbstractModel $object)
@@ -122,10 +129,14 @@ class Attribute extends \Magento\Eav\Model\Resource\Entity\Attribute
             $attribute = $this->_eavConfig
                 ->getAttribute(\Magento\Catalog\Model\Product::ENTITY, $result['attribute_id']);
 
-            if ($this->isUsedBySuperProducts($attribute, $result['attribute_set_id'])) {
-                throw new \Magento\Core\Exception(__("Attribute '%1' used in configurable products",
-                    $attribute->getAttributeCode()));
+            try {
+                $this->attrLockValidator->validate($attribute, $result['attribute_set_id']);
+            } catch (\Magento\Core\Exception $exception) {
+                throw new \Magento\Core\Exception(
+                    __("Attribute '%1' is locked. ", $attribute->getAttributeCode()) . $exception->getMessage()
+                );
             }
+
             $backendTable = $attribute->getBackend()->getTable();
             if ($backendTable) {
                 $select = $this->_getWriteAdapter()->select()
@@ -145,35 +156,5 @@ class Attribute extends \Magento\Eav\Model\Resource\Entity\Attribute
         $this->_getWriteAdapter()->delete($this->getTable('eav_entity_attribute'), $condition);
 
         return $this;
-    }
-
-    /**
-     * Defines is Attribute used by super products
-     *
-     * @param \Magento\Core\Model\AbstractModel $object
-     * @param int $attributeSet
-     * @return int
-     */
-    public function isUsedBySuperProducts(\Magento\Core\Model\AbstractModel $object, $attributeSet = null)
-    {
-        $adapter      = $this->_getReadAdapter();
-        $attrTable    = $this->getTable('catalog_product_super_attribute');
-        $productTable = $this->getTable('catalog_product_entity');
-
-        $bind = array('attribute_id' => $object->getAttributeId());
-        $select = clone $adapter->select();
-        $select->reset()
-            ->from(array('main_table' => $attrTable), array('psa_count' => 'COUNT(product_super_attribute_id)'))
-            ->join(array('entity' => $productTable), 'main_table.product_id = entity.entity_id')
-            ->where('main_table.attribute_id = :attribute_id')
-            ->group('main_table.attribute_id')
-            ->limit(1);
-
-        if ($attributeSet !== null) {
-            $bind['attribute_set_id'] = $attributeSet;
-            $select->where('entity.attribute_set_id = :attribute_set_id');
-        }
-
-        return $adapter->fetchOne($select, $bind);
     }
 }

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Cms\Controller;
 
 /**
  * CMS Page controller
@@ -16,13 +16,12 @@
  * @package    Magento_Cms
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Cms\Controller;
-
 class Page extends \Magento\App\Action\Action
 {
     /**
      * View CMS page action
      *
+     * @return void
      */
     public function viewAction()
     {

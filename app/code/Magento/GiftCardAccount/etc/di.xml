@@ -7,26 +7,24 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <type name="Magento\GiftCardAccount\Model\Pool">
-        <param name="giftCardCodeParams">
-            <array>
-                <item key="separator"><value>-</value></item>
-                <item key="charset">
-                    <array>
-                        <item key="alphanum"><value>ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789</value></item>
-                        <item key="alpha"><value>ABCDEFGHIJKLMNOPQRSTUVWXYZ</value></item>
-                        <item key="num"><value>0123456789</value></item>
-                    </array>
+        <arguments>
+            <argument name="giftCardCodeParams" xsi:type="array">
+                <item name="separator" xsi:type="string">-</item>
+                <item name="charset" xsi:type="array">
+                    <item name="alphanum" xsi:type="string">ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789</item>
+                    <item name="alpha" xsi:type="string">ABCDEFGHIJKLMNOPQRSTUVWXYZ</item>
+                    <item name="num" xsi:type="string">0123456789</item>
                 </item>
-            </array>
-        </param>
+            </argument>
+        </arguments>
     </type>
     <type name="Magento\Module\Updater\SetupFactory">
-        <param name="resourceTypes">
-            <array>
-                <item key="giftcardaccount_setup"><value>Magento\Sales\Model\Resource\Setup</value></item>
-            </array>
-        </param>
+        <arguments>
+            <argument name="resourceTypes" xsi:type="array">
+                <item name="giftcardaccount_setup" xsi:type="string">Magento\Sales\Model\Resource\Setup</item>
+            </argument>
+        </arguments>
     </type>
 </config>

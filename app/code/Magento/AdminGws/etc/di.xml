@@ -7,28 +7,16 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <type name="Magento\AdminGws\Model\Observer">
-        <param name="backendAuthSession">
-            <instance type="Magento\Backend\Model\Auth\Session\Proxy" />
-        </param>
-        <param name="systemStore">
-            <instance type="Magento\Core\Model\System\Store\Proxy" />
-        </param>
-        <param name="aclBuilder">
-            <instance type="Magento\Acl\Builder\Proxy" />
-        </param>
-        <param name="userRoles">
-            <instance type="Magento\User\Model\Resource\Role\Collection\Proxy" />
-        </param>
-        <param name="storeGroups">
-            <instance type="Magento\Core\Model\Resource\Store\Group\Collection\Proxy" />
-        </param>
-        <param name="role">
-            <instance type="Magento\AdminGws\Model\Role\Proxy" />
-        </param>
-        <param name="request">
-            <instance type="Magento\App\Request\Http\Proxy" />
-        </param>
+        <arguments>
+            <argument name="backendAuthSession" xsi:type="object">Magento\Backend\Model\Auth\Session\Proxy</argument>
+            <argument name="systemStore" xsi:type="object">Magento\Core\Model\System\Store\Proxy</argument>
+            <argument name="aclBuilder" xsi:type="object">Magento\Acl\Builder\Proxy</argument>
+            <argument name="userRoles" xsi:type="object">Magento\User\Model\Resource\Role\Collection\Proxy</argument>
+            <argument name="storeGroups" xsi:type="object">Magento\Core\Model\Resource\Store\Group\Collection\Proxy</argument>
+            <argument name="role" xsi:type="object">Magento\AdminGws\Model\Role\Proxy</argument>
+            <argument name="request" xsi:type="object">Magento\App\Request\Http\Proxy</argument>
+        </arguments>
     </type>
 </config>

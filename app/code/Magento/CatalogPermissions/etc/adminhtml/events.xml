@@ -41,7 +41,4 @@
     <event name="admin_system_config_changed_section_magento_catalogpermissions">
         <observer name="magento_catalogpermissions" instance="Magento\CatalogPermissions\Model\Adminhtml\Observer" method="cleanCacheOnConfigChange" />
     </event>
-    <event name="after_reindex_process_catalog_category_product">
-        <observer name="magento_catalogpermissions" instance="Magento\CatalogPermissions\Model\Adminhtml\Observer" method="applyPermissionsAfterReindex" />
-    </event>
 </config>

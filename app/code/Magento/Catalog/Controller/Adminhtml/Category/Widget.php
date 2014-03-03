@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Catalog\Controller\Adminhtml\Category;
+
+use Magento\View\Element\BlockInterface;
 
 /**
  * Catalog category widgets controller for CMS WYSIWYG
@@ -15,24 +18,22 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Controller\Adminhtml\Category;
-
 class Widget extends \Magento\Backend\App\Action
 {
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
@@ -40,6 +41,8 @@ class Widget extends \Magento\Backend\App\Action
 
     /**
      * Chooser Source action
+     *
+     * @return void
      */
     public function chooserAction()
     {
@@ -50,6 +53,8 @@ class Widget extends \Magento\Backend\App\Action
 
     /**
      * Categories tree node (Ajax version)
+     *
+     * @return void
      */
     public function categoriesJsonAction()
     {
@@ -67,6 +72,9 @@ class Widget extends \Magento\Backend\App\Action
         }
     }
 
+    /**
+     * @return BlockInterface
+     */
     protected function _getCategoryTreeBlock()
     {
         return $this->_view->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Category\Widget\Chooser', '', array(

@@ -33,7 +33,7 @@ class ObjectManagerFactory
      *
      * @var string
      */
-    protected $_configClassName = '\Magento\ObjectManager\Config\Config';
+    protected $_configClassName = 'Magento\Interception\ObjectManager\Config';
 
     /**
      * Create object manager
@@ -57,29 +57,21 @@ class ObjectManagerFactory
             array($directoryList->getDir(\Magento\App\Filesystem::GENERATION_DIR))
         );
 
-        $options = new \Magento\App\Arguments(
-            $arguments,
-            new \Magento\App\Arguments\Loader(
-                $directoryList,
-                isset($arguments[\Magento\App\Arguments\Loader::PARAM_CUSTOM_FILE])
-                    ? $arguments[\Magento\App\Arguments\Loader::PARAM_CUSTOM_FILE]
-                    : null
-            )
-        );
+        $appArguments = $this->createAppArguments($directoryList, $arguments);
 
         $definitionFactory = new \Magento\ObjectManager\DefinitionFactory(
             new \Magento\Filesystem\Driver\File(),
             $directoryList->getDir(\Magento\App\Filesystem::DI_DIR),
             $directoryList->getDir(\Magento\App\Filesystem::GENERATION_DIR),
-            $options->get('definition.format', 'serialized')
+            $appArguments->get('definition.format', 'serialized')
         );
 
-        $definitions = $definitionFactory->createClassDefinition($options->get('definitions'));
+        $definitions = $definitionFactory->createClassDefinition($appArguments->get('definitions'));
         $relations = $definitionFactory->createRelations();
         $configClass = $this->_configClassName;
         /** @var \Magento\ObjectManager\Config\Config $diConfig */
         $diConfig = new $configClass($relations, $definitions);
-        $appMode = $options->get(State::PARAM_MODE, State::MODE_DEFAULT);
+        $appMode = $appArguments->get(State::PARAM_MODE, State::MODE_DEFAULT);
 
         $configData = $this->_loadPrimaryConfig($directoryList, $appMode);
 
@@ -87,16 +79,26 @@ class ObjectManagerFactory
             $diConfig->extend($configData);
         }
 
-        $factory = new \Magento\ObjectManager\Factory\Factory($diConfig, null, $definitions, $options->get());
+        $booleanUtils = new \Magento\Stdlib\BooleanUtils();
+        $argFactory = new \Magento\ObjectManager\Config\Argument\ObjectFactory($diConfig);
+        $argInterpreter = $this->createArgumentInterpreter($booleanUtils, $argFactory, $appArguments);
+        $factory = new \Magento\ObjectManager\Factory\Factory($diConfig, $argInterpreter, $argFactory, $definitions);
 
         $className = $this->_locatorClassName;
         /** @var \Magento\ObjectManager $objectManager */
         $objectManager = new $className($factory, $diConfig, array(
-            'Magento\App\Arguments' => $options,
+            'Magento\App\Arguments' => $appArguments,
             'Magento\App\Filesystem\DirectoryList' => $directoryList,
-            'Magento\Filesystem\DirectoryList' => $directoryList
+            'Magento\Filesystem\DirectoryList' => $directoryList,
+            'Magento\ObjectManager\Relations' => $relations,
+            'Magento\Interception\Definition' => $definitionFactory->createPluginDefinition(),
+            'Magento\ObjectManager\Config' => $diConfig,
+            'Magento\ObjectManager\Definition' => $definitions,
+            'Magento\Stdlib\BooleanUtils' => $booleanUtils,
+            $configClass => $diConfig,
         ));
 
+        $argFactory->setObjectManager($objectManager);
         \Magento\App\ObjectManager::setInstance($objectManager);
 
         /** @var \Magento\App\Filesystem\DirectoryList\Verification $verification */
@@ -109,29 +111,63 @@ class ObjectManagerFactory
         );
         $objectManager->get('Magento\Config\ScopeInterface')->setCurrentScope('global');
         $objectManager->get('Magento\App\Resource')->setCache($objectManager->get('Magento\App\CacheInterface'));
-
-        $relations = $definitionFactory->createRelations();
-
-        $interceptionConfig = $objectManager->create('Magento\Interception\Config\Config', array(
-            'relations' => $relations,
-            'omConfig' => $diConfig,
-            'classDefinitions' => $definitions instanceof \Magento\ObjectManager\Definition\Compiled
-                ? $definitions
-                : null,
-        ));
-
-        $pluginList = $this->_createPluginList($objectManager, $relations, $definitionFactory, $diConfig, $definitions);
-
-        $factory = $objectManager->create('Magento\Interception\FactoryDecorator', array(
-            'factory' => $factory,
-            'config' => $interceptionConfig,
-            'pluginList' => $pluginList
-        ));
-        $objectManager->setFactory($factory);
+        $interceptionConfig = $objectManager->get('Magento\Interception\Config\Config');
+        $diConfig->setInterceptionConfig($interceptionConfig);
 
         $this->configureDirectories($objectManager);
 
         return $objectManager;
+    }
+
+    /**
+     * Create instance of application arguments
+     *
+     * @param Filesystem\DirectoryList $directoryList
+     * @param array $arguments
+     * @return Arguments
+     */
+    protected function createAppArguments(\Magento\App\Filesystem\DirectoryList $directoryList, array $arguments)
+    {
+        return new \Magento\App\Arguments(
+            $arguments,
+            new \Magento\App\Arguments\Loader(
+                $directoryList,
+                isset($arguments[\Magento\App\Arguments\Loader::PARAM_CUSTOM_FILE])
+                    ? $arguments[\Magento\App\Arguments\Loader::PARAM_CUSTOM_FILE]
+                    : null
+            )
+        );
+    }
+
+    /**
+     * Return newly created instance on an argument interpreter, suitable for processing DI arguments
+     *
+     * @param \Magento\Stdlib\BooleanUtils $booleanUtils
+     * @param \Magento\ObjectManager\Config\Argument\ObjectFactory $objFactory
+     * @param \Magento\App\Arguments $appArguments
+     * @return \Magento\Data\Argument\InterpreterInterface
+     */
+    protected function createArgumentInterpreter(
+        \Magento\Stdlib\BooleanUtils $booleanUtils,
+        \Magento\ObjectManager\Config\Argument\ObjectFactory $objFactory,
+        \Magento\App\Arguments $appArguments
+    ) {
+        $constInterpreter = new \Magento\Data\Argument\Interpreter\Constant();
+        $result = new \Magento\Data\Argument\Interpreter\Composite(
+            array(
+                'boolean' => new \Magento\Data\Argument\Interpreter\Boolean($booleanUtils),
+                'string' => new \Magento\Data\Argument\Interpreter\String($booleanUtils),
+                'number' => new \Magento\Data\Argument\Interpreter\Number(),
+                'null' => new \Magento\Data\Argument\Interpreter\NullType(),
+                'const' => $constInterpreter,
+                'object' => new \Magento\ObjectManager\Config\Argument\Interpreter\Object($booleanUtils, $objFactory),
+                'init_parameter' => new \Magento\App\Arguments\ArgumentInterpreter($appArguments, $constInterpreter),
+            ),
+            \Magento\ObjectManager\Config\Reader\Dom::TYPE_ATTRIBUTE
+        );
+        // Add interpreters that reference the composite
+        $result->addInterpreter('array', new \Magento\Data\Argument\Interpreter\ArrayType($result));
+        return $result;
     }
 
     /**

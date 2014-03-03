@@ -1,18 +1,15 @@
 <?php
 /**
+ * Date conversion model
+ *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/**
- * Date conversion model
- *
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Core\Model;
+
+use Magento\LocaleInterface;
 
 class Date
 {
@@ -24,14 +21,14 @@ class Date
     private $_offset = 0;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var LocaleInterface
      */
     protected $_locale;
 
     /**
      * @param LocaleInterface $locale
      */
-    public function __construct(\Magento\Core\Model\LocaleInterface $locale)
+    public function __construct(LocaleInterface $locale)
     {
         $this->_locale = $locale;
         $this->_offset = $this->calculateOffset($locale->getConfigTimezone());
@@ -40,7 +37,7 @@ class Date
     /**
      * Calculates timezone offset
      *
-     * @param  string $timezone
+     * @param  string|null $timezone
      * @return int offset between timezone and gmt
      */
     public function calculateOffset($timezone = null)

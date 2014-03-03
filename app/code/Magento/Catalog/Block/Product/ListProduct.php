@@ -18,6 +18,9 @@
  */
 namespace Magento\Catalog\Block\Product;
 
+use Magento\Eav\Model\Entity\Collection\AbstractCollection;
+use Magento\View\Element\AbstractBlock;
+
 class ListProduct extends \Magento\Catalog\Block\Product\AbstractProduct
     implements \Magento\View\Block\IdentityInterface
 {
@@ -31,7 +34,7 @@ class ListProduct extends \Magento\Catalog\Block\Product\AbstractProduct
     /**
      * Product Collection
      *
-     * @var \Magento\Eav\Model\Entity\Collection\AbstractCollection
+     * @var AbstractCollection
      */
     protected $_productCollection;
 
@@ -52,7 +55,7 @@ class ListProduct extends \Magento\Catalog\Block\Product\AbstractProduct
     /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Catalog\Model\Config $catalogConfig
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Math\Random $mathRandom
@@ -65,13 +68,13 @@ class ListProduct extends \Magento\Catalog\Block\Product\AbstractProduct
      * @param \Magento\Catalog\Model\Layer $catalogLayer
      * @param array $data
      * @param array $priceBlockTypes
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Catalog\Model\Config $catalogConfig,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Math\Random $mathRandom,
@@ -107,7 +110,7 @@ class ListProduct extends \Magento\Catalog\Block\Product\AbstractProduct
     /**
      * Retrieve loaded category collection
      *
-     * @return \Magento\Eav\Model\Entity\Collection\AbstractCollection
+     * @return AbstractCollection
      */
     protected function _getProductCollection()
     {
@@ -169,7 +172,7 @@ class ListProduct extends \Magento\Catalog\Block\Product\AbstractProduct
     /**
      * Retrieve loaded category collection
      *
-     * @return \Magento\Eav\Model\Entity\Collection\AbstractCollection
+     * @return AbstractCollection
      */
     public function getLoadedProductCollection()
     {
@@ -189,6 +192,7 @@ class ListProduct extends \Magento\Catalog\Block\Product\AbstractProduct
     /**
      * Need use as _prepareLayout - but problem in declaring collection from
      * another block (was problem with search result)
+     * @return $this
      */
     protected function _beforeToHtml()
     {
@@ -266,18 +270,29 @@ class ListProduct extends \Magento\Catalog\Block\Product\AbstractProduct
         return $this->getChildHtml('toolbar');
     }
 
+    /**
+     * @param AbstractCollection $collection
+     * @return $this
+     */
     public function setCollection($collection)
     {
         $this->_productCollection = $collection;
         return $this;
     }
 
+    /**
+     * @param array|string|integer|\Magento\Core\Model\Config\Element $code
+     * @return $this
+     */
     public function addAttribute($code)
     {
         $this->_getProductCollection()->addAttributeToSelect($code);
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
     public function getPriceBlockTemplate()
     {
         return $this->_getData('price_block_template');

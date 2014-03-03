@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Block\Urlrewrite\Catalog\Product;
 
 /**
  * Products grid for URL rewrites editing
@@ -15,14 +16,12 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Backend\Block\Urlrewrite\Catalog\Product;
-
 class Grid extends \Magento\Catalog\Block\Adminhtml\Product\Grid
 {
     /**
      * Disable massaction
      *
-     * @return \Magento\Backend\Block\Urlrewrite\Catalog\Product\Grid
+     * @return $this
      */
     protected function _prepareMassaction()
     {
@@ -32,7 +31,7 @@ class Grid extends \Magento\Catalog\Block\Adminhtml\Product\Grid
     /**
      * Prepare columns layout
      *
-     * @return \Magento\Backend\Block\Urlrewrite\Catalog\Product\Grid
+     * @return $this
      */
     protected function _prepareColumns()
     {
@@ -79,7 +78,7 @@ class Grid extends \Magento\Catalog\Block\Adminhtml\Product\Grid
     /**
      * Return row url for js event handlers
      *
-     * @param \Magento\Catalog\Model\Product|\Magento\Object
+     * @param \Magento\Catalog\Model\Product|\Magento\Object $row
      * @return string
      */
     public function getRowUrl($row)

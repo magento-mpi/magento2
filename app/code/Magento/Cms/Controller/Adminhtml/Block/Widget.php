@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Cms\Controller\Adminhtml\Block;
 
 /**
  * Controller for CMS Block Widget plugin
@@ -16,12 +16,12 @@
  * @package    Magento_Cms
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Cms\Controller\Adminhtml\Block;
-
 class Widget extends \Magento\Backend\App\Action
 {
     /**
      * Chooser Source action
+     *
+     * @return void
      */
     public function chooserAction()
     {

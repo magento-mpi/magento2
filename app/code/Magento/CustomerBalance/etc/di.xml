@@ -7,26 +7,26 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <preference for="Magento\Payment\Model\Cart\SalesModel\Order" type="Magento\CustomerBalance\Model\Cart\SalesModel\Order" />
     <preference for="Magento\Payment\Model\Cart\SalesModel\Quote" type="Magento\CustomerBalance\Model\Cart\SalesModel\Quote" />
     <type name="Magento\Module\Manager">
-        <param name="outputConfigPaths">
-            <array>
-                <item key="Magento_CustomerBalance"><value>Magento\CustomerBalance\Helper\Data::XML_PATH_ENABLED</value></item>
-            </array>
-        </param>
+        <arguments>
+            <argument name="outputConfigPaths" xsi:type="array">
+                <item name="Magento_CustomerBalance" xsi:type="string">Magento\CustomerBalance\Helper\Data::XML_PATH_ENABLED</item>
+            </argument>
+        </arguments>
     </type>
     <type name="Magento\CustomerBalance\Model\Observer">
-        <param name="onePageCheckout">
-            <instance type="Magento\Checkout\Model\Type\Onepage\Proxy"/>
-        </param>
+        <arguments>
+            <argument name="onePageCheckout" xsi:type="object">Magento\Checkout\Model\Type\Onepage\Proxy</argument>
+        </arguments>
     </type>
     <type name="Magento\Module\Updater\SetupFactory">
-        <param name="resourceTypes">
-            <array>
-                <item key="customerbalance_setup"><value>Magento\Sales\Model\Resource\Setup</value></item>
-            </array>
-        </param>
+        <arguments>
+            <argument name="resourceTypes" xsi:type="array">
+                <item name="customerbalance_setup" xsi:type="string">Magento\Sales\Model\Resource\Setup</item>
+            </argument>
+        </arguments>
     </type>
 </config>

@@ -86,7 +86,7 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $locale = $this->getMock('Magento\Core\Model\Locale', array('getNumber'), array(), '', false);
         $locale->expects($this->any())->method('getNumber')->will($this->returnArgument(0));
-        $coreRegistry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
+        $coreRegistry = $this->getMock('Magento\Registry', array(), array(), '', false);
         $logger = $this->getMock('Magento\Logger', array(), array(), '', false);
         $productFactory = $this->getMock('Magento\Catalog\Model\ProductFactory', array(), array(), '', false);
         $productOption = $this->getMock('Magento\Catalog\Model\Product\Option', array(), array(), '', false);

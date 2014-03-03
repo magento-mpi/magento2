@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Cms\Block\Adminhtml\Page\Edit\Tab;
 
 /**
  * Cms page edit form main tab
  */
-namespace Magento\Cms\Block\Adminhtml\Page\Edit\Tab;
-
 class Content
     extends \Magento\Backend\Block\Widget\Form\Generic
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
@@ -24,14 +23,14 @@ class Content
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig,
         array $data = array()
@@ -42,6 +41,8 @@ class Content
 
     /**
      * Load Wysiwyg on demand and Prepare layout
+     *
+     * @return void
      */
     protected function _prepareLayout()
     {
@@ -51,6 +52,11 @@ class Content
         }
     }
 
+    /**
+     * Prepare form
+     *
+     * @return $this
+     */
     protected function _prepareForm()
     {
         /** @var $model \Magento\Cms\Model\Page */

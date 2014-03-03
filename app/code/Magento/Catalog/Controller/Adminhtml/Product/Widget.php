@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Catalog\Controller\Adminhtml\Product;
 
 /**
  * Catalog Product widgets controller for CMS WYSIWYG
@@ -16,12 +16,12 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Controller\Adminhtml\Product;
-
 class Widget extends \Magento\Backend\App\Action
 {
     /**
      * Chooser Source action
+     *
+     * @return void
      */
     public function chooserAction()
     {

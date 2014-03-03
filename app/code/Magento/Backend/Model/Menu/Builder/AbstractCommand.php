@@ -7,18 +7,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Model\Menu\Builder;
 
 /**
  * Menu builder command
  */
-namespace Magento\Backend\Model\Menu\Builder;
-
 abstract class AbstractCommand
 {
     /**
      * List of required params
      *
-     * @var array
+     * @var string[]
      */
     protected $_requiredParams = array("id");
 
@@ -64,7 +63,7 @@ abstract class AbstractCommand
      * Add command as last in the list of callbacks
      *
      * @param \Magento\Backend\Model\Menu\Builder\AbstractCommand $command
-     * @return \Magento\Backend\Model\Menu\Builder\AbstractCommand
+     * @return $this
      * @throws \InvalidArgumentException if invalid chaining command is supplied
      */
     public function chain(\Magento\Backend\Model\Menu\Builder\AbstractCommand $command)

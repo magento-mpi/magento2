@@ -7,18 +7,18 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <preference for="Magento\VersionsCms\Model\Hierarchy\ConfigInterface" type="Magento\VersionsCms\Model\Hierarchy\Config" />
     <type name="Magento\VersionsCms\Model\Config">
-        <param name="authorization">
-            <instance type="Magento\Authorization\Proxy" />
-        </param>
+        <arguments>
+            <argument name="authorization" xsi:type="object">Magento\Authorization\Proxy</argument>
+        </arguments>
     </type>
     <type name="Magento\Module\Updater\SetupFactory">
-        <param name="resourceTypes">
-            <array>
-                <item key="versionscms_setup"><value>Magento\VersionsCms\Model\Resource\Setup</value></item>
-            </array>
-        </param>
+        <arguments>
+            <argument name="resourceTypes" xsi:type="array">
+                <item name="versionscms_setup" xsi:type="string">Magento\VersionsCms\Model\Resource\Setup</item>
+            </argument>
+        </arguments>
     </type>
 </config>

@@ -7,12 +7,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Usa\Model\Shipping\Carrier;
+
+use Magento\Core\Exception;
+use Magento\Sales\Model\Quote\Address\RateRequest;
+use Magento\Sales\Model\Quote\Address\RateResult\Error;
+use Magento\Shipping\Model\Shipment\Request;
 
 /**
  * Abstract USA shipping carrier model
  */
-namespace Magento\Usa\Model\Shipping\Carrier;
-
 abstract class AbstractCarrier extends \Magento\Shipping\Model\Carrier\AbstractCarrier
 {
 
@@ -21,6 +25,11 @@ abstract class AbstractCarrier extends \Magento\Shipping\Model\Carrier\AbstractC
     const GUAM_COUNTRY_ID = 'GU';
     const GUAM_REGION_CODE = 'GU';
 
+    /**
+     * Array of quotes
+     *
+     * @var array
+     */
     protected static $_quotesCache = array();
 
     /**
@@ -86,7 +95,7 @@ abstract class AbstractCarrier extends \Magento\Shipping\Model\Carrier\AbstractC
     /**
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Sales\Model\Quote\Address\RateResult\ErrorFactory $rateErrorFactory
-     * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
+     * @param \Magento\Logger\AdapterFactory $logAdapterFactory
      * @param \Magento\Usa\Model\Simplexml\ElementFactory $xmlElFactory
      * @param \Magento\Shipping\Model\Rate\ResultFactory $rateFactory
      * @param \Magento\Sales\Model\Quote\Address\RateResult\MethodFactory $rateMethodFactory
@@ -98,13 +107,13 @@ abstract class AbstractCarrier extends \Magento\Shipping\Model\Carrier\AbstractC
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
      * @param \Magento\Directory\Helper\Data $directoryData
      * @param array $data
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Sales\Model\Quote\Address\RateResult\ErrorFactory $rateErrorFactory,
-        \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
+        \Magento\Logger\AdapterFactory $logAdapterFactory,
         \Magento\Usa\Model\Simplexml\ElementFactory $xmlElFactory,
         \Magento\Shipping\Model\Rate\ResultFactory $rateFactory,
         \Magento\Sales\Model\Quote\Address\RateResult\MethodFactory $rateMethodFactory,
@@ -134,7 +143,7 @@ abstract class AbstractCarrier extends \Magento\Shipping\Model\Carrier\AbstractC
      * Set flag for check carriers for activity
      *
      * @param string $code
-     * @return \Magento\Usa\Model\Shipping\Carrier\AbstractCarrier
+     * @return $this
      */
     public function setActiveFlag($code = 'active')
     {
@@ -152,6 +161,12 @@ abstract class AbstractCarrier extends \Magento\Shipping\Model\Carrier\AbstractC
         return isset($this->_code) ? $this->_code : null;
     }
 
+    /**
+     * Get tracking information
+     *
+     * @param string $tracking
+     * @return string|false
+     */
     public function getTrackingInfo($tracking)
     {
         $result = $this->getTracking($tracking);
@@ -218,10 +233,10 @@ abstract class AbstractCarrier extends \Magento\Shipping\Model\Carrier\AbstractC
      * bundle itself, otherwise we may not get a rate at all (e.g. when total weight of a bundle exceeds max weight
      * despite each item by itself is not)
      *
-     * @param \Magento\Sales\Model\Quote\Address\RateRequest $request
+     * @param RateRequest $request
      * @return array
      */
-    public function getAllItems(\Magento\Sales\Model\Quote\Address\RateRequest $request)
+    public function getAllItems(RateRequest $request)
     {
         $items = array();
         if ($request->getAllItems()) {
@@ -250,13 +265,13 @@ abstract class AbstractCarrier extends \Magento\Shipping\Model\Carrier\AbstractC
     /**
      * Processing additional validation to check if carrier applicable.
      *
-     * @param \Magento\Sales\Model\Quote\Address\RateRequest $request
-     * @return \Magento\Shipping\Model\Carrier\AbstractCarrier|\Magento\Sales\Model\Quote\Address\RateResult\Error|boolean
+     * @param RateRequest $request
+     * @return $this|bool|Error
      */
-    public function proccessAdditionalValidation(\Magento\Sales\Model\Quote\Address\RateRequest $request)
+    public function proccessAdditionalValidation(RateRequest $request)
     {
         //Skip by item validation if there is no items in request
-        if(!count($this->getAllItems($request))) {
+        if (!count($this->getAllItems($request))) {
             return $this;
         }
 
@@ -343,7 +358,7 @@ abstract class AbstractCarrier extends \Magento\Shipping\Model\Carrier\AbstractC
      *
      * @param string|array $requestParams
      * @param string $response
-     * @return \Magento\Usa\Model\Shipping\Carrier\AbstractCarrier
+     * @return $this
      */
     protected function _setCachedQuotes($requestParams, $response)
     {
@@ -370,7 +385,7 @@ abstract class AbstractCarrier extends \Magento\Shipping\Model\Carrier\AbstractC
      * Validate and correct request information
      *
      * @param \Magento\Object $request
-     *
+     * @return void
      */
     protected function _prepareShipmentRequest(\Magento\Object $request)
     {
@@ -386,15 +401,15 @@ abstract class AbstractCarrier extends \Magento\Shipping\Model\Carrier\AbstractC
     /**
      * Do request to shipment
      *
-     * @throws \Magento\Core\Exception if there are no packages in request
-     * @param \Magento\Shipping\Model\Shipment\Request $request
-     * @return array
+     * @param Request $request
+     * @return \Magento\Object
+     * @throws Exception
      */
     public function requestToShipment($request)
     {
         $packages = $request->getPackages();
         if (!is_array($packages) || !$packages) {
-            throw new \Magento\Core\Exception(__('No packages for request'));
+            throw new Exception(__('No packages for request'));
         }
         if ($request->getStoreId() != null) {
             $this->setStore($request->getStoreId());
@@ -435,16 +450,16 @@ abstract class AbstractCarrier extends \Magento\Shipping\Model\Carrier\AbstractC
     /**
      * Do request to RMA shipment
      *
-     * @throws \Magento\Core\Exception if there are no packages in request
-     * @param $request
-     * @return array
+     * @param Request $request
+     * @return \Magento\Object
+     * @throws Exception
      */
     public function returnOfShipment($request)
     {
         $request->setIsReturn(true);
         $packages = $request->getPackages();
         if (!is_array($packages) || !$packages) {
-            throw new \Magento\Core\Exception(__('No packages for request'));
+            throw new Exception(__('No packages for request'));
         }
         if ($request->getStoreId() != null) {
             $this->setStore($request->getStoreId());
@@ -486,9 +501,10 @@ abstract class AbstractCarrier extends \Magento\Shipping\Model\Carrier\AbstractC
      * For multi package shipments. Delete requested shipments if the current shipment
      * request is failed
      *
-     * @todo implement rollback logic
      * @param array $data
      * @return bool
+     *
+     * @todo implement rollback logic
      */
     public function rollBack($data)
     {

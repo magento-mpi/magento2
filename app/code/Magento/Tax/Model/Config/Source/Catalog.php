@@ -9,8 +9,11 @@
  */
 namespace Magento\Tax\Model\Config\Source;
 
-class Catalog implements \Magento\Core\Model\Option\ArrayInterface
+class Catalog implements \Magento\Option\ArrayInterface
 {
+    /**
+     * @return array
+     */
     public function toOptionArray()
     {
         return array(

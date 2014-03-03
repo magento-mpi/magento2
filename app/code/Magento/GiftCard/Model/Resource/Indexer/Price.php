@@ -104,7 +104,7 @@ class Price extends \Magento\Catalog\Model\Resource\Product\Indexer\Price\Defaul
             ->where('e.type_id = ?', $this->getTypeId());
 
         // add enable products limitation
-        $statusCond = $write->quoteInto('=?', \Magento\Catalog\Model\Product\Status::STATUS_ENABLED);
+        $statusCond = $write->quoteInto('=?', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
         $this->_addAttributeToSelect($select, 'status', 'e.entity_id', 'cs.store_id', $statusCond, true);
 
         $allowOpenAmount = $this->_addAttributeToSelect($select, 'allow_open_amount', 'e.entity_id', 'cs.store_id');

@@ -7,16 +7,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Model\Menu;
 
 /**
  * Menu iterator
  */
-namespace Magento\Backend\Model\Menu;
-
 class Iterator extends \ArrayIterator
 {
     /**
      * Rewind to first element
+     *
+     * @return void
      */
     public function rewind()
     {

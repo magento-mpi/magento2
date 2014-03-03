@@ -7,20 +7,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sitemap\Block\Adminhtml;
 
 /**
  * Adminhtml catalog (google) sitemaps block
- *
- * @category   Magento
- * @package    Magento_Sitemap
  */
-namespace Magento\Sitemap\Block\Adminhtml;
-
 class Sitemap extends \Magento\Backend\Block\Widget\Grid\Container
 {
-
     /**
      * Block constructor
+     *
+     * @return void
      */
     protected function _construct()
     {

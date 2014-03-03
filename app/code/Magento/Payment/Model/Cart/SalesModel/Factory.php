@@ -5,12 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Payment\Model\Cart\SalesModel;
 
 /**
  * Factory for creating payment cart sales models
  */
-namespace Magento\Payment\Model\Cart\SalesModel;
-
 class Factory
 {
     /**

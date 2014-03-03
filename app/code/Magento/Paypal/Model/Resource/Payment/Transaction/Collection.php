@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Model\Resource\Payment\Transaction;
 
 /**
  * Payment transactions collection
@@ -16,8 +17,6 @@
  * @package     Magento_Paypal
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Paypal\Model\Resource\Payment\Transaction;
-
 class Collection
     extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
@@ -29,6 +28,8 @@ class Collection
     protected $_createdBefore          = "";
     /**
      * Initialize collection items factory class
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -40,7 +41,7 @@ class Collection
      * CreatedAt filter setter
      *
      * @param string $date
-     * @return \Magento\Sales\Model\Resource\Order\Payment\Transaction\Collection
+     * @return $this
      */
     public function addCreatedBeforeFilter($date)
     {
@@ -51,7 +52,7 @@ class Collection
     /**
      * Prepare filters
      *
-     * @return \Magento\Paypal\Model\Resource\Payment\Transaction\Collection
+     * @return $this
      */
     protected function _beforeLoad()
     {
@@ -71,7 +72,7 @@ class Collection
     /**
      * Unserialize additional_information in each item
      *
-     * @return \Magento\Paypal\Model\Resource\Payment\Transaction\Collection
+     * @return $this
      */
     protected function _afterLoad()
     {

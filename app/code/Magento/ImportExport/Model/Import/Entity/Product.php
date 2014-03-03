@@ -116,7 +116,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     /**
      * Attributes with index (not label) value.
      *
-     * @var array
+     * @var string[]
      */
     protected $_indexValueAttributes = array(
         'status',
@@ -200,7 +200,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     /**
      * Column names that holds values with particular meaning.
      *
-     * @var array
+     * @var string[]
      */
     protected $_specialAttributes = array(
         '_store', '_attribute_set', '_type', self::COL_CATEGORY, self::COL_ROOT_CATEGORY, '_product_websites',
@@ -218,7 +218,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     /**
      * Column names that holds images files names
      *
-     * @var array
+     * @var string[]
      */
     protected $_imagesArrayKeys = array(
         '_media_image', 'image', 'small_image', 'thumbnail'
@@ -227,7 +227,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     /**
      * Permanent entity columns.
      *
-     * @var array
+     * @var string[]
      */
     protected $_permanentAttributes = array(self::COL_SKU);
 
@@ -372,7 +372,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     protected $_stockItemFactory;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\LocaleInterface
      */
     protected $_locale;
 
@@ -412,7 +412,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\CatalogInventory\Model\Resource\Stock\ItemFactory $stockResItemFac
      * @param \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\LocaleInterface $locale
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Logger $logger
      * @param array $data
@@ -443,7 +443,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         \Magento\App\Filesystem $filesystem,
         \Magento\CatalogInventory\Model\Resource\Stock\ItemFactory $stockResItemFac,
         \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\LocaleInterface $locale,
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Logger $logger,
         array $data = array()
@@ -504,7 +504,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      * Set import parameters
      *
      * @param array $params
-     * @return \Magento\ImportExport\Model\Import\Entity\Product
+     * @return $this
      */
     public function setParameters(array $params)
     {
@@ -517,7 +517,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     /**
      * Delete products.
      *
-     * @return \Magento\ImportExport\Model\Import\Entity\Product
+     * @return $this
      */
     protected function _deleteProducts()
     {
@@ -568,7 +568,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     /**
      * Initialize attribute sets code-to-id pairs.
      *
-     * @return \Magento\ImportExport\Model\Import\Entity\Product
+     * @return $this
      */
     protected function _initAttributeSets()
     {
@@ -583,7 +583,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     /**
      * Initialize categories text-path to ID hash.
      *
-     * @return \Magento\ImportExport\Model\Import\Entity\Product
+     * @return $this
      */
     protected function _initCategories()
     {
@@ -614,7 +614,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     /**
      * Initialize customer groups.
      *
-     * @return \Magento\ImportExport\Model\Import\Entity\Product
+     * @return $this
      */
     protected function _initCustomerGroups()
     {
@@ -627,7 +627,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     /**
      * Initialize existent product SKUs.
      *
-     * @return \Magento\ImportExport\Model\Import\Entity\Product
+     * @return $this
      */
     protected function _initSkus()
     {
@@ -648,7 +648,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     /**
      * Initialize stores hash.
      *
-     * @return \Magento\ImportExport\Model\Import\Entity\Product
+     * @return $this
      */
     protected function _initStores()
     {
@@ -662,8 +662,8 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     /**
      * Initialize product type models.
      *
-     * @throws \Exception
-     * @return \Magento\ImportExport\Model\Import\Entity\Product
+     * @return $this
+     * @throws \Magento\Core\Exception
      */
     protected function _initTypeModels()
     {
@@ -694,7 +694,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     /**
      * Initialize website values.
      *
-     * @return \Magento\ImportExport\Model\Import\Entity\Product
+     * @return $this
      */
     protected function _initWebsites()
     {
@@ -885,7 +885,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      * Gather and save information about product links.
      * Must be called after ALL products saving done.
      *
-     * @return \Magento\ImportExport\Model\Import\Entity\Product
+     * @return $this
      */
     protected function _saveLinks()
     {
@@ -997,7 +997,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      * Save product attributes.
      *
      * @param array $attributesData
-     * @return \Magento\ImportExport\Model\Import\Entity\Product
+     * @return $this
      */
     protected function _saveProductAttributes(array $attributesData)
     {
@@ -1038,7 +1038,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      * Save product categories.
      *
      * @param array $categoriesData
-     * @return \Magento\ImportExport\Model\Import\Entity\Product
+     * @return $this
      */
     protected function _saveProductCategories(array $categoriesData)
     {
@@ -1077,7 +1077,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      *
      * @param array $entityRowsIn Row for insert
      * @param array $entityRowsUp Row for update
-     * @return \Magento\ImportExport\Model\Import\Entity\Product
+     * @return $this
      */
     protected function _saveProductEntity(array $entityRowsIn, array $entityRowsUp)
     {
@@ -1110,7 +1110,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     /**
      * Gather and save information about product entities.
      *
-     * @return \Magento\ImportExport\Model\Import\Entity\Product
+     * @return $this
      */
     protected function _saveProducts()
     {
@@ -1326,7 +1326,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      * Save product tier prices.
      *
      * @param array $tierPriceData
-     * @return \Magento\ImportExport\Model\Import\Entity\Product
+     * @return $this
      */
     protected function _saveProductTierPrices(array $tierPriceData)
     {
@@ -1365,7 +1365,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      * Save product group prices.
      *
      * @param array $groupPriceData
-     * @return \Magento\ImportExport\Model\Import\Entity\Product
+     * @return $this
      */
     protected function _saveProductGroupPrices(array $groupPriceData)
     {
@@ -1402,6 +1402,9 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
 
     /**
      * Returns an object for upload a media files
+     *
+     * @return \Magento\ImportExport\Model\Import\Uploader
+     * @throws \Magento\Core\Exception
      */
     protected function _getUploader()
     {
@@ -1446,7 +1449,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      * Save product media gallery.
      *
      * @param array $mediaGalleryData
-     * @return \Magento\ImportExport\Model\Import\Entity\Product
+     * @return $this
      */
     protected function _saveMediaGallery(array $mediaGalleryData)
     {
@@ -1527,7 +1530,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      * Save product websites.
      *
      * @param array $websiteData
-     * @return \Magento\ImportExport\Model\Import\Entity\Product
+     * @return $this
      */
     protected function _saveProductWebsites(array $websiteData)
     {
@@ -1567,7 +1570,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     /**
      * Stock item saving.
      *
-     * @return \Magento\ImportExport\Model\Import\Entity\Product
+     * @return $this
      */
     protected function _saveStockItem()
     {
@@ -1848,7 +1851,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     /**
      * Validate data rows and save bunches to DB
      *
-     * @return \Magento\ImportExport\Model\Import\Entity\Product
+     * @return $this
      */
     protected function _saveValidatedBunches()
     {
@@ -1869,7 +1872,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     /**
      * Get array of affected products
      *
-     * @return array
+     * @return int[]
      */
     public function getAffectedEntityIds()
     {

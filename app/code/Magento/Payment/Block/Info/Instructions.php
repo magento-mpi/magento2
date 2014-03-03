@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Payment\Block\Info;
 
 /**
  * Block for Bank Transfer payment generic info
  */
-namespace Magento\Payment\Block\Info;
-
 class Instructions extends \Magento\Payment\Block\Info
 {
     /**
@@ -22,6 +21,9 @@ class Instructions extends \Magento\Payment\Block\Info
      */
     protected $_instructions;
 
+    /**
+     * @var string
+     */
     protected $_template = 'info/instructions.phtml';
 
     /**

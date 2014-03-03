@@ -7,23 +7,20 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Captcha\Controller;
 
 /**
  * Captcha controller
  *
- * @category   Magento
- * @package    Magento_Core
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Captcha\Controller;
-
 class Refresh extends \Magento\App\Action\Action
 {
     /**
      * Refreshes captcha and returns JSON encoded URL to image (AJAX action)
      * Example: {'imgSrc': 'http://example.com/media/captcha/67842gh187612ngf8s.png'}
      *
-     * @return null
+     * @return void
      */
     public function indexAction()
     {

@@ -21,7 +21,7 @@ class Js
     /**
      * Create a form element with necessary controls
      *
-     * @return \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\Js
+     * @return $this
      */
     protected function _prepareForm()
     {
@@ -36,7 +36,7 @@ class Js
     /**
      * Set theme js fieldset
      *
-     * @return \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\Js
+     * @return $this
      */
     protected function _addThemeJsFieldset()
     {

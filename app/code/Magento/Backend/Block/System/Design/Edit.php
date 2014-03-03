@@ -7,35 +7,39 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Block\System\Design;
 
 class Edit extends \Magento\Backend\Block\Widget
 {
-
+    /**
+     * @var string
+     */
     protected $_template = 'Magento_Backend::system/design/edit.phtml';
 
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
         parent::__construct($context, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -43,6 +47,9 @@ class Edit extends \Magento\Backend\Block\Widget
         $this->setId('design_edit');
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function _prepareLayout()
     {
         $this->addChild('back_button', 'Magento\Backend\Block\Widget\Button', array(
@@ -69,26 +76,41 @@ class Edit extends \Magento\Backend\Block\Widget
         return parent::_prepareLayout();
     }
 
+    /**
+     * @return string
+     */
     public function getDesignChangeId()
     {
         return $this->_coreRegistry->registry('design')->getId();
     }
 
+    /**
+     * @return string
+     */
     public function getDeleteUrl()
     {
         return $this->getUrl('adminhtml/*/delete', array('_current'=>true));
     }
 
+    /**
+     * @return string
+     */
     public function getSaveUrl()
     {
         return $this->getUrl('adminhtml/*/save', array('_current'=>true));
     }
 
+    /**
+     * @return string
+     */
     public function getValidationUrl()
     {
         return $this->getUrl('adminhtml/*/validate', array('_current'=>true));
     }
 
+    /**
+     * @return string
+     */
     public function getHeader()
     {
         if ($this->_coreRegistry->registry('design')->getId()) {

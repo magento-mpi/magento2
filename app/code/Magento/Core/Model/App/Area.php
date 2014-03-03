@@ -90,7 +90,6 @@ class Area
     protected $_logger;
 
     /**
-     * @param \Magento\Logger $logger
      * Core design
      *
      * @var \Magento\Core\Model\Design
@@ -150,7 +149,7 @@ class Area
      * Load area data
      *
      * @param   string|null $part
-     * @return  \Magento\Core\Model\App\Area
+     * @return  $this
      */
     public function load($part=null)
     {
@@ -168,6 +167,7 @@ class Area
      * Detect and apply design for the area
      *
      * @param \Magento\App\RequestInterface $request
+     * @return void
      */
     public function detectDesign($request = null)
     {
@@ -213,7 +213,7 @@ class Area
      * Loading part of area
      *
      * @param   string $part
-     * @return  \Magento\Core\Model\App\Area
+     * @return  $this
      */
     protected function _loadPart($part)
     {
@@ -240,6 +240,8 @@ class Area
 
     /**
      * Load area configuration
+     *
+     * @return void
      */
     protected function _initConfig()
     {
@@ -249,7 +251,7 @@ class Area
     /**
      * Initialize translate object.
      *
-     * @return \Magento\Core\Model\App\Area
+     * @return $this
      */
     protected function _initTranslate()
     {
@@ -268,6 +270,9 @@ class Area
         return $this;
     }
 
+    /**
+     * @return void
+     */
     protected function _initDesign()
     {
         $this->_getDesign()->setArea($this->_code)->setDefaultDesignTheme();

@@ -35,7 +35,7 @@ class Collection extends \Magento\Sales\Model\Resource\Report\Collection\Abstrac
     /**
      * @var array
      */
-    protected $_selectedColumns    = array();
+    protected $_selectedColumns = array();
 
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
@@ -94,7 +94,7 @@ class Collection extends \Magento\Sales\Model\Resource\Report\Collection\Abstrac
     /**
      * Add selected data
      *
-     * @return \Magento\Tax\Model\Resource\Report\Collection
+     * @return $this
      */
     protected function _initSelect()
     {

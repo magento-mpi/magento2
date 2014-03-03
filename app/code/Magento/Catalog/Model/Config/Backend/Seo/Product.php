@@ -7,16 +7,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\Catalog\Model\Config\Backend\Seo;
 
-class Product extends \Magento\Core\Model\Config\Value
+use Magento\Core\Model\Config\Value;
+
+class Product extends Value
 {
     /**
      * Refresh category url rewrites if configuration was changed
      *
-     * @return \Magento\Catalog\Model\Config\Backend\Seo\Product
+     * @return $this
      */
     protected function _afterSave()
     {

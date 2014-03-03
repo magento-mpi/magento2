@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <section name="quote">
+        <group name="nominal_totals">
+            <item name="recurring_initial_fee" instance="Magento\RecurringProfile\Model\Quote\Total\Initial" sort_order="10"/>
+            <item name="recurring_trial_payment" instance="Magento\RecurringProfile\Model\Quote\Total\Trial" sort_order="50"/>
+        </group>
+    </section>
+</config>

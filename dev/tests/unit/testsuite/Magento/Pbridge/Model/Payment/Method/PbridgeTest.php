@@ -37,7 +37,8 @@ class PbridgeTest extends \PHPUnit_Framework_TestCase
             'getBillingAddress',
             'getStore',
             '__wakeup',
-            'getShippingAddress'
+            'getShippingAddress',
+            'getCustomerId'
         ), array(), '', false);
         $address = $this->getMock(
             'Magento\Customer\Model\Address\AbstractAddress',
@@ -46,9 +47,10 @@ class PbridgeTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $order->expects($this->once())->method('getStore')->will($this->returnValue(new \Magento\Object()));
-        $order->expects($this->once())->method('getBillingAddress')->will($this->returnValue($address));
+        $order->expects($this->any())->method('getStore')->will($this->returnValue(new \Magento\Object(['id' => 1])));
+        $order->expects($this->any())->method('getBillingAddress')->will($this->returnValue($address));
         $order->expects($this->once())->method('getShippingAddress')->will($this->returnValue($address));
+        $order->expects($this->any())->method('getCustomerId')->will($this->returnValue(1));
         $payment = $this->getMock('Magento\Sales\Model\Order\Payment', array('__wakeup'), array(), '', false);
         $payment->setFirstCaptureFlag($firstCaptureFlag)->setOrder($order);
         $region = $this->getMock('Magento\Directory\Model\Region', array('load', '__wakeup'), array(), '', false);
@@ -57,8 +59,12 @@ class PbridgeTest extends \PHPUnit_Framework_TestCase
             '__wakeup'
         ), array(), '', false);
         $regionFactory->expects($this->any())->method('create')->will($this->returnValue($region));
-        $pbridgeData = $this->getMock('Magento\Pbridge\Helper\Data', array('prepareCart'), array(), '', false);
+        $pbridgeData = $this->getMock('Magento\Pbridge\Helper\Data',
+            array('prepareCart', 'getCustomerIdentifierByEmail'), array(), '', false);
         $pbridgeData->expects($this->once())->method('prepareCart')->will($this->returnValue(array(array(), array())));
+        $pbridgeData->expects($this->once())->method('getCustomerIdentifierByEmail')
+            ->with($this->equalTo(1), $this->equalTo(1))
+            ->will($this->returnValue(null));
         $api = $this->getMock(
             'Magento\Pbridge\Model\Payment\Method\Pbridge\Api',
             array('doAuthorize', 'getResponse'),

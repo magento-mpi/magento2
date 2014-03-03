@@ -17,7 +17,7 @@ interface CommentInterface
 {
     /**
      * Retrieve element comment by element value
-     * @param mixed $elementValue
+     * @param string $elementValue
      * @return string
      */
     public function getCommentText($elementValue);

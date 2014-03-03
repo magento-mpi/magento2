@@ -8,18 +8,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Cms\Block;
 
 /**
  * Cms block content block
- *
- * @category   Magento
- * @package    Magento_Cms
- * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Cms\Block;
-
-use Magento\View\Element\AbstractBlock;
-
 class Block extends \Magento\View\Element\AbstractBlock implements \Magento\View\Block\IdentityInterface
 {
     /**

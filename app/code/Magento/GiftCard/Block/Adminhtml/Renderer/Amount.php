@@ -22,7 +22,7 @@ class Amount
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -36,13 +36,13 @@ class Amount
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Directory\Helper\Data $directoryHelper
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Directory\Helper\Data $directoryHelper,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
         $this->_directoryHelper = $directoryHelper;

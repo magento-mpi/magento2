@@ -7,7 +7,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Eav\Model\Entity;
 
+use Magento\Eav\Model\Entity\Attribute\AbstractAttribute;
+use Magento\Eav\Model\Entity\Type;
+use Magento\Core\Exception;
+use Magento\Core\Model\Config\Element;
+use Magento\Core\Model\AbstractModel;
+use Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend;
+use Magento\Eav\Model\Entity\Attribute\Frontend\AbstractFrontend;
+use Magento\Eav\Model\Entity\Attribute\Source\AbstractSource;
 
 /**
  * Entity/Attribute/Model - entity abstract
@@ -16,19 +25,8 @@
  * @package    Magento_Eav
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Eav\Model\Entity;
-
-use Magento\Eav\Model\Entity\Type;
-use Magento\Core\Exception;
-use Magento\Core\Model\Config\Element;
-use Magento\Eav\Model\Entity\Attribute\AbstractAttribute;
-use Magento\Core\Model\AbstractModel;
-use Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend;
-use Magento\Eav\Model\Entity\Attribute\Frontend\AbstractFrontend;
-use Magento\Eav\Model\Entity\Attribute\Source\AbstractSource;
-
 abstract class AbstractEntity extends \Magento\Core\Model\Resource\AbstractResource
-    implements \Magento\Eav\Model\Entity\EntityInterface
+    implements EntityInterface
 {
     /**
      * Read connection
@@ -187,7 +185,7 @@ abstract class AbstractEntity extends \Magento\Core\Model\Resource\AbstractResou
     protected $_attrSetEntity;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\LocaleInterface
      */
     protected $_locale;
 
@@ -205,7 +203,7 @@ abstract class AbstractEntity extends \Magento\Core\Model\Resource\AbstractResou
      * @param \Magento\App\Resource $resource
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Eav\Model\Entity\Attribute\Set $attrSetEntity
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\LocaleInterface $locale
      * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
      * @param \Magento\Validator\UniversalFactory $universalFactory
      * @param array $data
@@ -214,7 +212,7 @@ abstract class AbstractEntity extends \Magento\Core\Model\Resource\AbstractResou
         \Magento\App\Resource $resource,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Eav\Model\Entity\Attribute\Set $attrSetEntity,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\LocaleInterface $locale,
         \Magento\Eav\Model\Resource\Helper $resourceHelper,
         \Magento\Validator\UniversalFactory $universalFactory,
         $data = array()
@@ -482,10 +480,6 @@ abstract class AbstractEntity extends \Magento\Core\Model\Resource\AbstractResou
 
         $attribute = $attributeInstance;
 
-        if (empty($attributeId)) {
-            $attributeId = $attribute->getAttributeId();
-        }
-
         if (!$attribute->getAttributeCode()) {
             $attribute->setAttributeCode($attributeCode);
         }
@@ -502,7 +496,7 @@ abstract class AbstractEntity extends \Magento\Core\Model\Resource\AbstractResou
      * Return default static virtual attribute that doesn't exists in EAV attributes
      *
      * @param string $attributeCode
-     * @return \Magento\Eav\Model\Entity\Attribute
+     * @return Attribute
      */
     protected function _getDefaultAttribute($attributeCode)
     {
@@ -635,8 +629,8 @@ abstract class AbstractEntity extends \Magento\Core\Model\Resource\AbstractResou
     /**
      * Compare attributes
      *
-     * @param \Magento\Eav\Model\Entity\Attribute $firstAttribute
-     * @param \Magento\Eav\Model\Entity\Attribute $secondAttribute
+     * @param Attribute $firstAttribute
+     * @param Attribute $secondAttribute
      * @return int
      */
     public function attributesCompare($firstAttribute, $secondAttribute)
@@ -1192,7 +1186,7 @@ abstract class AbstractEntity extends \Magento\Core\Model\Resource\AbstractResou
     /**
      * Aggregate Data for attributes that will be deleted
      *
-     * @param array $delete
+     * @param array &$delete
      * @param AbstractAttribute $attribute
      * @param \Magento\Eav\Model\Entity\AbstractEntity $object
      * @return void
@@ -1524,7 +1518,7 @@ abstract class AbstractEntity extends \Magento\Core\Model\Resource\AbstractResou
     }
 
     /**
-     * Save and detele collected attribute values
+     * Save and delete collected attribute values
      *
      * @return $this
      */

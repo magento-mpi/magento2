@@ -54,7 +54,7 @@ abstract class AbstractMain
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Eav\Helper\Data $eavData
      * @param \Magento\Backend\Model\Config\Source\YesnoFactory $yesnoFactory
@@ -64,7 +64,7 @@ abstract class AbstractMain
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\Eav\Helper\Data $eavData,
         \Magento\Backend\Model\Config\Source\YesnoFactory $yesnoFactory,
@@ -195,7 +195,7 @@ abstract class AbstractMain
             'value' => $attributeObject->getDefaultValue(),
         ));
 
-        $dateFormat = $this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
+        $dateFormat = $this->_locale->getDateFormat(\Magento\LocaleInterface::FORMAT_TYPE_SHORT);
         $fieldset->addField('default_value_date', 'date', array(
             'name'   => 'default_value_date',
             'label'  => __('Default Value'),

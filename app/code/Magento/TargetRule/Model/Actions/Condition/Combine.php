@@ -7,8 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\TargetRule\Model\Actions\Condition;
 
 class Combine extends \Magento\Rule\Model\Condition\Combine
@@ -62,8 +60,8 @@ class Combine extends \Magento\Rule\Model\Condition\Combine
      *
      * @param \Magento\Catalog\Model\Resource\Product\Collection $collection
      * @param \Magento\TargetRule\Model\Index $object
-     * @param array $bind
-     * @return \Zend_Db_Expr
+     * @param array &$bind
+     * @return \Zend_Db_Expr|false
      */
     public function getConditionForCollection($collection, $object, &$bind)
     {

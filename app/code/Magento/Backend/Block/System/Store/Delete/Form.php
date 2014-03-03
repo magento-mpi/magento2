@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Backend\Block\System\Store\Delete;
 
 /**
  * Adminhtml cms block edit form
@@ -16,13 +16,13 @@
  * @package     Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Backend\Block\System\Store\Delete;
-
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
 
     /**
      * Init form
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -31,6 +31,9 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         $this->setTitle(__('Block Information'));
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function _prepareForm()
     {
         $dataObject = $this->getDataObject();

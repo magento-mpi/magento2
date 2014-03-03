@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Core\Model\Resource\Store\Group;
 
 /**
  * Store group collection
@@ -16,8 +16,6 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Core\Model\Resource\Store\Group;
-
 class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
@@ -34,8 +32,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Set flag for load default (admin) store
      *
      * @param boolean $loadDefault
-     *
-     * @return \Magento\Core\Model\Resource\Store\Group\Collection
+     * @return $this
      */
     public function setLoadDefault($loadDefault)
     {
@@ -55,7 +52,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Add disable default store group filter to collection
      *
-     * @return \Magento\Core\Model\Resource\Store\Group\Collection
+     * @return $this
      */
     public function setWithoutDefaultFilter()
     {
@@ -65,7 +62,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Filter to discard stores without views
      *
-     * @return \Magento\Core\Model\Resource\Store\Group\Collection
+     * @return $this
      */
     public function setWithoutStoreViewFilter()
     {
@@ -75,7 +72,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Load collection data
      *
-     * @return \Magento\Core\Model\Resource\Store\Group\Collection
+     * @return $this
      */
     public function _beforeLoad()
     {
@@ -100,8 +97,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Add filter by website to collection
      *
      * @param int|array $website
-     *
-     * @return \Magento\Core\Model\Resource\Store\Group\Collection
+     * @return $this
      */
     public function addWebsiteFilter($website)
     {

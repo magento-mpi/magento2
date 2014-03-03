@@ -7,14 +7,23 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Model\Menu\Filter;
 
 /**
  * Menu filter iterator
  */
-namespace Magento\Backend\Model\Menu\Filter;
-
 class Iterator extends \FilterIterator
 {
+    /**
+     * Constructor
+     *
+     * @param \Iterator $iterator
+     */
+    public function __construct(\Iterator $iterator)
+    {
+        parent::__construct($iterator);
+    }
+
     /**
      * Check whether the current element of the iterator is acceptable
      *

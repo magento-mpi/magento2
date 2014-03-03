@@ -73,7 +73,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
             // prepare correct data
             $correctCustomerData = array(
                 \Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance::COLUMN_EMAIL
-                    => $objectManager->get('Magento\Core\Model\Registry')->registry('customer_finance_email'),
+                    => $objectManager->get('Magento\Registry')->registry('customer_finance_email'),
                 \Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance::COLUMN_WEBSITE
                     => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
                         ->get('Magento\Core\Model\StoreManagerInterface')->getStore()->getWebsite()->getCode(),
@@ -81,10 +81,10 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
                     => $websiteCode,
                 \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::
                     COLUMN_CUSTOMER_BALANCE
-                    => $objectManager->get('Magento\Core\Model\Registry')->registry('customer_balance_' . $websiteCode),
+                    => $objectManager->get('Magento\Registry')->registry('customer_balance_' . $websiteCode),
                 \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::
                     COLUMN_REWARD_POINTS
-                    => $objectManager->get('Magento\Core\Model\Registry')
+                    => $objectManager->get('Magento\Registry')
                         ->registry('reward_point_balance_' . $websiteCode),
             );
 

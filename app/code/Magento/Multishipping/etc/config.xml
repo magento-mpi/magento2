@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <default>
+        <multishipping>
+            <options>
+                <checkout_multiple>1</checkout_multiple>
+                <checkout_multiple_maximum_qty>100</checkout_multiple_maximum_qty>
+            </options>
+        </multishipping>
+    </default>
+</config>

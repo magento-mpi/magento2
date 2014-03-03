@@ -45,6 +45,8 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
 
     /**
      * Resource initialization
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -54,7 +56,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Join country table to result
      *
-     * @return \Magento\Tax\Model\Resource\Calculation\Rate\Collection
+     * @return $this
      */
     public function joinCountryTable()
     {
@@ -70,7 +72,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Join Region Table
      *
-     * @return \Magento\Tax\Model\Resource\Calculation\Rate\Collection
+     * @return $this
      */
     public function joinRegionTable()
     {
@@ -86,7 +88,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Join rate title for specified store
      *
      * @param \Magento\Core\Model\Store|string|int $store
-     * @return \Magento\Tax\Model\Resource\Calculation\Rate\Collection
+     * @return $this
      */
     public function joinTitle($store = null)
     {
@@ -103,7 +105,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Joins store titles for rates
      *
-     * @return \Magento\Tax\Model\Resource\Calculation\Rate\Collection
+     * @return $this
      */
     public function joinStoreTitles()
     {
@@ -127,7 +129,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Add rate filter
      *
      * @param int $rateId
-     * @return \Magento\Tax\Model\Resource\Calculation\Rate\Collection
+     * @return $this
      */
     public function addRateFilter($rateId)
     {
@@ -160,11 +162,11 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
 
     /**
      * Convert items array to hash for select options
-     * unsing fetchItem method
+     * using fetchItem method
      *
-     * @see     _toOptionHashOptimized()
+     * @see _toOptionHashOptimized()
      *
-     * @return  array
+     * @return array
      */
     public function toOptionHashOptimized()
     {

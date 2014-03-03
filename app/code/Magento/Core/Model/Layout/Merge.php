@@ -7,11 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Core\Model\Layout;
 
 /**
  * Layout merge model
  */
-namespace Magento\Core\Model\Layout;
 
 class Merge implements \Magento\View\Layout\ProcessorInterface
 {
@@ -31,6 +31,11 @@ class Merge implements \Magento\View\Layout\ProcessorInterface
      * XPath of handles originally declared in layout updates
      */
     const XPATH_HANDLE_DECLARATION = '/layout[@*]';
+
+    /**
+     * Name of an attribute that stands for data type of node values
+     */
+    const TYPE_ATTRIBUTE = 'xsi:type';
 
     /**
      * @var \Magento\Core\Model\Theme
@@ -117,7 +122,7 @@ class Merge implements \Magento\View\Layout\ProcessorInterface
      *
      * @param \Magento\View\DesignInterface $design
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\View\Layout\File\SourceInterface $fileSource,
+     * @param \Magento\View\Layout\File\SourceInterface $fileSource
      * @param \Magento\Core\Model\Resource\Layout\Update $resource
      * @param \Magento\App\State $appState
      * @param \Magento\Cache\FrontendInterface $cache
@@ -153,7 +158,7 @@ class Merge implements \Magento\View\Layout\ProcessorInterface
      * Add XML update instruction
      *
      * @param string $update
-     * @return \Magento\Core\Model\Layout\Merge
+     * @return $this
      */
     public function addUpdate($update)
     {
@@ -185,7 +190,7 @@ class Merge implements \Magento\View\Layout\ProcessorInterface
      * Add handle(s) to update
      *
      * @param array|string $handleName
-     * @return \Magento\Core\Model\Layout\Merge
+     * @return $this
      */
     public function addHandle($handleName)
     {
@@ -203,7 +208,7 @@ class Merge implements \Magento\View\Layout\ProcessorInterface
      * Remove handle from update
      *
      * @param string $handleName
-     * @return \Magento\Core\Model\Layout\Merge
+     * @return $this
      */
     public function removeHandle($handleName)
     {
@@ -225,7 +230,7 @@ class Merge implements \Magento\View\Layout\ProcessorInterface
      * Add the first existing (declared in layout updates) page handle along with all parents to the update.
      * Return whether any page handles have been added or not.
      *
-     * @param array $handlesToTry
+     * @param string[] $handlesToTry
      * @return bool
      */
     public function addPageHandles(array $handlesToTry)
@@ -338,7 +343,7 @@ class Merge implements \Magento\View\Layout\ProcessorInterface
      *
      * @param array|string $handles
      * @throws \Magento\Exception
-     * @return \Magento\Core\Model\Layout\Merge
+     * @return $this
      */
     public function load($handles = array())
     {
@@ -409,7 +414,7 @@ class Merge implements \Magento\View\Layout\ProcessorInterface
      * Merge layout update by handle
      *
      * @param string $handle
-     * @return \Magento\Core\Model\Layout\Merge
+     * @return $this
      */
     protected function _merge($handle)
     {
@@ -504,7 +509,7 @@ class Merge implements \Magento\View\Layout\ProcessorInterface
      * Add handles declared as '<update handle="handle_name"/>' directives
      *
      * @param \SimpleXMLElement $updateXml
-     * @return \Magento\Core\Model\Layout\Merge
+     * @return $this
      */
     protected function _fetchRecursiveUpdates($updateXml)
     {
@@ -568,6 +573,7 @@ class Merge implements \Magento\View\Layout\ProcessorInterface
      * @param string $data
      * @param string $cacheId
      * @param array $cacheTags
+     * @return void
      */
     protected function _saveCache($data, $cacheId, array $cacheTags = array())
     {
@@ -577,8 +583,8 @@ class Merge implements \Magento\View\Layout\ProcessorInterface
     /**
      * Collect and merge layout updates from files
      *
-     * @throws \Magento\Exception
      * @return \Magento\View\Layout\Element
+     * @throws \Magento\Exception
      */
     protected function _loadFileLayoutUpdatesXml()
     {
@@ -620,6 +626,7 @@ class Merge implements \Magento\View\Layout\ProcessorInterface
      *
      * @param string $fileName
      * @param array $libXmlErrors
+     * @return void
      */
     protected function _logXmlErrors($fileName, $libXmlErrors)
     {

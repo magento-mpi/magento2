@@ -127,12 +127,6 @@ class ProductAttribute extends DataFixture
                     'input_value' => 'select',
                     'group' => self::GROUP_PRODUCT_ATTRIBUTE_MAIN,
                 ),
-                'is_configurable' => array(
-                    'value' => 'Yes',
-                    'input' => 'select',
-                    'input_value' => 1,
-                    'group' => self::GROUP_PRODUCT_ATTRIBUTE_MAIN,
-                ),
                 'is_searchable' => array(
                     'value' => 'Yes',
                     'input' => 'select',

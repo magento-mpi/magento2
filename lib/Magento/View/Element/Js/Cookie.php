@@ -15,11 +15,15 @@ use Magento\View\Element\Template\Context;
 class Cookie extends Template
 {
     /**
+     * Session config
+     *
      * @var ConfigInterface
      */
     protected $sessionConfig;
 
     /**
+     * Constructor
+     *
      * @param Context $context
      * @param ConfigInterface $cookieConfig
      * @param array $data

@@ -34,7 +34,14 @@ namespace Magento\Tax\Model\Calculation;
 
 class Rate extends \Magento\Core\Model\AbstractModel
 {
+    /**
+     * @var mixed
+     */
     protected $_titles = null;
+
+    /**
+     * @var mixed
+     */
     protected $_titleModel = null;
 
     /**
@@ -48,8 +55,8 @@ class Rate extends \Magento\Core\Model\AbstractModel
     protected $_titleFactory;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Tax\Model\Calculation\Rate\TitleFactory $taxTitleFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
@@ -57,8 +64,8 @@ class Rate extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Tax\Model\Calculation\Rate\TitleFactory $taxTitleFactory,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
@@ -72,6 +79,8 @@ class Rate extends \Magento\Core\Model\AbstractModel
 
     /**
      * Magento model constructor
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -81,7 +90,7 @@ class Rate extends \Magento\Core\Model\AbstractModel
     /**
      * Prepare location settings and tax postcode before save rate
      *
-     * @return \Magento\Tax\Model\Calculation\Rate
+     * @return $this
      * @throws \Magento\Core\Exception
      */
     protected function _beforeSave()
@@ -144,7 +153,7 @@ class Rate extends \Magento\Core\Model\AbstractModel
     /**
      * Save rate titles
      *
-     * @return \Magento\Tax\Model\Calculation\Rate
+     * @return $this
      */
     protected function _afterSave()
     {
@@ -156,7 +165,7 @@ class Rate extends \Magento\Core\Model\AbstractModel
     /**
      * Processing object before delete data
      *
-     * @return \Magento\Core\Model\AbstractModel
+     * @return $this
      * @throws \Magento\Core\Exception
      */
     protected function _beforeDelete()
@@ -171,7 +180,7 @@ class Rate extends \Magento\Core\Model\AbstractModel
      * After rate delete
      * redeclared for dispatch tax_settings_change_after event
      *
-     * @return \Magento\Tax\Model\Calculation\Rate
+     * @return $this
      */
     protected function _afterDelete()
     {
@@ -179,6 +188,10 @@ class Rate extends \Magento\Core\Model\AbstractModel
         return parent::_afterDelete();
     }
 
+    /**
+     * @param array|null $titles
+     * @return void
+     */
     public function saveTitles($titles = null)
     {
         if (is_null($titles)) {
@@ -200,6 +213,9 @@ class Rate extends \Magento\Core\Model\AbstractModel
         }
     }
 
+    /**
+     * @return mixed
+     */
     public function getTitleModel()
     {
         if (is_null($this->_titleModel)) {
@@ -208,6 +224,9 @@ class Rate extends \Magento\Core\Model\AbstractModel
         return $this->_titleModel;
     }
 
+    /**
+     * @return mixed
+     */
     public function getTitles()
     {
         if (is_null($this->_titles)) {
@@ -216,6 +235,9 @@ class Rate extends \Magento\Core\Model\AbstractModel
         return $this->_titles;
     }
 
+    /**
+     * @return $this
+     */
     public function deleteAllRates()
     {
         $this->_getResource()->deleteAllRates();
@@ -227,7 +249,7 @@ class Rate extends \Magento\Core\Model\AbstractModel
      * Load rate model by code
      *
      * @param  string $code
-     * @return \Magento\Tax\Model\Calculation\Rate
+     * @return $this
      */
     public function loadByCode($code)
     {

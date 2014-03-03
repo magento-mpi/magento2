@@ -7,8 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\Core\Model\Resource\Type;
 
 abstract class AbstractType
@@ -41,6 +39,7 @@ abstract class AbstractType
      * Set name
      *
      * @param String $name
+     * @return void
      */
     public function setName($name)
     {

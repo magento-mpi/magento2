@@ -7,13 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\TargetRule\Model;
 
 /**
  * TargetRule observer
  *
  */
-namespace Magento\TargetRule\Model;
-
 class Observer
 {
     /**
@@ -34,6 +33,7 @@ class Observer
      * Prepare target rule data
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function prepareTargetRuleSave(\Magento\Event\Observer $observer)
     {
@@ -56,7 +56,7 @@ class Observer
      * and refresh cache index
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\TargetRule\Model\Observer
+     * @return $this
      */
     public function catalogProductAfterSave(\Magento\Event\Observer $observer)
     {
@@ -81,6 +81,7 @@ class Observer
      * Process event on 'save_commit_after' event
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function catalogProductSaveCommitAfter(\Magento\Event\Observer $observer)
     {
@@ -94,7 +95,7 @@ class Observer
      * Clear customer segment indexer if customer segment is on|off on backend
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\TargetRule\Model\Observer
+     * @return $this
      */
     public function coreConfigSaveCommitAfter(\Magento\Event\Observer $observer)
     {

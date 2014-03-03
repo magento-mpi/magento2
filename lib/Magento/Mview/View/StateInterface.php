@@ -29,7 +29,7 @@ interface StateInterface
      * Fill object with state data by view ID
      *
      * @param string $viewId
-     * @return \Magento\Mview\View\StateInterface
+     * @return $this
      */
     public function loadByView($viewId);
 

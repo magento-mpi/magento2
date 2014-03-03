@@ -82,7 +82,7 @@ class Placeholder
 
     /**
      * Get attribute by specific code
-     * @param $code string
+     * @param string $code
      * @return string
      */
     public function getAttribute($code)

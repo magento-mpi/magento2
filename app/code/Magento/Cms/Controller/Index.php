@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Cms\Controller;
 
 /**
  * Cms index controller
@@ -16,14 +16,13 @@
  * @package    Magento_Cms
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Cms\Controller;
-
 class Index extends \Magento\App\Action\Action
 {
     /**
      * Renders CMS Home page
      *
-     * @param string $coreRoute
+     * @param string|null $coreRoute
+     * @return void
      */
     public function indexAction($coreRoute = null)
     {
@@ -38,6 +37,7 @@ class Index extends \Magento\App\Action\Action
      * Default index action (with 404 Not Found headers)
      * Used if default page don't configure or available
      *
+     * @return void
      */
     public function defaultIndexAction()
     {
@@ -52,6 +52,7 @@ class Index extends \Magento\App\Action\Action
      * Default no route page action
      * Used if no route page don't configure or available
      *
+     * @return void
      */
     public function defaultNoRouteAction()
     {
@@ -65,6 +66,7 @@ class Index extends \Magento\App\Action\Action
     /**
      * Render Disable cookies page
      *
+     * @return void
      */
     public function noCookiesAction()
     {
@@ -79,6 +81,7 @@ class Index extends \Magento\App\Action\Action
      * Default no cookies page action
      * Used if no cookies page don't configure or available
      *
+     * @return void
      */
     public function defaultNoCookiesAction()
     {

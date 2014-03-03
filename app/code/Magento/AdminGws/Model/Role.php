@@ -7,13 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\AdminGws\Model;
 
 /**
  * Permissions checker
  *
  */
-namespace Magento\AdminGws\Model;
-
 class Role extends \Magento\Object
 {
     /**
@@ -25,12 +24,30 @@ class Role extends \Magento\Object
 
     /**
      * Storage for disallowed entities and their ids
+     *
+     * @var array
      */
-    protected $_disallowedWebsiteIds    = array();
-    protected $_disallowedStores        = array();
-    protected $_disallowedStoreIds      = array();
+    protected $_disallowedWebsiteIds = array();
+
+    /**
+     * @var array
+     */
+    protected $_disallowedStores = array();
+
+    /**
+     * @var array
+     */
+    protected $_disallowedStoreIds = array();
+
+    /**
+     * @var array
+     */
     protected $_disallowedStoreGroupIds = array();
-    protected $_disallowedStoreGroups   = array();
+
+    /**
+     * @var array
+     */
+    protected $_disallowedStoreGroups = array();
 
     /**
      * Storage for categories which are used in allowed store groups
@@ -83,6 +100,7 @@ class Role extends \Magento\Object
      * Set ACL role and determine its limitations
      *
      * @param \Magento\User\Model\Role $role
+     * @return void
      */
     public function setAdminRole($role)
     {
@@ -170,7 +188,7 @@ class Role extends \Magento\Object
      * If role model is not defined yeat do nothing.
      *
      * @param mixed $value
-     * @return array
+     * @return array|$this
      */
     public function setStoreIds($value)
     {
@@ -201,7 +219,7 @@ class Role extends \Magento\Object
      * If role model is not defined yeat do nothing.
      *
      * @param mixed $value
-     * @return array
+     * @return array|$this
      */
     public function setStoreGroupIds($value)
     {
@@ -326,7 +344,7 @@ class Role extends \Magento\Object
      * Check if current user have exclusive access to specified category (by path)
      *
      * @param string $categoryPath
-     * @return boolean
+     * @return bool
      */
     public function hasExclusiveCategoryAccess($categoryPath)
     {

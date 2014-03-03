@@ -40,6 +40,10 @@ class Version
      */
     protected $request;
 
+    /**
+     * @param \Magento\Stdlib\Cookie $cookie
+     * @param \Magento\App\Request\Http $request
+     */
     public function __construct(
         \Magento\Stdlib\Cookie $cookie,
         \Magento\App\Request\Http $request
@@ -63,6 +67,8 @@ class Version
      * Set cookie if it is not set.
      * Increment version on post requests.
      * In all other cases do nothing.
+     *
+     * @return void
      */
     public function process()
     {

@@ -24,30 +24,25 @@ class EntityTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * Mock for store instance
-     *
-     * @var \Magento\Core\Model\Store
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_store;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_storeManagerMock;
 
     /**
-     * Mock from email template instance
-     *
-     * @var \Magento\Email\Model\Template
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_emailTemplate;
+    private $_transportBuilderMock;
 
     protected function setUp()
     {
         $resource = $this->getMock('Magento\GiftRegistry\Model\Resource\Entity', array(), array(), '', false);
         $translate = $this->getMock('Magento\TranslateInterface', array(), array(), '', false);
 
-        $factory = $this->getMock('Magento\Email\Model\TemplateFactory', array('create'), array(), '', false);
         $this->_store = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
         $this->_storeManagerMock = $this->getMockBuilder('Magento\Core\Model\StoreManagerInterface')
             ->disableOriginalConstructor()
@@ -56,27 +51,24 @@ class EntityTest extends \PHPUnit_Framework_TestCase
         $this->_storeManagerMock->expects($this->any())
             ->method('getStore')
             ->will($this->returnValue($this->_store));
-        $this->_emailTemplate = $this->getMock(
-            'Magento\Email\Model\Template',
-            array('setDesignConfig', 'sendTransactional', '__wakeup'),
-            array(),
-            '',
-            false
+
+        $this->_transportBuilderMock = $this->getMock(
+            '\Magento\Mail\Template\TransportBuilder', array(), array(), '', false
+        );
+
+        $this->_transportBuilderMock->expects($this->any())->method('setTemplateOptions')->will($this->returnSelf());
+        $this->_transportBuilderMock->expects($this->any())->method('setTemplateVars')->will($this->returnSelf());
+        $this->_transportBuilderMock->expects($this->any())->method('addTo')->will($this->returnSelf());
+        $this->_transportBuilderMock->expects($this->any())->method('setFrom')->will($this->returnSelf());
+        $this->_transportBuilderMock->expects($this->any())->method('setTemplateIdentifier')->will($this->returnSelf());
+        $this->_transportBuilderMock->expects($this->any())->method('getTransport')->will(
+            $this->returnValue($this->getMock('Magento\Mail\TransportInterface'))
         );
 
         $this->_store->expects($this->any())
             ->method('getId')
             ->will($this->returnValue(1));
 
-        $emailTemplate = $this->_emailTemplate;
-
-        $factory->expects($this->any())
-            ->method('create')
-            ->will($this->returnCallback(
-                function () use ($emailTemplate) {
-                    return clone $emailTemplate;
-                }
-            ));
 
         $appState = $this->getMock('Magento\App\State', array(), array(), '', false);
         $storeManager = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
@@ -84,13 +76,13 @@ class EntityTest extends \PHPUnit_Framework_TestCase
         $eventDispatcher = $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false, false);
         $cacheManager = $this->getMock('Magento\App\CacheInterface', array(), array(), '', false, false);
         $logger = $this->getMock('Magento\Logger', array(), array(), '', false);
-        $context = new \Magento\Core\Model\Context($logger, $eventDispatcher, $cacheManager, $appState, $storeManager);
+        $context = new \Magento\Model\Context($logger, $eventDispatcher, $cacheManager, $appState, $storeManager);
         $giftRegistryData = $this->getMock('Magento\GiftRegistry\Helper\Data', array('getRegistryLink'),
             array(), '', false, false);
         $giftRegistryData->expects($this->any())
             ->method('getRegistryLink')
             ->will($this->returnArgument(0));
-        $coreRegistry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
+        $coreRegistry = $this->getMock('Magento\Registry', array(), array(), '', false);
 
         $attributeConfig = $this->getMock('Magento\GiftRegistry\Model\Attribute\Config', array(), array(), '', false);
         $item = $this->getMock('Magento\GiftRegistry\Model\Item', array(), array(), '', false);
@@ -115,8 +107,8 @@ class EntityTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnArgument(0));
         $mathRandom = $this->getMock('Magento\Math\Random', array(), array(), '', false, false);
         $this->_model = new \Magento\GiftRegistry\Model\Entity(
-            $context, $coreRegistry, $giftRegistryData, $this->_storeManagerMock, $translate, $factory,
-            $type, $attributeConfig, $item, $inventoryStockItem, $session,
+            $context, $coreRegistry, $giftRegistryData, $this->_storeManagerMock, $translate,
+            $this->_transportBuilderMock, $type, $attributeConfig, $item, $inventoryStockItem, $session,
             $quoteFactory, $customerFactory, $personFactory, $itemFactory, $addressFactory, $productFactory,
             $dateFactory, $loggingEventFactory, $request, $escaper, $mathRandom, $resource, null, array()
         );
@@ -136,34 +128,6 @@ class EntityTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($expectedResult['success'], $result->getIsSuccess());
         $this->assertEquals($expectedResult['error_message'], $result->getErrorMessage());
-    }
-
-    public function testSendShareRegistryEmailsWithValidDataReturnsSuccess()
-    {
-        $this->_initSenderInfo('John Doe', 'Hello world', 'john.doe@example.com');
-        $this->_model->setRecipients(array(array(
-            'email' => 'john.doe@example.com',
-            'name' => 'John Doe'
-        )));
-        $this->_emailTemplate->setSentSuccess(true);
-        $result = $this->_model->sendShareRegistryEmails();
-
-        $this->assertTrue($result->getIsSuccess());
-        $this->assertTrue($result->hasSuccessMessage());
-    }
-
-    public function testSendShareRegistryEmailsWithErrorInMailerReturnsError()
-    {
-        $this->_initSenderInfo('John Doe', 'Hello world', 'john.doe@example.com');
-        $this->_model->setRecipients(array(array(
-            'email' => 'john.doe@example.com',
-            'name' => 'John Doe'
-        )));
-        $this->_emailTemplate->setSentSuccess(false);
-        $result = $this->_model->sendShareRegistryEmails();
-
-        $this->assertTrue($result->hasErrorMessage());
-        $this->assertContains('We couldn\'t share the registry.', (string)$result->getErrorMessage());
     }
 
     public function invalidSenderAndRecipientInfoDataProvider()

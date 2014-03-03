@@ -7,21 +7,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Model\Menu\Config\Menu;
 
 /**
  * Menu configuration files handler
  */
-namespace Magento\Backend\Model\Menu\Config\Menu;
-
 class Dom extends \Magento\Config\Dom
 {
-
     /**
      * Getter for node by path
      *
      * @param string $nodePath
+     * @return \DOMElement|null
      * @throws \Magento\Exception an exception is possible if original document contains multiple fixed nodes
-     * @return \DOMElement | null
      */
     protected function _getMatchedNode($nodePath)
     {

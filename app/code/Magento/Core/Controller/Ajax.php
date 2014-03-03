@@ -11,6 +11,8 @@ class Ajax extends \Magento\App\Action\Action
 {
     /**
      * Ajax action for inline translation
+     *
+     * @return void
      */
     public function translateAction()
     {

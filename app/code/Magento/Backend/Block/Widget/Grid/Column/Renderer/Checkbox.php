@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Block\Widget\Grid\Column\Renderer;
 
 /**
  * Grid checkbox column renderer
@@ -15,12 +16,17 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Backend\Block\Widget\Grid\Column\Renderer;
-
 class Checkbox
     extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
+    /**
+     * @var int
+     */
     protected $_defaultWidth = 55;
+
+    /**
+     * @var array
+     */
     protected $_values;
 
     /**

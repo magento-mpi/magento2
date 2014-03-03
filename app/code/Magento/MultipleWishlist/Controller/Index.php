@@ -50,7 +50,7 @@ class Index extends \Magento\Wishlist\Controller\Index
     /**
      * List of protected actions
      *
-     * @var array
+     * @var string[]
      */
     protected $_protectedActions = array(
         'createwishlist', 'editwishlist', 'deletewishlist', 'copyitems', 'moveitem', 'moveitems'
@@ -59,10 +59,10 @@ class Index extends \Magento\Wishlist\Controller\Index
     /**
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\Wishlist\Model\Config $wishlistConfig
      * @param \Magento\App\Response\Http\FileFactory $fileResponseFactory
-     * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
+     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Wishlist\Model\ItemFactory $itemFactory
      * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
      * @param \Magento\Session\Generic $wishlistSession
@@ -72,9 +72,10 @@ class Index extends \Magento\Wishlist\Controller\Index
     public function __construct(
         \Magento\App\Action\Context $context,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\Wishlist\Model\Config $wishlistConfig,
         \Magento\App\Response\Http\FileFactory $fileResponseFactory,
+        \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Wishlist\Model\ItemFactory $itemFactory,
         \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
         \Magento\Session\Generic $wishlistSession,
@@ -87,7 +88,7 @@ class Index extends \Magento\Wishlist\Controller\Index
         $this->_customerSession = $customerSession;
         $this->_wishlistCollectionFactory = $wishlistCollectionFactory;
         parent::__construct(
-            $context, $formKeyValidator, $coreRegistry, $wishlistConfig, $fileResponseFactory
+            $context, $formKeyValidator, $coreRegistry, $wishlistConfig, $fileResponseFactory, $transportBuilder
         );
     }
 
@@ -121,6 +122,8 @@ class Index extends \Magento\Wishlist\Controller\Index
     /**
      * Add item to wishlist
      * Create new wishlist if wishlist params (name, visibility) are provided
+     *
+     * @return void
      */
     public function addAction()
     {
@@ -148,6 +151,8 @@ class Index extends \Magento\Wishlist\Controller\Index
 
     /**
      * Display customer wishlist
+     *
+     * @return void
      */
     public function indexAction()
     {
@@ -164,6 +169,8 @@ class Index extends \Magento\Wishlist\Controller\Index
 
     /**
      * Create new customer wishlist
+     *
+     * @return void
      */
     public function createwishlistAction()
     {
@@ -315,6 +322,7 @@ class Index extends \Magento\Wishlist\Controller\Index
      * @param \Magento\Wishlist\Model\Item $item
      * @param \Magento\Wishlist\Model\Wishlist $wishlist
      * @param int $qty
+     * @return void
      * @throws \InvalidArgumentException|\DomainException
      */
     protected function _copyItem(\Magento\Wishlist\Model\Item $item, \Magento\Wishlist\Model\Wishlist $wishlist, $qty = null)
@@ -407,6 +415,7 @@ class Index extends \Magento\Wishlist\Controller\Index
     /**
      * Copy wishlist items to given wishlist
      *
+     * @return void
      * @throws NotFoundException
      */
     public function copyitemsAction()
@@ -482,6 +491,7 @@ class Index extends \Magento\Wishlist\Controller\Index
      * @param \Magento\Wishlist\Model\Wishlist $wishlist
      * @param \Magento\Wishlist\Model\Resource\Wishlist\Collection $customerWishlists
      * @param int $qty
+     * @return void
      * @throws \InvalidArgumentException|\DomainException
      */
     protected function _moveItem(
@@ -574,6 +584,8 @@ class Index extends \Magento\Wishlist\Controller\Index
 
     /**
      * Move wishlist items to given wishlist
+     *
+     * @return void
      * @throws NotFoundException
      */
     public function moveitemsAction()

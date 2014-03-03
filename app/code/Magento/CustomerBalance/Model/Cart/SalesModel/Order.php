@@ -5,12 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerBalance\Model\Cart\SalesModel;
 
 /**
  * CustomerBalance adapter for \Magento\Sales\Model\Order sales model
  */
-namespace Magento\CustomerBalance\Model\Cart\SalesModel;
-
 class Order extends \Magento\Payment\Model\Cart\SalesModel\Order
 {
     /**

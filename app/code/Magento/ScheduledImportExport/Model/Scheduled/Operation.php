@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ScheduledImportExport\Model\Scheduled;
 
 /**
  * Operation model
@@ -30,8 +31,6 @@
  * @method \Magento\ScheduledImportExport\Model\Scheduled\Operation setLastRunDate() setLastRunDate(int $value)
  * @method int getLastRunDate() getLastRunDate()
  */
-namespace Magento\ScheduledImportExport\Model\Scheduled;
-
 class Operation extends \Magento\Core\Model\AbstractModel
 {
     /**
@@ -81,19 +80,9 @@ class Operation extends \Magento\Core\Model\AbstractModel
     protected $_coreStoreConfig;
 
     /**
-     * @var \Magento\Email\Model\Template\Mailer
-     */
-    protected $_templateMailer;
-
-    /**
      * @var \Magento\Core\Model\Config\ValueFactory
      */
     protected $_configValueFactory;
-
-    /**
-     * @var \Magento\Email\Model\InfoFactory
-     */
-    protected $_emailInfoFactory;
 
     /**
      * @var \Magento\ScheduledImportExport\Model\Scheduled\Operation\DataFactory
@@ -123,49 +112,51 @@ class Operation extends \Magento\Core\Model\AbstractModel
     protected $filesystem;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\App\Filesystem $filesystem,
+     * @var \Magento\Mail\Template\TransportBuilder
+     */
+    protected $_transportBuilder;
+
+    /**
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
+     * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation\GenericFactory $schedOperFactory
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation\DataFactory $operationFactory
-     * @param \Magento\Email\Model\InfoFactory $emailInfoFactory
      * @param \Magento\Core\Model\Config\ValueFactory $configValueFactory
-     * @param \Magento\Email\Model\Template\Mailer $templateMailer
      * @param \Magento\Core\Model\Date $dateModel
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\Stdlib\String $string
+     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\App\Filesystem $filesystem,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\ScheduledImportExport\Model\Scheduled\Operation\GenericFactory $schedOperFactory,
         \Magento\ScheduledImportExport\Model\Scheduled\Operation\DataFactory $operationFactory,
-        \Magento\Email\Model\InfoFactory $emailInfoFactory,
         \Magento\Core\Model\Config\ValueFactory $configValueFactory,
-        \Magento\Email\Model\Template\Mailer $templateMailer,
         \Magento\Core\Model\Date $dateModel,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\Stdlib\String $string,
+        \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_dateModel = $dateModel;
-        $this->_templateMailer = $templateMailer;
         $this->_configValueFactory = $configValueFactory;
-        $this->_emailInfoFactory = $emailInfoFactory;
         $this->_operationFactory = $operationFactory;
         $this->_schedOperFactory = $schedOperFactory;
         $this->_storeManager = $storeManager;
         $this->filesystem = $filesystem;
         $this->string = $string;
+        $this->_transportBuilder = $transportBuilder;
 
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_init('Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation');
@@ -185,16 +176,13 @@ class Operation extends \Magento\Core\Model\AbstractModel
      * Send email notification
      *
      * @param array $vars
-     * @return \Magento\ScheduledImportExport\Model\Scheduled\Operation
+     * @return $this
      */
     public function sendEmailNotification($vars = array())
     {
         $storeId = $this->_storeManager->getStore()->getId();
         $copyTo = explode(',', $this->getEmailCopy());
         $copyMethod = $this->getEmailCopyMethod();
-
-        /** @var \Magento\Email\Model\Info $emailInfo */
-        $emailInfo = $this->_emailInfoFactory->create();
 
         $receiverEmail = $this->_coreStoreConfig->getConfig(
             self::CONFIG_PREFIX_EMAILS . $this->getEmailReceiver() . '/email',
@@ -205,39 +193,50 @@ class Operation extends \Magento\Core\Model\AbstractModel
             $storeId
         );
 
-        $emailInfo->addTo($receiverEmail, $receiverName);
-
+        // Set all required params and send emails
+        $this->_transportBuilder
+            ->setTemplateIdentifier($this->getEmailTemplate())
+            ->setTemplateOptions(array(
+                'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
+                'store' => $storeId
+            ))
+            ->setTemplateVars($vars)
+            ->setFrom($this->getEmailSender())
+            ->addTo($receiverEmail, $receiverName);
         if ($copyTo && $copyMethod == 'bcc') {
             // Add bcc to customer email
             foreach ($copyTo as $email) {
-                $emailInfo->addBcc($email);
+                $this->_transportBuilder->addBcc($email);
             }
         }
-        $this->_templateMailer->addEmailInfo($emailInfo);
+        /** @var \Magento\Mail\TransportInterface $transport */
+        $transport =  $this->_transportBuilder->getTransport();
+        $transport->sendMessage();
 
         // Email copies are sent as separated emails if their copy method is 'copy'
         if ($copyTo && $copyMethod == 'copy') {
             foreach ($copyTo as $email) {
-                /** @var \Magento\Email\Model\Info $emailInfo */
-                $emailInfo = $this->_emailInfoFactory->create();
-                $emailInfo->addTo($email);
-                $this->_templateMailer->addEmailInfo($emailInfo);
+                $this->_transportBuilder
+                    ->setTemplateIdentifier($this->getEmailTemplate())
+                    ->setTemplateOptions(array(
+                        'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
+                        'store' => $storeId
+                    ))
+                    ->setTemplateVars($vars)
+                    ->setFrom($this->getEmailSender())
+                    ->addTo($email)
+                    ->getTransport()
+                    ->sendMessage();
             }
         }
 
-        // Set all required params and send emails
-        $this->_templateMailer->setSender($this->getEmailSender());
-        $this->_templateMailer->setStoreId($storeId);
-        $this->_templateMailer->setTemplateId($this->getEmailTemplate());
-        $this->_templateMailer->setTemplateParams($vars);
-        $this->_templateMailer->send();
         return $this;
     }
 
     /**
      * Unserialize file_info and entity_attributes after load
      *
-     * @return \Magento\ScheduledImportExport\Model\Scheduled\Operation
+     * @return $this
      */
     protected function _afterLoad()
     {
@@ -257,7 +256,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
     /**
      * Serialize file_info and entity_attributes arrays before save
      *
-     * @return \Magento\ScheduledImportExport\Model\Scheduled\Operation
+     * @return $this
      */
     protected function _beforeSave()
     {
@@ -277,7 +276,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
     /**
      * Add task to cron after save
      *
-     * @return \Magento\ScheduledImportExport\Model\Scheduled\Operation
+     * @return $this
      */
     protected function _afterSave()
     {
@@ -292,7 +291,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
     /**
      * Delete cron task
      *
-     * @return \Magento\ScheduledImportExport\Model\Scheduled\Operation
+     * @return $this
      */
     protected function _afterDelete()
     {
@@ -304,7 +303,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
      * Add operation to cron
      *
      * @throws \Magento\Core\Exception
-     * @return \Magento\ScheduledImportExport\Model\Scheduled\Operation
+     * @return $this
      */
     protected function _addCronTask()
     {
@@ -347,7 +346,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
      * Remove cron task
      *
      * @throws \Magento\Core\Exception
-     * @return \Magento\ScheduledImportExport\Model\Scheduled\Operation
+     * @return $this
      */
     protected function _dropCronTask()
     {
@@ -389,9 +388,9 @@ class Operation extends \Magento\Core\Model\AbstractModel
      * Load operation by cron job code.
      * Operation id must present in job code.
      *
-     * @throws \Magento\Core\Exception
      * @param string $jobCode
-     * @return \Magento\ScheduledImportExport\Model\Scheduled\Operation
+     * @return $this
+     * @throws \Magento\Core\Exception
      */
     public function loadByJobCode($jobCode)
     {
@@ -492,10 +491,10 @@ class Operation extends \Magento\Core\Model\AbstractModel
     /**
      * Save/upload file to server (ftp, local)
      *
-     * @throws \Magento\Core\Exception
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation\OperationInterface $operation
      * @param string $fileContent
      * @return bool
+     * @throws \Magento\Core\Exception
      */
     public function saveFileSource(
         \Magento\ScheduledImportExport\Model\Scheduled\Operation\OperationInterface $operation,
@@ -544,7 +543,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
      * Prepare data for server io driver initialization
      *
      * @param array $fileInfo
-     * @return array prepared configuration
+     * @return array Prepared configuration
      */
     protected function _prepareIoConfiguration($fileInfo)
     {
@@ -570,9 +569,9 @@ class Operation extends \Magento\Core\Model\AbstractModel
     /**
      * Save operation file history.
      *
-     * @throws \Magento\Core\Exception
      * @param string $source
-     * @return \Magento\ScheduledImportExport\Model\Scheduled\Operation
+     * @return $this
+     * @throws \Magento\Core\Exception
      */
     protected function _saveOperationHistory($source)
     {

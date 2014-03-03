@@ -51,6 +51,7 @@ class Observer
      * Assign the list of customer segment ids associated with a banner entity, passed as an event argument
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function loadCustomerSegmentRelations(\Magento\Event\Observer $observer)
     {
@@ -67,6 +68,7 @@ class Observer
      * Store customer segment ids associated with a banner entity, passed as an event argument
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      * @throws \UnexpectedValueException
      */
     public function saveCustomerSegmentRelations(\Magento\Event\Observer $observer)
@@ -90,6 +92,7 @@ class Observer
      * Add customer segment fields to the banner form, passed as an event argument
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function addFieldsToBannerForm(\Magento\Event\Observer $observer)
     {
@@ -109,6 +112,7 @@ class Observer
      * Apply customer segment filter to a collection, passed as an event argument
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function addCustomerSegmentFilterToCollection(\Magento\Event\Observer $observer)
     {
@@ -125,6 +129,7 @@ class Observer
      * Apply customer segment filter to a select object, passed as an event argument
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function addCustomerSegmentFilterToSelect(\Magento\Event\Observer $observer)
     {

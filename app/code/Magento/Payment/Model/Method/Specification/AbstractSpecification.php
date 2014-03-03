@@ -5,9 +5,7 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Payment\Model\Method\Specification;
-
 use Magento\Payment\Model\Method\SpecificationInterface;
 use Magento\Payment\Model\Config as PaymentConfig;
 

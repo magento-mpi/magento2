@@ -14,31 +14,31 @@
  */
 namespace Magento\Backend\Model\Config\Backend\Currency;
 
-class Allow extends \Magento\Backend\Model\Config\Backend\Currency\AbstractCurrency
+class Allow extends AbstractCurrency
 {
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\LocaleInterface
      */
     protected $_locale;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\ConfigInterface $config
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\LocaleInterface $locale
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\ConfigInterface $config,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\LocaleInterface $locale,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -52,7 +52,7 @@ class Allow extends \Magento\Backend\Model\Config\Backend\Currency\AbstractCurre
      * Check is isset default display currency in allowed currencies
      * Check allowed currencies is available in installed currencies
      *
-     * @return \Magento\Backend\Model\Config\Backend\Currency\Allow
+     * @return $this
      * @throws \Magento\Core\Exception
      */
     protected function _afterSave()

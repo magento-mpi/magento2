@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Catalog\Model\Resource;
 
 /**
  * Catalog Config Resource Model
@@ -16,8 +16,6 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Model\Resource;
-
 class Config extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
@@ -66,6 +64,7 @@ class Config extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Initialize connection
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -76,7 +75,7 @@ class Config extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Set store id
      *
      * @param integer $storeId
-     * @return \Magento\Catalog\Model\Resource\Config
+     * @return $this
      */
     public function setStoreId($storeId)
     {

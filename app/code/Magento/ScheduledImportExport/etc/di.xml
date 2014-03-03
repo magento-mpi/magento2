@@ -7,15 +7,15 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <type name="Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit\Form\Export">
-        <param name="emailIdentity">
-            <instance type="Magento\Backend\Model\Config\Source\Email\Identity\Proxy" />
-        </param>
+        <arguments>
+            <argument name="emailIdentity" xsi:type="object">Magento\Backend\Model\Config\Source\Email\Identity\Proxy</argument>
+        </arguments>
     </type>
     <type name="Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit\Form\Import">
-        <param name="emailIdentity">
-            <instance type="Magento\Backend\Model\Config\Source\Email\Identity\Proxy" />
-        </param>
+        <arguments>
+            <argument name="emailIdentity" xsi:type="object">Magento\Backend\Model\Config\Source\Email\Identity\Proxy</argument>
+        </arguments>
     </type>
 </config>

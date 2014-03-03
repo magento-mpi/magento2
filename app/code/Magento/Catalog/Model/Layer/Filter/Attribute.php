@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Layer\Filter;
 
 /**
@@ -34,6 +33,8 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
     protected $string;
 
     /**
+     * Constructor
+     *
      * @param \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Layer $catalogLayer
@@ -81,7 +82,7 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
      *
      * @param   \Zend_Controller_Request_Abstract $request
      * @param   \Magento\Object $filterBlock
-     * @return  \Magento\Catalog\Model\Layer\Filter\Attribute
+     * @return  $this
      */
     public function apply(\Zend_Controller_Request_Abstract $request, $filterBlock)
     {
@@ -136,8 +137,7 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
                             'count' => $optionsCount[$option['value']],
                         );
                     }
-                }
-                else {
+                } else {
                     $data[] = array(
                         'label' => $option['label'],
                         'value' => $option['value'],

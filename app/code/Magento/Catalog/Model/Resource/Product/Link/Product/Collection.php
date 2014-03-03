@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Catalog\Model\Resource\Product\Link\Product;
 
 /**
  * Catalog product linked products collection
@@ -16,8 +16,6 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Model\Resource\Product\Link\Product;
-
 class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
 {
     /**
@@ -59,7 +57,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      * Declare link model and initialize type attributes join
      *
      * @param \Magento\Catalog\Model\Product\Link $linkModel
-     * @return \Magento\Catalog\Model\Resource\Product\Link\Product\Collection
+     * @return $this
      */
     public function setLinkModel(\Magento\Catalog\Model\Product\Link $linkModel)
     {
@@ -73,7 +71,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     /**
      * Enable strong mode for inner join of linked products
      *
-     * @return \Magento\Catalog\Model\Resource\Product\Link\Product\Collection
+     * @return $this
      */
     public function setIsStrongMode()
     {
@@ -95,7 +93,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      * Initialize collection parent product and add limitation join
      *
      * @param \Magento\Catalog\Model\Product $product
-     * @return \Magento\Catalog\Model\Resource\Product\Link\Product\Collection
+     * @return $this
      */
     public function setProduct(\Magento\Catalog\Model\Product $product)
     {
@@ -120,7 +118,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      * Exclude products from filter
      *
      * @param array $products
-     * @return \Magento\Catalog\Model\Resource\Product\Link\Product\Collection
+     * @return $this
      */
     public function addExcludeProductFilter($products)
     {
@@ -138,7 +136,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      * Add products to filter
      *
      * @param array|int|string $products
-     * @return \Magento\Catalog\Model\Resource\Product\Link\Product\Collection
+     * @return $this
      */
     public function addProductFilter($products)
     {
@@ -156,7 +154,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     /**
      * Add random sorting order
      *
-     * @return \Magento\Catalog\Model\Resource\Product\Link\Product\Collection
+     * @return $this
      */
     public function setRandomOrder()
     {
@@ -168,7 +166,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      * Setting group by to exclude duplications in collection
      *
      * @param string $groupBy
-     * @return \Magento\Catalog\Model\Resource\Product\Link\Product\Collection
+     * @return $this
      */
     public function setGroupBy($groupBy = 'e.entity_id')
     {
@@ -179,7 +177,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     /**
      * Join linked products when specified link model
      *
-     * @return \Magento\Catalog\Model\Resource\Product\Link\Product\Collection
+     * @return $this
      */
     protected function _beforeLoad()
     {
@@ -192,7 +190,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     /**
      * Join linked products and their attributes
      *
-     * @return \Magento\Catalog\Model\Resource\Product\Link\Product\Collection
+     * @return $this
      */
     protected function _joinLinks()
     {
@@ -227,13 +225,11 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
         return $this;
     }
 
-
-
     /**
      * Enable sorting products by its position
      *
      * @param string $dir sort type asc|desc
-     * @return \Magento\Catalog\Model\Resource\Product\Link\Product\Collection
+     * @return $this
      */
     public function setPositionOrder($dir = self::SORT_ORDER_ASC)
     {
@@ -247,7 +243,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      * Enable sorting products by its attribute set name
      *
      * @param string $dir sort type asc|desc
-     * @return \Magento\Catalog\Model\Resource\Product\Link\Product\Collection
+     * @return $this
      */
     public function setAttributeSetIdOrder($dir = self::SORT_ORDER_ASC)
     {
@@ -264,7 +260,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     /**
      * Join attributes
      *
-     * @return \Magento\Catalog\Model\Resource\Product\Link\Product\Collection
+     * @return $this
      */
     public function joinAttributes()
     {
@@ -299,7 +295,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      *
      * @param string|array $attribute
      * @param string $dir
-     * @return \Magento\Catalog\Model\Resource\Product\Link\Product\Collection
+     * @return $this
      */
     public function setOrder($attribute, $dir = self::SORT_ORDER_ASC)
     {

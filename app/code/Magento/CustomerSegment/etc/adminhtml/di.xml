@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <type name="Magento\CustomerSegment\Model\Resource\Segment\Report\Detail\Collection">
-        <param name="modelName">
-            <value>Magento\Customer\Model\Backend\Customer</value>
-        </param>
+        <arguments>
+            <argument name="modelName" xsi:type="string">Magento\Customer\Model\Backend\Customer</argument>
+        </arguments>
     </type>
 </config>

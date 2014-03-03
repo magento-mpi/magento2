@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ScheduledImportExport\Model;
 
 /**
  * Export model
@@ -21,8 +22,6 @@
  * @method \Magento\ScheduledImportExport\Model\Export setEntity() setEntity(string $value)
  * @method \Magento\ScheduledImportExport\Model\Export setOperationType() setOperationType(string $value)
  */
-namespace Magento\ScheduledImportExport\Model;
-
 class Export extends \Magento\ImportExport\Model\Export
     implements \Magento\ScheduledImportExport\Model\Scheduled\Operation\OperationInterface
 {
@@ -36,7 +35,7 @@ class Export extends \Magento\ImportExport\Model\Export
     /**
      * @param \Magento\Logger $logger
      * @param \Magento\App\Filesystem $filesystem
-     * @param \Magento\Core\Model\Log\AdapterFactory $adapterFactory
+     * @param \Magento\Logger\AdapterFactory $adapterFactory
      * @param \Magento\ImportExport\Model\Export\ConfigInterface $exportConfig
      * @param \Magento\ImportExport\Model\Export\Entity\Factory $entityFactory
      * @param \Magento\ImportExport\Model\Export\Adapter\Factory $exportAdapterFac
@@ -46,7 +45,7 @@ class Export extends \Magento\ImportExport\Model\Export
     public function __construct(
         \Magento\Logger $logger,
         \Magento\App\Filesystem $filesystem,
-        \Magento\Core\Model\Log\AdapterFactory $adapterFactory,
+        \Magento\Logger\AdapterFactory $adapterFactory,
         \Magento\ImportExport\Model\Export\ConfigInterface $exportConfig,
         \Magento\ImportExport\Model\Export\Entity\Factory $entityFactory,
         \Magento\ImportExport\Model\Export\Adapter\Factory $exportAdapterFac,
@@ -93,7 +92,7 @@ class Export extends \Magento\ImportExport\Model\Export
      * Initialize export instance from scheduled operation
      *
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation $operation
-     * @return \Magento\ScheduledImportExport\Model\Export
+     * @return $this
      */
     public function initialize(\Magento\ScheduledImportExport\Model\Scheduled\Operation $operation)
     {

@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Block\Standard;
 
 /**
  * PayPal Standard payment "form"
  */
-namespace Magento\Paypal\Block\Standard;
-
 class Form extends \Magento\Payment\Block\Form
 {
     /**
@@ -49,6 +48,8 @@ class Form extends \Magento\Payment\Block\Form
 
     /**
      * Set template and redirect message
+     *
+     * @return null
      */
     protected function _construct()
     {

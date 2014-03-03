@@ -23,8 +23,8 @@ class Cron extends \Magento\Core\Model\Config\Value
     protected $_configValueFactory;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\ConfigInterface $config
      * @param \Magento\Core\Model\Config\ValueFactory $configValueFactory
@@ -33,8 +33,8 @@ class Cron extends \Magento\Core\Model\Config\Value
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\ConfigInterface $config,
         \Magento\Core\Model\Config\ValueFactory $configValueFactory,
@@ -46,6 +46,10 @@ class Cron extends \Magento\Core\Model\Config\Value
         parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
     }
 
+    /**
+     * @return void
+     * @throws \Exception
+     */
     protected function _afterSave()
     {
         $time = $this->getData('groups/import/fields/time/value');

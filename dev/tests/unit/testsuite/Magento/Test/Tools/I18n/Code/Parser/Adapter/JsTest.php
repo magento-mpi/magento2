@@ -9,6 +9,7 @@
 namespace Magento\Test\Tools\I18n\Code\Parser\Adapter;
 
 use Magento\TestFramework\Helper\ObjectManager;
+use Magento\Tools\I18n\Code\Dictionary\Phrase;
 
 class JsTest extends \PHPUnit_Framework_TestCase
 {
@@ -43,11 +44,13 @@ class JsTest extends \PHPUnit_Framework_TestCase
                 'phrase' => 'Phrase 1',
                 'file' => $this->_testFile,
                 'line' => $this->_stringsCount - 2,
+                'quote' => Phrase::QUOTE_SINGLE,
             ),
             array(
                 'phrase' => 'Phrase 2 %1',
                 'file' => $this->_testFile,
                 'line' => $this->_stringsCount - 1,
+                'quote' => Phrase::QUOTE_DOUBLE,
             ),
         );
 

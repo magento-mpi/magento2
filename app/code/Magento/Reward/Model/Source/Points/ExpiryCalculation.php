@@ -12,7 +12,7 @@ namespace Magento\Reward\Model\Source\Points;
 /**
  * Source model for list of Expiry Calculation algorithms
  */
-class ExpiryCalculation implements \Magento\Core\Model\Option\ArrayInterface
+class ExpiryCalculation implements \Magento\Option\ArrayInterface
 {
     /**
      * Expiry calculation options

@@ -19,7 +19,7 @@ interface MetadataInterface
      *
      * @param string $key
      *
-     * @return mixed
+     * @return string|null
      */
     public function getMetadata($key);
 
@@ -28,6 +28,7 @@ interface MetadataInterface
      *
      * @param string $key
      * @param string $value
+     * @return void
      */
     public function setMetadata($key, $value);
 
@@ -35,6 +36,7 @@ interface MetadataInterface
      * Save metadata for cache in cache storage
      *
      * @param array $requestTags
+     * @return void
      */
     public function saveMetadata(array $requestTags = array());
 }

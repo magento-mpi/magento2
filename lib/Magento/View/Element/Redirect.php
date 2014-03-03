@@ -15,16 +15,22 @@ class Redirect extends Template
 {
     /**
      *  HTML form hidden fields
+     *
+     * @var array
      */
     protected $formFields = array();
 
     /**
+     * Form factory
+     *
      * @var \Magento\Data\FormFactory
      */
     protected $formFactory;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * Constructor
+     *
+     * @param Template\Context $context
      * @param \Magento\Data\FormFactory $formFactory
      * @param array $data
      */
@@ -109,7 +115,7 @@ class Redirect extends Template
     /**
      * HTML form or JS redirect
      *
-     * @return boolean
+     * @return bool
      */
     public function isHtmlFormRedirect()
     {

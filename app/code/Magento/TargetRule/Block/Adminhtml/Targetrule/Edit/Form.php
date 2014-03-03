@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\TargetRule\Block\Adminhtml\Targetrule\Edit;
 
 class Form extends \Magento\Backend\Block\Widget\Form
@@ -42,6 +41,9 @@ class Form extends \Magento\Backend\Block\Widget\Form
         parent::__construct($context, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -49,6 +51,9 @@ class Form extends \Magento\Backend\Block\Widget\Form
         $this->setTitle(__('Rule Information'));
     }
 
+    /**
+     * @return $this
+     */
     protected function _prepareForm()
     {
         $form = $this->_formFactory->create(array(

@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Persistent\Block\Form;
 
 /**
  * Remember Me block
@@ -15,9 +16,6 @@
  * @package     Magento_Persistent
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Persistent\Block\Form;
-
 class Remember extends \Magento\View\Element\Template
 {
     /**

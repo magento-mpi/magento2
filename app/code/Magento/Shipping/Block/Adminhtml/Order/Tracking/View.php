@@ -5,13 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Shipping\Block\Adminhtml\Order\Tracking;
 
 /**
  * Shipment tracking control form
  *
  */
-namespace Magento\Shipping\Block\Adminhtml\Order\Tracking;
-
 class View extends \Magento\Shipping\Block\Adminhtml\Order\Tracking
 {
     /**
@@ -22,14 +21,14 @@ class View extends \Magento\Shipping\Block\Adminhtml\Order\Tracking
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Shipping\Model\Config $shippingConfig
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Shipping\Model\CarrierFactory $carrierFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Shipping\Model\Config $shippingConfig,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Shipping\Model\CarrierFactory $carrierFactory,
         array $data = array()
     ) {
@@ -40,7 +39,7 @@ class View extends \Magento\Shipping\Block\Adminhtml\Order\Tracking
     /**
      * Prepares layout of block
      *
-     * @return \Magento\Sales\Block\Adminhtml\Order\View\Giftmessage
+     * @return void
      */
     protected function _prepareLayout()
     {
@@ -75,7 +74,7 @@ class View extends \Magento\Shipping\Block\Adminhtml\Order\Tracking
     /**
      * Retrieve remove url
      *
-     * @param $track
+     * @param \Magento\Sales\Model\Order\Shipment\Track $track
      * @return string
      */
     public function getRemoveUrl($track)
@@ -86,6 +85,10 @@ class View extends \Magento\Shipping\Block\Adminhtml\Order\Tracking
         ));
     }
 
+    /**
+     * @param string $code
+     * @return false|string
+     */
     public function getCarrierTitle($code)
     {
         $carrier = $this->_carrierFactory->create($code);

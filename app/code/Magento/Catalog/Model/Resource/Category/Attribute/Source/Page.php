@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Catalog\Model\Resource\Category\Attribute\Source;
 
 /**
  * Catalog category landing page attribute source
@@ -16,8 +16,6 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Model\Resource\Category\Attribute\Source;
-
 class Page
     extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
 {

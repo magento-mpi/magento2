@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\AdminNotification\Model;
 
 /**
  * AdminNotification Feed model
@@ -16,8 +16,6 @@
  * @package    Magento_AdminNotification
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\AdminNotification\Model;
-
 class Feed extends \Magento\Core\Model\AbstractModel
 {
     const XML_USE_HTTPS_PATH    = 'system/adminnotification/use_https';
@@ -43,8 +41,8 @@ class Feed extends \Magento\Core\Model\AbstractModel
     protected $_inboxFactory;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Backend\App\ConfigInterface $backendConfig
      * @param \Magento\AdminNotification\Model\InboxFactory $inboxFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
@@ -52,8 +50,8 @@ class Feed extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Backend\App\ConfigInterface $backendConfig,
         \Magento\AdminNotification\Model\InboxFactory $inboxFactory,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
@@ -68,6 +66,7 @@ class Feed extends \Magento\Core\Model\AbstractModel
     /**
      * Init model
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -91,7 +90,7 @@ class Feed extends \Magento\Core\Model\AbstractModel
     /**
      * Check feed for modification
      *
-     * @return \Magento\AdminNotification\Model\Feed
+     * @return $this
      */
     public function checkUpdate()
     {
@@ -158,7 +157,7 @@ class Feed extends \Magento\Core\Model\AbstractModel
     /**
      * Set last update time (now)
      *
-     * @return \Magento\AdminNotification\Model\Feed
+     * @return $this
      */
     public function setLastUpdate()
     {
@@ -196,6 +195,9 @@ class Feed extends \Magento\Core\Model\AbstractModel
         return $xml;
     }
 
+    /**
+     * @return \SimpleXMLElement
+     */
     public function getFeedXml()
     {
         try {

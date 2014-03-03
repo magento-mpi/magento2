@@ -7,18 +7,23 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Block\Widget\Grid\Column\Renderer;
 
 /**
  * Backend grid item renderer currency
  */
-namespace Magento\Backend\Block\Widget\Grid\Column\Renderer;
-
 class Price
     extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
+    /**
+     * @var int
+     */
     protected $_defaultWidth = 100;
+
     /**
      * Currency objects cache
+     *
+     * @var \Magento\Object[]
      */
     protected static $_currencies = array();
 
@@ -49,7 +54,7 @@ class Price
      * Returns currency code for the row, false on error
      *
      * @param \Magento\Object $row
-     * @return string|bool
+     * @return string|false
      */
     protected function _getCurrencyCode($row)
     {

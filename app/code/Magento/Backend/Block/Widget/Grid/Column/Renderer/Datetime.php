@@ -18,13 +18,15 @@ class Datetime
 {
     /**
      * Date format string
+     *
+     * @var string
      */
     protected static $_format = null;
 
     /**
      * Retrieve datetime format
      *
-     * @return unknown
+     * @return string|null
      */
     protected function _getFormat()
     {
@@ -33,7 +35,7 @@ class Datetime
             if (is_null(self::$_format)) {
                 try {
                     self::$_format = $this->_locale->getDateTimeFormat(
-                        \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM
+                        \Magento\LocaleInterface::FORMAT_TYPE_MEDIUM
                     );
                 }
                 catch (\Exception $e) {

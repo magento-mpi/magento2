@@ -403,6 +403,18 @@
             <word>CHANGELOG</word>
         </item>
         <item>
+            <path>app/code/Magento/Catalog/Model/Indexer/Product/Flat/AbstractAction.php</path>
+            <word>CHANGELOG</word>
+        </item>
+        <item>
+            <path>app/code/Magento/Catalog/Helper/Product/Flat/Indexer.php</path>
+            <word>CHANGELOG</word>
+        </item>
+        <item>
+            <path>dev/tests/unit/testsuite/Magento/Catalog/Helper/Product/Flat/IndexerTest.php</path>
+            <word>CHANGELOG</word>
+        </item>
+        <item>
             <path>app/code/Magento/Indexer</path>
             <word>CHANGELOG</word>
         </item>
@@ -436,11 +448,27 @@
             <word>CHANGELOG</word>
         </item>
         <item>
+            <path>app/code/Magento/Catalog/etc/di.xml</path>
+            <word>CHANGELOG</word>
+        </item>
+        <item>
+            <path>app/code/Magento/Catalog/Model/Indexer/Category/Product/Plugin/MviewState.php</path>
+            <word>CHANGELOG</word>
+        </item>
+        <item>
+            <path>dev/tests/unit/testsuite/Magento/Catalog/Model/Indexer/Category/Product/Plugin/MviewStateTest.php</path>
+            <word>CHANGELOG</word>
+        </item>
+        <item>
             <path>app/code/Magento/Bundle/etc/product_types.xml</path>
             <word>CustomAttribute</word>
         </item>
         <item>
             <path>app/code/Magento/Catalog/Model/ProductTypes/Config/Converter.php</path>
+            <word>CustomAttribute</word>
+        </item>
+        <item>
+            <path>app/code/Magento/Catalog/Model/ProductTypes/ConfigInterface.php</path>
             <word>CustomAttribute</word>
         </item>
         <item>
@@ -461,6 +489,10 @@
         </item>
         <item>
             <path>app/code/Magento/Downloadable/etc/product_types.xml</path>
+            <word>CustomAttribute</word>
+        </item>
+        <item>
+            <path>app/code/Magento/ConfigurableProduct/etc/product_types.xml</path>
             <word>CustomAttribute</word>
         </item>
         <item>

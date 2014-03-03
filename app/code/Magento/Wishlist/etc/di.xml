@@ -7,15 +7,15 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <type name="Magento\Wishlist\Model\Resource\Item\Collection\Grid">
-        <param name="resource">
-            <instance type="Magento\Wishlist\Model\Resource\Item" />
-        </param>
+        <arguments>
+            <argument name="resource" xsi:type="object">Magento\Wishlist\Model\Resource\Item</argument>
+        </arguments>
     </type>
     <type name="Magento\Wishlist\Helper\Data">
-        <param name="customerSession">
-            <instance type="Magento\Customer\Model\Session\Proxy" />
-        </param>
+        <arguments>
+            <argument name="customerSession" xsi:type="object">Magento\Customer\Model\Session\Proxy</argument>
+        </arguments>
     </type>
 </config>

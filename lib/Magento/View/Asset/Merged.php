@@ -19,26 +19,36 @@ class Merged implements \Iterator
     const PUBLIC_MERGE_DIR  = '_merged';
 
     /**
+     * ObjectManager
+     *
      * @var \Magento\ObjectManager
      */
     protected $objectManager;
 
     /**
+     * Logger
+     *
      * @var \Magento\Logger
      */
     protected $logger;
 
     /**
+     * MergeStrategyInterface
+     *
      * @var MergeStrategyInterface
      */
     protected $mergeStrategy;
 
     /**
+     * Assets
+     *
      * @var MergeableInterface[]
      */
     protected $assets;
 
     /**
+     * Content type
+     *
      * @var string
      */
     protected $contentType;
@@ -51,6 +61,8 @@ class Merged implements \Iterator
     protected $isInitialized = false;
 
     /**
+     * Constructor
+     *
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Logger $logger
      * @param MergeStrategyInterface $mergeStrategy
@@ -90,6 +102,8 @@ class Merged implements \Iterator
 
     /**
      * Attempt to merge assets, falling back to original non-merged ones, if merging fails
+     *
+     * @return void
      */
     protected function initialize()
     {

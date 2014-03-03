@@ -48,6 +48,9 @@ class Order extends \Magento\Backend\Helper\Dashboard\AbstractDashboard
         );
     }
 
+    /**
+     * @return void
+     */
     protected function _initCollection()
     {
         $isFilter = $this->getParam('store') || $this->getParam('website') || $this->getParam('group');

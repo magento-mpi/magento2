@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\VersionsCms\Model\Resource\Page;
 
 /**
  * Cms page version resource model
@@ -16,12 +16,12 @@
  * @package     Magento_VersionsCms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\VersionsCms\Model\Resource\Page;
-
 class Version extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Resource initialization
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -110,7 +110,7 @@ class Version extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param int $userId
      * @param int|string $value
      * @param string|null $field
-     * @return \Magento\VersionsCms\Model\Resource\Page\Version
+     * @return $this
      */
     public function loadWithRestrictions($object, $accessLevel, $userId, $value, $field = null)
     {

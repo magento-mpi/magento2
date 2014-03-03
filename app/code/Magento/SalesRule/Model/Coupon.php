@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 
+namespace Magento\SalesRule\Model;
 
 /**
  * SalesRule Coupon Model
@@ -30,13 +31,7 @@
  * @method \Magento\SalesRule\Model\Coupon setIsPrimary(int $value)
  * @method int getType()
  * @method \Magento\SalesRule\Model\Coupon setType(int $value)
- *
- * @category    Magento
- * @package     Magento_SalesRule
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\SalesRule\Model;
-
 class Coupon extends \Magento\Core\Model\AbstractModel
 {
     /**

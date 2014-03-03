@@ -19,7 +19,7 @@ class RecurringProfile
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -31,21 +31,21 @@ class RecurringProfile
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
-     * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\RecurringProfile\Model\Resource\Profile\CollectionFactory $profileCollection
      * @param \Magento\RecurringProfile\Model\States $recurringStates
      * @param \Magento\RecurringProfile\Block\Fields $fields
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\RecurringProfile\Model\Method\PaymentMethodsList $payments
+     * @param \Magento\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
-        \Magento\Payment\Helper\Data $paymentData,
         \Magento\RecurringProfile\Model\Resource\Profile\CollectionFactory $profileCollection,
         \Magento\RecurringProfile\Model\States $recurringStates,
         \Magento\RecurringProfile\Block\Fields $fields,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\RecurringProfile\Model\Method\PaymentMethodsList $payments,
+        \Magento\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -63,10 +63,10 @@ class RecurringProfile
         parent::__construct(
             $context,
             $backendHelper,
-            $paymentData,
             $profileCollection,
             $recurringStates,
             $fields,
+            $payments,
             $data
         );
     }

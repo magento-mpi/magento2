@@ -15,7 +15,6 @@
  * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 namespace Magento\Connect\Frontend;
 
 class CLI
@@ -24,12 +23,14 @@ extends \Magento\Connect\Frontend
 
     /**
      * Collected output
+     *
      * @var array
      */
     protected $_output = array();
 
     /**
      * Output error
+     *
      * @param string $command
      * @param string $message
      * @return void
@@ -44,6 +45,7 @@ extends \Magento\Connect\Frontend
 
     /**
      * Output config help
+     *
      * @param array $data
      * @return void
      */
@@ -61,6 +63,7 @@ extends \Magento\Connect\Frontend
 
     /**
      * Output info
+     *
      * @param array $data
      * @return void
      */
@@ -74,14 +77,17 @@ extends \Magento\Connect\Frontend
         }
     }
 
-
+    /**
+     * @param string $type
+     * @return string
+     */
     public function detectMethodByType($type)
     {
         $defaultMethod = "output";
         $methodMap = array(
             'list-upgrades'=> 'outputUpgrades',
             'list-available' => 'outputChannelsPackages',
-            'list-installed' => 'writeInstalledList',   
+            'list-installed' => 'writeInstalledList',
             'package-dependencies' => 'outputPackageDeps',
             'list-files' => 'outputPackageContents',
             'config-help' => 'outputConfigHelp',
@@ -100,18 +106,25 @@ extends \Magento\Connect\Frontend
         return $defaultMethod;
     }
 
-
+    /**
+     * @param array $data
+     * @return void
+     */
     public function outputDeleted($data)
     {
         if(!count($data['data'])) {
-            return;            
-        }        
-        $this->writeln($data['title']);        
+            return;
+        }
+        $this->writeln($data['title']);
         foreach($data['data'] as $row) {
             $this->writeln("$row[0]/$row[1]");
         }
     }
-    
+
+    /**
+     * @param array $data
+     * @return void
+     */
     public function outputListChannels($data)
     {
         $this->writeln($data['title']);
@@ -125,7 +138,7 @@ extends \Magento\Connect\Frontend
             $this->writeln();
             $this->writeln($data['title_aliases']);
             foreach($aliases as $k=>$v) {
-                $this->writeln("$k => $v");                       
+                $this->writeln("$k => $v");
             }
         }
 
@@ -133,6 +146,7 @@ extends \Magento\Connect\Frontend
 
     /**
      * Output install result
+     *
      * @param array $data
      * @return void
      */
@@ -150,6 +164,7 @@ extends \Magento\Connect\Frontend
 
     /**
      * Ouptut package contents
+     *
      * @param array $data
      * @return void
      */
@@ -163,7 +178,8 @@ extends \Magento\Connect\Frontend
 
     /**
      * Output package dependencies
-     * @param $data
+     *
+     * @param array $data
      * @return void
      */
     public function outputPackageDeps($data)
@@ -177,8 +193,9 @@ extends \Magento\Connect\Frontend
 
     /**
      * Ouptut channel packages
-     * @param $data
-     * @return unknown_type
+     *
+     * @param array $data
+     * @return void
      */
     public function outputChannelsPackages($data)
     {
@@ -197,7 +214,6 @@ extends \Magento\Connect\Frontend
             }
         }
     }
-
 
     /**
      * Make output
@@ -231,6 +247,7 @@ extends \Magento\Connect\Frontend
 
     /**
      * Detailed package info
+     *
      * @param \Magento\Connect\Package $package
      * @return void
      */
@@ -264,6 +281,7 @@ extends \Magento\Connect\Frontend
 
     /**
      * Write channels list
+     *
      * @param array $data
      * @return void
      */
@@ -280,6 +298,7 @@ extends \Magento\Connect\Frontend
 
     /**
      * Write installed list
+     *
      * @param array $data
      * @return void
      */
@@ -289,7 +308,7 @@ extends \Magento\Connect\Frontend
         foreach($data['data'] as $channel=>$packages) {
             $title = sprintf($data['channel-title'], $channel);
             $c = count($packages);
-            $totalCount += $c;          
+            $totalCount += $c;
             if(!$c) {
                 continue;
             }
@@ -305,6 +324,7 @@ extends \Magento\Connect\Frontend
 
     /**
      * Output commands list
+     *
      * @param array $data
      * @return void
      */
@@ -332,6 +352,7 @@ extends \Magento\Connect\Frontend
 
     /**
      * Output config variable
+     *
      * @param string $key
      * @param string $value
      * @return void
@@ -346,6 +367,7 @@ extends \Magento\Connect\Frontend
 
     /**
      * Write data and "\n" afterwards
+     *
      * @param string $data
      * @return void
      */
@@ -372,6 +394,7 @@ extends \Magento\Connect\Frontend
 
     /**
      * Write data to console
+     *
      * @param string $data
      * @return void
      */
@@ -380,11 +403,12 @@ extends \Magento\Connect\Frontend
         if($this->isSilent()) {
             return;
         }
-        print $data;
+        echo $data;
     }
 
     /**
      * Output printf-stlye formatted string and args
+     *
      * @return void
      */
     public function printf()
@@ -395,6 +419,7 @@ extends \Magento\Connect\Frontend
 
     /**
      * Readline from console
+     *
      * @return string
      */
     public function readln()
@@ -410,6 +435,7 @@ extends \Magento\Connect\Frontend
 
     /**
      * Output upgrades
+     *
      * @param array $data
      * @return void
      */
