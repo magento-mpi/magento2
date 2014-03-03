@@ -691,7 +691,7 @@ class Carrier
         $fullItems  = array();
 
         foreach ($allItems as $item) {
-            if ($item->getProductType() == Type::TYPE_BUNDLE
+            if ($item->getProductType() ==  \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE
                 && $item->getProduct()->getShipmentType()
             ) {
                 continue;
@@ -712,7 +712,9 @@ class Carrier
             }
 
             $itemWeight = $item->getWeight();
-            if ($item->getIsQtyDecimal() && $item->getProductType() != Type::TYPE_BUNDLE) {
+            if ($item->getIsQtyDecimal()
+                && $item->getProductType() != \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE
+            ) {
                 $stockItem = $item->getProduct()->getStockItem();
                 if ($stockItem->getIsDecimalDivided()) {
                     if ($stockItem->getEnableQtyIncrements() && $stockItem->getQtyIncrements()) {
@@ -742,7 +744,7 @@ class Carrier
             }
 
             if ($changeQty && !$item->getParentItem() && $item->getIsQtyDecimal()
-                && $item->getProductType() != Type::TYPE_BUNDLE
+                && $item->getProductType() != \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE
             ) {
                 $qty = 1;
             }
