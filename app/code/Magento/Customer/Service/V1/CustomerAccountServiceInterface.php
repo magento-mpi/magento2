@@ -140,11 +140,13 @@ interface CustomerAccountServiceInterface
      * Change customer password.
      *
      * @param int $customerId
-     * @param string $newPassword
+     * @param string $currentPassword Users current password
+     * @param string $newPassword New password to set
      * @return void
      * @throws \Magento\Exception\NoSuchEntityException If customer with customerId is not found.
+     * @throws \Magento\Exception\AuthenticationException If invalid currentPassword is supplied
      */
-    public function changePassword($customerId, $newPassword);
+    public function changePassword($customerId, $currentPassword, $newPassword);
 
     /**
      * Check if password reset token is valid

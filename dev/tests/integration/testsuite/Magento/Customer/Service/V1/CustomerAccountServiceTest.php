@@ -133,10 +133,11 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      * @magentoAppArea frontend
      * @magentoDataFixture Magento/Customer/_files/customer.php
      */
-    public function testValidatePassword()
+    public function testChangePassword()
     {
-        // Customer e-mail and password are pulled from the fixture customer.php
-        $this->_customerAccountService->validatePassword(1, 'password');
+        $this->_customerAccountService->changePassword(1, 'password', 'new_password');
+
+        $this->_customerAccountService->authenticate('customer@example.com', 'new_password');
     }
 
     /**
@@ -145,19 +146,17 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      * @expectedException \Magento\Exception\AuthenticationException
      * @expectedExceptionMessage Password doesn't match for this account
      */
-    public function testValidatePasswordWrongPassword()
+    public function testChangePasswordWrongPassword()
     {
-        // Customer e-mail and password are pulled from the fixture customer.php
-        $this->_customerAccountService->validatePassword(1, 'wrongPassword');
+        $this->_customerAccountService->changePassword(1, 'wrongPassword', 'new_password');
     }
 
     /**
      * @expectedException \Magento\Exception\NoSuchEntityException
      */
-    public function testValidatePasswordWrongUser()
+    public function testChangePasswordWrongUser()
     {
-        // Customer e-mail and password are pulled from the fixture customer.php
-        $this->_customerAccountService->validatePassword(4200, 'password');
+        $this->_customerAccountService->validatePassword(4200, 'password', 'new_password');
     }
 
     /**
@@ -454,7 +453,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             ];
             $this->assertEquals($expectedParams, $ie->getParams());
         }
-        $this->_customerAccountService->changePassword(1, $password);
     }
 
     /**

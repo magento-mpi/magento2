@@ -876,15 +876,14 @@ class Account extends \Magento\App\Action\Action
 
 
             if ($this->getRequest()->getParam('change_password')) {
-                $currPass   = $this->getRequest()->getPost('current_password');
+                $curPass   = $this->getRequest()->getPost('current_password');
                 $newPass    = $this->getRequest()->getPost('password');
                 $confPass   = $this->getRequest()->getPost('confirmation');
 
                 if (strlen($newPass)) {
                     if ($newPass == $confPass) {
                         try {
-                            $this->_customerAccountService->validatePassword($customerId, $currPass);
-                            $this->_customerAccountService->changePassword($customerId, $newPass);
+                            $this->_customerAccountService->changePassword($customerId, $curPass, $newPass);
                         } catch (AuthenticationException $e) {
                             $this->messageManager->addError($e->getMessage());
                         } catch (\Exception $e) {

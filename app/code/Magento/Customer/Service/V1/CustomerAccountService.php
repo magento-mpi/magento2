@@ -505,9 +505,15 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function changePassword($customerId, $newPassword)
+    public function changePassword($customerId, $currentPassword, $newPassword)
     {
         $customerModel = $this->_converter->getCustomerModel($customerId);
+        if (!$customerModel->validatePassword($currentPassword)) {
+            throw new AuthenticationException(
+                __("Password doesn't match for this account."),
+                AuthenticationException::INVALID_EMAIL_OR_PASSWORD
+            );
+        }
         $customerModel->setRpToken(null);
         $customerModel->setRpTokenCreatedAt(null);
         $customerModel->setPassword($newPassword);
