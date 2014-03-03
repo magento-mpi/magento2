@@ -10,6 +10,8 @@
 
 namespace Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbalance;
 
+use Magento\Customer\Controller\RegistryConstants;
+
 class Js extends \Magento\Backend\Block\Template
 {
     /**
@@ -46,7 +48,7 @@ class Js extends \Magento\Backend\Block\Template
      */
     public function getCustomerWebsite()
     {
-        return $this->_coreRegistry->registry('current_customer')->getWebsiteId();
+        return $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER)->getWebsiteId();
     }
 
     /**
@@ -57,10 +59,10 @@ class Js extends \Magento\Backend\Block\Template
         $result = array();
         foreach ($this->_storeManager->getWebsites() as $websiteId => $website) {
             $result[$websiteId] = array(
-                'name'          => $website->getName(),
-                'website_id'    => $websiteId,
+                'name' => $website->getName(),
+                'website_id' => $websiteId,
                 'currency_code' => $website->getBaseCurrencyCode(),
-                'groups'        => array()
+                'groups' => array()
             );
 
             foreach ($website->getGroups() as $groupId => $group) {
@@ -70,7 +72,7 @@ class Js extends \Magento\Backend\Block\Template
 
                 foreach ($group->getStores() as $storeId => $store) {
                     $result[$websiteId]['groups'][$groupId]['stores'][] = array(
-                        'name'     => $store->getName(),
+                        'name' => $store->getName(),
                         'store_id' => $storeId,
                     );
                 }
