@@ -282,7 +282,7 @@ abstract class AbstractProductList
      */
     protected function _getTargetLinkCollection()
     {
-        return $this->_getPreparedTargetLinkCollection($this->getPositionLimit());
+        return $this->_getPreparedTargetLinkCollection($this->_targetRuleData->getMaxProductsListResult());
     }
 
     /**
@@ -326,7 +326,7 @@ abstract class AbstractProductList
      */
     protected function _getTargetRuleProducts()
     {
-        $limit = $this->getPositionLimit();
+        $limit = $this->_targetRuleData->getMaxProductsListResult();
 
         $productIds = $this->_getTargetRuleProductIds($limit);
 
@@ -407,5 +407,15 @@ abstract class AbstractProductList
             $identities[] = $item->getIdentities();
         }
         return $identities;
+    }
+
+    /**
+     * Get all items
+     *
+     * @return array
+     */
+    public function getAllItems()
+    {
+        return $this->getItemCollection();
     }
 }

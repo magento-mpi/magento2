@@ -99,7 +99,6 @@ class Related
         );
     }
 
-
     /**
      * Retrieve Catalog Product List Type identifier
      *
@@ -108,20 +107,5 @@ class Related
     public function getProductListType()
     {
         return \Magento\TargetRule\Model\Rule::RELATED_PRODUCTS;
-    }
-
-    /**
-     * Retrieve array of exclude product ids
-     * Rewrite for exclude shopping cart products
-     *
-     * @return array
-     */
-    public function getExcludeProductIds()
-    {
-        if (is_null($this->_excludeProductIds)) {
-            $cartProductIds = $this->_cart->getProductIds();
-            $this->_excludeProductIds = array_merge($cartProductIds, array($this->getProduct()->getEntityId()));
-        }
-        return $this->_excludeProductIds;
     }
 }

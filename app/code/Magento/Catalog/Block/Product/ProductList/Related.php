@@ -108,7 +108,6 @@ class Related extends \Magento\Catalog\Block\Product\AbstractProduct implements 
             $data,
             $priceBlockTypes
         );
-        $this->_isScopePrivate = true;
     }
 
     /**
@@ -125,10 +124,6 @@ class Related extends \Magento\Catalog\Block\Product\AbstractProduct implements 
             ->addStoreFilter();
 
         if ($this->_catalogData->isModuleEnabled('Magento_Checkout')) {
-            $this->_checkoutCart->addExcludeProductFilter(
-                $this->_itemCollection,
-                $this->_checkoutSession->getQuoteId()
-            );
             $this->_addProductAttributesAndPrices($this->_itemCollection);
         }
         $this->_itemCollection->setVisibility(
