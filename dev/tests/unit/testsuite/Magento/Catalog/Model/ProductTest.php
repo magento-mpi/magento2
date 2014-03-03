@@ -48,8 +48,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         );
 
         $stateMock = $this->getMock(
-            'Magento\App\State',
-            array('getAreaCode'), array(), '', false
+            'Magento\App\State', array('getAreaCode'), array(), '', false
         );
 
         $stateMock->expects($this->any())
@@ -57,13 +56,11 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE));
 
         $eventManagerMock = $this->getMock(
-            'Magento\Event\ManagerInterface',
-            array(), array(), '', false
+            'Magento\Event\ManagerInterface', array(), array(), '', false
         );
 
         $cacheInterfaceMock = $this->getMock(
-            'Magento\App\CacheInterface',
-            array(), array(), '', false
+            'Magento\App\CacheInterface', array(), array(), '', false
         );
 
         $contextMock = $this->getMock(
@@ -102,7 +99,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
         $this->_indexIndexerMock->expects($this->once())
             ->method('indexEvents')
-            ->with(\Magento\Catalog\Model\Product::ENTITY,\Magento\Index\Model\Event::TYPE_DELETE);
+            ->with(\Magento\Catalog\Model\Product::ENTITY, \Magento\Index\Model\Event::TYPE_DELETE);
 
         $this->_model->setId(1);
         $this->_model->delete();

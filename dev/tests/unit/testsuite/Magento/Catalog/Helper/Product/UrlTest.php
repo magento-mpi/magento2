@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Helper;
+namespace Magento\Catalog\Helper\Product;
 
 class UrlTest extends \PHPUnit_Framework_TestCase
 {
