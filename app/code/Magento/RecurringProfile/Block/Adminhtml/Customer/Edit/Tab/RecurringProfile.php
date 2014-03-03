@@ -140,7 +140,7 @@ class RecurringProfile
 
         $this->setCollection($collection);
 
-        return parent::_prepareCollection();
+        return \Magento\Backend\Block\Widget\Grid\Extended::_prepareCollection();
     }
 
     /**
