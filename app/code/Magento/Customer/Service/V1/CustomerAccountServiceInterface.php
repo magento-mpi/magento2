@@ -52,6 +52,8 @@ interface CustomerAccountServiceInterface
 
     /**
      * Update Customer Account and its details
+     * CustomerDetails contains an array of Address Dto. In the event that no change was made to addresses
+     * the array must be null
      *
      * @param Dto\CustomerDetails $customer
      * @return void
@@ -66,7 +68,6 @@ interface CustomerAccountServiceInterface
      * @throws \Magento\Customer\Exception If something goes wrong during save
      * @throws \Magento\Exception\InputException If bad input is provided
      * @return int customer ID
-     * @deprecated use createCustomer or updateCustomer instead.
      */
     public function saveCustomer(Dto\Customer $customer, $password = null);
 
@@ -128,13 +129,11 @@ interface CustomerAccountServiceInterface
      * Change customer password.
      *
      * @param int $customerId
-     * @param string $currentPassword Users current password
-     * @param string $newPassword New password to set
+     * @param string $newPassword
      * @return void
      * @throws \Magento\Exception\NoSuchEntityException If customer with customerId is not found.
-     * @throws \Magento\Exception\AuthenticationException If invalid currentPassword is supplied
      */
-    public function changePassword($customerId, $currentPassword, $newPassword);
+    public function changePassword($customerId, $newPassword);
 
     /**
      * Check if password reset token is valid
