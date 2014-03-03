@@ -37,7 +37,7 @@ class Controllers
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -78,7 +78,7 @@ class Controllers
      * @param \Magento\Logging\Helper\Data $loggingData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Catalog\Helper\Product\Edit\Action\Attribute $actionAttribute
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\App\ResponseInterface $response
      * @param \Magento\Logging\Model\Event\ChangesFactory $eventChangesFactory
@@ -89,7 +89,7 @@ class Controllers
         \Magento\Logging\Helper\Data $loggingData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Catalog\Helper\Product\Edit\Action\Attribute $actionAttribute,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\App\RequestInterface $request,
         \Magento\App\ResponseInterface $response,
         \Magento\Logging\Model\Event\ChangesFactory $eventChangesFactory

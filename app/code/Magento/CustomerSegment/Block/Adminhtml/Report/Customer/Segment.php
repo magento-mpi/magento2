@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerSegment\Block\Adminhtml\Report\Customer;
 
 /**
  * Customer Segments grid container
@@ -15,13 +16,13 @@
  * @package    Magento_CustomerSegment
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\CustomerSegment\Block\Adminhtml\Report\Customer;
-
 class Segment
     extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**
      * Constructor
+     *
+     * @return void
      */
     protected function _construct()
     {

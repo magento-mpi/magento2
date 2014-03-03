@@ -169,11 +169,7 @@ class Callback extends \Magento\GoogleCheckout\Model\Api\Xml\AbstractXml
         $quote = $this->objectManager->create('Magento\Sales\Model\Quote')
             ->setStoreId($storeId)
             ->load($quoteId);
-        if ($quote->isVirtual()) {
-            $quote->getBillingAddress()->setPaymentMethod('googlecheckout');
-        } else {
-            $quote->getShippingAddress()->setPaymentMethod('googlecheckout');
-        }
+
         return $quote;
     }
 

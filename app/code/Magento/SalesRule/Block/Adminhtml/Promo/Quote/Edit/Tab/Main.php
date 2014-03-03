@@ -38,7 +38,7 @@ class Main
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\SalesRule\Model\RuleFactory $salesRule
      * @param \Magento\Customer\Model\Resource\Group\CollectionFactory $customerGroup
@@ -47,7 +47,7 @@ class Main
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\SalesRule\Model\RuleFactory $salesRule,
         \Magento\Customer\Model\Resource\Group\CollectionFactory $customerGroup,
@@ -228,7 +228,7 @@ class Main
             'label' => __('Uses per Customer'),
         ));
 
-        $dateFormat = $this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
+        $dateFormat = $this->_locale->getDateFormat(\Magento\LocaleInterface::FORMAT_TYPE_SHORT);
         $fieldset->addField('from_date', 'date', array(
             'name'   => 'from_date',
             'label'  => __('From Date'),

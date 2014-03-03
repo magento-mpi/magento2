@@ -37,7 +37,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_registry = null;
 
@@ -87,14 +87,14 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * @param \Magento\Backend\Model\Session $backendSession
      * @param \Magento\AdminGws\Model\Resource\CollectionsFactory $collectionsFactory
      * @param \Magento\Catalog\Model\Resource\ProductFactory $productFactoryRes
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\ResponseInterface $response
      * @param \Magento\App\ActionFlag $actionFlag
      * @param \Magento\Message\ManagerInterface $messageManager
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -103,7 +103,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
         \Magento\Backend\Model\Session $backendSession,
         \Magento\AdminGws\Model\Resource\CollectionsFactory $collectionsFactory,
         \Magento\Catalog\Model\Resource\ProductFactory $productFactoryRes,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\App\RequestInterface $request,
         \Magento\ObjectManager $objectManager,
         \Magento\Core\Model\StoreManagerInterface $storeManager,

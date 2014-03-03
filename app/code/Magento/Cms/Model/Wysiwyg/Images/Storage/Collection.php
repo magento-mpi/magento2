@@ -7,14 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Cms\Model\Wysiwyg\Images\Storage;
 
 /**
  * Wysiwyg Images storage collection
- *
- * @category    Magento
- * @package     Magento_Cms
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Collection extends \Magento\Data\Collection\Filesystem
 {

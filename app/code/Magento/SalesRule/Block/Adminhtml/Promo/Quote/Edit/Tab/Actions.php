@@ -33,7 +33,7 @@ class Actions
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Backend\Model\Config\Source\Yesno $sourceYesno
      * @param \Magento\Rule\Block\Actions $ruleActions
@@ -42,7 +42,7 @@ class Actions
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\Backend\Model\Config\Source\Yesno $sourceYesno,
         \Magento\Rule\Block\Actions $ruleActions,

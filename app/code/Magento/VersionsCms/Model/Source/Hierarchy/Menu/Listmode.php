@@ -15,7 +15,7 @@ namespace Magento\VersionsCms\Model\Source\Hierarchy\Menu;
  * @category   Magento
  * @package    Magento_VersionsCms
  */
-class Listmode implements \Magento\Core\Model\Option\ArrayInterface
+class Listmode implements \Magento\Option\ArrayInterface
 {
     /**
      * {@inheritdoc}

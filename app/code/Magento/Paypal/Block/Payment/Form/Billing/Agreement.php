@@ -5,12 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Block\Payment\Form\Billing;
 
 /**
  * Paypal Billing Agreement form block
  */
-namespace Magento\Paypal\Block\Payment\Form\Billing;
-
 class Agreement extends \Magento\Payment\Block\Form
 {
     /**
@@ -38,6 +37,9 @@ class Agreement extends \Magento\Payment\Block\Form
         $this->_isScopePrivate = true;
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();

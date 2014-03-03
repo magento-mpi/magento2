@@ -16,7 +16,7 @@ class Link extends \Magento\View\Element\Html\Link
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
@@ -29,13 +29,13 @@ class Link extends \Magento\View\Element\Html\Link
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Shipping\Helper\Data $shippingData
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Shipping\Helper\Data $shippingData,
         array $data = array()
     ) {

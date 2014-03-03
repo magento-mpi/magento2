@@ -70,13 +70,18 @@ class Authentication
     }
 
     /**
-     * @param array $arguments
-     * @param \Magento\Code\Plugin\InvocationChain $invocationChain
+     * @param \Magento\Backend\App\AbstractAction $subject
+     * @param callable $proceed
+     * @param \Magento\App\RequestInterface $request
+     *
      * @return mixed
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function aroundDispatch(array $arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
-    {
-        $request = $arguments[0];
+    public function aroundDispatch(
+        \Magento\Backend\App\AbstractAction $subject,
+        \Closure $proceed,
+        \Magento\App\RequestInterface $request
+    ) {
         $requestedActionName = $request->getActionName();
         if (in_array($requestedActionName, $this->_openActions)) {
             $request->setDispatched(true);
@@ -89,7 +94,7 @@ class Authentication
             }
         }
         $this->_auth->getAuthStorage()->refreshAcl();
-        return $invocationChain->proceed($arguments);
+        return $proceed($request);
     }
 
     /**

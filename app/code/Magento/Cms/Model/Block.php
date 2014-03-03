@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Cms\Model;
 
 /**
@@ -26,19 +27,18 @@ namespace Magento\Cms\Model;
  * @method \Magento\Cms\Model\Block setUpdateTime(string $value)
  * @method int getIsActive()
  * @method \Magento\Cms\Model\Block setIsActive(int $value)
- *
- * @category    Magento
- * @package     Magento_Cms
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Block extends \Magento\Core\Model\AbstractModel
 {
-    const CACHE_TAG     = 'cms_block';
+    /**
+     * CMS block cache tag
+     */
+    const CACHE_TAG = 'cms_block';
 
     /**
      * @var string
      */
-    protected $_cacheTag= 'cms_block';
+    protected $_cacheTag = 'cms_block';
 
     /**
      * Prefix of model events names

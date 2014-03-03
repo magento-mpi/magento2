@@ -59,7 +59,7 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_registry = null;
 
@@ -70,7 +70,7 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
      * @param \Magento\App\Cache\Type\Config $configCacheType
      * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory
      * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig
      * @param array $data
@@ -82,7 +82,7 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
         \Magento\App\Cache\Type\Config $configCacheType,
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory,
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig,
         array $data = array()
@@ -211,7 +211,7 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
     public function getCalendarDateHtml($name, $id, $value, $formatType = false, $class = '')
     {
         if ($formatType === false) {
-            $formatType = \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM;
+            $formatType = \Magento\LocaleInterface::FORMAT_TYPE_MEDIUM;
         }
 
         $calendar = $this->getLayout()

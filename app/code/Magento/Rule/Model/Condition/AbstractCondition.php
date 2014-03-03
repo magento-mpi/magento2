@@ -52,7 +52,7 @@ abstract class AbstractCondition extends \Magento\Object implements ConditionInt
     protected $_viewUrl;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\LocaleInterface
      */
     protected $_locale;
 

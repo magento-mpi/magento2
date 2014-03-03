@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <type name="Magento\Cms\Block\Adminhtml\Page\Grid\Renderer\Action\UrlBuilder">
+        <arguments>
+            <argument name="frontendUrlBuilder" xsi:type="object">Magento\Url</argument>
+        </arguments>
+    </type>
+</config>

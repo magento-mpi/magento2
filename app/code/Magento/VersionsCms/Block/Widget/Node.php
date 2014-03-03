@@ -33,7 +33,7 @@ class Node
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -44,13 +44,13 @@ class Node
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\VersionsCms\Model\Hierarchy\NodeFactory $hierarchyNodeFactory
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\VersionsCms\Model\Hierarchy\NodeFactory $hierarchyNodeFactory,
         array $data = array()
     ) {

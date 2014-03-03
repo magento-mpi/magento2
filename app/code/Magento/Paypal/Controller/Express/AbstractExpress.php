@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Paypal\Controller\Express;
 
 /**
@@ -119,6 +118,8 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
 
     /**
      * Start Express Checkout by requesting initial token and dispatching customer to PayPal
+     *
+     * @return void
      */
     public function startAction()
     {
@@ -172,6 +173,8 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
 
     /**
      * Return shipping options items for shipping address from request
+     *
+     * @return void
      */
     public function shippingOptionsCallbackAction()
     {
@@ -188,6 +191,8 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
 
     /**
      * Cancel Express Checkout
+     *
+     * @return void
      */
     public function cancelAction()
     {
@@ -220,6 +225,8 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
 
     /**
      * Return from PayPal and dispatch customer to order review page
+     *
+     * @return void
      */
     public function returnAction()
     {
@@ -239,6 +246,8 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
 
     /**
      * Review order after returning from PayPal
+     *
+     * @return void
      */
     public function reviewAction()
     {
@@ -268,6 +277,8 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
 
     /**
      * Dispatch customer back to PayPal for editing payment information
+     *
+     * @return void
      */
     public function editAction()
     {
@@ -281,6 +292,8 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
 
     /**
      * Update shipping method (combined action for ajax and regular request)
+     *
+     * @return void
      */
     public function saveShippingMethodAction()
     {
@@ -311,6 +324,8 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
 
     /**
      * Update Order (combined action for ajax and regular request)
+     *
+     * @return void
      */
     public function updateShippingMethodsAction()
     {
@@ -335,6 +350,8 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
 
     /**
      * Update Order (combined action for ajax and regular request)
+     *
+     * @return void
      */
     public function updateOrderAction()
     {
@@ -366,6 +383,7 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
     /**
      * Submit the order
      *
+     * @return void
      * @throws \Magento\Core\Exception
      */
     public function placeOrderAction()
@@ -398,15 +416,9 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
                     ->setLastRealOrderId($order->getIncrementId());
             }
 
-            // recurring profiles may be created along with the order or without it
-            $profiles = $this->_checkout->getRecurringPaymentProfiles();
-            if ($profiles) {
-                $ids = array();
-                foreach ($profiles as $profile) {
-                    $ids[] = $profile->getId();
-                }
-                $this->_getCheckoutSession()->setLastRecurringProfileIds($ids);
-            }
+            $this->_eventManager->dispatch('paypal_express_place_order_success', [
+                'order' => $order, 'quote' => $this->_getQuote()
+            ]);
 
             // redirect if PayPal specified some URL (for example, to Giropay bank)
             $url = $this->_checkout->getRedirectUrl();
@@ -429,6 +441,7 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
     /**
      * Instantiate quote and checkout
      *
+     * @return void
      * @throws \Magento\Core\Exception
      */
     private function _initCheckout()
@@ -455,7 +468,7 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
      * Search for proper checkout token in request or session or (un)set specified one
      * Combined getter/setter
      *
-     * @param string $setToken
+     * @param string|null $setToken
      * @return \Magento\Paypal\Controller\Express|string
      * @throws \Magento\Core\Exception
      */
@@ -520,6 +533,7 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
     /**
      * Redirect to login page
      *
+     * @return void
      */
     public function redirectLogin()
     {

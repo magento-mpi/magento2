@@ -49,10 +49,13 @@ class HeaderPlugin
     /**
      * Modify response after dispatch
      *
+     * @param \Magento\App\FrontControllerInterface $subject
      * @param \Magento\App\Response\Http $response
+     * 
      * @return \Magento\App\Response\Http
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function afterDispatch(\Magento\App\Response\Http $response)
+    public function afterDispatch(\Magento\App\FrontControllerInterface $subject, \Magento\App\Response\Http $response)
     {
         if ($this->layout->isPrivate()) {
             $this->setPrivateHeaders($response);

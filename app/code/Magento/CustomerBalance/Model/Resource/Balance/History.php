@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\CustomerBalance\Model\Resource\Balance;
 
 /**
  * Customerbalance history resource model
@@ -16,8 +16,6 @@
  * @package     Magento_CustomerBalance
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\CustomerBalance\Model\Resource\Balance;
-
 class History extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
@@ -37,6 +35,8 @@ class History extends \Magento\Core\Model\Resource\Db\AbstractDb
 
     /**
      * Initialize resource
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -47,7 +47,7 @@ class History extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Set updated_at automatically before saving
      *
      * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\CustomerBalance\Model\Resource\Balance\History
+     * @return $this
      */
     public function _beforeSave(\Magento\Core\Model\AbstractModel $object)
     {
@@ -59,6 +59,7 @@ class History extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Mark specified balance history record as sent to customer
      *
      * @param int $id
+     * @return void
      */
     public function markAsSent($id)
     {

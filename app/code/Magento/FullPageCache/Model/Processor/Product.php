@@ -37,7 +37,7 @@ class Product extends \Magento\FullPageCache\Model\Processor\DefaultProcessor
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -55,7 +55,7 @@ class Product extends \Magento\FullPageCache\Model\Processor\DefaultProcessor
      * @param \Magento\FullPageCache\Model\Container\PlaceholderFactory $placeholderFactory
      * @param \Magento\FullPageCache\Model\ContainerFactory $containerFactory
      * @param \Magento\FullPageCache\Model\Cache $fpcCache
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
     public function __construct(
@@ -65,7 +65,7 @@ class Product extends \Magento\FullPageCache\Model\Processor\DefaultProcessor
         \Magento\FullPageCache\Model\Container\PlaceholderFactory $placeholderFactory,
         \Magento\FullPageCache\Model\ContainerFactory $containerFactory,
         \Magento\FullPageCache\Model\Cache $fpcCache,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
         parent::__construct($fpcProcessor, $coreSession, $appState, $placeholderFactory, $containerFactory);

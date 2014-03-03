@@ -19,7 +19,7 @@ class Form
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -34,7 +34,7 @@ class Form
      * @param \Magento\Customer\Helper\Data $customerHelper
      * @param \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService
      * @param \Magento\Customer\Helper\Address $addressHelper
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param array $data
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -49,7 +49,7 @@ class Form
         \Magento\Customer\Helper\Data $customerHelper,
         \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService,
         \Magento\Customer\Helper\Address $addressHelper,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;

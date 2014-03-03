@@ -46,16 +46,6 @@ class Redirect extends \Magento\App\Action\Action
             ->setChangedFlag(false);
         $storeQuote->save();
 
-        /*
-         * Set payment method to google checkout, so all price rules will work out this case
-         * and will use right sales rules
-         */
-        if ($quote->isVirtual()) {
-            $quote->getBillingAddress()->setPaymentMethod('googlecheckout');
-        } else {
-            $quote->getShippingAddress()->setPaymentMethod('googlecheckout');
-        }
-
         $quote->collectTotals()->save();
 
         if (!$api->getError()) {

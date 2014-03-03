@@ -7,18 +7,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Paypal\Block\Adminhtml\System\Config\Fieldset;
 
 /**
  * Renderer for PayPal banner in System Configuration
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Paypal\Block\Adminhtml\System\Config\Fieldset;
-
 class Hint
     extends \Magento\Backend\Block\Template
     implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
+    /**
+     * @var string
+     */
     protected $_template = 'Magento_Paypal::system/config/fieldset/hint.phtml';
 
     /**

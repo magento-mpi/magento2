@@ -26,7 +26,7 @@ class Items extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
@@ -39,7 +39,7 @@ class Items extends \Magento\Backend\Block\Widget\Form\Generic
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Rma\Helper\Eav $rmaEav
      * @param \Magento\Rma\Model\Item\FormFactory $itemFormFactory
@@ -47,7 +47,7 @@ class Items extends \Magento\Backend\Block\Widget\Form\Generic
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\Rma\Helper\Eav $rmaEav,
         \Magento\Rma\Model\Item\FormFactory $itemFormFactory,

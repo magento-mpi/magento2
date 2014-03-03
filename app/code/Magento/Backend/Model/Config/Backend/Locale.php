@@ -21,7 +21,7 @@ class Locale extends \Magento\Core\Model\Config\Value
     protected $_configsFactory;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\LocaleInterface
      */
     protected $_locale;
 
@@ -36,12 +36,12 @@ class Locale extends \Magento\Core\Model\Config\Value
     protected $_storeFactory;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\ConfigInterface $config
      * @param \Magento\Core\Model\Resource\Config\Data\CollectionFactory $configsFactory
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\LocaleInterface $locale
      * @param \Magento\Core\Model\Website\Factory $websiteFactory
      * @param \Magento\Core\Model\StoreFactory $storeFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
@@ -51,12 +51,12 @@ class Locale extends \Magento\Core\Model\Config\Value
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\ConfigInterface $config,
         \Magento\Core\Model\Resource\Config\Data\CollectionFactory $configsFactory,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\LocaleInterface $locale,
         \Magento\Core\Model\Website\Factory $websiteFactory,
         \Magento\Core\Model\StoreFactory $storeFactory,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
