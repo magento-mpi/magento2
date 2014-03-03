@@ -66,6 +66,7 @@ interface CustomerAccountServiceInterface
      * @throws \Magento\Customer\Exception If something goes wrong during save
      * @throws \Magento\Exception\InputException If bad input is provided
      * @return int customer ID
+     * @deprecated use createCustomer or updateCustomer instead.
      */
     public function saveCustomer(Dto\Customer $customer, $password = null);
 
