@@ -180,6 +180,8 @@ class Calculation extends \Magento\Core\Model\AbstractModel
     /**
      * Specify customer object which can be used for rate calculation
      *
+     * @deprecated in favor of \Magento\Tax\Model\Calculation::setCustomerData
+     *
      * @param   \Magento\Customer\Model\Customer $customer
      * @return  $this
      */
@@ -198,9 +200,7 @@ class Calculation extends \Magento\Core\Model\AbstractModel
     public function setCustomerData(CustomerDataObject $customerData)
     {
         /* @TODO: remove model usage in favor of Data Object */
-        $customer = $this->_customerFactory->create();
-        $customer->setData(\Magento\Service\DataObjectConverter::toFlatArray($customerData));
-        $customer->setId($customerData->getId());
+        $customer = $this->_converter->createCustomerModel($customerData);
         $this->setCustomer($customer);
         return $this;
     }
@@ -463,7 +463,7 @@ class Calculation extends \Magento\Core\Model\AbstractModel
             ) {
                 if ($customerData->getId()) {
                     try {
-                        $defBilling = $this->_addressService->getDefaultBillingAddress(
+                        $defaultBilling = $this->_addressService->getDefaultBillingAddress(
                             $customerData->getId()
                         );
                     } catch (NoSuchEntityException $e) {
@@ -471,17 +471,17 @@ class Calculation extends \Magento\Core\Model\AbstractModel
                     }
 
                     try {
-                        $defShipping = $this->_addressService->getDefaultShippingAddress(
+                        $defaultShipping = $this->_addressService->getDefaultShippingAddress(
                             $customerData->getId()
                         );
                     } catch (NoSuchEntityException $e) {
                         /** Address does not exist */
                     }
 
-                    if ($basedOn == 'billing' && $defBilling && $defBilling->getCountryId()) {
-                        $billingAddress = $defBilling;
-                    } elseif ($basedOn == 'shipping' && $defShipping && $defShipping->getCountryId()) {
-                        $shippingAddress = $defShipping;
+                    if ($basedOn == 'billing' && $defaultBilling && $defaultBilling->getCountryId()) {
+                        $billingAddress = $defaultBilling;
+                    } elseif ($basedOn == 'shipping' && $defaultShipping && $defaultShipping->getCountryId()) {
+                        $shippingAddress = $defaultShipping;
                     } else {
                         $basedOn = 'default';
                     }
