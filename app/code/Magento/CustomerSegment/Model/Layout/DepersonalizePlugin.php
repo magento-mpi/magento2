@@ -33,6 +33,11 @@ class DepersonalizePlugin extends \Magento\Customer\Model\Layout\DepersonalizePl
     protected $request;
 
     /**
+     * @var \Magento\App\Http\Context
+     */
+    protected $httpContext;
+
+    /**
      * @var array
      */
     protected $customerSegmentIds;
@@ -41,15 +46,18 @@ class DepersonalizePlugin extends \Magento\Customer\Model\Layout\DepersonalizePl
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\App\RequestInterface $request
+     * @param \Magento\App\Http\Context $httpContext
      */
     public function __construct(
         \Magento\View\LayoutInterface $layout,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\App\RequestInterface $request
+        \Magento\App\RequestInterface $request,
+        \Magento\App\Http\Context $httpContext
     ) {
         $this->layout = $layout;
         $this->customerSession = $customerSession;
         $this->request = $request;
+        $this->httpContext = $httpContext;
     }
 
     /**
@@ -73,6 +81,7 @@ class DepersonalizePlugin extends \Magento\Customer\Model\Layout\DepersonalizePl
     public function afterGenerateXml($arguments = null)
     {
         if (!$this->request->isAjax() && $this->layout->isCacheable()) {
+            $this->httpContext->setValue(\Magento\App\Http\Context::CUSTOMER_SEGMENT, $this->customerSegmentIds);
             $this->customerSession->setCustomerSegmentIds($this->customerSegmentIds);
         }
         return $arguments;
