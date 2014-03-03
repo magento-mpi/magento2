@@ -17,11 +17,18 @@ $designDir = \Magento\TestFramework\Helper\Bootstrap::getInstance()->getAppInsta
 $themeDir = $designDir . '/frontend/test_default';
 $sourcePath = dirname(__DIR__) . '/Model/_files/design/frontend/test_publication/';
 
-@mkdir($themeDir . '/images', 0777, true);
+@mkdir($themeDir . '/web/images', 0777, true);
 
 // Copy all files to fixture location
 $mTime = time() - 10; // To ensure that all files, changed later in test, will be recognized for publication
-$files = array('theme.xml', 'style.css', 'sub.css', 'images/square.gif', 'images/rectangle.gif');
+
+copy($sourcePath . 'theme.xml', $themeDir . '/' . 'theme.xml');
+touch($themeDir . '/' . 'theme.xml', $mTime);
+
+$files = array('style.css', 'sub.css', 'images/square.gif', 'images/rectangle.gif');
+
+$sourcePath = $sourcePath . 'web/';
+$themeDir = $themeDir . '/web';
 foreach ($files as $file) {
     copy($sourcePath . $file, $themeDir . '/' . $file);
     touch($themeDir . '/' . $file, $mTime);
