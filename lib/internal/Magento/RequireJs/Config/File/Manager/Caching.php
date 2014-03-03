@@ -50,11 +50,13 @@ class Caching implements \Magento\RequireJs\Config\File\ManagerInterface
      */
     public function getConfigFile()
     {
-        $relPath = $this->config->getConfigFileRelativePath();
+        $configFile = $this->config->getConfigFileRelativePath();
         $viewDir = $this->appFilesystem->getDirectoryRead(\Magento\App\Filesystem::STATIC_VIEW_DIR);
-        if (!$viewDir->isExist($relPath)) {
-            $relPath = $this->refreshStrategy->getConfigFile();
+        if (!$viewDir->isExist($configFile)) {
+            $configFile = $this->refreshStrategy->getConfigFile();
+        } else {
+            $configFile = $viewDir->getAbsolutePath($configFile);
         }
-        return $relPath;
+        return $configFile;
     }
 }

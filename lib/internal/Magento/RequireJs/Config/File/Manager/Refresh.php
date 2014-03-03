@@ -42,10 +42,10 @@ class Refresh implements \Magento\RequireJs\Config\File\ManagerInterface
      */
     public function getConfigFile()
     {
-        $relPath = $this->config->getConfigFileRelativePath();
+        $configFile = $this->config->getConfigFileRelativePath();
 
         $viewDir = $this->appFilesystem->getDirectoryWrite(\Magento\App\Filesystem::STATIC_VIEW_DIR);
-        $viewDir->writeFile($relPath, $this->config->getConfig());
-        return $viewDir->getAbsolutePath($relPath);
+        $viewDir->writeFile($configFile, $this->config->getConfig());
+        return $viewDir->getAbsolutePath($configFile);
     }
 }

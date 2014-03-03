@@ -116,22 +116,6 @@ DOD;
     }
 
     /**
-     * Wrap config object with paths updater call
-     *
-     * @param string $config
-     * @param string $moduleContext
-     * @return string
-     */
-    protected function wrapConfig($config, $moduleContext = '')
-    {
-        $config = trim($config);
-        if ($moduleContext) {
-            $moduleContext = ", '$moduleContext'";
-        }
-        return "mageConfigRequireJs({$config}{$moduleContext});" . PHP_EOL;
-    }
-
-    /**
      * Get base RequireJs configuration necessary for working with Magento application
      *
      * @return string
@@ -145,7 +129,7 @@ DOD;
             ),
         );
         $config = json_encode($config, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
-        return "require.config($config);" . PHP_EOL;
+        return "require.config($config);\n";
     }
 
     /**
@@ -166,6 +150,22 @@ DOD;
     protected function getBaseUrl()
     {
         return $this->baseUrl->getBaseUrl(array('_type' => \Magento\UrlInterface::URL_TYPE_STATIC));
+    }
+
+    /**
+     * Wrap config object with paths updater call
+     *
+     * @param string $config
+     * @param string $moduleContext
+     * @return string
+     */
+    protected function wrapConfig($config, $moduleContext = '')
+    {
+        $config = trim($config);
+        if ($moduleContext) {
+            $moduleContext = ", '$moduleContext'";
+        }
+        return "mageConfigRequireJs({$config}{$moduleContext});\n";
     }
 
     /**

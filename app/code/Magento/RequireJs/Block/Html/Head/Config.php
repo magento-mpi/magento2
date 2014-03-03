@@ -81,9 +81,9 @@ class Config extends \Magento\View\Element\AbstractBlock implements AssetBlockIn
      */
     protected function _toHtml()
     {
-        return '<script type="text/javascript">' . PHP_EOL
+        return "<script type=\"text/javascript\">\n"
             . $this->requirejsConfig->getBaseConfig()
-            . '</script>' . PHP_EOL;
+            . "</script>\n";
     }
 
     /**
