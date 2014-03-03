@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Usa\Model\Shipping\Carrier;
+namespace Magento\Ups\Model;
 
 class CarrierTest extends \PHPUnit_Framework_TestCase
 {
