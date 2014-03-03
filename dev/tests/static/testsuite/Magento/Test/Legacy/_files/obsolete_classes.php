@@ -2146,6 +2146,7 @@ return array(
     ['Magento\Code\Plugin\InvocationChain'],
     ['Magento\Catalog\Helper\Product\Flat'],
     ['Magento\Catalog\Helper\Flat\AbstractFlat'],
+    ['Magento\Core\App\Action\Plugin\Session', 'Magento\Core\Block\RequireCookie'],
     ['Magento\Rma\Model\CarrierFactory'],
     ['Magento\Usa\Model\Shipping\Carrier\Ups\Source\Mode'],
     ['Magento\Usa\Model\Shipping\Carrier\Ups\Source\Container', 'Magento\Ups\Model\Config\Source\Container'],

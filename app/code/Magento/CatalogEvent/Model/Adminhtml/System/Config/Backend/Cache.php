@@ -19,7 +19,7 @@ namespace Magento\CatalogEvent\Model\Adminhtml\System\Config\Backend;
 use Magento\Backend\Block\Menu;
 use Magento\Backend\Model\Config\Backend\Cache as BackendCache;
 
-class Cache extends BackendCache
+class Cache extends BackendCache implements \Magento\Object\IdentityInterface
 {
     /**
      * Cache tags to clean
@@ -29,4 +29,14 @@ class Cache extends BackendCache
     protected $_cacheTags = array(
         Menu::CACHE_TAGS
     );
+
+    /**
+     * Get identities
+     *
+     * @return array
+     */
+    public function getIdentities()
+    {
+        return array(Menu::CACHE_TAGS);
+    }
 }
