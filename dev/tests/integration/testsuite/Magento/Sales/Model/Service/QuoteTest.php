@@ -182,7 +182,8 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
         } catch (\Exception $e) {
             $this->assertEquals('submitorder exception', $e->getMessage());
         }
-        $this->assertEquals('email@example.com', $this->_customerAccountService->getCustomer($existingCustomerId)->getEmail());
+        $this->assertEquals('email@example.com', $this->_customerAccountService
+            ->getCustomer($existingCustomerId)->getEmail());
     }
 
     /**

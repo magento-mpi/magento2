@@ -116,7 +116,8 @@ class AccountTest extends \PHPUnit_Framework_TestCase
         $this->backendSession->setCustomerData(
             [
                 'customer_id' => 1,
-                'account' => array_merge($this->customerAccountService->getCustomer(1)->__toArray(), ['prefix' => 'Mr']),
+                'account' => array_merge(
+                    $this->customerAccountService->getCustomer(1)->__toArray(), ['prefix' => 'Mr']),
             ]
         );
         $result = $this->accountBlock->initForm()->toHtml();
