@@ -89,7 +89,7 @@ class Core_Mage_FlatCatalog_FlatCatalogTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Configure search engine optimization settings:Popular Search Terms(Enable)</p>
+     * <p>Configure Search Engine Optimization settings:Popular Search Terms(Enable)</p>
      *
      * @param string $searchTerms
      *
