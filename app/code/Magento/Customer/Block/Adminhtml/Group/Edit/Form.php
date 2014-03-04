@@ -25,7 +25,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_groupService;
 
     /**
-     * @var \Magento\Customer\Service\V1\Dto\CustomerGroupBuilder
+     * @var \Magento\Customer\Service\V1\Data\CustomerGroupBuilder
      */
     protected $_groupBuilder;
 
@@ -35,7 +35,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Tax\Model\TaxClass\Source\Customer $taxCustomer
      * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService
-     * @param \Magento\Customer\Service\V1\Dto\CustomerGroupBuilder $groupBuilder
+     * @param \Magento\Customer\Service\V1\Data\CustomerGroupBuilder $groupBuilder
      * @param array $data
      */
     public function __construct(
@@ -44,7 +44,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Data\FormFactory $formFactory,
         \Magento\Tax\Model\TaxClass\Source\Customer $taxCustomer,
         \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService,
-        \Magento\Customer\Service\V1\Dto\CustomerGroupBuilder $groupBuilder,
+        \Magento\Customer\Service\V1\Data\CustomerGroupBuilder $groupBuilder,
         array $data = array()
     ) {
         $this->_taxCustomer = $taxCustomer;
@@ -64,7 +64,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         $form = $this->_formFactory->create();
 
         $groupId = $this->_coreRegistry->registry(RegistryConstants::CURRENT_GROUP_ID);
-        /** @var \Magento\Customer\Service\V1\Dto\CustomerGroup $customerGroup */
+        /** @var \Magento\Customer\Service\V1\Data\CustomerGroup $customerGroup */
         if (is_null($groupId)) {
             $customerGroup = $this->_groupBuilder->create();
         } else {

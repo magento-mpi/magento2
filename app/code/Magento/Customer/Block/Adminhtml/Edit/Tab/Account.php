@@ -59,7 +59,7 @@ class Account extends GenericMetadata
     protected $_customerMetadataService;
 
     /**
-     * @var \Magento\Customer\Service\V1\Dto\CustomerBuilder
+     * @var \Magento\Customer\Service\V1\Data\CustomerBuilder
      */
     protected $_customerBuilder;
 
@@ -74,7 +74,7 @@ class Account extends GenericMetadata
      * @param \Magento\Customer\Service\V1\CustomerServiceInterface $customerService
      * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
      * @param \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $customerMetadataService
-     * @param \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerBuilder
+     * @param \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -90,7 +90,7 @@ class Account extends GenericMetadata
         \Magento\Customer\Service\V1\CustomerServiceInterface $customerService,
         \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService,
         \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $customerMetadataService,
-        \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerBuilder,
+        \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder,
         array $data = array()
     ) {
         $this->_customerHelper = $customerHelper;
@@ -214,7 +214,7 @@ class Account extends GenericMetadata
      * Initialize attribute set.
      *
      * @param \Magento\Customer\Model\Metadata\Form $customerForm
-     * @return \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata[]
+     * @return \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata[]
      */
     protected function _initCustomerAttributes(\Magento\Customer\Model\Metadata\Form $customerForm)
     {
@@ -231,10 +231,10 @@ class Account extends GenericMetadata
     /**
      * Initialize customer form
      *
-     * @param \Magento\Customer\Service\V1\Dto\Customer $customer
+     * @param \Magento\Customer\Service\V1\Data\Customer $customer
      * @return \Magento\Customer\Model\Metadata\Form $customerForm
      */
-    protected function _initCustomerForm(\Magento\Customer\Service\V1\Dto\Customer $customer)
+    protected function _initCustomerForm(\Magento\Customer\Service\V1\Data\Customer $customer)
     {
         return $this->_customerFormFactory->create('customer', 'adminhtml_customer', $customer->getAttributes());
     }
@@ -244,7 +244,7 @@ class Account extends GenericMetadata
      *
      * @param \Magento\Data\Form $form
      * @param int $customerId
-     * @param \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata[] $attributes
+     * @param \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata[] $attributes
      * @return void
      */
     protected function _handleReadOnlyCustomer($form, $customerId, $attributes)
@@ -355,7 +355,7 @@ class Account extends GenericMetadata
      *
      * @param \Magento\Data\Form $form
      * @param \Magento\Data\Form\Element\Fieldset $fieldset
-     * @param \Magento\Customer\Service\V1\Dto\Customer $customerDto
+     * @param \Magento\Customer\Service\V1\Data\Customer $customerDto
      * @returns string[] Values to set on the form
      */
     protected function _addEditCustomerFormFields($form, $fieldset, $customerDto)

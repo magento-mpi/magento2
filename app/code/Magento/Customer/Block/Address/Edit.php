@@ -60,7 +60,7 @@ class Edit extends \Magento\Directory\Block\Data
      * @param \Magento\App\ConfigInterface $config
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService
-     * @param \Magento\Customer\Service\V1\Dto\AddressBuilder $addressBuilder
+     * @param \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder
      * @param \Magento\Customer\Service\V1\CustomerCurrentServiceInterface $customerCurrentService
      * @param array $data
      *

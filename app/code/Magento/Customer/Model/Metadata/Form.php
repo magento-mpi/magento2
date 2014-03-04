@@ -143,7 +143,7 @@ class Form
      * Return attribute instance by code or false
      *
      * @param string $attributeCode
-     * @return \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata|false
+     * @return \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata|false
      */
     public function getAttribute($attributeCode)
     {
