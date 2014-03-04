@@ -5,9 +5,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Service\Entity;
 
+/**
+ * Class AbstractDtoBuilder
+ *
+ * @SuppressWarnings(PHPMD.NumberOfChildren)
+ */
 abstract class AbstractDtoBuilder
 {
     /**
