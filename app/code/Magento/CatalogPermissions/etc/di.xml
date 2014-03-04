@@ -53,4 +53,15 @@
     <type name="Magento\Customer\Service\V1\CustomerGroupService">
         <plugin name="customerGroupEdit" type="Magento\CatalogPermissions\Model\Indexer\Plugin\CustomerGroupV1" />
     </type>
+    <type name="Magento\CatalogPermissions\Model\Indexer\Plugin\AbstractProduct">
+        <arguments>
+            <argument name="indexer" xsi:type="object" shared="false">Magento\Indexer\Model\IndexerInterface</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Catalog\Model\Product">
+        <plugin name="catalogPermissionsProductChange" type="Magento\CatalogPermissions\Model\Indexer\Plugin\Product"/>
+    </type>
+    <type name="Magento\Catalog\Model\Product\Action">
+        <plugin name="catalogPermissionsProductMassChange" type="Magento\CatalogPermissions\Model\Indexer\Plugin\Product\Action"/>
+    </type>
 </config>

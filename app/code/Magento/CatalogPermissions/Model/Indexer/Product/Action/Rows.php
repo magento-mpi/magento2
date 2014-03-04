@@ -28,12 +28,14 @@ class Rows extends AbstractAction
      */
     public function execute(array $entityIds = [], $useIndexTempTable = false)
     {
-        $this->entityIds = $entityIds;
-        $this->useIndexTempTable = $useIndexTempTable;
+        if ($entityIds) {
+            $this->entityIds = $entityIds;
+            $this->useIndexTempTable = $useIndexTempTable;
 
-        $this->removeObsoleteIndexData();
+            $this->removeObsoleteIndexData();
 
-        $this->reindex();
+            $this->reindex();
+        }
     }
 
     /**

@@ -175,4 +175,7 @@ return array(
     ['reindexProductsStandalone', 'Magento\CatalogPermissions\Model\Permission\Index',
         'Magento\CatalogPermissions\Model\Indexer\Product\Action\Rows::execute'],
     ['reindex', 'Magento\CatalogPermissions\Model\Adminhtml\Observer'],
+    ['reindexAfterProductAssignedWebsite', 'Magento\CatalogPermissions\Model\Adminhtml\Observer'],
+    ['saveProductPermissionIndex', 'Magento\CatalogPermissions\Model\Adminhtml\Observer'],
+    ['reindexProducts', 'Magento\CatalogPermissions\Model\Adminhtml\Observer'],
 );

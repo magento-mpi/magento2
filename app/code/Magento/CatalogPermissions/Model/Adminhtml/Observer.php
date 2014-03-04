@@ -240,44 +240,6 @@ class Observer
     }
 
     /**
-     * Rebuild index for products
-     *
-     * @return $this
-     */
-    public function reindexProducts()
-    {
-        $this->_indexProductQueue[] = null;
-        return $this;
-    }
-
-    /**
-     * Rebuild index after product assigned websites
-     *
-     * @param EventObserver $observer
-     * @return $this
-     */
-    public function reindexAfterProductAssignedWebsite(EventObserver $observer)
-    {
-        $productIds = $observer->getEvent()->getProducts();
-        $this->_indexProductQueue = array_merge($this->_indexProductQueue, $productIds);
-        return $this;
-    }
-
-
-    /**
-     * Save product permission index
-     *
-     * @param EventObserver $observer
-     * @return $this
-     */
-    public function saveProductPermissionIndex(EventObserver $observer)
-    {
-        $product = $observer->getEvent()->getProduct();
-        $this->_indexProductQueue[] = $product->getId();
-        return $this;
-    }
-
-    /**
      * Add permission tab on category edit page
      *
      * @param EventObserver $observer
