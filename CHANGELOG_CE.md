@@ -37,6 +37,8 @@
   * Core module lib-only depended components moved to library
   * CSS url resolving logic moved from publisher to separate css pre-processor
   * View publisher re-factored
+  * Introduced Offline Payments module
+  * Added ability to enable/disable Paypal module
 * Customer Service usage:
   * Sales module refactoring to use customer service layer
   * Checkout module refactoring to use customer service layer
