@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="Magento\App\FrontControllerInterface">
+        <plugin name="front-controller-cache" type="Magento\PageCache\Model\App\FrontController\CachePlugin"/>
+    </type>
+    <type name="Magento\Core\Model\Layout">
+        <plugin name="layout-model-caching-unique-name" type="Magento\PageCache\Model\Layout\LayoutPlugin"/>
+    </type>
+</config>
