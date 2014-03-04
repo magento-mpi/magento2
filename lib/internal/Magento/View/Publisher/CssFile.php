@@ -22,13 +22,14 @@ class CssFile extends FileAbstract
         \Magento\App\Filesystem $filesystem,
         \Magento\Module\Dir\Reader $modulesReader,
         \Magento\View\FileSystem $viewFileSystem,
+        \Magento\View\Asset\PathGenerator $path,
         \Magento\View\Service $viewService,
         $filePath,
         array $viewParams,
         $sourcePath = null
     ) {
         $this->viewService = $viewService;
-        parent::__construct($filesystem, $modulesReader, $viewFileSystem, $filePath, $viewParams, $sourcePath);
+        parent::__construct($filesystem, $modulesReader, $viewFileSystem, $path, $filePath, $viewParams, $sourcePath);
     }
 
 

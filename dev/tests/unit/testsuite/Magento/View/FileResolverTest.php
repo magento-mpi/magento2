@@ -107,7 +107,7 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
             ->with($file, $params)
             ->will($this->returnValue($normalizedFile));
         $this->viewService->expects($this->once())
-            ->method('isViewFileOperationAllowed')
+            ->method('isPublishingAllowed')
             ->will($this->returnValue($fileOperationsAllowed));
         $this->$manager->expects($this->once())
             ->method($method)

@@ -36,7 +36,7 @@ class FileAbstractTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @var \Magento\View\Path|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\View\Asset\PathGenerator|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $path;
 
@@ -70,7 +70,7 @@ class FileAbstractTest extends \PHPUnit_Framework_TestCase
                 ->will($this->returnValue('related\\' . $fallback));
         }
 
-        $this->path = $this->getMock('\Magento\View\Path');
+        $this->path = $this->getMock('\Magento\View\Asset\PathGenerator');
         $this->fileAbstract = $this->getMockForAbstractClass(
             'Magento\View\Publisher\FileAbstract',
             [

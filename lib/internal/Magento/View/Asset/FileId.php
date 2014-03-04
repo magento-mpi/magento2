@@ -21,6 +21,11 @@ class FileId extends File
     const FILE_ID_SEPARATOR = '::';
 
     /**
+     * @var PathGenerator
+     */
+    protected $pathGenerator;
+
+    /**
      * @var SourceFileInterface
      */
     protected $fileSource;
@@ -51,6 +56,7 @@ class FileId extends File
     private $locale;
 
     /**
+     * @param PathGenerator $pathGenerator
      * @param SourceFileInterface $fileSource
      * @param string $fileId
      * @param string $baseUrl
@@ -60,6 +66,7 @@ class FileId extends File
      * @throws \LogicException
      */
     public function __construct(
+        PathGenerator $pathGenerator,
         SourceFileInterface $fileSource,
         $fileId,
         $baseUrl,
@@ -67,6 +74,7 @@ class FileId extends File
         $themePath,
         $localeCode
     ) {
+        $this->pathGenerator = $pathGenerator;
         $this->fileSource = $fileSource;
         list($this->module, $filePath) = self::extractModule($fileId);
         $this->area = $areaCode;
@@ -97,7 +105,8 @@ class FileId extends File
     public function getRelativePath()
     {
         $filePath = parent::getFilePath();
-        return self::buildRelativePath($filePath, $this->area, $this->themePath, $this->locale, $this->module);
+        $relPath = $this->pathGenerator->getPath($this->area, $this->themePath, $this->locale, $this->module);
+        return $relPath . '/' . $filePath;
     }
 
     /**
@@ -143,6 +152,7 @@ class FileId extends File
     public function createSimilar($fileId)
     {
         return new FileId(
+            $this->pathGenerator,
             $this->fileSource,
             $fileId,
             $this->baseUrl,
@@ -150,21 +160,6 @@ class FileId extends File
             $this->getThemePath(),
             $this->getLocaleCode()
         );
-    }
-
-    /**
-     * Build a relative path to the asset file using specified components
-     *
-     * @param string $filePath
-     * @param string $areaCode
-     * @param string $themePath
-     * @param string $localeCode
-     * @param string $module
-     * @return string
-     */
-    public static function buildRelativePath($filePath, $areaCode, $themePath, $localeCode, $module = '')
-    {
-        return $areaCode . '/' . $themePath . '/' . $localeCode . ($module ? '/' . $module : '') . '/' . $filePath;
     }
 
     /**

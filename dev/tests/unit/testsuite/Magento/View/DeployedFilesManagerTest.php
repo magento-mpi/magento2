@@ -80,9 +80,9 @@ class DeployedFilesManagerTest extends \PHPUnit_Framework_TestCase
         $theme->expects($this->any())->method('getParentTheme')->will($this->returnSelf());
         $params = array('themeModel' => $theme, 'area' => $area, 'module' => $module);
 
-        $path = $this->getMock('Magento\View\Path');
+        $path = $this->getMock('Magento\View\Asset\PathGenerator');
         $path->expects($this->once())
-            ->method('getFullyQualifiedPath')
+            ->method('getPath')
             ->with($area, $themePath, '', $module)
             ->will($this->returnValue($expectedSubPath));
 

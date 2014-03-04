@@ -75,7 +75,7 @@ abstract class FileAbstract implements FileInterface
     protected $isSourcePathProvided;
 
     /**
-     * @var \Magento\View\Path
+     * @var \Magento\View\Asset\PathGenerator
      */
     protected $path;
 
@@ -83,7 +83,7 @@ abstract class FileAbstract implements FileInterface
      * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\Module\Dir\Reader $modulesReader
      * @param \Magento\View\FileSystem $viewFileSystem
-     * @param \Magento\View\Path $path
+     * @param \Magento\View\Asset\PathGenerator $path
      * @param string $filePath
      * @param array $viewParams
      * @param string|null $sourcePath
@@ -92,7 +92,7 @@ abstract class FileAbstract implements FileInterface
         \Magento\App\Filesystem $filesystem,
         \Magento\Module\Dir\Reader $modulesReader,
         \Magento\View\FileSystem $viewFileSystem,
-        \Magento\View\Path $path,
+        \Magento\View\Asset\PathGenerator $path,
         $filePath,
         array $viewParams,
         $sourcePath = null
@@ -131,7 +131,7 @@ abstract class FileAbstract implements FileInterface
         if ($overrideModule) {
             $module = $overrideModule;
         }
-        return $this->path->getRelativePath(
+        return $this->path->getPathUsingTheme(
             $this->viewParams['area'],
             $this->viewParams['themeModel'],
             $this->viewParams['locale'],

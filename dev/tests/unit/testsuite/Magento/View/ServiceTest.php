@@ -11,9 +11,19 @@ namespace Magento\View;
 class ServiceTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * @var \Magento\App\State|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $appState;
+
+    /**
      * @var \Magento\View\Design\Theme\FlyweightFactory|\PHPUnit_Framework_MockObject_MockObject
      */
     private $themeFactory;
+
+    /**
+     * @var \Magento\View\Design\Theme\ListInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $themeList;
 
     /**
      * @var Service
@@ -22,20 +32,23 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $appState = $this->getMock('Magento\App\State', array(), array(), '', false);
+        $this->appState = $this->getMock('Magento\App\State', array(), array(), '', false);
         $design = $this->getMockForAbstractClass('Magento\View\DesignInterface');
         $this->themeFactory = $this->getMock(
             'Magento\View\Design\Theme\FlyweightFactory', array(), array(), '', false
         );
+        $this->themeList = $this->getMockForAbstractClass('\Magento\View\Design\Theme\ListInterface');
         $filesystem = $this->getMock('Magento\App\Filesystem', array(), array(), '', false);
         $this->object = new Service(
-            $appState,
+            $this->appState,
             $design,
             $this->themeFactory,
+            $this->themeList,
             $filesystem,
             $this->getMockForAbstractClass('\Magento\UrlInterface'),
             $this->getMock('\Magento\View\Asset\PreProcessor\Factory', array(), array(), '', false),
-            $this->getMock('\Magento\View\Design\FileResolution\StrategyPool', array(), array(), '', false)
+            $this->getMock('\Magento\View\Design\FileResolution\StrategyPool', array(), array(), '', false),
+            new \Magento\View\Asset\PathGenerator
         );
     }
 
@@ -57,6 +70,7 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testUpdateDesignParamsWrongTheme()
     {
+        $this->appState->expects($this->once())->method('isInstalled')->will($this->returnValue(true));
         $this->themeFactory->expects($this->once())
             ->method('create')
             ->with('nonexistent_theme', 'area')

@@ -8,7 +8,6 @@
 
 namespace Magento\View;
 
-use Magento\View\Design\ThemeInterface;
 use Magento\UrlInterface;
 
 /**
@@ -46,6 +45,11 @@ class Service implements Asset\SourceFileInterface, Asset\PublishInterface
     protected $themeFactory;
 
     /**
+     * @var \Magento\View\Design\Theme\ListInterface
+     */
+    protected $themeList;
+
+    /**
      * @var \Magento\App\Filesystem
      */
     protected $filesystem;
@@ -66,30 +70,41 @@ class Service implements Asset\SourceFileInterface, Asset\PublishInterface
     protected $resolutionPool;
 
     /**
+     * @var \Magento\View\Asset\PathGenerator
+     */
+    protected $pathGenerator;
+
+    /**
      * @param \Magento\App\State $appState
      * @param \Magento\View\DesignInterface $design
      * @param \Magento\View\Design\Theme\FlyweightFactory $themeFactory
+     * @param \Magento\View\Design\Theme\ListInterface $themeList
      * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\UrlInterface $baseUrl
      * @param \Magento\View\Asset\PreProcessor\Factory $preprocessorFactory
      * @param \Magento\View\Design\FileResolution\StrategyPool $resolutionPool
+     * @param \Magento\View\Asset\PathGenerator $pathGenerator
      */
     public function __construct(
         \Magento\App\State $appState,
         DesignInterface $design,
         Design\Theme\FlyweightFactory $themeFactory,
+        \Magento\View\Design\Theme\ListInterface $themeList,
         \Magento\App\Filesystem $filesystem,
         \Magento\UrlInterface $baseUrl,
         Asset\PreProcessor\Factory $preprocessorFactory,
-        Design\FileResolution\StrategyPool $resolutionPool
+        Design\FileResolution\StrategyPool $resolutionPool,
+        Asset\PathGenerator $pathGenerator
     ) {
         $this->appState = $appState;
         $this->design = $design;
         $this->filesystem = $filesystem;
         $this->themeFactory = $themeFactory;
+        $this->themeList = $themeList;
         $this->baseUrl = $baseUrl;
         $this->preprocessorFactory = $preprocessorFactory;
         $this->resolutionPool = $resolutionPool;
+        $this->pathGenerator = $pathGenerator;
     }
 
     /**
@@ -162,7 +177,7 @@ class Service implements Asset\SourceFileInterface, Asset\PublishInterface
         }
 
         if ($theme) {
-            $params['themeModel'] = $this->themeFactory->create($theme, $area);
+            $params['themeModel'] = $this->getThemeModel($theme, $area);
             if (!$params['themeModel']) {
                 throw new \UnexpectedValueException("Could not find theme '$theme' for area '$area'");
             }
@@ -202,11 +217,12 @@ class Service implements Asset\SourceFileInterface, Asset\PublishInterface
             $fileId = $params['module'] . Asset\FileId::FILE_ID_SEPARATOR . $fileId;
         }
         return new Asset\FileId(
+            $this->pathGenerator,
             $this,
             $fileId,
             $this->baseUrl->getBaseUrl(array('_type' => UrlInterface::URL_TYPE_STATIC, '_secure' => $isSecure)),
             $params['area'],
-            self::resolveThemeIntoPath($params['themeModel']),
+            $this->pathGenerator->getThemePath($params['themeModel']),
             $params['locale']
         );
     }
@@ -240,7 +256,7 @@ class Service implements Asset\SourceFileInterface, Asset\PublishInterface
      */
     private function resolveAssetSource(Asset\FileId $asset)
     {
-        $themeModel = $this->themeFactory->create($asset->getThemePath(), $asset->getAreaCode());
+        $themeModel = $this->getThemeModel($asset->getThemePath(), $asset->getAreaCode());
         /**
          * Bypass proxy, since caching is out of scope of this method intentionally
          * @var Design\FileResolution\Strategy\Fallback $fallback
@@ -269,11 +285,26 @@ class Service implements Asset\SourceFileInterface, Asset\PublishInterface
             }
             if ($origContent != $content || $origContentType != $contentType) {
                 $relPath = self::TMP_MATERIALIZATION_DIR . '/' . $asset->getRelativePath();
-                $file = $this->filesystem->getPath(\Magento\App\Filesystem::VAR_DIR) . $relPath;
+                $file = $this->filesystem->getPath(\Magento\App\Filesystem::VAR_DIR) . '/' . $relPath;
                 $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::VAR_DIR)->writeFile($relPath, $content);
             }
         }
         return $file;
+    }
+
+    /**
+     * @param string $themePath
+     * @param string $areaCode
+     * @return \Magento\View\Design\ThemeInterface
+     */
+    private function getThemeModel($themePath, $areaCode)
+    {
+        if ($this->appState->isInstalled()) {
+            $themeModel = $this->themeFactory->create($themePath, $areaCode);
+        } else {
+            $themeModel = $this->themeList->getThemeByFullPath($areaCode . '/' . $themePath);
+        }
+        return $themeModel;
     }
 
     /**
@@ -363,41 +394,5 @@ class Service implements Asset\SourceFileInterface, Asset\PublishInterface
         $source = $rootDir->getRelativePath($asset->getSourceFile());
         $destination = $asset->getRelativePath();
         return $rootDir->copyFile($source, $destination, $dir);
-    }
-
-    /**
-     * Build a fully qualified path to view file using theme object and other components
-     *
-     * @param string $filePath
-     * @param string $areaCode
-     * @param ThemeInterface $theme
-     * @param string $localeCode
-     * @param string $module
-     * @return string
-     */
-    public static function getAssetRelativePath($filePath, $areaCode, ThemeInterface $theme, $localeCode, $module = '')
-    {
-        $themePath = self::resolveThemeIntoPath($theme);
-        return Asset\FileId::buildRelativePath($filePath, $areaCode, $themePath, $localeCode, $module);
-    }
-
-    /**
-     * A subroutine for converting a theme model to a path fragment that can be used in URL
-     *
-     * @param ThemeInterface $theme
-     * @return string
-     */
-    private static function resolveThemeIntoPath(ThemeInterface $theme)
-    {
-        $result = $theme->getThemePath();
-        if (!$result) {
-            $themeId = $theme->getId();
-            if ($themeId) {
-                $result = self::PUBLIC_THEME_DIR . $themeId;
-            } else {
-                $result = self::PUBLIC_VIEW_DIR;
-            }
-        }
-        return $result;
     }
 }

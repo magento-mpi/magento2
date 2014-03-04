@@ -7,9 +7,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\View;
+namespace Magento\View\Asset;
 
-class PathTest extends \PHPUnit_Framework_TestCase
+class PathGeneratorTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @param string $area
@@ -17,18 +17,18 @@ class PathTest extends \PHPUnit_Framework_TestCase
      * @param string $locale
      * @param string $module
      * @param string $expected
-     * @dataProvider getFullyQualifiedPathDataProvider
+     * @dataProvider getPathDataProvider
      */
-    public function testGetFullyQualifiedDirPath($area, $theme, $locale, $module, $expected)
+    public function testGetPath($area, $theme, $locale, $module, $expected)
     {
-        $path = new Path;
-        $this->assertEquals($expected, $path->getFullyQualifiedPath($area, $theme, $locale, $module));
+        $path = new PathGenerator;
+        $this->assertEquals($expected, $path->getPath($area, $theme, $locale, $module));
     }
 
     /**
      * @return array
      */
-    public function getFullyQualifiedPathDataProvider()
+    public function getPathDataProvider()
     {
         return array(
             array('2', '3', '4', '5', '2/3/4/5'),

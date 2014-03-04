@@ -61,7 +61,7 @@ class ThemeDeployment
     private $_isDryRun;
 
     /**
-     * @var \Magento\View\Path
+     * @var \Magento\View\Asset\PathGenerator
      */
     private $_path;
 
@@ -71,7 +71,7 @@ class ThemeDeployment
      * @param \Magento\View\Url\CssResolver $cssUrlResolver
      * @param \Magento\App\View\Deployment\Version\StorageInterface $versionStorage
      * @param \Magento\App\View\Deployment\Version\GeneratorInterface $versionGenerator
-     * @param \Magento\View\Path $path
+     * @param \Magento\View\Asset\PathGenerator $path
      * @param string $destinationHomeDir
      * @param string $configPermitted
      * @param string|null $configForbidden
@@ -82,7 +82,7 @@ class ThemeDeployment
         \Magento\View\Url\CssResolver $cssUrlResolver,
         \Magento\App\View\Deployment\Version\StorageInterface $versionStorage,
         \Magento\App\View\Deployment\Version\GeneratorInterface $versionGenerator,
-        \Magento\View\Path $path,
+        \Magento\View\Asset\PathGenerator $path,
         $destinationHomeDir,
         $configPermitted,
         $configForbidden = null,
@@ -139,8 +139,7 @@ class ThemeDeployment
                 'destinationContext' => $destinationContext,
             );
 
-            $destDir = \Magento\View\Asset\FileId::buildRelativePath(
-                '',
+            $destDir = $this->_path->getPath(
                 $destinationContext['area'],
                 $destinationContext['themePath'],
                 $destinationContext['locale'],
@@ -216,6 +215,7 @@ class ThemeDeployment
             // Callback to resolve relative urls to the file names
             $fileId = ltrim(str_replace('\\', '/', str_replace($context['source'], '', $fileSource)), '/');
             $thisAsset = new \Magento\Tools\View\Generator\Asset(
+                $this->_path,
                 $fileId,
                 $context['destinationContext']['area'],
                 $context['destinationContext']['themePath']

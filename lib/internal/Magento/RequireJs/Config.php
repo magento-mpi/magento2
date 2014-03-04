@@ -39,7 +39,7 @@ class Config
     private $appFilesystem;
 
     /**
-     * @var \Magento\View\Path
+     * @var \Magento\View\Asset\PathGenerator
      */
     private $path;
 
@@ -57,7 +57,7 @@ class Config
         Config\File\Source\Aggregated $fileSource,
         \Magento\View\DesignInterface $design,
         \Magento\App\Filesystem $appFilesystem,
-        \Magento\View\Path $path,
+        \Magento\View\Asset\PathGenerator $path,
         \Magento\UrlInterface $baseUrl
     ) {
         $this->fileSource = $fileSource;
@@ -166,7 +166,7 @@ class Config
      */
     protected function getContextPath()
     {
-        return $this->path->getRelativePath(
+        return $this->path->getPathUsingTheme(
             $this->design->getArea(),
             $this->design->getDesignTheme(),
             $this->design->getLocale()

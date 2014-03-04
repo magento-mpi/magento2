@@ -56,7 +56,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @var \Magento\View\Path|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\View\Asset\PathGenerator|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $path;
 
@@ -93,7 +93,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
                 ->will($this->returnValue(true));
         }
 
-        $this->path = $this->getMock('\Magento\View\Path');
+        $this->path = $this->getMock('\Magento\View\Asset\PathGenerator');
         $this->objectManagerHelper = new ObjectManagerHelper($this);
         $this->file = $this->objectManagerHelper->getObject(
             'Magento\View\Publisher\File',

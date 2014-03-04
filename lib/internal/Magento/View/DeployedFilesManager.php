@@ -19,18 +19,18 @@ class DeployedFilesManager implements \Magento\View\FilesManagerInterface
     protected $filesystem;
 
     /**
-     * @var Path
+     * @var Asset\PathGenerator
      */
-    protected $_path;
+    protected $path;
 
     /**
      * @param \Magento\App\Filesystem $filesystem
-     * @param Path $path
+     * @param \Magento\View\Asset\PathGenerator $path
      */
-    public function __construct(\Magento\App\Filesystem $filesystem, Path $path)
+    public function __construct(\Magento\App\Filesystem $filesystem, Asset\PathGenerator $path)
     {
         $this->filesystem = $filesystem;
-        $this->_path = $path;
+        $this->path = $path;
     }
 
     /**
@@ -65,8 +65,7 @@ class DeployedFilesManager implements \Magento\View\FilesManagerInterface
             $themePath = $themeModel->getThemePath();
             $themeModel = $themeModel->getParentTheme();
         }
-        $subPath = $this->_path->getFullyQualifiedPath($params['area'], $themePath, '', $params['module'])
-            . '/' . $filePath;
+        $subPath = $this->path->getPath($params['area'], $themePath, '', $params['module']) . '/' . $filePath;
         $subPath = str_replace('//', '/', $subPath); // workaround while locale support is not implemented
         $deployedFilePath = $this->filesystem->getPath(\Magento\App\Filesystem::STATIC_VIEW_DIR) . '/' . $subPath;
 

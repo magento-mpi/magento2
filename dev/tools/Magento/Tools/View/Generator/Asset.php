@@ -16,12 +16,14 @@ namespace Magento\Tools\View\Generator;
 class Asset extends \Magento\View\Asset\FileId
 {
     /**
+     * @param \Magento\View\Asset\PathGenerator $pathGenerator
      * @param string $fileId
      * @param string $area
      * @param string $themePath
      */
-    public function __construct($fileId, $area, $themePath)
+    public function __construct(\Magento\View\Asset\PathGenerator $pathGenerator, $fileId, $area, $themePath)
     {
+        $this->pathGenerator = $pathGenerator;
         $this->fileSource = null;
         list($this->module, $filePath) = parent::extractModule($fileId);
         $this->area = $area;
@@ -37,7 +39,7 @@ class Asset extends \Magento\View\Asset\FileId
      */
     public function createSimilar($fileId)
     {
-        return new Asset($fileId, $this->area, $this->themePath);
+        return new Asset($this->pathGenerator, $fileId, $this->area, $this->themePath);
     }
 
     /**
@@ -45,8 +47,7 @@ class Asset extends \Magento\View\Asset\FileId
      */
     public function getRelativePath()
     {
-        $filePath = parent::getFilePath();
-        $result = parent::buildRelativePath($filePath, $this->area, $this->themePath, '', $this->module);
+        $result = parent::getRelativePath();
         return str_replace('//', '/', $result); // workaround for missing locale code
     }
-} 
+}

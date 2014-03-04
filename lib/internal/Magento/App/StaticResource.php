@@ -40,11 +40,6 @@ class StaticResource implements \Magento\LauncherInterface
     private $moduleList;
 
     /**
-     * @var \Magento\View\Design\Theme\ListInterface
-     */
-    private $themeList;
-
-    /**
      * @var \Magento\ObjectManager
      */
     private $objectManager;
@@ -60,7 +55,6 @@ class StaticResource implements \Magento\LauncherInterface
      * @param Request\Http $request
      * @param \Magento\View\Service $viewService
      * @param \Magento\Module\ModuleList $moduleList
-     * @param \Magento\View\Design\Theme\ListInterface $themeList
      * @param \Magento\ObjectManager $objectManager
      * @param ObjectManager\ConfigLoader $configLoader
      */
@@ -70,7 +64,6 @@ class StaticResource implements \Magento\LauncherInterface
         Request\Http $request,
         \Magento\View\Service $viewService,
         \Magento\Module\ModuleList $moduleList,
-        \Magento\View\Design\Theme\ListInterface $themeList,
         \Magento\ObjectManager $objectManager,
         ObjectManager\ConfigLoader $configLoader
     ) {
@@ -79,7 +72,6 @@ class StaticResource implements \Magento\LauncherInterface
         $this->request = $request;
         $this->viewService = $viewService;
         $this->moduleList = $moduleList;
-        $this->themeList = $themeList;
         $this->objectManager = $objectManager;
         $this->configLoader = $configLoader;
     }
@@ -88,6 +80,7 @@ class StaticResource implements \Magento\LauncherInterface
      * Finds requested resource and provides it to the client
      *
      * @return \Magento\App\ResponseInterface
+     * @throws \Exception
      */
     public function launch()
     {
@@ -99,16 +92,17 @@ class StaticResource implements \Magento\LauncherInterface
             $params = $this->parsePath($path);
             $this->state->setAreaCode($params['area']);
             $this->objectManager->configure($this->configLoader->load($params['area']));
-
             $file = $params['file'];
-            $params['themeModel'] = $this->getThemeModel($params['area'], $params['theme']);
-            unset($params['file'], $params['theme']);
+            unset($params['file']);
 
             try {
                 $asset = $this->viewService->createAsset($file, $params);
                 $this->response->setFilePath($asset->getSourceFile());
-                $this->viewService->publish($asset);                
+                $this->viewService->publish($asset);
             } catch (\Exception $e) {
+                if ($appMode == \Magento\App\State::MODE_DEVELOPER) {
+                    throw $e;
+                }
                 $this->response->setHttpResponseCode(404);
             }
         }
@@ -145,24 +139,6 @@ class StaticResource implements \Magento\LauncherInterface
         }
         $result['file'] = $parts[4];
         return $result;
-    }
-
-    /**
-     * Get theme model by its code for specified area
-     *
-     * @param string $area
-     * @param string $themeCode
-     * @return \Magento\View\Design\ThemeInterface
-     * @throws \UnexpectedValueException
-     */
-    protected function getThemeModel($area, $themeCode)
-    {
-        $themeModel = $this->themeList->getThemeByFullPath($area
-            . \Magento\View\Design\ThemeInterface::PATH_SEPARATOR . $themeCode);
-        if (!$themeModel) {
-            throw new \UnexpectedValueException("Can't find theme '$themeCode' for area '$area'");
-        }
-        return $themeModel;
     }
 
     /**

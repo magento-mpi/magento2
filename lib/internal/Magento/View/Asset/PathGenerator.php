@@ -6,14 +6,14 @@
  * @license     {license_link}
  */
 
-namespace Magento\View;
+namespace Magento\View\Asset;
 
 use Magento\View\Design\ThemeInterface;
 
 /**
  * Builder of relative paths basing on input parameters
  */
-class Path
+class PathGenerator
 {
     /**#@+
      * Public directories prefix group
@@ -31,7 +31,19 @@ class Path
      * @param string $module
      * @return string
      */
-    public function getRelativePath($areaCode, ThemeInterface $theme, $localeCode, $module = '')
+    public function getPathUsingTheme($areaCode, ThemeInterface $theme, $localeCode, $module = '')
+    {
+        $themePath = $this->getThemePath($theme);
+        return $this->getPath($areaCode, $themePath, $localeCode, $module);
+    }
+
+    /**
+     * Convert theme model into a theme path literal
+     *
+     * @param ThemeInterface $theme
+     * @return string
+     */
+    public function getThemePath(ThemeInterface $theme)
     {
         $themePath = $theme->getThemePath();
         if (!$themePath) {
@@ -42,7 +54,7 @@ class Path
                 $themePath = self::PUBLIC_VIEW_DIR;
             }
         }
-        return $this->getFullyQualifiedPath($areaCode, $themePath, $localeCode, $module);
+        return $themePath;
     }
 
     /**
@@ -54,7 +66,7 @@ class Path
      * @param string $module
      * @return string
      */
-    public function getFullyQualifiedPath($areaCode, $themePath, $localeCode, $module = '')
+    public function getPath($areaCode, $themePath, $localeCode, $module = '')
     {
         return $areaCode . '/' . $themePath . '/' . $localeCode . ($module ? '/' . $module : '');
     }
