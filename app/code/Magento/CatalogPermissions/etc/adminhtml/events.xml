@@ -20,9 +20,6 @@
     <event name="website_add">
         <observer name="magento_catalogpermissions" instance="Magento\CatalogPermissions\Model\Adminhtml\Observer" method="reindexProducts" />
     </event>
-    <event name="customer_group_save_after">
-        <observer name="magento_catalogpermissions" instance="Magento\CatalogPermissions\Model\Adminhtml\Observer" method="reindex" />
-    </event>
     <event name="controller_action_postdispatch">
         <observer name="magento_catalogpermissions" instance="Magento\CatalogPermissions\Model\Adminhtml\Observer" method="reindexPermissions" />
     </event>

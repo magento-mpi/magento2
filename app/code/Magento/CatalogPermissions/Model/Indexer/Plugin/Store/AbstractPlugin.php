@@ -30,7 +30,6 @@ abstract class AbstractPlugin
     ) {
         $this->indexer = $indexer;
         $this->appConfig = $appConfig;
-
     }
 
     /**

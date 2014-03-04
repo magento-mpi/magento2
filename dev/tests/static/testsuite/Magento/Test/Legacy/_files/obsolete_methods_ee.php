@@ -174,4 +174,5 @@ return array(
     ['_processEvent', 'Magento\CatalogPermissions\Model\Permission\Index'],
     ['reindexProductsStandalone', 'Magento\CatalogPermissions\Model\Permission\Index',
         'Magento\CatalogPermissions\Model\Indexer\Product\Action\Rows::execute'],
+    ['reindex', 'Magento\CatalogPermissions\Model\Adminhtml\Observer'],
 );

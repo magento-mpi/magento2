@@ -251,17 +251,6 @@ class Observer
     }
 
     /**
-     * Rebuild index
-     *
-     * @return $this
-     */
-    public function reindex()
-    {
-        $this->_indexQueue[] = '1';
-        return $this;
-    }
-
-    /**
      * Rebuild index after product assigned websites
      *
      * @param EventObserver $observer
