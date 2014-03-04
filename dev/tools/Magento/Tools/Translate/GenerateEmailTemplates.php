@@ -7,7 +7,6 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento\Tools\Translate;
 
 define('USAGE', <<<USAGE
@@ -106,6 +105,10 @@ class GenerateEmailTemplates
      */
     protected $_error = false;
 
+    /**
+     * @param string $filePath
+     * @return bool
+     */
     protected function _isWritable($filePath)
     {
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
@@ -237,7 +240,7 @@ class GenerateEmailTemplates
      *
      * @param string $pattern
      * @param int $flags
-     * @return array
+     * @return string[]
      */
     protected function globRecursive($pattern, $flags = 0)
     {
@@ -253,8 +256,9 @@ class GenerateEmailTemplates
      * Browses the given directory and returns full file names
      * which matches internal name patterns
      *
-     * @return array
      * @param string $path
+     * @param string $pattern
+     * @return array
      */
     protected function _getFilesToProcess($path, $pattern = "*.html")
     {
@@ -270,6 +274,8 @@ class GenerateEmailTemplates
 
     /**
      * Retrieve strings from templates and write to CSV
+     *
+     * @return void
      */
     protected function _fromTemplateToCsv()
     {
@@ -359,6 +365,10 @@ class GenerateEmailTemplates
         $this->_addMessage(MESSAGE_TYPE_NOTICE, 'Translation created successfully');
     }
 
+    /**
+     * @param array $inpuArray
+     * @return array
+     */
     protected function separateTranslations($inpuArray)
     {
         $resultArray = array();
@@ -369,6 +379,9 @@ class GenerateEmailTemplates
         return $resultArray;
     }
 
+    /**
+     * @return void
+     */
     protected function _fromCsvToTemplate()
     {
         $inputSeparate = is_dir($this->_translateName);
@@ -407,6 +420,9 @@ class GenerateEmailTemplates
         $this->_addMessage(MESSAGE_TYPE_NOTICE, 'Templates created successfully');
     }
 
+    /**
+     * @return void
+     */
     protected function splitTranslation()
     {
         /*
@@ -434,6 +450,9 @@ class GenerateEmailTemplates
         $this->_addMessage(MESSAGE_TYPE_NOTICE, 'Translation splitted successfully');
     }
 
+    /**
+     * @return void
+     */
     protected function mergeLocales()
     {
         /*
@@ -541,6 +560,11 @@ class GenerateEmailTemplates
         return implode('\n', $result);
     }
 
+    /**
+     * @param int $type
+     * @param string $message
+     * @return void
+     */
     protected function _addMessage($type, $message)
     {
         $this->_messages[] = array('type'=>$type, 'text'=>$message);
