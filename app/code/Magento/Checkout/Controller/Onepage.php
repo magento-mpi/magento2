@@ -74,7 +74,6 @@ class Onepage extends Action
         parent::__construct(
             $context,
             $customerSession,
-            $customerService,
             $customerAccountService,
             $customerMetadataService
         );
