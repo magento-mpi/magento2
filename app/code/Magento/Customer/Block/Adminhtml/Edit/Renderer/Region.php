@@ -2,19 +2,14 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Block\Adminhtml\Edit\Renderer;
 
 /**
  * Customer address region field renderer
- *
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Block\Adminhtml\Edit\Renderer;
-
 class Region
     extends \Magento\Backend\Block\AbstractBlock
     implements \Magento\Data\Form\Element\Renderer\RendererInterface
@@ -43,13 +38,14 @@ class Region
      *
      * @param \Magento\Data\Form\Element\AbstractElement $element
      * @return string
+     *
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function render(\Magento\Data\Form\Element\AbstractElement $element)
     {
         if ($country = $element->getForm()->getElement('country_id')) {
             $countryId = $country->getValue();
-        }
-        else {
+        } else {
             return $element->getDefaultHtml();
         }
 

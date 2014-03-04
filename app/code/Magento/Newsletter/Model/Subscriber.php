@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Newsletter
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -26,10 +24,8 @@ namespace Magento\Newsletter\Model;
  * @method $this setSubscriberStatus(int $value)
  * @method string getSubscriberConfirmCode()
  * @method $this setSubscriberConfirmCode(string $value)
- *
- * @category    Magento
- * @package     Magento_Newsletter
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @method int getSubscriberId()
+ * @method Subscriber setSubscriberId(int $value)
  */
 class Subscriber extends \Magento\Core\Model\AbstractModel
 {
@@ -181,7 +177,7 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
      * Alias for setSubscriberId()
      *
      * @param int $value
-     * @return \Magento\Object
+     * @return $this
      */
     public function setId($value)
     {
@@ -209,7 +205,7 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * Returns Insubscribe url
+     * Returns Unsubscribe url
      *
      * @return string
      */
@@ -292,7 +288,7 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
      */
     public function setIsStatusChanged($value)
     {
-        $this->_isStatusChanged = (boolean)$value;
+        $this->_isStatusChanged = (boolean) $value;
         return $this;
     }
 
@@ -320,7 +316,6 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
         return false;
     }
 
-
     /**
      * Load subscriber data from resource model by email
      *
@@ -334,13 +329,15 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * Load subscriber info by customer
+     * Load subscriber info by customerId
      *
-     * @param \Magento\Customer\Model\Customer $customer
+     * @param int $customerId
      * @return $this
      */
-    public function loadByCustomer(\Magento\Customer\Model\Customer $customer)
+    public function loadByCustomer($customerId)
     {
+        /** @var \Magento\Customer\Model\Customer $customer */
+        $customer = $this->_customerFactory->create()->load($customerId);
         $data = $this->getResource()->loadByCustomer($customer);
         $this->addData($data);
         if (!empty($data) && $customer->getId() && !$this->getCustomerId()) {
@@ -415,8 +412,10 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
         }
 
         if ($isSubscribeOwnEmail) {
-            $this->setStoreId($this->_customerSession->getCustomer()->getStoreId());
-            $this->setCustomerId($this->_customerSession->getCustomerId());
+            /** @var \Magento\Customer\Model\Customer $customer */
+            $customer = $this->_customerFactory->create()->load($this->_customerSession->getCustomerId());
+            $this->setStoreId($customer->getStoreId());
+            $this->setCustomerId($customer->getId());
         } else {
             $this->setStoreId($this->_storeManager->getStore()->getId());
             $this->setCustomerId(0);
@@ -452,8 +451,7 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
             throw new \Magento\Core\Exception(__('This is an invalid subscription confirmation code.'));
         }
 
-        $this->setSubscriberStatus(self::STATUS_UNSUBSCRIBED)
-            ->save();
+        $this->setSubscriberStatus(self::STATUS_UNSUBSCRIBED)->save();
         $this->sendUnsubscriptionEmail();
         return $this;
     }
@@ -484,7 +482,7 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
      */
     public function subscribeCustomer($customer)
     {
-        $this->loadByCustomer($customer);
+        $this->loadByCustomer($customer->getId());
 
         if ($customer->getImportMode()) {
             $this->setImportMode(true);
