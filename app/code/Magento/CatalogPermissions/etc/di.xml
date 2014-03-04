@@ -25,6 +25,9 @@
     <type name="Magento\Indexer\Model\Indexer\State">
         <plugin name="catalogPermissionsIndexerSetStatusForIndexer" type="Magento\CatalogPermissions\Model\Indexer\Plugin\IndexerState" />
     </type>
+    <type name="Magento\ImportExport\Model\Import">
+        <plugin name="catalogPermissionImport" type="Magento\CatalogPermissions\Model\Indexer\Plugin\Import" />
+    </type>
     <type name="Magento\CatalogPermissions\Model\Indexer\Plugin\IndexerState">
         <arguments>
             <argument name="state" xsi:type="object" shared="false">Magento\Indexer\Model\Indexer\State</argument>
