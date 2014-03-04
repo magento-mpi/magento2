@@ -232,18 +232,4 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
         }
         return $customAttributes;
     }
-
-    /**
-     * Helper for getting access to an entity types Data Object cache.
-     *
-     * @param $entityType
-     * @return \ArrayAccess
-     */
-    private function _getEntityCache($entityType)
-    {
-        if (!isset($this->_cache[$entityType])) {
-            $this->_cache[$entityType] = new \ArrayObject();
-        }
-        return $this->_cache[$entityType];
-    }
 }

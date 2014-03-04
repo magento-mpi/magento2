@@ -12,6 +12,8 @@ use Magento\Exception\InputException;
 
 /**
  * Customer address controller
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Address extends \Magento\App\Action\Action
 {
