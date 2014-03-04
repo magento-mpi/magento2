@@ -14,6 +14,7 @@ use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
  * Builder for the Address Service Data Object
  *
  * @method Address create()
+ * @method Address mergeDataObjectWithArray(AbstractObjectBuilder $dto, array $data)
  */
 class AddressBuilder extends AbstractObjectBuilder
 {

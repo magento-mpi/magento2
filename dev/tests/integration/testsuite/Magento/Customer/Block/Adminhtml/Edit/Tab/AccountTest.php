@@ -148,8 +148,7 @@ class AccountTest extends \PHPUnit_Framework_TestCase
      */
     public function testNewCustomer()
     {
-        $customerBuilder = new \Magento\Customer\Service\V1\Dto\CustomerBuilder();
-
+        $customerBuilder = $this->objectManager->get('\Magento\Customer\Service\V1\Data\CustomerBuilder');
         $this->backendSession->setCustomerData(
             [
                 'customer_id' => 0,

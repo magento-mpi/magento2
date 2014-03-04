@@ -7,7 +7,7 @@
  */
 namespace Magento\Customer\Block\Widget;
 
-use Magento\Customer\Service\V1\Dto\Customer;
+use Magento\Customer\Service\V1\Data\Customer;
 use Magento\Exception\NoSuchEntityException;
 
 class GenderTest extends \PHPUnit_Framework_TestCase
