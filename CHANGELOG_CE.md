@@ -31,6 +31,9 @@
   * Fixed error messages displayed during installation when required extensions are not installed
   * Fixed synopsis of install.php script
   * Fixed absence of payment scheduled in shopping cart for products with recurring profile
+  * Fixed PayPal Express Checkout must not redirect to Paypal site if Allow Guest Checkout option is No
+  * Fixed ability to reset password for customer from backend
+  * Fixed ability to download backup
 * Modularity improvements:
   * Resolved dependencies of Sales module on RecurringProfile module
   * Resolved dependencies between Email Templates functionality and other modules
