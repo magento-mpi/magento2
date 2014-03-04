@@ -45,6 +45,6 @@
         </arguments>
     </type>
     <type name="Magento\Indexer\Model\Config\Data">
-        <plugin name="catalogPermissionsIndexerConfigGet" type="Magento\CatalogPermissions\Model\Indexer\Plugin\IndexerConfigData" disabled="true"/>
+        <plugin name="catalogPermissionsIndexerConfigGet" type="Magento\CatalogPermissions\Model\Indexer\Plugin\IndexerConfigData" />
     </type>
 </config>
