@@ -412,14 +412,14 @@ class Account extends \Magento\App\Action\Action
             );
 
             if ($this->getRequest()->getParam('is_subscribed', false)) {
-                $this->_subscriberFactory->create()->updateSubscription($customer->getCustomerId(), true);
+                $this->_subscriberFactory->create()->updateSubscription($customer->getId(), true);
             }
 
             $this->_eventManager->dispatch('customer_register_success',
                 array('account_controller' => $this, 'customer' => $customer)
             );
 
-            $confirmationStatus = $this->_customerAccountService->getConfirmationStatus($customer->getCustomerId());
+            $confirmationStatus = $this->_customerAccountService->getConfirmationStatus($customer->getId());
             if ($confirmationStatus === CustomerAccountServiceInterface::ACCOUNT_CONFIRMATION_REQUIRED) {
                 $email = $this->_customerHelperData->getEmailConfirmationUrl($customer->getEmail());
                 // @codingStandardsIgnoreStart

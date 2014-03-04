@@ -14,7 +14,6 @@ use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\Data\AddressBuilder;
 use Magento\Customer\Model\Address\Converter as AddressConverter;
 use Magento\Customer\Service\V1\Data\CustomerBuilder;
-use Magento\Customer\Service\V1\Data\Response\CreateCustomerAccountResponse;
 
 /**
  * Quote submit service model
@@ -92,11 +91,6 @@ class Quote
      * @var AddressBuilder
      */
     protected $_customerAddressBuilder;
-
-    /**
-     * @var CreateCustomerAccountResponse
-     */
-    protected $_createCustomerResponse;
 
     /**
      * @var CustomerBuilder
@@ -320,14 +314,10 @@ class Quote
             $customerData = $quote->getCustomerData();
             $addresses = $quote->getCustomerAddressData();
             if ($customerData->getId()) {
-                //cache the original customer data for rollback if needed
-                $originalCustomerData = $this->_customerService->getCustomer($customerData->getId());
-                $originalAddresses = $this->_customerAddressService->getAddresses($customerData->getId());
-                //Save updated data
                 $this->_customerService->saveCustomer($customerData);
                 $this->_customerAddressService->saveAddresses($customerData->getId(), $addresses);
             } else { //for new customers
-                $this->_createCustomerResponse = $this->_customerAccountService->createAccount(
+                $customerData = $this->_customerAccountService->createAccount(
                     $customerData,
                     $addresses,
                     null,
@@ -335,9 +325,8 @@ class Quote
                     '',
                     $quote->getStoreId()
                 );
-                $customerData = $this->_customerService->getCustomer($this->_createCustomerResponse->getCustomerId());
                 $addresses = $this->_customerAddressService->getAddresses(
-                    $this->_createCustomerResponse->getCustomerId()
+                    $customerData->getId()
                 );
                 //Update quote address information
                 foreach ($addresses as $address) {
@@ -429,15 +418,6 @@ class Quote
                 )
             );
         } catch (\Exception $e) {
-            if ($originalCustomerData) { //Restore original customer data if existing customer was updated
-                $this->_customerService->saveCustomer($originalCustomerData);
-                $this->_customerAddressService->saveAddresses($customerData->getId(), $originalAddresses);
-            } else if ($customerData->getId()) { // Delete if new customer created
-                $this->_customerService->deleteCustomer($customerData->getId());
-                $order->setCustomerId(null);
-                $quote->setCustomerData($this->_customerBuilder->create());
-            }
-
             //reset order ID's on exception, because order not saved
             $order->setId(null);
             /** @var $item \Magento\Sales\Model\Order\Item */

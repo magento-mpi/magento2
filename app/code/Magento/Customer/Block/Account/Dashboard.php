@@ -69,7 +69,7 @@ class Dashboard extends \Magento\View\Element\Template
     /**
      * Return the Customer given the customer Id stored in the session.
      *
-     * @return \Magento\Customer\Service\V1\Dto\Customer
+     * @return \Magento\Customer\Service\V1\Data\Customer
      */
     public function getCustomer()
     {
@@ -99,7 +99,7 @@ class Dashboard extends \Magento\View\Element\Template
     /**
      * Retrieve the Url for editing the specified address.
      *
-     * @param \Magento\Customer\Service\V1\Dto\Address $address
+     * @param \Magento\Customer\Service\V1\Data\Address $address
      * @return string
      */
     public function getAddressEditUrl($address)
@@ -179,12 +179,12 @@ class Dashboard extends \Magento\View\Element\Template
     /**
      * Retrieve the customer's primary addresses (i.e. default billing and shipping).
      *
-     * @return \Magento\Customer\Service\V1\Dto\Address[]|bool
+     * @return \Magento\Customer\Service\V1\Data\Address[]|bool
      */
     public function getPrimaryAddresses()
     {
         $addresses = [];
-        $customerId = $this->getCustomer()->getCustomerId();
+        $customerId = $this->getCustomer()->getId();
 
         if ($defaultBilling = $this->_addressService->getDefaultBillingAddress($customerId)) {
             $addresses[] = $defaultBilling;

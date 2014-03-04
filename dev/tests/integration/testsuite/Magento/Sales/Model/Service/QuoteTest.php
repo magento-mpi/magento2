@@ -11,7 +11,6 @@ namespace Magento\Sales\Model\Service;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\Customer\Service\V1\Data\CustomerBuilder;
 use Magento\Customer\Service\V1\Data\AddressBuilder;
-use Magento\Customer\Service\V1\Data\Region;
 use Magento\Customer\Service\V1\Data\RegionBuilder;
 use Magento\Customer\Service\V1\Data\Customer as CustomerData;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
@@ -51,7 +50,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
     /**
      * @var AddressBuilder
      */
-    protected $_addressBuilder;
+    protected $_customerAddressBuilder;
 
 
     public function setUp()
@@ -111,8 +110,8 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
             'password'
         );
 
-        $existingCustomerId = $customerData->getCustomerId();
-        $customerData = $this->_customerBuilder->mergeDtoWithArray(
+        $existingCustomerId = $customerData->getId();
+        $customerData = $this->_customerBuilder->mergeDataObjectWithArray(
             $customerData,
             [CustomerData::EMAIL => 'new@example.com']
         );
@@ -144,55 +143,6 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
             $this->assertNotNull($address->getId());
             $this->assertEquals($customerId, $address->getCustomerId());
         }
-    }
-
-    /**
-     * @magentoAppArea adminhtml
-     * @magentoDbIsolation enabled
-     * @magentoAppIsolation enabled
-     * @magentoDataFixture Magento/Sales/_files/quote.php
-     */
-    public function testSubmitOrderRollbackNewCustomer()
-    {
-        $this->_prepareQuoteWithMockTransaction();
-        $this->_serviceQuote->getQuote()->setCustomerData($this->getSampleCustomerEntity());
-        $this->_serviceQuote->getQuote()->setCustomerAddressData($this->getSampleAddressEntity());
-        try {
-            $this->_serviceQuote->submitOrderWithDataObject();
-        } catch (\Exception $e) {
-            $this->assertEquals('submitorder exception', $e->getMessage());
-        }
-        $this->assertNull($this->_serviceQuote->getQuote()->getCustomerData()->getId());
-    }
-
-    /**
-     * @magentoAppArea adminhtml
-     * @magentoAppIsolation enabled
-     * @magentoDataFixture Magento/Sales/_files/quote.php
-     */
-    public function testSubmitOrderRollbackExistingCustomer()
-    {
-        $this->_prepareQuoteWithMockTransaction();
-        $customerData = $this->_customerAccountService->createAccount(
-        $this->getSampleCustomerEntity(),
-            $this->getSampleAddressEntity(),
-            'password'
-        );
-
-        $existingCustomerId = $customerData->getCustomerId();
-        $customerData = $this->_customerBuilder->mergeDtoWithArray(
-            $customerData,
-            [CustomerData::EMAIL => 'new@example.com']
-        );
-        $addresses = $this->_customerAddressService->getAddresses($existingCustomerId);
-        $this->_serviceQuote->getQuote()->setCustomerData($customerData);
-        $this->_serviceQuote->getQuote()->setCustomerAddressData($addresses);
-        try {
-            $this->_serviceQuote->submitOrderWithDataObject();
-        } catch (\Exception $e) {
-            $this->assertEquals('submitorder exception', $e->getMessage());
-        }
-        $this->assertEquals('email@example.com', $this->_customerService->getCustomer($existingCustomerId)->getEmail());
     }
 
     /**

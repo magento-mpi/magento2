@@ -241,7 +241,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
      */
     private function _createCustomer()
     {
-        /** @var \Magento\Customer\Service\V1\Dto\Customer $customer */
+        /** @var \Magento\Customer\Service\V1\Data\Customer $customer */
         $customer = $this->_customerBuilder->setFirstname('firstname')
             ->setLastname('lastname')
             ->setEmail('email@email.com')
@@ -259,7 +259,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         $customer = $this->_customerService->getCustomer(1);
         $data = ['account' => $customer->__toArray()];
         $this->_context->getBackendSession()->setCustomerData($data);
-        $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER_ID, $customer->getCustomerId());
+        $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER_ID, $customer->getId());
         return $customer;
     }
 

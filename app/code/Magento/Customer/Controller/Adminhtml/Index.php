@@ -415,7 +415,7 @@ class Index extends \Magento\Backend\App\Action
                 );
 
                 // Done Saving customer, finish save action
-                $customerId = $customer->getCustomerId();
+                $customerId = $customer->getId();
                 $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER_ID, $customerId);
 
                 $this->messageManager->addSuccess(__('You saved the customer.'));

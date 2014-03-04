@@ -88,7 +88,7 @@ class TabsTest extends \PHPUnit_Framework_TestCase
         $customer = $this->customerService
             ->getCustomer($this->coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID));
 
-        $customerData['customer_id'] = $customer->getCustomerId();
+        $customerData['customer_id'] = $customer->getId();
         $customerData['account'] = $customer->__toArray();
         $customerData['address'] = [];
         $this->context->getBackendSession()->setCustomerData($customerData);

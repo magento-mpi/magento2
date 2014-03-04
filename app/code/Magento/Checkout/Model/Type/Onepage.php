@@ -836,7 +836,7 @@ class Onepage
     protected function _involveNewCustomer()
     {
         $customer = $this->getQuote()->getCustomerData();
-        $confirmationStatus = $this->_accountService->getConfirmationStatus($customer->getCustomerId());
+        $confirmationStatus = $this->_accountService->getConfirmationStatus($customer->getId());
         if ($confirmationStatus === CustomerAccountServiceInterface::ACCOUNT_CONFIRMATION_REQUIRED) {
             $url = $this->_customerData->getEmailConfirmationUrl($customer->getEmail());
             $this->messageManager->addSuccess(
