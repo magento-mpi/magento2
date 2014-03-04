@@ -117,7 +117,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     {
         $customer = $this->_loadCustomer();
         $date = $this->_context
-            ->getLocaleDate()->scopeDate($customer->getStoreId(), $customer->getCreatedAtTimestamp(), true);
+            ->getLocaleDate()->scopeDate($customer->getStoreId(), $customer->getCreatedAt(), true);
         $storeCreateDate = $this->_block->formatDate(
             $date, \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM, true
         );
