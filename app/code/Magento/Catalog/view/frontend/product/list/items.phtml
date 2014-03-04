@@ -133,28 +133,6 @@ switch($type = $this->getType()) {
         }
     break;
 
-    case 'widget-viewed':
-        if ($exist = $this->getRecentlyViewedProducts()) {
-
-            $mode = $this->getViewMode();
-
-            $type = $type . '-' . $mode;
-
-            $class = 'widget viewed' . ' ' . $mode;
-
-            $imageBlock =  $this->getLayout()->createBlock('Magento\Catalog\Block\Product\Image');
-            $image = $this->getImageType();
-            $title = __('Recently Viewed');
-            $items = $exist;
-
-            $showWishlist = true;
-            $showCompare = true;
-            $showCart = true;
-            $rating = 'short';
-            $description = ($mode == 'list') ? true : false;
-        }
-    break;
-
     case 'new':
         if ($exist = $this->getProductCollection()) {
             $type = 'new';
@@ -182,7 +160,7 @@ switch($type = $this->getType()) {
 ?>
 
 <?php if ($exist):?>
-    <?php if($type == 'related' || $type = 'upsell'): ?>
+    <?php if($type == 'related' || $type == 'upsell'): ?>
         <div class="block <?php echo $class; ?>" data-limit="<?php echo $limit; ?>" data-shuffle="<?php echo $shuffle; ?>">
     <?php else: ?>
         <div class="block <?php echo $class; ?>">
@@ -201,7 +179,7 @@ switch($type = $this->getType()) {
         <?php $iterator = 1; ?>
         <?php foreach($items as $_item): ?>
             <?php echo ($iterator++==1) ? '' : '</li>' ?>
-                <?php if($type == 'related' || $type = 'upsell'): ?>
+                <?php if($type == 'related' || $type == 'upsell'): ?>
                     <li class="item product" style="display: none;">
                 <?php else: ?>
                     <li class="item product">

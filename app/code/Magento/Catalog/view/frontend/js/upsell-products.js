@@ -38,7 +38,7 @@
                 this._shuffle(elements)
             }
             for (var index = 0; index < limit; index++) {
-                $(elements[index]).show();
+                $(this.element).find(elements[index]).show();
             }
         },
 
