@@ -11,9 +11,9 @@ namespace Magento\Customer\Controller\Adminhtml;
 
 use Magento\App\Action\NotFoundException;
 use Magento\Customer\Controller\RegistryConstants;
-use Magento\Customer\Service\V1\Dto\Customer;
-use Magento\Customer\Service\V1\Dto\CustomerBuilder;
-use Magento\Customer\Service\V1\Dto\AddressBuilder;
+use Magento\Customer\Service\V1\Data\Customer;
+use Magento\Customer\Service\V1\Data\CustomerBuilder;
+use Magento\Customer\Service\V1\Data\AddressBuilder;
 use Magento\Customer\Service\V1\CustomerServiceInterface;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;

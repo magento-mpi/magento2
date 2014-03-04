@@ -66,7 +66,7 @@ class AttributeMetadataBuilder extends \Magento\Service\Data\AbstractObjectBuild
     }
 
     /**
-     * @param \Magento\Customer\Service\V1\Dto\Eav\Option[] $options
+     * @param \Magento\Customer\Service\V1\Data\Eav\Option[] $options
      * @return $this
      */
     public function setOptions($options)

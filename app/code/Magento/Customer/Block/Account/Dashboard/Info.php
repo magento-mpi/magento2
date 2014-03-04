@@ -150,7 +150,7 @@ class Info extends \Magento\View\Element\Template
 
     /**
      * @param string $attributeCode
-     * @return \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata|null
+     * @return \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata|null
      */
     protected function _getAttributeMetadata($attributeCode)
     {

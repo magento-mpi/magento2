@@ -8,7 +8,7 @@
 
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab\View;
 
-use Magento\Customer\Service\V1\Dto\Customer;
+use Magento\Customer\Service\V1\Data\Customer;
 use Magento\Exception\NoSuchEntityException;
 use Magento\Customer\Controller\RegistryConstants;
 
@@ -40,7 +40,7 @@ class Accordion extends \Magento\Backend\Block\Widget\Accordion
     /** @var \Magento\Customer\Service\V1\CustomerServiceInterface  */
     protected $_customerService;
 
-    /** @var \Magento\Customer\Service\V1\Dto\CustomerBuilder  */
+    /** @var \Magento\Customer\Service\V1\Data\CustomerBuilder  */
     protected $_customerBuilder;
 
     /**
@@ -50,7 +50,7 @@ class Accordion extends \Magento\Backend\Block\Widget\Accordion
      * @param \Magento\Registry $registry
      * @param \Magento\Customer\Model\Config\Share $shareConfig
      * @param \Magento\Customer\Service\V1\CustomerServiceInterface $customerService
-     * @param \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerBuilder
+     * @param \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder
      * @param array $data
      */
     public function __construct(
@@ -60,7 +60,7 @@ class Accordion extends \Magento\Backend\Block\Widget\Accordion
         \Magento\Registry $registry,
         \Magento\Customer\Model\Config\Share $shareConfig,
         \Magento\Customer\Service\V1\CustomerServiceInterface $customerService,
-        \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerBuilder,
+        \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;

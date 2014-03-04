@@ -9,8 +9,8 @@
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 
 use Magento\Customer\Controller\RegistryConstants;
-use Magento\Customer\Service\V1\Dto\Eav\AttributeMetadataBuilder;
-use Magento\Customer\Service\V1\Dto\Address;
+use Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder;
+use Magento\Customer\Service\V1\Data\Address;
 use Magento\Exception\NoSuchEntityException;
 
 /**
@@ -57,10 +57,10 @@ class Addresses extends GenericMetadata
     /** @var  \Magento\Customer\Service\V1\CustomerMetadataServiceInterface */
     protected $_metadataService;
 
-    /** @var  \Magento\Customer\Service\V1\Dto\AddressBuilder */
+    /** @var  \Magento\Customer\Service\V1\Data\AddressBuilder */
     protected $_addressBuilder;
 
-    /** @var \Magento\Customer\Service\V1\Dto\CustomerBuilder */
+    /** @var \Magento\Customer\Service\V1\Data\CustomerBuilder */
     protected $_customerBuilder;
 
     /** @var  AttributeMetadataBuilder */
@@ -79,8 +79,8 @@ class Addresses extends GenericMetadata
      * @param \Magento\Customer\Helper\Address $addressHelper
      * @param \Magento\Customer\Service\V1\CustomerServiceInterface $customerService
      * @param \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $metadataService
-     * @param \Magento\Customer\Service\V1\Dto\AddressBuilder $addressBuilder
-     * @param \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerBuilder
+     * @param \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder
+     * @param \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder
      * @param AttributeMetadataBuilder $attributeMetadataBuilder;
      * @param \Magento\Directory\Helper\Data $directoryHelper
      * @param array $data
@@ -100,8 +100,8 @@ class Addresses extends GenericMetadata
         \Magento\Customer\Helper\Address $addressHelper,
         \Magento\Customer\Service\V1\CustomerServiceInterface $customerService,
         \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $metadataService,
-        \Magento\Customer\Service\V1\Dto\AddressBuilder $addressBuilder,
-        \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerBuilder,
+        \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder,
+        \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder,
         AttributeMetadataBuilder $attributeMetadataBuilder,
         \Magento\Directory\Helper\Data $directoryHelper,
         array $data = []
