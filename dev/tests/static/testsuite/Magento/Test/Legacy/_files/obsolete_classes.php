@@ -2148,6 +2148,7 @@ return array(
     ['Magento\Catalog\Helper\Flat\AbstractFlat'],
     ['Magento\Core\App\Action\Plugin\Session', 'Magento\Core\Block\RequireCookie'],
     ['Magento\Rma\Model\CarrierFactory'],
+    ['Magento\Usa\Helper\Data'],
     ['Magento\Usa\Model\Shipping\Carrier\Ups\Source\Mode'],
     ['Magento\Usa\Model\Shipping\Carrier\Ups\Source\Container', 'Magento\Ups\Model\Config\Source\Container'],
     ['Magento\Usa\Model\Shipping\Carrier\Ups\Source\DestType', 'Magento\Ups\Model\Config\Source\DestType'],
