@@ -9,21 +9,26 @@
  * @license     {license_link}
  */
 
-namespace Magento\CatalogPermissions\Model\Resource\Permission;
+namespace Magento\CatalogPermissions\Model\Indexer\Category\Action;
 
-class IndexTest extends \PHPUnit_Framework_TestCase
+class RowsTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * CatalogPermissions Index model
-     *
      * @var \Magento\CatalogPermissions\Model\Permission\Index
      */
-    protected $_indexModel;
+    protected $index;
+
+    /**
+     * @var \Magento\CatalogPermissions\Model\Indexer\Category\Action\Rows
+     */
+    protected $action;
 
     protected function setUp()
     {
-        $this->_indexModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+        $this->index = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\CatalogPermissions\Model\Permission\Index');
+        $this->action = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\CatalogPermissions\Model\Indexer\Category\Action\Rows');
     }
 
     /**
@@ -42,11 +47,11 @@ class IndexTest extends \PHPUnit_Framework_TestCase
             'grant_checkout_items'        => \Magento\CatalogPermissions\Model\Permission::PERMISSION_DENY,
         );
 
-        $permissions = $this->_indexModel->getIndexForCategory(6, 1, 1);
+        $permissions = $this->index->getIndexForCategory(6, 1, 1);
         $this->assertEquals(array(), $permissions);
 
-        $this->_indexModel->reindex('1/2/6');
-        $permissions = $this->_indexModel->getIndexForCategory(6, 1, 1);
+        $this->action->execute([1, 2, 6]);
+        $permissions = $this->index->getIndexForCategory(6, 1, 1);
 
         $this->assertArrayHasKey(6, $permissions);
         $this->assertEquals(1, count($permissions));

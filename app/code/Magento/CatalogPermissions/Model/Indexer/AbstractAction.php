@@ -13,6 +13,7 @@ use \Magento\Customer\Model\Resource\Group\CollectionFactory as GroupCollectionF
 use \Magento\CatalogPermissions\Model\Permission;
 use \Magento\CatalogPermissions\App\ConfigInterface;
 use \Magento\Core\Model\StoreManagerInterface;
+use \Magento\Catalog\Model\Config as CatalogConfig;
 
 abstract class AbstractAction
 {
@@ -109,24 +110,32 @@ abstract class AbstractAction
     protected $storeManager;
 
     /**
+     * @var \Magento\Catalog\Model\Config
+     */
+    protected $catalogConfig;
+
+    /**
      * @param \Magento\App\Resource $resource
      * @param WebsiteCollectionFactory $websiteCollectionFactory
      * @param GroupCollectionFactory $groupCollectionFactory
      * @param ConfigInterface $config
      * @param StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Config $catalogConfig
      */
     public function __construct(
         \Magento\App\Resource $resource,
         WebsiteCollectionFactory $websiteCollectionFactory,
         GroupCollectionFactory $groupCollectionFactory,
         ConfigInterface $config,
-        StoreManagerInterface $storeManager
+        StoreManagerInterface $storeManager,
+        CatalogConfig $catalogConfig
     ) {
         $this->resource = $resource;
         $this->websiteCollectionFactory = $websiteCollectionFactory;
         $this->groupCollectionFactory = $groupCollectionFactory;
         $this->config = $config;
         $this->storeManager = $storeManager;
+        $this->catalogConfig = $catalogConfig;
     }
 
     /**
@@ -372,7 +381,7 @@ abstract class AbstractAction
     }
 
     /**
-     *
+     * Prepare grants for certain category path
      *
      * @param string $path
      */
@@ -519,6 +528,13 @@ abstract class AbstractAction
      */
     protected function createProductSelect()
     {
+        $statusAttributeId = $this->catalogConfig->getAttribute(
+            \Magento\Catalog\Model\Product::ENTITY, 'status'
+        )->getId();
+        $visibilityAttributeId = $this->catalogConfig->getAttribute(
+            \Magento\Catalog\Model\Product::ENTITY, 'visibility'
+        )->getId();
+
         $select = $this->getReadAdapter()->select()
             ->from(['category_product' => $this->getTable('catalog_category_product')], [])
             ->columns(
@@ -541,6 +557,30 @@ abstract class AbstractAction
                 'store.website_id = product_website.website_id',
                 []
             )
+            ->joinInner(
+                ['cpsd' => $this->getTable('catalog_product_entity_int')],
+                'cpsd.entity_id = category_product.product_id AND cpsd.store_id = 0'
+                    . $this->getReadAdapter()->quoteInto(' AND cpsd.attribute_id = ?', $statusAttributeId),
+                []
+            )
+            ->joinLeft(
+                ['cpss' => $this->getTable('catalog_product_entity_int')],
+                'cpss.entity_id = category_product.product_id AND cpss.attribute_id = cpsd.attribute_id'
+                    . ' AND cpss.store_id = store.store_id',
+                []
+            )
+            ->joinInner(
+                ['cpvd' => $this->getTable('catalog_product_entity_int')],
+                'cpvd.entity_id = category_product.product_id AND cpvd.store_id = 0'
+                    . $this->getReadAdapter()->quoteInto(' AND cpvd.attribute_id = ?', $visibilityAttributeId),
+                []
+            )
+            ->joinLeft(
+                ['cpvs' => $this->getTable('catalog_product_entity_int')],
+                'cpvs.entity_id = category_product.product_id AND cpvs.attribute_id = cpvd.attribute_id'
+                    . ' AND cpvs.store_id = store.store_id',
+                []
+            )
             ->join(
                 ['customer_group' => $this->getTable('customer_group')], '', []
             )
@@ -550,6 +590,18 @@ abstract class AbstractAction
                 . ' AND permission_index.website_id = product_website.website_id'
                 . ' AND permission_index.customer_group_id = customer_group.customer_group_id',
                 []
+            )
+            ->where(
+                $this->getReadAdapter()->getIfNullSql('cpss.value', 'cpsd.value') . ' = ?',
+                \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED
+            )
+            ->where(
+                $this->getReadAdapter()->getIfNullSql('cpvs.value', 'cpvd.value') . ' IN (?)',
+                [
+                    \Magento\Catalog\Model\Product\Visibility::VISIBILITY_IN_CATALOG,
+                    \Magento\Catalog\Model\Product\Visibility::VISIBILITY_IN_SEARCH,
+                    \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH,
+                ]
             )
             ->group([
                 'store.store_id',
