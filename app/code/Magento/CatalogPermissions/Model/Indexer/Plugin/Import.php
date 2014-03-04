@@ -13,25 +13,25 @@ namespace Magento\CatalogPermissions\Model\Indexer\Plugin;
 class Import
 {
     /**
-     * @var \Magento\CatalogPermissions\Model\Indexer\Product
+     * @var \Magento\Indexer\Model\IndexerFactory
      */
-    protected $productIndexer;
+    protected $indexerFactory;
 
     /**
-     * @var \Magento\CatalogPermissions\Model\Indexer\Category
+     * @var \Magento\CatalogPermissions\App\ConfigInterface
      */
-    protected $categoryIndexer;
+    protected $config;
 
     /**
-     * @param \Magento\CatalogPermissions\Model\Indexer\Product $productIndexer
-     * @param \Magento\CatalogPermissions\Model\Indexer\Category $categoryIndexer
+     * @param \Magento\CatalogPermissions\App\ConfigInterface $config
+     * @param \Magento\Indexer\Model\IndexerFactor $indexerFactory
      */
     public function __construct(
-        \Magento\CatalogPermissions\Model\Indexer\Product $productIndexer,
-        \Magento\CatalogPermissions\Model\Indexer\Category $categoryIndexer
+        \Magento\CatalogPermissions\App\ConfigInterface $config,
+        \Magento\Indexer\Model\IndexerFactor $indexerFactory
     ) {
-        $this->productIndexer = $productIndexer;
-        $this->categoryIndexer = $categoryIndexer;
+        $this->config = $config;
+        $this->indexerFactory = $indexerFactory;
     }
 
     /**
@@ -45,8 +45,18 @@ class Import
      */
     public function afterImportSource(\Magento\ImportExport\Model\Import $subject, $import)
     {
-        $this->productIndexer->markIndexerAsInvalid();
-        $this->categoryIndexer->markIndexerAsInvalid();
+        if (!$this->config->isEnabled()) {
+            return;
+        }
+
+        $categoryIndex = $this->indexerFactory->create()
+            ->load(\Magento\CatalogPermissions\Model\Indexer\Category::INDEXER_ID);
+        $categoryIndex->invalidate();
+
+        $productIndex = $this->indexerFactory->create()
+            ->load(\Magento\CatalogPermissions\Model\Indexer\Product::INDEXER_ID);
+        $productIndex->invalidate();
+
         return $import;
     }
 }

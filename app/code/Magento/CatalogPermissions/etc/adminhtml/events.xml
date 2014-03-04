@@ -29,9 +29,6 @@
     <event name="adminhtml_catalog_category_tabs">
         <observer name="magento_catalogpermissions" instance="Magento\CatalogPermissions\Model\Adminhtml\Observer" method="addCategoryPermissionTab" />
     </event>
-    <event name="catalog_product_import_after">
-        <observer name="magento_catalogpermissions" instance="Magento\CatalogPermissions\Model\Adminhtml\Observer" method="reindexProducts" />
-    </event>
     <event name="catalog_product_to_website_change">
         <observer name="magento_catalogpermissions" instance="Magento\CatalogPermissions\Model\Adminhtml\Observer" method="reindexAfterProductAssignedWebsite" />
     </event>
