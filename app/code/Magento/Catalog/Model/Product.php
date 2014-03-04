@@ -2013,10 +2013,11 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
     public function getIdentities()
     {
         $identities = array(self::CACHE_TAG . '_' . $this->getId());
+        $identities = array_merge($identities, $this->getTypeInstance()->getIdentities($this));
 
         $isDataChanged = ($this->getOrigData() == null && $this->getData()) || $this->isDeleted();
         if (!$isDataChanged) {
-            foreach($this->getOrigData() as $key => $value) {
+            foreach ($this->getOrigData() as $key => $value) {
                 if ($this->getData($key) != $value) {
                     $isDataChanged = true;
                     break;
@@ -2033,7 +2034,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
             }
         } else {
             $categoryIds = $this->getCategoryIds();
-            foreach($categoryIds as $categoryId) {
+            foreach ($categoryIds as $categoryId) {
                 $identities[] = self::CACHE_CATEGORY_TAG . '_' . $categoryId;
             }
         }
