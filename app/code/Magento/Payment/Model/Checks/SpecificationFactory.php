@@ -41,9 +41,9 @@ class SpecificationFactory
      * @return SpecificationInterface
      * @throws \Magento\Core\Exception
      */
-    public function create($data = array())
+    public function create($data)
     {
-        $specifications = array_intersect_key($this->mapping, array_flip($data));
+        $specifications = array_intersect_key($this->mapping, array_flip((array)$data));
         return $this->objectManager->create('Magento\Payment\Model\Checks\Composite', ['list' => $specifications]);
     }
 }
