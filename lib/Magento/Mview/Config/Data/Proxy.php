@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Mview\Config\Data;
 
 /**
@@ -66,6 +65,8 @@ class Proxy extends \Magento\Mview\Config\Data
 
     /**
      * Retrieve ObjectManager from global scope
+     *
+     * @return void
      */
     public function __wakeup()
     {
@@ -74,6 +75,8 @@ class Proxy extends \Magento\Mview\Config\Data
 
     /**
      * Clone proxied instance
+     *
+     * @return void
      */
     public function __clone()
     {

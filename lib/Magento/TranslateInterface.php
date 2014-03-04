@@ -55,7 +55,7 @@ interface TranslateInterface
     /**
      * Set locale
      *
-     * @param $locale
+     * @param string $locale
      * @return \Magento\TranslateInterface
      */
     public function setLocale($locale);

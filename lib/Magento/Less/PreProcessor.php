@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Less;
 
 /**
@@ -86,6 +85,7 @@ class PreProcessor
      *
      * @param PreProcessorInterface[] $preProcessors
      * @param PreProcessor\File\Less $lessFile
+     * @return void
      */
     protected function publishProcessedContent(array $preProcessors, PreProcessor\File\Less $lessFile)
     {
