@@ -102,19 +102,20 @@ class CustomerGroupServiceTest extends WebapiAbstract
     }
 
     /**
-     * Verify the retrieval of all customer groups, including the 'NOT LOGGED IN' group.
-     *
-     * @param bool $includeNotLoggedIn Whether to include the NOT LOGGED IN group or not.
-     * @param int $taxClassId The tax class id.
-     * @param array $expectedGroups The list of groups expected from getGroups().
-     *
-     * @dataProvider getGroupsDataProvider
+     * Verify the retrieval of all customer groups.
      */
-    public function testGetGroups($includeNotLoggedIn, $taxClassId, $expectedGroups)
+    public function testGetGroups()
     {
+        $expectedGroups = [
+            ['id' => 0, 'code' => 'NOT LOGGED IN', 'tax_class_id' => 3],
+            ['id' => 1, 'code' => 'General', 'tax_class_id' => 3],
+            ['id' => 2, 'code' => 'Wholesale', 'tax_class_id' => 3],
+            ['id' => 3, 'code' => 'Retailer', 'tax_class_id' => 3]
+        ];
+
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . "/notLoggedIn/$includeNotLoggedIn/taxClass/$taxClassId",
+                'resourcePath' => self::RESOURCE_PATH,
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
             ],
             'soap' => [
@@ -124,41 +125,14 @@ class CustomerGroupServiceTest extends WebapiAbstract
             ]
         ];
 
-        $requestData = [
-            'includeNotLoggedIn' => $includeNotLoggedIn,
-            'taxClassId' => $taxClassId
-        ];
         $groups = array_map(
             function ($array) {
                 return $this->decamelize($array);
-            }, $this->_webApiCall($serviceInfo, $requestData)
+            }, $this->_webApiCall($serviceInfo)
         );
 
         $this->assertCount(count($expectedGroups), $groups, "The number of groups returned is wrong.");
         $this->assertEquals($expectedGroups, $groups, "The list of groups does not match.");
-    }
-
-    /**
-     * The testGetGroups data provider.
-     *
-     * @return array
-     */
-    public function getGroupsDataProvider()
-    {
-        return [
-            [true, 3, [
-                ['id' => 0, 'code' => 'NOT LOGGED IN', 'tax_class_id' => 3],
-                ['id' => 1, 'code' => 'General', 'tax_class_id' => 3],
-                ['id' => 2, 'code' => 'Wholesale', 'tax_class_id' => 3],
-                ['id' => 3, 'code' => 'Retailer', 'tax_class_id' => 3]
-            ]],
-            [false, 3, [
-                ['id' => 1, 'code' => 'General', 'tax_class_id' => 3],
-                ['id' => 2, 'code' => 'Wholesale', 'tax_class_id' => 3],
-                ['id' => 3, 'code' => 'Retailer', 'tax_class_id' => 3]
-            ]],
-            [true, 2, []]
-        ];
     }
 
     /**
