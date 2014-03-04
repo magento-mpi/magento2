@@ -46,12 +46,12 @@ class Plugin
     /**
      * Add rule to isGirthAllowed() method
      *
-     * @param \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shipping\Packaging $subject
+     * @param \Magento\Object $subject $subject
      * @param bool $result
      * @return bool
      */
     public function afterIsGirthAllowed(
-        \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shipping\Packaging $subject,
+        \Magento\Object $subject,
         $result
     ) {
         return $result && $this->uspsHelper->displayGirthValue($this->request->getParam('method'));
@@ -60,12 +60,12 @@ class Plugin
     /**
      * Add rule to isGirthAllowed() method
      *
-     * @param \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shipping\Packaging $subject
+     * @param \Magento\Object $subject
      * @param \Closure $proceed
      * @return array
      */
     public function aroundCheckSizeAndGirthParameter(
-        \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shipping\Packaging $subject,
+        \Magento\Object $subject,
         \Closure $proceed
     ) {
         $carrier = $subject->getCarrier();
