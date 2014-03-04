@@ -162,6 +162,13 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     protected $_isScopePrivate;
 
     /**
+     * This property is for defining of tome to live for a block.
+     *
+     * @var int
+     */
+    public $ttl;
+
+    /**
      * Constructor
      *
      * @param \Magento\View\Element\Context $context
@@ -704,7 +711,6 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      * @param array $params
      * @return string
      */
-
     public function getViewFileUrl($file = null, array $params = array())
     {
         try {
@@ -784,9 +790,9 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     /**
      * Escape html entities
      *
-     * @param   string|array $data
-     * @param   array|null $allowedTags
-     * @return  string
+     * @param string|array $data
+     * @param array|null $allowedTags
+     * @return string
      */
     public function escapeHtml($data, $allowedTags = null)
     {
