@@ -655,7 +655,10 @@ abstract class AbstractAction
                 $conditions[$condition] = Permission::PERMISSION_DENY;
             } else {
                 $condition = $readAdapter->quoteInto('store.store_id = ?', $store->getId());
-                $conditions[$condition] = $mode ? Permission::PERMISSION_ALLOW : Permission::PERMISSION_DENY;
+                $conditions[$condition] =
+                    $mode != ConfigInterface::GRANT_NONE
+                        ? Permission::PERMISSION_ALLOW
+                        : Permission::PERMISSION_DENY;
             }
         }
 
