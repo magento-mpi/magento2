@@ -12,6 +12,7 @@ use Magento\Customer\Controller\RegistryConstants;
 use Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder;
 use Magento\Customer\Service\V1\Data\Address;
 use Magento\Exception\NoSuchEntityException;
+use Magento\Customer\Service\V1\Data\AddressConverter;
 
 /**
  * Customer addresses forms
@@ -216,7 +217,7 @@ class Addresses extends GenericMetadata
         $addressForm = $this->_metadataFormFactory->create(
             'customer_address',
             'adminhtml_customer_address',
-            $address->getAttributes()
+            AddressConverter::toFlatArray($address)
         );
 
         $attributes = $addressForm->getAttributes();
@@ -302,7 +303,7 @@ class Addresses extends GenericMetadata
                 ->create();
         }
         $this->assign('addressCollection', $addressCollection);
-        $form->setValues($address->getAttributes());
+        $form->setValues(AddressConverter::toFlatArray($address));
         $this->setForm($form);
 
         return $this;
@@ -445,6 +446,7 @@ class Addresses extends GenericMetadata
      */
     public function format(Address $address, $type)
     {
-        return $this->_addressHelper->getFormatTypeRenderer($type)->renderArray($address->getAttributes());
+        return $this->_addressHelper->getFormatTypeRenderer($type)
+            ->renderArray(AddressConverter::toFlatArray($address));
     }
 }

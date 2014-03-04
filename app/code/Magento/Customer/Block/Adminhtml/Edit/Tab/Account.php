@@ -126,9 +126,9 @@ class Account extends GenericMetadata
         $customerData = $this->_backendSession->getCustomerData();
         $customerId = isset($customerData['customer_id']) ? $customerData['customer_id'] : false;
         $accountData = isset($customerData['account']) ? $customerData['account'] : [];
-        $customerDto = $this->_customerBuilder->populateWithArray($accountData)->create();
+        $customerDataObject = $this->_customerBuilder->populateWithArray($accountData)->create();
 
-        $customerForm = $this->_initCustomerForm($customerDto);
+        $customerForm = $this->_initCustomerForm($customerDataObject);
         $attributes = $this->_initCustomerAttributes($customerForm);
         $this->_setFieldset($attributes, $fieldset, array(self::DISABLE_ATTRIBUTE_NAME));
 
@@ -137,10 +137,11 @@ class Account extends GenericMetadata
                 $this->getLayout()
                     ->createBlock('Magento\Customer\Block\Adminhtml\Edit\Renderer\Attribute\Group')
                     ->setDisableAutoGroupChangeAttribute($customerForm->getAttribute(self::DISABLE_ATTRIBUTE_NAME))
-                    ->setDisableAutoGroupChangeAttributeValue($customerDto->getAttribute(self::DISABLE_ATTRIBUTE_NAME))
+                    ->setDisableAutoGroupChangeAttributeValue($customerDataObject
+                            ->getCustomAttribute(self::DISABLE_ATTRIBUTE_NAME))
             );
 
-        $customerStoreId = $customerDto->getStoreId();
+        $customerStoreId = $customerDataObject->getStoreId();
 
         $prefixElement = $form->getElement('prefix');
         if ($prefixElement) {
@@ -155,7 +156,7 @@ class Account extends GenericMetadata
                 );
                 $prefixField->setValues($prefixOptions);
                 if ($customerId) {
-                    $prefixField->addElementValues($customerDto->getPrefix());
+                    $prefixField->addElementValues($customerDataObject->getPrefix());
                 }
             }
         }
@@ -173,14 +174,14 @@ class Account extends GenericMetadata
                 );
                 $suffixField->setValues($suffixOptions);
                 if ($customerId) {
-                    $suffixField->addElementValues($customerDto->getSuffix());
+                    $suffixField->addElementValues($customerDataObject->getSuffix());
                 }
             }
         }
 
         if ($customerId) {
             $accountData = array_merge(
-                $this->_addEditCustomerFormFields($form, $fieldset, $customerDto),
+                $this->_addEditCustomerFormFields($form, $fieldset, $customerDataObject),
                 $accountData
             );
         } else {
@@ -236,7 +237,8 @@ class Account extends GenericMetadata
      */
     protected function _initCustomerForm(\Magento\Customer\Service\V1\Data\Customer $customer)
     {
-        return $this->_customerFormFactory->create('customer', 'adminhtml_customer', $customer->getAttributes());
+        return $this->_customerFormFactory->create('customer', 'adminhtml_customer',
+            \Magento\Service\DataObjectConverter::toFlatArray($customer));
     }
 
     /**
@@ -355,10 +357,10 @@ class Account extends GenericMetadata
      *
      * @param \Magento\Data\Form $form
      * @param \Magento\Data\Form\Element\Fieldset $fieldset
-     * @param \Magento\Customer\Service\V1\Data\Customer $customerDto
+     * @param \Magento\Customer\Service\V1\Data\Customer $customerDataObject
      * @returns string[] Values to set on the form
      */
-    protected function _addEditCustomerFormFields($form, $fieldset, $customerDto)
+    protected function _addEditCustomerFormFields($form, $fieldset, $customerDataObject)
     {
         $form->getElement('created_in')->setDisabled('disabled');
         if (!$this->_storeManager->isSingleStoreMode()) {
@@ -370,14 +372,14 @@ class Account extends GenericMetadata
             $fieldset->removeField('website_id');
         }
 
-        if ($customerDto->getCustomerId() && $this->_customerService->isReadonly($customerDto->getCustomerId())) {
+        if ($customerDataObject->getId() && $this->_customerService->isReadonly($customerDataObject->getId())) {
             return [];
         }
 
 
         // Prepare customer confirmation control (only for existing customers)
-        $confirmationStatus = $this->_customerAccountService->getConfirmationStatus($customerDto->getCustomerId());
-        $confirmationKey = $customerDto->getConfirmation();
+        $confirmationStatus = $this->_customerAccountService->getConfirmationStatus($customerDataObject->getId());
+        $confirmationKey = $customerDataObject->getConfirmation();
         if ($confirmationStatus != CustomerAccountServiceInterface::ACCOUNT_CONFIRMED) {
             $confirmationAttr = $this->_customerMetadataService->getCustomerAttributeMetadata('confirmation');
             if (!$confirmationKey) {
@@ -396,7 +398,7 @@ class Account extends GenericMetadata
 
             // Prepare send welcome email checkbox if customer is not confirmed
             // no need to add it, if website ID is empty
-            if ($customerDto->getConfirmation() && $customerDto->getWebsiteId()) {
+            if ($customerDataObject->getConfirmation() && $customerDataObject->getWebsiteId()) {
                 $fieldset->addField('sendemail', 'checkbox', array(
                     'name'  => 'sendemail',
                     'label' => __('Send Welcome Email after Confirmation')

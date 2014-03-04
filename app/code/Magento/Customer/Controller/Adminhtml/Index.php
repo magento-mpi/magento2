@@ -18,6 +18,7 @@ use Magento\Customer\Service\V1\CustomerServiceInterface;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 use Magento\Exception\NoSuchEntityException;
+use Magento\Customer\Service\V1\Data\AddressConverter;
 
 /**
  * Class Index
@@ -231,12 +232,12 @@ class Index extends \Magento\Backend\App\Action
         if ($isExistingCustomer) {
             try {
                 $customer = $this->_customerService->getCustomer($customerId);
-                $customerData['account'] = $customer->getAttributes();
+                $customerData['account'] = \Magento\Service\DataObjectConverter::toFlatArray($customer);
                 $customerData['account']['id'] = $customerId;
                 try {
                     $addresses = $this->_addressService->getAddresses($customerId);
                     foreach ($addresses as $address) {
-                        $customerData['address'][$address->getId()] = $address->getAttributes();
+                        $customerData['address'][$address->getId()] = AddressConverter::toFlatArray($address);
                         $customerData['address'][$address->getId()]['id'] = $address->getId();
                     }
                 } catch (NoSuchEntityException $e) {
@@ -304,7 +305,7 @@ class Index extends \Magento\Backend\App\Action
                     $addressForm = $this->_formFactory->create(
                         'customer_address',
                         'adminhtml_customer_address',
-                        $address->getAttributes()
+                        AddressConverter::toFlatArray($address)
                     );
                     $formData = $addressForm->extractData($request, $requestScope);
                     $customerData['address'][$addressId] = $addressForm->restoreData($formData);
@@ -790,7 +791,7 @@ class Index extends \Magento\Backend\App\Action
             $customerForm = $this->_formFactory->create(
                 'customer',
                 'adminhtml_customer',
-                $customer->getAttributes(),
+                \Magento\Service\DataObjectConverter::toFlatArray($customer),
                 true
             );
             $customerForm->setInvisibleIgnored(true);

@@ -12,6 +12,7 @@ namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 
 use Magento\Customer\Controller\RegistryConstants;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+use Magento\Customer\Service\V1\Data\AddressConverter;
 use Magento\Exception\NoSuchEntityException;
 
 /**
@@ -169,7 +170,7 @@ class View
     {
         $customer = $this->getCustomer();
 
-        if ($groupId = ($customer->getCustomerId() ? $customer->getGroupId() : null)) {
+        if ($groupId = ($customer->getId() ? $customer->getGroupId() : null)) {
             if ($group = $this->getGroup($groupId)) {
                 return $group->getCode();
             }
@@ -332,7 +333,7 @@ class View
             return __('The customer does not have default billing address.');
         }
         return $this->_addressHelper->getFormatTypeRenderer('html')->renderArray(
-            $address->getAttributes()
+            AddressConverter::toFlatArray($address)
         );
     }
 
