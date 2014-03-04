@@ -17,3 +17,4 @@ app/code/Magento/Theme
 app/code/Magento/Wishlist
 dev/tests/js
 lib/web/mage
+/lib/internal/Magento/RequireJs/paths-updater.js

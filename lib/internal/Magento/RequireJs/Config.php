@@ -165,7 +165,7 @@ DOD;
         if ($moduleContext) {
             $moduleContext = ", '$moduleContext'";
         }
-        return "mageConfigRequireJs({$config}{$moduleContext});\n";
+        return "require.config(mageUpdateConfigPaths({$config}{$moduleContext}));\n";
     }
 
     /**

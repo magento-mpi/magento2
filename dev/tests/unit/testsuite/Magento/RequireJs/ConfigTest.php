@@ -101,8 +101,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 (function(require){
 relative/%s/paths-updater.js content
 
-mageConfigRequireJs(relative/file_one.js content, 'Module_One');
-mageConfigRequireJs(relative/file_two.js content);
+require.config(mageUpdateConfigPaths(relative/file_one.js content, 'Module_One'));
+require.config(mageUpdateConfigPaths(relative/file_two.js content));
 
 })(require);
 expected;
