@@ -23,10 +23,16 @@ class Item extends \Magento\RecurringProfile\Block\Profile\View
     protected $_product;
 
     /**
+     * @var \Magento\Sales\Model\Quote\Item\OptionFactory
+     */
+    protected $_quoteItemOptionFactory;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Catalog\Model\Product\Option $option
      * @param \Magento\Catalog\Model\Product $product
+     * @param \Magento\Sales\Model\Quote\Item\OptionFactory $quoteItemOptionFactory
      * @param array $data
      */
     public function __construct(
@@ -34,10 +40,12 @@ class Item extends \Magento\RecurringProfile\Block\Profile\View
         \Magento\Registry $registry,
         \Magento\Catalog\Model\Product\Option $option,
         \Magento\Catalog\Model\Product $product,
+        \Magento\Sales\Model\Quote\Item\OptionFactory $quoteItemOptionFactory,
         array $data = array()
     ) {
         $this->_option = $option;
         $this->_product = $product;
+        $this->_quoteItemOptionFactory = $quoteItemOptionFactory;
         parent::__construct($context, $registry, $data);
     }
 
@@ -54,10 +62,10 @@ class Item extends \Magento\RecurringProfile\Block\Profile\View
         $key = 'order_item_info';
 
         foreach (array(
-            'name' => __('Product Name'),
-            'sku' => __('SKU'),
-            'qty' => __('Quantity'),
-        ) as $itemKey => $label) {
+                     'name' => __('Product Name'),
+                     'sku' => __('SKU'),
+                     'qty' => __('Quantity')
+                 ) as $itemKey => $label) {
             $value = $this->_recurringProfile->getInfoValue($key, $itemKey);
             if ($value) {
                 $this->_addInfo(array('label' => $label, 'value' => $value,));
@@ -80,14 +88,14 @@ class Item extends \Magento\RecurringProfile\Block\Profile\View
             ->addValuesToResult();
 
         foreach ($options as $option) {
-            $this->_option->setId($option->getId());
+            $quoteItemOption = $this->_quoteItemOptionFactory->create()->setId($option->getId());
 
             $group = $option->groupFactory($option->getType())
                 ->setOption($option)
                 ->setRequest(new \Magento\Object($request))
                 ->setProduct($this->_product)
                 ->setUseQuotePath(true)
-                ->setQuoteItemOption($this->_option)
+                ->setQuoteItemOption($quoteItemOption)
                 ->validateUserValue($request['options']);
 
             $skipHtmlEscaping = false;
@@ -95,21 +103,23 @@ class Item extends \Magento\RecurringProfile\Block\Profile\View
                 $skipHtmlEscaping = true;
 
                 $downloadParams = array(
-                    'id'  => $this->_recurringProfile->getId(),
+                    'id' => $this->_recurringProfile->getId(),
                     'option_id' => $option->getId(),
                     'key' => $request['options'][$option->getId()]['secret_key']
                 );
-                $group->setCustomOptionDownloadUrl('recurringProfile/download/downloadProfileCustomOption')
+                $group->setCustomOptionDownloadUrl('sales/download/downloadProfileCustomOption')
                     ->setCustomOptionUrlParams($downloadParams);
             }
 
             $optionValue = $group->prepareForCart();
 
-            $this->_addInfo(array(
-                'label' => $option->getTitle(),
-                'value' => $group->getFormattedOptionValue($optionValue),
-                'skip_html_escaping' => $skipHtmlEscaping
-            ));
+            $this->_addInfo(
+                array(
+                    'label' => $option->getTitle(),
+                    'value' => $group->getFormattedOptionValue($optionValue),
+                    'skip_html_escaping' => $skipHtmlEscaping
+                )
+            );
         }
     }
 }
