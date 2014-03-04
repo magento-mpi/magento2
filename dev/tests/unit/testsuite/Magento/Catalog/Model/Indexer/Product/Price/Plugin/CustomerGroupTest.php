@@ -24,31 +24,20 @@ class CustomerGroupTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var \Magento\Code\Plugin\InvocationChain
+     * @var \Magento\Customer\Model\Resource\Group|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_invocationChainMock;
-
-    /**
-     * @var array
-     */
-    protected $_invocationArguments = array(1);
+    protected $_subjectMock;
 
     public function setUp()
     {
         $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        $this->_invocationChainMock = $this->getMock(
-            '\Magento\Code\Plugin\InvocationChain', array('proceed'), array(), '', false
+        $this->_subjectMock = $this->getMock(
+            'Magento\Customer\Model\Resource\Group', array(), array(), '', false
         );
 
-        $this->_invocationChainMock
-            ->expects($this->any())
-            ->method('proceed')
-            ->with($this->_invocationArguments)
-            ->will($this->returnValue(1));
-
         $indexerMock = $this->getMock(
-            '\Magento\Indexer\Model\Indexer', array('getId', 'invalidate'), array(), '', false
+            'Magento\Indexer\Model\Indexer', array('getId', 'invalidate'), array(), '', false
         );
         $indexerMock->expects($this->any())->method('getId')->will($this->returnValue(1));
         $indexerMock->expects($this->once())->method('invalidate');
@@ -61,11 +50,11 @@ class CustomerGroupTest extends \PHPUnit_Framework_TestCase
 
     public function testAroundDelete()
     {
-        $this->assertEquals(1, $this->_model->aroundDelete($this->_invocationArguments, $this->_invocationChainMock));
+        $this->assertEquals('return_value', $this->_model->afterDelete($this->_subjectMock, 'return_value'));
     }
 
     public function testAroundSave()
     {
-        $this->assertEquals(1, $this->_model->aroundSave($this->_invocationArguments, $this->_invocationChainMock));
+        $this->assertEquals('return_value', $this->_model->afterSave($this->_subjectMock, 'return_value'));
     }
 }
