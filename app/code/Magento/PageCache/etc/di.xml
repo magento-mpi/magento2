@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <type name="Magento\Indexer\Model\Processor">
+        <plugin name="page-cache-indexer-reindex-invalidate"
+                type="Magento\PageCache\Model\Indexer\Processor\InvalidatePlugin" sortOrder="10"/>
+    </type>
+    <type name="Magento\Catalog\Model\Indexer\Category\Flat">
+        <plugin name="page-cache-indexer-reindex-category-flat"
+                type="Magento\PageCache\Model\Indexer\Category\RefreshPlugin" sortOrder="10"/>
+    </type>
+    <type name="Magento\Catalog\Model\Indexer\Product\Category">
+        <plugin name="page-cache-indexer-reindex-product-category"
+                type="Magento\PageCache\Model\Indexer\Category\RefreshPlugin" sortOrder="10"/>
+    </type>
+    <type name="Magento\Catalog\Model\Indexer\Product\Flat">
+        <plugin name="page-cache-indexer-reindex-product-flat"
+                type="Magento\PageCache\Model\Indexer\Product\RefreshPlugin" sortOrder="10"/>
+    </type>
+    <type name="Magento\Catalog\Model\Indexer\Product\Category">
+        <plugin name="page-cache-indexer-reindex-product-category"
+                type="Magento\PageCache\Model\Indexer\Category\RefreshPlugin" sortOrder="10"/>
+    </type>
+</config>
