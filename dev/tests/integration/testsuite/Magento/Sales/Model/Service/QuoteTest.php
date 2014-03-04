@@ -178,7 +178,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
             'password'
         );
 
-        $existingCustomerId = $customerData->getCustomerId();
+        $existingCustomerId = $customerData->getId();
         $customerData = $this->_customerBuilder->mergeDataObjectWithArray(
             $customerData,
             [CustomerData::EMAIL => 'new@example.com']

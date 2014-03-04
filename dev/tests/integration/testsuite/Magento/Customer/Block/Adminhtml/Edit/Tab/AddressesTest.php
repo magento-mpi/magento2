@@ -13,6 +13,7 @@ use Magento\Customer\Service\V1\CustomerServiceInterface;
 use Magento\Customer\Service\V1\Data\Customer;
 use Magento\Customer\Service\V1\Data\Address;
 use Magento\TestFramework\Helper\Bootstrap;
+use \Magento\Customer\Service\V1\Data\AddressConverter;
 
 /**
  * Test Magento\Customer\Block\Adminhtml\Edit\Tab\Addresses
@@ -145,14 +146,14 @@ class AddressesTest extends \PHPUnit_Framework_TestCase
         /** @var Customer $customer */
         $customer = $this->_customerService->getCustomer(1);
         $this->_customerData = [
-            'customer_id' => $customer->getCustomerId(),
-            'account' => $customer->getAttributes(),
+            'customer_id' => $customer->getId(),
+            'account' => \Magento\Service\DataObjectConverter::toFlatArray($customer),
         ];
-        $this->_customerData['account']['id'] = $customer->getCustomerId();
+        $this->_customerData['account']['id'] = $customer->getId();
         /** @var Address[] $addresses */
         $addresses = $this->_addressService->getAddresses(1);
         foreach ($addresses as $addressData) {
-            $this->_customerData['address'][$addressData->getId()] = $addressData->getAttributes();
+            $this->_customerData['address'][$addressData->getId()] = AddressConverter::toFlatArray($addressData);
             $this->_customerData['address'][$addressData->getId()]['id'] = $addressData->getId();
         }
         $this->_backendSession->setCustomerData($this->_customerData);
