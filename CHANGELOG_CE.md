@@ -17,8 +17,8 @@
   * Added ability to intercept of internal public calls
   * Added ability to access public interface of intercepted object
   * Added static integrity test for plugin inteface validation
-  * Implement the strategy which denies hidden data dependencies
-  * Rename "Dto" to "Data"
+  * Added restrictions on the data populated to the Service Data Object
+  * Renamed Data Transfer Object to the Service Data Object
 * Fixed bugs:
   * Fixed an exception that appears when trying to apply a coupon code
   * Fixed Shopping Cart Price Rule which applied to products that aren't eligible
@@ -32,9 +32,9 @@
   * Fixed category saveing when it has more than 1000 products
   * Fixed error messages displayed during installation when required extensions are not installed
   * Fixed synopsis of install.php script
-  * XSS injection is executed in case of re-authorize of integration
-  * 404 Page is shown if try to cancel Billing Agreement from backend
-  * Debug section in developer settings is missing
+  * Fixed possibility of XSS injection in the Integration re-authorization flow
+  * Fixed cancellation of the Billing Agreement from backend
+  * Fixed debug section in the developer settings
 * Modularity improvements:
   * Eliminate dependencies to Customer Models/Blocks from Sales Module
   * Resolved dependencies of Sales module on RecurringProfile module
