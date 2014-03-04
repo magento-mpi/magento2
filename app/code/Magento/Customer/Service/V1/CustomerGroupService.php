@@ -262,5 +262,6 @@ class CustomerGroupService implements CustomerGroupServiceInterface
         $customerGroup = $this->_groupFactory->create();
         $customerGroup->setId($groupId);
         $customerGroup->delete();
+        return true;
     }
 }

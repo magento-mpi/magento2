@@ -9,9 +9,6 @@
  */
 namespace Magento\Customer\Service\V1\Dto;
 
-
-use Magento\Customer\Service\V1\Dto\SearchCriteria;
-
 class SearchResults extends \Magento\Service\Entity\AbstractDto
 {
     /**
@@ -23,7 +20,7 @@ class SearchResults extends \Magento\Service\Entity\AbstractDto
     }
 
     /**
-     * @return SearchCriteria
+     * @return \Magento\Customer\Service\V1\Dto\SearchCriteria
      */
     public function getSearchCriteria()
     {

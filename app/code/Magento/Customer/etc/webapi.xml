@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <service class="Magento\Customer\Service\V1\CustomerGroupServiceInterface" baseUrl="/V1/customerGroup">
+        <rest-route httpMethod="GET" method="getGroup" resources="Magento_Customer::group">/:groupId</rest-route>
+        <rest-route httpMethod="GET" method="getGroups" resources="Magento_Customer::group">/notLoggedIn/:includeNotLoggedIn/taxClass/:taxClassId</rest-route>
+        <rest-route httpMethod="GET" method="getDefaultGroup" resources="Magento_Customer::group">/default/:storeId</rest-route>
+        <rest-route httpMethod="GET" method="canDelete" resources="Magento_Customer::group">/canDelete/:groupId</rest-route>
+        <rest-route httpMethod="PUT" method="saveGroup" resources="Magento_Customer::group"></rest-route>
+        <rest-route httpMethod="DELETE" method="deleteGroup" resources="Magento_Customer::group">/:groupId</rest-route>
+    </service>
+</config>
