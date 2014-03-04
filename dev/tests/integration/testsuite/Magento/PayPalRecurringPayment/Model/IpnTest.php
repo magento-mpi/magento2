@@ -39,9 +39,9 @@ class IpnTest extends \PHPUnit_Framework_TestCase
         $ipnData = require(__DIR__ . '/../_files/ipn_recurring_payment.php');
         $ipnData['mc_currency'] = $currencyCode;
 
-        /** @var  $ipnFactory \Magento\PayPal\Model\IpnFactory */
+        /** @var  $ipnFactory \Magento\Paypal\Model\IpnFactory */
         $ipnFactory = $this->_objectManager->create(
-            'Magento\PayPal\Model\IpnFactory',
+            'Magento\Paypal\Model\IpnFactory',
             array('mapping' => array('recurring_payment' => 'Magento\PayPalRecurringPayment\Model\Ipn'))
         );
 
