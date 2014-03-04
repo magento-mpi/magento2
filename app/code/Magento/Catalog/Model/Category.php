@@ -19,7 +19,7 @@ namespace Magento\Catalog\Model;
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Category extends \Magento\Catalog\Model\AbstractModel
+class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\Object\IdentityInterface
 {
     /**
      * Entity code.
@@ -1078,5 +1078,15 @@ class Category extends \Magento\Catalog\Model\AbstractModel
     {
         $this->reindex();
         return parent::_afterDeleteCommit();
+    }
+
+    /**
+     * Get identities
+     *
+     * @return array
+     */
+    public function getIdentities()
+    {
+        return array(self::CACHE_TAG . '_' . $this->getId());
     }
 }

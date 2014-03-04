@@ -23,17 +23,17 @@ class Region extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_regionNameTable;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\LocaleInterface
      */
     protected $_locale;
 
     /**
      * @param \Magento\App\Resource $resource
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\LocaleInterface $locale
      */
     public function __construct(
         \Magento\App\Resource $resource,
-        \Magento\Core\Model\LocaleInterface $locale
+        \Magento\LocaleInterface $locale
     ) {
         parent::__construct($resource);
         $this->_locale = $locale;

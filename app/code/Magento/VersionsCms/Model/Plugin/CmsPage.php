@@ -12,10 +12,13 @@ class CmsPage
     /**
      * Add custom CMS page statuses
      *
-     * @param array $invocationResult
-     * @return array
+     * @param \Magento\Cms\Model\Page $subject
+     * @param string[] $invocationResult
+     *
+     * @return string[]
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function afterGetAvailableStatuses(array $invocationResult)
+    public function afterGetAvailableStatuses(\Magento\Cms\Model\Page $subject, $invocationResult)
     {
         $invocationResult[\Magento\Cms\Model\Page::STATUS_ENABLED] = __('Published');
         return $invocationResult;

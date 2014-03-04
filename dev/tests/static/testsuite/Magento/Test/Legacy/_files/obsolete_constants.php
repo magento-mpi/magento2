@@ -124,6 +124,9 @@ return array(
         'Magento\View\Publisher\FileInterface::PUBLIC_VIEW_DIR'
     ),
     array('REGISTRY_FORM_PARAMS_KEY', null, 'direct value'),
+    array('RULE_PERM_ALLOW', '\Magento\Math\Random'),
+    array('RULE_PERM_DENY', '\Magento\Math\Random'),
+    array('RULE_PERM_INHERIT', '\Magento\Math\Random'),
     array('SCOPE_TYPE_GROUP', 'Magento\Core\Model\App', 'Magento_Core_Model_StoreManagerInterface::SCOPE_TYPE_GROUP'),
     array('SCOPE_TYPE_STORE', 'Magento\Core\Model\App', 'Magento_Core_Model_StoreManagerInterface::SCOPE_TYPE_STORE'),
     array(
@@ -159,7 +162,7 @@ return array(
         'Magento\Core\Model\Locale',
         'Magento_Core_Model_LocaleInterface::XML_PATH_ALLOW_CURRENCIES'
     ),
-    array('XML_PATH_ALLOW_CODES', 'Magento\Core\Model\LocaleInterface'),
+    array('XML_PATH_ALLOW_CODES', 'Magento\LocaleInterface'),
     array('XML_PATH_ALLOW_DUPLICATION', 'Magento\Core\Model\Design\PackageInterface',
         'Magento_Core_Model_Design_Package::XML_PATH_ALLOW_DUPLICATION'
     ),
@@ -338,11 +341,16 @@ return array(
     array('CHARS_LOWERS', '\Magento\Core\Helper\Data', '\Magento\Math\Random::CHARS_LOWERS'),
     array('CHARS_UPPERS', '\Magento\Core\Helper\Data', '\Magento\Math\Random::CHARS_UPPERS'),
     array('CHARS_DIGITS', '\Magento\Core\Helper\Data', '\Magento\Math\Random::CHARS_DIGITS'),
-    array('CHARS_SPECIALS', '\Magento\Core\Helper\Data', '\Magento\Math\Random::CHARS_SPECIALS'),
-    array('CHARS_PASSWORD_LOWERS', '\Magento\Core\Helper\Data', '\Magento\Math\Random::CHARS_PASSWORD_LOWERS'),
-    array('CHARS_PASSWORD_UPPERS', '\Magento\Core\Helper\Data', '\Magento\Math\Random::CHARS_PASSWORD_UPPERS'),
-    array('CHARS_PASSWORD_DIGITS', '\Magento\Core\Helper\Data', '\Magento\Math\Random::CHARS_PASSWORD_DIGITS'),
-    array('CHARS_PASSWORD_SPECIALS', '\Magento\Core\Helper\Data', '\Magento\Math\Random::CHARS_PASSWORD_SPECIALS'),
+    array('CHARS_SPECIALS', '\Magento\Core\Helper\Data'),
+    array('CHARS_SPECIALS', '\Magento\Math\Random'),
+    array('CHARS_PASSWORD_LOWERS', '\Magento\Core\Helper\Data'),
+    array('CHARS_PASSWORD_LOWERS', '\Magento\Math\Random'),
+    array('CHARS_PASSWORD_UPPERS', '\Magento\Core\Helper\Data'),
+    array('CHARS_PASSWORD_UPPERS', '\Magento\Math\Random'),
+    array('CHARS_PASSWORD_DIGITS', '\Magento\Core\Helper\Data'),
+    array('CHARS_PASSWORD_DIGITS', '\Magento\Math\Random'),
+    array('CHARS_PASSWORD_SPECIALS', '\Magento\Core\Helper\Data'),
+    array('CHARS_PASSWORD_SPECIALS', '\Magento\Math\Random'),
     array('XML_NODE_REMOTE_ADDR_HEADERS', '\Magento\Core\Helper\Http'),
     array(
         'XML_PATH_EU_COUNTRIES_LIST',

@@ -32,11 +32,6 @@ class PluginTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $invocationChainMock;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
     protected $productMock;
 
     /**
@@ -59,18 +54,27 @@ class PluginTest extends \PHPUnit_Framework_TestCase
      */
     protected $proceedResult = array(1, 2, 3);
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $subjectMock;
+
+    /**
+     * @var \Closure
+     */
+    protected $closureMock;
+
     protected function setUp()
     {
         $this->eventManagerMock = $this->getMock('Magento\Event\Manager', array(), array(), '', false);
         $this->productFactoryMock
             = $this->getMock('Magento\Catalog\Model\ProductFactory', array('create'), array(), '', false);
         $this->coreHelperMock = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
-        $this->invocationChainMock = $this->getMock('Magento\Code\Plugin\InvocationChain', array(), array(), '', false);
         $this->productMock = $this->getMock('Magento\Catalog\Model\Product', array(), array(), '', false);
         $this->requestMock
             = $this->getMock('Magento\App\Request\Http', array('getPost', 'getParam', '__wakeup'), array(), '', false);
         $this->responseMock = $this->getMock(
-            'Magento\App\Response\Http',
+            'Magento\Object',
             array('setError', 'setMessage', 'setAttributes'),
             array(), '', false);
         $this->arguments = array(
@@ -78,8 +82,11 @@ class PluginTest extends \PHPUnit_Framework_TestCase
             $this->requestMock,
             $this->responseMock
         );
-        $this->invocationChainMock->expects($this->once())->method('proceed')->with($this->arguments)
-            ->will($this->returnValue($this->proceedResult));
+        $proceedResult = $this->proceedResult;
+        $this->closureMock = function () use ($proceedResult) {
+            return $proceedResult;
+        };
+        $this->subjectMock = $this->getMock('Magento\Catalog\Model\Product\Validator', array(), array(), '', false);
         $this->plugin = new \Magento\ConfigurableProduct\Model\Product\Validator\Plugin(
             $this->eventManagerMock,
             $this->productFactoryMock,
@@ -110,7 +117,11 @@ class PluginTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             $this->proceedResult,
-            $plugin->aroundValidate($this->arguments, $this->invocationChainMock)
+            $plugin->aroundValidate($this->subjectMock,
+                $this->closureMock,
+                $this->productMock,
+                $this->requestMock,
+                $this->responseMock)
         );
     }
 
@@ -138,7 +149,9 @@ class PluginTest extends \PHPUnit_Framework_TestCase
         $this->responseMock->expects($this->once())->method('setAttributes')->will($this->returnSelf());
         $this->assertEquals(
             $this->proceedResult,
-            $plugin->aroundValidate($this->arguments, $this->invocationChainMock)
+            $plugin->aroundValidate($this->subjectMock, $this->closureMock, $this->productMock,
+                $this->requestMock,
+                $this->responseMock)
         );
     }
 
@@ -150,7 +163,9 @@ class PluginTest extends \PHPUnit_Framework_TestCase
             ->with('variations-matrix')
             ->will($this->returnValue(null));
         $this->eventManagerMock->expects($this->never())->method('dispatch');
-        $this->plugin->aroundValidate($this->arguments, $this->invocationChainMock);
+        $this->plugin->aroundValidate($this->subjectMock, $this->closureMock, $this->productMock,
+            $this->requestMock,
+            $this->responseMock);
     }
 
 }

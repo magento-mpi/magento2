@@ -17,6 +17,5 @@
  * @license    {license_link}
  */
 require __DIR__ . '/app/bootstrap.php';
-
 $entryPoint = new \Magento\App\EntryPoint\EntryPoint(BP, $_SERVER);
 $entryPoint->run('Magento\App\Http');
