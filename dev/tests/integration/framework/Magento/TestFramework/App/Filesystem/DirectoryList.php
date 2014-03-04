@@ -14,6 +14,7 @@ class DirectoryList extends \Magento\App\Filesystem\DirectoryList
      *
      * @param string $code
      * @return bool
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function isConfigured($code)
     {
