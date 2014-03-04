@@ -39,8 +39,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         );
 
         $stateMock = $this->getMock(
-            'Magento\App\State',
-            array('getAreaCode'), array(), '', false
+            'Magento\App\State', array('getAreaCode'), array(), '', false
         );
 
         $stateMock->expects($this->any())
@@ -48,13 +47,11 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE));
 
         $eventManagerMock = $this->getMock(
-            'Magento\Event\ManagerInterface',
-            array(), array(), '', false
+            'Magento\Event\ManagerInterface', array(), array(), '', false
         );
 
         $cacheInterfaceMock = $this->getMock(
-            'Magento\App\CacheInterface',
-            array(), array(), '', false
+            'Magento\App\CacheInterface', array(), array(), '', false
         );
 
 
