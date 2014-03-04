@@ -33,10 +33,12 @@ class RegistrationTest extends \PHPUnit_Framework_TestCase
                 \Magento\App\Filesystem::THEMES_DIR => array('path' => dirname(__DIR__) . '/_files/design'),
             )
         ));
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')
+            ->setAreaCode('frontend');
         $this->_theme = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\View\Design\ThemeInterface');
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\Theme\Registration', array('theme' => $this->_theme));
+            ->create('Magento\Core\Model\Theme\Registration');
     }
 
     /**
