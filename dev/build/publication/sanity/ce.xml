@@ -513,7 +513,7 @@
         </item>
         <item>
             <word>Magento\Rma</word>
-            <path>app/code/Magento/Usps/etc/di.xml</path>
+            <path>app/code/Magento/Usps/etc/adminhtml/di.xml</path>
         </item>
     </whitelist>
 </config>
