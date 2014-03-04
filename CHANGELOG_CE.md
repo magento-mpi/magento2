@@ -17,6 +17,8 @@
   * Added ability to intercept of internal public calls
   * Added ability to access public interface of intercepted object
   * Added static integrity test for plugin inteface validation
+  * Added restrictions on the data populated to the Service Data Object
+  * Renamed Data Transfer Object to the Service Data Object
 * Fixed bugs:
   * Fixed an exception that appears when trying to apply a coupon code
   * Fixed Shopping Cart Price Rule which applied to products that aren't eligible
@@ -31,7 +33,11 @@
   * Fixed error messages displayed during installation when required extensions are not installed
   * Fixed synopsis of install.php script
   * Fixed absence of payment scheduled in shopping cart for products with recurring profile
+  * Fixed possibility of XSS injection in the Integration re-authorization flow
+  * Fixed cancellation of the Billing Agreement from backend
+  * Fixed debug section in the developer settings
 * Modularity improvements:
+  * Eliminate dependencies to Customer Models/Blocks from Sales Module
   * Resolved dependencies of Sales module on RecurringProfile module
   * Resolved dependencies between Email Templates functionality and other modules
   * Core module lib-only depended components moved to library
@@ -41,6 +47,7 @@
   * Sales module refactoring to use customer service layer
   * Checkout module refactoring to use customer service layer
   * Customer module blocks and controllers refactoring to use customer service layer
+  * Tax module refactoring to use customer service layer
 * Security:
   * Introduced an ability to hash a password with a random salt of default length (32 chars) by the encryption library
   * Utilized a random salt of default length for admin users and frontend customers
