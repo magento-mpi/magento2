@@ -203,4 +203,26 @@ class CustomerBuilder extends \Magento\Service\Data\EAV\AbstractObjectBuilder
     {
         return $this->_set(Customer::WEBSITE_ID, $websiteId);
     }
+
+    /**
+     * Adding ability to set custom attribute code
+     *
+     * @param string $attributeCode
+     * @param string|int $value
+     * @return $this
+     */
+    public function setAttribute($attributeCode, $value)
+    {
+        return $this->_set($attributeCode, $value);
+    }
+
+    /**
+     * Builds the entity.
+     *
+     * @return Customer
+     */
+    public function create()
+    {
+        return parent::create();
+    }
 }

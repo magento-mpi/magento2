@@ -32,6 +32,7 @@
   * Fixed category saveing when it has more than 1000 products
   * Fixed error messages displayed during installation when required extensions are not installed
   * Fixed synopsis of install.php script
+  * Fixed absence of payment scheduled in shopping cart for products with recurring profile
   * Fixed possibility of XSS injection in the Integration re-authorization flow
   * Fixed cancellation of the Billing Agreement from backend
   * Fixed debug section in the developer settings
@@ -45,7 +46,11 @@
 * Customer Service usage:
   * Sales module refactoring to use customer service layer
   * Checkout module refactoring to use customer service layer
+  * Customer module blocks and controllers refactoring to use customer service layer
   * Tax module refactoring to use customer service layer
+* Security:
+  * Introduced an ability to hash a password with a random salt of default length (32 chars) by the encryption library
+  * Utilized a random salt of default length for admin users and frontend customers
 * Updated various PHPDoc with the parameter and return types
 
 2.0.0.0-dev66
