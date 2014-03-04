@@ -10,7 +10,7 @@ namespace Magento\PageCache\Model\App\FrontController;
 /**
  * Plugin for processing builtin cache
  */
-class CachePlugin
+class VarnishPlugin
 {
     /**
      * @var \Magento\App\ConfigInterface

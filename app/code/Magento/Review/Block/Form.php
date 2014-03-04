@@ -106,9 +106,9 @@ class Form extends \Magento\View\Element\Template
         $this->_productFactory = $productFactory;
         $this->_ratingFactory = $ratingFactory;
         $this->messageManager = $messageManager;
+        $this->httpContext = $httpContext;
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
-        $this->httpContext = $httpContext;
     }
 
     /**

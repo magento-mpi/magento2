@@ -59,9 +59,9 @@ class Sidebar extends \Magento\View\Element\Template implements \Magento\View\Bl
         $this->_orderCollectionFactory = $orderCollectionFactory;
         $this->_orderConfig = $orderConfig;
         $this->_customerSession = $customerSession;
+        $this->httpContext = $httpContext;
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
-        $this->httpContext = $httpContext;
     }
 
     /**
