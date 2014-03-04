@@ -5,14 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\RecurringProfile\Model\Quote\Total;
 
 /**
  * Total model for recurring profile trial payment
  */
-namespace Magento\RecurringProfile\Model\Quote\Total;
-
-class Trial
-    extends \Magento\RecurringProfile\Model\Quote\Total\AbstractRecurring
+class Trial extends AbstractRecurring
 {
     /**
      * Custom row total key
@@ -40,7 +38,6 @@ class Trial
 
     /**
      * Prevent compounding nominal subtotal in case if the trial payment exists
-     *
      *
      * @param \Magento\Sales\Model\Quote\Address $address
      * @param \Magento\Sales\Model\Quote\Item\AbstractItem $item
