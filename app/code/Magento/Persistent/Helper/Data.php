@@ -37,23 +37,9 @@ class Data extends \Magento\Core\Helper\Data
     protected $_persistentSession;
 
     /**
-     * Checkout data
-     *
-     * @var \Magento\Checkout\Helper\Data
-     */
-    protected $_checkoutData;
-
-    /**
      * @var \Magento\Escaper
      */
     protected $_escaper;
-
-    /**
-     * Core url
-     *
-     * @var \Magento\Core\Helper\Url
-     */
-    protected $_coreUrl;
 
     /**
      * @var \Magento\Module\Dir\Reader
@@ -66,8 +52,6 @@ class Data extends \Magento\Core\Helper\Data
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Locale $locale
      * @param \Magento\App\State $appState
-     * @param \Magento\Core\Helper\Url $coreUrl
-     * @param \Magento\Checkout\Helper\Data $checkoutData
      * @param Session $persistentSession
      * @param \Magento\Module\Dir\Reader $modulesReader
      * @param \Magento\Escaper $escaper
@@ -79,16 +63,12 @@ class Data extends \Magento\Core\Helper\Data
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Locale $locale,
         \Magento\App\State $appState,
-        \Magento\Core\Helper\Url $coreUrl,
-        \Magento\Checkout\Helper\Data $checkoutData,
         Session $persistentSession,
         \Magento\Module\Dir\Reader $modulesReader,
         \Magento\Escaper $escaper,
         $dbCompatibleMode = true
     ) {
         $this->_modulesReader = $modulesReader;
-        $this->_coreUrl = $coreUrl;
-        $this->_checkoutData = $checkoutData;
         $this->_persistentSession = $persistentSession;
         $this->_escaper = $escaper;
 
@@ -208,19 +188,4 @@ class Data extends \Magento\Core\Helper\Data
     {
         return true;
     }
-
-    /**
-     * Get create account url depends on checkout
-     *
-     * @param  string $url
-     * @return string
-     */
-    public function getCreateAccountUrl($url)
-    {
-        if ($this->_checkoutData->isContextCheckout()) {
-            $url = $this->_coreUrl->addRequestParam($url, array('context' => 'checkout'));
-        }
-        return $url;
-    }
-
 }
