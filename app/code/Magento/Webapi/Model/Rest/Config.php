@@ -70,7 +70,7 @@ class Config
         /** @var $route \Magento\Webapi\Controller\Rest\Router\Route */
         $route = $this->_routeFactory->createRoute(
             'Magento\Webapi\Controller\Rest\Router\Route',
-            $this->_getRoutePath($routeData[self::KEY_ROUTE_PATH])
+            $this->_formatRoutePath($routeData[self::KEY_ROUTE_PATH])
         );
 
         $route->setServiceClass($routeData[self::KEY_CLASS])
@@ -86,7 +86,7 @@ class Config
      * @param string $routePath The route path (e.g. '/V1/Categories/:categoryId')
      * @return string The modified route path (e.g. '/v1/categories/:categoryId')
      */
-    protected function _getRoutePath($routePath)
+    protected function _formatRoutePath($routePath)
     {
         $routePathParts = explode('/', $routePath);
         $pathParts = [];
