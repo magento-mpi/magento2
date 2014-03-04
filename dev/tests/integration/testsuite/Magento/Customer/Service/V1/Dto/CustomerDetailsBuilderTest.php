@@ -33,34 +33,102 @@ class CustomerDetailsBuilderTest extends \PHPUnit_Framework_TestCase
             $this->_objectManager->create('Magento\Customer\Service\V1\Dto\CustomerDetailsBuilder');
     }
 
-    public function testCreate()
+
+    /**
+     * @param $customer
+     * @param $addresses
+     * @param $expectedCustomer
+     * @param $expectedAddresses
+     * @dataProvider createDataProvider
+     */
+    public function testCreate($customer, $addresses, $expectedCustomer, $expectedAddresses)
     {
-        $customerDetails = $this->_builder->create();
+        if (!empty($customer)) {
+            $this->_builder->setCustomer($customer);
+        }
+        $customerDetails = $this->_builder->setAddresses($addresses)->create();
         $this->assertInstanceOf('\Magento\Customer\Service\V1\Dto\CustomerDetails', $customerDetails);
-        $this->assertInstanceOf('\Magento\Customer\Service\V1\Dto\Customer', $customerDetails->getCustomer());
-        $this->assertEquals([], $customerDetails->getAddresses());
+        $this->assertEquals($expectedCustomer, $customerDetails->getCustomer());
+        $this->assertEquals($expectedAddresses, $customerDetails->getAddresses());
+    }
+
+    public function createDataProvider()
+    {
+        $customerData = [
+            'group_id' => 1,
+            'website_id' => 1,
+            'firstname' => 'test firstname',
+            'lastname' => 'test lastname',
+            'email' => 'exmaple@domain.com',
+            'default_billing' => '_item1',
+            'password' => '123123q'
+        ];
+
+        $addressData = [
+            'id' => 14,
+            'default_shipping' => true,
+            'default_billing' => false,
+            'company' => 'Company Name',
+            'fax' => '(555) 555-5555',
+            'middlename' => 'Mid',
+            'prefix' => 'Mr.',
+            'suffix' => 'Esq.',
+            'vat_id' => 'S45',
+            'firstname' => 'Jane',
+            'lastname' => 'Doe',
+            'street' => ['7700 W Parmer Ln'],
+            'city' => 'Austin',
+            'country_id' => 'US',
+            'postcode' => '78620',
+            'telephone' => '5125125125',
+            'region' => [
+                'region_id' => 0,
+                'region' => 'Texas',
+            ],
+        ];
+        $customerBuilder = new CustomerBuilder();
+        $emptyCustomer = $customerBuilder->populateWithArray([])->create();
+        $customer = $customerBuilder->populateWithArray($customerData)->create();
+        $addressBuilder = new AddressBuilder(new RegionBuilder());
+        $address = $addressBuilder->populateWithArray($addressData)->create();
+        return [
+            [null, null, $emptyCustomer, null],
+            [$customer, null, $customer, null],
+            [null, [], $emptyCustomer, []],
+            [$customer, [$address], $customer, [$address]],
+            [$customer, [$address, $address], $customer, [$address, $address]],
+            [null, [$address, $address], $emptyCustomer, [$address, $address]],
+        ];
     }
 
     /**
      * @param $data
+     * @param $expectedCustomer
+     * @param $expectedAddresses
      * @dataProvider populateWithArrayDataProvider
      */
-    public function testPopulateWithArray($data)
+    public function testPopulateWithArray($data, $expectedCustomer, $expectedAddresses)
     {
         $customerDetails = $this->_builder->populateWithArray($data)->create();
         $customerDetailsA = $this->_builder->populateWithArray($customerDetails->__toArray())->create();
         $this->assertEquals($customerDetailsA, $customerDetails);
+        $this->assertEquals($expectedCustomer, $customerDetails->getCustomer());
+        $this->assertEquals($expectedAddresses, $customerDetails->getAddresses());
     }
 
     /**
      * @param $data
+     * @param $expectedCustomer
+     * @param $expectedAddresses
      * @dataProvider populateWithArrayDataProvider
      */
-    public function testPopulate($data)
+    public function testPopulate($data, $expectedCustomer, $expectedAddresses)
     {
         $customerDetails = $this->_builder->populateWithArray($data)->create();
         $customerDetailsA = $this->_builder->populate($customerDetails)->create();
         $this->assertEquals($customerDetailsA, $customerDetails);
+        $this->assertEquals($expectedCustomer, $customerDetails->getCustomer());
+        $this->assertEquals($expectedAddresses, $customerDetails->getAddresses());
     }
 
     public function populateWithArrayDataProvider()
@@ -109,13 +177,31 @@ class CustomerDetailsBuilderTest extends \PHPUnit_Framework_TestCase
             'id' => 2
         ];
 
+        $customerBuilder = new CustomerBuilder();
+        $emptyCustomer = $customerBuilder->populateWithArray([])->create();
+        $customerSdo = $customerBuilder->populateWithArray($customer)->create();
+        $addressBuilder = new AddressBuilder(new RegionBuilder());
+        $addressSdoA = $addressBuilder->populateWithArray($address1)->create();
+        $addressSdoB = $addressBuilder->populateWithArray($address2)->create();
         return [
-            [[]],
-            [['customer' => $customer]],
-            [['customer' => $customer, 'addresses' => null]],
-            [['customer' => $customer, 'addresses' => [$address1, $address2]]],
-            [['addresses' => [$address1, $address2]]],
-            [['customer' => null, 'addresses' => [$address1, $address2]]],
+            [[], $emptyCustomer, null],
+            [['customer' => $customer], $customerSdo, null],
+            [['customer' => $customer, 'addresses' => null], $customerSdo, null],
+            [
+                ['customer' => $customer, 'addresses' => [$address1, $address2]],
+                $customerSdo,
+                [$addressSdoA, $addressSdoB]
+            ],
+            [
+                ['addresses' => [$address1, $address2]],
+                $emptyCustomer,
+                [$addressSdoA, $addressSdoB]
+            ],
+            [
+                ['customer' => null, 'addresses' => [$address1, $address2]],
+                $emptyCustomer,
+                [$addressSdoA, $addressSdoB]
+            ],
         ];
     }
 

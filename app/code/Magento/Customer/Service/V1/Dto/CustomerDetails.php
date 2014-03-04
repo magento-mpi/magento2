@@ -13,7 +13,7 @@ class CustomerDetails extends \Magento\Service\Entity\AbstractDto
     const KEY_ADDRESSES = 'addresses';
 
     /**
-     * @return Address[]
+     * @return Address[]|null
      */
     public function getAddresses()
     {
@@ -21,7 +21,7 @@ class CustomerDetails extends \Magento\Service\Entity\AbstractDto
     }
 
     /**
-     * @return Customer|null
+     * @return Customer
      */
     public function getCustomer()
     {

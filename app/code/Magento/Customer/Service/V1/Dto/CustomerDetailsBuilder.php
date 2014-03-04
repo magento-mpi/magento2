@@ -40,8 +40,6 @@ class CustomerDetailsBuilder extends AbstractDtoBuilder
         parent::__construct();
         $this->_customerBuilder = $customerBuilder;
         $this->_addressBuilder = $addressBuilder;
-        $this->_data[CustomerDetails::KEY_CUSTOMER] = $customerBuilder->create();
-        $this->_data[CustomerDetails::KEY_ADDRESSES] = [];
     }
 
     /**
@@ -54,12 +52,10 @@ class CustomerDetailsBuilder extends AbstractDtoBuilder
             $newData[CustomerDetails::KEY_CUSTOMER] = $this->_customerBuilder
                 ->populateWithArray($data[CustomerDetails::KEY_CUSTOMER])
                 ->create();
-        } else {
-            $newData[CustomerDetails::KEY_CUSTOMER] = $this->_customerBuilder->create();
         }
 
-        $newData[CustomerDetails::KEY_ADDRESSES] = [];
         if (isset($data[CustomerDetails::KEY_ADDRESSES])) {
+            $newData[CustomerDetails::KEY_ADDRESSES] = [];
             $addresses = $data[CustomerDetails::KEY_ADDRESSES];
             foreach ($addresses as $address) {
                 $newData[CustomerDetails::KEY_ADDRESSES][] = $this->_addressBuilder
@@ -85,10 +81,10 @@ class CustomerDetailsBuilder extends AbstractDtoBuilder
     /**
      * Set addresses
      *
-     * @param Address[] $addresses
+     * @param Address[]|null $addresses
      * @return $this
      */
-    public function setAddresses(array $addresses)
+    public function setAddresses($addresses)
     {
         return $this->_set(CustomerDetails::KEY_ADDRESSES, $addresses);
     }
@@ -100,6 +96,12 @@ class CustomerDetailsBuilder extends AbstractDtoBuilder
      */
     public function create()
     {
+        if (!isset($this->_data[CustomerDetails::KEY_CUSTOMER])) {
+            $this->_data[CustomerDetails::KEY_CUSTOMER] = $this->_customerBuilder->create();
+        }
+        if (!isset($this->_data[CustomerDetails::KEY_ADDRESSES])) {
+            $this->_data[CustomerDetails::KEY_ADDRESSES] = null;
+        }
         return parent::create();
     }
 }

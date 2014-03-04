@@ -65,12 +65,12 @@ class CustomerDetailsBuilderTest extends \PHPUnit_Framework_TestCase
         );
         $customerDetails = $customerDetailsBuilder->create();
         $this->assertEquals('customer', $customerDetails->getCustomer());
-        $this->assertEquals([], $customerDetails->getAddresses());
+        $this->assertEquals(null, $customerDetails->getAddresses());
     }
 
     public function testSetCustomer()
     {
-        $this->_customerBuilderMock->expects($this->once())
+        $this->_customerBuilderMock->expects($this->never())
             ->method('create')
             ->will($this->returnValue('customer'));
         $customerDetailsBuilder = new CustomerDetailsBuilder(
@@ -79,7 +79,7 @@ class CustomerDetailsBuilderTest extends \PHPUnit_Framework_TestCase
         );
         $customerDetails = $customerDetailsBuilder->setCustomer($this->_customerMock)->create();
         $this->assertEquals($this->_customerMock, $customerDetails->getCustomer());
-        $this->assertEquals([], $customerDetails->getAddresses());
+        $this->assertEquals(null, $customerDetails->getAddresses());
     }
 
     public function testSetAddresses()
@@ -107,9 +107,12 @@ class CustomerDetailsBuilderTest extends \PHPUnit_Framework_TestCase
     {
 
         $expectedCustomer = ($expectedCustomerStr == 'customerMock') ? $this->_customerMock : $expectedCustomerStr;
-        $expectedAddresses = [];
-        foreach ($expectedAddressesStr as $addressStr ) {
-            $expectedAddresses[] = ($addressStr == 'addressMock') ? $this->_addressMock : $addressStr;
+        $expectedAddresses = null;
+        if (isset($expectedAddressesStr)) {
+            $expectedAddresses = [];
+            foreach ($expectedAddressesStr as $addressStr ) {
+                $expectedAddresses[] = ($addressStr == 'addressMock') ? $this->_addressMock : $addressStr;
+            }
         }
         $this->_customerBuilderMock->expects($this->any())
             ->method('populateWithArray')
@@ -137,9 +140,9 @@ class CustomerDetailsBuilderTest extends \PHPUnit_Framework_TestCase
     public function populateWithArrayDataProvider()
     {
         return [
-            [['customer' => ['customerData']], 'customerMock', []],
+            [['customer' => ['customerData']], 'customerMock', null],
             [['customer' => ['customerData'], 'addresses' => []], 'customerMock', []],
-            [['customer' => ['customerData'], 'addresses' => null], 'customerMock', []],
+            [['customer' => ['customerData'], 'addresses' => null], 'customerMock', null],
             [
                 ['customer' => ['customerData'], 'addresses' => [['addressData']]],
                 'customerMock',
@@ -152,7 +155,7 @@ class CustomerDetailsBuilderTest extends \PHPUnit_Framework_TestCase
             ],
             [['addresses' => [['addressData']]], 'customerMock', ['addressMock'],],
             [['customer' => null, 'addresses' => [['addressData']]], 'customerMock', ['addressMock'],],
-            [[], 'customerMock', [],],
+            [[], 'customerMock', null,],
         ];
     }
 }

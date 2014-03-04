@@ -7,6 +7,8 @@
  */
 namespace Magento\Service\Entity;
 
+use Magento\Exception\InputException;
+
 /**
  * Class AbstractDto
  * @SuppressWarnings(PHPMD.NumberOfChildren)
@@ -51,16 +53,12 @@ abstract class AbstractDto
         foreach ($data as $key => $value) {
             if (method_exists($value, '__toArray')) {
                 $data[$key] = $value->__toArray();
-            } else if (is_array($value)) {
-                $arrayValue = [];
+            } elseif (is_array($value)) {
                 foreach ($value as $nestedArrayKey => $nestedArrayValue) {
                     if (method_exists($nestedArrayValue, '__toArray')) {
-                        $arrayValue[$nestedArrayKey] = $nestedArrayValue->__toArray();
-                    } else {
-                        $arrayValue[$nestedArrayKey] = $nestedArrayValue;
+                        $value[$nestedArrayKey] = $nestedArrayValue->__toArray();
                     }
                 }
-                $data[$key] = $arrayValue;
             }
         }
         return $data;
