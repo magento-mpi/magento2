@@ -72,6 +72,11 @@ abstract class AbstractOnepage extends \Magento\View\Element\Template
     protected $_coreData;
 
     /**
+     * @var \Magento\App\Http\Context
+     */
+    protected $httpContext;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\App\Cache\Type\Config $configCacheType
@@ -79,6 +84,7 @@ abstract class AbstractOnepage extends \Magento\View\Element\Template
      * @param \Magento\Checkout\Model\Session $resourceSession
      * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory
      * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory
+     * @param \Magento\App\Http\Context $httpContext
      * @param array $data
      */
     public function __construct(
@@ -89,6 +95,7 @@ abstract class AbstractOnepage extends \Magento\View\Element\Template
         \Magento\Checkout\Model\Session $resourceSession,
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory,
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory,
+        \Magento\App\Http\Context $httpContext,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
@@ -99,6 +106,7 @@ abstract class AbstractOnepage extends \Magento\View\Element\Template
         $this->_regionCollectionFactory = $regionCollectionFactory;
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
+        $this->httpContext = $httpContext;
     }
 
     /**
@@ -153,7 +161,7 @@ abstract class AbstractOnepage extends \Magento\View\Element\Template
      */
     public function isCustomerLoggedIn()
     {
-        return $this->_customerSession->isLoggedIn();
+        return $this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH);
     }
 
     /**

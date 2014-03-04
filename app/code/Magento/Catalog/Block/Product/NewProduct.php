@@ -31,11 +31,9 @@ class NewProduct extends \Magento\Catalog\Block\Product\AbstractProduct
     protected $_productsCount;
 
     /**
-     * Customer session
-     *
-     * @var \Magento\Customer\Model\Session
+     * @var \Magento\App\Http\Context
      */
-    protected $_customerSession;
+    protected $httpContext;
 
     /**
      * Catalog product visibility
@@ -65,7 +63,7 @@ class NewProduct extends \Magento\Catalog\Block\Product\AbstractProduct
      * @param \Magento\Catalog\Helper\Image $imageHelper
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
      * @param \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility
-     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\App\Http\Context $httpContext
      * @param array $data
      * @param array $priceBlockTypes
      *
@@ -85,13 +83,13 @@ class NewProduct extends \Magento\Catalog\Block\Product\AbstractProduct
         \Magento\Catalog\Helper\Image $imageHelper,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
         \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
-        \Magento\Customer\Model\Session $customerSession,
+        \Magento\App\Http\Context $httpContext,
         array $data = array(),
         array $priceBlockTypes = array()
     ) {
         $this->_productCollectionFactory = $productCollectionFactory;
         $this->_catalogProductVisibility = $catalogProductVisibility;
-        $this->_customerSession = $customerSession;
+        $this->httpContext = $httpContext;
         parent::__construct(
             $context,
             $catalogConfig,
@@ -140,7 +138,7 @@ class NewProduct extends \Magento\Catalog\Block\Product\AbstractProduct
            'CATALOG_PRODUCT_NEW',
            $this->_storeManager->getStore()->getId(),
            $this->_design->getDesignTheme()->getId(),
-           $this->_customerSession->getCustomerGroupId(),
+           $this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_GROUP),
            'template' => $this->getTemplate(),
            $this->getProductsCount()
         );

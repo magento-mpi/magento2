@@ -13,12 +13,6 @@ namespace Magento\App\Http;
  */
 class Context
 {
-    const CUSTOMER_SEGMENT  = 'customer_segment';
-    const CORE_STORE        = 'core_store';
-    const CUSTOMER_GROUP    = 'customer_group';
-    const CURRENT_CURRENCY  = 'current_currency';
-    const CUSTOMER_AUTH     = 'customer_logged_in';
-
     /**
      * Data storage
      *

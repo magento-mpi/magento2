@@ -68,7 +68,7 @@ class Sidebar extends \Magento\Wishlist\Block\AbstractBlock implements \Magento\
      */
     public function getCanDisplayWishlist()
     {
-        return $this->_getCustomerSession()->isLoggedIn();
+        return $this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH);
     }
 
     /**

@@ -96,6 +96,11 @@ class Shortcut extends \Magento\View\Element\Template implements CatalogBlock\Sh
     protected $productTypeConfig;
 
     /**
+     * @var \Magento\Customer\Service\V1\CustomerCurrentService
+     */
+    protected $currentCustomer;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Paypal\Helper\Data $paypalData
      * @param \Magento\Payment\Helper\Data $paymentData
@@ -105,6 +110,7 @@ class Shortcut extends \Magento\View\Element\Template implements CatalogBlock\Sh
      * @param \Magento\Paypal\Model\Express\Checkout\Factory $checkoutFactory
      * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig
+     * @param \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param array $data
      */
@@ -118,6 +124,7 @@ class Shortcut extends \Magento\View\Element\Template implements CatalogBlock\Sh
         \Magento\Paypal\Model\Express\Checkout\Factory $checkoutFactory,
         \Magento\Math\Random $mathRandom,
         \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig,
+        \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer,
         \Magento\Checkout\Model\Session $checkoutSession = null,
         array $data = array()
     ) {
@@ -132,6 +139,7 @@ class Shortcut extends \Magento\View\Element\Template implements CatalogBlock\Sh
         $this->productTypeConfig = $productTypeConfig;
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
+        $this->currentCustomer = $currentCustomer;
     }
 
     /**
@@ -198,7 +206,7 @@ class Shortcut extends \Magento\View\Element\Template implements CatalogBlock\Sh
         }
 
         // ask whether to create a billing agreement
-        $customerId = $this->_customerSession->getCustomerId(); // potential issue for caching
+        $customerId = $this->currentCustomer->getCustomerId(); // potential issue for caching
         if ($this->_paypalData->shouldAskToCreateBillingAgreement($config, $customerId)) {
             $this->setConfirmationUrl($this->getUrl($this->_startAction,
                 array(\Magento\Paypal\Model\Express\Checkout::PAYMENT_INFO_TRANSPORT_BILLING_AGREEMENT => 1)

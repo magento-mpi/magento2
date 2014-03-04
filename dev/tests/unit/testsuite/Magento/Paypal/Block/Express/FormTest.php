@@ -16,14 +16,14 @@ class FormTest extends \PHPUnit_Framework_TestCase
     protected $_paypalData;
 
     /**
-     * @var \Magento\Customer\Model\Session|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $_customerSession;
-
-    /**
      * @var \Magento\Paypal\Model\Config|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_paypalConfig;
+
+    /**
+     * @var \Magento\Customer\Service\V1\CustomerCurrentService|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $currentCustomer;
 
     /**
      * @var Form
@@ -33,7 +33,6 @@ class FormTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_paypalData = $this->getMock('Magento\Paypal\Helper\Data', [], [], '', false);
-        $this->_customerSession = $this->getMock('Magento\Customer\Model\Session', [], [], '', false);
         $this->_paypalConfig = $this->getMock('Magento\Paypal\Model\Config', [], [], '', false);
         $this->_paypalConfig->expects($this->once())
             ->method('setMethod')
@@ -48,13 +47,17 @@ class FormTest extends \PHPUnit_Framework_TestCase
             ->method('createBlock')
             ->with('Magento\View\Element\Template')
             ->will($this->returnValue($mark));
+        $this->currentCustomer = $this->getMockBuilder('\Magento\Customer\Service\V1\CustomerCurrentService')
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = $helper->getObject(
             'Magento\Paypal\Block\Express\Form',
             [
                 'paypalData' => $this->_paypalData,
-                'customerSession' => $this->_customerSession,
                 'paypalConfigFactory' => $paypalConfigFactory,
+                'currentCustomer' => $this->currentCustomer,
                 'layout' => $layout,
             ]
         );
@@ -67,7 +70,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetBillingAgreementCode($ask, $expected)
     {
-        $this->_customerSession->expects($this->once())
+        $this->currentCustomer->expects($this->once())
             ->method('getCustomerId')
             ->will($this->returnValue('customer id'));
         $this->_paypalData->expects($this->once())

@@ -18,13 +18,20 @@ class Customer extends \Magento\View\Element\Template
     protected $_customerSession;
 
     /**
+     * @var \Magento\App\Http\Context
+     */
+    protected $httpContext;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $session
+     * @param \Magento\App\Http\Context $httpContext
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Customer\Model\Session $session,
+        \Magento\App\Http\Context $httpContext,
         array $data = array()
     ) {
         parent::__construct($context, $data);
@@ -40,7 +47,7 @@ class Customer extends \Magento\View\Element\Template
 
     public function customerLoggedIn()
     {
-        return (bool)$this->_customerSession->isLoggedIn();
+        return (bool)$this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH);
     }
 
     /**

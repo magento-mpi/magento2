@@ -165,7 +165,7 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
             $params = $this->_coreData->urlDecode($this->getRequest()->getParam('data'));
             $data   = explode(',', $params);
             $cId    = abs(intval($data[0]));
-            if ($cId && ($cId == $this->_customerSession->getCustomerId()) ) {
+            if ($cId && ($cId == $this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH)) ) {
                 $this->_customer->load($cId);
             }
         }

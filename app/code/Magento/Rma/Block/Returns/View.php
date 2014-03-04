@@ -72,11 +72,9 @@ class View extends \Magento\Rma\Block\Form
     protected $_itemFormFactory;
 
     /**
-     * Customer session model
-     *
-     * @var \Magento\Customer\Model\Session
+     * @var \Magento\App\Http\Context
      */
-    protected $_customerSession;
+    protected $httpContext;
 
     /**
      * Eav configuration model
@@ -94,7 +92,7 @@ class View extends \Magento\Rma\Block\Form
      * @param \Magento\Rma\Model\Resource\Rma\Status\History\CollectionFactory $historiesFactory
      * @param \Magento\Rma\Model\ItemFactory $itemFactory
      * @param \Magento\Rma\Model\Item\FormFactory $itemFormFactory
-     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\App\Http\Context $httpContext
      * @param \Magento\Customer\Helper\Data $customerData
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Registry $registry
@@ -109,7 +107,7 @@ class View extends \Magento\Rma\Block\Form
         \Magento\Rma\Model\Resource\Rma\Status\History\CollectionFactory $historiesFactory,
         \Magento\Rma\Model\ItemFactory $itemFactory,
         \Magento\Rma\Model\Item\FormFactory $itemFormFactory,
-        \Magento\Customer\Model\Session $customerSession,
+        \Magento\App\Http\Context $httpContext,
         \Magento\Customer\Helper\Data $customerData,
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Registry $registry,
@@ -122,7 +120,7 @@ class View extends \Magento\Rma\Block\Form
         $this->_historiesFactory = $historiesFactory;
         $this->_itemFactory = $itemFactory;
         $this->_itemFormFactory = $itemFormFactory;
-        $this->_customerSession = $customerSession;
+        $this->httpContext = $httpContext;
         $this->_eavConfig = $eavConfig;
         parent::__construct($context, $modelFactory, $formFactory, $eavConfig, $data);
     }
@@ -326,7 +324,7 @@ class View extends \Magento\Rma\Block\Form
      */
     public function getBackUrl()
     {
-        if ($this->_customerSession->isLoggedIn()) {
+        if ($this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH)) {
             return $this->getUrl('rma/returns/history');
         } else {
             return $this->getUrl('rma/guest/returns');
@@ -360,7 +358,7 @@ class View extends \Magento\Rma\Block\Form
      */
     public function getCustomerName()
     {
-        if ($this->_customerSession->isLoggedIn()) {
+        if ($this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH)) {
             return $this->_customerData->getCustomerName();
         } else {
             $billingAddress = $this->_coreRegistry->registry('current_order')->getBillingAddress();
