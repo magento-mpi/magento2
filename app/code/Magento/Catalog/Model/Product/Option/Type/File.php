@@ -87,9 +87,9 @@ class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
     /**
      * Url
      *
-     * @var \Magento\UrlInterface
+     * @var \Magento\Catalog\Model\Product\Option\UrlBuilder
      */
-    protected $_url;
+    protected $_urlBuilder;
 
     /**
      * Item option factory
@@ -102,7 +102,7 @@ class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Sales\Model\Quote\Item\OptionFactory $itemOptionFactory
-     * @param \Magento\UrlInterface $url
+     * @param \Magento\Catalog\Model\Product\Option\UrlBuilder $urlBuilder
      * @param \Magento\Escaper $escaper
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase
      * @param \Magento\App\Filesystem $filesystem
@@ -113,7 +113,7 @@ class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Sales\Model\Quote\Item\OptionFactory $itemOptionFactory,
-        \Magento\UrlInterface $url,
+        \Magento\Catalog\Model\Product\Option\UrlBuilder $urlBuilder,
         \Magento\Escaper $escaper,
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase,
         \Magento\App\Filesystem $filesystem,
@@ -121,7 +121,7 @@ class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
         array $data = array()
     ) {
         $this->_itemOptionFactory = $itemOptionFactory;
-        $this->_url = $url;
+        $this->_urlBuilder = $urlBuilder;
         $this->_escaper = $escaper;
         $this->_coreFileStorageDatabase = $coreFileStorageDatabase;
         $this->_filesystem = $filesystem;
@@ -800,7 +800,7 @@ class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
      */
     protected function _getOptionDownloadUrl($route, $params)
     {
-        return $this->_url->getUrl($route, $params);
+        return $this->_urlBuilder->getUrl($route, $params);
     }
 
     /**
