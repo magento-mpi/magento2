@@ -1,3 +1,8 @@
+* Cache:
+  * Depersonalize private content generation
+  * Content invalidation
+  * Added Edge side includes(ESI) supporting
+  * Added Built-in caching application
 * GitHub requests:
   * [#454](https://github.com/magento/magento2/pull/454) -- Allow to specify list of IPs in a body on maintenance.flag which will be granted access even if the flag is on
   * [#204](https://github.com/magento/magento2/issues/204) -- Mage_ImportExport: Exporting configurable products ignores multiple configurable options
@@ -26,15 +31,22 @@
   * Fixed category saveing when it has more than 1000 products
   * Fixed error messages displayed during installation when required extensions are not installed
   * Fixed synopsis of install.php script
+  * Fixed absence of payment scheduled in shopping cart for products with recurring profile
 * Modularity improvements:
   * Resolved dependencies of Sales module on RecurringProfile module
   * Resolved dependencies between Email Templates functionality and other modules
   * Core module lib-only depended components moved to library
   * CSS url resolving logic moved from publisher to separate css pre-processor
   * View publisher re-factored
+  * Introduced Offline Payments module
+  * Added ability to enable/disable Paypal module
 * Customer Service usage:
   * Sales module refactoring to use customer service layer
   * Checkout module refactoring to use customer service layer
+  * Customer module blocks and controllers refactoring to use customer service layer
+* Security:
+  * Introduced an ability to hash a password with a random salt of default length (32 chars) by the encryption library
+  * Utilized a random salt of default length for admin users and frontend customers
 * Updated various PHPDoc with the parameter and return types
 
 2.0.0.0-dev66
