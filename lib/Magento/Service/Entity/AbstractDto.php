@@ -59,6 +59,7 @@ abstract class AbstractDto
                         $value[$nestedArrayKey] = $nestedArrayValue->__toArray();
                     }
                 }
+                $data[$key] = $value;
             }
         }
         return $data;
