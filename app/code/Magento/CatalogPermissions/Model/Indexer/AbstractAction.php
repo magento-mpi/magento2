@@ -299,8 +299,8 @@ abstract class AbstractAction
             $this->prepareCategoryIndexPermissions($permission, $categoryList[$permission['category_id']]);
         }
 
-        foreach ($categoryList as $path) {
-            $this->prepareInheritedCategoryIndexPermissions($path);
+        foreach ($categoryList as $categoryId => $path) {
+            $this->prepareInheritedCategoryIndexPermissions($categoryId, $path);
         }
 
         $this->populateCategoryIndex();
@@ -412,10 +412,11 @@ abstract class AbstractAction
     /**
      * Inherit category permission from it's parent
      *
+     * @param int $categoryId
      * @param string $path
      * @return void
      */
-    protected function prepareInheritedCategoryIndexPermissions($path)
+    protected function prepareInheritedCategoryIndexPermissions($categoryId, $path)
     {
         $parentPath = substr($path, 0, strrpos($path, '/'));
 
@@ -431,7 +432,11 @@ abstract class AbstractAction
             }
 
         } elseif (isset($this->indexCategoryPermissions[$parentPath])) {
-            $this->indexCategoryPermissions[$path] = $this->indexCategoryPermissions[$parentPath];
+            foreach ($this->indexCategoryPermissions[$parentPath] as $uniqKey => $permission) {
+                $this->indexCategoryPermissions[$path][$uniqKey] = array_merge(
+                    $permission, array('category_id' => $categoryId)
+                );
+            }
         }
     }
 

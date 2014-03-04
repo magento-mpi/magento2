@@ -56,11 +56,6 @@ class Observer
     protected $_catalogPermData = null;
 
     /**
-     * @var \Magento\CatalogPermissions\Model\PermissionFactory
-     */
-    protected $_permissionFactory;
-
-    /**
      * @var CategoryFactory
      */
     protected $_categoryFactory;
@@ -93,7 +88,6 @@ class Observer
         ConfigInterface $permissionsConfig,
         CacheInterface $coreCache,
         CategoryFactory $categoryFactory,
-        \Magento\CatalogPermissions\Model\PermissionFactory $permissionFactory,
         Indexer $indexer,
         Data $catalogPermData,
         AuthorizationInterface $authorization
@@ -102,125 +96,8 @@ class Observer
         $this->_coreCache = $coreCache;
         $this->_indexer = $indexer;
         $this->_categoryFactory = $categoryFactory;
-        $this->_permissionFactory = $permissionFactory;
         $this->_catalogPermData = $catalogPermData;
         $this->_authorization = $authorization;
-    }
-
-    /**
-     * Save category permissions on category after save event
-     *
-     * @param EventObserver $observer
-     * @return $this
-     */
-    public function saveCategoryPermissions(EventObserver $observer)
-    {
-        if (!$this->_permissionsConfig->isEnabled()) {
-            return $this;
-        }
-
-        $category = $observer->getEvent()->getCategory();
-        /* @var $category Category */
-        if ($category->hasData('permissions') && is_array($category->getData('permissions'))
-            && $this->_authorization
-                ->isAllowed('Magento_CatalogPermissions::catalog_magento_catalogpermissions')
-        ) {
-            foreach ($category->getData('permissions') as $data) {
-                $permission = $this->_permissionFactory->create();
-                if (!empty($data['id'])) {
-                    $permission->load($data['id']);
-                }
-
-                if (!empty($data['_deleted'])) {
-                    if ($permission->getId()) {
-                        $permission->delete();
-                    }
-                    continue;
-                }
-
-                if ($data['website_id'] == self::FORM_SELECT_ALL_VALUES) {
-                    $data['website_id'] = null;
-                }
-
-                if ($data['customer_group_id'] == self::FORM_SELECT_ALL_VALUES) {
-                    $data['customer_group_id'] = null;
-                }
-
-                $permission->addData($data);
-                $categoryViewPermission = $permission->getGrantCatalogCategoryView();
-                if (Permission::PERMISSION_DENY == $categoryViewPermission) {
-                    $permission->setGrantCatalogProductPrice(Permission::PERMISSION_DENY);
-                }
-
-                $productPricePermission = $permission->getGrantCatalogProductPrice();
-                if (Permission::PERMISSION_DENY == $productPricePermission) {
-                    $permission->setGrantCheckoutItems(Permission::PERMISSION_DENY);
-                }
-                $permission->setCategoryId($category->getId());
-                $permission->save();
-            }
-            $this->_indexQueue[] = $category->getPath();
-        }
-        return $this;
-    }
-
-    /**
-     * Reindex category permissions on category move event
-     *
-     * @param EventObserver $observer
-     * @return $this
-     */
-    public function reindexCategoryPermissionOnMove(EventObserver $observer)
-    {
-        $category = $this->_categoryFactory->create()
-            ->load($observer->getEvent()->getCategoryId());
-        $this->_indexQueue[] = $category->getPath();
-        return $this;
-    }
-
-    /**
-     * Reindex permissions in queue on postdipatch
-     *
-     * @return  $this
-     */
-    public function reindexPermissions()
-    {
-        if (!empty($this->_indexQueue)) {
-            /** @var $indexer Indexer */
-            $indexer = $this->_indexer;
-            foreach ($this->_indexQueue as $item) {
-                $indexer->logEvent(
-                    new \Magento\Object(array('id' => $item)),
-                    Index::ENTITY_CATEGORY,
-                    Index::EVENT_TYPE_REINDEX_PRODUCTS
-                );
-            }
-            $this->_indexQueue = array();
-            $indexer->indexEvents(
-                Index::ENTITY_CATEGORY,
-                Index::EVENT_TYPE_REINDEX_PRODUCTS
-            );
-            $this->_coreCache->clean(array(Category::CACHE_TAG));
-        }
-
-        if (!empty($this->_indexProductQueue)) {
-            /** @var $indexer Indexer */
-            $indexer = $this->_indexer;
-            foreach ($this->_indexProductQueue as $item) {
-                $indexer->logEvent(
-                    new \Magento\Object(array('id' => $item)),
-                    Index::ENTITY_PRODUCT,
-                    Index::EVENT_TYPE_REINDEX_PRODUCTS
-                );
-            }
-            $indexer->indexEvents(
-                Index::ENTITY_PRODUCT,
-                Index::EVENT_TYPE_REINDEX_PRODUCTS
-            );
-            $this->_indexProductQueue = array();
-        }
-
-        return $this;
     }
 
     /**

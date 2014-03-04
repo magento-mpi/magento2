@@ -29,6 +29,11 @@ use Magento\View\Element\AbstractBlock;
 class Row extends AbstractCategory
 {
     /**
+     *
+     */
+    const FORM_SELECT_ALL_VALUES = -1;
+
+    /**
      * @var string
      */
     protected $_template = 'catalog/category/tab/permissions/row.phtml';
