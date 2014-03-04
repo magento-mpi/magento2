@@ -40,7 +40,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     protected $_dateTimeMock;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\LocaleInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_localeMock;
 
@@ -63,7 +63,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         );
         $this->_resourceMock = $this->getMock('Magento\App\Resource', array(), array(), '', false);
         $this->_dateTimeMock = $this->getMock('Magento\Stdlib\DateTime', array(), array(), '', false);
-        $this->_localeMock = $this->getMock('Magento\Core\Model\LocaleInterface', array(), array(), '', false);
+        $this->_localeMock = $this->getMock('Magento\LocaleInterface', array(), array(), '', false);
         $this->_eavConfigMock = $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false);
         $this->_priceProcessorMock = $this->getMock(
             'Magento\Catalog\Model\Indexer\Product\Price\Processor', array(), array(), '', false

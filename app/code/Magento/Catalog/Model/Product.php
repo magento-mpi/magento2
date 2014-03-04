@@ -709,7 +709,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
         $this->getLinkInstance()->saveProductRelations($this);
         $this->getTypeInstance()->save($this);
 
-        $this->_getResource()->addCommitCallback(array($this, 'reindexCallback'));
+        $this->_getResource()->addCommitCallback(array($this, 'priceReindexCallback'));
 
         /**
          * Product Options
@@ -729,15 +729,12 @@ class Product extends \Magento\Catalog\Model\AbstractModel
 
     /**
      * Callback for entity reindex
-     *
-     * @return $this
      */
-    public function reindexCallback()
+    public function priceReindexCallback()
     {
         if ($this->isObjectNew() || $this->_catalogProduct->isDataForPriceIndexerWasChanged($this)) {
             $this->_productPriceIndexerProcessor->reindexRow($this->getEntityId());
         }
-        return $this;
     }
 
     /**

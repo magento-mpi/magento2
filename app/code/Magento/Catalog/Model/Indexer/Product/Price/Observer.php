@@ -28,7 +28,7 @@ class Observer
     protected $_dateTime;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\LocaleInterface
      */
     protected $_locale;
 
@@ -51,7 +51,7 @@ class Observer
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\Resource $resource
      * @param \Magento\Stdlib\DateTime $dateTime
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\LocaleInterface $locale
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Catalog\Model\Indexer\Product\Price\Processor $processor
      */
@@ -59,7 +59,7 @@ class Observer
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\Resource $resource,
         \Magento\Stdlib\DateTime $dateTime,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\LocaleInterface $locale,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Catalog\Model\Indexer\Product\Price\Processor $processor
     ) {

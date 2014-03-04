@@ -105,7 +105,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
         $this->_controller = new \Magento\Catalog\Controller\Adminhtml\Product(
             $contextMock,
-            $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false),
+            $this->getMock('Magento\Registry', array(), array(), '', false),
             $this->getMock('Magento\Core\Filter\Date', array(), array(), '', false),
             $this->getMock(
                 'Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper',
@@ -116,6 +116,9 @@ class ProductTest extends \PHPUnit_Framework_TestCase
                 array(), array(), '', false
             ),
             $this->getMock('Magento\Catalog\Model\Product\Copier', array(), array(), '', false),
+            $this->getMock('Magento\Catalog\Controller\Adminhtml\Product\Builder', array(), array(), '', false),
+            $this->getMock('Magento\Catalog\Model\Product\Validator', array(), array(), '', false),
+            $this->getMock('Magento\Catalog\Model\Product\TypeTransitionManager', array(), array(), '', false),
             $this->_priceProcessor
         );
     }
