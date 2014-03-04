@@ -26,12 +26,12 @@ class Shippingmethod
     }
 
     /**
-     * @param \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shippingmethod $subject
+     * @param \Magento\Object $subject
      * @param bool $result
      * @return bool
      */
     public function afterCanDisplayCustomValue(
-        \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shippingmethod $subject,
+        \Magento\Object $subject,
         $result
     ) {
         $carrierCode = $subject->getShipment()->getCarrierCode();

@@ -117,3 +117,4 @@ lib/Magento/Filesystem/Driver
 Magento/OfflineShipping/Model/Carrier
 Magento/Usps/Model/Carrier
 Magento/Dhl/Model/Carrier
+Magento/Shipping/Model/Shipping
