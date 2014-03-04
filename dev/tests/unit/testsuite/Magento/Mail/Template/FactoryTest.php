@@ -28,7 +28,10 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     {
         $this->_objectManagerMock = $this->getMock('\Magento\ObjectManager');
         $this->_templateMock = $this->getMock('\Magento\Mail\TemplateInterface');
-        $this->_factory = new \Magento\Mail\Template\Factory($this->_objectManagerMock);
+
+        $this->_factory = new \Magento\Mail\Template\Factory(
+            $this->_objectManagerMock, '\Magento\Email\Model\Template'
+        );
     }
 
     /**
@@ -38,7 +41,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     {
         $this->_objectManagerMock->expects($this->once())
             ->method('create')
-            ->with('Magento\Mail\TemplateInterface', array('data' => array('template_id' => 'identifier')))
+            ->with('\Magento\Email\Model\Template', array('data' => array('template_id' => 'identifier')))
             ->will($this->returnValue($this->_templateMock));
 
         $this->assertInstanceOf('\Magento\Mail\TemplateInterface', $this->_factory->get('identifier'));
