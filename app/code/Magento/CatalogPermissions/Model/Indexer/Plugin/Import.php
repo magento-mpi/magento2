@@ -24,11 +24,11 @@ class Import
 
     /**
      * @param \Magento\CatalogPermissions\App\ConfigInterface $config
-     * @param \Magento\Indexer\Model\IndexerFactor $indexerFactory
+     * @param \Magento\Indexer\Model\IndexerFactory $indexerFactory
      */
     public function __construct(
         \Magento\CatalogPermissions\App\ConfigInterface $config,
-        \Magento\Indexer\Model\IndexerFactor $indexerFactory
+        \Magento\Indexer\Model\IndexerFactory $indexerFactory
     ) {
         $this->config = $config;
         $this->indexerFactory = $indexerFactory;
