@@ -43,7 +43,7 @@ class NewObjectTest extends \PHPUnit_Framework_TestCase
         $this->pricePerDataMock = $this->getMock('\Magento\PricePermissions\Helper\Data', array(), array(), '', false);
         $this->productMock = $this->getMock('\Magento\Catalog\Model\Product',
             array('__wakeup', 'setIsRecurring', 'isObjectNew', 'getTypeId', 'getPriceType', 'setPrice',
-                'setGiftcardAmounts', 'unsRecurringProfile', 'setMsrpEnabled', 'setMsrpDisplayActualPriceType'
+                'setGiftcardAmounts', 'unsRecurringPayment', 'setMsrpEnabled', 'setMsrpDisplayActualPriceType'
             ),
             array(), '', false
         );

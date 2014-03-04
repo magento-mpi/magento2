@@ -11,7 +11,7 @@
 namespace Magento\ProductAlert\Block\Product\View;
 
 /**
- * Recurring profile view stock
+ * Recurring payment view stock
  */
 class Stock extends \Magento\ProductAlert\Block\Product\View
 {

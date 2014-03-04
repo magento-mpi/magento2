@@ -13,33 +13,33 @@ namespace Magento\PayPalRecurringPayment\Model;
 class Ipn extends \Magento\Paypal\Model\AbstractIpn implements \Magento\Paypal\Model\IpnInterface
 {
     /**
-     * Recurring profile instance
+     * Recurring payment instance
      *
-     * @var \Magento\RecurringProfile\Model\Profile
+     * @var \Magento\RecurringPayment\Model\Payment
      */
-    protected $_recurringProfile;
+    protected $_recurringPayment;
 
     /**
-     * @var \Magento\RecurringProfile\Model\ProfileFactory
+     * @var \Magento\RecurringPayment\Model\PaymentFactory
      */
-    protected $_recurringProfileFactory;
+    protected $_recurringPaymentFactory;
 
     /**
      * @param \Magento\Paypal\Model\ConfigFactory $configFactory
      * @param \Magento\Logger\AdapterFactory $logAdapterFactory
      * @param \Magento\HTTP\Adapter\CurlFactory $curlFactory
-     * @param \Magento\RecurringProfile\Model\ProfileFactory $recurringProfileFactory
+     * @param \Magento\RecurringPayment\Model\PaymentFactory $recurringPaymentFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Paypal\Model\ConfigFactory $configFactory,
         \Magento\Logger\AdapterFactory $logAdapterFactory,
         \Magento\HTTP\Adapter\CurlFactory $curlFactory,
-        \Magento\RecurringProfile\Model\ProfileFactory $recurringProfileFactory,
+        \Magento\RecurringPayment\Model\PaymentFactory $recurringPaymentFactory,
         array $data = array()
     ) {
         parent::__construct($configFactory, $logAdapterFactory, $curlFactory, $data);
-        $this->_recurringProfileFactory = $recurringProfileFactory;
+        $this->_recurringPaymentFactory = $recurringPaymentFactory;
     }
 
     /**
@@ -54,7 +54,7 @@ class Ipn extends \Magento\Paypal\Model\AbstractIpn implements \Magento\Paypal\M
         try {
             $this->_getConfig();
             $this->_postBack();
-            $this->_processRecurringProfile();
+            $this->_processRecurringPayment();
         } catch (\Exception $e) {
             $this->_addDebugData('exception', $e->getMessage());
             $this->_debug();
@@ -71,9 +71,9 @@ class Ipn extends \Magento\Paypal\Model\AbstractIpn implements \Magento\Paypal\M
      */
     protected function _getConfig()
     {
-        $recurringProfile = $this->_getRecurringProfile();
-        $methodCode = $recurringProfile->getMethodCode();
-        $parameters = array('params' => array($methodCode, $recurringProfile->getStoreId()));
+        $recurringPayment = $this->_getRecurringPayment();
+        $methodCode = $recurringPayment->getMethodCode();
+        $parameters = array('params' => array($methodCode, $recurringPayment->getStoreId()));
         $this->_config = $this->_configFactory->create($parameters);
         if (!$this->_config->isMethodActive($methodCode) || !$this->_config->isMethodAvailable()) {
             throw new \Exception(sprintf('Method "%s" is not available.', $methodCode));
@@ -82,27 +82,27 @@ class Ipn extends \Magento\Paypal\Model\AbstractIpn implements \Magento\Paypal\M
     }
 
     /**
-     * Load recurring profile
+     * Load recurring payment
      *
-     * @return \Magento\RecurringProfile\Model\Profile
+     * @return \Magento\RecurringPayment\Model\Payment
      * @throws \Exception
      */
-    protected function _getRecurringProfile()
+    protected function _getRecurringPayment()
     {
         $referenceId = $this->getRequestData('rp_invoice_id');
-        $this->_recurringProfile = $this->_recurringProfileFactory->create()->loadByInternalReferenceId($referenceId);
-        if (!$this->_recurringProfile->getId()) {
+        $this->_recurringPayment = $this->_recurringPaymentFactory->create()->loadByInternalReferenceId($referenceId);
+        if (!$this->_recurringPayment->getId()) {
             throw new \Exception(
-                sprintf('Wrong recurring profile INTERNAL_REFERENCE_ID: "%s".', $referenceId)
+                sprintf('Wrong recurring payment INTERNAL_REFERENCE_ID: "%s".', $referenceId)
             );
         }
-        return $this->_recurringProfile;
+        return $this->_recurringPayment;
     }
 
     /**
-     * Process notification from recurring profile payments
+     * Process notification from recurring payments
      */
-    protected function _processRecurringProfile()
+    protected function _processRecurringPayment()
     {
         $this->_getConfig();
         try {
@@ -117,15 +117,15 @@ class Ipn extends \Magento\Paypal\Model\AbstractIpn implements \Magento\Paypal\M
             $productItemInfo = new \Magento\Object;
             $type = trim($this->getRequestData('period_type'));
             if ($type == 'Trial') {
-                $productItemInfo->setPaymentType(\Magento\RecurringProfile\Model\PaymentTypeInterface::TRIAL);
+                $productItemInfo->setPaymentType(\Magento\RecurringPayment\Model\PaymentTypeInterface::TRIAL);
             } elseif ($type == 'Regular') {
-                $productItemInfo->setPaymentType(\Magento\RecurringProfile\Model\PaymentTypeInterface::REGULAR);
+                $productItemInfo->setPaymentType(\Magento\RecurringPayment\Model\PaymentTypeInterface::REGULAR);
             }
             $productItemInfo->setTaxAmount($this->getRequestData('tax'));
             $productItemInfo->setShippingAmount($this->getRequestData('shipping'));
             $productItemInfo->setPrice($price);
 
-            $order = $this->_recurringProfile->createOrder($productItemInfo);
+            $order = $this->_recurringPayment->createOrder($productItemInfo);
 
             $payment = $order->getPayment()
                 ->setTransactionId($this->getRequestData('txn_id'))
@@ -133,7 +133,7 @@ class Ipn extends \Magento\Paypal\Model\AbstractIpn implements \Magento\Paypal\M
                 ->setPreparedMessage($this->_createIpnComment(''))
                 ->setIsTransactionClosed(0);
             $order->save();
-            $this->_recurringProfile->addOrderRelation($order->getId());
+            $this->_recurringPayment->addOrderRelation($order->getId());
             $payment->registerCaptureNotification($this->getRequestData('mc_gross'));
             $order->save();
 
@@ -147,7 +147,7 @@ class Ipn extends \Magento\Paypal\Model\AbstractIpn implements \Magento\Paypal\M
             }
         } catch (\Magento\Core\Exception $e) {
             $comment = $this->_createIpnComment(__('Note: %1', $e->getMessage()), true);
-            //TODO: add to payment profile comments
+            //TODO: add to payment comments
             //$comment->save();
             throw $e;
         }
@@ -168,7 +168,7 @@ class Ipn extends \Magento\Paypal\Model\AbstractIpn implements \Magento\Paypal\M
             $message .= ' ' . $comment;
         }
         if ($addToHistory) {
-            //TODO: add to payment profile comments
+            //TODO: add to payment comments
         }
         return $message;
     }

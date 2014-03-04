@@ -11733,7 +11733,7 @@ img[align="right"] {
   padding-bottom: 6px;
 }
 /*
-    My Account -> Recurring profiles
+    My Account -> Recurring payments
 -------------------------------------- */
 .recurring.order.details .block.view.info {
   *zoom: 1;
@@ -13708,7 +13708,7 @@ img[align="right"] {
     margin-bottom: 20px;
   }
   .billing-agreements > .actions,
-  .recurring-profiles .buttons-set {
+  .recurring-payments .buttons-set {
     text-align: center;
     margin-bottom: 20px;
   }

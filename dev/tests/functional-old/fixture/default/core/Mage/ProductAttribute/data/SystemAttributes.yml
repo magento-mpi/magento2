@@ -48,7 +48,7 @@ gift_message_available:
 
 is_recurring:
     attribute_properties:
-        attribute_label: Enable Recurring Profile
+        attribute_label: Enable Recurring Payment
     advanced_attribute_properties:
         attribute_code: is_recurring
     option_1:

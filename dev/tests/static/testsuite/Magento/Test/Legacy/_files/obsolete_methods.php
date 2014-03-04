@@ -140,14 +140,14 @@ return array(
     array('_prepareConfigurableProductData', 'Magento\ImportExport\Model\Export\Entity\Product'),
     array('_prepareConfigurableProductPrice', 'Magento\ImportExport\Model\Export\Entity\Product'),
     array(
-        '_prepareLastRecurringProfiles()',
+        '_prepareLastRecurringPayments()',
         'Magento\Checkout\Block\Onepage\Success',
-        'Magento\RecurringProfile\Block\Checkout\Onepage\Success::_prepareLastRecurringProfiles'
+        'Magento\RecurringPayment\Block\Checkout\Onepage\Success::_prepareLastRecurringPayments'
     ),
     array(
         'getProfileUrl()',
         'Magento\Checkout\Block\Onepage\Success',
-        'Magento\RecurringProfile\Block\Checkout\Onepage\Success::getProfileUrl'
+        'Magento\RecurringPayment\Block\Checkout\Onepage\Success::getProfileUrl'
     ),
     array('_prepareOptionsForCart', 'Magento\Catalog\Model\Product\Type\AbstractType'),
     array('_preparePackageTheme', 'Magento\Widget\Model\Widget\Instance'),
@@ -173,7 +173,7 @@ return array(
     array('_shouldSkipProcessUpdates', 'Magento\Core\Model\App'),
     array('_sort', 'Magento\Backend\Model\Config\Structure\Converter'),
     array('_submitRecurringPaymentProfiles', 'Magento\Sales\Model\Service\Quote',
-        '\Magento\RecurringProfile\Model\Observer\CheckoutManagerObserver::submitRecurringPaymentProfiles'),
+        '\Magento\RecurringPayment\Model\Observer\CheckoutManagerObserver::submitRecurringPaymentProfiles'),
     array('_toHtml', 'Magento\Backend\Block\Widget\Container'),
     array('_unhookQueries', 'Magento\Core\Model\Resource\Setup'),
     array('_updateMediaPathUseRewrites', 'Magento\Core\Model\Store', '_getMediaScriptUrl'),
@@ -332,7 +332,7 @@ return array(
     array(
         'getAllStates',
         'Magento\Sales\Model\Recurring\Profile',
-        'Magento\RecurringProfile\Model\States::toOptionArray()'
+        'Magento\RecurringPayment\Model\States::toOptionArray()'
     ),
     array('getStateLabel', 'Magento\Sales\Model\Recurring\Profile'),
     array('getBaseTaxAmount', 'Magento\Sales\Model\Quote\Item\AbstractItem'),
@@ -479,9 +479,9 @@ return array(
     array('getQuoteOrdersHtml', 'Magento\GoogleAnalytics\Block\Ga'),
     array('getRefererParamName', 'Magento\Backend\Block\Page\Footer'),
     array(
-        'getRecurringProfileMethods',
+        'getRecurringPaymentMethods',
         'Magento\Payment\Helper\Data',
-        'Magento\RecurringProfile\Model\Method\PaymentMethodsList::toOptionArray'
+        'Magento\RecurringPayment\Model\Method\PaymentMethodsList::toOptionArray'
     ),
     array('getRecurringPaymentProfiles', 'Magento\Paypal\Model\Express\Checkout'),
     array('getRecurringPaymentProfiles', 'Magento\Sales\Model\Service\Quote'),
@@ -674,7 +674,7 @@ return array(
     [
         'prepareRecurringPaymentProfiles',
         'Magento\Sales\Model\Quote',
-        '\Magento\RecurringProfile\Model\QuoteImporter::import'
+        '\Magento\RecurringPayment\Model\QuoteImporter::import'
     ],
     array('prepareReferenceInfo', 'Magento\Sales\Block\Recurring\Profile\View'),
     array('prepareRelatedOrdersFrontendGrid', 'Magento\Sales\Block\Recurring\Profile\View'),
@@ -799,12 +799,12 @@ return array(
         'Magento_Sales_Model_Observer_Backend_CatalogProductQuote::catalogProductStatusUpdate'
     ),
     array(
-        'prepareProductEditFormRecurringProfile', 'Magento\Sales\Model\Observer',
-        'Magento\RecurringProfile\Block\Adminhtml\Product\Edit\Tab\Price\Recurring::getElementHtml'
+        'prepareProductEditFormRecurringPayment', 'Magento\Sales\Model\Observer',
+        'Magento\RecurringPayment\Block\Adminhtml\Product\Edit\Tab\Price\Recurring::getElementHtml'
     ),
     array(
-        'prepareProductRecurringProfileOptions', 'Magento\Payment\Model\Observer',
-        'Magento\RecurringProfile\Model\Observer::prepareProductRecurringProfileOptions'
+        'prepareProductRecurringPaymentOptions', 'Magento\Payment\Model\Observer',
+        'Magento\RecurringPayment\Model\Observer::prepareProductRecurringPaymentOptions'
     ),
     array(
         'restrictAdminBillingAgreementUsage', 'Magento\Sales\Model\Observer',
@@ -883,8 +883,8 @@ return array(
     array('getValidateHttpUserAgentSkip', 'Magento\Core\Model\Session\AbstractSession'),
     array('addProductAttributes', 'Magento\SalesRule\Model\Observer'),
     ['addRecurringPaymentProfiles', 'Magento\Paypal\Model\Api\AbstractApi'],
-    array('addRecurringProfilesFilter', 'Magento\Sales\Model\Resource\Order\Collection',
-        '\Magento\RecurringProfile\Model\Resource\Order\CollectionFilter::byIds'),
+    array('addRecurringPaymentsFilter', 'Magento\Sales\Model\Resource\Order\Collection',
+        '\Magento\RecurringPayment\Model\Resource\Order\CollectionFilter::byIds'),
     array('_helper', 'Magento\Catalog\Model\Product\Type\AbstractType'),
     array('getHelper', 'Magento\Catalog\Model\Resource\Product\Type\Configurable\Attribute\Collection'),
     array('getHelper', 'Magento\Cms\Model\Wysiwyg\Images\Storage'),
@@ -1226,22 +1226,22 @@ return array(
     [
         'getAllPeriodUnits',
         'Magento\Payment\Model\Recurring\Profile',
-        'Magento\RecurringProfile\Model\PeriodUnits::toOptionArray'
+        'Magento\RecurringPayment\Model\PeriodUnits::toOptionArray'
     ],
     [
         'getPeriodUnitLabel',
         'Magento\Payment\Model\Recurring\Profile',
-        'Magento\RecurringProfile\Model\PeriodUnits::toOptionArray()[\Magento\RecurringProfile\Model\PeriodUnits::DAY]'
+        'Magento\RecurringPayment\Model\PeriodUnits::toOptionArray()[\Magento\RecurringPayment\Model\PeriodUnits::DAY]'
     ],
     [
         'getFieldComment',
         'Magento\Payment\Model\Recurring\Profile',
-        'Magento\RecurringProfile\Block\Fields::getFieldComment',
+        'Magento\RecurringPayment\Block\Fields::getFieldComment',
     ],
     [
         'getFieldLabel',
         'Magento\Payment\Model\Recurring\Profile',
-        'Magento\RecurringProfile\Block\Fields::getFieldLabel',
+        'Magento\RecurringPayment\Block\Fields::getFieldLabel',
     ],
     ['_ensureLocaleAndStore', 'Magento\Payment\Model\Recurring\Profile'],
     ['setLocale', 'Magento\Payment\Model\Recurring\Profile', 'Locale instance injected via constructor'],
@@ -1276,7 +1276,7 @@ return array(
     [
         'downloadProfileCustomOptionAction',
         'Magento\Sales\Controller\Download',
-        '\Magento\RecurringProfile\Controller\Download::downloadProfileCustomOptionAction'
+        '\Magento\RecurringPayment\Controller\Download::downloadProfileCustomOptionAction'
     ],
     array('useDbCompatibleMode', 'Magento\Core\Helper\Data'),
     array('getFlag', 'Magento\Catalog\Helper\Product\Flat'),
@@ -1311,74 +1311,74 @@ return array(
     ),
     array('_getVatRequiredCustomerAddress', 'Magento\Sales\Model\Observer'),
     array(
-        'canGetRecurringProfileDetails',
+        'canGetRecurringPaymentDetails',
         'Magento\Paypal\Model\Express',
         'Magento\PayPalRecurringPayment\Model\Express::canGetDetails()'
     ),
     array(
-        'getRecurringProfileDetails',
+        'getRecurringPaymentDetails',
         'Magento\Paypal\Model\Express',
         'Magento\PayPalRecurringPayment\Model\Express::getDetails()'
     ),
     array(
-        'submitRecurringProfile',
+        'submitRecurringPayment',
         'Magento\Paypal\Model\Express',
         'Magento\PayPalRecurringPayment\Model\Express::submit()'
     ),
     array(
-        'validateRecurringProfile',
+        'validateRecurringPayment',
         'Magento\Paypal\Model\Express',
         'Magento\PayPalRecurringPayment\Model\Express::validate()'
     ),
     array(
-        'updateRecurringProfile',
+        'updateRecurringPayment',
         'Magento\Paypal\Model\Express',
         'Magento\PayPalRecurringPayment\Model\Express::update()'
     ),
     array(
-        'updateRecurringProfileStatus',
+        'updateRecurringPaymentStatus',
         'Magento\Paypal\Model\Express',
         'Magento\PayPalRecurringPayment\Model\Express::updateStatus()'
     ),
     array(
-        'canGetRecurringProfileDetails',
+        'canGetRecurringPaymentDetails',
         'Magento\Paypal\Model\Pro',
         'Magento\PayPalRecurringPayment\Model\Express::canGetDetails()'
     ),
     array(
-        'getRecurringProfileDetails',
+        'getRecurringPaymentDetails',
         'Magento\Paypal\Model\Pro',
         'Magento\PayPalRecurringPayment\Model\Express::getDetails()'
     ),
     array(
-        'submitRecurringProfile',
+        'submitRecurringPayment',
         'Magento\Paypal\Model\Pro',
         'Magento\PayPalRecurringPayment\Model\Express::submit()'
     ),
     array(
-        'validateRecurringProfile',
+        'validateRecurringPayment',
         'Magento\Paypal\Model\Pro',
         'Magento\PayPalRecurringPayment\Model\Express::validate()'
     ),
     array(
-        'updateRecurringProfile',
+        'updateRecurringPayment',
         'Magento\Paypal\Model\Pro',
         'Magento\PayPalRecurringPayment\Model\Express::update()'
     ),
     array(
-        'updateRecurringProfileStatus',
+        'updateRecurringPaymentStatus',
         'Magento\Paypal\Model\Pro',
         'Magento\PayPalRecurringPayment\Model\Express::updateStatus()'
     ),
     array(
         'setMethodInstance',
-        'Magento\RecurringProfile\Model\RecurringProfile',
-        'Magento\RecurringProfile\Model\RecurringProfile::setManager()'
+        'Magento\RecurringPayment\Model\RecurringPayment',
+        'Magento\RecurringPayment\Model\RecurringPayment::setManager()'
     ),
     array(
         'getMethodInstance',
-        'Magento\RecurringProfile\Model\RecurringProfile',
-        'Magento\RecurringProfile\Model\RecurringProfile::getManager()'
+        'Magento\RecurringPayment\Model\RecurringPayment',
+        'Magento\RecurringPayment\Model\RecurringPayment::getManager()'
     ),
     array('sendTransactional', 'Magento\Email\Model\Template'),
     array('_getMail', 'Magento\Email\Model\Template'),

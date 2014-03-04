@@ -84,7 +84,7 @@ class Core_Mage_ProductAttribute_SystemDefaultValueTest extends Mage_Selenium_Te
             array('custom_design', 'simple', 'design_custom_design'),
             array('enable_googlecheckout', 'simple', 'prices_enable_googlecheckout'),
             array('gift_message_available', 'simple', 'autosettings_allow_gift_message'),
-            array('is_recurring', 'simple', 'prices_enable_recurring_profile'),
+            array('is_recurring', 'simple', 'prices_enable_recurring_payment'),
             array('msrp_enabled', 'simple', 'prices_apply_map'),
             array('msrp_display_actual_price_type', 'simple', 'prices_display_actual_price'),
             array('options_container', 'simple', 'design_display_product_options_in'),

@@ -24,11 +24,11 @@ class IpnTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test processIpnRequest() currency check for recurring profile
+     * Test processIpnRequest() currency check for recurring payment
      *
      * @param string $currencyCode
      * @dataProvider currencyProvider
-     * @magentoDataFixture Magento/PayPalRecurringPayment/_files/recurring_profile.php
+     * @magentoDataFixture Magento/PayPalRecurringPayment/_files/recurring_payment.php
      * @magentoConfigFixture current_store payment/paypal_direct/active 1
      * @magentoConfigFixture current_store payment/paypal_express/active 1
      * @magentoConfigFixture current_store paypal/general/merchant_country US
@@ -36,7 +36,7 @@ class IpnTest extends \PHPUnit_Framework_TestCase
      */
     public function testProcessIpnRequestRecurringCurrency($currencyCode)
     {
-        $ipnData = require(__DIR__ . '/../_files/ipn_recurring_profile.php');
+        $ipnData = require(__DIR__ . '/../_files/ipn_recurring_payment.php');
         $ipnData['mc_currency'] = $currencyCode;
 
         /** @var  $ipnFactory \Magento\PayPal\Model\IpnFactory */
@@ -50,9 +50,9 @@ class IpnTest extends \PHPUnit_Framework_TestCase
         );
         $model->processIpnRequest();
 
-        $recurringProfile = $this->_objectManager->create('Magento\RecurringProfile\Model\Profile');
-        $recurringProfile->loadByInternalReferenceId('5-33949e201adc4b03fbbceafccba893ce');
-        $orderIds = $recurringProfile->getChildOrderIds();
+        $recurringPayment = $this->_objectManager->create('Magento\RecurringPayment\Model\Payment');
+        $recurringPayment->loadByInternalReferenceId('5-33949e201adc4b03fbbceafccba893ce');
+        $orderIds = $recurringPayment->getChildOrderIds();
         $this->assertEquals(1, count($orderIds));
         $order = $this->_objectManager->create('Magento\Sales\Model\Order');
         $order->load($orderIds[0]);

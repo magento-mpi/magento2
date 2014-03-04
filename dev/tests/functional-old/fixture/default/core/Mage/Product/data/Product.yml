@@ -529,7 +529,7 @@ simple_product:
     prices_special_price_to: %currentDate%
     prices_tier_price_data: *tierPriceData
     prices_enable_googlecheckout: No
-    prices_enable_recurring_profile: Yes
+    prices_enable_recurring_payment: Yes
     prices_customer_define_start_date: No
     prices_schedule_description: Shedule Description
     prices_max_payment_failures: Max Payment Failures
@@ -599,7 +599,7 @@ duplicate_simple:
     prices_special_price_to: %currentDate%
     prices_tier_price_data: *tierPriceData
     prices_enable_googlecheckout: No
-    prices_enable_recurring_profile: Yes
+    prices_enable_recurring_payment: Yes
     prices_customer_define_start_date: No
     prices_schedule_description: Shedule Description
     prices_max_payment_failures: Max Payment Failures
@@ -696,7 +696,7 @@ virtual_product:
     prices_special_price_to: %currentDate%
     prices_tier_price_data: *tierPriceData
     prices_enable_googlecheckout: No
-    prices_enable_recurring_profile: Yes
+    prices_enable_recurring_payment: Yes
     prices_customer_define_start_date: No
     prices_schedule_description: Shedule Description
     prices_max_payment_failures: Max Payment Failures
@@ -765,7 +765,7 @@ duplicate_virtual:
     prices_special_price_to: %currentDate%
     prices_tier_price_data: *tierPriceData
     prices_enable_googlecheckout: No
-    prices_enable_recurring_profile: Yes
+    prices_enable_recurring_payment: Yes
     prices_customer_define_start_date: No
     prices_schedule_description: Shedule Description
     prices_max_payment_failures: Max Payment Failures
@@ -2242,8 +2242,8 @@ product_update_attributes_tab:
     attributes_set_product_as_new_from_date: %currentDate%
     attributes_change_set_product_as_new_to_date: Yes
     attributes_set_product_as_new_to_date: %currentDate%
-    attributes_change_enable_recurring_profile: Yes
-    attributes_enable_recurring_profile: Yes
+    attributes_change_enable_recurring_payment: Yes
+    attributes_enable_recurring_payment: Yes
     attributes_change_visibility: Yes
     attributes_visibility: Catalog, Search
     attributes_change_custom_design: Yes

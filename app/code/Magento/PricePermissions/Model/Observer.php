@@ -378,8 +378,8 @@ class Observer
         $block = $observer->getBlock();
         $blockNameInLayout = $block->getNameInLayout();
         switch ($blockNameInLayout) {
-            // Handle product Recurring Profile tab
-            case 'adminhtml_recurring_profile_edit_form' :
+            // Handle product Recurring Payment tab
+            case 'adminhtml_recurring_payment_edit_form' :
                 if (!$this->_coreRegistry->registry('product')->isObjectNew()) {
                     if (!$this->_canReadProductPrice) {
                         $block->setProductEntity($this->_productFactory->create());
@@ -389,13 +389,13 @@ class Observer
                     $block->setIsReadonly(true);
                 }
                 break;
-            case 'adminhtml_recurring_profile_edit_form_dependence' :
+            case 'adminhtml_recurring_payment_edit_form_dependence' :
                 if (!$this->_canEditProductPrice) {
                     $block->addConfigOptions(array('can_edit_price' => false));
                     if (!$this->_canReadProductPrice) {
                         $dependenceValue = ($this->_coreRegistry->registry('product')->getIsRecurring()) ? '0' : '1';
                         // Override previous dependence value
-                        $block->addFieldDependence('product[recurring_profile]', 'product[is_recurring]',
+                        $block->addFieldDependence('product[recurring_payment]', 'product[is_recurring]',
                             $dependenceValue);
                     }
                 }
@@ -597,9 +597,9 @@ class Observer
             }
 
             if (!$this->_canEditProductPrice) {
-                // Handle Recurring Profile tab
-                if ($form->getElement('recurring_profile')) {
-                    $form->getElement('recurring_profile')->setReadonly(true, true)->getForm()
+                // Handle Recurring Payment tab
+                if ($form->getElement('recurring_payment')) {
+                    $form->getElement('recurring_payment')->setReadonly(true, true)->getForm()
                         ->setReadonly(true, true);
                 }
             }

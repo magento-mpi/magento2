@@ -1157,16 +1157,16 @@ return array(
     array('Magento\Sales\Model\CarrierFactory', 'Magento\Shipping\Model\CarrierFactory'),
     array('Magento\Sales\Model\Order\Pdf\Shipment\Packaging', 'Magento\Shipping\Model\Order\Pdf\Packaging'),
     array(
-        'Magento\Sales\Model\Observer\Backend\RecurringProfile\FormRenderer', 'Magento\RecurringProfile\Model\Observer'
+        'Magento\Sales\Model\Observer\Backend\RecurringPayment\FormRenderer', 'Magento\RecurringPayment\Model\Observer'
     ),
     array('Magento\Sales\Model\Quote\Address\Total\Nominal\AbstractRecurring',
-        'Magento\RecurringProfile\Model\Quote\Total\AbstractRecurring'
+        'Magento\RecurringPayment\Model\Quote\Total\AbstractRecurring'
     ),
     array('Magento\Sales\Model\Quote\Address\Total\Nominal\Recurring\Initial',
-        'Magento\RecurringProfile\Model\Quote\Total\Initial'
+        'Magento\RecurringPayment\Model\Quote\Total\Initial'
     ),
     array('Magento\Sales\Model\Quote\Address\Total\Nominal\Recurring\Trial',
-        'Magento\RecurringProfile\Model\Quote\Total\Trial'
+        'Magento\RecurringPayment\Model\Quote\Total\Trial'
     ),
     array('Magento\Sales\Model\ResourceFactory'),
     array('Magento\Sales\Model\Resource\Helper\Mysql4', 'Magento\Sales\Model\Resource\Helper'),
@@ -1180,9 +1180,9 @@ return array(
     ),
     array('Magento\Reports\Model\Resource\Helper\HelperInterface', 'Magento\Reports\Model\Resource\HelperInterface'),
     array('Magento\Payment\Block\Catalog\Product\View\Profile',
-        'Magento\RecurringProfile\Block\Catalog\Product\View\Profile'),
+        'Magento\RecurringPayment\Block\Catalog\Product\View\Payment'),
     array('Magento\Payment\Model\Recurring\Profile\MethodInterface',
-        'Magento\RecurringProfile\Model\ManagerInterface'),
+        'Magento\RecurringPayment\Model\ManagerInterface'),
     array('Magento\Poll\Block\ActivePoll'),
     array('Magento\Poll\Controller\Vote'),
     array('Magento\Poll\Helper\Data'),
@@ -1920,7 +1920,7 @@ return array(
     array('Magento\CatalogRule\Block\Adminhtml\Promo\Widget\Chooser'),
     array(
         'Magento\Catalog\Model\Product\Attribute\Backend\Recurring',
-        'Magento\RecurringProfile\Model\Product\Attribute\Backend\Recurring'
+        'Magento\RecurringPayment\Model\Product\Attribute\Backend\Recurring'
     ),
     array(
         'Magento\Catalog\Model\Product\Type\Grouped\Backend',
@@ -1948,7 +1948,7 @@ return array(
     ),
     array(
         'Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Price\Recurring',
-        'Magento\RecurringProfile\Block\Adminhtml\Product\Edit\Tab\Price\Recurring'
+        'Magento\RecurringPayment\Block\Adminhtml\Product\Edit\Tab\Price\Recurring'
     ),
     array(
         'Magento\Catalog\Block\Adminhtml\Product\Edit\Tabs\Grouped',
@@ -1966,8 +1966,8 @@ return array(
         'Magento\GroupedProduct\Block\Product\View\Type\Grouped'
     ),
     array(
-        'Magento\Sales\Block\Adminhtml\Customer\Edit\Tab\Recurring\Profile',
-        'Magento\RecurringProfile\Block\Adminhtml\Customer\Edit\Tab\RecurringProfile'
+        'Magento\Sales\Block\Adminhtml\Customer\Edit\Tab\Recurring\Payment',
+        'Magento\RecurringPayment\Block\Adminhtml\Customer\Edit\Tab\RecurringPayment'
     ),
     array(
         'Magento\Sales\Block\Adminhtml\Items\Column\Name\Grouped',
@@ -1975,39 +1975,39 @@ return array(
     ),
     array(
         'Magento\Sales\Block\Adminhtml\Recurring\Profile',
-        'Magento\RecurringProfile\Block\Adminhtml\Profile'
+        'Magento\RecurringPayment\Block\Adminhtml\Payment'
     ),
     array(
         'Magento\Sales\Block\Adminhtml\Recurring\Profile\Edit\Form',
-        'Magento\RecurringProfile\Block\Adminhtml\Profile\Edit\Form'
+        'Magento\RecurringPayment\Block\Adminhtml\Payment\Edit\Form'
     ),
     array(
         'Magento\Sales\Block\Adminhtml\Recurring\Profile\Grid',
-        'Magento\RecurringProfile\Block\Adminhtml\Profile\Grid'
+        'Magento\RecurringPayment\Block\Adminhtml\Payment\Grid'
     ),
     array(
         'Magento\Sales\Block\Adminhtml\Recurring\Profile\View',
-        'Magento\RecurringProfile\Block\Adminhtml\Profile\View'
+        'Magento\RecurringPayment\Block\Adminhtml\Payment\View'
     ),
     array(
         'Magento\Sales\Block\Adminhtml\Recurring\Profile\View\Getawayinfo',
-        'Magento\RecurringProfile\Block\Adminhtml\Profile\View\Getawayinfo'
+        'Magento\RecurringPayment\Block\Adminhtml\Payment\View\Getawayinfo'
     ),
     array(
         'Magento\Sales\Block\Adminhtml\Recurring\Profile\View\Info',
-        'Magento\RecurringProfile\Block\Adminhtml\Profile\View\Info'
+        'Magento\RecurringPayment\Block\Adminhtml\Payment\View\Info'
     ),
     array(
         'Magento\Sales\Block\Adminhtml\Recurring\Profile\View\Items',
-        'Magento\RecurringProfile\Block\Adminhtml\Profile\View\Info'
+        'Magento\RecurringPayment\Block\Adminhtml\Payment\View\Info'
     ),
     array(
         'Magento\Sales\Block\Adminhtml\Recurring\Profile\View\Tab\Info',
-        'Magento\RecurringProfile\Block\Adminhtml\Profile\View\Tab\Info'
+        'Magento\RecurringPayment\Block\Adminhtml\Payment\View\Tab\Info'
     ),
     array(
         'Magento\Sales\Block\Adminhtml\Recurring\Profile\View\Tab\Orders',
-        'Magento\RecurringProfile\Block\Adminhtml\Profile\View\Tab\Orders'
+        'Magento\RecurringPayment\Block\Adminhtml\Payment\View\Tab\Orders'
     ),
     array(
         'Magento\Sales\Model\Order\Pdf\Items\Invoice\Grouped',
@@ -2019,43 +2019,43 @@ return array(
     ),
     array(
         'Magento\Sales\Block\Recurring\Profile\Related\Orders\Grid',
-        'Magento\RecurringProfile\Block\Profile\Related\Orders\Grid'
+        'Magento\RecurringPayment\Block\Payment\Related\Orders\Grid'
     ),
     array(
         'Magento\Sales\Block\Recurring\Profiles',
-        'Magento\RecurringProfile\Block\Profiles'
+        'Magento\RecurringPayment\Block\Profiles'
     ),
     array(
         'Magento\Sales\Block\Recurring\Profile\Grid',
-        'Magento\RecurringProfile\Block\Profile\Grid'
+        'Magento\RecurringPayment\Block\Payment\Grid'
     ),
     array(
         'Magento\Sales\Block\Recurring\Profile\View',
-        'Magento\RecurringProfile\Block\Profile\View'
+        'Magento\RecurringPayment\Block\Payment\View'
     ),
     array(
         'Magento\Sales\Block\Recurring\Profile\View\Address',
-        'Magento\RecurringProfile\Block\Profile\View\Address'
+        'Magento\RecurringPayment\Block\Payment\View\Address'
     ),
     array(
         'Magento\Sales\Block\Recurring\Profile\View\Data',
-        'Magento\RecurringProfile\Block\Profile\View\Data'
+        'Magento\RecurringPayment\Block\Payment\View\Data'
     ),
     array(
         'Magento\Sales\Block\Recurring\Profile\View\Fees',
-        'Magento\RecurringProfile\Block\Profile\View\Fees'
+        'Magento\RecurringPayment\Block\Payment\View\Fees'
     ),
     array(
         'Magento\Sales\Block\Recurring\Profile\View\Item',
-        'Magento\RecurringProfile\Block\Profile\View\Item'
+        'Magento\RecurringPayment\Block\Payment\View\Item'
     ),
     array(
         'Magento\Sales\Block\Recurring\Profile\View\Reference',
-        'Magento\RecurringProfile\Block\Profile\View\Reference'
+        'Magento\RecurringPayment\Block\Payment\View\Reference'
     ),
     array(
         'Magento\Sales\Block\Recurring\Profile\View\Schedule',
-        'Magento\RecurringProfile\Block\Profile\View\Schedule'
+        'Magento\RecurringPayment\Block\Payment\View\Schedule'
     ),
     array(
         'Magento\ImportExport\Model\Export\Entity\Product\Type\Grouped',
@@ -2084,13 +2084,13 @@ return array(
     array('Magento\Catalog\Model\Category\Indexer\Flat'),
     array('Magento\Config\Dom\Converter\ArrayConverter'),
     array('Magento\Acl\Resource\Config\Dom'),
-    array('Magento\Sales\Model\Recurring\Profile', 'Magento\RecurringProfile\Model\Profile'),
-    array('Magento\Sales\Model\Resource\Recurring\Profile', 'Magento\RecurringProfile\Model\Resource\Profile'),
+    array('Magento\Sales\Model\Recurring\Profile', 'Magento\RecurringPayment\Model\Payment'),
+    array('Magento\Sales\Model\Resource\Recurring\Profile', 'Magento\RecurringPayment\Model\Resource\Payment'),
     array(
         'Magento\Sales\Model\Resource\Recurring\Profile\Collection',
-        'Magento\RecurringProfile\Model\Resource\Profile\Collection'
+        'Magento\RecurringPayment\Model\Resource\Payment\Collection'
     ),
-    ['Magento\Payment\Model\Recurring\Profile', 'Magento\RecurringProfile\Model\RecurringProfile'],
+    ['Magento\Payment\Model\Recurring\Profile', 'Magento\RecurringPayment\Model\RecurringPayment'],
     ['Magento\Validator\Composite\VarienObject', 'Magento\Validator\Object'],
     array('Magento\GoogleShopping\Helper\Price', 'Magento\Catalog\Model\Product\CatalogPrice'),
     array('Magento\Core\Model\Layout\Argument\Handler\ArrayHandler', 'Magento\Data\Argument\Interpreter\ArrayType'),
@@ -2139,8 +2139,8 @@ return array(
         'Magento\ConfigurableProduct\Model\Resource\Product\Collection\AssociatedProduct'
     ),
     array('Magento\Catalog\Model\Resource\Product\Collection\AssociatedProductUpdater'),
-    ['Magento\Sales\Controller\Adminhtml\Recurring\Profile', 'Magento\RecurringProfile\Controller\Adminhtml\Profile'],
-    ['Magento\Sales\Controller\Recurring\Profile', 'Magento\RecurringProfile\Controller\Profile'],
+    ['Magento\Sales\Controller\Adminhtml\Recurring\Profile', 'Magento\RecurringPayment\Controller\Adminhtml\Payment'],
+    ['Magento\Sales\Controller\Recurring\Profile', 'Magento\RecurringPayment\Controller\Payment'],
     ['Magento\Core\Model\Image\Adapter\Config', 'Magento\Image\Adapter\Config'],
     ['Magento\Core\Model\AbstractShell', 'Magento\App\AbstractShell'],
     ['Magento\Core\Model\Calculator', 'Magento\Math\Calculator'],
@@ -2152,5 +2152,7 @@ return array(
     ['Magento\Core\Helper\String', 'Magento\Code\NameBuilder'],
     ['Magento\Core\Model\Context', 'Magento\Model\Context'],
     ['Magento\Core\Model\Registry', 'Magento\Registry'],
-    ['Magento\Code\Plugin\InvocationChain']
+    ['Magento\Code\Plugin\InvocationChain'],
+    ['RecurringProfile', 'RecurringPayment'], // recurring profile was renamed to recurring payment
+    ['Recurring\Profile', 'Recurring\Payment'], // recurring profile was renamed to recurring payment
 );

@@ -141,7 +141,7 @@ class Core_Mage_AttributeSet_UnassignSystemAttributeTest extends Mage_Selenium_T
             array('news_to_date'),
             array('options_container'),
             array('page_layout'),
-            array('recurring_profile'),
+            array('recurring_payment'),
             array('small_image'),
             array('special_from_date'),
             array('special_price'),

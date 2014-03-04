@@ -136,7 +136,7 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
         'VPAS'         => 'centinel_vpas_result',
         'ECISUBMITTED3DS' => 'centinel_eci_result',
 
-        // recurring payment profiles
+        // recurring payments
 //'TOKEN' => 'token',
         'SUBSCRIBERNAME'    =>'subscriber_name',
         'PROFILESTARTDATE'  => 'start_datetime',
@@ -157,8 +157,8 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
         'TAXAMT'              => 'tax_amount',
         'INITAMT'             => 'init_amount',
         'FAILEDINITAMTACTION' => 'init_may_fail',
-        'PROFILEID'           => 'recurring_profile_id',
-        'PROFILESTATUS'       => 'recurring_profile_status',
+        'PROFILEID'           => 'recurring_payment_id',
+        'PROFILESTATUS'       => 'recurring_payment_status',
         'STATUS'              => 'status',
 
         //Next two fields are used for Brazil only
