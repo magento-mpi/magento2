@@ -146,55 +146,6 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @magentoAppArea adminhtml
-     * @magentoDbIsolation enabled
-     * @magentoAppIsolation enabled
-     * @magentoDataFixture Magento/Sales/_files/quote.php
-     */
-    public function testSubmitOrderRollbackNewCustomer()
-    {
-        $this->_prepareQuoteWithMockTransaction();
-        $this->_serviceQuote->getQuote()->setCustomerData($this->getSampleCustomerEntity());
-        $this->_serviceQuote->getQuote()->setCustomerAddressData($this->getSampleAddressEntity());
-        try {
-            $this->_serviceQuote->submitOrderWithDataObject();
-        } catch (\Exception $e) {
-            $this->assertEquals('submitorder exception', $e->getMessage());
-        }
-        $this->assertNull($this->_serviceQuote->getQuote()->getCustomerData()->getId());
-    }
-
-    /**
-     * @magentoAppArea adminhtml
-     * @magentoAppIsolation enabled
-     * @magentoDataFixture Magento/Sales/_files/quote.php
-     */
-    public function testSubmitOrderRollbackExistingCustomer()
-    {
-        $this->_prepareQuoteWithMockTransaction();
-        $customerData = $this->_customerAccountService->createAccount(
-        $this->getSampleCustomerEntity(),
-            $this->getSampleAddressEntity(),
-            'password'
-        );
-
-        $existingCustomerId = $customerData->getId();
-        $customerData = $this->_customerBuilder->mergeDataObjectWithArray(
-            $customerData,
-            [CustomerData::EMAIL => 'new@example.com']
-        );
-        $addresses = $this->_customerAddressService->getAddresses($existingCustomerId);
-        $this->_serviceQuote->getQuote()->setCustomerData($customerData);
-        $this->_serviceQuote->getQuote()->setCustomerAddressData($addresses);
-        try {
-            $this->_serviceQuote->submitOrderWithDataObject();
-        } catch (\Exception $e) {
-            $this->assertEquals('submitorder exception', $e->getMessage());
-        }
-        $this->assertEquals('email@example.com', $this->_customerService->getCustomer($existingCustomerId)->getEmail());
-    }
-
-    /**
      * Function to setup Quote for order
      *
      * @param bool $customerIsGuest
