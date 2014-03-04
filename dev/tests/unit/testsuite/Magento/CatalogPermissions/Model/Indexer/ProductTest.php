@@ -16,12 +16,12 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     protected $model;
 
     /**
-     * @var \Magento\CatalogPermissions\Model\Indexer\Product\Action\FullFactory|\PHPUnit_Framework_MockObject_MockObject
+     * @var Product\Action\FullFactory|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $fullMock;
 
     /**
-     * @var \Magento\CatalogPermissions\Model\Indexer\Product\Action\RowsFactory|\PHPUnit_Framework_MockObject_MockObject
+     * @var Product\Action\RowsFactory|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $rowsMock;
 
