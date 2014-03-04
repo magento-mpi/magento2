@@ -77,6 +77,9 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Customer\Service\V1\Dto\CustomerBuilder */
     private $_customerBuilder;
 
+    /** @var \Magento\Customer\Service\V1\Dto\CustomerDetailsBuilder */
+    private $_customerDetailsBuilder;
+
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\CustomerAddressService
      */
@@ -181,6 +184,11 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $this->_customerBuilder = new Dto\CustomerBuilder();
+
+        $this->_customerDetailsBuilder = new Dto\CustomerDetailsBuilder(
+            $this->_customerBuilder,
+            new Dto\AddressBuilder(new Dto\RegionBuilder())
+        );
 
         $this->_converter = new Converter($this->_customerBuilder, $this->_customerFactoryMock);
 
@@ -1319,35 +1327,35 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             $customerService->saveCustomer($customerEntity);
         } catch (InputException $inputException) {
             $this->assertContains([
-                'fieldName' => 'firstname',
-                'code' => InputException::REQUIRED_FIELD,
-                'value' => null,
-            ], $inputException->getParams());
+                    'fieldName' => 'firstname',
+                    'code' => InputException::REQUIRED_FIELD,
+                    'value' => null,
+                ], $inputException->getParams());
             $this->assertContains([
-                'fieldName' => 'lastname',
-                'code' => InputException::REQUIRED_FIELD,
-                'value' => null,
-            ], $inputException->getParams());
+                    'fieldName' => 'lastname',
+                    'code' => InputException::REQUIRED_FIELD,
+                    'value' => null,
+                ], $inputException->getParams());
             $this->assertContains([
-                'fieldName' => 'email',
-                'code' => InputException::INVALID_FIELD_VALUE,
-                'value' => 'missingAtSign',
-            ], $inputException->getParams());
+                    'fieldName' => 'email',
+                    'code' => InputException::INVALID_FIELD_VALUE,
+                    'value' => 'missingAtSign',
+                ], $inputException->getParams());
             $this->assertContains([
-                'fieldName' => 'dob',
-                'code' => InputException::REQUIRED_FIELD,
-                'value' => null,
-            ], $inputException->getParams());
+                    'fieldName' => 'dob',
+                    'code' => InputException::REQUIRED_FIELD,
+                    'value' => null,
+                ], $inputException->getParams());
             $this->assertContains([
-                'fieldName' => 'taxvat',
-                'code' => InputException::REQUIRED_FIELD,
-                'value' => null,
-            ], $inputException->getParams());
+                    'fieldName' => 'taxvat',
+                    'code' => InputException::REQUIRED_FIELD,
+                    'value' => null,
+                ], $inputException->getParams());
             $this->assertContains([
-                'fieldName' => 'gender',
-                'code' => InputException::REQUIRED_FIELD,
-                'value' => null,
-            ], $inputException->getParams());
+                    'fieldName' => 'gender',
+                    'code' => InputException::REQUIRED_FIELD,
+                    'value' => null,
+                ], $inputException->getParams());
         }
     }
 
@@ -1506,6 +1514,59 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(self::EMAIL, $searchResults->getItems()[0]->getEmail());
     }
 
+    public function testGetCustomerDetails()
+    {
+        $customerMock = $this->getMockBuilder('\Magento\Customer\Service\V1\Dto\Customer')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $addressMock = $this->getMockBuilder('\Magento\Customer\Service\V1\Dto\Address')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->_converter =  $this->getMockBuilder('\Magento\Customer\Model\Converter')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $service = $this->_createService();
+        $this->_converter->expects($this->once())
+            ->method('getCustomerModel')
+            ->will($this->returnValue($this->_customerModelMock));
+        $this->_converter->expects($this->once())
+            ->method('createCustomerFromModel')
+            ->will($this->returnValue($customerMock));
+        $this->_customerAddressServiceMock->expects($this->once())
+            ->method('getAddresses')
+            ->will($this->returnValue([$addressMock]));
+        $customerDetails = $service->getCustomerDetails(1);
+        $this->assertEquals($customerMock, $customerDetails->getCustomer());
+        $this->assertEquals([$addressMock], $customerDetails->getAddresses());
+    }
+
+    /**
+     * @expectedException \Magento\Exception\NoSuchEntityException
+     */
+    public function testGetCustomerDetailsWithException()
+    {
+        $customerMock = $this->getMockBuilder('\Magento\Customer\Service\V1\Dto\Customer')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $addressMock = $this->getMockBuilder('\Magento\Customer\Service\V1\Dto\Address')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->_converter =  $this->getMockBuilder('\Magento\Customer\Model\Converter')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $service = $this->_createService();
+        $this->_converter->expects($this->once())
+            ->method('getCustomerModel')
+            ->will($this->throwException(new \Magento\Exception\NoSuchEntityException('testField', 'value')));
+        $this->_converter->expects($this->any())
+            ->method('createCustomerFromModel')
+            ->will($this->returnValue($customerMock));
+        $this->_customerAddressServiceMock->expects($this->any())
+            ->method('getAddresses')
+            ->will($this->returnValue([$addressMock]));
+        $service->getCustomerDetails(1);
+    }
+
     private function _setupStoreMock()
     {
         $this->_storeManagerMock =
@@ -1549,6 +1610,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             $this->_converter,
             $this->_validator,
             new Dto\CustomerBuilder,
+            $this->_customerDetailsBuilder,
             new Dto\SearchResultsBuilder,
             $this->_customerAddressServiceMock,
             $this->_customerMetadataService,

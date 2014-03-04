@@ -32,10 +32,13 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     /** @var CustomerFactory */
     private $_customerFactory;
 
-    /** @var Dto/CustomerBuilder */
+    /** @var Dto\CustomerBuilder */
     private $_customerBuilder;
 
-    /** @var Dto/SearchResultsBuilder */
+    /** @var Dto\CustomerDetailsBuilder */
+    private $_customerDetailsBuilder;
+
+    /** @var Dto\SearchResultsBuilder */
     private $_searchResultsBuilder;
 
     /**
@@ -88,6 +91,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
      * @param Converter $converter
      * @param Validator $validator
      * @param Dto\CustomerBuilder $customerBuilder
+     * @param Dto\CustomerDetailsBuilder $customerDetailsBuilder
      * @param Dto\SearchResultsBuilder $searchResultsBuilder,
      * @param CustomerAddressServiceInterface $customerAddressService
      * @param CustomerMetadataService $customerMetadataService
@@ -103,6 +107,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         Converter $converter,
         Validator $validator,
         Dto\CustomerBuilder $customerBuilder,
+        Dto\CustomerDetailsBuilder $customerDetailsBuilder,
         Dto\SearchResultsBuilder $searchResultsBuilder,
         CustomerAddressServiceInterface $customerAddressService,
         CustomerMetadataService $customerMetadataService,
@@ -115,6 +120,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         $this->_converter = $converter;
         $this->_validator = $validator;
         $this->_customerBuilder = $customerBuilder;
+        $this->_customerDetailsBuilder = $customerDetailsBuilder;
         $this->_searchResultsBuilder = $searchResultsBuilder;
         $this->_customerAddressService = $customerAddressService;
         $this->_customerMetadataService = $customerMetadataService;
@@ -650,5 +656,16 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     {
         $customerModel = $this->_converter->getCustomerModel($customerId);
         return $customerModel->isDeleteable();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCustomerDetails($customerId)
+    {
+        return $this->_customerDetailsBuilder
+            ->setCustomer($this->getCustomer($customerId))
+            ->setAddresses($this->_customerAddressService->getAddresses($customerId))
+            ->create();
     }
 }

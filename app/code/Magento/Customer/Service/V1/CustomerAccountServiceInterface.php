@@ -221,4 +221,13 @@ interface CustomerAccountServiceInterface
      * @return bool true if the customer can be deleted
      */
     public function canDelete($customerId);
+
+    /**
+     * Retrieve customer details
+     *
+     * @param int $customerId
+     * @throws \Magento\Exception\NoSuchEntityException If customer with customerId is not found.
+     * @return Dto\CustomerDetails
+     */
+    public function getCustomerDetails($customerId);
 }
