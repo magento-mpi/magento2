@@ -10,8 +10,8 @@ namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 use Magento\Customer\Controller\RegistryConstants;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 use Magento\Customer\Service\V1\CustomerServiceInterface;
-use Magento\Customer\Service\V1\Dto\Customer;
-use Magento\Customer\Service\V1\Dto\Address;
+use Magento\Customer\Service\V1\Data\Customer;
+use Magento\Customer\Service\V1\Data\Address;
 use Magento\TestFramework\Helper\Bootstrap;
 
 /**

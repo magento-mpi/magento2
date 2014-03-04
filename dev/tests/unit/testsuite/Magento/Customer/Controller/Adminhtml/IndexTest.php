@@ -9,7 +9,7 @@ namespace Magento\Customer\Controller\Adminhtml;
 
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Exception\NoSuchEntityException;
-use Magento\Customer\Service\V1\Dto\Customer;
+use Magento\Customer\Service\V1\Data\Customer;
 
 /**
  * Unit test for \Magento\Customer\Controller\Adminhtml\Index controller

@@ -9,7 +9,7 @@ namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 
 use Magento\LocaleInterface;
 use Magento\Customer\Controller\RegistryConstants;
-use Magento\Customer\Service\V1\Dto\Customer;
+use Magento\Customer\Service\V1\Data\Customer;
 
 /**
  * Magento\Customer\Block\Adminhtml\Edit\Tab\View
@@ -24,7 +24,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     /** @var  \Magento\Registry */
     private $_coreRegistry;
 
-    /** @var  \Magento\Customer\Service\V1\Dto\CustomerBuilder */
+    /** @var  \Magento\Customer\Service\V1\Data\CustomerBuilder */
     private $_customerBuilder;
 
     /** @var  \Magento\Customer\Service\V1\CustomerServiceInterface */
@@ -50,7 +50,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
                 array('storeManager' => $this->_storeManager)
             );
 
-        $this->_customerBuilder = $objectManager->get('Magento\Customer\Service\V1\Dto\CustomerBuilder');
+        $this->_customerBuilder = $objectManager->get('Magento\Customer\Service\V1\Data\CustomerBuilder');
         $this->_coreRegistry = $objectManager->get('Magento\Registry');
         $this->_customerService = $objectManager->get('Magento\Customer\Service\V1\CustomerServiceInterface');
         $this->_groupService = $objectManager->get('Magento\Customer\Service\V1\CustomerGroupServiceInterface');
