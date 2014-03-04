@@ -62,19 +62,13 @@ class CustomerGroupV1
      * Invalidate indexer on customer group delete
      *
      * @param \Magento\Customer\Service\V1\CustomerGroupService $subject
-     * @param callable $proceed
-     * @param $groupId
      *
      * @return void
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function aroundDeleteGroup(
-        \Magento\Customer\Service\V1\CustomerGroupService $subject,
-        \Closure $proceed,
-        $groupId
+    public function afterDeleteGroup(
+        \Magento\Customer\Service\V1\CustomerGroupService $subject
     ) {
-        $proceed($groupId);
-
         if ($this->appConfig->isEnabled()) {
             $this->getIndexer()->invalidate();
         }
