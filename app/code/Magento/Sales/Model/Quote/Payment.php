@@ -155,7 +155,7 @@ class Payment extends \Magento\Payment\Model\Info
 
         if (!$method->isAvailable($this->getQuote())
             || !$this->methodSpecificationFactory->create($data->getChecks())
-                ->isApplicableToQuote($method, $this->getQuote())
+                ->isApplicable($method, $this->getQuote())
         ) {
             throw new \Magento\Core\Exception(__('The requested Payment Method is not available.'));
         }
