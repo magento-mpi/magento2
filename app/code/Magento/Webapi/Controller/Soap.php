@@ -139,8 +139,9 @@ class Soap implements \Magento\App\FrontControllerInterface
      */
     protected function _getAccessToken()
     {
-        if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
-            $token = explode(' ', $_SERVER['HTTP_AUTHORIZATION']);
+        $headers = array_change_key_case(getallheaders(), CASE_UPPER);
+        if (isset($headers['AUTHORIZATION'])) {
+            $token = explode(' ', $headers['AUTHORIZATION']);
             if (isset($token[1]) && is_string($token[1])) {
                 return $token[1];
             }
