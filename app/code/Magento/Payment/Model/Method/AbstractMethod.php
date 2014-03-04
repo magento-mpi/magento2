@@ -27,7 +27,6 @@ abstract class AbstractMethod extends \Magento\Object
 
     /**
      * Different payment method checks.
-     * @see \Magento\Payment\Model\Method\AbstractMethod::isApplicableToQuote
      */
     const CHECK_USE_FOR_COUNTRY       = 'country';
     const CHECK_USE_FOR_CURRENCY      = 'currency';
