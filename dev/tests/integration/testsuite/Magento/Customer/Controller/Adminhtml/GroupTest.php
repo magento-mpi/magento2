@@ -10,7 +10,7 @@ namespace Magento\Customer\Controller\Adminhtml;
 use Magento\Customer\Controller\RegistryConstants;
 use Magento\Message\MessageInterface;
 use Magento\TestFramework\Helper\Bootstrap;
-use Magento\Customer\Service\V1\Data\CustomerGroup;
+use Magento\Customer\Service\V1\Data\CustomerGroupBuilder;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 
 /**
@@ -26,15 +26,19 @@ class GroupTest extends \Magento\Backend\Utility\Controller
 
     public static function setUpBeforeClass()
     {
-        /** @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService */
+        /** @var CustomerGroupServiceInterface $groupService */
         $groupService = Bootstrap::getObjectManager()
             ->get('Magento\Customer\Service\V1\CustomerGroupServiceInterface');
 
-        $group = new \Magento\Customer\Service\V1\Data\CustomerGroup([
-          'id' => null,
-          'code' => self::CUSTOMER_GROUP_CODE,
-          'tax_class_id' => self::TAX_CLASS_ID
-        ]);
+        /** @var CustomerGroupBuilder $groupBuilder */
+        $groupBuilder = Bootstrap::getObjectManager()
+            ->get('Magento\Customer\Service\V1\Data\CustomerGroupBuilder');
+        $group = $groupBuilder->populateWithArray([
+                'id' => null,
+                'code' => self::CUSTOMER_GROUP_CODE,
+                'tax_class_id' => self::TAX_CLASS_ID
+            ])
+            ->create();
         self::$_customerGroupId = $groupService->saveGroup($group);;
     }
 

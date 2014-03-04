@@ -9,8 +9,6 @@ namespace Magento\Customer\Block\Adminhtml;
 
 use Magento\Customer\Controller\RegistryConstants;
 use Magento\TestFramework\Helper\Bootstrap;
-use Magento\Customer\Service\V1\Data\Customer;
-
 /**
  * Class EditTest
  *
@@ -47,13 +45,17 @@ class EditTest extends \PHPUnit_Framework_TestCase
     {
         $customerService = Bootstrap::getObjectManager()
             ->get('Magento\Customer\Service\V1\CustomerServiceInterface');
-        $customer = new Customer([
+        $customerBuilder = Bootstrap::getObjectManager()
+            ->get('Magento\Customer\Service\V1\Data\CustomerBuilder');
+        $customerData = [
             'group_id' => 1,
             'website_id' => 1,
             'firstname' => 'Firstname',
             'lastname' => 'Lastname',
             'email' => 'firstname.lastname@gmail.com'
-        ]);
+        ];
+        $customer = $customerBuilder->populateWithArray($customerData)
+            ->create();
         self::$customerId = $customerService->saveCustomer($customer);
     }
 

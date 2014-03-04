@@ -141,7 +141,7 @@ class Accordion extends \Magento\Backend\Block\Widget\Accordion
         } elseif ($customerId) {
             return $this->_customerService->getCustomer($customerId);
         } else {
-            return new Customer([]);
+            return $this->_customerBuilder->create();
         }
     }
 }
