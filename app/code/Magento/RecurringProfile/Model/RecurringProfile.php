@@ -31,7 +31,7 @@ class RecurringProfile extends \Magento\Core\Model\AbstractModel
 
     /**
      *
-     * @var \Magento\Payment\Model\Method\AbstractMethod|null
+     * @var \Magento\Payment\Model\MethodInterface
      */
     protected $_methodInstance = null;
 
@@ -204,11 +204,11 @@ class RecurringProfile extends \Magento\Core\Model\AbstractModel
     /**
      * Setter for payment method instance
      *
-     * @param \Magento\Payment\Model\Method\AbstractMethod $object
+     * @param \Magento\Payment\Model\MethodInterface $object
      * @return $this
      * @throws \Exception
      */
-    public function setMethodInstance(\Magento\Payment\Model\Method\AbstractMethod $object)
+    public function setMethodInstance(\Magento\Payment\Model\MethodInterface $object)
     {
         if ($object instanceof \Magento\Payment\Model\Recurring\Profile\MethodInterface) {
             $this->_methodInstance = $object;
@@ -441,7 +441,7 @@ class RecurringProfile extends \Magento\Core\Model\AbstractModel
     /**
      * Return payment method instance
      *
-     * @return \Magento\Payment\Model\Method\AbstractMethod
+     * @return \Magento\Payment\Model\MethodInterface
      */
     protected function getMethodInstance()
     {
