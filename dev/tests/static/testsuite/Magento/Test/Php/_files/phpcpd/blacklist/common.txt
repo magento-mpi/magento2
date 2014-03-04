@@ -116,5 +116,5 @@ Magento/CatalogInventory/Model/Resource/Stock/Item
 lib/Magento/Filesystem/Driver
 Magento/OfflineShipping/Model/Carrier
 Magento/Usps/Model/Carrier
-Magento/Dhl/Model/Carrier
-Magento/Shipping/Model/Shipping
+Magento/Dhl/Model
+Magento/Shipping/Model
