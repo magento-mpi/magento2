@@ -19,14 +19,18 @@ class Group extends AbstractPlugin
     protected function validate(\Magento\Core\Model\AbstractModel $group)
     {
         return ($group->dataHasChangedFor('website_id') || $group->dataHasChangedFor('root_category_id'))
-        && !$group->isObjectNew();
+            && !$group->isObjectNew();
     }
 
     /**
+     * Invalidate indexer on store group save
+     *
      * @param \Magento\Core\Model\Resource\Store\Group $subject
      * @param callable $proceed
      * @param \Magento\Core\Model\AbstractModel $store
+     *
      * @return mixed
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function aroundSave(
         \Magento\Core\Model\Resource\Store\Group $subject,

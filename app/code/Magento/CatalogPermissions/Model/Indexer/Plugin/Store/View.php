@@ -22,12 +22,14 @@ class View extends AbstractPlugin
     }
 
     /**
-     * Process to invalidate indexer
+     * Invalidate indexer on store view save
      *
      * @param \Magento\Core\Model\Resource\Store $subject
      * @param callable $proceed
      * @param \Magento\Core\Model\AbstractModel $store
+     *
      * @return mixed
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function aroundSave(
         \Magento\Core\Model\Resource\Store $subject,
