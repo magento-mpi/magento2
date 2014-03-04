@@ -40,5 +40,6 @@
     <module name="Magento_TargetRule" active="true" />
     <module name="Magento_WebsiteRestriction" active="true" />
     <module name="Magento_MultipleWishlist" active="true" />
+    <module name="Magento_PbridgePaypal" active="true" />
     <module name="Magento_CacheInvalidate" active="true" />
 </config>

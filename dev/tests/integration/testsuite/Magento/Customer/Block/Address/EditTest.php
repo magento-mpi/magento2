@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Block\Address;
 
 /**
@@ -25,32 +24,29 @@ class EditTest extends \PHPUnit_Framework_TestCase
     /** @var string */
     protected $_requestId;
 
-    /**
-     * @var \Magento\ObjectManager
-     */
-    protected $objectManager;
-
     protected function setUp()
     {
-        $this->objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-        $this->_customerSession = $this->objectManager->get('Magento\Customer\Model\Session');
-
+        $this->_customerSession = $objectManager->get('\Magento\Customer\Model\Session');
         $this->_customerSession->setCustomerId(1);
 
-        $this->_context = $this->objectManager->get('Magento\Backend\Block\Template\Context');
+        $this->_context = $objectManager->get('Magento\Backend\Block\Template\Context');
         $this->_requestId = $this->_context->getRequest()->getParam('id');
         $this->_context->getRequest()->setParam('id', '1');
 
-        $this->objectManager->get('Magento\App\State')->setAreaCode('frontend');
+        $objectManager->get('Magento\App\State')->setAreaCode('frontend');
 
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = $this->objectManager->get('Magento\View\LayoutInterface');
-
+        $layout = $objectManager->get('Magento\View\LayoutInterface');
+        $customerCurrentService = $objectManager->create(
+            'Magento\Customer\Service\V1\CustomerCurrentServiceInterface',
+            ['customerSession' => $this->_customerSession]
+        );
         $this->_block = $layout->createBlock(
             'Magento\Customer\Block\Address\Edit',
             '',
-            array('customerSession' => $this->_customerSession)
+            ['customerSession' => $this->_customerSession, 'customerCurrentService' => $customerCurrentService]
         );
     }
 
@@ -75,6 +71,24 @@ class EditTest extends \PHPUnit_Framework_TestCase
     public function testGetRegionId()
     {
         $this->assertEquals(1, $this->_block->getRegionId());
+    }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     * @magentoDataFixture Magento/Customer/_files/customer_address.php
+     */
+    public function testGetCountryId()
+    {
+        $this->assertEquals('US', $this->_block->getCountryId());
+    }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     * @magentoDataFixture Magento/Customer/_files/customer_two_addresses.php
+     */
+    public function testGetCustomerAddressCount()
+    {
+        $this->assertEquals(2, $this->_block->getCustomerAddressCount());
     }
 
     /**

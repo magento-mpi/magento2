@@ -4,14 +4,12 @@
  *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
- * @author      Magento Core Team <core@magentocommerce.com>
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Block\Account\Dashboard;
+
+use Magento\Exception\NoSuchEntityException;
 
 class Address extends \Magento\View\Element\Template
 {
@@ -60,7 +58,7 @@ class Address extends \Magento\View\Element\Template
     {
         try {
             return $this->customerCurrentService->getCustomer();
-        } catch (\Magento\Exception\NoSuchEntityException $e) {
+        } catch (NoSuchEntityException $e) {
             return null;
         }
     }
@@ -74,7 +72,7 @@ class Address extends \Magento\View\Element\Template
     {
         try {
             $address = $this->customerAddressCurrentService->getDefaultShippingAddress();
-        } catch (\Magento\Exception\NoSuchEntityException $e) {
+        } catch (NoSuchEntityException $e) {
             return __('You have not set a default shipping address.');
         }
 
@@ -94,7 +92,7 @@ class Address extends \Magento\View\Element\Template
     {
         try {
             $address = $this->customerAddressCurrentService->getDefaultBillingAddress();
-        } catch (\Magento\Exception\NoSuchEntityException $e) {
+        } catch (NoSuchEntityException $e) {
             return __('You have not set a default billing address.');
         }
 
@@ -110,8 +108,8 @@ class Address extends \Magento\View\Element\Template
         if (is_null($this->getCustomer())) {
             return '';
         } else {
-            return $this->_urlBuilder->getUrl('customer/address/edit',
-                array('id'=>$this->getCustomer()->getDefaultShipping()));
+            return $this->_urlBuilder
+                ->getUrl('customer/address/edit', ['id'=>$this->getCustomer()->getDefaultShipping()]);
         }
     }
 
@@ -120,8 +118,8 @@ class Address extends \Magento\View\Element\Template
         if (is_null($this->getCustomer())) {
             return '';
         } else {
-            return $this->_urlBuilder->getUrl('customer/address/edit',
-                array('id'=>$this->getCustomer()->getDefaultBilling()));
+            return $this->_urlBuilder
+                ->getUrl('customer/address/edit', ['id'=>$this->getCustomer()->getDefaultBilling()]);
         }
     }
 

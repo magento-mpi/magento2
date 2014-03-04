@@ -221,6 +221,9 @@ $CONFIG['translates'] = array(
     'Magento_Authorizenet' => array(
         'app/code/Magento/Authorizenet/',
     ),
+    'Magento_OfflinePayments' => array(
+        'app/code/Magento/OfflinePayments/'
+    ),
     'Magento_Payment' => array(
         'app/code/Magento/Payment/',
         'app/design/frontend/base/default/template/payment/'
@@ -434,6 +437,9 @@ $CONFIG['translates'] = array(
         'app/design/adminhtml/default/default/template/enterprise/pbridge/',
         'app/design/frontend/enterprise/default/layout/pbridge.xml',
         'app/design/frontend/enterprise/default/template/pbridge/'
+    ),
+    'Magento_PbridgePaypal' => array(
+        'app/code/Magento/PbridgePaypal/',
     ),
     'Magento_Pci' => array(
         'app/code/Magento/Pci/',
