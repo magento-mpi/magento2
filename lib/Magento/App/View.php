@@ -284,4 +284,14 @@ class View implements ViewInterface
     {
         $this->_isLayoutLoaded = $value;
     }
+
+    /**
+     * Returns is layout loaded
+     *
+     * @return bool
+     */
+    public function isLayoutLoaded()
+    {
+        return $this->_isLayoutLoaded;
+    }
 }

@@ -2,12 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Customer\Block\Adminhtml\Edit;
+
+use Magento\Customer\Controller\RegistryConstants;
 
 /**
  * Admin customer left menu
@@ -22,6 +22,8 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
     protected $_coreRegistry = null;
 
     /**
+     * Constructor
+     *
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Backend\Model\Auth\Session $authSession
@@ -40,7 +42,7 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
     }
 
     /**
-     * @return void
+     * {@inheritdoc}
      */
     protected function _construct()
     {
@@ -51,7 +53,7 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
     }
 
     /**
-     * @return $this
+     * {@inheritdoc}
      */
     protected function _beforeToHtml()
     {
@@ -61,7 +63,7 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
             'label'     => __('Account Information'),
             'content'   => $this->getLayout()
                 ->createBlock('Magento\Customer\Block\Adminhtml\Edit\Tab\Account')->initForm()->toHtml(),
-            'active'    => $this->_coreRegistry->registry('current_customer')->getId() ? false : true
+            'active'    => $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID) ? false : true
         ));
 
         $this->addTab('addresses', array(
@@ -70,10 +72,9 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
                 ->createBlock('Magento\Customer\Block\Adminhtml\Edit\Tab\Addresses')->initForm()->toHtml(),
         ));
 
-
         // load: Orders, Shopping Cart, Wishlist, Product Reviews, Product Tags - with ajax
 
-        if ($this->_coreRegistry->registry('current_customer')->getId()) {
+        if ($this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID)) {
 
             if ($this->_authorization->isAllowed('Magento_Sales::actions_view')) {
                 $this->addTab('orders', array(
@@ -118,6 +119,8 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
     }
 
     /**
+     * Update and set the active tab.
+     *
      * @return void
      */
     protected function _updateActiveTab()

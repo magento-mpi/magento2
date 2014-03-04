@@ -25,7 +25,7 @@ interface CustomerAddressServiceInterface
      * Retrieve default billing address
      *
      * @param int $customerId
-     * @return Dto\Address
+     * @return Dto\Address|null
      * @throws \Magento\Exception\NoSuchEntityException If the customer Id is invalid
      */
     public function getDefaultBillingAddress($customerId);
@@ -34,7 +34,7 @@ interface CustomerAddressServiceInterface
      * Retrieve default shipping address
      *
      * @param int $customerId
-     * @return Dto\Address
+     * @return Dto\Address|null
      * @throws \Magento\Exception\NoSuchEntityException If the customer Id is invalid
      */
     public function getDefaultShippingAddress($customerId);
@@ -76,6 +76,5 @@ interface CustomerAddressServiceInterface
      * @throws \Exception If there were issues during the save operation
      * @return int[] address ids
      */
-    public function saveAddresses($customerId, array $addresses);
-
+    public function saveAddresses($customerId, $addresses);
 }

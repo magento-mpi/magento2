@@ -24,7 +24,8 @@ namespace Magento\Catalog\Model;
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Product extends \Magento\Catalog\Model\AbstractModel
+
+class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\Object\IdentityInterface
 {
     /**
      * Entity code.
@@ -2015,5 +2016,15 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     {
         $this->getTypeInstance()->setImageFromChildProduct($this);
         return parent::getImage();
+    }
+
+    /**
+     * Get identities
+     *
+     * @return array
+     */
+    public function getIdentities()
+    {
+        return array(self::CACHE_TAG  . '_' . $this->getId());
     }
 }

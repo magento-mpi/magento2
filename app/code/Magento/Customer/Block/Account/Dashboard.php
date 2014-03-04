@@ -2,27 +2,21 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Customer\Block\Account;
 
-use Magento\Customer\Model\Customer;
-use Magento\Newsletter\Model\Subscriber;
+use Magento\Customer\Service\V1\CustomerServiceInterface;
+use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 
 /**
  * Customer dashboard block
- *
- * @category   Magento
- * @package    Magento_Customer
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Dashboard extends \Magento\View\Element\Template
 {
     /**
-     * @var Subscriber
+     * @var \Magento\Newsletter\Model\Subscriber
      */
     protected $_subscription;
 
@@ -37,93 +31,130 @@ class Dashboard extends \Magento\View\Element\Template
     protected $_subscriberFactory;
 
     /**
+     * @var CustomerServiceInterface
+     */
+    protected $_customerService;
+
+    /**
+     * @var CustomerAddressServiceInterface
+     */
+    protected $_addressService;
+
+    /**
+     * Constructor
+     *
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
+     * @param CustomerServiceInterface $customerService
+     * @param CustomerAddressServiceInterface $addressService
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
+        CustomerServiceInterface $customerService,
+        CustomerAddressServiceInterface $addressService,
         array $data = array()
     ) {
         $this->_customerSession = $customerSession;
         $this->_subscriberFactory = $subscriberFactory;
+        $this->_customerService = $customerService;
+        $this->_addressService = $addressService;
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
     }
 
     /**
-     * @return Customer
+     * Return the Customer given the customer Id stored in the session.
+     *
+     * @return \Magento\Customer\Service\V1\Dto\Customer
      */
     public function getCustomer()
     {
-        return $this->_customerSession->getCustomer();
+        return $this->_customerService->getCustomer($this->_customerSession->getCustomerId());
     }
 
     /**
+     * Retrieve the Url for editing the customer's account.
+     *
      * @return string
      */
     public function getAccountUrl()
     {
-        return $this->_urlBuilder->getUrl('customer/account/edit', array('_secure'=>true));
+        return $this->_urlBuilder->getUrl('customer/account/edit', ['_secure' => true]);
     }
 
     /**
+     * Retrieve the Url for customer addresses.
+     *
      * @return string
      */
     public function getAddressesUrl()
     {
-        return $this->_urlBuilder->getUrl('customer/address/index', array('_secure'=>true));
+        return $this->_urlBuilder->getUrl('customer/address/index', ['_secure' => true]);
     }
 
     /**
-     * @param \Magento\Object $address
+     * Retrieve the Url for editing the specified address.
+     *
+     * @param \Magento\Customer\Service\V1\Dto\Address $address
      * @return string
      */
     public function getAddressEditUrl($address)
     {
-        return $this->_urlBuilder->getUrl('customer/address/edit', array('_secure'=>true, 'id'=>$address->getId()));
+        return $this->_urlBuilder->getUrl('customer/address/edit', ['_secure' => true, 'id' => $address->getId()]);
     }
 
     /**
+     * Retrieve the Url for customer orders.
+     *
      * @return string
      */
     public function getOrdersUrl()
     {
-        return $this->_urlBuilder->getUrl('customer/order/index', array('_secure'=>true));
+        return $this->_urlBuilder->getUrl('customer/order/index', ['_secure' => true]);
     }
 
     /**
+     * Retrieve the Url for customer reviews.
+     *
      * @return string
      */
     public function getReviewsUrl()
     {
-        return $this->_urlBuilder->getUrl('review/customer/index', array('_secure'=>true));
+        return $this->_urlBuilder->getUrl('review/customer/index', ['_secure' => true]);
     }
 
     /**
+     * Retrieve the Url for managing customer wishlist.
+     *
      * @return string
      */
     public function getWishlistUrl()
     {
-        return $this->_urlBuilder->getUrl('customer/wishlist/index', array('_secure'=>true));
+        return $this->_urlBuilder->getUrl('customer/wishlist/index', ['_secure' => true]);
     }
 
     /**
-     * @return Subscriber
+     * Retrieve the subscription object (i.e. the subscriber).
+     *
+     * @return \Magento\Newsletter\Model\Subscriber
      */
     public function getSubscriptionObject()
     {
         if (is_null($this->_subscription)) {
-            $this->_subscription = $this->_createSubscriber()->loadByCustomer($this->getCustomer());
+            $this->_subscription =
+                $this->_createSubscriber()->loadByCustomer($this->_customerSession->getCustomerId());
         }
 
         return $this->_subscription;
     }
 
     /**
+     * Retrieve the Url for managing newsletter subscriptions.
+     *
      * @return string
      */
     public function getManageNewsletterUrl()
@@ -132,6 +163,8 @@ class Dashboard extends \Magento\View\Element\Template
     }
 
     /**
+     * Retrieve subscription text, either subscribed or not.
+     *
      * @return string
      */
     public function getSubscriptionText()
@@ -144,23 +177,38 @@ class Dashboard extends \Magento\View\Element\Template
     }
 
     /**
-     * @return array|false
+     * Retrieve the customer's primary addresses (i.e. default billing and shipping).
+     *
+     * @return \Magento\Customer\Service\V1\Dto\Address[]|bool
      */
     public function getPrimaryAddresses()
     {
-        $addresses = $this->getCustomer()->getPrimaryAddresses();
-        if (empty($addresses)) {
-            return false;
+        $addresses = [];
+        $customerId = $this->getCustomer()->getCustomerId();
+
+        if ($defaultBilling = $this->_addressService->getDefaultBillingAddress($customerId)) {
+            $addresses[] = $defaultBilling;
         }
-        return $addresses;
+
+        if ($defaultShipping = $this->_addressService->getDefaultShippingAddress($customerId)) {
+            if ($defaultBilling) {
+                if ($defaultBilling->getId() != $defaultShipping->getId()) {
+                    $addresses[] = $defaultShipping;
+                }
+            } else {
+                $addresses[] = $defaultShipping;
+            }
+        }
+
+        return (empty($addresses)) ? false : $addresses;
     }
 
     /**
-     * Get back url in account dashboard
+     * Get back Url in account dashboard.
      *
      * This method is copy/pasted in:
-     * \Magento\Wishlist\Block\Customer\Wishlist  - because of strange inheritance
-     * \Magento\Customer\Block\Address\Book - because of secure url
+     * \Magento\Wishlist\Block\Customer\Wishlist  - Because of strange inheritance
+     * \Magento\Customer\Block\Address\Book - Because of secure Url
      *
      * @return string
      */
@@ -174,7 +222,9 @@ class Dashboard extends \Magento\View\Element\Template
     }
 
     /**
-     * @return Subscriber
+     * Create an instance of a subscriber.
+     *
+     * @return \Magento\Newsletter\Model\Subscriber
      */
     protected function _createSubscriber()
     {

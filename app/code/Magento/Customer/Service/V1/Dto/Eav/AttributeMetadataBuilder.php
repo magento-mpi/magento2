@@ -75,7 +75,7 @@ class AttributeMetadataBuilder extends \Magento\Service\Entity\AbstractDtoBuilde
     }
 
     /**
-     * @param bool $visible
+     * @param boolean $visible
      * @return $this
      */
     public function setVisible($visible)
@@ -84,7 +84,7 @@ class AttributeMetadataBuilder extends \Magento\Service\Entity\AbstractDtoBuilde
     }
 
     /**
-     * @param bool $required
+     * @param boolean $required
      * @return $this
      */
     public function setRequired($required)
@@ -154,5 +154,14 @@ class AttributeMetadataBuilder extends \Magento\Service\Entity\AbstractDtoBuilde
     public function setIsSystem($isSystem)
     {
         return $this->_set(AttributeMetadata::IS_SYSTEM, $isSystem);
+    }
+
+    /**
+     * @param string $note
+     * @return $this
+     */
+    public function setNote($note)
+    {
+        return $this->_set(AttributeMetadata::NOTE, $note);
     }
 }

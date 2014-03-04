@@ -12,7 +12,7 @@ namespace Magento\Sales\Block\Reorder;
 /**
  * Sales order view block
  */
-class Sidebar extends \Magento\View\Element\Template
+class Sidebar extends \Magento\View\Element\Template implements \Magento\View\Block\IdentityInterface
 {
     /**
      * @var string
@@ -145,8 +145,10 @@ class Sidebar extends \Magento\View\Element\Template
      */
     public function getLastOrder()
     {
-        foreach ($this->getOrders() as $order) {
-            return $order;
+        if ($this->getOrders()) {
+            foreach ($this->getOrders() as $order) {
+                return $order;
+            }
         }
         return false;
     }
@@ -159,5 +161,19 @@ class Sidebar extends \Magento\View\Element\Template
     protected function _toHtml()
     {
         return $this->_customerSession->isLoggedIn() || $this->getCustomerId() ? parent::_toHtml() : '';
+    }
+
+    /**
+     * Return identifiers for produced content
+     *
+     * @return array
+     */
+    public function getIdentities()
+    {
+        $identities = array();
+        foreach ($this->getItems() as $item) {
+            $identities = array_merge($identities, $item->getProduct()->getIdentities());
+        }
+        return $identities;
     }
 }

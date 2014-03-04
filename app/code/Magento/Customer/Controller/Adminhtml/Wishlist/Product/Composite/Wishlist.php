@@ -14,30 +14,25 @@ use Magento\Core\Exception as CoreException;
 
 /**
  * Catalog composite product configuration controller
- *
- * @category    Magento
- * @package     Magento_Customer
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Wishlist
-    extends \Magento\Backend\App\Action
+class Wishlist extends \Magento\Backend\App\Action
 {
-     /**
-      * Wishlist we're working with
-      *
-      * @var \Magento\Wishlist\Model\Wishlist
-      */
+    /**
+     * Wishlist we're working with.
+     *
+     * @var \Magento\Wishlist\Model\Wishlist
+     */
     protected $_wishlist = null;
 
     /**
-     * Wishlist item we're working with
+     * Wishlist item we're working with.
      *
      * @var \Magento\Wishlist\Model\Wishlist
      */
     protected $_wishlistItem = null;
 
     /**
-     * Loads wishlist and wishlist item
+     * Loads wishlist and wishlist item.
      *
      * @return $this
      * @throws CoreException
@@ -66,7 +61,7 @@ class Wishlist
     }
 
     /**
-     * Ajax handler to response configuration fieldset of composite product in customer's wishlist
+     * Ajax handler to response configuration fieldset of composite product in customer's wishlist.
      *
      * @return void
      */
@@ -92,7 +87,7 @@ class Wishlist
     }
 
     /**
-     * IFrame handler for submitted configuration for wishlist item
+     * IFrame handler for submitted configuration for wishlist item.
      *
      * @return false
      */

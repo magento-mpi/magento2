@@ -35,8 +35,10 @@ class Newpass extends AbstractBlock implements RendererInterface
         $html.= '<div class="nested">';
         $html.= '<div class="field choice">';
         $html.= '<label for="account-send-pass" class="addbefore"><span>'.__('or ').'</span></label>';
-        $html.= '<input type="checkbox" id="account-send-pass" name="'.$element->getName().'" value="auto" onclick="setElementDisable(\''.$element->getHtmlId().'\', this.checked)" />';
-        $html.= '<label class="label" for="account-send-pass"><span>'.__(' Send auto-generated password').'</span></label>';
+        $html.= '<input type="checkbox" id="account-send-pass" name="'.$element->getName().
+            '" value="auto" onclick="setElementDisable(\''.$element->getHtmlId().'\', this.checked)" />';
+        $html.= '<label class="label" for="account-send-pass"><span>'.
+            __(' Send auto-generated password').'</span></label>';
         $html.= '</div>'."\n";
         $html.= '</div>'."\n";
         $html.= '</div>'."\n";

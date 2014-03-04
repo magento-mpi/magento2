@@ -9,27 +9,37 @@
  */
 namespace Magento\Customer\Block\Widget;
 
+use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
 use Magento\Customer\Service\V1\Dto\Customer;
+use Magento\View\Element\Template\Context;
+use Magento\Customer\Helper\Address as AddressHelper;
+use Magento\Customer\Helper\Data as CustomerHelper;
 
+/**
+ * Widget for showing customer name.
+ *
+ * @method \Magento\Customer\Service\V1\Dto\Customer getObject()
+ * @method Name setObject(\Magento\Customer\Service\V1\Dto\Customer $customer)
+ */
 class Name extends AbstractWidget
 {
     /**
-     * @var \Magento\Customer\Helper\Data
+     * @var CustomerHelper
      */
     protected $_customerHelper;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Customer\Helper\Address $addressHelper
-     * @param \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $attributeMetadata
-     * @param \Magento\Customer\Helper\Data $customerHelper
+     * @param Context $context
+     * @param AddressHelper $addressHelper
+     * @param CustomerMetadataServiceInterface $attributeMetadata
+     * @param CustomerHelper $customerHelper
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        \Magento\Customer\Helper\Address $addressHelper,
-        \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $attributeMetadata,
-        \Magento\Customer\Helper\Data $customerHelper,
+        Context $context,
+        AddressHelper $addressHelper,
+        CustomerMetadataServiceInterface $attributeMetadata,
+        CustomerHelper $customerHelper,
         array $data = array()
     ) {
         $this->_customerHelper = $customerHelper;
@@ -182,6 +192,8 @@ class Name extends AbstractWidget
      *
      * @param string $attributeCode
      * @return \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata|null
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     protected function _getAttribute($attributeCode)
     {
@@ -192,7 +204,7 @@ class Name extends AbstractWidget
         }
 
         try {
-            $attribute = $this->_attributeMetadata->getAttributeMetadata('customer_address', $attributeCode);
+            $attribute = $this->_attributeMetadata->getAddressAttributeMetadata($attributeCode);
         } catch (\Magento\Exception\NoSuchEntityException $e) {
             return null;
         }
@@ -217,6 +229,17 @@ class Name extends AbstractWidget
     {
         $attribute = $this->_getAttribute($attributeCode);
         return $attribute ? __($attribute->getStoreLabel()) : '';
+    }
+
+    /**
+     * Get string with frontend validation classes for attribute
+     *
+     * @param string $attributeCode
+     * @return string
+     */
+    public function getAttributeValidationClass($attributeCode)
+    {
+        return $this->_addressHelper->getAttributeValidationClass($attributeCode);
     }
 
     /**

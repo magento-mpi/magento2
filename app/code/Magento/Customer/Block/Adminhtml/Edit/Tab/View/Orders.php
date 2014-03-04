@@ -2,19 +2,15 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab\View;
 
+use Magento\Customer\Controller\RegistryConstants;
+
 /**
  * Adminhtml customer recent orders grid block
- *
- * @category   Magento
- * @package    Magento_Customer
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Orders extends \Magento\Backend\Block\Widget\Grid\Extended
 {
@@ -31,6 +27,8 @@ class Orders extends \Magento\Backend\Block\Widget\Grid\Extended
     protected $_collectionFactory;
 
     /**
+     * Constructor
+     *
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Sales\Model\Resource\Order\Grid\CollectionFactory $collectionFactory
@@ -50,6 +48,8 @@ class Orders extends \Magento\Backend\Block\Widget\Grid\Extended
     }
 
     /**
+     * Initialize the orders grid.
+     *
      * @return void
      */
     protected function _construct()
@@ -63,7 +63,7 @@ class Orders extends \Magento\Backend\Block\Widget\Grid\Extended
     }
 
     /**
-     * @return void
+     * {@inheritdoc}
      */
     protected function _preparePage()
     {
@@ -73,84 +73,82 @@ class Orders extends \Magento\Backend\Block\Widget\Grid\Extended
     }
 
     /**
-     * @return $this
+     * {@inheritdoc}
      */
     protected function _prepareCollection()
     {
         $collection = $this->_collectionFactory->create()
-            ->addFieldToFilter('customer_id', $this->_coreRegistry->registry('current_customer')->getId())
+            ->addFieldToFilter('customer_id', $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID))
             ->setIsCustomerMode(true);
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
 
     /**
-     * @return $this
+     * {@inheritdoc}
      */
     protected function _prepareColumns()
     {
-
-        $this->addColumn('increment_id', array(
+        $this->addColumn('increment_id', [
             'header'    => __('Order'),
             'align'     => 'center',
             'index'     => 'increment_id',
             'width'     => '100px',
-        ));
+        ]);
 
-        $this->addColumn('created_at', array(
+        $this->addColumn('created_at', [
             'header'    => __('Purchase Date'),
             'index'     => 'created_at',
             'type'      => 'datetime',
-        ));
+        ]);
 
-        $this->addColumn('billing_name', array(
+        $this->addColumn('billing_name', [
             'header'    => __('Bill-to Name'),
             'index'     => 'billing_name',
-        ));
+        ]);
 
-        $this->addColumn('shipping_name', array(
+        $this->addColumn('shipping_name', [
             'header'    => __('Shipped-to Name'),
             'index'     => 'shipping_name',
-        ));
+        ]);
 
-        $this->addColumn('grand_total', array(
+        $this->addColumn('grand_total', [
             'header'    => __('Grand Total'),
             'index'     => 'grand_total',
             'type'      => 'currency',
             'currency'  => 'order_currency_code',
-        ));
+        ]);
 
         if (!$this->_storeManager->isSingleStoreMode()) {
-            $this->addColumn('store_id', array(
+            $this->addColumn('store_id', [
                 'header'    => __('Purchase Point'),
                 'index'     => 'store_id',
                 'type'      => 'store',
                 'store_view' => true,
-            ));
+            ]);
         }
 
-        $this->addColumn('action', array(
+        $this->addColumn('action', [
             'header'    =>  ' ',
             'filter'    =>  false,
             'sortable'  =>  false,
             'width'     => '100px',
             'renderer'  =>  'Magento\Sales\Block\Adminhtml\Reorder\Renderer\Action'
-        ));
+        ]);
 
         return parent::_prepareColumns();
     }
 
     /**
-     * @param \Magento\Object $row
-     * @return string
+     * {@inheritdoc}
      */
     public function getRowUrl($row)
     {
-        return $this->getUrl('sales/order/view', array('order_id' => $row->getId()));
+        return $this->getUrl('sales/order/view', ['order_id' => $row->getId()]);
     }
 
     /**
-     * @return bool
+     * {@inheritdoc}
      */
     public function getHeadersVisibility()
     {

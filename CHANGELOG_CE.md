@@ -1,3 +1,8 @@
+* Cache:
+  * Depersonalize private content generation
+  * Content invalidation
+  * Added Edge side includes(ESI) supporting
+  * Added Built-in caching application
 * GitHub requests:
   * [#454](https://github.com/magento/magento2/pull/454) -- Allow to specify list of IPs in a body on maintenance.flag which will be granted access even if the flag is on
   * [#204](https://github.com/magento/magento2/issues/204) -- Mage_ImportExport: Exporting configurable products ignores multiple configurable options
@@ -34,6 +39,7 @@
 * Customer Service usage:
   * Sales module refactoring to use customer service layer
   * Checkout module refactoring to use customer service layer
+  * Customer module blocks and controllers refactoring to use customer service layer
 * Updated various PHPDoc with the parameter and return types
 
 2.0.0.0-dev66

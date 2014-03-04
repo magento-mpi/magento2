@@ -2,21 +2,19 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Customer\Block\Adminhtml\Edit\Renderer\Attribute;
 
 use Magento\Backend\Block\Widget\Form\Renderer\Fieldset\Element;
+use Magento\Customer\Controller\RegistryConstants;
 
 /**
  * Renderer for customer group ID
  *
- * @category   Magento
- * @package    Magento_Customer
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @method \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata getDisableAutoGroupChangeAttribute()
+ * @method mixed getDisableAutoGroupChangeAttributeValue()
  */
 class Group extends Element
 {
@@ -30,7 +28,7 @@ class Group extends Element
      *
      * @var \Magento\Customer\Helper\Address
      */
-    protected $_customerAddress = null;
+    protected $_addressHelper = null;
 
     /**
      * Core registry
@@ -52,7 +50,7 @@ class Group extends Element
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
-        $this->_customerAddress = $customerAddress;
+        $this->_addressHelper = $customerAddress;
         parent::__construct($context, $data);
     }
 
@@ -73,7 +71,7 @@ class Group extends Element
      */
     public function getDisableAutoGroupChangeCheckboxLabel()
     {
-        return __($this->getDisableAutoGroupChangeAttribute()->getFrontend()->getLabel());
+        return __($this->getDisableAutoGroupChangeAttribute()->getFrontendLabel());
     }
 
     /**
@@ -83,9 +81,8 @@ class Group extends Element
      */
     public function getDisableAutoGroupChangeCheckboxState()
     {
-        $customer = $this->_coreRegistry->registry('current_customer');
-        $checkedByDefault = ($customer && $customer->getId())
-            ? false : $this->_customerAddress->getDisableAutoGroupAssignDefaultValue();
+        $customerId = $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID);
+        $checkedByDefault = ($customerId) ? false : $this->_addressHelper->getDisableAutoGroupAssignDefaultValue();
 
         $value = $this->getDisableAutoGroupChangeAttributeValue();
         $state = '';

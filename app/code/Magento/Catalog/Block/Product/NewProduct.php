@@ -16,6 +16,7 @@ namespace Magento\Catalog\Block\Product;
  * @SuppressWarnings(PHPMD.LongVariable)
  */
 class NewProduct extends \Magento\Catalog\Block\Product\AbstractProduct
+    implements \Magento\View\Block\IdentityInterface
 {
     /**
      * Default value for products count that will be shown
@@ -223,5 +224,15 @@ class NewProduct extends \Magento\Catalog\Block\Product\AbstractProduct
             $this->_productsCount = self::DEFAULT_PRODUCTS_COUNT;
         }
         return $this->_productsCount;
+    }
+
+    /**
+     * Return identifiers for produced content
+     *
+     * @return array
+     */
+    public function getIdentities()
+    {
+        return array(\Magento\Catalog\Model\Product::CACHE_TAG);
     }
 }

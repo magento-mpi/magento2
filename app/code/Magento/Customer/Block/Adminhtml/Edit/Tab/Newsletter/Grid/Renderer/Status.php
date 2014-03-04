@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,10 +9,6 @@ namespace Magento\Customer\Block\Adminhtml\Edit\Tab\Newsletter\Grid\Renderer;
 
 /**
  * Adminhtml newsletter queue grid block status item renderer
- *
- * @category   Magento
- * @package    Magento_Customer
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Status extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
@@ -23,6 +17,11 @@ class Status extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abstract
      */
     protected static $_statuses;
 
+    /**
+     * Constructor for Grid Renderer Status
+     *
+     * @return void
+     */
     protected function _construct()
     {
         self::$_statuses = array(
@@ -56,5 +55,4 @@ class Status extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abstract
 
         return __('Unknown');
     }
-
 }

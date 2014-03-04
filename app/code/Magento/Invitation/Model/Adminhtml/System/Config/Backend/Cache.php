@@ -18,6 +18,7 @@ namespace Magento\Invitation\Model\Adminhtml\System\Config\Backend;
 
 class Cache
     extends \Magento\Backend\Model\Config\Backend\Cache
+    implements \Magento\Object\IdentityInterface
 {
     /**
      * Cache tags to clean
@@ -27,4 +28,14 @@ class Cache
     protected $_cacheTags = array(
         \Magento\Backend\Block\Menu::CACHE_TAGS
     );
+
+    /**
+     * Get identities
+     *
+     * @return array
+     */
+    public function getIdentities()
+    {
+        return array(\Magento\Backend\Block\Menu::CACHE_TAGS);
+    }
 }

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,10 +9,6 @@ namespace Magento\Customer\Block\Adminhtml\Edit\Tab\Newsletter\Grid\Renderer;
 
 /**
  * Adminhtml newsletter queue grid block action item renderer
- *
- * @category   Magento
- * @package    Magento_Customer
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Action extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
@@ -48,14 +42,14 @@ class Action extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abstract
         $actions = array();
 
         $actions[] = array(
-            '@'	=>  array(
-                'href'  => $this->getUrl('newsletter/template/preview',
+            '@'	=> array(
+                'href' => $this->getUrl('newsletter/template/preview',
                     array(
-                        'id'        => $row->getTemplateId(),
-                        'subscriber'=> $this->_coreRegistry->registry('subscriber')->getId()
+                        'id'         => $row->getTemplateId(),
+                        'subscriber' => $this->_coreRegistry->registry('subscriber')->getId()
                     )
                 ),
-                'target'=>	'_blank'
+                'target' => '_blank'
             ),
             '#'	=> __('View')
         );
@@ -86,5 +80,4 @@ class Action extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abstract
         }
         return implode('<span class="separator">&nbsp;|&nbsp;</span>', $html);
     }
-
 }

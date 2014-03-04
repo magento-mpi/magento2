@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -35,6 +33,8 @@ class Collection extends \Magento\Data\Collection\Db
     );
 
     /**
+     * Customer Id
+     *
      * @var int
      */
     protected $_customerId;
@@ -42,7 +42,7 @@ class Collection extends \Magento\Data\Collection\Db
     /**
      * Order state value
      *
-     * @var null|array
+     * @var null|string|array
      */
     protected $_state = null;
 
@@ -102,12 +102,12 @@ class Collection extends \Magento\Data\Collection\Db
     }
 
     /**
-     * Set filter by customer
+     * Set filter by customer Id
      *
      * @param int $customerId
      * @return $this
      */
-    public function setCustomerFilter($customerId)
+    public function setCustomerIdFilter($customerId)
     {
         $this->_customerId = (int)$customerId;
         return $this;
@@ -217,7 +217,7 @@ class Collection extends \Magento\Data\Collection\Db
                 ->setWebsiteId($this->_storeManager->getStore($storeId)->getWebsiteId())
                 ->setAvgNormalized($v['avgsale'] * $v['num_orders']);
             $this->_items[$storeId] = $storeObject;
-            foreach ($this->_totals as $key => $value) {
+            foreach (array_keys($this->_totals) as $key) {
                 $this->_totals[$key] += $storeObject->getData($key);
             }
         }

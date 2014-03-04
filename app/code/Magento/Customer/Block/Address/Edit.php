@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,6 +13,8 @@ use Magento\Exception\NoSuchEntityException;
 
 /**
  * Customer address edit block
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Edit extends \Magento\Directory\Block\Data
 {
@@ -22,16 +22,6 @@ class Edit extends \Magento\Directory\Block\Data
      * @var Address|null
      */
     protected $_address = null;
-
-    /**
-     * @var \Magento\Directory\Model\Resource\Country\CollectionFactory
-     */
-    protected $_countryCollection;
-
-    /**
-     * @var \Magento\Directory\Model\Resource\Region\CollectionFactory
-     */
-    protected $_regionCollection;
 
     /**
      * @var \Magento\App\ConfigInterface
@@ -44,11 +34,6 @@ class Edit extends \Magento\Directory\Block\Data
     protected $_customerSession;
 
     /**
-     * @var \Magento\Customer\Service\V1\CustomerServiceInterface
-     */
-    protected $_customerService;
-
-    /**
      * @var \Magento\Customer\Service\V1\CustomerAddressServiceInterface
      */
     protected $_addressService;
@@ -56,9 +41,16 @@ class Edit extends \Magento\Directory\Block\Data
     /**
      * @var \Magento\Customer\Service\V1\Dto\AddressBuilder
      */
-    private $_addressBuilder;
+    protected $_addressBuilder;
 
     /**
+     * @var \Magento\Customer\Service\V1\CustomerCurrentServiceInterface
+     */
+    protected $customerCurrentService;
+
+    /**
+     * Constructor
+     *
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Json\EncoderInterface $jsonEncoder
@@ -67,10 +59,12 @@ class Edit extends \Magento\Directory\Block\Data
      * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory
      * @param \Magento\App\ConfigInterface $config
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Customer\Service\V1\CustomerServiceInterface $customerService
      * @param \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService
      * @param \Magento\Customer\Service\V1\Dto\AddressBuilder $addressBuilder
+     * @param \Magento\Customer\Service\V1\CustomerCurrentServiceInterface $customerCurrentService
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
@@ -81,24 +75,32 @@ class Edit extends \Magento\Directory\Block\Data
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory,
         \Magento\App\ConfigInterface $config,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Customer\Service\V1\CustomerServiceInterface $customerService,
         \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService,
         \Magento\Customer\Service\V1\Dto\AddressBuilder $addressBuilder,
+        \Magento\Customer\Service\V1\CustomerCurrentServiceInterface $customerCurrentService,
         array $data = array()
     ) {
-        $this->_config = $config;
-        $this->_customerSession = $customerSession;
-        $this->_customerService = $customerService;
-        $this->_addressService = $addressService;
-        $this->_addressBuilder = $addressBuilder;
+        $this->_config                  = $config;
+        $this->_customerSession         = $customerSession;
+        $this->_addressService          = $addressService;
+        $this->_addressBuilder          = $addressBuilder;
+        $this->customerCurrentService   = $customerCurrentService;
         parent::__construct(
-            $context, $coreData, $jsonEncoder, $configCacheType, $regionCollectionFactory, $countryCollectionFactory, $data
+            $context,
+            $coreData,
+            $jsonEncoder,
+            $configCacheType,
+            $regionCollectionFactory,
+            $countryCollectionFactory,
+            $data
         );
         $this->_isScopePrivate = true;
     }
 
     /**
-     * @return void
+     * Prepare the layout of the address edit block.
+     *
+     * @return $this
      */
     protected function _prepareLayout()
     {
@@ -114,12 +116,14 @@ class Edit extends \Magento\Directory\Block\Data
         }
 
         if (is_null($this->_address) || !$this->_address->getId()) {
-            $this->_address = $this->_addressBuilder->setPrefix($this->getCustomer()->getPrefix())
-                ->setFirstname($this->getCustomer()->getFirstname())
-                ->setMiddlename($this->getCustomer()->getMiddlename())
-                ->setLastname($this->getCustomer()->getLastname())
-                ->setSuffix($this->getCustomer()->getSuffix())
-                ->create();
+            $this->_address =
+                $this->_addressBuilder
+                    ->setPrefix($this->getCustomer()->getPrefix())
+                    ->setFirstname($this->getCustomer()->getFirstname())
+                    ->setMiddlename($this->getCustomer()->getMiddlename())
+                    ->setLastname($this->getCustomer()->getLastname())
+                    ->setSuffix($this->getCustomer()->getSuffix())
+                    ->create();
         }
 
         if ($headBlock = $this->getLayout()->getBlock('head')) {
@@ -137,10 +141,12 @@ class Edit extends \Magento\Directory\Block\Data
                 ->populateWithArray(array_merge($this->_address->__toArray(), $postedData))
                 ->create();
         }
+
+        return $this;
     }
 
     /**
-     * Generate name block html
+     * Generate name block html.
      *
      * @return string
      */
@@ -154,6 +160,8 @@ class Edit extends \Magento\Directory\Block\Data
     }
 
     /**
+     * Return the title, either editing an existing address, or adding a new one.
+     *
      * @return string
      */
     public function getTitle()
@@ -170,6 +178,8 @@ class Edit extends \Magento\Directory\Block\Data
     }
 
     /**
+     * Return the Url to go back.
+     *
      * @return string
      */
     public function getBackUrl()
@@ -186,17 +196,21 @@ class Edit extends \Magento\Directory\Block\Data
     }
 
     /**
+     * Return the Url for saving.
+     *
      * @return string
      */
     public function getSaveUrl()
     {
         return $this->_urlBuilder->getUrl(
             'customer/address/formPost',
-            array('_secure'=>true, 'id'=>$this->getAddress()->getId())
+            ['_secure' => true, 'id' => $this->getAddress()->getId()]
         );
     }
 
     /**
+     * Return the associated address.
+     *
      * @return Address
      */
     public function getAddress()
@@ -205,6 +219,8 @@ class Edit extends \Magento\Directory\Block\Data
     }
 
     /**
+     * Return the specified numbered street line.
+     *
      * @param int $lineNumber
      * @return string
      */
@@ -215,6 +231,8 @@ class Edit extends \Magento\Directory\Block\Data
     }
 
     /**
+     * Return the country Id.
+     *
      * @return int|null|string
      */
     public function getCountryId()
@@ -226,7 +244,7 @@ class Edit extends \Magento\Directory\Block\Data
     }
 
     /**
-     * Return the name of the region for the address being edited
+     * Return the name of the region for the address being edited.
      *
      * @return string region name
      */
@@ -237,7 +255,7 @@ class Edit extends \Magento\Directory\Block\Data
     }
 
     /**
-     * Return the id of the region being edited
+     * Return the id of the region being edited.
      *
      * @return int region id
      */
@@ -248,14 +266,18 @@ class Edit extends \Magento\Directory\Block\Data
     }
 
     /**
+     * Retrieve the number of addresses associated with the customer given a customer Id.
+     *
      * @return int
      */
     public function getCustomerAddressCount()
     {
-        return count($this->_customerSession->getCustomer()->getAddresses());
+        return count($this->_addressService->getAddresses($this->_customerSession->getCustomerId()));
     }
 
     /**
+     * Determine if the address can be set as the default billing address.
+     *
      * @return bool|int
      */
     public function canSetAsDefaultBilling()
@@ -267,6 +289,8 @@ class Edit extends \Magento\Directory\Block\Data
     }
 
     /**
+     * Determine if the address can be set as the default shipping address.
+     *
      * @return bool|int
      */
     public function canSetAsDefaultShipping()
@@ -278,6 +302,8 @@ class Edit extends \Magento\Directory\Block\Data
     }
 
     /**
+     * Is the address the default billing address?
+     *
      * @return bool
      */
     public function isDefaultBilling()
@@ -286,6 +312,8 @@ class Edit extends \Magento\Directory\Block\Data
     }
 
     /**
+     * Is the address the default shipping address?
+     *
      * @return bool
      */
     public function isDefaultShipping()
@@ -294,14 +322,18 @@ class Edit extends \Magento\Directory\Block\Data
     }
 
     /**
+     * Retrieve the Customer Dto using the customer Id from the customer session.
+     *
      * @return Customer
      */
     public function getCustomer()
     {
-        return $this->_customerService->getCustomer($this->_customerSession->getId());
+        return $this->customerCurrentService->getCustomer();
     }
 
     /**
+     * Return back button Url, either to customer address or account.
+     *
      * @return string
      */
     public function getBackButtonUrl()
@@ -314,7 +346,7 @@ class Edit extends \Magento\Directory\Block\Data
     }
 
     /**
-     * Get config
+     * Get config value.
      *
      * @param string $path
      * @return string|null

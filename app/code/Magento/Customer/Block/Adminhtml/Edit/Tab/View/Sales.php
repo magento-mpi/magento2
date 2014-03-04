@@ -2,23 +2,20 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab\View;
 
+use Magento\Customer\Controller\RegistryConstants;
+use Magento\Directory\Model\Currency;
+use Magento\Sales\Model\Order;
+
 /**
- * Adminhtml customer view wishlist block
- *
- * @category   Magento
- * @package    Magento_Customer
- * @author      Magento Core Team <core@magentocommerce.com>
+ * Adminhtml customer view sales block
  */
 class Sales extends \Magento\Backend\Block\Template
 {
-
     /**
      * Sales entity collection
      *
@@ -39,7 +36,7 @@ class Sales extends \Magento\Backend\Block\Template
     /**
      * Currency model
      *
-     * @var \Magento\Directory\Model\Currency
+     * @var Currency
      */
     protected $_currency;
 
@@ -61,6 +58,8 @@ class Sales extends \Magento\Backend\Block\Template
     protected $_collectionFactory;
 
     /**
+     * Constructor
+     *
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
      * @param \Magento\Sales\Model\Resource\Sale\CollectionFactory $collectionFactory
@@ -81,6 +80,8 @@ class Sales extends \Magento\Backend\Block\Template
     }
 
     /**
+     * Initialize the sales grid.
+     *
      * @return void
      */
     protected function _construct()
@@ -90,38 +91,37 @@ class Sales extends \Magento\Backend\Block\Template
     }
 
     /**
+     * Execute before toHtml() code.
+     *
      * @return $this
      */
     public function _beforeToHtml()
     {
         $this->_currency = $this->_currencyFactory->create()
-            ->load($this->_storeConfig->getConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE));
+            ->load($this->_storeConfig->getConfig(Currency::XML_PATH_CURRENCY_BASE));
 
-        $customerId = $this->_coreRegistry->registry('current_customer')
-            ? $this->_coreRegistry->registry('current_customer')->getId()
-            : 0;
         $this->_collection = $this->_collectionFactory->create()
-            ->setCustomerFilter($customerId)
-            ->setOrderStateFilter(\Magento\Sales\Model\Order::STATE_CANCELED, true)
+            ->setCustomerIdFilter((int)$this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID))
+            ->setOrderStateFilter(Order::STATE_CANCELED, true)
             ->load();
 
-        $this->_groupedCollection = array();
+        $this->_groupedCollection = [];
 
         foreach ($this->_collection as $sale) {
             if (!is_null($sale->getStoreId())) {
-                $store      = $this->_storeManager->getStore($sale->getStoreId());
-                $websiteId  = $store->getWebsiteId();
-                $groupId    = $store->getGroupId();
-                $storeId    = $store->getId();
+                $store = $this->_storeManager->getStore($sale->getStoreId());
+                $websiteId = $store->getWebsiteId();
+                $groupId = $store->getGroupId();
+                $storeId = $store->getId();
 
                 $sale->setWebsiteId($store->getWebsiteId());
                 $sale->setWebsiteName($store->getWebsite()->getName());
                 $sale->setGroupId($store->getGroupId());
                 $sale->setGroupName($store->getGroup()->getName());
             } else {
-                $websiteId  = 0;
-                $groupId    = 0;
-                $storeId    = 0;
+                $websiteId = 0;
+                $groupId = 0;
+                $storeId = 0;
 
                 $sale->setStoreName(__('Deleted Stores'));
             }
@@ -136,6 +136,8 @@ class Sales extends \Magento\Backend\Block\Template
     }
 
     /**
+     * Retrieve the website count for the specified website Id
+     *
      * @param int $websiteId
      * @return int
      */

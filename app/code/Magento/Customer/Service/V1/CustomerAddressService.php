@@ -158,7 +158,7 @@ class CustomerAddressService implements CustomerAddressServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function saveAddresses($customerId, array $addresses)
+    public function saveAddresses($customerId, $addresses)
     {
         $customerModel = $this->_converter->getCustomerModel($customerId);
         $addressModels = [];

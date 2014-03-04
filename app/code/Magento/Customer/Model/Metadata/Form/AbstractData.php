@@ -63,7 +63,7 @@ abstract class AbstractData
     protected $_attribute;
 
     /**
-     * @var string
+     * @var string|int|bool
      */
     protected $_value;
 
@@ -76,7 +76,7 @@ abstract class AbstractData
      * @param \Magento\LocaleInterface $locale
      * @param \Magento\Logger $logger
      * @param \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata $attribute
-     * @param string $value
+     * @param string|int|bool $value
      * @param string $entityTypeCode
      * @param bool $isAjax
      */
@@ -84,7 +84,7 @@ abstract class AbstractData
         \Magento\LocaleInterface $locale,
         \Magento\Logger $logger,
         \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata $attribute,
-        $value = null,
+        $value = false,
         $entityTypeCode,
         $isAjax = false
     ) {
@@ -497,14 +497,14 @@ abstract class AbstractData
     /**
      * Validate data
      *
-     * @param array|string $value
+     * @param array|string|null $value
      * @return array|bool
      * @throws \Magento\Core\Exception
      */
     abstract public function validateValue($value);
 
     /**
-     * Export attribute value to entity model
+     * Export attribute value
      *
      * @param array|string $value
      * @return array|string|bool
@@ -512,7 +512,7 @@ abstract class AbstractData
     abstract public function compactValue($value);
 
     /**
-     * Restore attribute value from SESSION to entity model
+     * Restore attribute value from SESSION
      *
      * @param array|string $value
      * @return array|string|bool

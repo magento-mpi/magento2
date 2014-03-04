@@ -18,7 +18,7 @@
  */
 namespace Magento\CatalogInventory\Block;
 
-class Qtyincrements extends \Magento\View\Element\Template
+class Qtyincrements extends \Magento\View\Element\Template implements \Magento\View\Block\IdentityInterface
 {
     /**
      * Qty Increments cache
@@ -82,5 +82,15 @@ class Qtyincrements extends \Magento\View\Element\Template
             }
         }
         return $this->_qtyIncrements;
+    }
+
+    /**
+     * Return identifiers for produced content
+     *
+     * @return array
+     */
+    public function getIdentities()
+    {
+        return $this->getProduct()->getIdentities();
     }
 }
