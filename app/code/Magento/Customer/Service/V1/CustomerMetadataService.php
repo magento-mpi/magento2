@@ -22,9 +22,6 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
      */
     private $_eavConfig;
 
-    /** @var array Cache of Data Objects - entityType => attributeCode => Data Object */
-    private $_cache;
-
     /**
      * @var \Magento\Customer\Model\Resource\Form\Attribute\CollectionFactory
      */
@@ -60,7 +57,6 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
         Data\Eav\AttributeMetadataBuilder $attributeMetadataBuilder
     ) {
         $this->_eavConfig = $eavConfig;
-        $this->_cache = [];
         $this->_attrFormCollectionFactory = $attrFormCollectionFactory;
         $this->_storeManager = $storeManager;
         $this->_optionBuilder = $optionBuilder;
@@ -72,16 +68,10 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
      */
     public function getAttributeMetadata($entityType, $attributeCode)
     {
-        $dataObjectCache = $this->_getEntityCache($entityType);
-        if (isset($dataObjectCache[$attributeCode])) {
-            return $dataObjectCache[$attributeCode];
-        }
-
         /** @var AbstractAttribute $attribute */
         $attribute = $this->_eavConfig->getAttribute($entityType, $attributeCode);
         if ($attribute) {
             $attributeMetadata = $this->_createMetadataAttribute($attribute);
-            $dataObjectCache[$attributeCode] = $attributeMetadata;
             return $attributeMetadata;
         } else {
             throw (new NoSuchEntityException('entityType', $entityType))
@@ -125,6 +115,38 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
             $attributes[$attribute->getAttributeCode()] = $this->_createMetadataAttribute($attribute);
         }
         return $attributes;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getCustomerAttributeMetadata($attributeCode)
+    {
+        return $this->getAttributeMetadata(self::ENTITY_TYPE_CUSTOMER, $attributeCode);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAllCustomerAttributeMetadata()
+    {
+        return $this->getAllAttributeSetMetadata(self::ENTITY_TYPE_CUSTOMER, self::ATTRIBUTE_SET_ID_CUSTOMER);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAddressAttributeMetadata($attributeCode)
+    {
+        return $this->getAttributeMetadata(self::ENTITY_TYPE_ADDRESS, $attributeCode);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAllAddressAttributeMetadata()
+    {
+        return $this->getAllAttributeSetMetadata(self::ENTITY_TYPE_ADDRESS, self::ATTRIBUTE_SET_ID_ADDRESS);
     }
 
     /**
@@ -172,27 +194,12 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
             ->setOptions($options)
             ->setFrontendClass($attribute->getFrontend()->getClass())
             ->setFrontendLabel($attribute->getFrontendLabel())
+            ->setNote($attribute->getNote())
             ->setIsSystem($attribute->getIsSystem())
             ->setIsUserDefined($attribute->getIsUserDefined())
             ->setSortOrder($attribute->getSortOrder());
 
         return $this->_attributeMetadataBuilder->create();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getCustomerAttributeMetadata($attributeCode)
-    {
-        return $this->getAttributeMetadata('customer', $attributeCode);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getAllCustomerAttributeMetadata()
-    {
-        return $this->getAllAttributeSetMetadata('customer', self::ATTRIBUTE_SET_ID_CUSTOMER);
     }
 
     /**
@@ -210,22 +217,6 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
             }
         }
         return $customAttributes;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getAddressAttributeMetadata($attributeCode)
-    {
-        return $this->getAttributeMetadata('customer_address', $attributeCode);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getAllAddressAttributeMetadata()
-    {
-        return $this->getAllAttributeSetMetadata('customer_address', self::ATTRIBUTE_SET_ID_ADDRESS);
     }
 
     /**

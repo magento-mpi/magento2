@@ -51,7 +51,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
     /**
      * @var AddressBuilder
      */
-    protected $_customerAddressBuilder;
+    protected $_addressBuilder;
 
 
     public function setUp()
@@ -105,18 +105,17 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
     {
         $this->_prepareQuote(false);
 
-        $response = $this->_customerAccountService->createAccount(
-            $this->getSampleCustomerEntity(),
+        $customerData = $this->_customerAccountService->createAccount(
+        $this->getSampleCustomerEntity(),
             $this->getSampleAddressEntity(),
             'password'
         );
 
-        $this->assertEquals('registered', $response->getStatus());
-
-        $existingCustomerId = $response->getCustomerId();
-        $customerData = $this->_customerService->getCustomer($existingCustomerId);
-        $customerData = $this->_customerBuilder->populate($customerData)
-            ->setEmail('new@example.com')->create();
+        $existingCustomerId = $customerData->getCustomerId();
+        $customerData = $this->_customerBuilder->mergeDtoWithArray(
+            $customerData,
+            [CustomerData::EMAIL => 'new@example.com']
+        );
         $addresses = $this->_customerAddressService->getAddresses($existingCustomerId);
         $this->_serviceQuote->getQuote()->setCustomerData($customerData);
         $this->_serviceQuote->getQuote()->setCustomerAddressData($addresses);
@@ -174,17 +173,17 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
     public function testSubmitOrderRollbackExistingCustomer()
     {
         $this->_prepareQuoteWithMockTransaction();
-        $response = $this->_customerAccountService->createAccount(
-            $this->getSampleCustomerEntity(),
+        $customerData = $this->_customerAccountService->createAccount(
+        $this->getSampleCustomerEntity(),
             $this->getSampleAddressEntity(),
             'password'
         );
-        $this->assertEquals('registered', $response->getStatus());
 
-        $existingCustomerId = $response->getCustomerId();
-        $customerData = $this->_customerService->getCustomer($existingCustomerId);
-        $customerData = $this->_customerBuilder->populate($customerData)
-            ->setEmail('new@example.com')->create();
+        $existingCustomerId = $customerData->getCustomerId();
+        $customerData = $this->_customerBuilder->mergeDtoWithArray(
+            $customerData,
+            [CustomerData::EMAIL => 'new@example.com']
+        );
         $addresses = $this->_customerAddressService->getAddresses($existingCustomerId);
         $this->_serviceQuote->getQuote()->setCustomerData($customerData);
         $this->_serviceQuote->getQuote()->setCustomerAddressData($addresses);
@@ -315,4 +314,4 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
             array('quote' => $quoteFixture, 'transactionFactory' => $mockTransactionFactory)
         );
     }
-} 
+}

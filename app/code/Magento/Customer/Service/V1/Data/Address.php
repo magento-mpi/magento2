@@ -77,7 +77,7 @@ class Address extends \Magento\Service\Data\EAV\AbstractObject
     }
 
     /**
-     * @return \string[]|null
+     * @return string[]|null
      */
     public function getStreet()
     {

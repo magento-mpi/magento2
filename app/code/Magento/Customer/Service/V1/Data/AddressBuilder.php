@@ -14,6 +14,7 @@ use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
  * Builder for the Address Service Data Object
  *
  * @method Address create()
+ * @method Address mergeDtoWithArray(AbstractObjectBuilder $dto, array $data)
  */
 class AddressBuilder extends AbstractObjectBuilder
 {
@@ -231,5 +232,15 @@ class AddressBuilder extends AbstractObjectBuilder
     public function setCustomerId($customerId)
     {
         return $this->_set(Address::KEY_CUSTOMER_ID, $customerId);
+    }
+
+    /**
+     * Builds the entity.
+     *
+     * @return Address
+     */
+    public function create()
+    {
+        return parent::create();
     }
 }
