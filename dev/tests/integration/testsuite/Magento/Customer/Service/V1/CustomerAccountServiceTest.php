@@ -1041,7 +1041,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($lastname, $customer->getLastname());
     }
 
-
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
      * @magentoAppIsolation enabled
@@ -1282,9 +1281,9 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
+     * @magentoAppArea frontend
      * @magentoAppIsolation enabled
-     * @expectedException
-     * V1\Exception
+     * @expectedException \Magento\Exception\Exception
      * @expectedExceptionMessage Cannot complete this operation from non-admin area.
      */
     public function testDeleteCustomerNonSecureArea()
