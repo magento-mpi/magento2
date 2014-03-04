@@ -157,7 +157,9 @@ class ThemeDeployment
             );
         }
 
-        $this->_versionStorage->save($this->_versionGenerator->generate());
+        if (!$this->_isDryRun) {
+            $this->_versionStorage->save($this->_versionGenerator->generate());
+        }
     }
 
 
