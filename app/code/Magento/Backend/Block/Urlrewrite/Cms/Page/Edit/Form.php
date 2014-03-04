@@ -39,7 +39,7 @@ class Form extends \Magento\Backend\Block\Urlrewrite\Edit\Form
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Core\Model\Source\Urlrewrite\TypesFactory $typesFactory
      * @param \Magento\Core\Model\Source\Urlrewrite\OptionsFactory $optionFactory
@@ -54,7 +54,7 @@ class Form extends \Magento\Backend\Block\Urlrewrite\Edit\Form
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\Core\Model\Source\Urlrewrite\TypesFactory $typesFactory,
         \Magento\Core\Model\Source\Urlrewrite\OptionsFactory $optionFactory,

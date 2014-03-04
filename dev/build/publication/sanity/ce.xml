@@ -407,6 +407,14 @@
             <word>CHANGELOG</word>
         </item>
         <item>
+            <path>app/code/Magento/Catalog/Helper/Product/Flat/Indexer.php</path>
+            <word>CHANGELOG</word>
+        </item>
+        <item>
+            <path>dev/tests/unit/testsuite/Magento/Catalog/Helper/Product/Flat/IndexerTest.php</path>
+            <word>CHANGELOG</word>
+        </item>
+        <item>
             <path>app/code/Magento/Indexer</path>
             <word>CHANGELOG</word>
         </item>

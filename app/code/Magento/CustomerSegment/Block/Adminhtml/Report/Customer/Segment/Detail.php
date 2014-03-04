@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerSegment\Block\Adminhtml\Report\Customer\Segment;
+
+use Magento\Core\Model\Website;
 
 /**
  * Customer Segments Detail grid container
@@ -15,26 +18,24 @@
  * @package    Magento_CustomerSegment
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\CustomerSegment\Block\Adminhtml\Report\Customer\Segment;
-
 class Detail
     extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -44,6 +45,7 @@ class Detail
     /**
      * Constructor
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -107,7 +109,7 @@ class Detail
     /**
      * Retrieve all websites
      *
-     * @return array
+     * @return Website[]
      */
     public function getWebsites()
     {

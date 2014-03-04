@@ -7,18 +7,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Checkout\Model\Type;
+
+use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
+use Magento\Sales\Model\Order;
+use Magento\Sales\Model\Quote\Item;
 
 /**
- * Cehckout type abstract class
+ * Checkout type abstract class
  *
  * @category   Magento
  * @package    Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Checkout\Model\Type;
-
-use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
-
 abstract class AbstractType extends \Magento\Object
 {
     /**
@@ -90,7 +91,7 @@ abstract class AbstractType extends \Magento\Object
     /**
      * Retrieve quote items
      *
-     * @return array
+     * @return Item[]
      */
     public function getQuoteItems()
     {
@@ -98,7 +99,7 @@ abstract class AbstractType extends \Magento\Object
     }
 
     /**
-     * Retrieve customer session vodel
+     * Retrieve customer session model
      *
      * @return \Magento\Customer\Model\Session
      */

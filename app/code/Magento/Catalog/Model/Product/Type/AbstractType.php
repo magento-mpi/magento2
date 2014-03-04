@@ -116,7 +116,7 @@ abstract class AbstractType
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -171,7 +171,7 @@ abstract class AbstractType
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Helper\File\Storage\Database $fileStorageDb
      * @param \Magento\App\Filesystem $filesystem
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\Logger $logger
      * @param array $data
      */
@@ -184,7 +184,7 @@ abstract class AbstractType
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Helper\File\Storage\Database $fileStorageDb,
         \Magento\App\Filesystem $filesystem,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\Logger $logger,
         array $data = array()
     ) {

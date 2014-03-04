@@ -18,7 +18,7 @@ class Tracking extends \Magento\App\Action\Action
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
@@ -31,12 +31,12 @@ class Tracking extends \Magento\App\Action\Action
 
     /**
      * @param \Magento\App\Action\Context $context
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\App\Response\Http\FileFactory $fileResponseFactory
      */
     public function __construct(
         \Magento\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\App\Response\Http\FileFactory $fileResponseFactory
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -118,7 +118,9 @@ class Tracking extends \Magento\App\Action\Action
     protected function _loadValidRma($entityId = null)
     {
         if (!$this->_objectManager->get('Magento\Customer\Model\Session')->isLoggedIn()
-            && !$this->_objectManager->get('Magento\Sales\Helper\Guest')->loadValidOrder()
+            && !$this->_objectManager->get('Magento\Sales\Helper\Guest')->loadValidOrder(
+                $this->_request, $this->_response
+            )
         ) {
             return;
         }

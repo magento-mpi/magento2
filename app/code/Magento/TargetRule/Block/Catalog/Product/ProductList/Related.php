@@ -35,7 +35,7 @@ class Related
     /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Catalog\Model\Config $catalogConfig
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Math\Random $mathRandom
@@ -52,13 +52,13 @@ class Related
      * @param \Magento\Checkout\Model\Cart $cart
      * @param array $data
      * @param array $priceBlockTypes
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Catalog\Model\Config $catalogConfig,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Math\Random $mathRandom,
@@ -99,7 +99,6 @@ class Related
         );
     }
 
-
     /**
      * Retrieve Catalog Product List Type identifier
      *
@@ -108,20 +107,5 @@ class Related
     public function getProductListType()
     {
         return \Magento\TargetRule\Model\Rule::RELATED_PRODUCTS;
-    }
-
-    /**
-     * Retrieve array of exclude product ids
-     * Rewrite for exclude shopping cart products
-     *
-     * @return array
-     */
-    public function getExcludeProductIds()
-    {
-        if (is_null($this->_excludeProductIds)) {
-            $cartProductIds = $this->_cart->getProductIds();
-            $this->_excludeProductIds = array_merge($cartProductIds, array($this->getProduct()->getEntityId()));
-        }
-        return $this->_excludeProductIds;
     }
 }

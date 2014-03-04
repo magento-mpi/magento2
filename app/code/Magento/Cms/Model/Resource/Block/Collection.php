@@ -7,14 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Cms\Model\Resource\Block;
 
 /**
  * CMS block model
- *
- * @category    Magento
- * @package     Magento_Cms
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {

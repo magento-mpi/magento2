@@ -35,9 +35,9 @@ abstract class AbstractBlock extends \Magento\Catalog\Block\Product\AbstractProd
     protected $_wishlist;
 
     /**
-     * @var \Magento\Customer\Model\Session
+     * @var \Magento\App\Http\Context
      */
-    protected $_customerSession;
+    protected $httpContext;
 
     /**
      * @var \Magento\Catalog\Model\ProductFactory
@@ -47,7 +47,7 @@ abstract class AbstractBlock extends \Magento\Catalog\Block\Product\AbstractProd
     /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Catalog\Model\Config $catalogConfig
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Math\Random $mathRandom
@@ -56,17 +56,17 @@ abstract class AbstractBlock extends \Magento\Catalog\Block\Product\AbstractProd
      * @param \Magento\Catalog\Helper\Product\Compare $compareProduct
      * @param \Magento\Theme\Helper\Layout $layoutHelper
      * @param \Magento\Catalog\Helper\Image $imageHelper
-     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\App\Http\Context $httpContext
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param array $data
      * @param array $priceBlockTypes
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Catalog\Model\Config $catalogConfig,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Math\Random $mathRandom,
@@ -75,12 +75,12 @@ abstract class AbstractBlock extends \Magento\Catalog\Block\Product\AbstractProd
         \Magento\Catalog\Helper\Product\Compare $compareProduct,
         \Magento\Theme\Helper\Layout $layoutHelper,
         \Magento\Catalog\Helper\Image $imageHelper,
-        \Magento\Customer\Model\Session $customerSession,
+        \Magento\App\Http\Context $httpContext,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         array $data = array(),
         array $priceBlockTypes = array()
     ) {
-        $this->_customerSession = $customerSession;
+        $this->httpContext = $httpContext;
         $this->_productFactory = $productFactory;
         parent::__construct(
             $context,
@@ -266,7 +266,7 @@ abstract class AbstractBlock extends \Magento\Catalog\Block\Product\AbstractProd
      */
     public function getFormatedDate($date)
     {
-        return $this->formatDate($date, \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM);
+        return $this->formatDate($date, \Magento\LocaleInterface::FORMAT_TYPE_MEDIUM);
     }
 
     /**

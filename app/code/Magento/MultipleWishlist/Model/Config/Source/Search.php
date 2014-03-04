@@ -17,7 +17,7 @@
  */
 namespace Magento\MultipleWishlist\Model\Config\Source;
 
-class Search implements \Magento\Core\Model\Option\ArrayInterface
+class Search implements \Magento\Option\ArrayInterface
 {
     /**
      * Quick search form types

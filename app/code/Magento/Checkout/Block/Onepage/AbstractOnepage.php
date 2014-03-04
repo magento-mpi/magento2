@@ -7,14 +7,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Checkout\Block\Onepage;
+
+use Magento\Customer\Model\Customer;
+use Magento\Directory\Model\Resource\Country\Collection;
+use Magento\Directory\Model\Resource\Region\Collection as RegionCollection;
+use Magento\Sales\Model\Quote;
 
 /**
  * One page common functionality block
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Checkout\Block\Onepage;
-
 abstract class AbstractOnepage extends \Magento\View\Element\Template
 {
     /**
@@ -22,10 +26,29 @@ abstract class AbstractOnepage extends \Magento\View\Element\Template
      */
     protected $_configCacheType;
 
+    /**
+     * @var Customer
+     */
     protected $_customer;
+
+    /**
+     * @var Quote
+     */
     protected $_quote;
+
+    /**
+     * @var  Collection
+     */
     protected $_countryCollection;
+
+    /**
+     * @var RegionCollection
+     */
     protected $_regionCollection;
+
+    /**
+     * @var mixed
+     */
     protected $_addressesCollection;
 
     /**
@@ -49,6 +72,11 @@ abstract class AbstractOnepage extends \Magento\View\Element\Template
     protected $_coreData;
 
     /**
+     * @var \Magento\App\Http\Context
+     */
+    protected $httpContext;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\App\Cache\Type\Config $configCacheType
@@ -56,6 +84,7 @@ abstract class AbstractOnepage extends \Magento\View\Element\Template
      * @param \Magento\Checkout\Model\Session $resourceSession
      * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory
      * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory
+     * @param \Magento\App\Http\Context $httpContext
      * @param array $data
      */
     public function __construct(
@@ -66,6 +95,7 @@ abstract class AbstractOnepage extends \Magento\View\Element\Template
         \Magento\Checkout\Model\Session $resourceSession,
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory,
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory,
+        \Magento\App\Http\Context $httpContext,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
@@ -76,13 +106,14 @@ abstract class AbstractOnepage extends \Magento\View\Element\Template
         $this->_regionCollectionFactory = $regionCollectionFactory;
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
+        $this->httpContext = $httpContext;
     }
 
     /**
      * Get config
      *
      * @param string $path
-     * @return mixed
+     * @return string|null
      */
     public function getConfig($path)
     {
@@ -92,7 +123,7 @@ abstract class AbstractOnepage extends \Magento\View\Element\Template
     /**
      * Get logged in customer
      *
-     * @return \Magento\Customer\Model\Customer
+     * @return Customer
      */
     public function getCustomer()
     {
@@ -115,7 +146,7 @@ abstract class AbstractOnepage extends \Magento\View\Element\Template
     /**
      * Retrieve sales quote model
      *
-     * @return \Magento\Sales\Model\Quote
+     * @return Quote
      */
     public function getQuote()
     {
@@ -125,11 +156,17 @@ abstract class AbstractOnepage extends \Magento\View\Element\Template
         return $this->_quote;
     }
 
+    /**
+     * @return bool
+     */
     public function isCustomerLoggedIn()
     {
-        return $this->_customerSession->isLoggedIn();
+        return $this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH);
     }
 
+    /**
+     * @return Collection
+     */
     public function getCountryCollection()
     {
         if (!$this->_countryCollection) {
@@ -138,6 +175,9 @@ abstract class AbstractOnepage extends \Magento\View\Element\Template
         return $this->_countryCollection;
     }
 
+    /**
+     * @return RegionCollection
+     */
     public function getRegionCollection()
     {
         if (!$this->_regionCollection) {
@@ -148,11 +188,18 @@ abstract class AbstractOnepage extends \Magento\View\Element\Template
         return $this->_regionCollection;
     }
 
+    /**
+     * @return int
+     */
     public function customerHasAddresses()
     {
         return count($this->getCustomer()->getAddresses());
     }
 
+    /**
+     * @param string $type
+     * @return string
+     */
     public function getAddressesHtmlSelect($type)
     {
         if ($this->isCustomerLoggedIn()) {
@@ -192,6 +239,10 @@ abstract class AbstractOnepage extends \Magento\View\Element\Template
         return '';
     }
 
+    /**
+     * @param string $type
+     * @return string
+     */
     public function getCountryHtmlSelect($type)
     {
         $countryId = $this->getAddress()->getCountryId();
@@ -209,6 +260,10 @@ abstract class AbstractOnepage extends \Magento\View\Element\Template
     }
 
 
+    /**
+     * @param string $type
+     * @return string
+     */
     public function getRegionHtmlSelect($type)
     {
         $select = $this->getLayout()->createBlock('Magento\View\Element\Html\Select')
@@ -222,6 +277,9 @@ abstract class AbstractOnepage extends \Magento\View\Element\Template
         return $select->getHtml();
     }
 
+    /**
+     * @return mixed
+     */
     public function getCountryOptions()
     {
         $options = false;
@@ -240,7 +298,7 @@ abstract class AbstractOnepage extends \Magento\View\Element\Template
     /**
      * Get checkout steps codes
      *
-     * @return array
+     * @return string[]
      */
     protected function _getStepCodes()
     {

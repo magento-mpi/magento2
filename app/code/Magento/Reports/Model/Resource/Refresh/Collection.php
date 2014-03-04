@@ -21,7 +21,7 @@ namespace Magento\Reports\Model\Resource\Refresh;
 class Collection extends \Magento\Data\Collection
 {
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\LocaleInterface
      */
     protected $_locale;
 
@@ -32,12 +32,12 @@ class Collection extends \Magento\Data\Collection
 
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\LocaleInterface $locale
      * @param \Magento\Reports\Model\FlagFactory $reportsFlagFactory
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\LocaleInterface $locale,
         \Magento\Reports\Model\FlagFactory $reportsFlagFactory
     ) {
         parent::__construct($entityFactory);

@@ -18,7 +18,20 @@ class ObjectManager extends \Magento\App\ObjectManager
      */
     protected $_classesToDestruct = array(
         'Magento\Core\Model\Layout',
-        'Magento\Core\Model\Registry'
+        'Magento\Registry'
+    );
+
+    /**
+     * @var array
+     */
+    protected $persistedInstances = array(
+        'Magento\App\Resource',
+        'Magento\Config\Scope',
+        'Magento\ObjectManager\Relations',
+        'Magento\ObjectManager\Config',
+        'Magento\Interception\Definition',
+        'Magento\ObjectManager\Definition',
+        'Magento\Core\Model\Session\Config'
     );
 
     /**
@@ -38,17 +51,10 @@ class ObjectManager extends \Magento\App\ObjectManager
         $sharedInstances = array(
             'Magento\ObjectManager' => $this, 'Magento\App\ObjectManager' => $this
         );
-        if (isset($this->_sharedInstances['Magento\App\Resource'])) {
-            $sharedInstances['Magento\App\Resource'] = $this->_sharedInstances['Magento\App\Resource'];
-        }
-
-        if (isset($this->_sharedInstances['Magento\Config\Scope'])) {
-            $sharedInstances['Magento\Config\Scope'] = $this->_sharedInstances['Magento\Config\Scope'];
-        }
-
-        if (isset($this->_sharedInstances['Magento\Core\Model\Session\Config'])) {
-            $sharedInstances['Magento\Core\Model\Session\Config'] =
-                $this->_sharedInstances['Magento\Core\Model\Session\Config'];
+        foreach ($this->persistedInstances as $persistedClass) {
+            if (isset($this->_sharedInstances[$persistedClass])) {
+                $sharedInstances[$persistedClass] = $this->_sharedInstances[$persistedClass];
+            }
         }
         $this->_sharedInstances = $sharedInstances;
         $this->_config->clean();

@@ -5,12 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Block\Adminhtml\Customer\Edit\Tab;
 
 /**
  * Adminhtml customer billing agreement tab
  */
-namespace Magento\Paypal\Block\Adminhtml\Customer\Edit\Tab;
-
 class Agreement
     extends \Magento\Paypal\Block\Adminhtml\Billing\Agreement\Grid
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
@@ -25,7 +24,7 @@ class Agreement
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -35,7 +34,7 @@ class Agreement
      * @param \Magento\Paypal\Helper\Data $helper
      * @param \Magento\Paypal\Model\Resource\Billing\Agreement\CollectionFactory $agreementFactory
      * @param \Magento\Paypal\Model\Billing\Agreement $agreementModel
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
@@ -44,7 +43,7 @@ class Agreement
         \Magento\Paypal\Helper\Data $helper,
         \Magento\Paypal\Model\Resource\Billing\Agreement\CollectionFactory $agreementFactory,
         \Magento\Paypal\Model\Billing\Agreement $agreementModel,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -61,6 +60,7 @@ class Agreement
     /**
      * Disable filters and paging
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -69,9 +69,7 @@ class Agreement
     }
 
     /**
-     * Return Tab label
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getTabLabel()
     {
@@ -79,9 +77,7 @@ class Agreement
     }
 
     /**
-     * Return Tab title
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getTabTitle()
     {
@@ -89,9 +85,7 @@ class Agreement
     }
 
     /**
-     * Can show tab in tabs
-     *
-     * @return boolean
+     * {@inheritdoc}
      */
     public function canShowTab()
     {
@@ -100,15 +94,18 @@ class Agreement
     }
 
     /**
-     * Tab is hidden
-     *
-     * @return boolean
+     * {@inheritdoc}
      */
     public function isHidden()
     {
         return false;
     }
 
+    /**
+     * Get grid url
+     *
+     * @return string
+     */
     public function getGridUrl()
     {
         return $this->getUrl('paypal/billing_agreement/customerGrid', array('_current' => true));
@@ -127,7 +124,7 @@ class Agreement
     /**
      * Prepare collection for grid
      *
-     * @return \Magento\Paypal\Block\Adminhtml\Customer\Edit\Tab\Agreement
+     * @return $this
      */
     protected function _prepareCollection()
     {

@@ -7,8 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CustomerSegment\Model;
+
+use \Magento\CustomerSegment\Helper\Data;
 
 /**
  * Segment/customer relatio model. Model working in website scope. If website is not declared
@@ -81,8 +82,8 @@ class Customer extends \Magento\Core\Model\AbstractModel
     protected $_httpContext;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param Resource\Segment\CollectionFactory $collectionFactory
      * @param \Magento\Customer\Model\Resource\Customer $resourceCustomer
      * @param \Magento\Customer\Model\Config\Share $configShare
@@ -95,8 +96,8 @@ class Customer extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\CustomerSegment\Model\Resource\Segment\CollectionFactory $collectionFactory,
         \Magento\Customer\Model\Resource\Customer $resourceCustomer,
         \Magento\Customer\Model\Config\Share $configShare,
@@ -120,6 +121,8 @@ class Customer extends \Magento\Core\Model\AbstractModel
 
     /**
      * Class constructor
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -150,9 +153,9 @@ class Customer extends \Magento\Core\Model\AbstractModel
      * Match all related to event segments and assign/deassign customer/visitor to segments on specific website
      *
      * @param   string $eventName
-     * @param   \Magento\Customer\Model\Customer | int $customer
-     * @param   \Magento\Core\Model\Website | int $website
-     * @return  \Magento\CustomerSegment\Model\Customer
+     * @param   \Magento\Customer\Model\Customer|int $customer
+     * @param   \Magento\Core\Model\Website|int $website
+     * @return  $this
      */
     public function processEvent($eventName, $customer, $website)
     {
@@ -172,7 +175,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
      *
      * @param   \Magento\Customer\Model\Customer $customer
      * @param   \Magento\Core\Model\Website $website
-     * @return  \Magento\CustomerSegment\Model\Customer
+     * @return  $this
      */
     public function processCustomer(\Magento\Customer\Model\Customer $customer, $website)
     {
@@ -192,7 +195,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
      * @param int|null|\Magento\Customer\Model\Customer $customer
      * @param \Magento\Core\Model\Website $website
      * @param \Magento\CustomerSegment\Model\Resource\Segment\Collection $segments
-     * @return \Magento\CustomerSegment\Model\Customer
+     * @return $this
      */
     protected function _processSegmentsValidation($customer, $website, $segments)
     {
@@ -247,7 +250,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
      *
      * @param string $eventName
      * @param int $customerId
-     * @return \Magento\CustomerSegment\Model\Customer
+     * @return $this
      */
     public function processCustomerEvent($eventName, $customerId)
     {
@@ -274,7 +277,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Session\SessionManagerInterface $visitorSession
      * @param int $websiteId
      * @param array $segmentIds
-     * @return \Magento\CustomerSegment\Model\Customer
+     * @return $this
      */
     public function addVisitorToWebsiteSegments($visitorSession, $websiteId, $segmentIds)
     {
@@ -292,7 +295,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
             $visitorSegmentIds[$websiteId] = $segmentIds;
         }
         $visitorSession->setCustomerSegmentIds($visitorSegmentIds);
-        $this->_httpContext->setValue(\Magento\App\Http\Context::CUSTOMER_SEGMENT, array_filter($visitorSegmentIds));
+        $this->_httpContext->setValue(Data::CONTEXT_SEGMENT, array_filter($visitorSegmentIds));
         return $this;
     }
 
@@ -302,7 +305,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Session\SessionManagerInterface $visitorSession
      * @param int $websiteId
      * @param array $segmentIds
-     * @return \Magento\CustomerSegment\Model\Customer
+     * @return $this
      */
     public function removeVisitorFromWebsiteSegments($visitorSession, $websiteId, $segmentIds)
     {
@@ -318,8 +321,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
             $visitorCustomerSegmentIds[$websiteId] = $segmentsIdsForWebsite;
         }
         $visitorSession->setCustomerSegmentIds($visitorCustomerSegmentIds);
-        $this->_httpContext->setValue(\Magento\App\Http\Context::CUSTOMER_SEGMENT,
-            array_filter($visitorCustomerSegmentIds));
+        $this->_httpContext->setValue(Data::CONTEXT_SEGMENT, array_filter($visitorCustomerSegmentIds));
         return $this;
     }
 
@@ -329,7 +331,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
      * @param int $customerId
      * @param int $websiteId
      * @param array $segmentIds
-     * @return \Magento\CustomerSegment\Model\Customer
+     * @return $this
      */
     public function addCustomerToWebsiteSegments($customerId, $websiteId, $segmentIds)
     {
@@ -345,7 +347,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
      * @param int $customerId
      * @param int $websiteId
      * @param array $segmentIds
-     * @return \Magento\CustomerSegment\Model\Customer
+     * @return $this
      */
     public function removeCustomerFromWebsiteSegments($customerId, $websiteId, $segmentIds)
     {

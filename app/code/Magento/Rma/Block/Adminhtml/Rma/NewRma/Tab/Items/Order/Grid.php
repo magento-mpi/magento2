@@ -40,9 +40,9 @@ class Grid
     protected $_rmaData;
 
     /**
-     * Core registry
+     * Registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $registry;
 
@@ -71,7 +71,7 @@ class Grid
      * @param \Magento\Rma\Model\Resource\ItemFactory $itemFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Rma\Helper\Data $rmaData
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Sales\Model\Order\Admin\Item $adminOrderItem
      * @param array $data
      */
@@ -81,7 +81,7 @@ class Grid
         \Magento\Rma\Model\Resource\ItemFactory $itemFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Rma\Helper\Data $rmaData,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Sales\Model\Order\Admin\Item $adminOrderItem,
         array $data = array()
     ) {

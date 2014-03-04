@@ -57,10 +57,16 @@ class DepersonalizePluginTest  extends \PHPUnit_Framework_TestCase
     protected $customerMock;
 
     /**
+     * @var \Magento\App\Http\Context|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $httpContext;
+
+    /**
      * SetUp
      */
     public function setUp()
     {
+        $this->httpContext = $this->getMock('Magento\App\Http\Context', array(), array(), '', false);
         $this->layoutMock = $this->getMock('Magento\Core\Model\Layout', array(), array(), '', false);
         $this->customerSessionMock = $this->getMock(
             'Magento\Customer\Model\Session',
@@ -74,7 +80,8 @@ class DepersonalizePluginTest  extends \PHPUnit_Framework_TestCase
         $this->plugin = new \Magento\CustomerSegment\Model\Layout\DepersonalizePlugin(
             $this->layoutMock,
             $this->customerSessionMock,
-            $this->requestMock
+            $this->requestMock,
+            $this->httpContext
         );
     }
 
@@ -93,10 +100,16 @@ class DepersonalizePluginTest  extends \PHPUnit_Framework_TestCase
         $this->customerSessionMock->expects($this->once())
             ->method('getCustomerSegmentIds')
             ->will($this->returnValue($expectedCustomerSegmentIds));
-
         $this->customerSessionMock->expects($this->once())
             ->method('setCustomerSegmentIds')
             ->with($this->equalTo($expectedCustomerSegmentIds));
+
+        $this->httpContext->expects($this->once())
+            ->method('setValue')
+            ->with($this->equalTo(\Magento\App\Http\Context::CUSTOMER_SEGMENT),
+                $this->equalTo($expectedCustomerSegmentIds)
+            );
+
         $this->plugin->beforeGenerateXml();
         $output = $this->plugin->afterGenerateXml();
         $this->assertNull($output);

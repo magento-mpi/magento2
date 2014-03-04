@@ -14,7 +14,7 @@ use Magento\Catalog\Model\Resource\Product\Collection;
 use Magento\View\Element\AbstractBlock;
 
 /**
- * Catalog product related items block
+ * Catalog product upsell items block
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
@@ -71,7 +71,7 @@ class Upsell extends \Magento\Catalog\Block\Product\AbstractProduct implements \
     /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Catalog\Model\Config $catalogConfig
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Math\Random $mathRandom
@@ -85,13 +85,13 @@ class Upsell extends \Magento\Catalog\Block\Product\AbstractProduct implements \
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param array $data
      * @param array $priceBlockTypes
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Catalog\Model\Config $catalogConfig,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Math\Random $mathRandom,
@@ -124,7 +124,6 @@ class Upsell extends \Magento\Catalog\Block\Product\AbstractProduct implements \
             $data,
             $priceBlockTypes
         );
-        $this->_isScopePrivate = true;
     }
 
     /**
@@ -138,20 +137,11 @@ class Upsell extends \Magento\Catalog\Block\Product\AbstractProduct implements \
             ->setPositionOrder()
             ->addStoreFilter();
         if ($this->_catalogData->isModuleEnabled('Magento_Checkout')) {
-            $this->_checkoutCart->addExcludeProductFilter(
-                $this->_itemCollection,
-                $this->_checkoutSession->getQuoteId()
-            );
-
             $this->_addProductAttributesAndPrices($this->_itemCollection);
         }
         $this->_itemCollection->setVisibility(
             $this->_catalogProductVisibility->getVisibleInCatalogIds()
         );
-
-        if ($this->getItemLimit('upsell') > 0) {
-            $this->_itemCollection->setPageSize($this->getItemLimit('upsell'));
-        }
 
         $this->_itemCollection->load();
 
@@ -161,7 +151,7 @@ class Upsell extends \Magento\Catalog\Block\Product\AbstractProduct implements \
         $this->_eventManager->dispatch('catalog_product_upsell', array(
             'product'       => $product,
             'collection'    => $this->_itemCollection,
-            'limit'         => $this->getItemLimit()
+            'limit'         => null
         ));
 
         foreach ($this->_itemCollection as $product) {

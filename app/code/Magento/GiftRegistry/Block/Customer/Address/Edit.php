@@ -23,6 +23,52 @@ class Edit extends \Magento\GiftRegistry\Block\Customer\Edit\AbstractEdit
     protected $_customer;
 
     /**
+     * @var \Magento\App\Http\Context
+     */
+    protected $httpContext;
+
+    /**
+     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Json\EncoderInterface $jsonEncoder
+     * @param \Magento\App\Cache\Type\Config $configCacheType
+     * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory
+     * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory
+     * @param \Magento\Registry $registry
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig
+     * @param \Magento\App\Http\Context $httpContext
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\View\Element\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Json\EncoderInterface $jsonEncoder,
+        \Magento\App\Cache\Type\Config $configCacheType,
+        \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory,
+        \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory,
+        \Magento\Registry $registry,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig,
+        \Magento\App\Http\Context $httpContext,
+        array $data = array()
+    ) {
+        parent::__construct(
+            $context,
+            $coreData,
+            $jsonEncoder,
+            $configCacheType,
+            $regionCollectionFactory,
+            $countryCollectionFactory,
+            $registry,
+            $customerSession,
+            $attributeConfig,
+            $data
+        );
+        $this->httpContext = $httpContext;
+    }
+
+    /**
      * Getter for entity object
      * @return \Magento\GiftRegistry\Model\Entity
      */
@@ -106,6 +152,6 @@ class Edit extends \Magento\GiftRegistry\Block\Customer\Edit\AbstractEdit
      */
     public function isCustomerLoggedIn()
     {
-        return $this->customerSession->isLoggedIn();
+        return $this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH);
     }
 }

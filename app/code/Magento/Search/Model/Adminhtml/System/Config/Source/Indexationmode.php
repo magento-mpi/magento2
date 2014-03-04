@@ -18,7 +18,7 @@
  */
 namespace Magento\Search\Model\Adminhtml\System\Config\Source;
 
-class Indexationmode implements \Magento\Core\Model\Option\ArrayInterface
+class Indexationmode implements \Magento\Option\ArrayInterface
 {
     /**
      * Prepare options for selection

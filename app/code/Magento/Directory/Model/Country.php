@@ -30,7 +30,7 @@ class Country extends \Magento\Core\Model\AbstractModel
     static public $_format = array();
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\LocaleInterface
      */
     protected $_locale;
 
@@ -45,19 +45,19 @@ class Country extends \Magento\Core\Model\AbstractModel
     protected $_regionCollectionFactory;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\LocaleInterface $locale
-     * @param \Magento\Directory\Model\Country\FormatFactory $formatFactory
-     * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
+     * @param \Magento\LocaleInterface $locale
+     * @param Country\FormatFactory $formatFactory
+     * @param Resource\Region\CollectionFactory $regionCollectionFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
+        \Magento\LocaleInterface $locale,
         \Magento\Directory\Model\Country\FormatFactory $formatFactory,
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,

@@ -23,7 +23,7 @@ class View extends \Magento\View\Element\Template
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -39,21 +39,21 @@ class View extends \Magento\View\Element\Template
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Registry $registry
+     * @param \Magento\App\Http\Context $httpContext
      * @param \Magento\Payment\Helper\Data $paymentHelper
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Registry $registry,
+        \Magento\App\Http\Context $httpContext,
         \Magento\Payment\Helper\Data $paymentHelper,
         array $data = array()
     ) {
         $this->_paymentHelper = $paymentHelper;
         $this->_coreRegistry = $registry;
-        $this->_customerSession = $customerSession;
+        $this->httpContext = $httpContext;
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
     }
@@ -95,7 +95,7 @@ class View extends \Magento\View\Element\Template
      */
     public function getBackUrl()
     {
-        if ($this->_customerSession->isLoggedIn()) {
+        if ($this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH)) {
             return $this->getUrl('*/*/history');
         }
         return $this->getUrl('*/*/form');
@@ -108,7 +108,7 @@ class View extends \Magento\View\Element\Template
      */
     public function getBackTitle()
     {
-        if ($this->_customerSession->isLoggedIn()) {
+        if ($this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH)) {
             return __('Back to My Orders');
         }
         return __('View Another Order');

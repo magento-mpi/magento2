@@ -18,7 +18,7 @@
  */
 namespace Magento\Catalog\Model\Config\Source;
 
-class ListSort implements \Magento\Core\Model\Option\ArrayInterface
+class ListSort implements \Magento\Option\ArrayInterface
 {
     /**
      * Catalog config

@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Address\Attribute;
 
 /**
  * Customer Address Attributes Grid Block
  */
-namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Address\Attribute;
-
 class Grid
     extends \Magento\Eav\Block\Adminhtml\Attribute\Grid\AbstractGrid
 {
@@ -40,6 +39,7 @@ class Grid
     /**
      * Initialize grid, set grid Id
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -51,7 +51,7 @@ class Grid
     /**
      * Prepare customer address attributes grid collection object
      *
-     * @return \Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Address\Attribute\Grid
+     * @return $this
      */
     protected function _prepareCollection()
     {
@@ -65,7 +65,7 @@ class Grid
     /**
      * Prepare customer address attributes grid columns
      *
-     * @return \Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Address\Attribute\Grid
+     * @return $this
      */
     protected function _prepareColumns()
     {

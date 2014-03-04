@@ -59,9 +59,10 @@ class Index extends \Magento\Wishlist\Controller\Index
     /**
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\Wishlist\Model\Config $wishlistConfig
      * @param \Magento\App\Response\Http\FileFactory $fileResponseFactory
+     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Wishlist\Model\ItemFactory $itemFactory
      * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
      * @param \Magento\Session\Generic $wishlistSession
@@ -71,9 +72,10 @@ class Index extends \Magento\Wishlist\Controller\Index
     public function __construct(
         \Magento\App\Action\Context $context,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\Wishlist\Model\Config $wishlistConfig,
         \Magento\App\Response\Http\FileFactory $fileResponseFactory,
+        \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Wishlist\Model\ItemFactory $itemFactory,
         \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
         \Magento\Session\Generic $wishlistSession,
@@ -86,7 +88,7 @@ class Index extends \Magento\Wishlist\Controller\Index
         $this->_customerSession = $customerSession;
         $this->_wishlistCollectionFactory = $wishlistCollectionFactory;
         parent::__construct(
-            $context, $formKeyValidator, $coreRegistry, $wishlistConfig, $fileResponseFactory
+            $context, $formKeyValidator, $coreRegistry, $wishlistConfig, $fileResponseFactory, $transportBuilder
         );
     }
 

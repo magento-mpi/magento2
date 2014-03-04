@@ -45,12 +45,18 @@ class Success extends \Magento\View\Element\Template
     protected $_orderConfig;
 
     /**
+     * @var \Magento\App\Http\Context
+     */
+    protected $httpContext;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\RecurringProfile\Model\Resource\Profile\CollectionFactory $recurringProfileCollectionFactory
      * @param \Magento\Sales\Model\Order\Config $orderConfig
+     * @param \Magento\App\Http\Context $httpContext
      * @param array $data
      */
     public function __construct(
@@ -60,6 +66,7 @@ class Success extends \Magento\View\Element\Template
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\RecurringProfile\Model\Resource\Profile\CollectionFactory $recurringProfileCollectionFactory,
         \Magento\Sales\Model\Order\Config $orderConfig,
+        \Magento\App\Http\Context $httpContext,
         array $data = array()
     ) {
         parent::__construct($context, $data);
@@ -69,6 +76,7 @@ class Success extends \Magento\View\Element\Template
         $this->_recurringProfileCollectionFactory = $recurringProfileCollectionFactory;
         $this->_orderConfig = $orderConfig;
         $this->_isScopePrivate = true;
+        $this->httpContext = $httpContext;
     }
 
     /**
@@ -94,7 +102,7 @@ class Success extends \Magento\View\Element\Template
     /**
      * Getter for recurring profile view page
      *
-     * @param $profile
+     * @param \Magento\Object $profile
      * @return string
      */
     public function getProfileUrl(\Magento\Object $profile)
@@ -104,6 +112,8 @@ class Success extends \Magento\View\Element\Template
 
     /**
      * Initialize data and prepare it for output
+     *
+     * @return string
      */
     protected function _beforeToHtml()
     {
@@ -114,6 +124,8 @@ class Success extends \Magento\View\Element\Template
 
     /**
      * Get last order ID from session, fetch it and check whether it can be viewed, printed etc
+     *
+     * @return void
      */
     protected function _prepareLastOrder()
     {
@@ -122,12 +134,13 @@ class Success extends \Magento\View\Element\Template
             $order = $this->_orderFactory->create()->load($orderId);
             if ($order->getId()) {
                 $isVisible = !in_array($order->getState(), $this->_orderConfig->getInvisibleOnFrontStates());
+                $canView = $this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH) && $isVisible;
                 $this->addData(array(
                     'is_order_visible' => $isVisible,
                     'view_order_url' => $this->getUrl('sales/order/view/', array('order_id' => $orderId)),
                     'print_url' => $this->getUrl('sales/order/print', array('order_id'=> $orderId)),
                     'can_print_order' => $isVisible,
-                    'can_view_order'  => $this->_customerSession->isLoggedIn() && $isVisible,
+                    'can_view_order'  => $canView,
                     'order_id'  => $order->getIncrementId(),
                 ));
             }
@@ -136,6 +149,8 @@ class Success extends \Magento\View\Element\Template
 
     /**
      * Prepare recurring payment profiles from the session
+     *
+     * @return void
      */
     protected function _prepareLastRecurringProfiles()
     {
@@ -149,7 +164,7 @@ class Success extends \Magento\View\Element\Template
             }
             if ($profiles) {
                 $this->setRecurringProfiles($profiles);
-                if ($this->_customerSession->isLoggedIn()) {
+                if ($this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH)) {
                     $this->setCanViewProfiles(true);
                 }
             }

@@ -16,7 +16,7 @@ class Event extends \Magento\CatalogEvent\Block\Event\AbstractEvent implements \
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
@@ -29,13 +29,13 @@ class Event extends \Magento\CatalogEvent\Block\Event\AbstractEvent implements \
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\CatalogEvent\Helper\Data $catalogEventData
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\CatalogEvent\Helper\Data $catalogEventData,
         array $data = array()
     ) {

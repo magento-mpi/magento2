@@ -46,7 +46,7 @@ class Samples
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
@@ -70,7 +70,7 @@ class Samples
      * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase
      * @param \Magento\Downloadable\Helper\File $downloadableFile
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\Downloadable\Model\Sample $sampleModel
      * @param \Magento\Backend\Model\UrlFactory $urlFactory
      * @param array $data
@@ -80,7 +80,7 @@ class Samples
         \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase,
         \Magento\Downloadable\Helper\File $downloadableFile,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\Downloadable\Model\Sample $sampleModel,
         \Magento\Backend\Model\UrlFactory $urlFactory,
         array $data = array()

@@ -20,9 +20,9 @@ namespace Magento\Customer\Block\Address;
 class Book extends \Magento\View\Element\Template
 {
     /**
-     * @var \Magento\Customer\Model\Session
+     * @var \Magento\Customer\Service\V1\CustomerCurrentService
      */
-    protected $_customerSession;
+    protected $currentCustomer;
 
     /**
      * @var \Magento\Customer\Service\V1\CustomerServiceInterface
@@ -41,7 +41,7 @@ class Book extends \Magento\View\Element\Template
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer
      * @param \Magento\Customer\Service\V1\CustomerServiceInterface $customerService
      * @param \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService
      * @param \Magento\Customer\Model\Address\Config $addressConfig
@@ -49,13 +49,13 @@ class Book extends \Magento\View\Element\Template
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer,
         \Magento\Customer\Service\V1\CustomerServiceInterface $customerService,
         \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService,
         \Magento\Customer\Model\Address\Config $addressConfig,
         array $data = array()
     ) {
-        $this->_customerSession = $customerSession;
+        $this->currentCustomer = $currentCustomer;
         $this->_customerService = $customerService;
         $this->_addressService = $addressService;
         $this->_addressConfig = $addressConfig;
@@ -112,7 +112,7 @@ class Book extends \Magento\View\Element\Template
     public function getAdditionalAddresses()
     {
         try {
-            $addresses = $this->_addressService->getAddresses($this->_customerSession->getCustomerId());
+            $addresses = $this->_addressService->getAddresses($this->currentCustomer->getCustomerId());
         } catch (\Magento\Exception\NoSuchEntityException $e) {
             return false;
         }
@@ -149,7 +149,7 @@ class Book extends \Magento\View\Element\Template
         $customer = $this->getData('customer');
         if (is_null($customer)) {
             try {
-                $customer = $this->_customerService->getCustomer($this->_customerSession->getCustomerId());
+                $customer = $this->_customerService->getCustomer($this->currentCustomer->getCustomerId());
             } catch (\Magento\Exception\NoSuchEntityException $e) {
                 return null;
             }

@@ -18,7 +18,7 @@ class Collection extends \Magento\MultipleWishlist\Model\Resource\Item\Collectio
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -41,9 +41,9 @@ class Collection extends \Magento\MultipleWishlist\Model\Resource\Item\Collectio
      * @param \Magento\Wishlist\Model\Resource\Item $resource
      * @param \Magento\App\State $appState
      * @param \Magento\Wishlist\Helper\Data $wishlistData
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param mixed $connection
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -65,7 +65,7 @@ class Collection extends \Magento\MultipleWishlist\Model\Resource\Item\Collectio
         \Magento\Wishlist\Model\Resource\Item $resource,
         \Magento\App\State $appState,
         \Magento\Wishlist\Helper\Data $wishlistData,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         $connection = null
     ) {
         $this->_coreRegistry = $coreRegistry;

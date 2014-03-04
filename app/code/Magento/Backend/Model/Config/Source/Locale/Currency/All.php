@@ -10,7 +10,7 @@
 
 namespace Magento\Backend\Model\Config\Source\Locale\Currency;
 
-class All implements \Magento\Core\Model\Option\ArrayInterface
+class All implements \Magento\Option\ArrayInterface
 {
     /**
      * @var array
@@ -18,14 +18,14 @@ class All implements \Magento\Core\Model\Option\ArrayInterface
     protected $_options;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\LocaleInterface
      */
     protected $_locale;
 
     /**
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\LocaleInterface $locale
      */
-    public function __construct(\Magento\Core\Model\LocaleInterface $locale)
+    public function __construct(\Magento\LocaleInterface $locale)
     {
         $this->_locale = $locale;
     }

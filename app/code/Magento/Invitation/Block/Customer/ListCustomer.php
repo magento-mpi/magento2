@@ -30,11 +30,17 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
     protected $_invitationStatus;
 
     /**
+     * @var \Magento\Customer\Service\V1\CustomerCurrentService
+     */
+    protected $currentCustomer;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
      * @param \Magento\Invitation\Model\InvitationFactory $invitationFactory
      * @param \Magento\Invitation\Model\Source\Invitation\Status $invitationStatus
+     * @param \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer
      * @param array $data
      */
     public function __construct(
@@ -43,12 +49,14 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
         \Magento\Invitation\Model\InvitationFactory $invitationFactory,
         \Magento\Invitation\Model\Source\Invitation\Status $invitationStatus,
+        \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer,
         array $data = array()
     ) {
         $this->_invitationFactory = $invitationFactory;
         $this->_invitationStatus = $invitationStatus;
         parent::__construct($context, $customerSession, $subscriberFactory, $data);
         $this->_isScopePrivate = true;
+        $this->currentCustomer = $currentCustomer;
     }
 
     /**
@@ -61,7 +69,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
         if (!$this->hasInvitationCollection()) {
             $this->setData('invitation_collection', $this->_invitationFactory->create()->getCollection()
                 ->addOrder('invitation_id', \Magento\Data\Collection::SORT_ORDER_DESC)
-                ->loadByCustomerId($this->_customerSession->getCustomerId())
+                ->loadByCustomerId($this->currentCustomer->getCustomerId())
             );
         }
         return $this->_getData('invitation_collection');

@@ -16,8 +16,7 @@ namespace Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super;
 use \Magento\ConfigurableProduct\Model\Product\Type\Configurable;
 
 use Magento\Catalog\Model\Product;
-use Magento\Core\Model\App;
-use Magento\Core\Model\LocaleInterface;
+use Magento\LocaleInterface;
 
 class Config
     extends \Magento\Backend\Block\Widget
@@ -35,7 +34,7 @@ class Config
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -50,11 +49,17 @@ class Config
     protected $_jsonEncoder;
 
     /**
+     * @var \Magento\App\ConfigInterface
+     */
+    protected $_config;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Json\EncoderInterface $jsonEncoder
-     * @param \Magento\ConfigurableProduct\Model\Product\Type\Configurable $configurableType
+     * @param Configurable $configurableType
      * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\App\ConfigInterface $config
      * @param array $data
      */
     public function __construct(
@@ -62,13 +67,15 @@ class Config
         \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\ConfigurableProduct\Model\Product\Type\Configurable $configurableType,
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
+        \Magento\App\ConfigInterface $config,
         array $data = array()
     ) {
         $this->_configurableType = $configurableType;
         $this->_coreRegistry = $coreRegistry;
         $this->_catalogData = $catalogData;
         $this->_jsonEncoder = $jsonEncoder;
+        $this->_config = $config;
         parent::__construct($context, $data);
     }
 
@@ -389,15 +396,7 @@ class Config
     }
 
     /**
-     * @return App
-     */
-    public function getApp()
-    {
-        return $this->_app;
-    }
-
-    /**
-     * @return LocaleInterface
+     * @return \Magento\LocaleInterface
      */
     public function getLocale()
     {
@@ -411,6 +410,8 @@ class Config
      */
     public function getBaseCurrency()
     {
-        return $this->getLocale()->currency($this->getApp()->getBaseCurrencyCode());
+        return $this->getLocale()->currency(
+            $this->_config->getValue(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE, 'default')
+        );
     }
 }

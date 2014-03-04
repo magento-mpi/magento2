@@ -42,7 +42,7 @@ class NewCatalog extends \Magento\Rss\Block\Catalog\AbstractCatalog
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\App\Http\Context $httpContext
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Rss\Model\RssFactory $rssFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
@@ -53,7 +53,7 @@ class NewCatalog extends \Magento\Rss\Block\Catalog\AbstractCatalog
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Customer\Model\Session $customerSession,
+        \Magento\App\Http\Context $httpContext,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Rss\Model\RssFactory $rssFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
@@ -67,7 +67,7 @@ class NewCatalog extends \Magento\Rss\Block\Catalog\AbstractCatalog
         $this->_productFactory = $productFactory;
         $this->_visibility = $visibility;
         $this->_resourceIterator = $resourceIterator;
-        parent::__construct($context, $customerSession, $catalogData, $data);
+        parent::__construct($context, $httpContext, $catalogData, $data);
     }
 
     protected function _toHtml()

@@ -39,7 +39,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
             ->save();
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $objectManager->get('Magento\Core\Model\Registry')->register('current_widget_instance', $widgetInstance);
+        $objectManager->get('Magento\Registry')->register('current_widget_instance', $widgetInstance);
 
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\RequestInterface')
             ->setParam('instance_id', $widgetInstance->getId());

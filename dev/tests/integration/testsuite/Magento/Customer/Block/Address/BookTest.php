@@ -15,8 +15,10 @@ class BookTest extends \PHPUnit_Framework_TestCase
      */
     protected $_block;
 
-    /** @var  \Magento\Customer\Model\Session */
-    protected $_customerSession;
+    /**
+     * @var \Magento\Customer\Service\V1\CustomerCurrentService
+     */
+    protected $currentCustomer;
 
     protected function setUp()
     {
@@ -28,8 +30,8 @@ class BookTest extends \PHPUnit_Framework_TestCase
         $blockMock->expects($this->any())
             ->method('setTitle');
 
-        $this->_customerSession = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('\Magento\Customer\Model\Session');
+        $this->currentCustomer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Customer\Service\V1\CustomerCurrentService');
         /** @var \Magento\View\LayoutInterface $layout */
         $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface');
         $layout->setBlock('head', $blockMock);
@@ -37,13 +39,8 @@ class BookTest extends \PHPUnit_Framework_TestCase
             ->createBlock(
                 'Magento\Customer\Block\Address\Book',
                 '',
-                ['customerSession' => $this->_customerSession]
+                ['currentCustomer' => $this->currentCustomer]
             );
-    }
-
-    protected function tearDown()
-    {
-        $this->_customerSession->unsCustomerId();
     }
 
     public function testGetAddressEditUrl()
@@ -63,7 +60,7 @@ class BookTest extends \PHPUnit_Framework_TestCase
     public function testHasPrimaryAddress($customerId, $expected)
     {
         if (!empty($customerId)) {
-            $this->_customerSession->setCustomerId($customerId);
+            $this->currentCustomer->setCustomerId($customerId);
         }
         $this->assertEquals($expected, $this->_block->hasPrimaryAddress());
     }

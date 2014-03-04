@@ -8,6 +8,8 @@
 
 namespace Magento\Theme\Block\Html;
 
+use \Magento\Customer\Helper\Data;
+
 /**
  * Html page header block
  */
@@ -31,20 +33,28 @@ class Header extends \Magento\View\Element\Template
     protected $_fileStorageHelper;
 
     /**
+     * @var \Magento\App\Http\Context
+     */
+    protected $httpContext;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Core\Helper\File\Storage\Database $fileStorageHelper
+     * @param \Magento\App\Http\Context $httpContext
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Core\Helper\File\Storage\Database $fileStorageHelper,
+        \Magento\App\Http\Context $httpContext,
         array $data = array()
     ) {
         $this->_fileStorageHelper = $fileStorageHelper;
         $this->_customerSession = $customerSession;
         parent::__construct($context, $data);
+        $this->httpContext = $httpContext;
     }
 
     /**
@@ -94,7 +104,7 @@ class Header extends \Magento\View\Element\Template
     public function getWelcome()
     {
         if (empty($this->_data['welcome'])) {
-            if ($this->_appState->isInstalled() && $this->_customerSession->isLoggedIn()) {
+            if ($this->_appState->isInstalled() && $this->httpContext->getValue(Data::CONTEXT_AUTH)) {
                 $this->_data['welcome'] = __('Welcome, %1!',
                     $this->escapeHtml($this->_customerSession->getCustomer()->getName()));
             } else {

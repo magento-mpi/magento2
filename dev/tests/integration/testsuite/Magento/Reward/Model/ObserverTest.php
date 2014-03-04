@@ -25,7 +25,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-        $customer = $objectManager->get('Magento\Core\Model\Registry')
+        $customer = $objectManager->get('Magento\Registry')
             ->registry('_fixture/Magento_ImportExport_Customer');
 
         $this->_saveRewardPoints($customer, $pointsDelta);

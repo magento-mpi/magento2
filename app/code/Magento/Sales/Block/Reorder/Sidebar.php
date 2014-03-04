@@ -36,10 +36,16 @@ class Sidebar extends \Magento\View\Element\Template implements \Magento\View\Bl
     protected $_customerSession;
 
     /**
+     * @var \Magento\App\Http\Context
+     */
+    protected $httpContext;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Sales\Model\Resource\Order\CollectionFactory $orderCollectionFactory
      * @param \Magento\Sales\Model\Order\Config $orderConfig
      * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\App\Http\Context $httpContext
      * @param array $data
      */
     public function __construct(
@@ -47,6 +53,7 @@ class Sidebar extends \Magento\View\Element\Template implements \Magento\View\Bl
         \Magento\Sales\Model\Resource\Order\CollectionFactory $orderCollectionFactory,
         \Magento\Sales\Model\Order\Config $orderConfig,
         \Magento\Customer\Model\Session $customerSession,
+        \Magento\App\Http\Context $httpContext,
         array $data = array()
     ) {
         $this->_orderCollectionFactory = $orderCollectionFactory;
@@ -54,6 +61,7 @@ class Sidebar extends \Magento\View\Element\Template implements \Magento\View\Bl
         $this->_customerSession = $customerSession;
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
+        $this->httpContext = $httpContext;
     }
 
     /**
@@ -62,7 +70,7 @@ class Sidebar extends \Magento\View\Element\Template implements \Magento\View\Bl
     protected function _construct()
     {
         parent::_construct();
-        if ($this->_customerSession->isLoggedIn()) {
+        if ($this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH)) {
             $this->initOrders();
         }
     }
@@ -157,7 +165,8 @@ class Sidebar extends \Magento\View\Element\Template implements \Magento\View\Bl
      */
     protected function _toHtml()
     {
-        return $this->_customerSession->isLoggedIn() || $this->getCustomerId() ? parent::_toHtml() : '';
+        $isValid = $this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH) || $this->getCustomerId();
+        return $isValid ? parent::_toHtml() : '';
     }
 
     /**

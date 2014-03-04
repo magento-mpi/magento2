@@ -8,11 +8,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Directory\Model\Resource;
+
 /**
  * Directory Country Resource Model
  */
-namespace Magento\Directory\Model\Resource;
-
 class Country extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**

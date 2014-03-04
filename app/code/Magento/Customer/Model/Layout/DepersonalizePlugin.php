@@ -68,6 +68,11 @@ class DepersonalizePlugin
     protected $formKey;
 
     /**
+     * @var \Magento\App\Http\Context
+     */
+    protected $httpContext;
+
+    /**
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Session\SessionManagerInterface $session
      * @param \Magento\Customer\Model\Session $customerSession
@@ -75,7 +80,6 @@ class DepersonalizePlugin
      * @param \Magento\Event\Manager $eventManager
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\Module\Manager $moduleManager
-     * @param \Magento\Log\Model\Visitor $visitor
      */
     public function __construct(
         \Magento\View\LayoutInterface $layout,
@@ -85,7 +89,8 @@ class DepersonalizePlugin
         \Magento\Event\Manager $eventManager,
         \Magento\App\RequestInterface $request,
         \Magento\Module\Manager $moduleManager,
-        \Magento\Log\Model\Visitor $visitor
+        \Magento\Log\Model\Visitor $visitor,
+        \Magento\App\Http\Context $httpContext
     ) {
         $this->layout           = $layout;
         $this->session          = $session;
@@ -95,6 +100,7 @@ class DepersonalizePlugin
         $this->request          = $request;
         $this->moduleManager    = $moduleManager;
         $this->visitor          = $visitor;
+        $this->httpContext      = $httpContext;
 
     }
 
@@ -119,6 +125,7 @@ class DepersonalizePlugin
     {
         $this->visitor->setSkipRequestLogging(true);
         $this->visitor->unsetData();
+        $this->httpContext->setValue(\Magento\Customer\Helper\Data::CONTEXT_GROUP, $this->customerGroupId);
         $this->session->clearStorage();
         $this->customerSession->clearStorage();
         $this->session->setData(\Magento\Data\Form\FormKey::FORM_KEY, $this->formKey);
@@ -128,13 +135,7 @@ class DepersonalizePlugin
         return $this;
     }
 
-    /**
-     * After layout generate
-     *
-     * @param mixed $arguments
-     * @return mixed
-     */
-    public function afterGenerateXml($arguments = null)
+    public function afterGenerateXml(\Magento\Core\Model\Layout $subject, $result)
     {
         if ($this->moduleManager->isEnabled('Magento_PageCache')
             && !$this->request->isAjax()
@@ -145,6 +146,6 @@ class DepersonalizePlugin
             session_write_close();
             $this->afterSessionWriteClose();
         }
-        return $arguments;
+        return $result;
     }
 }

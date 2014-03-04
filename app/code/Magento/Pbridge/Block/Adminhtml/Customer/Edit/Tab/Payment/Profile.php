@@ -9,8 +9,6 @@
  */
 namespace Magento\Pbridge\Block\Adminhtml\Customer\Edit\Tab\Payment;
 
-use Magento\Core\Model\Registry;
-
 /**
  * Customer Account Payment Profiles form block
  *
@@ -43,7 +41,7 @@ class Profile
     /**
      * Core registry
      *
-     * @var Registry|null
+     * @var \Magento\Registry|null
      */
     protected $_coreRegistry = null;
 
@@ -53,7 +51,7 @@ class Profile
      * @param \Magento\Pbridge\Model\Session $pbridgeSession
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
-     * @param Registry $registry
+     * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
@@ -62,7 +60,7 @@ class Profile
         \Magento\Pbridge\Model\Session $pbridgeSession,
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Pbridge\Helper\Data $pbridgeData,
-        Registry $registry,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;

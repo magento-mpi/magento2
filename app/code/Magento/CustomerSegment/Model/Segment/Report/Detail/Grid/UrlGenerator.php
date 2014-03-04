@@ -13,18 +13,18 @@ class UrlGenerator
     extends \Magento\Backend\Model\Widget\Grid\Row\UrlGenerator
 {
     /**
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_registryManager;
 
     /**
      * @param \Magento\Backend\Model\UrlInterface $backendUrl
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param array $args
      */
     public function __construct(
         \Magento\Backend\Model\UrlInterface $backendUrl,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         array $args = array()
     ) {
         $this->_registryManager = $registry;

@@ -7,14 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Checkout\Block\Total;
 
 /**
  * Nominal total rendered
  *
  * Each item is rendered as separate total with its details
  */
-namespace Magento\Checkout\Block\Total;
-
 class Nominal extends \Magento\Checkout\Block\Total\DefaultTotal
 {
     /**
