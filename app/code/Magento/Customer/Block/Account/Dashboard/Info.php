@@ -70,6 +70,8 @@ class Info extends \Magento\View\Element\Template
      * Get the full name of a customer
      *
      * @return string full name
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function getName()
     {
@@ -120,6 +122,8 @@ class Info extends \Magento\View\Element\Template
      * Gets Customer subscription status
      *
      * @return bool
+     *
+     * @SuppressWarnings(PHPMD.BooleanGetMethodName)
      */
     public function getIsSubscribed()
     {
@@ -127,9 +131,9 @@ class Info extends \Magento\View\Element\Template
     }
 
     /**
-     *  Newsletter module availability
+     * Newsletter module availability
      *
-     *  @return	  boolean
+     * @return bool
      */
     public function isNewsletterEnabled()
     {
@@ -145,7 +149,7 @@ class Info extends \Magento\View\Element\Template
     }
 
     /**
-     * @param $attributeCode
+     * @param string $attributeCode
      * @return \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata|null
      */
     protected function _getAttributeMetadata($attributeCode)

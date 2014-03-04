@@ -1841,6 +1841,7 @@ return array(
         'Magento\App\Dir\Verification',
         'Magento\App\Filesystem\DirectoryList\Verification'
     ),
+    array('Magento\Backend\Helper\Addresses'),
     array('Magento\Core\Model\Cookie', 'Magento\Stdlib\Cookie'),
     array('Magento\Core\Model\Logger', 'Magento\Logger'),
     array('Magento\Core\Block\Template\Context', 'Magento\View\Element\Template\Context'),
@@ -2184,6 +2185,7 @@ return array(
     ['Magento\Usa\Model\Shipping\Carrier\Fedex\Source\Packaging', 'Magento\Fedex\Model\Source\Packaging'],
     ['Magento\Core\App\Action\Plugin\Session', 'Magento\Core\Block\RequireCookie'],
     ['Magento\Rma\Model\CarrierFactory'],
+    ['Magento\Usa\Helper\Data'],
     ['Magento\Usa\Model\Shipping\Carrier\Ups\Source\Mode'],
     ['Magento\Usa\Model\Shipping\Carrier\Ups\Source\Container', 'Magento\Ups\Model\Config\Source\Container'],
     ['Magento\Usa\Model\Shipping\Carrier\Ups\Source\DestType', 'Magento\Ups\Model\Config\Source\DestType'],

@@ -69,7 +69,7 @@ abstract class AbstractData
     protected $_attribute;
 
     /**
-     * @var string
+     * @var string|int|bool
      */
     protected $_value;
 
@@ -81,8 +81,8 @@ abstract class AbstractData
      * @param \Magento\Logger $logger
      * @param \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata $attribute
      * @param \Magento\Locale\ResolverInterface $localeResolver
-     * @param null $value
-     * @param $entityTypeCode
+     * @param string|int|bool $value
+     * @param string $entityTypeCode
      * @param bool $isAjax
      */
     public function __construct(
@@ -90,7 +90,7 @@ abstract class AbstractData
         \Magento\Logger $logger,
         \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata $attribute,
         \Magento\Locale\ResolverInterface $localeResolver,
-        $value = null,
+        $value = false,
         $entityTypeCode,
         $isAjax = false
     ) {
@@ -504,14 +504,14 @@ abstract class AbstractData
     /**
      * Validate data
      *
-     * @param array|string $value
+     * @param array|string|null $value
      * @throws \Magento\Core\Exception
      * @return array|bool
      */
     abstract public function validateValue($value);
 
     /**
-     * Export attribute value to entity model
+     * Export attribute value
      *
      * @param array|string $value
      * @return array|string|bool
@@ -519,7 +519,7 @@ abstract class AbstractData
     abstract public function compactValue($value);
 
     /**
-     * Restore attribute value from SESSION to entity model
+     * Restore attribute value from SESSION
      *
      * @param array|string $value
      * @return array|string|bool
@@ -527,7 +527,7 @@ abstract class AbstractData
     abstract public function restoreValue($value);
 
     /**
-     * Return formated attribute value from entity model
+     * Return formatted attribute value from entity model
      *
      * @param string $format
      * @return string|array
