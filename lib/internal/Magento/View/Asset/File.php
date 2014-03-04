@@ -44,7 +44,7 @@ class File implements MergeableInterface
         $this->filePath = $filePath;
         $extension = pathinfo($filePath, PATHINFO_EXTENSION);
         if (!$extension) {
-            throw new \LogicException("An extension is expected in file ID: {$filePath}");
+            throw new \LogicException("An extension is expected in file path: {$filePath}");
         }
         $this->contentType = $extension;
         $this->sourceFile = $sourceFile;

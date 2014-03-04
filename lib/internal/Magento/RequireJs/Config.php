@@ -9,7 +9,7 @@
 namespace Magento\RequireJs;
 
 /**
- * Class responsible for preparing and providing RequireJs config
+ * Provider of RequireJs config information
  */
 class Config
 {
@@ -24,6 +24,17 @@ class Config
     const CONFIG_FILE_NAME = 'requirejs-config.js';
 
     /**
+     * Template for combined RequireJs config file
+     */
+    const CONFIG_TEMPLATE = <<<DOD
+(function(require){
+%function%
+
+%usages%
+})(require);
+DOD;
+
+    /**
      * @var \Magento\RequireJs\Config\File\Source\Aggregated
      */
     private $fileSource;
@@ -32,11 +43,6 @@ class Config
      * @var \Magento\View\DesignInterface
      */
     private $design;
-
-    /**
-     * @var \Magento\App\Filesystem
-     */
-    private $appFilesystem;
 
     /**
      * @var \Magento\View\Asset\PathGenerator
@@ -62,21 +68,9 @@ class Config
     ) {
         $this->fileSource = $fileSource;
         $this->design = $design;
-        $this->appFilesystem = $appFilesystem;
         $this->path = $path;
         $this->baseUrl = $baseUrl;
-        $this->baseDir = $this->appFilesystem->getDirectoryRead(\Magento\App\Filesystem::ROOT_DIR);
-    }
-
-    /**
-     * Get declaration of JS function that updates paths basing on module context
-     *
-     * @return string
-     */
-    public function getPathsUpdaterJs()
-    {
-        $functionSource = __DIR__ . '/paths-updater.js';
-        return $this->baseDir->readFile($this->baseDir->getRelativePath($functionSource));
+        $this->baseDir = $appFilesystem->getDirectoryRead(\Magento\App\Filesystem::ROOT_DIR);
     }
 
     /**
@@ -86,12 +80,21 @@ class Config
      */
     public function getConfig()
     {
-        $fullConfig = '';
+        $functionSource = __DIR__ . '/paths-updater.js';
+        $functionDeclaration = $this->baseDir->readFile($this->baseDir->getRelativePath($functionSource));
+
+        $distributedConfig = '';
         $customConfigFiles = $this->fileSource->getFiles($this->design->getDesignTheme(), self::CONFIG_FILE_NAME);
         foreach ($customConfigFiles as $file) {
             $config = $this->baseDir->readFile($this->baseDir->getRelativePath($file->getFilename()));
-            $fullConfig .= $this->wrapConfig($config, $file->getModule());
+            $distributedConfig .= $this->wrapConfig($config, $file->getModule());
         }
+
+        $fullConfig = str_replace(
+            array('%function%', '%usages%'),
+            array($functionDeclaration, $distributedConfig),
+            self::CONFIG_TEMPLATE
+        );
 
         return $fullConfig;
     }
@@ -104,22 +107,6 @@ class Config
     public function getConfigFileRelativePath()
     {
         return self::DIR_NAME . '/' . $this->getContextPath() . '/' . self::CONFIG_FILE_NAME;
-    }
-
-    /**
-     * Wrap config object with paths updater call
-     *
-     * @param string $config
-     * @param string $moduleContext
-     * @return string
-     */
-    protected function wrapConfig($config, $moduleContext = '')
-    {
-        $config = trim($config);
-        if ($moduleContext) {
-            $moduleContext = ", '$moduleContext'";
-        }
-        return "mageConfigRequireJs({$config}{$moduleContext});" . PHP_EOL;
     }
 
     /**
@@ -136,7 +123,7 @@ class Config
             ),
         );
         $config = json_encode($config, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
-        return "require.config($config);" . PHP_EOL;
+        return "require.config($config);\n";
     }
 
     /**
@@ -154,9 +141,25 @@ class Config
      *
      * @return string
      */
-    protected function getBaseUrl()
+    public function getBaseUrl()
     {
         return $this->baseUrl->getBaseUrl(array('_type' => \Magento\UrlInterface::URL_TYPE_STATIC));
+    }
+
+    /**
+     * Wrap config object with paths updater call
+     *
+     * @param string $config
+     * @param string $moduleContext
+     * @return string
+     */
+    protected function wrapConfig($config, $moduleContext = '')
+    {
+        $config = trim($config);
+        if ($moduleContext) {
+            $moduleContext = ", '$moduleContext'";
+        }
+        return "require.config(mageUpdateConfigPaths({$config}{$moduleContext}));\n";
     }
 
     /**
