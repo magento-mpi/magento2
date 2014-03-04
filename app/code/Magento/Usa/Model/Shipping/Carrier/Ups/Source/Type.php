@@ -25,7 +25,6 @@ class Type implements \Magento\Option\ArrayInterface
     {
         return array(
             array('value' => 'UPS', 'label' => __('United Parcel Service')),
-            #array('value' => \Magento\Paypal\Model\Api\AbstractApi::PAYMENT_TYPE_ORDER, 'label' => __('Order')),
             array('value' => 'UPS_XML', 'label' => __('United Parcel Service XML')),
         );
     }
