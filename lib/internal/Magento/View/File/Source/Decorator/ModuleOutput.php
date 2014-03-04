@@ -6,15 +6,15 @@
  * @license     {license_link}
  */
 
-namespace Magento\View\Layout\File\Source\Decorator;
+namespace Magento\View\File\Source\Decorator;
 
-use Magento\View\Layout\File\SourceInterface;
-use Magento\View\Layout\File;
+use Magento\View\File\SourceInterface;
+use Magento\View\File;
 use Magento\Module\Manager;
 use Magento\View\Design\ThemeInterface;
 
 /**
- * Decorator that filters out layout files that belong to modules, output of which is prohibited
+ * Decorator that filters out view files that belong to modules, output of which is prohibited
  */
 class ModuleOutput implements SourceInterface
 {
@@ -53,7 +53,7 @@ class ModuleOutput implements SourceInterface
      *
      * @param ThemeInterface $theme
      * @param string $filePath
-     * @return array|\Magento\View\Layout\File[]
+     * @return array|\Magento\View\File[]
      */
     public function getFiles(ThemeInterface $theme, $filePath = '*')
     {

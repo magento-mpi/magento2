@@ -16,12 +16,12 @@ class FileListTest extends \PHPUnit_Framework_TestCase
     private $_model;
 
     /**
-     * @var \Magento\View\Layout\File
+     * @var \Magento\View\File
      */
     private $_baseFile;
 
     /**
-     * @var \Magento\View\Layout\File
+     * @var \Magento\View\File
      */
     private $_themeFile;
 
@@ -54,7 +54,7 @@ class FileListTest extends \PHPUnit_Framework_TestCase
             $theme = $this->getMockForAbstractClass('Magento\View\Design\ThemeInterface');
             $theme->expects($this->any())->method('getFullPath')->will($this->returnValue($themeFullPath));
         }
-        return new \Magento\View\Layout\File($filename, $module, $theme);
+        return new \Magento\View\File($filename, $module, $theme);
     }
 
     public function testGetAll()

@@ -50,7 +50,7 @@ class StaticResource implements \Magento\LauncherInterface
     private $objectManager;
 
     /**
-     * @var \Magento\App\ObjectManager\ConfigLoader
+     * @var ObjectManager\ConfigLoader
      */
     private $configLoader;
 
@@ -72,7 +72,7 @@ class StaticResource implements \Magento\LauncherInterface
         \Magento\Module\ModuleList $moduleList,
         \Magento\View\Design\Theme\ListInterface $themeList,
         \Magento\ObjectManager $objectManager,
-        \Magento\App\ObjectManager\ConfigLoader $configLoader
+        ObjectManager\ConfigLoader $configLoader
     ) {
         $this->state = $state;
         $this->response = $response;
@@ -106,11 +106,15 @@ class StaticResource implements \Magento\LauncherInterface
 
             if ($appMode == \Magento\App\State::MODE_DEVELOPER) {
                 $resourceFile = $this->fileResolver->getViewFile($file, $params);
+                $this->response->setFilePath($resourceFile);
             } else {
-                $resourceFile = $this->fileResolver->getPublicViewFile($file, $params);
+                try {
+                    $resourceFile = $this->fileResolver->getPublicViewFile($file, $params);
+                    $this->response->setFilePath($resourceFile);
+                } catch (\Exception $e) {
+                    $this->response->setHttpResponseCode(404);
+                }
             }
-
-            $this->response->setFilePath($resourceFile);
         }
         return $this->response;
     }

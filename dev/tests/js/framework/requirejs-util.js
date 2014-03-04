@@ -8,53 +8,41 @@
 (function ($, window) {
     "use strict";
 
-    // List of arguments, passed to the last call of define()
-    var lastDefineArgs;
+    // List of define() calls with arguments and call stack
+    var defineCalls = [];
 
-    // Intercept RequireJS define() call, which is used by tested scripts
+    // Get current call stack, including script path information
+    var getFileStack = function() {
+        try {
+            throw new Error();
+        } catch (e) {
+            if (!e.stack) {
+                throw new Error('The browser needs to support Error.stack property');
+            }
+            return e.stack;
+        }
+    };
+
+    // Intercept RequireJS define() calls, which are performed by AMD scripts upon loading
     window.define = function () {
-        lastDefineArgs = arguments;
-    };
-
-    // ---Private functions---
-    // Retrieve the URL to a specific script in the way as it is used by JsTestDriver
-    var getUrlByScriptPath = function (scriptPath) {
-        var result;
-        $('script[src]').each(function() {
-            if (this.src.indexOf(scriptPath) >= 0) {
-                result = this.src;
-                return false;
-            }
-            return true;
-        });
-        return result;
-    };
-
-    // Load the script by url
-    var loadScript = function (url) {
-        $.ajax({
-            type: 'GET',
-            url: url,
-            dataType: 'script',
-            async: false,
-            error: function () {
-                throw new Error('Could not load ' + url);
-            }
+        var stack = getFileStack();
+        defineCalls.push({
+            stack: stack,
+            args: arguments
         });
     };
 
-    // ---Expose interface to work with RequireJS Util---
+    // Exposed interface
     var requirejsUtil = {
         getDefineArgsInScript: function (scriptPath) {
-            lastDefineArgs = undefined;
-
-            var url = getUrlByScriptPath(scriptPath);
-            if (!url) {
-                throw new Error('Could not find script by path, check that the script is loaded: ' + scriptPath);
+            var result;
+            for (var i = 0; i < defineCalls.length; i++) {
+                if (defineCalls[i].stack.indexOf(scriptPath) >= 0) {
+                    result = defineCalls[i].args;
+                    break;
+                }
             }
-            loadScript(url);
-
-            return lastDefineArgs;
+            return result;
         }
     };
 

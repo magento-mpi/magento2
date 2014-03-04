@@ -51,8 +51,6 @@ class Store extends AbstractModel
     const XML_PATH_UNSECURE_BASE_LINK_URL   = 'web/unsecure/base_link_url';
     const XML_PATH_SECURE_BASE_STATIC_URL   = 'web/secure/base_static_url';
     const XML_PATH_UNSECURE_BASE_STATIC_URL = 'web/unsecure/base_static_url';
-    const XML_PATH_SECURE_BASE_CACHE_URL    = 'web/secure/base_cache_url';
-    const XML_PATH_UNSECURE_BASE_CACHE_URL  = 'web/unsecure/base_cache_url';
     const XML_PATH_SECURE_BASE_MEDIA_URL    = 'web/secure/base_media_url';
     const XML_PATH_UNSECURE_BASE_MEDIA_URL  = 'web/unsecure/base_media_url';
     const XML_PATH_OFFLOADER_HEADER         = 'web/secure/offloader_header';
@@ -559,15 +557,6 @@ class Store extends AbstractModel
                     if (!$url) {
                         $url = $this->getBaseUrl(\Magento\UrlInterface::URL_TYPE_WEB, $secure)
                             . $this->filesystem->getUri(\Magento\App\Filesystem::STATIC_VIEW_DIR);
-                    }
-                    break;
-
-                case \Magento\UrlInterface::URL_TYPE_CACHE:
-                    $path = $secure ? self::XML_PATH_SECURE_BASE_CACHE_URL : self::XML_PATH_UNSECURE_BASE_CACHE_URL;
-                    $url = $this->getConfig($path);
-                    if (!$url) {
-                        $url = $this->getBaseUrl(\Magento\UrlInterface::URL_TYPE_WEB, $secure)
-                            . $this->filesystem->getUri(\Magento\App\Filesystem::PUB_VIEW_CACHE_DIR);
                     }
                     break;
 

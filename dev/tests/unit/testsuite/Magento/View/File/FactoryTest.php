@@ -6,12 +6,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\View\Layout\File;
+namespace Magento\View\File;
 
 class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\View\Layout\File\Factory
+     * @var \Magento\View\File\Factory
      */
     private $_model;
 
@@ -23,18 +23,18 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_objectManager = $this->getMockForAbstractClass('Magento\ObjectManager');
-        $this->_model = new \Magento\View\Layout\File\Factory($this->_objectManager);
+        $this->_model = new \Magento\View\File\Factory($this->_objectManager);
     }
 
     public function testCreate()
     {
         $theme = $this->getMockForAbstractClass('Magento\View\Design\ThemeInterface');
-        $file = new \Magento\View\Layout\File(__FILE__, 'Fixture_Module', $theme);
+        $file = new \Magento\View\File(__FILE__, 'Fixture_Module', $theme);
         $this->_objectManager
             ->expects($this->once())
             ->method('create')
             ->with(
-                'Magento\View\Layout\File',
+                'Magento\View\File',
                 $this->identicalTo(array(
                     'filename' => __FILE__,
                     'module' => 'Fixture_Module',

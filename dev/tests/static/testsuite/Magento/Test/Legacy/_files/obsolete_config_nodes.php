@@ -99,6 +99,7 @@ return array(
     '/config/global/theme' => 'Configuration moved to DI file settings',
     '/config/default/web/*/base_js_url' => '',
     '/config/default/web/*/base_skin_url' => '/config/default/web/*/base_static_url',
+    '/config/default/web/*/base_cache_url' => '/config/default/web/*/base_static_url',
     '/config/global/cache/types/*/tags' => 'use /config/global/cache/types/*/class node instead',
     '/config/global/disable_local_modules' => '',
     '/config/global/newsletter/tempate_filter' => 'Use DI configs to setup model for template processing',

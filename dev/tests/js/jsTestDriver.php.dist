@@ -15,6 +15,7 @@
 return array(
     'server' => 'http://localhost:9876',
     'load' => array(
+        '/dev/tests/js/framework',
         '/lib/web/mage/translate.js',
         '/lib/web/mage/webapi.js',
         '/lib/web/jquery/jquery-ui-timepicker-addon.js',
@@ -46,7 +47,8 @@ return array(
         '/lib/web/mage/gallery.js',
         '/lib/web/mage/gallery-fullscreen.js',
         '/lib/web/mage/zoom.js',
-        '/lib/web/mage/requirejs'
+        '/lib/web/mage/requirejs',
+        '/lib/internal/Magento/RequireJs/paths-updater.js',
     ),
     'test' => array('/dev/tests/js/testsuite'),
     'JsTestDriver' => '{{path_to_jstestdriver_jar}}'

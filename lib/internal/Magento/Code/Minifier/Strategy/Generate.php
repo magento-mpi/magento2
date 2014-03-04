@@ -29,7 +29,7 @@ class Generate implements \Magento\Code\Minifier\StrategyInterface
     /**
      * @var Write
      */
-    protected $pubViewCacheDir;
+    protected $staticViewDir;
 
     /**
      * @param \Magento\Code\Minifier\AdapterInterface $adapter
@@ -41,14 +41,14 @@ class Generate implements \Magento\Code\Minifier\StrategyInterface
     ) {
         $this->adapter = $adapter;
         $this->rootDirectory = $filesystem->getDirectoryRead(\Magento\App\Filesystem::ROOT_DIR);
-        $this->pubViewCacheDir = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::PUB_VIEW_CACHE_DIR);
+        $this->staticViewDir = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::STATIC_VIEW_DIR);
     }
 
     /**
      * Get path to minified file for specified original file
      *
-     * @param string $originalFile path to original file relative to pub/view_cache
-     * @param string $targetFile path relative to pub/view_cache
+     * @param string $originalFile path to original file relative to pub/static
+     * @param string $targetFile path relative to pub/static
      * @return void
      */
     public function minifyFile($originalFile, $targetFile)
@@ -56,26 +56,26 @@ class Generate implements \Magento\Code\Minifier\StrategyInterface
         if ($this->_isUpdateNeeded($originalFile, $targetFile)) {
             $content = $this->rootDirectory->readFile($originalFile);
             $content = $this->adapter->minify($content);
-            $targetFile = $this->pubViewCacheDir->getRelativePath($targetFile);
-            $this->pubViewCacheDir->writeFile($targetFile, $content);
-            $this->pubViewCacheDir->touch($targetFile, $this->rootDirectory->stat($originalFile)['mtime']);
+            $targetFile = $this->staticViewDir->getRelativePath($targetFile);
+            $this->staticViewDir->writeFile($targetFile, $content);
+            $this->staticViewDir->touch($targetFile, $this->rootDirectory->stat($originalFile)['mtime']);
         }
     }
 
     /**
      * Check whether minified file should be created/updated
      *
-     * @param string $originalFile path to original file relative to pub/view_cache
-     * @param string $minifiedFile path relative to pub/view_cache
+     * @param string $originalFile path to original file relative to pub/static
+     * @param string $minifiedFile path relative to pub/static
      * @return bool
      */
     protected function _isUpdateNeeded($originalFile, $minifiedFile)
     {
-        if (!$this->pubViewCacheDir->isExist($minifiedFile)) {
+        if (!$this->staticViewDir->isExist($minifiedFile)) {
             return true;
         }
         $originalFileMtime = $this->rootDirectory->stat($originalFile)['mtime'];
-        $minifiedFileMtime = $this->pubViewCacheDir->stat($minifiedFile)['mtime'];
+        $minifiedFileMtime = $this->staticViewDir->stat($minifiedFile)['mtime'];
         return ($originalFileMtime != $minifiedFileMtime);
     }
 }

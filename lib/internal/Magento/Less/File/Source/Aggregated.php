@@ -8,7 +8,7 @@
 
 namespace Magento\Less\File\Source;
 
-use Magento\View\Layout\File\SourceInterface;
+use Magento\View\File\SourceInterface;
 use Magento\View\Layout\File\FileList\Factory;
 use Magento\View\Design\ThemeInterface;
 
@@ -62,7 +62,7 @@ class Aggregated implements SourceInterface
      *
      * @param \Magento\View\Design\ThemeInterface $theme
      * @param string $filePath
-     * @return \Magento\View\Layout\File[]
+     * @return \Magento\View\File[]
      * @throws \LogicException
      */
     public function getFiles(ThemeInterface $theme, $filePath = '*')

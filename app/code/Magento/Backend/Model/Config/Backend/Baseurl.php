@@ -85,7 +85,6 @@ class Baseurl extends \Magento\Core\Model\Config\Value
                 $this->_assertStartsWithValuesOrUrl($placeholders, $value);
                 break;
             case \Magento\Core\Model\Store::XML_PATH_UNSECURE_BASE_STATIC_URL:
-            case \Magento\Core\Model\Store::XML_PATH_UNSECURE_BASE_CACHE_URL:
             case \Magento\Core\Model\Store::XML_PATH_UNSECURE_BASE_MEDIA_URL:
                 $this->_assertStartsWithValuesOrUrlOrEmpty($placeholders, $value);
                 break;
@@ -112,7 +111,6 @@ class Baseurl extends \Magento\Core\Model\Config\Value
                 $this->_assertStartsWithValuesOrUrl($placeholders, $value);
                 break;
             case \Magento\Core\Model\Store::XML_PATH_SECURE_BASE_STATIC_URL:
-            case \Magento\Core\Model\Store::XML_PATH_SECURE_BASE_CACHE_URL:
             case \Magento\Core\Model\Store::XML_PATH_SECURE_BASE_MEDIA_URL:
                 $this->_assertStartsWithValuesOrUrlOrEmpty($placeholders, $value);
                 break;

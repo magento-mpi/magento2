@@ -517,11 +517,6 @@
                     <backend_model>Magento\Backend\Model\Config\Backend\Baseurl</backend_model>
                     <comment>May be empty or start with {{unsecure_base_url}} placeholder.</comment>
                 </field>
-                <field id="base_cache_url" translate="label comment" type="text" sortOrder="26" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Base URL for View Files Cache</label>
-                    <backend_model>Magento\Backend\Model\Config\Backend\Baseurl</backend_model>
-                    <comment>May be empty or start with {{unsecure_base_url}} placeholder.</comment>
-                </field>
                 <field id="base_media_url" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Base URL for User Media Files</label>
                     <backend_model>Magento\Backend\Model\Config\Backend\Baseurl</backend_model>
@@ -543,11 +538,6 @@
                 </field>
                 <field id="base_static_url" translate="label comment" type="text" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Secure Base URL for Static View Files</label>
-                    <backend_model>Magento\Backend\Model\Config\Backend\Baseurl</backend_model>
-                    <comment>May be empty or start with {{secure_base_url}}, or {{unsecure_base_url}} placeholder.</comment>
-                </field>
-                <field id="base_cache_url" translate="label comment" type="text" sortOrder="26" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Secure Base URL for View Files Cache</label>
                     <backend_model>Magento\Backend\Model\Config\Backend\Baseurl</backend_model>
                     <comment>May be empty or start with {{secure_base_url}}, or {{unsecure_base_url}} placeholder.</comment>
                 </field>

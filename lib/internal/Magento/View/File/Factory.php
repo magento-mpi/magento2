@@ -6,13 +6,13 @@
  * @license     {license_link}
  */
 
-namespace Magento\View\Layout\File;
+namespace Magento\View\File;
 
 use Magento\ObjectManager;
 use Magento\View\Design\ThemeInterface;
 
 /**
- * Factory that produces layout file instances
+ * Factory that produces view file instances
  */
 class Factory
 {
@@ -34,17 +34,17 @@ class Factory
     }
 
     /**
-     * Return newly created instance of a layout file
+     * Return newly created instance of a view file
      *
      * @param string $filename
      * @param string $module
      * @param ThemeInterface|null $theme
-     * @return \Magento\View\Layout\File
+     * @return \Magento\View\File
      */
     public function create($filename, $module, ThemeInterface $theme = null)
     {
         return $this->objectManager->create(
-            'Magento\View\Layout\File',
+            'Magento\View\File',
             array(
                 'filename' => $filename,
                 'module' => $module,

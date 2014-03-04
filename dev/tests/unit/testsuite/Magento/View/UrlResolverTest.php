@@ -12,7 +12,7 @@ namespace Magento\View;
 class UrlResolverTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\View\UrlResolver::__construct
+     * @var \Magento\View\UrlResolver
      */
     private $object;
 

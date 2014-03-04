@@ -14,6 +14,7 @@
  */
 return array(
     '/lib/web/jquery/jquery.js',
+    '/dev/tests/js/framework/requirejs-util.js',
     '/lib/web/jquery/jquery-ui.js',
     '/lib/web/jquery/jquery.cookie.js',
     '/lib/web/headjs/head.load.min.js',

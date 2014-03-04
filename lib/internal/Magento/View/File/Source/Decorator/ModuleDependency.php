@@ -6,15 +6,15 @@
  * @license     {license_link}
  */
 
-namespace Magento\View\Layout\File\Source\Decorator;
+namespace Magento\View\File\Source\Decorator;
 
-use Magento\View\Layout\File\SourceInterface;
-use Magento\View\Layout\File;
+use Magento\View\File\SourceInterface;
+use Magento\View\File;
 use Magento\Module\ModuleListInterface;
 use Magento\View\Design\ThemeInterface;
 
 /**
- * Decorator that sorts layout files according to dependencies between modules they belong to
+ * Decorator that sorts view files according to dependencies between modules they belong to
  */
 class ModuleDependency implements SourceInterface
 {
@@ -54,11 +54,11 @@ class ModuleDependency implements SourceInterface
     }
 
     /**
-     * Retrieve layout files, sorted by the priority of modules they belong to
+     * Retrieve view files, sorted by the priority of modules they belong to
      *
      * @param ThemeInterface $theme
      * @param string $filePath
-     * @return \Magento\View\Layout\File[]
+     * @return \Magento\View\File[]
      */
     public function getFiles(ThemeInterface $theme, $filePath = '*')
     {
@@ -68,7 +68,7 @@ class ModuleDependency implements SourceInterface
     }
 
     /**
-     * Compare layout files according to the priority of modules they belong to. To be used as a callback for sorting.
+     * Compare view files according to the priority of modules they belong to. To be used as a callback for sorting.
      *
      * @param File $fileOne
      * @param File $fileTwo

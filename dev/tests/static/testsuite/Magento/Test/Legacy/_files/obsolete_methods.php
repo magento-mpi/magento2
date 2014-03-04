@@ -1237,7 +1237,7 @@ return array(
     array('getUpdateUrl', 'Magento\Wishlist\Helper\Data'),
     array('getItemRemoveUrl', 'Magento\Wishlist\Block\AbstractBlock'),
     array('_getUrlParams', 'Magento\Catalog\Helper\Product\Compare'),
-    array('getFileIdentifier', 'Magento\View\Layout\File\FileList', 'Magento\View\Layout\File'),
+    array('getFileIdentifier', 'Magento\View\Layout\File\FileList', 'Magento\View\File'),
     array('_getInitialXml', 'Magento\Config\Theme'),
     array('_getIdAttributes', 'Magento\Config\Theme'),
     [
@@ -1330,11 +1330,6 @@ return array(
         'Magento\View\FileResolver::getPublicViewFile()',
     ],
     [
-        '_isStaticFilesSigned',
-        'Magento\View\FileResolver',
-        'Magento\View\UrlResolver::_isStaticFilesSigned()',
-    ],
-    [
         'getPublicFilePath',
         'Magento\View\PublicFilesManagerInterface',
         'Magento\View\FilesManagerInterface::getPublicViewFile()',
@@ -1345,6 +1340,6 @@ return array(
         'Magento\View\Publisher::getPublicViewFile()',
     ],
     array('_getVatRequiredCustomerAddress', 'Magento\Sales\Model\Observer'),
-    array('isStaticFilesSigned', 'Magento\View\UrlResolver',
+    array('_isStaticFilesSigned', 'Magento\View\FileResolver',
         'Magento\Theme\Model\Url\Plugin\Signature::isUrlSignatureEnabled()'),
 );

@@ -23,11 +23,6 @@ class SignatureTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    private $baseUrl;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
     private $deploymentVersion;
 
     /**
@@ -38,35 +33,46 @@ class SignatureTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->config = $this->getMock('Magento\View\Url\ConfigInterface');
-        $this->baseUrl = $this->getMock('Magento\UrlInterface');
         $this->deploymentVersion = $this->getMock('Magento\App\View\Deployment\Version', array(), array(), '', false);
         $this->invocationChain = $this->getMock('Magento\Code\Plugin\InvocationChain', array(), array(), '', false);
         $this->invocationChain
             ->expects($this->once())
             ->method('proceed')
-            ->with($this->contains('fixture/resource.js'))
-            ->will($this->returnValue('http://127.0.0.1/magento/fixture/resource.js'))
+            ->with($this->logicalNot($this->isEmpty()))
+            ->will($this->returnValue('http://127.0.0.1/magento/pub/static/'))
         ;
-        $this->object = new Signature($this->config, $this->baseUrl, $this->deploymentVersion);
+        $this->object = new Signature($this->config, $this->deploymentVersion);
     }
 
-    public function testAroundGetViewFileUrlInactive()
+    /**
+     * @param bool|int $fixtureConfigFlag
+     * @param string $inputUrlType
+     * @dataProvider aroundGetBaseUrlInactiveDataProvider
+     */
+    public function testAroundGetBaseUrlInactive($fixtureConfigFlag, $inputUrlType)
     {
         $this->config
-            ->expects($this->once())
+            ->expects($this->any())
             ->method('getValue')
             ->with(Signature::XML_PATH_STATIC_FILE_SIGNATURE)
-            ->will($this->returnValue(0))
+            ->will($this->returnValue($fixtureConfigFlag))
         ;
-        $this->baseUrl->expects($this->never())->method($this->anything());
         $this->deploymentVersion->expects($this->never())->method($this->anything());
 
-        $methodArgs = array('fixture/resource.js');
-        $actualResult = $this->object->aroundGetViewFileUrl($methodArgs, $this->invocationChain);
-        $this->assertEquals('http://127.0.0.1/magento/fixture/resource.js', $actualResult);
+        $methodArgs = array($inputUrlType);
+        $actualResult = $this->object->aroundGetBaseUrl($methodArgs, $this->invocationChain);
+        $this->assertEquals('http://127.0.0.1/magento/pub/static/', $actualResult);
     }
 
-    public function testAroundGetViewFileUrl()
+    public function aroundGetBaseUrlInactiveDataProvider()
+    {
+        return array(
+            'disabled in config, relevant URL type'  => array(0, \Magento\UrlInterface::URL_TYPE_STATIC),
+            'enabled in config, irrelevant URL type' => array(1, \Magento\UrlInterface::URL_TYPE_LINK),
+        );
+    }
+
+    public function testAroundGetBaseUrlActive()
     {
         $this->config
             ->expects($this->once())
@@ -74,43 +80,10 @@ class SignatureTest extends \PHPUnit_Framework_TestCase
             ->with(Signature::XML_PATH_STATIC_FILE_SIGNATURE)
             ->will($this->returnValue(1))
         ;
-        $this->baseUrl
-            ->expects($this->once())
-            ->method('getBaseUrl')
-            ->with(array(
-                '_type' => \Magento\UrlInterface::URL_TYPE_STATIC,
-                '_secure' => false
-            ))
-            ->will($this->returnValue('http://127.0.0.1/magento/'))
-        ;
         $this->deploymentVersion->expects($this->once())->method('getValue')->will($this->returnValue('123'));
 
-        $methodArgs = array('fixture/resource.js');
-        $actualResult = $this->object->aroundGetViewFileUrl($methodArgs, $this->invocationChain);
-        $this->assertEquals('http://127.0.0.1/magento/version123/fixture/resource.js', $actualResult);
-    }
-
-    public function testAroundGetViewFileUrlSecure()
-    {
-        $this->config
-            ->expects($this->once())
-            ->method('getValue')
-            ->with(Signature::XML_PATH_STATIC_FILE_SIGNATURE)
-            ->will($this->returnValue(1))
-        ;
-        $this->baseUrl
-            ->expects($this->once())
-            ->method('getBaseUrl')
-            ->with(array(
-                '_type' => \Magento\UrlInterface::URL_TYPE_STATIC,
-                '_secure' => true
-            ))
-            ->will($this->returnValue('http://127.0.0.1/magento/'))
-        ;
-        $this->deploymentVersion->expects($this->once())->method('getValue')->will($this->returnValue('123'));
-
-        $methodArgs = array('fixture/resource.js', array('_secure' => true));
-        $actualResult = $this->object->aroundGetViewFileUrl($methodArgs, $this->invocationChain);
-        $this->assertEquals('http://127.0.0.1/magento/version123/fixture/resource.js', $actualResult);
+        $methodArgs = array(\Magento\UrlInterface::URL_TYPE_STATIC);
+        $actualResult = $this->object->aroundGetBaseUrl($methodArgs, $this->invocationChain);
+        $this->assertEquals('http://127.0.0.1/magento/pub/static/version123/', $actualResult);
     }
 }

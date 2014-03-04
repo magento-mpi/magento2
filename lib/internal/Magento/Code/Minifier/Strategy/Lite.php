@@ -32,7 +32,7 @@ class Lite implements \Magento\Code\Minifier\StrategyInterface
     /**
      * @var Write
      */
-    protected $pubViewCacheDir;
+    protected $staticViewDir;
 
     /**
      * @param \Magento\Code\Minifier\AdapterInterface $adapter
@@ -44,14 +44,14 @@ class Lite implements \Magento\Code\Minifier\StrategyInterface
     ) {
         $this->adapter = $adapter;
         $this->rootDirectory = $filesystem->getDirectoryRead(\Magento\App\Filesystem::ROOT_DIR);
-        $this->pubViewCacheDir = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::PUB_VIEW_CACHE_DIR);
+        $this->staticViewDir = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::STATIC_VIEW_DIR);
     }
 
     /**
      * Get path to minified file for specified original file
      *
-     * @param string $originalFile path to original file relative to pub/view_cache
-     * @param string $targetFile path relative to pub/view_cache
+     * @param string $originalFile path to original file relative to pub/static
+     * @param string $targetFile path relative to pub/static
      * @return void
      */
     public function minifyFile($originalFile, $targetFile)
@@ -59,18 +59,18 @@ class Lite implements \Magento\Code\Minifier\StrategyInterface
         if ($this->_isUpdateNeeded($targetFile)) {
             $content = $this->rootDirectory->readFile($originalFile);
             $content = $this->adapter->minify($content);
-            $this->pubViewCacheDir->writeFile($targetFile, $content);
+            $this->staticViewDir->writeFile($targetFile, $content);
         }
     }
 
     /**
      * Check whether minified file should be created
      *
-     * @param string $minifiedFile path relative to pub/view_cache
+     * @param string $minifiedFile path relative to pub/static
      * @return bool
      */
     protected function _isUpdateNeeded($minifiedFile)
     {
-        return !$this->pubViewCacheDir->isExist($minifiedFile);
+        return !$this->staticViewDir->isExist($minifiedFile);
     }
 }

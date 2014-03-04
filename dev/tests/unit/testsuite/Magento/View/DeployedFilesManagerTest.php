@@ -17,12 +17,15 @@ class DeployedFilesManagerTest extends \PHPUnit_Framework_TestCase
      * @param string $themePath
      * @param string $module
      * @param string $filePath
+     * @param string $expectedSubPath
      * @param string $expected
      * @dataProvider getViewFileDataProvider
      */
-    public function testGetPublicViewFile($pubDir, $area, $themePath, $module, $filePath, $expected)
+    public function testGetPublicViewFile($pubDir, $area, $themePath, $module, $filePath, $expectedSubPath, $expected)
     {
-        $this->_testGetFile('getPublicViewFile', $pubDir, $area, $themePath, $module, $filePath, $expected);
+        $this->_testGetFile(
+            'getPublicViewFile', $pubDir, $area, $themePath, $module, $filePath, $expectedSubPath, $expected
+        );
     }
 
     /**
@@ -31,12 +34,13 @@ class DeployedFilesManagerTest extends \PHPUnit_Framework_TestCase
      * @param string $themePath
      * @param string $module
      * @param string $filePath
+     * @param string $expectedSubPath
      * @param string $expected
      * @dataProvider getViewFileDataProvider
      */
-    public function testGetViewFile($pubDir, $area, $themePath, $module, $filePath, $expected)
+    public function testGetViewFile($pubDir, $area, $themePath, $module, $filePath, $expectedSubPath, $expected)
     {
-        $this->_testGetFile('getViewFile', $pubDir, $area, $themePath, $module, $filePath, $expected);
+        $this->_testGetFile('getViewFile', $pubDir, $area, $themePath, $module, $filePath, $expectedSubPath, $expected);
     }
 
     /**
@@ -45,8 +49,10 @@ class DeployedFilesManagerTest extends \PHPUnit_Framework_TestCase
     public static function getViewFileDataProvider()
     {
         return array(
-            'no module' => array('/dir', 'f', 'magento_demo', null, 'file.ext', '/dir/f/magento_demo/file.ext'),
-            'with module' => array('/dir', 'b', 'theme', 'm', 'file.ext', '/dir/b/theme/m/file.ext'),
+            'no module' => array(
+                '/dir', 'f', 'magento_demo', '', 'file.ext', 'f/magento_demo/', '/dir/f/magento_demo/file.ext'
+            ),
+            'with module' => array('/dir', 'b', 'theme', 'm', 'file.ext', 'b/theme//m', '/dir/b/theme/m/file.ext'),
         );
     }
 
@@ -57,10 +63,12 @@ class DeployedFilesManagerTest extends \PHPUnit_Framework_TestCase
      * @param string $themePath
      * @param string $module
      * @param string $filePath
+     * @param string $expectedSubPath
      * @param string $expected
      */
-    protected function _testGetFile($method, $pubDir, $area, $themePath, $module, $filePath, $expected)
-    {
+    protected function _testGetFile(
+        $method, $pubDir, $area, $themePath, $module, $filePath, $expectedSubPath, $expected
+    ) {
         $viewService = $this->getMock('\Magento\View\Service', array('getPublicDir'), array(), '', false);
         $viewService->expects($this->once())->method('getPublicDir')->will($this->returnValue($pubDir));
 
@@ -72,7 +80,13 @@ class DeployedFilesManagerTest extends \PHPUnit_Framework_TestCase
         $theme->expects($this->any())->method('getParentTheme')->will($this->returnSelf());
         $params = array('themeModel' => $theme, 'area' => $area, 'module' => $module);
 
-        $model = new DeployedFilesManager($viewService);
+        $path = $this->getMock('Magento\View\Path');
+        $path->expects($this->once())
+            ->method('getFullyQualifiedPath')
+            ->with($area, $themePath, '', $module)
+            ->will($this->returnValue($expectedSubPath));
+
+        $model = new DeployedFilesManager($viewService, $path);
         $result = $model->$method($filePath, $params);
         $this->assertStringEndsWith($expected, $result);
     }

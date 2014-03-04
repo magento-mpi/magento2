@@ -240,7 +240,6 @@
         <copy todir="${dir.build_directory}/instance-${instanceIndex}" failonerror="true">
             <fileset dir="${basedir}"/>
         </copy>
-        <mkdir dir="{dir.build_directory}/instance-${instanceIndex}/pub/cache"/>
 
         <mkdir dir="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional/var/logs"/>
         <mkdir dir="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional/var/screenshots"/>

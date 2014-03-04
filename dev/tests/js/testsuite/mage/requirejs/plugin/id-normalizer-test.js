@@ -12,7 +12,7 @@
 var IdNormalizerTest = TestCase('IdNormalizerTest');
 
 IdNormalizerTest.prototype.setUp = function() {
-    var defineArgs = jsunit.requirejsUtil.getDefineArgsInScript('mage/requirejs/plugin/id-normalizer.js');
+    var defineArgs = jsunit.requirejsUtil.getDefineArgsInScript('lib/web/mage/requirejs/plugin/id-normalizer.js');
     assertNotUndefined('There expected to be a define() call', defineArgs);
     assertEquals('Wrong number of arguments in the define() call', 1, defineArgs.length);
 

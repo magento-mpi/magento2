@@ -12,7 +12,7 @@ namespace Magento\App\Response;
 interface FileInterface extends HttpInterface
 {
     /**
-     * Set path to the file being send
+     * Set path to the file being sent
      *
      * @param string $path
      */

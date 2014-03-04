@@ -122,8 +122,8 @@ class MinifyService
                         ->create('Magento\Code\Minifier\Strategy\Generate', $strategyParams);
             }
             $baseDir = $this->_filesystem
-                ->getDirectoryRead(\Magento\App\Filesystem::PUB_VIEW_CACHE_DIR)
-                ->getAbsolutePath('minify');
+                ->getDirectoryRead(\Magento\App\Filesystem::STATIC_VIEW_DIR)
+                ->getAbsolutePath(self::getRelativeDir());
 
             $this->minifiers[$contentType] = $this->objectManager->create('Magento\Code\Minifier',
                 array(
@@ -167,5 +167,15 @@ class MinifyService
 
         $adapter = $this->objectManager->create($adapterClass);
         return $adapter;
+    }
+
+    /**
+     * Returns directory for storing minified files relative to STATIC_VIEW_DIR
+     *
+     * @return string
+     */
+    public static function getRelativeDir()
+    {
+        return \Magento\App\Filesystem\DirectoryList::CACHE_VIEW_REL_DIR . '/minified';
     }
 }

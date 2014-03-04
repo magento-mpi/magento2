@@ -219,6 +219,16 @@ class Design implements \Magento\View\DesignInterface
     }
 
     /**
+     * Get locale
+     *
+     * @return string
+     */
+    public function getLocale()
+    {
+        return $this->_app->getLocale()->getLocaleCode();
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getDesignParams()
@@ -226,7 +236,7 @@ class Design implements \Magento\View\DesignInterface
         $params = array(
             'area'       => $this->getArea(),
             'themeModel' => $this->getDesignTheme(),
-            'locale'     => $this->_app->getLocale()->getLocaleCode()
+            'locale'     => $this->getLocale(),
         );
 
         return $params;

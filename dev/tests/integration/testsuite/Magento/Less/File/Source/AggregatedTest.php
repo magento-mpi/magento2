@@ -73,7 +73,7 @@ class AggregatedTest extends \PHPUnit_Framework_TestCase
         $files = $this->model->getFiles($theme, $path);
         $this->assertCount(count($expectedFiles), $files, 'Files number doesn\'t match');
 
-        /** @var $file \Magento\View\Layout\File */
+        /** @var $file \Magento\View\File */
         foreach ($files as $file) {
             if (!in_array($file->getFilename(), $expectedFiles)) {
                 $this->fail(sprintf('File "%s" is not expected but found', $file->getFilename()));

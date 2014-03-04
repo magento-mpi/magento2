@@ -18,6 +18,17 @@ class EntityTest extends \PHPUnit_Framework_TestCase
      */
     protected $_model;
 
+    protected function setUp()
+    {
+        $this->_model = $this->getMock(
+            'Magento\Core\Model\AbstractModel',
+            array('load', 'save', 'delete', 'getIdFieldName', '__wakeup'),
+            array(),
+            '',
+            false
+        );
+    }
+
     /**
      * Callback for save method in mocked model
      */
@@ -48,6 +59,15 @@ class EntityTest extends \PHPUnit_Framework_TestCase
         $this->_model->setId(null);
     }
 
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Class 'stdClass' is irrelevant to the tested model
+     */
+    public function testConstructorIrrelevantModelClass()
+    {
+        new \Magento\TestFramework\Entity($this->_model, array(), 'stdClass');
+    }
+
     public function crudDataProvider()
     {
         return array(
@@ -62,14 +82,6 @@ class EntityTest extends \PHPUnit_Framework_TestCase
     public function testTestCrud($saveCallback, $expectedException = null)
     {
         $this->setExpectedException($expectedException);
-
-        $this->_model = $this->getMock(
-            'Magento\Core\Model\AbstractModel',
-            array('load', 'save', 'delete', 'getIdFieldName', '__wakeup'),
-            array(),
-            '',
-            false
-        );
 
         $this->_model->expects($this->atLeastOnce())
             ->method('load');
@@ -95,6 +107,5 @@ class EntityTest extends \PHPUnit_Framework_TestCase
             ->method('_getEmptyModel')
             ->will($this->returnValue($this->_model));
         $test->testCrud();
-
     }
 }

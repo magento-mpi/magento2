@@ -6,21 +6,21 @@
  * @license     {license_link}
  */
 
-namespace Magento\View\Layout\File;
+namespace Magento\View\File;
 
 use Magento\View\Design\ThemeInterface;
 
 /**
- * Interface of locating layout files in the file system
+ * Interface of locating view files in the file system
  */
 interface SourceInterface
 {
     /**
-     * Retrieve instances of layout files
+     * Retrieve instances of view files
      *
      * @param ThemeInterface $theme Theme that defines the design context
      * @param string $filePath [optional]
-     * @return \Magento\View\Layout\File[]
+     * @return \Magento\View\File[]
      */
     public function getFiles(ThemeInterface $theme, $filePath = '*');
 }

@@ -17,7 +17,7 @@ class WriteFactory
      *
      * @param array $config
      * @param \Magento\Filesystem\DriverFactory $driverFactory
-     * @return \Magento\Filesystem\File\WriteInterface
+     * @return \Magento\Filesystem\Directory\Write
      */
     public function create(array $config, \Magento\Filesystem\DriverFactory $driverFactory)
     {

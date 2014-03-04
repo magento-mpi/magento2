@@ -14,11 +14,6 @@ namespace Magento\View\Asset;
 class Merged implements \Iterator
 {
     /**
-     * Sub path for merged files relative to public view cache directory
-     */
-    const PUBLIC_MERGE_DIR  = '_merged';
-
-    /**
      * ObjectManager
      *
      * @var \Magento\ObjectManager
@@ -169,8 +164,8 @@ class Merged implements \Iterator
             $relFileNames[] = ltrim(str_replace($publicDir, '', $file), '/');
         }
 
-        $mergedDir = $filesystem->getDirectoryRead(\Magento\App\Filesystem::PUB_VIEW_CACHE_DIR)
-            ->getAbsolutePath(self::PUBLIC_MERGE_DIR);
+        $mergedDir = $filesystem->getDirectoryRead(\Magento\App\Filesystem::STATIC_VIEW_DIR)
+            ->getAbsolutePath(self::getRelativeDir());
         return $mergedDir . '/' . md5(implode('|', $relFileNames)) . '.' . $this->contentType;
     }
 
@@ -219,5 +214,15 @@ class Merged implements \Iterator
     {
         $this->initialize();
         return (bool)current($this->assets);
+    }
+
+    /**
+     * Returns directory for storing merged files relative to STATIC_VIEW_DIR
+     *
+     * @return string
+     */
+    public static function getRelativeDir()
+    {
+        return \Magento\App\Filesystem\DirectoryList::CACHE_VIEW_REL_DIR . '/merged';
     }
 }
