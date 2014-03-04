@@ -183,16 +183,17 @@ interface CustomerAccountServiceInterface
     public function getConfirmationStatus($customerId);
 
     /**
-     * Send Confirmation email.
+     * Resend confirmation email.
      *
      * @param string $email email address of customer
+     * @param string $websiteId website
      * @param string $redirectUrl URL fed to welcome email templates. Can be used by templates to, for example, direct
      *                            the customer to a product they were looking at after pressing confirmation link.
      * @return void
      * @throws \Magento\Exception\NoSuchEntityException If no customer found for provided email
      * @throws \Magento\Exception\StateException If confirmation is not needed
      */
-    public function sendConfirmation($email, $redirectUrl = '');
+    public function resendConfirmation($email, $websiteId, $redirectUrl = '');
 
     /**
      * Validate customer entity

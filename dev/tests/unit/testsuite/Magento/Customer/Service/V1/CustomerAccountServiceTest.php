@@ -932,7 +932,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function testSendConfirmation()
+    public function testResendConfirmation()
     {
         $this->_customerFactoryMock->expects($this->any())
             ->method('create')
@@ -951,10 +951,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue('123abc'));
 
         $customerService = $this->_createService();
-        $customerService->sendConfirmation('email');
+        $customerService->resendConfirmation('email', 1);
     }
 
-    public function testSendConfirmationNoEmail()
+    public function testResendConfirmationNoEmail()
     {
         $this->_customerFactoryMock->expects($this->any())
             ->method('create')
@@ -968,12 +968,12 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         $customerService = $this->_createService();
         try {
-            $customerService->sendConfirmation('email@no.customer');
+            $customerService->resendConfirmation('email@no.customer', 1);
             $this->fail("Expected NoSuchEntityException not caught");
         } catch (NoSuchEntityException $nsee) {
             $expectedParams = [
                 'email' => 'email@no.customer',
-                'websiteId' => null
+                'websiteId' => 1
             ];
             $this->assertEquals($expectedParams, $nsee->getParams());
         }
@@ -983,7 +983,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      * @expectedException \Magento\Exception\StateException
      * @expectedExceptionCode \Magento\Exception\StateException::INVALID_STATE
      */
-    public function testSendConfirmationNotNeeded()
+    public function testResendConfirmationNotNeeded()
     {
         $this->_customerFactoryMock->expects($this->any())
             ->method('create')
@@ -991,16 +991,13 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerModelMock->expects($this->once())
             ->method('getId')
             ->will($this->returnValue(55));
-        $this->_storeMock->expects($this->once())
-            ->method('getWebsiteId')
-            ->will($this->returnValue(2));
         $this->_customerModelMock->expects($this->once())
             ->method('setWebsiteId')
             ->with(2)
             ->will($this->returnSelf());
 
         $customerService = $this->_createService();
-        $customerService->sendConfirmation('email@test.com');
+        $customerService->resendConfirmation('email@test.com', 2);
     }
 
     /**

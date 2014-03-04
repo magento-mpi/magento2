@@ -514,18 +514,37 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      * @magentoAppIsolation enabled
      * @magentoDataFixture Magento/Customer/_files/inactive_customer.php
      */
-    public function testSendConfirmation()
+    public function testResendConfirmation()
     {
-        $this->_customerAccountService->sendConfirmation('customer@needAconfirmation.com');
+        $this->_customerAccountService->resendConfirmation('customer@needAconfirmation.com', 1);
+    }
+
+
+    /**
+     * @magentoAppArea frontend
+     * @magentoAppIsolation enabled
+     * @magentoDataFixture Magento/Customer/_files/inactive_customer.php
+     */
+    public function testResendConfirmationBadWebsiteId()
+    {
+        try {
+            $this->_customerAccountService->resendConfirmation('customer@needAconfirmation.com', 'notAWebsiteId');
+        } catch (NoSuchEntityException $nsee) {
+            $expectedParams = [
+                'email' => 'customer@needAconfirmation.com',
+                'websiteId' => 'notAWebsiteId',
+            ];
+            $this->assertEquals($expectedParams, $nsee->getParams());
+        }
     }
 
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
      */
-    public function testSendConfirmationNoEmail()
+    public function testResendConfirmationNoEmail()
     {
         try {
-            $this->_customerAccountService->sendConfirmation('wrongemail@example.com');
+            $this->_customerAccountService->resendConfirmation('wrongemail@example.com', 1);
             $this->fail('Expected exception not thrown.');
         } catch (NoSuchEntityException $nsee) {
             $expectedParams = [
@@ -542,9 +561,9 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      * @expectedException \Magento\Exception\StateException
      * @expectedExceptionCode \Magento\Exception\StateException::INVALID_STATE
      */
-    public function testSendConfirmationNotNeeded()
+    public function testResendConfirmationNotNeeded()
     {
-        $this->_customerAccountService->sendConfirmation('customer@example.com');
+        $this->_customerAccountService->resendConfirmation('customer@example.com', 1);
     }
 
 
