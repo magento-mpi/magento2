@@ -404,12 +404,9 @@ class Account extends \Magento\App\Action\Action
             $addresses = is_null($address) ? [] : [$address];
             $password = $this->getRequest()->getParam('password');
             $redirectUrl = $this->_getSession()->getBeforeAuthUrl();
-            $customer = $this->_customerAccountService->createAccount(
-                $customer,
-                $addresses,
-                $password,
-                $redirectUrl
-            );
+            $customerDetails =
+                $this->_customerDetailsBuilder->setCustomer($customer)->setAddresses($addresses)->create();
+            $customer = $this->_customerAccountService->createAccount($customerDetails, $password, $redirectUrl);
 
             if ($this->getRequest()->getParam('is_subscribed', false)) {
                 $this->_subscriberFactory->create()->updateSubscription($customer->getCustomerId(), true);
@@ -876,14 +873,14 @@ class Account extends \Magento\App\Action\Action
 
 
             if ($this->getRequest()->getParam('change_password')) {
-                $curPass   = $this->getRequest()->getPost('current_password');
-                $newPass    = $this->getRequest()->getPost('password');
-                $confPass   = $this->getRequest()->getPost('confirmation');
+                $currPass = $this->getRequest()->getPost('current_password');
+                $newPass  = $this->getRequest()->getPost('password');
+                $confPass = $this->getRequest()->getPost('confirmation');
 
                 if (strlen($newPass)) {
                     if ($newPass == $confPass) {
                         try {
-                            $this->_customerAccountService->changePassword($customerId, $curPass, $newPass);
+                            $this->_customerAccountService->changePassword($customerId, $currPass, $newPass);
                         } catch (AuthenticationException $e) {
                             $this->messageManager->addError($e->getMessage());
                         } catch (\Exception $e) {

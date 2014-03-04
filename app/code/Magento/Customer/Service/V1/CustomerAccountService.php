@@ -283,8 +283,10 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function createAccount(Dto\Customer $customer, array $addresses, $password = null, $redirectUrl = '')
+    public function createAccount(Dto\CustomerDetails $customerDetails, $password = null, $redirectUrl = '')
     {
+        $customer = $customerDetails->getCustomer();
+
         // This logic allows an existing customer to be added to a different store.  No new account is created.
         // The plan is to move this logic into a new method called something like 'registerAccountWithStore'
         if ($customer->getCustomerId()) {
@@ -317,7 +319,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
             throw $e;
         }
 
-        $this->_customerAddressService->saveAddresses($customerId, $addresses);
+        $this->_customerAddressService->saveAddresses($customerId, $customerDetails->getAddresses());
 
         $customerModel = $this->_converter->getCustomerModel($customerId);
 
