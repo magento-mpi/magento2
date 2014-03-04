@@ -38,6 +38,9 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     /** @var Dto/SearchResultsBuilder */
     private $_searchResultsBuilder;
 
+    /** @var Dto/CustomerDetailsBuilder */
+    private $_customerDetailsBuilder;
+
     /**
      * Core event manager proxy
      *
@@ -91,6 +94,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
      * @param Dto\SearchResultsBuilder $searchResultsBuilder,
      * @param CustomerAddressServiceInterface $customerAddressService
      * @param CustomerMetadataService $customerMetadataService
+     * @param Dto\CustomerDetailsBuilder $customerDetailsBuilder
      * @param UrlInterface $url
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -104,6 +108,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         Validator $validator,
         Dto\CustomerBuilder $customerBuilder,
         Dto\SearchResultsBuilder $searchResultsBuilder,
+        Dto\CustomerDetailsBuilder $customerDetailsBuilder,
         CustomerAddressServiceInterface $customerAddressService,
         CustomerMetadataService $customerMetadataService,
         UrlInterface $url
@@ -116,6 +121,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         $this->_validator = $validator;
         $this->_customerBuilder = $customerBuilder;
         $this->_searchResultsBuilder = $searchResultsBuilder;
+        $this->_customerDetailsBuilder = $customerDetailsBuilder;
         $this->_customerAddressService = $customerAddressService;
         $this->_customerMetadataService = $customerMetadataService;
         $this->_url = $url;
@@ -373,7 +379,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     /**
      * (@inheritdoc)
      */
-    public function searchAccounts(Dto\SearchCriteria $searchCriteria)
+    public function searchCustomers(Dto\SearchCriteria $searchCriteria)
     {
         $this->_searchResultsBuilder->setSearchCriteria($searchCriteria);
 
@@ -390,13 +396,17 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         $collection->setCurPage($searchCriteria->getCurrentPage());
         $collection->setPageSize($searchCriteria->getPageSize());
 
-        $customers = [];
+        $customersDetails = [];
 
         /** @var CustomerModel $customerModel */
         foreach ($collection as $customerModel) {
-            $customers[] = $this->_converter->createCustomerFromModel($customerModel);
+            $customer = $this->_converter->createCustomerFromModel($customerModel);
+            $addresses = $this->_customerAddressService->getAddresses($customer->getCustomerId());
+            $customerDetails = $this->_customerDetailsBuilder
+                ->setCustomer($customer)->setAddresses($addresses)->create();
+            $customersDetails[] = $customerDetails;
         }
-        $this->_searchResultsBuilder->setItems($customers);
+        $this->_searchResultsBuilder->setItems($customersDetails);
         return $this->_searchResultsBuilder->create();
     }
 

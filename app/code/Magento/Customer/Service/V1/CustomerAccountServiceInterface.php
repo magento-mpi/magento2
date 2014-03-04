@@ -94,13 +94,13 @@ interface CustomerAccountServiceInterface
     public function activateCustomer($customerId, $confirmationKey);
 
     /**
-     * Retrieve customer accounts which match a specified criteria
+     * Retrieve customers which match a specified criteria
      *
      * @param Dto\SearchCriteria $searchCriteria
-     * @throws InputException if there is a problem with the input
-     * @return Dto\SearchResults containing Dto\CustomerAccount objects
+     * @throws \Magento\Exception\InputException if there is a problem with the input
+     * @return Dto\SearchResults containing Dto\CustomerDetails
      */
-    public function searchAccounts(Dto\SearchCriteria $searchCriteria);
+    public function searchCustomers(Dto\SearchCriteria $searchCriteria);
 
     /**
      * Validate an account confirmation key matches expected value for customer
