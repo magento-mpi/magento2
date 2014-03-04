@@ -1,0 +1,3 @@
+bundle/data/name;bundle/data/sku_type;bundle/data/sku;bundle/data/price_type;bundle/data/price;bundle/data/bundle_selections/preset;bundle/data/bundle_selections/products;constraint
+Bundle Dynamic %isolation%;Dynamic;sku_bundle_dynamic_%isolation%;Dynamic;-;default;catalogProductSimple::SimpleProduct_sku_516169631,catalogProductSimple::SimpleProduct_sku_1947585255; assertProductSaveMessage
+Bundle Fixed %isolation%;Fixed;sku_bundle_fixed_%isolation%;Fixed;10;second;catalogProductSimple::SimpleProduct_sku_516169631,catalogProductSimple::SimpleProduct_sku_1947585255; assertProductSaveMessage

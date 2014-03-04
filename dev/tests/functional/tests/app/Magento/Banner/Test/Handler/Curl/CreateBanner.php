@@ -12,7 +12,7 @@
 
 namespace Magento\Banner\Test\Handler\Curl;
 
-use Mtf\Fixture;
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Handler\Curl;
 use Mtf\Util\Protocol\CurlTransport;
 use Mtf\Util\Protocol\CurlInterface;
@@ -29,11 +29,11 @@ class CreateBanner extends Curl
     /**
      * Post request for creating banner
      *
-     * @param Fixture $fixture [optional]
+     * @param FixtureInterface $fixture [optional]
      * @throws \Exception
      * @return null|string banner_id
      */
-    public function execute(Fixture $fixture = null)
+    public function persist(FixtureInterface $fixture = null)
     {
         $response = $this->postRequest($fixture);
         if (!strpos($response, 'data-ui-id="messages-message-success"')) {
@@ -49,10 +49,10 @@ class CreateBanner extends Curl
     /**
      * Post request for creating banner
      *
-     * @param Fixture $fixture [optional]
+     * @param FixtureInterface $fixture [optional]
      * @return string
      */
-    protected function postRequest(Fixture $fixture = null)
+    protected function postRequest(FixtureInterface $fixture = null)
     {
         $data = $fixture->getData('fields');
         $fields = array();

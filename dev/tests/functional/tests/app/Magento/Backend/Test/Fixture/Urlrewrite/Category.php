@@ -32,7 +32,7 @@ class Category extends DataFixture
      * @param Config $configuration
      * @param array $placeholders
      */
-    public function __construct(Config $configuration, $placeholders = array())
+    public function __construct(Config $configuration, array $placeholders = array())
     {
         parent::__construct($configuration, $placeholders);
         $this->_placeholders['rewritten_category_request_path'] = array($this, 'getRewrittenRequestPath');

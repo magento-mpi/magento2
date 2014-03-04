@@ -23,13 +23,17 @@ use Mtf\Factory\Factory;
 class CustomOptionsTab extends Tab
 {
     /**
-     * Fill variations fieldset
+     * Fill custom options
      *
      * @param array $fields
      * @param Element $element
+     * @return $this
      */
     public function fillFormTab(array $fields, Element $element)
     {
+        if (!isset($fields['custom_options'])) {
+            return $this;
+        }
         $root = $element;
         $this->_rootElement->waitUntil(
             function () use ($root) {
@@ -48,5 +52,7 @@ class CustomOptionsTab extends Tab
                 ->getMagentoCatalogAdminhtmlProductEditCustomOptionsTabOption($row)
                 ->fill($data);
         }
+
+        return $this;
     }
 }

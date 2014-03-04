@@ -12,7 +12,7 @@
 
 namespace Magento\Sales\Test\Handler\Curl;
 
-use Mtf\Fixture;
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Handler\Curl;
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
@@ -101,10 +101,11 @@ class CloseOrder extends Curl
     /**
      * Close sales order
      *
-     * @param Fixture $fixture [optional]
+     * @param FixtureInterface $fixture [optional]
      * @return void
+     * @throws \Exception
      */
-    public function execute(Fixture $fixture = null)
+    public function persist(FixtureInterface $fixture = null)
     {
         //Go to the Sales Order page and find the link for the order id to pass to the url
         $url = $_ENV['app_backend_url'] . $this->salesOrderUrl;
