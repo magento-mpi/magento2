@@ -10,6 +10,7 @@ namespace Magento\Sales\Model\Service;
 
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\Customer\Service\V1\Dto\CustomerBuilder;
+use Magento\Customer\Service\V1\Dto\CustomerDetailsBuilder;
 use Magento\Customer\Service\V1\Dto\AddressBuilder;
 use Magento\Customer\Service\V1\Dto\Region;
 use Magento\Customer\Service\V1\Dto\Customer as CustomerDto;
@@ -46,6 +47,11 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
      */
     protected $_addressBuilder;
 
+    /**
+     * @var CustomerDetailsBuilder
+     */
+    protected $_customerDetailsBuilder;
+
 
     public function setUp()
     {
@@ -54,6 +60,9 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
         );
         $this->_customerBuilder = Bootstrap::getObjectManager()->get(
             'Magento\Customer\Service\V1\Dto\CustomerBuilder'
+        );
+        $this->_customerDetailsBuilder = Bootstrap::getObjectManager()->get(
+            'Magento\Customer\Service\V1\Dto\CustomerDetailsBuilder'
         );
         $this->_customerAccountService = Bootstrap::getObjectManager()->get(
             'Magento\Customer\Service\V1\CustomerAccountService'

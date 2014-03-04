@@ -12,6 +12,7 @@ use Magento\Customer\Service\V1\CustomerServiceInterface;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\Dto\AddressBuilder;
+use Magento\Customer\Service\V1\Dto\CustomerDetailsBuilder;
 use Magento\Customer\Service\V1\Dto\Customer as CustomerDto;
 use Magento\Customer\Service\V1\Dto\Response\CreateCustomerAccountResponse;
 
@@ -98,6 +99,11 @@ class Quote
     protected $_createCustomerResponse;
 
     /**
+     * @var  CustomerDetailsBuilder
+     */
+    protected $_customerDetailsBuilder;
+
+    /**
      * Class constructor
      *
      * @param \Magento\Event\ManagerInterface $eventManager
@@ -109,6 +115,7 @@ class Quote
      * @param CustomerAccountServiceInterface $customerAccountService
      * @param CustomerAddressServiceInterface $customerAddressService
      * @param AddressBuilder $customerAddressBuilder
+     * @param CustomerDetailsBuilder $customerDetailsBuilder
      */
     public function __construct(
         \Magento\Event\ManagerInterface $eventManager,
@@ -119,7 +126,8 @@ class Quote
         CustomerServiceInterface $customerService,
         CustomerAccountServiceInterface $customerAccountService,
         CustomerAddressServiceInterface $customerAddressService,
-        AddressBuilder $customerAddressBuilder
+        AddressBuilder $customerAddressBuilder,
+        CustomerDetailsBuilder $customerDetailsBuilder
     ) {
         $this->_eventManager = $eventManager;
         $this->_quote = $quote;
@@ -130,6 +138,7 @@ class Quote
         $this->_customerAccountService = $customerAccountService;
         $this->_customerAddressService = $customerAddressService;
         $this->_customerAddressBuilder = $customerAddressBuilder;
+        $this->_customerDetailsBuilder = $customerDetailsBuilder;
     }
 
     /**
