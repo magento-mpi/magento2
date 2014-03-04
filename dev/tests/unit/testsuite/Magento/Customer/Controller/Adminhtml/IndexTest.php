@@ -307,9 +307,9 @@ class IndexTest extends \PHPUnit_Framework_TestCase
             ->with($customerId)
             ->will($this->returnValue($customer));
 
-        // verify sendPasswordResetLink() is called
+        // verify initiatePasswordReset() is called
         $this->_acctServiceMock->expects($this->once())
-            ->method('sendPasswordResetLink')
+            ->method('initiatePasswordReset')
             ->with($email, $websiteId, CustomerAccountServiceInterface::EMAIL_REMINDER);
 
         // verify success message

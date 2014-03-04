@@ -226,7 +226,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function sendPasswordResetLink($email, $websiteId, $template)
+    public function initiatePasswordReset($email, $websiteId, $template)
     {
         $customer = $this->_customerFactory->create()
             ->setWebsiteId($websiteId)

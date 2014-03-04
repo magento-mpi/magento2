@@ -158,7 +158,7 @@ interface CustomerAccountServiceInterface
      * @return void
      * @throws \Magento\Exception\NoSuchEntityException
      */
-    public function sendPasswordResetLink($email, $websiteId, $template);
+    public function initiatePasswordReset($email, $websiteId, $template);
 
 
     /**

@@ -475,7 +475,7 @@ class Index extends \Magento\Backend\App\Action
 
         try {
             $customer = $this->_customerAccountService->getCustomer($customerId);
-            $this->_customerAccountService->sendPasswordResetLink(
+            $this->_customerAccountService->initiatePasswordReset(
                 $customer->getEmail(),
                 $customer->getWebsiteId(),
                 CustomerAccountServiceInterface::EMAIL_REMINDER
