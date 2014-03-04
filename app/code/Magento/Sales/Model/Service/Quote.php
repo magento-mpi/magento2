@@ -298,28 +298,29 @@ class Quote
 
         $transaction = $this->_transactionFactory->create();
 
-        $originalCustomerDto = null;
-        $customerDto = null;
+        $originalCustomer = null;
+        $customer = null;
         if (!$quote->getCustomerIsGuest()) {
-            $customerDto = $quote->getCustomerData();
+            $customer = $quote->getCustomerData();
             $addresses = $quote->getCustomerAddressData();
-            if ($customerDto->getCustomerId()) {
+            if ($customer->getCustomerId()) {
                 //cache the original customer data for rollback if needed
-                $originalCustomerDto = $this->_customerAccountService->getCustomer($customerDto->getCustomerId());
-                $originalAddresses = $this->_customerAddressService->getAddresses($customerDto->getCustomerId());
+                $originalCustomer = $this->_customerAccountService->getCustomer($customer->getCustomerId());
+                $originalAddresses = $this->_customerAddressService->getAddresses($customer->getCustomerId());
                 //Save updated data
-                $this->_customerAccountService->saveCustomer($customerDto);
-                $this->_customerAddressService->saveAddresses($customerDto->getCustomerId(), $addresses);
+                $this->_customerAccountService->saveCustomer($customer);
+                $this->_customerAddressService->saveAddresses($customer->getCustomerId(), $addresses);
             } else { //for new customers
+                $customerDetails =
+                    $this->_customerDetailsBuilder->setCustomer($customer)->setAddresses($addresses)->create();
                 $this->_createCustomerResponse = $this->_customerAccountService->createAccount(
-                    $customerDto,
-                    $addresses,
+                    $customerDetails,
                     null,
                     '',
                     '',
                     $quote->getStoreId()
                 );
-                $customerDto = $this->_customerAccountService->getCustomer($this->_createCustomerResponse->getCustomerId());
+                $customer = $this->_customerAccountService->getCustomer($this->_createCustomerResponse->getCustomerId());
                 $addresses = $this->_customerAddressService->getAddresses(
                     $this->_createCustomerResponse->getCustomerId()
                 );
@@ -340,7 +341,7 @@ class Quote
                 }
             }
 
-            $quote->setCustomerData($customerDto)->setCustomerAddressData($addresses);
+            $quote->setCustomerData($customer)->setCustomerAddressData($addresses);
         }
         $transaction->addObject($quote);
 
@@ -376,8 +377,8 @@ class Quote
             $order->addItem($orderItem);
         }
 
-        if ($customerDto) {
-            $order->setCustomerId($customerDto->getCustomerId());
+        if ($customer) {
+            $order->setCustomerId($customer->getCustomerId());
         }
         $order->setQuote($quote);
 
@@ -413,11 +414,11 @@ class Quote
                 )
             );
         } catch (\Exception $e) {
-            if ($originalCustomerDto) { //Restore original customer data if existing customer was updated
-                $this->_customerAccountService->saveCustomer($originalCustomerDto);
-                $this->_customerAddressService->saveAddresses($customerDto->getCustomerId(), $originalAddresses);
-            } else if ($customerDto->getCustomerId()) { // Delete if new customer created
-                $this->_customerService->deleteCustomer($customerDto->getCustomerId());
+            if ($originalCustomer) { //Restore original customer data if existing customer was updated
+                $this->_customerAccountService->saveCustomer($originalCustomer);
+                $this->_customerAddressService->saveAddresses($customer->getCustomerId(), $originalAddresses);
+            } else if ($customer->getCustomerId()) { // Delete if new customer created
+                $this->_customerService->deleteCustomer($customer->getCustomerId());
                 $order->setCustomerId(null);
                 $quote->setCustomerData(new CustomerDto([]));
             }

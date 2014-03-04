@@ -402,11 +402,12 @@ class Index extends \Magento\Backend\App\Action
                 $customer = $customerBuilder->create();
 
                 // Save customer
+                $customerDetails =
+                    $this->_customerDetailsBuilder->setCustomer($customer)->setAddresses($addresses)->create();
                 if ($isExistingCustomer) {
-                    $this->_customerDetailsBuilder->setCustomer($customer)->setAddresses($addresses);
-                    $this->_customerAccountService->updateCustomer($this->_customerDetailsBuilder->create());
+                    $this->_customerAccountService->updateCustomer($customerDetails);
                 } else {
-                    $customer = $this->_customerAccountService->createAccount($customer, $addresses);
+                    $customer = $this->_customerAccountService->createAccount($customerDetails);
                 }
 
                 if ($customerData['is_subscribed']) {

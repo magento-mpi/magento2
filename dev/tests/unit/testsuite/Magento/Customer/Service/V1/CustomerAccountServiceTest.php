@@ -1410,7 +1410,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($attribute, 'Arbitrary attributes must not be available do DTO users.');
     }
 
-    public function testSearchAccountsEmpty()
+    public function testSearchCustomersEmpty()
     {
         $collectionMock = $this->getMockBuilder('\Magento\Customer\Model\Resource\Customer\Collection')
             ->disableOriginalConstructor()
@@ -1454,12 +1454,12 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $filter = $filterBuilder->setField('email')->setValue('customer@search.example.com')->create();
         $searchBuilder->addFilter($filter);
 
-        $searchResults = $customerService->searchAccounts($searchBuilder->create());
+        $searchResults = $customerService->searchCustomers($searchBuilder->create());
         $this->assertEquals(0, $searchResults->getTotalCount());
     }
 
 
-    public function testSearchAccounts()
+    public function testSearchCustomers()
     {
         $collectionMock = $this->getMockBuilder('\Magento\Customer\Model\Resource\Customer\Collection')
             ->disableOriginalConstructor()
@@ -1503,15 +1503,19 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnValue($this->_customerModelMock));
 
+        $this->_customerAddressServiceMock->expects($this->once())
+            ->method('getAddresses')
+            ->will($this->returnValue([]));
+
         $customerService = $this->_createService();
         $searchBuilder = new Dto\SearchCriteriaBuilder();
         $filterBuilder = new Dto\FilterBuilder();
         $filter = $filterBuilder->setField('email')->setValue(self::EMAIL)->create();
         $searchBuilder->addFilter($filter);
 
-        $searchResults = $customerService->searchAccounts($searchBuilder->create());
+        $searchResults = $customerService->searchCustomers($searchBuilder->create());
         $this->assertEquals(1, $searchResults->getTotalCount());
-        $this->assertEquals(self::EMAIL, $searchResults->getItems()[0]->getEmail());
+        $this->assertEquals(self::EMAIL, $searchResults->getItems()[0]->getCustomer()->getEmail());
     }
 
     public function testGetCustomerDetails()
@@ -1602,6 +1606,9 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      */
     private function _createService()
     {
+        $customerBuilder = new Dto\CustomerBuilder();
+        $addressBuilder = new Dto\AddressBuilder(new Dto\RegionBuilder());
+
         $customerService = new CustomerAccountService(
             $this->_customerFactoryMock,
             $this->_eventManagerMock,
@@ -1612,6 +1619,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             new Dto\CustomerBuilder,
             $this->_customerDetailsBuilder,
             new Dto\SearchResultsBuilder,
+            new Dto\CustomerDetailsBuilder($customerBuilder, $addressBuilder),
             $this->_customerAddressServiceMock,
             $this->_customerMetadataService,
             $this->_urlMock,

@@ -38,8 +38,7 @@ interface CustomerAccountServiceInterface
     /**
      * Create Customer Account
      *
-     * @param Dto\Customer $customer
-     * @param Dto\Address[] $addresses
+     * @param Dto\CustomerDetails $customerDetails
      * @param string $password If null then a random password will be assigned
      * @param string $redirectUrl URL fed to welcome email templates. Can be used by templates to, for example, direct
      *                            the customer to a product they were looking at after pressing confirmation link.
@@ -48,12 +47,14 @@ interface CustomerAccountServiceInterface
      * @throws \Magento\Exception\InputException If bad input is provided
      * @throws \Magento\Exception\StateException If the provided email is already used
      */
-    public function createAccount(Dto\Customer $customer, array $addresses, $password = null, $redirectUrl = '');
+    public function createAccount(Dto\CustomerDetails $customerDetails, $password = null, $redirectUrl = '');
 
     /**
-     * Update Customer Account and its details
+     * Update Customer Account and its details.
+     * CustomerDetails contains an array of Address Dto. In the event that no change was made to addresses
+     * the array must be null.
      *
-     * @param Dto\CustomerDetails $customer
+     * @param Dto\CustomerDetails $customerDetails
      * @return void
      */
     public function updateCustomer(Dto\CustomerDetails $customerDetails);
@@ -66,7 +67,7 @@ interface CustomerAccountServiceInterface
      * @throws \Magento\Customer\Exception If something goes wrong during save
      * @throws \Magento\Exception\InputException If bad input is provided
      * @return int customer ID
-     * @deprecated use createCustomer or updateCustomer instead.
+     * @deprecated use createCustomer or updateCustomer instead
      */
     public function saveCustomer(Dto\Customer $customer, $password = null);
 
@@ -93,13 +94,13 @@ interface CustomerAccountServiceInterface
     public function activateCustomer($customerId, $confirmationKey);
 
     /**
-     * Retrieve customer accounts which match a specified criteria
+     * Retrieve customers which match a specified criteria
      *
      * @param Dto\SearchCriteria $searchCriteria
-     * @throws InputException if there is a problem with the input
-     * @return Dto\SearchResults containing Dto\CustomerAccount objects
+     * @throws \Magento\Exception\InputException if there is a problem with the input
+     * @return Dto\SearchResults containing Dto\CustomerDetails
      */
-    public function searchAccounts(Dto\SearchCriteria $searchCriteria);
+    public function searchCustomers(Dto\SearchCriteria $searchCriteria);
 
     /**
      * Validate an account confirmation key matches expected value for customer
@@ -128,8 +129,8 @@ interface CustomerAccountServiceInterface
      * Change customer password.
      *
      * @param int $customerId
-     * @param string $currentPassword Users current password
-     * @param string $newPassword New password to set
+     * @param string $currentPassword
+     * @param string $newPassword
      * @return void
      * @throws \Magento\Exception\NoSuchEntityException If customer with customerId is not found.
      * @throws \Magento\Exception\AuthenticationException If invalid currentPassword is supplied
