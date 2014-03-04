@@ -10,26 +10,28 @@ namespace Magento\Catalog\Model\Indexer\Product\Price\Plugin;
 class CustomerGroup extends AbstractPlugin
 {
     /**
-     * @param array $arguments
-     * @param \Magento\Code\Plugin\InvocationChain $invocationChain
-     * @return \Magento\Core\Model\AbstractModel
+     * @param \Magento\Customer\Model\Resource\Group $subject
+     * @param \Magento\Customer\Model\Resource\Group $result
+     * @return \Magento\Customer\Model\Resource\Group
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function aroundDelete(array $arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
+    public function afterDelete(\Magento\Customer\Model\Resource\Group $subject, $result)
     {
-        $group = $invocationChain->proceed($arguments);
         $this->invalidateIndexer();
-        return $group;
+        return $result;
     }
 
     /**
-     * @param array $arguments
-     * @param \Magento\Code\Plugin\InvocationChain $invocationChain
-     * @return \Magento\Core\Model\AbstractModel
+     * @param \Magento\Customer\Model\Resource\Group $subject
+     * @param \Magento\Customer\Model\Resource\Group $result
+     * @return \Magento\Customer\Model\Resource\Group
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function aroundSave(array $arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
+    public function afterSave(\Magento\Customer\Model\Resource\Group $subject, $result)
     {
-        $group = $invocationChain->proceed($arguments);
         $this->invalidateIndexer();
-        return $group;
+        return $result;
     }
 }
