@@ -13,6 +13,10 @@
   * [#284](https://github.com/magento/magento2/pull/284) -- Fix for Issue #278 (Import -> Stores with large amount of Configurable Products)
   * [#235](https://github.com/magento/magento2/issues/235) -- Translation escaping
   * [#463](https://github.com/magento/magento2/pull/463) -- allow _resolveArguments to do sequential lookups
+  * [#491](https://github.com/magento/magento2/pull/491) -- Fixed bug, incorrect auto-generation Category URL for some groups of symbols (idish, cirrilic, é, ä, and other).
+  * [#480](https://github.com/magento/magento2/pull/480) -- Fixing a bug for loading config from local.xml
+  * [#472](https://github.com/magento/magento2/issues/472) -- Params passed in pub/index.php being overwritten
+  * [#461](https://github.com/magento/magento2/pull/461) -- Use translates for Quote\Address\Total\Shipping
 * Framework Improvements:
   * Added ability to intercept of internal public calls
   * Added ability to access public interface of intercepted object
@@ -31,6 +35,7 @@
   * Fixed error messages displayed during installation when required extensions are not installed
   * Fixed synopsis of install.php script
   * Fixed absence of payment scheduled in shopping cart for products with recurring profile
+  * Fixed code coverage fails for Magento\SalesRule\Model\Rule\Action\Discount\CartFixedTest
 * Modularity improvements:
   * Resolved dependencies of Sales module on RecurringProfile module
   * Resolved dependencies between Email Templates functionality and other modules
