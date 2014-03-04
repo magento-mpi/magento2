@@ -684,4 +684,17 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         $customerModel = $this->_converter->getCustomerModel($customerId);
         $customerModel->delete();
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isEmailAvailable($customerEmail, $websiteId = null)
+    {
+        try {
+            $this->_converter->getCustomerModelByEmail($customerEmail, $websiteId);
+            return false;
+        } catch (NoSuchEntityException $e) {
+            return true;
+        }
+    }
 }

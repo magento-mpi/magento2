@@ -1292,4 +1292,28 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         /** _files/customer.php sets the customer id to 1 */
         $this->_customerAccountService->deleteCustomer(1);
     }
+
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     */
+    public function testIsEmailAvailable()
+    {
+        $this->assertFalse($this->_customerAccountService->isEmailAvailable('customer@example.com', 1));
+    }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     * @expectedException \Magento\Core\Exception
+     * @expectedExceptionMessage Customer website ID must be specified when using the website scope
+     */
+    public function testIsEmailAvailableNoWebsiteSpecified()
+    {
+        $this->_customerAccountService->isEmailAvailable('customer@example.com');
+    }
+
+    public function testIsEmailAvailableNonExistentEmail()
+    {
+        $this->assertTrue($this->_customerAccountService->isEmailAvailable('nonexistent@example.com', 1));
+    }
 }

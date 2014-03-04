@@ -1568,6 +1568,33 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $service->getCustomerDetails(1);
     }
 
+    public function testIsEmailAvailable()
+    {
+        $this->_converter =  $this->getMockBuilder('\Magento\Customer\Model\Converter')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $service = $this->_createService();
+        $this->_converter->expects($this->once())
+            ->method('getCustomerModelByEmail')
+            ->will($this->throwException(new \Magento\Exception\NoSuchEntityException('testField', 'value')));
+        $this->assertTrue($service->IsEmailAvailable('email', 1));
+    }
+
+    public function testIsEmailAvailableNegative()
+    {
+        $customerMock = $this->getMockBuilder('\Magento\Customer\Service\V1\Dto\Customer')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->_converter =  $this->getMockBuilder('\Magento\Customer\Model\Converter')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $service = $this->_createService();
+        $this->_converter->expects($this->once())
+            ->method('getCustomerModelByEmail')
+            ->will($this->returnValue($customerMock));
+        $this->assertFalse($service->IsEmailAvailable('email', 1));
+    }
+
     private function _setupStoreMock()
     {
         $this->_storeManagerMock =

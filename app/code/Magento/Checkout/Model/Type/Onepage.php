@@ -21,7 +21,6 @@ use Magento\Customer\Model\Metadata\Form;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Exception\NoSuchEntityException;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
-use Magento\Customer\Service\V1\CustomerServiceInterface;
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface as CustomerMetadata;
 
 class Onepage
@@ -129,9 +128,6 @@ class Onepage
     /** @var \Magento\Math\Random */
     protected $mathRandom;
 
-    /** @var CustomerServiceInterface */
-    protected $_customerService;
-
     /** @var CustomerAddressServiceInterface */
     protected $_customerAddressService;
 
@@ -160,7 +156,6 @@ class Onepage
      * @param AddressBuilder $addressBuilder
      * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Encryption\EncryptorInterface $encryptor
-     * @param CustomerServiceInterface $customerService
      * @param CustomerAddressServiceInterface $customerAddressService
      */
     public function __construct(
@@ -184,7 +179,6 @@ class Onepage
         AddressBuilder $addressBuilder,
         \Magento\Math\Random $mathRandom,
         \Magento\Encryption\EncryptorInterface $encryptor,
-        CustomerServiceInterface $customerService,
         CustomerAddressServiceInterface $customerAddressService,
         CustomerAccountServiceInterface $accountService
     ) {
@@ -208,7 +202,6 @@ class Onepage
         $this->_addressBuilder = $addressBuilder;
         $this->mathRandom = $mathRandom;
         $this->_encryptor = $encryptor;
-        $this->_customerService = $customerService;
         $this->_customerAddressService = $customerAddressService;
         $this->_customerAccountService = $accountService;
     }
@@ -933,13 +926,7 @@ class Onepage
      */
     protected function _customerEmailExists($email, $websiteId = null)
     {
-        try {
-            $this->_customerService->getCustomerByEmail($email, $websiteId);
-            return true;
-        } catch (\Exception $e) {
-            /** Customer email does not exist */
-            return false;
-        }
+        return !$this->_customerAccountService->isEmailAvailable($email, $websiteId);
     }
 
     /**
