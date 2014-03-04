@@ -101,7 +101,9 @@ class ServiceArgsSerializer
     }
 
     /**
-     * Creates a new instance of the given class and populates it with the array of data.
+     * Creates a new instance of the given class and populates it with the array of data. The data can
+     * be in different forms depending on the adapter being used, REST vs. SOAP. For REST, the data is
+     * in snake_case (e.g. tax_class_id) while for SOAP the data is in camelCase (e.g. taxClassId).
      *
      * @param string|\ReflectionClass $class
      * @param array $data
@@ -113,10 +115,12 @@ class ServiceArgsSerializer
         try {
             $class = new ClassReflection($className);
             foreach ($data as $propertyName => $value) {
+                // This converts snake_case to camelCase (e.g. tax_class_id becomes getTaxClassId).
                 $getterName = 'get' . str_replace(' ', '', ucwords(str_replace('_', ' ', $propertyName)));
                 $methodReflection = $class->getMethod($getterName);
                 if ($methodReflection->isPublic()) {
                     $returnType = $this->_typeProcessor->getGetterReturnType($methodReflection)['type'];
+                    // This converts camelCase to snake_case (e.g. taxClassId becomes tax_class_id).
                     $propertyName = strtolower(preg_replace("/(?<=\\w)(?=[A-Z])/", "_$1", $propertyName));
                     $data[$propertyName] = $this->_convertValue($value, $returnType);
                 }
