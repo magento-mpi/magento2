@@ -1841,6 +1841,7 @@ return array(
         'Magento\App\Dir\Verification',
         'Magento\App\Filesystem\DirectoryList\Verification'
     ),
+    array('Magento\Backend\Helper\Addresses'),
     array('Magento\Core\Model\Cookie', 'Magento\Stdlib\Cookie'),
     array('Magento\Core\Model\Logger', 'Magento\Logger'),
     array('Magento\Core\Block\Template\Context', 'Magento\View\Element\Template\Context'),
@@ -2145,6 +2146,7 @@ return array(
     ['Magento\Code\Plugin\InvocationChain'],
     ['Magento\Catalog\Helper\Product\Flat'],
     ['Magento\Catalog\Helper\Flat\AbstractFlat'],
+    ['Magento\Core\App\Action\Plugin\Session', 'Magento\Core\Block\RequireCookie']
     array('Magento\Catalog\Model\Product\Indexer\Price'),
     array('Magento\Catalog\Model\Resource\Product\Indexer\Price'),
 );
