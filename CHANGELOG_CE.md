@@ -17,6 +17,8 @@
   * Added ability to intercept of internal public calls
   * Added ability to access public interface of intercepted object
   * Added static integrity test for plugin inteface validation
+  * Implement the strategy which denies hidden data dependencies
+  * Rename "Dto" to "Data"
 * Fixed bugs:
   * Fixed an exception that appears when trying to apply a coupon code
   * Fixed Shopping Cart Price Rule which applied to products that aren't eligible
@@ -30,7 +32,11 @@
   * Fixed category saveing when it has more than 1000 products
   * Fixed error messages displayed during installation when required extensions are not installed
   * Fixed synopsis of install.php script
+  * XSS injection is executed in case of re-authorize of integration
+  * 404 Page is shown if try to cancel Billing Agreement from backend
+  * Debug section in developer settings is missing
 * Modularity improvements:
+  * Eliminate dependencies to Customer Models/Blocks from Sales Module
   * Resolved dependencies of Sales module on RecurringProfile module
   * Resolved dependencies between Email Templates functionality and other modules
   * Core module lib-only depended components moved to library
@@ -39,6 +45,7 @@
 * Customer Service usage:
   * Sales module refactoring to use customer service layer
   * Checkout module refactoring to use customer service layer
+  * Tax module refactoring to use customer service layer
 * Updated various PHPDoc with the parameter and return types
 
 2.0.0.0-dev66
