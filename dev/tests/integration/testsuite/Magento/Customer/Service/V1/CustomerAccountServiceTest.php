@@ -1022,7 +1022,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($lastname, $customer->getLastname());
     }
 
-
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
      * @magentoAppIsolation enabled
@@ -1176,5 +1175,34 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         );
 
         return $this->_customerDetailsBuilder->create();
+    }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer_sample.php
+     * @magentoAppIsolation enabled
+     */
+    public function testGetCustomerDetails()
+    {
+        $customerDetails = $this->_customerAccountService->getCustomerDetails(1);
+
+        $customer = $customerDetails->getCustomer();
+        // All these expected values come from _files/customer.php fixture
+        $this->assertEquals(1, $customer->getCustomerId());
+        $this->assertEquals('exmaple@domain.com', $customer->getEmail());
+        $this->assertEquals('test firstname', $customer->getFirstname());
+        $this->assertEquals('test lastname', $customer->getLastname());
+        $this->assertEquals(3, count($customerDetails->getAddresses()));
+    }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer_sample.php
+     * @magentoAppIsolation enabled
+     * @expectedException \Magento\Exception\NoSuchEntityException
+     */
+    public function testGetCustomerDetailsWithException()
+    {
+        $customerDetails = $this->_customerAccountService->getCustomerDetails(20);
+
+        $customerDetails->getCustomer();
     }
 }

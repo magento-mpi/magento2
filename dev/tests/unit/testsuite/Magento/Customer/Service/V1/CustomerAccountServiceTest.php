@@ -1606,9 +1606,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      */
     private function _createService()
     {
-        $customerBuilder = new Dto\CustomerBuilder();
-        $addressBuilder = new Dto\AddressBuilder(new Dto\RegionBuilder());
-
         $customerService = new CustomerAccountService(
             $this->_customerFactoryMock,
             $this->_eventManagerMock,
@@ -1619,7 +1616,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             new Dto\CustomerBuilder,
             $this->_customerDetailsBuilder,
             new Dto\SearchResultsBuilder,
-            new Dto\CustomerDetailsBuilder($customerBuilder, $addressBuilder),
             $this->_customerAddressServiceMock,
             $this->_customerMetadataService,
             $this->_urlMock,

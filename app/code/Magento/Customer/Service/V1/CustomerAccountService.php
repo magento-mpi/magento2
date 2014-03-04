@@ -41,9 +41,6 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     /** @var Dto\SearchResultsBuilder */
     private $_searchResultsBuilder;
 
-    /** @var Dto/CustomerDetailsBuilder */
-    private $_customerDetailsBuilder;
-
     /**
      * Core event manager proxy
      *
@@ -98,7 +95,6 @@ class CustomerAccountService implements CustomerAccountServiceInterface
      * @param Dto\SearchResultsBuilder $searchResultsBuilder,
      * @param CustomerAddressServiceInterface $customerAddressService
      * @param CustomerMetadataService $customerMetadataService
-     * @param Dto\CustomerDetailsBuilder $customerDetailsBuilder
      * @param UrlInterface $url
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -113,7 +109,6 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         Dto\CustomerBuilder $customerBuilder,
         Dto\CustomerDetailsBuilder $customerDetailsBuilder,
         Dto\SearchResultsBuilder $searchResultsBuilder,
-        Dto\CustomerDetailsBuilder $customerDetailsBuilder,
         CustomerAddressServiceInterface $customerAddressService,
         CustomerMetadataService $customerMetadataService,
         UrlInterface $url
@@ -127,7 +122,6 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         $this->_customerBuilder = $customerBuilder;
         $this->_customerDetailsBuilder = $customerDetailsBuilder;
         $this->_searchResultsBuilder = $searchResultsBuilder;
-        $this->_customerDetailsBuilder = $customerDetailsBuilder;
         $this->_customerAddressService = $customerAddressService;
         $this->_customerMetadataService = $customerMetadataService;
         $this->_url = $url;
@@ -605,9 +599,9 @@ class CustomerAccountService implements CustomerAccountServiceInterface
      * @param int $customerId
      * @param string $resetPasswordLinkToken
      * @return CustomerModel
-     * @throws \Magento\Exception\StateException if token is expired or mismatched
-     * @throws \Magento\Exception\InputException if token or customer id is invalid
-     * @throws \Magento\Exception\NoSuchEntityException if customer doesn't exist
+     * @throws \Magento\Exception\StateException If token is expired or mismatched
+     * @throws \Magento\Exception\InputException If token or customer id is invalid
+     * @throws \Magento\Exception\NoSuchEntityException If customer doesn't exist
      */
     private function _validateResetPasswordToken($customerId, $resetPasswordLinkToken)
     {
