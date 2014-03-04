@@ -8,6 +8,7 @@
 
 "use strict";
 
+/*jshint undef: false, newcap: false*/
 var PathsUpdaterTest = TestCase('PathsUpdaterTest');
 
 PathsUpdaterTest.prototype.testUpdateConfigPaths = function() {
