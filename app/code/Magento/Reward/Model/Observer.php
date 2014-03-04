@@ -146,7 +146,7 @@ class Observer
                     $data['store_id'] = $customer->getStoreId();
                 }
             }
-            $customerModel = $this->_customerConverter->getCustomerModel($customer->getCustomerId());
+            $customerModel = $this->_customerConverter->getCustomerModel($customer->getId());
             /** @var $reward \Magento\Reward\Model\Reward */
             $reward = $this->_getRewardModel();
             $reward->setCustomer($customerModel)
@@ -176,22 +176,28 @@ class Observer
         $request = $observer->getEvent()->getRequest();
         /** @var \Magento\Customer\Service\V1\Data\CustomerBuilder $customer */
         $customerBuilder = $observer->getEvent()->getCustomer();
-        // FIXME: This is an ugly use case
+
+        /*
+         * Customer builder was passed to event in order to provide possibility to observer to change
+         * the data of the Customer Data Object.
+         * Now we're constructing the Customer object from the builder in order to read the data
+         * and populate Builder back with it.
+         */
         $customer = $customerBuilder->create();
         $customerBuilder->populate($customer);
 
         $data = $request->getPost('reward');
         // If new customer
-        if (!$customer->getCustomerId()) {
+        if (!$customer->getId()) {
             $subscribeByDefault = (int)$this->_rewardData
                 ->getNotificationConfig('subscribe_by_default', (int)$customer->getWebsiteId());
             $data['reward_update_notification']  = $subscribeByDefault;
             $data['reward_warning_notification'] = $subscribeByDefault;
         }
 
-        $customerBuilder->setAttribute('set_reward_update_notification',
+        $customerBuilder->setCustomAttribute('set_reward_update_notification',
             (empty($data['reward_update_notification']) ? 0 : 1));
-        $customerBuilder->setAttribute('set_reward_warning_notification',
+        $customerBuilder->setCustomAttribute('set_reward_warning_notification',
             (empty($data['reward_warning_notification']) ? 0 : 1));
 
         return $this;
