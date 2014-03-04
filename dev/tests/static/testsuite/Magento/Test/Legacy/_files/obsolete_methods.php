@@ -609,7 +609,6 @@ return array(
     array('isAbsolutePath'),
     array('isAdmin', 'Magento\Core\Model\Store'),
     array('isAllowedGuestCheckout', 'Magento\Sales\Model\Quote'),
-    array('isAllowedGuestCheckout', 'Magento\Sales\Model\Quote'),
     array('isApplicableToQuote', 'Magento\Payment\Model\Method\AbstractMethod'),
     array('isCheckoutAvailable', 'Magento\Multishipping\Model\Checkout\Type\Multishipping'),
     array('isDirectOutput', 'Magento\Core\Model\Layout'),
