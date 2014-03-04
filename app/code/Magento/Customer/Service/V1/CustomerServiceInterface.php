@@ -25,14 +25,4 @@ interface CustomerServiceInterface
      * @return Dto\Customer
      */
     public function getCustomerByEmail($customerEmail, $websiteId = null);
-
-    /**
-     * Delete Customer
-     *
-     * @param int $customerId
-     * @throws \Magento\Customer\Exception If something goes wrong during delete
-     * @throws NoSuchEntityException If customer with customerId is not found.
-     * @return void
-     */
-    public function deleteCustomer($customerId);
 }

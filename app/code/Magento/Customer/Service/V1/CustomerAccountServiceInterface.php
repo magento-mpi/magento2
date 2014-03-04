@@ -232,4 +232,14 @@ interface CustomerAccountServiceInterface
      * @return Dto\CustomerDetails
      */
     public function getCustomerDetails($customerId);
+
+    /**
+     * Delete Customer
+     *
+     * @param int $customerId
+     * @throws \Magento\Customer\Exception If something goes wrong during delete
+     * @throws \Magento\Exception\NoSuchEntityException If customer with customerId is not found.
+     * @return void
+     */
+    public function deleteCustomer($customerId);
 }

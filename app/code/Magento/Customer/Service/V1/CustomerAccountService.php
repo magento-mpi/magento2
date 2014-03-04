@@ -675,4 +675,13 @@ class CustomerAccountService implements CustomerAccountServiceInterface
             ->setAddresses($this->_customerAddressService->getAddresses($customerId))
             ->create();
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function deleteCustomer($customerId)
+    {
+        $customerModel = $this->_converter->getCustomerModel($customerId);
+        $customerModel->delete();
+    }
 }

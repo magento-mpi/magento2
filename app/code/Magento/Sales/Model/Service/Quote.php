@@ -320,7 +320,9 @@ class Quote
                     '',
                     $quote->getStoreId()
                 );
-                $customer = $this->_customerAccountService->getCustomer($this->_createCustomerResponse->getCustomerId());
+                $customer = $this->_customerAccountService->getCustomer(
+                    $this->_createCustomerResponse->getCustomerId()
+                );
                 $addresses = $this->_customerAddressService->getAddresses(
                     $this->_createCustomerResponse->getCustomerId()
                 );
@@ -418,7 +420,7 @@ class Quote
                 $this->_customerAccountService->saveCustomer($originalCustomer);
                 $this->_customerAddressService->saveAddresses($customer->getCustomerId(), $originalAddresses);
             } else if ($customer->getCustomerId()) { // Delete if new customer created
-                $this->_customerService->deleteCustomer($customer->getCustomerId());
+                $this->_customerAccountService->deleteCustomer($customer->getCustomerId());
                 $order->setCustomerId(null);
                 $quote->setCustomerData(new CustomerDto([]));
             }

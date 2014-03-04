@@ -43,13 +43,4 @@ class CustomerService implements CustomerServiceInterface
         $customerModel = $this->_converter->getCustomerModelByEmail($customerEmail, $websiteId);
         return $this->_converter->createCustomerFromModel($customerModel);
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function deleteCustomer($customerId)
-    {
-        $customerModel = $this->_converter->getCustomerModel($customerId);
-        $customerModel->delete();
-    }
 }
