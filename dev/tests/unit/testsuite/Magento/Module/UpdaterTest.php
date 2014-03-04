@@ -87,10 +87,17 @@ class UpdaterTest extends \PHPUnit_Framework_TestCase
         $this->_model->updateScheme();
     }
 
+    public function testUpdateSchemeDoesNotApplyUpdatesIfApplicationIsInstalledButUpdatesCanBeSkipped()
+    {
+        $this->_appStateMock->expects($this->once())->method('isInstalled')->will($this->returnValue(true));
+        $this->_resourceSetupMock->expects($this->never())->method('applyUpdates');
+        $this->_model->updateScheme();
+    }
+
     /**
      * @covers \Magento\Module\Updater::updateScheme
      */
-    public function testUpdateScheme()
+    public function testUpdateSchemeAppliesUpdatesIfApplicationIsNotInstalled()
     {
         $this->_appStateMock->expects($this->once())
             ->method('isInstalled')
@@ -118,11 +125,29 @@ class UpdaterTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers \Magento\Module\Updater::updateData
      */
-    public function testUpdateData()
+    public function testUpdateDataDoesNotApplyDataUpdatesIfSchemaIsNotUpdated()
     {
         $this->_resourceSetupMock->expects($this->never())
             ->method('applyDataUpdates');
 
         $this->_model->updateData();
     }
+
+    public function testUpdateDataAppliesDataUpdatesIfSchemaIsUpdated()
+    {
+        $this->_appStateMock->expects($this->once())->method('isInstalled')->will($this->returnValue(false));
+        $this->_appStateMock->expects($this->at(1))->method('setUpdateMode')->with(true);
+        $this->_appStateMock->expects($this->at(2))->method('setUpdateMode')->with(false);
+        $this->_resourceSetupMock->expects($this->once())->method('applyUpdates');
+        $this->_resourceSetupMock->expects($this->once())->method('getCallAfterApplyAllUpdates')
+            ->will($this->returnValue(true));
+        $this->_resourceSetupMock->expects($this->once())->method('afterApplyAllUpdates');
+
+        $this->_resourceSetupMock->expects($this->once())
+            ->method('applyDataUpdates');
+
+        $this->_model->updateScheme();
+        $this->_model->updateData();
+    }
+
 }
