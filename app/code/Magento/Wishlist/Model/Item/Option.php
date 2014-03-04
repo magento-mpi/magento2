@@ -2,21 +2,14 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Wishlist
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Wishlist\Model\Item;
 
 /**
  * Item option model
- *
- * @category    Magento
- * @package     Magento_Wishlist
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Wishlist\Model\Item;
-
 use Magento\Catalog\Model\Product;
 use Magento\Wishlist\Model\Item;
 
@@ -46,7 +39,7 @@ class Option extends \Magento\Core\Model\AbstractModel
     /**
      * Checks that item option model has data changes
      *
-     * @return boolean
+     * @return bool
      */
     protected function _hasModelChanged()
     {
