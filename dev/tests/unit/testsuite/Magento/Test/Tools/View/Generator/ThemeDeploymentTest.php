@@ -198,6 +198,9 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
         $forbidden = __DIR__ . '/_files/ThemeDeployment/run/forbidden.php';
         $fixture = include __DIR__ . '/_files/ThemeDeployment/run/fixture.php';
 
+        $this->versionGenerator->expects($this->never())->method('generate');
+        $this->versionStorage->expects($this->never())->method('save');
+
         $object = new \Magento\Tools\View\Generator\ThemeDeployment(
             $this->_cssUrlResolver,
             $this->versionStorage,

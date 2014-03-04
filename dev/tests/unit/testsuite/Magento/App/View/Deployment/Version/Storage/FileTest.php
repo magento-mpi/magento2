@@ -39,9 +39,9 @@ class FileTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('readFile')
             ->with('fixture_file.txt')
-            ->will($this->returnValue('fixture/dir/fixture_file.txt'))
+            ->will($this->returnValue('123'))
         ;
-        $this->assertEquals('fixture/dir/fixture_file.txt', $this->object->load());
+        $this->assertEquals('123', $this->object->load());
     }
 
     /**
@@ -78,5 +78,15 @@ class FileTest extends \PHPUnit_Framework_TestCase
             $this->assertSame($filesystemException, $e->getPrevious(), 'Wrapping of original exception is expected');
             throw $e;
         }
+    }
+
+    public function testSave()
+    {
+        $this->directory
+            ->expects($this->once())
+            ->method('writeFile')
+            ->with('fixture_file.txt', 'input_data', 'w')
+        ;
+        $this->object->save('input_data');
     }
 }

@@ -67,7 +67,7 @@ class Version
      * @param string $appMode
      * @return string
      */
-    public function readValue($appMode)
+    protected function readValue($appMode)
     {
         switch ($appMode) {
             case \Magento\App\State::MODE_DEFAULT:
