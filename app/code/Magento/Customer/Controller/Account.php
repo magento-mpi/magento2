@@ -719,7 +719,7 @@ class Account extends \Magento\App\Action\Action
 
             try {
                 $this->_customerAccountService
-                    ->sendPasswordResetLink(
+                    ->initiatePasswordReset(
                         $email,
                         $this->_storeManager->getStore()->getWebsiteId(),
                         CustomerAccountServiceInterface::EMAIL_RESET
