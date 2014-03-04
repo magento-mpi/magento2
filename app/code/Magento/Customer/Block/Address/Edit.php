@@ -321,7 +321,7 @@ class Edit extends \Magento\Directory\Block\Data
     }
 
     /**
-     * Retrieve the Customer Dto using the customer Id from the customer session.
+     * Retrieve the Customer Data using the customer Id from the customer session.
      *
      * @return Customer
      */

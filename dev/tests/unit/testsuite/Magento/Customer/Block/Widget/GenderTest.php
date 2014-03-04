@@ -137,15 +137,15 @@ class GenderTest extends \PHPUnit_Framework_TestCase
     public function testGetCustomer()
     {
         $data = ['firstname' => 'John', 'lastname' => 'Doe'];
-        $customerDto = new Customer($data);
+        $customerData = new Customer($data);
 
         $this->_customerSession
             ->expects($this->once())->method('getCustomerId')->will($this->returnValue(1));
         $this->_customerService
-            ->expects($this->once())->method('getCustomer')->with(1)->will($this->returnValue($customerDto));
+            ->expects($this->once())->method('getCustomer')->with(1)->will($this->returnValue($customerData));
 
         $customer = $this->_block->getCustomer();
-        $this->assertSame($customerDto, $customer);
+        $this->assertSame($customerData, $customer);
 
         $this->assertEquals('John', $customer->getFirstname());
         $this->assertEquals('Doe', $customer->getLastname());

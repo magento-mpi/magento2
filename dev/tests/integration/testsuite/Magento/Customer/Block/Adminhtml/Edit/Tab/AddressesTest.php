@@ -151,9 +151,9 @@ class AddressesTest extends \PHPUnit_Framework_TestCase
         $this->_customerData['account']['id'] = $customer->getCustomerId();
         /** @var Address[] $addresses */
         $addresses = $this->_addressService->getAddresses(1);
-        foreach ($addresses as $addressDto) {
-            $this->_customerData['address'][$addressDto->getId()] = $addressDto->getAttributes();
-            $this->_customerData['address'][$addressDto->getId()]['id'] = $addressDto->getId();
+        foreach ($addresses as $addressData) {
+            $this->_customerData['address'][$addressData->getId()] = $addressData->getAttributes();
+            $this->_customerData['address'][$addressData->getId()]['id'] = $addressData->getId();
         }
         $this->_backendSession->setCustomerData($this->_customerData);
     }

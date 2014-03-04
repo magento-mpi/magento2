@@ -29,7 +29,7 @@ class CustomerAddressCurrentServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \Magento\Customer\Service\V1\Data\Address
      */
-    protected $customerAddressDtoMock;
+    protected $customerAddressDataMock;
 
     /**
      * @var int
@@ -62,8 +62,8 @@ class CustomerAddressCurrentServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->customerCurrentId));
         $this->customerAddressServiceMock->expects($this->once())
             ->method('getAddresses')
-            ->will($this->returnValue(array($this->customerAddressDtoMock)));
-        $this->assertEquals(array($this->customerAddressDtoMock),
+            ->will($this->returnValue(array($this->customerAddressDataMock)));
+        $this->assertEquals(array($this->customerAddressDataMock),
             $this->customerAddressCurrentService->getCustomerAddresses());
     }
 
@@ -77,8 +77,8 @@ class CustomerAddressCurrentServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->customerCurrentId));
         $this->customerAddressServiceMock->expects($this->once())
             ->method('getDefaultBillingAddress')
-            ->will($this->returnValue($this->customerAddressDtoMock));
-        $this->assertEquals($this->customerAddressDtoMock,
+            ->will($this->returnValue($this->customerAddressDataMock));
+        $this->assertEquals($this->customerAddressDataMock,
             $this->customerAddressCurrentService->getDefaultBillingAddress());
     }
 
@@ -92,8 +92,8 @@ class CustomerAddressCurrentServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->customerCurrentId));
         $this->customerAddressServiceMock->expects($this->once())
             ->method('getDefaultShippingAddress')
-            ->will($this->returnValue($this->customerAddressDtoMock));
-        $this->assertEquals($this->customerAddressDtoMock,
+            ->will($this->returnValue($this->customerAddressDataMock));
+        $this->assertEquals($this->customerAddressDataMock,
             $this->customerAddressCurrentService->getDefaultShippingAddress());
     }
 }

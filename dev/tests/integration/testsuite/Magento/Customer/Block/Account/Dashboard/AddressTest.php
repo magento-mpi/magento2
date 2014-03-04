@@ -57,11 +57,11 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     {
         $moduleManager = $this->objectManager->get('Magento\Module\Manager');
         if ($moduleManager->isEnabled('Magento_PageCache')) {
-            $customerDtoBuilder = $this->objectManager
+            $customerDataBuilder = $this->objectManager
                 ->create('Magento\Customer\Service\V1\Data\CustomerBuilder');
-            $customerDto = $customerDtoBuilder
+            $customerData = $customerDataBuilder
                 ->setGroupId($this->_customerSession->getCustomerGroupId())->create();
-            $this->assertEquals($customerDto, $this->_block->getCustomer());
+            $this->assertEquals($customerData, $this->_block->getCustomer());
         } else {
             $this->assertNull($this->_block->getCustomer());
         }

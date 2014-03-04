@@ -70,7 +70,7 @@ class CustomerCurrentService implements \Magento\Customer\Service\V1\CustomerCur
     }
 
     /**
-     * Returns customer Dto with customer group only
+     * Returns customer Data with customer group only
      *
      * @return Data\Customer
      */
@@ -80,7 +80,7 @@ class CustomerCurrentService implements \Magento\Customer\Service\V1\CustomerCur
     }
 
     /**
-     * Returns customer Dto from service
+     * Returns customer Data from service
      *
      * @return Data\Customer
      */

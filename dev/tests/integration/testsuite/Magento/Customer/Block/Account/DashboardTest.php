@@ -51,7 +51,7 @@ class DashboardTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Verify that the Dashboard::getCustomer() method returns a valid Customer Dto.
+     * Verify that the Dashboard::getCustomer() method returns a valid Customer Data.
      *
      * @magentoDataFixture Magento/Customer/_files/customer.php
      */
