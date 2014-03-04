@@ -233,14 +233,4 @@ class AddressBuilder extends AbstractObjectBuilder
     {
         return $this->_set(Address::KEY_CUSTOMER_ID, $customerId);
     }
-
-    /**
-     * Builds the entity.
-     *
-     * @return Address
-     */
-    public function create()
-    {
-        return parent::create();
-    }
 }
