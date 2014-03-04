@@ -29,7 +29,7 @@
         <plugin name="recurringpayment" type="Magento\RecurringPayment\Model\Plugin\CheckoutSession" />
     </type>
     <type name="Magento\Payment\Model\Checks\ZeroTotal">
-        <plugin name="recurringprofile" type="Magento\RecurringProfile\Model\Plugin\ZeroTotal" />
+        <plugin name="recurringpayment" type="Magento\RecurringPayment\Model\Plugin\ZeroTotal" />
     </type>
 
 </config>

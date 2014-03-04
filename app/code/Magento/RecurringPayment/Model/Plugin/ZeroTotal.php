@@ -5,30 +5,30 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\RecurringProfile\Model\Plugin;
+namespace Magento\RecurringPayment\Model\Plugin;
 
 use \Magento\Sales\Model\Quote;
 use \Magento\Payment\Model\Method\AbstractMethod;
-use \Magento\RecurringProfile\Model\Method\RecurringPaymentSpecification;
+use \Magento\RecurringPayment\Model\Method\RecurringPaymentSpecification;
 
 /**
  * ZeroTotal checker plugin
- * Allow ZeroTotal for requring payment
+ * Allow ZeroTotal for recurring payment
  */
 class ZeroTotal
 {
-    /** @var  \Magento\RecurringProfile\Model\Quote\Filte */
+    /** @var  \Magento\RecurringPayment\Model\Quote\Filter */
     protected $filter;
 
     /** @var  RecurringPaymentSpecification */
     protected $specification;
 
     /**
-     * @param \Magento\RecurringProfile\Model\Quote\Filter $filter
+     * @param \Magento\RecurringPayment\Model\Quote\Filter $filter
      * @param RecurringPaymentSpecification $specification
      */
     public function __construct(
-        \Magento\RecurringProfile\Model\Quote\Filter $filter,
+        \Magento\RecurringPayment\Model\Quote\Filter $filter,
         RecurringPaymentSpecification $specification
     ) {
         $this->filter = $filter;
