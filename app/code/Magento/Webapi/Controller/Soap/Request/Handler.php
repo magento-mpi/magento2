@@ -141,7 +141,7 @@ class Handler
             foreach ($data as $key => $value) {
                 $result[$key] = $this->_isDto($value) ? $this->_unpackDto($value) : $value;
             }
-        } elseif (is_string($data) || is_numeric($data) || is_null($data) || is_bool($data)) {
+        } elseif (is_scalar($data) || is_null($data)) {
             $result = $data;
         } else {
             throw new \InvalidArgumentException("Service returned result in invalid format.");
