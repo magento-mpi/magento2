@@ -94,13 +94,13 @@ class Account extends \Magento\App\Action\Action
     /** @var CustomerAccountServiceInterface  */
     protected $_customerAccountService;
 
-    /** @var \Magento\Customer\Service\V1\Dto\RegionBuilder */
+    /** @var \Magento\Customer\Service\V1\Data\RegionBuilder */
     protected $_regionBuilder;
 
-    /** @var \Magento\Customer\Service\V1\Dto\AddressBuilder */
+    /** @var \Magento\Customer\Service\V1\Data\AddressBuilder */
     protected $_addressBuilder;
 
-    /** @var \Magento\Customer\Service\V1\Dto\CustomerBuilder */
+    /** @var \Magento\Customer\Service\V1\Data\CustomerBuilder */
     protected $_customerBuilder;
 
     /**
@@ -585,13 +585,13 @@ class Account extends \Magento\App\Action\Action
      * load customer by id (try/catch in case if it throws exceptions)
      *
      * @param $customerId
-     * @return \Magento\Customer\Service\V1\Dto\Customer
+     * @return \Magento\Customer\Service\V1\Data\Customer
      * @throws \Exception
      */
     protected function _loadCustomerById($customerId)
     {
         try {
-            /** @var \Magento\Customer\Service\V1\Dto\Customer $customer */
+            /** @var \Magento\Customer\Service\V1\Data\Customer $customer */
             $customer = $this->_customerService->getCustomer($customerId);
             return $customer;
         } catch (NoSuchEntityException $e) {
@@ -765,15 +765,15 @@ class Account extends \Magento\App\Action\Action
      */
     public function createPasswordAction()
     {
-        $resetPasswordToken = (string)$this->getRequest()->getParam('token');
+        $resetPassworDataken = (string)$this->getRequest()->getParam('token');
         $customerId = (int)$this->getRequest()->getParam('id');
         try {
-            $this->_customerAccountService->validateResetPasswordLinkToken($customerId, $resetPasswordToken);
+            $this->_customerAccountService->validateResetPasswordLinkToken($customerId, $resetPassworDataken);
             $this->_view->loadLayout();
             // Pass received parameters to the reset forgotten password form
             $this->_view->getLayout()->getBlock('resetPassword')
                 ->setCustomerId($customerId)
-                ->setResetPasswordLinkToken($resetPasswordToken);
+                ->setResetPasswordLinkToken($resetPassworDataken);
             $this->_view->renderLayout();
         } catch (\Exception $exception) {
             $this->messageManager->addError(__('Your password reset link has expired.'));
@@ -789,7 +789,7 @@ class Account extends \Magento\App\Action\Action
      */
     public function resetPasswordPostAction()
     {
-        $resetPasswordToken = (string)$this->getRequest()->getQuery('token');
+        $resetPassworDataken = (string)$this->getRequest()->getQuery('token');
         $customerId = (int)$this->getRequest()->getQuery('id');
         $password = (string)$this->getRequest()->getPost('password');
         $passwordConfirmation = (string)$this->getRequest()->getPost('confirmation');
@@ -806,13 +806,13 @@ class Account extends \Magento\App\Action\Action
             );
             $this->_redirect('*/*/createpassword', array(
                     'id' => $customerId,
-                    'token' => $resetPasswordToken
+                    'token' => $resetPassworDataken
                 ));
             return;
         }
 
         try {
-            $this->_customerAccountService->validateResetPasswordLinkToken($customerId, $resetPasswordToken);
+            $this->_customerAccountService->validateResetPasswordLinkToken($customerId, $resetPassworDataken);
             $this->_customerAccountService->changePassword($customerId, $password);
             $this->messageManager->addSuccess(
                 __('Your password has been updated.')
@@ -823,7 +823,7 @@ class Account extends \Magento\App\Action\Action
             $this->messageManager->addError(__('There was an error saving the new password.'));
             $this->_redirect('*/*/createpassword', array(
                 'id' => $customerId,
-                'token' => $resetPasswordToken
+                'token' => $resetPassworDataken
             ));
             return;
         }
@@ -849,7 +849,7 @@ class Account extends \Magento\App\Action\Action
         if (!empty($data)) {
             array_merge($customerData, $data);
         }
-        $this->_getSession()->setCustomerDto($this->_customerBuilder->populateWithArray($customerData)->create());
+        $this->_getSession()->setCustomerData($this->_customerBuilder->populateWithArray($customerData)->create());
         $this->_getSession()->setChangePassword($this->getRequest()->getParam('changepass') == 1);
 
         $this->_view->getLayout()->getBlock('head')->setTitle(__('Account Information'));
