@@ -11,17 +11,17 @@ namespace Magento\CatalogPermissions\Model\Indexer;
 class CategoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\CatalogPermissions\Model\Indexer\Category
+     * @var Category
      */
     protected $model;
 
     /**
-     * @var \Magento\CatalogPermissions\Model\Indexer\Category\Action\FullFactory|\PHPUnit_Framework_MockObject_MockObject
+     * @var Category\Action\FullFactory|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $fullMock;
 
     /**
-     * @var \Magento\CatalogPermissions\Model\Indexer\Category\Action\RowsFactory|\PHPUnit_Framework_MockObject_MockObject
+     * @var Category\Action\RowsFactory|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $rowsMock;
 

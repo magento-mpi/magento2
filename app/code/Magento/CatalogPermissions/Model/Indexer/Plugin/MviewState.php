@@ -56,24 +56,24 @@ class MviewState
                 ? \Magento\CatalogPermissions\Model\Indexer\Product::INDEXER_ID
                 : \Magento\CatalogPermissions\Model\Indexer\Category::INDEXER_ID;
 
-            $relatedViewState = $this->state->loadByView($viewId);
+            $relatedState = $this->state->loadByView($viewId);
 
-            // if equals nothing to change
-            if ($relatedViewState->getMode() == \Magento\Mview\View\StateInterface::MODE_DISABLED
-                || $state->getStatus() == $relatedViewState->getStatus()
+            // If equals nothing to change
+            if ($relatedState->getMode() == \Magento\Mview\View\StateInterface::MODE_DISABLED
+                || $state->getStatus() == $relatedState->getStatus()
             ) {
                 return $state;
             }
 
-            // suspend
+            // Suspend
             if ($state->getStatus() == \Magento\Mview\View\StateInterface::STATUS_SUSPENDED) {
-                $relatedViewState->setStatus(\Magento\Mview\View\StateInterface::STATUS_SUSPENDED);
-                $relatedViewState->setVersionId($this->changelog->setViewId($viewId)->getVersion());
-                $relatedViewState->save();
+                $relatedState->setStatus(\Magento\Mview\View\StateInterface::STATUS_SUSPENDED);
+                $relatedState->setVersionId($this->changelog->setViewId($viewId)->getVersion());
+                $relatedState->save();
             } else {
-                if ($relatedViewState->getStatus() == \Magento\Mview\View\StateInterface::STATUS_SUSPENDED) {
-                    $relatedViewState->setStatus(\Magento\Mview\View\StateInterface::STATUS_IDLE);
-                    $relatedViewState->save();
+                if ($relatedState->getStatus() == \Magento\Mview\View\StateInterface::STATUS_SUSPENDED) {
+                    $relatedState->setStatus(\Magento\Mview\View\StateInterface::STATUS_IDLE);
+                    $relatedState->save();
                 }
             }
         }

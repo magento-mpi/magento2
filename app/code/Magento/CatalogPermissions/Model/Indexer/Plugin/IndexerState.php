@@ -47,9 +47,9 @@ class IndexerState
                 ? \Magento\CatalogPermissions\Model\Indexer\Product::INDEXER_ID
                 : \Magento\CatalogPermissions\Model\Indexer\Category::INDEXER_ID;
 
-            $relatedIndexerState = $this->state->loadByIndexer($indexerId);
-            $relatedIndexerState->setData('status', $state->getStatus());
-            $relatedIndexerState->save();
+            $relatedState = $this->state->loadByIndexer($indexerId);
+            $relatedState->setData('status', $state->getStatus());
+            $relatedState->save();
         }
 
         return $state;
