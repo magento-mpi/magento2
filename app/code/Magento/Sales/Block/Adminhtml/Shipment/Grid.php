@@ -7,17 +7,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Block\Adminhtml\Shipment;
 
 /**
  * Adminhtml sales orders grid
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Block\Adminhtml\Shipment;
-
 class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
+     * Collection factory
+     *
      * @var \Magento\Sales\Model\Resource\Order\Collection\Factory
      */
     protected $_collectionFactory;
@@ -38,9 +39,10 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         parent::__construct($context, $backendHelper, $data);
     }
 
-
     /**
      * Initialization
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -203,5 +205,4 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     {
         return $this->getUrl('sales/*/*', array('_current' => true));
     }
-
 }

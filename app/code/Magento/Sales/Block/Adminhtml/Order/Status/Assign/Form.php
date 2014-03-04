@@ -7,20 +7,23 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Block\Adminhtml\Order\Status\Assign;
 
 /**
  * Assign order status to order state form
  */
-namespace Magento\Sales\Block\Adminhtml\Order\Status\Assign;
-
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
+     * Collection factory
+     *
      * @var \Magento\Sales\Model\Resource\Order\Status\CollectionFactory
      */
     protected $_collectionFactory;
 
     /**
+     * Order config
+     *
      * @var \Magento\Sales\Model\Order\Config
      */
     protected $_orderConfig;
@@ -46,6 +49,11 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         parent::__construct($context, $registry, $formFactory, $data);
     }
 
+    /**
+     * Constructor
+     *
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();

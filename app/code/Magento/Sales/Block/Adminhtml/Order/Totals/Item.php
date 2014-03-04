@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Block\Adminhtml\Order\Totals;
 
  /**
   * Totals item block
   */
-namespace Magento\Sales\Block\Adminhtml\Order\Totals;
-
 class Item extends \Magento\Sales\Block\Adminhtml\Order\Totals
 {
     /**

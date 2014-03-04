@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Block\Adminhtml\Order\Invoice;
+
+use Magento\Sales\Model\Order\Invoice;
 
 /**
  * Adminhtml order invoice totals block
@@ -15,12 +18,20 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Block\Adminhtml\Order\Invoice;
-
 class Totals extends \Magento\Sales\Block\Adminhtml\Totals
 {
+    /**
+     * Order invoice
+     *
+     * @var Invoice|null
+     */
     protected $_invoice = null;
 
+    /**
+     * Get invoice
+     *
+     * @return Invoice|null
+     */
     public function getInvoice()
     {
         if ($this->_invoice === null) {
@@ -35,6 +46,11 @@ class Totals extends \Magento\Sales\Block\Adminhtml\Totals
         return $this->_invoice;
     }
 
+    /**
+     * Get source
+     *
+     * @return Invoice|null
+     */
     public function getSource()
     {
         return $this->getInvoice();

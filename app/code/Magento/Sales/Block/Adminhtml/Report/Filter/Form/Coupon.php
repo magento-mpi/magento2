@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Block\Adminhtml\Report\Filter\Form;
 
 /**
  * Sales Adminhtml report filter form for coupons report
@@ -15,8 +16,6 @@
  * @package    Magento_Sales
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Block\Adminhtml\Report\Filter\Form;
-
 class Coupon extends \Magento\Sales\Block\Adminhtml\Report\Filter\Form
 {
     /**
@@ -27,6 +26,8 @@ class Coupon extends \Magento\Sales\Block\Adminhtml\Report\Filter\Form
     protected $_renderDependentElement = false;
 
     /**
+     * Rule factory
+     *
      * @var \Magento\SalesRule\Model\Resource\Report\RuleFactory
      */
     protected $_reportRule;
@@ -101,8 +102,8 @@ class Coupon extends \Magento\Sales\Block\Adminhtml\Report\Filter\Form
     /**
      * Processing block html after rendering
      *
-     * @param   string $html
-     * @return  string
+     * @param string $html
+     * @return string
      */
     protected function _afterToHtml($html)
     {

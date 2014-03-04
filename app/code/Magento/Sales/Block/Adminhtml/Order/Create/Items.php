@@ -61,7 +61,7 @@ class Items extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
     /**
      * Add button to the items header
      *
-     * @param $args array
+     * @param array $args
      * @return void
      */
     public function addButton($args)

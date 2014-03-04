@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Block\Adminhtml\Transactions;
 
 /**
  * Adminhtml transactions grid
@@ -15,8 +16,6 @@
  * @package    Magento_Sales
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Block\Adminhtml\Transactions;
-
 class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
@@ -34,11 +33,15 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     protected $_paymentData = null;
 
     /**
+     * Transaction
+     *
      * @var \Magento\Sales\Model\Order\Payment\Transaction
      */
     protected $_transaction;
 
     /**
+     * Collection factory
+     *
      * @var \Magento\Sales\Model\Resource\Order\Payment\Transaction\CollectionFactory
      */
     protected $_collectionFactory;
@@ -71,6 +74,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Set grid params
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -203,7 +207,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Retrieve row url
      *
-     * @param $item
+     * @param \Magento\Object $item
      * @return string
      */
     public function getRowUrl($item)

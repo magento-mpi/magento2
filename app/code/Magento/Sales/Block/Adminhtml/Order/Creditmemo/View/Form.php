@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Block\Adminhtml\Order\Creditmemo\View;
 
 /**
  * Creditmemo view form
@@ -15,8 +16,6 @@
  * @package    Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Block\Adminhtml\Order\Creditmemo\View;
-
 class Form extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
 {
     /**
@@ -61,6 +60,11 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
         return $this->_coreRegistry->registry('current_creditmemo');
     }
 
+    /**
+     * Get order url
+     *
+     * @return string
+     */
     public function getOrderUrl()
     {
         return $this->getUrl('sales/order/view', array('order_id' => $this->getCreditmemo()->getOrderId()));

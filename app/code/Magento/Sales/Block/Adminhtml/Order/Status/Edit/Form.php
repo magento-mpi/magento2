@@ -7,14 +7,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Block\Adminhtml\Order\Status\Edit;
 
 /**
  * Edit status form
  */
-namespace Magento\Sales\Block\Adminhtml\Order\Status\Edit;
-
 class Form extends \Magento\Sales\Block\Adminhtml\Order\Status\NewStatus\Form
 {
+    /**
+     * Constructor
+     *
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
