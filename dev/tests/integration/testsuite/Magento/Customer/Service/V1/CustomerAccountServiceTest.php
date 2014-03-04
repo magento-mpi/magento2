@@ -514,18 +514,37 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      * @magentoAppIsolation enabled
      * @magentoDataFixture Magento/Customer/_files/inactive_customer.php
      */
-    public function testSendConfirmation()
+    public function testResendConfirmation()
     {
-        $this->_customerAccountService->sendConfirmation('customer@needAconfirmation.com');
+        $this->_customerAccountService->resendConfirmation('customer@needAconfirmation.com', 1);
+    }
+
+
+    /**
+     * @magentoAppArea frontend
+     * @magentoAppIsolation enabled
+     * @magentoDataFixture Magento/Customer/_files/inactive_customer.php
+     */
+    public function testResendConfirmationBadWebsiteId()
+    {
+        try {
+            $this->_customerAccountService->resendConfirmation('customer@needAconfirmation.com', 'notAWebsiteId');
+        } catch (NoSuchEntityException $nsee) {
+            $expectedParams = [
+                'email' => 'customer@needAconfirmation.com',
+                'websiteId' => 'notAWebsiteId',
+            ];
+            $this->assertEquals($expectedParams, $nsee->getParams());
+        }
     }
 
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
      */
-    public function testSendConfirmationNoEmail()
+    public function testResendConfirmationNoEmail()
     {
         try {
-            $this->_customerAccountService->sendConfirmation('wrongemail@example.com');
+            $this->_customerAccountService->resendConfirmation('wrongemail@example.com', 1);
             $this->fail('Expected exception not thrown.');
         } catch (NoSuchEntityException $nsee) {
             $expectedParams = [
@@ -542,9 +561,9 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      * @expectedException \Magento\Exception\StateException
      * @expectedExceptionCode \Magento\Exception\StateException::INVALID_STATE
      */
-    public function testSendConfirmationNotNeeded()
+    public function testResendConfirmationNotNeeded()
     {
-        $this->_customerAccountService->sendConfirmation('customer@example.com');
+        $this->_customerAccountService->resendConfirmation('customer@example.com', 1);
     }
 
 
@@ -1022,6 +1041,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($lastname, $customer->getLastname());
     }
 
+
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
      * @magentoAppIsolation enabled
@@ -1204,5 +1224,72 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $customerDetails = $this->_customerAccountService->getCustomerDetails(20);
 
         $customerDetails->getCustomer();
+    }
+
+    /**
+     * @magentoAppArea adminhtml
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     * @magentoAppIsolation enabled
+     * @expectedException \Magento\Exception\NoSuchEntityException
+     * @expectedExceptionMessage No such entity with customerId = 1
+     */
+    public function testDeleteCustomer()
+    {
+        // _files/customer.php sets the customer id to 1
+        $this->_customerAccountService->deleteCustomer(1);
+        $this->_customerAccountService->getCustomer(1);
+    }
+
+    /**
+     *
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     * @magentoDataFixture Magento/Customer/_files/customer_two_addresses.php
+     * @expectedException \Magento\Exception\NoSuchEntityException
+     * @expectedExceptionMessage No such entity with customerId = 1
+     */
+    public function testDeleteCustomerWithAddress()
+    {
+        $this->markTestSkipped('Investigate how to ensure that addresses are deleted. Currently it is false negative');
+        //Verify address is created for the customer;
+        $result = $this->_customerAddressService->getAddresses(1);
+        $this->assertEquals(2, count($result));
+        // _files/customer.php sets the customer id to 1
+        $this->_customerAccountService->deleteCustomer(1);
+
+        // Verify by directly loading the address by id
+        $this->verifyDeletedAddress(1);
+        $this->verifyDeletedAddress(2);
+
+        //Verify by calling the Address Service. This will throw the expected exception since customerId doesn't exist
+        $result = $this->_customerAddressService->getAddresses(1);
+        $this->assertTrue(empty($result));
+    }
+
+    /**
+     * Check if the Address with the give addressid is deleted
+     *
+     * @param int $addressId
+     */
+    protected function verifyDeletedAddress($addressId)
+    {
+        /** @var $addressFactory \Magento\Customer\Model\AddressFactory */
+        $addressFactory = $this->_objectManager
+            ->create('Magento\Customer\Model\AddressFactory');
+        $addressModel = $addressFactory->create()->load($addressId);
+        $addressData = $addressModel->getData();
+        $this->assertTrue(empty($addressData));
+    }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     * @magentoAppIsolation enabled
+     * @expectedException
+     * V1\Exception
+     * @expectedExceptionMessage Cannot complete this operation from non-admin area.
+     */
+    public function testDeleteCustomerNonSecureArea()
+    {
+        /** _files/customer.php sets the customer id to 1 */
+        $this->_customerAccountService->deleteCustomer(1);
     }
 }

@@ -658,7 +658,8 @@ class Account extends \Magento\App\Action\Action
         $email = $this->getRequest()->getPost('email');
         if ($email) {
             try {
-                $this->_customerAccountService->sendConfirmation($email);
+                $this->_customerAccountService
+                    ->resendConfirmation($email, $this->_storeManager->getStore()->getWebsiteId());
                 $this->messageManager->addSuccess(__('Please, check your email for confirmation key.'));
             } catch (StateException $e) {
                 $this->messageManager->addSuccess(__('This email does not require confirmation.'));

@@ -130,22 +130,23 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function sendConfirmation($email, $redirectUrl = '')
+    public function resendConfirmation($email, $websiteId, $redirectUrl = '')
     {
         $customer = $this->_customerFactory->create();
-        $websiteId = $this->_storeManager->getStore()->getWebsiteId();
         $customer->setWebsiteId($websiteId)->loadByEmail($email);
         if (!$customer->getId()) {
             throw (new NoSuchEntityException('email', $email))->addField('websiteId', $websiteId);
         }
         if ($customer->getConfirmation()) {
-            $customer->sendNewAccountEmail(self::NEW_ACCOUNT_EMAIL_CONFIRMATION, $redirectUrl,
-                $this->_storeManager->getStore()->getId());
+            $customer->sendNewAccountEmail(
+                self::NEW_ACCOUNT_EMAIL_CONFIRMATION,
+                $redirectUrl,
+                $this->_storeManager->getStore()->getId()
+            );
         } else {
             throw new StateException('No confirmation needed.', StateException::INVALID_STATE);
         }
     }
-
     /**
      * {@inheritdoc}
      */
@@ -673,5 +674,14 @@ class CustomerAccountService implements CustomerAccountServiceInterface
             ->setCustomer($this->getCustomer($customerId))
             ->setAddresses($this->_customerAddressService->getAddresses($customerId))
             ->create();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function deleteCustomer($customerId)
+    {
+        $customerModel = $this->_converter->getCustomerModel($customerId);
+        $customerModel->delete();
     }
 }
