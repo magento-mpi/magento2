@@ -29,12 +29,12 @@ class RegisterLinkTest extends \PHPUnit_Framework_TestCase
     public function testToHtml()
     {
         $context = $this->_objectManager->getObject('Magento\View\Element\Template\Context');
-        $session = $this->getMockBuilder('Magento\Customer\Model\Session')
+        $httpContext = $this->getMockBuilder('Magento\App\Http\Context')
             ->disableOriginalConstructor()
-            ->setMethods(array('isLoggedIn'))
+            ->setMethods(array('getValue'))
             ->getMock();
-        $session->expects($this->once())
-            ->method('isLoggedIn')
+        $httpContext->expects($this->once())
+            ->method('getValue')
             ->will($this->returnValue(true));
 
         /** @var \Magento\Sales\Block\Guest\Link $link */
@@ -42,7 +42,7 @@ class RegisterLinkTest extends \PHPUnit_Framework_TestCase
             'Magento\Customer\Block\Account\RegisterLink',
             array(
                 'context' => $context,
-                'session' => $session,
+                'httpContext' => $httpContext,
             )
         );
 

@@ -91,11 +91,17 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
     protected $_customerSession;
 
     /**
+     * @var \Magento\App\Http\Context
+     */
+    protected $httpContext;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Pbridge\Model\Session $pbridgeSession
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
+     * @param \Magento\App\Http\Context $httpContext
      * @param array $data
      */
     public function __construct(
@@ -104,6 +110,7 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
         \Magento\Pbridge\Model\Session $pbridgeSession,
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Pbridge\Helper\Data $pbridgeData,
+        \Magento\App\Http\Context $httpContext,
         array $data = array()
     ) {
         $this->_pbridgeData = $pbridgeData;
@@ -112,6 +119,7 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
         $this->_regionFactory = $regionFactory;
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
+        $this->httpContext = $httpContext;
     }
 
     /**
@@ -352,7 +360,7 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
      */
     protected function _getCurrentCustomer()
     {
-        if ($this->_customerSession->isLoggedIn()) {
+        if ($this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH)) {
             return $this->_customerSession->getCustomer();
         }
 

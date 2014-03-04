@@ -31,11 +31,17 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
     protected $typeFactory;
 
     /**
+     * @var \Magento\Customer\Service\V1\CustomerCurrentService
+     */
+    protected $currentCustomer;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
      * @param \Magento\GiftRegistry\Model\EntityFactory $entityFactory
      * @param \Magento\GiftRegistry\Model\TypeFactory $typeFactory
+     * @param \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer
      * @param array $data
      */
     public function __construct(
@@ -44,12 +50,14 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
         \Magento\GiftRegistry\Model\EntityFactory $entityFactory,
         \Magento\GiftRegistry\Model\TypeFactory $typeFactory,
+        \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer,
         array $data = array()
     ) {
         $this->customerSession = $customerSession;
         $this->entityFactory = $entityFactory;
         $this->typeFactory = $typeFactory;
         parent::__construct($context, $customerSession, $subscriberFactory, $data);
+        $this->currentCustomer = $currentCustomer;
     }
 
     /**
@@ -94,7 +102,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
     {
         if (!$this->hasEntityCollection()) {
             $this->setData('entity_collection', $this->entityFactory->create()->getCollection()
-                ->filterByCustomerId($this->customerSession->getCustomerId())
+                ->filterByCustomerId($this->currentCustomer->getCustomerId())
             );
         }
         return $this->_getData('entity_collection');

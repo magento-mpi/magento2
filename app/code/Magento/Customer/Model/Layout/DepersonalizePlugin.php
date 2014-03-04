@@ -117,7 +117,7 @@ class DepersonalizePlugin
      */
     protected function afterSessionWriteClose()
     {
-        $this->httpContext->setValue(\Magento\App\Http\Context::CUSTOMER_GROUP, $this->customerGroupId);
+        $this->httpContext->setValue(\Magento\Customer\Helper\Data::CONTEXT_GROUP, $this->customerGroupId);
         $this->session->clearStorage();
         $this->customerSession->clearStorage();
         $this->session->setData(\Magento\Data\Form\FormKey::FORM_KEY, $this->formKey);

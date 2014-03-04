@@ -71,6 +71,11 @@ class Form extends \Magento\View\Element\Template
     protected $messageManager;
 
     /**
+     * @var \Magento\App\Http\Context
+     */
+    protected $httpContext;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Session\Generic $reviewSession
@@ -79,6 +84,7 @@ class Form extends \Magento\View\Element\Template
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Rating\Model\RatingFactory $ratingFactory
      * @param \Magento\Message\ManagerInterface $messageManager
+     * @param \Magento\App\Http\Context $httpContext
      * @param array $data
      */
     public function __construct(
@@ -90,6 +96,7 @@ class Form extends \Magento\View\Element\Template
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Rating\Model\RatingFactory $ratingFactory,
         \Magento\Message\ManagerInterface $messageManager,
+        \Magento\App\Http\Context $httpContext,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
@@ -101,6 +108,7 @@ class Form extends \Magento\View\Element\Template
         $this->messageManager = $messageManager;
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
+        $this->httpContext = $httpContext;
     }
 
     /**
@@ -124,7 +132,8 @@ class Form extends \Magento\View\Element\Template
         }
 
         $this->setAllowWriteReviewFlag(
-            $this->_customerSession->isLoggedIn() || $this->_reviewData->getIsGuestAllowToWrite()
+            $this->httpContext->getValue(
+                \Magento\Customer\Helper\Data::CONTEXT_AUTH) || $this->_reviewData->getIsGuestAllowToWrite()
         );
         if (!$this->getAllowWriteReviewFlag()) {
             $queryParam = $this->_coreData->urlEncode(

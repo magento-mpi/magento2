@@ -7,17 +7,24 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Reports\Block\Product\Widget;
+namespace Magento\Reports\Block\Product\Widget\Viewed;
 
 /**
  * Reports Recently Viewed Products Widget
  *
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Viewed
-    extends \Magento\Reports\Block\Product\Viewed
+class Item
+    extends \Magento\Catalog\Block\Product\AbstractProduct
     implements \Magento\Widget\Block\BlockInterface
 {
+    /**
+     * Viewed Product Index type
+     *
+     * @var string
+     */
+    protected $_indexType = \Magento\Reports\Model\Product\Index\Factory::TYPE_VIEWED;
+
     /**
      * Internal constructor
      *
@@ -26,9 +33,10 @@ class Viewed
     protected function _construct()
     {
         parent::_construct();
-        $this->addColumnCountLayoutDepend('one_column', 5)
-            ->addColumnCountLayoutDepend('two_columns_left', 4)
-            ->addColumnCountLayoutDepend('two_columns_right', 4)
-            ->addColumnCountLayoutDepend('three_columns', 3);
+        $this->addPriceBlockType(
+            'bundle',
+            'Magento\Bundle\Block\Catalog\Product\Price',
+            'catalog/product/price.phtml'
+        );
     }
 }

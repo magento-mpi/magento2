@@ -12,6 +12,8 @@
 
 namespace Magento\CustomerSegment\Model\Layout;
 
+use \Magento\CustomerSegment\Helper\Data;
+
 /**
  * Class DepersonalizePlugin
  */
@@ -80,7 +82,7 @@ class DepersonalizePlugin extends \Magento\Customer\Model\Layout\DepersonalizePl
     public function afterGenerateXml(\Magento\Core\Model\Layout $subject, $result)
     {
         if (!$this->request->isAjax() && $this->layout->isCacheable()) {
-            $this->httpContext->setValue(\Magento\App\Http\Context::CUSTOMER_SEGMENT, $this->customerSegmentIds);
+            $this->httpContext->setValue(Data::CONTEXT_SEGMENT, $this->customerSegmentIds);
             $this->customerSession->setCustomerSegmentIds($this->customerSegmentIds);
         }
         return $result;

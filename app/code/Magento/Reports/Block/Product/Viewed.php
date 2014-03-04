@@ -60,9 +60,6 @@ class Viewed extends \Magento\Reports\Block\Product\AbstractProduct implements \
      */
     protected function _toHtml()
     {
-        if (!$this->getCount()) {
-            return '';
-        }
         $this->setRecentlyViewedProducts($this->getItemsCollection());
         return parent::_toHtml();
     }
