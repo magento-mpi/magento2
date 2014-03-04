@@ -872,7 +872,7 @@ class Account extends \Magento\App\Action\Action
             $customerId = $this->_getSession()->getCustomerId();
             $customer = $this->_extractCustomer('customer_account_edit');
             $this->_customerBuilder->populate($customer);
-            $this->_customerBuilder->setCustomerId($customerId);
+            $this->_customerBuilder->setId($customerId);
             $customer = $this->_customerBuilder->create();
 
             if ($this->getRequest()->getParam('change_password')) {
