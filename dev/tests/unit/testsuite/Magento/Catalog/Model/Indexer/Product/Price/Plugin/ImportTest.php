@@ -48,6 +48,7 @@ class ImportTest extends \PHPUnit_Framework_TestCase
         $this->_indexerMock->expects($this->once())
             ->method('invalidate');
 
-        $this->_model->afterImportSource();
+        $importMock = $this->getMock('Magento\ImportExport\Model\Import', array(), array(), '', false);
+        $this->assertEquals('return_value', $this->_model->afterImportSource($importMock,'return_value'));
     }
 }

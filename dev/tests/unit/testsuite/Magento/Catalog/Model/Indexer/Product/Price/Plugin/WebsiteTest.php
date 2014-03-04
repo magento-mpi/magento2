@@ -50,7 +50,8 @@ class WebsiteTest extends \PHPUnit_Framework_TestCase
         $this->_priceProcessorMock->expects($this->once())
             ->method('markIndexerAsInvalid');
 
-        $this->_model->afterDelete();
+        $websiteMock = $this->getMock('Magento\Core\Model\Resource\Website', array(), array(), '', false);
+        $this->assertEquals('return_value', $this->_model->afterDelete($websiteMock,'return_value'));
     }
 
 }
