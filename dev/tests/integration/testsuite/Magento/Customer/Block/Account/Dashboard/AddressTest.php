@@ -8,6 +8,9 @@
 
 namespace Magento\Customer\Block\Account\Dashboard;
 
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+use Magento\TestFramework\Helper\Bootstrap;
+
 class AddressTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -45,6 +48,11 @@ class AddressTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetCustomer()
     {
+        /** @var CustomerAccountServiceInterface $customerAccountService */
+        $customerAccountService = Bootstrap::getObjectManager()
+            ->get('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
+        $customer = $customerAccountService->getCustomer(1);
+
         $this->_customerSession->setCustomerId(1);
         $customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Customer\Service\V1\CustomerCurrentServiceInterface')

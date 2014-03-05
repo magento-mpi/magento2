@@ -9,7 +9,7 @@ namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 
 use Magento\Customer\Controller\RegistryConstants;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
-use Magento\Customer\Service\V1\CustomerServiceInterface;
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\Dto\Customer;
 use Magento\Customer\Service\V1\Dto\Address;
 use Magento\TestFramework\Helper\Bootstrap;
@@ -22,8 +22,8 @@ use Magento\TestFramework\Helper\Bootstrap;
  */
 class AddressesTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var CustomerServiceInterface */
-    private $_customerService;
+    /** @var CustomerAccountServiceInterface */
+    private $_customerAccountService;
 
     /** @var CustomerAddressServiceInterface */
     private $_addressService;
@@ -42,8 +42,8 @@ class AddressesTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->_objectManager = Bootstrap::getObjectManager();
-        $this->_customerService = $this->_objectManager->get(
-            'Magento\Customer\Service\V1\CustomerServiceInterface'
+        $this->_customerAccountService = $this->_objectManager->get(
+            'Magento\Customer\Service\V1\CustomerAccountServiceInterface'
         );
         $this->_addressService = $this->_objectManager->get(
             'Magento\Customer\Service\V1\CustomerAddressServiceInterface'
@@ -143,7 +143,7 @@ class AddressesTest extends \PHPUnit_Framework_TestCase
     protected function setupExistingCustomerData()
     {
         /** @var Customer $customer */
-        $customer = $this->_customerService->getCustomer(1);
+        $customer = $this->_customerAccountService->getCustomer(1);
         $this->_customerData = [
             'customer_id' => $customer->getCustomerId(),
             'account' => $customer->getAttributes(),

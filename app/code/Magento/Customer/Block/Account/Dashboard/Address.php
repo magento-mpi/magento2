@@ -9,19 +9,20 @@
  */
 namespace Magento\Customer\Block\Account\Dashboard;
 
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Exception\NoSuchEntityException;
 
 class Address extends \Magento\View\Element\Template
 {
     /**
+     * @var CustomerAccountServiceInterface
+     */
+    protected $_customerAccountService;
+
+    /**
      * @var \Magento\Customer\Model\Address\Config
      */
     protected $_addressConfig;
-
-    /**
-     * @var \Magento\Customer\Service\V1\CustomerCurrentServiceInterface
-     */
-    protected $customerCurrentService;
 
     /**
      * @var \Magento\Customer\Service\V1\CustomerAddressCurrentServiceInterface
@@ -30,21 +31,21 @@ class Address extends \Magento\View\Element\Template
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Customer\Service\V1\CustomerCurrentServiceInterface $customerCurrentService
-     * @param \Magento\Customer\Service\V1\CustomerAddressCurrentServiceInterface $customerAddressCurrentService
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param CustomerAccountServiceInterface $customerAccountService
      * @param \Magento\Customer\Model\Address\Config $addressConfig
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context                              $context,
-        \Magento\Customer\Service\V1\CustomerCurrentServiceInterface        $customerCurrentService,
-        \Magento\Customer\Service\V1\CustomerAddressCurrentServiceInterface $customerAddressCurrentService,
-        \Magento\Customer\Model\Address\Config                              $addressConfig,
+        \Magento\View\Element\Template\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
+        CustomerAccountServiceInterface $customerAccountService,
+        \Magento\Customer\Model\Address\Config $addressConfig,
         array $data = array()
     ) {
-        $this->customerCurrentService           = $customerCurrentService;
-        $this->customerAddressCurrentService    = $customerAddressCurrentService;
-        $this->_addressConfig                   = $addressConfig;
+        $this->_customerSession = $customerSession;
+        $this->_customerAccountService = $customerAccountService;
+        $this->_addressConfig = $addressConfig;
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
     }
@@ -57,7 +58,7 @@ class Address extends \Magento\View\Element\Template
     public function getCustomer()
     {
         try {
-            return $this->customerCurrentService->getCustomer();
+            return $this->_customerAccountService->getCustomer($this->_customerSession->getId());
         } catch (NoSuchEntityException $e) {
             return null;
         }

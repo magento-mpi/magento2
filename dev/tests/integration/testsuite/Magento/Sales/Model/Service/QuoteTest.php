@@ -10,11 +10,11 @@ namespace Magento\Sales\Model\Service;
 
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\Customer\Service\V1\Dto\CustomerBuilder;
+use Magento\Customer\Service\V1\Dto\CustomerDetailsBuilder;
 use Magento\Customer\Service\V1\Dto\AddressBuilder;
 use Magento\Customer\Service\V1\Dto\Region;
 use Magento\Customer\Service\V1\Dto\Customer as CustomerDto;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
-use Magento\Customer\Service\V1\CustomerServiceInterface;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 
 /**
@@ -33,11 +33,6 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
     private $_customerBuilder;
 
     /**
-     * @var CustomerServiceInterface
-     */
-    protected $_customerService;
-
-    /**
      * @var CustomerAccountServiceInterface
      */
     protected $_customerAccountService;
@@ -52,6 +47,11 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
      */
     protected $_addressBuilder;
 
+    /**
+     * @var CustomerDetailsBuilder
+     */
+    protected $_customerDetailsBuilder;
+
 
     public function setUp()
     {
@@ -61,11 +61,11 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
         $this->_customerBuilder = Bootstrap::getObjectManager()->get(
             'Magento\Customer\Service\V1\Dto\CustomerBuilder'
         );
+        $this->_customerDetailsBuilder = Bootstrap::getObjectManager()->get(
+            'Magento\Customer\Service\V1\Dto\CustomerDetailsBuilder'
+        );
         $this->_customerAccountService = Bootstrap::getObjectManager()->get(
             'Magento\Customer\Service\V1\CustomerAccountService'
-        );
-        $this->_customerService = Bootstrap::getObjectManager()->get(
-            'Magento\Customer\Service\V1\CustomerService'
         );
         $this->_customerAddressService = Bootstrap::getObjectManager()->get(
             'Magento\Customer\Service\V1\CustomerAddressService'
@@ -104,27 +104,25 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
     {
         $this->_prepareQuote(false);
 
-        $customerDto = $this->_customerAccountService->createAccount(
-        $this->getSampleCustomerEntity(),
-            $this->getSampleAddressEntity(),
-            'password'
-        );
+        $customerDetails = $this->_customerDetailsBuilder->setCustomer($this->getSampleCustomerEntity())
+            ->setAddresses($this->getSampleAddressEntity())->create();
+        $customer = $this->_customerAccountService->createAccount($customerDetails, 'password');
 
-        $existingCustomerId = $customerDto->getCustomerId();
-        $customerDto = $this->_customerBuilder->mergeDtoWithArray(
-            $customerDto,
+        $existingCustomerId = $customer->getCustomerId();
+        $customer = $this->_customerBuilder->mergeDtoWithArray(
+            $customer,
             [CustomerDto::EMAIL => 'new@example.com']
         );
         $addresses = $this->_customerAddressService->getAddresses($existingCustomerId);
-        $this->_serviceQuote->getQuote()->setCustomerData($customerDto);
+        $this->_serviceQuote->getQuote()->setCustomerData($customer);
         $this->_serviceQuote->getQuote()->setCustomerAddressData($addresses);
         $this->_serviceQuote->submitOrderWithDto();
         $customerId = $this->_serviceQuote->getQuote()->getCustomerData()->getCustomerId();
         $this->assertNotNull($customerId);
         //Make sure no new customer is created
         $this->assertEquals($existingCustomerId, $customerId);
-        $customerDto = $this->_customerService->getCustomer($existingCustomerId);
-        $this->assertEquals('new@example.com', $customerDto->getEmail());
+        $customer = $this->_customerAccountService->getCustomer($existingCustomerId);
+        $this->assertEquals('new@example.com', $customer->getEmail());
     }
 
     /**
@@ -172,26 +170,26 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
     public function testSubmitOrderRollbackExistingCustomer()
     {
         $this->_prepareQuoteWithMockTransaction();
-        $customerDto = $this->_customerAccountService->createAccount(
-        $this->getSampleCustomerEntity(),
-            $this->getSampleAddressEntity(),
-            'password'
-        );
 
-        $existingCustomerId = $customerDto->getCustomerId();
-        $customerDto = $this->_customerBuilder->mergeDtoWithArray(
-            $customerDto,
+        $customerDetails = $this->_customerDetailsBuilder->setCustomer($this->getSampleCustomerEntity())
+            ->setAddresses($this->getSampleAddressEntity())->create();
+        $customer = $this->_customerAccountService->createAccount($customerDetails, 'password');
+
+        $existingCustomerId = $customer->getCustomerId();
+        $customer = $this->_customerBuilder->mergeDtoWithArray(
+            $customer,
             [CustomerDto::EMAIL => 'new@example.com']
         );
         $addresses = $this->_customerAddressService->getAddresses($existingCustomerId);
-        $this->_serviceQuote->getQuote()->setCustomerData($customerDto);
+        $this->_serviceQuote->getQuote()->setCustomerData($customer);
         $this->_serviceQuote->getQuote()->setCustomerAddressData($addresses);
         try {
             $this->_serviceQuote->submitOrderWithDto();
         } catch (\Exception $e) {
             $this->assertEquals('submitorder exception', $e->getMessage());
         }
-        $this->assertEquals('email@example.com', $this->_customerService->getCustomer($existingCustomerId)->getEmail());
+        $this->assertEquals('email@example.com', $this->_customerAccountService
+            ->getCustomer($existingCustomerId)->getEmail());
     }
 
     /**

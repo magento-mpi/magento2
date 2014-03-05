@@ -11,7 +11,6 @@ namespace Magento\Invitation\Controller\Customer;
 
 use Magento\App\Action\NotFoundException;
 use Magento\App\RequestInterface;
-use Magento\Customer\Service\V1\CustomerServiceInterface;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 
@@ -53,8 +52,9 @@ class Account extends \Magento\Customer\Controller\Account
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Store\Config $storeConfig
+     * @param \Magento\Core\Helper\Data $coreHelperData
      * @param \Magento\Escaper $escaper
-     * @param \Magento\Customer\Service\V1\CustomerServiceInterface $customerService
+     * @param \Magento\App\State $appState
      * @param CustomerGroupServiceInterface $customerGroupService
      * @param CustomerAccountServiceInterface $customerAccountService
      * @param \Magento\Customer\Service\V1\Dto\RegionBuilder $regionBuilder
@@ -79,7 +79,6 @@ class Account extends \Magento\Customer\Controller\Account
         \Magento\Core\Helper\Data $coreHelperData,
         \Magento\Escaper $escaper,
         \Magento\App\State $appState,
-        CustomerServiceInterface $customerService,
         CustomerGroupServiceInterface $customerGroupService,
         CustomerAccountServiceInterface $customerAccountService,
         \Magento\Customer\Service\V1\Dto\RegionBuilder $regionBuilder,
@@ -104,7 +103,6 @@ class Account extends \Magento\Customer\Controller\Account
             $coreHelperData,
             $escaper,
             $appState,
-            $customerService,
             $customerGroupService,
             $customerAccountService,
             $regionBuilder,
@@ -257,7 +255,7 @@ class Account extends \Magento\Customer\Controller\Account
             if ($customer->getConfirmation() !== $key) {
                 throw new \Exception(__('Wrong confirmation key.'));
             }
-            $this->_customerAccountService->activateAccount($customer->getCustomerId(), $key);
+            $this->_customerAccountService->activateCustomer($customer->getCustomerId(), $key);
 
             // log in and send greeting email, then die happy
             $this->_getSession()->setCustomerAsLoggedIn($customer);

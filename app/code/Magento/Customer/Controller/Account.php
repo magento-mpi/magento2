@@ -8,10 +8,10 @@
 namespace Magento\Customer\Controller;
 
 use Magento\App\RequestInterface;
-use Magento\Customer\Service\V1\CustomerServiceInterface;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 use Magento\Customer\Service\V1\Dto\Customer;
+use Magento\Customer\Service\V1\Dto\CustomerDetails;
 use Magento\Exception\AuthenticationException;
 use Magento\Exception\InputException;
 use Magento\Exception\NoSuchEntityException;
@@ -85,9 +85,6 @@ class Account extends \Magento\App\Action\Action
     /** @var \Magento\App\State */
     protected $appState;
 
-    /** @var CustomerServiceInterface  */
-    protected $_customerService;
-
     /** @var CustomerGroupServiceInterface */
     protected $_groupService;
 
@@ -102,6 +99,9 @@ class Account extends \Magento\App\Action\Action
 
     /** @var \Magento\Customer\Service\V1\Dto\CustomerBuilder */
     protected $_customerBuilder;
+
+    /** @var \Magento\Customer\Service\V1\Dto\CustomerDetailsBuilder */
+    protected $_customerDetailsBuilder;
 
     /**
      * @param \Magento\App\Action\Context $context
@@ -118,12 +118,12 @@ class Account extends \Magento\App\Action\Action
      * @param \Magento\Core\Helper\Data $coreHelperData
      * @param \Magento\Escaper $escaper
      * @param \Magento\App\State $appState
-     * @param \Magento\Customer\Service\V1\CustomerServiceInterface $customerService
      * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService
      * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
      * @param \Magento\Customer\Service\V1\Dto\RegionBuilder $regionBuilder
      * @param \Magento\Customer\Service\V1\Dto\AddressBuilder $addressBuilder
      * @param \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerBuilder
+     * @param \Magento\Customer\Service\V1\Dto\CustomerDetailsBuilder $customerDetailsBuilder
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -142,12 +142,12 @@ class Account extends \Magento\App\Action\Action
         \Magento\Core\Helper\Data $coreHelperData,
         \Magento\Escaper $escaper,
         \Magento\App\State $appState,
-        CustomerServiceInterface $customerService,
         CustomerGroupServiceInterface $customerGroupService,
         CustomerAccountServiceInterface $customerAccountService,
         \Magento\Customer\Service\V1\Dto\RegionBuilder $regionBuilder,
         \Magento\Customer\Service\V1\Dto\AddressBuilder $addressBuilder,
-        \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerBuilder
+        \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerBuilder,
+        \Magento\Customer\Service\V1\Dto\CustomerDetailsBuilder $customerDetailsBuilder
     ) {
         $this->_session = $customerSession;
         $this->_addressHelper = $addressHelper;
@@ -162,12 +162,12 @@ class Account extends \Magento\App\Action\Action
         $this->coreHelperData = $coreHelperData;
         $this->escaper = $escaper;
         $this->appState = $appState;
-        $this->_customerService = $customerService;
         $this->_groupService = $customerGroupService;
         $this->_customerAccountService = $customerAccountService;
         $this->_regionBuilder = $regionBuilder;
         $this->_addressBuilder = $addressBuilder;
         $this->_customerBuilder = $customerBuilder;
+        $this->_customerDetailsBuilder = $customerDetailsBuilder;
         parent::__construct($context);
     }
 
@@ -404,12 +404,9 @@ class Account extends \Magento\App\Action\Action
             $addresses = is_null($address) ? [] : [$address];
             $password = $this->getRequest()->getParam('password');
             $redirectUrl = $this->_getSession()->getBeforeAuthUrl();
-            $customer = $this->_customerAccountService->createAccount(
-                $customer,
-                $addresses,
-                $password,
-                $redirectUrl
-            );
+            $customerDetails =
+                $this->_customerDetailsBuilder->setCustomer($customer)->setAddresses($addresses)->create();
+            $customer = $this->_customerAccountService->createAccount($customerDetails, $password, $redirectUrl);
 
             if ($this->getRequest()->getParam('is_subscribed', false)) {
                 $this->_subscriberFactory->create()->updateSubscription($customer->getCustomerId(), true);
@@ -592,7 +589,7 @@ class Account extends \Magento\App\Action\Action
     {
         try {
             /** @var \Magento\Customer\Service\V1\Dto\Customer $customer */
-            $customer = $this->_customerService->getCustomer($customerId);
+            $customer = $this->_customerAccountService->getCustomer($customerId);
             return $customer;
         } catch (NoSuchEntityException $e) {
             throw new \Exception(__('Wrong customer account specified.'));
@@ -617,7 +614,7 @@ class Account extends \Magento\App\Action\Action
                 throw new \Exception(__('Bad request.'));
             }
 
-            $customer = $this->_customerAccountService->activateAccount($customerId, $key);
+            $customer = $this->_customerAccountService->activateCustomer($customerId, $key);
 
             // log in and send greeting email, then die happy
             $this->_getSession()->setCustomerDtoAsLoggedIn($customer);
@@ -661,7 +658,8 @@ class Account extends \Magento\App\Action\Action
         $email = $this->getRequest()->getPost('email');
         if ($email) {
             try {
-                $this->_customerAccountService->sendConfirmation($email);
+                $this->_customerAccountService
+                    ->resendConfirmation($email, $this->_storeManager->getStore()->getWebsiteId());
                 $this->messageManager->addSuccess(__('Please, check your email for confirmation key.'));
             } catch (StateException $e) {
                 $this->messageManager->addSuccess(__('This email does not require confirmation.'));
@@ -722,7 +720,7 @@ class Account extends \Magento\App\Action\Action
 
             try {
                 $this->_customerAccountService
-                    ->sendPasswordResetLink(
+                    ->initiatePasswordReset(
                         $email,
                         $this->_storeManager->getStore()->getWebsiteId(),
                         CustomerAccountServiceInterface::EMAIL_RESET
@@ -812,8 +810,7 @@ class Account extends \Magento\App\Action\Action
         }
 
         try {
-            $this->_customerAccountService->validateResetPasswordLinkToken($customerId, $resetPasswordToken);
-            $this->_customerAccountService->changePassword($customerId, $password);
+            $this->_customerAccountService->resetPassword($customerId, $resetPasswordToken, $password);
             $this->messageManager->addSuccess(
                 __('Your password has been updated.')
             );
@@ -844,7 +841,7 @@ class Account extends \Magento\App\Action\Action
 
         $data = $this->_getSession()->getCustomerFormData(true);
         $customerId = $this->_getSession()->getCustomerId();
-        $customerData = $this->_customerService->getCustomer($customerId)->__toArray();
+        $customerData = $this->_customerAccountService->getCustomer($customerId)->__toArray();
 
         if (!empty($data)) {
             array_merge($customerData, $data);
@@ -875,16 +872,16 @@ class Account extends \Magento\App\Action\Action
             $this->_customerBuilder->setCustomerId($customerId);
             $customer = $this->_customerBuilder->create();
 
+
             if ($this->getRequest()->getParam('change_password')) {
-                $currPass   = $this->getRequest()->getPost('current_password');
-                $newPass    = $this->getRequest()->getPost('password');
-                $confPass   = $this->getRequest()->getPost('confirmation');
+                $currPass = $this->getRequest()->getPost('current_password');
+                $newPass  = $this->getRequest()->getPost('password');
+                $confPass = $this->getRequest()->getPost('confirmation');
 
                 if (strlen($newPass)) {
                     if ($newPass == $confPass) {
                         try {
-                            $this->_customerAccountService->validatePassword($customerId, $currPass);
-                            $this->_customerAccountService->changePassword($customerId, $newPass);
+                            $this->_customerAccountService->changePassword($customerId, $currPass, $newPass);
                         } catch (AuthenticationException $e) {
                             $this->messageManager->addError($e->getMessage());
                         } catch (\Exception $e) {
@@ -900,7 +897,8 @@ class Account extends \Magento\App\Action\Action
             }
 
             try {
-                $this->_customerAccountService->updateAccount($customer);
+                $this->_customerDetailsBuilder->setCustomer($customer);
+                $this->_customerAccountService->updateCustomer($this->_customerDetailsBuilder->create());
             } catch (AuthenticationException $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (InputException $e) {

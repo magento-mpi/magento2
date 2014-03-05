@@ -22,6 +22,12 @@ class InfoTest extends \PHPUnit_Framework_TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\View\Element\Template\Context */
     private $_context;
 
+    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Model\Session */
+    private $_customerSession;
+
+    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\CustomerAccountServiceInterface */
+    private $_customerAccountService;
+
     /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\Dto\Customer */
     private $_customer;
 
@@ -67,8 +73,16 @@ class InfoTest extends \PHPUnit_Framework_TestCase
         $this->_context->expects($this->once())->method('getUrlBuilder')->will($this->returnValue($urlBuilder));
         $this->_context->expects($this->once())->method('getLayout')->will($this->returnValue($layout));
 
+        $this->_customerSession = $this->getMock('Magento\Customer\Model\Session', array(), array(), '', false);
+        $this->_customerSession->expects($this->any())->method('getId')->will($this->returnValue(self::CUSTOMER_ID));
+
+        $this->_customerAccountService = $this->getMockForAbstractClass(
+            'Magento\Customer\Service\V1\CustomerAccountServiceInterface', array(), '', false
+        );
         $this->_customer = $this->getMock('Magento\Customer\Service\V1\Dto\Customer', array(), array(), '', false);
         $this->_customer->expects($this->any())->method('getEmail')->will($this->returnValue(self::EMAIL_ADDRESS));
+        $this->_customerAccountService
+            ->expects($this->any())->method('getCustomer')->will($this->returnValue($this->_customer));
 
 
         $this->_metadataService = $this->getMockForAbstractClass(
@@ -85,7 +99,8 @@ class InfoTest extends \PHPUnit_Framework_TestCase
 
         $this->_block = new Info(
             $this->_context,
-            $this->customerCurrentService,
+            $this->_customerSession,
+            $this->_customerAccountService,
             $this->_metadataService,
             $this->_subscriberFactory
         );
@@ -104,7 +119,7 @@ class InfoTest extends \PHPUnit_Framework_TestCase
 
     public function testGetCustomerException()
     {
-        $this->customerCurrentService
+        $this->_customerAccountService
             ->expects($this->once())
             ->method('getCustomer')
             ->will($this->throwException(new NoSuchEntityException('customerId', 1)));

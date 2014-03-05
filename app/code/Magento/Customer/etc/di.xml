@@ -8,8 +8,6 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <preference for="Magento\Customer\Service\V1\CustomerServiceInterface"
-                type="Magento\Customer\Service\V1\CustomerService" />
     <preference for="Magento\Customer\Service\V1\CustomerAddressServiceInterface"
                 type="Magento\Customer\Service\V1\CustomerAddressService" />
     <preference for="Magento\Customer\Service\V1\CustomerGroupServiceInterface"

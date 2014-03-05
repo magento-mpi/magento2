@@ -7,6 +7,7 @@
  */
 namespace Magento\Customer\Block\Account;
 
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\TestFramework\Helper\Bootstrap;
 
 class DashboardTest extends \PHPUnit_Framework_TestCase
@@ -17,8 +18,8 @@ class DashboardTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Customer\Model\Session */
     private $customerSession;
 
-    /** @var \Magento\Customer\Service\V1\CustomerServiceInterface */
-    private $customerService;
+    /** @var CustomerAccountServiceInterface */
+    private $customerAccountService;
 
     /**
      * Execute per test initialization.
@@ -27,9 +28,9 @@ class DashboardTest extends \PHPUnit_Framework_TestCase
     {
         $this->customerSession =
             Bootstrap::getObjectManager()->get('Magento\Customer\Model\Session');
-        $this->customerService =
+        $this->customerAccountService =
             Bootstrap::getObjectManager()
-                ->get('Magento\Customer\Service\V1\CustomerServiceInterface');
+                ->get('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
 
         $this->block = Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
             ->createBlock(
@@ -37,7 +38,7 @@ class DashboardTest extends \PHPUnit_Framework_TestCase
                 '',
                 [
                     'customerSession' => $this->customerSession,
-                    'customerService' => $this->customerService
+                    'customerAccountService' => $this->customerAccountService
                 ]
             );
     }
@@ -57,7 +58,7 @@ class DashboardTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetCustomer()
     {
-        $customer = $this->customerService->getCustomer(1);
+        $customer = $this->customerAccountService->getCustomer(1);
         $this->customerSession->setCustomerId(1);
         $object = $this->block->getCustomer();
         $this->assertEquals($customer, $object);
@@ -83,7 +84,7 @@ class DashboardTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetPrimaryAddressesBillingShippingSame()
     {
-        $customer = $this->customerService->getCustomer(1);
+        $customer = $this->customerAccountService->getCustomer(1);
         $this->customerSession->setCustomerId(1);
         $addresses = $this->block->getPrimaryAddresses();
         $this->assertCount(1, $addresses);

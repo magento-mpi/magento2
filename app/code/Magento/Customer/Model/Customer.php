@@ -212,8 +212,8 @@ class Customer extends \Magento\Core\Model\AbstractModel
         \Magento\Encryption\EncryptorInterface $encryptor,
         \Magento\Math\Random $mathRandom,
         \Magento\Stdlib\DateTime $dateTime,
-        \Magento\Data\Collection\Db $resourceCollection = null,
         CustomerDtoBuilder $customerDtoBuilder,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_customerData = $customerData;
