@@ -35,7 +35,7 @@ class Pbridge extends AbstractMethod
     /**
      * Payment method instance wrapped by Payment Bridge
      *
-     * @var AbstractMethod
+     * @var \Magento\Payment\Model\MethodInterface
      */
     protected $_originalMethodInstance = null;
 
@@ -111,7 +111,7 @@ class Pbridge extends AbstractMethod
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
+     * @param \Magento\Logger\AdapterFactory $logAdapterFactory
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
      * @param \Magento\Pbridge\Model\Session $pbridgeSession
      * @param \Magento\UrlInterface $url
@@ -124,7 +124,7 @@ class Pbridge extends AbstractMethod
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
+        \Magento\Logger\AdapterFactory $logAdapterFactory,
         \Magento\Pbridge\Helper\Data $pbridgeData,
         \Magento\Pbridge\Model\Session $pbridgeSession,
         \Magento\UrlInterface $url,
@@ -255,7 +255,7 @@ class Pbridge extends AbstractMethod
     /**
      * Setter
      *
-     * @param AbstractMethod $methodInstance
+     * @param \Magento\Payment\Model\MethodInterface $methodInstance
      * @return $this
      */
     public function setOriginalMethodInstance($methodInstance)
@@ -268,7 +268,7 @@ class Pbridge extends AbstractMethod
      * Getter.
      * Retrieve the wrapped payment method instance
      *
-     * @return AbstractMethod
+     * @return \Magento\Payment\Model\MethodInterface
      */
     public function getOriginalMethodInstance()
     {

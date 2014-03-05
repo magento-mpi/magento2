@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerCustomAttributes\Model\Sales;
 
 /**
  * Customer Quote model
@@ -19,13 +20,12 @@
  * @package     Magento_CustomerCustomAttributes
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\CustomerCustomAttributes\Model\Sales;
-
-class Quote extends \Magento\CustomerCustomAttributes\Model\Sales\AbstractSales
+class Quote extends AbstractSales
 {
     /**
      * Initialize resource model
      *
+     * @return void
      */
     protected function _construct()
     {

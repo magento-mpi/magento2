@@ -18,7 +18,7 @@
  */
 namespace Magento\CatalogInventory\Model\Source;
 
-class Stock implements \Magento\Core\Model\Option\ArrayInterface
+class Stock implements \Magento\Option\ArrayInterface
 {
     /**
      * Retrieve option array

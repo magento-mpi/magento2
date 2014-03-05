@@ -18,7 +18,7 @@ class Items extends \Magento\Checkout\Block\Cart
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -59,10 +59,10 @@ class Items extends \Magento\Checkout\Block\Cart
      * @param \Magento\GiftRegistry\Model\ItemFactory $itemFactory
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
      * @param array $data
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -75,7 +75,7 @@ class Items extends \Magento\Checkout\Block\Cart
         \Magento\GiftRegistry\Model\ItemFactory $itemFactory,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Tax\Helper\Data $taxData,
         array $data = array()
     ) {

@@ -2,22 +2,14 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Block\Account\Dashboard;
 
 /**
  * Account dashboard sidebar
- *
- * @category   Magento
- * @package    Magento_Customer
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Customer\Block\Account\Dashboard;
-
 class Sidebar extends \Magento\View\Element\Template
 {
     protected $_cartItemsCount;
@@ -57,12 +49,18 @@ class Sidebar extends \Magento\View\Element\Template
     protected $_itemsCompareFactory;
 
     /**
+     * @var \Magento\Customer\Service\V1\CustomerCurrentService
+     */
+    protected $currentCustomer;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Wishlist\Model\WishlistFactory $wishListFactory
      * @param \Magento\Catalog\Model\Resource\Product\Compare\Item\CollectionFactory $itemsCompareFactory
+     * @param \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer
      * @param array $data
      */
     public function __construct(
@@ -72,6 +70,7 @@ class Sidebar extends \Magento\View\Element\Template
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Wishlist\Model\WishlistFactory $wishListFactory,
         \Magento\Catalog\Model\Resource\Product\Compare\Item\CollectionFactory $itemsCompareFactory,
+        \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer,
         array $data = array()
     ) {
         $this->_customerSession = $customerSession;
@@ -81,6 +80,7 @@ class Sidebar extends \Magento\View\Element\Template
         $this->_itemsCompareFactory = $itemsCompareFactory;
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
+        $this->currentCustomer = $currentCustomer;
     }
 
 
@@ -91,7 +91,7 @@ class Sidebar extends \Magento\View\Element\Template
 
     public function getCartItemsCount()
     {
-        if( !$this->_cartItemsCount ) {
+        if (!$this->_cartItemsCount) {
             $this->_cartItemsCount = $this->_createQuote()
                 ->setId($this->_checkoutSession->getQuote()->getId())
                 ->getItemsCollection()
@@ -103,7 +103,7 @@ class Sidebar extends \Magento\View\Element\Template
 
     public function getWishlist()
     {
-        if( !$this->_wishlist ) {
+        if (!$this->_wishlist) {
             $this->_wishlist = $this->_createWishList()->loadByCustomer($this->_customerSession->getCustomer());
             $this->_wishlist->getItemCollection()
                 ->addAttributeToSelect('name')
@@ -131,11 +131,11 @@ class Sidebar extends \Magento\View\Element\Template
 
     public function getCompareItems()
     {
-        if( !$this->_compareItems ) {
+        if ( !$this->_compareItems ) {
             $this->_compareItems =
                 $this->_createProductCompareCollection()->setStoreId($this->_storeManager->getStore()->getId());
             $this->_compareItems->setCustomerId(
-                $this->_customerSession->getCustomerId()
+                $this->currentCustomer->getCustomerId()
             );
             $this->_compareItems
                 ->addAttributeToSelect('name')
@@ -152,7 +152,7 @@ class Sidebar extends \Magento\View\Element\Template
 
     public function getCompareRemoveUrlTemplate()
     {
-        return $this->getUrl('catalog/product_compare/remove',array('product'=>'#{id}'));
+        return $this->getUrl('catalog/product_compare/remove', ['product'=>'#{id}']);
     }
 
     public function getCompareAddUrlTemplate()

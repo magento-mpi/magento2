@@ -45,16 +45,16 @@ class Navigation extends \Magento\View\Element\Template implements \Magento\View
     protected $_catalogCategory;
 
     /**
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_registry;
 
     /**
      * Customer session
      *
-     * @var \Magento\Customer\Model\Session
+     * @var \Magento\App\Http\Context
      */
-    protected $_customerSession;
+    protected $httpContext;
 
     /**
      * Catalog layer
@@ -80,9 +80,9 @@ class Navigation extends \Magento\View\Element\Template implements \Magento\View
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
      * @param \Magento\Catalog\Model\Layer $catalogLayer
-     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\App\Http\Context $httpContext
      * @param \Magento\Catalog\Helper\Category $catalogCategory
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Catalog\Model\Indexer\Category\Flat\State $flatState
      * @param array $data
      */
@@ -91,15 +91,15 @@ class Navigation extends \Magento\View\Element\Template implements \Magento\View
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
         \Magento\Catalog\Model\Layer $catalogLayer,
-        \Magento\Customer\Model\Session $customerSession,
+        \Magento\App\Http\Context $httpContext,
         \Magento\Catalog\Helper\Category $catalogCategory,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Catalog\Model\Indexer\Category\Flat\State $flatState,
         array $data = array()
     ) {
         $this->_productCollectionFactory = $productCollectionFactory;
         $this->_catalogLayer = $catalogLayer;
-        $this->_customerSession = $customerSession;
+        $this->httpContext = $httpContext;
         $this->_catalogCategory = $catalogCategory;
         $this->_registry = $registry;
         $this->flatState = $flatState;
@@ -140,7 +140,7 @@ class Navigation extends \Magento\View\Element\Template implements \Magento\View
             'CATALOG_NAVIGATION',
             $this->_storeManager->getStore()->getId(),
             $this->_design->getDesignTheme()->getId(),
-            $this->_customerSession->getCustomerGroupId(),
+            $this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_GROUP),
             'template' => $this->getTemplate(),
             'name' => $this->getNameInLayout(),
             $this->getCurrenCategoryKey()

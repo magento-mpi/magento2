@@ -11,6 +11,8 @@
 
 namespace Magento\Reward\Model;
 
+use Magento\Customer\Service\V1\Dto\Customer;
+
 class ObserverTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -25,10 +27,14 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-        $customer = $objectManager->get('Magento\Core\Model\Registry')
+        /** @var \Magento\Customer\Model\Customer $customer */
+        $customer = $objectManager->get('Magento\Registry')
             ->registry('_fixture/Magento_ImportExport_Customer');
 
-        $this->_saveRewardPoints($customer, $pointsDelta);
+        /** @var \Magento\Customer\Service\V1\CustomerServiceInterface $customerService */
+        $customerService = $objectManager->get('Magento\Customer\Service\V1\CustomerServiceInterface');
+
+        $this->_saveRewardPoints($customerService->getCustomer($customer->getId()), $pointsDelta);
 
         /** @var $reward \Magento\Reward\Model\Reward */
         $reward = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
@@ -54,10 +60,10 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param \Magento\Customer\Model\Customer $customer
+     * @param Customer $customer
      * @param mixed $pointsDelta
      */
-    protected function _saveRewardPoints(\Magento\Customer\Model\Customer $customer, $pointsDelta = '')
+    protected function _saveRewardPoints(Customer $customer, $pointsDelta = '')
     {
         $reward = array(
             'points_delta' => $pointsDelta

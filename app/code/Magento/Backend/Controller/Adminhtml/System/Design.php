@@ -16,7 +16,7 @@ class Design extends Action
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -29,16 +29,16 @@ class Design extends Action
      * @var \Magento\Event\ManagerInterface
      */
     protected $_eventManager;
-
+    
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\Core\Filter\Date $dateFilter
      * @param \Magento\Event\ManagerInterface
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\Core\Filter\Date $dateFilter,
         \Magento\Event\ManagerInterface $eventManager
     ) {

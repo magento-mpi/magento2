@@ -63,6 +63,11 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
     protected $moduleManagerMock;
 
     /**
+     * @var \Magento\App\Http\Context|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $httpContext;
+
+    /**
      * @var \Magento\Log\Model\Visitor|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $visitorMock;
@@ -72,6 +77,7 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
+        $this->httpContext = $this->getMock('Magento\App\Http\Context', array(), array(), '', false);
         $this->layoutMock = $this->getMock('Magento\Core\Model\Layout', array(), array(), '', false);
         $this->sessionMock = $this->getMock(
             'Magento\Core\Model\Session',
@@ -118,6 +124,7 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
             $this->eventManagerMock,
             $this->requestMock,
             $this->moduleManagerMock,
+            $this->httpContext,
             $this->visitorMock
         );
     }
@@ -129,6 +136,8 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
     {
         $formKey = md5('form_key');
         $expectedCustomerGroupId = 3;
+        $result = 'test';
+
         $this->moduleManagerMock
             ->expects($this->once())
             ->method('isEnabled')
@@ -176,6 +185,11 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('setGroupId')
             ->with($this->equalTo($expectedCustomerGroupId));
+        $this->httpContext
+            ->expects($this->once())
+            ->method('setValue')
+            ->with($this->equalTo(\Magento\Customer\Helper\Data::CONTEXT_GROUP),
+                $this->equalTo($expectedCustomerGroupId));
         $this->sessionMock
             ->expects($this->once())
             ->method('setData')
@@ -187,8 +201,8 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('setCustomer')
             ->with($this->equalTo($this->customerMock));
-        $output = $this->plugin->afterGenerateXml();
-        $this->assertNull($output);
+        $output = $this->plugin->afterGenerateXml($this->layoutMock, $result);
+        $this->assertSame($result, $output);
     }
 
     /**
@@ -196,6 +210,8 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
      */
     public function testUsualBehaviorIsAjax()
     {
+        $result = 'test';
+
         $this->moduleManagerMock
             ->expects($this->once())
             ->method('isEnabled')
@@ -208,8 +224,8 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
         $this->layoutMock
             ->expects($this->never())
             ->method('isCacheable');
-        $output = $this->plugin->afterGenerateXml();
-        $this->assertNull($output);
+        $output = $this->plugin->afterGenerateXml($this->layoutMock, $result);
+        $this->assertSame($result, $output);
     }
 
     /**
@@ -217,6 +233,8 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
      */
     public function testUsualBehaviorNonCacheable()
     {
+        $result = 'test';
+
         $this->moduleManagerMock
             ->expects($this->once())
             ->method('isEnabled')
@@ -233,8 +251,8 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
         $this->eventManagerMock
             ->expects($this->never())
             ->method('dispatch');
-        $output = $this->plugin->afterGenerateXml();
-        $this->assertNull($output);
+        $output = $this->plugin->afterGenerateXml($this->layoutMock, $result);
+        $this->assertSame($result, $output);
     }
 
     /**
@@ -242,6 +260,8 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
      */
     public function testUsualBehaviorPageCacheInNotEnabled()
     {
+        $result = 'test';
+
         $this->moduleManagerMock
             ->expects($this->once())
             ->method('isEnabled')
@@ -250,7 +270,7 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
         $this->eventManagerMock
             ->expects($this->never())
             ->method('dispatch');
-        $output = $this->plugin->afterGenerateXml();
-        $this->assertNull($output);
+        $output = $this->plugin->afterGenerateXml($this->layoutMock, $result);
+        $this->assertSame($result, $output);
     }
 }

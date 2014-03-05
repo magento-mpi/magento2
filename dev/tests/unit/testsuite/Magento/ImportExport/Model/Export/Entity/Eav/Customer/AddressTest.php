@@ -97,7 +97,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
             $this->getMock(
                 'Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory', array(), array(), '', false
             ),
-            $this->getMock('Magento\Core\Model\LocaleInterface', array(), array(), '', false),
+            $this->getMock('Magento\LocaleInterface', array(), array(), '', false),
             $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false),
             $this->getMock('Magento\Customer\Model\Resource\Customer\CollectionFactory', array(), array(), '', false),
             $this->getMock('Magento\ImportExport\Model\Export\Entity\Eav\CustomerFactory', array(), array(), '', false),
@@ -223,8 +223,6 @@ class AddressTest extends \PHPUnit_Framework_TestCase
             $this->getMock('Magento\Customer\Model\Config\Share', array(), array(), '', false),
             $this->getMock('Magento\Customer\Model\AddressFactory', array(), array(), '', false),
             $this->getMock('Magento\Customer\Model\Resource\Address\CollectionFactory', array(), array(), '', false),
-            $this->getMock('Magento\Email\Model\Template\MailerFactory', array(), array(), '', false),
-            $this->getMock('Magento\Email\Model\InfoFactory', array(), array(), '', false),
             $this->getMock('Magento\Customer\Model\GroupFactory', array(), array(), '', false),
             $this->getMock('Magento\Customer\Model\AttributeFactory', array(), array(), '', false),
         );

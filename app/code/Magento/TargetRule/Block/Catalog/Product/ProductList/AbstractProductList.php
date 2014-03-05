@@ -61,7 +61,7 @@ abstract class AbstractProductList
     /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Catalog\Model\Config $catalogConfig
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Math\Random $mathRandom
@@ -77,13 +77,13 @@ abstract class AbstractProductList
      * @param \Magento\TargetRule\Model\IndexFactory $indexFactory
      * @param array $data
      * @param array $priceBlockTypes
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Catalog\Model\Config $catalogConfig,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Math\Random $mathRandom,
@@ -282,7 +282,7 @@ abstract class AbstractProductList
      */
     protected function _getTargetLinkCollection()
     {
-        return $this->_getPreparedTargetLinkCollection($this->getPositionLimit());
+        return $this->_getPreparedTargetLinkCollection($this->_targetRuleData->getMaxProductsListResult());
     }
 
     /**
@@ -326,7 +326,7 @@ abstract class AbstractProductList
      */
     protected function _getTargetRuleProducts()
     {
-        $limit = $this->getPositionLimit();
+        $limit = $this->_targetRuleData->getMaxProductsListResult();
 
         $productIds = $this->_getTargetRuleProductIds($limit);
 
@@ -407,5 +407,15 @@ abstract class AbstractProductList
             $identities = array_merge($identities, $item->getIdentities());
         }
         return $identities;
+    }
+
+    /**
+     * Get all items
+     *
+     * @return array
+     */
+    public function getAllItems()
+    {
+        return $this->getItemCollection();
     }
 }

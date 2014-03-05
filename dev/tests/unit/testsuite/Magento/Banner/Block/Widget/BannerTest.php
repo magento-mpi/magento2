@@ -28,7 +28,7 @@ class BannerTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    private $_customerSession;
+    private $httpContext;
 
     /**
      * @var array
@@ -44,10 +44,10 @@ class BannerTest extends \PHPUnit_Framework_TestCase
             'Magento\Checkout\Model\Session', array('getQuoteId', 'getQuote'), array(), '', false
         );
 
-        $this->_customerSession = $this->getMock(
-            'Magento\Customer\Model\Session', array('getCustomerGroupId'), array(), '', false
+        $this->httpContext = $this->getMock(
+            '\Magento\App\Http\Context', array('getValue'), array(), '', false
         );
-        $this->_customerSession->expects($this->any())->method('getCustomerGroupId')->will($this->returnValue(4));
+        $this->httpContext->expects($this->any())->method('getValue')->will($this->returnValue(4));
 
         $pageFilterMock = $this->getMock('Magento\Cms\Model\Template\Filter', array(), array(), '', false);
         $pageFilterMock->expects($this->any())->method('filter')->will($this->returnArgument(0));
@@ -68,7 +68,7 @@ class BannerTest extends \PHPUnit_Framework_TestCase
         array(
             'resource' => $this->_bannerResource,
             'checkoutSession' => $this->_checkoutSession,
-            'customerSession' => $this->_customerSession,
+            'httpContext' => $this->httpContext,
             'filterProvider'  => $filterProviderMock,
             'storeManager' => $storeManager,
             'data' =>  array(

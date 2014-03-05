@@ -18,7 +18,7 @@ namespace Magento\CatalogPermissions\Block\Adminhtml\Catalog\Category\Tab\Permis
 
 use Magento\Backend\Block\Template\Context;
 use Magento\Catalog\Block\Adminhtml\Category\AbstractCategory;
-use Magento\Core\Model\Registry;
+use Magento\Registry;
 use Magento\Catalog\Model\Resource\Category\Tree;
 use Magento\Core\Model\Resource\Website\Collection as WebsiteCollection;
 use Magento\Core\Model\Resource\Website\CollectionFactory as WebsiteCollectionFactory;

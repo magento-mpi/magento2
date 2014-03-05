@@ -188,6 +188,7 @@
             <browser_capabilities>
                 <cookies>1</cookies>
                 <javascript>1</javascript>
+                <local_storage>1</local_storage>
             </browser_capabilities>
         </web>
         <admin>

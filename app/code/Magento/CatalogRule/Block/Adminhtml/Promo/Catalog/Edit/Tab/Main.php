@@ -35,7 +35,7 @@ class Main extends Generic implements TabInterface
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Customer\Model\Resource\Group\CollectionFactory $customerGroup
      * @param \Magento\Core\Model\System\Store $systemStore
@@ -43,7 +43,7 @@ class Main extends Generic implements TabInterface
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\Customer\Model\Resource\Group\CollectionFactory $customerGroup,
         \Magento\Core\Model\System\Store $systemStore,
@@ -168,7 +168,7 @@ class Main extends Generic implements TabInterface
             'values'    => $this->_customerGroup->create()->toOptionArray()
         ));
 
-        $dateFormat = $this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
+        $dateFormat = $this->_locale->getDateFormat(\Magento\LocaleInterface::FORMAT_TYPE_SHORT);
         $fieldset->addField('from_date', 'date', array(
             'name'   => 'from_date',
             'label'  => __('From Date'),

@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Model\Resource\Report\Settlement\Options;
 
 /**
  * Transaction Events Types Options
@@ -15,10 +16,8 @@
  * @package     Magento_Paypal
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Paypal\Model\Resource\Report\Settlement\Options;
-
 class TransactionEvents
-    implements \Magento\Core\Model\Option\ArrayInterface
+    implements \Magento\Option\ArrayInterface
 {
     /**
      * @var \Magento\Paypal\Model\Report\Settlement\Row
@@ -34,9 +33,7 @@ class TransactionEvents
     }
 
     /**
-     *  Get full list of codes with their description
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function toOptionArray()
     {

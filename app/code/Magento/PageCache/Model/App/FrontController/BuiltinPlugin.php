@@ -51,19 +51,21 @@ class BuiltinPlugin
     }
 
     /**
-     * Try load response from cache and preventing application from being processing if cache hit
-     *
-     * @param array $arguments
-     * @param \Magento\Code\Plugin\InvocationChain $invocationChain
-     * @return \Magento\App\Response\Http
+     * @param \Magento\App\FrontControllerInterface $subject
+     * @param callable $proceed
+     * @param \Magento\App\RequestInterface $request
+     * @return false|\Magento\App\Response\Http
      */
-    public function aroundDispatch(array $arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
-    {
+    public function aroundDispatch(
+        \Magento\App\FrontControllerInterface $subject,
+        \Closure $proceed,
+        \Magento\App\RequestInterface $request
+    ) {
         if ($this->config->getType() == \Magento\PageCache\Model\Config::BUILT_IN) {
             $this->version->process();
             $response = $this->kernel->load();
             if ($response === false) {
-                $response = $invocationChain->proceed($arguments);
+                $response = $proceed($request);
                 $cacheControl = $response->getHeader('Cache-Control')['value'];
                 $this->addDebugHeader($response, 'X-Magento-Cache-Control', $cacheControl);
                 $this->kernel->process($response);
@@ -72,7 +74,7 @@ class BuiltinPlugin
                 $this->addDebugHeader($response, 'X-Magento-Cache-Debug', 'HIT');
             }
         } else {
-            return $response = $invocationChain->proceed($arguments);
+            return $response = $proceed($request);
         }
         return $response;
     }

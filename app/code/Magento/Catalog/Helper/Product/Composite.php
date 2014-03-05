@@ -9,6 +9,8 @@
  */
 namespace Magento\Catalog\Helper\Product;
 
+use Magento\Customer\Controller\RegistryConstants;
+
 /**
  * Adminhtml catalog product composite helper
  *
@@ -21,15 +23,15 @@ class Composite extends \Magento\App\Helper\AbstractHelper
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
-    
-     /**
-      * Catalog product
-      *
-      * @var \Magento\Catalog\Helper\Product
-      */
+
+    /**
+     * Catalog product
+     *
+     * @var \Magento\Catalog\Helper\Product
+     */
     protected $_catalogProduct = null;
 
     /**
@@ -58,7 +60,7 @@ class Composite extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Helper\Product $catalogProduct
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\App\ViewInterface $view
      */
     public function __construct(
@@ -67,7 +69,7 @@ class Composite extends \Magento\App\Helper\AbstractHelper
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Helper\Product $catalogProduct,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\App\ViewInterface $view
     ) {
         $this->_customerFactory = $customerFactory;
@@ -150,7 +152,7 @@ class Composite extends \Magento\App\Helper\AbstractHelper
                 throw new \Magento\Core\Exception($configureResult->getMessage());
             };
 
-            $currentStoreId = (int) $configureResult->getCurrentStoreId();
+            $currentStoreId = (int)$configureResult->getCurrentStoreId();
             if (!$currentStoreId) {
                 $currentStoreId = $this->_storeManager->getStore()->getId();
             }
@@ -167,13 +169,13 @@ class Composite extends \Magento\App\Helper\AbstractHelper
             // Register customer we're working with
             $currentCustomer = $configureResult->getCurrentCustomer();
             if (!$currentCustomer) {
-                $currentCustomerId = (int) $configureResult->getCurrentCustomerId();
+                $currentCustomerId = (int)$configureResult->getCurrentCustomerId();
                 if ($currentCustomerId) {
                     $currentCustomer = $this->_customerFactory->create()->load($currentCustomerId);
                 }
             }
             if ($currentCustomer) {
-                $this->_coreRegistry->register('current_customer', $currentCustomer);
+                $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER, $currentCustomer);
             }
 
             // Prepare buy request values

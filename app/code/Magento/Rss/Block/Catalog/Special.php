@@ -54,7 +54,7 @@ class Special extends \Magento\Rss\Block\Catalog\AbstractCatalog
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\App\Http\Context $httpContext
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
@@ -66,7 +66,7 @@ class Special extends \Magento\Rss\Block\Catalog\AbstractCatalog
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Customer\Model\Session $customerSession,
+        \Magento\App\Http\Context $httpContext,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Catalog\Model\ProductFactory $productFactory,
@@ -82,7 +82,7 @@ class Special extends \Magento\Rss\Block\Catalog\AbstractCatalog
         $this->_productFactory = $productFactory;
         $this->_rssFactory = $rssFactory;
         $this->_resourceIterator = $resourceIterator;
-        parent::__construct($context, $customerSession, $catalogData, $data);
+        parent::__construct($context, $httpContext, $catalogData, $data);
     }
 
     protected function _construct()
@@ -167,7 +167,7 @@ class Special extends \Magento\Rss\Block\Catalog\AbstractCatalog
                         if ($result['use_special']) {
                             $special = '<br />' . __('Special Expires On: %1',
                                     $this->formatDate($result['special_to_date'],
-                                        \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM));
+                                        \Magento\LocaleInterface::FORMAT_TYPE_MEDIUM));
                         }
                         $html .= sprintf('<p>%s %s%s</p>',
                             __('Price: %1', $this->_coreData->currency($result['price'])),

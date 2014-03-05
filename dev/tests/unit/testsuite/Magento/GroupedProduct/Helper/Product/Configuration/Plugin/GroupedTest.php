@@ -16,9 +16,9 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
     protected $groupedConfigPlugin;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \Closure
      */
-    protected $invocationChainMock;
+    protected $closureMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -36,15 +36,14 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
     protected $typeInstanceMock;
 
     /**
-     * @var array
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $inputArguments;
+    protected $subjectMock;
+
 
     protected function setUp()
     {
         $this->groupedConfigPlugin = new Grouped();
-
-        $this->invocationChainMock = $this->getMock('Magento\Code\Plugin\InvocationChain', array(), array(), '', false);
         $this->itemMock = $this->getMock('Magento\Catalog\Model\Product\Configuration\Item\ItemInterface');
         $this->productMock = $this->getMock('Magento\Catalog\Model\Product', array(), array(), '', false);
         $this->typeInstanceMock = $this->getMock(
@@ -59,7 +58,8 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
             ->method('getTypeInstance')
             ->will($this->returnValue($this->typeInstanceMock));
 
-        $this->inputArguments = array('item' => $this->itemMock);
+        $this->subjectMock =
+            $this->getMock('Magento\Catalog\Helper\Product\Configuration', array(), array(), '', false);
     }
 
     /**
@@ -103,12 +103,12 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
             ->with('associated_product_' . $associatedProductId)
             ->will($this->returnValue($quantityItemMock));
 
-        $this->invocationChainMock->expects($this->once())
-            ->method('proceed')
-            ->with($this->inputArguments)
-            ->will($this->returnValue(array(array('label' => 'productName', 'value' => 2))));
+        $returnValue = array(array('label' => 'productName', 'value' => 2));
+        $this->closureMock = function () use ($returnValue) {
+            return $returnValue;
+        };
 
-        $result = $this->groupedConfigPlugin->aroundGetOptions($this->inputArguments, $this->invocationChainMock);
+        $result = $this->groupedConfigPlugin->aroundGetOptions($this->subjectMock, $this->closureMock, $this->itemMock);
         $expectedResult = array(
             array(
                 'label' => 'associatedProductName',
@@ -138,12 +138,11 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
 
         $chainCallResult = array(array('label' => 'label', 'value' => 'value'));
 
-        $this->invocationChainMock->expects($this->once())
-            ->method('proceed')
-            ->with($this->inputArguments)
-            ->will($this->returnValue($chainCallResult));
+        $this->closureMock = function () use ($chainCallResult) {
+            return $chainCallResult;
+        };
 
-        $result = $this->groupedConfigPlugin->aroundGetOptions($this->inputArguments, $this->invocationChainMock);
+        $result = $this->groupedConfigPlugin->aroundGetOptions($this->subjectMock, $this->closureMock, $this->itemMock);
         $this->assertEquals($chainCallResult, $result);
     }
 
@@ -158,15 +157,13 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
             ->method('getTypeId')
             ->will($this->returnValue('other_product_type'));
 
-        $this->invocationChainMock->expects($this->once())
-            ->method('proceed')
-            ->with($this->inputArguments)
-            ->will($this->returnValue($chainCallResult));
-
+        $this->closureMock = function () use ($chainCallResult) {
+            return $chainCallResult;
+        };
         $this->productMock->expects($this->never())
             ->method('getTypeInstance');
 
-        $result = $this->groupedConfigPlugin->aroundGetOptions($this->inputArguments, $this->invocationChainMock);
+        $result = $this->groupedConfigPlugin->aroundGetOptions($this->subjectMock, $this->closureMock, $this->itemMock);
         $this->assertEquals($chainCallResult, $result);
     }
 }

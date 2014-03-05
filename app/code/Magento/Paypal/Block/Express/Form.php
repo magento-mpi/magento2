@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Block\Express;
 
 /**
  * PayPal Standard payment "form"
  */
-namespace Magento\Paypal\Block\Express;
-
 class Form extends \Magento\Paypal\Block\Standard\Form
 {
     /**
@@ -30,32 +29,34 @@ class Form extends \Magento\Paypal\Block\Standard\Form
     protected $_paypalData;
 
     /**
-     * @var \Magento\Customer\Model\Session
+     * @var \Magento\Customer\Service\V1\CustomerCurrentService
      */
-    protected $_customerSession;
+    protected $currentCustomer;
 
     /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Paypal\Model\ConfigFactory $paypalConfigFactory
      * @param \Magento\Paypal\Helper\Data $paypalData
-     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Paypal\Model\ConfigFactory $paypalConfigFactory,
         \Magento\Paypal\Helper\Data $paypalData,
-        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer,
         array $data = array()
     ) {
         $this->_paypalData = $paypalData;
-        $this->_customerSession = $customerSession;
+        $this->currentCustomer = $currentCustomer;
         parent::__construct($context, $paypalConfigFactory, $data);
         $this->_isScopePrivate = true;
     }
 
     /**
      * Set template and redirect message
+     *
+     * @return null
      */
     protected function _construct()
     {
@@ -71,7 +72,7 @@ class Form extends \Magento\Paypal\Block\Standard\Form
      */
     public function getBillingAgreementCode()
     {
-        $customerId = $this->_customerSession->getCustomerId();
+        $customerId = $this->currentCustomer->getCustomerId();
         return $this->_paypalData->shouldAskToCreateBillingAgreement($this->_config, $customerId)
             ? \Magento\Paypal\Model\Express\Checkout::PAYMENT_INFO_TRANSPORT_BILLING_AGREEMENT : null;
     }

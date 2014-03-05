@@ -11,7 +11,8 @@
  */
 namespace Magento\RecurringProfile\Block\Adminhtml\Customer\Edit\Tab;
 
-use Magento\Customer\Controller\Adminhtml\Index as CustomerController;
+use Magento\Customer\Controller\RegistryConstants;
+
 class RecurringProfile
     extends \Magento\RecurringProfile\Block\Adminhtml\Profile\Grid
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
@@ -19,7 +20,7 @@ class RecurringProfile
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -35,7 +36,7 @@ class RecurringProfile
      * @param \Magento\RecurringProfile\Model\States $recurringStates
      * @param \Magento\RecurringProfile\Block\Fields $fields
      * @param \Magento\RecurringProfile\Model\Method\PaymentMethodsList $payments
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
@@ -45,18 +46,18 @@ class RecurringProfile
         \Magento\RecurringProfile\Model\States $recurringStates,
         \Magento\RecurringProfile\Block\Fields $fields,
         \Magento\RecurringProfile\Model\Method\PaymentMethodsList $payments,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
 
-        // @todo remove usage of REGISTRY_CURRENT_CUSTOMER in advantage of REGISTRY_CURRENT_CUSTOMER_ID
-        $currentCustomer = $this->_coreRegistry->registry(CustomerController::REGISTRY_CURRENT_CUSTOMER);
+        // @todo remove usage of CURRENT_CUSTOMER in advantage of CURRENT_CUSTOMER_ID
+        $currentCustomer = $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER);
         if ($currentCustomer) {
             $this->_currentCustomerId = $currentCustomer->getId();
         } else {
             $this->_currentCustomerId = $this->_coreRegistry->registry(
-                CustomerController::REGISTRY_CURRENT_CUSTOMER_ID
+                RegistryConstants::CURRENT_CUSTOMER_ID
             );
         }
 

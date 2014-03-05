@@ -49,39 +49,42 @@ class LayoutPlugin
      * Set appropriate Cache-Control headers
      * We have to set public headers in order to tell Varnish and Builtin app that page should be cached
      *
-     * @param \Magento\Core\Model\Layout $layout
-     * @return \Magento\Core\Model\Layout
+     * @param \Magento\Core\Model\Layout $subject
+     * @param $result
+     * @return mixed
      */
-    public function afterGenerateXml($layout)
+    public function afterGenerateXml(\Magento\Core\Model\Layout $subject, $result)
     {
         if ($this->layout->isCacheable()) {
             $this->response->setPublicHeaders($this->config->getTtl());
         }
-        return $layout;
+        return $result;
     }
 
     /**
      * Retrieve all identities from blocks for further cache invalidation
      *
-     * @param string $html
-     * @return string
+     * @param \Magento\Core\Model\Layout $subject
+     * @param $result
+     * @return mixed
      */
-    public function afterGetOutput($html)
+    public function afterGetOutput(\Magento\Core\Model\Layout $subject, $result)
     {
         if ($this->layout->isCacheable()) {
             $tags = array();
-            foreach($this->layout->getAllBlocks() as $block) {
+            foreach ($this->layout->getAllBlocks() as $block) {
                 if ($block instanceof \Magento\View\Block\IdentityInterface) {
-                    $blockTtl = $block->getTtl();
-                    $varnishIsEnabledFlag = $this->config->getType() == \Magento\PageCache\Model\Config::VARNISH;
-                    if (!$varnishIsEnabledFlag || !isset($blockTtl)) {
-                        $tags = array_merge($tags, $block->getIdentities());
+                    $isEsiBlock = ($block->getTtl() > 0);
+                    $isVarnish = $this->config->getType() == \Magento\PageCache\Model\Config::VARNISH;
+                    if ($isVarnish && $isEsiBlock) {
+                        continue;
                     }
+                    $tags = array_merge($tags, $block->getIdentities());
                 }
             }
             $tags = array_unique($tags);
             $this->response->setHeader('X-Magento-Tags', implode(',', $tags));
         }
-        return $html;
+        return $result;
     }
 }

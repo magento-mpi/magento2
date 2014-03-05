@@ -5,12 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Block\Adminhtml\Billing\Agreement;
 
 /**
  * Adminhtml billing agreements grid
  */
-namespace Magento\Paypal\Block\Adminhtml\Billing\Agreement;
-
 class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
@@ -52,6 +51,8 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 
     /**
      * Set grid params
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -87,7 +88,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Prepare collection for grid
      *
-     * @return \Magento\Backend\Block\Widget\Grid\Extended
+     * @return $this
      */
     protected function _prepareCollection()
     {
@@ -101,7 +102,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Add columns to grid
      *
-     * @return \Magento\Backend\Block\Widget\Grid\Extended
+     * @return $this
      */
     protected function _prepareColumns()
     {
@@ -137,15 +138,6 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
             'escape'            => true,
             'header_css_class'  => 'col-last-name',
             'column_css_class'  => 'col-last-name'
-        ));
-
-        $this->addColumn('method_code', array(
-            'header'            => __('Payment Method'),
-            'index'             => 'method_code',
-            'type'              => 'options',
-            'options'           => $this->_helper->getAllBillingAgreementMethods(),
-            'header_css_class'  => 'col-payment',
-            'column_css_class'  => 'col-payment'
         ));
 
         $this->addColumn('reference_id', array(

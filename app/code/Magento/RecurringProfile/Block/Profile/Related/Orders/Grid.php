@@ -34,7 +34,7 @@ class Grid extends \Magento\RecurringProfile\Block\Profile\View
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Sales\Model\Resource\Order\Collection $collection
      * @param \Magento\Sales\Model\Order\Config $config
      * @param \Magento\Core\Helper\Data $coreHelper
@@ -43,7 +43,7 @@ class Grid extends \Magento\RecurringProfile\Block\Profile\View
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Sales\Model\Resource\Order\Collection $collection,
         \Magento\Sales\Model\Order\Config $config,
         \Magento\Core\Helper\Data $coreHelper,

@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors\Grid;
 
 /**
  * Block with description of why item has not been added to ordered items list
@@ -20,10 +21,11 @@
  * @package     Magento_AdvancedCheckout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors\Grid;
-
 class Description extends \Magento\Backend\Block\Template
 {
+    /**
+     * @var string
+     */
     protected $_template = 'sku/errors/grid/description.phtml';
 
     /**
@@ -90,10 +92,11 @@ class Description extends \Magento\Backend\Block\Template
 
     /**
      * Returns error message of the item
-     * @see \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_* constants for $code
      *
      * @param \Magento\Object $item
      * @return string
+     *
+     * @see \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_* constants for $code
      */
     public function getErrorMessage($item)
     {

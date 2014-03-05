@@ -43,7 +43,7 @@ class Methods extends \Magento\Payment\Block\Form\Container
     }
 
     /**
-     * @return \Magento\Sales\Model\Quote|\Magento\Sales\Model\Quote
+     * @return \Magento\Sales\Model\Quote
      */
     public function getQuote()
     {
@@ -53,7 +53,7 @@ class Methods extends \Magento\Payment\Block\Form\Container
     /**
      * Check payment method model
      *
-     * @param \Magento\Payment\Model\Method\AbstractMethod $method
+     * @param \Magento\Payment\Model\MethodInterface $method
      * @return bool
      */
     protected function _canUseMethod($method)
@@ -77,10 +77,11 @@ class Methods extends \Magento\Payment\Block\Form\Container
 
     /**
      * Payment method form html getter
-     * @param \Magento\Payment\Model\Method\AbstractMethod $method
+     *
+     * @param \Magento\Payment\Model\MethodInterface $method
      * @return string
      */
-    public function getPaymentMethodFormHtml(\Magento\Payment\Model\Method\AbstractMethod $method)
+    public function getPaymentMethodFormHtml(\Magento\Payment\Model\MethodInterface $method)
     {
          return $this->getChildHtml('payment.method.' . $method->getCode());
     }
@@ -88,10 +89,10 @@ class Methods extends \Magento\Payment\Block\Form\Container
     /**
      * Return method title for payment selection page
      *
-     * @param \Magento\Payment\Model\Method\AbstractMethod $method
+     * @param \Magento\Payment\Model\MethodInterface $method
      * @return string
      */
-    public function getMethodTitle(\Magento\Payment\Model\Method\AbstractMethod $method)
+    public function getMethodTitle(\Magento\Payment\Model\MethodInterface $method)
     {
         $form = $this->getChildBlock('payment.method.' . $method->getCode());
         if ($form && $form->hasMethodTitle()) {
@@ -102,9 +103,11 @@ class Methods extends \Magento\Payment\Block\Form\Container
 
     /**
      * Payment method additional label part getter
-     * @param \Magento\Payment\Model\Method\AbstractMethod $method
+     *
+     * @param \Magento\Payment\Model\MethodInterface $method
+     * @return string
      */
-    public function getMethodLabelAfterHtml(\Magento\Payment\Model\Method\AbstractMethod $method)
+    public function getMethodLabelAfterHtml(\Magento\Payment\Model\MethodInterface $method)
     {
         $form = $this->getChildBlock('payment.method.' . $method->getCode());
         if ($form) {

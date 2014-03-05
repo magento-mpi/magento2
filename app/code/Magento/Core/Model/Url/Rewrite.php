@@ -38,6 +38,8 @@
  */
 namespace Magento\Core\Model\Url;
 
+use \Magento\Core\Model\Store\Storage\Db;
+
 class Rewrite extends \Magento\Core\Model\AbstractModel
 {
     const TYPE_CATEGORY = 1;
@@ -74,8 +76,8 @@ class Rewrite extends \Magento\Core\Model\AbstractModel
     protected $_httpContext;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\App $app
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -85,8 +87,8 @@ class Rewrite extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\App $app,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
@@ -303,7 +305,7 @@ class Rewrite extends \Magento\Core\Model\AbstractModel
             $this->setStoreId($currentStore->getId())->loadByIdPath($this->getIdPath());
 
             $this->_app->getCookie()->set(\Magento\Core\Model\Store::COOKIE_NAME, $currentStore->getCode(), true);
-            $this->_httpContext->setValue(\Magento\App\Http\Context::CORE_STORE, $currentStore->getCode());
+            $this->_httpContext->setValue(\Magento\Core\Helper\Data::CONTEXT_STORE, $currentStore->getCode());
             $targetUrl = $request->getBaseUrl(). '/' . $this->getRequestPath();
 
             $this->_sendRedirectHeaders($targetUrl, true);
@@ -320,7 +322,7 @@ class Rewrite extends \Magento\Core\Model\AbstractModel
         if ($external === 'http:/' || $external === 'https:') {
             $destinationStoreCode = $this->_storeManager->getStore($this->getStoreId())->getCode();
             $this->_app->getCookie()->set(\Magento\Core\Model\Store::COOKIE_NAME, $destinationStoreCode, true);
-            $this->_httpContext->setValue(\Magento\App\Http\Context::CORE_STORE, $destinationStoreCode);
+            $this->_httpContext->setValue(\Magento\Core\Helper\Data::CONTEXT_STORE, $destinationStoreCode);
 
             $this->_sendRedirectHeaders($this->getTargetPath(), $isPermanentRedirectOption);
         } else {

@@ -30,10 +30,5 @@ class Viewed
             ->addColumnCountLayoutDepend('two_columns_left', 4)
             ->addColumnCountLayoutDepend('two_columns_right', 4)
             ->addColumnCountLayoutDepend('three_columns', 3);
-        $this->addPriceBlockType(
-            'bundle',
-            'Magento\Bundle\Block\Catalog\Product\Price',
-            'catalog/product/price.phtml'
-        );
     }
 }

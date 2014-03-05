@@ -26,6 +26,8 @@ Magento/Invitation
 Magento/Logging/Block
 Magento/MultipleWishlist/Model/Resource/Item
 Magento/Pbridge
+Magento/PbridgePaypal
+Magento/FullPageCache
 Magento/Reminder
 Magento/Reward/Model/Action
 Magento/Reward/Model/Resource

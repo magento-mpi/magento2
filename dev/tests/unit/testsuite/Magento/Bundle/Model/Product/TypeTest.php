@@ -34,4 +34,45 @@ class TypeTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertTrue($this->_model->hasWeight(), 'This product has not weight, but it should');
     }
+
+    public function testGetIdentities()
+    {
+        $identities = array('id1', 'id2');
+        $productMock = $this->getMock('Magento\Catalog\Model\Product', array(), array(), '', false);
+        $optionMock = $this->getMock(
+            '\Magento\Bundle\Model\Option',
+            array('getSelections', '__wakeup'),
+            array(),
+            '',
+            false
+        );
+        $optionCollectionMock = $this->getMock(
+            'Magento\Bundle\Model\Resource\Option\Collection',
+            array(),
+            array(),
+            '',
+            false
+        );
+        $cacheKey = '_cache_instance_options_collection';
+        $productMock->expects($this->once())
+            ->method('getIdentities')
+            ->will($this->returnValue($identities));
+        $productMock->expects($this->once())
+            ->method('hasData')
+            ->with($cacheKey)
+            ->will($this->returnValue(true));
+        $productMock->expects($this->once())
+            ->method('getData')
+            ->with($cacheKey)
+            ->will($this->returnValue($optionCollectionMock));
+        $optionCollectionMock
+            ->expects($this->once())
+            ->method('getItems')
+            ->will($this->returnValue(array($optionMock)));
+        $optionMock
+            ->expects($this->exactly(2))
+            ->method('getSelections')
+            ->will($this->returnValue(array($productMock)));
+        $this->assertEquals($identities, $this->_model->getIdentities($productMock));
+    }
 }

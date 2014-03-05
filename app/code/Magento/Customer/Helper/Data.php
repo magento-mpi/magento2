@@ -16,6 +16,16 @@ namespace Magento\Customer\Helper;
 class Data extends \Magento\App\Helper\AbstractHelper
 {
     /**
+     * Customer group cache context
+     */
+    const CONTEXT_GROUP = 'customer_group';
+
+    /**
+     * Customer authorization cache context
+     */
+    const CONTEXT_AUTH = 'customer_logged_in';
+
+    /**
      * Query param name for last url visited
      */
     const REFERER_QUERY_PARAM_NAME = 'referer';
@@ -700,7 +710,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
                 $message .= $willChargeTaxMessage;
             }
         } else {
-            $contactUsMessage = sprintf(__('If you believe this is an error, please contact us at %s'),
+            $contactUsMessage = __('If you believe this is an error, please contact us at %1',
                 $this->_coreStoreConfig->getConfig(self::XML_PATH_SUPPORT_EMAIL));
 
             $message = __('Your Tax ID cannot be validated.') . ' '

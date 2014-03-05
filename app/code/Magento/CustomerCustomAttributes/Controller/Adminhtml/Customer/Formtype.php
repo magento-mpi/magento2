@@ -7,20 +7,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
-/**
- * Admihtml Manage Form Types Controller
- */
 namespace Magento\CustomerCustomAttributes\Controller\Adminhtml\Customer;
 
+/**
+ * Adminhtml Manage Form Types Controller
+ */
 class Formtype
     extends \Magento\Backend\App\Action
 {
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
@@ -46,7 +44,7 @@ class Formtype
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\Eav\Model\Form\TypeFactory $formTypeFactory
      * @param \Magento\Eav\Model\Form\FieldsetFactory $fieldsetFactory
      * @param \Magento\Eav\Model\Resource\Form\Fieldset\CollectionFactory $fieldsetsFactory
@@ -54,7 +52,7 @@ class Formtype
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\Eav\Model\Form\TypeFactory $formTypeFactory,
         \Magento\Eav\Model\Form\FieldsetFactory $fieldsetFactory,
         \Magento\Eav\Model\Resource\Form\Fieldset\CollectionFactory $fieldsetsFactory,
@@ -71,7 +69,7 @@ class Formtype
     /**
      * Load layout, set active menu and breadcrumbs
      *
-     * @return \Magento\CustomerCustomAttributes\Controller\Adminhtml\Customer\Formtype
+     * @return $this
      */
     protected function _initAction()
     {
@@ -87,6 +85,7 @@ class Formtype
     /**
      * View form types grid
      *
+     * @return void
      */
     public function indexAction()
     {
@@ -118,6 +117,7 @@ class Formtype
     /**
      * Create new form type by skeleton
      *
+     * @return void
      */
     public function newAction()
     {
@@ -130,6 +130,7 @@ class Formtype
     /**
      * Create new form type from skeleton
      *
+     * @return void
      */
     public function createAction()
     {
@@ -172,6 +173,7 @@ class Formtype
     /**
      * Edit Form Type
      *
+     * @return void
      */
     public function editAction()
     {
@@ -186,6 +188,7 @@ class Formtype
      *
      * @param \Magento\Eav\Model\Form\Type $formType
      * @param array $data
+     * @return void
      */
     protected function _saveTreeData($formType, array $data)
     {
@@ -272,6 +275,7 @@ class Formtype
     /**
      * Save form Type
      *
+     * @return void
      */
     public function saveAction()
     {
@@ -311,6 +315,7 @@ class Formtype
     /**
      * Delete form type
      *
+     * @return void
      */
     public function deleteAction()
     {

@@ -19,7 +19,7 @@
 namespace Magento\GiftCardAccount\Model\Resource\Giftcardaccount\Grid;
 
 class Active
-        implements \Magento\Core\Model\Option\ArrayInterface
+        implements \Magento\Option\ArrayInterface
 {
     /**
      * Return options

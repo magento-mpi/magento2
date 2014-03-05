@@ -32,7 +32,7 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -73,7 +73,7 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $collectionFactory
      * @param \Magento\Catalog\Helper\Catalog $helperCatalog
      * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Translate\InlineInterface $translateInline,
      * @param array $data
      */
@@ -85,7 +85,7 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
         \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $collectionFactory,
         \Magento\Catalog\Helper\Catalog $helperCatalog,
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Translate\InlineInterface $translateInline,
         array $data = array()
     ) {

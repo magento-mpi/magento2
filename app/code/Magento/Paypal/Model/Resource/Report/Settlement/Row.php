@@ -7,22 +7,22 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Paypal\Model\Resource\Report\Settlement;
 
 /**
- *Report settlement row resource model
+ * Report settlement row resource model
  *
  * @category    Magento
  * @package     Magento_Paypal
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Paypal\Model\Resource\Report\Settlement;
-
 class Row extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Resource model initialization.
      * Set main entity table name and primary key field name.
+     *
+     * @return void
      */
     protected function _construct()
     {

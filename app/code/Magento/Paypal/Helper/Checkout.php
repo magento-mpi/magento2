@@ -5,12 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Helper;
 
 /**
  * Checkout workflow helper
  */
-namespace Magento\Paypal\Helper;
-
 class Checkout
 {
     /**
@@ -33,28 +32,6 @@ class Checkout
     ) {
         $this->_session = $session;
         $this->_quoteFactory = $quoteFactory;
-    }
-
-    /**
-     * Restore last active quote based on checkout session
-     *
-     * @return bool True if quote restored successfully, false otherwise
-     */
-    public function restoreQuote()
-    {
-        $order = $this->_session->getLastRealOrder();
-        if ($order->getId()) {
-            $quote = $this->_quoteFactory->create()->load($order->getQuoteId());
-            if ($quote->getId()) {
-                $quote->setIsActive(1)
-                    ->setReservedOrderId(null)
-                    ->save();
-                $this->_session->replaceQuote($quote)
-                    ->unsLastRealOrderId();
-                return true;
-            }
-        }
-        return false;
     }
 
     /**

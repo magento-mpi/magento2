@@ -9,9 +9,7 @@
  */
 namespace Magento\Catalog\Model\Config\Source\Price;
 
-use Magento\Core\Model\Option\ArrayInterface;
-
-class Scope implements ArrayInterface
+class Scope implements \Magento\Option\ArrayInterface
 {
     /**
      * {@inheritdoc}

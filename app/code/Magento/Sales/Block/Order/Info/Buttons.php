@@ -24,29 +24,29 @@ class Buttons extends \Magento\View\Element\Template
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @var \Magento\Customer\Model\Session
+     * @var \Magento\App\Http\Context
      */
-    protected $_customerSession;
+    protected $httpContext;
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Registry $registry
+     * @param \Magento\App\Http\Context $httpContext
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Registry $registry,
+        \Magento\App\Http\Context $httpContext,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
-        $this->_customerSession = $customerSession;
+        $this->httpContext = $httpContext;
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
     }
@@ -69,7 +69,7 @@ class Buttons extends \Magento\View\Element\Template
      */
     public function getPrintUrl($order)
     {
-        if (!$this->_customerSession->isLoggedIn()) {
+        if (!$this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH)) {
             return $this->getUrl('sales/guest/print', array('order_id' => $order->getId()));
         }
         return $this->getUrl('sales/order/print', array('order_id' => $order->getId()));
@@ -83,7 +83,7 @@ class Buttons extends \Magento\View\Element\Template
      */
     public function getReorderUrl($order)
     {
-        if (!$this->_customerSession->isLoggedIn()) {
+        if (!$this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH)) {
             return $this->getUrl('sales/guest/reorder', array('order_id' => $order->getId()));
         }
         return $this->getUrl('sales/order/reorder', array('order_id' => $order->getId()));

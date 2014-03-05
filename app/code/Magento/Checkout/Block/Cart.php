@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Checkout\Block;
 
 /**
  * Shopping cart block
@@ -15,14 +16,17 @@
  * @package     Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Checkout\Block;
-
 class Cart extends \Magento\Checkout\Block\Cart\AbstractCart
 {
     /**
      * @var \Magento\Catalog\Model\Resource\Url
      */
     protected $_catalogUrlBuilder;
+
+    /**
+     * @var \Magento\App\Http\Context
+     */
+    protected $httpContext;
 
     /**
      * @var \Magento\Checkout\Helper\Cart
@@ -36,6 +40,7 @@ class Cart extends \Magento\Checkout\Block\Cart\AbstractCart
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Catalog\Model\Resource\Url $catalogUrlBuilder
      * @param \Magento\Checkout\Helper\Cart $cartHelper
+     * @param \Magento\App\Http\Context $httpContext
      * @param array $data
      */
     public function __construct(
@@ -45,17 +50,20 @@ class Cart extends \Magento\Checkout\Block\Cart\AbstractCart
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Catalog\Model\Resource\Url $catalogUrlBuilder,
         \Magento\Checkout\Helper\Cart $cartHelper,
+        \Magento\App\Http\Context $httpContext,
         array $data = array()
     ) {
         $this->_cartHelper = $cartHelper;
         $this->_catalogUrlBuilder = $catalogUrlBuilder;
         parent::__construct($context, $catalogData, $customerSession, $checkoutSession, $data);
         $this->_isScopePrivate = true;
+        $this->httpContext = $httpContext;
     }
 
     /**
      * Prepare Quote Item Product URLs
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -65,6 +73,8 @@ class Cart extends \Magento\Checkout\Block\Cart\AbstractCart
 
     /**
      * prepare cart items URLs
+     *
+     * @return void
      */
     public function prepareItemUrls()
     {
@@ -126,7 +136,7 @@ class Cart extends \Magento\Checkout\Block\Cart\AbstractCart
         $isActive = $this->_getData('is_wishlist_active');
         if ($isActive === null) {
             $isActive = $this->_storeConfig->getConfig('wishlist/general/active')
-                && $this->_customerSession->isLoggedIn();
+                && $this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH);
             $this->setIsWishlistActive($isActive);
         }
         return $isActive;
@@ -141,7 +151,7 @@ class Cart extends \Magento\Checkout\Block\Cart\AbstractCart
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getContinueShoppingUrl()
     {

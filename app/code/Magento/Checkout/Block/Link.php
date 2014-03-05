@@ -5,12 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Checkout\Block;
 
 /**
  * "Checkout" link
  */
-namespace Magento\Checkout\Block;
-
 class Link extends \Magento\View\Element\Html\Link
 {
     /**

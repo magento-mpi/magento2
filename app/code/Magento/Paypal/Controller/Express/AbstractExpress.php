@@ -7,13 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Paypal\Controller\Express;
 
 /**
  * Abstract Express Checkout Controller
  */
 abstract class AbstractExpress extends \Magento\App\Action\Action
+    implements  \Magento\Checkout\Controller\Express\RedirectLoginInterface
 {
     /**
      * @var \Magento\Paypal\Model\Express\Checkout
@@ -119,6 +119,8 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
 
     /**
      * Start Express Checkout by requesting initial token and dispatching customer to PayPal
+     *
+     * @return void
      */
     public function startAction()
     {
@@ -172,6 +174,8 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
 
     /**
      * Return shipping options items for shipping address from request
+     *
+     * @return void
      */
     public function shippingOptionsCallbackAction()
     {
@@ -188,6 +192,8 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
 
     /**
      * Cancel Express Checkout
+     *
+     * @return void
      */
     public function cancelAction()
     {
@@ -220,6 +226,8 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
 
     /**
      * Return from PayPal and dispatch customer to order review page
+     *
+     * @return void
      */
     public function returnAction()
     {
@@ -239,6 +247,8 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
 
     /**
      * Review order after returning from PayPal
+     *
+     * @return void
      */
     public function reviewAction()
     {
@@ -268,6 +278,8 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
 
     /**
      * Dispatch customer back to PayPal for editing payment information
+     *
+     * @return void
      */
     public function editAction()
     {
@@ -281,6 +293,8 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
 
     /**
      * Update shipping method (combined action for ajax and regular request)
+     *
+     * @return void
      */
     public function saveShippingMethodAction()
     {
@@ -311,6 +325,8 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
 
     /**
      * Update Order (combined action for ajax and regular request)
+     *
+     * @return void
      */
     public function updateShippingMethodsAction()
     {
@@ -335,6 +351,8 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
 
     /**
      * Update Order (combined action for ajax and regular request)
+     *
+     * @return void
      */
     public function updateOrderAction()
     {
@@ -366,6 +384,7 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
     /**
      * Submit the order
      *
+     * @return void
      * @throws \Magento\Core\Exception
      */
     public function placeOrderAction()
@@ -423,6 +442,7 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
     /**
      * Instantiate quote and checkout
      *
+     * @return void
      * @throws \Magento\Core\Exception
      */
     private function _initCheckout()
@@ -449,7 +469,7 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
      * Search for proper checkout token in request or session or (un)set specified one
      * Combined getter/setter
      *
-     * @param string $setToken
+     * @param string|null $setToken
      * @return \Magento\Paypal\Controller\Express|string
      * @throws \Magento\Core\Exception
      */
@@ -512,17 +532,38 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
     }
 
     /**
-     * Redirect to login page
-     *
+     * Returns before_auth_url redirect parameter for customer session
+     * @return null
      */
-    public function redirectLogin()
+    public function getCustomerBeforeAuthUrl()
     {
-        $this->_actionFlag->set('', 'no-dispatch', true);
-        $this->getResponse()->setRedirect(
-            $this->_objectManager->get('Magento\Core\Helper\Url')->addRequestParam(
-                $this->_objectManager->get('Magento\Customer\Helper\Data')->getLoginUrl(),
-                array('context' => 'checkout')
-            )
-        );
+        return;
+    }
+
+    /**
+     * Returns a list of action flags [flag_key] => boolean
+     * @return array
+     */
+    public function getActionFlagList()
+    {
+        return array();
+    }
+
+    /**
+     * Returns login url parameter for redirect
+     * @return string
+     */
+    public function getLoginUrl()
+    {
+        return $this->_objectManager->get('Magento\Customer\Helper\Data')->getLoginUrl();
+    }
+
+    /**
+     * Returns action name which requires redirect
+     * @return string
+     */
+    public function getRedirectActionName()
+    {
+        return 'start';
     }
 }
