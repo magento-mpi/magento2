@@ -23,6 +23,7 @@ class Salesrule extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Initialize banner sales rule resource model
      *
+     * @return void
      */
     protected function _construct()
     {

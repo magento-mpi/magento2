@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Block\Widget\Grid\Column\Renderer;
 
 /**
  * Grid column widget for rendering grid cells that contains mapped values
@@ -15,8 +16,6 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Backend\Block\Widget\Grid\Column\Renderer;
-
 class Options
     extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Text
 {
@@ -34,7 +33,7 @@ class Options
      * Render a grid cell as options
      *
      * @param \Magento\Object $row
-     * @return string
+     * @return string|void
      */
     public function render(\Magento\Object $row)
     {

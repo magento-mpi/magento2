@@ -56,7 +56,7 @@ class Config extends AbstractConfig
     /**
      * Edit configuration section
      *
-     * @return void
+     * @return \Magento\App\ResponseInterface|void
      */
     public function editAction()
     {
