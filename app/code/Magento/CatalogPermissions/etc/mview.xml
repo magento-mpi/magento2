@@ -11,6 +11,7 @@
     <view id="catalogpermissions_category" class="Magento\CatalogPermissions\Model\Indexer\Category" group="indexer">
         <subscriptions>
             <table name="catalog_category_entity" entity_column="entity_id" />
+            <table name="catalog_category_entity_int" entity_column="entity_id" />
         </subscriptions>
     </view>
     <view id="catalogpermissions_product" class="Magento\CatalogPermissions\Model\Indexer\Product" group="indexer">
