@@ -98,11 +98,6 @@ class Observer
     protected $_priceIndexer;
 
     /**
-     * @var \Magento\Core\Model\Store\ConfigInterface
-     */
-    protected $_storeConfig;
-
-    /**
      * @param \Magento\Catalog\Model\Indexer\Product\Price\Processor $priceIndexer
      * @param Resource\Indexer\Stock $resourceIndexerStock
      * @param Resource\Stock $resourceStock
@@ -113,7 +108,6 @@ class Observer
      * @param Stock\ItemFactory $stockItemFactory
      * @param StockFactory $stockFactory
      * @param Stock\StatusFactory $stockStatusFactory
-     * @param \Magento\Core\Model\Store\ConfigInterface $storeConfig
      */
     public function __construct(
         \Magento\Catalog\Model\Indexer\Product\Price\Processor $priceIndexer,
@@ -125,8 +119,7 @@ class Observer
         \Magento\CatalogInventory\Helper\Data $catalogInventoryData,
         \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory,
         StockFactory $stockFactory,
-        \Magento\CatalogInventory\Model\Stock\StatusFactory $stockStatusFactory,
-        \Magento\Core\Model\Store\ConfigInterface $storeConfig
+        \Magento\CatalogInventory\Model\Stock\StatusFactory $stockStatusFactory
     ) {
         $this->_priceIndexer = $priceIndexer;
         $this->_resourceIndexerStock = $resourceIndexerStock;
@@ -138,7 +131,6 @@ class Observer
         $this->_stockItemFactory = $stockItemFactory;
         $this->_stockFactory = $stockFactory;
         $this->_stockStatusFactory = $stockStatusFactory;
-        $this->_storeConfig = $storeConfig;
     }
 
     /**
@@ -207,37 +199,6 @@ class Observer
         $productCollection = $observer->getEvent()->getProductCollection();
         $this->_stockFactory->create()->addItemsToProducts($productCollection);
         return $this;
-    }
-
-    /**
-     * Add stock status limitation
-     *
-     * @param EventObserver $observer
-     * @return $this
-     */
-    public function addStockStatusLimitation(EventObserver $observer)
-    {
-        if ($this->_isEnabledShowOutOfStock()) {
-            return $this;
-        }
-        /** @var \Magento\Catalog\Model\Resource\Product\Collection $productCollection */
-        $productCollection = $observer->getEvent()->getCollection();
-
-        if (!$productCollection->hasFlag('applied_stock_status_limitation')) {
-            $this->_stockStatus->addIsInStockFilterToCollection($productCollection);
-            $productCollection->setFlag('applied_stock_status_limitation', true);
-        }
-        return $this;
-    }
-
-    /**
-     * Get config value for 'display out of stock' option
-     *
-     * @return bool
-     */
-    protected function _isEnabledShowOutOfStock()
-    {
-        return $this->_storeConfig->getConfigFlag('cataloginventory/options/show_out_of_stock');
     }
 
     /**
@@ -585,6 +546,22 @@ class Observer
                 $this->_stockStatus->updateStatus($productId, null, $websiteId);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * Add stock status to prepare index select
+     *
+     * @param EventObserver $observer
+     * @return $this
+     */
+    public function addStockStatusToPrepareIndexSelect(EventObserver $observer)
+    {
+        $website    = $observer->getEvent()->getWebsite();
+        $select     = $observer->getEvent()->getSelect();
+
+        $this->_stockStatus->addStockStatusToSelect($select, $website);
 
         return $this;
     }
