@@ -35,6 +35,7 @@ class CalculatorTest extends \PHPUnit_Framework_TestCase
      * @param float $expected
      * @dataProvider deltaRoundDataProvider
      * @covers \Magento\Math\Calculator::deltaRound
+     * @covers \Magento\Math\Calculator::__construct
      */
     public function testDeltaRound($price, $negative, $expected)
     {
