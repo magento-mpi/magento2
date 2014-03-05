@@ -78,4 +78,27 @@ interface CustomerAddressServiceInterface
      * @return int[] address ids
      */
     public function saveAddresses($customerId, $addresses);
+
+    /**
+     * Validate a list of addresses.
+     *
+     * The returned array consists of either 'true' or an InputException
+     * containing the errors for one address.  The keys of the returned
+     * array are the same as the array of addresses, so the results
+     * can be coorelated.
+     *
+     * For example:
+     *
+     * validateAddresses([validAddress, invalidAddress])  will
+     * return: [ true, InputException ]
+     *
+     * and:
+     * validateAddresses(['addr_a' => $validAddress, 'addr_b' => $invalidAddress])
+     * will return:
+     * ['addr_a' => true, 'addr_b' => InputException]
+     *
+     * @param Dto\Address[] $addresses
+     * @return array
+     */
+    public function validateAddresses($addresses);
 }

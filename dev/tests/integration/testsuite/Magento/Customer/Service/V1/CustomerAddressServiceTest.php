@@ -535,6 +535,55 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    public function testValidateAddresses()
+    {
+        $this->assertEquals([true, true], $this->_service->validateAddresses($this->_expectedAddresses));
+    }
+
+    public function testValidateAddressesOneInvalid()
+    {
+        $invalidAddress = $this->_addressBuilder->setCity('Miami')->create();
+        $validationResult = $this->_service
+            ->validateAddresses(array_merge([$invalidAddress], $this->_expectedAddresses));
+        $this->assertInstanceOf('Magento\Exception\InputException', $validationResult[0]);
+        /** @var InputException $actualException */
+        $actualException = $validationResult[0];
+
+        /** @var InputException $expectedException */
+        $expectedException = new InputException();
+        $expectedException->addError('REQUIRED_FIELD', 'firstname', '', ['index' => 0]);
+        $expectedException->addError('REQUIRED_FIELD', 'lastname', '', ['index' => 0]);
+        $expectedException->addError('REQUIRED_FIELD', 'street', '', ['index' => 0]);
+        $expectedException->addError('REQUIRED_FIELD', 'telephone', '', ['index' => 0]);
+        $expectedException->addError('REQUIRED_FIELD', 'postcode', '', ['index' => 0]);
+        $expectedException->addError('REQUIRED_FIELD', 'countryId', '', ['index' => 0]);
+        $this->assertEquals($expectedException->getErrors(), $actualException->getErrors());
+        $this->assertTrue($validationResult[1]);
+        $this->assertTrue($validationResult[2]);
+    }
+
+    public function testValidateAddressesOneInvalidNonNumericKeys()
+    {
+        $invalidAddress = $this->_addressBuilder->setFirstname('Freddy')
+            ->setLastname('Mercury')->create();
+        $validationResult = $this->_service
+            ->validateAddresses(array_merge($this->_expectedAddresses, ['addr_3' => $invalidAddress]));
+        $this->assertInstanceOf('Magento\Exception\InputException', $validationResult['addr_3']);
+        /** @var InputException $actualException */
+        $actualException = $validationResult['addr_3'];
+
+        /** @var InputException $expectedException */
+        $expectedException = new InputException();
+        $expectedException->addError('REQUIRED_FIELD', 'street', '', ['index' => 'addr_3']);
+        $expectedException->addError('REQUIRED_FIELD', 'city', '', ['index' => 'addr_3']);
+        $expectedException->addError('REQUIRED_FIELD', 'telephone', '', ['index' => 'addr_3']);
+        $expectedException->addError('REQUIRED_FIELD', 'postcode', '', ['index' => 'addr_3']);
+        $expectedException->addError('REQUIRED_FIELD', 'countryId', '', ['index' => 'addr_3']);
+        $this->assertEquals($expectedException->getErrors(), $actualException->getErrors());
+        $this->assertTrue($validationResult[0]);
+        $this->assertTrue($validationResult[1]);
+    }
+
     /**
      * Helper function that returns an Address DTO that matches the data from customer_address fixture
      *

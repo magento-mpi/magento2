@@ -696,6 +696,62 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    public function testValidateAddressesEmpty()
+    {
+        $customerService = $this->_createService();
+        $this->assertEmpty($customerService->validateAddresses([]));
+    }
+
+    public function testValidateAddressesValid()
+    {
+        // Setup address mock
+        $mockAddress = $this->_createAddress(1, 'John');
+        $this->_addressFactoryMock->expects($this->once())
+            ->method('create')
+            ->will($this->returnValue($mockAddress));
+        $customerService = $this->_createService();
+
+        $address = $this->_addressBuilder->setFirstname('John')
+            ->setLastname(self::LASTNAME)
+            ->setRegion(new Dto\Region([
+                    'region_id' => self::REGION_ID,
+                    'region_code' => '',
+                    'region' => self::REGION
+                ]))
+            ->setStreet([self::STREET])
+            ->setTelephone(self::TELEPHONE)
+            ->setCity(self::CITY)
+            ->setCountryId(self::COUNTRY_ID)
+            ->setPostcode(self::POSTCODE)
+            ->create();
+        $this->assertEquals([true], $customerService->validateAddresses([$address]));
+    }
+
+    public function testValidateAddressesBoth()
+    {
+        // Setup address mock, no first name
+        $mockBadAddress = $this->_createAddress(1, '');
+        $this->_addressFactoryMock->expects($this->at(0))
+            ->method('create')
+            ->will($this->returnValue($mockBadAddress));
+        $customerService = $this->_createService();
+
+        // Setup address mock, no first name
+        $mockAddress = $this->_createAddress(1, 'John');
+        $this->_addressFactoryMock->expects($this->at(1))
+            ->method('create')
+            ->will($this->returnValue($mockAddress));
+        $customerService = $this->_createService();
+
+        $addressBad = $this->_addressBuilder->create();
+        $addressGood = $this->_addressBuilder->create();
+        $validationResults = $customerService->validateAddresses(['b' => $addressBad, 'g' => $addressGood]);
+
+        $expectedException = new InputException();
+        $expectedException->addError('REQUIRED_FIELD', 'firstname', '', ['index' => 'b']);
+        $this->assertEquals($expectedException->getErrors(), $validationResults['b']->getErrors());
+        $this->assertEquals(true, $validationResults['g']);
+    }
 
     private function _setupStoreMock()
     {
