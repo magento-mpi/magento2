@@ -64,7 +64,7 @@
                             // actually receives dialog window title from couple of places: from here and from the grid.
                             // The issue is we always should escape values in the grid, so that value is already
                             // escaped. To avoid double escaping we do it here instead of the output.
-                            'data-row-name': $('<div>').text(integrationName).html(), // JS HTML escape dirty hack
+                            'data-row-name': $('<div>').text(integrationName).html(),
                             'data-row-is-reauthorize': '0',
                             'data-row-is-token-exchange': data['isTokenExchange']
                         }));
