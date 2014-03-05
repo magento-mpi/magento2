@@ -16,13 +16,6 @@ namespace Magento\Directory\Block;
 class Currency extends \Magento\View\Element\Template
 {
     /**
-     * Directory url
-     *
-     * @var \Magento\Directory\Helper\Url
-     */
-    protected $_directoryUrl;
-
-    /**
      * @var \Magento\Directory\Model\CurrencyFactory
      */
     protected $_currencyFactory;
@@ -34,19 +27,16 @@ class Currency extends \Magento\View\Element\Template
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Directory\Helper\Url $directoryUrl
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
      * @param \Magento\Core\Helper\PostData $postDataHelper
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Directory\Helper\Url $directoryUrl,
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
         \Magento\Core\Helper\PostData $postDataHelper,
         array $data = array()
     ) {
-        $this->_directoryUrl = $directoryUrl;
         $this->_currencyFactory = $currencyFactory;
         $this->_postDataHelper = $postDataHelper;
         parent::__construct($context, $data);
@@ -102,17 +92,6 @@ class Currency extends \Magento\View\Element\Template
     public function getSwitchUrl()
     {
         return $this->getUrl('directory/currency/switch');
-    }
-
-    /**
-     * Return URL for specified currency to switch
-     *
-     * @param string $code Currency code
-     * @return string
-     */
-    public function getSwitchCurrencyUrl($code)
-    {
-        return $this->_directoryUrl->getSwitchCurrencyUrl(['currency' => $code]);
     }
 
     /**

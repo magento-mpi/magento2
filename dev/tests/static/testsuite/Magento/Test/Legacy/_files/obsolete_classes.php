@@ -2146,5 +2146,6 @@ return array(
     ['Magento\Code\Plugin\InvocationChain'],
     ['Magento\Catalog\Helper\Product\Flat'],
     ['Magento\Catalog\Helper\Flat\AbstractFlat'],
-    ['Magento\Core\App\Action\Plugin\Session', 'Magento\Core\Block\RequireCookie']
+    ['Magento\Core\App\Action\Plugin\Session', 'Magento\Core\Block\RequireCookie'],
+    ['Magento\Directory\Helper\Url']
 );

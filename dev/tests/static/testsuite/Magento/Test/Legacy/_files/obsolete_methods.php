@@ -1306,4 +1306,5 @@ return array(
     array('sendTransactional', 'Magento\Email\Model\Template'),
     array('_getMail', 'Magento\Email\Model\Template'),
     array('send', 'Magento\Email\Model\Template'),
+    array('getSwitchCurrencyUrl', 'Magento\Directory\Block\Currency')
 );
