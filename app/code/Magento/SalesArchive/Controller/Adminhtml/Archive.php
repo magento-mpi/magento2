@@ -8,12 +8,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\SalesArchive\Controller\Adminhtml;
+use Magento\App\ResponseInterface;
+
 /**
  * Archive controller
- *
  */
-namespace Magento\SalesArchive\Controller\Adminhtml;
-
 class Archive extends \Magento\Backend\App\Action
 {
     /**
@@ -44,7 +44,7 @@ class Archive extends \Magento\Backend\App\Action
     /**
      * Render archive grid
      *
-     * @return \Magento\SalesArchive\Controller\Adminhtml\Archive
+     * @return $this
      */
     protected function _renderGrid()
     {
@@ -55,6 +55,8 @@ class Archive extends \Magento\Backend\App\Action
 
     /**
      * Orders view page
+     *
+     * @return void
      */
     public function ordersAction()
     {
@@ -67,6 +69,8 @@ class Archive extends \Magento\Backend\App\Action
 
     /**
      * Orders grid
+     *
+     * @return void
      */
     public function ordersGridAction()
     {
@@ -75,6 +79,8 @@ class Archive extends \Magento\Backend\App\Action
 
     /**
      * Invoices view page
+     *
+     * @return void
      */
     public function invoicesAction()
     {
@@ -87,6 +93,8 @@ class Archive extends \Magento\Backend\App\Action
 
     /**
      * Invoices grid
+     *
+     * @return void
      */
     public function invoicesGridAction()
     {
@@ -96,6 +104,8 @@ class Archive extends \Magento\Backend\App\Action
 
     /**
      * Creditmemos view page
+     *
+     * @return void
      */
     public function creditmemosAction()
     {
@@ -108,6 +118,8 @@ class Archive extends \Magento\Backend\App\Action
 
     /**
      * Creditmemos grid
+     *
+     * @return void
      */
     public function creditmemosGridAction()
     {
@@ -116,6 +128,8 @@ class Archive extends \Magento\Backend\App\Action
 
     /**
      * Shipments view page
+     *
+     * @return void
      */
     public function shipmentsAction()
     {
@@ -128,6 +142,8 @@ class Archive extends \Magento\Backend\App\Action
 
     /**
      * Shipments grid
+     *
+     * @return void
      */
     public function shipmentsGridAction()
     {
@@ -137,6 +153,8 @@ class Archive extends \Magento\Backend\App\Action
 
     /**
      * Cancel orders mass action
+     *
+     * @return void
      */
     public function massCancelAction()
     {
@@ -145,6 +163,8 @@ class Archive extends \Magento\Backend\App\Action
 
     /**
      * Hold orders mass action
+     *
+     * @return void
      */
     public function massHoldAction()
     {
@@ -153,6 +173,8 @@ class Archive extends \Magento\Backend\App\Action
 
     /**
      * Unhold orders mass action
+     *
+     * @return void
      */
     public function massUnholdAction()
     {
@@ -162,6 +184,7 @@ class Archive extends \Magento\Backend\App\Action
     /**
      * Massaction for removing orders from archive
      *
+     * @return void
      */
     public function massRemoveAction()
     {
@@ -180,6 +203,7 @@ class Archive extends \Magento\Backend\App\Action
     /**
      * Massaction for adding orders to archive
      *
+     * @return void
      */
     public function massAddAction()
     {
@@ -197,6 +221,8 @@ class Archive extends \Magento\Backend\App\Action
 
     /**
      * Archive order action
+     *
+     * @return void
      */
     public function addAction()
     {
@@ -213,6 +239,8 @@ class Archive extends \Magento\Backend\App\Action
 
     /**
      * Unarchive order action
+     *
+     * @return void
      */
     public function removeAction()
     {
@@ -229,6 +257,8 @@ class Archive extends \Magento\Backend\App\Action
 
     /**
      * Print invoices mass action
+     *
+     * @return void
      */
     public function massPrintInvoicesAction()
     {
@@ -237,6 +267,8 @@ class Archive extends \Magento\Backend\App\Action
 
     /**
      * Print Credit Memos mass action
+     *
+     * @return void
      */
     public function massPrintCreditMemosAction()
     {
@@ -245,6 +277,8 @@ class Archive extends \Magento\Backend\App\Action
 
     /**
      * Print all documents mass action
+     *
+     * @return void
      */
     public function massPrintAllDocumentsAction()
     {
@@ -253,6 +287,8 @@ class Archive extends \Magento\Backend\App\Action
 
     /**
      * Print packing slips mass action
+     *
+     * @return void
      */
     public function massPrintPackingSlipsAction()
     {
@@ -261,6 +297,8 @@ class Archive extends \Magento\Backend\App\Action
 
     /**
      * Print shipping labels mass action
+     *
+     * @return void
      */
     public function massPrintShippingLabelAction()
     {
@@ -269,6 +307,8 @@ class Archive extends \Magento\Backend\App\Action
 
     /**
      * Export order grid to CSV format
+     *
+     * @return void
      */
     public function exportCsvAction()
     {
@@ -277,6 +317,8 @@ class Archive extends \Magento\Backend\App\Action
 
     /**
      *  Export order grid to Excel XML format
+     *
+     * @return void
      */
     public function exportExcelAction()
     {
@@ -287,6 +329,7 @@ class Archive extends \Magento\Backend\App\Action
      * Declare headers and content file in response for file download
      *
      * @param string $type
+     * @return ResponseInterface
      */
     protected function _export($type)
     {
@@ -324,7 +367,7 @@ class Archive extends \Magento\Backend\App\Action
     /**
      * Check ACL permissions
      *
-     * @return boolean
+     * @return bool
      */
     protected function _isAllowed()
     {

@@ -72,8 +72,8 @@ class Config extends AbstractRepository
         $this->_data['flat_rate'] = $this->_getFlatRate();
         $this->_data['free_shipping'] = $this->_getFreeShipping();
         $this->_data['shipping_disable_all_carriers'] = $this->_disableAllShippingCarriers();
-        $this->_data['shipping_carrier_dhlint_eu'] = $this->_getShippingCarrierDhlIntEU();
-        $this->_data['shipping_carrier_dhlint_uk'] = $this->_getShippingCarrierDhlIntUK();
+        $this->_data['shipping_carrier_dhl_eu'] = $this->_getShippingCarrierDhlEU();
+        $this->_data['shipping_carrier_dhl_uk'] = $this->_getShippingCarrierDhlUK();
         $this->_data['shipping_carrier_fedex'] = $this->_getShippingCarrierFedex();
         $this->_data['shipping_carrier_ups'] = $this->_getShippingCarrierUps();
         $this->_data['shipping_carrier_usps'] = $this->_getShippingCarrierUsps();
@@ -248,7 +248,7 @@ class Config extends AbstractRepository
      *
      * @return array
      */
-    protected function _getShippingCarrierDhlIntEU()
+    protected function _getShippingCarrierDhlEU()
     {
         return array(
             'data' => array(
@@ -258,7 +258,7 @@ class Config extends AbstractRepository
                         'website' => null,
                         'store' => null,
                         'groups' => array(
-                            'dhlint' => array(
+                            'dhl' => array(
                                 'fields' => array(
                                     'active' => array( //Enabled for Checkout
                                         'value' => self::YES_VALUE
@@ -339,7 +339,7 @@ class Config extends AbstractRepository
      *
      * @return array
      */
-    protected function _getShippingCarrierDhlIntUK()
+    protected function _getShippingCarrierDhlUK()
     {
         return array(
             'data' => array(
@@ -349,7 +349,7 @@ class Config extends AbstractRepository
                         'website' => null,
                         'store' => null,
                         'groups' => array(
-                            'dhlint' => array(
+                            'dhl' => array(
                                 'fields' => array(
                                     'active' => array( //Enabled for Checkout
                                         'value' => self::YES_VALUE
@@ -646,13 +646,6 @@ class Config extends AbstractRepository
                                 )
                             ),
                             'dhl' => array(
-                                'fields' => array(
-                                    'active' => array( //Enabled for Checkout
-                                        'value' => self::NO_VALUE
-                                    )
-                                )
-                            ),
-                            'dhlint' => array(
                                 'fields' => array(
                                     'active' => array( //Enabled for Checkout
                                         'value' => self::NO_VALUE

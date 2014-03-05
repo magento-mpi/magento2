@@ -7,14 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order\Shipment;
 
 /**
  * Archive shipments grid block
- *
  */
-
-namespace Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order\Shipment;
-
 class Grid
     extends \Magento\Sales\Block\Adminhtml\Shipment\Grid
 {
@@ -43,6 +40,9 @@ class Grid
         parent::__construct($context, $backendHelper, $collectionFactory, $data);
     }
 
+    /**
+     * @return void
+     */
     public function _construct()
     {
         parent::_construct();
@@ -91,7 +91,7 @@ class Grid
     /**
      * Prepare and set options for massaction
      *
-     * @return \Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order\Shipment\Grid
+     * @return $this
      */
     protected function _prepareMassaction()
     {

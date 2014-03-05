@@ -26,6 +26,7 @@ class SelectTest extends AbstractFormTestCase
             $this->localeMock,
             $this->loggerMock,
             $this->attributeMetadataMock,
+            $this->localeResolverMock,
             $value,
             0
         );
