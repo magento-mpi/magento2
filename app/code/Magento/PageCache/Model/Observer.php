@@ -40,9 +40,10 @@ class Observer
     /**
      * Constructor
      *
-     * @param \Magento\PageCache\Model\Config $config
+     * @param Config $config
      * @param \Magento\App\PageCache\Cache $cache
      * @param \Magento\PageCache\Helper\Data $helper
+     * @param \Magento\App\Cache\TypeListInterface $typeList
      */
     public function __construct(
         \Magento\PageCache\Model\Config $config,
@@ -68,13 +69,13 @@ class Observer
         $event = $observer->getEvent();
         /** @var \Magento\Core\Model\Layout $layout */
         $layout = $event->getLayout();
-        if ($layout->isCacheable()) {
+        if ($layout->isCacheable() && $this->_config->isEnabled()) {
             $name = $event->getElementName();
             $block = $layout->getBlock($name);
             $transport = $event->getTransport();
             if ($block instanceof \Magento\View\Element\AbstractBlock) {
                 $blockTtl = $block->getTtl();
-                $varnishIsEnabledFlag = $this->_config->getType() == \Magento\PageCache\Model\Config::VARNISH;
+                $varnishIsEnabledFlag = ($this->_config->getType() == \Magento\PageCache\Model\Config::VARNISH);
                 $output = $transport->getData('output');
                 if ($varnishIsEnabledFlag && isset($blockTtl)) {
                     $output = $this->_wrapEsi($block);
@@ -117,7 +118,7 @@ class Observer
      */
     public function flushCacheByTags(\Magento\Event\Observer $observer)
     {
-        if($this->_config->getType() == \Magento\PageCache\Model\Config::BUILT_IN) {
+        if($this->_config->getType() == \Magento\PageCache\Model\Config::BUILT_IN && $this->_config->isEnabled()) {
             $object = $observer->getEvent()->getObject();
             if($object instanceof \Magento\Object\IdentityInterface) {
                 $tags = $object->getIdentities();

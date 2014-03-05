@@ -15,7 +15,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\PageCache\Model\Observer */
     protected $_model;
 
-    /** @var  \Magento\Core\Model\Config */
+    /** @var  \Magento\PageCache\Model\Config */
     protected $_configMock;
 
     /** @var  \Magento\App\PageCache\Cache */
@@ -39,6 +39,9 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Object */
     protected $_transport;
 
+    /** @var  \Magento\App\Cache\StateInterface */
+    protected $_cacheStateMock;
+
     /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Object\ */
     protected $_observerObject;
 
@@ -47,15 +50,18 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->_configMock = $this->getMock('Magento\PageCache\Model\Config', ['getType'], [], '', false);
+        $this->_configMock = $this->getMock('Magento\PageCache\Model\Config', ['getType', 'isEnabled'], [], '', false);
         $this->_cacheMock = $this->getMock('Magento\App\PageCache\Cache', ['clean'], [], '', false);
         $this->_helperMock = $this->getMock('Magento\PageCache\Helper\Data', [], [], '', false);
         $this->_typeListMock  = $this->getMock('Magento\App\Cache\TypeList', [], [], '', false);
+        $this->_cacheStateMock  = $this->getMock('Magento\App\Cache\State', [], [], '', false);
+
         $this->_model = new \Magento\PageCache\Model\Observer(
             $this->_configMock,
             $this->_cacheMock,
             $this->_helperMock,
-            $this->_typeListMock
+            $this->_typeListMock,
+            $this->_cacheStateMock
         );
         $this->_observerMock = $this->getMock('Magento\Event\Observer', ['getEvent'], [], '', false);
         $this->_layoutMock = $this->getMock(
@@ -81,13 +87,14 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @param bool $cacheState
      * @param bool $varnishIsEnabled
      * @param bool $scopeIsPrivate
      * @param int|null $blockTtl
      * @param string $expectedOutput
      * @dataProvider processLayoutRenderDataProvider
      */
-    public function testProcessLayoutRenderElement($varnishIsEnabled, $scopeIsPrivate, $blockTtl, $expectedOutput)
+    public function testProcessLayoutRenderElement($cacheState, $varnishIsEnabled, $scopeIsPrivate, $blockTtl, $expectedOutput)
     {
         $eventMock = $this->getMock('Magento\Event', ['getLayout', 'getElementName', 'getTransport'], [], '', false);
         $this->_observerMock->expects($this->once())
@@ -96,43 +103,49 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $eventMock->expects($this->once())
             ->method('getLayout')
             ->will($this->returnValue($this->_layoutMock));
-        $eventMock->expects($this->once())
-            ->method('getElementName')
-            ->will($this->returnValue('blockName'));
-        $eventMock->expects($this->once())
-            ->method('getTransport')
-            ->will($this->returnValue($this->_transport));
-        $this->_layoutMock->expects($this->once())
-            ->method('isCacheable')
-            ->will($this->returnValue(true));
-        $this->_layoutMock->expects($this->once())
-            ->method('getBlock')
-            ->will($this->returnValue($this->_blockMock));
-        $this->_layoutMock->expects($this->any())
-            ->method('getUpdate')
-            ->will($this->returnSelf());
-        $this->_layoutMock->expects($this->any())
-            ->method('getHandles')
-            ->will($this->returnValue([]));
+        $this->_configMock->expects($this->any())
+            ->method('isEnabled')
+            ->will($this->returnValue($cacheState));
 
-        if ($varnishIsEnabled) {
-            $this->_blockMock->setTtl($blockTtl);
-            $this->_blockMock->expects($this->any())
-                ->method('getUrl')
-                ->will($this->returnValue('page_cache/block/wrapesi/with/handles/and/other/stuff'));
-        }
-        if ($scopeIsPrivate) {
-            $this->_blockMock->expects($this->once())
-                ->method('getNameInLayout')
-                ->will($this->returnValue('testBlockName'));
-            $this->_blockMock->expects($this->once())
-                ->method('isScopePrivate')
-                ->will($this->returnValue($scopeIsPrivate));
-        }
-        $this->_configMock->expects($this->once())
-            ->method('getType')
-            ->will($this->returnValue($varnishIsEnabled));
+        if ($cacheState) {
+            $eventMock->expects($this->once())
+                ->method('getElementName')
+                ->will($this->returnValue('blockName'));
+            $eventMock->expects($this->once())
+                ->method('getTransport')
+                ->will($this->returnValue($this->_transport));
+            $this->_layoutMock->expects($this->once())
+                ->method('isCacheable')
+                ->will($this->returnValue(true));
 
+            $this->_layoutMock->expects($this->any())
+                ->method('getUpdate')
+                ->will($this->returnSelf());
+            $this->_layoutMock->expects($this->any())
+                ->method('getHandles')
+                ->will($this->returnValue([]));
+            $this->_layoutMock->expects($this->once())
+                ->method('getBlock')
+                ->will($this->returnValue($this->_blockMock));
+
+            if ($varnishIsEnabled) {
+                $this->_blockMock->setTtl($blockTtl);
+                $this->_blockMock->expects($this->any())
+                    ->method('getUrl')
+                    ->will($this->returnValue('page_cache/block/wrapesi/with/handles/and/other/stuff'));
+            }
+            if ($scopeIsPrivate) {
+                $this->_blockMock->expects($this->once())
+                    ->method('getNameInLayout')
+                    ->will($this->returnValue('testBlockName'));
+                $this->_blockMock->expects($this->once())
+                    ->method('isScopePrivate')
+                    ->will($this->returnValue($scopeIsPrivate));
+            }
+            $this->_configMock->expects($this->any())
+                ->method('getType')
+                ->will($this->returnValue($varnishIsEnabled));
+        }
         $this->_model->processLayoutRenderElement($this->_observerMock);
 
         $this->assertEquals($expectedOutput, $this->_transport['output']);
@@ -146,43 +159,64 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     public function processLayoutRenderDataProvider()
     {
         return [
-            'Varnish enabled, public scope, ttl is set' =>
-                [true, false, 360, '<esi:include src="page_cache/block/wrapesi/with/handles/and/other/stuff" />'],
-            'Varnish enabled, public scope, ttl is not set' => [true, false, null, 'test output html'],
-            'Varnish disabled, public scope, ttl is set' => [false, false, 360, 'test output html'],
-            'Varnish disabled, public scope, ttl is not set' => [false, false, null, 'test output html'],
-            'Varnish disabled, private scope, ttl is not set' =>
-                [false, true, null, '<!-- BLOCK testBlockName -->test output html<!-- /BLOCK testBlockName -->']
+            'full_page type and Varnish enabled, public scope, ttl is set' =>
+                [true, true, false, 360, '<esi:include src="page_cache/block/wrapesi/with/handles/and/other/stuff" />'],
+            'full_page type and Varnish enabled, public scope, ttl is not set' =>
+                [true, true, false, null, 'test output html'],
+            'full_page type enabled, Varnish disabled, public scope, ttl is set' =>
+                [true, false, false, 360, 'test output html'],
+            'full_page type enabled, Varnish disabled, public scope, ttl is not set' =>
+                [true, false, false, null, 'test output html'],
+            'full_page type enabled, Varnish disabled, private scope, ttl is not set' =>
+                [true, false, true, null, '<!-- BLOCK testBlockName -->test output html<!-- /BLOCK testBlockName -->'],
+            'full_page type is disabled, Varnish enabled' => [false, true, false, null, 'test output html']
         ];
     }
 
     /**
      * Test case for cache invalidation
+     *
+     * @dataProvider flushCacheByTagsDataProvider
+     * @param $cacheState
      */
-    public function testFlushCacheByTags()
+    public function testFlushCacheByTags($cacheState)
     {
-        $tags = array('cache_1', 'cache_group');
-        $expectedTags = array('cache_1', 'cache_group', 'cache');
+        $this->_configMock->expects($this->any())
+            ->method('isEnabled')
+            ->will($this->returnValue($cacheState));
 
-        $eventMock = $this->getMock('Magento\Event', ['getObject'], [], '', false);
-        $eventMock->expects($this->once())
-            ->method('getObject')
-            ->will($this->returnValue($this->_observerObject));
-        $this->_observerMock->expects($this->once())
-            ->method('getEvent')
-            ->will($this->returnValue($eventMock));
-        $this->_configMock->expects($this->once())
-            ->method('getType')
-            ->will($this->returnValue(0));
-        $this->_observerObject->expects($this->once())
-            ->method('getIdentities')
-            ->will($this->returnValue($tags));
+        if ($cacheState) {
+            $tags = array('cache_1', 'cache_group');
+            $expectedTags = array('cache_1', 'cache_group', 'cache');
 
-        $this->_cacheMock->expects($this->once())
-            ->method('clean')
-            ->with($this->equalTo($expectedTags));
+            $eventMock = $this->getMock('Magento\Event', ['getObject'], [], '', false);
+            $eventMock->expects($this->once())
+                ->method('getObject')
+                ->will($this->returnValue($this->_observerObject));
+            $this->_observerMock->expects($this->once())
+                ->method('getEvent')
+                ->will($this->returnValue($eventMock));
+            $this->_configMock->expects($this->once())
+                ->method('getType')
+                ->will($this->returnValue(0));
+            $this->_observerObject->expects($this->once())
+                ->method('getIdentities')
+                ->will($this->returnValue($tags));
+
+            $this->_cacheMock->expects($this->once())
+                ->method('clean')
+                ->with($this->equalTo($expectedTags));
+        }
 
         $this->_model->flushCacheByTags($this->_observerMock);
+    }
+
+    public function flushCacheByTagsDataProvider()
+    {
+        return [
+            'full_page cache type is enabled' => [true],
+            'full_page cache type is disabled' => [false]
+        ];
     }
 
     /**
