@@ -42,13 +42,14 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->contextMock = new \Magento\Core\Model\Context(
+
+        $this->contextMock = new \Magento\Model\Context(
             $this->getMock('Magento\Logger', array(), array(), '', false),
             $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false),
             $this->getMock('Magento\App\CacheInterface', array(), array(), '', false),
             $this->getMock('Magento\App\State', array(), array(), '', false)
         );
-        $this->registryMock = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
+        $this->registryMock = $this->getMock('Magento\Registry', array(), array(), '', false);
         $this->resourceMock = $this->getMock(
             'Magento\Core\Model\Resource\Db\AbstractDb',
             array(
