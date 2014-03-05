@@ -538,6 +538,9 @@ abstract class AbstractAction
         $visibilityAttributeId = $this->catalogConfig->getAttribute(
             \Magento\Catalog\Model\Product::ENTITY, 'visibility'
         )->getId();
+        $isActiveAttributeId = $this->catalogConfig->getAttribute(
+            \Magento\Catalog\Model\Category::ENTITY, 'is_active'
+        )->getId();
 
         $select = $this->getReadAdapter()->select()
             ->from(['category_product' => $this->getTable('catalog_category_product')], [])
@@ -585,7 +588,19 @@ abstract class AbstractAction
                     . ' AND cpvs.store_id = store.store_id',
                 []
             )
-            ->join(
+            ->joinInner(
+                ['ccad' => $this->getTable('catalog_category_entity_int')],
+                'ccad.entity_id = category_product.category_id AND ccad.store_id = 0'
+                    . $this->getReadAdapter()->quoteInto(' AND ccad.attribute_id = ?', $isActiveAttributeId),
+                []
+            )
+            ->joinLeft(
+                ['ccas' => $this->getTable('catalog_category_entity_int')],
+                'ccas.entity_id = category_product.category_id AND ccas.attribute_id = ccad.attribute_id'
+                    . ' AND ccas.store_id = store.store_id',
+                []
+            )
+            ->joinInner(
                 ['customer_group' => $this->getTable('customer_group')], '', []
             )
             ->joinLeft(
@@ -607,6 +622,7 @@ abstract class AbstractAction
                     \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH,
                 ]
             )
+            ->where($this->getReadAdapter()->getIfNullSql('ccas.value', 'ccad.value') . ' = ?', 1)
             ->group([
                 'store.store_id',
                 'category_product.product_id',
