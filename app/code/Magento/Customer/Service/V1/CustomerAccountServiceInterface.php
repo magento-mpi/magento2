@@ -89,7 +89,7 @@ interface CustomerAccountServiceInterface
      * @throws \Magento\Exception\NoSuchEntityException If customer doesn't exist
      * @throws \Magento\Exception\StateException
      *      StateException::INPUT_MISMATCH if key doesn't match expected.
-     *      StateException::INVALID_STATE_CHANGE if account already active.
+     *      StateException::INVALID_STATE if account already active.
      */
     public function activateCustomer($customerId, $confirmationKey);
 
@@ -101,19 +101,6 @@ interface CustomerAccountServiceInterface
      * @return Dto\SearchResults containing Dto\CustomerDetails
      */
     public function searchCustomers(Dto\SearchCriteria $searchCriteria);
-
-    /**
-     * Validate an account confirmation key matches expected value for customer
-     *
-     * @param int $customerId
-     * @param string $confirmationKey
-     * @return true if customer is valid
-     * @throws \Magento\Exception\NoSuchEntityException If customer doesn't exist
-     * @throws \Magento\Exception\StateException
-     *      StateException::INPUT_MISMATCH if key doesn't match expected.
-     *      StateException::INVALID_STATE_CHANGE if account already active.
-     */
-    public function validateAccountConfirmationKey($customerId, $confirmationKey);
 
     /**
      * Login a customer account using username and password
