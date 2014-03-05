@@ -104,35 +104,16 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $eventMock = $this->getMock('\Magento\Event', array('getCollection'), array(), '', false);
         $collectionMock = $this->getMock(
             '\Magento\Catalog\Model\Resource\Product\Collection',
-            array('hasFlag', 'getSelect', 'setFlag', 'getEntity'),
+            array('hasFlag', 'setFlag'),
             array(),
             '',
             false
         );
-        $selectMock = $this->getMock('\Magento\DB\Select', array(), array(), '', false);
         $eventMock->expects($this->any())->method('getCollection')->will($this->returnValue($collectionMock));
         $observerMock->expects($this->once())->method('getEvent')->will($this->returnValue($eventMock));
-        $collectionMock->expects($this->any())->method('getSelect')->will($this->returnValue($selectMock));
-        $websiteMock = $this->getMock('\Magento\Core\Model\Website', array(), array(), '', false);
 
-        $this->_storeManagerMock->expects($this->any())->method('getWebsite')->will($this->returnValue($websiteMock));
-
-        $entityMock = $this->getMock(
-            '\Magento\Catalog\Model\Resource\Product', array('getEntityIdField'), array(), '', false
-        );
-
-        $collectionMock->expects($this->any())->method('getEntity')->will($this->returnValue($entityMock));
-
-        $entityMock->expects($this->once())
-            ->method('getEntityIdField')
-            ->will($this->returnValue('entity_id_field_name'));
-
-        $websiteMock->expects($this->once())
-            ->method('getIdFieldName')
-            ->will($this->returnValue('website_id_field_name'));
-
-        $this->_stockStatusMock->expects($this->once())->method('prepareCatalogProductIndexSelect')
-            ->with($selectMock, 'entity_id_field_name', 'website_id_field_name');
+        $this->_stockStatusMock->expects($this->once())->method('addIsInStockFilterToCollection')
+            ->with($collectionMock);
 
         $collectionMock->expects($this->once())->method('hasFlag')->will($this->returnValue(false));
         $collectionMock->expects($this->once())->method('setFlag')->with('applied_stock_status_limitation', true);
