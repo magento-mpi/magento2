@@ -82,23 +82,9 @@ interface CustomerAddressServiceInterface
     /**
      * Validate a list of addresses.
      *
-     * The returned array consists of either 'true' or an InputException
-     * containing the errors for one address.  The keys of the returned
-     * array are the same as the array of addresses, so the results
-     * can be coorelated.
-     *
-     * For example:
-     *
-     * validateAddresses([validAddress, invalidAddress])  will
-     * return: [ true, InputException ]
-     *
-     * and:
-     * validateAddresses(['addr_a' => $validAddress, 'addr_b' => $invalidAddress])
-     * will return:
-     * ['addr_a' => true, 'addr_b' => InputException]
-     *
      * @param \Magento\Customer\Service\V1\Dto\Address[] $addresses
-     * @return array
+     * @return bool true All addresses passed validation.
+     * @throws \Magento\Exception\InputException If there are validation errors.
      */
     public function validateAddresses($addresses);
 }

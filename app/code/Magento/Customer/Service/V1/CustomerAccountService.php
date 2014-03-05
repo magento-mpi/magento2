@@ -72,7 +72,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     private $_customerAddressService;
 
     /**
-     * @var CustomerMetadataService
+     * @var CustomerMetadataServiceInterface
      */
     private $_customerMetadataService;
 
@@ -94,7 +94,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
      * @param Dto\CustomerDetailsBuilder $customerDetailsBuilder
      * @param Dto\SearchResultsBuilder $searchResultsBuilder,
      * @param CustomerAddressServiceInterface $customerAddressService
-     * @param CustomerMetadataService $customerMetadataService
+     * @param CustomerMetadataServiceInterface $customerMetadataService
      * @param UrlInterface $url
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -110,7 +110,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         Dto\CustomerDetailsBuilder $customerDetailsBuilder,
         Dto\SearchResultsBuilder $searchResultsBuilder,
         CustomerAddressServiceInterface $customerAddressService,
-        CustomerMetadataService $customerMetadataService,
+        CustomerMetadataServiceInterface $customerMetadataService,
         UrlInterface $url
     ) {
         $this->_customerFactory = $customerFactory;
@@ -369,6 +369,18 @@ class CustomerAccountService implements CustomerAccountServiceInterface
 
         /** @var Collection $collection */
         $collection = $this->_customerFactory->create()->getCollection();
+        // This is needed to make sure all the attributes are properly loaded
+        foreach ($this->_customerMetadataService->getAllCustomerAttributeMetadata() as $metadata) {
+            $collection->addAttributeToSelect($metadata->getAttributeCode());
+        }
+        // Needed to enable filtering on name as a whole
+        $collection->addNameToSelect();
+        // Needed to enable filtering based on billing address attributes
+        $collection->joinAttribute('billing_postcode', 'customer_address/postcode', 'default_billing', null, 'left')
+            ->joinAttribute('billing_city', 'customer_address/city', 'default_billing', null, 'left')
+            ->joinAttribute('billing_telephone', 'customer_address/telephone', 'default_billing', null, 'left')
+            ->joinAttribute('billing_region', 'customer_address/region', 'default_billing', null, 'left')
+            ->joinAttribute('billing_country_id', 'customer_address/country_id', 'default_billing', null, 'left');
         $this->addFiltersToCollection($searchCriteria->getFilters(), $collection);
         $this->_searchResultsBuilder->setTotalCount($collection->getSize());
         $sortOrders = $searchCriteria->getSortOrders();

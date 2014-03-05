@@ -1377,17 +1377,21 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testSearchCustomersEmpty()
     {
-        $collectionMock = $this->getMockBuilder('\Magento\Customer\Model\Resource\Customer\Collection')
+        $collectionMock = $this->getMockBuilder('Magento\Customer\Model\Resource\Customer\Collection')
             ->disableOriginalConstructor()
             ->setMethods(
                 [
                     'addNameToSelect',
                     'addFieldToFilter',
                     'getSize',
-                    'load'
+                    'load',
+                    'joinAttribute',
                 ]
             )
             ->getMock();
+        $collectionMock->expects($this->any())
+            ->method('joinAttribute')
+            ->will($this->returnSelf());
 
         $this->_mockReturnValue(
             $collectionMock,
@@ -1412,6 +1416,9 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerFactoryMock->expects($this->any())
             ->method('create')
             ->will($this->returnValue($this->_customerModelMock));
+        $this->_customerMetadataService->expects($this->any())
+            ->method('getAllCustomerAttributeMetadata')
+            ->will($this->returnValue([]));
 
         $customerService = $this->_createService();
         $searchBuilder = new Dto\SearchCriteriaBuilder();
@@ -1436,9 +1443,13 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
                     'load',
                     'getItems',
                     'getIterator',
+                    'joinAttribute',
                 ]
             )
             ->getMock();
+        $collectionMock->expects($this->any())
+            ->method('joinAttribute')
+            ->will($this->returnSelf());
 
         $this->_mockReturnValue(
             $collectionMock,
@@ -1470,6 +1481,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->_customerAddressServiceMock->expects($this->once())
             ->method('getAddresses')
+            ->will($this->returnValue([]));
+
+        $this->_customerMetadataService->expects($this->any())
+            ->method('getAllCustomerAttributeMetadata')
             ->will($this->returnValue([]));
 
         $customerService = $this->_createService();
