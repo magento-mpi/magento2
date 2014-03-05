@@ -1288,23 +1288,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
-     * @magentoAppArea frontend
-     * @magentoAppIsolation enabled
-     * @expectedException \Magento\Customer\Exception
-     * @expectedExceptionMessage Cannot complete this operation from non-admin area.
-     */
-    public function testDeleteCustomerNonSecureArea()
-    {
-        $this->markTestSkipped(
-            'Investigate how to ensure that customer is not deleted. Currently it does not throw any exception'
-        );
-        /** _files/customer.php sets the customer id to 1 */
-        $this->_customerAccountService->deleteCustomer(1);
-    }
-
-
-    /**
-     * @magentoDataFixture Magento/Customer/_files/customer.php
      */
     public function testIsEmailAvailable()
     {
