@@ -993,7 +993,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($customer->getAttribute('rp_token'));
     }
 
-
     /**
      * @magentoDbIsolation enabled
      */
