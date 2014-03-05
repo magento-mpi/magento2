@@ -25,4 +25,7 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\Catalog\Model\Layer">
+        <plugin name="addStockStatusOnPrepareFrontCollection" type="Magento\CatalogInventory\Model\Plugin\Layer"/>
+    </type>
 </config>
