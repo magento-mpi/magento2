@@ -22,7 +22,6 @@ interface AbstractCarrierInterface
      *
      * @param \Magento\Sales\Model\Quote\Address\RateRequest $request
      * @return \Magento\Object|bool|null
-     * @abstract
      */
     public function collectRates(\Magento\Sales\Model\Quote\Address\RateRequest $request);
 
