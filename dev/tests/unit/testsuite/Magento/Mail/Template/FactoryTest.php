@@ -27,6 +27,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers \Magento\Mail\Template\Factory::get
+     * @covers \Magento\Mail\Template\Factory::__construct
      */
     public function testGet()
     {

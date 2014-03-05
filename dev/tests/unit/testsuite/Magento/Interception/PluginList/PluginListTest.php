@@ -33,6 +33,11 @@ class PluginListTest extends \PHPUnit_Framework_TestCase
      */
     protected $_objectManagerMock;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_cacheMock;
+
     protected function setUp()
     {
         $readerMap = include(__DIR__ . '/../_files/reader_mock_map.php');
@@ -42,9 +47,9 @@ class PluginListTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValueMap($readerMap));
 
         $this->_configScopeMock = $this->getMock('\Magento\Config\ScopeInterface');
-        $cacheMock = $this->getMock('Magento\Config\CacheInterface');
+        $this->_cacheMock = $this->getMock('Magento\Config\CacheInterface');
         // turn cache off
-        $cacheMock->expects($this->any())
+        $this->_cacheMock->expects($this->any())
             ->method('get')
             ->will($this->returnValue(false));
 
@@ -61,7 +66,7 @@ class PluginListTest extends \PHPUnit_Framework_TestCase
         $this->_model = new \Magento\Interception\PluginList\PluginList(
             $readerMock,
             $this->_configScopeMock,
-            $cacheMock,
+            $this->_cacheMock,
             new \Magento\ObjectManager\Relations\Runtime(),
             $omConfigMock,
             new \Magento\Interception\Definition\Runtime(),
@@ -93,7 +98,6 @@ class PluginListTest extends \PHPUnit_Framework_TestCase
             $this->_model->getPlugin('Magento\Interception\Custom\Module\Model\ItemContainer', 'simple_plugin')
         );
     }
-
 
     /**
      * @param $expectedResult
@@ -176,5 +180,42 @@ class PluginListTest extends \PHPUnit_Framework_TestCase
                 'backend',
             ),
         );
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     * @covers \Magento\Interception\PluginList\PluginList::getNext
+     * @covers \Magento\Interception\PluginList\PluginList::_inheritPlugins
+     */
+    public function testInheritPluginsWithNonExistingClass()
+    {
+        $this->_configScopeMock->expects($this->any())
+            ->method('getCurrentScope')
+            ->will($this->returnValue('frontend'));
+
+        $this->_model->getNext('SomeType', 'someMethod');
+    }
+
+    /**
+     * @covers \Magento\Interception\PluginList\PluginList::getNext
+     * @covers \Magento\Interception\PluginList\PluginList::_loadScopedData
+     */
+    public function testLoadScopedDataCached()
+    {
+        $this->_configScopeMock->expects($this->once())
+            ->method('getCurrentScope')
+            ->will($this->returnValue('scope'));
+
+        $data = array(
+            'inherited' => array('key'),
+            'processed' => array('key'),
+        );
+
+        $this->_cacheMock->expects($this->once())
+            ->method('load')
+            ->with('global|scope|interception')
+            ->will($this->returnValue(serialize($data)));
+
+        $this->assertEquals(null, $this->_model->getNext('Type', 'method'));
     }
 }

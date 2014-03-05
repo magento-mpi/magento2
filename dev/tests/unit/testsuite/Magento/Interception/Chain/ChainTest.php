@@ -28,6 +28,7 @@ class ChainTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers  \Magento\Interception\Chain\Chain::invokeNext
+     * @covers  \Magento\Interception\Chain\Chain::__construct
      */
     public function testInvokeNextBeforePlugin()
     {

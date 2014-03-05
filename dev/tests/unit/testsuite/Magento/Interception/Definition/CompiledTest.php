@@ -14,6 +14,7 @@ class CompiledTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers \Magento\Interception\Definition\Compiled::getMethodList
+     * @covers \Magento\Interception\Definition\Compiled::__construct
      */
     public function testGetMethodList()
     {
