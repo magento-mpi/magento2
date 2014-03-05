@@ -21,7 +21,7 @@
 <div class="switcher currency">
     <strong class="label"><span><?php echo __('Currency') ?></span></strong>
     <div class="options">
-        <strong class="language-<?php echo $this->escapeHtml($currentCurrencyCode) ?>">
+        <strong class="language-<?php echo $this->escapeHtml($this->getCurrentCurrencyCode()) ?>">
             <span><?php echo $this->escapeHtml($currentCurrencyCode) ?> - <?php echo @$this->escapeHtml($currencies[$currentCurrencyCode]) ?></span>
         </strong>
         <button type="button" data-toggle="dropdown" class="action switch"><span><?php echo __('Change')?></span></button>
