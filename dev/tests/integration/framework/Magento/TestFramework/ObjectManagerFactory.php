@@ -21,14 +21,14 @@ class ObjectManagerFactory extends \Magento\App\ObjectManagerFactory
      *
      * @var string
      */
-    protected $_locatorClassName = '\Magento\TestFramework\ObjectManager';
+    protected $_locatorClassName = 'Magento\TestFramework\ObjectManager';
 
     /**
      * Config class name
      *
      * @var string
      */
-    protected $_configClassName = '\Magento\TestFramework\ObjectManager\Config';
+    protected $_configClassName = 'Magento\TestFramework\ObjectManager\Config';
 
     /**
      * @var array

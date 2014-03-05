@@ -364,6 +364,11 @@
             <argument name="locale" xsi:type="object">Magento\Core\Model\Locale\Proxy</argument>
         </arguments>
     </type>
+    <type name="Magento\Core\Helper\Translate">
+        <arguments>
+            <argument name="inlineParser" xsi:type="object">Magento\Core\Model\Translate\Inline\Parser\Proxy</argument>
+        </arguments>
+    </type>
     <type name="Magento\Core\Model\Resource\Setup\Migration">
         <arguments>
             <argument name="confPathToMapFile" xsi:type="string">app/etc/aliases_to_classes_map.json</argument>
