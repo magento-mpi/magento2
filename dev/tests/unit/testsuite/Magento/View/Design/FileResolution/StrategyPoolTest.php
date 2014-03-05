@@ -60,6 +60,18 @@ class StrategyPoolTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @expectedException \Magento\Exception
+     * @expectedExceptionMessage Unknown mode to choose strategy: does_not_exist
+     */
+    public function testGetStrategyException()
+    {
+        $this->appState->expects($this->once())
+            ->method('getMode')
+            ->will($this->returnValue('does_not_exist'));
+        $this->model->getViewStrategy();
+    }
+
+    /**
      * Test, that strategy creation works and a strategy is returned.
      *
      * Do not test exact strategy returned, as it depends on configuration, which can be changed any time.
@@ -69,7 +81,7 @@ class StrategyPoolTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetStrategy($mode)
     {
-        $this->appState->expects($this->exactly(3)) // 3 similar methods tested at once
+        $this->appState->expects($this->exactly(4)) // 4 similar methods tested at once
             ->method('getMode')
             ->will($this->returnValue($mode));
 
@@ -94,12 +106,13 @@ class StrategyPoolTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($strategy, $this->model->getFileStrategy());
         $this->assertSame($strategy, $this->model->getLocaleStrategy());
         $this->assertSame($strategy, $this->model->getViewStrategy());
+        $this->assertSame($strategy, $this->model->getTemplateStrategy());
     }
 
     /**
      * @return array
      */
-    public static function getStrategyDataProvider()
+    public function getStrategyDataProvider()
     {
         return array(
             'default mode'    => array(State::MODE_DEFAULT),

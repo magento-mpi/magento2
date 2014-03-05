@@ -15,31 +15,33 @@ namespace Magento\View;
 class FileSystemTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\View\FileSystem|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\View\FileSystem|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_model;
 
     /**
-     * @var \Magento\View\Design\FileResolution\StrategyPool|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\View\Design\FileResolution\StrategyPool|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_strategyPool;
 
     /**
-     * @var \Magento\View\Service|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\View\Service|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_viewService;
 
 
     protected function setUp()
     {
-        $this->_strategyPool = $this->getMock('Magento\View\Design\FileResolution\StrategyPool', array(),
-            array(), '', false
-        );
-        $this->_viewService = $this->getMock('Magento\View\Service',
-            array('extractScope', 'updateDesignParams'), array(), '', false
+        $this->_strategyPool = $this->getMock('Magento\View\Design\FileResolution\StrategyPool', [], [], '', false);
+        $this->_viewService = $this->getMock(
+            'Magento\View\Service',
+            array('extractScope', 'updateDesignParams'),
+            array(),
+            '',
+            false
         );
 
-        $this->_model = new \Magento\View\FileSystem($this->_strategyPool, $this->_viewService);
+        $this->_model = new FileSystem($this->_strategyPool, $this->_viewService);
     }
 
     public function testGetFilename()
@@ -48,7 +50,7 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
             'area'       => 'some_area',
             'themeModel' => $this->getMock('Magento\View\Design\ThemeInterface', array(), array(), '', false, false),
             'module'     => 'Some_Module'   //It should be set in \Magento\View\Service::extractScope
-                                            // but PHPUnit has problems with passing arguments by reference
+                                            // but PHPUnit has troubles with passing arguments by reference
         );
         $file = 'Some_Module::some_file.ext';
         $expected = 'path/to/some_file.ext';
@@ -70,6 +72,37 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue('some_file.ext'));
 
         $actual = $this->_model->getFilename($file, $params);
+        $this->assertEquals($expected, $actual);
+    }
+
+    public function testGetTemplateFileName()
+    {
+        $params = array(
+            'area'       => 'some_area',
+            'themeModel' => $this->getMock('Magento\View\Design\ThemeInterface', array(), array(), '', false, false),
+            'module'     => 'Some_Module'   //It should be set in \Magento\View\Service::extractScope
+                                            // but PHPUnit has troubles with passing arguments by reference
+        );
+        $file = 'Some_Module::some_file.ext';
+        $expected = 'path/to/some_file.ext';
+
+        $strategyMock = $this->getMock('Magento\View\Design\FileResolution\Strategy\TemplateInterface');
+        $strategyMock->expects($this->once())
+            ->method('getTemplateFile')
+            ->with($params['area'], $params['themeModel'], 'some_file.ext', 'Some_Module')
+            ->will($this->returnValue($expected));
+
+        $this->_strategyPool->expects($this->once())
+            ->method('getTemplateStrategy')
+            ->with(false)
+            ->will($this->returnValue($strategyMock));
+
+        $this->_viewService->expects($this->any())
+            ->method('extractScope')
+            ->with($file, $params)
+            ->will($this->returnValue('some_file.ext'));
+
+        $actual = $this->_model->getTemplateFileName($file, $params);
         $this->assertEquals($expected, $actual);
     }
 
@@ -141,6 +174,9 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedResult, $result);
     }
 
+    /**
+     * @return array
+     */
     public function normalizePathDataProvider()
     {
         return array(

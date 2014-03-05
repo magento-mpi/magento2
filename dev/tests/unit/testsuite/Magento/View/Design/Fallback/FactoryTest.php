@@ -10,8 +10,6 @@ namespace Magento\View\Design\Fallback;
 
 /**
  * Factory Test
- *
- * @package Magento\View\Design\Fallback
  */
 class FactoryTest extends \PHPUnit_Framework_TestCase
 {
@@ -31,9 +29,9 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
             '\Magento\App\Filesystem',
             array('getPath', 'getDirectoryRead', '__wakeup'),
             array('dir' => array(
-                \Magento\App\Filesystem::THEMES_DIR => 'themes',
-                \Magento\App\Filesystem::MODULES_DIR => 'modules',
-                \Magento\App\Filesystem::LIB_WEB => 'lib_web',
+                    \Magento\App\Filesystem::THEMES_DIR => 'themes',
+                    \Magento\App\Filesystem::MODULES_DIR => 'modules',
+                    \Magento\App\Filesystem::LIB_WEB => 'lib_web',
                 )
             ),
             '',
@@ -43,9 +41,9 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
             ->method('getPath')
             ->will($this->returnValueMap(
                 array(
-                    (\Magento\App\Filesystem::THEMES_DIR) => 'themes',
-                    (\Magento\App\Filesystem::MODULES_DIR) => 'modules',
-                    (\Magento\App\Filesystem::LIB_WEB) => 'lib_web',
+                    \Magento\App\Filesystem::THEMES_DIR => 'themes',
+                    \Magento\App\Filesystem::MODULES_DIR => 'modules',
+                    \Magento\App\Filesystem::LIB_WEB => 'lib_web',
                 ))
             );
 
@@ -167,6 +165,68 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         $this->model->createFileRule()->getPatternDirs($overriddenParams + $this->defaultParams);
     }
 
+    public function testCreateTemplateFileRule()
+    {
+        $actualResult = $this->model->createTemplateFileRule();
+        $this->assertInstanceOf('\Magento\View\Design\Fallback\Rule\RuleInterface', $actualResult);
+        $this->assertNotSame($actualResult, $this->model->createTemplateFileRule());
+    }
+
+    /**
+     * @param array $overriddenParams
+     * @param array $expectedResult
+     * @dataProvider createTemplateFileRuleGetPatternDirsDataProvider
+     */
+    public function testCreateTemplateFileRuleGetPatternDirs(array $overriddenParams, array $expectedResult)
+    {
+        $actualResult = $this->model->createTemplateFileRule()
+            ->getPatternDirs($overriddenParams + $this->defaultParams);
+        $this->assertEquals($expectedResult, $actualResult);
+    }
+
+    /**
+     * @return array
+     */
+    public function createTemplateFileRuleGetPatternDirsDataProvider()
+    {
+        return array(
+            'modular' => array(
+                array(),
+                array(
+                    '/area/current_theme_path/namespace_module/templates',
+                    '/area/parent_theme_path/namespace_module/templates',
+                    '/namespace/module/view/area/templates',
+                ),
+            ),
+            'non-modular' => array(
+                array('namespace' => null, 'module' => null),
+                array(
+                    '/area/current_theme_path/templates',
+                    '/area/parent_theme_path/templates',
+                ),
+            ),
+            'non-modular-magento-core' => array(
+                array('namespace' => 'Magento', 'module' => 'Core'),
+                array(
+                    '/area/current_theme_path/Magento_Core/templates',
+                    '/area/parent_theme_path/Magento_Core/templates',
+                    '/Magento/Core/view/area/templates',
+                ),
+            ),
+        );
+    }
+
+    /**
+     * @param array $overriddenParams
+     * @param string $expectedErrorMessage
+     * @dataProvider createRuleGetPatternDirsExceptionDataProvider
+     */
+    public function testCreateTemplateFileRuleGetPatternDirsException(array $overriddenParams, $expectedErrorMessage)
+    {
+        $this->setExpectedException('InvalidArgumentException', $expectedErrorMessage);
+        $this->model->createTemplateFileRule()->getPatternDirs($overriddenParams + $this->defaultParams);
+    }
+
     public function testCreateViewFileRule()
     {
         $actualResult = $this->model->createViewFileRule();
@@ -233,7 +293,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param array $overriddenParams
-     * @param $expectedErrorMessage
+     * @param string $expectedErrorMessage
      * @dataProvider createRuleGetPatternDirsExceptionDataProvider
      */
     public function testCreateViewFileRuleGetPatternDirsException(array $overriddenParams, $expectedErrorMessage)

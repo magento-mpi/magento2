@@ -50,9 +50,9 @@ class CachingProxyTest extends \PHPUnit_Framework_TestCase
     protected $themeModel;
 
     /**
-     * Direcoty with write permissions
+     * Directory with write permissions
      *
-     * @var \Magento\Filesystem\Directory\Write | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Filesystem\Directory\Write|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $directoryWrite;
 
@@ -204,6 +204,11 @@ class CachingProxyTest extends \PHPUnit_Framework_TestCase
                 array('area51', $themeModel, 'file.txt', 'Some_Module'),
                 TESTS_TEMP_DIR . '/fallback/file.txt',
             ),
+            'getTemplateFile' => array(
+                'getTemplateFile',
+                array('area51', $themeModel, 'file.phtml', 'Some_Module'),
+                TESTS_TEMP_DIR . '/fallback/file.phtml',
+            ),
             'getLocaleFile' => array(
                 'getLocaleFile',
                 array('area51', $themeModel, 'sq_AL', 'file.txt'),
@@ -234,8 +239,7 @@ class CachingProxyTest extends \PHPUnit_Framework_TestCase
         );
         $this->assertEquals($this->model, $result);
 
-        $this->fallback->expects($this->never())
-            ->method('getViewFile');
+        $this->fallback->expects($this->never())->method('getViewFile');
         $result = $this->model->getViewFile('area51', $this->themeModel, 'en_US', 'file.txt', 'Some_Module');
         $this->assertEquals($materializedFilePath, $result);
     }
@@ -264,7 +268,9 @@ class CachingProxyTest extends \PHPUnit_Framework_TestCase
         $this->directoryWrite = $this->getMock(
             'Magento\Filesystem\Directory\Write',
             array('getRelativePath','isFile', 'readFile', 'isDirectory', 'create', 'writeFile'),
-            array(), '', false
+            array(),
+            '',
+            false
         );
         $this->directoryWrite->expects($this->any())
             ->method('getRelativePath')
