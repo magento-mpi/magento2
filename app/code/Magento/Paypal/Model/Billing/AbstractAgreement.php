@@ -5,18 +5,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Model\Billing;
 
 /**
  * Billing Agreement abstaract class
  */
-namespace Magento\Paypal\Model\Billing;
-
 abstract class AbstractAgreement extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Payment method instance
      *
-     * @var \Magento\Payment\Model\Method\AbstractMethod
+     * @var \Magento\Payment\Model\MethodInterface
      */
     protected $_paymentMethodInstance = null;
 
@@ -29,25 +28,21 @@ abstract class AbstractAgreement extends \Magento\Core\Model\AbstractModel
 
     /**
      * Init billing agreement
-     *
      */
     abstract public function initToken();
 
     /**
      * Verify billing agreement details
-     *
      */
     abstract public function verifyToken();
 
     /**
      * Create billing agreement
-     *
      */
     abstract public function place();
 
     /**
      * Cancel billing agreement
-     *
      */
     abstract public function cancel();
 
@@ -81,7 +76,7 @@ abstract class AbstractAgreement extends \Magento\Core\Model\AbstractModel
     /**
      * Retrieve payment method instance
      *
-     * @return \Magento\Payment\Model\Method\AbstractMethod
+     * @return \Magento\Payment\Model\MethodInterface
      */
     public function getPaymentMethodInstance()
     {

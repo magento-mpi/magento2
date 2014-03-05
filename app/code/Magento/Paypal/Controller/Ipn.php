@@ -39,6 +39,8 @@ class Ipn extends \Magento\App\Action\Action
 
     /**
      * Instantiate IPN model and pass IPN request to it
+     *
+     * @return void
      */
     public function indexAction()
     {

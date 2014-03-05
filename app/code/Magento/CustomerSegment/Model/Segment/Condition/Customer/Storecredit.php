@@ -7,14 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerSegment\Model\Segment\Condition\Customer;
+
+use Magento\Customer\Model\Customer;
+use Magento\CustomerSegment\Model\Condition\AbstractCondition;
 
 /**
  * Customer store credit condition
  */
-namespace Magento\CustomerSegment\Model\Segment\Condition\Customer;
-
-class Storecredit
-    extends \Magento\CustomerSegment\Model\Condition\AbstractCondition
+class Storecredit extends AbstractCondition
 {
     /**
      * @var string
@@ -39,7 +40,7 @@ class Storecredit
     /**
      * Get array of event names where segment with such conditions combine can be matched
      *
-     * @return array
+     * @return string[]
      */
     public function getMatchedEvents()
     {
@@ -75,8 +76,8 @@ class Storecredit
     /**
      * Get condition query for customer balance on specific website
      *
-     * @param $customer
-     * @param int | \Zend_Db_Expr $website
+     * @param Customer|\Zend_Db_Expr $customer
+     * @param int|\Zend_Db_Expr $website
      * @return \Magento\DB\Select
      */
     public function getConditionsSql($customer, $website)

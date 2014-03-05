@@ -7,12 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerSegment\Model\Segment\Condition\Product;
+
+use Magento\Customer\Model\Customer;
+use Zend_Db_Expr;
 
 /**
  * Product attributes condition combine
  */
-namespace Magento\CustomerSegment\Model\Segment\Condition\Product;
-
 class Combine
     extends \Magento\CustomerSegment\Model\Condition\Combine\AbstractCombine
 {
@@ -75,8 +77,8 @@ class Combine
     /**
      * Combine not present his own SQL condition
      *
-     * @param $customer
-     * @param $website
+     * @param Customer|Zend_Db_Expr $customer
+     * @param int|Zend_Db_Expr $website
      * @return false
      */
     public function getConditionsSql($customer, $website)
@@ -99,7 +101,7 @@ class Combine
      *
      * @param string $fieldName base query field name
      * @param bool $requireValid strict validation flag
-     * @param $website
+     * @param int|Zend_Db_Expr $website
      * @return string
      */
     public function getSubfilterSql($fieldName, $requireValid, $website)

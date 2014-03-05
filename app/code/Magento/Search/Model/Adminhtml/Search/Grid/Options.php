@@ -22,7 +22,7 @@ class Options implements \Magento\Option\ArrayInterface
     protected $_registryManager;
 
     /**
-     * \Magento\Search\Model\Resource\Recommendations
+     * @var \Magento\Search\Model\Resource\Recommendations $_searchResourceModel
      */
     protected $_searchResourceModel;
 
@@ -42,9 +42,7 @@ class Options implements \Magento\Option\ArrayInterface
     }
 
     /**
-     * Retrieve selected related queries from grid
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function toOptionArray()
     {

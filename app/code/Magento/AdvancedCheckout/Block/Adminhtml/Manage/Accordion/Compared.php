@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion;
+
+use \Magento\Catalog\Model\Product\Attribute\Source\Status as ProductStatus;
 
 /**
  * Accordion grid for products in compared list
@@ -15,15 +18,12 @@
  * @package    Magento_AdvancedCheckout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion;
-
-use \Magento\Catalog\Model\Product\Attribute\Source\Status as ProductStatus;
-
-class Compared
-    extends \Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\AbstractAccordion
+class Compared extends AbstractAccordion
 {
     /**
      * Javascript list type name for this grid
+     *
+     * @var string
      */
     protected $_listType = 'compared';
 
@@ -76,6 +76,9 @@ class Compared
         parent::__construct($context, $backendHelper, $collectionFactory, $coreRegistry, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();

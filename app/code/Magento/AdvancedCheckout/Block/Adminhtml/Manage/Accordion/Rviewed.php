@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion;
+
+use \Magento\Catalog\Model\Product\Attribute\Source\Status as ProductStatus;
 
 /**
  * Accordion grid for recently viewed products
@@ -15,15 +18,12 @@
  * @package    Magento_AdvancedCheckout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion;
-
-use \Magento\Catalog\Model\Product\Attribute\Source\Status as ProductStatus;
-
-class Rviewed
-    extends \Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\AbstractAccordion
+class Rviewed extends AbstractAccordion
 {
     /**
      * Javascript list type name for this grid
+     *
+     * @var string
      */
     protected $_listType = 'rviewed';
 
@@ -88,6 +88,8 @@ class Rviewed
 
     /**
      * Initialize Grid
+     *
+     * @return void
      */
     protected function _construct()
     {

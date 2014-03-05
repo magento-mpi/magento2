@@ -252,9 +252,6 @@
             <argument name="fileWriteFactory" xsi:type="object">Magento\Filesystem\File\WriteFactory</argument>
         </arguments>
     </type>
-    <type name="Magento\App\FrontController">
-        <plugin name="install" type="Magento\Module\FrontController\Plugin\Install" sortOrder="40"/>
-    </type>
     <virtualType name="layoutArgumentInterpreterInternal" type="Magento\Data\Argument\Interpreter\Composite">
         <arguments>
             <argument name="interpreters" xsi:type="array">
@@ -328,6 +325,17 @@
                 <item name="proxy" xsi:type="string">\Magento\ObjectManager\Code\Generator\Proxy</item>
                 <item name="interceptor" xsi:type="string">\Magento\Interception\Code\Generator\Interceptor</item>
                 <item name="decorator" xsi:type="string">\Magento\Interception\Code\Generator\Decorator</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\App\Cache\Frontend\Pool">
+        <arguments>
+            <argument name="frontendSettings" xsi:type="array">
+                <item name="page_cache" xsi:type="array">
+                    <item name="backend_options" xsi:type="array">
+                        <item name="cache_dir" xsi:type="string">page_cache</item>
+                    </item>
+                </item>
             </argument>
         </arguments>
     </type>

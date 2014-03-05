@@ -8,6 +8,8 @@
  * @license     {license_link}
  */
 
+namespace Magento\GiftCardAccount\Model;
+
 /**
  * @method \Magento\GiftCardAccount\Model\Resource\Pool _getResource()
  * @method \Magento\GiftCardAccount\Model\Resource\Pool getResource()
@@ -15,13 +17,7 @@
  * @method \Magento\GiftCardAccount\Model\Pool setCode(string $value)
  * @method int getStatus()
  * @method \Magento\GiftCardAccount\Model\Pool setStatus(int $value)
- *
- * @category    Magento
- * @package     Magento_GiftCardAccount
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GiftCardAccount\Model;
-
 class Pool extends \Magento\GiftCardAccount\Model\Pool\AbstractPool
 {
     const CODE_FORMAT_ALPHANUM = 'alphanum';
@@ -92,11 +88,13 @@ class Pool extends \Magento\GiftCardAccount\Model\Pool\AbstractPool
         $website = $this->_storeManager->getWebsite($this->getWebsiteId());
         $size = $website->getConfig(self::XML_CONFIG_POOL_SIZE);
 
-        for ($i=0; $i<$size;$i++) {
+        for ($i = 0; $i < $size; $i++) {
             $attempt = 0;
             do {
                 if ($attempt>=self::CODE_GENERATION_ATTEMPTS) {
-                    throw new \Magento\Core\Exception(__('We were unable to create full code pool size. Please check settings and try again.'));
+                    throw new \Magento\Core\Exception(
+                        __('We were unable to create full code pool size. Please check settings and try again.')
+                    );
                 }
                 $code = $this->_generateCode();
                 $attempt++;

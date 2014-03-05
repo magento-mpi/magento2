@@ -11,10 +11,6 @@ namespace Magento\Cms\Block\Adminhtml\Block;
 
 /**
  * CMS block edit form container
- *
- * @category   Magento
- * @package    Magento_Cms
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Edit extends \Magento\Backend\Block\Widget\Form\Container
 {

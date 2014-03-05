@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Model\System\Config\Backend;
 
 /**
  * Backend model for merchant country. Default country used instead of empty value.
  */
-namespace Magento\Paypal\Model\System\Config\Backend;
-
 class MerchantCountry extends \Magento\Core\Model\Config\Value
 {
     /**
@@ -48,6 +47,8 @@ class MerchantCountry extends \Magento\Core\Model\Config\Value
 
     /**
      * Substitute empty value with Default country.
+     *
+     * @return void
      */
     protected function _afterLoad()
     {

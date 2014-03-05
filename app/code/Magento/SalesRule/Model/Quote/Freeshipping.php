@@ -7,9 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\SalesRule\Model\Quote;
+
+use Magento\Sales\Model\Quote\Address;
 
 class Freeshipping extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 {
@@ -41,10 +41,10 @@ class Freeshipping extends \Magento\Sales\Model\Quote\Address\Total\AbstractTota
     /**
      * Collect information about free shipping for all address items
      *
-     * @param   \Magento\Sales\Model\Quote\Address $address
-     * @return  \Magento\SalesRule\Model\Quote\Freeshipping
+     * @param Address $address
+     * @return $this
      */
-    public function collect(\Magento\Sales\Model\Quote\Address $address)
+    public function collect(Address $address)
     {
         parent::collect($address);
         $quote = $address->getQuote();
@@ -96,10 +96,10 @@ class Freeshipping extends \Magento\Sales\Model\Quote\Address\Total\AbstractTota
     * Add information about free shipping for all address items to address object
     * By default we not present such information
     *
-    * @param   \Magento\Sales\Model\Quote\Address $address
-    * @return  \Magento\SalesRule\Model\Quote\Freeshipping
+    * @param Address $address
+    * @return $this
     */
-    public function fetch(\Magento\Sales\Model\Quote\Address $address)
+    public function fetch(Address $address)
     {
         return $this;
     }

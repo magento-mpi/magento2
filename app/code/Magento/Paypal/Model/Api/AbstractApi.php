@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Model\Api;
 
 /**
  * Abstract class for Paypal API wrappers
  */
-namespace Magento\Paypal\Model\Api;
-
 abstract class AbstractApi extends \Magento\Object
 {
     /**
@@ -48,7 +47,15 @@ abstract class AbstractApi extends \Magento\Object
      * @var array
      */
     protected $_lineItemExportItemsFormat = array();
+
+    /**
+     * @var array
+     */
     protected $_lineItemExportItemsFilters = array();
+
+    /**
+     * @var array
+     */
     protected $_lineItemTotalExportMap = array();
 
     /**
@@ -270,6 +277,8 @@ abstract class AbstractApi extends \Magento\Object
 
     /**
      * PayPal merchant email getter
+     *
+     * @return string
      */
     public function getBusinessAccount()
     {
@@ -293,7 +302,7 @@ abstract class AbstractApi extends \Magento\Object
      *
      * @param array|\Magento\Object $from
      * @param array $publicMap
-     * @return \Magento\Paypal\Model\Api\AbstractApi
+     * @return $this
      */
     public function export($from, array $publicMap = array())
     {
@@ -305,7 +314,7 @@ abstract class AbstractApi extends \Magento\Object
      * Set PayPal cart instance
      *
      * @param \Magento\Paypal\Model\Cart $cart
-     * @return \Magento\Paypal\Model\Api\AbstractApi
+     * @return $this
      */
     public function setPaypalCart(\Magento\Paypal\Model\Cart $cart)
     {
@@ -317,7 +326,7 @@ abstract class AbstractApi extends \Magento\Object
      * Config instance setter
      *
      * @param \Magento\Paypal\Model\Config $config
-     * @return \Magento\Paypal\Model\Api\AbstractApi
+     * @return $this
      */
     public function setConfigObject(\Magento\Paypal\Model\Config $config)
     {
@@ -337,6 +346,8 @@ abstract class AbstractApi extends \Magento\Object
 
     /**
      * Always take into account
+     *
+     * @return int
      */
     public function getFraudManagementFiltersEnabled()
     {
@@ -375,6 +386,7 @@ abstract class AbstractApi extends \Magento\Object
      *
      * @param array $privateResponseMap
      * @param array $response
+     * @return void
      */
     protected function _importFromResponse(array $privateResponseMap, array $response)
     {
@@ -398,7 +410,7 @@ abstract class AbstractApi extends \Magento\Object
      *
      * @param array &$request
      * @param int $i
-     * @return true|bool
+     * @return true|null
      */
     protected function _exportLineItems(array &$request, $i = 0)
     {
@@ -472,6 +484,7 @@ abstract class AbstractApi extends \Magento\Object
 
     /**
      * Filter amounts in API calls
+     *
      * @param float|string $value
      * @return string
      */
@@ -506,7 +519,7 @@ abstract class AbstractApi extends \Magento\Object
      * Unified getter that looks in data or falls back to config
      *
      * @param string $key
-     * @param mixed $default
+     * @param mixed|null $default
      * @return mixed
      */
     protected function _getDataOrConfig($key, $default = null)
@@ -516,7 +529,6 @@ abstract class AbstractApi extends \Magento\Object
         }
         return $this->_config->$key ? $this->_config->$key : $default;
     }
-
 
     /**
      * region_id workaround: PayPal requires state code, try to find one in the address

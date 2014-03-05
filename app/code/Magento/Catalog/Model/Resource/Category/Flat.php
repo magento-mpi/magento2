@@ -468,7 +468,7 @@ class Flat extends \Magento\Index\Model\Resource\AbstractResource
      *
      * @param \Magento\Catalog\Model\Category $category
      * @param bool $isActive
-     * @return array
+     * @return \Magento\Catalog\Model\Category[]
      */
     public function getParentCategories($category, $isActive = true)
     {
@@ -524,7 +524,7 @@ class Flat extends \Magento\Index\Model\Resource\AbstractResource
      * Return children categories of category
      *
      * @param \Magento\Catalog\Model\Category $category
-     * @return array
+     * @return \Magento\Catalog\Model\Category[]
      */
     public function getChildrenCategories($category)
     {

@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Search\Helper;
 
 /**
@@ -53,7 +52,7 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
     /**
      * Define text type fields
      *
-     * @var array
+     * @var string[]
      */
     protected $_textFieldTypes = array(
         'text',
@@ -68,6 +67,8 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
     protected $_taxData;
 
     /**
+     * Engine provider
+     *
      * @var \Magento\CatalogSearch\Model\Resource\EngineProvider
      */
     protected $_engineProvider;
@@ -94,11 +95,15 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
     protected $_storeManager;
 
     /**
+     * Date time
+     *
      * @var \Magento\Stdlib\DateTime
      */
     protected $dateTime;
 
     /**
+     * Languages
+     *
      * @var array
      */
     protected $_languages;
@@ -136,7 +141,7 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
     /**
      * Retrieve text field types
      *
-     * @return array
+     * @return string[]
      */
     public function getTextFieldTypes()
     {
@@ -241,7 +246,7 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
      * Retrieve information from search engine configuration
      *
      * @param string $field
-     * @param int $storeId
+     * @param int|null $storeId
      * @return string|int
      */
     public function getSearchConfigData($field, $storeId = null)
@@ -317,12 +322,11 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
     /**
      * Retrieve filter array
      *
-     * @deprecated since 1.12.0.0
-     *
      * @param \Magento\Search\Model\Resource\Collection $collection
      * @param \Magento\Catalog\Model\Resource\Eav\Attribute $attribute
      * @param string|array $value
-     * @return array
+     * @return false|array
+     * @deprecated since 1.12.0.0
      */
     public function getSearchParam($collection, $attribute, $value)
     {
@@ -418,8 +422,8 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
     /**
      * Check if search engine can be used for catalog navigation
      *
-     * @param   bool $isCatalog - define if checking availability for catalog navigation or search result navigation
-     * @return  bool
+     * @param bool $isCatalog - define if checking availability for catalog navigation or search result navigation
+     * @return bool
      */
     public function getIsEngineAvailableForNavigation($isCatalog = true)
     {
@@ -445,7 +449,7 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
     /**
      * Return search client options
      *
-     * @param $options
+     * @param array $options
      * @return mixed
      */
     public function prepareClientOptions($options = array())
@@ -469,11 +473,9 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
     /**
      * Retrieve attribute field's name
      *
-     * @deprecated after 1.11.2.0
-     *
      * @param \Magento\Catalog\Model\Resource\Eav\Attribute $attribute
-     *
      * @return string
+     * @deprecated after 1.11.2.0
      */
     public function getAttributeSolrFieldName($attribute)
     {

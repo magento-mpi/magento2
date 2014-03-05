@@ -69,7 +69,7 @@ class Container extends \Magento\View\Element\Template
     /**
      * Check payment method model
      *
-     * @param AbstractMethod $method
+     * @param \Magento\Payment\Model\MethodInterface $method
      * @return bool
      */
     protected function _canUseMethod($method)
@@ -88,7 +88,7 @@ class Container extends \Magento\View\Element\Template
      *
      * Redeclare this method in child classes for declaring method info instance
      *
-     * @param AbstractMethod $method
+     * @param \Magento\Payment\Model\MethodInterface $method
      * @return $this
      */
     protected function _assignMethod($method)

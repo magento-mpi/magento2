@@ -24,11 +24,6 @@ class Info extends \Magento\View\Element\Template
     protected $_subscription;
 
     /**
-     * @var \Magento\Customer\Model\Session
-     */
-    protected $_customerSession;
-
-    /**
      * @var \Magento\Newsletter\Model\SubscriberFactory
      */
     protected $_subscriberFactory;
@@ -38,29 +33,21 @@ class Info extends \Magento\View\Element\Template
      */
     protected $_metadataService;
 
-    /** @var  \Magento\Customer\Service\V1\CustomerServiceInterface */
-    protected $_customerService;
-
     /**
-     * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Customer\Service\V1\CustomerServiceInterface $customerService
-     * @param CustomerMetadataServiceInterface $metadataService
-     * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
-     * @param array $data
+     * @var \Magento\Customer\Service\V1\CustomerCurrentServiceInterface
      */
+    protected $customerCurrentService;
+
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Customer\Model\Session $customerSession,
-        \Magento\Customer\Service\V1\CustomerServiceInterface $customerService,
+        \Magento\Customer\Service\V1\CustomerCurrentServiceInterface $customerCurrentService,
         CustomerMetadataServiceInterface $metadataService,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
         array $data = array()
     ) {
-        $this->_customerSession = $customerSession;
-        $this->_customerService = $customerService;
-        $this->_metadataService = $metadataService;
-        $this->_subscriberFactory = $subscriberFactory;
+        $this->customerCurrentService   = $customerCurrentService;
+        $this->_metadataService         = $metadataService;
+        $this->_subscriberFactory       = $subscriberFactory;
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
     }
@@ -73,7 +60,7 @@ class Info extends \Magento\View\Element\Template
     public function getCustomer()
     {
         try {
-            return $this->_customerService->getCustomer($this->_customerSession->getId());
+            return $this->customerCurrentService->getCustomer();
         } catch (NoSuchEntityException $e) {
             return null;
         }
@@ -83,6 +70,8 @@ class Info extends \Magento\View\Element\Template
      * Get the full name of a customer
      *
      * @return string full name
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function getName()
     {
@@ -133,6 +122,8 @@ class Info extends \Magento\View\Element\Template
      * Gets Customer subscription status
      *
      * @return bool
+     *
+     * @SuppressWarnings(PHPMD.BooleanGetMethodName)
      */
     public function getIsSubscribed()
     {
@@ -140,9 +131,9 @@ class Info extends \Magento\View\Element\Template
     }
 
     /**
-     *  Newsletter module availability
+     * Newsletter module availability
      *
-     *  @return	  boolean
+     * @return bool
      */
     public function isNewsletterEnabled()
     {
@@ -158,7 +149,7 @@ class Info extends \Magento\View\Element\Template
     }
 
     /**
-     * @param $attributeCode
+     * @param string $attributeCode
      * @return \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata|null
      */
     protected function _getAttributeMetadata($attributeCode)

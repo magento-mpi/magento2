@@ -1843,6 +1843,7 @@ return array(
         'Magento\App\Dir\Verification',
         'Magento\App\Filesystem\DirectoryList\Verification'
     ),
+    array('Magento\Backend\Helper\Addresses'),
     array('Magento\Core\Model\Cookie', 'Magento\Stdlib\Cookie'),
     array('Magento\Core\Model\Logger', 'Magento\Logger'),
     array('Magento\Core\Block\Template\Context', 'Magento\View\Element\Template\Context'),
@@ -2155,4 +2156,7 @@ return array(
     ['Magento\Code\Plugin\InvocationChain'],
     ['RecurringProfile', 'RecurringPayment'], // recurring profile was renamed to recurring payment
     ['Recurring\Profile', 'Recurring\Payment'], // recurring profile was renamed to recurring payment
+    ['Magento\Catalog\Helper\Product\Flat'],
+    ['Magento\Catalog\Helper\Flat\AbstractFlat'],
+    ['Magento\Core\App\Action\Plugin\Session', 'Magento\Core\Block\RequireCookie'],
 );

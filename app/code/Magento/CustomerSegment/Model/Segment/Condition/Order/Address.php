@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerSegment\Model\Segment\Condition\Order;
 
 /**
  * Order address condition
  */
-namespace Magento\CustomerSegment\Model\Segment\Condition\Order;
-
 class Address
     extends \Magento\CustomerSegment\Model\Condition\Combine\AbstractCombine
 {
@@ -40,7 +39,7 @@ class Address
     /**
      * Get array of event names where segment with such conditions combine can be matched
      *
-     * @return array
+     * @return string[]
      */
     public function getMatchedEvents()
     {
@@ -83,8 +82,8 @@ class Address
     /**
      * Prepare base condition select which related with current condition combine
      *
-     * @param $customer
-     * @param int | \Zend_Db_Expr $website
+     * @param Customer|\Zend_Db_Expr $customer
+     * @param int|\Zend_Db_Expr $website
      * @return \Magento\DB\Select
      */
     protected function _prepareConditionsSql($customer, $website)

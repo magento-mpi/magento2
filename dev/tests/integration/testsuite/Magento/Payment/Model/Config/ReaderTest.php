@@ -45,7 +45,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
                 'SM' => 'Switch/Maestro',
             ),
             'groups' => array(
-                'paypal' => 'PayPal'
+                'any_payment' => 'Any Payment'
             ),
             'methods' => array(
                 'checkmo' => array(
@@ -75,7 +75,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
                 'SO' => 'Solo',
             ),
             'groups' => array(
-                'paypal' => 'PayPal Payment Methods',
+                'any_payment' => 'Any Payment Methods',
                 'offline' => 'Offline Payment Methods',
             ),
             'methods' => array(

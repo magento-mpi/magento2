@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\CustomerSegment\Model\Resource;
 
 /**
  * CustomerSegment data resource model
@@ -16,8 +16,6 @@
  * @package     Magento_CustomerSegment
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\CustomerSegment\Model\Resource;
-
 class Segment extends \Magento\Rule\Model\Resource\AbstractResource
 {
     /**
@@ -75,14 +73,15 @@ class Segment extends \Magento\Rule\Model\Resource\AbstractResource
     /**
      * Segment websites table name
      *
-     * @deprecated after 1.11.2.0
-     *
      * @var string
+     * @deprecated after 1.11.2.0
      */
     protected $_websiteTable;
 
     /**
      * Initialize main table and table id field
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -94,8 +93,7 @@ class Segment extends \Magento\Rule\Model\Resource\AbstractResource
      * Add website ids to rule data after load
      *
      * @param \Magento\Core\Model\AbstractModel $object
-     *
-     * @return \Magento\CustomerSegment\Model\Resource\Segment
+     * @return $this
      */
     protected function _afterLoad(\Magento\Core\Model\AbstractModel $object)
     {
@@ -110,8 +108,7 @@ class Segment extends \Magento\Rule\Model\Resource\AbstractResource
      * Save websites associations.
      *
      * @param \Magento\Core\Model\AbstractModel $object
-     *
-     * @return \Magento\CustomerSegment\Model\Resource\Segment
+     * @return $this
      */
     protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
     {
@@ -140,9 +137,8 @@ class Segment extends \Magento\Rule\Model\Resource\AbstractResource
     /**
      * Delete association between customer and segment for specific segment
      *
-     * @param   \Magento\CustomerSegment\Model\Segment $segment
-     *
-     * @return  \Magento\CustomerSegment\Model\Resource\Segment
+     * @param \Magento\CustomerSegment\Model\Segment $segment
+     * @return $this
      */
     public function deleteSegmentCustomers($segment)
     {
@@ -158,7 +154,7 @@ class Segment extends \Magento\Rule\Model\Resource\AbstractResource
      *
      * @param \Magento\CustomerSegment\Model\Segment $segment
      * @param string $select
-     * @return \Magento\CustomerSegment\Model\Resource\Segment
+     * @return $this
      * @throws \Exception
      */
     public function saveCustomersFromSelect($segment, $select)
@@ -204,7 +200,6 @@ class Segment extends \Magento\Rule\Model\Resource\AbstractResource
      * Count customers in specified segment
      *
      * @param int $segmentId
-     *
      * @return int
      */
     public function getSegmentCustomersQty($segmentId)
@@ -221,7 +216,7 @@ class Segment extends \Magento\Rule\Model\Resource\AbstractResource
      * Aggregate customer/segments relations by matched segment conditions
      *
      * @param \Magento\CustomerSegment\Model\Segment $segment
-     * @return \Magento\CustomerSegment\Model\Resource\Segment
+     * @return $this
      * @throws \Exception
      */
     public function aggregateMatchedCustomers($segment)
@@ -258,7 +253,6 @@ class Segment extends \Magento\Rule\Model\Resource\AbstractResource
      *
      * @param \Magento\DB\Select|string $sql
      * @param array $bindParams array of bind variables
-     *
      * @return int
      */
     public function runConditionSql($sql, $bindParams)
@@ -280,7 +274,7 @@ class Segment extends \Magento\Rule\Model\Resource\AbstractResource
      * Quote parameters into condition string
      *
      * @param string $string
-     * @param string | array $param
+     * @param string|array $param
      * @return string
      */
     public function quoteInto($string, $param)
@@ -391,17 +385,12 @@ class Segment extends \Magento\Rule\Model\Resource\AbstractResource
         return $condition;
     }
 
-
-
-
     /**
      * Save all website Ids associated to specified segment
      *
-     * @deprecated after 1.11.2.0 use $this->bindRuleToEntity() instead
-     *
      * @param \Magento\Core\Model\AbstractModel|\Magento\CustomerSegment\Model\Segment $segment
-     *
-     * @return \Magento\CustomerSegment\Model\Resource\Segment
+     * @return $this
+     * @deprecated after 1.11.2.0 use $this->bindRuleToEntity() instead
      */
     protected function _saveWebsiteIds($segment)
     {
@@ -419,8 +408,8 @@ class Segment extends \Magento\Rule\Model\Resource\AbstractResource
     /**
      * Get Active Segments By Ids
      *
-     * @param array $segmentIds
-     * @return array
+     * @param int[] $segmentIds
+     * @return int[]
      */
     public function getActiveSegmentsByIds($segmentIds)
     {

@@ -2,18 +2,16 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\Customer\Block\Account\Dashboard;
 
 class Block extends \Magento\View\Element\Template
 {
     /**
+     * Account dashboard block constructor.
+     *
      * @param \Magento\View\Element\Template\Context $context
      * @param array $data
      */

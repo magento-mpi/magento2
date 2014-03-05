@@ -7,8 +7,11 @@
  */
 namespace Magento\Paypal\Model;
 
-use \Magento\Paypal\Model\Express\Checkout as ExpressCheckout;
-use \Magento\Sales\Model\Order\Payment\Transaction;
+use Magento\Paypal\Model\Express\Checkout as ExpressCheckout;
+use Magento\Paypal\Model\Api\Nvp;
+use Magento\Sales\Model\Order\Payment;
+use Magento\Sales\Model\Order\Payment\Transaction;
+use Magento\Sales\Model\Quote;
 
 /**
  * PayPal Express Module
@@ -38,19 +41,87 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
     protected $_proType = 'Magento\Paypal\Model\Pro';
 
     /**
-     * Availability options
+     * Availability option
+     *
+     * @var bool
      */
     protected $_isGateway                   = false;
+
+    /**
+     * Availability option
+     *
+     * @var bool
+     */
     protected $_canOrder                    = true;
+
+    /**
+     * Availability option
+     *
+     * @var bool
+     */
     protected $_canAuthorize                = true;
+
+    /**
+     * Availability option
+     *
+     * @var bool
+     */
     protected $_canCapture                  = true;
+
+    /**
+     * Availability option
+     *
+     * @var bool
+     */
     protected $_canCapturePartial           = true;
+
+    /**
+     * Availability option
+     *
+     * @var bool
+     */
     protected $_canRefund                   = true;
+
+    /**
+     * Availability option
+     *
+     * @var bool
+     */
     protected $_canRefundInvoicePartial     = true;
+
+    /**
+     * Availability option
+     *
+     * @var bool
+     */
     protected $_canVoid                     = true;
+
+    /**
+     * Availability option
+     *
+     * @var bool
+     */
     protected $_canUseInternal              = false;
+
+    /**
+     * Availability option
+     *
+     * @var bool
+     */
     protected $_canUseCheckout              = true;
+
+    /**
+     * Availability option
+     *
+     * @var bool
+     */
     protected $_canFetchTransactionInfo     = true;
+
+    /**
+     * Availability option
+     *
+     * @var bool
+     */
     protected $_canReviewPayment            = true;
 
     /**
@@ -62,6 +133,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
 
     /**
      * Payment additional information key for payment action
+     *
      * @var string
      */
     protected $_isOrderPaymentActionKey = 'is_order_action';
@@ -192,7 +264,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
 
     /**
      * Check whether payment method can be used
-     * @param \Magento\Sales\Model\Quote
+     * @param Quote|null $quote
      * @return bool
      */
     public function isAvailable($quote = null)
@@ -207,7 +279,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
      * Custom getter for payment configuration
      *
      * @param string $field
-     * @param int $storeId
+     * @param int|null $storeId
      * @return mixed
      */
     public function getConfigData($field, $storeId = null)
@@ -218,9 +290,9 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Order payment
      *
-     * @param \Magento\Object|\Magento\Sales\Model\Order\Payment $payment
+     * @param \Magento\Object|Payment $payment
      * @param float $amount
-     * @return \Magento\Paypal\Model\Express
+     * @return $this
      */
     public function order(\Magento\Object $payment, $amount)
     {
@@ -281,9 +353,9 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Authorize payment
      *
-     * @param \Magento\Object|\Magento\Sales\Model\Order\Payment $payment
+     * @param \Magento\Object|Payment $payment
      * @param float $amount
-     * @return \Magento\Paypal\Model\Express
+     * @return $this
      */
     public function authorize(\Magento\Object $payment, $amount)
     {
@@ -293,8 +365,8 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Void payment
      *
-     * @param \Magento\Object|\Magento\Sales\Model\Order\Payment $payment
-     * @return \Magento\Paypal\Model\Express
+     * @param \Magento\Object|Payment $payment
+     * @return $this
      */
     public function void(\Magento\Object $payment)
     {
@@ -315,10 +387,10 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Capture payment
      *
-     * @param \Magento\Object|\Magento\Sales\Model\Order\Payment $payment
+     * @param \Magento\Object|Payment $payment
      * @param float $amount
      * @throws \Magento\Core\Exception
-     * @return \Magento\Paypal\Model\Express
+     * @return $this
      */
     public function capture(\Magento\Object $payment, $amount)
     {
@@ -375,7 +447,12 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
                     $message = __('The authorized amount is %1.', $formatedPrice);
                 }
 
-                $transaction = $payment->addTransaction(Transaction::TYPE_AUTH, null, true, $message);
+                $transaction = $payment->addTransaction(
+                    Transaction::TYPE_AUTH,
+                    null,
+                    true,
+                    $message
+                );
 
                 $payment->setParentTransactionId($api->getTransactionId());
                 $isAuthorizationCreated = true;
@@ -405,9 +482,9 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Refund capture
      *
-     * @param \Magento\Object|\Magento\Sales\Model\Order\Payment $payment
+     * @param \Magento\Object|Payment $payment
      * @param float $amount
-     * @return \Magento\Paypal\Model\Express
+     * @return $this
      */
     public function refund(\Magento\Object $payment, $amount)
     {
@@ -418,8 +495,8 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Cancel payment
      *
-     * @param \Magento\Object|\Magento\Sales\Model\Order\Payment $payment
-     * @return \Magento\Paypal\Model\Express
+     * @param \Magento\Object|Payment $payment
+     * @return $this
      */
     public function cancel(\Magento\Object $payment)
     {
@@ -431,7 +508,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Whether payment can be reviewed
      *
-     * @param \Magento\Payment\Model\Info|\Magento\Sales\Model\Order\Payment $payment
+     * @param \Magento\Payment\Model\Info|Payment $payment
      * @return bool
      */
     public function canReviewPayment(\Magento\Payment\Model\Info $payment)
@@ -442,7 +519,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Attempt to accept a pending payment
      *
-     * @param \Magento\Payment\Model\Info|\Magento\Sales\Model\Order\Payment $payment
+     * @param \Magento\Payment\Model\Info|Payment $payment
      * @return bool
      */
     public function acceptPayment(\Magento\Payment\Model\Info $payment)
@@ -454,7 +531,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Attempt to deny a pending payment
      *
-     * @param \Magento\Payment\Model\Info|\Magento\Sales\Model\Order\Payment $payment
+     * @param \Magento\Payment\Model\Info|Payment $payment
      * @return bool
      */
     public function denyPayment(\Magento\Payment\Model\Info $payment)
@@ -467,7 +544,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
      * Checkout redirect URL getter for onepage checkout (hardcode)
      *
      * @see \Magento\Checkout\Controller\Onepage::savePaymentAction()
-     * @see \Magento\Sales\Model\Quote\Payment::getCheckoutRedirectUrl()
+     * @see Quote\Payment::getCheckoutRedirectUrl()
      * @return string
      */
     public function getCheckoutRedirectUrl()
@@ -498,8 +575,8 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Assign data to info model instance
      *
-     * @param   mixed $data
-     * @return  \Magento\Payment\Model\Info
+     * @param array|\Magento\Object $data
+     * @return \Magento\Payment\Model\Info
      */
     public function assignData($data)
     {
@@ -516,11 +593,11 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Place an order with authorization or capture action
      *
-     * @param \Magento\Sales\Model\Order\Payment $payment
+     * @param Payment $payment
      * @param float $amount
-     * @return \Magento\Paypal\Model\Express
+     * @return $this
      */
-    protected function _placeOrder(\Magento\Sales\Model\Order\Payment $payment, $amount)
+    protected function _placeOrder(Payment $payment, $amount)
     {
         $order = $payment->getOrder();
 
@@ -556,8 +633,9 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Import payment info to payment
      *
-     * @param \Magento\Paypal\Model\Api\Nvp
-     * @param \Magento\Sales\Model\Order\Payment
+     * @param Nvp $api
+     * @param Payment $payment
+     * @return void
      */
     protected function _importToPayment($api, $payment)
     {
@@ -580,8 +658,8 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Check void availability
      *
-     * @param   \Magento\Object $payment
-     * @return  bool
+     * @param \Magento\Object $payment
+     * @return bool
      */
     public function canVoid(\Magento\Object $payment)
     {
@@ -659,7 +737,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
      *
      * @param Transaction $transaction
      * @param int $period
-     * @return boolean
+     * @return bool
      */
     protected function _isTransactionExpired(Transaction $transaction, $period)
     {

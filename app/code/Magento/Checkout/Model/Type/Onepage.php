@@ -18,7 +18,6 @@ use Magento\Customer\Service\V1\Dto\AddressBuilder;
 use Magento\Customer\Service\V1\Dto\Address as AddressDto;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 use Magento\Customer\Model\Metadata\Form;
-use Magento\Customer\Service\V1\Dto\Response\CreateCustomerAccountResponse;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Exception\NoSuchEntityException;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
@@ -243,7 +242,7 @@ class Onepage
      * Declare checkout quote instance
      *
      * @param \Magento\Sales\Model\Quote $quote
-     * @return \Magento\Checkout\Model\Type\Onepage
+     * @return $this
      */
     public function setQuote(\Magento\Sales\Model\Quote $quote)
     {
@@ -264,7 +263,7 @@ class Onepage
     /**
      * Initialize quote state to be valid for one page checkout
      *
-     * @return \Magento\Checkout\Model\Type\Onepage
+     * @return $this
      */
     public function initCheckout()
     {
@@ -338,7 +337,7 @@ class Onepage
      *
      * @param   array $data
      * @param   int $customerAddressId
-     * @return  \Magento\Checkout\Model\Type\Onepage
+     * @return  array
      */
     public function saveBilling($data, $customerAddressId)
     {
@@ -351,9 +350,9 @@ class Onepage
             \Magento\Customer\Service\V1\CustomerMetadataServiceInterface::ENTITY_TYPE_ADDRESS,
             'customer_address_edit',
             [],
+            $this->_request->isAjax(),
             Form::IGNORE_INVISIBLE,
-            [],
-            $this->_request->isAjax()
+            []
         );
 
         if (!empty($customerAddressId)) {
@@ -419,7 +418,7 @@ class Onepage
 
         if (!$this->getQuote()->isVirtual()) {
             /**
-             * Billing address using otions
+             * Billing address using options
              */
             $usingCase = isset($data['use_for_shipping']) ? (int)$data['use_for_shipping'] : 0;
 
@@ -491,9 +490,9 @@ class Onepage
             CustomerMetadata::ENTITY_TYPE_CUSTOMER,
             'checkout_register',
             $customerData,
+            $this->_request->isAjax(),
             Form::IGNORE_INVISIBLE,
-            [],
-            $this->_request->isAjax()
+            []
         );
 
         if ($isCustomerNew) {
@@ -557,7 +556,7 @@ class Onepage
      *
      * @param   array $data
      * @param   int $customerAddressId
-     * @return  \Magento\Checkout\Model\Type\Onepage
+     * @return  array
      */
     public function saveShipping($data, $customerAddressId)
     {
@@ -570,9 +569,9 @@ class Onepage
             'customer_address',
             'customer_address_edit',
             [],
+            $this->_request->isAjax(),
             Form::IGNORE_INVISIBLE,
-            [],
-            $this->_request->isAjax()
+            []
         );
 
         if (!empty($customerAddressId)) {
@@ -700,6 +699,7 @@ class Onepage
     /**
      * Validate quote state to be integrated with one page checkout process
      *
+     * @return void
      * @throws \Magento\Core\Exception
      */
     protected function validate()
@@ -720,7 +720,7 @@ class Onepage
     /**
      * Prepare quote for guest checkout order submit
      *
-     * @return \Magento\Checkout\Model\Type\Onepage
+     * @return $this
      */
     protected function _prepareGuestQuote()
     {
@@ -735,7 +735,7 @@ class Onepage
     /**
      * Prepare quote for customer registration and customer order submit
      *
-     * @return \Magento\Checkout\Model\Type\Onepage
+     * @return void
      */
     protected function _prepareNewCustomerQuote()
     {
@@ -834,13 +834,13 @@ class Onepage
     /**
      * Involve new customer to system
      *
-     * @param CreateCustomerAccountResponse $createCustomerResponse
      * @return $this
      */
-    protected function _involveNewCustomer(CreateCustomerAccountResponse $createCustomerResponse)
+    protected function _involveNewCustomer()
     {
         $customer = $this->getQuote()->getCustomerData();
-        if ($createCustomerResponse->getStatus() == CustomerAccountServiceInterface::ACCOUNT_CONFIRMATION) {
+        $confirmationStatus = $this->_accountService->getConfirmationStatus($customer->getCustomerId());
+        if ($confirmationStatus === CustomerAccountServiceInterface::ACCOUNT_CONFIRMATION_REQUIRED) {
             $url = $this->_customerData->getEmailConfirmationUrl($customer->getEmail());
             $this->messageManager->addSuccess(
                 __('Account confirmation is required. Please, check your e-mail for confirmation link. To resend confirmation email please <a href="%1">click here</a>.', $url)
@@ -879,7 +879,7 @@ class Onepage
 
         if ($isNewCustomer) {
             try {
-                $this->_involveNewCustomer($quoteService->getCreateCustomerResponse());
+                $this->_involveNewCustomer();
             } catch (\Exception $e) {
                 $this->_logger->logException($e);
             }
@@ -898,7 +898,6 @@ class Onepage
 
             /**
              * a flag to set that there will be redirect to third party after confirmation
-             * eg: paypal standard ipn
              */
             $redirectUrl = $this->getQuote()->getPayment()->getOrderPlaceRedirectUrl();
             /**

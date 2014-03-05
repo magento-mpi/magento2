@@ -35,7 +35,7 @@ class Plugin
         if (!empty($requestProcessors)) {
             usort($requestProcessors, array($this, '_cmp'));
 
-            foreach($requestProcessors as $processorConfig) {
+            foreach ($requestProcessors as $processorConfig) {
                 $this->_processors[] = $factory->create($processorConfig['class']);
             }
         }

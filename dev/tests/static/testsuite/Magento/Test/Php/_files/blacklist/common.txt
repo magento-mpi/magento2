@@ -25,6 +25,7 @@ dev/tests/integration/testsuite/Magento/Test/Integrity/Modular/TemplateFilesTest
 dev/tests/integration/testsuite/Magento/Test/Integrity/Theme/TemplateFilesTest.php
 dev/tests/integration/testsuite/Magento/Backend/Block/System/Config/FormStub.php
 dev/tests/integration/testsuite/Magento/Interception/Fixture
+dev/tests/integration/testsuite/Magento/Code/_expected
 dev/tests/integration/tmp
 dev/tests/static/testsuite/Magento/Test/Php/Exemplar/CodeMessTest/phpmd/input
 dev/tests/static/testsuite/Magento/Test/Php/Exemplar/CodeStyleTest/phpcs/input

@@ -66,7 +66,9 @@ class InterfaceValidator
             $methodType = $this->getMethodType($pluginMethod->getName());
 
             $subject = array_shift($pluginMethodParameters);
-            if (!$this->_argumentsReader->isCompatibleType($subject['type'], $interceptedType)) {
+            if (!$this->_argumentsReader->isCompatibleType($subject['type'], $interceptedType)
+                || is_null($subject['type'])
+            ) {
                 throw new ValidatorException(
                     'Invalid [' . $subject['type'] . '] $' . $subject['name']
                     . ' type in ' . $pluginClass . '::' . $pluginMethod->getName()

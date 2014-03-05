@@ -1,0 +1,18 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php /** @var \Magento\Core\Block\RequireCookie $this */ ?>
+<script type="text/javascript">
+    //<![CDATA[
+    (function ($) {
+        head.js("<?php echo $this->getViewFileUrl('Magento_Core::js/require-cookie.js')?>", function () {
+            $('body').requireCookie(<?php echo $this->getScriptOptions(); ?>);
+        });
+    })(jQuery);
+    //]]>
+</script>

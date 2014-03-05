@@ -7,14 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerSegment\Model\Segment\Condition\Shoppingcart;
+
+use Magento\Customer\Model\Customer;
+use Magento\CustomerSegment\Model\Condition\AbstractCondition;
 
 /**
  * Shopping cart totals amount condition
  */
-namespace Magento\CustomerSegment\Model\Segment\Condition\Shoppingcart;
-
-class Amount
-    extends \Magento\CustomerSegment\Model\Condition\AbstractCondition
+class Amount extends AbstractCondition
 {
     /**
      * @var string
@@ -39,7 +40,7 @@ class Amount
     /**
      * Get array of event names where segment with such conditions combine can be matched
      *
-     * @return array
+     * @return string[]
      */
     public function getMatchedEvents()
     {
@@ -61,7 +62,7 @@ class Amount
     /**
      * Init available options list
      *
-     * @return \Magento\CustomerSegment\Model\Segment\Condition\Shoppingcart\Amount
+     * @return $this
      */
     public function loadAttributeOptions()
     {
@@ -82,7 +83,7 @@ class Amount
      * Modify attribute_option array if needed
      *
      * @param \Magento\Rule\Model\Rule $rule
-     * @return \Magento\CustomerSegment\Model\Segment\Condition\Product\Combine\ListCombine
+     * @return $this
      */
     public function setRule($rule)
     {
@@ -119,8 +120,8 @@ class Amount
     /**
      * Build condition limitations sql string for specific website
      *
-     * @param $customer
-     * @param int | \Zend_Db_Expr $website
+     * @param Customer|\Zend_Db_Expr $customer
+     * @param int|\Zend_Db_Expr $website
      * @throws \Magento\Core\Exception
      * @return \Magento\DB\Select
      */

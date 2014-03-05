@@ -11,7 +11,7 @@
  */
 namespace Magento\CatalogEvent\Block\Catalog\Category;
 
-class Event extends \Magento\CatalogEvent\Block\Event\AbstractEvent
+class Event extends \Magento\CatalogEvent\Block\Event\AbstractEvent implements \Magento\View\Block\IdentityInterface
 {
     /**
      * Core registry
@@ -89,5 +89,15 @@ class Event extends \Magento\CatalogEvent\Block\Event\AbstractEvent
         return $this->_catalogEventData->isEnabled()
             && $this->getEvent()
             && $this->getEvent()->canDisplayCategoryPage();
+    }
+
+    /**
+     * Return identifiers for produced content
+     *
+     * @return array
+     */
+    public function getIdentities()
+    {
+        return $this->getCategory()->getIdentities();
     }
 }
