@@ -8,8 +8,6 @@
 
 namespace Magento\Webapi\Service\Entity;
 
-use Magento\Service\Entity\AbstractDto;
-use Magento\Service\Entity\AbstractDtoTest;
 use Magento\Webapi\Controller\ServiceArgsSerializer;
 
 class DtoFromArrayTest extends \PHPUnit_Framework_TestCase
@@ -19,9 +17,9 @@ class DtoFromArrayTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $typeProcessor = $objectManager->getObject('Magento\Webapi\Model\Config\ClassReflector\TypeProcessor');
-        $this->serializer = new ServiceArgsSerializer($typeProcessor);
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $typeProcessor = $objectManager->get('Magento\Webapi\Model\Config\ClassReflector\TypeProcessor');
+        $this->serializer = new ServiceArgsSerializer($typeProcessor, $objectManager);
     }
 
     public function testSimpleProperties()

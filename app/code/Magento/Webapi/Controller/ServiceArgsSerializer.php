@@ -13,6 +13,7 @@ namespace Magento\Webapi\Controller;
 use Zend\Code\Reflection\ClassReflection;
 use Zend\Code\Reflection\MethodReflection;
 use Zend\Code\Reflection\ParameterReflection;
+use Magento\ObjectManager;
 use Magento\Webapi\Model\Config\ClassReflector\TypeProcessor;
 use Magento\Webapi\Model\Soap\Wsdl\ComplexTypeStrategy;
 
@@ -21,14 +22,21 @@ class ServiceArgsSerializer
     /** @var \Magento\Webapi\Model\Config\ClassReflector\TypeProcessor */
     protected $_typeProcessor;
 
+    /** @var ObjectManager */
+    protected $_objectManager;
+
     /**
      * Initialize dependencies.
      *
      * @param TypeProcessor $typeProcessor
+     * @param ObjectManager $objectManager
      */
-    public function __construct(TypeProcessor $typeProcessor)
-    {
+    public function __construct(
+        TypeProcessor $typeProcessor,
+        ObjectManager $objectManager
+    ) {
         $this->_typeProcessor = $typeProcessor;
+        $this->_objectManager = $objectManager;
     }
 
     /**
@@ -101,7 +109,9 @@ class ServiceArgsSerializer
     }
 
     /**
-     * Creates a new instance of the given class and populates it with the array of data.
+     * Creates a new instance of the given class and populates it with the array of data. The data can
+     * be in different forms depending on the adapter being used, REST vs. SOAP. For REST, the data is
+     * in snake_case (e.g. tax_class_id) while for SOAP the data is in camelCase (e.g. taxClassId).
      *
      * @param string|\ReflectionClass $class
      * @param array $data
@@ -110,22 +120,26 @@ class ServiceArgsSerializer
     protected function _createFromArray($class, $data)
     {
         $className = is_string($class) ? $class : $class->getName();
+        $builder = $this->_objectManager->create($className . "Builder");
         try {
             $class = new ClassReflection($className);
             foreach ($data as $propertyName => $value) {
-                $getterName = 'get' . str_replace(' ', '', ucwords(str_replace('_', ' ', $propertyName)));
+                // Converts snake_case to uppercase CamelCase to help form getter/setter method names
+                $camelCaseProperty = str_replace(' ', '', ucwords(str_replace('_', ' ', $propertyName)));
+                $getterName = 'get' . $camelCaseProperty;
                 $methodReflection = $class->getMethod($getterName);
                 if ($methodReflection->isPublic()) {
                     $returnType = $this->_typeProcessor->getGetterReturnType($methodReflection)['type'];
-                    $data[$propertyName] = $this->_convertValue($value, $returnType);
+                    $setterName = 'set' . $camelCaseProperty;
+                    $builder->$setterName($this->_convertValue($value, $returnType));
                 }
             }
         } catch (\ReflectionException $e) {
             // Case where data array contains keys with no matching setter methods
             // TODO: do we need to do anything here or can we just ignore this and keep going?
         }
-        $obj = new $className($data);
-        return $obj;
+        $object = $builder->create();
+        return $object;
     }
 
     /**

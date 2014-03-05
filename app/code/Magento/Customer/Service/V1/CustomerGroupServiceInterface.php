@@ -27,30 +27,30 @@ interface CustomerGroupServiceInterface
      * @param boolean $includeNotLoggedIn
      * @param int $taxClassId
      *
-     * @return Dto\CustomerGroup[]
+     * @return \Magento\Customer\Service\V1\Dto\CustomerGroup[]
      */
     public function getGroups($includeNotLoggedIn = true, $taxClassId = null);
 
     /**
-     * @param Dto\SearchCriteria $searchCriteria
-     * @throws InputException if there is a problem with the input
-     * @return Dto\SearchResults containing Dto\CustomerGroup objects
+     * @param \Magento\Customer\Service\V1\Dto\SearchCriteria $searchCriteria
+     * @throws InputException If there is a problem with the input
+     * @return \Magento\Customer\Service\V1\Dto\SearchResults containing Dto\CustomerGroup objects
      */
-    public function searchGroups(Dto\SearchCriteria $searchCriteria);
+    public function searchGroups(\Magento\Customer\Service\V1\Dto\SearchCriteria $searchCriteria);
 
     /**
      * Get a customer group by group ID.
      *
      * @param int $groupId
-     * @throws NoSuchEntityException if $groupId is not found
-     * @return Dto\CustomerGroup
+     * @throws NoSuchEntityException If $groupId is not found
+     * @return \Magento\Customer\Service\V1\Dto\CustomerGroup
      */
     public function getGroup($groupId);
 
     /**
      * @param int $storeId
-     * @throws NoSuchEntityException if default group for $storeId is not found
-     * @return Dto\CustomerGroup
+     * @throws NoSuchEntityException If default group for $storeId is not found
+     * @return \Magento\Customer\Service\V1\Dto\CustomerGroup
      */
     public function getDefaultGroup($storeId);
 
@@ -62,17 +62,17 @@ interface CustomerGroupServiceInterface
     public function canDelete($groupId);
 
     /**
-     * @param Dto\CustomerGroup $group
-     * @throws \Exception if something goes wrong during save
+     * @param \Magento\Customer\Service\V1\Dto\CustomerGroup $group
+     * @throws \Exception If something goes wrong during save
      * @return int customer group ID
      */
-    public function saveGroup(Dto\CustomerGroup $group);
+    public function saveGroup(\Magento\Customer\Service\V1\Dto\CustomerGroup $group);
 
     /**
      * @param int $groupId
-     * @throws NoSuchEntityException if $groupId is not found
-     * @throws \Exception if something goes wrong during delete
-     * @return void
+     * @throws NoSuchEntityException If $groupId is not found
+     * @throws \Exception If something goes wrong during delete
+     * @return bool Should return true if the group was deleted
      */
     public function deleteGroup($groupId);
 }

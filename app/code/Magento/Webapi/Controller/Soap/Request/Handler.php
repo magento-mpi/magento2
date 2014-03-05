@@ -141,7 +141,7 @@ class Handler
             foreach ($data as $key => $value) {
                 $result[$key] = $this->_isDto($value) ? $this->_unpackDto($value) : $value;
             }
-        } elseif (is_string($data) || is_numeric($data) || is_null($data)) {
+        } elseif (is_scalar($data) || is_null($data)) {
             $result = $data;
         } else {
             throw new \InvalidArgumentException("Service returned result in invalid format.");
@@ -168,6 +168,7 @@ class Handler
             if ($this->_isDto($fieldValue)) {
                 $fieldValue = $this->_unpackDto($fieldValue);
             }
+            $fieldName = lcfirst(str_replace(' ', '', ucwords(str_replace('_', ' ', $fieldName))));
             $response->$fieldName = $fieldValue;
         }
         return $response;
