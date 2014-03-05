@@ -116,7 +116,9 @@ class Payment extends \Magento\RecurringPayment\Model\RecurringPayment
      * @param PeriodUnits $periodUnits
      * @param \Magento\RecurringPayment\Block\Fields $fields
      * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param ManagerInterfaceFactory $managerFactory
+     * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Sales\Model\Order\AddressFactory $addressFactory
      * @param \Magento\Sales\Model\Order\PaymentFactory $paymentFactory
@@ -135,7 +137,9 @@ class Payment extends \Magento\RecurringPayment\Model\RecurringPayment
         \Magento\RecurringPayment\Model\PeriodUnits $periodUnits,
         \Magento\RecurringPayment\Block\Fields $fields,
         \Magento\LocaleInterface $locale,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         ManagerInterfaceFactory $managerFactory,
+        \Magento\Locale\ResolverInterface $localeResolver,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Sales\Model\Order\AddressFactory $addressFactory,
         \Magento\Sales\Model\Order\PaymentFactory $paymentFactory,
@@ -158,8 +162,9 @@ class Payment extends \Magento\RecurringPayment\Model\RecurringPayment
             $paymentData,
             $periodUnits,
             $fields,
-            $locale,
             $managerFactory,
+            $localeDate,
+            $localeResolver,
             $resource,
             $resourceCollection,
             $data

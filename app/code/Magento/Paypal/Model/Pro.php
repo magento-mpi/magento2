@@ -9,7 +9,6 @@
  */
 namespace Magento\Paypal\Model;
 
-use Magento\RecurringProfile\Model\RecurringProfile;
 use Magento\Paypal\Model\Api\AbstractApi;
 
 /**

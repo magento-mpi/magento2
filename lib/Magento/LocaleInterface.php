@@ -1,288 +1,116 @@
 <?php
 /**
- * Locale model interface
- *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento;
 
-use Magento\Core\Model\Store;
+namespace Magento;
 
 interface LocaleInterface
 {
     /**
-     * Default locale name
-     */
-    const DEFAULT_LOCALE    = 'en_US';
-    const DEFAULT_TIMEZONE  = 'UTC';
-    const DEFAULT_CURRENCY  = 'USD';
-
-    /**
-     * XML path constants
-     */
-    const XML_PATH_DEFAULT_LOCALE   = 'general/locale/code';
-    const XML_PATH_DEFAULT_TIMEZONE = 'general/locale/timezone';
-    const XML_PATH_ALLOW_CURRENCIES_INSTALLED = 'system/currency/installed';
-
-    /**
-     * Date and time format codes
-     */
-    const FORMAT_TYPE_FULL  = 'full';
-    const FORMAT_TYPE_LONG  = 'long';
-    const FORMAT_TYPE_MEDIUM= 'medium';
-    const FORMAT_TYPE_SHORT = 'short';
-
-    /**
-     * Set default locale code
-     *
-     * @param   string $locale
-     * @return  $this
-     */
-    public function setDefaultLocale($locale);
-
-    /**
-     * Retrieve default locale code
+     * Serialization Interface
      *
      * @return string
      */
-    public function getDefaultLocale();
+    public function serialize();
 
     /**
-     * Set locale
+     * Returns a string representation of the object
      *
-     * @param   string $locale
-     * @return  $this
+     * @return string
+     */
+    public function toString();
+
+    /**
+     * Returns a string representation of the object
+     * Alias for toString
+     *
+     * @return string
+     */
+    public function __toString();
+
+    /**
+     * Return the default locale
+     *
+     * @return array Returns an array of all locale string
+     */
+    public static function getDefault();
+
+    /**
+     * Sets a new default locale which will be used when no locale can be detected
+     * If provided you can set a quality between 0 and 1 (or 2 and 100)
+     * which represents the percent of quality the browser
+     * requested within HTTP
+     *
+     * @param  string|\Magento\LocaleInterface $locale  Locale to set
+     * @param  float              $quality The quality to set from 0 to 1
+     * @throws \Zend_Locale_Exception When a autolocale was given
+     * @throws \Zend_Locale_Exception When a unknown locale was given
+     * @return void
+     */
+    public static function setDefault($locale, $quality = 1);
+
+    /**
+     * Expects the Systems standard locale
+     *
+     * For Windows:
+     * f.e.: LC_COLLATE=C;LC_CTYPE=German_Austria.1252;LC_MONETARY=C
+     * would be recognised as de_AT
+     *
+     * @return array
+     */
+    public static function getEnvironment();
+
+    /**
+     * Return an array of all accepted languages of the client
+     * Expects RFC compilant Header !!
+     *
+     * The notation can be :
+     * de,en-UK-US;q=0.5,fr-FR;q=0.2
+     *
+     * @return array - list of accepted languages including quality
+     */
+    public static function getBrowser();
+
+    /**
+     * Sets a new locale
+     *
+     * @param  string|\Magento\LocaleInterface $locale (Optional) New locale to set
+     * @return void
      */
     public function setLocale($locale = null);
 
     /**
-     * Retrieve timezone code
+     * Returns the language part of the locale
      *
      * @return string
      */
-    public function getTimezone();
+    public function getLanguage();
 
     /**
-     * Retrieve currency code
+     * Returns the region part of the locale if available
+     *
+     * @return string|false - Regionstring
+     */
+    public function getRegion();
+
+    /**
+     * Return the accepted charset of the client
      *
      * @return string
      */
-    public function getCurrency();
+    public static function getHttpCharset();
 
     /**
-     * Retrieve locale object
+     * Returns true if both locales are equal
      *
-     * @return \Zend_Locale
+     * @param  \Zend_Locale $object Locale to check for equality
+     * @return boolean
      */
-    public function getLocale();
-
-    /**
-     * Retrieve locale code
-     *
-     * @return string
-     */
-    public function getLocaleCode();
-
-    /**
-     * Specify current locale code
-     *
-     * @param   string $code
-     * @return  $this
-     */
-    public function setLocaleCode($code);
-
-    /**
-     * Get options array for locale dropdown in current locale
-     *
-     * @return array
-     */
-    public function getOptionLocales();
-
-    /**
-     * Get translated to original locale options array for locale dropdown
-     *
-     * @return array
-     */
-    public function getTranslatedOptionLocales();
-
-    /**
-     * Retrieve timezone option list
-     *
-     * @return array
-     */
-    public function getOptionTimezones();
-
-    /**
-     * Retrieve days of week option list
-     *
-     * @param bool $preserveCodes
-     * @param bool $ucFirstCode
-     * @return array
-     */
-    public function getOptionWeekdays($preserveCodes = false, $ucFirstCode = false);
-
-    /**
-     * Retrieve country option list
-     *
-     * @return array
-     */
-    public function getOptionCountries();
-
-    /**
-     * Retrieve currency option list
-     *
-     * @return array
-     */
-    public function getOptionCurrencies();
-
-    /**
-     * Retrieve all currency option list
-     *
-     * @return array
-     */
-    public function getOptionAllCurrencies();
-
-    /**
-     * Retrieve array of allowed locales
-     *
-     * @return array
-     */
-    public function getAllowLocales();
-
-    /**
-     * Retrieve array of allowed currencies
-     *
-     * @return array
-     */
-    public function getAllowCurrencies();
-
-    /**
-     * Retrieve ISO date format
-     *
-     * @param   string $type
-     * @return  string
-     */
-    public function getDateFormat($type=null);
-
-    /**
-     * Retrieve short date format with 4-digit year
-     *
-     * @return  string
-     */
-    public function getDateFormatWithLongYear();
-
-    /**
-     * Retrieve ISO time format
-     *
-     * @param   string $type
-     * @return  string
-     */
-    public function getTimeFormat($type=null);
-
-    /**
-     * Retrieve ISO datetime format
-     *
-     * @param   string $type
-     * @return  string
-     */
-    public function getDateTimeFormat($type);
-
-    /**
-     * Create \Zend_Date object for current locale
-     *
-     * @param string|integer|\Zend_Date|array|null $date
-     * @param string $part
-     * @param string|\Zend_Locale $locale
-     * @param bool $useTimezone
-     * @return \Zend_Date
-     */
-    public function date($date = null, $part = null, $locale = null, $useTimezone = true);
-
-    /**
-     * Create \Zend_Date object with date converted to store timezone and store Locale
-     *
-     * @param   null|string|bool|int|Store $store Information about store
-     * @param   string|integer|\Zend_Date|array|null $date date in UTC
-     * @param   boolean $includeTime flag for including time to date
-     * @return  \Zend_Date
-     */
-    public function storeDate($store=null, $date=null, $includeTime=false);
-
-    /**
-     * Create \Zend_Date object with date converted from store's timezone
-     * to UTC time zone. Date can be passed in format of store's locale
-     * or in format which was passed as parameter.
-     *
-     * @param null|string|bool|int|Store $store Information about store
-     * @param string|integer|\Zend_Date|array|null $date date in store's timezone
-     * @param boolean $includeTime flag for including time to date
-     * @param null|string $format
-     * @return \Zend_Date
-     */
-    public function utcDate($store, $date, $includeTime = false, $format = null);
-
-    /**
-     * Get store timestamp
-     * Timestamp will be built with store timezone settings
-     *
-     * @param   null|string|bool|int|Store $store
-     * @return  int
-     */
-    public function storeTimeStamp($store=null);
-
-    /**
-     * Create \Zend_Currency object for current locale
-     *
-     * @param   string $currency
-     * @return  \Zend_Currency
-     */
-    public function currency($currency);
-
-    /**
-     * Returns the first found number from an string
-     * Parsing depends on given locale (grouping and decimal)
-     *
-     * Examples for input:
-     * '  2345.4356,1234' = 23455456.1234
-     * '+23,3452.123' = 233452.123
-     * ' 12343 ' = 12343
-     * '-9456km' = -9456
-     * '0' = 0
-     * '2 054,10' = 2054.1
-     * '2'054.52' = 2054.52
-     * '2,46 GB' = 2.46
-     *
-     * @param string|float|int $value
-     * @return float|null
-     */
-    public function getNumber($value);
-
-    /**
-     * Functions returns array with price formatting info for js function
-     * formatCurrency in js/varien/js.js
-     *
-     * @return array
-     */
-    public function getJsPriceFormat();
-
-    /**
-     * Push current locale to stack and replace with locale from specified store
-     * Event is not dispatched.
-     *
-     * @param int $storeId
-     * @return void
-     */
-    public function emulate($storeId);
-
-    /**
-     * Get last locale, used before last emulation
-     *
-     * @return void
-     */
-    public function revert();
+    public function equals(\Zend_Locale $object);
 
     /**
      * Returns localized informations as array, supported are several
@@ -290,10 +118,48 @@ interface LocaleInterface
      * For detailed information about the types look into the documentation
      *
      * @param  string             $path   (Optional) Type of information to return
+     * @param  string|\Magento\LocaleInterface $locale (Optional) Locale|Language for which this informations should be returned
      * @param  string             $value  (Optional) Value for detail list
      * @return array Array with the wished information in the given language
      */
-    public function getTranslationList($path = null, $value = null);
+    public static function getTranslationList($path = null, $locale = null, $value = null);
+
+    /**
+     * Returns an array with the name of all languages translated to the given language
+     *
+     * @param  string|\Magento\LocaleInterface $locale (Optional) Locale for language translation
+     * @return array
+     * @deprecated
+     */
+    public static function getLanguageTranslationList($locale = null);
+
+    /**
+     * Returns an array with the name of all scripts translated to the given language
+     *
+     * @param  string|\Magento\LocaleInterface $locale (Optional) Locale for script translation
+     * @return array
+     * @deprecated
+     */
+    public static function getScriptTranslationList($locale = null);
+
+    /**
+     * Returns an array with the name of all countries translated to the given language
+     *
+     * @param  string|\Magento\LocaleInterface $locale (Optional) Locale for country translation
+     * @return array
+     * @deprecated
+     */
+    public static function getCountryTranslationList($locale = null);
+
+    /**
+     * Returns an array with the name of all territories translated to the given language
+     * All territories contains other countries.
+     *
+     * @param  string|\Magento\LocaleInterface $locale (Optional) Locale for territory translation
+     * @return array
+     * @deprecated
+     */
+    public static function getTerritoryTranslationList($locale = null);
 
     /**
      * Returns a localized information string, supported are several types of informations.
@@ -301,63 +167,155 @@ interface LocaleInterface
      *
      * @param  string             $value  Name to get detailed information about
      * @param  string             $path   (Optional) Type of information to return
+     * @param  string|\Magento\LocaleInterface $locale (Optional) Locale|Language for which this informations should be returned
      * @return string|false The wished information in the given language
      */
-    public function getTranslation($value = null, $path = null);
+    public static function getTranslation($value = null, $path = null, $locale = null);
+
+    /**
+     * Returns the localized language name
+     *
+     * @param  string $value  Name to get detailed information about
+     * @param  string $locale (Optional) Locale for language translation
+     * @return array
+     * @deprecated
+     */
+    public static function getLanguageTranslation($value, $locale = null);
+
+    /**
+     * Returns the localized script name
+     *
+     * @param  string $value  Name to get detailed information about
+     * @param  string $locale (Optional) locale for script translation
+     * @return array
+     * @deprecated
+     */
+    public static function getScriptTranslation($value, $locale = null);
 
     /**
      * Returns the localized country name
      *
      * @param  string             $value  Name to get detailed information about
-     * @return string|false
+     * @param  string|\Magento\LocaleInterface $locale (Optional) Locale for country translation
+     * @return array
+     * @deprecated
      */
-    public function getCountryTranslation($value);
+    public static function getCountryTranslation($value, $locale = null);
 
     /**
-     * Returns an array with the name of all countries translated to the given language
+     * Returns the localized territory name
+     * All territories contains other countries.
      *
+     * @param  string             $value  Name to get detailed information about
+     * @param  string|\Magento\LocaleInterface $locale (Optional) Locale for territory translation
+     * @return array
+     * @deprecated
+     */
+    public static function getTerritoryTranslation($value, $locale = null);
+
+    /**
+     * Returns an array with translated yes strings
+     *
+     * @param  string|\Magento\LocaleInterface $locale (Optional) Locale for language translation (defaults to $this locale)
      * @return array
      */
-    public function getCountryTranslationList();
+    public static function getQuestion($locale = null);
 
     /**
-     * Checks if current date of the given store (in the store timezone) is within the range
+     * Checks if a locale identifier is a real locale or not
+     * Examples:
+     * "en_XX" refers to "en", which returns true
+     * "XX_yy" refers to "root", which returns false
      *
-     * @param int|string|Store $store
-     * @param string|null $dateFrom
-     * @param string|null $dateTo
-     * @return bool
+     * @param  string|\Magento\LocaleInterface $locale     Locale to check for
+     * @param  boolean            $strict     (Optional) If true, no rerouting will be done when checking
+     * @param  boolean            $compatible (DEPRECATED) Only for internal usage, brakes compatibility mode
+     * @return boolean If the locale is known dependend on the settings
      */
-    public function isStoreDateInInterval($store, $dateFrom = null, $dateTo = null);
+    public static function isLocale($locale, $strict = false, $compatible = true);
 
     /**
-     * Format date using current locale options and time zone.
+     * Finds the proper locale based on the input
+     * Checks if it exists, degrades it when necessary
+     * Detects registry locale and when all fails tries to detect a automatic locale
+     * Returns the found locale as string
      *
-     * @param \Zend_Date|null $date
-     * @param string $format
-     * @param bool $showTime
+     * @param string $locale
+     * @throws \Zend_Locale_Exception When the given locale is no locale or the autodetection fails
      * @return string
      */
-    public function formatDate(
-        $date = null, $format = \Magento\LocaleInterface::FORMAT_TYPE_SHORT, $showTime = false
-    );
+    public static function findLocale($locale = null);
 
     /**
-     * Format time using current locale options
+     * Returns the expected locale for a given territory
      *
-     * @param \Zend_Date|null $time
-     * @param string $format
-     * @param bool $showDate
-     * @return string
+     * @param string $territory Territory for which the locale is being searched
+     * @return string|null Locale string or null when no locale has been found
      */
-    public function formatTime(
-        $time = null, $format = \Magento\LocaleInterface::FORMAT_TYPE_SHORT, $showDate = false
-    );
+    public static function getLocaleToTerritory($territory);
 
     /**
-     * Gets the store config timezone
+     * Returns a list of all known locales where the locale is the key
+     * Only real locales are returned, the internal locales 'root', 'auto', 'browser'
+     * and 'environment' are suppressed
      *
-     * @return string
+     * @return array List of all Locales
      */
-    public function getConfigTimezone();
+    public static function getLocaleList();
+
+    /**
+     * Returns the set cache
+     *
+     * @return \Zend_Cache_Core The set cache
+     */
+    public static function getCache();
+
+    /**
+     * Sets a cache
+     *
+     * @param  \Zend_Cache_Core $cache Cache to set
+     * @return void
+     */
+    public static function setCache(\Zend_Cache_Core $cache);
+
+    /**
+     * Returns true when a cache is set
+     *
+     * @return boolean
+     */
+    public static function hasCache();
+
+    /**
+     * Removes any set cache
+     *
+     * @return void
+     */
+    public static function removeCache();
+
+    /**
+     * Clears all set cache data
+     *
+     * @param string $tag Tag to clear when the default tag name is not used
+     * @return void
+     */
+    public static function clearCache($tag = null);
+
+    /**
+     * Disables the set cache
+     *
+     * @param  boolean $flag True disables any set cache, default is false
+     * @return void
+     */
+    public static function disableCache($flag);
+
+    /**
+     * Search the locale automatically and return all used locales
+     * ordered by quality
+     *
+     * Standard Searchorder is Browser, Environment, Default
+     *
+     * @param  string  $searchorder (Optional) Searchorder
+     * @return array Returns an array of all detected locales
+     */
+    public static function getOrder($order = null);
 }

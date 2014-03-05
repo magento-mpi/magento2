@@ -83,8 +83,12 @@ class Payment extends \Magento\View\Element\Template
                 ->setName(\Magento\RecurringPayment\Model\RecurringPayment::BUY_REQUEST_START_DATETIME)
                 ->setClass('datetime-picker input-text')
                 ->setImage($this->getViewFileUrl('Magento_Core::calendar.gif'))
-                ->setDateFormat($this->_locale->getDateFormat(\Magento\LocaleInterface::FORMAT_TYPE_SHORT))
-                ->setTimeFormat($this->_locale->getTimeFormat(\Magento\LocaleInterface::FORMAT_TYPE_SHORT));
+                ->setDateFormat($this->_localeDate->getDateFormat(
+                    \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT
+                ))
+                ->setTimeFormat($this->_localeDate->getTimeFormat(
+                    \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT
+                ));
             return $calendar->getHtml();
         }
         return '';

@@ -82,7 +82,7 @@ class Wishlist extends \Magento\Core\Model\AbstractModel implements \Magento\Obj
     protected $_storeManager;
 
     /**
-     * @var \Magento\Core\Model\Date
+     * @var \Magento\Stdlib\DateTime\DateTime
      */
     protected $_date;
 
@@ -124,7 +124,7 @@ class Wishlist extends \Magento\Core\Model\AbstractModel implements \Magento\Obj
      * @param ResourceWishlist $resource
      * @param Collection $resourceCollection
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Date $date
+     * @param \Magento\Stdlib\DateTime\DateTime $date
      * @param ItemFactory $wishlistItemFactory
      * @param CollectionFactory $wishlistCollectionFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
@@ -141,7 +141,7 @@ class Wishlist extends \Magento\Core\Model\AbstractModel implements \Magento\Obj
         ResourceWishlist $resource,
         Collection $resourceCollection,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Date $date,
+        \Magento\Stdlib\DateTime\DateTime $date,
         ItemFactory $wishlistItemFactory,
         CollectionFactory $wishlistCollectionFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,

@@ -13,8 +13,10 @@ namespace Magento\RecurringPayment\Block\Adminhtml\Customer\Edit\Tab;
 
 use Magento\Customer\Controller\Adminhtml\Index as CustomerController;
 use Magento\Customer\Controller\RegistryConstants;
+use Magento\RecurringPayment\Block\Adminhtml\Payment\Grid as PaymentGrid;
+use Magento\Backend\Block\Widget\Tab\TabInterface;
 
-class RecurringPayment extends \Magento\RecurringPayment\Block\Adminhtml\Payment\Grid implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class RecurringPayment extends PaymentGrid implements TabInterface
 {
     /**
      * Core registry

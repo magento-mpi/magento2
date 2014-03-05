@@ -77,9 +77,14 @@ class RecurringPayment extends \Magento\Core\Model\AbstractModel
     protected $_fields;
 
     /**
-     * @var \Magento\LocaleInterface
+     * @var \Magento\Stdlib\DateTime\TimezoneInterface
      */
-    protected $_locale;
+    protected $_localeDate;
+
+    /**
+     * @var \Magento\Locale\ResolverInterface
+     */
+    protected $_localeResolver;
 
     /**
      * @var ManagerInterfaceFactory
@@ -92,8 +97,9 @@ class RecurringPayment extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param PeriodUnits $periodUnits
      * @param \Magento\RecurringPayment\Block\Fields $fields
-     * @param \Magento\LocaleInterface $locale
      * @param ManagerInterfaceFactory $managerFactory
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -106,8 +112,9 @@ class RecurringPayment extends \Magento\Core\Model\AbstractModel
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\RecurringPayment\Model\PeriodUnits $periodUnits,
         \Magento\RecurringPayment\Block\Fields $fields,
-        \Magento\LocaleInterface $locale,
         ManagerInterfaceFactory $managerFactory,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Locale\ResolverInterface $localeResolver,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -116,8 +123,9 @@ class RecurringPayment extends \Magento\Core\Model\AbstractModel
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_periodUnits = $periodUnits;
         $this->_fields = $fields;
-        $this->_locale = $locale;
         $this->_managerFactory = $managerFactory;
+        $this->_localeDate = $localeDate;
+        $this->_localeResolver = $localeResolver;
     }
 
     /**
@@ -247,15 +255,17 @@ class RecurringPayment extends \Magento\Core\Model\AbstractModel
     {
         $startDate = $buyRequest->getData(self::BUY_REQUEST_START_DATETIME);
         if ($startDate) {
-            if (!$this->_locale || !$this->_store) {
+            if (!$this->_localeDate || !$this->_store) {
                 throw new \Exception('Locale and store instances must be set for this operation.');
             }
-            $dateFormat = $this->_locale->getDateTimeFormat(\Magento\LocaleInterface::FORMAT_TYPE_SHORT);
-            $localeCode = $this->_locale->getLocaleCode();
+            $dateFormat = $this->_localeDate->getDateTimeFormat(
+                \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT
+            );
+            $localeCode = $this->_localeResolver->getLocaleCode();
             if (!\Zend_Date::isDate($startDate, $dateFormat, $localeCode)) {
                 throw new \Magento\Core\Exception(__('The recurring payment start date has invalid format.'));
             }
-            $utcTime = $this->_locale->utcDate($this->_store, $startDate, true, $dateFormat)
+            $utcTime = $this->_localeDate->utcDate($this->_store, $startDate, true, $dateFormat)
                 ->toString(\Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
             $this->setStartDatetime($utcTime)->setImportedStartDatetime($startDate);
         }
@@ -286,7 +296,7 @@ class RecurringPayment extends \Magento\Core\Model\AbstractModel
                 $options = unserialize($options->getValue());
                 if (is_array($options)) {
                     if (isset($options['start_datetime'])) {
-                        $startDatetime = new \Zend_Date($options['start_datetime'],
+                        $startDatetime = new \Magento\Stdlib\DateTime\Date($options['start_datetime'],
                             \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
                         $this->setNearestStartDatetime($startDatetime);
                     }
@@ -324,15 +334,15 @@ class RecurringPayment extends \Magento\Core\Model\AbstractModel
     /**
      * Determine nearest possible payment start date
      *
-     * @param \Zend_Date $minAllowed
-     * @return \Magento\RecurringPayment\Model\RecurringPayment
+     * @param \Magento\Stdlib\DateTime\DateInterface $minAllowed
+     * @return $this
      */
-    protected function setNearestStartDatetime(\Zend_Date $minAllowed = null)
+    protected function setNearestStartDatetime(\Magento\Stdlib\DateTime\DateInterface $minAllowed = null)
     {
         // TODO: implement proper logic with invoking payment method instance
         $date = $minAllowed;
         if (!$date || $date->getTimestamp() < time()) {
-            $date = new \Zend_Date(time());
+            $date = new \Magento\Stdlib\DateTime\Date(time());
         }
         $this->setStartDatetime($date->toString(\Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT));
         return $this;
@@ -346,12 +356,12 @@ class RecurringPayment extends \Magento\Core\Model\AbstractModel
     public function exportStartDatetime()
     {
         $datetime = $this->getStartDatetime();
-        if (!$datetime || !$this->_locale || !$this->_store) {
+        if (!$datetime || !$this->_localeDate || !$this->_store) {
             return '';
         }
-        $date = $this->_locale->storeDate($this->_store, strtotime($datetime), true);
+        $date = $this->_localeDatele->storeDate($this->_store, strtotime($datetime), true);
         return $date->toString(
-            $this->_locale->getDateTimeFormat(\Magento\LocaleInterface::FORMAT_TYPE_SHORT)
+            $this->_localeDate->getDateTimeFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT)
         );
     }
 
@@ -445,7 +455,9 @@ class RecurringPayment extends \Magento\Core\Model\AbstractModel
 
         // automatically determine start date, if not set
         if ($this->getStartDatetime()) {
-            $date = new \Zend_Date($this->getStartDatetime(), \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
+            $date = new \Magento\Stdlib\DateTime\Date(
+                $this->getStartDatetime(), \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT
+            );
             $this->setNearestStartDatetime($date);
         } else {
             $this->setNearestStartDatetime();

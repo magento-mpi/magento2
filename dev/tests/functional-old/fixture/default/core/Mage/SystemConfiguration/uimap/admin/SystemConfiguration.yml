@@ -2768,7 +2768,6 @@ system_configuration:
                                         magento_sitemap: //select[@id='Magento_Sitemap']
                                         magento_tax: //select[@id='Magento_Tax']
                                         magento_theme: //select[@id='Magento_Theme']
-                                        magento_usa: //select[@id='Magento_Usa']
                                         magento_user: //select[@id='Magento_User']
                                         magento_webapi: //select[@id='Magento_Webapi']
                                         magento_weee: //select[@id='Magento_Weee']
