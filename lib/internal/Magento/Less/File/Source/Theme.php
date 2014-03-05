@@ -54,9 +54,9 @@ class Theme implements SourceInterface
 
         $namespace = $module = '*';
         $themePath = $theme->getFullPath();
-        $files = $this->themesDirectory->search("{$themePath}/{$namespace}_{$module}/{$filePath}");
+        $files = $this->themesDirectory->search("{$themePath}/{$namespace}_{$module}/web/{$filePath}");
         $result = array();
-        $pattern = "#/(?<moduleName>[^/]+)/" . strtr(preg_quote($filePath), array('\*' => '[^/]+')) . "#i";
+        $pattern = "#/(?<moduleName>[^/]+)/web/" . strtr(preg_quote($filePath), array('\*' => '[^/]+')) . "#i";
         foreach ($files as $file) {
             $filename = $this->themesDirectory->getAbsolutePath($file);
             if (!preg_match($pattern, $filename, $matches)) {

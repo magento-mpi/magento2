@@ -72,7 +72,7 @@ class Library implements SourceInterface
 
         foreach ($theme->getInheritedThemes() as $currentTheme) {
             $themeFullPath = $currentTheme->getFullPath();
-            $files = $this->themesDirectory->search("{$themeFullPath}/{$filePath}");
+            $files = $this->themesDirectory->search("{$themeFullPath}/web/{$filePath}");
             $list->replace($this->createFiles($this->themesDirectory, $theme, $files), false);
         }
         return $list->getAll();

@@ -56,10 +56,10 @@ class Base implements SourceInterface
 
         $namespace = $module = '*';
         $area = $theme->getArea();
-        $files = $this->modulesDirectory->search("$namespace/$module/view/{$area}/{$filePath}");
+        $files = $this->modulesDirectory->search("$namespace/$module/view/{$area}/web/{$filePath}");
         $result = array();
         $filePath = strtr(preg_quote($filePath), array('\*' => '[^/]+'));
-        $pattern = "#(?<namespace>[^/]+)/(?<module>[^/]+)/view/{$area}/" . $filePath . "$#i";
+        $pattern = "#(?<namespace>[^/]+)/(?<module>[^/]+)/view/{$area}/web/" . $filePath . "$#i";
         foreach ($files as $file) {
             $filename = $this->modulesDirectory->getAbsolutePath($file);
             if (!preg_match($pattern, $filename, $matches)) {

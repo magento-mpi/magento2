@@ -23,7 +23,7 @@ class AggregatedTest extends \PHPUnit_Framework_TestCase
     {
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
             \Magento\App\Filesystem::PARAM_APP_DIRS => array(
-                \Magento\App\Filesystem::LIB_WEB => array('path' => dirname(dirname(__DIR__)) . '/_files/lib'),
+                \Magento\App\Filesystem::LIB_WEB => array('path' => dirname(dirname(__DIR__)) . '/_files/lib/web'),
                 \Magento\App\Filesystem::THEMES_DIR => array('path' => dirname(dirname(__DIR__)) . '/_files/design'),
             )
         ));
@@ -94,17 +94,17 @@ class AggregatedTest extends \PHPUnit_Framework_TestCase
                     str_replace(
                         '\\',
                         '/',
-                        dirname(dirname(__DIR__)) . '/_files/design/frontend/test_default/1.file'
+                        dirname(dirname(__DIR__)) . '/_files/design/frontend/test_default/web/1.file'
                     ),
                     str_replace(
                         '\\',
                         '/',
-                        dirname(dirname(__DIR__)) . '/_files/design/frontend/test_default/Magento_Module/1.file'
+                        dirname(dirname(__DIR__)) . '/_files/design/frontend/test_default/Magento_Module/web/1.file'
                     ),
                     str_replace(
                         '\\',
                         '/',
-                        dirname(dirname(__DIR__)) . '/_files/design/frontend/test_parent/Magento_Second/1.file'
+                        dirname(dirname(__DIR__)) . '/_files/design/frontend/test_parent/Magento_Second/web/1.file'
                     )
                 )
             ),
@@ -115,7 +115,7 @@ class AggregatedTest extends \PHPUnit_Framework_TestCase
                     str_replace(
                         '\\',
                         '/',
-                        dirname(dirname(__DIR__)) . '/_files/lib/2.file'
+                        dirname(dirname(__DIR__)) . '/_files/lib/web/2.file'
                     )
                 )
             ),
@@ -131,17 +131,17 @@ class AggregatedTest extends \PHPUnit_Framework_TestCase
                     str_replace(
                         '\\',
                         '/',
-                        dirname(dirname(__DIR__)) . '/_files/lib/3.less'
+                        dirname(dirname(__DIR__)) . '/_files/lib/web/3.less'
                     ),
                     str_replace(
                         '\\',
                         '/',
-                        dirname(dirname(__DIR__)) . '/_files/code/Magento/Other/view/frontend/3.less'
+                        dirname(dirname(__DIR__)) . '/_files/code/Magento/Other/view/frontend/web/3.less'
                     ),
                     str_replace(
                         '\\',
                         '/',
-                        dirname(dirname(__DIR__)) . '/_files/design/frontend/test_default/Magento_Third/3.less'
+                        dirname(dirname(__DIR__)) . '/_files/design/frontend/test_default/Magento_Third/web/3.less'
                     )
                 )
             ),
