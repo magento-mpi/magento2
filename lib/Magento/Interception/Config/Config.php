@@ -3,7 +3,7 @@
  * Interception config. Responsible for providing list of plugins configured for instance
  *
  * {license_notice}
- * 
+ *
  * @copyright {copyright}
  * @license   {license_link}
  */
@@ -133,7 +133,7 @@ class Config implements \Magento\Interception\Config
                 }
             } else {
                 $parts = explode('\\', $type);
-                if (in_array(end($parts), $this->_serviceClassTypes) && $this->_relations->has($type)) {
+                if (!in_array(end($parts), $this->_serviceClassTypes) && $this->_relations->has($type)) {
                     $relations = $this->_relations->getParents($type);
                     foreach ($relations as $relation) {
                         if ($relation && $this->_inheritInterception($relation)) {
