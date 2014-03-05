@@ -17,7 +17,7 @@ use \Magento\CustomerSegment\Helper\Data;
 /**
  * Class DepersonalizePlugin
  */
-class DepersonalizePlugin extends \Magento\Customer\Model\Layout\DepersonalizePlugin
+class DepersonalizePlugin
 {
     /**
      * @var \Magento\View\LayoutInterface

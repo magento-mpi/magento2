@@ -15,7 +15,7 @@
         <observer name="invalidate_builtin" instance="Magento\PageCache\Model\Observer" method="flushCacheByTags" />
     </event>
     <event name="clean_cache_after_reindex">
-        <observer name="invalidate11_builtin" instance="Magento\PageCache\Model\Observer" method="invalidateCache" />
+        <observer name="reindex_cache_flush" instance="Magento\PageCache\Model\Observer" method="invalidateCache" />
     </event>
     <event name="adminhtml_cache_flush_system">
         <observer name="flush_system_pagecache" instance="Magento\PageCache\Model\Observer" method="flushAllCache" />

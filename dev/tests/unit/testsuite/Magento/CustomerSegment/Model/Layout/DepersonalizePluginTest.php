@@ -17,7 +17,7 @@ namespace Magento\CustomerSegment\Model\Layout;
 class DepersonalizePluginTest  extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Customer\Model\Layout\DepersonalizePluginTest
+     * @var DepersonalizePlugin
      */
     protected $plugin;
 
@@ -77,7 +77,7 @@ class DepersonalizePluginTest  extends \PHPUnit_Framework_TestCase
         );
         $this->requestMock = $this->getMock('Magento\App\Request\Http', array(), array(), '', false);
 
-        $this->plugin = new \Magento\CustomerSegment\Model\Layout\DepersonalizePlugin(
+        $this->plugin = new DepersonalizePlugin(
             $this->layoutMock,
             $this->customerSessionMock,
             $this->requestMock,
@@ -106,13 +106,13 @@ class DepersonalizePluginTest  extends \PHPUnit_Framework_TestCase
 
         $this->httpContext->expects($this->once())
             ->method('setValue')
-            ->with($this->equalTo(\Magento\App\Http\Context::CUSTOMER_SEGMENT),
+            ->with($this->equalTo(\Magento\CustomerSegment\Helper\Data::CONTEXT_SEGMENT),
                 $this->equalTo($expectedCustomerSegmentIds)
             );
 
-        $this->plugin->beforeGenerateXml();
-        $output = $this->plugin->afterGenerateXml();
-        $this->assertNull($output);
+        $this->plugin->beforeGenerateXml($this->layoutMock);
+        $result = 'data';
+        $this->assertEquals($result, $this->plugin->afterGenerateXml($this->layoutMock, $result));
     }
 
     /**
@@ -125,9 +125,9 @@ class DepersonalizePluginTest  extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(true));
         $this->layoutMock->expects($this->never())
             ->method('isCacheable');
-        $this->plugin->beforeGenerateXml();
-        $output = $this->plugin->afterGenerateXml();
-        $this->assertNull($output);
+        $this->plugin->beforeGenerateXml($this->layoutMock);
+        $result = 'data';
+        $this->assertEquals($result, $this->plugin->afterGenerateXml($this->layoutMock, $result));
     }
 
     /**
@@ -143,8 +143,8 @@ class DepersonalizePluginTest  extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(false));
         $this->customerSessionMock->expects($this->never())
             ->method('setCustomerSegmentIds');
-        $this->plugin->beforeGenerateXml();
-        $output = $this->plugin->afterGenerateXml();
-        $this->assertNull($output);
+        $this->plugin->beforeGenerateXml($this->layoutMock);
+        $result = 'data';
+        $this->assertEquals($result, $this->plugin->afterGenerateXml($this->layoutMock, $result));
     }
 }

@@ -18,7 +18,7 @@ namespace Magento\Customer\Model\Layout;
 class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Customer\Model\Layout\DepersonalizePluginTest
+     * @var DepersonalizePlugin
      */
     protected $plugin;
 
@@ -68,11 +68,6 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
     protected $httpContext;
 
     /**
-     * @var \Magento\Log\Model\Visitor|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $visitorMock;
-
-    /**
      * SetUp
      */
     public function setUp()
@@ -110,13 +105,11 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->moduleManagerMock = $this->getMock('Magento\Module\Manager', array(), array(), '', false);
-        $this->visitorMock = $this->getMock('Magento\Log\Model\Visitor', array(), array(), '', false);
-
         $this->customerFactoryMock->expects($this->once())
             ->method('create')
             ->will($this->returnValue($this->customerMock));
 
-        $this->plugin = new \Magento\Customer\Model\Layout\DepersonalizePlugin(
+        $this->plugin = new DepersonalizePlugin(
             $this->layoutMock,
             $this->sessionMock,
             $this->customerSessionMock,
@@ -124,8 +117,7 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
             $this->eventManagerMock,
             $this->requestMock,
             $this->moduleManagerMock,
-            $this->httpContext,
-            $this->visitorMock
+            $this->httpContext
         );
     }
 
@@ -164,13 +156,6 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('dispatch')
             ->with($this->equalTo('before_session_write_close'));
-        $this->visitorMock
-            ->expects($this->once())
-            ->method('setSkipRequestLogging')
-            ->with($this->equalTo(true));
-        $this->visitorMock
-            ->expects($this->once())
-            ->method('unsetData');
         $this->sessionMock
             ->expects($this->once())
             ->method('clearStorage');

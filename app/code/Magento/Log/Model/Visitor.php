@@ -98,11 +98,6 @@ class Visitor extends \Magento\Core\Model\AbstractModel
     protected $dateTime;
 
     /**
-     * @var \Magento\Module\Manager
-     */
-    protected $moduleManager;
-
-    /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
@@ -180,16 +175,6 @@ class Visitor extends \Magento\Core\Model\AbstractModel
     protected function _getSession()
     {
         return $this->_session;
-    }
-
-    /**
-     * Skip request logging
-     *
-     * @param bool $skipRequestLogging
-     */
-    public function setSkipRequestLogging($skipRequestLogging)
-    {
-        $this->_skipRequestLogging = (bool)$skipRequestLogging;
     }
 
     /**
