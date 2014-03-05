@@ -20,7 +20,7 @@ class Currency extends \Magento\View\Element\Template
      *
      * @var \Magento\Directory\Helper\Url
      */
-    protected $_directoryUrl = null;
+    protected $_directoryUrl;
 
     /**
      * @var \Magento\Directory\Model\CurrencyFactory
@@ -28,21 +28,28 @@ class Currency extends \Magento\View\Element\Template
     protected $_currencyFactory;
 
     /**
+     * @var \Magento\Core\Helper\PostData
+     */
+    protected $_postDataHelper;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Directory\Helper\Url $directoryUrl
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
+     * @param \Magento\Core\Helper\PostData $postDataHelper
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Directory\Helper\Url $directoryUrl,
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
+        \Magento\Core\Helper\PostData $postDataHelper,
         array $data = array()
     ) {
         $this->_directoryUrl = $directoryUrl;
         $this->_currencyFactory = $currencyFactory;
+        $this->_postDataHelper = $postDataHelper;
         parent::__construct($context, $data);
-        $this->_isScopePrivate = true;
     }
 
     /**
@@ -67,7 +74,7 @@ class Currency extends \Magento\View\Element\Template
     {
         $currencies = $this->getData('currencies');
         if (is_null($currencies)) {
-            $currencies = array();
+            $currencies = [];
             $codes = $this->_storeManager->getStore()->getAvailableCurrencyCodes(true);
             if (is_array($codes) && count($codes) > 1) {
                 $rates = $this->_currencyFactory->create()->getCurrencyRates(
@@ -105,7 +112,18 @@ class Currency extends \Magento\View\Element\Template
      */
     public function getSwitchCurrencyUrl($code)
     {
-        return $this->_directoryUrl->getSwitchCurrencyUrl(array('currency' => $code));
+        return $this->_directoryUrl->getSwitchCurrencyUrl(['currency' => $code]);
+    }
+
+    /**
+     * Return POST data for currency to switch
+     *
+     * @param string $code
+     * @return string
+     */
+    public function getSwitchCurrencyPostData($code)
+    {
+        return $this->_postDataHelper->getPostData($this->getSwitchUrl(), ['currency' => $code]);
     }
 
     /**
