@@ -554,14 +554,32 @@ abstract class AbstractAction
                     $this->getPermissionColumns()
                 )
             )
-            ->join(
+            ->joinInner(
                 ['product_website' => $this->getTable('catalog_product_website')],
                 'product_website.product_id = category_product.product_id',
                 []
             )
-            ->join(
+            ->joinInner(
+                ['store_group' => $this->getTable('core_store_group')],
+                'store_group.website_id = product_website.website_id',
+                []
+            )
+            ->joinInner(
                 ['store' => $this->getTable('core_store')],
-                'store.website_id = product_website.website_id',
+                'store.website_id = product_website.website_id'
+                    . ' AND store.group_id = store_group.group_id',
+                []
+            )
+            ->joinInner(
+                ['category' => $this->getTable('catalog_category_entity')],
+                'category.entity_id = category_product.category_id'
+                    . ' AND category.path LIKE ' . $this->getReadAdapter()->getConcatSql(
+                        [
+                            $this->getReadAdapter()->quote(\Magento\Catalog\Model\Category::TREE_ROOT_ID . '/'),
+                            $this->getReadAdapter()->quoteIdentifier('store_group.root_category_id'),
+                            $this->getReadAdapter()->quote('/%')
+                        ]
+                    ),
                 []
             )
             ->joinInner(
