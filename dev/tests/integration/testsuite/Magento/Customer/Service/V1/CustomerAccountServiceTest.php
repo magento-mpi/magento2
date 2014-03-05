@@ -1057,7 +1057,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      * @param mixed $custId
      * @dataProvider invalidCustomerIdsDataProvider
      * @expectedException \Magento\Exception\NoSuchEntityException
-     * @expectedExceptionMessage customerId
+     * @expectedExceptionMessage No such entity with customerId =
      */
     public function testGetCustomerInvalidIds($custId)
     {

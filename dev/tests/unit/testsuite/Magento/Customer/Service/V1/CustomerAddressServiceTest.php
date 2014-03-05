@@ -699,7 +699,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
     public function testValidateAddressesEmpty()
     {
         $customerService = $this->_createService();
-        $this->assertEmpty($customerService->validateAddresses([]));
+        $this->assertTrue($customerService->validateAddresses([]));
     }
 
     public function testValidateAddressesValid()
@@ -724,7 +724,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
             ->setCountryId(self::COUNTRY_ID)
             ->setPostcode(self::POSTCODE)
             ->create();
-        $this->assertEquals([true], $customerService->validateAddresses([$address]));
+        $this->assertTrue($customerService->validateAddresses([$address]));
     }
 
     public function testValidateAddressesBoth()
@@ -745,12 +745,14 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
 
         $addressBad = $this->_addressBuilder->create();
         $addressGood = $this->_addressBuilder->create();
-        $validationResults = $customerService->validateAddresses(['b' => $addressBad, 'g' => $addressGood]);
-
-        $expectedException = new InputException();
-        $expectedException->addError('REQUIRED_FIELD', 'firstname', '', ['index' => 'b']);
-        $this->assertEquals($expectedException->getErrors(), $validationResults['b']->getErrors());
-        $this->assertEquals(true, $validationResults['g']);
+        try {
+            $validationResults = $customerService->validateAddresses(['b' => $addressBad, 'g' => $addressGood]);
+            $this->fail("InputException was expected but not thrown");
+        } catch (InputException $actualException) {
+            $expectedException = new InputException();
+            $expectedException->addError('REQUIRED_FIELD', 'firstname', '', ['index' => 'b']);
+            $this->assertEquals($expectedException->getErrors(), $actualException->getErrors());
+        }
     }
 
     private function _setupStoreMock()
