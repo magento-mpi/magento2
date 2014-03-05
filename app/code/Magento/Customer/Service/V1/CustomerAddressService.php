@@ -199,17 +199,15 @@ class CustomerAddressService implements CustomerAddressServiceInterface
      */
     public function validateAddresses($addresses)
     {
-        $inputExceptions = [];
+        $inputException = new InputException();
         foreach ($addresses as $key => $address) {
             $addressModel = $this->_addressConverter->createAddressModel($address);
-            $inputException = $this->_validate($addressModel, new InputException(), $key);
-            if ($inputException->getErrors()) {
-                $inputExceptions[$key] = $inputException;
-            } else {
-                $inputExceptions[$key] = true;
-            }
+            $inputException = $this->_validate($addressModel, $inputException, $key);
         }
-        return $inputExceptions;
+        if ($inputException->getErrors()) {
+            throw $inputException;
+        }
+        return true;
     }
 
     /**
