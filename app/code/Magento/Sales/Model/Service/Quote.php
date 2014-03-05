@@ -8,7 +8,6 @@
 
 namespace Magento\Sales\Model\Service;
 
-use Magento\Customer\Service\V1\CustomerServiceInterface;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\Dto\AddressBuilder;
@@ -74,11 +73,6 @@ class Quote
     protected $_transactionFactory;
 
     /**
-     * @var CustomerServiceInterface
-     */
-    protected $_customerService;
-
-    /**
      * @var CustomerAccountServiceInterface
      */
     protected $_customerAccountService;
@@ -111,7 +105,6 @@ class Quote
      * @param \Magento\Sales\Model\Convert\QuoteFactory $convertQuoteFactory
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Core\Model\Resource\TransactionFactory $transactionFactory
-     * @param CustomerServiceInterface $customerService
      * @param CustomerAccountServiceInterface $customerAccountService
      * @param CustomerAddressServiceInterface $customerAddressService
      * @param AddressBuilder $customerAddressBuilder
@@ -123,7 +116,6 @@ class Quote
         \Magento\Sales\Model\Convert\QuoteFactory $convertQuoteFactory,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Core\Model\Resource\TransactionFactory $transactionFactory,
-        CustomerServiceInterface $customerService,
         CustomerAccountServiceInterface $customerAccountService,
         CustomerAddressServiceInterface $customerAddressService,
         AddressBuilder $customerAddressBuilder,
@@ -134,7 +126,6 @@ class Quote
         $this->_convertor = $convertQuoteFactory->create();
         $this->_customerSession = $customerSession;
         $this->_transactionFactory = $transactionFactory;
-        $this->_customerService = $customerService;
         $this->_customerAccountService = $customerAccountService;
         $this->_customerAddressService = $customerAddressService;
         $this->_customerAddressBuilder = $customerAddressBuilder;

@@ -1073,6 +1073,30 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @param mixed $custId
+     * @dataProvider invalidCustomerIdsDataProvider
+     * @expectedException \Magento\Exception\NoSuchEntityException
+     * @expectedExceptionMessage customerId
+     */
+    public function testGetCustomerInvalidIds($custId)
+    {
+        $this->_customerAccountService->getCustomer($custId);
+    }
+
+    public function invalidCustomerIdsDataProvider()
+    {
+        return array(
+            array('ab'),
+            array(' '),
+            array(-1),
+            array(0),
+            array(' 1234'),
+            array('-1'),
+            array('0'),
+        );
+    }
+
+    /**
      * @param Dto\Filter[] $filters
      * @param Dto\Filter[] $orGroup
      * @param array $expectedResult array of expected results indexed by ID

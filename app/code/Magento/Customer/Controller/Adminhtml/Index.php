@@ -16,7 +16,6 @@ use Magento\Customer\Service\V1\Dto\CustomerBuilder;
 use Magento\Customer\Service\V1\Dto\CustomerDetails;
 use Magento\Customer\Service\V1\Dto\CustomerDetailsBuilder;
 use Magento\Customer\Service\V1\Dto\AddressBuilder;
-use Magento\Customer\Service\V1\CustomerServiceInterface;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 use Magento\Exception\NoSuchEntityException;
@@ -78,9 +77,6 @@ class Index extends \Magento\Backend\App\Action
      */
     protected $_formFactory;
 
-    /** @var  CustomerServiceInterface */
-    protected $_customerService;
-
     /** @var CustomerAddressServiceInterface */
     protected $_addressService;
 
@@ -104,7 +100,6 @@ class Index extends \Magento\Backend\App\Action
      * @param CustomerBuilder $customerBuilder
      * @param CustomerDetailsBuilder $customerDetailsBuilder
      * @param AddressBuilder $addressBuilder
-     * @param CustomerServiceInterface $customerService
      * @param CustomerAddressServiceInterface $addressService
      * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $accountService
      * @param \Magento\Customer\Helper\View $viewHelper
@@ -124,7 +119,6 @@ class Index extends \Magento\Backend\App\Action
         CustomerBuilder $customerBuilder,
         CustomerDetailsBuilder $customerDetailsBuilder,
         AddressBuilder $addressBuilder,
-        CustomerServiceInterface $customerService,
         CustomerAddressServiceInterface $addressService,
         CustomerAccountServiceInterface $accountService,
         \Magento\Customer\Helper\View $viewHelper,
@@ -141,7 +135,6 @@ class Index extends \Magento\Backend\App\Action
         $this->_subscriberFactory = $subscriberFactory;
         $this->_dataHelper = $helper;
         $this->_formFactory = $formFactory;
-        $this->_customerService = $customerService;
         $this->_addressService = $addressService;
         $this->_customerAccountService = $accountService;
         $this->_viewHelper = $viewHelper;

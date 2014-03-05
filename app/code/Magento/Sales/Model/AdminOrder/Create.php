@@ -270,10 +270,10 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
     public function initRuleData()
     {
         $this->_coreRegistry->register('rule_data', new \Magento\Object(array(
-            'store_id'  => $this->_session->getStore()->getId(),
-            'website_id'  => $this->_session->getStore()->getWebsiteId(),
-            'customer_group_id' => $this->getCustomerGroupId(),
-        )));
+                'store_id'  => $this->_session->getStore()->getId(),
+                'website_id'  => $this->_session->getStore()->getWebsiteId(),
+                'customer_group_id' => $this->getCustomerGroupId(),
+            )));
         return $this;
     }
 
@@ -522,18 +522,18 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
 
             if ($additionalOptions = $orderItem->getProductOptionByCode('additional_options')) {
                 $item->addOption(new \Magento\Object(
-                    array(
-                        'product' => $item->getProduct(),
-                        'code' => 'additional_options',
-                        'value' => serialize($additionalOptions)
-                    )
-                ));
+                        array(
+                            'product' => $item->getProduct(),
+                            'code' => 'additional_options',
+                            'value' => serialize($additionalOptions)
+                        )
+                    ));
             }
 
             $this->_eventManager->dispatch('sales_convert_order_item_to_quote_item', array(
-                'order_item' => $orderItem,
-                'quote_item' => $item
-            ));
+                    'order_item' => $orderItem,
+                    'quote_item' => $item
+                ));
             return $item;
         }
 
@@ -1049,31 +1049,31 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         $item->save();
         if (!empty($options['options'])) {
             $item->addOption(new \Magento\Object(
-                array(
-                    'product' => $item->getProduct(),
-                    'code' => 'option_ids',
-                    'value' => implode(',', array_keys($options['options']))
-                )
-            ));
+                    array(
+                        'product' => $item->getProduct(),
+                        'code' => 'option_ids',
+                        'value' => implode(',', array_keys($options['options']))
+                    )
+                ));
 
             foreach ($options['options'] as $optionId => $optionValue) {
                 $item->addOption(new \Magento\Object(
-                    array(
-                        'product' => $item->getProduct(),
-                        'code' => 'option_'.$optionId,
-                        'value' => $optionValue
-                    )
-                ));
+                        array(
+                            'product' => $item->getProduct(),
+                            'code' => 'option_'.$optionId,
+                            'value' => $optionValue
+                        )
+                    ));
             }
         }
         if (!empty($options['additional_options'])) {
             $item->addOption(new \Magento\Object(
-                array(
-                    'product' => $item->getProduct(),
-                    'code' => 'additional_options',
-                    'value' => serialize($options['additional_options'])
-                )
-            ));
+                    array(
+                        'product' => $item->getProduct(),
+                        'code' => 'additional_options',
+                        'value' => serialize($options['additional_options'])
+                    )
+                ));
         }
 
         return $this;
@@ -1481,7 +1481,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         $customerId = (int)$this->getSession()->getCustomerId();
         $customerData = $this->_customerAccountService->getCustomer($customerId);
         return $customerData->getWebsiteId() == $store->getWebsiteId() ||
-            $this->_customerHelper->isCustomerInStore($customerData->getWebsiteId(), $store->getId());
+        $this->_customerHelper->isCustomerInStore($customerData->getWebsiteId(), $store->getId());
     }
 
     /**
@@ -1505,7 +1505,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
             }
         }
         $data = $form->restoreData($data);
-        foreach($data as $key => $value) {
+        foreach ($data as $key => $value) {
             if(!is_null($value)){
                 unset($data[$key]);
             }

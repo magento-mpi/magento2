@@ -46,11 +46,6 @@ class View
     protected $_modelVisitor;
 
     /**
-     * @var \Magento\Customer\Service\V1\CustomerServiceInterface
-     */
-    protected $_customerService;
-
-    /**
      * @var CustomerAccountServiceInterface
      */
     protected $_accountService;
@@ -86,7 +81,6 @@ class View
     
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Customer\Service\V1\CustomerServiceInterface $customerService
      * @param CustomerAccountServiceInterface $accountService
      * @param \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService
      * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService
@@ -102,7 +96,6 @@ class View
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Customer\Service\V1\CustomerServiceInterface $customerService,
         CustomerAccountServiceInterface $accountService,
         \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService,
         \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService,
@@ -116,7 +109,6 @@ class View
     ) {
         $this->_coreRegistry = $registry;
         $this->_modelVisitor = $modelVisitor;
-        $this->_customerService = $customerService;
         $this->_accountService = $accountService;
         $this->_addressService = $addressService;
         $this->_groupService = $groupService;

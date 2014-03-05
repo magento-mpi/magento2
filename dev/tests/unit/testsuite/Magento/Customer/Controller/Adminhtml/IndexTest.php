@@ -50,11 +50,6 @@ class IndexTest extends \PHPUnit_Framework_TestCase
     protected $_acctServiceMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Customer\Service\V1\CustomerServiceInterface
-     */
-    protected $_customerServiceMock;
-
-    /**
      * Session mock instance
      *
      * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Backend\Model\Session
@@ -150,14 +145,10 @@ class IndexTest extends \PHPUnit_Framework_TestCase
         $this->_acctServiceMock = $this
             ->getMockBuilder('Magento\Customer\Service\V1\CustomerAccountServiceInterface')
             ->getMock();
-        $this->_customerServiceMock = $this
-            ->getMockBuilder('Magento\Customer\Service\V1\CustomerServiceInterface')
-            ->getMock();
 
         $args = [
             'context' => $contextMock,
             'accountService' => $this->_acctServiceMock,
-            'customerService' => $this->_customerServiceMock,
         ];
 
 
