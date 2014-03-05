@@ -1257,7 +1257,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testDeleteCustomerWithAddress()
     {
-        $this->markTestSkipped('Investigate how to ensure that addresses are deleted. Currently it is false negative');
         //Verify address is created for the customer;
         $result = $this->_customerAddressService->getAddresses(1);
         $this->assertEquals(2, count($result));
@@ -1270,7 +1269,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         //Verify by calling the Address Service. This will throw the expected exception since customerId doesn't exist
         $result = $this->_customerAddressService->getAddresses(1);
-        $this->assertTrue(empty($result));
     }
 
     /**
