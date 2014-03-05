@@ -100,7 +100,8 @@ class ObjectManagerFactory extends \Magento\App\ObjectManagerFactory
                 'Magento\App\Request\Http' => 'Magento\TestFramework\Request',
                 'Magento\App\ResponseInterface' => 'Magento\TestFramework\Response',
                 'Magento\App\Response\Http' => 'Magento\TestFramework\Response',
-                'Magento\Interception\PluginList\PluginList' => 'Magento\TestFramework\Interception\PluginList'
+                'Magento\Interception\PluginList\PluginList' => 'Magento\TestFramework\Interception\PluginList',
+                'Magento\Interception\ObjectManager\Config' => 'Magento\TestFramework\ObjectManager\Config',
             ),
         ));
 
