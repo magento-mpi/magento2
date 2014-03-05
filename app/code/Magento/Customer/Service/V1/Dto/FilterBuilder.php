@@ -15,8 +15,10 @@ use Magento\Service\Entity\AbstractDtoBuilder;
 class FilterBuilder extends AbstractDtoBuilder
 {
     /**
+     * Set field
+     *
      * @param string $field
-     * @return FilterBuilder
+     * @return $this
      */
     public function setField($field)
     {
@@ -25,8 +27,10 @@ class FilterBuilder extends AbstractDtoBuilder
     }
 
     /**
+     * Set value
+     *
      * @param string | string[] $value
-     * @return FilterBuilder
+     * @return $this
      */
     public function setValue($value)
     {
@@ -35,8 +39,10 @@ class FilterBuilder extends AbstractDtoBuilder
     }
 
     /**
+     * Set condition type
+     *
      * @param string $conditionType
-     * @return FilterBuilder
+     * @return $this
      */
     public function setConditionType($conditionType)
     {

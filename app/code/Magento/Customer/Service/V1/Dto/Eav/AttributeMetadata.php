@@ -1,7 +1,5 @@
 <?php
 /**
- * Eav Attribute Metadata
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -9,6 +7,9 @@
  */
 namespace Magento\Customer\Service\V1\Dto\Eav;
 
+/**
+ * Class AttributeMetadata
+ */
 class AttributeMetadata extends \Magento\Service\Entity\AbstractDto
 {
     /**#@+
@@ -95,7 +96,7 @@ class AttributeMetadata extends \Magento\Service\Entity\AbstractDto
     /**
      * Whether attribute is visible on frontend.
      *
-     * @return boolean
+     * @return bool
      */
     public function isVisible()
     {
@@ -105,7 +106,7 @@ class AttributeMetadata extends \Magento\Service\Entity\AbstractDto
     /**
      * Whether attribute is required.
      *
-     * @return boolean
+     * @return bool
      */
     public function isRequired()
     {
@@ -125,7 +126,7 @@ class AttributeMetadata extends \Magento\Service\Entity\AbstractDto
     /**
      * Return options of the attribute (key => value pairs for select)
      *
-     * @return Option[]
+     * @return \Magento\Customer\Service\V1\Dto\Eav\Option[]
      */
     public function getOptions()
     {

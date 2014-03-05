@@ -1,7 +1,5 @@
 <?php
 /**
- * Eav Attribute
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -9,14 +7,21 @@
  */
 namespace Magento\Customer\Service\V1\Dto\Eav;
 
+/**
+ * Interface EntityInterface
+ */
 interface EntityInterface
 {
     /**
-     * @return string[]
+     * Retrieve array of all attributes, in the form of 'attribute code' => <attribute value'
+     *
+     * @return string[] attributes, in the form of 'attribute code' => <attribute value'
      */
     public function getAttributes();
 
     /**
+     * Get attribute value for given attribute code
+     *
      * @param string $attributeCode
      * @return string|null
      */

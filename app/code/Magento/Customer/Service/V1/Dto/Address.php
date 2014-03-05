@@ -9,6 +9,9 @@
  */
 namespace Magento\Customer\Service\V1\Dto;
 
+/**
+ * Address class acts as a SDO for Customer Services
+ */
 class Address extends \Magento\Service\Entity\AbstractDto implements Eav\EntityInterface
 {
     const ADDRESS_TYPE_BILLING = 'billing';
@@ -34,6 +37,11 @@ class Address extends \Magento\Service\Entity\AbstractDto implements Eav\EntityI
     const KEY_SUFFIX = 'suffix';
     const KEY_VAT_ID = 'vat_id';
 
+    /**
+     * Valid attribute name
+     *
+     * @var string[]
+     */
     protected $_validAttributes = [
         self::KEY_COUNTRY_ID,
         self::KEY_DEFAULT_BILLING,
@@ -57,6 +65,8 @@ class Address extends \Magento\Service\Entity\AbstractDto implements Eav\EntityI
     ];
 
     /**
+     * Get id
+     *
      * @return int|null
      */
     public function getId()
@@ -65,7 +75,9 @@ class Address extends \Magento\Service\Entity\AbstractDto implements Eav\EntityI
     }
 
     /**
-     * @return boolean|null
+     * Get if this address is default shipping address
+     *
+     * @return bool|null
      */
     public function isDefaultShipping()
     {
@@ -73,7 +85,9 @@ class Address extends \Magento\Service\Entity\AbstractDto implements Eav\EntityI
     }
 
     /**
-     * @return boolean|null
+     * Get if this address is default billing address
+     *
+     * @return bool|null
      */
     public function isDefaultBilling()
     {
@@ -81,9 +95,7 @@ class Address extends \Magento\Service\Entity\AbstractDto implements Eav\EntityI
     }
 
     /**
-     * Retrieve array of all attributes, in the form of 'attribute code' => <attribute value'
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function getAttributes()
     {
@@ -121,8 +133,7 @@ class Address extends \Magento\Service\Entity\AbstractDto implements Eav\EntityI
     }
 
     /**
-     * @param string $attributeCode
-     * @return string|null
+     * {@inheritdoc}
      */
     public function getAttribute($attributeCode)
     {
@@ -134,7 +145,9 @@ class Address extends \Magento\Service\Entity\AbstractDto implements Eav\EntityI
     }
 
     /**
-     * @return Region|null
+     * Get region
+     *
+     * @return \Magento\Customer\Service\V1\Dto\Region|null
      */
     public function getRegion()
     {
@@ -142,6 +155,8 @@ class Address extends \Magento\Service\Entity\AbstractDto implements Eav\EntityI
     }
 
     /**
+     * Get country id
+     *
      * @return int|null
      */
     public function getCountryId()
@@ -150,6 +165,8 @@ class Address extends \Magento\Service\Entity\AbstractDto implements Eav\EntityI
     }
 
     /**
+     * Get street
+     *
      * @return string[]|null
      */
     public function getStreet()
@@ -158,6 +175,8 @@ class Address extends \Magento\Service\Entity\AbstractDto implements Eav\EntityI
     }
 
     /**
+     * Get company
+     *
      * @return string|null
      */
     public function getCompany()
@@ -166,6 +185,8 @@ class Address extends \Magento\Service\Entity\AbstractDto implements Eav\EntityI
     }
 
     /**
+     * Get telephone number
+     *
      * @return string|null
      */
     public function getTelephone()
@@ -174,6 +195,8 @@ class Address extends \Magento\Service\Entity\AbstractDto implements Eav\EntityI
     }
 
     /**
+     * Get fax number
+     *
      * @return string|null
      */
     public function getFax()
@@ -182,6 +205,8 @@ class Address extends \Magento\Service\Entity\AbstractDto implements Eav\EntityI
     }
 
     /**
+     * Get postcode
+     *
      * @return string|null
      */
     public function getPostcode()
@@ -190,6 +215,8 @@ class Address extends \Magento\Service\Entity\AbstractDto implements Eav\EntityI
     }
 
     /**
+     * Get city name
+     *
      * @return string|null
      */
     public function getCity()
@@ -198,6 +225,7 @@ class Address extends \Magento\Service\Entity\AbstractDto implements Eav\EntityI
     }
 
     /**
+     * Get first name
      * @return string|null
      */
     public function getFirstname()
@@ -206,6 +234,8 @@ class Address extends \Magento\Service\Entity\AbstractDto implements Eav\EntityI
     }
 
     /**
+     * Get last name
+     *
      * @return string|null
      */
     public function getLastname()
@@ -214,6 +244,8 @@ class Address extends \Magento\Service\Entity\AbstractDto implements Eav\EntityI
     }
 
     /**
+     * Get middle name
+     *
      * @return string|null
      */
     public function getMiddlename()
@@ -222,6 +254,8 @@ class Address extends \Magento\Service\Entity\AbstractDto implements Eav\EntityI
     }
 
     /**
+     * Get prefix
+     *
      * @return string|null
      */
     public function getPrefix()
@@ -230,6 +264,8 @@ class Address extends \Magento\Service\Entity\AbstractDto implements Eav\EntityI
     }
 
     /**
+     * Get suffix
+     *
      * @return string|null
      */
     public function getSuffix()
@@ -238,6 +274,8 @@ class Address extends \Magento\Service\Entity\AbstractDto implements Eav\EntityI
     }
 
     /**
+     * Get Vat id
+     *
      * @return string|null
      */
     public function getVatId()
@@ -246,6 +284,8 @@ class Address extends \Magento\Service\Entity\AbstractDto implements Eav\EntityI
     }
 
     /**
+     * Get customer id
+     *
      * @return string|null
      */
     public function getCustomerId()

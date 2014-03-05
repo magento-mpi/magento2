@@ -1,7 +1,5 @@
 <?php
 /**
- * Customer Service Address Interface
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -9,9 +7,14 @@
  */
 namespace Magento\Customer\Service\V1\Dto;
 
+/**
+ * Class Filter
+ */
 class Filter extends \Magento\Service\Entity\AbstractDto
 {
     /**
+     * Get field
+     *
      * @return string
      */
     public function getField()
@@ -20,6 +23,8 @@ class Filter extends \Magento\Service\Entity\AbstractDto
     }
 
     /**
+     * Get value
+     *
      * @return string | string[]
      */
     public function getValue()
@@ -28,6 +33,8 @@ class Filter extends \Magento\Service\Entity\AbstractDto
     }
 
     /**
+     * Get condition type
+     *
      * @return string
      */
     public function getConditionType()

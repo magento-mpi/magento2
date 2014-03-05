@@ -9,9 +9,6 @@ namespace Magento\Customer\Service\V1\Dto;
 
 /**
  * Class Customer
- * Uses array to hold data, setters return $this so they can be chained.
- *
- * @package Magento\Customer\Service\V1\Dto
  */
 class Customer extends \Magento\Service\Entity\AbstractDto implements Eav\EntityInterface
 {
@@ -69,9 +66,7 @@ class Customer extends \Magento\Service\Entity\AbstractDto implements Eav\Entity
     ];
 
     /**
-     * Retrieve array of all attributes, in the form of 'attribute code' => 'attribute value'
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function getAttributes()
     {
@@ -86,10 +81,7 @@ class Customer extends \Magento\Service\Entity\AbstractDto implements Eav\Entity
     }
 
     /**
-     * Get an attribute value.
-     *
-     * @param string $attributeCode
-     * @return mixed The attribute value or null if the attribute has not been set
+     * {@inheritdoc}
      */
     public function getAttribute($attributeCode)
     {
@@ -101,6 +93,8 @@ class Customer extends \Magento\Service\Entity\AbstractDto implements Eav\Entity
     }
 
     /**
+     * Get default billing address id
+     *
      * @return string
      */
     public function getDefaultBilling()
@@ -109,6 +103,8 @@ class Customer extends \Magento\Service\Entity\AbstractDto implements Eav\Entity
     }
 
     /**
+     * Get default shipping address id
+     *
      * @return string
      */
     public function getDefaultShipping()
@@ -117,6 +113,8 @@ class Customer extends \Magento\Service\Entity\AbstractDto implements Eav\Entity
     }
 
     /**
+     * Get confirmation
+     *
      * @return string
      */
     public function getConfirmation()
@@ -125,6 +123,8 @@ class Customer extends \Magento\Service\Entity\AbstractDto implements Eav\Entity
     }
 
     /**
+     * Get created at time
+     *
      * @return string
      */
     public function getCreatedAt()
@@ -133,6 +133,8 @@ class Customer extends \Magento\Service\Entity\AbstractDto implements Eav\Entity
     }
 
     /**
+     * Get created in area
+     *
      * @return string
      */
     public function getCreatedIn()
@@ -141,6 +143,8 @@ class Customer extends \Magento\Service\Entity\AbstractDto implements Eav\Entity
     }
 
     /**
+     * Get date of birth
+     *
      * @return string
      */
     public function getDob()
@@ -149,6 +153,8 @@ class Customer extends \Magento\Service\Entity\AbstractDto implements Eav\Entity
     }
 
     /**
+     * Get email address
+     *
      * @return string
      */
     public function getEmail()
@@ -157,6 +163,8 @@ class Customer extends \Magento\Service\Entity\AbstractDto implements Eav\Entity
     }
 
     /**
+     * Get first name
+     *
      * @return string
      */
     public function getFirstname()
@@ -165,6 +173,8 @@ class Customer extends \Magento\Service\Entity\AbstractDto implements Eav\Entity
     }
 
     /**
+     * Get gender
+     *
      * @return string
      */
     public function getGender()
@@ -173,6 +183,8 @@ class Customer extends \Magento\Service\Entity\AbstractDto implements Eav\Entity
     }
 
     /**
+     * Get group id
+     *
      * @return string
      */
     public function getGroupId()
@@ -181,6 +193,8 @@ class Customer extends \Magento\Service\Entity\AbstractDto implements Eav\Entity
     }
 
     /**
+     * Get customer id
+     *
      * @return int
      */
     public function getCustomerId()
@@ -189,6 +203,8 @@ class Customer extends \Magento\Service\Entity\AbstractDto implements Eav\Entity
     }
 
     /**
+     * Get last name
+     *
      * @return string
      */
     public function getLastname()
@@ -197,6 +213,8 @@ class Customer extends \Magento\Service\Entity\AbstractDto implements Eav\Entity
     }
 
     /**
+     * Get middle name
+     *
      * @return string
      */
     public function getMiddlename()
@@ -205,6 +223,8 @@ class Customer extends \Magento\Service\Entity\AbstractDto implements Eav\Entity
     }
 
     /**
+     * Get prefix
+     *
      * @return string
      */
     public function getPrefix()
@@ -213,6 +233,8 @@ class Customer extends \Magento\Service\Entity\AbstractDto implements Eav\Entity
     }
 
     /**
+     * Get store id
+     *
      * @return int
      */
     public function getStoreId()
@@ -221,6 +243,8 @@ class Customer extends \Magento\Service\Entity\AbstractDto implements Eav\Entity
     }
 
     /**
+     * Get suffix
+     *
      * @return string
      */
     public function getSuffix()
@@ -229,6 +253,7 @@ class Customer extends \Magento\Service\Entity\AbstractDto implements Eav\Entity
     }
 
     /**
+     * Get tax Vat
      * @return string
      */
     public function getTaxvat()
@@ -237,6 +262,8 @@ class Customer extends \Magento\Service\Entity\AbstractDto implements Eav\Entity
     }
 
     /**
+     * Get website id
+     *
      * @return int
      */
     public function getWebsiteId()
@@ -245,6 +272,8 @@ class Customer extends \Magento\Service\Entity\AbstractDto implements Eav\Entity
     }
 
     /**
+     * Get Rp token
+     *
      * @return string
      */
     public function getRpToken()
@@ -253,6 +282,8 @@ class Customer extends \Magento\Service\Entity\AbstractDto implements Eav\Entity
     }
 
     /**
+     * Get Rp token created time
+     *
      * @return string
      */
     public function getRpTokenCreatedAt()

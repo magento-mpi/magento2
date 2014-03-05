@@ -17,14 +17,14 @@ interface FilterGroupInterface
     /**
      * Returns a list of filters in this group
      *
-     * @return Filter[]
+     * @return \Magento\Customer\Service\V1\Dto\Filter[]
      */
     public function getFilters();
 
     /**
      * Returns a list of filter groups in this group
      *
-     * @return FilterGroupInterface[]
+     * @return \Magento\Customer\Service\V1\Dto\Search\FilterGroupInterface[]
      */
     public function getGroups();
 

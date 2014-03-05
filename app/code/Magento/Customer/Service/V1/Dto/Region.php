@@ -1,7 +1,5 @@
 <?php
 /**
- * Class Region
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -9,6 +7,9 @@
  */
 namespace Magento\Customer\Service\V1\Dto;
 
+/**
+ * Class Region
+ */
 class Region extends \Magento\Service\Entity\AbstractDto
 {
     /**#@+
@@ -20,6 +21,8 @@ class Region extends \Magento\Service\Entity\AbstractDto
     /**#@-*/
 
     /**
+     * Get region code
+     *
      * @return string
      */
     public function getRegionCode()
@@ -28,6 +31,8 @@ class Region extends \Magento\Service\Entity\AbstractDto
     }
 
     /**
+     * Get region
+     *
      * @return string
      */
     public function getRegion()
@@ -36,6 +41,8 @@ class Region extends \Magento\Service\Entity\AbstractDto
     }
 
     /**
+     * Get region id
+     *
      * @return int
      */
     public function getRegionId()

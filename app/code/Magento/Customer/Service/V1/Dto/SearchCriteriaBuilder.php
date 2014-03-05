@@ -24,11 +24,12 @@ class SearchCriteriaBuilder extends AbstractDtoBuilder
         return parent::create();
     }
     /**
-     * @param Filter $filter
+     * Add filter
      *
-     * @return SearchCriteriaBuilder
+     * @param \Magento\Customer\Service\V1\Dto\Filter $filter
+     * @return $this
      */
-    public function addFilter(Filter $filter)
+    public function addFilter(\Magento\Customer\Service\V1\Dto\Filter $filter)
     {
         $this->getFilterGroup()->addFilter($filter);
         return $this;
@@ -37,7 +38,7 @@ class SearchCriteriaBuilder extends AbstractDtoBuilder
     /**
      * Add an OR grouping of filters to this SearchCriteria.
      *
-     * @param Filter[] $filters
+     * @param \Magento\Customer\Service\V1\Dto\Filter[] $filters
      * @return $this
      */
     public function addOrGroup($filters)
@@ -51,7 +52,9 @@ class SearchCriteriaBuilder extends AbstractDtoBuilder
     }
 
     /**
-     * @return Search\AndGroupBuilder
+     * Get filter group
+     *
+     * @return \Magento\Customer\Service\V1\Dto\Search\AndGroupBuilder
      */
     private function getFilterGroup()
     {
@@ -62,10 +65,11 @@ class SearchCriteriaBuilder extends AbstractDtoBuilder
     }
 
     /**
+     * Add sort order
+     *
      * @param string $field
      * @param int $direction
-     *
-     * @return SearchCriteriaBuilder
+     * @return $this
      */
     public function addSortOrder($field, $direction)
     {
@@ -78,9 +82,10 @@ class SearchCriteriaBuilder extends AbstractDtoBuilder
     }
 
     /**
-     * @param int $pageSize
+     * Set page size
      *
-     * @return SearchCriteriaBuilder
+     * @param int $pageSize
+     * @return $this
      */
     public function setPageSize($pageSize)
     {
@@ -88,9 +93,10 @@ class SearchCriteriaBuilder extends AbstractDtoBuilder
     }
 
     /**
-     * @param int $currentPage
+     * Set current page
      *
-     * @return SearchCriteriaBuilder
+     * @param int $currentPage
+     * @return $this
      */
     public function setCurrentPage($currentPage)
     {

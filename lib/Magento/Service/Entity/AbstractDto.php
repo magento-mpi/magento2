@@ -7,8 +7,6 @@
  */
 namespace Magento\Service\Entity;
 
-use Magento\Exception\InputException;
-
 /**
  * Class AbstractDto
  * @SuppressWarnings(PHPMD.NumberOfChildren)

@@ -1,7 +1,5 @@
 <?php
 /**
- * Customer Service Address Interface
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -9,14 +7,16 @@
  */
 namespace Magento\Customer\Service\V1\Dto;
 
-use Magento\Customer\Service\V1\Dto\SearchCriteria;
-
+/**
+ * Class SearchResultsBuilder
+ */
 class SearchResultsBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
 {
     /**
-     * @param \Magento\Customer\Service\V1\Dto\SearchCriteria $searchCriteria
+     * Set search criteria
      *
-     * @return SearchResultsBuilder
+     * @param \Magento\Customer\Service\V1\Dto\SearchCriteria $searchCriteria
+     * @return $this
      */
     public function setSearchCriteria(SearchCriteria $searchCriteria)
     {
@@ -24,9 +24,10 @@ class SearchResultsBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
     }
 
     /**
-     * @param int $totalCount
+     * Set total count
      *
-     * @return SearchResultsBuilder
+     * @param int $totalCount
+     * @return $this
      */
     public function setTotalCount($totalCount)
     {
@@ -34,9 +35,10 @@ class SearchResultsBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
     }
 
     /**
-     * @param array $items
+     * Set items
      *
-     * @return SearchResultsBuilder
+     * @param \Magento\Service\Entity\AbstractDto[] $items
+     * @return $this
      */
     public function setItems($items)
     {

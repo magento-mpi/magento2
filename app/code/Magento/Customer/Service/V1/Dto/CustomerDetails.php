@@ -7,13 +7,18 @@
  */
 namespace Magento\Customer\Service\V1\Dto;
 
+/**
+ * Class CustomerDetails
+ */
 class CustomerDetails extends \Magento\Service\Entity\AbstractDto
 {
     const KEY_CUSTOMER = 'customer';
     const KEY_ADDRESSES = 'addresses';
 
     /**
-     * @return Address[]|null
+     * Get addresses
+     *
+     * @return \Magento\Customer\Service\V1\Dto\Address[]|null
      */
     public function getAddresses()
     {
@@ -21,7 +26,9 @@ class CustomerDetails extends \Magento\Service\Entity\AbstractDto
     }
 
     /**
-     * @return Customer
+     * Get customer
+     *
+     * @return \Magento\Customer\Service\V1\Dto\Customer
      */
     public function getCustomer()
     {
