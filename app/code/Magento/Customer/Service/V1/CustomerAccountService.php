@@ -174,23 +174,6 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function validateAccountConfirmationKey($customerId, $confirmationKey)
-    {
-        // load customer by id
-        $customer = $this->_converter->getCustomerModel($customerId);
-
-        // check if customer is inactive
-        if (!$customer->getConfirmation()) {
-            throw new StateException('Account already active', StateException::INVALID_STATE);
-        } elseif ($customer->getConfirmation() !== $confirmationKey) {
-            throw new StateException('Invalid confirmation token', StateException::INPUT_MISMATCH);
-        }
-        return true;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function authenticate($username, $password)
     {
         $customerModel = $this->_customerFactory->create();

@@ -195,6 +195,24 @@ class CustomerAddressService implements CustomerAddressServiceInterface
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function validateAddresses($addresses)
+    {
+        $inputExceptions = [];
+        foreach ($addresses as $key => $address) {
+            $addressModel = $this->_addressConverter->createAddressModel($address);
+            $inputException = $this->_validate($addressModel, new InputException(), $key);
+            if ($inputException->getErrors()) {
+                $inputExceptions[$key] = $inputException;
+            } else {
+                $inputExceptions[$key] = true;
+            }
+        }
+        return $inputExceptions;
+    }
+
+    /**
      * Validate Customer Addresses attribute values.
      *
      * @param CustomerAddressModel $customerAddressModel the model to validate
