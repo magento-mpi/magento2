@@ -7,6 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Search\Model\Resource;
+
+use Magento\Catalog\Model\Category;
+use Magento\Eav\Model\Entity\Collection\AbstractCollection;
 
 /**
  * Enterprise search collection resource model
@@ -15,9 +19,6 @@
  * @package    Magento_Search
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Search\Model\Resource;
-
 class Collection
     extends \Magento\Catalog\Model\Resource\Product\Collection
 {
@@ -212,7 +213,7 @@ class Collection
     /**
      * Load faceted data if not loaded
      *
-     * @return \Magento\Search\Model\Resource\Collection
+     * @return $this
      */
     public function loadFacetedData()
     {
@@ -236,7 +237,6 @@ class Collection
      * Return field faceted data from faceted search result
      *
      * @param string $field
-     *
      * @return array
      */
     public function getFacetedData($field)
@@ -266,9 +266,8 @@ class Collection
      * Allow to set faceted search conditions to retrieve result by single query
      *
      * @param string $field
-     * @param string | array $condition
-     *
-     * @return \Magento\Search\Model\Resource\Collection
+     * @param string|array|null $condition
+     * @return $this
      */
     public function setFacetCondition($field, $condition = null)
     {
@@ -290,9 +289,8 @@ class Collection
      * Add search query filter
      * Set search query
      *
-     * @param   string $queryText
-     *
-     * @return  \Magento\Search\Model\Resource\Collection
+     * @param string $queryText
+     * @return $this
      */
     public function addSearchFilter($queryText)
     {
@@ -313,10 +311,9 @@ class Collection
      * Add search query filter
      * Set search query parameters
      *
-     * @param   string|array $param
-     * @param   string|array $value
-     *
-     * @return  \Magento\Search\Model\Resource\Collection
+     * @param string|array $param
+     * @param string|array|null $value
+     * @return $this
      */
     public function addSearchParam($param, $value = null)
     {
@@ -347,8 +344,8 @@ class Collection
     /**
      * Add search query filter (fq)
      *
-     * @param   array $param
-     * @return  \Magento\Search\Model\Resource\Collection
+     * @param array $param
+     * @return $this
      */
     public function addFqFilter($param)
     {
@@ -365,8 +362,8 @@ class Collection
      * Add advanced search query filter
      * Set search query
      *
-     * @param  string $query
-     * @return \Magento\Search\Model\Resource\Collection
+     * @param string $query
+     * @return $this
      */
     public function addAdvancedSearchFilter($query)
     {
@@ -376,10 +373,10 @@ class Collection
     /**
      * Specify category filter for product collection
      *
-     * @param   \Magento\Catalog\Model\Category $category
-     * @return  \Magento\Search\Model\Resource\Collection
+     * @param Category $category
+     * @return $this
      */
-    public function addCategoryFilter(\Magento\Catalog\Model\Category $category)
+    public function addCategoryFilter(Category $category)
     {
         $this->addFqFilter(array('category_ids' => $category->getId()));
         parent::addCategoryFilter($category);
@@ -391,7 +388,7 @@ class Collection
      *
      * @param string $attribute
      * @param string $dir
-     * @return \Magento\Search\Model\Resource\Collection
+     * @return $this
      */
     public function setOrder($attribute, $dir = 'desc')
     {
@@ -428,7 +425,7 @@ class Collection
      * Search documents by query
      * Set found ids and number of found results
      *
-     * @return \Magento\Search\Model\Resource\Collection
+     * @return $this
      */
     protected function _beforeLoad()
     {
@@ -478,7 +475,7 @@ class Collection
     /**
      * Sort collection items by sort order of found ids
      *
-     * @return \Magento\Search\Model\Resource\Collection
+     * @return $this
      */
     protected function _afterLoad()
     {
@@ -558,7 +555,7 @@ class Collection
     /**
      * Set query *:* to disable query limitation
      *
-     * @return \Magento\Search\Model\Resource\Collection
+     * @return $this
      */
     public function setGeneralDefaultQuery()
     {
@@ -570,7 +567,7 @@ class Collection
      * Set search engine
      *
      * @param object $engine
-     * @return \Magento\Search\Model\Resource\Collection
+     * @return $this
      */
     public function setEngine($engine)
     {
@@ -582,8 +579,7 @@ class Collection
      * Stub method
      *
      * @param array $fields
-     *
-     * @return \Magento\Search\Model\Resource\Collection
+     * @return $this
      */
     public function addFieldsToFilter($fields)
     {
@@ -593,8 +589,8 @@ class Collection
     /**
      * Adding product count to categories collection
      *
-     * @param   \Magento\Eav\Model\Entity\Collection\AbstractCollection $categoryCollection
-     * @return  \Magento\Search\Model\Resource\Collection
+     * @param AbstractCollection $categoryCollection
+     * @return $this
      */
     public function addCountToCategories($categoryCollection)
     {
@@ -604,8 +600,8 @@ class Collection
     /**
      * Set product visibility filter for enabled products
      *
-     * @param   array $visibility
-     * @return  \Magento\Catalog\Model\Resource\Product\Collection
+     * @param array $visibility
+     * @return $this
      */
     public function setVisibility($visibility)
     {
@@ -619,13 +615,13 @@ class Collection
     /**
      * Get prices from search results
      *
-     * @param   null|float $lowerPrice
-     * @param   null|float $upperPrice
-     * @param   null|int   $limit
-     * @param   null|int   $offset
-     * @param   boolean    $getCount
-     * @param   string     $sort
-     * @return  array
+     * @param null|float $lowerPrice
+     * @param null|float $upperPrice
+     * @param null|int $limit
+     * @param null|int $offset
+     * @param bool $getCount
+     * @param string $sort
+     * @return array
      */
     public function getPriceData($lowerPrice = null, $upperPrice = null,
         $limit = null, $offset = null, $getCount = false, $sort = 'asc')

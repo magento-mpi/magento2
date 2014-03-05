@@ -7,13 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\SalesArchive\Model;
 
 /**
  * Order archive config model
  *
  */
-namespace Magento\SalesArchive\Model;
-
 class Config
 {
     const XML_PATH_ARCHIVE_ACTIVE = 'sales/magento_salesarchive/active';
@@ -39,7 +38,7 @@ class Config
     /**
      * Check archiving activity
      *
-     * @return boolean
+     * @return bool
      */
     public function isArchiveActive()
     {
@@ -59,7 +58,7 @@ class Config
     /**
      * Retrieve order statuses for archiving
      *
-     * @return array
+     * @return array|string[]
      */
     public function getArchiveOrderStatuses()
     {

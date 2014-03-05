@@ -52,18 +52,6 @@
         </arguments>
     </type>
 
-    <type name="Magento\Pbridge\Model\Payment\Method\Paypal">
-        <arguments>
-            <argument name="formBlock" xsi:type="string">Magento\Pbridge\Block\Checkout\Payment\Paypal</argument>
-        </arguments>
-    </type>
-
-    <type name="Magento\Pbridge\Model\Payment\Method\PayflowDirect">
-        <arguments>
-            <argument name="formBlock" xsi:type="string">Magento\Pbridge\Block\Checkout\Payment\PayflowDirect</argument>
-        </arguments>
-    </type>
-
     <type name="Magento\Pbridge\Model\Payment\Method\Braintree\Basic">
         <arguments>
             <argument name="formBlock" xsi:type="string">Magento\Pbridge\Block\Checkout\Payment\Braintree\Basic</argument>
@@ -85,12 +73,6 @@
     <type name="Magento\Pbridge\Model\Payment\Method\Paybox\Direct">
         <arguments>
             <argument name="formBlock" xsi:type="string">Magento\Pbridge\Block\Checkout\Payment\Paybox\Direct</argument>
-        </arguments>
-    </type>
-
-    <type name="Magento\Pbridge\Model\Payment\Method\Payflowpro">
-        <arguments>
-            <argument name="formBlock" xsi:type="string">Magento\Pbridge\Block\Checkout\Payment\Payflowpro</argument>
         </arguments>
     </type>
 

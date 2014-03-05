@@ -8,8 +8,8 @@
  * @license     {license_link}
  */
 
-
 namespace Magento\OfflineShipping\Model\Quote;
+use Magento\Sales\Model\Quote\Address;
 
 class Freeshipping extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 {
@@ -44,7 +44,7 @@ class Freeshipping extends \Magento\Sales\Model\Quote\Address\Total\AbstractTota
      * @param   \Magento\Sales\Model\Quote\Address $address
      * @return  \Magento\OfflineShipping\Model\Quote\Freeshipping
      */
-    public function collect(\Magento\Sales\Model\Quote\Address $address)
+    public function collect(Address $address)
     {
         parent::collect($address);
         $quote = $address->getQuote();
@@ -99,7 +99,7 @@ class Freeshipping extends \Magento\Sales\Model\Quote\Address\Total\AbstractTota
     * @param   \Magento\Sales\Model\Quote\Address $address
     * @return  \Magento\OfflineShipping\Model\Quote\Freeshipping
     */
-    public function fetch(\Magento\Sales\Model\Quote\Address $address)
+    public function fetch(Address $address)
     {
         return $this;
     }
