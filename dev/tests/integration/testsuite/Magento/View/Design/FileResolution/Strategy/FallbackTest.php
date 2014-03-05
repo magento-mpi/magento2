@@ -95,13 +95,13 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider getFileDataProvider
      */
-    public function testGetFile($file, $area, $themePath, $module, $expectedFilename)
+    public function testGetTemplateFile($file, $area, $themePath, $module, $expectedFilename)
     {
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')->setAreaCode($area);
         $model = $this->_buildModel($area, $themePath, null);
         $themeModel = $this->_getThemeModel($area, $themePath);
 
-        $actualFilename = $model->getFile($area, $themeModel, $file, $module);
+        $actualFilename = $model->getTemplateFile($area, $themeModel, $file, $module);
         if ($expectedFilename) {
             $this->assertStringMatchesFormat($expectedFilename, $actualFilename);
             $this->assertFileExists($actualFilename);
@@ -119,11 +119,11 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
             ),
             'non-modular: inherit same package & parent theme' => array(
                 'fixture_template.phtml', 'frontend', 'vendor_custom_theme', null,
-                '%s/frontend/vendor_default/fixture_template.phtml',
+                '%s/frontend/vendor_default/templates/fixture_template.phtml',
             ),
             'non-modular: inherit same package & grandparent theme' => array(
                 'fixture_template.phtml', 'frontend', 'vendor_custom_theme2', null,
-                '%s/frontend/vendor_default/fixture_template.phtml',
+                '%s/frontend/vendor_default/templates/fixture_template.phtml',
             ),
             'modular: no default inheritance' => array(
                 'fixture_template.phtml', 'frontend', 'vendor_standalone_theme', 'Fixture_Module',
@@ -135,11 +135,11 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
             ),
             'modular: inherit same package & parent theme' => array(
                 'fixture_template.phtml', 'frontend', 'vendor_custom_theme', 'Fixture_Module',
-                '%s/frontend/vendor_default/Fixture_Module/fixture_template.phtml',
+                '%s/frontend/vendor_default/Fixture_Module/templates/fixture_template.phtml',
             ),
             'modular: inherit same package & grandparent theme' => array(
                 'fixture_template.phtml', 'frontend', 'vendor_custom_theme2', 'Fixture_Module',
-                '%s/frontend/vendor_default/Fixture_Module/fixture_template.phtml',
+                '%s/frontend/vendor_default/Fixture_Module/templates/fixture_template.phtml',
             ),
         );
     }
@@ -222,23 +222,23 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
             ),
             'non-modular: inherit same package & parent theme' => array(
                 'fixture_script.js', 'frontend', 'vendor_custom_theme', null, null,
-                '%s/frontend/vendor_default/fixture_script.js',
+                '%s/frontend/vendor_default/web/fixture_script.js',
             ),
             'non-modular: inherit same package & grandparent theme' => array(
                 'fixture_script.js', 'frontend', 'vendor_custom_theme2', null, null,
-                '%s/frontend/vendor_default/fixture_script.js',
+                '%s/frontend/vendor_default/web/fixture_script.js',
             ),
             'non-modular: fallback to non-localized file' => array(
                 'fixture_script.js', 'frontend', 'vendor_default', 'en_US', null,
-                '%s/frontend/vendor_default/fixture_script.js',
+                '%s/frontend/vendor_default/web/fixture_script.js',
             ),
             'non-modular: localized file' => array(
                 'fixture_script.js', 'frontend', 'vendor_default', 'ru_RU', null,
-                '%s/frontend/vendor_default/i18n/ru_RU/fixture_script.js',
+                '%s/frontend/vendor_default/web/i18n/ru_RU/fixture_script.js',
             ),
             'non-modular: override js lib file' => array(
                 'mage/script.js', 'frontend', 'vendor_custom_theme', null, null,
-                '%s/frontend/vendor_custom_theme/mage/script.js',
+                '%s/frontend/vendor_custom_theme/web/mage/script.js',
             ),
             'non-modular: inherit js lib file' => array(
                 'mage/script.js', 'frontend', 'vendor_default', null, null,
@@ -262,19 +262,19 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
             ),
             'modular: inherit same package & parent theme' => array(
                 'fixture_script.js', 'frontend', 'vendor_custom_theme', null, 'Fixture_Module',
-                '%s/frontend/vendor_default/Fixture_Module/fixture_script.js',
+                '%s/frontend/vendor_default/Fixture_Module/web/fixture_script.js',
             ),
             'modular: inherit same package & grandparent theme' => array(
                 'fixture_script.js', 'frontend', 'vendor_custom_theme2', null, 'Fixture_Module',
-                '%s/frontend/vendor_default/Fixture_Module/fixture_script.js',
+                '%s/frontend/vendor_default/Fixture_Module/web/fixture_script.js',
             ),
             'modular: fallback to non-localized file' => array(
                 'fixture_script.js', 'frontend', 'vendor_default', 'en_US', 'Fixture_Module',
-                '%s/frontend/vendor_default/Fixture_Module/fixture_script.js',
+                '%s/frontend/vendor_default/Fixture_Module/web/fixture_script.js',
             ),
             'modular: localized file' => array(
                 'fixture_script.js', 'frontend', 'vendor_custom_theme2', 'ru_RU', 'Fixture_Module',
-                '%s/frontend/vendor_default/i18n/ru_RU/Fixture_Module/fixture_script.js',
+                '%s/frontend/vendor_default/web/i18n/ru_RU/Fixture_Module/fixture_script.js',
             ),
         );
     }
