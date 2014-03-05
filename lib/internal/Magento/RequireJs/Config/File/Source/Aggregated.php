@@ -82,8 +82,8 @@ class Aggregated implements SourceInterface
             throw new \InvalidArgumentException('File path must be specified');
         }
         $files = array();
-        $filename = $this->libDirectory->getAbsolutePath($filePath);
-        if ($this->libDirectory->isExist($filename)) {
+        if ($this->libDirectory->isExist($filePath)) {
+            $filename = $this->libDirectory->getAbsolutePath($filePath);
             $files[] = $this->fileFactory->create($filename, null);
         }
 

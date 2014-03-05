@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\RequireJs\Config\File\Source;
+namespace Magento\View\File\Source;
 
 use Magento\View\File\SourceInterface;
 use Magento\View\Design\ThemeInterface;
@@ -15,9 +15,9 @@ use Magento\Filesystem\Directory\ReadInterface;
 use Magento\View\File\Factory;
 
 /**
- * Source of base RequireJs config files introduced by modules
+ * Source of view files introduced by a theme
  */
-class Base implements SourceInterface
+class Theme implements SourceInterface
 {
     /**
      * File factory
@@ -27,24 +27,32 @@ class Base implements SourceInterface
     private $fileFactory;
 
     /**
-     * Modules directory
+     * Themes directory
      *
      * @var ReadInterface
      */
-    protected $modulesDirectory;
+    protected $themesDirectory;
+
+    /**
+     * @var string
+     */
+    protected $subDir;
 
     /**
      * Constructor
      *
      * @param Filesystem $filesystem
      * @param Factory $fileFactory
+     * @param string $subDir
      */
     public function __construct(
         Filesystem $filesystem,
-        Factory $fileFactory
+        Factory $fileFactory,
+        $subDir = ''
     ) {
-        $this->modulesDirectory = $filesystem->getDirectoryRead(Filesystem::MODULES_DIR);
+        $this->themesDirectory = $filesystem->getDirectoryRead(Filesystem::THEMES_DIR);
         $this->fileFactory = $fileFactory;
+        $this->subDir = $subDir ? $subDir . '/' : '';
     }
 
     /**
@@ -56,19 +64,12 @@ class Base implements SourceInterface
      */
     public function getFiles(ThemeInterface $theme, $filePath = '*')
     {
-        $namespace = $module = '*';
-        $area = $theme->getArea();
-        $files = $this->modulesDirectory->search("$namespace/$module/view/{$area}/$filePath");
+        $themePath = $theme->getFullPath();
+        $files = $this->themesDirectory->search("{$themePath}/{$this->subDir}{$filePath}");
         $result = array();
-        $filePath = strtr(preg_quote($filePath), array('\*' => '[^/]+'));
-        $pattern = "#(?<namespace>[^/]+)/(?<module>[^/]+)/view/{$area}/" . $filePath . "$#i";
         foreach ($files as $file) {
-            $filename = $this->modulesDirectory->getAbsolutePath($file);
-            if (!preg_match($pattern, $filename, $matches)) {
-                continue;
-            }
-            $moduleFull = "{$matches['namespace']}_{$matches['module']}";
-            $result[] = $this->fileFactory->create($filename, $moduleFull);
+            $filename = $this->themesDirectory->getAbsolutePath($file);
+            $result[] = $this->fileFactory->create($filename, null, $theme);
         }
         return $result;
     }

@@ -13,7 +13,7 @@ use Magento\View\Design\ThemeInterface;
 use Magento\App\Filesystem;
 use Magento\Filesystem\Directory\ReadInterface;
 use Magento\View\File\Factory;
-use Magento\View\Layout\File\FileList\Factory as FileListFactory;
+use Magento\View\File\FileList\Factory as FileListFactory;
 
 /**
  * Source of base layout files introduced by modules
@@ -65,7 +65,6 @@ class Library implements SourceInterface
      */
     public function getFiles(ThemeInterface $theme, $filePath = '*')
     {
-        $filePath = pathinfo($filePath, PATHINFO_EXTENSION) ? $filePath : rtrim($filePath, '.') . '.less';
         $list = $this->fileListFactory->create();
         $files = $this->libraryDirectory->search($filePath);
         $list->add($this->createFiles($this->libraryDirectory, $theme, $files));

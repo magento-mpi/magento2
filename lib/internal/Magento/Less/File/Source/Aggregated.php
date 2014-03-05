@@ -9,7 +9,7 @@
 namespace Magento\Less\File\Source;
 
 use Magento\View\File\SourceInterface;
-use Magento\View\Layout\File\FileList\Factory;
+use Magento\View\File\FileList\Factory;
 use Magento\View\Design\ThemeInterface;
 
 /**

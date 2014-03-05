@@ -8,7 +8,7 @@
 
 namespace Magento\Less\File\FileList;
 
-use Magento\View\Layout\File\FileList\CollateInterface;
+use Magento\View\File\FileList\CollateInterface;
 
 /**
  * Less file list collator

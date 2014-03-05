@@ -10,7 +10,7 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <virtualType name="requirejsConfigFileSourceBaseFiltered" type="Magento\View\File\Source\Decorator\ModuleOutput">
         <arguments>
-            <argument name="subject" xsi:type="object">Magento\RequireJs\Config\File\Source\Base</argument>
+            <argument name="subject" xsi:type="object">Magento\View\File\Source\Base</argument>
         </arguments>
     </virtualType>
     <virtualType name="requirejsConfigFileSourceBaseSorted" type="Magento\View\File\Source\Decorator\ModuleDependency">
@@ -20,7 +20,7 @@
     </virtualType>
     <virtualType name="requirejsFileSourceThemeFiltered" type="Magento\View\File\Source\Decorator\ModuleOutput">
         <arguments>
-            <argument name="subject" xsi:type="object">Magento\RequireJs\Config\File\Source\ThemeModular</argument>
+            <argument name="subject" xsi:type="object">Magento\View\File\Source\ThemeModular</argument>
         </arguments>
     </virtualType>
     <virtualType name="requirejsFileSourceThemeSorted" type="Magento\View\File\Source\Decorator\ModuleDependency">
@@ -32,7 +32,7 @@
         <arguments>
             <argument name="baseFiles" xsi:type="object">requirejsConfigFileSourceBaseSorted</argument>
             <argument name="themeModularFiles" xsi:type="object">requirejsFileSourceThemeSorted</argument>
-            <argument name="themeFiles" xsi:type="object">Magento\RequireJs\Config\File\Source\Theme</argument>
+            <argument name="themeFiles" xsi:type="object">Magento\View\File\Source\Theme</argument>
         </arguments>
     </type>
 </config>

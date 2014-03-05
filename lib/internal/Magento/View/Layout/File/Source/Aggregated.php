@@ -10,7 +10,7 @@ namespace Magento\View\Layout\File\Source;
 
 use Magento\View\File\SourceInterface;
 use Magento\View\Design\ThemeInterface;
-use Magento\View\Layout\File\FileList\Factory;
+use Magento\View\File\FileList\Factory;
 
 /**
  * Source of layout files aggregated from a theme and its parents according to merging and overriding conventions

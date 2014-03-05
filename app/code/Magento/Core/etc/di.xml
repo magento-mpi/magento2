@@ -165,9 +165,15 @@
             <argument name="cache" xsi:type="object">Magento\App\Cache\Type\Layout</argument>
         </arguments>
     </type>
+
+    <virtualType name="layoutFileSourceBase" type="Magento\View\File\Source\Base">
+        <arguments>
+            <argument name="subDir" xsi:type="string">layout</argument>
+        </arguments>
+    </virtualType>
     <virtualType name="layoutFileSourceBaseFiltered" type="Magento\View\File\Source\Decorator\ModuleOutput">
         <arguments>
-            <argument name="subject" xsi:type="object">Magento\View\Layout\File\Source\Base</argument>
+            <argument name="subject" xsi:type="object">layoutFileSourceBase</argument>
         </arguments>
     </virtualType>
     <virtualType name="layoutFileSourceBaseSorted" type="Magento\View\File\Source\Decorator\ModuleDependency">
@@ -175,9 +181,15 @@
             <argument name="subject" xsi:type="object">layoutFileSourceBaseFiltered</argument>
         </arguments>
     </virtualType>
+
+    <virtualType name="layoutFileSourceTheme" type="Magento\View\File\Source\ThemeModular">
+        <arguments>
+            <argument name="subDir" xsi:type="string">layout</argument>
+        </arguments>
+    </virtualType>
     <virtualType name="layoutFileSourceThemeFiltered" type="Magento\View\File\Source\Decorator\ModuleOutput">
         <arguments>
-            <argument name="subject" xsi:type="object">Magento\View\Layout\File\Source\Theme</argument>
+            <argument name="subject" xsi:type="object">layoutFileSourceTheme</argument>
         </arguments>
     </virtualType>
     <virtualType name="layoutFileSourceThemeSorted" type="Magento\View\File\Source\Decorator\ModuleDependency">
@@ -185,9 +197,15 @@
             <argument name="subject" xsi:type="object">layoutFileSourceThemeFiltered</argument>
         </arguments>
     </virtualType>
+
+    <virtualType name="layoutFileSourceOverrideBase" type="Magento\View\File\Source\Override\Base">
+        <arguments>
+            <argument name="subDir" xsi:type="string">layout/override/base</argument>
+        </arguments>
+    </virtualType>
     <virtualType name="layoutFileSourceOverrideBaseFiltered" type="Magento\View\File\Source\Decorator\ModuleOutput">
         <arguments>
-            <argument name="subject" xsi:type="object">Magento\View\Layout\File\Source\Override\Base</argument>
+            <argument name="subject" xsi:type="object">layoutFileSourceOverrideBase</argument>
         </arguments>
     </virtualType>
     <virtualType name="layoutFileSourceOverrideBaseSorted" type="Magento\View\File\Source\Decorator\ModuleDependency">
@@ -195,9 +213,15 @@
             <argument name="subject" xsi:type="object">layoutFileSourceOverrideBaseFiltered</argument>
         </arguments>
     </virtualType>
+
+    <virtualType name="layoutFileSourceOverrideTheme" type="Magento\View\File\Source\Override\ThemeModular">
+        <arguments>
+            <argument name="subDir" xsi:type="string">layout/override/theme</argument>
+        </arguments>
+    </virtualType>
     <virtualType name="layoutFileSourceOverrideThemeFiltered" type="Magento\View\File\Source\Decorator\ModuleOutput">
         <arguments>
-            <argument name="subject" xsi:type="object">Magento\View\Layout\File\Source\Override\Theme</argument>
+            <argument name="subject" xsi:type="object">layoutFileSourceOverrideTheme</argument>
         </arguments>
     </virtualType>
     <virtualType name="layoutFileSourceOverrideThemeSorted" type="Magento\View\File\Source\Decorator\ModuleDependency">
@@ -205,6 +229,7 @@
             <argument name="subject" xsi:type="object">layoutFileSourceOverrideThemeFiltered</argument>
         </arguments>
     </virtualType>
+
     <type name="Magento\View\Layout\File\Source\Aggregated">
         <arguments>
             <argument name="baseFiles" xsi:type="object">layoutFileSourceBaseSorted</argument>
@@ -213,6 +238,7 @@
             <argument name="overrideThemeFiles" xsi:type="object">layoutFileSourceOverrideThemeSorted</argument>
         </arguments>
     </type>
+
     <type name="Magento\View\Design\Theme\Image">
         <arguments>
             <argument name="uploader" xsi:type="object">Magento\View\Design\Theme\Image\Uploader\Proxy</argument>
@@ -497,11 +523,34 @@
             <argument name="fileSource" xsi:type="object">Magento\Less\File\Source\Aggregated</argument>
         </arguments>
     </type>
+
+    <virtualType name="lessFileSourceBaseFiltered" type="Magento\View\File\Source\Decorator\ModuleOutput">
+        <arguments>
+            <argument name="subject" xsi:type="object">Magento\View\File\Source\Base</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="lessFileSourceBaseSorted" type="Magento\View\File\Source\Decorator\ModuleDependency">
+        <arguments>
+            <argument name="subject" xsi:type="object">lessFileSourceBaseFiltered</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="lessFileSourceThemeFiltered" type="Magento\View\File\Source\Decorator\ModuleOutput">
+        <arguments>
+            <argument name="subject" xsi:type="object">Magento\View\File\Source\ThemeModular</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="lessFileSourceThemeSorted" type="Magento\View\File\Source\Decorator\ModuleDependency">
+        <arguments>
+            <argument name="subject" xsi:type="object">lessFileSourceThemeFiltered</argument>
+        </arguments>
+    </virtualType>
+
     <type name="Magento\Less\File\Source\Aggregated">
         <arguments>
             <argument name="libraryFiles" xsi:type="object">Magento\Less\File\Source\Library</argument>
-            <argument name="baseFiles" xsi:type="object">Magento\Less\File\Source\Base</argument>
-            <argument name="themeFiles" xsi:type="object">Magento\Less\File\Source\Theme</argument>
+            <argument name="baseFiles" xsi:type="object">lessFileSourceBaseSorted</argument>
+            <argument name="themeFiles" xsi:type="object">lessFileSourceThemeSorted</argument>
         </arguments>
     </type>
     <type name="Magento\Css\PreProcessor\Less">

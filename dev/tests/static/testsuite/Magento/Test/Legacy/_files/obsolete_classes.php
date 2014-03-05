@@ -1270,8 +1270,8 @@ return array(
     ),
     array('Magento\Core\Model\Layout\File','Magento\View\File'),
     array('Magento\Core\Model\Layout\File\Factory','Magento\View\File\Factory'),
-    array('Magento\Core\Model\Layout\File\FileList\Factory','Magento\View\Layout\File\FileList\Factory'),
-    array('Magento\Core\Model\Layout\File\ListFile','Magento\View\Layout\File\FileList'),
+    array('Magento\Core\Model\Layout\File\FileList\Factory','Magento\View\File\FileList\Factory'),
+    array('Magento\Core\Model\Layout\File\ListFile','Magento\View\File\FileList'),
     array('Magento\Core\Model\Layout\File\Source\Aggregated','Magento\View\Layout\File\Source\Aggregated'),
     array('Magento\Core\Model\Layout\File\Source\Base','Magento\View\Layout\File\Source\Base'),
     array(

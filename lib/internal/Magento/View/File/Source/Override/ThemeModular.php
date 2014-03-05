@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\View\Layout\File\Source\Override;
+namespace Magento\View\File\Source\Override;
 
 use Magento\View\File\SourceInterface;
 use Magento\View\Design\ThemeInterface;
@@ -16,9 +16,9 @@ use Magento\View\File\Factory;
 use Magento\Exception;
 
 /**
- * Source of layout files that explicitly override files of ancestor themes
+ * Source of view files that explicitly override modular files of ancestor themes
  */
-class Theme implements SourceInterface
+class ThemeModular implements SourceInterface
 {
     /**
      * Themes directory
@@ -32,20 +32,28 @@ class Theme implements SourceInterface
      *
      * @var Factory
      */
-    private $fileFactory;
+    protected $fileFactory;
+
+    /**
+     * @var string
+     */
+    protected $subDir;
 
     /**
      * Constructor
      *
      * @param Filesystem $filesystem
      * @param Factory $fileFactory
+     * @param string $subDir
      */
     public function __construct(
         Filesystem $filesystem,
-        Factory $fileFactory
+        Factory $fileFactory,
+        $subDir = ''
     ) {
         $this->themesDirectory = $filesystem->getDirectoryRead(Filesystem::THEMES_DIR);
         $this->fileFactory = $fileFactory;
+        $this->subDir = $subDir ? $subDir . '/' : '';
     }
 
     /**
@@ -60,7 +68,7 @@ class Theme implements SourceInterface
     {
         $namespace = $module = '*';
         $themePath = $theme->getFullPath();
-        $searchPattern = "{$themePath}/{$namespace}_{$module}/layout/override/theme/*/{$filePath}.xml";
+        $searchPattern = "{$themePath}/{$namespace}_{$module}/{$this->subDir}*/{$filePath}";
         $files = $this->themesDirectory->search($searchPattern);
 
         if (empty($files)) {
@@ -73,9 +81,8 @@ class Theme implements SourceInterface
             $themes[$currentTheme->getCode()] = $currentTheme;
         }
         $result = array();
-        $pattern = "#/(?<module>[^/]+)/layout/override/theme/(?<themeName>[^/]+)/"
-            . strtr(preg_quote($filePath), array('\*' => '[^/]+'))
-            . "\.xml$#i";
+        $pattern = "#/(?<module>[^/]+)/{$this->subDir}(?<themeName>[^/]+)/"
+            . strtr(preg_quote($filePath), array('\*' => '[^/]+')) . "$#i";
         foreach ($files as $file) {
             $filename = $this->themesDirectory->getAbsolutePath($file);
             if (!preg_match($pattern, $filename, $matches)) {
@@ -86,7 +93,7 @@ class Theme implements SourceInterface
             if (!isset($themes[$ancestorThemeCode])) {
                 throw new Exception(
                     sprintf(
-                        "Trying to override layout file '%s' for theme '%s', which is not ancestor of theme '%s'",
+                        "Trying to override modular view file '%s' for theme '%s', which is not ancestor of theme '%s'",
                         $filename,
                         $ancestorThemeCode,
                         $theme->getCode()

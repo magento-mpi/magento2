@@ -590,7 +590,7 @@ class Merge implements \Magento\View\Layout\ProcessorInterface
     {
         $layoutStr = '';
         $theme = $this->_getPhysicalTheme($this->_theme);
-        $updateFiles = $this->_fileSource->getFiles($theme);
+        $updateFiles = $this->_fileSource->getFiles($theme, '*.xml');
         $dir = $this->filesystem->getDirectoryRead(\Magento\App\Filesystem::ROOT_DIR);
         $useErrors = libxml_use_internal_errors(true);
         foreach ($updateFiles as $file) {

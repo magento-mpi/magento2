@@ -6,12 +6,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\View\Layout\File;
+namespace Magento\View\File;
 
 class FileListTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\View\Layout\File\FileList
+     * @var \Magento\View\File\FileList
      */
     private $_model;
 
@@ -26,28 +26,28 @@ class FileListTest extends \PHPUnit_Framework_TestCase
     private $_themeFile;
 
     /**
-     * @var \Magento\View\Layout\File\FileList\Collator|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\View\File\FileList\Collator|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $collator;
 
     protected function setUp()
     {
-        $this->_baseFile = $this->_createLayoutFile('fixture.xml', 'Fixture_TestModule');
-        $this->_themeFile = $this->_createLayoutFile('fixture.xml', 'Fixture_TestModule', 'area/theme/path');
-        $this->collator = $this->getMock('Magento\View\Layout\File\FileList\Collator', array('collate'));
-        $this->_model = new \Magento\View\Layout\File\FileList($this->collator);
+        $this->_baseFile = $this->_createViewFile('fixture.xml', 'Fixture_TestModule');
+        $this->_themeFile = $this->_createViewFile('fixture.xml', 'Fixture_TestModule', 'area/theme/path');
+        $this->collator = $this->getMock('Magento\View\File\FileList\Collator', array('collate'));
+        $this->_model = new \Magento\View\File\FileList($this->collator);
         $this->_model->add(array($this->_baseFile, $this->_themeFile));
     }
 
     /**
-     * Return newly created theme layout file with a mocked theme
+     * Return newly created theme view file with a mocked theme
      *
      * @param string $filename
      * @param string $module
      * @param string|null $themeFullPath
      * @return \PHPUnit_Framework_MockObject_MockObject|\Magento\View\Design\ThemeInterface
      */
-    protected function _createLayoutFile($filename, $module, $themeFullPath = null)
+    protected function _createViewFile($filename, $module, $themeFullPath = null)
     {
         $theme = null;
         if ($themeFullPath !== null) {
@@ -64,35 +64,35 @@ class FileListTest extends \PHPUnit_Framework_TestCase
 
     public function testAddBaseFile()
     {
-        $file = $this->_createLayoutFile('new.xml', 'Fixture_TestModule');
+        $file = $this->_createViewFile('new.xml', 'Fixture_TestModule');
         $this->_model->add(array($file));
         $this->assertSame(array($this->_baseFile, $this->_themeFile, $file), $this->_model->getAll());
     }
 
     public function testAddThemeFile()
     {
-        $file = $this->_createLayoutFile('new.xml', 'Fixture_TestModule', 'area/theme/path');
+        $file = $this->_createViewFile('new.xml', 'Fixture_TestModule', 'area/theme/path');
         $this->_model->add(array($file));
         $this->assertSame(array($this->_baseFile, $this->_themeFile, $file), $this->_model->getAll());
     }
 
     /**
      * @expectedException \LogicException
-     * @expectedExceptionMessage Layout file 'test/fixture.xml' is indistinguishable from the file 'fixture.xml'
+     * @expectedExceptionMessage View file 'test/fixture.xml' is indistinguishable from the file 'fixture.xml'
      */
     public function testAddBaseFileException()
     {
-        $file = $this->_createLayoutFile('test/fixture.xml', 'Fixture_TestModule');
+        $file = $this->_createViewFile('test/fixture.xml', 'Fixture_TestModule');
         $this->_model->add(array($file));
     }
 
     /**
      * @expectedException \LogicException
-     * @expectedExceptionMessage Layout file 'test/fixture.xml' is indistinguishable from the file 'fixture.xml'
+     * @expectedExceptionMessage View file 'test/fixture.xml' is indistinguishable from the file 'fixture.xml'
      */
     public function testAddThemeFileException()
     {
-        $file = $this->_createLayoutFile('test/fixture.xml', 'Fixture_TestModule', 'area/theme/path');
+        $file = $this->_createViewFile('test/fixture.xml', 'Fixture_TestModule', 'area/theme/path');
         $this->_model->add(array($file));
     }
 

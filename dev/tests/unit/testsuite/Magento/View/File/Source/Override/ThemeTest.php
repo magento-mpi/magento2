@@ -6,12 +6,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\View\Layout\File\Source\Override;
+namespace Magento\View\File\Source\Override;
 
 class ThemeTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\View\Layout\File\Source\Override\Theme
+     * @var \Magento\View\File\Source\Override\ThemeModular
      */
     private $_model;
 
@@ -37,8 +37,8 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo(\Magento\App\Filesystem::THEMES_DIR))
             ->will($this->returnValue($this->_directory));
         $this->_fileFactory = $this->getMock('Magento\View\File\Factory', array(), array(), '', false);
-        $this->_model = new \Magento\View\Layout\File\Source\Override\Theme(
-            $filesystem, $this->_fileFactory
+        $this->_model = new \Magento\View\File\Source\Override\ThemeModular(
+            $filesystem, $this->_fileFactory, 'override/theme'
         );
     }
 
@@ -55,11 +55,11 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
         $theme->expects($this->once())->method('getFullPath')->will($this->returnValue('area/theme_path'));
         $theme->expects($this->once())->method('getParentTheme')->will($this->returnValue($parentTheme));
 
-        $filePathOne = 'design/area/theme_path/Module_One/layout/override/theme/parent_theme/1.xml';
-        $filePathTwo = 'design/area/theme_path/Module_Two/layout/override/theme/grand_parent_theme/2.xml';
+        $filePathOne = 'design/area/theme_path/Module_One/override/theme/parent_theme/1.xml';
+        $filePathTwo = 'design/area/theme_path/Module_Two/override/theme/grand_parent_theme/2.xml';
         $this->_directory->expects($this->once())
             ->method('search')
-            ->with($this->equalTo('area/theme_path/*_*/layout/override/theme/*/*.xml'))
+            ->with($this->equalTo('area/theme_path/*_*/override/theme/*/*.xml'))
             ->will($this->returnValue(array($filePathOne, $filePathTwo)));
 
         $fileOne = new \Magento\View\File('1.xml', 'Module_One', $parentTheme);
@@ -73,7 +73,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
             )))
         ;
 
-        $this->assertSame(array($fileOne, $fileTwo), $this->_model->getFiles($theme));
+        $this->assertSame(array($fileOne, $fileTwo), $this->_model->getFiles($theme, '*.xml'));
     }
 
     public function testGetFilesWithPreset()
@@ -89,10 +89,10 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
         $theme->expects($this->once())->method('getFullPath')->will($this->returnValue('area/theme_path'));
         $theme->expects($this->once())->method('getParentTheme')->will($this->returnValue($parentTheme));
 
-        $filePathOne = 'design/area/theme_path/Module_Two/layout/override/theme/grand_parent_theme/preset/3.xml';
+        $filePathOne = 'design/area/theme_path/Module_Two/override/theme/grand_parent_theme/preset/3.xml';
         $this->_directory->expects($this->once())
             ->method('search')
-            ->with('area/theme_path/*_*/layout/override/theme/*/preset/3.xml')
+            ->with('area/theme_path/*_*/override/theme/*/preset/3.xml')
             ->will($this->returnValue(array($filePathOne)))
         ;
 
@@ -104,15 +104,15 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($fileOne))
         ;
 
-        $this->assertSame(array($fileOne), $this->_model->getFiles($theme, 'preset/3'));
+        $this->assertSame(array($fileOne), $this->_model->getFiles($theme, 'preset/3.xml'));
     }
 
     public function testGetFilesWrongAncestor()
     {
-        $filePath = 'design/area/theme_path/Module_One/layout/override/theme/parent_theme/1.xml';
+        $filePath = 'design/area/theme_path/Module_One/override/theme/parent_theme/1.xml';
         $this->setExpectedException(
             'Magento\Exception',
-            "Trying to override layout file '$filePath' for theme 'parent_theme'"
+            "Trying to override modular view file '$filePath' for theme 'parent_theme'"
                 . ", which is not ancestor of theme 'theme_path'"
         );
 
@@ -123,9 +123,9 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
 
         $this->_directory->expects($this->once())
             ->method('search')
-            ->with('area/theme_path/*_*/layout/override/theme/*/*.xml')
+            ->with('area/theme_path/*_*/override/theme/*/*.xml')
             ->will($this->returnValue(array($filePath)));
 
-        $this->_model->getFiles($theme);
+        $this->_model->getFiles($theme, '*.xml');
     }
 }

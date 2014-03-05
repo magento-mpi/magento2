@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\View\Layout\File\Source\Override;
+namespace Magento\View\File\Source;
 
 use Magento\View\File\SourceInterface;
 use Magento\View\Design\ThemeInterface;
@@ -15,7 +15,7 @@ use Magento\Filesystem\Directory\ReadInterface;
 use Magento\View\File\Factory;
 
 /**
- * Source of layout files that explicitly override base files introduced by modules
+ * Source of base files introduced by modules
  */
 class Base implements SourceInterface
 {
@@ -27,24 +27,34 @@ class Base implements SourceInterface
     private $fileFactory;
 
     /**
-     * Themes directory
+     * Modules directory
      *
      * @var ReadInterface
      */
-    protected $themesDirectory;
+    protected $modulesDirectory;
+
+    /**
+     * Subdirectory where the files are located
+     *
+     * @var string
+     */
+    protected $subDir;
 
     /**
      * Constructor
      *
      * @param Filesystem $filesystem
      * @param Factory $fileFactory
+     * @param string $subDir
      */
     public function __construct(
         Filesystem $filesystem,
-        Factory $fileFactory
+        Factory $fileFactory,
+        $subDir = ''
     ) {
-        $this->themesDirectory = $filesystem->getDirectoryRead(Filesystem::THEMES_DIR);
+        $this->modulesDirectory = $filesystem->getDirectoryRead(Filesystem::MODULES_DIR);
         $this->fileFactory = $fileFactory;
+        $this->subDir = $subDir ? $subDir . '/' : '';
     }
 
     /**
@@ -57,19 +67,18 @@ class Base implements SourceInterface
     public function getFiles(ThemeInterface $theme, $filePath = '*')
     {
         $namespace = $module = '*';
-        $themePath = $theme->getFullPath();
-        $searchPattern = "{$themePath}/{$namespace}_{$module}/layout/override/base/{$filePath}.xml";
-        $files = $this->themesDirectory->search($searchPattern);
+        $area = $theme->getArea();
+        $files = $this->modulesDirectory->search("$namespace/$module/view/{$area}/{$this->subDir}{$filePath}");
         $result = array();
-        $pattern = "#(?<moduleName>[^/]+)/layout/override/base/"
-            . strtr(preg_quote($filePath), array('\*' => '[^/]+'))
-            . "\.xml$#i";
+        $filePath = strtr(preg_quote($filePath), array('\*' => '[^/]+'));
+        $pattern = "#(?<namespace>[^/]+)/(?<module>[^/]+)/view/{$area}/{$this->subDir}" . $filePath . "$#i";
         foreach ($files as $file) {
-            $filename = $this->themesDirectory->getAbsolutePath($file);
+            $filename = $this->modulesDirectory->getAbsolutePath($file);
             if (!preg_match($pattern, $filename, $matches)) {
                 continue;
             }
-            $result[] = $this->fileFactory->create($filename, $matches['moduleName']);
+            $moduleFull = "{$matches['namespace']}_{$matches['module']}";
+            $result[] = $this->fileFactory->create($filename, $moduleFull);
         }
         return $result;
     }

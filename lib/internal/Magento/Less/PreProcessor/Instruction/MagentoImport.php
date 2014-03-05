@@ -95,7 +95,12 @@ class MagentoImport implements PreProcessorInterface
         $importsContent = '';
         try {
             $resolvedPath = $this->relatedFile->buildPath($matchContent['path'], $parentPath, $viewParams);
-            $importFiles = $this->fileSource->getFiles($viewParams['themeModel'], $resolvedPath);
+
+            $filePath = pathinfo($resolvedPath, PATHINFO_EXTENSION) ? $resolvedPath
+                : rtrim($resolvedPath, '.') .
+                '.less';
+
+            $importFiles = $this->fileSource->getFiles($viewParams['themeModel'], $filePath);
             /** @var $importFile \Magento\View\File */
             foreach ($importFiles as $importFile) {
                 $importsContent .=  $importFile->getModule()

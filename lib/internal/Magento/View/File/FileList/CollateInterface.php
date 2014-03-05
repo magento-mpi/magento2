@@ -6,15 +6,15 @@
  * @license     {license_link}
  */
 
-namespace Magento\View\Layout\File\FileList;
+namespace Magento\View\File\FileList;
 
 /**
- * Layout file list collate interface
+ * View file list collate interface
  */
 interface CollateInterface
 {
     /**
-     * Collate layout files
+     * Collate view files
      *
      * @param \Magento\View\File[] $files
      * @param \Magento\View\File[] $filesOrigin

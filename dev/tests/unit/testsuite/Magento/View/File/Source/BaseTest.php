@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\View\Layout\File\Source\Override;
+namespace Magento\View\File\Source;
 
 use Magento\Filesystem\Directory\Read,
     Magento\View\File\Factory;
@@ -32,19 +32,25 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     {
         $this->directory = $this->getMock(
             'Magento\Filesystem\Directory\Read',
-            array('getAbsolutePath', 'search'), array(), '', false
+            array(),
+            array(),
+            '',
+            false
         );
         $filesystem = $this->getMock(
-            'Magento\App\Filesystem', array('getDirectoryRead'), array(), '', false
+            'Magento\App\Filesystem',
+            array('getDirectoryRead', '__wakeup'),
+            array(),
+            '',
+            false
         );
         $filesystem->expects($this->once())
             ->method('getDirectoryRead')
-            ->with(\Magento\App\Filesystem::THEMES_DIR)
+            ->with(\Magento\App\Filesystem::MODULES_DIR)
             ->will($this->returnValue($this->directory));
+
         $this->fileFactory = $this->getMock('Magento\View\File\Factory', array(), array(), '', false);
-        $this->model = new \Magento\View\Layout\File\Source\Override\Base(
-            $filesystem, $this->fileFactory
-        );
+        $this->model = new Base($filesystem, $this->fileFactory, 'subdir');
     }
 
     /**
@@ -56,9 +62,9 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     public function testGetFiles($files, $filePath)
     {
         $theme = $this->getMockForAbstractClass('Magento\View\Design\ThemeInterface');
-        $theme->expects($this->once())->method('getFullPath')->will($this->returnValue('area/theme/path'));
+        $theme->expects($this->once())->method('getArea')->will($this->returnValue('area'));
 
-        $handlePath = 'design/area/theme/path/%s/layout/override/base/%s.xml';
+        $handlePath = 'code/Module/%s/view/area/subdir/%s';
         $returnKeys = array();
         foreach ($files as $file) {
             $returnKeys[] = sprintf($handlePath, $file['module'], $file['handle']);
@@ -73,13 +79,18 @@ class BaseTest extends \PHPUnit_Framework_TestCase
 
         $checkResult = array();
         foreach ($files as $key => $file) {
-            $checkResult[$key] = new \Magento\View\File($file['handle'] . '.xml', $file['module']);
+            $moduleName = 'Module_' . $file['module'];
+            $checkResult[$key] = new \Magento\View\File(
+                $file['handle'],
+                $moduleName,
+                $theme
+            );
+
             $this->fileFactory
                 ->expects($this->at($key))
                 ->method('create')
-                ->with(sprintf($handlePath, $file['module'], $file['handle']), $file['module'])
-                ->will($this->returnValue($checkResult[$key]))
-            ;
+                ->with(sprintf($handlePath, $file['module'], $file['handle']), $moduleName)
+                ->will($this->returnValue($checkResult[$key]));
         }
 
         $this->assertSame($checkResult, $this->model->getFiles($theme, $filePath));
@@ -93,15 +104,15 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         return array(
             array(
                 array(
-                    array('handle' => '1', 'module' => 'Module_One'),
-                    array('handle' => '2', 'module' => 'Module_One'),
-                    array('handle' => '3', 'module' => 'Module_Two'),
+                    array('handle' => '1.xml', 'module' => 'One'),
+                    array('handle' => '2.xml', 'module' => 'One'),
+                    array('handle' => '3.xml', 'module' => 'Two'),
                 ),
-                '*',
+                '*.xml',
             ),
             array(
                 array(
-                    array('handle' => 'preset/4', 'module' => 'Module_Fourth'),
+                    array('handle' => 'preset/4', 'module' => 'Four'),
                 ),
                 'preset/4',
             ),

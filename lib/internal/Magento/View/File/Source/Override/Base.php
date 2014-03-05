@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\View\Layout\File\Source;
+namespace Magento\View\File\Source\Override;
 
 use Magento\View\File\SourceInterface;
 use Magento\View\Design\ThemeInterface;
@@ -15,9 +15,9 @@ use Magento\Filesystem\Directory\ReadInterface;
 use Magento\View\File\Factory;
 
 /**
- * Source of non-overriding layout files introduced by a theme
+ * Source of view files that explicitly override base files introduced by modules
  */
-class Theme implements SourceInterface
+class Base implements SourceInterface
 {
     /**
      * File factory
@@ -34,17 +34,25 @@ class Theme implements SourceInterface
     protected $themesDirectory;
 
     /**
+     * @var string
+     */
+    protected $subDir;
+
+    /**
      * Constructor
      *
      * @param Filesystem $filesystem
      * @param Factory $fileFactory
+     * @param string $subDir
      */
     public function __construct(
         Filesystem $filesystem,
-        Factory $fileFactory
+        Factory $fileFactory,
+        $subDir = ''
     ) {
         $this->themesDirectory = $filesystem->getDirectoryRead(Filesystem::THEMES_DIR);
         $this->fileFactory = $fileFactory;
+        $this->subDir = $subDir ? $subDir . '/' : '';
     }
 
     /**
@@ -58,15 +66,17 @@ class Theme implements SourceInterface
     {
         $namespace = $module = '*';
         $themePath = $theme->getFullPath();
-        $files = $this->themesDirectory->search("{$themePath}/{$namespace}_{$module}/layout/{$filePath}.xml");
+        $searchPattern = "{$themePath}/{$namespace}_{$module}/{$this->subDir}{$filePath}";
+        $files = $this->themesDirectory->search($searchPattern);
         $result = array();
-        $pattern = "#/(?<moduleName>[^/]+)/layout/" . strtr(preg_quote($filePath), array('\*' => '[^/]+')) . "\.xml$#i";
+        $pattern = "#(?<moduleName>[^/]+)/{$this->subDir}" . strtr(preg_quote($filePath), array('\*' => '[^/]+'))
+            . "$#i";
         foreach ($files as $file) {
             $filename = $this->themesDirectory->getAbsolutePath($file);
             if (!preg_match($pattern, $filename, $matches)) {
                 continue;
             }
-            $result[] = $this->fileFactory->create($filename, $matches['moduleName'], $theme);
+            $result[] = $this->fileFactory->create($filename, $matches['moduleName']);
         }
         return $result;
     }

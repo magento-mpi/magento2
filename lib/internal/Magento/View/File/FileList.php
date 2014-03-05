@@ -6,13 +6,13 @@
  * @license     {license_link}
  */
 
-namespace Magento\View\Layout\File;
+namespace Magento\View\File;
 
 use Magento\View\File;
-use Magento\View\Layout\File\FileList\CollateInterface;
+use Magento\View\File\FileList\CollateInterface;
 
 /**
- * Unordered list of layout file instances with awareness of layout file identity
+ * Unordered list of view file instances with awareness of view file identity
  */
 class FileList
 {
@@ -41,7 +41,7 @@ class FileList
     }
 
     /**
-     * Retrieve all layout file instances
+     * Retrieve all view file instances
      *
      * @return File[]
      */
@@ -51,7 +51,7 @@ class FileList
     }
 
     /**
-     * Add layout file instances to the list, preventing identity coincidence
+     * Add view file instances to the list, preventing identity coincidence
      *
      * @param File[] $files
      * @return void
@@ -64,7 +64,7 @@ class FileList
             if (array_key_exists($identifier, $this->files)) {
                 $filename = $this->files[$identifier]->getFilename();
                 throw new \LogicException(
-                    "Layout file '{$file->getFilename()}' is indistinguishable from the file '{$filename}'."
+                    "View file '{$file->getFilename()}' is indistinguishable from the file '{$filename}'."
                 );
             }
             $this->files[$identifier] = $file;
@@ -72,7 +72,7 @@ class FileList
     }
 
     /**
-     * Replace already added layout files with specified ones, checking for identity match
+     * Replace already added view files with specified ones, checking for identity match
      *
      * @param File[] $files
      * @return void

@@ -6,15 +6,15 @@
  * @license     {license_link}
  */
 
-namespace Magento\View\Layout\File\FileList;
+namespace Magento\View\File\FileList;
 
 /**
- * Layout file list collator
+ * View file list collator
  */
 class Collator implements CollateInterface
 {
     /**
-     * Collate layout files
+     * Collate view files
      *
      * @param \Magento\View\File[] $files
      * @param \Magento\View\File[] $filesOrigin
@@ -27,7 +27,7 @@ class Collator implements CollateInterface
             $identifier = $file->getFileIdentifier();
             if (!array_key_exists($identifier, $filesOrigin)) {
                 throw new \LogicException(
-                    "Overriding layout file '{$file->getFilename()}' does not match to any of the files."
+                    "Overriding view file '{$file->getFilename()}' does not match to any of the files."
                 );
             }
             $filesOrigin[$identifier] = $file;

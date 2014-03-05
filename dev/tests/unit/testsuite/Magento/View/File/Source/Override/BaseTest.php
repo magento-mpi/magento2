@@ -6,12 +6,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\View\Layout\File\Source;
+namespace Magento\View\File\Source\Override;
 
 use Magento\Filesystem\Directory\Read,
     Magento\View\File\Factory;
 
-class ThemeTest extends \PHPUnit_Framework_TestCase
+class BaseTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var Base
@@ -35,15 +35,15 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
             array('getAbsolutePath', 'search'), array(), '', false
         );
         $filesystem = $this->getMock(
-            'Magento\App\Filesystem', array('getDirectoryRead', '__wakeup'), array(), '', false
+            'Magento\App\Filesystem', array('getDirectoryRead'), array(), '', false
         );
         $filesystem->expects($this->once())
             ->method('getDirectoryRead')
             ->with(\Magento\App\Filesystem::THEMES_DIR)
             ->will($this->returnValue($this->directory));
         $this->fileFactory = $this->getMock('Magento\View\File\Factory', array(), array(), '', false);
-        $this->model = new \Magento\View\Layout\File\Source\Theme(
-            $filesystem, $this->fileFactory
+        $this->model = new \Magento\View\File\Source\Override\Base(
+            $filesystem, $this->fileFactory, 'override/base'
         );
     }
 
@@ -58,7 +58,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
         $theme = $this->getMockForAbstractClass('Magento\View\Design\ThemeInterface');
         $theme->expects($this->once())->method('getFullPath')->will($this->returnValue('area/theme/path'));
 
-        $handlePath = 'design/area/theme/path/%s/layout/%s.xml';
+        $handlePath = 'design/area/theme/path/%s/override/base/%s';
         $returnKeys = array();
         foreach ($files as $file) {
             $returnKeys[] = sprintf($handlePath, $file['module'], $file['handle']);
@@ -73,14 +73,15 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
 
         $checkResult = array();
         foreach ($files as $key => $file) {
-            $checkResult[$key] = new \Magento\View\File($file['handle'] . '.xml', $file['module'], $theme);
+            $checkResult[$key] = new \Magento\View\File($file['handle'], $file['module']);
             $this->fileFactory
                 ->expects($this->at($key))
                 ->method('create')
-                ->with(sprintf($handlePath, $file['module'], $file['handle']), $file['module'], $theme)
+                ->with(sprintf($handlePath, $file['module'], $file['handle']), $file['module'])
                 ->will($this->returnValue($checkResult[$key]))
             ;
         }
+
         $this->assertSame($checkResult, $this->model->getFiles($theme, $filePath));
     }
 
@@ -92,11 +93,11 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
         return array(
             array(
                 array(
-                    array('handle' => '1', 'module' => 'Module_One'),
-                    array('handle' => '2', 'module' => 'Module_One'),
-                    array('handle' => '3', 'module' => 'Module_Two'),
+                    array('handle' => '1.xml', 'module' => 'Module_One'),
+                    array('handle' => '2.xml', 'module' => 'Module_One'),
+                    array('handle' => '3.xml', 'module' => 'Module_Two'),
                 ),
-                '*',
+                '*.xml',
             ),
             array(
                 array(
