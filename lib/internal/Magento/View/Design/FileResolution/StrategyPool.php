@@ -150,7 +150,7 @@ class StrategyPool
     }
 
     /**
-     * Get strategy to resolve static view files (e.g. javascripts)
+     * Get strategy to resolve static view files (e.g. javascript)
      *
      * @param bool $skipProxy
      * @return \Magento\View\Design\FileResolution\Strategy\ViewInterface

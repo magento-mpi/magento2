@@ -39,7 +39,7 @@ class Edit extends \Magento\Catalog\Controller\Adminhtml\Product
      */
     protected function _processDownload($resource, $resourceType)
     {
-        /* @var $helper DownloadHelper */
+        /* @var $helper \Magento\Downloadable\Helper\Download */
         $helper = $this->_objectManager->get('Magento\Downloadable\Helper\Download');
         $helper->setResource($resource, $resourceType);
 

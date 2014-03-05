@@ -12,8 +12,6 @@ namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 
 /**
  * Adminhtml customer orders grid block
- *
- * @SuppressWarnings(PHPMD.LongVariable)
  */
 class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
 {
