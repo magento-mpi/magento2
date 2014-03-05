@@ -72,4 +72,9 @@
     <type name="Magento\Catalog\Model\Category">
         <plugin name="categoryChange" type="Magento\CatalogPermissions\Model\Indexer\Plugin\Category" />
     </type>
+    <type name="Magento\CatalogPermissions\Model\Indexer\Plugin\Category">
+        <arguments>
+            <argument name="indexer" xsi:type="object" shared="false">Magento\Indexer\Model\IndexerInterface</argument>
+        </arguments>
+    </type>
 </config>

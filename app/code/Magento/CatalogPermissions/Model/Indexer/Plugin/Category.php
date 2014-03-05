@@ -72,15 +72,10 @@ class Category
      */
     public function afterSave(\Magento\Catalog\Model\Category $subject)
     {
-        if (!$this->appConfig->isEnabled() || $this->getIndexer()->isScheduled()) {
-            return $subject;
-        }
-
-        if ($subject->hasData('permissions') && is_array($subject->getData('permissions'))
-            && $this->authorization
-                ->isAllowed('Magento_CatalogPermissions::catalog_magento_catalogpermissions')
-        ) {
-            $this->preparePermission($subject);
+        if ($this->appConfig->isEnabled() && !$this->getIndexer()->isScheduled()) {
+            if ($this->authorization->isAllowed('Magento_CatalogPermissions::catalog_magento_catalogpermissions')) {
+                $this->savePermission($subject);
+            }
             $this->getIndexer()->reindexRow($subject->getId());
         }
 
@@ -91,24 +86,34 @@ class Category
      * Reindex category permissions on category move event
      *
      * @param \Magento\Catalog\Model\Category $subject
+     * @param callable $closure
+     * @param int $parentId
+     * @param int $afterCategoryId
      * @return \Magento\Catalog\Model\Category
      */
-    public function afterMove(\Magento\Catalog\Model\Category $subject)
-    {
-        if (!$this->appConfig->isEnabled() || $this->getIndexer()->isScheduled()) {
-            return $subject;
+    public function aroundMove(
+        \Magento\Catalog\Model\Category $subject, \Closure $closure, $parentId, $afterCategoryId
+    ) {
+        $oldParentId = $subject->getParentId();
+        $closure($parentId, $afterCategoryId);
+        if ($this->appConfig->isEnabled() && !$this->getIndexer()->isScheduled()) {
+            $this->getIndexer()->reindexList([$subject->getId(), $oldParentId]);
         }
 
-        $this->getIndexer()->reindexRow($subject->getId());
         return $subject;
     }
 
     /**
+     * Save permissions before reindex category
+     *
      * @param \Magento\Catalog\Model\Category $category
      * @return void
      */
-    protected function preparePermission(\Magento\Catalog\Model\Category $category)
+    protected function savePermission(\Magento\Catalog\Model\Category $category)
     {
+        if (!$category->hasData('permissions') || !is_array($category->getData('permissions'))) {
+            return;
+        }
         foreach ($category->getData('permissions') as $data) {
             /** @var Permission $permission */
             $permission = $this->permissionFactory->create();
@@ -131,18 +136,10 @@ class Category
                 $data['customer_group_id'] = null;
             }
 
-            $permission->addData($data);
-            $viewPermission = $permission->getGrantCatalogCategoryView();
-            if (Permission::PERMISSION_DENY == $viewPermission) {
-                $permission->setGrantCatalogProductPrice(Permission::PERMISSION_DENY);
-            }
-
-            $pricePermission = $permission->getGrantCatalogProductPrice();
-            if (Permission::PERMISSION_DENY == $pricePermission) {
-                $permission->setGrantCheckoutItems(Permission::PERMISSION_DENY);
-            }
-            $permission->setCategoryId($category->getId());
-            $permission->save();
+            $permission->addData($data)
+                ->preparePermission()
+                ->setCategoryId($category->getId())
+                ->save();
         }
     }
 }
