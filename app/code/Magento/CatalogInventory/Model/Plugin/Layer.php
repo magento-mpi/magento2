@@ -45,6 +45,7 @@ class Layer
      * @param \Magento\Catalog\Model\Resource\Collection\AbstractCollection $collection
      *
      * @return void
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function beforePrepareProductCollection(
         \Magento\Catalog\Model\Layer $subject,
