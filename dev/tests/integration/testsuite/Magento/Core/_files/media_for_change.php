@@ -45,6 +45,4 @@ $appInstallDir = \Magento\TestFramework\Helper\Bootstrap::getInstance()->getAppI
 /** @var $registration \Magento\Core\Model\Theme\Registration */
 $registration = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
     ->create('Magento\Core\Model\Theme\Registration');
-$registration->register(
-    '*/*/theme.xml'
-);
+$registration->register('*/*/theme.xml');
