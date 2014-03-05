@@ -245,8 +245,8 @@ class Status extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Add stock status limitation to catalog product price index select object
      *
      * @param \Magento\DB\Select $select
-     * @param string|Zend_Db_Expr $entityField
-     * @param string|Zend_Db_Expr $websiteField
+     * @param string|\Zend_Db_Expr $entityField
+     * @param string|\Zend_Db_Expr $websiteField
      * @return $this
      */
     public function prepareCatalogProductIndexSelect(\Magento\DB\Select $select, $entityField, $websiteField)
