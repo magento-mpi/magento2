@@ -72,13 +72,14 @@ class LayoutPlugin
     {
         if ($this->layout->isCacheable()) {
             $tags = array();
-            foreach($this->layout->getAllBlocks() as $block) {
+            foreach ($this->layout->getAllBlocks() as $block) {
                 if ($block instanceof \Magento\View\Block\IdentityInterface) {
-                    $blockTtl = $block->getTtl();
-                    $varnishIsEnabledFlag = $this->config->getType() == \Magento\PageCache\Model\Config::VARNISH;
-                    if (!$varnishIsEnabledFlag || !isset($blockTtl)) {
-                        $tags = array_merge($tags, $block->getIdentities());
+                    $isEsiBlock = ($block->getTtl() > 0);
+                    $isVarnish = $this->config->getType() == \Magento\PageCache\Model\Config::VARNISH;
+                    if ($isVarnish && $isEsiBlock) {
+                        continue;
                     }
+                    $tags = array_merge($tags, $block->getIdentities());
                 }
             }
             $tags = array_unique($tags);

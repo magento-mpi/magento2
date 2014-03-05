@@ -162,13 +162,6 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     protected $_isScopePrivate = false;
 
     /**
-     * This property is for defining of time to live for a block.
-     *
-     * @var int
-     */
-    public $ttl;
-
-    /**
      * Constructor
      *
      * @param \Magento\View\Element\Context $context
