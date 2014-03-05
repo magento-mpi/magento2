@@ -65,6 +65,7 @@
         <arguments>
             <argument name="templateFileName" xsi:type="string">Magento_Core::translate_inline.phtml</argument>
             <argument name="translatorRoute" xsi:type="string">core/ajax/translate</argument>
+            <argument name="layout" xsi:type="object">Magento\View\LayoutInterface\Proxy</argument>
         </arguments>
     </type>
     <type name="Magento\App\DefaultPath\DefaultPath">
@@ -362,11 +363,6 @@
     <type name="Magento\Core\Helper\Data">
         <arguments>
             <argument name="locale" xsi:type="object">Magento\Core\Model\Locale\Proxy</argument>
-        </arguments>
-    </type>
-    <type name="Magento\Core\Helper\Translate">
-        <arguments>
-            <argument name="inlineParser" xsi:type="object">Magento\Core\Model\Translate\Inline\Parser\Proxy</argument>
         </arguments>
     </type>
     <type name="Magento\Core\Model\Resource\Setup\Migration">
