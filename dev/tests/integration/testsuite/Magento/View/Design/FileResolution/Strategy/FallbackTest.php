@@ -33,7 +33,7 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->markTestSkipped('Task: MAGETWO-18162');
+//        $this->markTestSkipped('Task: MAGETWO-18162');
         $this->_baseDir = realpath(__DIR__ . '/../../../_files/fallback');
         $this->_viewDir = $this->_baseDir . '/design';
     }
@@ -274,7 +274,7 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
             ),
             'modular: localized file' => array(
                 'fixture_script.js', 'frontend', 'vendor_custom_theme2', 'ru_RU', 'Fixture_Module',
-                '%s/frontend/vendor_default/web/i18n/ru_RU/Fixture_Module/fixture_script.js',
+                '%s/frontend/vendor_default/Fixture_Module/web/i18n/ru_RU/fixture_script.js',
             ),
         );
     }
