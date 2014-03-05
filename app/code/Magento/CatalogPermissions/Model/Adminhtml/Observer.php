@@ -16,7 +16,6 @@
  */
 namespace Magento\CatalogPermissions\Model\Adminhtml;
 
-use Magento\App\CacheInterface;
 use Magento\AuthorizationInterface;
 use Magento\Catalog\Block\Adminhtml\Category\Tabs;
 use Magento\Catalog\Model\Category;
@@ -31,50 +30,20 @@ class Observer
     protected $authorization;
 
     /**
-     * @var CacheInterface
-     */
-    protected $coreCache;
-
-    /**
-     * @var \Magento\Indexer\Model\IndexerInterface
-     */
-    protected $indexer;
-
-    /**
      * @var \Magento\CatalogPermissions\App\ConfigInterface
      */
     protected $appConfig;
 
     /**
-     * @param CacheInterface $coreCache
      * @param AuthorizationInterface $authorization
-     * @param \Magento\Indexer\Model\IndexerInterface $indexer
      * @param ConfigInterface $appConfig
      */
     public function __construct(
-        CacheInterface $coreCache,
         AuthorizationInterface $authorization,
-        ConfigInterface $appConfig,
-        \Magento\Indexer\Model\IndexerInterface $indexer
+        ConfigInterface $appConfig
     ) {
-        $this->indexer = $indexer;
         $this->appConfig = $appConfig;
-        $this->coreCache = $coreCache;
         $this->authorization = $authorization;
-    }
-
-    /**
-     * Refresh category related cache on catalog permissions config save
-     *
-     * @return $this
-     */
-    public function cleanCacheOnConfigChange()
-    {
-        $this->coreCache->clean(array(Category::CACHE_TAG));
-        if ($this->appConfig->isEnabled()) {
-            $this->getIndexer()->invalidate();
-        }
-        return $this;
     }
 
     /**
@@ -101,18 +70,5 @@ class Observer
         );
 
         return $this;
-    }
-
-    /**
-     * Return own indexer object
-     *
-     * @return \Magento\Indexer\Model\IndexerInterface
-     */
-    protected function getIndexer()
-    {
-        if (!$this->indexer->getId()) {
-            $this->indexer->load(\Magento\CatalogPermissions\Model\Indexer\Category::INDEXER_ID);
-        }
-        return $this->indexer;
     }
 }

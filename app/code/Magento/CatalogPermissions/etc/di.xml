@@ -77,9 +77,12 @@
             <argument name="indexer" xsi:type="object" shared="false">Magento\Indexer\Model\IndexerInterface</argument>
         </arguments>
     </type>
-    <type name="Magento\CatalogPermissions\Model\Adminhtml\Observer">
+    <type name="Magento\CatalogPermissions\Model\Indexer\Plugin\ConfigData">
         <arguments>
             <argument name="indexer" xsi:type="object" shared="false">Magento\Indexer\Model\IndexerInterface</argument>
         </arguments>
+    </type>
+    <type name="Magento\Backend\Model\Config">
+        <plugin name="configPermissionChange" type="Magento\CatalogPermissions\Model\Indexer\Plugin\ConfigData" />
     </type>
 </config>

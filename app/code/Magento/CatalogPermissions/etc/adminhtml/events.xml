@@ -11,7 +11,4 @@
     <event name="adminhtml_catalog_category_tabs">
         <observer name="magento_catalogpermissions" instance="Magento\CatalogPermissions\Model\Adminhtml\Observer" method="addCategoryPermissionTab" />
     </event>
-    <event name="admin_system_config_changed_section_magento_catalogpermissions">
-        <observer name="magento_catalogpermissions" instance="Magento\CatalogPermissions\Model\Adminhtml\Observer" method="cleanCacheOnConfigChange" />
-    </event>
 </config>
