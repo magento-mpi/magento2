@@ -281,45 +281,6 @@ class Validator extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * Quote item free shipping ability check
-     * This process not affect information about applied rules, coupon code etc.
-     * This information will be added during discount amounts processing
-     *
-     * @param AbstractItem $item
-     * @return $this
-     */
-    public function processFreeShipping(AbstractItem $item)
-    {
-        $address = $item->getAddress();
-        $item->setFreeShipping(false);
-
-        foreach ($this->_getRules() as $rule) {
-            /* @var \Magento\SalesRule\Model\Rule $rule */
-            if (!$this->_canProcessRule($rule, $address)) {
-                continue;
-            }
-
-            if (!$rule->getActions()->validate($item)) {
-                continue;
-            }
-
-            switch ($rule->getSimpleFreeShipping()) {
-                case \Magento\SalesRule\Model\Rule::FREE_SHIPPING_ITEM:
-                    $item->setFreeShipping($rule->getDiscountQty() ? $rule->getDiscountQty() : true);
-                    break;
-
-                case \Magento\SalesRule\Model\Rule::FREE_SHIPPING_ADDRESS:
-                    $address->setFreeShipping(true);
-                    break;
-            }
-            if ($rule->getStopRulesProcessing()) {
-                break;
-            }
-        }
-        return $this;
-    }
-
-    /**
      * Reset quote and address applied rules
      *
      * @param Address $address

@@ -53,9 +53,9 @@ class Soap implements \Magento\App\FrontControllerInterface
     protected $_oauthService;
 
     /**
-     * @var \Magento\LocaleInterface
+     * @var \Magento\Locale\ResolverInterface
      */
-    protected $_locale;
+    protected $_localeResolver;
 
     /**
      * @param Soap\Request $request
@@ -66,7 +66,7 @@ class Soap implements \Magento\App\FrontControllerInterface
      * @param \Magento\App\State $appState
      * @param \Magento\AppInterface $application
      * @param \Magento\Oauth\OauthInterface $oauthService
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Locale\ResolverInterface $localeResolver
      */
     public function __construct(
         \Magento\Webapi\Controller\Soap\Request $request,
@@ -77,7 +77,7 @@ class Soap implements \Magento\App\FrontControllerInterface
         \Magento\App\State $appState,
         \Magento\AppInterface $application,
         \Magento\Oauth\OauthInterface $oauthService,
-        \Magento\LocaleInterface $locale
+        \Magento\Locale\ResolverInterface $localeResolver
     ) {
         $this->_request = $request;
         $this->_response = $response;
@@ -87,7 +87,7 @@ class Soap implements \Magento\App\FrontControllerInterface
         $this->_appState = $appState;
         $this->_application = $application;
         $this->_oauthService = $oauthService;
-        $this->_locale = $locale;
+        $this->_localeResolver = $localeResolver;
     }
 
     /**
@@ -171,7 +171,7 @@ class Soap implements \Magento\App\FrontControllerInterface
             $this->_application,
             $this->_soapServer,
             $maskedException,
-            $this->_locale
+            $this->_localeResolver
         );
         // TODO: Generate list of available URLs when invalid WSDL URL specified
         $this->_setResponseBody($soapFault->toXml());

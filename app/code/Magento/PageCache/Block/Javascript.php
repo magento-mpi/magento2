@@ -24,13 +24,13 @@ class Javascript extends \Magento\View\Element\Template
     /**
      * Constructor
      *
-     * @param \Magento\PageCache\Helper\Data         $helper
      * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\PageCache\Helper\Data         $helper
      * @param array                                  $data
      */
     public function __construct(
-        \Magento\PageCache\Helper\Data $helper,
         \Magento\View\Element\Template\Context $context,
+        \Magento\PageCache\Helper\Data $helper,
         array $data = array()
     ) {
         $this->helper = $helper;

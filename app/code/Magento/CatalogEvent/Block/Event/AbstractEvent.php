@@ -12,6 +12,8 @@
 
 namespace Magento\CatalogEvent\Block\Event;
 
+use Magento\View\Element\Template;
+
 abstract class AbstractEvent extends \Magento\View\Element\Template
 {
     /**
@@ -20,6 +22,25 @@ abstract class AbstractEvent extends \Magento\View\Element\Template
      * @var array
      */
     protected $_statuses;
+
+    /**
+     * @var \Magento\Locale\ResolverInterface
+     */
+    protected $_localeResolver;
+
+    /**
+     * @param Template\Context $context
+     * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param array $data
+     */
+    public function __construct(
+        Template\Context $context,
+        \Magento\Locale\ResolverInterface $localeResolver,
+        array $data = array()
+    ) {
+        parent::__construct($context, $data);
+        $this->_localeResolver = $localeResolver;
+    }
 
     protected function _construct()
     {
@@ -57,7 +78,7 @@ abstract class AbstractEvent extends \Magento\View\Element\Template
     public function getEventTime($type, $event, $format = null)
     {
         if ($format === null) {
-            $format = $this->_locale->getTimeFormat(\Magento\LocaleInterface::FORMAT_TYPE_MEDIUM);
+            $format = $this->_localeDate->getTimeFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM);
         }
 
         return $this->_getEventDate($type, $event, $format);
@@ -74,7 +95,7 @@ abstract class AbstractEvent extends \Magento\View\Element\Template
     public function getEventDate($type, $event, $format = null)
     {
         if ($format === null) {
-            $format = $this->_locale->getDateFormat(\Magento\LocaleInterface::FORMAT_TYPE_MEDIUM);
+            $format = $this->_localeDate->getDateFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM);
         }
 
         return $this->_getEventDate($type, $event, $format);
@@ -103,14 +124,14 @@ abstract class AbstractEvent extends \Magento\View\Element\Template
      */
     protected function _getEventDate($type, $event, $format)
     {
-        $date = new \Zend_Date($this->_locale->getLocale());
+        $date = new \Magento\Stdlib\DateTime\Date($this->_localeResolver->getLocale());
         // changing timezone to UTC
-        $date->setTimezone(\Magento\LocaleInterface::DEFAULT_TIMEZONE);
+        $date->setTimezone(\Magento\Stdlib\DateTime\TimezoneInterface::DEFAULT_TIMEZONE);
 
         $dateString = $event->getData('date_' . $type);
         $date->set($dateString, \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
 
-        $timezone = $this->_storeConfig->getConfig(\Magento\LocaleInterface::XML_PATH_DEFAULT_TIMEZONE);
+        $timezone = $this->_storeConfig->getConfig($this->_localeDate->getDefaultTimezonePath());
         if ($timezone) {
             // changing timezone to default store timezone
             $date->setTimezone($timezone);

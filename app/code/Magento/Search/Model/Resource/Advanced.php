@@ -35,11 +35,9 @@ class Advanced extends \Magento\Core\Model\Resource\AbstractResource
     protected $_resourceEngine;
 
     /**
-     * Locale
-     *
-     * @var \Magento\LocaleInterface
+     * @var \Magento\Stdlib\DateTime\TimezoneInterface
      */
-    protected $_locale;
+    protected $_localeDate;
 
     /**
      * @var \Magento\Stdlib\DateTime
@@ -50,17 +48,17 @@ class Advanced extends \Magento\Core\Model\Resource\AbstractResource
      * Construct
      *
      * @param \Magento\Search\Model\Resource\Engine $resourceEngine
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Stdlib\DateTime $dateTime
      */
     public function __construct(
         \Magento\Search\Model\Resource\Engine $resourceEngine,
-        \Magento\LocaleInterface $locale,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Stdlib\DateTime $dateTime
     ) {
         parent::__construct();
         $this->_resourceEngine = $resourceEngine;
-        $this->_locale = $locale;
+        $this->_localeDate = $localeDate;
         $this->dateTime = $dateTime;
     }
 
@@ -122,10 +120,10 @@ class Advanced extends \Magento\Core\Model\Resource\AbstractResource
         $field = $this->_resourceEngine->getSearchEngineFieldName($attribute, 'nav');
 
         if ($attribute->getBackendType() == 'datetime') {
-            $format = $this->_locale->getDateFormat(\Magento\LocaleInterface::FORMAT_TYPE_SHORT);
+            $format = $this->_localeDate->getDateFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
             foreach ($value as &$val) {
                 if (!$this->dateTime->isEmptyDate($val)) {
-                    $date = new \Zend_Date($val, $format);
+                    $date = new \Magento\Stdlib\DateTime\Date($val, $format);
                     $val = $date->toString(\Zend_Date::ISO_8601) . 'Z';
                 }
             }

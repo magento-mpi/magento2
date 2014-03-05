@@ -41,7 +41,7 @@ class Massgenerator extends \Magento\Core\Model\AbstractModel
     protected $_salesRuleCoupon = null;
 
     /**
-     * @var \Magento\Core\Model\Date
+     * @var \Magento\Stdlib\DateTime\DateTime
      */
     protected $_date;
 
@@ -60,7 +60,7 @@ class Massgenerator extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Registry $registry
      * @param \Magento\SalesRule\Helper\Coupon $salesRuleCoupon
      * @param \Magento\SalesRule\Model\CouponFactory $couponFactory
-     * @param \Magento\Core\Model\Date $date
+     * @param \Magento\Stdlib\DateTime\DateTime $date
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
@@ -71,7 +71,7 @@ class Massgenerator extends \Magento\Core\Model\AbstractModel
         \Magento\Registry $registry,
         \Magento\SalesRule\Helper\Coupon $salesRuleCoupon,
         \Magento\SalesRule\Model\CouponFactory $couponFactory,
-        \Magento\Core\Model\Date $date,
+        \Magento\Stdlib\DateTime\DateTime $date,
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
