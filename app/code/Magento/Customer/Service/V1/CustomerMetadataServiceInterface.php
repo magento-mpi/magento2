@@ -61,7 +61,7 @@ interface CustomerMetadataServiceInterface
     /**
      * Returns all attribute metadata for customers
      *
-     * @return Dto\Eav\AttributeMetadata[]
+     * @return \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata[]
      */
     public function getAllCustomerAttributeMetadata();
 
