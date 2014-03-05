@@ -7,13 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Search\Model\Catalog;
 
 /**
  * Catalog layer model integrated with search engine
  */
-namespace Magento\Search\Model\Catalog;
-
 class Layer extends \Magento\Catalog\Model\Layer
 {
     /**
@@ -98,8 +96,8 @@ class Layer extends \Magento\Catalog\Model\Layer
     /**
      * Get default tags for current layer state
      *
-     * @param   array $additionalTags
-     * @return  array
+     * @param array $additionalTags
+     * @return array
      */
     public function getStateTags(array $additionalTags = array())
     {

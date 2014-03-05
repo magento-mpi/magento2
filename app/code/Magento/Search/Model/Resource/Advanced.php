@@ -7,8 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Search\Model\Resource;
+
+use Magento\Catalog\Model\Resource\Eav\Attribute;
 
 /**
  * Advanced Catalog Search resource model
@@ -65,6 +66,8 @@ class Advanced extends \Magento\Core\Model\Resource\AbstractResource
 
     /**
      * Empty construct
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -75,9 +78,8 @@ class Advanced extends \Magento\Core\Model\Resource\AbstractResource
      * Add filter by indexable attribute
      *
      * @param \Magento\Search\Model\Resource\Collection $collection
-     * @param \Magento\Catalog\Model\Resource\Eav\Attribute $attribute
+     * @param Attribute $attribute
      * @param string|array $value
-     *
      * @return bool
      */
     public function addIndexableAttributeModifiedFilter($collection, $attribute, $value)
@@ -96,7 +98,7 @@ class Advanced extends \Magento\Core\Model\Resource\AbstractResource
      * Retrieve filter array
      *
      * @param \Magento\Search\Model\Resource\Collection $collection
-     * @param \Magento\Catalog\Model\Resource\Eav\Attribute $attribute
+     * @param Attribute $attribute
      * @param string|array $value
      * @return array
      */
@@ -141,11 +143,10 @@ class Advanced extends \Magento\Core\Model\Resource\AbstractResource
      * Add filter by attribute rated price
      *
      * @param \Magento\Search\Model\Resource\Collection $collection
-     * @param \Magento\Catalog\Model\Resource\Eav\Attribute $attribute
+     * @param Attribute $attribute
      * @param string|array $value
      * @param int $rate
-     *
-     * @return bool
+     * @return true
      */
     public function addRatedPriceFilter($collection, $attribute, $value, $rate = 1)
     {
@@ -159,10 +160,9 @@ class Advanced extends \Magento\Core\Model\Resource\AbstractResource
     /**
      * Add not indexable field to search
      *
-     * @param \Magento\Catalog\Model\Resource\Eav\Attribute $attribute
+     * @param Attribute $attribute
      * @param string|array $value
      * @param \Magento\Search\Model\Resource\Collection $collection
-     *
      * @return bool
      */
     public function prepareCondition($attribute, $value, $collection)

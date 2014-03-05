@@ -7,8 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\SalesRule\Model;
+
+use Magento\Cron\Model\Schedule;
+use Magento\Event\Observer as EventObserver;
 
 class Observer
 {
@@ -83,7 +85,7 @@ class Observer
     }
 
     /**
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
      * @return $this
      */
     public function salesOrderAfterPlace($observer)
@@ -144,8 +146,8 @@ class Observer
     /**
      * Refresh sales coupons report statistics for last day
      *
-     * @param \Magento\Cron\Model\Schedule $schedule
-     * @return \Magento\SalesRule\Model\Observer
+     * @param Schedule $schedule
+     * @return $this
      */
     public function aggregateSalesReportCouponsData($schedule)
     {
@@ -162,7 +164,7 @@ class Observer
      * If rules were found they will be set to inactive and notice will be add to admin session
      *
      * @param string $attributeCode
-     * @return \Magento\SalesRule\Model\Observer
+     * @return $this
      */
     protected function _checkSalesRulesAvailability($attributeCode)
     {
@@ -217,10 +219,10 @@ class Observer
     /**
      * After save attribute if it is not used for promo rules already check rules for containing this attribute
      *
-     * @param \Magento\Event\Observer $observer
-     * @return \Magento\SalesRule\Model\Observer
+     * @param EventObserver $observer
+     * @return $this
      */
-    public function catalogAttributeSaveAfter(\Magento\Event\Observer $observer)
+    public function catalogAttributeSaveAfter(EventObserver $observer)
     {
         $attribute = $observer->getEvent()->getAttribute();
         if ($attribute->dataHasChangedFor('is_used_for_promo_rules') && !$attribute->getIsUsedForPromoRules()) {
@@ -234,10 +236,10 @@ class Observer
      * After delete attribute check rules that contains deleted attribute
      * If rules was found they will seted to inactive and added notice to admin session
      *
-     * @param \Magento\Event\Observer $observer
-     * @return \Magento\SalesRule\Model\Observer
+     * @param EventObserver $observer
+     * @return $this
      */
-    public function catalogAttributeDeleteAfter(\Magento\Event\Observer $observer)
+    public function catalogAttributeDeleteAfter(EventObserver $observer)
     {
         $attribute = $observer->getEvent()->getAttribute();
         if ($attribute->getIsUsedForPromoRules()) {
@@ -250,8 +252,8 @@ class Observer
     /**
      * Add coupon's rule name to order data
      *
-     * @param \Magento\Event\Observer $observer
-     * @return \Magento\SalesRule\Model\Observer
+     * @param EventObserver $observer
+     * @return $this
      */
     public function addSalesRuleNameToOrder($observer)
     {

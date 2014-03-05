@@ -7,16 +7,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Rss\Controller\Adminhtml;
 
 /**
  * RSS Controller for Catalog feeds in Admin
  */
-namespace Magento\Rss\Controller\Adminhtml;
-
 class Catalog extends \Magento\Rss\Controller\Adminhtml\Authenticate
 {
     /**
      * Notify stock action
+     *
+     * @return void
      */
     public function notifystockAction()
     {
@@ -27,6 +28,8 @@ class Catalog extends \Magento\Rss\Controller\Adminhtml\Authenticate
 
     /**
      * Review action
+     *
+     * @return void
      */
     public function reviewAction()
     {

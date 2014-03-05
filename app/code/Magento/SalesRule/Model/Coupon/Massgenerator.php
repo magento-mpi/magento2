@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\SalesRule\Model\Coupon;
 
 /**
  * SalesRule Mass Coupon Generator
@@ -18,8 +18,6 @@
  * @package     Magento_SalesRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\SalesRule\Model\Coupon;
-
 class Massgenerator extends \Magento\Core\Model\AbstractModel
     implements \Magento\SalesRule\Model\Coupon\CodegeneratorInterface
 {
@@ -88,6 +86,8 @@ class Massgenerator extends \Magento\Core\Model\AbstractModel
 
     /**
      * Initialize resource
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -145,7 +145,7 @@ class Massgenerator extends \Magento\Core\Model\AbstractModel
      * Generate Coupons Pool
      *
      * @throws \Magento\Core\Exception
-     * @return \Magento\SalesRule\Model\Coupon\Massgenerator
+     * @return $this
      */
     public function generatePool()
     {

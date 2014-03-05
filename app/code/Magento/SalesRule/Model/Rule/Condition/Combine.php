@@ -7,8 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\SalesRule\Model\Rule\Condition;
 
 class Combine extends \Magento\Rule\Model\Condition\Combine
@@ -44,6 +42,8 @@ class Combine extends \Magento\Rule\Model\Condition\Combine
     }
 
     /**
+     * Get new child select options
+     *
      * @return array
      */
     public function getNewChildSelectOptions()

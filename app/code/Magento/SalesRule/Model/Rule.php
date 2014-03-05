@@ -7,9 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\SalesRule\Model;
 
+use Magento\Sales\Model\Quote\Address;
 /**
  * Shopping Cart Rule data model
  *
@@ -124,9 +124,8 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * Contain sores labels
      *
-     * @deprecated after 1.6.2.0
-     *
      * @var array
+     * @deprecated after 1.6.2.0
      */
     protected $_labels = array();
 
@@ -140,7 +139,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * Rule's subordinate coupons
      *
-     * @var array of \Magento\SalesRule\Model\Coupon
+     * @var \Magento\SalesRule\Model\Coupon[]
      */
     protected $_coupons;
 
@@ -229,6 +228,8 @@ class Rule extends \Magento\Rule\Model\AbstractModel
 
     /**
      * Set resource model and Id field name
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -240,7 +241,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * Set coupon code and uses per coupon
      *
-     * @return \Magento\SalesRule\Model\Rule
+     * @return $this
      */
     protected function _afterLoad()
     {
@@ -254,7 +255,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * Save/delete coupon
      *
-     * @return \Magento\SalesRule\Model\Rule
+     * @return $this
      */
     protected function _afterSave()
     {
@@ -282,8 +283,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      * Set store labels if applicable.
      *
      * @param array $data
-     *
-     * @return \Magento\SalesRule\Model\Rule
+     * @return $this
      */
     public function loadPost(array $data)
     {
@@ -332,7 +332,8 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * Set code generator instance for auto generated coupons
      *
-     * @param \Magento\SalesRule\Model\Coupon\CodegeneratorInterface
+     * @param \Magento\SalesRule\Model\Coupon\CodegeneratorInterface $codeGenerator
+     * @return void
      */
     public function setCouponCodeGenerator(\Magento\SalesRule\Model\Coupon\CodegeneratorInterface $codeGenerator)
     {
@@ -372,7 +373,6 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      * Get Rule label by specified store
      *
      * @param \Magento\Core\Model\Store|int|bool|null $store
-     *
      * @return string|bool
      */
     public function getStoreLabel($store = null)
@@ -407,7 +407,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * Retrieve subordinate coupons
      *
-     * @return array of \Magento\SalesRule\Model\Coupon
+     * @return \Magento\SalesRule\Model\Coupon[]
      */
     public function getCoupons()
     {
@@ -502,8 +502,8 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * Check cached validation result for specific address
      *
-     * @param   \Magento\Sales\Model\Quote\Address $address
-     * @return  bool
+     * @param Address $address
+     * @return bool
      */
     public function hasIsValidForAddress($address)
     {
@@ -514,9 +514,9 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * Set validation result for specific address to results cache
      *
-     * @param   \Magento\Sales\Model\Quote\Address $address
-     * @param   bool $validationResult
-     * @return  \Magento\SalesRule\Model\Rule
+     * @param Address $address
+     * @param bool $validationResult
+     * @return $this
      */
     public function setIsValidForAddress($address, $validationResult)
     {
@@ -528,8 +528,8 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * Get cached validation result for specific address
      *
-     * @param   \Magento\Sales\Model\Quote\Address $address
-     * @return  bool
+     * @param Address $address
+     * @return bool
      */
     public function getIsValidForAddress($address)
     {
@@ -540,28 +540,22 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * Return id for address
      *
-     * @param   \Magento\Sales\Model\Quote\Address $address
-     * @return  string
+     * @param Address $address
+     * @return string
      */
     private function _getAddressId($address) {
-        if($address instanceof \Magento\Sales\Model\Quote\Address) {
+        if($address instanceof Address) {
             return $address->getId();
         }
         return $address;
     }
 
-
-
-
-
     /**
      * Collect all product attributes used in serialized rule's action or condition
      *
-     * @deprecated after 1.6.2.0 use \Magento\SalesRule\Model\Resource\Rule::getProductAttributes() instead
-     *
      * @param string $serializedString
-     *
      * @return array
+     * @deprecated after 1.6.2.0 use \Magento\SalesRule\Model\Resource\Rule::getProductAttributes() instead
      */
     protected function _getUsedAttributes($serializedString)
     {
@@ -569,11 +563,9 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     }
 
     /**
-     * @deprecated after 1.6.2.0
-     *
      * @param string $format
-     *
      * @return string
+     * @deprecated after 1.6.2.0
      */
     public function toString($format='')
     {
@@ -582,8 +574,6 @@ class Rule extends \Magento\Rule\Model\AbstractModel
 
     /**
      * Returns rule as an array for admin interface
-     *
-     * @deprecated after 1.6.2.0
      *
      * @param array $arrAttributes
      *
@@ -595,6 +585,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      * )
      *
      * @return array
+     * @deprecated after 1.6.2.0
      */
     public function toArray(array $arrAttributes = array())
     {

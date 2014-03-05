@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\SalesArchive\Model\Resource;
 
 /**
  * Module setup
@@ -16,14 +16,12 @@
  * @package     Magento_SalesArchive
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\SalesArchive\Model\Resource;
-
 class Setup extends \Magento\Core\Model\Resource\Setup
 {
     /**
      * Call afterApplyAllUpdates flag
      *
-     * @var boolean
+     * @var bool
      */
     protected $_callAfterApplyAllUpdates = true;
 
@@ -78,7 +76,7 @@ class Setup extends \Magento\Core\Model\Resource\Setup
      * Run each time after applying of all updates,
      * if setup model setted  $_callAfterApplyAllUpdates flag to true
      *
-     * @return \Magento\SalesArchive\Model\Resource\Setup
+     * @return $this
      */
     public function afterApplyAllUpdates()
     {
@@ -89,7 +87,7 @@ class Setup extends \Magento\Core\Model\Resource\Setup
     /**
      * Synchronize archive structure
      *
-     * @return \Magento\SalesArchive\Model\Resource\Setup
+     * @return $this
      */
     protected function _syncArchiveStructure()
     {
@@ -123,7 +121,7 @@ class Setup extends \Magento\Core\Model\Resource\Setup
      *
      * @param string $sourceTable
      * @param string $targetTable
-     * @return \Magento\SalesArchive\Model\Resource\Setup
+     * @return $this
      */
     protected function _syncTable($sourceTable, $targetTable)
     {
@@ -200,9 +198,9 @@ class Setup extends \Magento\Core\Model\Resource\Setup
      *
      * @param string $table
      * @param string $column
-     * @param boolean $after
-     * @param boolean $first
-     * @return \Magento\SalesArchive\Model\Resource\Setup
+     * @param bool $after
+     * @param bool $first
+     * @return $this
      */
     public function changeColumnPosition($table, $column, $after = false, $first = false)
     {
@@ -215,7 +213,7 @@ class Setup extends \Magento\Core\Model\Resource\Setup
      *
      * @param string $sourceTable
      * @param string $targetTable
-     * @return \Magento\SalesArchive\Model\Resource\Setup
+     * @return $this
      */
     protected function _syncTableIndex($sourceTable, $targetTable)
     {
@@ -247,7 +245,7 @@ class Setup extends \Magento\Core\Model\Resource\Setup
      *
      * @param array $sourceColumn
      * @param array $targetColumn
-     * @return boolean
+     * @return bool
      */
     protected function _checkColumnDifference($sourceColumn, $targetColumn)
     {
@@ -262,7 +260,7 @@ class Setup extends \Magento\Core\Model\Resource\Setup
      *
      * @param array $sourceIndex
      * @param array $targetIndex
-     * @return boolean
+     * @return bool
      */
     protected function _checkIndexDifference($sourceIndex, $targetIndex)
     {
@@ -275,7 +273,7 @@ class Setup extends \Magento\Core\Model\Resource\Setup
      *
      * @param array $sourceConstraint
      * @param array $targetConstraint
-     * @return boolean
+     * @return bool
      */
     protected function _checkConstraintDifference($sourceConstraint, $targetConstraint)
     {
@@ -293,7 +291,7 @@ class Setup extends \Magento\Core\Model\Resource\Setup
      * @param string $targetTable
      * @param string $sourceKey
      * @param string $targetKey
-     * @return \Magento\SalesArchive\Model\Resource\Setup
+     * @return $this
      */
     protected function _syncTableConstraint($sourceTable, $targetTable, $sourceKey, $targetKey)
     {
