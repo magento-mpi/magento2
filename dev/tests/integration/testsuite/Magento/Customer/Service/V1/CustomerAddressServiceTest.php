@@ -545,8 +545,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         $invalidAddress = $this->_addressBuilder->setCity('Miami')->create();
 
         try {
-            $validationResult = $this->_service
-                ->validateAddresses(array_merge([$invalidAddress], $this->_expectedAddresses));
+            $this->_service->validateAddresses(array_merge([$invalidAddress], $this->_expectedAddresses));
             $this->fail("InputException was expected but not thrown");
         } catch (InputException $actualException) {
             $expectedException = new InputException();
@@ -566,8 +565,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
             ->setLastname('Mercury')->create();
 
         try {
-            $validationResult = $this->_service
-                ->validateAddresses(array_merge($this->_expectedAddresses, ['addr_3' => $invalidAddress]));
+            $this->_service->validateAddresses(array_merge($this->_expectedAddresses, ['addr_3' => $invalidAddress]));
             $this->fail("InputException was expected but not thrown");
         } catch (InputException $actualException) {
             $expectedException = new InputException();
@@ -585,8 +583,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         $invalidAddress = $this->_addressBuilder->setFirstname('Freddy')
             ->setLastname('Mercury')->create();
         try {
-            $validationResult = $this->_service
-                ->validateAddresses(array_merge($this->_expectedAddresses, [$invalidAddress]));
+            $this->_service->validateAddresses(array_merge($this->_expectedAddresses, [$invalidAddress]));
             $this->fail("InputException was expected but not thrown");
         } catch (InputException $actualException) {
             $expectedException = new InputException();

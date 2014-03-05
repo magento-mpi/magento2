@@ -746,7 +746,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         $addressBad = $this->_addressBuilder->create();
         $addressGood = $this->_addressBuilder->create();
         try {
-            $validationResults = $customerService->validateAddresses(['b' => $addressBad, 'g' => $addressGood]);
+            $customerService->validateAddresses(['b' => $addressBad, 'g' => $addressGood]);
             $this->fail("InputException was expected but not thrown");
         } catch (InputException $actualException) {
             $expectedException = new InputException();
