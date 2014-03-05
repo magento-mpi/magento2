@@ -235,33 +235,4 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
 
         return [$address1, $address2];
     }
-
-    /**
-     * Setup $this->_serviceQuote with mock transaction object
-     */
-    private function _prepareQuoteWithMockTransaction()
-    {
-        $mockTransactionFactory = $this->getMockBuilder('\Magento\Core\Model\Resource\TransactionFactory')
-            ->disableOriginalConstructor()->setMethods(['create'])->getMock();
-        $mockTransaction = $this->getMockBuilder('\Magento\Core\Model\Resource\TransactionFactory')
-            ->disableOriginalConstructor()->setMethods(['addObject', 'addCommitCallback', 'save'])->getMock();
-
-        $mockTransactionFactory->expects($this->once())
-            ->method('create')
-            ->will($this->returnValue($mockTransaction));
-
-        $mockTransaction->expects($this->any())
-            ->method('addObject');
-        $mockTransaction->expects($this->any())
-            ->method('addCommitCallback');
-        $mockTransaction->expects($this->once())
-            ->method('save')
-            ->will($this->throwException(new \Exception('submitorder exception')));
-
-        $quoteFixture = $this->_prepareQuoteFixture(false);
-        $this->_serviceQuote = Bootstrap::getObjectManager()->create(
-            '\Magento\Sales\Model\Service\Quote',
-            array('quote' => $quoteFixture, 'transactionFactory' => $mockTransactionFactory)
-        );
-    }
 }
