@@ -334,4 +334,15 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\App\Cache\Frontend\Pool">
+        <arguments>
+            <argument name="frontendSettings" xsi:type="array">
+                <item name="page_cache" xsi:type="array">
+                    <item name="backend_options" xsi:type="array">
+                        <item name="cache_dir" xsi:type="string">page_cache</item>
+                    </item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
 </config>

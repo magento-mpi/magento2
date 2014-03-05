@@ -25,7 +25,7 @@ use Magento\Core\Model\Resource\AbstractResource;
  * @method string getDateTo()
  * @method \Magento\Core\Model\Design setDateTo(string $value)
  */
-class Design extends AbstractModel
+class Design extends AbstractModel implements \Magento\Object\IdentityInterface
 {
     /**
      * Cache tag
@@ -136,5 +136,15 @@ class Design extends AbstractModel
             $packageInto->setDesignTheme($design);
         }
         return $this;
+    }
+
+    /**
+     * Get identities
+     *
+     * @return array
+     */
+    public function getIdentities()
+    {
+        return array(self::CACHE_TAG . '_' . $this->getId());
     }
 }

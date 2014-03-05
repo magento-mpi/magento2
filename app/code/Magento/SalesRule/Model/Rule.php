@@ -50,8 +50,6 @@ namespace Magento\SalesRule\Model;
  * @method \Magento\SalesRule\Model\Rule setDiscountQty(float $value)
  * @method int getDiscountStep()
  * @method \Magento\SalesRule\Model\Rule setDiscountStep(int $value)
- * @method int getSimpleFreeShipping()
- * @method \Magento\SalesRule\Model\Rule setSimpleFreeShipping(int $value)
  * @method int getApplyToShipping()
  * @method \Magento\SalesRule\Model\Rule setApplyToShipping(int $value)
  * @method int getTimesUsed()
@@ -71,16 +69,6 @@ namespace Magento\SalesRule\Model;
  */
 class Rule extends \Magento\Rule\Model\AbstractModel
 {
-    /**
-     * Free Shipping option "For matching items only"
-     */
-    const FREE_SHIPPING_ITEM    = 1;
-
-    /**
-     * Free Shipping option "For shipment with matching items"
-     */
-    const FREE_SHIPPING_ADDRESS = 2;
-
     /**
      * Coupon types
      */

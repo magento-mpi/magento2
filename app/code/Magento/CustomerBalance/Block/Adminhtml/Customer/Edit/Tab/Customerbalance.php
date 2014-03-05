@@ -7,12 +7,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab;
+
+use Magento\Customer\Controller\RegistryConstants;
 
 /**
  * Customer account Store Credit tab
  */
-class Customerbalance extends \Magento\Backend\Block\Widget implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class Customerbalance
+    extends \Magento\Backend\Block\Widget
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * Core registry
@@ -74,7 +79,7 @@ class Customerbalance extends \Magento\Backend\Block\Widget implements \Magento\
      */
     public function canShowTab()
     {
-        $customer = $this->_coreRegistry->registry('current_customer');
+        $customer = $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER);
         return (bool)$customer->getId();
     }
 
