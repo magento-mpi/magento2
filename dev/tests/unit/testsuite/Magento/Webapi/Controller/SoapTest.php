@@ -82,9 +82,10 @@ class SoapTest extends \PHPUnit_Framework_TestCase
 
         $this->_applicationMock =  $this->getMockBuilder('Magento\Core\Model\App')
             ->disableOriginalConstructor()
-            ->setMethods(array('isDeveloperMode'))
             ->getMock();
         $this->_applicationMock->expects($this->any())->method('isDeveloperMode')->will($this->returnValue(false));
+        $layoutMock = $this->getMockBuilder('Magento\View\LayoutInterface')->disableOriginalConstructor()->getMock();
+        $this->_applicationMock->expects($this->once())->method('getLayout')->will($this->returnValue($layoutMock));
 
         $this->_oauthServiceMock = $this->getMockBuilder('Magento\Oauth\Oauth')
             ->disableOriginalConstructor()
@@ -106,23 +107,6 @@ class SoapTest extends \PHPUnit_Framework_TestCase
             $this->_oauthServiceMock,
             $this->_localeMock
         );
-    }
-
-    /**
-     * Clean up Controller and its dependencies.
-     */
-    protected function tearDown()
-    {
-        unset($this->_soapController);
-        unset($this->_requestMock);
-        unset($this->_responseMock);
-        unset($this->_wsdlGeneratorMock);
-        unset($this->_soapServerMock);
-        unset($this->_errorProcessorMock);
-        unset($this->_applicationMock);
-        unset($this->_appStateMock);
-
-        parent::tearDown();
     }
 
     /**
