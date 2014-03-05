@@ -144,7 +144,7 @@ class Items extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
     /**
      * Check if allow to edit qty
      *
-     * @return bool|true
+     * @return bool
      */
     public function canEditQty()
     {

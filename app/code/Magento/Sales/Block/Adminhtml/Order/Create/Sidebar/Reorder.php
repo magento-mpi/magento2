@@ -97,7 +97,7 @@ class Reorder extends \Magento\Sales\Block\Adminhtml\Order\Create\Sidebar\Abstra
     /**
      * Retrieve item collection
      *
-     * @return mixed|false
+     * @return array|false
      */
     public function getItemCollection()
     {

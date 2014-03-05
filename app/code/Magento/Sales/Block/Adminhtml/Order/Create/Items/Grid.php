@@ -11,6 +11,7 @@ namespace Magento\Sales\Block\Adminhtml\Order\Create\Items;
 
 use Magento\Catalog\Model\Product\Attribute\Source\Status as ProductStatus;
 use Magento\Sales\Model\Quote\Item;
+use Magento\Session\SessionManagerInterface;
 
 /**
  * Adminhtml sales order create items grid block
@@ -138,7 +139,7 @@ class Grid extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
     /**
      * Get session
      *
-     * @return \Magento\Session\SessionManagerInterface
+     * @return SessionManagerInterface
      */
     public function getSession()
     {
@@ -387,11 +388,12 @@ class Grid extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
         }
         return $info;
     }
+
     /**
      * Get Custom Options of item
      *
      * @param Item $item
-     * @return array
+     * @return string
      */
     public function getCustomOptions(Item $item)
     {
