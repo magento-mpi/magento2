@@ -116,7 +116,7 @@ class Fallback implements FileInterface, LocaleInterface, ViewInterface, Templat
      */
     public function getLocaleFile($area, ThemeInterface $themeModel, $locale, $file)
     {
-        $params = array('area' => $area, 'theme' => $themeModel, 'locale' => $locale);
+        $params = ['area' => $area, 'theme' => $themeModel, 'locale' => $locale];
         return $this->resolveFile($this->getLocaleFileRule(), $file, $params);
     }
 
@@ -132,28 +132,27 @@ class Fallback implements FileInterface, LocaleInterface, ViewInterface, Templat
      */
     public function getViewFile($area, ThemeInterface $themeModel, $locale, $file, $module = null)
     {
-        $params = array(
-            'area' => $area, 'theme' => $themeModel, 'locale' => $locale, 'namespace' => null, 'module' => null
-        );
-        if ($module) {
-            list($params['namespace'], $params['module']) = explode('_', $module, 2);
-        }
+        $params = $this->prepareFileParams($area, $themeModel, $module, $locale);
         return $this->resolveFile($this->getViewFileRule(), $file, $params);
     }
 
     /**
      * Prepare file params
      *
-     * @param string  $area
+     * @param string $area
      * @param ThemeInterface $themeModel
      * @param null|string $module
+     * @param null|string $locale
      * @return array
      */
-    protected function prepareFileParams($area, ThemeInterface $themeModel, $module = null)
+    protected function prepareFileParams($area, ThemeInterface $themeModel, $module = null, $locale = null)
     {
         $params = array('area' => $area, 'theme' => $themeModel, 'namespace' => null, 'module' => null);
         if ($module) {
             list($params['namespace'], $params['module']) = explode('_', $module, 2);
+        }
+        if (null !== $locale) {
+            $params['locale'] = $locale;
         }
 
         return $params;

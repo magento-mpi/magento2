@@ -26,6 +26,26 @@ class StrategyPool
     const FALLBACK_MAP_DIR = 'maps/fallback';
 
     /**
+     * File fallback type
+     */
+    const FALLBACK_TYPE_FILE = 'file';
+
+    /**
+     * Template fallback type
+     */
+    const FALLBACK_TYPE_TEMPLATE = 'template';
+
+    /**
+     * Locale fallback type
+     */
+    const FALLBACK_TYPE_LOCALE = 'locale';
+
+    /**
+     * Fallback type for view files
+     */
+    const FALLBACK_TYPE_VIEW = 'view';
+
+    /**
      * Object manager
      *
      * @var ObjectManager
@@ -60,22 +80,22 @@ class StrategyPool
      */
     protected $strategies = array(
         'production_mode' => array(
-            'file' => 'Magento\View\Design\FileResolution\Strategy\Fallback\CachingProxy',
-            'template' => 'Magento\View\Design\FileResolution\Strategy\Fallback\CachingProxy',
-            'locale' => 'Magento\View\Design\FileResolution\Strategy\Fallback\CachingProxy',
-            'view' => 'Magento\View\Design\FileResolution\Strategy\Fallback',
+            self::FALLBACK_TYPE_FILE => 'Magento\View\Design\FileResolution\Strategy\Fallback\CachingProxy',
+            self::FALLBACK_TYPE_TEMPLATE => 'Magento\View\Design\FileResolution\Strategy\Fallback\CachingProxy',
+            self::FALLBACK_TYPE_LOCALE => 'Magento\View\Design\FileResolution\Strategy\Fallback\CachingProxy',
+            self::FALLBACK_TYPE_VIEW => 'Magento\View\Design\FileResolution\Strategy\Fallback',
         ),
         'caching_map' => array(
-            'file' => 'Magento\View\Design\FileResolution\Strategy\Fallback\CachingProxy',
-            'template' => 'Magento\View\Design\FileResolution\Strategy\Fallback\CachingProxy',
-            'locale' => 'Magento\View\Design\FileResolution\Strategy\Fallback\CachingProxy',
-            'view' => 'Magento\View\Design\FileResolution\Strategy\Fallback\CachingProxy',
+            self::FALLBACK_TYPE_FILE => 'Magento\View\Design\FileResolution\Strategy\Fallback\CachingProxy',
+            self::FALLBACK_TYPE_TEMPLATE => 'Magento\View\Design\FileResolution\Strategy\Fallback\CachingProxy',
+            self::FALLBACK_TYPE_LOCALE => 'Magento\View\Design\FileResolution\Strategy\Fallback\CachingProxy',
+            self::FALLBACK_TYPE_VIEW => 'Magento\View\Design\FileResolution\Strategy\Fallback\CachingProxy',
         ),
         'full_check' => array(
-            'file' => 'Magento\View\Design\FileResolution\Strategy\Fallback',
-            'template' => 'Magento\View\Design\FileResolution\Strategy\Fallback',
-            'locale' => 'Magento\View\Design\FileResolution\Strategy\Fallback',
-            'view' => 'Magento\View\Design\FileResolution\Strategy\Fallback',
+            self::FALLBACK_TYPE_FILE => 'Magento\View\Design\FileResolution\Strategy\Fallback',
+            self::FALLBACK_TYPE_TEMPLATE => 'Magento\View\Design\FileResolution\Strategy\Fallback',
+            self::FALLBACK_TYPE_LOCALE => 'Magento\View\Design\FileResolution\Strategy\Fallback',
+            self::FALLBACK_TYPE_VIEW => 'Magento\View\Design\FileResolution\Strategy\Fallback',
         ),
     );
 
@@ -104,7 +124,7 @@ class StrategyPool
      */
     public function getFileStrategy($skipProxy = false)
     {
-        return $this->getStrategy('file', $skipProxy);
+        return $this->getStrategy(self::FALLBACK_TYPE_FILE, $skipProxy);
     }
 
     /**
@@ -115,7 +135,7 @@ class StrategyPool
      */
     public function getLocaleStrategy($skipProxy = false)
     {
-        return $this->getStrategy('locale', $skipProxy);
+        return $this->getStrategy(self::FALLBACK_TYPE_LOCALE, $skipProxy);
     }
 
     /**
@@ -126,7 +146,7 @@ class StrategyPool
      */
     public function getTemplateStrategy($skipProxy = false)
     {
-        return $this->getStrategy('template', $skipProxy);
+        return $this->getStrategy(self::FALLBACK_TYPE_TEMPLATE, $skipProxy);
     }
 
     /**
@@ -137,7 +157,7 @@ class StrategyPool
      */
     public function getViewStrategy($skipProxy = false)
     {
-        return $this->getStrategy('view', $skipProxy);
+        return $this->getStrategy(self::FALLBACK_TYPE_VIEW, $skipProxy);
     }
 
     /**

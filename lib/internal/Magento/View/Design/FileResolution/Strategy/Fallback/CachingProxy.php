@@ -17,6 +17,7 @@ use Magento\View\Design\FileResolution\Strategy\View\NotifiableInterface;
 use Magento\View\Design\FileResolution\Strategy\ViewInterface;
 use Magento\View\Design\ThemeInterface;
 use Magento\Filesystem\Directory\Write;
+use Magento\View\Design\FileResolution\StrategyPool;
 
 /**
  * Caching Proxy
@@ -127,10 +128,10 @@ class CachingProxy implements FileInterface, LocaleInterface, ViewInterface, Not
      */
     public function getFile($area, ThemeInterface $themeModel, $file, $module = null)
     {
-        $result = $this->getFromMap('file', $area, $themeModel, null, $module, $file);
+        $result = $this->getFromMap(StrategyPool::FALLBACK_TYPE_FILE, $area, $themeModel, null, $module, $file);
         if (!$result) {
             $result = $this->fallback->getFile($area, $themeModel, $file, $module);
-            $this->setToMap('file', $area, $themeModel, null, $module, $file, $result);
+            $this->setToMap(StrategyPool::FALLBACK_TYPE_FILE, $area, $themeModel, null, $module, $file, $result);
         }
         return $result;
     }
@@ -146,10 +147,10 @@ class CachingProxy implements FileInterface, LocaleInterface, ViewInterface, Not
      */
     public function getTemplateFile($area, ThemeInterface $themeModel, $file, $module = null)
     {
-        $result = $this->getFromMap('template', $area, $themeModel, null, $module, $file);
+        $result = $this->getFromMap(StrategyPool::FALLBACK_TYPE_TEMPLATE, $area, $themeModel, null, $module, $file);
         if (!$result) {
             $result = $this->fallback->getTemplateFile($area, $themeModel, $file, $module);
-            $this->setToMap('template', $area, $themeModel, null, $module, $file, $result);
+            $this->setToMap(StrategyPool::FALLBACK_TYPE_TEMPLATE, $area, $themeModel, null, $module, $file, $result);
         }
         return $result;
     }
@@ -165,10 +166,10 @@ class CachingProxy implements FileInterface, LocaleInterface, ViewInterface, Not
      */
     public function getLocaleFile($area, ThemeInterface $themeModel, $locale, $file)
     {
-        $result = $this->getFromMap('locale', $area, $themeModel, $locale, null, $file);
+        $result = $this->getFromMap(StrategyPool::FALLBACK_TYPE_LOCALE, $area, $themeModel, $locale, null, $file);
         if (!$result) {
             $result = $this->fallback->getLocaleFile($area, $themeModel, $locale, $file);
-            $this->getFromMap('locale', $area, $themeModel, $locale, null, $file, $result);
+            $this->getFromMap(StrategyPool::FALLBACK_TYPE_LOCALE, $area, $themeModel, $locale, null, $file, $result);
         }
         return $result;
     }
@@ -185,10 +186,10 @@ class CachingProxy implements FileInterface, LocaleInterface, ViewInterface, Not
      */
     public function getViewFile($area, ThemeInterface $themeModel, $locale, $file, $module = null)
     {
-        $result = $this->getFromMap('view', $area, $themeModel, $locale, $module, $file);
+        $result = $this->getFromMap(StrategyPool::FALLBACK_TYPE_VIEW, $area, $themeModel, $locale, $module, $file);
         if (!$result) {
             $result = $this->fallback->getViewFile($area, $themeModel, $locale, $file, $module);
-            $this->getFromMap('view', $area, $themeModel, $locale, $module, $file, $result);
+            $this->getFromMap(StrategyPool::FALLBACK_TYPE_VIEW, $area, $themeModel, $locale, $module, $file, $result);
         }
         return $result;
     }
@@ -297,7 +298,7 @@ class CachingProxy implements FileInterface, LocaleInterface, ViewInterface, Not
      */
     public function setViewFilePathToMap($area, ThemeInterface $themeModel, $locale, $module, $file, $newFilePath)
     {
-        $this->setToMap('view', $area, $themeModel, $locale, $module, $file, $newFilePath);
+        $this->setToMap(StrategyPool::FALLBACK_TYPE_VIEW, $area, $themeModel, $locale, $module, $file, $newFilePath);
         return $this;
     }
 }
