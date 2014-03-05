@@ -18,7 +18,7 @@ class PreProcessorTest extends \PHPUnit_Framework_TestCase
     {
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
             \Magento\App\Filesystem::PARAM_APP_DIRS => array(
-                \Magento\App\Filesystem::LIB_WEB => array('path' => __DIR__ . '/_files/lib'),
+                \Magento\App\Filesystem::LIB_WEB => array('path' => __DIR__ . '/_files/lib/web'),
                 \Magento\App\Filesystem::THEMES_DIR => array('path' => __DIR__ . '/_files/design')
             )
         ));
