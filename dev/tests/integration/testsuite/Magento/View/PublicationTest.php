@@ -633,7 +633,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
     {
         $filePath = 'mage/mage.js';
         $expectedFile = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Filesystem')
-                ->getPath(\Magento\App\Filesystem::LIB_WEB) . '/' . $filePath;
+            ->getPath(\Magento\App\Filesystem::LIB_WEB) . '/' . $filePath;
         $this->assertFileExists($expectedFile, 'Please verify existence of the library file ' . $filePath);
 
         $actualFile = $this->fileResolver->getPublicViewFile($filePath);
