@@ -430,7 +430,6 @@ abstract class AbstractAction
                     }
                 }
             }
-
         } elseif (isset($this->indexCategoryPermissions[$parentPath])) {
             foreach ($this->indexCategoryPermissions[$parentPath] as $uniqKey => $permission) {
                 $this->indexCategoryPermissions[$path][$uniqKey] = array_merge(
@@ -456,7 +455,7 @@ abstract class AbstractAction
                     $permission['grant_checkout_items'] = Permission::PERMISSION_DENY;
                 }
 
-                $this->getWriteAdapter()->insert($this->getIndexTempTable(), [
+                $this->getWriteAdapter()->insertOnDuplicate($this->getIndexTempTable(), [
                     'category_id'                 => $permission['category_id'],
                     'website_id'                  => $permission['website_id'],
                     'customer_group_id'           => $permission['customer_group_id'],

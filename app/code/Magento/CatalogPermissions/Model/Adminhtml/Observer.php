@@ -31,8 +31,6 @@ use Magento\Index\Model\Indexer;
 
 class Observer
 {
-    const FORM_SELECT_ALL_VALUES = -1;
-
     /**
      * @var array
      */
@@ -79,7 +77,6 @@ class Observer
      * @param ConfigInterface $permissionsConfig
      * @param CacheInterface $coreCache
      * @param CategoryFactory $categoryFactory
-     * @param \Magento\CatalogPermissions\Model\PermissionFactory $permissionFactory
      * @param Indexer $indexer
      * @param Data $catalogPermData
      * @param AuthorizationInterface $authorization

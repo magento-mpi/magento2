@@ -80,42 +80,7 @@ class Category
             && $this->authorization
                 ->isAllowed('Magento_CatalogPermissions::catalog_magento_catalogpermissions')
         ) {
-            foreach ($subject->getData('permissions') as $data) {
-                /** @var Permission $permission */
-                $permission = $this->permissionFactory->create();
-                if (!empty($data['id'])) {
-                    $permission->load($data['id']);
-                }
-
-                if (!empty($data['_deleted'])) {
-                    if ($permission->getId()) {
-                        $permission->delete();
-                    }
-                    continue;
-                }
-
-                if ($data['website_id'] == PermissionsRow::FORM_SELECT_ALL_VALUES) {
-                    $data['website_id'] = null;
-                }
-
-                if ($data['customer_group_id'] == PermissionsRow::FORM_SELECT_ALL_VALUES) {
-                    $data['customer_group_id'] = null;
-                }
-
-                $permission->addData($data);
-                $viewPermission = $permission->getGrantCatalogCategoryView();
-                if (Permission::PERMISSION_DENY == $viewPermission) {
-                    $permission->setGrantCatalogProductPrice(Permission::PERMISSION_DENY);
-                }
-
-                $pricePermission = $permission->getGrantCatalogProductPrice();
-                if (Permission::PERMISSION_DENY == $pricePermission) {
-                    $permission->setGrantCheckoutItems(Permission::PERMISSION_DENY);
-                }
-                $permission->setCategoryId($subject->getId());
-                $permission->save();
-            }
-
+            $this->preparePermission($subject);
             $this->getIndexer()->reindexRow($subject->getId());
         }
 
@@ -136,5 +101,48 @@ class Category
 
         $this->getIndexer()->reindexRow($subject->getId());
         return $subject;
+    }
+
+    /**
+     * @param \Magento\Catalog\Model\Category $category
+     * @return void
+     */
+    protected function preparePermission(\Magento\Catalog\Model\Category $category)
+    {
+        foreach ($category->getData('permissions') as $data) {
+            /** @var Permission $permission */
+            $permission = $this->permissionFactory->create();
+            if (!empty($data['id'])) {
+                $permission->load($data['id']);
+            }
+
+            if (!empty($data['_deleted'])) {
+                if ($permission->getId()) {
+                    $permission->delete();
+                }
+                continue;
+            }
+
+            if ($data['website_id'] == PermissionsRow::FORM_SELECT_ALL_VALUES) {
+                $data['website_id'] = null;
+            }
+
+            if ($data['customer_group_id'] == PermissionsRow::FORM_SELECT_ALL_VALUES) {
+                $data['customer_group_id'] = null;
+            }
+
+            $permission->addData($data);
+            $viewPermission = $permission->getGrantCatalogCategoryView();
+            if (Permission::PERMISSION_DENY == $viewPermission) {
+                $permission->setGrantCatalogProductPrice(Permission::PERMISSION_DENY);
+            }
+
+            $pricePermission = $permission->getGrantCatalogProductPrice();
+            if (Permission::PERMISSION_DENY == $pricePermission) {
+                $permission->setGrantCheckoutItems(Permission::PERMISSION_DENY);
+            }
+            $permission->setCategoryId($category->getId());
+            $permission->save();
+        }
     }
 }

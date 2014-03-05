@@ -76,4 +76,6 @@ return array(
     ['ENTITY_CATEGORY', 'Magento\CatalogPermissions\Model\Permission\Index'],
     ['ENTITY_PRODUCT', 'Magento\CatalogPermissions\Model\Permission\Index'],
     ['ENTITY_CONFIG', 'Magento\CatalogPermissions\Model\Permission\Index'],
+    ['FORM_SELECT_ALL_VALUES', 'Magento\CatalogPermissions\Model\Adminhtml\Observer',
+        'Magento\CatalogPermissions\Block\Adminhtml\Catalog\Category\Tab\Permissions\Row::FORM_SELECT_ALL_VALUES'],
 );
