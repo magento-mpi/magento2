@@ -20,11 +20,6 @@ use Magento\Sales\Model\Quote\Item as QuoteItem;
 class Observer
 {
     /**
-     * @var bool
-     */
-    protected $_stockStatusCorrelationAdded = false;
-
-    /**
      * @var Item[]
      */
     protected $_itemsForReindex = array();
