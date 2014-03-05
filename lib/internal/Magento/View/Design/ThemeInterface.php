@@ -10,8 +10,6 @@ namespace Magento\View\Design;
 
 /**
  * Interface ThemeInterface
- *
- * @method int|null getId()
  */
 interface ThemeInterface
 {

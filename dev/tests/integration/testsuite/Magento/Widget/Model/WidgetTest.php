@@ -103,7 +103,7 @@ class WidgetTest extends \PHPUnit_Framework_TestCase
         );
 
         $expectedFile = dirname(__DIR__)
-            . '/_files/design/adminhtml/magento_backend/Magento_Catalog/images/product_widget_new.gif';
+            . '/_files/design/adminhtml/magento_backend/Magento_Catalog/web/images/product_widget_new.gif';
         $this->assertFileEquals($expectedFile, $actualFile);
     }
 }
