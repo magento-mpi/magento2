@@ -671,7 +671,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function isEmailAvailable($customerEmail, $websiteId = null)
+    public function isEmailAvailable($customerEmail, $websiteId)
     {
         try {
             $this->_converter->getCustomerModelByEmail($customerEmail, $websiteId);

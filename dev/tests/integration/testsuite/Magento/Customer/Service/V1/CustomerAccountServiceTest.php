@@ -1317,7 +1317,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsEmailAvailableNoWebsiteSpecified()
     {
-        $this->_customerAccountService->isEmailAvailable('customer@example.com');
+        $this->_customerAccountService->isEmailAvailable('customer@example.com', null);
     }
 
     public function testIsEmailAvailableNonExistentEmail()

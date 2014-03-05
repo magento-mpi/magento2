@@ -231,11 +231,11 @@ interface CustomerAccountServiceInterface
     public function deleteCustomer($customerId);
 
     /**
-     * Check if the email hasn't associated with a customer account for that given website
+     * Check if the email has not associated with a customer account for that given website
      *
      * @param string $customerEmail
-     * @param int|null $websiteId
+     * @param int $websiteId
      * @return bool
      */
-    public function isEmailAvailable($customerEmail, $websiteId = null);
+    public function isEmailAvailable($customerEmail, $websiteId);
 }
