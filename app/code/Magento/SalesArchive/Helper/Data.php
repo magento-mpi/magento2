@@ -7,13 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\SalesArchive\Helper;
 
 /**
  * Base sales archive helper
  *
  */
-namespace Magento\SalesArchive\Helper;
-
 class Data extends \Magento\App\Helper\AbstractHelper
 {
 

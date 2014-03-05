@@ -115,11 +115,11 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
     protected $_appState;
 
     /**
-     * Locale model
+     * Locale Lists
      *
-     * @var \Magento\LocaleInterface
+     * @var \Magento\Locale\ListsInterface
      */
-    protected $_locale;
+    protected $_localeLists;
 
     /**
      * Magento Object Manager
@@ -135,7 +135,7 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
      * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\Install\Model\Installer\Data $installerData
      * @param \Magento\App\State $appState
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Locale\ListsInterface $localeLists
      * @param \Magento\ObjectManager $objectManager
      */
     public function __construct(
@@ -145,7 +145,7 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
         \Magento\App\Filesystem $filesystem,
         \Magento\Install\Model\Installer\Data $installerData,
         \Magento\App\State $appState,
-        \Magento\LocaleInterface $locale,
+        \Magento\Locale\ListsInterface $localeLists,
         \Magento\ObjectManager $objectManager
     ) {
         parent::__construct($installer);
@@ -155,7 +155,7 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
         $this->_installerData = $installerData;
         $this->_installer->setDataModel($this->_installerData);
         $this->_appState = $appState;
-        $this->_locale = $locale;
+        $this->_localeLists = $localeLists;
         $this->_objectManager = $objectManager;
         $this->installParameters = array_keys($this->requiredParameters + $this->optionalParameters);
     }
@@ -422,7 +422,7 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
      */
     public function getAvailableLocales()
     {
-        return $this->_locale->getOptionLocales();
+        return $this->_localeLists->getOptionLocales();
     }
 
     /**
@@ -432,7 +432,7 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
      */
     public function getAvailableCurrencies()
     {
-        return $this->_locale->getOptionCurrencies();
+        return $this->_localeLists->getOptionCurrencies();
     }
 
     /**
@@ -442,7 +442,7 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
      */
     public function getAvailableTimezones()
     {
-        return $this->_locale->getOptionTimezones();
+        return $this->_localeLists->getOptionTimezones();
     }
 
     /**

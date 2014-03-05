@@ -40,6 +40,14 @@
   * View publisher re-factored
   * Introduced Offline Payments module
   * Added ability to enable/disable Paypal module
+  * Moved framework part of the Locales functionality from Core module to library
+  * Locale's logic has been splitted among appropriate classes in library, according to their responsibilities
+  * Deprecated DHL functionality has been removed
+  * Offline Shipping Carrier Module which contains Flatrate, Tablerate, Freeshipping, Pickup functionality introduced
+  * DHL Shipping Carrier Module introduced
+  * Fedex Shipping Carrier Module introduced
+  * UPS Shipping Carrier Module introduced
+  * USPS Shipping Carrier Module introduced
 * Customer Service usage:
   * Sales module refactoring to use customer service layer
   * Checkout module refactoring to use customer service layer

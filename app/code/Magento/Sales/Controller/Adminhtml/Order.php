@@ -511,7 +511,7 @@ class Order extends \Magento\Backend\App\Action
             }
             if ($flag) {
                 return $this->_fileFactory->create(
-                    'invoice' . $this->_objectManager->get('Magento\Core\Model\Date')->date('Y-m-d_H-i-s') . '.pdf',
+                    'invoice' . $this->_objectManager->get('Magento\Stdlib\DateTime\DateTime')->date('Y-m-d_H-i-s') . '.pdf',
                     $pdf->render(),
                     \Magento\App\Filesystem::VAR_DIR,
                     'application/pdf'
@@ -550,7 +550,7 @@ class Order extends \Magento\Backend\App\Action
             }
             if ($flag) {
                 return $this->_fileFactory->create(
-                    'packingslip' . $this->_objectManager->get('Magento\Core\Model\Date')->date('Y-m-d_H-i-s') . '.pdf',
+                    'packingslip' . $this->_objectManager->get('Magento\Stdlib\DateTime\DateTime')->date('Y-m-d_H-i-s') . '.pdf',
                     $pdf->render(),
                     \Magento\App\Filesystem::VAR_DIR,
                     'application/pdf'
@@ -589,7 +589,7 @@ class Order extends \Magento\Backend\App\Action
             }
             if ($flag) {
                 return $this->_fileFactory->create(
-                    'creditmemo' . $this->_objectManager->get('Magento\Core\Model\Date')->date('Y-m-d_H-i-s') . '.pdf',
+                    'creditmemo' . $this->_objectManager->get('Magento\Stdlib\DateTime\DateTime')->date('Y-m-d_H-i-s') . '.pdf',
                     $pdf->render(),
                     \Magento\App\Filesystem::VAR_DIR,
                     'application/pdf'
@@ -654,7 +654,7 @@ class Order extends \Magento\Backend\App\Action
             }
             if ($flag) {
                 return $this->_fileFactory->create(
-                    'docs' . $this->_objectManager->get('Magento\Core\Model\Date')->date('Y-m-d_H-i-s') . '.pdf',
+                    'docs' . $this->_objectManager->get('Magento\Stdlib\DateTime\DateTime')->date('Y-m-d_H-i-s') . '.pdf',
                     $pdf->render(),
                     \Magento\App\Filesystem::VAR_DIR,
                     'application/pdf'

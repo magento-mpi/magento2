@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\SalesArchive\Model;
 
 /**
  * Sales archive operations model
  */
-namespace Magento\SalesArchive\Model;
-
 class Archive
 {
     /**
@@ -70,7 +69,7 @@ class Archive
      * Archive orders
      *
      * @throws \Exception
-     * @return \Magento\SalesArchive\Model\Archive
+     * @return $this
      */
     public function archiveOrders()
     {
@@ -154,7 +153,7 @@ class Archive
      * Move all orders from archive grid tables to regular grid tables
      *
      * @throws \Exception
-     * @return \Magento\SalesArchive\Model\Archive
+     * @return $this
      */
     public function removeOrdersFromArchive()
     {

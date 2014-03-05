@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Search\Model\Catalog\Layer\Filter;
 
 /**
  * Layer attribute filter
@@ -15,8 +16,6 @@
  * @package    Magento_Search
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Search\Model\Catalog\Layer\Filter;
-
 class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
 {
     /**
@@ -85,7 +84,7 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
      *
      * @param \Zend_Controller_Request_Abstract $request
      * @param object $filterBlock
-     * @return \Magento\Search\Model\Catalog\Layer\Filter\Attribute
+     * @return $this
      */
     public function apply(\Zend_Controller_Request_Abstract $request, $filterBlock)
     {
@@ -123,7 +122,7 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
     /**
      * Add params to faceted search
      *
-     * @return \Magento\Search\Model\Catalog\Layer\Filter\Attribute
+     * @return $this
      */
     public function addFacetCondition()
     {
@@ -136,10 +135,9 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
     /**
      * Apply attribute filter to solr query
      *
-     * @param   \Magento\Catalog\Model\Layer\Filter\Attribute $filter
-     * @param   mixed $value
-     *
-     * @return  \Magento\Search\Model\Catalog\Layer\Filter\Attribute
+     * @param \Magento\Catalog\Model\Layer\Filter\Attribute $filter
+     * @param mixed $value
+     * @return $this
      */
     public function applyFilterToCollection($filter, $value)
     {

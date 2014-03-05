@@ -16,16 +16,16 @@ namespace Magento\Backend\Model\Config\Source\Locale;
 class Weekdaycodes implements \Magento\Option\ArrayInterface
 {
     /**
-     * @var \Magento\LocaleInterface
+     * @var \Magento\Locale\ListsInterface
      */
-    protected $_locale;
+    protected $_localeLists;
 
     /**
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Locale\ListsInterface $localeLists
      */
-    public function __construct(\Magento\LocaleInterface $locale)
+    public function __construct(\Magento\Locale\ListsInterface $localeLists)
     {
-        $this->_locale = $locale;
+        $this->_localeLists = $localeLists;
     }
 
     /**
@@ -33,6 +33,6 @@ class Weekdaycodes implements \Magento\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return $this->_locale->getOptionWeekdays(true, true);
+        return $this->_localeLists->getOptionWeekdays(true, true);
     }
 }

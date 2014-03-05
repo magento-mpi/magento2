@@ -7,14 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order\Invoice;
 
 /**
  * Archive invoices grid block
- *
  */
-
-namespace Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order\Invoice;
-
 class Grid
     extends \Magento\Sales\Block\Adminhtml\Invoice\Grid
 {
@@ -45,6 +42,9 @@ class Grid
         parent::__construct($context, $backendHelper, $invoiceFactory, $collectionFactory, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
