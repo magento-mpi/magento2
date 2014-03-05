@@ -1164,7 +1164,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         // Filter for 'firstname' like 'First'
         $filterBuilder = new Dto\FilterBuilder();
         $firstnameFilter = $filterBuilder->
-            setField('Firstname')->setConditionType('like')->setValue('First%')->create();
+            setField('firstname')->setConditionType('like')->setValue('First%')->create();
         $searchBuilder->addFilter($firstnameFilter);
 
         // Search ascending order
