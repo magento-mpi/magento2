@@ -20,81 +20,47 @@ use Magento\App\CacheInterface;
 use Magento\AuthorizationInterface;
 use Magento\Catalog\Block\Adminhtml\Category\Tabs;
 use Magento\Catalog\Model\Category;
-use Magento\Catalog\Model\CategoryFactory;
 use Magento\CatalogPermissions\App\ConfigInterface;
-use Magento\CatalogPermissions\Helper\Data;
-use Magento\CatalogPermissions\Model\Permission;
-use Magento\CatalogPermissions\Model\Permission\Index;
 use Magento\Event\Observer as EventObserver;
-use Magento\Index\Model\Event;
-use Magento\Index\Model\Indexer;
 
 class Observer
 {
     /**
-     * @var array
-     */
-    protected $_indexQueue = array();
-
-    /**
-     * @var array
-     */
-    protected $_indexProductQueue = array();
-
-    /**
      * @var AuthorizationInterface
      */
-    protected $_authorization;
-
-    /**
-     * Catalog permissions data
-     *
-     * @var Data
-     */
-    protected $_catalogPermData = null;
-
-    /**
-     * @var CategoryFactory
-     */
-    protected $_categoryFactory;
-
-    /**
-     * @var Indexer
-     */
-    protected $_indexer;
+    protected $authorization;
 
     /**
      * @var CacheInterface
      */
-    protected $_coreCache;
+    protected $coreCache;
 
     /**
-     * @var ConfigInterface
+     * @var \Magento\Indexer\Model\IndexerInterface
      */
-    protected $_permissionsConfig;
+    protected $indexer;
 
     /**
-     * @param ConfigInterface $permissionsConfig
+     * @var \Magento\CatalogPermissions\App\ConfigInterface
+     */
+    protected $appConfig;
+
+    /**
      * @param CacheInterface $coreCache
-     * @param CategoryFactory $categoryFactory
-     * @param Indexer $indexer
-     * @param Data $catalogPermData
      * @param AuthorizationInterface $authorization
+     * @param \Magento\Indexer\Model\IndexerInterface $indexer
+     * @param ConfigInterface $appConfig
      */
     public function __construct(
-        ConfigInterface $permissionsConfig,
         CacheInterface $coreCache,
-        CategoryFactory $categoryFactory,
-        Indexer $indexer,
-        Data $catalogPermData,
-        AuthorizationInterface $authorization
+        AuthorizationInterface $authorization,
+        ConfigInterface $appConfig,
+        \Magento\Indexer\Model\IndexerInterface $indexer
     ) {
-        $this->_permissionsConfig = $permissionsConfig;
-        $this->_coreCache = $coreCache;
-        $this->_indexer = $indexer;
-        $this->_categoryFactory = $categoryFactory;
-        $this->_catalogPermData = $catalogPermData;
-        $this->_authorization = $authorization;
+        $this->indexer = $indexer;
+        $this->appConfig = $appConfig;
+        $this->coreCache = $coreCache;
+        $this->authorization = $authorization;
     }
 
     /**
@@ -104,12 +70,10 @@ class Observer
      */
     public function cleanCacheOnConfigChange()
     {
-        $this->_coreCache->cleanCache(array(Category::CACHE_TAG));
-        $this->_indexer->processEntityAction(
-            new \Magento\Object(),
-            Index::ENTITY_CONFIG,
-            Event::TYPE_SAVE
-        );
+        $this->coreCache->clean(array(Category::CACHE_TAG));
+        if ($this->appConfig->isEnabled()) {
+            $this->getIndexer()->invalidate();
+        }
         return $this;
     }
 
@@ -121,23 +85,34 @@ class Observer
      */
     public function addCategoryPermissionTab(EventObserver $observer)
     {
-        if (!$this->_permissionsConfig->isEnabled()) {
+        if (!$this->appConfig->isEnabled()) {
             return $this;
         }
-        if (!$this->_authorization->isAllowed('Magento_CatalogPermissions::catalog_magento_catalogpermissions')) {
+        if (!$this->authorization->isAllowed('Magento_CatalogPermissions::catalog_magento_catalogpermissions')) {
             return $this;
         }
 
         $tabs = $observer->getEvent()->getTabs();
         /* @var $tabs Tabs */
 
-        //if ($this->_catalogPermissionsData->isAllowedCategory($tabs->getCategory())) {
-            $tabs->addTab(
-                'permissions',
-                'Magento\CatalogPermissions\Block\Adminhtml\Catalog\Category\Tab\Permissions'
-            );
-        //}
+        $tabs->addTab(
+            'permissions',
+            'Magento\CatalogPermissions\Block\Adminhtml\Catalog\Category\Tab\Permissions'
+        );
 
         return $this;
+    }
+
+    /**
+     * Return own indexer object
+     *
+     * @return \Magento\Indexer\Model\IndexerInterface
+     */
+    protected function getIndexer()
+    {
+        if (!$this->indexer->getId()) {
+            $this->indexer->load(\Magento\CatalogPermissions\Model\Indexer\Category::INDEXER_ID);
+        }
+        return $this->indexer;
     }
 }
