@@ -15,6 +15,10 @@
     )
 ));
 
+\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->get('Magento\App\State')
+    ->setAreaCode(\Magento\View\DesignInterface::DEFAULT_AREA);
+
 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
     ->loadAreaPart(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE, \Magento\Core\Model\App\Area::PART_CONFIG);
 

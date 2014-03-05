@@ -51,6 +51,7 @@ class Theme extends \Magento\Backend\App\Action
      */
     public function indexAction()
     {
+        $this->_eventManager->dispatch('theme_registration_from_filesystem');
         $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Theme::system_design_theme');
         $this->_view->renderLayout();
