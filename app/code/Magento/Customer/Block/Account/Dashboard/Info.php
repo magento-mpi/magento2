@@ -36,6 +36,15 @@ class Info extends \Magento\View\Element\Template
      */
     protected $customerCurrentService;
 
+    /**
+     * Constructor
+     *
+     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Customer\Service\V1\CustomerCurrentServiceInterface $customerCurrentService
+     * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
+     * @param \Magento\Customer\Helper\View $helperView
+     * @param array $data
+     */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Customer\Service\V1\CustomerCurrentServiceInterface $customerCurrentService,
