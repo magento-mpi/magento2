@@ -75,6 +75,10 @@ class VarnishPluginTest extends \PHPUnit_Framework_TestCase
     {
         $this->configMock
             ->expects($this->once())
+            ->method('isEnabled')
+            ->will($this->returnValue(true));
+        $this->configMock
+            ->expects($this->once())
             ->method('getType')
             ->will($this->returnValue(\Magento\PageCache\Model\Config::VARNISH));
         $this->versionMock
