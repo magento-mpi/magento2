@@ -345,7 +345,7 @@ class RecurringProfile extends \Magento\Core\Model\AbstractModel
         if (!$datetime || !$this->_localeDate || !$this->_store) {
             return '';
         }
-        $date = $this->_localeDatele->storeDate($this->_store, strtotime($datetime), true);
+        $date = $this->_localeDate->scopeDate($this->_store, strtotime($datetime), true);
         return $date->toString(
             $this->_localeDate->getDateTimeFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT)
         );
