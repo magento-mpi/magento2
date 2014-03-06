@@ -67,7 +67,7 @@ class AggregateInvoker
         ];
         $passed = 0;
         foreach ($dataSource as $k => $dataSet) {
-            $dataSetName = is_int($k) ? $dataSet : $k;
+            $dataSetName = is_int($k) ? var_export($dataSet, true) : $k;
             try {
                 call_user_func_array($callback, $dataSet);
                 $passed++;
