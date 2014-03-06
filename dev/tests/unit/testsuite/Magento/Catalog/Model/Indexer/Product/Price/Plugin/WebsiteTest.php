@@ -51,7 +51,7 @@ class WebsiteTest extends \PHPUnit_Framework_TestCase
             ->method('markIndexerAsInvalid');
 
         $websiteMock = $this->getMock('Magento\Core\Model\Resource\Website', array(), array(), '', false);
-        $this->assertEquals('return_value', $this->_model->afterDelete($websiteMock,'return_value'));
+        $this->assertEquals('return_value', $this->_model->afterDelete($websiteMock, 'return_value'));
     }
 
 }
