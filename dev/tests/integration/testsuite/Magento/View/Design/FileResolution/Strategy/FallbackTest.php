@@ -24,18 +24,28 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
     /**
      * @var string
      */
-    protected $_baseDir;
+    protected $baseDir;
 
     /**
      * @var string
      */
-    protected $_viewDir;
+    protected $viewDir;
+
+    /**
+     * @var string
+     */
+    protected $libDir;
+
+    /**
+     * @var \Magento\App\Filesystem
+     */
+    protected $filesystem;
 
     protected function setUp()
     {
-//        $this->markTestSkipped('Task: MAGETWO-18162');
-        $this->_baseDir = realpath(__DIR__ . '/../../../_files/fallback');
-        $this->_viewDir = $this->_baseDir . '/design';
+        $this->baseDir = realpath(__DIR__ . '/../../../_files/fallback');
+        $this->viewDir = $this->baseDir . '/design';
+        $this->libDir = $this->baseDir . '/lib/web';
     }
 
     /**
@@ -46,15 +56,16 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
     protected function _buildModel()
     {
         // Prepare config with directories
-        $filesystem = Bootstrap::getObjectManager()->create(
+        $this->filesystem = Bootstrap::getObjectManager()->create(
             'Magento\App\Filesystem',
             array(
                 'directoryList' => Bootstrap::getObjectManager()->create(
                     'Magento\App\Filesystem\DirectoryList',
                     array(
-                        'root' => $this->_baseDir,
+                        'root' => $this->baseDir,
                         'directories' => array(
-                            \Magento\App\Filesystem::THEMES_DIR => array('path' => $this->_viewDir)
+                            \Magento\App\Filesystem::THEMES_DIR => array('path' => $this->viewDir),
+                            \Magento\App\Filesystem::LIB_WEB => array('path' => $this->libDir)
                         )
                     )
                 )
@@ -63,7 +74,7 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
 
         return Bootstrap::getObjectManager()->create(
             'Magento\View\Design\FileResolution\Strategy\Fallback',
-            array('fallbackFactory' => new Factory($filesystem))
+            array('fallbackFactory' => new Factory($this->filesystem))
         );
     }
 
@@ -78,7 +89,7 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
     {
         /** @var $collection \Magento\Core\Model\Theme\Collection */
         $collection = Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\Theme\Collection');
+            ->create('Magento\Core\Model\Theme\Collection', array('filesystem' => $this->filesystem));
         $themeModel = $collection->addDefaultPattern()
             ->addFilter('theme_path', $themePath)
             ->addFilter('area', $area)
