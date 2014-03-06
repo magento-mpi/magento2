@@ -139,7 +139,7 @@ class Info
             'label'  => __('Expiration Date'),
             'title'  => __('Expiration Date'),
             'image'  => $this->getViewFileUrl('images/grid-cal.gif'),
-            'date_format' => $this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT)
+            'date_format' => $this->_localeDate->getDateFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT)
         ));
 
         $form->setValues($model->getData());

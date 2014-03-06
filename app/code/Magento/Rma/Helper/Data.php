@@ -75,11 +75,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_storeManager;
 
     /**
-     * Core locale interface
-     *
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\Stdlib\DateTime\TimezoneInterface
      */
-    protected $_locale;
+    protected $_localeDate;
 
     /**
      * Rma item factory
@@ -110,9 +108,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_addressFactory;
 
     /**
-     * Rma carrier factory
+     * Shipping carrier factory
      *
-     * @var \Magento\Rma\Model\CarrierFactory
+     * @var \Magento\Shipping\Model\CarrierFactory
      */
     protected $_carrierFactory;
 
@@ -136,21 +134,29 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $adminOrderItem;
 
     /**
+     * Shipping carrier helper
+     *
+     * @var \Magento\Shipping\Helper\Carrier
+     */
+    protected $carrierHelper;
+
+    /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Store\ConfigInterface $storeConfig
      * @param \Magento\Directory\Model\CountryFactory $countryFactory
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Rma\Model\Resource\ItemFactory $itemFactory
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param \Magento\Sales\Model\Quote\AddressFactory $addressFactory
-     * @param \Magento\Rma\Model\CarrierFactory $carrierFactory
+     * @param \Magento\Shipping\Model\CarrierFactory $carrierFactory
      * @param \Magento\Filter\FilterManager $filterManager
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Sales\Model\Order\Admin\Item $adminOrderItem
+     * @param \Magento\Shipping\Helper\Carrier $carrierHelper
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
@@ -159,22 +165,23 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\Directory\Model\CountryFactory $countryFactory,
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Rma\Model\Resource\ItemFactory $itemFactory,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Sales\Model\Quote\AddressFactory $addressFactory,
-        \Magento\Rma\Model\CarrierFactory $carrierFactory,
+        \Magento\Shipping\Model\CarrierFactory $carrierFactory,
         \Magento\Filter\FilterManager $filterManager,
         \Magento\Stdlib\DateTime $dateTime,
-        \Magento\Sales\Model\Order\Admin\Item $adminOrderItem
+        \Magento\Sales\Model\Order\Admin\Item $adminOrderItem,
+        \Magento\Shipping\Helper\Carrier $carrierHelper
     ) {
         $this->_coreData = $coreData;
         $this->_storeConfig = $storeConfig;
         $this->_countryFactory = $countryFactory;
         $this->_regionFactory = $regionFactory;
         $this->_storeManager = $storeManager;
-        $this->_locale = $locale;
+        $this->_localeDate = $localeDate;
         $this->_itemFactory = $itemFactory;
         $this->_customerSession = $customerSession;
         $this->_authSession = $authSession;
@@ -183,6 +190,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         $this->_filterManager = $filterManager;
         $this->dateTime = $dateTime;
         $this->adminOrderItem = $adminOrderItem;
+        $this->carrierHelper = $carrierHelper;
         parent::__construct($context);
     }
 
@@ -414,11 +422,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getShippingCarriers($store = null)
     {
-        $return = array();
-        foreach (array('dhl', 'fedex', 'ups', 'usps') as $carrier) {
-            $return[$carrier] = $this->_storeConfig->getConfig('carriers/' . $carrier . '/title', $store);
+        $carriers = array();
+        foreach ($this->carrierHelper->getOnlineCarrierCodes($store) as $carrierCode) {
+            $carriers[$carrierCode] = $this->carrierHelper->getCarrierConfigValue($carrierCode, 'title', $store);
         }
-        return $return;
+        return $carriers;
     }
 
     /**
@@ -430,13 +438,13 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getAllowedShippingCarriers($store = null)
     {
-        $return = $this->getShippingCarriers($store);
-        foreach (array_keys($return) as $carrier) {
-            if (!$this->_storeConfig->getConfig('carriers/' . $carrier . '/active_rma', $store)) {
-                unset ($return[$carrier]);
+        $allowedCarriers = $this->getShippingCarriers($store);
+        foreach (array_keys($allowedCarriers) as $carrier) {
+            if (!$this->carrierHelper->getCarrierConfigValue($carrier , 'active_rma', $store)) {
+                unset ($allowedCarriers[$carrier]);
             }
         }
-        return $return;
+        return $allowedCarriers;
     }
 
     /**
@@ -444,31 +452,23 @@ class Data extends \Magento\App\Helper\AbstractHelper
      *
      * @param string $code Shipping method code
      * @param int|int[] $storeId
-     * @return bool|\Magento\Usa\Model\Shipping\Carrier\AbstractCarrier
+     * @return bool|\Magento\Shipping\Model\Carrier\AbstractCarrierOnline
      */
     public function getCarrier($code, $storeId = null)
     {
         $data           = explode('_', $code, 2);
         $carrierCode    = $data[0];
 
-        if (!$this->_storeConfig->getConfig('carriers/' . $carrierCode . '/active_rma', $storeId)) {
+        if (!$this->carrierHelper->getCarrierConfigValue($carrierCode, 'active_rma', $storeId)) {
             return false;
         }
-        $className = $this->_storeConfig->getConfig('carriers/' . $carrierCode . '/model', $storeId);
-        if (!$className) {
-            return false;
-        }
-        $obj = $this->_carrierFactory->create($className);
-        if ($storeId) {
-            $obj->setStore($storeId);
-        }
-        return $obj;
+        return $this->_carrierFactory->create($carrierCode, $storeId);
     }
 
     /**
      * Shipping package popup URL getter
      *
-     * @param Rma $model 
+     * @param Rma $model
      * @param string $action string
      * @return string
      */
@@ -566,10 +566,10 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getFormatedDate($date)
     {
-        $storeDate = $this->_locale->storeDate(
+        $storeDate = $this->_localeDate->scopeDate(
             $this->_storeManager->getStore(), $this->dateTime->toTimestamp($date), true
         );
-        return $this->_locale->formatDate($storeDate, \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
+        return $this->_localeDate->formatDate($storeDate, \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
     }
 
     /**

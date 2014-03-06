@@ -39,7 +39,9 @@ class Guest extends \Magento\App\Action\Action
     public function returnsAction()
     {
         if (!$this->_objectManager->get('Magento\Rma\Helper\Data')->isEnabled()
-            || !$this->_objectManager->get('Magento\Sales\Helper\Guest')->loadValidOrder()) {
+            || !$this->_objectManager->get('Magento\Sales\Helper\Guest')->loadValidOrder(
+                $this->_request, $this->_response
+            )) {
             $this->_forward('noroute');
             return;
         }
@@ -92,7 +94,9 @@ class Guest extends \Magento\App\Action\Action
     protected function _loadValidRma($entityId = null)
     {
         if (!$this->_objectManager->get('Magento\Rma\Helper\Data')->isEnabled() ||
-            !$this->_objectManager->get('Magento\Sales\Helper\Guest')->loadValidOrder()) {
+            !$this->_objectManager->get('Magento\Sales\Helper\Guest')->loadValidOrder(
+                $this->_request, $this->_response
+            )) {
             return;
         }
 
@@ -123,7 +127,9 @@ class Guest extends \Magento\App\Action\Action
      */
     public function createAction()
     {
-        if (!$this->_objectManager->get('Magento\Sales\Helper\Guest')->loadValidOrder()) {
+        if (!$this->_objectManager->get('Magento\Sales\Helper\Guest')->loadValidOrder(
+            $this->_request, $this->_response
+        )) {
             return;
         }
         $order      = $this->_coreRegistry->registry('current_order');
@@ -133,8 +139,8 @@ class Guest extends \Magento\App\Action\Action
         }
 
         $post = $this->getRequest()->getPost();
-        /** @var \Magento\Core\Model\Date $coreDate */
-        $coreDate = $this->_objectManager->get('Magento\Core\Model\Date');
+        /** @var \Magento\Stdlib\DateTime\DateTime $coreDate */
+        $coreDate = $this->_objectManager->get('Magento\Stdlib\DateTime\DateTime');
         if (($post) && !empty($post['items'])) {
             try {
                 /** @var $urlModel \Magento\UrlInterface */
@@ -231,7 +237,7 @@ class Guest extends \Magento\App\Action\Action
                         ->setComment($comment)
                         ->setIsVisibleOnFront(true)
                         ->setStatus($this->_coreRegistry->registry('current_rma')->getStatus())
-                        ->setCreatedAt($this->_objectManager->get('Magento\Core\Model\Date')->gmtDate())
+                        ->setCreatedAt($this->_objectManager->get('Magento\Stdlib\DateTime\DateTime')->gmtDate())
                         ->save();
                     $result->setStoreId($this->_coreRegistry->registry('current_rma')->getStoreId());
                     $result->sendCustomerCommentEmail();

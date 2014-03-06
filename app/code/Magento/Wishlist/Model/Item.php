@@ -2,12 +2,10 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Wishlist
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Wishlist\Model;
 
 /**
  * Wishlist item model
@@ -23,13 +21,7 @@
  * @method \Magento\Wishlist\Model\Item setAddedAt(string $value)
  * @method string getDescription()
  * @method \Magento\Wishlist\Model\Item setDescription(string $value)
- *
- * @category    Magento
- * @package     Magento_Wishlist
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Wishlist\Model;
-
 use Magento\Wishlist\Model\Item\Option;
 use Magento\Wishlist\Model\Item\OptionFactory;
 use Magento\Wishlist\Model\Resource\Item\Option\CollectionFactory;
@@ -46,11 +38,11 @@ class Item extends \Magento\Core\Model\AbstractModel
      */
     protected $_customOptionDownloadUrl = 'wishlist/index/downloadCustomOption';
 
-   /**
-    * Prefix of model events names
-    *
-    * @var string
-    */
+    /**
+     * Prefix of model events names
+     *
+     * @var string
+     */
     protected $_eventPrefix = 'wishlist_item';
 
     /**
@@ -96,7 +88,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     protected $_storeManager;
 
     /**
-     * @var \Magento\Core\Model\Date
+     * @var \Magento\Stdlib\DateTime\DateTime
      */
     protected $_date;
 
@@ -129,7 +121,7 @@ class Item extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Date $date
+     * @param \Magento\Stdlib\DateTime\DateTime $date
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Catalog\Model\Resource\Url $catalogUrl
      * @param OptionFactory $wishlistOptFactory
@@ -143,7 +135,7 @@ class Item extends \Magento\Core\Model\AbstractModel
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Date $date,
+        \Magento\Stdlib\DateTime\DateTime $date,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Catalog\Model\Resource\Url $catalogUrl,
         OptionFactory $wishlistOptFactory,
@@ -302,8 +294,8 @@ class Item extends \Magento\Core\Model\AbstractModel
     /**
      * Validate wish list item data
      *
-     * @throws \Magento\Core\Exception
      * @return bool
+     * @throws \Magento\Core\Exception
      */
     public function validate()
     {
@@ -520,6 +512,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     /**
      * Set buy request - object, holding request received from
      * product view page with keys and options for configured product
+     *
      * @param \Magento\Object $buyRequest
      * @return $this
      */

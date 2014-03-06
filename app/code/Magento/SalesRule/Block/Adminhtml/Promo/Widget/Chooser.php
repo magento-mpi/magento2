@@ -32,6 +32,8 @@ class Chooser extends \Magento\Backend\Block\Widget\Grid\Extended
 
     /**
      * Block constructor, prepare grid params
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -44,7 +46,7 @@ class Chooser extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Prepare rules collection
      *
-     * @return Chooser
+     * @return $this
      */
     protected function _prepareCollection()
     {
@@ -111,7 +113,7 @@ class Chooser extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Prepare columns for rules grid
      *
-     * @return Chooser
+     * @return $this
      */
     protected function _prepareColumns()
     {

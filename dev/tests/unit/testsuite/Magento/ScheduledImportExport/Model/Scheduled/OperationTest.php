@@ -70,7 +70,7 @@ class OperationTest extends \PHPUnit_Framework_TestCase
     {
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        $dateModelMock = $this->getMock('Magento\Core\Model\Date', array('date'), array(), '', false);
+        $dateModelMock = $this->getMock('Magento\Stdlib\DateTime\DateTime', array('date'), array(), '', false);
         $dateModelMock->expects($this->any())
             ->method('date')
             ->will($this->returnCallback(array($this, 'getDateCallback')));
@@ -127,7 +127,7 @@ class OperationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Callback to use instead of \Magento\Core\Model\Date::date()
+     * Callback to use instead of \Magento\Stdlib\DateTime\DateTime::date()
      *
      * @param string $format
      * @param int|string $input

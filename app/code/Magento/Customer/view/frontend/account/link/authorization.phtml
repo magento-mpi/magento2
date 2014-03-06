@@ -6,10 +6,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
+/** @var $this \Magento\Customer\Block\Account\AuthorizationLink */
+$dataPostParam = '';
+if ($this->isLoggedIn()) {
+    $dataPostParam = sprintf(" data-post='%s'", $this->getPostParams());
+}
 ?>
 <li>
-    <?php /** @var $this \Magento\Customer\Block\Account\AuthorizationLink */?>
-    <a <?php if ($this->isLoggedIn()) {echo "data-post='" . $this->getPostParams(); } ?>' <?php echo $this->getLinkAttributes();  ?> >
+    <a <?php echo $this->getLinkAttributes(); ?><?php echo $dataPostParam; ?>>
         <?php echo $this->escapeHtml($this->getLabel()); ?>
     </a>
 </li>

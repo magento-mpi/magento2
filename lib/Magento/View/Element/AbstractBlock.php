@@ -147,11 +147,9 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     protected $filterManager;
 
     /**
-     * Locale
-     *
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\Stdlib\DateTime\TimezoneInterface
      */
-    protected $_locale;
+    protected $_localeDate;
 
     /**
      * The property is used to define content-scope of block. Can be private or public.
@@ -160,6 +158,13 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      * @var bool
      */
     protected $_isScopePrivate;
+
+    /**
+     * This property is for defining of tome to live for a block.
+     *
+     * @var int
+     */
+    public $ttl;
 
     /**
      * Constructor
@@ -179,15 +184,13 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
         $this->_session         = $context->getSession();
         $this->_sidResolver     = $context->getSidResolver();
         $this->_storeConfig     = $context->getStoreConfig();
-        $this->_frontController = $context->getFrontController();
         $this->_viewUrl         = $context->getViewUrl();
         $this->_viewConfig      = $context->getViewConfig();
         $this->_cacheState      = $context->getCacheState();
         $this->_logger          = $context->getLogger();
-        $this->_app             = $context->getApp();
         $this->_escaper         = $context->getEscaper();
         $this->filterManager    = $context->getFilterManager();
-        $this->_locale          = $context->getLocale();
+        $this->_localeDate      = $context->getLocaleDate();
         $this->_isScopePrivate  = false;
         parent::__construct($data);
         $this->_construct();
@@ -706,7 +709,6 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      * @param array $params
      * @return string
      */
-
     public function getViewFileUrl($file = null, array $params = array())
     {
         try {
@@ -739,9 +741,9 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      * @return  string
      */
     public function formatDate(
-        $date = null, $format =  \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT, $showTime = false
+        $date = null, $format =  \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT, $showTime = false
     ) {
-        return $this->_locale->formatDate($date, $format, $showTime);
+        return $this->_localeDate->formatDate($date, $format, $showTime);
     }
 
     /**
@@ -753,9 +755,9 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      * @return  string
      */
     public function formatTime(
-        $time = null, $format = \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT, $showDate = false
+        $time = null, $format = \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT, $showDate = false
     ) {
-        return $this->_locale->formatTime($time, $format, $showDate);
+        return $this->_localeDate->formatTime($time, $format, $showDate);
     }
 
     /**
@@ -786,9 +788,9 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     /**
      * Escape html entities
      *
-     * @param   string|array $data
-     * @param   array|null $allowedTags
-     * @return  string
+     * @param string|array $data
+     * @param array|null $allowedTags
+     * @return string
      */
     public function escapeHtml($data, $allowedTags = null)
     {

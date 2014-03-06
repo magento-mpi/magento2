@@ -116,6 +116,9 @@ class DefaultRenderer
 
     /**
      * {@inheritdoc}
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function render(\Magento\Customer\Model\Address\AbstractAddress $address, $format = null)
     {
@@ -188,6 +191,9 @@ class DefaultRenderer
 
     /**
      * {@inheritdoc}
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function renderArray($addressAttributes, $format = null)
     {
@@ -217,7 +223,7 @@ class DefaultRenderer
                 $data['country'] =
                     $this->_countryFactory->create(['id' => $addressAttributes['country_id']])->getName();
             } elseif ($attributeCode == 'region' && isset($addressAttributes['region'])) {
-                $data['region'] = __($addressAttributes['region']['region']);
+                $data['region'] = __($addressAttributes['region']);
             } elseif (isset($addressAttributes[$attributeCode])) {
                 $value = $addressAttributes[$attributeCode];
                 $dataModel = $this->_elementFactory->create($attributeMetadata, $value, 'customer_address');

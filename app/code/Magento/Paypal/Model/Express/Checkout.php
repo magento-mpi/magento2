@@ -168,9 +168,9 @@ class Checkout
     protected $_logger;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\Locale\ResolverInterface
      */
-    protected $_locale;
+    protected $_localeResolver;
 
     /**
      * @var \Magento\Paypal\Model\Info
@@ -241,7 +241,7 @@ class Checkout
      * @param \Magento\Checkout\Helper\Data $checkoutData
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\App\Cache\Type\Config $configCacheType
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param \Magento\Paypal\Model\Info $paypalInfo
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\UrlInterface $coreUrl
@@ -264,7 +264,7 @@ class Checkout
         \Magento\Checkout\Helper\Data $checkoutData,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\App\Cache\Type\Config $configCacheType,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Locale\ResolverInterface $localeResolver,
         \Magento\Paypal\Model\Info $paypalInfo,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\UrlInterface $coreUrl,
@@ -285,7 +285,7 @@ class Checkout
         $this->_customerSession = $customerSession;
         $this->_configCacheType = $configCacheType;
         $this->_logger = $logger;
-        $this->_locale = $locale;
+        $this->_localeResolver = $localeResolver;
         $this->_paypalInfo = $paypalInfo;
         $this->_storeManager = $storeManager;
         $this->_coreUrl = $coreUrl;
@@ -342,7 +342,7 @@ class Checkout
         }
 
         return $this->_config->getExpressCheckoutShortcutImageUrl(
-            $this->_locale->getLocaleCode(),
+            $this->_localeResolver->getLocaleCode(),
             $this->_quote->getBaseGrandTotal(),
             $pal
         );

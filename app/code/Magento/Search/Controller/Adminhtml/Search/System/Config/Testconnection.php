@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Search\Controller\Adminhtml\Search\System\Config;
 
  /**
  * Admin search test connection controller
@@ -15,8 +16,6 @@
  * @package     Magento_Search
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Search\Controller\Adminhtml\Search\System\Config;
-
 use Magento\Backend\App\Action,
     Magento\App\Filesystem;
 
@@ -37,9 +36,10 @@ class Testconnection extends \Magento\Backend\App\Action
         $this->filesystem = $filesystem;
     }
 
-
     /**
      * Check for connection to server
+     *
+     * @return void
      */
     public function pingAction()
     {
