@@ -47,6 +47,7 @@ class Available extends \Magento\Checkout\Block\Onepage\AbstractOnepage
      * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory
      * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory
      * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\App\Http\Context $httpContext
      * @param array $data
      */
     public function __construct(
@@ -58,6 +59,7 @@ class Available extends \Magento\Checkout\Block\Onepage\AbstractOnepage
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory,
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory,
         \Magento\Tax\Helper\Data $taxData,
+        \Magento\App\Http\Context $httpContext,
         array $data = array()
     ) {
         $this->_taxData = $taxData;
@@ -69,6 +71,7 @@ class Available extends \Magento\Checkout\Block\Onepage\AbstractOnepage
             $resourceSession,
             $countryCollectionFactory,
             $regionCollectionFactory,
+            $httpContext,
             $data
         );
         $this->_isScopePrivate = true;

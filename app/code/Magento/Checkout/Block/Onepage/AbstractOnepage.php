@@ -104,9 +104,9 @@ abstract class AbstractOnepage extends \Magento\View\Element\Template
         $this->_checkoutSession = $resourceSession;
         $this->_countryCollectionFactory = $countryCollectionFactory;
         $this->_regionCollectionFactory = $regionCollectionFactory;
+        $this->httpContext = $httpContext;
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
-        $this->httpContext = $httpContext;
     }
 
     /**

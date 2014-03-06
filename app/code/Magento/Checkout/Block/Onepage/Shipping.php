@@ -35,6 +35,7 @@ class Shipping extends \Magento\Checkout\Block\Onepage\AbstractOnepage
      * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory
      * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory
      * @param \Magento\Sales\Model\Quote\AddressFactory $addressFactory
+     * @param \Magento\App\Http\Context $httpContext
      * @param array $data
      */
     public function __construct(
@@ -46,6 +47,7 @@ class Shipping extends \Magento\Checkout\Block\Onepage\AbstractOnepage
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory,
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory,
         \Magento\Sales\Model\Quote\AddressFactory $addressFactory,
+        \Magento\App\Http\Context $httpContext,
         array $data = array()
     ) {
         $this->_addressFactory = $addressFactory;
@@ -57,6 +59,7 @@ class Shipping extends \Magento\Checkout\Block\Onepage\AbstractOnepage
             $resourceSession,
             $countryCollectionFactory,
             $regionCollectionFactory,
+            $httpContext,
             $data
         );
         $this->_isScopePrivate = true;

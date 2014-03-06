@@ -43,6 +43,7 @@ class Login extends \Magento\Checkout\Block\Onepage\AbstractOnepage
      * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory
      * @param \Magento\Checkout\Helper\Data $checkoutData
      * @param \Magento\Message\ManagerInterface $messageManager
+     * @param \Magento\App\Http\Context $httpContext
      * @param array $data
      */
     public function __construct(
@@ -55,6 +56,7 @@ class Login extends \Magento\Checkout\Block\Onepage\AbstractOnepage
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory,
         \Magento\Checkout\Helper\Data $checkoutData,
         \Magento\Message\ManagerInterface $messageManager,
+        \Magento\App\Http\Context $httpContext,
         array $data = array()
     ) {
 
@@ -68,6 +70,7 @@ class Login extends \Magento\Checkout\Block\Onepage\AbstractOnepage
             $resourceSession,
             $countryCollectionFactory,
             $regionCollectionFactory,
+            $httpContext,
             $data
         );
         $this->_isScopePrivate = true;
