@@ -32,11 +32,14 @@ class Management extends \Magento\Wishlist\Block\Customer\Wishlist\Item\Column
      * @param \Magento\Catalog\Helper\Product\Compare $compareProduct
      * @param \Magento\Theme\Helper\Layout $layoutHelper
      * @param \Magento\Catalog\Helper\Image $imageHelper
+     * @param \Magento\App\Http\Context $httpContext
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer
      * @param array $data
      * @param array $priceBlockTypes
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
@@ -50,6 +53,7 @@ class Management extends \Magento\Wishlist\Block\Customer\Wishlist\Item\Column
         \Magento\Catalog\Helper\Product\Compare $compareProduct,
         \Magento\Theme\Helper\Layout $layoutHelper,
         \Magento\Catalog\Helper\Image $imageHelper,
+        \Magento\App\Http\Context $httpContext,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer,
@@ -68,6 +72,7 @@ class Management extends \Magento\Wishlist\Block\Customer\Wishlist\Item\Column
             $compareProduct,
             $layoutHelper,
             $imageHelper,
+            $httpContext,
             $customerSession,
             $productFactory,
             $data,

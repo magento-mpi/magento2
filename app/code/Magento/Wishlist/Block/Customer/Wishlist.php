@@ -49,6 +49,7 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
      * @param \Magento\Catalog\Helper\Product\Compare $compareProduct
      * @param \Magento\Theme\Helper\Layout $layoutHelper
      * @param \Magento\Catalog\Helper\Image $imageHelper
+     * @param \Magento\App\Http\Context $httpContext
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Catalog\Helper\Product\ConfigurationPool $helperPool
@@ -70,6 +71,7 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
         \Magento\Catalog\Helper\Product\Compare $compareProduct,
         \Magento\Theme\Helper\Layout $layoutHelper,
         \Magento\Catalog\Helper\Image $imageHelper,
+        \Magento\App\Http\Context $httpContext,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Catalog\Helper\Product\ConfigurationPool $helperPool,
@@ -91,6 +93,7 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
             $compareProduct,
             $layoutHelper,
             $imageHelper,
+            $httpContext,
             $customerSession,
             $productFactory,
             $data,

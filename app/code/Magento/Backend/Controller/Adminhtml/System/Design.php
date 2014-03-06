@@ -26,25 +26,17 @@ class Design extends Action
     protected $dateFilter;
 
     /**
-     * @var \Magento\Event\ManagerInterface
-     */
-    protected $_eventManager;
-    
-    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Registry $coreRegistry
      * @param \Magento\Core\Filter\Date $dateFilter
-     * @param \Magento\Event\ManagerInterface
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Registry $coreRegistry,
-        \Magento\Core\Filter\Date $dateFilter,
-        \Magento\Event\ManagerInterface $eventManager
+        \Magento\Core\Filter\Date $dateFilter
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->dateFilter = $dateFilter;
-        $this->_eventManager = $eventManager;
         parent::__construct($context);
     }
 

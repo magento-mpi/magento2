@@ -51,6 +51,7 @@ class Profile
      * @param \Magento\Pbridge\Model\Session $pbridgeSession
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
+     * @param \Magento\App\Http\Context $httpContext
      * @param \Magento\Registry $registry
      * @param array $data
      */
@@ -60,6 +61,7 @@ class Profile
         \Magento\Pbridge\Model\Session $pbridgeSession,
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Pbridge\Helper\Data $pbridgeData,
+        \Magento\App\Http\Context $httpContext,
         \Magento\Registry $registry,
         array $data = array()
     ) {
@@ -70,6 +72,7 @@ class Profile
             $pbridgeSession,
             $regionFactory,
             $pbridgeData,
+            $httpContext,
             $data
         );
     }
