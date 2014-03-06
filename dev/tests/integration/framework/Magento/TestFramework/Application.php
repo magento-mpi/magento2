@@ -128,10 +128,11 @@ class Application
         $this->_initParams = array(
             Filesystem::PARAM_APP_DIRS => array(
                 Filesystem::CONFIG_DIR      => array('path' => $this->_installEtcDir),
-                Filesystem::VAR_DIR     => array('path' => $installDir),
+                Filesystem::VAR_DIR         => array('path' => $installDir),
                 Filesystem::MEDIA_DIR       => array('path' => "$installDir/media"),
                 Filesystem::STATIC_VIEW_DIR => array('path' => "$installDir/pub_static"),
-                Filesystem::GENERATION_DIR => array('path' => $generationDir)
+                Filesystem::GENERATION_DIR  => array('path' => $generationDir),
+                Filesystem::THEMES_DIR      => array('path' => BP . '/app/design'),
             ),
             \Magento\App\State::PARAM_MODE => $appMode
         );
