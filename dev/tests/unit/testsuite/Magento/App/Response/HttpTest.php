@@ -88,7 +88,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException(
             'InvalidArgumentException',
-            'time to live is a mandatory parameter for set public headers'
+            'Time to live is a mandatory parameter for set public headers'
         );
         $this->_model->setPublicHeaders(null);
     }
