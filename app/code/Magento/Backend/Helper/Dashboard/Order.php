@@ -23,7 +23,6 @@ class Order extends \Magento\Backend\Helper\Dashboard\AbstractDashboard
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Locale $locale
      * @param \Magento\App\State $appState
      * @param \Magento\Reports\Model\Resource\Order\Collection $orderCollection
      * @param bool $dbCompatibleMode
@@ -32,7 +31,6 @@ class Order extends \Magento\Backend\Helper\Dashboard\AbstractDashboard
         \Magento\App\Helper\Context $context,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Locale $locale,
         \Magento\App\State $appState,
         \Magento\Reports\Model\Resource\Order\Collection $orderCollection,
         $dbCompatibleMode = true
@@ -42,7 +40,6 @@ class Order extends \Magento\Backend\Helper\Dashboard\AbstractDashboard
             $context,
             $coreStoreConfig,
             $storeManager,
-            $locale,
             $appState,
             $dbCompatibleMode
         );

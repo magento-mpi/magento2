@@ -40,7 +40,19 @@ class Header extends Block
      */
     public function logOut()
     {
-        $this->_rootElement->find($this->adminAccountLink, Locator::SELECTOR_CSS)->click();
-        $this->_rootElement->find($this->signOutLink, Locator::SELECTOR_CSS)->click();
+        if ($this->isLoggedIn()) {
+            $this->_rootElement->find($this->adminAccountLink)->click();
+            $this->_rootElement->find($this->signOutLink)->click();
+        }
+    }
+
+    /**
+     * Get admin account link visibility
+     *
+     * @return bool
+     */
+    public function isLoggedIn()
+    {
+        return $this->_rootElement->find($this->adminAccountLink)->isVisible();
     }
 }

@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Search\Block\Adminhtml\Catalog\Attribute;
 
  /**
  * Enterprise attribute edit block
@@ -15,8 +16,6 @@
  * @package    Magento_Search
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Search\Block\Adminhtml\Catalog\Attribute;
-
 class Edit extends \Magento\Backend\Block\Template
 {
     /**
@@ -43,7 +42,7 @@ class Edit extends \Magento\Backend\Block\Template
     /**
      * Return true if third part search engine used
      *
-     * @return boolean
+     * @return bool
      */
     public function isThirdPartSearchEngine()
     {

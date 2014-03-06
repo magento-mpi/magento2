@@ -155,7 +155,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
     protected $productFactory;
 
     /**
-     * @var \Magento\Core\Model\DateFactory
+     * @var \Magento\Stdlib\DateTime\DateTimeFactory
      */
     protected $dateFactory;
 
@@ -202,7 +202,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
      * @param \Magento\GiftRegistry\Model\ItemFactory $itemFactory
      * @param \Magento\Customer\Model\AddressFactory $addressFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Core\Model\DateFactory $dateFactory
+     * @param \Magento\Stdlib\DateTime\DateTimeFactory $dateFactory
      * @param \Magento\Logging\Model\Event\ChangesFactory $changesFactory
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\Escaper $escaper
@@ -229,7 +229,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
         \Magento\GiftRegistry\Model\ItemFactory $itemFactory,
         \Magento\Customer\Model\AddressFactory $addressFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Core\Model\DateFactory $dateFactory,
+        \Magento\Stdlib\DateTime\DateTimeFactory $dateFactory,
         \Magento\Logging\Model\Event\ChangesFactory $changesFactory,
         \Magento\App\RequestInterface $request,
         \Magento\Escaper $escaper,

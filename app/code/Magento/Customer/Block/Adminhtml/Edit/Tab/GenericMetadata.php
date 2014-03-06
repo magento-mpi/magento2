@@ -79,7 +79,7 @@ class GenericMetadata extends \Magento\Backend\Block\Widget\Form\Generic
                 break;
             case 'date':
                 $element->setImage($this->getViewFileUrl('images/grid-cal.gif'));
-                $element->setDateFormat($this->_locale->getDateFormatWithLongYear());
+                $element->setDateFormat($this->_localeDate->getDateFormatWithLongYear());
                 break;
             case 'multiline':
                 $element->setLineCount($attribute->getMultilineCount());

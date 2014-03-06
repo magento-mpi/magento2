@@ -41,16 +41,21 @@ abstract class AbstractData
     protected $_extractedData       = array();
 
     /**
-     * \Magento\LocaleInterface FORMAT
+     * Date filter format
      *
      * @var string
      */
     protected $_dateFilterFormat;
 
     /**
-     * @var \Magento\LocaleInterface
+     * @var \Magento\Stdlib\DateTime\TimezoneInterface
      */
-    protected $_locale;
+    protected $_localeDate;
+
+    /**
+     * @var \Magento\Locale\ResolverInterface
+     */
+    protected $_localeResolver;
 
     /**
      * @var \Magento\Logger
@@ -73,22 +78,25 @@ abstract class AbstractData
     protected $_entityTypeCode;
 
     /**
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Logger $logger
      * @param \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata $attribute
+     * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param string|int|bool $value
      * @param string $entityTypeCode
      * @param bool $isAjax
      */
     public function __construct(
-        \Magento\LocaleInterface $locale,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Logger $logger,
         \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata $attribute,
+        \Magento\Locale\ResolverInterface $localeResolver,
         $value = false,
         $entityTypeCode,
         $isAjax = false
     ) {
-        $this->_locale = $locale;
+        $this->_localeDate = $localeDate;
+        $this->_localeResolver = $localeResolver;
         $this->_logger = $logger;
         $this->_attribute = $attribute;
         $this->_value = $value;
@@ -195,7 +203,7 @@ abstract class AbstractData
         if ($filterCode) {
             $filterClass = 'Magento\Data\Form\Filter\\' . ucfirst($filterCode);
             if ($filterCode == 'date') {
-                $filter = new $filterClass($this->_dateFilterFormat(), $this->_locale->getLocale());
+                $filter = new $filterClass($this->_dateFilterFormat(), $this->_localeResolver->getLocale());
             } else {
                 $filter = new $filterClass();
             }
@@ -215,9 +223,9 @@ abstract class AbstractData
         if (is_null($format)) {
             // get format
             if (is_null($this->_dateFilterFormat)) {
-                $this->_dateFilterFormat = \Magento\LocaleInterface::FORMAT_TYPE_SHORT;
+                $this->_dateFilterFormat = \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT;
             }
-            return $this->_locale->getDateFormat($this->_dateFilterFormat);
+            return $this->_localeDate->getDateFormat($this->_dateFilterFormat);
         } else if ($format === false) {
             // reset value
             $this->_dateFilterFormat = null;

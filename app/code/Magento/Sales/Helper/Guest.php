@@ -57,7 +57,6 @@ class Guest extends \Magento\Core\Helper\Data
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Locale $locale
      * @param \Magento\App\State $appState
      * @param \Magento\Registry $coreRegistry
      * @param \Magento\Customer\Model\Session $customerSession
@@ -71,7 +70,6 @@ class Guest extends \Magento\Core\Helper\Data
         \Magento\App\Helper\Context $context,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Locale $locale,
         \Magento\App\State $appState,
         \Magento\Registry $coreRegistry,
         \Magento\Customer\Model\Session $customerSession,
@@ -91,7 +89,6 @@ class Guest extends \Magento\Core\Helper\Data
             $context,
             $coreStoreConfig,
             $storeManager,
-            $locale,
             $appState,
             $dbCompatibleMode
         );

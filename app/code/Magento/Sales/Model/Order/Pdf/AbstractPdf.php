@@ -64,9 +64,9 @@ abstract class AbstractPdf extends \Magento\Object
     protected $string;
 
     /**
-     * @var \Magento\LocaleInterface
+     * @var \Magento\Stdlib\DateTime\TimezoneInterface
      */
-    protected $locale;
+    protected $_localeDate;
 
     /**
      * Core store config
@@ -113,7 +113,7 @@ abstract class AbstractPdf extends \Magento\Object
      * @param Config $pdfConfig
      * @param \Magento\Sales\Model\Order\Pdf\Total\Factory $pdfTotalFactory
      * @param \Magento\Sales\Model\Order\Pdf\ItemsFactory $pdfItemsFactory
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -127,11 +127,11 @@ abstract class AbstractPdf extends \Magento\Object
         Config $pdfConfig,
         \Magento\Sales\Model\Order\Pdf\Total\Factory $pdfTotalFactory,
         \Magento\Sales\Model\Order\Pdf\ItemsFactory $pdfItemsFactory,
-        \Magento\LocaleInterface $locale,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         array $data = array()
     ) {
         $this->_paymentData = $paymentData;
-        $this->locale = $locale;
+        $this->_localeDate = $localeDate;
         $this->string = $string;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_translate = $translate;
@@ -360,7 +360,7 @@ abstract class AbstractPdf extends \Magento\Object
             );
         }
         $page->drawText(
-            __('Order Date: ') . $this->locale->formatDate(
+            __('Order Date: ') . $this->_localeDate->formatDate(
                 $order->getCreatedAtStoreDate(), 'medium', false
             ),
             35,

@@ -37,11 +37,9 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
     protected $_store;
 
     /**
-     * Locale instance
-     *
-     * @var \Magento\LocaleInterface
+     * @var \Magento\Locale\FormatInterface
      */
-    protected $_locale;
+    protected $_localeFormat;
 
     /**
      * Array of allowed giftcard amounts
@@ -70,7 +68,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @param \Magento\Logger $logger
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Locale\FormatInterface $localeFormat
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param array $data
      *
@@ -89,13 +87,13 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
         \Magento\Logger $logger,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\LocaleInterface $locale,
+        \Magento\Locale\FormatInterface $localeFormat,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         array $data = array()
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_store = $storeManager->getStore();
-        $this->_locale = $locale;
+        $this->_localeFormat = $localeFormat;
         parent::__construct(
             $productFactory,
             $catalogProductOption,
@@ -449,7 +447,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
         $customAmount = $buyRequest->getCustomGiftcardAmount();
         $rate = $this->_store->getCurrentCurrencyRate();
         if ($rate != 1 && $customAmount) {
-            $customAmount = $this->_locale->getNumber($customAmount);
+            $customAmount = $this->_localeFormat->getNumber($customAmount);
             if (is_numeric($customAmount) && $customAmount) {
                 $customAmount = $this->_store->roundPrice($customAmount / $rate);
             }

@@ -63,9 +63,9 @@ class Index extends \Magento\App\Action\Action
     protected $_storeConfig;
 
     /**
-     * @var \Magento\Core\Model\Locale
+     * @var \Magento\Stdlib\DateTime\TimezoneInterface
      */
-    protected $_locale;
+    protected $_localeDate;
 
     /**
      * @param \Magento\App\Action\Context $context
@@ -74,7 +74,7 @@ class Index extends \Magento\App\Action\Action
      * @param \Magento\Core\Model\Website $website
      * @param \Magento\Cms\Model\PageFactory $pageFactory
      * @param \Magento\Core\Model\Store\Config $storeConfig
-     * @param \Magento\Core\Model\Locale $locale
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      */
     public function __construct(
         \Magento\App\Action\Context $context,
@@ -83,14 +83,14 @@ class Index extends \Magento\App\Action\Action
         \Magento\Core\Model\Website $website,
         \Magento\Cms\Model\PageFactory $pageFactory,
         \Magento\Core\Model\Store\Config $storeConfig,
-        \Magento\Core\Model\Locale $locale
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_configCacheType = $configCacheType;
         $this->_website = $website;
         $this->_pageFactory = $pageFactory;
         $this->_storeConfig = $storeConfig;
-        $this->_locale = $locale;
+        $this->_localeDate = $localeDate;
         parent::__construct($context);
         $this->_cacheKey = $this->_cacheKeyPrefix . $this->_website->getId();
     }
@@ -119,7 +119,7 @@ class Index extends \Magento\App\Action\Action
 
             if ($page->getCustomTheme()) {
                 if (
-                    $this->_locale->isStoreDateInInterval(null, $page->getCustomThemeFrom(), $page->getCustomThemeTo())
+                    $this->_localeDate->isScopeDateInInterval(null, $page->getCustomThemeFrom(), $page->getCustomThemeTo())
                 ) {
                     $this->_objectManager->get('Magento\View\DesignInterface')
                         ->setDesignTheme($page->getCustomTheme());

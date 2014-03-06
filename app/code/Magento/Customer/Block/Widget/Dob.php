@@ -93,7 +93,7 @@ class Dob extends AbstractWidget
      */
     public function getDateFormat()
     {
-        return $this->_locale->getDateFormat(\Magento\LocaleInterface::FORMAT_TYPE_SHORT);
+        return $this->_localeDate->getDateFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
     }
 
     /**

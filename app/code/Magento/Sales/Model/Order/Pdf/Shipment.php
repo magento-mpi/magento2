@@ -20,6 +20,11 @@ class Shipment extends AbstractPdf
     protected $_storeManager;
 
     /**
+     * @var \Magento\Locale\ResolverInterface
+     */
+    protected $_localeResolver;
+
+    /**
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
@@ -28,8 +33,9 @@ class Shipment extends AbstractPdf
      * @param Config $pdfConfig
      * @param \Magento\Sales\Model\Order\Pdf\Total\Factory $pdfTotalFactory
      * @param \Magento\Sales\Model\Order\Pdf\ItemsFactory $pdfItemsFactory
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -43,11 +49,13 @@ class Shipment extends AbstractPdf
         Config $pdfConfig,
         \Magento\Sales\Model\Order\Pdf\Total\Factory $pdfTotalFactory,
         \Magento\Sales\Model\Order\Pdf\ItemsFactory $pdfItemsFactory,
-        \Magento\LocaleInterface $locale,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Locale\ResolverInterface $localeResolver,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
+        $this->_localeResolver = $localeResolver;
         parent::__construct(
             $paymentData,
             $string,
@@ -57,7 +65,7 @@ class Shipment extends AbstractPdf
             $pdfConfig,
             $pdfTotalFactory,
             $pdfItemsFactory,
-            $locale,
+            $localeDate,
             $data
         );
     }
@@ -123,7 +131,7 @@ class Shipment extends AbstractPdf
         $this->_setFontBold($style, 10);
         foreach ($shipments as $shipment) {
             if ($shipment->getStoreId()) {
-                $this->locale->emulate($shipment->getStoreId());
+                $this->_localeResolver->emulate($shipment->getStoreId());
                 $this->_storeManager->setCurrentStore($shipment->getStoreId());
             }
             $page  = $this->newPage();
@@ -156,7 +164,7 @@ class Shipment extends AbstractPdf
         }
         $this->_afterGetPdf();
         if ($shipment->getStoreId()) {
-            $this->locale->revert();
+            $this->_localeResolver->revert();
         }
         return $pdf;
     }

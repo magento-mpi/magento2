@@ -26,7 +26,7 @@ class Item extends \Magento\GoogleShopping\Model\Service
     /**
      * Date
      *
-     * @var \Magento\Core\Model\Date|null
+     * @var \Magento\Stdlib\DateTime\DateTime|null
      */
     protected $_date;
 
@@ -35,7 +35,7 @@ class Item extends \Magento\GoogleShopping\Model\Service
      * @param \Magento\Registry $coreRegistry
      * @param \Magento\GoogleShopping\Model\Config $config
      * @param \Magento\Gdata\Gshopping\ContentFactory $contentFactory
-     * @param \Magento\Core\Model\Date $date
+     * @param \Magento\Stdlib\DateTime\DateTime $date
      * @param \Magento\GoogleShopping\Helper\Data $gsData
      * @param array $data
      */
@@ -44,7 +44,7 @@ class Item extends \Magento\GoogleShopping\Model\Service
         \Magento\Registry $coreRegistry,
         \Magento\GoogleShopping\Model\Config $config,
         \Magento\Gdata\Gshopping\ContentFactory $contentFactory,
-        \Magento\Core\Model\Date $date,
+        \Magento\Stdlib\DateTime\DateTime $date,
         \Magento\GoogleShopping\Helper\Data $gsData,
         array $data = array()
     ) {

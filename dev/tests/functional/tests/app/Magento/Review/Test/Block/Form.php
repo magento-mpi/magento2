@@ -30,15 +30,6 @@ class Form extends BlockForm
     protected $submitButton = '.action.submit';
 
     /**
-     * {@inheritdoc}
-     */
-    protected $_mapping = array(
-        'nickname' => '#nickname_field',
-        'title' => '#summary_field',
-        'detail' => '#review_field',
-    );
-
-    /**
      * Submit review form
      */
     public function submit()

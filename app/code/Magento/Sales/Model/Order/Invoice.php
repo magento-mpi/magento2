@@ -243,7 +243,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
     /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\LocaleInterface $coreLocale
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Sales\Helper\Data $salesData
@@ -263,7 +263,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
     public function __construct(
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\LocaleInterface $coreLocale,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Sales\Helper\Data $salesData,
@@ -291,7 +291,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
         $this->_invoiceCommentFactory = $invoiceCommentFactory;
         $this->_commentCollectionFactory = $commentCollectionFactory;
         $this->_transportBuilder = $transportBuilder;
-        parent::__construct($context, $registry, $coreLocale, $dateTime, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $localeDate, $dateTime, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -418,8 +418,8 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
     public function canCapture()
     {
         return $this->getState() != self::STATE_CANCELED
-            && $this->getState() != self::STATE_PAID
-            && $this->getOrder()->getPayment()->canCapture();
+        && $this->getState() != self::STATE_PAID
+        && $this->getOrder()->getPayment()->canCapture();
     }
 
     /**

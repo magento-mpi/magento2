@@ -149,7 +149,7 @@ class Observer
             }
             $failuresNum = (int)$user->getFailuresNum() + 1;
             if ($firstFailureDate = $user->getFirstFailure()) {
-                $firstFailureDate = new \Zend_Date($firstFailureDate, \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
+                $firstFailureDate = new \Magento\Stdlib\DateTime\Date($firstFailureDate, \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
                 $firstFailureDate = $firstFailureDate->toValue();
             }
 
@@ -168,7 +168,7 @@ class Observer
 
         // check whether user is locked
         if ($lockExpires = $user->getLockExpires()) {
-            $lockExpires = new \Zend_Date($lockExpires, \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
+            $lockExpires = new \Magento\Stdlib\DateTime\Date($lockExpires, \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
             $lockExpires = $lockExpires->toValue();
             if ($lockExpires > time()) {
                 throw new \Magento\Core\Exception(

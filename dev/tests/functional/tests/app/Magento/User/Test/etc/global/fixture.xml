@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<fixture>
+    <adminUser module="Magento_User">
+        <type>flat</type>
+        <entity_type>admin_user</entity_type>
+        <collection>Magento\User\Model\Resource\User\Collection</collection>
+    </adminUser>
+</fixture>

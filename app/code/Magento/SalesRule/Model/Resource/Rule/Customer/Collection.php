@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\SalesRule\Model\Resource\Rule\Customer;
 
 /**
  * SalesRule Model Resource Rule Customer_Collection
@@ -16,13 +16,12 @@
  * @package     Magento_SalesRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\SalesRule\Model\Resource\Rule\Customer;
-
 class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Collection constructor
      *
+     * @return void
      */
     protected function _construct()
     {

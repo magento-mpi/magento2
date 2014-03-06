@@ -99,9 +99,9 @@ abstract class AbstractApi extends \Magento\Object
     protected $_logger;
 
     /**
-     * @var \Magento\LocaleInterface
+     * @var \Magento\Locale\ResolverInterface
      */
-    protected $_locale;
+    protected $_localeResolver;
 
     /**
      * @var \Magento\Directory\Model\RegionFactory
@@ -121,7 +121,7 @@ abstract class AbstractApi extends \Magento\Object
      *
      * @param \Magento\Customer\Helper\Address $customerAddress
      * @param \Magento\Logger $logger
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Logger\AdapterFactory $logAdapterFactory
      * @param array $data
@@ -129,14 +129,14 @@ abstract class AbstractApi extends \Magento\Object
     public function __construct(
         \Magento\Customer\Helper\Address $customerAddress,
         \Magento\Logger $logger,
-        \Magento\LocaleInterface $locale,
+        \Magento\Locale\ResolverInterface $localeResolver,
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Logger\AdapterFactory $logAdapterFactory,
         array $data = array()
     ) {
         $this->_customerAddress = $customerAddress;
         $this->_logger = $logger;
-        $this->_locale = $locale;
+        $this->_localeResolver = $localeResolver;
         $this->_regionFactory = $regionFactory;
         $this->_logAdapterFactory = $logAdapterFactory;
         parent::__construct($data);
@@ -348,7 +348,7 @@ abstract class AbstractApi extends \Magento\Object
      */
     public function getLocaleCode()
     {
-        return $this->_locale->getLocaleCode();
+        return $this->_localeResolver->getLocaleCode();
     }
 
     /**

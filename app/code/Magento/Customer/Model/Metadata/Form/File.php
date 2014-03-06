@@ -36,9 +36,10 @@ class File extends AbstractData
     protected $_fileSystem;
 
     /**
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Logger $logger
      * @param \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata $attribute
+     * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param null $value
      * @param string $entityTypeCode
      * @param bool $isAjax
@@ -47,9 +48,10 @@ class File extends AbstractData
      * @param \Magento\App\Filesystem $fileSystem
      */
     public function __construct(
-        \Magento\LocaleInterface $locale,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Logger $logger,
         \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata $attribute,
+        \Magento\Locale\ResolverInterface $localeResolver,
         $value = null,
         $entityTypeCode,
         $isAjax = false,
@@ -57,7 +59,7 @@ class File extends AbstractData
         \Magento\Core\Model\File\Validator\NotProtectedExtension $fileValidator,
         \Magento\App\Filesystem $fileSystem
     ) {
-        parent::__construct($locale, $logger, $attribute, $value, $entityTypeCode, $isAjax);
+        parent::__construct($localeDate, $logger, $attribute, $localeResolver, $value, $entityTypeCode, $isAjax);
         $this->_coreData = $coreData;
         $this->_fileValidator = $fileValidator;
         $this->_fileSystem = $fileSystem;
