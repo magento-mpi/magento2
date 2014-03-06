@@ -260,7 +260,7 @@
         <item>
             <!-- Incorrect dependency: EE functionality mentioned in CE -->
             <word>GiftCard</word>
-            <path>app/code/Magento/GiftMessage/view/adminhtml/giftoptionsform.phtml</path>
+            <path>app/code/Magento/GiftMessage/view/adminhtml/templates/giftoptionsform.phtml</path>
         </item>
         <item>
             <!-- Incorrect dependency: EE functionality mentioned in CE -->
@@ -300,7 +300,7 @@
         <item>
             <!-- Incorrect dependency: EE functionality mentioned in CE -->
             <word>GiftRegistry</word>
-            <path>app/code/Magento/Wishlist/view/frontend/wishlist.js</path>
+            <path>app/code/Magento/Wishlist/view/frontend/web/wishlist.js</path>
         </item>
         <item>
             <!-- Incorrect dependency: EE functionality mentioned in CE test -->
