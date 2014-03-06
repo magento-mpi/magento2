@@ -621,7 +621,7 @@ abstract class AbstractAction
             ->joinInner(
                 ['customer_group' => $this->getTable('customer_group')], '', []
             )
-            ->joinLeft(
+            ->joinInner(
                 ['permission_index' => $this->getIndexTempTable()],
                 'permission_index.category_id = category_product.category_id'
                 . ' AND permission_index.website_id = product_website.website_id'

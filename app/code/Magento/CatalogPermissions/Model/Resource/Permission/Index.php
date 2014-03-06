@@ -359,7 +359,7 @@ class Index extends AbstractResource
                     'grant_checkout_items',
                 )
             )
-            ->where('product_id IN ?', $productId)
+            ->where('product_id IN (?)', $productId)
             ->where('customer_group_id = ?', $customerGroupId)
             ->where('store_id = ?', $storeId);
 
