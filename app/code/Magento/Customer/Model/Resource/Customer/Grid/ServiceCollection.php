@@ -128,7 +128,7 @@ class ServiceCollection extends \Magento\Data\Collection
     /**
      * {@inheritdoc}
      */
-    public function loadData()
+    public function loadData($printQuery = false, $logQuery = false)
     {
         if (!$this->isLoaded()) {
             $searchCriteria = $this->getSearchCriteria();
