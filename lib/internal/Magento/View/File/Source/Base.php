@@ -64,7 +64,7 @@ class Base implements SourceInterface
      * @param string $filePath
      * @return array|\Magento\View\File[]
      */
-    public function getFiles(ThemeInterface $theme, $filePath = '*')
+    public function getFiles(ThemeInterface $theme, $filePath)
     {
         $namespace = $module = '*';
         $area = $theme->getArea();

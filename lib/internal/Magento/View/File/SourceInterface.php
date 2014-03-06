@@ -19,8 +19,8 @@ interface SourceInterface
      * Retrieve instances of view files
      *
      * @param ThemeInterface $theme Theme that defines the design context
-     * @param string $filePath [optional]
+     * @param string $filePath
      * @return \Magento\View\File[]
      */
-    public function getFiles(ThemeInterface $theme, $filePath = '*');
+    public function getFiles(ThemeInterface $theme, $filePath);
 }

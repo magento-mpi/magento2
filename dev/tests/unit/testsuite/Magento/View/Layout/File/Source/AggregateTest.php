@@ -78,21 +78,42 @@ class AggregateTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_baseFiles
-            ->expects($this->once())->method('getFiles')->with($theme)->will($this->returnValue(array($files[0])));
+            ->expects($this->once())
+            ->method('getFiles')
+            ->with($theme, '*.xml')
+            ->will($this->returnValue(array($files[0])));
 
         $this->_themeFiles
-            ->expects($this->at(0))->method('getFiles')->with($parentTheme)->will($this->returnValue(array($files[1])));
+            ->expects($this->at(0))
+            ->method('getFiles')
+            ->with($parentTheme, '*.xml')
+            ->will($this->returnValue(array($files[1])));
         $this->_overridingBaseFiles
-            ->expects($this->at(0))->method('getFiles')->with($parentTheme)->will($this->returnValue(array($files[2])));
+            ->expects($this->at(0))
+            ->method('getFiles')
+            ->with($parentTheme, '*.xml')
+            ->will($this->returnValue(array($files[2])));
         $this->_overridingThemeFiles
-            ->expects($this->at(0))->method('getFiles')->with($parentTheme)->will($this->returnValue(array($files[3])));
+            ->expects($this->at(0))
+            ->method('getFiles')
+            ->with($parentTheme, '*.xml')
+            ->will($this->returnValue(array($files[3])));
 
         $this->_themeFiles
-            ->expects($this->at(1))->method('getFiles')->with($theme)->will($this->returnValue(array($files[4])));
+            ->expects($this->at(1))
+            ->method('getFiles')
+            ->with($theme, '*.xml')
+            ->will($this->returnValue(array($files[4])));
         $this->_overridingBaseFiles
-            ->expects($this->at(1))->method('getFiles')->with($theme)->will($this->returnValue(array($files[5])));
+            ->expects($this->at(1))
+            ->method('getFiles')
+            ->with($theme, '*.xml')
+            ->will($this->returnValue(array($files[5])));
         $this->_overridingThemeFiles
-            ->expects($this->at(1))->method('getFiles')->with($theme)->will($this->returnValue(array($files[6])));
+            ->expects($this->at(1))
+            ->method('getFiles')
+            ->with($theme, '*.xml')
+            ->will($this->returnValue(array($files[6])));
 
         $this->_fileList->expects($this->at(0))->method('add')->with(array($files[0]));
         $this->_fileList->expects($this->at(1))->method('add')->with(array($files[1]));
@@ -104,6 +125,6 @@ class AggregateTest extends \PHPUnit_Framework_TestCase
 
         $this->_fileList->expects($this->atLeastOnce())->method('getAll')->will($this->returnValue($files));
 
-        $this->assertSame($files, $this->_model->getFiles($theme));
+        $this->assertSame($files, $this->_model->getFiles($theme, '*.xml'));
     }
 }

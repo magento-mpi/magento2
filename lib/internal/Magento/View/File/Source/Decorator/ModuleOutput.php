@@ -55,7 +55,7 @@ class ModuleOutput implements SourceInterface
      * @param string $filePath
      * @return array|\Magento\View\File[]
      */
-    public function getFiles(ThemeInterface $theme, $filePath = '*')
+    public function getFiles(ThemeInterface $theme, $filePath)
     {
         $result = array();
         foreach ($this->subject->getFiles($theme, $filePath) as $file) {

@@ -51,9 +51,9 @@ class ModuleOutputTest extends \PHPUnit_Framework_TestCase
         $this->_fileSource
             ->expects($this->once())
             ->method('getFiles')
-            ->with($theme)
+            ->with($theme, '*.xml')
             ->will($this->returnValue(array($fileOne, $fileTwo, $fileThree)))
         ;
-        $this->assertSame(array($fileOne, $fileThree), $this->_model->getFiles($theme));
+        $this->assertSame(array($fileOne, $fileThree), $this->_model->getFiles($theme, '*.xml'));
     }
 }

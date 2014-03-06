@@ -60,7 +60,7 @@ class ModuleDependency implements SourceInterface
      * @param string $filePath
      * @return \Magento\View\File[]
      */
-    public function getFiles(ThemeInterface $theme, $filePath = '*')
+    public function getFiles(ThemeInterface $theme, $filePath)
     {
         $result = $this->subject->getFiles($theme, $filePath);
         usort($result, array($this, 'compareFiles'));

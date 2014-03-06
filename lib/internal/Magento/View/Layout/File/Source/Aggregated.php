@@ -84,7 +84,7 @@ class Aggregated implements SourceInterface
      * @param string $filePath
      * @return \Magento\View\File[]
      */
-    public function getFiles(ThemeInterface $theme, $filePath = '*')
+    public function getFiles(ThemeInterface $theme, $filePath)
     {
         $list = $this->fileListFactory->create();
         $list->add($this->baseFiles->getFiles($theme, $filePath));

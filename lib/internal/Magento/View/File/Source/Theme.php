@@ -62,7 +62,7 @@ class Theme implements SourceInterface
      * @param string $filePath
      * @return array|\Magento\View\File[]
      */
-    public function getFiles(ThemeInterface $theme, $filePath = '*')
+    public function getFiles(ThemeInterface $theme, $filePath)
     {
         $themePath = $theme->getFullPath();
         $files = $this->themesDirectory->search("{$themePath}/{$this->subDir}{$filePath}");

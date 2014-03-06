@@ -63,7 +63,7 @@ class Library implements SourceInterface
      * @param string $filePath
      * @return array|\Magento\View\File[]
      */
-    public function getFiles(ThemeInterface $theme, $filePath = '*')
+    public function getFiles(ThemeInterface $theme, $filePath)
     {
         $list = $this->fileListFactory->create();
         $files = $this->libraryDirectory->search($filePath);

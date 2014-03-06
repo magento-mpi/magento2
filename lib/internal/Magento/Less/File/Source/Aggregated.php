@@ -65,7 +65,7 @@ class Aggregated implements SourceInterface
      * @return \Magento\View\File[]
      * @throws \LogicException
      */
-    public function getFiles(ThemeInterface $theme, $filePath = '*')
+    public function getFiles(ThemeInterface $theme, $filePath)
     {
         $list = $this->fileListFactory->create('Magento\Less\File\FileList\Collator');
         $list->add($this->libraryFiles->getFiles($theme, $filePath));

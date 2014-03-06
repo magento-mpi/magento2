@@ -76,7 +76,7 @@ class Aggregated implements SourceInterface
      * @throws \InvalidArgumentException
      * @return \Magento\View\File[]
      */
-    public function getFiles(ThemeInterface $theme, $filePath = '')
+    public function getFiles(ThemeInterface $theme, $filePath)
     {
         if (empty($filePath)) {
             throw new \InvalidArgumentException('File path must be specified');

@@ -43,7 +43,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->directory));
         $this->fileFactory = $this->getMock('Magento\View\File\Factory', array(), array(), '', false);
         $this->model = new \Magento\View\File\Source\Override\Base(
-            $filesystem, $this->fileFactory, 'override/base'
+            $filesystem, $this->fileFactory, 'override'
         );
     }
 
@@ -58,7 +58,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         $theme = $this->getMockForAbstractClass('Magento\View\Design\ThemeInterface');
         $theme->expects($this->once())->method('getFullPath')->will($this->returnValue('area/theme/path'));
 
-        $handlePath = 'design/area/theme/path/%s/override/base/%s';
+        $handlePath = 'design/area/theme/path/%s/override/%s';
         $returnKeys = array();
         foreach ($files as $file) {
             $returnKeys[] = sprintf($handlePath, $file['module'], $file['handle']);
