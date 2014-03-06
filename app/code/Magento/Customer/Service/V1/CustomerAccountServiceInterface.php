@@ -189,8 +189,8 @@ interface CustomerAccountServiceInterface
     /**
      * Validate customer details
      *
-     * @param Dto\CustomerDetails $customerDetails
-     * @param Dto\Eav\AttributeMetadata[] $attributes
+     * @param \Magento\Customer\Service\V1\Dto\CustomerDetails $customerDetails
+     * @param \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata[] $attributes
      * @return array|bool
      */
     public function validateCustomerDetails(Dto\CustomerDetails $customerDetails, array $attributes = []);
