@@ -59,10 +59,10 @@ class ModuleDependencyTest extends \PHPUnit_Framework_TestCase
         $this->_fileSource
             ->expects($this->once())
             ->method('getFiles')
-            ->with($theme)
+            ->with($theme, '*.xml')
             ->will($this->returnValue($fixtureFiles))
         ;
-        $this->assertSame($expectedFiles, $this->_model->getFiles($theme), $message);
+        $this->assertSame($expectedFiles, $this->_model->getFiles($theme, '*.xml'), $message);
     }
 
     public function getFilesDataProvider()
