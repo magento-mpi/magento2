@@ -207,7 +207,7 @@ class Switcher extends \Magento\View\Element\Template
     /**
      * Returns target store post data
      *
-     * @param $store
+     * @param \Magento\Core\Model\Store $store
      * @return string
      */
     public function getTargetStorePostData($store)
