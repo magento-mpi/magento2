@@ -26,6 +26,7 @@ class Onepage extends \Magento\Checkout\Block\Onepage\AbstractOnepage
      * @param \Magento\Checkout\Model\Session $resourceSession
      * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory
      * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory
+     * @param \Magento\App\Http\Context $httpContext
      * @param array $data
      */
     public function __construct(
@@ -36,6 +37,7 @@ class Onepage extends \Magento\Checkout\Block\Onepage\AbstractOnepage
         \Magento\Checkout\Model\Session $resourceSession,
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory,
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory,
+        \Magento\App\Http\Context $httpContext,
         array $data = array()
     ) {
         parent::__construct(
@@ -46,6 +48,7 @@ class Onepage extends \Magento\Checkout\Block\Onepage\AbstractOnepage
             $resourceSession,
             $countryCollectionFactory,
             $regionCollectionFactory,
+            $httpContext,
             $data
         );
         $this->_isScopePrivate = true;

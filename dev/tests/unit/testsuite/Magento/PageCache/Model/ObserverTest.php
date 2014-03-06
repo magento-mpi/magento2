@@ -83,6 +83,12 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_transport = new \Magento\Object([
             'output' => 'test output html'
         ]);
+
+//        $path = 'system/full_page_cache/caching_application';
+//        $value = \Magento\PageCache\Model\Config::BUILT_IN;
+//        $appConfigMock = new \Magento\App\Config('default');
+//        $appConfigMock->setValue($path, $value);
+
         $this->_observerObject = $this->getMock('\Magento\Core\Model\Store', [], [], '', false);
     }
 
@@ -198,7 +204,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
                 ->will($this->returnValue($eventMock));
             $this->_configMock->expects($this->once())
                 ->method('getType')
-                ->will($this->returnValue(0));
+                ->will($this->returnValue(\Magento\PageCache\Model\Config::BUILT_IN));
             $this->_observerObject->expects($this->once())
                 ->method('getIdentities')
                 ->will($this->returnValue($tags));
@@ -226,7 +232,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     {
         $this->_configMock->expects($this->once())
             ->method('getType')
-            ->will($this->returnValue(0));
+            ->will($this->returnValue(\Magento\PageCache\Model\Config::BUILT_IN));
 
         $this->_cacheMock->expects($this->once())
             ->method('clean');

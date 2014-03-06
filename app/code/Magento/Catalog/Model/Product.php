@@ -2012,6 +2012,19 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
         $identities = array(self::CACHE_TAG . '_' . $this->getId());
         $identities = array_merge($identities, $this->getTypeInstance()->getIdentities($this));
 
+        if ($this->_isDataChanged()) {
+            $identities = $this->_getCategoryIdentities($identities);
+        } else {
+            $identities = $this->_getCategoryProductIdentities($identities);
+        }
+        return $identities;
+    }
+
+    /**
+     * @return bool
+     */
+    protected function _isDataChanged()
+    {
         $isDataChanged = ($this->getOrigData() == null && $this->getData()) || $this->isDeleted();
         if (!$isDataChanged) {
             foreach ($this->getOrigData() as $key => $value) {
@@ -2021,19 +2034,34 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
                 }
             }
         }
-        if ($isDataChanged) {
-            $categoryIds = $this->getAffectedCategoryIds();
-            if (!$categoryIds) {
-                $categoryIds = $this->getCategoryIds();
-            }
-            foreach ($categoryIds as $categoryId) {
-                $identities[] = Category::CACHE_TAG . '_' . $categoryId;
-            }
-        } else {
+        return $isDataChanged;
+    }
+
+    /**
+     * @param $identities
+     * @return array
+     */
+    protected function _getCategoryIdentities($identities)
+    {
+        $categoryIds = $this->getAffectedCategoryIds();
+        if (!$categoryIds) {
             $categoryIds = $this->getCategoryIds();
-            foreach ($categoryIds as $categoryId) {
-                $identities[] = self::CACHE_CATEGORY_TAG . '_' . $categoryId;
-            }
+        }
+        foreach ($categoryIds as $categoryId) {
+            $identities[] = Category::CACHE_TAG . '_' . $categoryId;
+        }
+        return $identities;
+    }
+
+    /**
+     * @param $identities
+     * @return array
+     */
+    protected function _getCategoryProductIdentities($identities)
+    {
+        $categoryIds = $this->getCategoryIds();
+        foreach ($categoryIds as $categoryId) {
+            $identities[] = self::CACHE_CATEGORY_TAG . '_' . $categoryId;
         }
         return $identities;
     }
