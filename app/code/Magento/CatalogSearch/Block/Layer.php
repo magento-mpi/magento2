@@ -7,11 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * Layered Navigation block for search
- *
- */
 namespace Magento\CatalogSearch\Block;
 
 use Magento\Catalog\Block\Layer\View;
@@ -21,6 +16,10 @@ use Magento\CatalogSearch\Model\Resource\EngineProvider;
 use Magento\Registry;
 use Magento\View\Element\Template\Context;
 
+/**
+ * Layered Navigation block for search
+ *
+ */
 class Layer extends View
 {
     /**
@@ -75,6 +74,8 @@ class Layer extends View
 
     /**
      * Internal constructor
+     *
+     * @return void
      */
     protected function _construct()
     {

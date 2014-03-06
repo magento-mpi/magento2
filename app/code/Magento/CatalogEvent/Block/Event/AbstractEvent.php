@@ -5,13 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CatalogEvent\Block\Event;
 
 /**
  * Catalog Event Abstract event block
  */
-
-namespace Magento\CatalogEvent\Block\Event;
-
 abstract class AbstractEvent extends \Magento\View\Element\Template
 {
     /**
@@ -21,6 +19,9 @@ abstract class AbstractEvent extends \Magento\View\Element\Template
      */
     protected $_statuses;
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
