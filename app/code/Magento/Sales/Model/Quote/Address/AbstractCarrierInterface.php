@@ -174,6 +174,7 @@ interface AbstractCarrierInterface
      * Used to call debug method from not Payment Method context
      *
      * @param mixed $debugData
+     * @return void
      */
     public function debugData($debugData);
 

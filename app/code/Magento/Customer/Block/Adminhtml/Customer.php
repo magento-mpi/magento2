@@ -21,6 +21,9 @@ namespace Magento\Customer\Block\Adminhtml;
 class Customer extends \Magento\Backend\Block\Widget\Grid\Container
 {
 
+    /**
+     * Constructor
+     */
     protected function _construct()
     {
         $this->_controller = 'adminhtml';

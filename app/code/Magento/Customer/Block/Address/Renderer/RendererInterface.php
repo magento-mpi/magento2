@@ -24,6 +24,7 @@ interface RendererInterface
      * Set format type object
      *
      * @param \Magento\Object $type
+     * @return void
      */
     public function setType(\Magento\Object $type);
 

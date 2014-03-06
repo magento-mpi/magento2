@@ -84,7 +84,6 @@ class XmlInterceptorScanner implements ScannerInterface
      *
      * @param string $className
      * @return void
-
      */
     protected function _handleControllerClassName($className)
     {

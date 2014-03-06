@@ -13,7 +13,6 @@ use \Magento\Directory\Model\Currency;
 
 /**
  * Adminhtml customer orders grid block
->>>>>>> uxmen/develop
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */

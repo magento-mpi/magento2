@@ -51,7 +51,7 @@ class CatalogProductQuote
     /**
      * When deleting product, subtract it from all quotes quantities
      *
-     * @param \Magento\Event\Observer
+     * @param \Magento\Event\Observer $observer
      * @return void
      */
     public function subtractQtyFromQuotes($observer)

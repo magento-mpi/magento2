@@ -25,6 +25,7 @@ class Context
      *
      * @param string $name
      * @param mixed $value
+     * @return void
      */
     public function setValue($name, $value)
     {

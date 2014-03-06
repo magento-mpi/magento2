@@ -101,6 +101,7 @@ class Dob extends AbstractWidget
      *
      * @param string $code
      * @param string $html
+     * @return void
      */
     public function setDateInput($code, $html)
     {
