@@ -144,11 +144,11 @@ class Observer
 
     /**
      * Invalidate full page cache
+     *
      * @return \Magento\PageCache\Model\Observer
      */
     public function invalidateCache()
     {
-
         if ($this->_config->isEnabled()) {
             $this->_typeList->invalidate('full_page');
         }
