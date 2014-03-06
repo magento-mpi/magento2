@@ -516,37 +516,6 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function validateCustomerData(Dto\Customer $customer, array $attributes)
-    {
-        $customerErrors = $this->_validator->validateData(
-            $customer->__toArray(),
-            $attributes,
-            'customer'
-        );
-
-        // FIXME: $customerErrors is a boolean but we are treating it as an array here
-        if ($customerErrors !== true) {
-            return array(
-                'error'     => -1,
-                'message'   =>  $customerErrors
-            );
-        }
-
-        $customerModel = $this->_converter->createCustomerModel($customer);
-
-        $result = $customerModel->validate();
-        if (true !== $result && is_array($result)) {
-            return array(
-                'error'   => -1,
-                'message' => implode(', ', $result)
-            );
-        }
-        return true;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function validateCustomerDetails(Dto\CustomerDetails $customerDetails, array $attributes)
     {
         $customer = $customerDetails->getCustomer();
