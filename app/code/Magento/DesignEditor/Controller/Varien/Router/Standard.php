@@ -157,10 +157,11 @@ class Standard extends \Magento\Core\App\Router\Base
      */
     protected function _getMatchedRouters()
     {
-        $routers = $this->_routerList->getRouters();
-        foreach (array_keys($routers) as $name) {
-            if (in_array($name, $this->_excludedRouters)) {
-                unset($routers[$name]);
+        $routers = [];
+        foreach ($this->_routerList as $router) {
+            $name = $this->_routerList->key();
+            if (!in_array($name, $this->_excludedRouters)) {
+                $routers[$name] = $router;
             }
         }
         return $routers;
