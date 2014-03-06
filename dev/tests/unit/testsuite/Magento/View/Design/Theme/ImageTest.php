@@ -121,11 +121,11 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     protected function _getThemeSampleData()
     {
         return array(
-            'theme_id'             => 1,
-            'theme_title'          => 'Sample theme',
-            'preview_image'        => 'images/preview.png',
-            'area'                 => \Magento\Core\Model\App\Area::AREA_FRONTEND,
-            'type'                 => \Magento\View\Design\ThemeInterface::TYPE_VIRTUAL
+            'theme_id'      => 1,
+            'theme_title'   => 'Sample theme',
+            'preview_image' => 'images/preview.png',
+            'area'          => \Magento\Core\Model\App\Area::AREA_FRONTEND,
+            'type'          => \Magento\View\Design\ThemeInterface::TYPE_VIRTUAL
         );
     }
 

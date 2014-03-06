@@ -10,6 +10,8 @@
 
 namespace Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab;
 
+use \Magento\View\Design\ThemeInterface;
+
 /**
  * Theme form, general tab
  *
@@ -26,21 +28,17 @@ class General
     protected $_isThemeEditable = false;
 
     /**
-     * @var \Magento\View\Design\Theme\Image\PathInterface
-     */
-    protected $_themeImagePath;
-
-    /**
      * @var \Magento\File\Size
      */
     protected $_fileSize;
 
     /**
+     * Constructor
+     *
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\ObjectManager $objectManager
-     * @param \Magento\View\Design\Theme\Image\PathInterface $themeImagePath
      * @param \Magento\File\Size $fileSize
      * @param array $data
      */
@@ -49,11 +47,9 @@ class General
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\ObjectManager $objectManager,
-        \Magento\View\Design\Theme\Image\PathInterface $themeImagePath,
         \Magento\File\Size $fileSize,
         array $data = array()
     ) {
-        $this->_themeImagePath = $themeImagePath;
         $this->_fileSize = $fileSize;
         parent::__construct($context, $registry, $formFactory, $objectManager, $data);
     }
@@ -69,7 +65,9 @@ class General
         $session = $this->_objectManager->get('Magento\Backend\Model\Session');
         $formDataFromSession = $session->getThemeData();
         $this->_isThemeEditable = $this->_getCurrentTheme()->isEditable();
-        $formData = $this->_getCurrentTheme()->getData();
+        /** @var $currentTheme ThemeInterface */
+        $currentTheme = $this->_getCurrentTheme();
+        $formData = $currentTheme->getData();
         if ($formDataFromSession && isset($formData['theme_id'])) {
             unset($formDataFromSession['preview_image']);
             $formData = array_merge($formData, $formDataFromSession);
@@ -77,18 +75,15 @@ class General
         }
         $this->setIsThemeExist(isset($formData['theme_id']));
 
-        /** @var \Magento\Data\Form $form */
+        /** @var $form \Magento\Data\Form */
         $form = $this->_formFactory->create();
-
-        $this->_addThemeFieldset($form, $formData);
-
+        $this->_addThemeFieldset($form, $formData, $currentTheme);
         if (!$this->getIsThemeExist()) {
             $formData = array_merge($formData, $this->_getDefaults());
         }
         $form->addValues($formData);
         $form->setFieldNameSuffix('theme');
         $this->setForm($form);
-
         return $this;
     }
 
@@ -97,9 +92,10 @@ class General
      *
      * @param \Magento\Data\Form $form
      * @param array $formData
+     * @param \Magento\Core\Model\Theme|ThemeInterface $theme
      * @return $this
      */
-    protected function _addThemeFieldset($form, $formData)
+    protected function _addThemeFieldset($form, $formData, ThemeInterface $theme)
     {
         $themeFieldset = $form->addFieldset('theme', array(
             'legend'   => __('Theme Settings'),
@@ -176,15 +172,15 @@ class General
                 'title'    => __('Theme Preview Image'),
                 'name'     => 'preview',
                 'required' => false,
-                'note'     => $this->_getPreviewImageNote()
+                'note'     => $this->_getPreviewImageNote(),
+                'theme'    => $theme
             ));
-        } else if (!empty($formData['preview_image'])) {
+        } elseif ($theme->hasPreviewImage()) {
             $themeFieldset->addField('preview_image', 'note', array(
                 'label'    => __('Theme Preview Image'),
                 'title'    => __('Theme Preview Image'),
                 'name'     => 'preview',
-                'after_element_html' => '<img width="50" src="' . $this->_themeImagePath->getPreviewImageDirectoryUrl()
-                    . $formData['preview_image'] . '" />'
+                'after_element_html' => '<img width="50" src="' . $theme->getThemeImage()->getPreviewImageUrl() . '" />'
             ));
         }
 

@@ -137,6 +137,7 @@ class Theme extends \Magento\Backend\App\Action
             array('fileService' => $cssService));
         try {
             if ($this->getRequest()->getPost()) {
+                /** @var $theme \Magento\Core\Model\Theme */
                 if (!empty($themeData['theme_id'])) {
                     $theme = $themeFactory->create($themeData['theme_id']);
                 } else {
@@ -169,7 +170,7 @@ class Theme extends \Magento\Backend\App\Action
             $this->messageManager->addError('The theme was not saved');
             $this->_objectManager->get('Magento\Logger')->logException($e);
         }
-        $redirectBack
+        $redirectBack && isset($theme)
             ? $this->_redirect('adminhtml/*/edit', array('id' => $theme->getId()))
             : $this->_redirect('adminhtml/*/');
     }

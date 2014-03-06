@@ -62,14 +62,14 @@ class PathTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers \Magento\Core\Model\Theme\Image\Path::__construct
-     * @covers \Magento\Core\Model\Theme\Image\Path::getPreviewImageDirectoryUrl
+     * @covers \Magento\Core\Model\Theme\Image\Path::getPreviewImageUrl
      */
     public function testPreviewImageDirectoryUrlGetter()
     {
         $store = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
         $store->expects($this->any())->method('getBaseUrl')->will($this->returnValue('http://localhost/'));
         $this->_storeManagerMock->expects($this->any())->method('getStore')->will($this->returnValue($store));
-        $this->assertEquals('http://localhost/theme/preview/', $this->_model->getPreviewImageDirectoryUrl());
+        $this->assertEquals('http://localhost/theme/preview/', $this->_model->getPreviewImageUrl());
     }
 
     /**
