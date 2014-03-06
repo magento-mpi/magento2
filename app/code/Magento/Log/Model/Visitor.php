@@ -178,6 +178,16 @@ class Visitor extends \Magento\Core\Model\AbstractModel
     }
 
     /**
+     * Skip request logging
+     *
+     * @param bool $skipRequestLogging
+     */
+    public function setSkipRequestLogging($skipRequestLogging)
+    {
+        $this->_skipRequestLogging = (bool)$skipRequestLogging;
+    }
+
+    /**
      * Initialize visitor information from server data
      *
      * @return $this
