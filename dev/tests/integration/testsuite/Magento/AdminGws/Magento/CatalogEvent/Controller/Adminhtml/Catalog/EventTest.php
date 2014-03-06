@@ -29,9 +29,6 @@ class EventTest extends \Magento\Backend\Utility\Controller
         );
     }
 
-    /**
-     * @runInSeparateProcess
-     */
     public function testIndexActionRestrictedUserCanSeeGrid()
     {
         $this->dispatch('backend/admin/catalog_event/index/');
