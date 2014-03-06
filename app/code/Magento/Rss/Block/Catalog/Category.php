@@ -46,6 +46,11 @@ class Category extends \Magento\Rss\Block\Catalog\AbstractCatalog
     protected $_imageHelper;
 
     /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $customerSession;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\App\Http\Context $httpContext
      * @param \Magento\Catalog\Helper\Data $catalogData
@@ -77,8 +82,8 @@ class Category extends \Magento\Rss\Block\Catalog\AbstractCatalog
         $this->_rssFactory = $rssFactory;
         $this->_categoryFactory = $categoryFactory;
         $this->_collectionFactory = $collectionFactory;
-        parent::__construct($context, $httpContext, $catalogData, $data);
         $this->customerSession = $customerSession;
+        parent::__construct($context, $httpContext, $catalogData, $data);
     }
 
     protected function _construct()
