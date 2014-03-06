@@ -26,13 +26,25 @@ class Config
     /**
      * Template for combined RequireJs config file
      */
-    const CONFIG_TEMPLATE = <<<DOD
+    const FULL_CONFIG_TEMPLATE = <<<config
 (function(require){
 %function%
 
 %usages%
 })(require);
-DOD;
+config;
+
+    /**
+     * Template for wrapped partial config
+     */
+    const PARTIAL_CONFIG_TEMPLATE = <<<config
+(function() {
+%config%
+require.config(mageUpdateConfigPaths(config, '%context%'))
+})();
+
+config;
+
 
     /**
      * @var \Magento\RequireJs\Config\File\Source\Aggregated
@@ -87,13 +99,17 @@ DOD;
         $customConfigFiles = $this->fileSource->getFiles($this->design->getDesignTheme(), self::CONFIG_FILE_NAME);
         foreach ($customConfigFiles as $file) {
             $config = $this->baseDir->readFile($this->baseDir->getRelativePath($file->getFilename()));
-            $distributedConfig .= $this->wrapConfig($config, $file->getModule());
+            $distributedConfig .= str_replace(
+                array('%config%', '%context%'),
+                array($config, $file->getModule()),
+                self::PARTIAL_CONFIG_TEMPLATE
+            );
         }
 
         $fullConfig = str_replace(
             array('%function%', '%usages%'),
             array($functionDeclaration, $distributedConfig),
-            self::CONFIG_TEMPLATE
+            self::FULL_CONFIG_TEMPLATE
         );
 
         return $fullConfig;
