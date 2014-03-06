@@ -9,7 +9,6 @@ namespace Magento\Tools\Formatter;
 
 use DateTime;
 use Magento\Tools\Formatter\PrettyPrinter\Printer;
-use PHPParser_Error;
 
 require_once __DIR__ . '/../../../bootstrap.php';
 require_once __DIR__ . '/../../../PHP-Parser/lib/bootstrap.php';
@@ -133,7 +132,7 @@ function getReference($filename, $rootDirectory)
  * @param string $filename
  * @param string $rootDirectory
  * @return void
- * @throws PHPParser_error
+     * @throws \PHPParser_error
  */
 function fixFile($filename, $rootDirectory)
 {
@@ -153,7 +152,7 @@ function fixFile($filename, $rootDirectory)
         } else {
             printMessage('No changes required.');
         }
-    } catch (PHPParser_Error $e) {
+    } catch (\PHPParser_Error $e) {
         $output = $prettyPrinter->getFormattedCode();
         if (null !== $output) {
             file_put_contents($filename . '.error', $output);
@@ -233,7 +232,7 @@ foreach ($files as $filename) {
         if ($displayOnly === false) {
             fixFile($filename, $rootDirectory);
         }
-    } catch (PHPParser_Error $e) {
+    } catch (\PHPParser_Error $e) {
         $messageSummary .= 'In ' . $filename . ': ' . $e->getMessage() . PHP_EOL;
         echo "checkout {$filename}\n";
         echo 'Parse Error: ', $e->getMessage();

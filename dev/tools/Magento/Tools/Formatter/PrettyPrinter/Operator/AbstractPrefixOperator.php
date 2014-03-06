@@ -18,6 +18,8 @@ abstract class AbstractPrefixOperator extends AbstractOperator
     }
     */
     /**
+     * Resolve the prefix operator for formatting
+     *
      * @param TreeNode $treeNode
      * @return string
      */
@@ -30,6 +32,7 @@ abstract class AbstractPrefixOperator extends AbstractOperator
 
     /**
      * This method resolves the current statement, presumably held in the passed in tree node, into lines.
+     *
      * @param TreeNode $treeNode Node containing the current statement.
      * @return TreeNode
      */
@@ -40,6 +43,8 @@ abstract class AbstractPrefixOperator extends AbstractOperator
     }
 
     /**
+     * Return the expr as parsed by the parser lib.
+     *
      * @return mixed
      */
     public function expr()

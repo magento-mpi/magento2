@@ -7,6 +7,8 @@
  */
 namespace Magento\Tools\Formatter\PrettyPrinter;
 
+use Exception;
+
 class ConditionalLineBreak extends LineBreak
 {
     /**
@@ -31,10 +33,11 @@ class ConditionalLineBreak extends LineBreak
      * This method returns the current value of the break.
      *
      * @return string
+     * @throws Exception
      */
     public function __toString()
     {
-        throw new \Exception("This should never be called.");
+        throw new Exception("This should never be called.");
     }
 
     /**
@@ -77,6 +80,6 @@ class ConditionalLineBreak extends LineBreak
      */
     public function isNextLineIndented()
     {
-        throw new \Exception("This should never be called.");
+        throw new Exception("This should never be called.");
     }
 }

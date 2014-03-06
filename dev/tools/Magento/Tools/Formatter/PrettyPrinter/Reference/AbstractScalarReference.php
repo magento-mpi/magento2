@@ -22,7 +22,7 @@ use PHPParser_Node_Scalar;
 class AbstractScalarReference extends AbstractReference
 {
     /**
-     * @var mixed|null
+     * @var mixed
      */
     protected $result;
 
@@ -30,7 +30,7 @@ class AbstractScalarReference extends AbstractReference
      * This method constructs a new statement based on the specified scalar.
      *
      * @param PHPParser_Node_Scalar $node
-     * @param mixed|null $result Optional value to return in resolve.
+     * @param mixed $result Optional value to return in resolve.
      */
     public function __construct(PHPParser_Node_Scalar $node, $result = null)
     {
