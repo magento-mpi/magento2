@@ -1113,7 +1113,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
      */
     protected function _parseCustomPrice($price)
     {
-        $price = $this->_objectManager->get('Magento\Core\Model\LocaleInterface')->getNumber($price);
+        $price = $this->_objectManager->get('Magento\Locale\FormatInterface')->getNumber($price);
         $price = $price > 0 ? $price : 0;
         return $price;
     }

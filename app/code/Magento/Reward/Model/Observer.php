@@ -954,7 +954,7 @@ class Observer
     }
 
     /**
-     * Add reward amount to PayPal discount total
+     * Add reward amount to payment discount total
      *
      * @param \Magento\Event\Observer $observer
      * @return void

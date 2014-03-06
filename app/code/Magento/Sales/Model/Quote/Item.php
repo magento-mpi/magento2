@@ -175,9 +175,9 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
     protected $_errorInfos;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\Locale\FormatInterface
      */
-    protected $_locale;
+    protected $_localeFormat;
 
     /**
      * @var \Magento\Sales\Model\Quote\Item\OptionFactory
@@ -189,7 +189,7 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
      * @param \Magento\Registry $registry
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Sales\Model\Status\ListFactory $statusListFactory
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Locale\FormatInterface $localeFormat
      * @param \Magento\Sales\Model\Quote\Item\OptionFactory $itemOptionFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
@@ -202,14 +202,14 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
         \Magento\Registry $registry,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Sales\Model\Status\ListFactory $statusListFactory,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Locale\FormatInterface $localeFormat,
         \Magento\Sales\Model\Quote\Item\OptionFactory $itemOptionFactory,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_errorInfos = $statusListFactory->create();
-        $this->_locale = $locale;
+        $this->_localeFormat = $localeFormat;
         $this->_itemOptionFactory = $itemOptionFactory;
         parent::__construct($context, $registry, $productFactory, $resource, $resourceCollection, $data);
     }
@@ -286,7 +286,7 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
      */
     protected function _prepareQty($qty)
     {
-        $qty = $this->_locale->getNumber($qty);
+        $qty = $this->_localeFormat->getNumber($qty);
         $qty = ($qty > 0) ? $qty : 1;
         return $qty;
     }

@@ -220,7 +220,7 @@ class Element extends \Magento\View\Element\Template
     public function getCalendarDateHtml($name, $id, $value = null, $formatType = null, $class = '')
     {
         if (is_null($formatType)) {
-            $formatType = \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM;
+            $formatType = \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM;
         }
 
         $calendar = $this->getLayout()->createBlock('Magento\View\Element\Html\Date')
@@ -229,7 +229,7 @@ class Element extends \Magento\View\Element\Template
             ->setValue($value)
             ->setClass('datetime-picker input-text' . $class)
             ->setImage($this->getViewFileUrl('Magento_Core::calendar.gif'))
-            ->setDateFormat($this->_locale->getDateFormat($formatType));
+            ->setDateFormat($this->_localeDate->getDateFormat($formatType));
         return $calendar->getHtml();
     }
 

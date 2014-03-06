@@ -15,9 +15,9 @@ class DownloadableTest extends \PHPUnit_Framework_TestCase
     protected $requestMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \Closure
      */
-    protected $invocationChainMock;
+    protected $closureMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -28,6 +28,11 @@ class DownloadableTest extends \PHPUnit_Framework_TestCase
      * @var \Magento\Downloadable\Model\Product\TypeTransitionManager\Plugin\Downloadable
      */
     protected $model;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $subjectMock;
 
     protected function setUp()
     {
@@ -46,7 +51,10 @@ class DownloadableTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->invocationChainMock = $this->getMock('Magento\Code\Plugin\InvocationChain', array(), array(), '', false);
+        $this->subjectMock =
+            $this->getMock('Magento\Catalog\Model\Product\TypeTransitionManager', array(), array(), '', false);
+        $this->closureMock = function () {
+        };
     }
 
     /**
@@ -61,8 +69,7 @@ class DownloadableTest extends \PHPUnit_Framework_TestCase
         $this->productMock->expects($this->once())->method('getTypeId')->will($this->returnValue($currentTypeId));
         $this->productMock->expects($this->once())->method('setTypeId')
             ->with(\Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE);
-        $this->invocationChainMock->expects($this->never())->method('proceed');
-        $this->model->aroundProcessProduct(array($this->productMock), $this->invocationChainMock);
+        $this->model->aroundProcessProduct($this->subjectMock, $this->closureMock, $this->productMock);
     }
 
     /**
@@ -93,9 +100,7 @@ class DownloadableTest extends \PHPUnit_Framework_TestCase
         $this->productMock->expects($this->any())->method('hasIsVirtual')->will($this->returnValue($isVirtual));
         $this->productMock->expects($this->once())->method('getTypeId')->will($this->returnValue($currentTypeId));
         $this->productMock->expects($this->never())->method('setTypeId');
-        $arguments = array($this->productMock);
-        $this->invocationChainMock->expects($this->once())->method('proceed')->with($arguments);
-        $this->model->aroundProcessProduct($arguments, $this->invocationChainMock);
+        $this->model->aroundProcessProduct($this->subjectMock, $this->closureMock, $this->productMock);
     }
 
     /**

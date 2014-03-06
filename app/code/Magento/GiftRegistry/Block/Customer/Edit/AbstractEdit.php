@@ -211,7 +211,7 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
     public function getCalendarDateHtml($name, $id, $value, $formatType = false, $class = '')
     {
         if ($formatType === false) {
-            $formatType = \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM;
+            $formatType = \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM;
         }
 
         $calendar = $this->getLayout()
@@ -221,7 +221,7 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
             ->setValue($this->formatDate($value, $formatType))
             ->setClass($class . ' product-custom-option datetime-picker input-text validate-date')
             ->setImage($this->getViewFileUrl('Magento_Core::calendar.gif'))
-            ->setDateFormat($this->_locale->getDateFormat($formatType));
+            ->setDateFormat($this->_localeDate->getDateFormat($formatType));
         return $calendar->getHtml();
     }
 

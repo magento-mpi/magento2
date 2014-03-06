@@ -33,7 +33,7 @@ class Revision
     /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Registry $coreRegistry
-     * @param \Magento\Core\Filter\Date $dateFilter
+     * @param \Magento\Stdlib\DateTime\Filter\Date $dateFilter
      * @param \Magento\VersionsCms\Model\Config $cmsConfig
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
      * @param \Magento\VersionsCms\Model\Page\Version $pageVersion
@@ -45,7 +45,7 @@ class Revision
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Registry $coreRegistry,
-        \Magento\Core\Filter\Date $dateFilter,
+        \Magento\Stdlib\DateTime\Filter\Date $dateFilter,
         \Magento\VersionsCms\Model\Config $cmsConfig,
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
         \Magento\VersionsCms\Model\Page\Version $pageVersion,
@@ -355,7 +355,7 @@ class Revision
             /**
              * Emulating front environment
              */
-            $this->_locale->emulate($selectedStoreId);
+            $this->_localeResolver->emulate($selectedStoreId);
             $this->_storeManager->setCurrentStore($this->_storeManager->getStore($selectedStoreId));
 
             $theme = $this->_objectManager->get('Magento\View\DesignInterface')
@@ -373,7 +373,7 @@ class Revision
             $this->_view->getLayout()->getUpdate()->addHandle('default');
             $this->_view->getLayout()->getUpdate()->addHandle('cms_page_view');
             $this->_objectManager->get('Magento\Cms\Helper\Page')->renderPageExtended($this);
-            $this->_locale->revert();
+            $this->_localeResolver->revert();
 
         } else {
             $this->_forward('noroute');

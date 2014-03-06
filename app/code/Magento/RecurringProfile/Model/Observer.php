@@ -14,13 +14,6 @@ namespace Magento\RecurringProfile\Model;
 class Observer
 {
     /**
-     * Locale model
-     *
-     * @var \Magento\Core\Model\LocaleInterface
-     */
-    protected $_locale;
-
-    /**
      * Store manager
      *
      * @var \Magento\Core\Model\StoreManagerInterface
@@ -55,16 +48,14 @@ class Observer
     protected $_quoteImporter;
 
     /**
-     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\RecurringProfile\Model\RecurringProfileFactory $recurringProfileFactory
+     * @param RecurringProfileFactory $recurringProfileFactory
      * @param \Magento\View\Element\BlockFactory $blockFactory
      * @param \Magento\RecurringProfile\Block\Fields $fields
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param QuoteImporter $quoteImporter
      */
     public function __construct(
-        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\RecurringProfile\Model\RecurringProfileFactory $recurringProfileFactory,
         \Magento\View\Element\BlockFactory $blockFactory,
@@ -72,7 +63,6 @@ class Observer
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\RecurringProfile\Model\QuoteImporter $quoteImporter
     ) {
-        $this->_locale = $locale;
         $this->_storeManager = $storeManager;
         $this->_recurringProfileFactory = $recurringProfileFactory;
         $this->_blockFactory = $blockFactory;
@@ -98,7 +88,7 @@ class Observer
         }
 
         /** @var \Magento\RecurringProfile\Model\RecurringProfile $profile */
-        $profile = $this->_recurringProfileFactory->create(['locale' => $this->_locale]);
+        $profile = $this->_recurringProfileFactory->create();
         $profile->setStore($this->_storeManager->getStore())
             ->importBuyRequest($buyRequest)
             ->importProduct($product);

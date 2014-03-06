@@ -12,7 +12,7 @@
 
 namespace Magento\Bundle\Test\Handler\Ui;
 
-use Mtf\Fixture;
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Factory\Factory;
 use \Magento\Catalog\Test\Handler\Ui\CreateProduct;
 

@@ -7,13 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Rss\Model\System\Config\Backend;
 
 /**
  * Cache cleaner backend model
  *
  */
-namespace Magento\Rss\Model\System\Config\Backend;
-
 class Links extends \Magento\Core\Model\Config\Value
 {
     /**
@@ -48,6 +47,7 @@ class Links extends \Magento\Core\Model\Config\Value
     /**
      * Invalidate cache type, when value was changed
      *
+     * @return void
      */
     protected function _afterSave()
     {

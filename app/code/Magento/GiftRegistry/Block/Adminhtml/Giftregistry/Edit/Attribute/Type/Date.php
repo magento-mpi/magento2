@@ -43,19 +43,19 @@ class Date
     {
          return array(
             array(
-                'value' => \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT,
+                'value' => \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT,
                 'label' => __('Short')
             ),
             array(
-                'value' => \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM,
+                'value' => \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM,
                 'label' => __('Medium')
             ),
             array(
-                'value' => \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_LONG,
+                'value' => \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_LONG,
                 'label' => __('Long')
             ),
             array(
-                'value' => \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_FULL,
+                'value' => \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_FULL,
                 'label' => __('Full')
             )
         );

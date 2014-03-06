@@ -142,9 +142,9 @@ class Db implements StorageInterface
     protected $_url;
 
     /**
-     * @var \Magento\App\ResponseInterface
+     * @var \Magento\App\Http\Context
      */
-    protected $response;
+    protected $_httpContext;
 
     /**
      * @param StoreFactory $storeFactory
@@ -154,10 +154,10 @@ class Db implements StorageInterface
      * @param \Magento\Stdlib\Cookie $cookie
      * @param State $appState
      * @param \Magento\Backend\Model\UrlInterface $url
-     * @param \Magento\App\ResponseInterface $response
-     * @param bool $isSingleStoreAllowed
-     * @param string $scopeCode
-     * @param string $scopeType
+     * @param \Magento\App\Http\Context $httpContext
+     * @param $isSingleStoreAllowed
+     * @param $scopeCode
+     * @param $scopeType
      * @param null $currentStore
      */
     public function __construct(
@@ -168,7 +168,7 @@ class Db implements StorageInterface
         \Magento\Stdlib\Cookie $cookie,
         State $appState,
         \Magento\Backend\Model\UrlInterface $url,
-        \Magento\App\ResponseInterface $response,
+        \Magento\App\Http\Context $httpContext,
         $isSingleStoreAllowed,
         $scopeCode,
         $scopeType,
@@ -184,7 +184,7 @@ class Db implements StorageInterface
         $this->_appState = $appState;
         $this->_cookie = $cookie;
         $this->_url = $url;
-        $this->response = $response;
+        $this->_httpContext = $httpContext;
         if ($currentStore) {
             $this->_currentStore = $currentStore;
         }
@@ -286,7 +286,7 @@ class Db implements StorageInterface
                 $this->_cookie->set(Store::COOKIE_NAME, null);
             } else {
                 $this->_cookie->set(Store::COOKIE_NAME, $this->_currentStore, true);
-                $this->response->setVary(Store::ENTITY, $this->_currentStore);
+                $this->_httpContext->setValue(Store::ENTITY, $this->_currentStore);
             }
         }
         return;

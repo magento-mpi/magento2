@@ -20,6 +20,7 @@ use Magento\Core\Exception;
  */
 abstract class AbstractProductList
     extends \Magento\TargetRule\Block\Product\AbstractProduct
+    implements \Magento\View\Block\IdentityInterface
 {
     /**
      * TargetRule Index instance
@@ -392,5 +393,19 @@ abstract class AbstractProductList
         }
 
         return $this->_allProductIds;
+    }
+
+    /**
+     * Return identifiers for produced content
+     *
+     * @return array
+     */
+    public function getIdentities()
+    {
+        $identities = array();
+        foreach ($this->getItemCollection() as $item) {
+            $identities[] = $item->getIdentities();
+        }
+        return $identities;
     }
 }

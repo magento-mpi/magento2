@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<mapping strict="0">
+    <fields>
+        <resource_access>
+            <selector>[name='all_resources']</selector>
+            <input>select</input>
+        </resource_access>
+        <resources>
+            <selector>[data-role='tree-resources-container']</selector>
+            <input>jquerytree</input>
+        </resources>
+    </fields>
+</mapping>

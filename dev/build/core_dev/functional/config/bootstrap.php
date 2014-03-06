@@ -53,6 +53,14 @@ if (defined('SELENIUM_TESTS_INSTALLATION') && SELENIUM_TESTS_INSTALLATION === 'e
         if ($exitCode) {
             exit($exitCode);
         }
+
+        /* Dump Database */
+        $dumpCommand = "mysqldump -u{$installOptions['db_user']} -p{$installOptions['db_pass']} "
+            . "{$installOptions['db_name']} > {$installOptions['db_name']}.sql";
+        passthru($dumpCommand, $exitCode);
+        if ($exitCode) {
+            exit($exitCode);
+        }
     }
 }
 

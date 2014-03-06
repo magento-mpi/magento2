@@ -46,11 +46,6 @@ class Context extends \Magento\App\Action\Context
     protected $_title;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
-     */
-    protected $_locale;
-
-    /**
      * @var bool
      */
     protected $_canUseBaseUrl;
@@ -59,6 +54,11 @@ class Context extends \Magento\App\Action\Context
      * @var \Magento\Backend\Model\Session
      */
     protected $_session;
+
+    /**
+     * @var \Magento\Locale\ResolverInterface
+     */
+    protected $_localeResolver;
 
     /**
      * @param \Magento\App\RequestInterface $request
@@ -77,7 +77,7 @@ class Context extends \Magento\App\Action\Context
      * @param \Magento\Backend\Model\UrlInterface $backendUrl
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      * @param \Magento\App\Action\Title $title
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param bool $canUseBaseUrl
      */
     public function __construct(
@@ -97,7 +97,7 @@ class Context extends \Magento\App\Action\Context
         \Magento\Backend\Model\UrlInterface $backendUrl,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
         \Magento\App\Action\Title $title,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Locale\ResolverInterface $localeResolver,
         $canUseBaseUrl = false
     ) {
         parent::__construct(
@@ -119,7 +119,7 @@ class Context extends \Magento\App\Action\Context
         $this->_backendUrl = $backendUrl;
         $this->_formKeyValidator = $formKeyValidator;
         $this->_title = $title;
-        $this->_locale = $locale;
+        $this->_localeResolver = $localeResolver;
         $this->_canUseBaseUrl = $canUseBaseUrl;
     }
 
@@ -172,11 +172,11 @@ class Context extends \Magento\App\Action\Context
     }
 
     /**
-     * @return \Magento\Core\Model\LocaleInterface
+     * @return \Magento\Locale\ResolverInterface
      */
-    public function getLocale()
+    public function getLocaleResolver()
     {
-        return $this->_locale;
+        return $this->_localeResolver;
     }
 
     /**

@@ -51,12 +51,6 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $this->_model->prepareCart($this->_order));
     }
 
-    public function testPreparePaypalCart()
-    {
-        $expected = $this->_prepareCartExpectations($this->_paypalCartFactory);
-        $this->assertEquals($expected, $this->_model->preparePaypalCart($this->_order));
-    }
-
     /**
      * Prepare cart factory expectations
      *
