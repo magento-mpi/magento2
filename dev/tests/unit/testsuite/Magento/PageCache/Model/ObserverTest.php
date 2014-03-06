@@ -238,4 +238,30 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->method('clean');
         $this->_model->flushAllCache($this->_observerMock);
     }
+
+    /**
+     * @dataProvider invalidateCacheDataProvider
+     * @param bool $cacheState
+     */
+    public function testInvalidateCache($cacheState)
+    {
+        $this->_configMock->expects($this->once())
+            ->method('isEnabled')
+            ->will($this->returnValue($cacheState));
+
+        if ($cacheState) {
+            $this->_typeListMock->expects($this->once())
+                ->method('invalidate')
+                ->with($this->equalTo('full_page'));
+        }
+        $this->_model->invalidateCache();
+    }
+
+    public function invalidateCacheDataProvider()
+    {
+        return [
+            [true],
+            [false]
+        ];
+    }
 }

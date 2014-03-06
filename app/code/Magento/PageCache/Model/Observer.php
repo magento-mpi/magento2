@@ -148,8 +148,11 @@ class Observer
      */
     public function invalidateCache()
     {
-         $this->_typeList->invalidate('full_page');
-         return $this;
+
+        if ($this->_config->isEnabled()) {
+            $this->_typeList->invalidate('full_page');
+        }
+        return $this;
     }
 
 }

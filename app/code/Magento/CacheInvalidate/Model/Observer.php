@@ -57,7 +57,7 @@ class Observer
      */
     public function invalidateVarnish(\Magento\Event\Observer $observer)
     {
-        if($this->_config->getType() == \Magento\PageCache\Model\Config::VARNISH) {
+        if($this->_config->getType() == \Magento\PageCache\Model\Config::VARNISH && $this->_config->isEnabled()) {
             $object = $observer->getEvent()->getObject();
             if($object instanceof \Magento\Object\IdentityInterface) {
                 $tags = array();
@@ -78,7 +78,7 @@ class Observer
      */
     public function flushAllCache(\Magento\Event\Observer $observer)
     {
-        if($this->_config->getType() == \Magento\PageCache\Model\Config::VARNISH) {
+        if($this->_config->getType() == \Magento\PageCache\Model\Config::VARNISH && $this->_config->isEnabled()) {
             $this->sendPurgeRequest('.*');
         }
     }

@@ -53,7 +53,7 @@ class VarnishPlugin
         \Closure $proceed,
         \Magento\App\RequestInterface $request
     ) {
-        if ($this->config->getType() == \Magento\PageCache\Model\Config::VARNISH) {
+        if ($this->config->getType() == \Magento\PageCache\Model\Config::VARNISH && $this->config->isEnabled()) {
             $this->version->process();
             $response = $proceed($request);
             if ($this->state->getMode() == \Magento\App\State::MODE_DEVELOPER) {
