@@ -1,3 +1,5 @@
+2.0.0.0-dev68
+=============
 * Cache:
   * Depersonalize private content generation
   * Content invalidation
@@ -38,6 +40,7 @@
 * Security:
   * Introduced an ability to hash a password with a random salt of default length (32 chars) by the encryption library
   * Utilized a random salt of default length for admin users and frontend customers
+
 2.0.0.0-dev67
 =============
 * GitHub requests:
