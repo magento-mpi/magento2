@@ -84,7 +84,7 @@ class RouterList implements RouterListInterface
      */
     public function key()
     {
-        key($this->_routerList);
+        return key($this->_routerList);
     }
 
     /**
