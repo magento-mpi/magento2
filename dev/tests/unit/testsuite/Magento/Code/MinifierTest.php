@@ -10,6 +10,9 @@ namespace Magento\Code;
 
 class MinifierTest extends \PHPUnit_Framework_TestCase
 {
+    const MINIFY_ABS_DIR = '/absolute/path/_cache/minified';
+    const MINIFY_REL_DIR = '_cache/minified';
+
     /**
      * @var \Magento\Code\Minifier\StrategyInterface|\PHPUnit_Framework_MockObject_MockObject
      */
@@ -24,11 +27,6 @@ class MinifierTest extends \PHPUnit_Framework_TestCase
      * @var Minifier
      */
     protected $minifier;
-
-    /**
-     * @var string
-     */
-    protected $minifyDir = '_cache/minified';
 
     /**
      * @var \Magento\Filesystem\Directory\Read|\PHPUnit_Framework_MockObject_MockObject
@@ -72,7 +70,7 @@ class MinifierTest extends \PHPUnit_Framework_TestCase
             ->method('getDirectoryRead')
             ->with(\Magento\App\Filesystem::STATIC_VIEW_DIR)
             ->will($this->returnValue($this->pubStaticViewDir));
-        $this->minifier = new Minifier($this->strategy, $this->filesystem, $this->minifyDir);
+        $this->minifier = new Minifier($this->strategy, $this->filesystem, self::MINIFY_ABS_DIR);
     }
 
     /**
@@ -80,9 +78,9 @@ class MinifierTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetMinifiedFile()
     {
-        $originalFile = '/pub/static/' . $this->minifyDir . '/original/some.js';
-        $originalFileRelative = $this->minifyDir . '/original/some.js';
-        $minifiedFileRelative = $this->minifyDir . '/original/some.min.js';
+        $originalFile = '/pub/static/' . self::MINIFY_REL_DIR . '/original/some.js';
+        $originalFileRelative = self::MINIFY_REL_DIR . '/original/some.js';
+        $minifiedFileRelative = self::MINIFY_REL_DIR . '/original/some.min.js';
 
         $this->rootDirectory->expects($this->at(0))
             ->method('getRelativePath')
@@ -96,19 +94,19 @@ class MinifierTest extends \PHPUnit_Framework_TestCase
 
         $this->pubStaticViewDir->expects($this->once())
             ->method('getAbsolutePath')
-            ->with($this->matches($this->minifyDir . '%ssome.min.js'))
-            ->will($this->returnValue('/pub/static/' . $this->minifyDir . '/original/some.min.js'));
+            ->with($this->matches(self::MINIFY_REL_DIR . '%ssome.min.js'))
+            ->will($this->returnValue('/pub/static/' . self::MINIFY_REL_DIR . '/original/some.min.js'));
 
-        $this->pubStaticViewDir->expects($this->once())
+        $this->pubStaticViewDir->expects($this->any())
             ->method('getRelativePath')
-            ->with($this->matches($this->minifyDir . '%ssome.min.js'))
-            ->will($this->returnValue($this->minifyDir . '/original/some.min.js'));
+            ->with($this->matches(self::MINIFY_ABS_DIR . '%ssome.min.js'))
+            ->will($this->returnValue(self::MINIFY_REL_DIR . '/original/some.min.js'));
 
         $this->strategy->expects($this->once())
             ->method('minifyFile')
-            ->with($this->minifyDir . '/original/some.js', $this->matches($this->minifyDir . '%ssome.min.js'));
+            ->with(self::MINIFY_REL_DIR . '/original/some.js', $this->matches(self::MINIFY_REL_DIR . '%ssome.min.js'));
         $minifiedFile = $this->minifier->getMinifiedFile($originalFile);
-        $this->assertStringMatchesFormat('/pub/static/' . $this->minifyDir . '%ssome.min.js', $minifiedFile);
+        $this->assertStringMatchesFormat('/pub/static/' . self::MINIFY_REL_DIR . '%ssome.min.js', $minifiedFile);
     }
 
     /**
@@ -128,28 +126,28 @@ class MinifierTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetMinifiedFileExistsMinified()
     {
-        $originalFile = '/pub/static/' . $this->minifyDir . '/original/some.js';
-        $expectedMinifiedFile = '/pub/static/' . $this->minifyDir . '/original/some.min.js';
-        $expectedMinifiedFileRelative = $this->minifyDir . '/original/some.min.js';
+        $originalFile = '/pub/static/' . self::MINIFY_REL_DIR . '/original/some.js';
+        $expectedMinifiedFile = '/pub/static/' . self::MINIFY_REL_DIR . '/original/some.min.js';
+        $expectedMinifiedFileRelative = self::MINIFY_REL_DIR . '/original/some.min.js';
 
         $this->rootDirectory->expects($this->at(0))
             ->method('getRelativePath')
             ->with($originalFile)
-            ->will($this->returnValue($this->minifyDir . '/original/some.js'));
+            ->will($this->returnValue(self::MINIFY_REL_DIR . '/original/some.js'));
 
         $this->rootDirectory->expects($this->at(1))
             ->method('isExist')
-            ->with($this->minifyDir . '/original/some.min.js')
+            ->with(self::MINIFY_REL_DIR . '/original/some.min.js')
             ->will($this->returnValue(true));
 
         $this->pubStaticViewDir->expects($this->once())
             ->method('getAbsolutePath')
-            ->with($this->minifyDir . '/original/some.min.js')
+            ->with(self::MINIFY_REL_DIR . '/original/some.min.js')
             ->will($this->returnValue($expectedMinifiedFile));
 
         $this->pubStaticViewDir->expects($this->once())
             ->method('getRelativePath')
-            ->with($this->minifyDir . '/original/some.min.js')
+            ->with(self::MINIFY_REL_DIR . '/original/some.min.js')
             ->will($this->returnValue($expectedMinifiedFileRelative));
 
         $minifiedFile = $this->minifier->getMinifiedFile($originalFile);

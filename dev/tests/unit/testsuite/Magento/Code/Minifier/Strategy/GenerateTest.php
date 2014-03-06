@@ -69,7 +69,7 @@ class GenerateTest extends \PHPUnit_Framework_TestCase
     public function testGetMinifiedFile()
     {
         $originalFile = __DIR__ . '/original/some.js';
-        $minifiedFile = __DIR__ . '/minified/some.min.js';
+        $minifiedFile = '_cache/subdir/minified/some.min.js';
         $content = 'content';
         $minifiedContent = 'minified content';
 
@@ -77,9 +77,6 @@ class GenerateTest extends \PHPUnit_Framework_TestCase
             ->method('readFile')
             ->with($originalFile)
             ->will($this->returnValue($content));
-        $this->pubStaticViewDir->expects($this->once())
-            ->method('getRelativePath')
-            ->will($this->returnArgument(0));
         $this->pubStaticViewDir->expects($this->once())
             ->method('writeFile')
             ->with($minifiedFile, $minifiedContent);
@@ -99,7 +96,7 @@ class GenerateTest extends \PHPUnit_Framework_TestCase
     public function testGetMinifiedFileNoUpdateNeeded()
     {
         $originalFile = __DIR__ . '/original/some.js';
-        $minifiedFile = __DIR__ . '/some.min.js';
+        $minifiedFile = '_cache/subdir/minified/some.min.js';
 
         $mTimeMap = array(
             array($originalFile, null, array('mtime' => 1)),

@@ -63,7 +63,7 @@ class Minifier
         $minifiedFile = $this->_findOriginalMinifiedFile($originalFileRelative);
         if (!$minifiedFile) {
             $minifiedFile = $this->directoryName . '/' . $this->_generateMinifiedFileName($originalFile);
-            $this->_strategy->minifyFile($originalFileRelative, $minifiedFile);
+            $this->_strategy->minifyFile($originalFileRelative, $this->staticViewDir->getRelativePath($minifiedFile));
         }
 
         $minifiedFile = $this->staticViewDir->getRelativePath($minifiedFile);

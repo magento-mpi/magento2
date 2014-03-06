@@ -48,17 +48,16 @@ class Generate implements \Magento\Code\Minifier\StrategyInterface
      * Get path to minified file for specified original file
      *
      * @param string $originalFile path to original file relative to pub/static
-     * @param string $targetFile path relative to pub/static
+     * @param string $targetRelFile path relative to pub/static
      * @return void
      */
-    public function minifyFile($originalFile, $targetFile)
+    public function minifyFile($originalFile, $targetRelFile)
     {
-        if ($this->_isUpdateNeeded($originalFile, $targetFile)) {
+        if ($this->_isUpdateNeeded($originalFile, $targetRelFile)) {
             $content = $this->rootDirectory->readFile($originalFile);
             $content = $this->adapter->minify($content);
-            $targetFile = $this->staticViewDir->getRelativePath($targetFile);
-            $this->staticViewDir->writeFile($targetFile, $content);
-            $this->staticViewDir->touch($targetFile, $this->rootDirectory->stat($originalFile)['mtime']);
+            $this->staticViewDir->writeFile($targetRelFile, $content);
+            $this->staticViewDir->touch($targetRelFile, $this->rootDirectory->stat($originalFile)['mtime']);
         }
     }
 

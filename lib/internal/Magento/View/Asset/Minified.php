@@ -35,16 +35,18 @@ class Minified implements MergeableInterface
     protected $file;
 
     /**
+     * Relative path to the file
+     *
+     * @var string
+     */
+    protected $relativePath;
+
+    /**
      * URL
      *
      * @var string
      */
     protected $url;
-
-    /**
-     * @var \Magento\View\UrlResolver
-     */
-    protected $resolver;
 
     /**
      * Logger
@@ -54,23 +56,40 @@ class Minified implements MergeableInterface
     protected $logger;
 
     /**
+     * Directory for static view directory
+     *
+     * @var \Magento\Filesystem\Directory\ReadInterface
+     */
+    protected $staticViewDir;
+
+    /**
+     * Url configuration
+     *
+     * @var \Magento\UrlInterface
+     */
+    protected $baseUrl;
+
+    /**
      * Constructor
      *
      * @param LocalInterface $asset
      * @param \Magento\Code\Minifier $minifier
-     * @param \Magento\View\UrlResolver $source
      * @param \Magento\Logger $logger
+     * @param \Magento\App\Filesystem $filesystem
+     * @param \Magento\UrlInterface $baseUrl
      */
     public function __construct(
         LocalInterface $asset,
         \Magento\Code\Minifier $minifier,
-        \Magento\View\UrlResolver $source,
-        \Magento\Logger $logger
+        \Magento\Logger $logger,
+        \Magento\App\Filesystem $filesystem,
+        \Magento\UrlInterface $baseUrl
     ) {
         $this->originalAsset = $asset;
         $this->minifier = $minifier;
-        $this->resolver = $source;
         $this->logger = $logger;
+        $this->staticViewDir = $filesystem->getDirectoryRead(\Magento\App\Filesystem::STATIC_VIEW_DIR);
+        $this->baseUrl = $baseUrl;
     }
 
     /**
@@ -108,7 +127,10 @@ class Minified implements MergeableInterface
      */
     public function getRelativePath()
     {
-        return ''; // TODO MAGETWO-21654
+        if (empty($this->relativePath)) {
+            $this->process();
+        }
+        return $this->relativePath;
     }
 
     /**
@@ -127,9 +149,12 @@ class Minified implements MergeableInterface
             $this->file = $originalFile;
         }
         if ($this->file == $originalFile) {
+            $this->relativePath = $this->originalAsset->getRelativePath();
             $this->url = $this->originalAsset->getUrl();
         } else {
-            $this->url = $this->resolver->getPublicFileUrl($this->file);
+            $this->relativePath = $this->staticViewDir->getRelativePath($this->file);
+            $this->url = $this->baseUrl->getBaseUrl(array('_type' => \Magento\UrlInterface::URL_TYPE_STATIC))
+                . $this->relativePath;
         }
     }
 }

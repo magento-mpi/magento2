@@ -215,20 +215,6 @@
             <argument name="session" xsi:type="object">Magento\Core\Model\Session\Proxy</argument>
         </arguments>
     </type>
-    <type name="Magento\View\UrlResolver">
-        <arguments>
-            <argument name="fileUrlMap" xsi:type="array">
-                <item name="urlMedia" xsi:type="array">
-                    <item name="key" xsi:type="const">Magento\UrlInterface::URL_TYPE_MEDIA</item>
-                    <item name="value" xsi:type="const">Magento\App\Filesystem::MEDIA_DIR</item>
-                </item>
-                <item name="urlStatic" xsi:type="array">
-                    <item name="key" xsi:type="const">Magento\UrlInterface::URL_TYPE_STATIC</item>
-                    <item name="value" xsi:type="const">Magento\App\Filesystem::STATIC_VIEW_DIR</item>
-                </item>
-            </argument>
-        </arguments>
-    </type>
     <type name="Magento\App\Filesystem">
         <arguments>
             <argument name="fileReadFactory" xsi:type="object">Magento\Filesystem\File\ReadFactory</argument>

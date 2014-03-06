@@ -85,7 +85,7 @@ return array(
     array('_getPriceFilter', 'Magento\Catalog\Block\Layer\View'),
     array('_getProcessor', 'Magento\App\Cache'),
     array('_getProductQtyForCheck', 'Magento\CatalogInventory\Model\Observer'),
-    array('getPublicFileUrl', 'Magento\View\Url', 'Magento\View\UrlResolver::getPublicFileUrl'),
+    array('getPublicFileUrl', 'Magento\View\Url', 'Magento\Url::getBaseUrl'),
     array('_getRangeByType', 'Magento\Log\Model\Resource\Visitor\Collection'),
     array('_getRecentProductsCollection'),
     array('_getRequestModel', 'Magento\Authorizenet\Model\Directpost'),

@@ -2140,4 +2140,5 @@ return array(
     ['Magento\View\Layout\File\FileList', 'Magento\View\File\FileList'],
     ['Magento\View\Layout\File\SourceInterface', 'Magento\View\File\SourceInterface'],
     ['Magento\View\Layout\File', 'Magento\View\File'],
+    ['Magento\View\Url\Resolver', 'Magento\Url'],
 );
