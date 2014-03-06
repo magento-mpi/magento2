@@ -69,7 +69,7 @@ class Config implements \Magento\View\ConfigInterface
      *
      * @param \Magento\Module\Dir\Reader $moduleReader
      * @param \Magento\App\Filesystem $filesystem
-     * @param Service  $viewService
+     * @param Service $viewService
      * @param FileSystem $viewFileSystem
      * @param \Magento\Config\FileIteratorFactory $fileIteratorFactory
      * @param string $filename
