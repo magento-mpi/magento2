@@ -1,7 +1,5 @@
 <?php
 /**
- * Eav attribute option
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -9,6 +7,9 @@
  */
 namespace Magento\Customer\Service\V1\Dto\Eav;
 
+/**
+ * Class Option
+ */
 class Option extends \Magento\Service\Entity\AbstractDto
 {
     /**

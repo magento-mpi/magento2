@@ -1,7 +1,5 @@
 <?php
 /**
- * Eav Attribute Metadata
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -9,18 +7,24 @@
  */
 namespace Magento\Customer\Service\V1\Dto\Eav;
 
+/**
+ * Class AttributeMetadataBuilder
+ */
 class AttributeMetadataBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
 {
     /**
      * Option builder
      *
-     * @var OptionBuilder
+     * @var \Magento\Customer\Service\V1\Dto\Eav\OptionBuilder
      */
     protected $_optionBuilder;
+
     /**
      * Initializes builder.
+     *
+     * @param \Magento\Customer\Service\V1\Dto\Eav\OptionBuilder $optionBuilder
      */
-    public function __construct(OptionBuilder $optionBuilder)
+    public function __construct(\Magento\Customer\Service\V1\Dto\Eav\OptionBuilder $optionBuilder)
     {
         parent::__construct();
         $this->_optionBuilder = $optionBuilder;
@@ -28,6 +32,8 @@ class AttributeMetadataBuilder extends \Magento\Service\Entity\AbstractDtoBuilde
     }
 
     /**
+     * Set attribute code
+     *
      * @param string $attributeCode
      * @return $this
      */
@@ -37,6 +43,8 @@ class AttributeMetadataBuilder extends \Magento\Service\Entity\AbstractDtoBuilde
     }
 
     /**
+     * Set front end input
+     *
      * @param string $frontendInput
      * @return $this
      */
@@ -46,6 +54,8 @@ class AttributeMetadataBuilder extends \Magento\Service\Entity\AbstractDtoBuilde
     }
 
     /**
+     * Set input filter
+     *
      * @param string $inputFilter
      * @return $this
      */
@@ -55,6 +65,8 @@ class AttributeMetadataBuilder extends \Magento\Service\Entity\AbstractDtoBuilde
     }
 
     /**
+     * Set store label
+     *
      * @param string $storeLabel
      * @return $this
      */
@@ -64,6 +76,8 @@ class AttributeMetadataBuilder extends \Magento\Service\Entity\AbstractDtoBuilde
     }
 
     /**
+     * Set validation rules
+     *
      * @param string $validationRules
      * @return $this
      */
@@ -73,6 +87,8 @@ class AttributeMetadataBuilder extends \Magento\Service\Entity\AbstractDtoBuilde
     }
 
     /**
+     * Set options
+     *
      * @param \Magento\Customer\Service\V1\Dto\Eav\Option[] $options
      * @return $this
      */
@@ -82,7 +98,9 @@ class AttributeMetadataBuilder extends \Magento\Service\Entity\AbstractDtoBuilde
     }
 
     /**
-     * @param boolean $visible
+     * Set visible
+     *
+     * @param bool $visible
      * @return $this
      */
     public function setVisible($visible)
@@ -91,7 +109,9 @@ class AttributeMetadataBuilder extends \Magento\Service\Entity\AbstractDtoBuilde
     }
 
     /**
-     * @param boolean $required
+     * Set required
+     *
+     * @param bool $required
      * @return $this
      */
     public function setRequired($required)
@@ -101,6 +121,8 @@ class AttributeMetadataBuilder extends \Magento\Service\Entity\AbstractDtoBuilde
 
 
     /**
+     * Set multiline count
+     *
      * @param int $count
      * @return $this
      */
@@ -110,6 +132,8 @@ class AttributeMetadataBuilder extends \Magento\Service\Entity\AbstractDtoBuilde
     }
 
     /**
+     * Set data model
+     *
      * @param string $dataModel
      * @return $this
      */
@@ -119,6 +143,8 @@ class AttributeMetadataBuilder extends \Magento\Service\Entity\AbstractDtoBuilde
     }
 
     /**
+     * Set frontend class
+     *
      * @param string $frontendClass
      * @return $this
      */
@@ -128,6 +154,8 @@ class AttributeMetadataBuilder extends \Magento\Service\Entity\AbstractDtoBuilde
     }
 
     /**
+     * Set is user defined
+     * f
      * @param bool $isUserDefined
      * @return $this
      */
@@ -137,6 +165,8 @@ class AttributeMetadataBuilder extends \Magento\Service\Entity\AbstractDtoBuilde
     }
 
     /**
+     * Set sort order
+     *
      * @param int $sortOrder
      * @return $this
      */
@@ -146,6 +176,8 @@ class AttributeMetadataBuilder extends \Magento\Service\Entity\AbstractDtoBuilde
     }
 
     /**
+     * Set front end label
+     *
      * @param string $frontendLabel
      * @return $this
      */
@@ -155,6 +187,8 @@ class AttributeMetadataBuilder extends \Magento\Service\Entity\AbstractDtoBuilde
     }
 
     /**
+     * Set is system
+     *
      * @param bool $isSystem
      * @return $this
      */
@@ -164,6 +198,8 @@ class AttributeMetadataBuilder extends \Magento\Service\Entity\AbstractDtoBuilde
     }
 
     /**
+     * Set note
+     *
      * @param string $note
      * @return $this
      */

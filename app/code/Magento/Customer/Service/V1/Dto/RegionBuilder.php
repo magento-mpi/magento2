@@ -1,7 +1,5 @@
 <?php
 /**
- * Customer Service Address Interface
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -9,11 +7,16 @@
  */
 namespace Magento\Customer\Service\V1\Dto;
 
+/**
+ * Class RegionBuilder
+ */
 class RegionBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
 {
     /**
+     * Set region code
+     *
      * @param string $regionCode
-     * @return RegionBuilder
+     * @return $this
      */
     public function setRegionCode($regionCode)
     {
@@ -22,8 +25,10 @@ class RegionBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
     }
 
     /**
+     * Set region
+     *
      * @param string $regionName
-     * @return RegionBuilder
+     * @return $this
      */
     public function setRegion($regionName)
     {
@@ -32,8 +37,10 @@ class RegionBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
     }
 
     /**
+     * Set region id
+     *
      * @param string $regionId
-     * @return RegionBuilder
+     * @return $this
      */
     public function setRegionId($regionId)
     {

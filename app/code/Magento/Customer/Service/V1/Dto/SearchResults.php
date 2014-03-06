@@ -1,18 +1,21 @@
 <?php
 /**
- * Customer Service Address Interface
- *
- * {license_notice}
+{license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Customer\Service\V1\Dto;
 
+/**
+ * Class SearchResults
+ */
 class SearchResults extends \Magento\Service\Entity\AbstractDto
 {
     /**
-     * @return array
+     * Get items
+     *
+     * @return \Magento\Service\Entity\AbstractDto[]
      */
     public function getItems()
     {
@@ -20,6 +23,8 @@ class SearchResults extends \Magento\Service\Entity\AbstractDto
     }
 
     /**
+     * Get search criteria
+     *
      * @return \Magento\Customer\Service\V1\Dto\SearchCriteria
      */
     public function getSearchCriteria()
@@ -28,6 +33,10 @@ class SearchResults extends \Magento\Service\Entity\AbstractDto
     }
 
     /**
+     * Get total count
+     *
+     * Get total count
+     *
      * @return int
      */
     public function getTotalCount()

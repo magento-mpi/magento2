@@ -1,7 +1,5 @@
 <?php
 /**
- * Address class acts as a DTO for the Customer Service
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -9,21 +7,26 @@
  */
 namespace Magento\Customer\Service\V1\Dto;
 
-use Magento\Service\Entity\AbstractDto;
 use Magento\Service\Entity\AbstractDtoBuilder;
 
 /**
- * @method Address mergeDtoWithArray(AbstractDto $dto, array $data)
+ * Class AddressBuilder
  */
 class AddressBuilder extends AbstractDtoBuilder
 {
-    /** @var RegionBuilder */
+    /**
+     * Region builder
+     *
+     * @var \Magento\Customer\Service\V1\Dto\RegionBuilder
+     */
     protected $_regionBuilder;
 
     /**
-     * @param RegionBuilder $regionBuilder
+     * Constructor
+     *
+     * @param \Magento\Customer\Service\V1\Dto\RegionBuilder $regionBuilder
      */
-    public function __construct(RegionBuilder $regionBuilder)
+    public function __construct(\Magento\Customer\Service\V1\Dto\RegionBuilder $regionBuilder)
     {
         parent::__construct();
         $this->_regionBuilder = $regionBuilder;
@@ -31,6 +34,8 @@ class AddressBuilder extends AbstractDtoBuilder
     }
 
     /**
+     * Set id
+     *
      * @param int $id
      * @return $this
      */
@@ -40,7 +45,9 @@ class AddressBuilder extends AbstractDtoBuilder
     }
 
     /**
-     * @param boolean $defaultShipping
+     * Set if the address is default shipping address
+     *
+     * @param bool $defaultShipping
      * @return $this
      */
     public function setDefaultShipping($defaultShipping)
@@ -49,7 +56,9 @@ class AddressBuilder extends AbstractDtoBuilder
     }
 
     /**
-     * @param boolean $defaultBilling
+     * Set if the address is default billing address
+     *
+     * @param bool $defaultBilling
      * @return $this
      */
     public function setDefaultBilling($defaultBilling)
@@ -82,15 +91,19 @@ class AddressBuilder extends AbstractDtoBuilder
     }
 
     /**
-     * @param Region $region
+     * Set region
+     *
+     * @param \Magento\Customer\Service\V1\Dto\Region $region
      * @return $this
      */
-    public function setRegion(Region $region)
+    public function setRegion(\Magento\Customer\Service\V1\Dto\Region $region)
     {
         return $this->_set(Address::KEY_REGION, $region);
     }
 
     /**
+     * Set country id
+     *
      * @param int $countryId
      * @return $this
      */
@@ -100,7 +113,9 @@ class AddressBuilder extends AbstractDtoBuilder
     }
 
     /**
-     * @param \string[] $street
+     * Set street
+     *
+     * @param string[] $street
      * @return $this
      */
     public function setStreet($street)
@@ -109,6 +124,8 @@ class AddressBuilder extends AbstractDtoBuilder
     }
 
     /**
+     * Set company
+     *
      * @param string $company
      * @return $this
      */
@@ -118,6 +135,8 @@ class AddressBuilder extends AbstractDtoBuilder
     }
 
     /**
+     * Set telephone number
+     *
      * @param string $telephone
      * @return $this
      */
@@ -127,6 +146,8 @@ class AddressBuilder extends AbstractDtoBuilder
     }
 
     /**
+     * Set fax number
+     *
      * @param string $fax
      * @return $this
      */
@@ -136,6 +157,8 @@ class AddressBuilder extends AbstractDtoBuilder
     }
 
     /**
+     * Set postcode
+     *
      * @param string $postcode
      * @return $this
      */
@@ -145,6 +168,8 @@ class AddressBuilder extends AbstractDtoBuilder
     }
 
     /**
+     * Set city name
+     *
      * @param string $city
      * @return $this
      */
@@ -154,6 +179,8 @@ class AddressBuilder extends AbstractDtoBuilder
     }
 
     /**
+     * Set first name
+     *
      * @param string $firstname
      * @return $this
      */
@@ -163,6 +190,8 @@ class AddressBuilder extends AbstractDtoBuilder
     }
 
     /**
+     * Set last name
+     *
      * @param string $lastname
      * @return $this
      */
@@ -172,6 +201,8 @@ class AddressBuilder extends AbstractDtoBuilder
     }
 
     /**
+     * Set middle name
+     *
      * @param string $middlename
      * @return $this
      */
@@ -181,6 +212,8 @@ class AddressBuilder extends AbstractDtoBuilder
     }
 
     /**
+     * Set prefix
+     *
      * @param string $prefix
      * @return $this
      */
@@ -190,6 +223,8 @@ class AddressBuilder extends AbstractDtoBuilder
     }
 
     /**
+     * Set suffix
+     *
      * @param string $suffix
      * @return $this
      */
@@ -199,6 +234,8 @@ class AddressBuilder extends AbstractDtoBuilder
     }
 
     /**
+     * Set Vat id
+     *
      * @param string $vatId
      * @return $this
      */
@@ -208,6 +245,8 @@ class AddressBuilder extends AbstractDtoBuilder
     }
 
     /**
+     * Set customer id
+     *
      * @param string $customerId
      * @return $this
      */
@@ -219,7 +258,7 @@ class AddressBuilder extends AbstractDtoBuilder
     /**
      * Builds the entity.
      *
-     * @return Address
+     * @return \Magento\Customer\Service\V1\Dto\Address
      */
     public function create()
     {

@@ -5,18 +5,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Service\V1\Dto;
 
 /**
- * Class Customer. Uses array to hold data, setters return $this so they can be chained.
- *
+ * Class CustomerBuilder
  */
 class CustomerBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
 {
     /**
+     * Set confirmation
+     *
      * @param string $confirmation
-     * @return CustomerBuilder
+     * @return $this
      */
     public function setConfirmation($confirmation)
     {
@@ -24,8 +24,10 @@ class CustomerBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
     }
 
     /**
+     * Set created time
+     *
      * @param string $createdAt
-     * @return CustomerBuilder
+     * @return $this
      */
     public function setCreatedAt($createdAt)
     {
@@ -33,8 +35,10 @@ class CustomerBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
     }
 
     /**
+     * Set created area
+     *
      * @param string $createdIn
-     * @return CustomerBuilder
+     * @return $this
      */
     public function setCreatedIn($createdIn)
     {
@@ -42,8 +46,10 @@ class CustomerBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
     }
 
     /**
+     * Set date of birth
+     *
      * @param string $dob
-     * @return CustomerBuilder
+     * @return $this
      */
     public function setDob($dob)
     {
@@ -51,8 +57,10 @@ class CustomerBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
     }
 
     /**
+     * Set email address
+     *
      * @param string $email
-     * @return CustomerBuilder
+     * @return $this
      */
     public function setEmail($email)
     {
@@ -60,8 +68,10 @@ class CustomerBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
     }
 
     /**
+     * Set first name
+     *
      * @param string $firstname
-     * @return CustomerBuilder
+     * @return $this
      */
     public function setFirstname($firstname)
     {
@@ -69,8 +79,10 @@ class CustomerBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
     }
 
     /**
+     * Set gender
+     *
      * @param string $gender
-     * @return CustomerBuilder
+     * @return $this
      */
     public function setGender($gender)
     {
@@ -78,8 +90,10 @@ class CustomerBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
     }
 
     /**
+     * Set group id
+     *
      * @param string $groupId
-     * @return CustomerBuilder
+     * @return $this
      */
     public function setGroupId($groupId)
     {
@@ -87,8 +101,10 @@ class CustomerBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
     }
 
     /**
+     * Set customer id
+     *
      * @param int $id
-     * @return CustomerBuilder
+     * @return $this
      */
     public function setCustomerId($id)
     {
@@ -96,8 +112,10 @@ class CustomerBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
     }
 
     /**
+     * Set last name
+     *
      * @param string $lastname
-     * @return CustomerBuilder
+     * @return $this
      */
     public function setLastname($lastname)
     {
@@ -105,8 +123,10 @@ class CustomerBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
     }
 
     /**
+     * Set middle name
+     *
      * @param string $middlename
-     * @return CustomerBuilder
+     * @return $this
      */
     public function setMiddlename($middlename)
     {
@@ -114,8 +134,10 @@ class CustomerBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
     }
 
     /**
+     * Set prefix
+     *
      * @param string $prefix
-     * @return CustomerBuilder
+     * @return $this
      */
     public function setPrefix($prefix)
     {
@@ -123,8 +145,10 @@ class CustomerBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
     }
 
     /**
+     * Set store id
+     *
      * @param int $storeId
-     * @return CustomerBuilder
+     * @return $this
      */
     public function setStoreId($storeId)
     {
@@ -132,8 +156,10 @@ class CustomerBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
     }
 
     /**
+     * Set suffix
+     *
      * @param string $suffix
-     * @return CustomerBuilder
+     * @return $this
      */
     public function setSuffix($suffix)
     {
@@ -141,8 +167,10 @@ class CustomerBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
     }
 
     /**
+     * Set tax Vat
+     *
      * @param string $taxvat
-     * @return CustomerBuilder
+     * @return $this
      */
     public function setTaxvat($taxvat)
     {
@@ -150,8 +178,10 @@ class CustomerBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
     }
 
     /**
+     * Set website id
+     *
      * @param int $websiteId
-     * @return CustomerBuilder
+     * @return $this
      */
     public function setWebsiteId($websiteId)
     {
@@ -159,39 +189,31 @@ class CustomerBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
     }
 
     /**
-     * @param string
-     * @return CustomerBuilder
+     * Set Rp token
+     *
+     * @param string $rpToken
+     * @return $this
      */
     public function getRpToken($rpToken)
     {
-        return $this->_set(self::RP_TOKEN, $rpToken);
+        return $this->_set(Customer::RP_TOKEN, $rpToken);
     }
 
     /**
-     * @param string
-     * @return CustomerBuilder
+     * Set Rp token created time
+     *
+     * @param string $rpTokenCreatedAt
+     * @return $this
      */
     public function getRpTokenCreatedAt($rpTokenCreatedAt)
     {
-        return $this->_set(self::RP_TOKEN_CREATED_AT, $rpTokenCreatedAt);
-    }
-
-    /**
-     * Adding ability to set custom attribute code
-     *
-     * @param string $attributeCode
-     * @param string|int $value
-     * @return $this
-     */
-    public function setAttribute($attributeCode, $value)
-    {
-        return $this->_set($attributeCode, $value);
+        return $this->_set(Customer::RP_TOKEN_CREATED_AT, $rpTokenCreatedAt);
     }
 
     /**
      * Builds the entity.
      *
-     * @return Customer
+     * @return \Magento\Customer\Service\V1\Dto\Customer
      */
     public function create()
     {

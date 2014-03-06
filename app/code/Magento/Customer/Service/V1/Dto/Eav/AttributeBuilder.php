@@ -1,7 +1,5 @@
 <?php
 /**
- * Eav Attribute
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -9,13 +7,16 @@
  */
 namespace Magento\Customer\Service\V1\Dto\Eav;
 
-use Magento\Customer\Service\V1\Dto\Eav\Attribute;
-
+/**
+ * Class AttributeBuilder
+ */
 class AttributeBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
 {
     /**
+     * Set attribute code
+     *
      * @param string $attributeCode
-     * @return AttributeBuilder
+     * @return $this
      */
     public function setAttributeCode($attributeCode)
     {
@@ -23,8 +24,10 @@ class AttributeBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
     }
 
     /**
+     * Set attribute value
+     *
      * @param string $value
-     * @return AttributeBuilder
+     * @return $this
      */
     public function setValue($value)
     {

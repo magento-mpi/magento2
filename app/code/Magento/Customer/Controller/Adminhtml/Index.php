@@ -184,13 +184,6 @@ class Index extends \Magento\Backend\App\Action
         $this->_setActiveMenu('Magento_Customer::customer_manage');
 
         /**
-         * Append customers block to content
-         */
-        $this->_addContent(
-            $this->_view->getLayout()->createBlock('Magento\Customer\Block\Adminhtml\Customer', 'customer')
-        );
-
-        /**
          * Add breadcrumb item
          */
         $this->_addBreadcrumb(__('Customers'), __('Customers'));
@@ -204,7 +197,7 @@ class Index extends \Magento\Backend\App\Action
      */
     public function gridAction()
     {
-        $this->_view->loadLayout();
+        $this->_view->loadLayout(false);
         $this->_view->renderLayout();
     }
 
@@ -801,8 +794,10 @@ class Index extends \Magento\Backend\App\Action
                 unset($data['website_id']);
             }
 
-            $customer = $this->_customerBuilder->populateWithArray($data)->create();
-            $errors = $this->_customerAccountService->validateCustomerData($customer, []);
+            $customerDetails = $this->_customerDetailsBuilder->populateWithArray(
+                [CustomerDetails::KEY_CUSTOMER => $data]
+            )->create();
+            $errors = $this->_customerAccountService->validateCustomerDetails($customerDetails, []);
         } catch (\Magento\Core\Exception $exception) {
             /* @var $error \Magento\Message\Error */
             foreach ($exception->getMessages(\Magento\Message\MessageInterface::TYPE_ERROR) as $error) {

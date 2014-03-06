@@ -9,7 +9,7 @@
 namespace Magento\Customer\Service\V1;
 
 /**
- * Manipulate Customer Address Entities *
+ * Interface CustomerAccountServiceInterface
  */
 interface CustomerAccountServiceInterface
 {
@@ -38,26 +38,30 @@ interface CustomerAccountServiceInterface
     /**
      * Create Customer Account
      *
-     * @param Dto\CustomerDetails $customerDetails
+     * @param \Magento\Customer\Service\V1\Dto\CustomerDetails $customerDetails
      * @param string $password If null then a random password will be assigned
      * @param string $redirectUrl URL fed to welcome email templates. Can be used by templates to, for example, direct
      *                            the customer to a product they were looking at after pressing confirmation link.
-     * @return Dto\Customer
+     * @return \Magento\Customer\Service\V1\Dto\Customer
      * @throws \Exception If something goes wrong during save
      * @throws \Magento\Exception\InputException If bad input is provided
      * @throws \Magento\Exception\StateException If the provided email is already used
      */
-    public function createAccount(Dto\CustomerDetails $customerDetails, $password = null, $redirectUrl = '');
+    public function createAccount(
+        \Magento\Customer\Service\V1\Dto\CustomerDetails $customerDetails,
+        $password = null,
+        $redirectUrl = ''
+    );
 
     /**
      * Update Customer Account and its details.
      * CustomerDetails contains an array of Address Dto. In the event that no change was made to addresses
      * the array must be null.
      *
-     * @param Dto\CustomerDetails $customerDetails
+     * @param \Magento\Customer\Service\V1\Dto\CustomerDetails $customerDetails
      * @return void
      */
-    public function updateCustomer(Dto\CustomerDetails $customerDetails);
+    public function updateCustomer(\Magento\Customer\Service\V1\Dto\CustomerDetails $customerDetails);
 
     /**
      * Create or update customer information
@@ -76,7 +80,7 @@ interface CustomerAccountServiceInterface
      *
      * @param int $customerId
      * @throws \Magento\Exception\NoSuchEntityException If customer with customerId is not found.
-     * @return Dto\Customer
+     * @return \Magento\Customer\Service\V1\Dto\Customer
      */
     public function getCustomer($customerId);
 
@@ -85,7 +89,7 @@ interface CustomerAccountServiceInterface
      *
      * @param int $customerId
      * @param string $confirmationKey Sent to customer in an confirmation e-mail.
-     * @return Dto\Customer
+     * @return \Magento\Customer\Service\V1\Dto\Customer
      * @throws \Magento\Exception\NoSuchEntityException If customer doesn't exist
      * @throws \Magento\Exception\StateException
      *      StateException::INPUT_MISMATCH if key doesn't match expected.
@@ -96,18 +100,18 @@ interface CustomerAccountServiceInterface
     /**
      * Retrieve customers which match a specified criteria
      *
-     * @param Dto\SearchCriteria $searchCriteria
+     * @param \Magento\Customer\Service\V1\Dto\SearchCriteria $searchCriteria
      * @throws \Magento\Exception\InputException if there is a problem with the input
-     * @return Dto\SearchResults containing Dto\CustomerDetails
+     * @return \Magento\Customer\Service\V1\Dto\SearchResults containing Dto\CustomerDetails
      */
-    public function searchCustomers(Dto\SearchCriteria $searchCriteria);
+    public function searchCustomers(\Magento\Customer\Service\V1\Dto\SearchCriteria $searchCriteria);
 
     /**
      * Login a customer account using username and password
      *
      * @param string $username username in plain-text
      * @param string $password password in plain-text
-     * @return Dto\Customer
+     * @return \Magento\Customer\Service\V1\Dto\Customer
      * @throws \Magento\Exception\AuthenticationException If unable to authenticate
      */
     public function authenticate($username, $password);
@@ -185,11 +189,20 @@ interface CustomerAccountServiceInterface
     /**
      * Validate customer entity
      *
-     * @param Dto\Customer $customer
+     * @param \Magento\Customer\Service\V1\Dto\Customer $customer
+     * @param \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata[] $attributes
+     * @return array|bool
+     */
+    public function validateCustomerData(\Magento\Customer\Service\V1\Dto\Customer $customer, array $attributes);
+
+    /**
+     * Validate customer details
+     *
+     * @param Dto\CustomerDetails $customerDetails
      * @param Dto\Eav\AttributeMetadata[] $attributes
      * @return array|bool
      */
-    public function validateCustomerData(Dto\Customer $customer, array $attributes);
+    public function validateCustomerDetails(Dto\CustomerDetails $customerDetails, array $attributes);
 
     /**
      * Indicates if the Customer for the provided customerId is restricted to being read only
@@ -216,7 +229,7 @@ interface CustomerAccountServiceInterface
      *
      * @param int $customerId
      * @throws \Magento\Exception\NoSuchEntityException If customer with customerId is not found.
-     * @return Dto\CustomerDetails
+     * @return \Magento\Customer\Service\V1\Dto\CustomerDetails
      */
     public function getCustomerDetails($customerId);
 
@@ -231,11 +244,11 @@ interface CustomerAccountServiceInterface
     public function deleteCustomer($customerId);
 
     /**
-     * Check if the email hasn't associated with a customer account for that given website
+     * Check if the email has not been associated with a customer account in given website
      *
      * @param string $customerEmail
-     * @param int|null $websiteId
-     * @return bool
+     * @param int $websiteId
+     * @return bool true if the email is not associated with a customer account in given website
      */
-    public function isEmailAvailable($customerEmail, $websiteId = null);
+    public function isEmailAvailable($customerEmail, $websiteId);
 }

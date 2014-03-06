@@ -1,7 +1,5 @@
 <?php
 /**
- * Customer Service Address Interface
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -9,9 +7,14 @@
  */
 namespace Magento\Customer\Service\V1\Dto;
 
+/**
+ * Class CustomerGroup
+ */
 class CustomerGroup extends \Magento\Service\Entity\AbstractDto
 {
     /**
+     * Get id
+     *
      * @return int
      */
     public function getId()
@@ -20,6 +23,8 @@ class CustomerGroup extends \Magento\Service\Entity\AbstractDto
     }
 
     /**
+     * Get code
+     *
      * @return string
      */
     public function getCode()
@@ -28,6 +33,8 @@ class CustomerGroup extends \Magento\Service\Entity\AbstractDto
     }
 
     /**
+     * Get tax class id
+     *
      * @return int
      */
     public function getTaxClassId()

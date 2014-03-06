@@ -103,7 +103,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
                 'website_id' => 0,
                 'firstname' => 'test firstname',
                 'lastname' => 'test lastname',
-                'email' => 'exmaple@domain.com',
+                'email' => 'example@domain.com',
                 'default_billing' => '_item1',
             ),
             'address' => array('_item1' => array()),
@@ -143,7 +143,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
                 'website_id' => 0,
                 'firstname' => 'test firstname',
                 'lastname' => 'test lastname',
-                'email' => 'exmaple@domain.com',
+                'email' => 'example@domain.com',
                 'default_billing' => '_item1',
                 'password' => 'auto'
             ),
@@ -214,7 +214,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
                 'website_id' => 1,
                 'firstname' => 'test firstname',
                 'lastname' => 'test lastname',
-                'email' => 'exmaple@domain.com',
+                'email' => 'example@domain.com',
                 'default_shipping' => '_item1',
                 'new_password' => 'auto',
                 'sendemail_store_id' => '1',
@@ -302,7 +302,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
                 'website_id' => 1,
                 'firstname' => 'test firstname',
                 'lastname' => 'test lastname',
-                'email' => 'exmaple@domain.com',
+                'email' => 'example@domain.com',
                 'password' => 'auto',
             ),
         );
@@ -336,7 +336,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
                 'website_id' => 1,
                 'firstname' => 'new firstname',
                 'lastname' => 'new lastname',
-                'email' => 'exmaple@domain.com',
+                'email' => 'example@domain.com',
                 'default_shipping' => '_item1',
                 'new_password' => 'auto',
                 'sendemail_store_id' => '1',
@@ -489,6 +489,21 @@ class IndexTest extends \Magento\Backend\Utility\Controller
             $this->equalTo(['No such entity with customerId = 2']),
             \Magento\Message\MessageInterface::TYPE_ERROR
         );
+    }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer_sample.php
+     */
+    public function testGridAction()
+    {
+        $this->dispatch('backend/customer/index/grid');
+
+        $body = $this->getResponse()->getBody();
+
+        $this->assertContains('test firstname test lastname', $body);
+        $this->assertContains('example@domain.com', $body);
+        $this->assertContains('+7000000001', $body);
+        $this->assertContains('United States', $body);
     }
 
     /**
@@ -834,7 +849,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
                 'website_id' => 1,
                 'firstname' => 'new firstname',
                 'lastname' => 'new lastname',
-                'email' => 'exmaple@domain.com',
+                'email' => 'example@domain.com',
                 'default_shipping' => '_item1',
                 'new_password' => 'auto',
                 'sendemail_store_id' => '1',

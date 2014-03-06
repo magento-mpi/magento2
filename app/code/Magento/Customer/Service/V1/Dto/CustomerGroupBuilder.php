@@ -1,7 +1,5 @@
 <?php
 /**
- * Customer Service Address Interface
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -9,12 +7,16 @@
  */
 namespace Magento\Customer\Service\V1\Dto;
 
+/**
+ * Class CustomerGroupBuilder
+ */
 class CustomerGroupBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
 {
     /**
-     * @param string $id
+     * Set id
      *
-     * @return CustomerGroupBuilder
+     * @param string $id
+     * @return $this
      */
     public function setId($id)
     {
@@ -22,9 +24,10 @@ class CustomerGroupBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
     }
 
     /**
-     * @param string $code
+     * Set code
      *
-     * @return CustomerGroupBuilder
+     * @param string $code
+     * @return $this
      */
     public function setCode($code)
     {
@@ -32,9 +35,10 @@ class CustomerGroupBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
     }
 
     /**
-     * @param string $taxClassId
+     * Set tax class id
      *
-     * @return CustomerGroupBuilder
+     * @param string $taxClassId
+     * @return $this
      */
     public function setTaxClassId($taxClassId)
     {

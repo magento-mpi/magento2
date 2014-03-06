@@ -62,14 +62,14 @@ abstract class Action extends \Magento\App\Action\Action
     {
         try {
             $customerId = $this->_customerSession->getCustomerId();
-            $customer = $this->_customerAccountService->getCustomer($customerId);
+            $customerDetails = $this->_customerAccountService->getCustomerDetails($customerId);
         } catch (NoSuchEntityException $e) {
             return true;
         }
 
-        if (isset($customer)) {
-            $validationResult = $this->_customerAccountService->validateCustomerData(
-                $customer,
+        if (isset($customerDetails)) {
+            $validationResult = $this->_customerAccountService->validateCustomerDetails(
+                $customerDetails,
                 $this->_customerMetadataService->getAllCustomerAttributeMetadata()
             );
             if ((true !== $validationResult) && is_array($validationResult)) {

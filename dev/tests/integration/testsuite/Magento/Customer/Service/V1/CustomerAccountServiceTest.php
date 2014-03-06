@@ -993,7 +993,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($customer->getAttribute('rp_token'));
     }
 
-
     /**
      * @magentoDbIsolation enabled
      */
@@ -1058,7 +1057,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      * @param mixed $custId
      * @dataProvider invalidCustomerIdsDataProvider
      * @expectedException \Magento\Exception\NoSuchEntityException
-     * @expectedExceptionMessage customerId
+     * @expectedExceptionMessage No such entity with customerId =
      */
     public function testGetCustomerInvalidIds($custId)
     {
@@ -1108,6 +1107,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
                 $expectedResult[$item->getCustomer()->getCustomerId()]['email'],
                 $item->getCustomer()->getEmail()
             );
+            $this->assertEquals(
+                $expectedResult[$item->getCustomer()->getCustomerId()]['firstname'],
+                $item->getCustomer()->getFirstname()
+            );
             unset($expectedResult[$item->getCustomer()->getCustomerId()]);
         }
     }
@@ -1118,12 +1121,12 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             'Customer with specific email' => [
                 [(new Dto\FilterBuilder())->setField('email')->setValue('customer@search.example.com')->create()],
                 null,
-                [1 => ['email' => 'customer@search.example.com']]
+                [1 => ['email' => 'customer@search.example.com', 'firstname' => 'Firstname']]
             ],
             'Customer with specific first name' => [
                 [(new Dto\FilterBuilder())->setField('firstname')->setValue('Firstname2')->create()],
                 null,
-                [2 => ['email' => 'customer2@search.example.com']]
+                [2 => ['email' => 'customer2@search.example.com', 'firstname' => 'Firstname2']]
             ],
             'Customers with either email' => [
                 [],
@@ -1132,8 +1135,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
                     (new Dto\FilterBuilder())->setField('firstname')->setValue('Firstname2')->create()
                 ],
                 [
-                    1 => ['email' => 'customer@search.example.com'],
-                    2 => ['email' => 'customer2@search.example.com'],
+                    1 => ['email' => 'customer@search.example.com', 'firstname' => 'Firstname'],
+                    2 => ['email' => 'customer2@search.example.com', 'firstname' => 'Firstname2'],
                 ]
             ],
             'Customers created since' => [
@@ -1141,8 +1144,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
                      ->setField('created_at')->setValue('2011-02-28 15:52:26')->setConditionType('gt')->create()],
                 [],
                 [
-                    1 => ['email' => 'customer@search.example.com'],
-                    3 => ['email' => 'customer3@search.example.com'],
+                    1 => ['email' => 'customer@search.example.com', 'firstname' => 'Firstname'],
+                    3 => ['email' => 'customer3@search.example.com', 'firstname' => 'Firstname3'],
                 ],
             ],
         ];
@@ -1161,7 +1164,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         // Filter for 'firstname' like 'First'
         $filterBuilder = new Dto\FilterBuilder();
         $firstnameFilter = $filterBuilder->
-            setField('Firstname')->setConditionType('like')->setValue('First%')->create();
+            setField('firstname')->setConditionType('like')->setValue('First%')->create();
         $searchBuilder->addFilter($firstnameFilter);
 
         // Search ascending order
@@ -1213,7 +1216,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $customer = $customerDetails->getCustomer();
         // All these expected values come from _files/customer.php fixture
         $this->assertEquals(1, $customer->getCustomerId());
-        $this->assertEquals('exmaple@domain.com', $customer->getEmail());
+        $this->assertEquals('example@domain.com', $customer->getEmail());
         $this->assertEquals('test firstname', $customer->getFirstname());
         $this->assertEquals('test lastname', $customer->getLastname());
         $this->assertEquals(3, count($customerDetails->getAddresses()));
@@ -1254,7 +1257,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testDeleteCustomerWithAddress()
     {
-        $this->markTestSkipped('Investigate how to ensure that addresses are deleted. Currently it is false negative');
         //Verify address is created for the customer;
         $result = $this->_customerAddressService->getAddresses(1);
         $this->assertEquals(2, count($result));
@@ -1267,7 +1269,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         //Verify by calling the Address Service. This will throw the expected exception since customerId doesn't exist
         $result = $this->_customerAddressService->getAddresses(1);
-        $this->assertTrue(empty($result));
     }
 
     /**
@@ -1287,23 +1288,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
-     * @magentoAppArea frontend
-     * @magentoAppIsolation enabled
-     * @expectedException \Magento\Customer\Exception
-     * @expectedExceptionMessage Cannot complete this operation from non-admin area.
-     */
-    public function testDeleteCustomerNonSecureArea()
-    {
-        $this->markTestSkipped(
-            'Investigate how to ensure that customer is not deleted. Currently it does not throw any exception'
-        );
-        /** _files/customer.php sets the customer id to 1 */
-        $this->_customerAccountService->deleteCustomer(1);
-    }
-
-
-    /**
-     * @magentoDataFixture Magento/Customer/_files/customer.php
      */
     public function testIsEmailAvailable()
     {
@@ -1317,7 +1301,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsEmailAvailableNoWebsiteSpecified()
     {
-        $this->_customerAccountService->isEmailAvailable('customer@example.com');
+        $this->_customerAccountService->isEmailAvailable('customer@example.com', null);
     }
 
     public function testIsEmailAvailableNonExistentEmail()

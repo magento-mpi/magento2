@@ -11,31 +11,34 @@ namespace Magento\Customer\Service\V1\Dto;
 
 use Magento\Service\Entity\AbstractDtoBuilder;
 
+/**
+ * Class CustomerDetailsBuilder
+ */
 class CustomerDetailsBuilder extends AbstractDtoBuilder
 {
     /**
      * Customer builder
      *
-     * @var CustomerBuilder
+     * @var \Magento\Customer\Service\V1\Dto\CustomerBuilder
      */
     protected $_customerBuilder;
 
     /**
      * Address builder
      *
-     * @var AddressBuilder
+     * @var \Magento\Customer\Service\V1\Dto\AddressBuilder
      */
     protected $_addressBuilder;
 
     /**
      * Constructor
      *
-     * @param CustomerBuilder $customerBuilder
-     * @param AddressBuilder $addressBuilder
+     * @param \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerBuilder
+     * @param \Magento\Customer\Service\V1\Dto\AddressBuilder $addressBuilder
      */
     public function __construct(
-        CustomerBuilder $customerBuilder,
-        AddressBuilder $addressBuilder
+        \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerBuilder,
+        \Magento\Customer\Service\V1\Dto\AddressBuilder $addressBuilder
     ) {
         parent::__construct();
         $this->_customerBuilder = $customerBuilder;
@@ -70,7 +73,7 @@ class CustomerDetailsBuilder extends AbstractDtoBuilder
     /**
      * Set customer
      *
-     * @param Customer $customer
+     * @param \Magento\Customer\Service\V1\Dto\Customer $customer
      * @return $this
      */
     public function setCustomer(Customer $customer)
@@ -81,7 +84,7 @@ class CustomerDetailsBuilder extends AbstractDtoBuilder
     /**
      * Set addresses
      *
-     * @param Address[]|null $addresses
+     * @param \Magento\Customer\Service\V1\Dto\Address[]|null $addresses
      * @return $this
      */
     public function setAddresses($addresses)
@@ -92,7 +95,7 @@ class CustomerDetailsBuilder extends AbstractDtoBuilder
     /**
      * Builds the entity.
      *
-     * @return CustomerDetails
+     * @return \Magento\Customer\Service\V1\Dto\CustomerDetails
      */
     public function create()
     {

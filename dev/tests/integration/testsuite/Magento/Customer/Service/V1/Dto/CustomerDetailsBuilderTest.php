@@ -59,7 +59,7 @@ class CustomerDetailsBuilderTest extends \PHPUnit_Framework_TestCase
             'website_id' => 1,
             'firstname' => 'test firstname',
             'lastname' => 'test lastname',
-            'email' => 'exmaple@domain.com',
+            'email' => 'example@domain.com',
             'default_billing' => '_item1',
             'password' => '123123q'
         ];
@@ -138,7 +138,7 @@ class CustomerDetailsBuilderTest extends \PHPUnit_Framework_TestCase
             'website_id' => 1,
             'firstname' => 'test firstname',
             'lastname' => 'test lastname',
-            'email' => 'exmaple@domain.com',
+            'email' => 'example@domain.com',
             'default_billing' => '_item1',
             'password' => '123123q'
         ];
@@ -212,7 +212,7 @@ class CustomerDetailsBuilderTest extends \PHPUnit_Framework_TestCase
             'website_id' => 1,
             'firstname' => 'test firstname',
             'lastname' => 'test lastname',
-            'email' => 'exmaple@domain.com',
+            'email' => 'example@domain.com',
             'default_billing' => '_item1',
             'password' => '123123q'
         ];
@@ -294,7 +294,7 @@ class CustomerDetailsBuilderTest extends \PHPUnit_Framework_TestCase
             'website_id' => 1,
             'firstname' => 'test firstname',
             'lastname' => 'test lastname',
-            'email' => 'exmaple@domain.com',
+            'email' => 'example@domain.com',
             'default_billing' => '_item1',
             'password' => '123123q'
         ];

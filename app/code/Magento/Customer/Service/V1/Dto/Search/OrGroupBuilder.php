@@ -8,9 +8,6 @@
 
 namespace Magento\Customer\Service\V1\Dto\Search;
 
-use Magento\Customer\Service\V1\Dto\Filter;
-use Magento\Service\Entity\AbstractDtoBuilder;
-
 /**
  * Builder for OrGroup DTO.
  */

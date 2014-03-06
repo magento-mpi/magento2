@@ -8,8 +8,6 @@
 
 namespace Magento\Customer\Service\V1\Dto\Search;
 
-use Magento\Service\Entity\AbstractDto;
-
 /**
  * Groups two or more filters together using logical OR.
  */
