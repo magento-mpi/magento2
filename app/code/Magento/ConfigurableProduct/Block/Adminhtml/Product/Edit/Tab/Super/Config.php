@@ -12,6 +12,7 @@ namespace Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super;
 use Magento\Backend\Block\Widget;
 use Magento\Backend\Block\Widget\Tab\TabInterface;
 use Magento\Catalog\Model\Product;
+use Magento\ConfigurableProduct\Model\Product\Type\Configurable;
 
 /**
  * Adminhtml catalog super product configurable tab
