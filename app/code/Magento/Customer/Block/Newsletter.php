@@ -46,6 +46,7 @@ class Newsletter extends \Magento\Customer\Block\Account\Dashboard
 
     /**
      * @return bool
+     * @SuppressWarnings(PHPMD.BooleanGetMethodName)
      */
     public function getIsSubscribed()
     {
