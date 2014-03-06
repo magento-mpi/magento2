@@ -17,7 +17,7 @@ use Mtf\TestRunner\Configuration;
  *
  * @package Mtf\TestSuite
  */
-class InjectableTests extends TestSuite
+class InjectableTests extends \PHPUnit_Framework_TestSuite
 {
     /**
      * @var ObjectManager
