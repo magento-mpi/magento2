@@ -136,7 +136,8 @@ require.config({
     "baseUrl": "http://base.url/area/theme/locale",
     "paths": {
         "magento": "mage/requirejs/plugin/id-normalizer"
-    }
+    },
+    "waitSeconds": 200
 });
 
 expected;
