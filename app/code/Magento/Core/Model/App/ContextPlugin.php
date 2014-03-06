@@ -53,7 +53,7 @@ class ContextPlugin
         $this->httpContext->setValue(\Magento\Core\Helper\Data::CONTEXT_CURRENCY,
             $this->session->getCurrencyCode());
         $this->httpContext->setValue(\Magento\Core\Helper\Data::CONTEXT_STORE,
-            $this->httpRequest->getParam('__store',
+            $this->httpRequest->getParam('___store',
                 $this->httpRequest->getCookie(\Magento\Core\Model\Store::COOKIE_NAME))
             );
     }

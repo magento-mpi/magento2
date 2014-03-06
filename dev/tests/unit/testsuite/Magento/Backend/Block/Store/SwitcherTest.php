@@ -24,10 +24,33 @@ class SwitcherTest extends \PHPUnit_Framework_TestCase
     protected $_storeManagerMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\StoreManager|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_websiteFactoryMock;
 
+    /**
+     * @var \Magento\View\Element\Template\Context|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_contextMock;
+
+    /**
+     * @var \Magento\Core\Helper\PostData|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_helperMock;
+
+    /**
+     * @var \Magento\Core\Block\Switcher
+     */
+    protected $_block;
+
+    /**
+     * @var \Magento\Core\Model\Store
+     */
+    protected $_storeMock;
+
+    /**
+     * Set up
+     */
     protected function setUp()
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
@@ -157,5 +180,39 @@ class SwitcherTest extends \PHPUnit_Framework_TestCase
         $this->_storeManagerMock->expects($this->once())->method('getWebsites')->will($this->returnValue($webSites));
 
         $this->assertEquals($expected, $this->_object->getWebsites());
+    }
+
+    /**
+     *
+     */
+    public function testGetTargetStorePostData()
+    {
+        $targetStoreId   = 1;
+        $targetStoreCode = 'TargetStoreName';
+        $targetStoreUrl  = 'target-store-url';
+        $expectedResult  = 'serialised-result';
+
+        $this->_contextMock = $this->getMock('Magento\View\Element\Template\Context',
+            array(), array(), '', false);
+        $this->_helperMock = $this->getMock('Magento\Core\Helper\PostData',
+            array(), array(), '', false);
+        $this->_storeMock = $this->getMock('Magento\Core\Model\Store',
+            array('getCode', '__wakeup'), array(), '', false);
+
+        $this->_storeMock->expects($this->once())
+            ->method('getCode')
+            ->will($this->returnValue($targetStoreCode));
+
+        $this->_helperMock->expects($this->once())
+            ->method('getPostData')
+            ->with($this->equalTo($targetStoreUrl), $this->equalTo(array(
+                '___store' => $targetStoreCode
+            )))
+            ->will($this->returnValue($expectedResult));
+
+        $this->_block = new \Magento\Core\Block\Switcher($this->_contextMock, $this->_helperMock);
+        $this->_block->setHomeUrl($targetStoreUrl);
+        $actualResult = $this->_block->getTargetStorePostData($this->_storeMock);
+        $this->assertEquals($expectedResult, $actualResult);
     }
 }

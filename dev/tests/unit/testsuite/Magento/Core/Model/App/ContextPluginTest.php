@@ -71,7 +71,7 @@ class ContextPluginTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue('UAH'));
         $this->httpRequestMock->expects($this->once())
             ->method('getParam')
-            ->with($this->equalTo('__store'))
+            ->with($this->equalTo('___store'))
             ->will($this->returnValue(0));
         $this->httpRequestMock->expects($this->once())
             ->method('getCookie')

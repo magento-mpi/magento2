@@ -249,15 +249,15 @@ class Db implements StorageInterface
      */
     protected function _checkGetStore($type)
     {
-        if (empty($_GET)) {
+        if (empty($_POST)) {
             return;
         }
 
-        if (!isset($_GET['___store'])) {
+        if (!isset($_POST['___store'])) {
             return;
         }
 
-        $store = $_GET['___store'];
+        $store = $_POST['___store'];
         if (!isset($this->_stores[$store])) {
             return;
         }

@@ -86,7 +86,7 @@ class CustomerCurrentService implements \Magento\Customer\Service\V1\CustomerCur
      */
     protected function getCustomerFromService()
     {
-        return $this->customerService->getCustomer($this->customerSession->getId());
+        return $this->customerService->getCustomer($this->getCustomerId());
     }
 
     /**
