@@ -30,6 +30,13 @@ class Switcher extends \Magento\View\Element\Template
      */
     protected $_postDataHelper;
 
+    /**
+     * Constructs
+     *
+     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Core\Helper\PostData $postDataHelper
+     * @param array $data
+     */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Core\Helper\PostData $postDataHelper,
@@ -210,7 +217,7 @@ class Switcher extends \Magento\View\Element\Template
      * @param \Magento\Core\Model\Store $store
      * @return string
      */
-    public function getTargetStorePostData($store)
+    public function getTargetStorePostData(\Magento\Core\Model\Store $store)
     {
         return $this->_postDataHelper->getPostData($this->getHomeUrl(), array(
             '___store' => $store->getCode()
