@@ -23,6 +23,8 @@ class Customer extends \Magento\Backend\Block\Widget\Grid\Container
 
     /**
      * Constructor
+     *
+     * @return void
      */
     protected function _construct()
     {
