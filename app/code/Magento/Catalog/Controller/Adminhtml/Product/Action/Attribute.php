@@ -98,8 +98,8 @@ class Attribute extends Action
 
         try {
             if ($attributesData) {
-                $dateFormat = $this->_objectManager->get('Magento\LocaleInterface')
-                    ->getDateFormat(\Magento\LocaleInterface::FORMAT_TYPE_SHORT);
+                $dateFormat = $this->_objectManager->get('Magento\Stdlib\DateTime\TimezoneInterface')
+                    ->getDateFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
                 $storeId    = $this->_helper->getSelectedStoreId();
 
                 foreach ($attributesData as $attributeCode => $value) {

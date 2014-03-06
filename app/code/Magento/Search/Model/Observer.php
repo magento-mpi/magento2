@@ -7,12 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Search\Model;
 
+use Magento\Event\Observer as EventObserver;
 /**
  * Enterprise search model observer
  */
-namespace Magento\Search\Model;
-
 class Observer
 {
     /**
@@ -65,6 +65,8 @@ class Observer
     protected $_coreRegistry = null;
 
     /**
+     * Engine provider
+     *
      * @var \Magento\CatalogSearch\Model\Resource\EngineProvider
      */
     protected $_engineProvider = null;
@@ -123,11 +125,12 @@ class Observer
 
     /**
      * Add search weight field to attribute edit form (only for quick search)
-     * @see \Magento\Catalog\Block\Adminhtml\Product\Attribute\Edit\Tab\Main
      *
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
+     * @return void
+     * @see \Magento\Catalog\Block\Adminhtml\Product\Attribute\Edit\Tab\Main
      */
-    public function eavAttributeEditFormInit(\Magento\Event\Observer $observer)
+    public function eavAttributeEditFormInit(EventObserver $observer)
     {
         if (!$this->_searchData->isThirdPartyEngineAvailable()) {
             return;
@@ -155,9 +158,10 @@ class Observer
     /**
      * Save search query relations after save search query
      *
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
+     * @return void
      */
-    public function searchQueryEditFormAfterSave(\Magento\Event\Observer $observer)
+    public function searchQueryEditFormAfterSave(EventObserver $observer)
     {
         $searchQuryModel = $observer->getEvent()->getDataObject();
         $queryId         = $searchQuryModel->getId();
@@ -178,9 +182,10 @@ class Observer
      * because there are all combinations of customer groups and websites per price stored at search engine index
      * and there will be no document's price field for customers that belong to new group or data will be not actual.
      *
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
+     * @return void
      */
-    public function customerGroupSaveAfter(\Magento\Event\Observer $observer)
+    public function customerGroupSaveAfter(EventObserver $observer)
     {
         if (!$this->_searchData->isThirdPartyEngineAvailable()) {
             return;
@@ -196,9 +201,10 @@ class Observer
     /**
      * Store searchable attributes at adapter to avoid new collection load there
      *
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
+     * @return void
      */
-    public function storeSearchableAttributes(\Magento\Event\Observer $observer)
+    public function storeSearchableAttributes(EventObserver $observer)
     {
         $engine     = $observer->getEvent()->getEngine();
         $attributes = $observer->getEvent()->getAttributes();
@@ -232,9 +238,10 @@ class Observer
      * Save store ids for website or store group before deleting
      * because lazy load for this property is used and this info is unavailable after deletion
      *
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
+     * @return void
      */
-    public function saveStoreIdsBeforeScopeDelete(\Magento\Event\Observer $observer)
+    public function saveStoreIdsBeforeScopeDelete(EventObserver $observer)
     {
         $object = $observer->getEvent()->getDataObject();
         $object->getStoreIds();
@@ -243,9 +250,10 @@ class Observer
     /**
      * Clear index data for deleted stores
      *
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
+     * @return void
      */
-    public function clearIndexForStores(\Magento\Event\Observer $observer)
+    public function clearIndexForStores(EventObserver $observer)
     {
         if (!$this->_searchData->isThirdPartyEngineAvailable()) {
             return;
@@ -270,9 +278,10 @@ class Observer
     /**
      * Reset search engine if it is enabled for catalog navigation
      *
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
+     * @return void
      */
-    public function resetCurrentCatalogLayer(\Magento\Event\Observer $observer)
+    public function resetCurrentCatalogLayer(EventObserver $observer)
     {
         if ($this->_searchData->getIsEngineAvailableForNavigation()) {
             $this->_coreRegistry->register('current_layer', $this->_searchCatalogLayer);
@@ -282,9 +291,10 @@ class Observer
     /**
      * Reset search engine if it is enabled for search navigation
      *
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
+     * @return void
      */
-    public function resetCurrentSearchLayer(\Magento\Event\Observer $observer)
+    public function resetCurrentSearchLayer(EventObserver $observer)
     {
         if ($this->_searchData->getIsEngineAvailableForNavigation(false)) {
             $this->_coreRegistry->register('current_layer', $this->_searchSearchLayer);
@@ -294,9 +304,10 @@ class Observer
     /**
      * Reindex data after price reindex
      *
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
+     * @return void
      */
-    public function runFulltextReindexAfterPriceReindex(\Magento\Event\Observer $observer)
+    public function runFulltextReindexAfterPriceReindex(EventObserver $observer)
     {
         if (!$this->_searchData->isThirdPartyEngineAvailable()) {
             return;

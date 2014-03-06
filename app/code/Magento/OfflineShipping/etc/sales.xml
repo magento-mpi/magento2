@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <section name="quote">
+        <group name="totals">
+            <item name="freeshipping" instance="Magento\OfflineShipping\Model\Quote\Freeshipping" sort_order="150"/>
+        </group>
+    </section>
+</config>

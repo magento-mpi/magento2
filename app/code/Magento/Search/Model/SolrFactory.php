@@ -5,12 +5,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Search\Model;
 
 class SolrFactory implements \Magento\Search\Model\FactoryInterface
 {
     /**
+     * Object manager
+     *
      * @var \Magento\ObjectManager
      */
     protected $_objectManager;
@@ -24,10 +25,7 @@ class SolrFactory implements \Magento\Search\Model\FactoryInterface
     }
 
     /**
-     * Return search client
-     *
-     * @param array $options
-     * @return SolrClient
+     * {@inheritdoc}
      */
     public function createClient(array $options = array())
     {
@@ -35,9 +33,7 @@ class SolrFactory implements \Magento\Search\Model\FactoryInterface
     }
 
     /**
-     * Return search adapter
-     *
-     * @return \Magento\Search\Model\Adapter\PhpExtension
+     * {@inheritdoc}
      */
     public function createAdapter()
     {

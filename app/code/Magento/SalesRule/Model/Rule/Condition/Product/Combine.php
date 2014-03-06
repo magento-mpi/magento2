@@ -7,9 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\SalesRule\Model\Rule\Condition\Product;
+
+use Magento\Catalog\Model\Resource\Product\Collection;
 
 class Combine extends \Magento\Rule\Model\Condition\Combine
 {
@@ -34,6 +34,8 @@ class Combine extends \Magento\Rule\Model\Condition\Combine
     }
 
     /**
+     * Get new child select options
+     *
      * @return array
      */
     public function getNewChildSelectOptions()
@@ -68,7 +70,9 @@ class Combine extends \Magento\Rule\Model\Condition\Combine
     }
 
     /**
-     * @param $productCollection
+     * Collect validated attributes
+     *
+     * @param Collection $productCollection
      * @return $this
      */
     public function collectValidatedAttributes($productCollection)

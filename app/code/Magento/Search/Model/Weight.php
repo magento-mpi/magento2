@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Search\Model;
 
 /**
  * Quick search weight model
@@ -15,14 +16,12 @@
  * @package    Magento_Search
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Search\Model;
-
 class Weight
 {
     /**
      * Quick search weights
      *
-     * @var array
+     * @var int[]
      */
     static protected $weights = array(
         1,
@@ -52,7 +51,7 @@ class Weight
     /**
      * Retrieve search weights array
      *
-     * @return array
+     * @return int[]
      */
     static public function getValues()
     {

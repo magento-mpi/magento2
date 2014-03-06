@@ -312,7 +312,7 @@ class Shipping extends \Magento\Core\Model\AbstractModel
      * Retrieves shipping label for current rma
      *
      * @param Rma|int $rma
-     * @return string
+     * @return \Magento\Object
      */
     public function getShippingLabelByRma($rma)
     {
