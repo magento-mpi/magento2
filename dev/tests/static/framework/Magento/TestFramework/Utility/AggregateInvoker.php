@@ -51,13 +51,13 @@ class AggregateInvoker
      */
     public function __invoke(callable $callback, array $dataSource)
     {
-        $exceptionDumper = function (\Exception $exception, $dataSet) {
-            $dataSet = $exception instanceof \PHPUnit_Framework_AssertionFailedError
+        $exceptionDumper = function (\Exception $exception, $dataSetName) {
+            $dataSetName = $exception instanceof \PHPUnit_Framework_AssertionFailedError
                 && !$exception instanceof \PHPUnit_Framework_IncompleteTestError
                 && !$exception instanceof \PHPUnit_Framework_SkippedTestError
                 || $this->_options['verbose']
-                ? 'Data set: ' . var_export($dataSet, true) . PHP_EOL : '';
-            return $dataSet . $exception->getMessage() . PHP_EOL
+                ? 'Data set: ' . $dataSetName . PHP_EOL : '';
+            return $dataSetName . $exception->getMessage() . PHP_EOL
                 . \PHPUnit_Util_Filter::getFilteredStacktrace($exception);
         };
         $results = [
@@ -66,16 +66,17 @@ class AggregateInvoker
             'PHPUnit_Framework_AssertionFailedError' => [],
         ];
         $passed = 0;
-        foreach ($dataSource as $dataSet) {
+        foreach ($dataSource as $k => $dataSet) {
+            $dataSetName = is_int($k) ? $dataSet : $k;
             try {
                 call_user_func_array($callback, $dataSet);
                 $passed++;
             } catch (\PHPUnit_Framework_IncompleteTestError $exception) {
-                $results[get_class($exception)][] = $exceptionDumper($exception, $dataSet);
+                $results[get_class($exception)][] = $exceptionDumper($exception, $dataSetName);
             } catch (\PHPUnit_Framework_SkippedTestError $exception) {
-                $results[get_class($exception)][] = $exceptionDumper($exception, $dataSet);
+                $results[get_class($exception)][] = $exceptionDumper($exception, $dataSetName);
             } catch (\PHPUnit_Framework_AssertionFailedError $exception) {
-                $results['PHPUnit_Framework_AssertionFailedError'][] = $exceptionDumper($exception, $dataSet);
+                $results['PHPUnit_Framework_AssertionFailedError'][] = $exceptionDumper($exception, $dataSetName);
             }
         }
         $this->processResults($results, $passed);

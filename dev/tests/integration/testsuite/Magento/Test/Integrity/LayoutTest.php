@@ -309,7 +309,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
         /** @var $theme \Magento\View\Design\ThemeInterface */
         foreach ($themeCollection as $theme) {
             foreach ($filesRetriever->getFiles($theme, '*.xml') as $file) {
-                $result[] = array($file, $theme);
+                $result['theme: ' . $theme->getFullPath() . ', ' . $file->getFilename()] = array($file, $theme);
             }
         }
         return $result;
