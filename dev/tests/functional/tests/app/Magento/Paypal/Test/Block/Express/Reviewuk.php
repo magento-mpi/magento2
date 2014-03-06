@@ -19,5 +19,10 @@ namespace Magento\Paypal\Test\Block\Express;
  */
 class Reviewuk extends Review
 {
-    //
+    /**
+     * Shipping methods dropdown
+     *
+     * @var string
+     */
+    protected $shippingMethod = '#shipping-method';
 }
