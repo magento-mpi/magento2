@@ -269,9 +269,6 @@ class Status extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function addIsInStockFilterToCollection($collection)
     {
-        if ($collection->hasFlag('applied_stock_status_limitation')) {
-            return $this;
-        }
         $websiteId = $this->_storeManager->getStore($collection->getStoreId())->getWebsiteId();
         $joinCondition = $this->_getReadAdapter()
             ->quoteInto('e.entity_id = stock_status_index.product_id'
@@ -290,7 +287,6 @@ class Status extends \Magento\Core\Model\Resource\Db\AbstractDb
                 array()
             )
             ->where('stock_status_index.stock_status=?', \Magento\CatalogInventory\Model\Stock\Status::STATUS_IN_STOCK);
-        $collection->setFlag('applied_stock_status_limitation', true);
         return $this;
     }
 

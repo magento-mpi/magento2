@@ -69,18 +69,12 @@ class LayerTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(false));
 
         $collectionMock = $this->getMock(
-            '\Magento\Catalog\Model\Resource\Product\Collection',
-            array('hasFlag', 'setFlag'),
-            array(),
-            '',
-            false
+            '\Magento\Catalog\Model\Resource\Product\Collection', array(), array(), '', false
         );
 
         $this->_stockStatusMock->expects($this->once())->method('addIsInStockFilterToCollection')
             ->with($collectionMock);
 
-        $collectionMock->expects($this->any())->method('hasFlag')->will($this->returnValue(false));
-        $collectionMock->expects($this->any())->method('setFlag')->with('applied_stock_status_limitation', true);
         $subjectMock = $this->getMock('\Magento\Catalog\Model\Layer', array(), array(), '', false);
         $this->_model->beforePrepareProductCollection($subjectMock, $collectionMock);
     }
