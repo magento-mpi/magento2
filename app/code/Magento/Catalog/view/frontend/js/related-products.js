@@ -73,7 +73,7 @@
          */
         _showRelatedProducts: function(elements, limit, shuffle) {
             if (shuffle) {
-                this._shuffle(elements)
+                this._shuffle(elements);
             }
             for (var index = 0; index < limit; index++) {
                 $(elements[index]).show();
