@@ -537,10 +537,7 @@ class Onepage
         $customerDetails = $this->_customerDetailsBuilder->setCustomer($customer)->create();
         $result = $this->_customerAccountService->validateCustomerDetails($customerDetails, $attributes);
         if (true !== $result && is_array($result)) {
-            return array(
-                'error'   => -1,
-                'message' => implode(', ', $result)
-            );
+            return $result;
         }
 
         // copy customer/guest email to address

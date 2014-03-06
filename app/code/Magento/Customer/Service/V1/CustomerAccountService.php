@@ -528,7 +528,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         if ($customerErrors !== true) {
             return array(
                 'error'     => -1,
-                'message'   => implode(', ', $customerErrors)
+                'message'   =>  $customerErrors
             );
         }
 
@@ -557,11 +557,10 @@ class CustomerAccountService implements CustomerAccountServiceInterface
             'customer'
         );
 
-        // FIXME: $customerErrors is a boolean but we are treating it as an array here
         if ($customerErrors !== true) {
             return [
                 'error'   => -1,
-                'message' => implode(', ', $customerErrors)
+                'message' => implode(', ', $this->_validator->getMessages())
             ];
         }
 
@@ -581,13 +580,14 @@ class CustomerAccountService implements CustomerAccountServiceInterface
                 $this->_customerAddressService->validateAddresses($addresses);
             }
         } catch (InputException $exception) {
-            $returnErrors = [];
+            $messages = [];
             foreach ($exception->getErrors() as $error) {
-                $returnErrors[] = [
-                    'error'   => -1,
-                    'message' => InputException::translateError($error)
-                ];
+                $messages[] =  InputException::translateError($error);
             }
+            return [
+                'error'   => -1,
+                'message' => implode(', ', $messages)
+            ];
         }
 
         return true;

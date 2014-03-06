@@ -74,9 +74,7 @@ abstract class Action extends \Magento\App\Action\Action
             );
             if ((true !== $validationResult) && is_array($validationResult)) {
                 if ($addErrors) {
-                    foreach ($validationResult as $error) {
-                        $this->messageManager->addError($error);
-                    }
+                    $this->messageManager->addError($validationResult['message']);
                 }
                 if ($redirect) {
                     $this->_redirect('customer/account/edit');
