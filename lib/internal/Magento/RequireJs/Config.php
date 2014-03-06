@@ -137,6 +137,8 @@ config;
             'paths' => array(
                 'magento' => 'mage/requirejs/plugin/id-normalizer',
             ),
+            //If normalizer is required long after this declaration, it could be not enough standard time to load it
+            'waitSeconds' => 200,
         );
         $config = json_encode($config, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
         return "require.config($config);\n";

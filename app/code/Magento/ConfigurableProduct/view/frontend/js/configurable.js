@@ -6,7 +6,7 @@
  */
 /*jshint browser:true jquery:true*/
 
-(function($, undefined) {
+define(["jquery", "jquery.parsequery"], function($){
     $.widget('mage.configurable', {
         options: {
             superSelector: '.super-attribute-select',
@@ -422,4 +422,4 @@
             return price;
         }
     });
-})(jQuery);
+});
