@@ -20,8 +20,8 @@ class Context implements \Magento\Object\IdentityInterface
     /**
      * Register entity Ids
      *
-     * @param $cacheTag
-     * @param $ids
+     * @param string $cacheTag
+     * @param array $ids
      * @return $this
      */
     public function registerEntities($cacheTag, $ids)
@@ -34,7 +34,7 @@ class Context implements \Magento\Object\IdentityInterface
     /**
      * Returns registered entities
      *
-     * @param $cacheTag
+     * @param string $cacheTag
      * @return array
      */
     public function getRegisteredEntity($cacheTag)

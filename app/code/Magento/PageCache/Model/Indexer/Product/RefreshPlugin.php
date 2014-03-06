@@ -7,7 +7,9 @@
 
 namespace Magento\PageCache\Model\Indexer\Product;
 
-
+/**
+ * Class RefreshPlugin
+ */
 class RefreshPlugin
 {
     /**

@@ -83,6 +83,9 @@ class BuiltinPluginTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('getType')
             ->will($this->returnValue(\Magento\PageCache\Model\Config::BUILT_IN));
+        $this->configMock->expects($this->once())
+            ->method('isEnabled')
+            ->will($this->returnValue(true));
         $this->versionMock
             ->expects($this->once())
             ->method('process');
@@ -120,6 +123,9 @@ class BuiltinPluginTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('getType')
             ->will($this->returnValue(\Magento\PageCache\Model\Config::BUILT_IN));
+        $this->configMock->expects($this->once())
+            ->method('isEnabled')
+            ->will($this->returnValue(true));
         $this->versionMock
             ->expects($this->once())
             ->method('process');
@@ -151,6 +157,9 @@ class BuiltinPluginTest extends \PHPUnit_Framework_TestCase
             ->expects($this->any())
             ->method('getType')
             ->will($this->returnValue(null));
+        $this->configMock->expects($this->any())
+            ->method('isEnabled')
+            ->will($this->returnValue(true));
         $this->versionMock
             ->expects($this->never())
             ->method('process');

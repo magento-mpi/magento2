@@ -23,7 +23,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\PageCache\Model\Config */
     protected $_configMock;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\CacheInvalidate\Helper\Data */
+    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\PageCache\Helper\Data */
     protected $_helperMock;
 
     /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Object\ */
