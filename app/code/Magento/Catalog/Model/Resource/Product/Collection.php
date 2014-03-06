@@ -451,6 +451,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     /**
      * Define product website and category product tables
      *
+     * @return void
      */
     protected function _initTables()
     {

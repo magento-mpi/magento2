@@ -174,7 +174,6 @@ abstract class AbstractAction
      * Return temporary table name by regular table name
      *
      * @param string $tableName
-     *
      * @return string
      */
     protected function _getTemporaryTableName($tableName)
@@ -187,6 +186,7 @@ abstract class AbstractAction
      *
      * @param array $tablesList
      * @param int|string $storeId
+     * @return void
      */
     protected function _cleanOnFailure(array $tablesList, $storeId)
     {
@@ -202,7 +202,7 @@ abstract class AbstractAction
      *
      * @param int $storeId
      * @param array $changedIds
-     *
+     * @return void
      * @throws \Exception
      */
     protected function _reindex($storeId, array $changedIds = array())
@@ -228,6 +228,7 @@ abstract class AbstractAction
      *
      * @param array $ids
      * @param int $storeId
+     * @return void
      */
     protected function _removeDeletedProducts(array &$ids, $storeId)
     {
@@ -521,6 +522,7 @@ abstract class AbstractAction
      *
      * @param int|array $productId
      * @param null|int $storeId
+     * @return void
      */
     public function deleteProductsFromStore($productId, $storeId = null)
     {
@@ -561,9 +563,10 @@ abstract class AbstractAction
     }
 
     /**
-     * set valid state
+     * Set valid state
      *
-     * @param $versionId
+     * @param int $versionId
+     * @return void
      */
     protected function _setValidState($versionId)
     {
@@ -583,6 +586,8 @@ abstract class AbstractAction
 
     /**
      * Set invalid state
+     *
+     * @return void
      */
     protected function _setInvalidState()
     {
@@ -590,7 +595,9 @@ abstract class AbstractAction
     }
 
     /**
-     * set processing state
+     * Set processing state
+     *
+     * @return void
      */
     protected function _setProcessingState()
     {

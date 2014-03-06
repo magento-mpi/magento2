@@ -47,9 +47,10 @@ class TableBuilder
     /**
      * Prepare temporary tables only for first call of reindex all
      *
-     * @param $storeId
-     * @param $changedIds
-     * @param $valueFieldSuffix
+     * @param int $storeId
+     * @param array $changedIds
+     * @param string $valueFieldSuffix
+     * @return void
      */
     public function build($storeId, $changedIds, $valueFieldSuffix)
     {
@@ -193,6 +194,7 @@ class TableBuilder
      * @param string $tableName
      * @param array  $columns
      * @param array  $changedIds
+     * @return void
      */
     protected function _fillTemporaryEntityTable($tableName, array $columns, array $changedIds = array())
     {
@@ -225,6 +227,7 @@ class TableBuilder
      *
      * @param string $tableName
      * @param string $columnName
+     * @return void
      */
     protected function _addPrimaryKeyToTable($tableName, $columnName = 'entity_id')
     {
@@ -244,6 +247,7 @@ class TableBuilder
      * @param array  $changedIds
      * @param string $valueFieldSuffix
      * @param int $storeId
+     * @return void
      */
     protected function _fillTemporaryTable(
         $tableName, array $tableColumns, array $changedIds, $valueFieldSuffix, $storeId
