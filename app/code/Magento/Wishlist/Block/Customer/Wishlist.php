@@ -50,7 +50,6 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
      * @param \Magento\Theme\Helper\Layout $layoutHelper
      * @param \Magento\Catalog\Helper\Image $imageHelper
      * @param \Magento\App\Http\Context $httpContext
-     * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Catalog\Helper\Product\ConfigurationPool $helperPool
      * @param \Magento\Data\Form\FormKey $formKey
@@ -72,7 +71,6 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
         \Magento\Theme\Helper\Layout $layoutHelper,
         \Magento\Catalog\Helper\Image $imageHelper,
         \Magento\App\Http\Context $httpContext,
-        \Magento\Customer\Model\Session $customerSession,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Catalog\Helper\Product\ConfigurationPool $helperPool,
         \Magento\Data\Form\FormKey $formKey,
@@ -94,7 +92,6 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
             $layoutHelper,
             $imageHelper,
             $httpContext,
-            $customerSession,
             $productFactory,
             $data,
             $priceBlockTypes

@@ -33,7 +33,6 @@ class Management extends \Magento\Wishlist\Block\Customer\Wishlist\Item\Column
      * @param \Magento\Theme\Helper\Layout $layoutHelper
      * @param \Magento\Catalog\Helper\Image $imageHelper
      * @param \Magento\App\Http\Context $httpContext
-     * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer
      * @param array $data
@@ -54,7 +53,6 @@ class Management extends \Magento\Wishlist\Block\Customer\Wishlist\Item\Column
         \Magento\Theme\Helper\Layout $layoutHelper,
         \Magento\Catalog\Helper\Image $imageHelper,
         \Magento\App\Http\Context $httpContext,
-        \Magento\Customer\Model\Session $customerSession,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer,
         array $data = array(),
@@ -73,7 +71,6 @@ class Management extends \Magento\Wishlist\Block\Customer\Wishlist\Item\Column
             $layoutHelper,
             $imageHelper,
             $httpContext,
-            $customerSession,
             $productFactory,
             $data,
             $priceBlockTypes
