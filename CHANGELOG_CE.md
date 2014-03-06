@@ -36,6 +36,8 @@
   * Fixed possibility of XSS injection in the Integration re-authorization flow
   * Fixed cancellation of the Billing Agreement from backend
   * Fixed debug section in the developer settings
+  * Fixed unreliable implementation of fetching authorization header via SOAP
+  * Fixed WSDL generation error reporting issues
 * Modularity improvements:
   * Eliminate dependencies to Customer Models/Blocks from Sales Module
   * Resolved dependencies of Sales module on RecurringProfile module
