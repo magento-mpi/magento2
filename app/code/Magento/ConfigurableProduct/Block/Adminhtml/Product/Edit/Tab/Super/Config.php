@@ -16,7 +16,6 @@ namespace Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super;
 use \Magento\ConfigurableProduct\Model\Product\Type\Configurable;
 
 use Magento\Catalog\Model\Product;
-use Magento\LocaleInterface;
 
 class Config
     extends \Magento\Backend\Block\Widget
@@ -44,6 +43,11 @@ class Config
     protected $_configurableType;
 
     /**
+     * @var \Magento\Locale\CurrencyInterface
+     */
+    protected $_localeCurrency;
+
+    /**
      * @var \Magento\Json\EncoderInterface
      */
     protected $_jsonEncoder;
@@ -60,6 +64,7 @@ class Config
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Registry $coreRegistry
      * @param \Magento\App\ConfigInterface $config
+     * @param \Magento\Locale\CurrencyInterface $localeCurrency
      * @param array $data
      */
     public function __construct(
@@ -69,6 +74,7 @@ class Config
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Registry $coreRegistry,
         \Magento\App\ConfigInterface $config,
+        \Magento\Locale\CurrencyInterface $localeCurrency,
         array $data = array()
     ) {
         $this->_configurableType = $configurableType;
@@ -76,6 +82,7 @@ class Config
         $this->_catalogData = $catalogData;
         $this->_jsonEncoder = $jsonEncoder;
         $this->_config = $config;
+        $this->_localeCurrency = $localeCurrency;
         parent::__construct($context, $data);
     }
 
@@ -132,7 +139,7 @@ class Config
     public function isAttributesPricesReadonly()
     {
         return $this->getProduct()->getAttributesConfigurationReadonly() ||
-            ($this->_catalogData->isPriceGlobal() && $this->isReadonly());
+        ($this->_catalogData->isPriceGlobal() && $this->isReadonly());
     }
 
     /**
@@ -163,9 +170,9 @@ class Config
                             'target' => '#product-variations-matrix',
                             'eventData' => array(
                                 'url' => $this->getUrl(
-                                    'catalog/product_generateVariations/index',
-                                    array('_current' => true)
-                                ),
+                                        'catalog/product_generateVariations/index',
+                                        array('_current' => true)
+                                    ),
                             ),
                         ),
                     ),
@@ -183,20 +190,20 @@ class Config
                     'mage-init' => array(
                         'configurableAttribute' => array(
                             'url' => $this->getUrl(
-                                'catalog/product_attribute/new',
-                                array(
-                                    'store' => $this->getProduct()->getStoreId(),
-                                    'product_tab' => 'variations',
-                                    'popup' => 1,
-                                    '_query' => array(
-                                        'attribute' => array(
-                                            'is_global' => 1,
-                                            'frontend_input' => 'select',
-                                            'is_configurable' => 1
-                                        ),
+                                    'catalog/product_attribute/new',
+                                    array(
+                                        'store' => $this->getProduct()->getStoreId(),
+                                        'product_tab' => 'variations',
+                                        'popup' => 1,
+                                        '_query' => array(
+                                            'attribute' => array(
+                                                'is_global' => 1,
+                                                'frontend_input' => 'select',
+                                                'is_configurable' => 1
+                                            ),
+                                        )
                                     )
                                 )
-                            )
                         )
                     )
                 ),
@@ -396,21 +403,13 @@ class Config
     }
 
     /**
-     * @return \Magento\LocaleInterface
-     */
-    public function getLocale()
-    {
-        return $this->_locale;
-    }
-
-    /**
      * Get base application currency
      *
      * @return \Zend_Currency
      */
     public function getBaseCurrency()
     {
-        return $this->getLocale()->currency(
+        return $this->_localeCurrency->getCurrency(
             $this->_config->getValue(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE, 'default')
         );
     }

@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Rss\Block\Catalog;
 
 /**
  * Review form block
  */
-namespace Magento\Rss\Block\Catalog;
-
 class Salesrule extends \Magento\Rss\Block\AbstractBlock
 {
     /**
@@ -44,6 +43,9 @@ class Salesrule extends \Magento\Rss\Block\AbstractBlock
         parent::__construct($context, $customerSession, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         /*
@@ -84,7 +86,7 @@ class Salesrule extends \Magento\Rss\Block\AbstractBlock
         $collection = $this->_collectionFactory->create();
         $collection->addWebsiteGroupDateFilter($websiteId, $customerGroup, $now)
             ->addFieldToFilter('is_rss', 1)
-            ->setOrder('from_date','desc');
+            ->setOrder('from_date', 'desc');
         $collection->load();
 
         /** @var $ruleModel \Magento\SalesRule\Model\Rule */

@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Search\Model\Indexer;
 
  /**
  * Enterprise search model indexer
@@ -16,8 +17,6 @@
  * @package    Magento_Search
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Search\Model\Indexer;
-
 class Indexer
 {
     /**
@@ -75,7 +74,7 @@ class Indexer
     /**
      * Reindex of catalog search fulltext index using search engine
      *
-     * @return \Magento\Search\Model\Indexer\Indexer
+     * @return $this
      */
     public function reindexAll()
     {

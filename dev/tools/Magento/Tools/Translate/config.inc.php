@@ -221,6 +221,9 @@ $CONFIG['translates'] = array(
     'Magento_Authorizenet' => array(
         'app/code/Magento/Authorizenet/',
     ),
+    'Magento_OfflinePayments' => array(
+        'app/code/Magento/OfflinePayments/'
+    ),
     'Magento_Payment' => array(
         'app/code/Magento/Payment/',
         'app/design/frontend/base/default/template/payment/'
@@ -300,8 +303,17 @@ $CONFIG['translates'] = array(
     'Magento_Tax' => array(
         'app/code/Magento/Tax/',
     ),
-    'Magento_Usa' => array(
-        'app/code/Magento/Usa/',
+    'Magento_Ups' => array(
+        'app/code/Magento/Ups/',
+    ),
+    'Magento_Usps' => array(
+        'app/code/Magento/Usps/',
+    ),
+    'Magento_Fedex' => array(
+        'app/code/Magento/Fedex/',
+    ),
+    'Magento_Dhl' => array(
+        'app/code/Magento/Dhl/',
     ),
     'Magento_Weee' => array(
         'app/code/Magento/Weee/',
@@ -437,6 +449,9 @@ $CONFIG['translates'] = array(
         'app/design/adminhtml/default/default/template/enterprise/pbridge/',
         'app/design/frontend/enterprise/default/layout/pbridge.xml',
         'app/design/frontend/enterprise/default/template/pbridge/'
+    ),
+    'Magento_PbridgePaypal' => array(
+        'app/code/Magento/PbridgePaypal/',
     ),
     'Magento_Pci' => array(
         'app/code/Magento/Pci/',
@@ -587,7 +602,6 @@ $CONFIG['helpers']  = array(
     'sitemap'           => 'Magento_Sitemap',
     'strikeiron'        => 'Magento_Strikeiron',
     'tax'               => 'Magento_Tax',
-    'usa'               => 'Magento_Usa',
     'weee'              => 'Magento_Weee',
     'wishlist'          => 'Magento_Wishlist',
     'widget'            => 'Magento_Widget',

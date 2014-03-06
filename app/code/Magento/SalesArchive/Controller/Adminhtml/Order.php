@@ -9,7 +9,7 @@
  */
 namespace Magento\SalesArchive\Controller\Adminhtml;
 
-class Order extends  \Magento\Sales\Controller\Adminhtml\Order
+class Order extends \Magento\Sales\Controller\Adminhtml\Order
 {
     /**
      * @var \Magento\SalesArchive\Model\Archive
@@ -36,6 +36,8 @@ class Order extends  \Magento\Sales\Controller\Adminhtml\Order
 
     /**
      * Owerwrited for archive permissions validation
+     *
+     * @return bool
      */
     protected function _isAllowed()
     {

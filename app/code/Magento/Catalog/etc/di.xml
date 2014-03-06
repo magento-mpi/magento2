@@ -212,7 +212,7 @@
 
     <type name="Magento\Catalog\Model\Indexer\Product\Flat\Action\Rows">
         <arguments>
-            <argument name="tableData" xsi:type="object">rowsFlatTableBuilder</argument>
+            <argument name="flatTableBuilder" xsi:type="object">rowsFlatTableBuilder</argument>
         </arguments>
     </type>
 

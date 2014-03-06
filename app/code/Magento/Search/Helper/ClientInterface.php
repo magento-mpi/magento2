@@ -14,7 +14,7 @@ interface ClientInterface
     /**
      * Return search client options
      *
-     * @param $options
+     * @param array $options
      * @return mixed
      */
     public function prepareClientOptions($options = array());

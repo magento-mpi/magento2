@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -53,7 +51,7 @@ class Factory
      *
      * @var string
      */
-    protected $_defaultBackend = 'File';
+    protected $_defaultBackend = 'Cm_Cache_Backend_File';
 
     /**
      * Options for default backend
@@ -260,13 +258,12 @@ class Factory
                     }
                 }
         }
-
         if (!$backendType) {
             $backendType = $this->_defaultBackend;
-            foreach ($this->_backendOptions as $option => $value) {
-                if (!array_key_exists($option, $options)) {
-                    $options[$option] = $value;
-                }
+        }
+        foreach ($this->_backendOptions as $option => $value) {
+            if (!array_key_exists($option, $options)) {
+                $options[$option] = $value;
             }
         }
 

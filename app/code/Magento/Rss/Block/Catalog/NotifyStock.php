@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Rss\Block\Catalog;
 
 /**
  * Catalog low stock RSS block
  */
-namespace Magento\Rss\Block\Catalog;
-
 class NotifyStock extends \Magento\Backend\Block\AbstractBlock
 {
     /**
