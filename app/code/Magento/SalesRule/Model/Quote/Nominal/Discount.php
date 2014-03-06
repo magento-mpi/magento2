@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\SalesRule\Model\Quote\Nominal;
 
 /**
  * Nominal discount total
  */
-namespace Magento\SalesRule\Model\Quote\Nominal;
-
 class Discount extends \Magento\SalesRule\Model\Quote\Discount
 {
     /**

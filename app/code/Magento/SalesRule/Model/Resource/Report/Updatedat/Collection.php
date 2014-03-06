@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\SalesRule\Model\Resource\Report\Updatedat;
 
 /**
  * Sales report coupons collection
@@ -16,8 +16,6 @@
  * @package     Magento_SalesRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\SalesRule\Model\Resource\Report\Updatedat;
-
 class Collection
     extends \Magento\SalesRule\Model\Resource\Report\Collection
 {

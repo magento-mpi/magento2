@@ -1,0 +1,4 @@
+"IPN postback HTTP error: %s","Error HTTP de devolución de Notificación de Pago Instantánea (IPN): %s"
+"IPN postback Validation error: %s","Error de Validación de devolución de Notificación de Pago Instantánea (IPN): %s"
+"Original gateway transaction id: #%s.","Puerta de entrada original de la identidad de la transacción: #%s"
+"Payflow PNREF: #%s.","Payflow PNREF: #%s."

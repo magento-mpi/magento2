@@ -29,7 +29,7 @@ class Data extends AbstractHelper
     protected $_routeConfig;
 
     /**
-     * @var \Magento\LocaleInterface
+     * @var \Magento\Locale\ResolverInterface
      */
     protected $_locale;
 
@@ -56,7 +56,7 @@ class Data extends AbstractHelper
     /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\App\Route\Config $routeConfig
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Locale\ResolverInterface $locale
      * @param \Magento\Backend\Model\UrlInterface $backendUrl
      * @param \Magento\Backend\Model\Auth $auth
      * @param \Magento\Backend\App\Area\FrontNameResolver $frontNameResolver
@@ -65,7 +65,7 @@ class Data extends AbstractHelper
     public function __construct(
         \Magento\App\Helper\Context $context,
         \Magento\App\Route\Config $routeConfig,
-        \Magento\LocaleInterface $locale,
+        \Magento\Locale\ResolverInterface $locale,
         \Magento\Backend\Model\UrlInterface $backendUrl,
         \Magento\Backend\Model\Auth $auth,
         \Magento\Backend\App\Area\FrontNameResolver $frontNameResolver,

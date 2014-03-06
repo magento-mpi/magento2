@@ -72,11 +72,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_coreStoreConfig;
 
     /**
-     * Locale
-     *
-     * @var \Magento\LocaleInterface
+     * @var \Magento\Locale\ResolverInterface
      */
-    protected $_locale;
+    protected $_localeResolver;
 
     /**
      * Store manager
@@ -126,11 +124,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_cartFactory;
 
     /**
-     * @var \Magento\Paypal\Model\CartFactory
-     */
-    protected $_paypalCartFactory;
-
-    /**
      * Construct
      *
      * @param \Magento\App\Helper\Context $context
@@ -138,12 +131,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Pbridge\Model\EncryptionFactory $encryptionFactory
      * @param \Magento\App\State $appState
      * @param \Magento\Payment\Model\CartFactory $cartFactory
-     * @param \Magento\Paypal\Model\CartFactory $paypalCartFactory
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
@@ -151,23 +143,21 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\LocaleInterface $locale,
+        \Magento\Locale\ResolverInterface $localeResolver,
         \Magento\View\LayoutInterface $layout,
         \Magento\Pbridge\Model\EncryptionFactory $encryptionFactory,
         \Magento\App\State $appState,
-        \Magento\Payment\Model\CartFactory $cartFactory,
-        \Magento\Paypal\Model\CartFactory $paypalCartFactory
+        \Magento\Payment\Model\CartFactory $cartFactory
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_customerSession = $customerSession;
         $this->_checkoutSession = $checkoutSession;
         $this->_storeManager = $storeManager;
-        $this->_locale = $locale;
+        $this->_localeResolver = $localeResolver;
         $this->_layout = $layout;
         $this->_encryptionFactory = $encryptionFactory;
         $this->_appState = $appState;
         $this->_cartFactory = $cartFactory;
-        $this->_paypalCartFactory = $paypalCartFactory;
         parent::__construct($context);
     }
 
@@ -280,7 +270,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     public function getRequestParams(array $params = array())
     {
         $params = array_merge(array(
-            'locale' => $this->_locale->getLocaleCode(),
+            'locale' => $this->_localeResolver->getLocaleCode(),
         ), $params);
 
         $params['merchant_key']  = trim($this->_coreStoreConfig->getConfig('payment/pbridge/merchantkey', $this->_storeId));
@@ -417,17 +407,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
     public function prepareCart($order)
     {
         return $this->_prepareCart($this->_cartFactory->create(array('salesModel' => $order)));
-    }
-
-    /**
-     * Prepare PayPal cart from order
-     *
-     * @param \Magento\Core\Model\AbstractModel $order
-     * @return array
-     */
-    public function preparePaypalCart($order)
-    {
-        return $this->_prepareCart($this->_paypalCartFactory->create(array('salesModel' => $order)));
     }
 
     /**

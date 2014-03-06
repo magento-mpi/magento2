@@ -139,7 +139,6 @@ class Index extends \Magento\App\Action\Action
 
     /**
      * Add appropriate session message and redirect to shopping cart
-     * used for google checkout and paypal express checkout
      *
      * @return void
      */

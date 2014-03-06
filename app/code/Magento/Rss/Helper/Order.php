@@ -7,14 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Rss\Helper;
 
 /**
  * Default rss helper
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Rss\Helper;
-
 class Order extends \Magento\App\Helper\AbstractHelper
 {
     /**

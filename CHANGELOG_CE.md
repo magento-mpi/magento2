@@ -17,6 +17,7 @@
   * Added ability to intercept of internal public calls
   * Added ability to access public interface of intercepted object
   * Added static integrity test for plugin inteface validation
+  * Added support of both class addressing approaches in DI (with and without slash at the beginning of class name)
 * Fixed bugs:
   * Fixed an exception that appears when trying to apply a coupon code
   * Fixed Shopping Cart Price Rule which applied to products that aren't eligible
@@ -30,15 +31,30 @@
   * Fixed category saveing when it has more than 1000 products
   * Fixed error messages displayed during installation when required extensions are not installed
   * Fixed synopsis of install.php script
+  * Fixed absence of payment scheduled in shopping cart for products with recurring profile
 * Modularity improvements:
   * Resolved dependencies of Sales module on RecurringProfile module
   * Resolved dependencies between Email Templates functionality and other modules
   * Core module lib-only depended components moved to library
   * CSS url resolving logic moved from publisher to separate css pre-processor
   * View publisher re-factored
+  * Introduced Offline Payments module
+  * Added ability to enable/disable Paypal module
+  * Moved framework part of the Locales functionality from Core module to library
+  * Locale's logic has been splitted among appropriate classes in library, according to their responsibilities
+  * Deprecated DHL functionality has been removed
+  * Offline Shipping Carrier Module which contains Flatrate, Tablerate, Freeshipping, Pickup functionality introduced
+  * DHL Shipping Carrier Module introduced
+  * Fedex Shipping Carrier Module introduced
+  * UPS Shipping Carrier Module introduced
+  * USPS Shipping Carrier Module introduced
 * Customer Service usage:
   * Sales module refactoring to use customer service layer
   * Checkout module refactoring to use customer service layer
+  * Customer module blocks and controllers refactoring to use customer service layer
+* Security:
+  * Introduced an ability to hash a password with a random salt of default length (32 chars) by the encryption library
+  * Utilized a random salt of default length for admin users and frontend customers
 * Updated various PHPDoc with the parameter and return types
 
 2.0.0.0-dev66
