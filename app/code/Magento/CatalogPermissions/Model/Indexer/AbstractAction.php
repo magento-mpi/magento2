@@ -680,7 +680,8 @@ abstract class AbstractAction
                     [
                         'product_id', 'store_id', 'customer_group_id', 'grant_catalog_category_view',
                         'grant_catalog_product_price', 'grant_checkout_items'
-                    ]
+                    ],
+                    \Magento\DB\Adapter\AdapterInterface::INSERT_ON_DUPLICATE
                 )
             );
         }
