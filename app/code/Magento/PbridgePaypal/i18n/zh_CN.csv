@@ -1,0 +1,4 @@
+"IPN postback HTTP error: %s","IPN发布后HTTP错误：%s"
+"IPN postback Validation error: %s","IPN发布后验证错误：%s"
+"Original gateway transaction id: #%s.","原始网关交易Id：#%s。"
+"Payflow PNREF: #%s.","Payflow PNREF: #%s。"

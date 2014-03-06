@@ -39,7 +39,6 @@ class CreatePageTest extends Functional
      */
     public function testCreateCmsPage()
     {
-        $this->markTestSkipped('MAGETWO-20057');
         // Fixture, pages and blocks
         $cmsPageFixture = Factory::getFixtureFactory()->getMagentoCmsPage();
         $cmsPageGrid = Factory::getPageFactory()->getAdminCmsPage();

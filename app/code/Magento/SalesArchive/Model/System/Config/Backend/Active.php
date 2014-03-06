@@ -11,7 +11,7 @@ namespace Magento\SalesArchive\Model\System\Config\Backend;
 
 class Active
     extends \Magento\Backend\Model\Config\Backend\Cache
-    implements \Magento\Backend\Model\Config\CommentInterface
+    implements \Magento\Backend\Model\Config\CommentInterface, \Magento\Object\IdentityInterface
 {
     /**
      * @var \Magento\SalesArchive\Model\Archive
@@ -62,6 +62,7 @@ class Active
     /**
      * Clean cache, value was changed
      *
+     * @return $this
      */
     protected function _afterSave()
     {
@@ -87,5 +88,15 @@ class Active
             }
         }
         return '';
+    }
+
+    /**
+     * Get identities
+     *
+     * @return array
+     */
+    public function getIdentities()
+    {
+        return array(\Magento\Backend\Block\Menu::CACHE_TAGS);
     }
 }

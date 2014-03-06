@@ -1,20 +1,68 @@
+* Cache:
+  * Depersonalize private content generation
+  * Content invalidation
+  * Added Edge side includes(ESI) supporting
+  * Added Built-in caching application
+* GitHub requests:
+  * [#454](https://github.com/magento/magento2/pull/454) -- Allow to specify list of IPs in a body on maintenance.flag which will be granted access even if the flag is on
+  * [#204](https://github.com/magento/magento2/issues/204) -- Mage_ImportExport: Exporting configurable products ignores multiple configurable options
+  * [#418](https://github.com/magento/magento2/issues/418) -- Echo vs print
+  * [#419](https://github.com/magento/magento2/issues/419) -- Some translation keys are not correct.
+  * [#244](https://github.com/magento/magento2/issues/244) -- Retrieve base host URL without path in error processor
+  * [#411](https://github.com/magento/magento2/issues/411) -- Missed column 'payment_method' of table 'sales_flat_quote_address'
+  * [#284](https://github.com/magento/magento2/pull/284) -- Fix for Issue #278 (Import -> Stores with large amount of Configurable Products)
+* Fixed bugs:
+  * Fixed transaction rollback in fetchNewIncrementId on exception
+  * Fixed category saveing when it has more than 1000 products
+  * Fixed error messages displayed during installation when required extensions are not installed
+  * Fixed synopsis of install.php script
+  * Fixed absence of payment scheduled in shopping cart for products with recurring profile
+* Modularity improvements:
+  * Introduced Offline Payments module
+  * Added ability to enable/disable Paypal module
+  * Moved framework part of the Locales functionality from Core module to library
+  * Locale's logic has been splitted among appropriate classes in library, according to their responsibilities
+  * Deprecated DHL functionality has been removed
+  * Offline Shipping Carrier Module which contains Flatrate, Tablerate, Freeshipping, Pickup functionality introduced
+  * DHL Shipping Carrier Module introduced
+  * Fedex Shipping Carrier Module introduced
+  * UPS Shipping Carrier Module introduced
+  * USPS Shipping Carrier Module introduced
+* Framework Improvements:
+  * Added ability to intercept of internal public calls
+  * Added ability to access public interface of intercepted object
+  * Added static integrity test for plugin inteface validation
+  * Added support of both class addressing approaches in DI (with and without slash at the beginning of class name)
+* Customer Service usage:
+  * Customer module blocks and controllers refactoring to use customer service layer
+* Security:
+  * Introduced an ability to hash a password with a random salt of default length (32 chars) by the encryption library
+  * Utilized a random salt of default length for admin users and frontend customers
+2.0.0.0-dev67
+=============
 * GitHub requests:
   * [#235](https://github.com/magento/magento2/issues/235) -- Translation escaping
   * [#463](https://github.com/magento/magento2/pull/463) -- allow _resolveArguments to do sequential lookups
 * Fixed bugs:
-  * Fixed an exception that appears when trying to apply a coupon code
-  * Fixed Shopping Cart Price Rule which applied to products that aren't eligible
-  * Fixed Related Orders link from Recurring Profile page on frontend
+  * Fixed an issue where nonexistent store views flat tables cleanuper dropped the catalog_category_flat_cl table
+  * Fixed an issue where the Product Flat Data indexer used the helpers logic instead of the Flat State logic
+  * Fixed an issue where an exception was thrown when applying a coupon code
+  * Fixed an issue where a Shopping Cart Price Rule was applied to the wrong products
+  * Fixed an issue with the broken Related Orders link on the Recurring Profile page
+  * Fixed an issue with CMS pages preview not working
+  * Fixed an issue with a sales report for a store view returning wrong result
+  * Fixed an issue where shipping did not work for orders containing only bundle products
+  * Fixed an issue where a custom not found page action did not work
+  * Fixed an issue where user configuration for a shopping cart rule to stop further rules processing was ignored
 * Modularity improvements:
-  * Resolved dependencies of Sales module on RecurringProfile module
-  * Resolved dependencies between Email Templates functionality and other modules
-  * Core module lib-only depended components moved to library
-  * CSS url resolving logic moved from publisher to separate css pre-processor
-  * View publisher re-factored
+  * Resolved dependencies of the Sales module on the RecurringProfile module
+  * Resolved dependencies of the Email Templates functionality on application modules
+  * Lib-only dependent components of the Core module moved to library
+  * CSS URL resolving logic moved from the publisher to a separate CSS pre-processor
+  * Refactored the View publisher
 * Customer Service usage:
-  * Sales module refactoring to use customer service layer
-  * Checkout module refactoring to use customer service layer
-  * Customer module blocks and controllers refactoring to use customer service layer
+  * Refactored the Sales module to use Customer service layer
+  * Refactored the Checkout module to use Customer service layer
 * Updated various PHPDoc with the parameter and return types
 
 2.0.0.0-dev66
@@ -22,8 +70,6 @@
 * GitHub requests:
   * [#134] (https://github.com/magento/magento2/pull/134) Fixed a typo in "Vorarlberg" region of Austria (was Voralberg)
 * Fixed bugs:
-  * Unexistent store views flat tables cleanuper drops catalog_category_flat_cl table
-  * Product flat indexer must use State instead of helpers logic
   * Fixed an issue with the "Add to Cart" button on the MAP popup of compound products
   * Fixed an issue where the "Add Address" button for Customer in Admin was broken
   * Fixed an issue where predefined data are not loaded for a newsletter when it is added to a queue

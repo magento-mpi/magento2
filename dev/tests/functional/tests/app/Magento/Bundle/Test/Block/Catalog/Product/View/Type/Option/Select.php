@@ -24,25 +24,17 @@ use Mtf\Client\Element\Locator;
 class Select extends Form
 {
     /**
-     * {@inheritdoc}
-     */
-    protected $_mapping = array(
-        'value' => 'select',
-        'qty' => 'input.qty'
-    );
-
-    /**
      * Set data in bundle option
      *
      * @param array $data
      */
     public function fillOption(array $data)
     {
-        $this->waitForElementVisible($this->_mapping['value']);
+        $this->waitForElementVisible($this->mapping['value']['selector']);
 
-        $select = $this->_rootElement->find($this->_mapping['value'], Locator::SELECTOR_CSS, 'select');
+        $select = $this->_rootElement->find($this->mapping['value']['selector'], Locator::SELECTOR_CSS, 'select');
         $select->setValue($data['value']);
-        $qtyField = $this->_rootElement->find($this->_mapping['qty']);
+        $qtyField = $this->_rootElement->find($this->mapping['qty']['selector']);
         if (!$qtyField->isDisabled()) { //TODO should be remove after fix qty field
             $qtyField->setValue($data['qty']);
         }

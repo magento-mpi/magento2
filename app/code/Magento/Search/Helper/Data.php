@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Search\Helper;
 
 /**
@@ -53,7 +52,7 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
     /**
      * Define text type fields
      *
-     * @var array
+     * @var string[]
      */
     protected $_textFieldTypes = array(
         'text',
@@ -68,6 +67,8 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
     protected $_taxData;
 
     /**
+     * Engine provider
+     *
      * @var \Magento\CatalogSearch\Model\Resource\EngineProvider
      */
     protected $_engineProvider;
@@ -80,11 +81,9 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
     protected $_coreStoreConfig;
 
     /**
-     * Locale
-     *
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\Stdlib\DateTime\TimezoneInterface
      */
-    protected $_locale;
+    protected $_localeDate;
 
     /**
      * Store manager
@@ -94,11 +93,20 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
     protected $_storeManager;
 
     /**
+     * Date time
+     *
      * @var \Magento\Stdlib\DateTime
      */
     protected $dateTime;
 
     /**
+     * @var \Magento\Locale\ResolverInterface
+     */
+    protected $_localeResolver;
+
+    /**
+     * Languages
+     *
      * @var array
      */
     protected $_languages;
@@ -108,9 +116,10 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
      * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param array $supportedLanguages
      */
     public function __construct(
@@ -118,25 +127,27 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
         \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Stdlib\DateTime $dateTime,
+        \Magento\Locale\ResolverInterface $localeResolver,
         array $supportedLanguages = array()
     ) {
         $this->_engineProvider = $engineProvider;
         $this->_taxData = $taxData;
         $this->_coreStoreConfig = $coreStoreConfig;
-        $this->_locale = $locale;
+        $this->_localeDate = $localeDate;
         $this->_storeManager = $storeManager;
         $this->dateTime = $dateTime;
         $this->_languages = $supportedLanguages;
+        $this->_localeResolver = $localeResolver;
         parent::__construct($context);
     }
 
     /**
      * Retrieve text field types
      *
-     * @return array
+     * @return string[]
      */
     public function getTextFieldTypes()
     {
@@ -241,7 +252,7 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
      * Retrieve information from search engine configuration
      *
      * @param string $field
-     * @param int $storeId
+     * @param int|null $storeId
      * @return string|int
      */
     public function getSearchConfigData($field, $storeId = null)
@@ -317,12 +328,11 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
     /**
      * Retrieve filter array
      *
-     * @deprecated since 1.12.0.0
-     *
      * @param \Magento\Search\Model\Resource\Collection $collection
      * @param \Magento\Catalog\Model\Resource\Eav\Attribute $attribute
      * @param string|array $value
-     * @return array
+     * @return false|array
+     * @deprecated since 1.12.0.0
      */
     public function getSearchParam($collection, $attribute, $value)
     {
@@ -335,7 +345,7 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
         }
 
         $locale = $this->_storeManager->getStore()
-            ->getConfig(\Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_LOCALE);
+            ->getConfig($this->_localeResolver->getDefaultLocalePath());
         $languageSuffix = $this->getLanguageSuffix($locale);
 
         $field = $attribute->getAttributeCode();
@@ -351,17 +361,17 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
         } elseif ($backendType == 'datetime') {
             $field = 'attr_datetime_'. $field;
 
-            $format = $this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
+            $format = $this->_localeDate->getDateFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
             if (is_array($value)) {
                 foreach ($value as &$val) {
                     if (!$this->dateTime->isEmptyDate($val)) {
-                        $date = new \Zend_Date($val, $format);
+                        $date = new \Magento\Stdlib\DateTime\Date($val, $format);
                         $val = $date->toString(\Zend_Date::ISO_8601) . 'Z';
                     }
                 }
             } else {
                 if (!$this->dateTime->isEmptyDate($value)) {
-                    $date = new \Zend_Date($value, $format);
+                    $date = new \Magento\Stdlib\DateTime\Date($value, $format);
                     $value = $date->toString(\Zend_Date::ISO_8601) . 'Z';
                 }
             }
@@ -418,8 +428,8 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
     /**
      * Check if search engine can be used for catalog navigation
      *
-     * @param   bool $isCatalog - define if checking availability for catalog navigation or search result navigation
-     * @return  bool
+     * @param bool $isCatalog - define if checking availability for catalog navigation or search result navigation
+     * @return bool
      */
     public function getIsEngineAvailableForNavigation($isCatalog = true)
     {
@@ -445,7 +455,7 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
     /**
      * Return search client options
      *
-     * @param $options
+     * @param array $options
      * @return mixed
      */
     public function prepareClientOptions($options = array())
@@ -469,11 +479,9 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
     /**
      * Retrieve attribute field's name
      *
-     * @deprecated after 1.11.2.0
-     *
      * @param \Magento\Catalog\Model\Resource\Eav\Attribute $attribute
-     *
      * @return string
+     * @deprecated after 1.11.2.0
      */
     public function getAttributeSolrFieldName($attribute)
     {

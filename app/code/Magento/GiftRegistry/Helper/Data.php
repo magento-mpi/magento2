@@ -61,14 +61,19 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_coreStoreConfig;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\Stdlib\DateTime\TimezoneInterface
      */
-    protected $locale;
+    protected $_localeDate;
 
     /**
      * @var \Magento\Escaper
      */
     protected $_escaper;
+
+    /**
+     * @var \Magento\Locale\ResolverInterface
+     */
+    protected $_localeResolver;
 
     /**
      * @param \Magento\App\Helper\Context $context
@@ -77,8 +82,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\GiftRegistry\Model\EntityFactory $entityFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\UrlFactory $urlFactory
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Escaper $escaper
+     * @param \Magento\Locale\ResolverInterface $localeResolver
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
@@ -87,8 +93,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\GiftRegistry\Model\EntityFactory $entityFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\UrlFactory $urlFactory,
-        \Magento\Core\Model\LocaleInterface $locale,
-        \Magento\Escaper $escaper
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Escaper $escaper,
+        \Magento\Locale\ResolverInterface $localeResolver
     ) {
         parent::__construct($context);
         $this->_coreStoreConfig = $coreStoreConfig;
@@ -96,8 +103,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
         $this->entityFactory = $entityFactory;
         $this->productFactory = $productFactory;
         $this->urlFactory = $urlFactory;
-        $this->locale = $locale;
+        $this->_localeDate = $localeDate;
         $this->_escaper = $escaper;
+        $this->_localeResolver = $localeResolver;
     }
 
     /**
@@ -242,11 +250,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
         if ($formatIn === false) {
             return $value;
         } else {
-            $formatIn = $this->locale->getDateFormat($formatIn);
+            $formatIn = $this->_localeDate->getDateFormat($formatIn);
         }
         $filterInput = new \Zend_Filter_LocalizedToNormalized(array(
             'date_format' => $formatIn,
-            'locale'      => $this->locale->getLocaleCode()
+            'locale'      => $this->_localeResolver->getLocaleCode()
         ));
         $filterInternal = new \Zend_Filter_NormalizedToLocalized(array(
             'date_format' => \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT

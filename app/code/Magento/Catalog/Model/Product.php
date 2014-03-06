@@ -24,7 +24,8 @@ namespace Magento\Catalog\Model;
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Product extends \Magento\Catalog\Model\AbstractModel
+
+class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\Object\IdentityInterface
 {
     /**
      * Entity code.
@@ -242,13 +243,12 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param Product\Url $url
      * @param Product\Link $productLink
-     * @param \Magento\Catalog\Model\Product\Configuration\Item\OptionFactory $itemOptionFactory
+     * @param Product\Configuration\Item\OptionFactory $itemOptionFactory
      * @param \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
+     * @param CategoryFactory $categoryFactory
      * @param Product\Option $catalogProductOption
      * @param Product\Visibility $catalogProductVisibility
-     * @param \Magento\Catalog\Model\Product\Attribute\Source\Status $catalogProductStatus
+     * @param Product\Attribute\Source\Status $catalogProductStatus
      * @param Product\Media\Config $catalogProductMediaConfig
      * @param \Magento\Index\Model\Indexer $indexIndexer
      * @param Product\Type $catalogProductType
@@ -273,7 +273,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel
         Product\Link $productLink,
         \Magento\Catalog\Model\Product\Configuration\Item\OptionFactory $itemOptionFactory,
         \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory,
-        \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Catalog\Model\Product\Option $catalogProductOption,
         \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
@@ -294,7 +293,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     ) {
         $this->_itemOptionFactory = $itemOptionFactory;
         $this->_stockItemFactory = $stockItemFactory;
-        $this->_productFactory = $productFactory;
         $this->_categoryFactory = $categoryFactory;
         $this->_optionInstance = $catalogProductOption;
         $this->_catalogProductVisibility = $catalogProductVisibility;
@@ -2018,5 +2016,15 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     {
         $this->getTypeInstance()->setImageFromChildProduct($this);
         return parent::getImage();
+    }
+
+    /**
+     * Get identities
+     *
+     * @return array
+     */
+    public function getIdentities()
+    {
+        return array(self::CACHE_TAG  . '_' . $this->getId());
     }
 }

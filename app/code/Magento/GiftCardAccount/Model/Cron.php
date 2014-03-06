@@ -19,17 +19,17 @@ class Cron
     protected $_giftCAFactory = null;
 
     /**
-     * @var \Magento\Core\Model\Date
+     * @var \Magento\Stdlib\DateTime\DateTime
      */
     protected $_coreDate = null;
 
     /**
      * @param \Magento\GiftCardAccount\Model\GiftcardaccountFactory $giftCAFactory
-     * @param \Magento\Core\Model\Date $coreDate
+     * @param \Magento\Stdlib\DateTime\DateTime $coreDate
      */
     public function __construct(
         \Magento\GiftCardAccount\Model\GiftcardaccountFactory $giftCAFactory,
-        \Magento\Core\Model\Date $coreDate
+        \Magento\Stdlib\DateTime\DateTime $coreDate
     ) {
         $this->_giftCAFactory = $giftCAFactory;
         $this->_coreDate = $coreDate;

@@ -11,85 +11,92 @@ class PluginTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \Magento\FullPageCache\App\FrontController\Plugin
      */
-    protected $_model;
+    protected $model;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_responseFactoryMock;
+    protected $responseFactoryMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_requestFactoryMock;
+    protected $requestFactoryMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_invocationChainMock;
+    protected $closureMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_requestProcessor;
+    protected $requestProcessor;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $subjectMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $requestMock;
 
     protected function setUp()
     {
-        $this->_requestProcessor = $this->getMock('\Magento\FullPageCache\Model\RequestProcessorInterface');
+        $this->requestProcessor = $this->getMock('Magento\FullPageCache\Model\RequestProcessorInterface');
+        $requestMethods =
+            array('setDispatched', 'getModuleName', 'setModuleName', 'getActionName', 'setActionName', 'getParam');
+        $this->requestMock = $this->getMock('Magento\App\Request\Http', $requestMethods, array(), '', false);
         $requestArray = array(
             'sortOrder' => array('class' => 'name')
         );
-
-        $this->_invocationChainMock =
-            $this->getMock('\Magento\Code\Plugin\InvocationChain', array(), array(), '', false);
-        $this->_responseFactoryMock = $this->getMock('\Magento\App\ResponseFactory', array(), array(), '', false);
-        $this->_requestFactoryMock =
-            $this->getMock('\Magento\FullPageCache\Model\RequestProcessorFactory', array(), array(), '', false);
-        $this->_requestFactoryMock
-            ->expects($this->once())->method('create')->will($this->returnValue($this->_requestProcessor));
-        $this->_model = new \Magento\FullPageCache\App\FrontController\Plugin(
-            $this->_responseFactoryMock,
-            $this->_requestFactoryMock,
+        $this->closureMock = function () {
+            return 'Expected';
+        };
+        $this->responseFactoryMock = $this->getMock('\Magento\App\ResponseFactory', array(), array(), '', false);
+        $this->requestFactoryMock =
+            $this->getMock('Magento\FullPageCache\Model\RequestProcessorFactory', array(), array(), '', false);
+        $this->requestFactoryMock
+            ->expects($this->once())->method('create')->will($this->returnValue($this->requestProcessor));
+        $this->subjectMock = $this->getMock('Magento\App\FrontController', array(), array(), '', false);
+        $this->model = new \Magento\FullPageCache\App\FrontController\Plugin(
+            $this->responseFactoryMock,
+            $this->requestFactoryMock,
             $requestArray
         );
     }
 
     public function testAroundDispatchIfProcessorsAndContentExist()
     {
-        $requestMock = $this->getMock('\Magento\App\RequestInterface',
-                array('setDispatched', 'getModuleName', 'setModuleName', 'getActionName', 'setActionName', 'getParam'));
         $responseMock = $this->getMock('\Magento\App\ResponseInterface', array('appendBody', 'sendResponse'));
-        $this->_responseFactoryMock->expects($this->once())->method('create')->will($this->returnValue($responseMock));
-        $arguments = array($requestMock);
-        $this->_requestProcessor->expects($this->once())
-            ->method('extractContent')->with($requestMock, $responseMock, false)->will($this->returnValue(true));
-        $this->assertEquals($responseMock, $this->_model->aroundDispatch($arguments, $this->_invocationChainMock));
+        $this->responseFactoryMock->expects($this->once())->method('create')->will($this->returnValue($responseMock));
+        $this->requestProcessor->expects($this->once())
+            ->method('extractContent')->with($this->requestMock, $responseMock, false)->will($this->returnValue(true));
+        $this->assertEquals($responseMock,
+            $this->model->aroundDispatch($this->subjectMock, $this->closureMock, $this->requestMock)
+        );
     }
 
     public function testAroundDispatchIfProcessorsExistAndContentNotExist()
     {
-        $requestMock =
-            $this->getMock('\Magento\App\RequestInterface',
-                array('setDispatched', 'getModuleName', 'setModuleName', 'getActionName', 'setActionName', 'getParam'));
         $responseMock = $this->getMock('\Magento\App\ResponseInterface', array('appendBody', 'sendResponse'));
-        $this->_responseFactoryMock->expects($this->once())->method('create')->will($this->returnValue($responseMock));
-        $arguments = array($requestMock);
-        $this->_requestProcessor->expects($this->once())
-            ->method('extractContent')->with($requestMock, $responseMock, false)->will($this->returnValue(false));
+        $this->responseFactoryMock->expects($this->once())->method('create')->will($this->returnValue($responseMock));
+        $this->requestProcessor->expects($this->once())
+            ->method('extractContent')->with($this->requestMock, $responseMock, false)->will($this->returnValue(false));
         $responseMock->expects($this->never())->method('sendResponse');
-        $this->_invocationChainMock->expects($this->once())->method('proceed')->with($arguments);
-        $this->_model->aroundDispatch($arguments, $this->_invocationChainMock);
+        $this->model->aroundDispatch($this->subjectMock, $this->closureMock, $this->requestMock);
     }
 
     public function testAroundDispatchIfProcessorsNotExist()
     {
-        $this->_model = new \Magento\FullPageCache\App\FrontController\Plugin(
-            $this->_responseFactoryMock,
-            $this->_requestFactoryMock,
+        $this->model = new \Magento\FullPageCache\App\FrontController\Plugin(
+            $this->responseFactoryMock,
+            $this->requestFactoryMock,
             array()
         );
-        $this->_responseFactoryMock->expects($this->never())->method('create');
-        $this->_invocationChainMock->expects($this->once())->method('proceed')->with(array());
-        $this->_model->aroundDispatch(array(), $this->_invocationChainMock);
+        $this->responseFactoryMock->expects($this->never())->method('create');
+        $this->model->aroundDispatch($this->subjectMock, $this->closureMock, $this->requestMock);
     }
 }

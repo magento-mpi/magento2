@@ -22,12 +22,6 @@ class InfoTest extends \PHPUnit_Framework_TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\View\Element\Template\Context */
     private $_context;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Model\Session */
-    private $_customerSession;
-
-    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\CustomerServiceInterface */
-    private $_customerService;
-
     /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\Dto\Customer */
     private $_customer;
 
@@ -48,8 +42,18 @@ class InfoTest extends \PHPUnit_Framework_TestCase
     /** @var Info */
     private $_block;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\CustomerCurrentServiceInterface
+     */
+    protected $customerCurrentService;
+
     public function setUp()
     {
+
+        $this->customerCurrentService = $this->getMockForAbstractClass(
+            'Magento\Customer\Service\V1\CustomerCurrentServiceInterface',
+            array(), '', false, true, true, array());
+
         $urlBuilder = $this->getMockForAbstractClass('Magento\UrlInterface', array(), '', false);
         $urlBuilder->expects($this->any())->method('getUrl')->will($this->returnValue(self::CHANGE_PASSWORD_URL));
 
@@ -63,16 +67,8 @@ class InfoTest extends \PHPUnit_Framework_TestCase
         $this->_context->expects($this->once())->method('getUrlBuilder')->will($this->returnValue($urlBuilder));
         $this->_context->expects($this->once())->method('getLayout')->will($this->returnValue($layout));
 
-        $this->_customerSession = $this->getMock('Magento\Customer\Model\Session', array(), array(), '', false);
-        $this->_customerSession->expects($this->any())->method('getId')->will($this->returnValue(self::CUSTOMER_ID));
-
-        $this->_customerService = $this->getMockForAbstractClass(
-            'Magento\Customer\Service\V1\CustomerServiceInterface', array(), '', false
-        );
         $this->_customer = $this->getMock('Magento\Customer\Service\V1\Dto\Customer', array(), array(), '', false);
         $this->_customer->expects($this->any())->method('getEmail')->will($this->returnValue(self::EMAIL_ADDRESS));
-        $this->_customerService
-            ->expects($this->any())->method('getCustomer')->will($this->returnValue($this->_customer));
         $this->_helperView = $this->getMockBuilder('\Magento\Customer\Helper\View')->disableOriginalConstructor()
             ->getMock();
         $this->_subscriberFactory =
@@ -80,12 +76,13 @@ class InfoTest extends \PHPUnit_Framework_TestCase
         $this->_subscriber = $this->getMock('Magento\Newsletter\Model\Subscriber', array(), array(), '', false);
         $this->_subscriber->expects($this->any())->method('loadByEmail')->will($this->returnSelf());
         $this->_subscriberFactory
-            ->expects($this->any())->method('create')->will($this->returnValue($this->_subscriber));
+            ->expects($this->any())
+            ->method('create')
+            ->will($this->returnValue($this->_subscriber));
 
         $this->_block = new Info(
             $this->_context,
-            $this->_customerSession,
-            $this->_customerService,
+            $this->customerCurrentService,
             $this->_subscriberFactory,
             $this->_helperView
         );
@@ -93,16 +90,21 @@ class InfoTest extends \PHPUnit_Framework_TestCase
 
     public function testGetCustomer()
     {
-        $this->_customer->expects($this->once())->method('getCustomerId')->will($this->returnValue(self::CUSTOMER_ID));
+
+        $this->customerCurrentService->expects($this->once())
+            ->method('getCustomer')
+            ->will($this->returnValue($this->_customer));
+
         $customer = $this->_block->getCustomer();
-        $this->assertEquals(self::CUSTOMER_ID, $customer->getCustomerId());
+        $this->assertEquals($customer, $this->_customer);
     }
 
     public function testGetCustomerException()
     {
-        $this->_customerService
+        $this->customerCurrentService
             ->expects($this->once())
-            ->method('getCustomer')->will($this->throwException(new NoSuchEntityException('customerId', 1)));
+            ->method('getCustomer')
+            ->will($this->throwException(new NoSuchEntityException('customerId', 1)));
         $this->assertNull($this->_block->getCustomer());
     }
 

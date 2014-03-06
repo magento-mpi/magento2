@@ -72,4 +72,4 @@ class Store extends DataFixture
     {
         return $this->getData('fields/name/value');
     }
-} 
+}

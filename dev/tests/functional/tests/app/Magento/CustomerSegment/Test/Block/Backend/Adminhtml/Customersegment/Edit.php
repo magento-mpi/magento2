@@ -12,7 +12,6 @@
 namespace Magento\CustomerSegment\Test\Block\Backend\Adminhtml\Customersegment;
 
 use Magento\Backend\Test\Block\Widget\FormTabs;
-use Mtf\Client\Element\Locator;
 
 /**
  * Class CustomerSegmentForm
@@ -22,13 +21,5 @@ use Mtf\Client\Element\Locator;
  */
 class Edit extends FormTabs
 {
-    /**
-     * Custom tab classes for customer segment form
-     *
-     * @var array
-     */
-    protected $tabClasses = array(
-        'magento_customersegment_segment_tabs_general_section' =>
-            '\\Magento\\CustomerSegment\\Test\\Block\\Backend\\Adminhtml\\Customersegment\\Edit\\Tab\\General'
-    );
+    //
 }

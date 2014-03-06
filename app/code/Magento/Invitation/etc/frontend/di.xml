@@ -18,14 +18,4 @@
             </argument>
         </arguments>
     </type>
-    <virtualType name="customerInvitationAccountInitSession" type="Magento\Core\App\Action\Plugin\Session">
-        <arguments>
-            <argument name="cookieCheckActions" xsi:type="array">
-                <item name="customerInvitationCreate" xsi:type="string">createPost</item>
-            </argument>
-        </arguments>
-    </virtualType>
-    <type name="Magento\Invitation\Controller\Customer\Account">
-        <plugin name="sessionInitializer" type="customerInvitationAccountInitSession" />
-    </type>
 </config>

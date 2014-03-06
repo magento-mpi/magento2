@@ -1,0 +1,39 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<tabs>
+    <general_information>
+        <class>\Magento\Backend\Test\Block\Widget\Tab</class>
+        <selector>#category_info_tabs_group_4</selector>
+        <strategy>css selector</strategy>
+        <wrapper>general</wrapper>
+        <fields>
+            <is_active>
+                <input>select</input>
+            </is_active>
+            <include_in_menu>
+                <input>checkbox</input>
+            </include_in_menu>
+        </fields>
+    </general_information>
+    <display_setting>
+        <class>\Magento\Backend\Test\Block\Widget\Tab</class>
+        <selector>#category_info_tabs_group_5</selector>
+        <strategy>css selector</strategy>
+        <wrapper>general</wrapper>
+        <fields>
+            <is_active>
+                <input>select</input>
+            </is_active>
+            <include_in_menu>
+                <input>checkbox</input>
+            </include_in_menu>
+        </fields>
+    </display_setting>
+</tabs>

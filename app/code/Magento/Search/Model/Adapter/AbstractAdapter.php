@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Search\Model\Adapter;
 
 /**
  * Search engine abstract adapter
@@ -15,8 +16,6 @@
  * @package    Magento_Search
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Search\Model\Adapter;
-
 abstract class AbstractAdapter
 {
     /**
@@ -60,7 +59,6 @@ abstract class AbstractAdapter
 
     /**
      * Field to use to determine and enforce document uniqueness
-     *
      */
     const UNIQUE_KEY = 'unique';
 
@@ -96,14 +94,14 @@ abstract class AbstractAdapter
      * Store common Solr metadata fields
      * All fields, that come up from search engine will be filtered by these keys
      *
-     * @var array
+     * @var string[]
      */
     protected $_usedFields = array('sku', 'visibility', 'in_stock');
 
     /**
      * Defines text type fields
      *
-     * @var array
+     * @var string[]
      */
     protected $_textFieldTypes = array('text', 'varchar');
 
@@ -134,7 +132,7 @@ abstract class AbstractAdapter
     /**
      * Searchable attribute params
      *
-     * @var array | null
+     * @var array|null
      */
     protected $_indexableAttributeParams = null;
 
@@ -155,12 +153,10 @@ abstract class AbstractAdapter
     // Deprecated properties
 
     /**
-    /**
      * Fields which must be are not included in fulltext field
      *
+     * @var string[]
      * @deprecated after 1.11.2.0
-     *
-     * @var array
      */
     protected $_notInFulltextField = array(
         self::UNIQUE_KEY,
@@ -211,19 +207,17 @@ abstract class AbstractAdapter
     /**
      * Retrieve attribute field name
      *
-     * @abstract
-     *
      * @param \Magento\Catalog\Model\Resource\Eav\Attribute|string $attribute
      * @param string $target
-     *
      * @return string|bool
+     * @abstract
      */
     abstract public function getSearchEngineFieldName($attribute, $target = 'default');
 
     /**
      * Before commit action
      *
-     * @return \Magento\Search\Model\Adapter\AbstractAdapter
+     * @return $this
      */
     protected function _beforeCommit()
     {
@@ -233,7 +227,7 @@ abstract class AbstractAdapter
     /**
      * After commit action
      *
-     * @return \Magento\Search\Model\Adapter\AbstractAdapter
+     * @return $this
      */
     protected function _afterCommit()
     {
@@ -252,7 +246,7 @@ abstract class AbstractAdapter
      * Before optimize action.
      * _beforeCommit method is called because optimize includes commit in itself
      *
-     * @return \Magento\Search\Model\Adapter\AbstractAdapter
+     * @return $this
      */
     protected function _beforeOptimize()
     {
@@ -265,7 +259,7 @@ abstract class AbstractAdapter
      * After commit action
      * _afterCommit method is called because optimize includes commit in itself
      *
-     * @return \Magento\Search\Model\Adapter\AbstractAdapter
+     * @return $this
      */
     protected function _afterOptimize()
     {
@@ -279,8 +273,8 @@ abstract class AbstractAdapter
     /**
      * Store searchable attributes to prevent additional collection load
      *
-     * @param   array $attributes
-     * @return  \Magento\Search\Model\Adapter\AbstractAdapter
+     * @param array $attributes
+     * @return $this
      */
     public function storeSearchableAttributes(array $attributes)
     {
@@ -296,11 +290,10 @@ abstract class AbstractAdapter
     /**
      * Prepare name for system text fields.
      *
-     * @param   string $field
-     * @param   string $suffix
-     * @param   int  $storeId
-     *
-     * @return  string
+     * @param string $field
+     * @param string $suffix
+     * @param int|null $storeId
+     * @return string
      */
     public function getAdvancedTextFieldName($field, $suffix = '', $storeId = null)
     {
@@ -310,10 +303,9 @@ abstract class AbstractAdapter
     /**
      * Prepare price field name for search engine
      *
-     * @param   null|int $customerGroupId
-     * @param   null|int $websiteId
-     *
-     * @return  bool|string
+     * @param null|int $customerGroupId
+     * @param null|int $websiteId
+     * @return false|string
      */
     public function getPriceFieldName($customerGroupId = null, $websiteId = null)
     {
@@ -331,14 +323,12 @@ abstract class AbstractAdapter
         return 'price_' . $customerGroupId . '_' . $websiteId;
     }
 
-
     /**
      * Prepare category index data for product
      *
-     * @param   $productId
-     * @param   $storeId
-     *
-     * @return  array
+     * @param int $productId
+     * @param int $storeId
+     * @return array
      */
     protected function _prepareProductCategoryIndexData($productId, $storeId)
     {
@@ -365,10 +355,9 @@ abstract class AbstractAdapter
     /**
      * Prepare price index for product
      *
-     * @param   $productId
-     * @param   $storeId
-     *
-     * @return  array
+     * @param int $productId
+     * @param int $storeId
+     * @return array
      */
     protected function _preparePriceIndexData($productId, $storeId)
     {
@@ -418,8 +407,7 @@ abstract class AbstractAdapter
      * @param array $productIndexData
      * @param int $productId
      * @param int $storeId
-     *
-     * @return  array|bool
+     * @return false|array
      */
     protected function _prepareIndexProductData($productIndexData, $productId, $storeId)
     {
@@ -600,10 +588,9 @@ abstract class AbstractAdapter
     /**
      * Create Solr Input Documents by specified data
      *
-     * @param   array $docData
-     * @param   int $storeId
-     *
-     * @return  array
+     * @param array $docData
+     * @param int $storeId
+     * @return array
      */
     public function prepareDocsPerStore($docData, $storeId)
     {
@@ -643,7 +630,7 @@ abstract class AbstractAdapter
      * Add prepared Solr Input documents to Solr index
      *
      * @param array $docs
-     * @return \Magento\Search\Model\Client\Solr
+     * @return $this
      */
     public function addDocs($docs)
     {
@@ -680,9 +667,9 @@ abstract class AbstractAdapter
     /**
      * Remove documents from Solr index
      *
-     * @param  int|string|array $docIDs
-     * @param  string|array|null $queries if "all" specified and $docIDs are empty, then all documents will be removed
-     * @return \Magento\Search\Model\Adapter\AbstractAdapter
+     * @param int|string|array $docIDs
+     * @param string|array|null $queries if "all" specified and $docIDs are empty, then all documents will be removed
+     * @return $this
      */
     public function deleteDocs($docIDs = array(), $queries = null)
     {
@@ -773,7 +760,7 @@ abstract class AbstractAdapter
     /**
      * Finalizes all add/deletes made to the index
      *
-     * @return object|bool
+     * @return object|false
      */
     public function commit()
     {
@@ -792,7 +779,7 @@ abstract class AbstractAdapter
      * Perform optimize operation
      * Same as commit operation, but also defragment the index for faster search performance
      *
-     * @return object|bool
+     * @return object|false
      */
     public function optimize()
     {
@@ -941,9 +928,9 @@ abstract class AbstractAdapter
     /**
      * Callback function for sort search suggestions
      *
-     * @param   array $a
-     * @param   array $b
-     * @return  int
+     * @param array $a
+     * @param array $b
+     * @return int
      */
     public static function sortSuggestions($a, $b)
     {
@@ -1030,10 +1017,9 @@ abstract class AbstractAdapter
     /**
      * Escape a value for special query characters such as ':', '(', ')', '*', '?', etc.
      *
-     * @link http://lucene.apache.org/java/docs/queryparsersyntax.html#Escaping%20Special%20Characters
-     *
      * @param string $value
      * @return string
+     * @link http://lucene.apache.org/java/docs/queryparsersyntax.html#Escaping%20Special%20Characters
      */
     public function _escape($value)
     {
@@ -1103,8 +1089,8 @@ abstract class AbstractAdapter
     /**
      * Convert facet results object to an array
      *
-     * @param   object|array $object
-     * @return  array
+     * @param object|array $object
+     * @return array
      */
     protected function _facetObjectToArray($object)
     {
@@ -1134,7 +1120,7 @@ abstract class AbstractAdapter
     /**
      * Hold commit of changes for adapter
      *
-     * @return \Magento\Search\Model\Adapter\AbstractAdapter
+     * @return $this
      */
     public function holdCommit()
     {
@@ -1145,7 +1131,7 @@ abstract class AbstractAdapter
     /**
      * Allow changes commit for adapter
      *
-     * @return \Magento\Search\Model\Adapter\AbstractAdapter
+     * @return $this
      */
     public function allowCommit()
     {
@@ -1156,8 +1142,8 @@ abstract class AbstractAdapter
     /**
      * Define if third party search engine index needs optimization
      *
-     * @param  bool $state
-     * @return \Magento\Search\Model\Adapter\AbstractAdapter
+     * @param bool $state
+     * @return $this
      */
     public function setIndexNeedsOptimization($state = true)
     {
@@ -1181,11 +1167,10 @@ abstract class AbstractAdapter
     /**
      * Create Solr Input Documents by specified data
      *
-     * @deprecated after 1.11.2.0
-     *
      * @param  array $docData
      * @param  string|null $localeCode
      * @return array
+     * @deprecated after 1.11.2.0
      */
     public function prepareDocs($docData, $localeCode)
     {
@@ -1195,9 +1180,8 @@ abstract class AbstractAdapter
     /**
      * Retrieve attributes selected parameters
      *
+     * @return array
      * @deprecated after 1.11.2.0
-     *
-     * @return  array
      */
     protected function _getIndexableAttributeParams()
     {
@@ -1221,13 +1205,11 @@ abstract class AbstractAdapter
     /**
      * Ability extend document index data.
      *
+     * @param array $data
+     * @param array $attributesParams
+     * @param string|null $localeCode
+     * @return array
      * @deprecated after 1.11.2.0
-     *
-     * @param   array $data
-     * @param   array $attributesParams
-     * @param   string|null $localeCode
-     *
-     * @return  array
      */
     protected function _prepareIndexData($data, $attributesParams = array(), $localeCode = null)
     {
