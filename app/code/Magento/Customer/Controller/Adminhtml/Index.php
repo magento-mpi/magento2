@@ -12,7 +12,6 @@ namespace Magento\Customer\Controller\Adminhtml;
 use Magento\App\Action\NotFoundException;
 use Magento\Customer\Controller\RegistryConstants;
 use Magento\Customer\Service\V1\Dto\Customer;
-use Magento\Customer\Service\V1\Dto\CustomerDetails;
 use Magento\Customer\Service\V1\Dto\CustomerBuilder;
 use Magento\Customer\Service\V1\Dto\CustomerDetailsBuilder;
 use Magento\Customer\Service\V1\Dto\AddressBuilder;
@@ -794,13 +793,8 @@ class Index extends \Magento\Backend\App\Action
                 unset($data['website_id']);
             }
 
-            $customerDetails = $this->_customerDetailsBuilder->populateWithArray(
-                [CustomerDetails::KEY_CUSTOMER => $data]
-            )->create();
-            $validationError = $this->_customerAccountService->validateCustomerDetails($customerDetails);
-            if ($validationError !== true && !empty($validationError)) {
-                $errors[] = $validationError['message'];
-            }
+            $customer = $this->_customerBuilder->populateWithArray($data)->create();
+            $errors = $this->_customerAccountService->validateCustomerData($customer, []);
         } catch (\Magento\Core\Exception $exception) {
             /* @var $error \Magento\Message\Error */
             foreach ($exception->getMessages(\Magento\Message\MessageInterface::TYPE_ERROR) as $error) {

@@ -516,10 +516,8 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function validateCustomerDetails(Dto\CustomerDetails $customerDetails, array $attributes = [])
+    public function validateCustomerData(Dto\Customer $customer, array $attributes)
     {
-        $customer = $customerDetails->getCustomer();
-
         $customerErrors = $this->_validator->validateData(
             $customer->__toArray(),
             $attributes,
@@ -527,43 +525,21 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         );
 
         if ($customerErrors !== true) {
-            return [
-                'error'   => -1,
-                'message' => implode(', ', $this->_validator->getMessages())
-            ];
+            return array(
+                'error'     => -1,
+                'message'   => implode(', ', $this->_validator->getMessages())
+            );
         }
 
         $customerModel = $this->_converter->createCustomerModel($customer);
 
         $result = $customerModel->validate();
         if (true !== $result && is_array($result)) {
-            return [
+            return array(
                 'error'   => -1,
                 'message' => implode(', ', $result)
-            ];
-        } elseif (false === $result) {
-            return [
-                'error'   => -1,
-                'message' => 'Unexpected return value "false" from customer model validate'
-            ];
+            );
         }
-
-        try {
-            $addresses = $customerDetails->getAddresses();
-            if (!empty($addresses)) {
-                $this->_customerAddressService->validateAddresses($addresses);
-            }
-        } catch (InputException $exception) {
-            $messages = [];
-            foreach ($exception->getErrors() as $error) {
-                $messages[] =  InputException::translateError($error);
-            }
-            return [
-                'error'   => -1,
-                'message' => implode(', ', $messages)
-            ];
-        }
-
         return true;
     }
 

@@ -187,13 +187,13 @@ interface CustomerAccountServiceInterface
     public function resendConfirmation($email, $websiteId, $redirectUrl = '');
 
     /**
-     * Validate customer details
+     * Validate customer entity
      *
-     * @param \Magento\Customer\Service\V1\Dto\CustomerDetails $customerDetails
+     * @param \Magento\Customer\Service\V1\Dto\Customer $customer
      * @param \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata[] $attributes
      * @return array|bool
      */
-    public function validateCustomerDetails(Dto\CustomerDetails $customerDetails, array $attributes = []);
+    public function validateCustomerData(\Magento\Customer\Service\V1\Dto\Customer $customer, array $attributes);
 
     /**
      * Indicates if the Customer for the provided customerId is restricted to being read only
