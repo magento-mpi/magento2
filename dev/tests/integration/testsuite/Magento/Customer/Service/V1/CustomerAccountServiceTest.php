@@ -816,8 +816,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         // ignore 'updated_at'
         unset($attributesBefore['updated_at']);
         unset($attributesAfter['updated_at']);
-        unset($attributesAfter['reward_update_notification']);
-        unset($attributesAfter['reward_warning_notification']);
         $inBeforeOnly = array_diff_assoc($attributesBefore, $attributesAfter);
         $inAfterOnly = array_diff_assoc($attributesAfter, $attributesBefore);
         $expectedInBefore = array(
@@ -1257,6 +1255,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testDeleteCustomerWithAddress()
     {
+        $this->markTestSkipped('MAGETWO-22014');
         //Verify address is created for the customer;
         $result = $this->_customerAddressService->getAddresses(1);
         $this->assertEquals(2, count($result));
