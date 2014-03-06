@@ -78,8 +78,13 @@ class CustomerCurrentServiceTest extends \PHPUnit_Framework_TestCase
             array('create', 'setGroupId'), array(), '', false);
         $this->customerDtoMock = $this->getMock('Magento\Customer\Service\V1\Dto\Customer',
             array(), array(), '', false);
-        $this->customerServiceMock = $this->getMock('Magento\Customer\Service\V1\CustomerService',
-            array(), array(), '', false);
+        $this->customerServiceMock = $this->getMock(
+            'Magento\Customer\Service\V1\CustomerAccountServiceInterface',
+            array(),
+            array(),
+            '',
+            false
+        );
         $this->requestMock = $this->getMock('Magento\App\Request\Http',
             array(), array(), '', false);
         $this->moduleManagerMock = $this->getMock('Magento\Module\Manager',

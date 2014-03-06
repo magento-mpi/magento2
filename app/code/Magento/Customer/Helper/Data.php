@@ -125,11 +125,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_customerSession;
 
     /**
-     * @var \Magento\Customer\Service\V1\CustomerServiceInterface
-     */
-    protected $_customerService;
-
-    /**
      * @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface
      */
     protected $_accountService;
@@ -176,7 +171,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\App\ConfigInterface $coreConfig
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Customer\Service\V1\CustomerServiceInterface $customerService
      * #param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $accountService
      * @param \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $metadataService
      * @param \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService
@@ -196,7 +190,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\App\ConfigInterface $coreConfig,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Customer\Service\V1\CustomerServiceInterface $customerService,
         \Magento\Customer\Service\V1\CustomerAccountServiceInterface $accountService,
         \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $metadataService,
         \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService,
@@ -212,7 +205,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_coreConfig = $coreConfig;
         $this->_customerSession = $customerSession;
-        $this->_customerService = $customerService;
         $this->_accountService = $accountService;
         $this->_metadataService = $metadataService;
         $this->_addressService = $addressService;
@@ -290,7 +282,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     {
         if (empty($this->customerDto)) {
             $customerId = $this->_customerSession->getCustomerId();
-            $this->customerDto = $this->_customerService->getCustomer($customerId);
+            $this->customerDto = $this->_accountService->getCustomer($customerId);
         }
         return $this->customerDto;
     }

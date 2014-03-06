@@ -84,9 +84,9 @@ class View extends \Magento\Rma\Block\Form
     protected $_customerSession;
 
     /**
-     * @var \Magento\Customer\Service\V1\CustomerServiceInterface
+     * @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface
      */
-    protected $_customerService;
+    protected $_customerAccountService;
 
     /**
      * Eav configuration model
@@ -105,7 +105,7 @@ class View extends \Magento\Rma\Block\Form
      * @param \Magento\Rma\Model\ItemFactory $itemFactory
      * @param \Magento\Rma\Model\Item\FormFactory $itemFormFactory
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Customer\Service\V1\CustomerServiceInterface $customerService
+     * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerService
      * @param \Magento\Customer\Helper\View $customerView
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Registry $registry
@@ -123,7 +123,7 @@ class View extends \Magento\Rma\Block\Form
         \Magento\Rma\Model\ItemFactory $itemFactory,
         \Magento\Rma\Model\Item\FormFactory $itemFormFactory,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Customer\Service\V1\CustomerServiceInterface $customerService,
+        \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService,
         \Magento\Customer\Helper\View $customerView,
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Registry $registry,
@@ -135,7 +135,7 @@ class View extends \Magento\Rma\Block\Form
         $this->_itemFactory = $itemFactory;
         $this->_itemFormFactory = $itemFormFactory;
         $this->_customerSession = $customerSession;
-        $this->_customerService = $customerService;
+        $this->_customerAccountService = $customerAccountService;
         $this->_customerView = $customerView;
         $this->_rmaData = $rmaData;
         $this->_coreRegistry = $registry;
@@ -407,7 +407,7 @@ class View extends \Magento\Rma\Block\Form
     {
         if (empty($this->customerDto)) {
             $customerId = $this->_customerSession->getCustomerId();
-            $this->customerDto = $this->_customerService->getCustomer($customerId);
+            $this->customerDto = $this->_customerAccountService->getCustomer($customerId);
         }
         return $this->customerDto;
     }
