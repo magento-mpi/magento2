@@ -56,7 +56,7 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
         $lessPreProcessor = $this->objectManager->create('Magento\Less\PreProcessor');
         $directoryRead = $this->filesystem->getDirectoryRead(\Magento\App\Filesystem::ROOT_DIR);
         /**
-         * Solution for \Magento\View\Layout\File\Source\Base aggregator, it depends on theme and area
+         * Solution for \Magento\View\File\Source\Base aggregator, it depends on theme and area
          */
         $theme = $this->objectManager->create('Magento\View\Design\ThemeInterface');
         $theme->setArea('frontend');

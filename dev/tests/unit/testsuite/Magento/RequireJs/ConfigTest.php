@@ -157,6 +157,17 @@ expected;
         $this->assertSame($expected, $actual);
     }
 
+    public function testGetBaseUrl()
+    {
+        $expected = 'http://base.url/';
+        $this->baseUrl->expects($this->once())
+            ->method('getBaseUrl')
+            ->with(array('_type' => \Magento\UrlInterface::URL_TYPE_STATIC))
+            ->will($this->returnValue($expected));
+        $actual = $this->object->getBaseUrl();
+        $this->assertSame($expected, $actual);
+    }
+
     protected function mockContextPath()
     {
         $theme = $this->getMockForAbstractClass('\Magento\View\Design\ThemeInterface');
