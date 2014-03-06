@@ -44,7 +44,7 @@ class Soap implements \Magento\App\FrontControllerInterface
     /** @var \Magento\App\State */
     protected $_appState;
 
-    /** @var \Magento\Core\Model\App */
+    /** @var \Magento\AppInterface */
     protected $_application;
 
     /**
@@ -91,6 +91,8 @@ class Soap implements \Magento\App\FrontControllerInterface
     }
 
     /**
+     * Dispatch SOAP request.
+     *
      * @param \Magento\App\RequestInterface $request
      * @return \Magento\App\ResponseInterface
      */
@@ -99,6 +101,10 @@ class Soap implements \Magento\App\FrontControllerInterface
         $pathParts = explode('/', trim($request->getPathInfo(), '/'));
         array_shift($pathParts);
         $request->setPathInfo('/' . implode('/', $pathParts));
+        $this->_application->loadAreaPart(
+            $this->_application->getLayout()->getArea(),
+            \Magento\Core\Model\App\Area::PART_TRANSLATE
+        );
         try {
             if (!$this->_appState->isInstalled()) {
                 throw new WebapiException(__('Magento is not yet installed'));
