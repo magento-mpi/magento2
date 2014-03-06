@@ -61,7 +61,7 @@ class BuiltinPlugin
         \Closure $proceed,
         \Magento\App\RequestInterface $request
     ) {
-        if ($this->config->getType() == \Magento\PageCache\Model\Config::BUILT_IN) {
+        if ($this->config->getType() == \Magento\PageCache\Model\Config::BUILT_IN && $this->config->isEnabled()) {
             $this->version->process();
             $response = $this->kernel->load();
             if ($response === false) {

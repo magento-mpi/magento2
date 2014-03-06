@@ -11,7 +11,7 @@ namespace Magento\PageCache\Model\App\FrontController;
 class BuiltinPluginTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\PageCache\Model\App\FrontController\BuiltinPlugin
+     * @var BuiltinPlugin
      */
     protected $plugin;
 
@@ -36,29 +36,42 @@ class BuiltinPluginTest extends \PHPUnit_Framework_TestCase
     protected $stateMock;
 
     /**
-     * @var \Magento\Code\Plugin\InvocationChain|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $invocationChainMock;
-
-    /**
      * @var \Magento\App\Response\Http|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $responseMock;
 
     /**
+     * @var \Magento\App\FrontControllerInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $frontControllerMock;
+
+    /**
+     * @var \Closure
+     */
+    protected $closure;
+
+    /**
+     * @var \Magento\App\RequestInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $requestMock;
+
+    /**
      * SetUp
      */
-    protected function setUp()
+    public function setUp()
     {
         $this->configMock = $this->getMock('Magento\PageCache\Model\Config', array(), array(), '', false);
         $this->versionMock = $this->getMock('Magento\App\PageCache\Version', array(), array(), '', false);
         $this->kernelMock = $this->getMock('Magento\App\PageCache\Kernel', array(), array(), '', false);
         $this->stateMock = $this->getMock('Magento\App\State', array(), array(), '', false);
-        $this->plugin = new BuiltinPlugin($this->configMock, $this->versionMock, $this->kernelMock, $this->stateMock);
-
+        $this->frontControllerMock = $this->getMock('Magento\App\FrontControllerInterface', array(), array(), '', false);
+        $this->requestMock = $this->getMock('Magento\App\RequestInterface', array(), array(), '', false);
         $this->responseMock = $this->getMock('Magento\App\Response\Http', array(), array(), '', false);
-        $this->invocationChainMock =
-            $this->getMock('Magento\Code\Plugin\InvocationChain', array(), array(), '', false);
+        $response = $this->responseMock;
+        $this->closure = function () use ($response) {
+            return $response;
+        };
+        $this->plugin = new BuiltinPlugin($this->configMock, $this->versionMock, $this->kernelMock, $this->stateMock);
     }
 
     /**
@@ -70,6 +83,9 @@ class BuiltinPluginTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('getType')
             ->will($this->returnValue(\Magento\PageCache\Model\Config::BUILT_IN));
+        $this->configMock->expects($this->once())
+            ->method('isEnabled')
+            ->will($this->returnValue(true));
         $this->versionMock
             ->expects($this->once())
             ->method('process');
@@ -77,10 +93,6 @@ class BuiltinPluginTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('load')
             ->will($this->returnValue(false));
-        $this->invocationChainMock
-            ->expects($this->once())
-            ->method('proceed')
-            ->will($this->returnValue($this->responseMock));
         $this->stateMock->expects($this->any())
             ->method('getMode')
             ->will($this->returnValue($state));
@@ -99,7 +111,7 @@ class BuiltinPluginTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('process')
             ->with($this->responseMock);
-        $this->plugin->aroundDispatch(array(), $this->invocationChainMock);
+        $this->plugin->aroundDispatch($this->frontControllerMock, $this->closure, $this->requestMock);
     }
 
     /**
@@ -111,6 +123,9 @@ class BuiltinPluginTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('getType')
             ->will($this->returnValue(\Magento\PageCache\Model\Config::BUILT_IN));
+        $this->configMock->expects($this->once())
+            ->method('isEnabled')
+            ->will($this->returnValue(true));
         $this->versionMock
             ->expects($this->once())
             ->method('process');
@@ -118,9 +133,6 @@ class BuiltinPluginTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('load')
             ->will($this->returnValue($this->responseMock));
-        $this->invocationChainMock
-            ->expects($this->never())
-            ->method('proceed');
 
         $this->stateMock->expects($this->any())
             ->method('getMode')
@@ -133,7 +145,7 @@ class BuiltinPluginTest extends \PHPUnit_Framework_TestCase
             $this->responseMock->expects($this->never())
                 ->method('setHeader');
         }
-        $this->plugin->aroundDispatch(array(), $this->invocationChainMock);
+        $this->plugin->aroundDispatch($this->frontControllerMock, $this->closure, $this->requestMock);
     }
 
     /**
@@ -142,22 +154,21 @@ class BuiltinPluginTest extends \PHPUnit_Framework_TestCase
     public function testAroundDispatchDisabled($state)
     {
         $this->configMock
-            ->expects($this->once())
+            ->expects($this->any())
             ->method('getType')
             ->will($this->returnValue(null));
+        $this->configMock->expects($this->any())
+            ->method('isEnabled')
+            ->will($this->returnValue(true));
         $this->versionMock
             ->expects($this->never())
             ->method('process');
-        $this->invocationChainMock
-            ->expects($this->once())
-            ->method('proceed')
-            ->will($this->returnValue($this->responseMock));
         $this->stateMock->expects($this->any())
             ->method('getMode')
             ->will($this->returnValue($state));
         $this->responseMock->expects($this->never())
             ->method('setHeader');
-        $this->plugin->aroundDispatch(array(), $this->invocationChainMock);
+        $this->plugin->aroundDispatch($this->frontControllerMock, $this->closure, $this->requestMock);
     }
 
     public function dataProvider()

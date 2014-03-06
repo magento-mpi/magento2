@@ -8,7 +8,7 @@
 namespace Magento\PageCache\Model\App\FrontController;
 
 /**
- * Plugin for processing builtin cache
+ * Varnish for processing builtin cache
  */
 class VarnishPlugin
 {
@@ -23,28 +23,28 @@ class VarnishPlugin
     protected $version;
 
     /**
-     * @var \Magento\App\PageCache\Kernel
+     * @var \Magento\App\State
      */
-    protected $kernel;
+    protected $state;
 
     /**
      * @param \Magento\PageCache\Model\Config $config
      * @param \Magento\App\PageCache\Version $version
-     * @param \Magento\App\PageCache\Kernel $kernel
+     * @param \Magento\App\State $state
      */
     public function __construct(
         \Magento\PageCache\Model\Config $config,
         \Magento\App\PageCache\Version $version,
-        \Magento\App\PageCache\Kernel $kernel
+        \Magento\App\State $state
     ) {
         $this->config = $config;
         $this->version = $version;
-        $this->kernel = $kernel;
+        $this->state = $state;
     }
 
     /**
      * @param \Magento\App\FrontControllerInterface $subject
-     * @param \Closure $proceed
+     * @param callable $proceed
      * @param \Magento\App\RequestInterface $request
      * @return false|\Magento\App\Response\Http
      */
@@ -53,12 +53,11 @@ class VarnishPlugin
         \Closure $proceed,
         \Magento\App\RequestInterface $request
     ) {
-        $this->version->process();
-        if ($this->config->getType() == \Magento\PageCache\Model\Config::BUILT_IN) {
-            $response = $this->kernel->load();
-            if ($response === false) {
-                $response = $proceed($request);
-                $this->kernel->process($response);
+        if ($this->config->getType() == \Magento\PageCache\Model\Config::VARNISH) {
+            $this->version->process();
+            $response = $proceed($request);
+            if ($this->state->getMode() == \Magento\App\State::MODE_DEVELOPER) {
+                $response->setHeader('X-Magento-Debug', 1);
             }
         } else {
             $response = $proceed($request);

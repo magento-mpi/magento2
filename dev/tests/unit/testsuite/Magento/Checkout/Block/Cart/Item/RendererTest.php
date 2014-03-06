@@ -59,7 +59,11 @@ class RendererTest extends \PHPUnit_Framework_TestCase
     protected function _initProduct()
     {
         /** @var \Magento\Catalog\Model\Product|\PHPUnit_Framework_MockObject_MockObject $product */
-        $product = $this->getMock('Magento\Catalog\Model\Product', array('getName', '__wakeup'), array(), '', false);
+        $product = $this->getMock(
+            'Magento\Catalog\Model\Product',
+            array('getName', '__wakeup', 'getIdentities'),
+            array(), '', false
+        );
         $product->expects($this->any())->method('getName')->will($this->returnValue('Parent Product'));
 
         /** @var \Magento\Sales\Model\Quote\Item|\PHPUnit_Framework_MockObject_MockObject $item */
@@ -73,6 +77,11 @@ class RendererTest extends \PHPUnit_Framework_TestCase
     public function testGetIdentities()
     {
         $product = $this->_initProduct();
+        $identities = [1 => 1, 2 => 2, 3 => 3];
+        $product->expects($this->exactly(2))
+            ->method('getIdentities')
+            ->will($this->returnValue($identities));
+
         $this->assertEquals($product->getIdentities(), $this->_renderer->getIdentities());
     }
 

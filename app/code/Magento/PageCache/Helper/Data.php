@@ -32,25 +32,17 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $view;
 
     /**
-     * @var \Magento\Theme\Model\Layout\Config
-     */
-    protected $config;
-
-    /**
      * Constructor
      *
      * @param \Magento\App\Helper\Context $context
-     * @param \Magento\Theme\Model\Layout\Config $config
      * @param \Magento\App\View $view
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
-        \Magento\Theme\Model\Layout\Config $config,
         \Magento\App\View $view
     ) {
         parent::__construct($context);
         $this->view = $view;
-        $this->config = $config;
     }
 
     /**
@@ -72,11 +64,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getActualHandles()
     {
-        $handlesPage = $this->view->getLayout()->getUpdate()->getHandles();
-        $handlesConfig = $this->config->getPageLayoutHandles();
-        $appliedHandles = array_intersect($handlesPage, $handlesConfig);
-        $resultHandles = array_merge(['default'], array_values($appliedHandles));
-
-        return $resultHandles;
+        return $this->view->getLayout()->getUpdate()->getHandles();
     }
 }

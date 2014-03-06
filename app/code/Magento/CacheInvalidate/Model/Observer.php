@@ -23,7 +23,7 @@ class Observer
     protected $_config;
 
     /**
-     * @var \Magento\CacheInvalidate\Helper\Data
+     * @var \Magento\PageCache\Helper\Data
      */
     protected $_helper;
 

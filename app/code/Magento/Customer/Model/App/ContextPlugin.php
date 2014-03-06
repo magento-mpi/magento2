@@ -42,7 +42,9 @@ class ContextPlugin
      */
     public function beforeLaunch(\Magento\LauncherInterface $subject)
     {
-        $this->httpContext->setValue(\Magento\CustomerSegment\Helper\Data::CONTEXT_SEGMENT,
-            $this->customerSession->getCustomerSegmentId());
+        $this->httpContext->setValue(\Magento\Customer\Helper\Data::CONTEXT_GROUP,
+            $this->customerSession->getCustomerGroupId());
+        $this->httpContext->setValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH,
+            $this->customerSession->isLoggedIn());
     }
 }

@@ -7,7 +7,9 @@
 
 namespace Magento\PageCache\Model\Indexer\Processor;
 
-
+/**
+ * Class InvalidatePlugin
+ */
 class InvalidatePlugin
 {
     /**
@@ -20,6 +22,10 @@ class InvalidatePlugin
      */
     protected $eventManager;
 
+    /**
+     * @param \Magento\PageCache\Model\Indexer\Context $context
+     * @param \Magento\Event\Manager $eventManager
+     */
     public function __construct(
         \Magento\PageCache\Model\Indexer\Context $context,
         \Magento\Event\Manager $eventManager

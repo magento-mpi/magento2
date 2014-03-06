@@ -68,6 +68,11 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
     protected $httpContext;
 
     /**
+     * @var \Magento\Log\Model\Visitor|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $visitorMock;
+
+    /**
      * SetUp
      */
     public function setUp()
@@ -105,6 +110,7 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->moduleManagerMock = $this->getMock('Magento\Module\Manager', array(), array(), '', false);
+        $this->visitorMock = $this->getMock('Magento\Log\Model\Visitor', array(), array(), '', false);
         $this->customerFactoryMock->expects($this->once())
             ->method('create')
             ->will($this->returnValue($this->customerMock));
@@ -117,6 +123,7 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
             $this->eventManagerMock,
             $this->requestMock,
             $this->moduleManagerMock,
+            $this->visitorMock,
             $this->httpContext
         );
     }
@@ -156,6 +163,13 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('dispatch')
             ->with($this->equalTo('before_session_write_close'));
+        $this->visitorMock
+            ->expects($this->once())
+            ->method('setSkipRequestLogging')
+            ->with($this->equalTo(true));
+        $this->visitorMock
+            ->expects($this->once())
+            ->method('unsetData');
         $this->sessionMock
             ->expects($this->once())
             ->method('clearStorage');

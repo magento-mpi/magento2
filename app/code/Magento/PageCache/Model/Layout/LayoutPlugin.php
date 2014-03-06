@@ -55,7 +55,7 @@ class LayoutPlugin
      */
     public function afterGenerateXml(\Magento\Core\Model\Layout $subject, $result)
     {
-        if ($this->layout->isCacheable()) {
+        if ($this->layout->isCacheable() && $this->config->isEnabled()) {
             $this->response->setPublicHeaders($this->config->getTtl());
         }
         return $result;
@@ -70,7 +70,7 @@ class LayoutPlugin
      */
     public function afterGetOutput(\Magento\Core\Model\Layout $subject, $result)
     {
-        if ($this->layout->isCacheable()) {
+        if ($this->layout->isCacheable() && $this->config->isEnabled()) {
             $tags = array();
             foreach ($this->layout->getAllBlocks() as $block) {
                 if ($block instanceof \Magento\View\Block\IdentityInterface) {

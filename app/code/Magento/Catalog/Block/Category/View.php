@@ -68,8 +68,8 @@ class View extends \Magento\View\Element\Template implements \Magento\View\Block
         $this->getLayout()->createBlock('Magento\Catalog\Block\Breadcrumbs');
 
         $headBlock = $this->getLayout()->getBlock('head');
-        if ($headBlock) {
-            $category = $this->getCurrentCategory();
+        $category = $this->getCurrentCategory();
+        if ($headBlock && $category) {
             $title = $category->getMetaTitle();
             if ($title) {
                 $headBlock->setTitle($title);

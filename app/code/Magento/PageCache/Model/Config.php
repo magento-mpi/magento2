@@ -31,8 +31,8 @@ class Config
     /**#@+
      * Cache types
      */
-    const BUILT_IN = 0;
-    const VARNISH = 1;
+    const BUILT_IN = 1;
+    const VARNISH = 2;
     /**#@-*/
 
     /**#@+
@@ -62,18 +62,33 @@ class Config
     const VARNISH_CONFIGURATION_PATH = 'system/full_page_cache/varnish/path';
 
     /**
+     * @var \Magento\App\Cache\StateInterface $_cacheState
+     */
+    protected $_cacheState;
+
+    /**
      * @var \Magento\Filesystem\Directory\WriteInterface
      */
     protected $_modulesDirectory;
 
+    /**
+     * Constructor
+     *
+     * @param Filesystem $filesystem
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\App\ConfigInterface $config
+     * @param \Magento\App\Cache\StateInterface $cacheState
+     */
     public function __construct(
         \Magento\App\Filesystem $filesystem,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\App\ConfigInterface $config
+        \Magento\App\ConfigInterface $config,
+        \Magento\App\Cache\StateInterface $cacheState
     ) {
         $this->_modulesDirectory = $filesystem->getDirectoryRead(\Magento\App\Filesystem::MODULES_DIR);
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_config = $config;
+        $this->_cacheState = $cacheState;
     }
 
     /**
@@ -180,5 +195,15 @@ class Config
             }
         }
         return $result;
+    }
+
+    /**
+     * Whether a cache type is enabled in Cache Management Grid
+     *
+     * @return bool
+     */
+    public function isEnabled()
+    {
+        return $this->_cacheState->isEnabled(\Magento\PageCache\Model\Cache\Type::TYPE_IDENTIFIER);
     }
 }
