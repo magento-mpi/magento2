@@ -50,8 +50,7 @@ class Layer
     public function beforePrepareProductCollection(
         \Magento\Catalog\Model\Layer $subject,
         \Magento\Catalog\Model\Resource\Collection\AbstractCollection $collection
-    )
-    {
+    ) {
         if ($this->_isEnabledShowOutOfStock()) {
             return;
         }
