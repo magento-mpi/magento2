@@ -85,7 +85,7 @@ class Category
      * Reindex category permissions on category move event
      *
      * @param \Magento\Catalog\Model\Category $subject
-     * @param callable $closure
+     * @param \Closure $closure
      * @param int $parentId
      * @param int $afterCategoryId
      * @return \Magento\Catalog\Model\Category
