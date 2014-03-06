@@ -28,9 +28,9 @@ class Observer
     protected $_dateTime;
 
     /**
-     * @var \Magento\LocaleInterface
+     * @var \Magento\Stdlib\DateTime\TimezoneInterface
      */
-    protected $_locale;
+    protected $_localeDate;
 
     /**
      * @var \Magento\Eav\Model\Config
@@ -51,7 +51,7 @@ class Observer
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\Resource $resource
      * @param \Magento\Stdlib\DateTime $dateTime
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Catalog\Model\Indexer\Product\Price\Processor $processor
      */
@@ -59,14 +59,14 @@ class Observer
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\Resource $resource,
         \Magento\Stdlib\DateTime $dateTime,
-        \Magento\LocaleInterface $locale,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Catalog\Model\Indexer\Product\Price\Processor $processor
     ) {
         $this->_storeManager = $storeManager;
         $this->_resource = $resource;
         $this->_dateTime = $dateTime;
-        $this->_locale = $locale;
+        $this->_localeDate = $localeDate;
         $this->_eavConfig = $eavConfig;
         $this->_processor = $processor;
     }
@@ -92,7 +92,7 @@ class Observer
         $connection = $this->_getWriteConnection();
 
         foreach ($this->_storeManager->getStores(true) as $store) {
-            $timestamp = $this->_locale->storeTimeStamp($store);
+            $timestamp = $this->_localeDate->scopeTimeStamp($store);
             $currDate = $this->_dateTime->formatDate($timestamp, false);
             $currDateExpr = $connection->quote($currDate);
 
