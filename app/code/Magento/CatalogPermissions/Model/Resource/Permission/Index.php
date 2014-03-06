@@ -17,12 +17,10 @@ use Magento\Catalog\Model\Resource\Product\Collection as ProductCollection;
 use Magento\CatalogPermissions\Helper\Data as Helper;
 use Magento\CatalogPermissions\Model\Permission;
 use Magento\Core\Model\Store;
-use Magento\Core\Model\Store\Config;
 use Magento\Core\Model\StoreManagerInterface;
 use Magento\Eav\Model\Entity\Attribute;
-use Magento\Index\Model\Resource\AbstractResource;
 
-class Index extends AbstractResource
+class Index extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Catalog permissions data
