@@ -36,6 +36,9 @@ class DirectoryList extends \Magento\Filesystem\DirectoryList
         Filesystem::MODULES_DIR => array(
             'path' => 'app/code'
         ),
+        Filesystem::THEMES_DIR => array(
+            'path' => 'app/design'
+        ),
         Filesystem::CONFIG_DIR => array(
             'path' => 'app/etc'
         ),
