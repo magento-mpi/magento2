@@ -206,10 +206,7 @@ class PluginListTest extends \PHPUnit_Framework_TestCase
             ->method('getCurrentScope')
             ->will($this->returnValue('scope'));
 
-        $data = array(
-            'inherited' => array('key'),
-            'processed' => array('key'),
-        );
+        $data = array(array('key'), array('key'), array('key'));
 
         $this->_cacheMock->expects($this->once())
             ->method('load')

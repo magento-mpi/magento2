@@ -34,6 +34,11 @@ class InterfaceValidatorTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers \Magento\Interception\Code\InterfaceValidator::validate
+     * @covers \Magento\Interception\Code\InterfaceValidator::getMethodParameters
+     * @covers \Magento\Interception\Code\InterfaceValidator::getMethodType
+     * @covers \Magento\Interception\Code\InterfaceValidator::getOriginMethodName
+     * @covers \Magento\Interception\Code\InterfaceValidator::getParametersType
+     * @covers \Magento\Interception\Code\InterfaceValidator::__construct
      */
     public function testValidate()
     {
@@ -73,6 +78,7 @@ class InterfaceValidatorTest extends \PHPUnit_Framework_TestCase
      * @expectedException \Magento\Interception\Code\ValidatorException
      * @expectedExceptionMessage Invalid method signature. Invalid method parameters count
      * @covers \Magento\Interception\Code\InterfaceValidator::validate
+     * @covers \Magento\Interception\Code\InterfaceValidator::validateMethodsParameters
      */
     public function testValidateIncompatibleMethodArgumentsCount()
     {
@@ -86,6 +92,7 @@ class InterfaceValidatorTest extends \PHPUnit_Framework_TestCase
      * @expectedException \Magento\Interception\Code\ValidatorException
      * @expectedExceptionMessage Incompatible parameter type
      * @covers \Magento\Interception\Code\InterfaceValidator::validate
+     * @covers \Magento\Interception\Code\InterfaceValidator::validateMethodsParameters
      */
     public function testValidateIncompatibleMethodArgumentsType()
     {
