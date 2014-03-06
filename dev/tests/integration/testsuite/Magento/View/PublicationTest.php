@@ -450,7 +450,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
 
         $themePath = $model->getDesignTheme()->getFullPath();
 
-        $fixtureViewPath = "$appInstallDir/media_for_change/$themePath/";
+        $fixtureViewPath = "$appInstallDir/media_for_change/$themePath/web/";
         $publishedPath = $viewService->getPublicDir() . "/$themePath/en_US/";
 
         $fileResolver->getPublicViewFile('style.css', array('locale' => 'en_US'));
@@ -540,7 +540,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
         $fileResolver = $objectManager->create('Magento\View\FileResolver');
 
         $themePath = $model->getDesignTheme()->getFullPath();
-        $fixtureViewPath = "$appInstallDir/media_for_change/$themePath/";
+        $fixtureViewPath = "$appInstallDir/media_for_change/$themePath/web/";
         $publishedPath = $viewService->getPublicDir() . "/$themePath/en_US/";
 
         $fileResolver->getPublicViewFile('style.css', array('locale' => 'en_US'));
