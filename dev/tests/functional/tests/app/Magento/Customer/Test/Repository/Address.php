@@ -17,14 +17,14 @@ use Mtf\Repository\AbstractRepository;
  * Class Address Repository
  * Customer addresses
  *
- * @package Magento\Customer\Address\Repository
+ * @package Magento\Customer\Test\Repository
  */
 class Address extends AbstractRepository
 {
     /**
      * {inheritdoc}
      */
-    public function __construct(array $defaultConfig, array $defaultData)
+    public function __construct(array $defaultConfig = array(), array $defaultData = array())
     {
         $this->_data['default'] = array(
             'config' => $defaultConfig,
@@ -63,14 +63,14 @@ class Address extends AbstractRepository
                     'city' => array(
                         'value' => 'Culver City'
                     ),
-                    'region' => array(
+                    'region_id' => array(
                         'value' => 'California',
                         'input' => 'select'
                     ),
                     'postcode' => array(
                         'value' => '90230'
                     ),
-                    'country' => array(
+                    'country_id' => array(
                         'value' => 'United States',
                         'input' => 'select'
                     ),
@@ -119,14 +119,14 @@ class Address extends AbstractRepository
                     'city' => array(
                         'value' => 'New York'
                     ),
-                    'region' => array(
+                    'region_id' => array(
                         'value' => 'New York',
                         'input' => 'select'
                     ),
                     'postcode' => array(
                         'value' => '10022'
                     ),
-                    'country' => array(
+                    'country_id' => array(
                         'value' => 'United States',
                         'input' => 'select'
                     ),
@@ -155,11 +155,11 @@ class Address extends AbstractRepository
                     'street_1' => array(
                         'value' => '6161 West Centinela Avenue'
                     ),
-                    'country' => array(
+                    'country_id' => array(
                         'value' => 'United States',
                         'input' => 'select'
                     ),
-                    'region' => array(
+                    'region_id' => array(
                         'value' => 'California',
                         'input' => 'select',
                         'selector' => '#region_id'
@@ -223,7 +223,7 @@ class Address extends AbstractRepository
 
     /**
      * Get second address for UK
-     * 
+     *
      * @return array
      */
     protected function getAddressUK2()
@@ -246,11 +246,11 @@ class Address extends AbstractRepository
                     'street_1' => array(
                         'value' => '42 King Street West'
                     ),
-                    'country' => array(
+                    'country_id' => array(
                         'value' => 'United Kingdom',
                         'input' => 'select',
                     ),
-                    'province' => array(
+                    'region' => array(
                         'value' => 'Manchester',
                         'selector' => '#region',
                     ),
@@ -287,7 +287,7 @@ class Address extends AbstractRepository
 
     /**
      * Get address for Germany
-     * 
+     *
      * @return array
      */
     protected function getAddressDE()
@@ -304,7 +304,7 @@ class Address extends AbstractRepository
                     'company' => array(
                         'value' => 'Magento %isolation%'
                     ),
-                    'country' => array(
+                    'country_id' => array(
                         'value' => 'Germany',
                         'input' => 'select'
                     ),
@@ -314,7 +314,7 @@ class Address extends AbstractRepository
                     'city' => array(
                         'value' => 'Berlin'
                     ),
-                    'region' => array(
+                    'region_id' => array(
                         'value' => 'Berlin',
                         'input' => 'select',
                         'selector' => '#region_id',

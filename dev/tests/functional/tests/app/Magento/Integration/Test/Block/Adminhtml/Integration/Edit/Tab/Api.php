@@ -17,45 +17,13 @@ use Mtf\Client\Element\Locator;
 class Api extends Tab
 {
     /**
-     * Resource access dropdown
-     *
-     * @var string
-     */
-    protected $resourceAccess = '#all_resources';
-
-    /**
-     * JQuery tree element
-     *
-     * @var string
-     */
-    protected $jqeryTree = '[data-role="tree-resources-container"]';
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function _init()
-    {
-        parent::_init();
-        $this->_mapping = array(
-            'resource_access' => array(
-                'selector' => $this->resourceAccess,
-                'input' => 'select',
-            ),
-            'resources' => array(
-                'selector' => $this->jqeryTree,
-                'input' => 'jquerytree'
-            )
-        );
-    }
-
-    /**
      * Checks resources JStree visibility
      *
      * @return bool
      */
     public function isResourceVisible()
     {
-        return $this->_rootElement->find($this->jqeryTree)->isVisible();
+        return $this->_rootElement->find($this->mapping['resources']['selector'])->isVisible();
     }
 
     /**
@@ -65,7 +33,11 @@ class Api extends Tab
      */
     public function setRoleAccess($accessType)
     {
-        $this->_rootElement->find($this->resourceAccess, Locator::SELECTOR_CSS, 'select')->setValue($accessType);
+        $this->_rootElement->find(
+            $this->mapping['resource_access']['selector'],
+            Locator::SELECTOR_CSS,
+            $this->mapping['resource_access']['input']
+        )->setValue($accessType);
     }
 
     /**
@@ -75,6 +47,10 @@ class Api extends Tab
      */
     public function getRoleAccess()
     {
-        return $this->_rootElement->find($this->resourceAccess, Locator::SELECTOR_CSS, 'select')->getValue();
+        return $this->_rootElement->find(
+            $this->mapping['resource_access']['selector'],
+            Locator::SELECTOR_CSS,
+            $this->mapping['resource_access']['input']
+        )->getValue();
     }
 }

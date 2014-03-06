@@ -16,7 +16,7 @@ use Mtf\Repository\AbstractRepository;
 /**
  * Class Banner Repository
  *
- * @package Magento\Catalog\Test\Repository
+ * @package Magento\Banner\Test\Repository
  */
 class Banner extends AbstractRepository
 {
@@ -28,7 +28,7 @@ class Banner extends AbstractRepository
     /**
      * {@inheritdoc}
      */
-    public function __construct(array $defaultConfig, array $defaultData)
+    public function __construct(array $defaultConfig = array(), array $defaultData = array())
     {
         $this->_data['default'] = array('config' => $defaultConfig, 'data' => $defaultData);
 
@@ -45,7 +45,7 @@ class Banner extends AbstractRepository
                 'fields' => array(
                     // Banner Name = banner1
                     'name' => array(
-                        'value' => 'banner1'
+                        'value' => 'Banner %isolation%'
                     ),
                     // Active = yes
                     'is_enabled' => array(
@@ -54,7 +54,7 @@ class Banner extends AbstractRepository
                     // Content = text/insert variable
                     'store_contents' => array(
                         'value' => array(
-                            '0' => 'My Banner'
+                            '0' => 'My Banner %isolation%'
                         )
                     )
                 )
