@@ -149,5 +149,17 @@
             <path>dev/tests/unit/testsuite/Magento/Catalog/Model/Indexer/Category/Product/Plugin/MviewStateTest.php</path>
             <word>CHANGELOG</word>
         </item>
+        <item>
+            <path>app/code/Magento/CatalogPermissions/Model/Indexer/Plugin/MviewState.php</path>
+            <word>CHANGELOG</word>
+        </item>
+        <item>
+            <path>app/code/Magento/CatalogPermissions/etc/di.xml</path>
+            <word>CHANGELOG</word>
+        </item>
+        <item>
+            <path>dev/tests/unit/testsuite/Magento/CatalogPermissions/Model/Indexer/Plugin/MviewStateTest.php</path>
+            <word>CHANGELOG</word>
+        </item>
     </whitelist>
 </config>
