@@ -272,4 +272,5 @@ return array(
     array('fileIteratorFactory', 'Magento\Core\Model\Theme\Collection'),
     array('_allowDuplication', 'Magento\View\Publisher'),
     array('_modulesReader', 'Magento\View\Publisher'),
+    array('_directoryUrl', 'Magento\Directory\Block\Currency'),
 );
