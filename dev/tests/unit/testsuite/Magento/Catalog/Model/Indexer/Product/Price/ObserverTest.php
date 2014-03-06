@@ -40,9 +40,9 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     protected $_dateTimeMock;
 
     /**
-     * @var \Magento\LocaleInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Stdlib\DateTime\TimezoneInterface|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_localeMock;
+    protected $_localeDateMock;
 
     /**
      * @var \Magento\Eav\Model\Config|\PHPUnit_Framework_MockObject_MockObject
@@ -63,7 +63,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         );
         $this->_resourceMock = $this->getMock('Magento\App\Resource', array(), array(), '', false);
         $this->_dateTimeMock = $this->getMock('Magento\Stdlib\DateTime', array(), array(), '', false);
-        $this->_localeMock = $this->getMock('Magento\LocaleInterface', array(), array(), '', false);
+        $this->_localeDateMock = $this->getMock('Magento\Stdlib\DateTime\TimezoneInterface');
         $this->_eavConfigMock = $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false);
         $this->_priceProcessorMock = $this->getMock(
             'Magento\Catalog\Model\Indexer\Product\Price\Processor', array(), array(), '', false
@@ -73,7 +73,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             'storeManager' => $this->_storeManagerMock,
             'resource' => $this->_resourceMock,
             'dateTime' => $this->_dateTimeMock,
-            'locale' => $this->_localeMock,
+            'localeDate' => $this->_localeDateMock,
             'eavConfig' => $this->_eavConfigMock,
             'processor' => $this->_priceProcessorMock
         ));
@@ -115,8 +115,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->with(true)
             ->will($this->returnValue(array($storeMock)));
 
-        $this->_localeMock->expects($this->once())
-            ->method('storeTimeStamp')
+        $this->_localeDateMock->expects($this->once())
+            ->method('scopeTimeStamp')
             ->with($storeMock)
             ->will($this->returnValue(32000));
 

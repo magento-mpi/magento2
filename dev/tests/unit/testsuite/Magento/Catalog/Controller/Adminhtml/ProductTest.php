@@ -106,7 +106,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $this->_controller = new \Magento\Catalog\Controller\Adminhtml\Product(
             $contextMock,
             $this->getMock('Magento\Registry', array(), array(), '', false),
-            $this->getMock('Magento\Core\Filter\Date', array(), array(), '', false),
+            $this->getMock('Magento\Stdlib\DateTime\Filter\Date', array(), array(), '', false),
             $this->getMock(
                 'Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper',
                 array(), array(), '', false
