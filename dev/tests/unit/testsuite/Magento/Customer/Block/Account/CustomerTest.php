@@ -43,8 +43,16 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $contextMock->expects($this->any())->method('getEscaper')->will($this->returnValue($escaperMock));
 
+        $httpContextMock = $this->getMockBuilder('Magento\App\Http\Context')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $customerCurrent = $this->getMockBuilder('Magento\Customer\Service\V1\CustomerCurrentService')
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $block = new \Magento\Customer\Block\Account\Customer($contextMock, $sessionMock, $customerServiceMock,
-            $viewHelperMock);
+            $viewHelperMock, $httpContextMock, $customerCurrent);
 
         $this->assertSame($customerName, $block->getCustomerName());
     }

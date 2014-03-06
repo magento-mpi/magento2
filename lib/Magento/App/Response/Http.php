@@ -103,7 +103,7 @@ class Http extends \Zend_Controller_Response_Http implements \Magento\App\Respon
     public function setPrivateHeaders($ttl)
     {
         if (!$ttl) {
-            throw new \InvalidArgumentException('time to live is a mandatory parameter for set private headers');
+            throw new \InvalidArgumentException('Time to live is a mandatory parameter for set private headers');
         }
         $this->setHeader('pragma', 'cache', true);
         $this->setHeader('cache-control', 'private, max-age=' . $ttl, true);
