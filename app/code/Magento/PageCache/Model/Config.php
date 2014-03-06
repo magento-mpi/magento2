@@ -31,8 +31,8 @@ class Config
     /**#@+
      * Cache types
      */
-    const BUILT_IN = 0;
-    const VARNISH = 1;
+    const BUILT_IN = 1;
+    const VARNISH = 2;
     /**#@-*/
 
     /**#@+
