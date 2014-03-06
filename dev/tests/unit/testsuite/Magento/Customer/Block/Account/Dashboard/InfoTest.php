@@ -112,6 +112,10 @@ class InfoTest extends \PHPUnit_Framework_TestCase
     {
         $expectedValue = 'John Q Doe Jr';
 
+        $this->customerCurrentService->expects($this->once())
+            ->method('getCustomer')
+            ->will($this->returnValue($this->_customer));
+
         /**
          * Called three times, once for each attribute (i.e. prefix, middlename, and suffix)
          */
