@@ -56,11 +56,9 @@ abstract class AbstractAction
     protected $_currencyFactory;
 
     /**
-     * Locale
-     *
-     * @var \Magento\LocaleInterface
+     * @var \Magento\Stdlib\DateTime\TimezoneInterface
      */
-    protected $_locale;
+    protected $_localeDate;
 
     /**
      * @var \Magento\Stdlib\DateTime
@@ -96,7 +94,7 @@ abstract class AbstractAction
      * @param \Magento\App\ConfigInterface $config
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Catalog\Model\Product\Type $catalogProductType
      * @param \Magento\Catalog\Model\Resource\Product\Indexer\Price\Factory $indexerPriceFactory
@@ -107,7 +105,7 @@ abstract class AbstractAction
         \Magento\App\ConfigInterface $config,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
-        \Magento\LocaleInterface $locale,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Catalog\Model\Product\Type $catalogProductType,
         \Magento\Catalog\Model\Resource\Product\Indexer\Price\Factory $indexerPriceFactory,
@@ -117,7 +115,7 @@ abstract class AbstractAction
         $this->_config = $config;
         $this->_storeManager = $storeManager;
         $this->_currencyFactory = $currencyFactory;
-        $this->_locale = $locale;
+        $this->_localeDate = $localeDate;
         $this->_dateTime = $dateTime;
         $this->_catalogProductType = $catalogProductType;
         $this->_indexerPriceFactory = $indexerPriceFactory;
@@ -224,7 +222,7 @@ abstract class AbstractAction
             /** @var $store \Magento\Core\Model\Store */
             $store = $this->_storeManager->getStore($item['store_id']);
             if ($store) {
-                $timestamp = $this->_locale->storeTimeStamp($store);
+                $timestamp = $this->_localeDate->scopeTimeStamp($store);
                 $data[] = array(
                     'website_id'   => $website->getId(),
                     'website_date' => $this->_dateTime->formatDate($timestamp, false),
