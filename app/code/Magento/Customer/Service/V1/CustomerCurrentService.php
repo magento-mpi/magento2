@@ -116,4 +116,14 @@ class CustomerCurrentService implements \Magento\Customer\Service\V1\CustomerCur
     {
         return $this->customerSession->getId();
     }
+
+    /**
+     * Set customer id
+     *
+     * @param int|null $customerId
+     */
+    public function setCustomerId($customerId)
+    {
+        $this->customerSession->setId($customerId);
+    }
 }

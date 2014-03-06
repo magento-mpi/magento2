@@ -80,7 +80,7 @@ class BookTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetAdditionalAddresses()
     {
-        $this->_customerSession->setCustomerId(1);
+        $this->currentCustomer->setCustomerId(1);
         $this->assertNotNull($this->_block->getAdditionalAddresses());
         $this->assertCount(1, $this->_block->getAdditionalAddresses());
         $this->assertInstanceOf(
@@ -97,7 +97,7 @@ class BookTest extends \PHPUnit_Framework_TestCase
     public function testGetAdditionalAddressesNegative($customerId, $expected)
     {
         if (!empty($customerId)) {
-            $this->_customerSession->setCustomerId($customerId);
+            $this->currentCustomer->setCustomerId($customerId);
         }
         $this->assertEquals($expected, $this->_block->getAdditionalAddresses());
     }
@@ -137,7 +137,7 @@ class BookTest extends \PHPUnit_Framework_TestCase
         $customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Customer\Service\V1\CustomerServiceInterface')->getCustomer(1);
 
-        $this->_customerSession->setCustomerId(1);
+        $this->currentCustomer->setCustomerId(1);
         $object = $this->_block->getCustomer();
         $this->assertEquals($customer, $object);
     }
@@ -156,7 +156,7 @@ class BookTest extends \PHPUnit_Framework_TestCase
     public function testGetDefaultBilling($customerId, $expected)
     {
         if (!empty($customerId)) {
-            $this->_customerSession->setCustomerId($customerId);
+            $this->currentCustomer->setCustomerId($customerId);
         }
         $this->assertEquals($expected, $this->_block->getDefaultBilling());
     }
@@ -179,7 +179,7 @@ class BookTest extends \PHPUnit_Framework_TestCase
     public function testGetDefaultShipping($customerId, $expected)
     {
         if (!empty($customerId)) {
-            $this->_customerSession->setCustomerId($customerId);
+            $this->currentCustomer->setCustomerId($customerId);
         }
         $this->assertEquals($expected, $this->_block->getDefaultShipping());
     }
