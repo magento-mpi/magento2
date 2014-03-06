@@ -57,7 +57,10 @@ class IndexTest extends \PHPUnit_Framework_TestCase
 
         $this->assertArrayHasKey(6, $permissions);
         $this->assertCount(1, $permissions);
-        $this->assertEquals($fixturePermission, reset($permissions));
+        foreach ($fixturePermission as $key => $permissionData) {
+            $this->assertArrayHasKey($key, $permissions[6]);
+            $this->assertEquals($permissionData, $permissions[6][$key]);
+        }
     }
 
     /**
