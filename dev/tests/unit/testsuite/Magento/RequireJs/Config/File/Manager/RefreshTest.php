@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\RequieJs\Config\File\Manager;
+namespace Magento\RequireJs\Config\File\Manager;
 
 class RefreshTest extends \PHPUnit_Framework_TestCase
 {

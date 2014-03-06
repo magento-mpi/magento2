@@ -119,6 +119,7 @@ class Theme extends \Magento\Backend\App\Action
      * Save action
      *
      * @return void
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function saveAction()
     {
