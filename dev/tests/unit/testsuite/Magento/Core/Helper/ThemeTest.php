@@ -407,17 +407,15 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
         /** @var $theme \Magento\Core\Model\Theme|\PHPUnit_Framework_MockObject_MockObject */
         $theme = $this->getMock(
             'Magento\Core\Model\Theme',
-            array('getThemeId', 'getArea', 'getThemeTitle', '__wakeup'),
+            array('getThemeId', 'getThemeTitle', '__wakeup'),
             array(),
             '',
             false
         );
+        $theme->setData('area', $themeArea);
         $theme->expects($this->any())
             ->method('getThemeId')
             ->will($this->returnValue($themeId));
-        $theme->expects($this->any())
-            ->method('getArea')
-            ->will($this->returnValue($themeArea));
         $theme->expects($this->any())
             ->method('getThemeTitle')
             ->will($this->returnValue($themeId));
