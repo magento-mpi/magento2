@@ -501,10 +501,8 @@ class Helper
         $filename = $this->getCurrentFile()->getFilename();
         if (preg_match('#(?:/|\\\\)dev(?:/|\\\\)tests(?:/|\\\\)#', $filename)) {
             // TODO: Temporarily blacklist anything in dev/tests until a sweep of dev/tests can be made.
+            //       This block of the if should be removed leaving only the phtml condition when dev/tests is swept.
             // Skip all dev tests files
-            $shouldFilter = true;
-        } elseif (preg_match('#app(?:/|\\\\)code(?:/|\\\\)Magento(?:/|\\\\)GoogleCheckout(?:/|\\\\)#', $filename)) {
-            // TODO: Remove the GoogleCheckout directory from the blacklist when MAGETWO-18110 is complete
             $shouldFilter = true;
         } elseif (preg_match('/\\.phtml$/', $filename)) {
             // Skip all phtml files
