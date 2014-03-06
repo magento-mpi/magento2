@@ -2214,7 +2214,6 @@ return array(
         'Magento\Usa\Model\Shipping\Carrier\AbstractCarrier\Source\Requesttype',
         'Magento\Shipping\Model\Config\Source\Online\Requesttype'
     ],
-    ['Magento\Core\App\Action\Plugin\Session', 'Magento\Core\Block\RequireCookie'],
     array('Magento\Catalog\Model\Product\Indexer\Price'),
     array('Magento\Catalog\Model\Resource\Product\Indexer\Price'),
 );
