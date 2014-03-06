@@ -56,6 +56,7 @@ class ServiceCollection extends \Magento\Data\Collection
      * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $accountService
      * @param \Magento\Customer\Service\V1\Dto\FilterBuilder $filterBuilder
      * @param \Magento\Customer\Service\V1\Dto\SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param \magento\Customer\Helper\View $viewHelper
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
@@ -125,11 +126,7 @@ class ServiceCollection extends \Magento\Data\Collection
     }
 
     /**
-     * Load customer group collection data from service
-     *
-     * @param bool $printQuery
-     * @param bool $logQuery
-     * @return \Magento\Data\Collection
+     * {@inheritdoc}
      */
     public function loadData($printQuery = false, $logQuery = false)
     {
@@ -147,6 +144,12 @@ class ServiceCollection extends \Magento\Data\Collection
         return $this;
     }
 
+    /**
+     * Creates a collection item that represents a customer for the customer Grid.
+     *
+     * @param CustomerDetails $customerDetail Input data for creating the item.
+     * @return \Magento\Object Collection item that represents a customer
+     */
     protected function createCustomerDetailItem(CustomerDetails $customerDetail)
     {
         $customer = $customerDetail->getCustomer();

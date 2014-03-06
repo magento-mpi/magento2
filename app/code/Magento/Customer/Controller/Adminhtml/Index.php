@@ -793,8 +793,10 @@ class Index extends \Magento\Backend\App\Action
                 unset($data['website_id']);
             }
 
-            $customer = $this->_customerBuilder->populateWithArray($data)->create();
-            $errors = $this->_customerAccountService->validateCustomerData($customer, []);
+            $customerDetails = $this->_customerDetailsBuilder->populateWithArray(
+                [CustomerDetails::KEY_CUSTOMER => $data]
+            )->create();
+            $errors = $this->_customerAccountService->validateCustomerDetails($customerDetails, []);
         } catch (\Magento\Core\Exception $exception) {
             /* @var $error \Magento\Message\Error */
             foreach ($exception->getMessages(\Magento\Message\MessageInterface::TYPE_ERROR) as $error) {
