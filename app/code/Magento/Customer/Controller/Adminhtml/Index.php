@@ -797,7 +797,7 @@ class Index extends \Magento\Backend\App\Action
             $customerDetails = $this->_customerDetailsBuilder->populateWithArray(
                 [CustomerDetails::KEY_CUSTOMER => $data]
             )->create();
-            $validationError = $this->_customerAccountService->validateCustomerDetails($customerDetails, []);
+            $validationError = $this->_customerAccountService->validateCustomerDetails($customerDetails);
             if ($validationError !== true && !empty($validationError)) {
                 $errors[] = $validationError['message'];
             }

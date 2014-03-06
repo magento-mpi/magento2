@@ -516,7 +516,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function validateCustomerDetails(Dto\CustomerDetails $customerDetails, array $attributes)
+    public function validateCustomerDetails(Dto\CustomerDetails $customerDetails, array $attributes = [])
     {
         $customer = $customerDetails->getCustomer();
 

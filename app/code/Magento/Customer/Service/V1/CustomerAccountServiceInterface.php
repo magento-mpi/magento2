@@ -193,7 +193,7 @@ interface CustomerAccountServiceInterface
      * @param Dto\Eav\AttributeMetadata[] $attributes
      * @return array|bool
      */
-    public function validateCustomerDetails(Dto\CustomerDetails $customerDetails, array $attributes);
+    public function validateCustomerDetails(Dto\CustomerDetails $customerDetails, array $attributes = []);
 
     /**
      * Indicates if the Customer for the provided customerId is restricted to being read only

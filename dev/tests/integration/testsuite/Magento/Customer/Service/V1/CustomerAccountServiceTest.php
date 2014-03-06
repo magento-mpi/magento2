@@ -563,14 +563,14 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         $customerBefore = $this->_customerAccountService->getCustomer($existingCustId);
 
-        $customerData = array_merge($customerBefore->__toArray(), array(
+        $customerData = array_merge($customerBefore->__toArray(), [
             'id' => 1,
             'email' => $email,
             'firstname' => $firstName,
             'lastname' => $lastname,
             'created_in' => 'Admin',
             'password' => 'notsaved'
-        ));
+        ]);
         $this->_customerBuilder->populateWithArray($customerData);
         $modifiedCustomer = $this->_customerBuilder->create();
 
@@ -593,11 +593,11 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         unset($attributesAfter['updated_at']);
         $inBeforeOnly = array_diff_assoc($attributesBefore, $attributesAfter);
         $inAfterOnly = array_diff_assoc($attributesAfter, $attributesBefore);
-        $expectedInBefore = array(
+        $expectedInBefore = [
             'email',
             'firstname',
             'lastname',
-        );
+        ];
         $this->assertEquals($expectedInBefore, array_keys($inBeforeOnly));
         $this->assertContains('created_in', array_keys($inAfterOnly));
         $this->assertContains('firstname', array_keys($inAfterOnly));
@@ -650,21 +650,21 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         unset($attributesAfter['updated_at']);
         $inBeforeOnly = array_diff_assoc($attributesBefore, $attributesAfter);
         $inAfterOnly = array_diff_assoc($attributesAfter, $attributesBefore);
-        $expectedInBefore = array(
+        $expectedInBefore = [
             'firstname',
             'lastname',
             'email',
-        );
+        ];
         sort($expectedInBefore);
         $actualInBeforeOnly = array_keys($inBeforeOnly);
         sort($actualInBeforeOnly);
         $this->assertEquals($expectedInBefore, $actualInBeforeOnly);
-        $expectedInAfter = array(
+        $expectedInAfter = [
             'firstname',
             'lastname',
             'email',
             'created_in',
-        );
+        ];
         sort($expectedInAfter);
         $actualInAfterOnly = array_keys($inAfterOnly);
         sort($actualInAfterOnly);
@@ -716,21 +716,21 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         unset($attributesAfter['updated_at']);
         $inBeforeOnly = array_diff_assoc($attributesBefore, $attributesAfter);
         $inAfterOnly = array_diff_assoc($attributesAfter, $attributesBefore);
-        $expectedInBefore = array(
+        $expectedInBefore = [
             'firstname',
             'lastname',
             'email',
-        );
+        ];
         sort($expectedInBefore);
         $actualInBeforeOnly = array_keys($inBeforeOnly);
         sort($actualInBeforeOnly);
         $this->assertEquals($expectedInBefore, $actualInBeforeOnly);
-        $expectedInAfter = array(
+        $expectedInAfter = [
             'firstname',
             'lastname',
             'email',
             'created_in',
-        );
+        ];
         sort($expectedInAfter);
         $actualInAfterOnly = array_keys($inAfterOnly);
         sort($actualInAfterOnly);
@@ -818,23 +818,23 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         unset($attributesAfter['updated_at']);
         $inBeforeOnly = array_diff_assoc($attributesBefore, $attributesAfter);
         $inAfterOnly = array_diff_assoc($attributesAfter, $attributesBefore);
-        $expectedInBefore = array(
+        $expectedInBefore = [
             'email',
             'firstname',
             'id',
             'lastname'
-        );
+        ];
         sort($expectedInBefore);
         $actualInBeforeOnly = array_keys($inBeforeOnly);
         sort($actualInBeforeOnly);
         $this->assertEquals($expectedInBefore, $actualInBeforeOnly);
-        $expectedInAfter = array(
+        $expectedInAfter = [
             'created_in',
             'email',
             'firstname',
             'id',
             'lastname',
-        );
+        ];
         sort($expectedInAfter);
         $actualInAfterOnly = array_keys($inAfterOnly);
         sort($actualInAfterOnly);
@@ -1064,15 +1064,15 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
     public function invalidCustomerIdsDataProvider()
     {
-        return array(
-            array('ab'),
-            array(' '),
-            array(-1),
-            array(0),
-            array(' 1234'),
-            array('-1'),
-            array('0'),
-        );
+        return [
+            ['ab'],
+            [' '],
+            [-1],
+            [0],
+            [' 1234'],
+            ['-1'],
+            ['0'],
+        ];
     }
 
     /**
@@ -1306,5 +1306,79 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     public function testIsEmailAvailableNonExistentEmail()
     {
         $this->assertTrue($this->_customerAccountService->isEmailAvailable('nonexistent@example.com', 1));
+    }
+
+    public function testValidateCustomerDetailsSuccess()
+    {
+        $customerData = [
+            'email'     => 'savecustomer@example.com',
+            'firstname' => 'First',
+            'lastname'  => 'Last',
+        ];
+        $this->_customerDetailsBuilder->populateWithArray([Dto\CustomerDetails::KEY_CUSTOMER => $customerData]);
+        $customerDetails = $this->_customerDetailsBuilder->create();
+        $result = $this->_customerAccountService->validateCustomerDetails($customerDetails);
+        $this->assertFalse(is_array($result));
+        $this->assertTrue($result);
+    }
+
+    public function testValidateCustomerDetailsFailure()
+    {
+        $this->_customerDetailsBuilder->populateWithArray([Dto\CustomerDetails::KEY_CUSTOMER => []]);
+        $customerDetails = $this->_customerDetailsBuilder->create();
+        $result = $this->_customerAccountService->validateCustomerDetails($customerDetails);
+        $this->assertTrue(is_array($result));
+        $this->assertEquals(-1, $result['error']);
+        $this->assertContains('The first name cannot be empty.', $result['message']);
+        $this->assertContains('The last name cannot be empty.', $result['message']);
+        $this->assertContains('Please correct this email address: "".', $result['message']);
+    }
+
+    public function testValidateCustomerDetailsAddressSuccess()
+    {
+        $customerData = [
+            'email'     => 'savecustomer@example.com',
+            'firstname' => 'First',
+            'lastname'  => 'Last',
+        ];
+        $addressData = [
+            'firstname' => 'First',
+            'lastname'  => 'Last',
+            'city'      => 'Washington D.C.',
+            'street'    => '1600 Pennsylvania Avenue',
+            'telephone' => 2024561111,
+            'postcode'  => '20500',
+            'countryId' => 'US'
+        ];
+        $this->_customerDetailsBuilder->populateWithArray(
+            [Dto\CustomerDetails::KEY_CUSTOMER => $customerData, Dto\CustomerDetails::KEY_ADDRESSES => [$addressData]]
+        );
+        $customerDetails = $this->_customerDetailsBuilder->create();
+        $result = $this->_customerAccountService->validateCustomerDetails($customerDetails);
+        $this->assertFalse(is_array($result));
+        $this->assertTrue($result);
+    }
+
+    public function testValidateCustomerDetailsAddressFailure()
+    {
+        $customerData = [
+            'email'     => 'savecustomer@example.com',
+            'firstname' => 'First',
+            'lastname'  => 'Last',
+        ];
+        $this->_customerDetailsBuilder->populateWithArray(
+            [Dto\CustomerDetails::KEY_CUSTOMER => $customerData, Dto\CustomerDetails::KEY_ADDRESSES => [[]]]
+        );
+        $customerDetails = $this->_customerDetailsBuilder->create();
+        $result = $this->_customerAccountService->validateCustomerDetails($customerDetails);
+        $this->assertTrue(is_array($result));
+        $this->assertEquals(-1, $result['error']);
+        $this->assertContains('firstname is a required field.', $result['message']);
+        $this->assertContains('lastname is a required field.', $result['message']);
+        $this->assertContains('street is a required field.', $result['message']);
+        $this->assertContains('city is a required field.', $result['message']);
+        $this->assertContains('telephone is a required field.', $result['message']);
+        $this->assertContains('postcode is a required field.', $result['message']);
+        $this->assertContains('countryId is a required field.', $result['message']);
     }
 }
