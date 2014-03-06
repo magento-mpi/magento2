@@ -11,17 +11,17 @@ namespace Magento\Interception\Code\Generator;
 class InterceptorTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject
      */
     protected $ioObjectMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject
      */
     protected $classGeneratorMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject
      */
     protected $autoloaderMock;
 
