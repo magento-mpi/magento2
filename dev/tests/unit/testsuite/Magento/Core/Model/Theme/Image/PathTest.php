@@ -78,14 +78,6 @@ class PathTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    protected function tearDown()
-    {
-        $this->model = null;
-        $this->filesystem = null;
-        $this->viewUrlMock = null;
-        $this->storeManagerMock = null;
-    }
-
     public function testGetPreviewImageUrlPhysicalTheme()
     {
         $theme = $this->getGetTheme(true);
@@ -108,7 +100,11 @@ class PathTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('http://localhost/theme/preview/image.png', $this->model->getPreviewImageUrl($theme));
     }
 
-    protected  function getGetTheme($isPhysical)
+    /**
+     * @param bool $isPhysical
+     * @return \Magento\Core\Model\Theme|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected function getGetTheme($isPhysical)
     {
         /** @var $theme \Magento\Core\Model\Theme|\PHPUnit_Framework_MockObject_MockObject */
         $theme = $this->getMock(
@@ -138,7 +134,7 @@ class PathTest extends \PHPUnit_Framework_TestCase
     public function testDefaultPreviewImageUrlGetter()
     {
         $this->viewUrlMock->expects($this->once())->method('getViewFileUrl')
-            ->with(\Magento\Core\Model\Theme\Image\Path::DEFAULT_PREVIEW_IMAGE);
+            ->with(Path::DEFAULT_PREVIEW_IMAGE);
         $this->model->getPreviewImageDefaultUrl();
     }
 
