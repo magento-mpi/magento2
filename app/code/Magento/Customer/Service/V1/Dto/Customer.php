@@ -66,7 +66,9 @@ class Customer extends \Magento\Service\Entity\AbstractDto implements Eav\Entity
     ];
 
     /**
-     * {@inheritdoc}
+     * Retrieve array of all attributes, in the form of 'attribute code' => <attribute value'
+     *
+     * @return string[] attributes, in the form of 'attribute code' => <attribute value'
      */
     public function getAttributes()
     {
@@ -81,7 +83,10 @@ class Customer extends \Magento\Service\Entity\AbstractDto implements Eav\Entity
     }
 
     /**
-     * {@inheritdoc}
+     * Get attribute value for given attribute code
+     *
+     * @param string $attributeCode
+     * @return string|null
      */
     public function getAttribute($attributeCode)
     {
