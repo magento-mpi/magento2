@@ -113,9 +113,8 @@ class TypeProcessor
     {
         $typeName = $this->normalizeType($type);
         if (!$this->isTypeSimple($typeName)) {
-            if ((!$this->isArrayType($type) && !class_exists($type))
-                || !class_exists(str_replace('[]', '', $type))
-            ) {
+            $typeSimple = str_replace('[]', '', $type);
+            if (!(class_exists($typeSimple) || interface_exists($typeSimple))) {
                 throw new \LogicException(
                     sprintf('Class "%s" does not exist. Please note that namespace must be specified.', $type)
                 );
@@ -147,7 +146,7 @@ class TypeProcessor
         if ($this->isArrayType($class)) {
             $this->process($this->getArrayItemType($class));
         } else {
-            if (!class_exists($class)) {
+            if (!(class_exists($class) || interface_exists($class))) {
                 throw new \InvalidArgumentException(
                     sprintf('Could not load the "%s" class as parameter type.', $class)
                 );
@@ -227,7 +226,7 @@ class TypeProcessor
         }
         $returnAnnotations = $methodDocBlock->getTags('return');
         if (empty($returnAnnotations)) {
-            throw new \InvalidArgumentException('Getter return type must be specified using @return annotation.');
+            throw new \InvalidArgumentException('Getter return type must be specified using @return annotation.' . $methodReflection->getName());
         }
         /** @var \Zend\Code\Reflection\DocBlock\Tag\ReturnTag $returnAnnotation */
         $returnAnnotation = current($returnAnnotations);
