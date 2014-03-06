@@ -168,11 +168,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
                 ->disableOriginalConstructor()
                 ->getMock();
 
-        $this->_customerModelMock
-            ->expects($this->any())
-            ->method('validate')
-            ->will($this->returnValue(TRUE));
-
         $this->_setupStoreMock();
 
         $this->_mathRandomMock = $this->getMockBuilder('\Magento\Math\Random')
@@ -1576,6 +1571,128 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             ->method('getCustomerModelByEmail')
             ->will($this->returnValue($customerMock));
         $this->assertFalse($service->isEmailAvailable('email', 1));
+    }
+
+    public function testValidateDetailsValidatorErrors()
+    {
+        $this->_validator->expects($this->any())
+            ->method('validateData')
+            ->with([])
+            ->will($this->returnValue(false));
+        $this->_validator->expects($this->any())
+            ->method('getMessages')
+            ->will($this->returnValue(['An error', 'Another error']));
+        $accountService = $this->_createService();
+        $customerDetails = $this->_customerDetailsBuilder->create();
+        $this->assertEquals(
+            ['error' => -1, 'message' => 'An error, Another error'],
+            $accountService->validateCustomerDetails($customerDetails, [])
+        );
+    }
+
+    public function testValidateCustomerDetailsModelErrors()
+    {
+        $this->_validator->expects($this->any())
+            ->method('validateData')
+            ->will($this->returnValue(true));
+        $this->_converter =  $this->getMockBuilder('\Magento\Customer\Model\Converter')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->_converter->expects($this->once())
+            ->method('createCustomerModel')
+            ->will($this->returnValue($this->_customerModelMock));
+        $this->_customerModelMock->expects($this->any())
+            ->method('validate')
+            ->will($this->returnValue(['An error', 'Another error']));
+        $accountService = $this->_createService();
+        $customerDetails = $this->_customerDetailsBuilder->create();
+        $this->assertEquals(
+            ['error' => -1, 'message' => 'An error, Another error'],
+            $accountService->validateCustomerDetails($customerDetails, [])
+        );
+    }
+
+    public function testValidateCustomerDetailsAddressErrors()
+    {
+        $this->_validator->expects($this->any())
+            ->method('validateData')
+            ->will($this->returnValue(true));
+        $this->_converter =  $this->getMockBuilder('\Magento\Customer\Model\Converter')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->_converter->expects($this->once())
+            ->method('createCustomerModel')
+            ->will($this->returnValue($this->_customerModelMock));
+        $this->_customerModelMock->expects($this->any())
+            ->method('validate')
+            ->will($this->returnValue(true));
+
+        $accountService = $this->_createService();
+        $address = (new Dto\AddressBuilder(new Dto\RegionBuilder()))->setFirstname('Teste')->create();
+        $customerDetails = $this->_customerDetailsBuilder->setAddresses([$address])->create();
+
+        $addressValidationException = new InputException();
+        $addressValidationException->addError('REQUIRED_FIELD', 'firstname', '', ['index' => 'b']);
+
+        $this->_customerAddressServiceMock->expects($this->once())
+            ->method('validateAddresses')
+            ->will($this->throwException($addressValidationException));
+
+        $this->assertEquals(
+            ['error' => -1, 'message' => 'firstname is a required field.'],
+            $accountService->validateCustomerDetails($customerDetails, [])
+        );
+    }
+
+    public function testValidateCustomerDetailsSuccessNoAddresses()
+    {
+        $this->_validator->expects($this->any())
+            ->method('validateData')
+            ->will($this->returnValue(true));
+        $this->_converter =  $this->getMockBuilder('\Magento\Customer\Model\Converter')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->_converter->expects($this->once())
+            ->method('createCustomerModel')
+            ->will($this->returnValue($this->_customerModelMock));
+        $this->_customerModelMock->expects($this->any())
+            ->method('validate')
+            ->will($this->returnValue(true));
+
+        $accountService = $this->_createService();
+        $customerDetails = $this->_customerDetailsBuilder->create();
+        $this->assertTrue(
+            $accountService->validateCustomerDetails($customerDetails, [])
+        );
+    }
+
+    public function testValidateCustomerDetailsSuccessHasAddresses()
+    {
+
+        $this->_validator->expects($this->any())
+            ->method('validateData')
+            ->will($this->returnValue(true));
+        $this->_converter =  $this->getMockBuilder('\Magento\Customer\Model\Converter')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->_converter->expects($this->once())
+            ->method('createCustomerModel')
+            ->will($this->returnValue($this->_customerModelMock));
+        $this->_customerModelMock->expects($this->any())
+            ->method('validate')
+            ->will($this->returnValue(true));
+
+        $accountService = $this->_createService();
+        $address = (new Dto\AddressBuilder(new Dto\RegionBuilder()))->setFirstname('Teste')->create();
+        $customerDetails = $this->_customerDetailsBuilder->setAddresses([$address])->create();
+
+        $this->_customerAddressServiceMock->expects($this->once())
+            ->method('validateAddresses')
+            ->will($this->returnValue(true));
+
+        $this->assertTrue(
+            $accountService->validateCustomerDetails($customerDetails, [])
+        );
     }
 
     private function _setupStoreMock()
