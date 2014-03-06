@@ -541,6 +541,11 @@ class CustomerAccountService implements CustomerAccountServiceInterface
                 'error'   => -1,
                 'message' => implode(', ', $result)
             ];
+        } elseif (false === $result) {
+            return [
+                'error'   => -1,
+                'message' => 'Unexpected return value "false" from customer model validate'
+            ];
         }
 
         try {
