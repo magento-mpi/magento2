@@ -226,7 +226,7 @@ class TypeProcessor
         }
         $returnAnnotations = $methodDocBlock->getTags('return');
         if (empty($returnAnnotations)) {
-            throw new \InvalidArgumentException('Getter return type must be specified using @return annotation.' . $methodReflection->getName());
+            throw new \InvalidArgumentException('Getter return type must be specified using @return annotation.');
         }
         /** @var \Zend\Code\Reflection\DocBlock\Tag\ReturnTag $returnAnnotation */
         $returnAnnotation = current($returnAnnotations);
