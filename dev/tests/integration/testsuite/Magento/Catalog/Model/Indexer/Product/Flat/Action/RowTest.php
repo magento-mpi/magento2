@@ -50,6 +50,8 @@ class RowTest extends \Magento\TestFramework\Indexer\TestCase
     }
 
     /**
+     * @magentoDbIsolation disabled
+     * @magentoAppIsolation disabled
      * @magentoDataFixture Magento/Catalog/_files/row_fixture.php
      * @magentoConfigFixture current_store catalog/frontend/flat_catalog_product 1
      * @magentoAppArea frontend
