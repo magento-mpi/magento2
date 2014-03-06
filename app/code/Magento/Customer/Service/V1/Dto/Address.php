@@ -75,7 +75,7 @@ class Address extends \Magento\Service\Entity\AbstractDto implements Eav\EntityI
     }
 
     /**
-     * Get if this address is default shipping address
+     * Get if this address is default shipping address.
      *
      * @return bool|null
      */

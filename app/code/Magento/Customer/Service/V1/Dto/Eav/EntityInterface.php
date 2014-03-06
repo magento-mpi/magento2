@@ -13,9 +13,9 @@ namespace Magento\Customer\Service\V1\Dto\Eav;
 interface EntityInterface
 {
     /**
-     * Retrieve array of all attributes, in the form of 'attribute code' => <attribute value'
+     * Retrieve array of all attributes, in the form of 'attribute code' => <attribute value'>.
      *
-     * @return string[] attributes, in the form of 'attribute code' => <attribute value'
+     * @return string[] attributes, in the form of 'attribute code' => <attribute value'>
      */
     public function getAttributes();
 
