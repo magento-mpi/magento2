@@ -234,7 +234,7 @@ class Transaction extends \Magento\Core\Model\AbstractModel
     /**
      * Transaction type setter
      *
-     * @param $txnType
+     * @param string $txnType
      * @return $this
      */
     public function setTxnType($txnType)
@@ -710,6 +710,7 @@ class Transaction extends \Magento\Core\Model\AbstractModel
     /**
      * Load child transactions
      *
+     * @return void
      * @throws \Magento\Core\Exception
      */
     protected function _loadChildren()

@@ -95,6 +95,9 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         return $this->_entity;
     }
 
+    /**
+     * @return \Magento\Backend\Model\Session\Quote
+     */
     protected function _getSession()
     {
         return $this->_sessionQuote;

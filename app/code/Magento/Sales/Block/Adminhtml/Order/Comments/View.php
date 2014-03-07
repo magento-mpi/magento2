@@ -79,6 +79,9 @@ class View extends \Magento\Backend\Block\Template
         return $this->getUrl('*/*/addComment', array('id' => $this->getEntity()->getId()));
     }
 
+    /**
+     * @return bool
+     */
     public function canSendCommentEmail()
     {
         switch ($this->getParentType()) {

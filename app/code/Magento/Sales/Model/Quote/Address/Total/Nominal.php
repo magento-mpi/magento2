@@ -34,7 +34,6 @@ class Nominal extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
      * Invoke collector for nominal items
      *
      * @param \Magento\Sales\Model\Quote\Address $address
-     * @param \Magento\Sales\Model\Quote\Address\Total\Nominal
      * @return $this
      */
     public function collect(\Magento\Sales\Model\Quote\Address $address)

@@ -1250,7 +1250,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
 
     /**
      * Whether specified state can be set from outside
-     * @param $state
+     * @param string $state
      * @return bool
      */
     public function isStateProtected($state)

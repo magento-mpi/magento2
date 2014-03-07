@@ -97,6 +97,8 @@ class Guest extends \Magento\Core\Helper\Data
     /**
      * Try to load valid order by $_POST or $_COOKIE
      *
+     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\App\ResponseInterface $response
      * @return bool
      */
     public function loadValidOrder(\Magento\App\RequestInterface $request, \Magento\App\ResponseInterface $response)

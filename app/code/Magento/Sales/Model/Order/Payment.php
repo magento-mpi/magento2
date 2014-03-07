@@ -1288,6 +1288,7 @@ class Payment extends \Magento\Payment\Model\Info
      * Updates self totals by keys in data array('key' => $delta)
      *
      * @param array $data
+     * @return void
      */
     protected function _updateTotals($data)
     {

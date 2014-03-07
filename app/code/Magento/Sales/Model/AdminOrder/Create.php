@@ -962,7 +962,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
      * Parse additional options and sync them with product options
      *
      * @param \Magento\Sales\Model\Quote\Item $item
-     * @param $additionalOptions
+     * @param string $additionalOptions
      * @return array
      * @throws \Magento\Core\Exception
      */
@@ -1331,6 +1331,8 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
 
     /**
      * Collect shipping data for quote shipping address
+     *
+     * @return $this
      */
     public function collectShippingRates()
     {
