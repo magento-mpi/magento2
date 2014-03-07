@@ -98,6 +98,6 @@ class TransportBuilderTest extends \Magento\Mail\Template\TransportBuilderTest
 
         $result = $this->builder->getTransport();
 
-        $this->assertInstanceOf('\Magento\Mail\TransportInterface', $result);
+        $this->assertInstanceOf('Magento\Mail\TransportInterface', $result);
     }
 }

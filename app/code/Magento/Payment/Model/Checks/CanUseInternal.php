@@ -25,6 +25,6 @@ class CanUseInternal implements SpecificationInterface
      */
     public function isApplicable(AbstractMethod $paymentMethod, Quote $quote)
     {
-        return $this->canUseInternal();
+        return $paymentMethod->canUseInternal();
     }
 }

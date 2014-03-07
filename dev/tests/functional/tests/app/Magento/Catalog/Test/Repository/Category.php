@@ -23,13 +23,13 @@ class Category extends AbstractRepository
     /**
      * Attribute set for mapping data into ui tabs
      */
-    const GROUP_GENERAL_INFORMATION = 'category_info_tabs_group_4';
-    const GROUP_DISPLAY_SETTINGS = 'category_info_tabs_group_5';
+    const GROUP_GENERAL_INFORMATION = 'general_information';
+    const GROUP_DISPLAY_SETTINGS = 'display_setting';
 
     /**
      * {inheritdoc}
      */
-    public function __construct(array $defaultConfig, array $defaultData)
+    public function __construct(array $defaultConfig = array(), array $defaultData = array())
     {
         $this->_data['default'] = array(
             'config' => $defaultConfig,

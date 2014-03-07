@@ -171,7 +171,7 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
     public function callCreateRecurringPayment()
     {
         $request = $this->_exportToRequest($this->_createRecurringPaymentRequest);
-        $response = $this->call('CreateRecurringPayment', $request);
+        $response = $this->call('CreateRecurringPaymentsProfile', $request);
         $this->_importFromResponse($this->_createRecurringPaymentResponse, $response);
         $this->_analyzeRecurringPaymentStatus($this->getRecurringPaymentStatus(), $this);
     }
@@ -188,7 +188,7 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
             $request['ACTION'] = $this->_filterRecurringPaymentActionToNvp($request['ACTION']);
         }
         try {
-            $this->call('ManageRecurringPaymentStatus', $request);
+            $this->call('ManageRecurringPaymentsProfileStatus', $request);
         } catch (\Magento\Core\Exception $e) {
             if ((in_array(11556, $this->_callErrors) && 'Cancel' === $request['ACTION'])
                 || (in_array(11557, $this->_callErrors) && 'Suspend' === $request['ACTION'])
@@ -208,7 +208,7 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
     public function callGetRecurringPaymentDetails(\Magento\Object $result)
     {
         $request = $this->_exportToRequest($this->_getRecurringPaymentDetailsRequest);
-        $response = $this->call('GetRecurringPaymentDetails', $request);
+        $response = $this->call('GetRecurringPaymentsProfileDetails', $request);
         $this->_importFromResponse($this->_getRecurringPaymentDetailsResponse, $response);
         $this->_analyzeRecurringPaymentStatus($this->getStatus(), $result);
     }
@@ -242,24 +242,24 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
     protected function _analyzeRecurringPaymentStatus($value, \Magento\Object $result)
     {
         switch ($value) {
-            case 'ActivePayment':
+            case 'ActiveProfile':
             case 'Active':
-                $result->setIsPaymentActive(true);
+                $result->setIsProfileActive(true);
                 break;
-            case 'PendingPayment':
-                $result->setIsPaymentPending(true);
+            case 'PendingProfile':
+                $result->setIsProfilePending(true);
                 break;
-            case 'CancelledPayment':
+            case 'CancelledProfile':
             case 'Cancelled':
-                $result->setIsPaymentCanceled(true);
+                $result->setIsProfileCanceled(true);
                 break;
-            case 'SuspendedPayment':
+            case 'SuspendedProfile':
             case 'Suspended':
-                $result->setIsPaymentSuspended(true);
+                $result->setIsProfileSuspended(true);
                 break;
-            case 'ExpiredPayment':
+            case 'ExpiredProfile':
             case 'Expired': // ??
-                $result->setIsPaymentExpired(true);
+                $result->setIsProfileExpired(true);
                 break;
             default:
                 break;

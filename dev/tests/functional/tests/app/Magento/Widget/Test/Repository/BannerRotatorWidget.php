@@ -21,11 +21,11 @@ class BannerRotatorWidget extends Widget
     /**
      * {@inheritdoc}
      */
-    public function __construct(array $defaultConfig, array $defaultData)
+    public function __construct(array $defaultConfig = array(), array $defaultData = array())
     {
         parent::__construct($defaultConfig, $defaultData);
 
         $this->_data['default']['data']['type'] = 'magento_banner';
-        $this->_data['default']['data']['fields']['title']['value'] = 'Test Banner Rotator';
+        $this->_data['default']['data']['fields']['title']['value'] = 'Banner Rotator %isolation%';
     }
 }
