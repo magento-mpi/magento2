@@ -149,9 +149,17 @@ class Minified implements MergeableInterface
             $this->file = $originalFile;
         }
         if ($this->file == $originalFile) {
+            // Minifier says to use original file
             $this->relativePath = $this->originalAsset->getRelativePath();
             $this->url = $this->originalAsset->getUrl();
+        } else if (dirname($this->file) == dirname($originalFile)) {
+            // Minifier says to replace it with some other file in the same directory
+            $baseName = basename($this->file);
+            $originalBaseName = basename($originalFile);
+            $this->relativePath = str_replace($originalBaseName, $baseName, $this->originalAsset->getRelativePath());
+            $this->url = str_replace($originalBaseName, $baseName, $this->originalAsset->getUrl());
         } else {
+            // Minifier generated a new file
             $this->relativePath = $this->staticViewDir->getRelativePath($this->file);
             $this->url = $this->baseUrl->getBaseUrl(array('_type' => \Magento\UrlInterface::URL_TYPE_STATIC))
                 . $this->relativePath;
