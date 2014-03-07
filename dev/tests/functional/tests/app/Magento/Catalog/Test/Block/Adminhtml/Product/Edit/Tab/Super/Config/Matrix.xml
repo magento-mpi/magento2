@@ -1,0 +1,29 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<mapping strict="0">
+    <fields>
+        <name>
+            <selector>//*[@data-column='name']/input</selector>\
+            <strategy>xpath</strategy>
+        </name>
+        <sku>
+            <selector>//*[@data-column='sku']/input</selector>
+            <strategy>xpath</strategy>
+        </sku>
+        <qty>
+            <selector>//*[@data-column='qty']/input</selector>
+            <strategy>xpath</strategy>
+        </qty>
+        <weight>
+            <selector>//*[@data-column='weight']/input</selector>
+            <strategy>xpath</strategy>
+        </weight>
+    </fields>
+</mapping>

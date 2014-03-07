@@ -3,9 +3,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -37,6 +34,7 @@
         <env name="server_config_path" value="config/server.yml.dist"/>
         <env name="isolation_config_path" value="config/isolation.yml.dist"/>
         <env name="handlers_config_path" value="config/handler.yml.dist"/>
+        <env name="configuration:Magento/Mtf/TestSuite/MtfTests" value="basic"/>
     </php>
 
 </phpunit>

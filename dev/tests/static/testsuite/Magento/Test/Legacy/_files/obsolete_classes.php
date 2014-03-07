@@ -2214,6 +2214,7 @@ return array(
         'Magento\Usa\Model\Shipping\Carrier\AbstractCarrier\Source\Requesttype',
         'Magento\Shipping\Model\Config\Source\Online\Requesttype'
     ],
+    ['Magento\Catalog\Helper\Product\Url', 'Magento\Filter\Translit'],
     array('Magento\Catalog\Model\Product\Indexer\Price'),
     array('Magento\Catalog\Model\Resource\Product\Indexer\Price'),
 );

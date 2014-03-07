@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<fixture>
+    <shipping module="Magento_Shipping">
+        <type>virtual</type>
+        <entity_type>shipping</entity_type>
+        <identifier />
+        <fields>
+            <shipping_service>
+                <attribute_code>shipping_service</attribute_code>
+                <backend_type>virtual</backend_type>
+            </shipping_service>
+            <shipping_method>
+                <attribute_code>shipping_method</attribute_code>
+                <backend_type>virtual</backend_type>
+            </shipping_method>
+        </fields>
+        <data_set />
+        <data_config />
+    </shipping>
+</fixture>

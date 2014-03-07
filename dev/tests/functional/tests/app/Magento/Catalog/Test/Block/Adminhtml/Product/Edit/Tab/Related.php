@@ -13,8 +13,8 @@
 namespace Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab;
 
 use Mtf\Client\Element;
-use Magento\Backend\Test\Block\Widget\Tab;
 use Mtf\Factory\Factory;
+use Magento\Backend\Test\Block\Widget\Tab;
 
 /**
  * Related Tab
@@ -23,14 +23,20 @@ use Mtf\Factory\Factory;
  */
 class Related extends Tab
 {
-    const GROUP = 'product_info_tabs_related';
+    const GROUP = 'related-products';
 
     /**
+     * Select related products
+     *
      * @param array $products
      * @param Element $context
+     * @return $this
      */
     public function fillFormTab(array $products, Element $context = null)
     {
+        if (!isset($products['related_products'])) {
+            return $this;
+        }
         $element = $context ? : $this->_rootElement;
         $relatedBlock = Factory::getBlockFactory()->getMagentoCatalogAdminhtmlProductEditTabRelatedGrid(
             $element->find('#related_product_grid')
@@ -38,5 +44,7 @@ class Related extends Tab
         foreach ($products['related_products']['value'] as $product) {
             $relatedBlock->searchAndSelect($product);
         }
+
+        return $this;
     }
 }

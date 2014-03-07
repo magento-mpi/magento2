@@ -52,15 +52,6 @@ class Shipping extends Form
         '//span[text()="%s"]/following::*/div[@class="field choice item"]//*[contains(text(), "%s")]';
 
     /**
-     * @var array
-     */
-    protected $_mapping = [
-        'postcode' => [
-            'selector' => '#postcode',
-        ]
-    ];
-
-    /**
      * From with shipping available shipping methods
      *
      * @var string
@@ -102,15 +93,5 @@ class Shipping extends Form
         );
         $selector = sprintf($this->shippingCarrierMethodSelector, $carrier, $method);
         return $this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->isVisible();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function _fill(array $fields, Element $element = null)
-    {
-        $formFields = ['country_id', 'country', 'region', 'province', 'postcode'];
-        $fields = array_intersect_key($fields, array_flip($formFields));
-        parent::_fill($fields, $element);
     }
 }

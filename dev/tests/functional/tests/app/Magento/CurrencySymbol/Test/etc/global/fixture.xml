@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<fixture>
+    <currencyRate module="Magento_CurrencySymbol">
+        <type>table</type>
+        <entity_type>directory_currency_rate</entity_type>
+        <entity_id_field />
+        <collection>Mtf\Util\Generate\Repository\TableCollection</collection>
+        <identifier />
+        <fields />
+        <data_set />
+        <data_config />
+    </currencyRate>
+</fixture>

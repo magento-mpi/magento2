@@ -24,7 +24,7 @@ class Customer extends AbstractRepository
     /**
      * {inheritdoc}
      */
-    public function __construct(array $defaultConfig, array $defaultData)
+    public function __construct(array $defaultConfig = array(), array $defaultData = array())
     {
         $this->_data['default'] = array(
             'config' => $defaultConfig,
@@ -68,14 +68,14 @@ class Customer extends AbstractRepository
                     'city' => array(
                         'value' => 'Culver City'
                     ),
-                    'region' => array(
+                    'region_id' => array(
                         'value' => 'California',
                         'input' => 'select'
                     ),
                     'postcode' => array(
                         'value' => '90230'
                     ),
-                    'country' => array(
+                    'country_id' => array(
                         'value' => 'United States',
                         'input' => 'select'
                     )

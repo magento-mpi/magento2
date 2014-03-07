@@ -54,11 +54,11 @@ class BasicPromoTest extends Functional
         // Use fixture to populate
         $newSalesRuleForm->fill($fixture);
         // Setup Condition open tab
-        $salesRulePageNew->getConditionsFormTab()->openTab($salesRulePageNew->getConditionsTabId());
+        $newSalesRuleForm->openTab('conditions');
         // Add New Condition
         $salesRulePageNew->getConditionsTab()->addCustomerSegmentCondition($fixture, $customerSegmentId);
         // Setup Discount
-        $salesRulePageNew->getActionsFormTab()->openTab($salesRulePageNew->getActionsTabId());
+        $newSalesRuleForm->openTab('actions');
         $conditionsFixture = Factory::getFixtureFactory()->getMagentoSalesRuleSalesRule();
         $conditionsFixture->switchData(Repository::ACTIONS);
         $salesRulePageNew->getPromoQuoteForm()->fill($conditionsFixture);
