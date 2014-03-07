@@ -380,13 +380,17 @@ class Session extends \Magento\Session\SessionManager
     }
 
     /**
-     * @param CustomerDto $customer
+     * @param CustomerDto $customerDto
      * @return \Magento\Customer\Model\Session
      */
-    public function setCustomerDtoAsLoggedIn($customer)
+    public function setCustomerDtoAsLoggedIn($customerDto)
     {
-        $this->setCustomerDto($customer);
-        $this->_eventManager->dispatch('customer_login', array('customer' => $this->getCustomer()));
+        $this->setCustomerDto($customerDto);
+
+        $customerModel = $this->_converter->getCustomerModel($customerDto->getCustomerId());
+        $this->setCustomer($customerModel);
+
+        $this->_eventManager->dispatch('customer_login', array('customer' => $customerModel));
         return $this;
     }
 
