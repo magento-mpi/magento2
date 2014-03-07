@@ -1,0 +1,5 @@
+"product/data/name"; "product/data/sku"; "product/data/price"; "product/data/weight"; "product/data/qty"; "product/data/quantity_and_stock_status"; "product/data/visibility"; "constraint"
+"Simple Product %isolation%"; "simple_sku_%isolation%";"10";"1";"-";"-";"-"; "assertProductSaveMessage, assertProductInGrid, assertProductVisibleInCategory"
+"Simple Product %isolation%"; "simple_sku_%isolation%";"10";"1";"666";"In Stock";"-"; "assertProductSaveMessage, assertProductInStock"
+"Simple Product %isolation%"; "simple_sku_%isolation%";"10";"1";"0";"Out of Stock";"-"; "assertProductSaveMessage, assertProductOutOfStock"
+"Simple Product %isolation%"; "simple_sku_%isolation%";"10";"1";"-";"-";"Search"; "assertProductSaveMessage, assertProductSearchableBySku"

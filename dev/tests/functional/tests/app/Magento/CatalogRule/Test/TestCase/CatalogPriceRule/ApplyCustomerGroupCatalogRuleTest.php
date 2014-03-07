@@ -64,7 +64,7 @@ class ApplyCustomerGroupCatalogRuleTest extends Functional
         $customerEditPage = Factory::getPageFactory()->getCustomerEdit();
         $editCustomerForm = $customerEditPage->getEditCustomerForm();
         // Set group to Retailer
-        $editCustomerForm->openTab('customer_info_tabs_account');
+        $editCustomerForm->openTab('account_information');
         $editCustomerForm->fill($customerFixture);
         // Save Customer Edit
         $editCustomerForm->save();
@@ -144,7 +144,11 @@ class ApplyCustomerGroupCatalogRuleTest extends Functional
         Factory::getPageFactory()->getCheckoutCart()->getMessageBlock()->assertSuccessMessage();
         $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
         $unitPrice = $checkoutCartPage->getCartBlock()->getCartItemUnitPrice($product);
-        $this->assertContains($product->getProductPrice(), (string)$unitPrice, 'Displayed price is not the expected price');
+        $this->assertContains(
+            $product->getProductPrice(),
+            (string)$unitPrice,
+            'Displayed price is not the expected price'
+        );
         $checkoutCartPage->getCartBlock()->clearShoppingCart();
     }
 

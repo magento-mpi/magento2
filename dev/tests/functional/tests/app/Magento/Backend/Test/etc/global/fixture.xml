@@ -1,0 +1,45 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<fixture>
+    <adminSuperUser module="Magento_Backend">
+        <type>flat</type>
+        <entity_type>admin_user</entity_type>
+        <collection>Magento\User\Model\Resource\User\Collection</collection>
+        <identifier>username</identifier>
+        <fields>
+            <id>
+                <attribute_code>id</attribute_code>
+                <backend_type>virtual</backend_type>
+            </id>
+        </fields>
+        <data_set>
+            <firstname />
+            <lastname />
+            <email />
+            <username />
+            <password />
+        </data_set>
+        <data_config />
+    </adminSuperUser>
+    <UrlRewriteCategory module="Magento_Backend">
+        <type>virtual</type>
+        <entity_type>core_url_rewrite</entity_type>
+        <collection>Magento\Core\Model\Resource\Url\Rewrite\Collection</collection>
+        <identifier>request_path</identifier>
+        <fields>
+            <id>
+                <attribute_code>id</attribute_code>
+                <backend_type>virtual</backend_type>
+            </id>
+        </fields>
+        <data_set />
+        <data_config />
+    </UrlRewriteCategory>
+</fixture>
