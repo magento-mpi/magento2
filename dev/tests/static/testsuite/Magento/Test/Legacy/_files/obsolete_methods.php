@@ -1349,7 +1349,6 @@ return array(
     ['_detectGroup', 'Magento\Core\Helper\Theme'],
     ['_sortThemesByHierarchy', 'Magento\Core\Helper\Theme'],
     ['_sortArrayByArray', 'Magento\Core\Helper\Theme'],
-    ['_sortThemesByHierarchy', 'Magento\Core\Helper\Theme'],
     ['_getGroupLabels', 'Magento\Core\Helper\Theme'],
     ['_sortGroupFilesCallback', 'Magento\Core\Helper\Theme'],
     ['_sortThemesByHierarchyCallback', 'Magento\Core\Helper\Theme'],
