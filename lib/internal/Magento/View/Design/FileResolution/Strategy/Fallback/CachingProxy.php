@@ -129,7 +129,9 @@ class CachingProxy implements FileInterface, LocaleInterface, ViewInterface, Not
         $result = $this->getFromMap('file', $area, $themeModel, null, $module, $file);
         if (!$result) {
             $result = $this->fallback->getFile($area, $themeModel, $file, $module);
-            $this->setToMap('file', $area, $themeModel, null, $module, $file, $result);
+            if ($result) {
+                $this->setToMap('file', $area, $themeModel, null, $module, $file, $result);
+            }
         }
         return $result;
     }
