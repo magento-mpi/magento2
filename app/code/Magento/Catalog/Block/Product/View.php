@@ -141,46 +141,47 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct implements \Ma
     protected function _prepareLayout()
     {
         $this->getLayout()->createBlock('Magento\Catalog\Block\Breadcrumbs');
-        $headBlock = $this->getLayout()->getBlock('head');
-        if ($headBlock) {
-            $product = $this->getProduct();
-            $title = $product->getMetaTitle();
-            if ($title) {
-                $headBlock->setTitle($title);
+        $product = $this->getProduct();
+        if ($product) {
+            $headBlock = $this->getLayout()->getBlock('head');
+            if ($headBlock) {
+                $title = $product->getMetaTitle();
+                if ($title) {
+                    $headBlock->setTitle($title);
+                }
+                $keyword = $product->getMetaKeyword();
+                $currentCategory = $this->_coreRegistry->registry('current_category');
+                if ($keyword) {
+                    $headBlock->setKeywords($keyword);
+                } elseif ($currentCategory) {
+                    $headBlock->setKeywords($product->getName());
+                }
+                $description = $product->getMetaDescription();
+                if ($description) {
+                    $headBlock->setDescription( ($description) );
+                } else {
+                    $headBlock->setDescription($this->string->substr($product->getDescription(), 0, 255));
+                }
+                //@todo: move canonical link to separate block
+                if ($this->_productHelper->canUseCanonicalTag()
+                    && !$headBlock->getChildBlock('magento-page-head-product-canonical-link')
+                ) {
+                    $params = array('_ignore_category'=>true);
+                    $headBlock->addChild(
+                        'magento-page-head-product-canonical-link',
+                        'Magento\Theme\Block\Html\Head\Link',
+                        array(
+                            'url' => $product->getUrlModel()->getUrl($product, $params),
+                            'properties' => array('attributes' => array('rel' => 'canonical'))
+                        )
+                    );
+                }
             }
-            $keyword = $product->getMetaKeyword();
-            $currentCategory = $this->_coreRegistry->registry('current_category');
-            if ($keyword) {
-                $headBlock->setKeywords($keyword);
-            } elseif ($currentCategory) {
-                $headBlock->setKeywords($product->getName());
-            }
-            $description = $product->getMetaDescription();
-            if ($description) {
-                $headBlock->setDescription( ($description) );
-            } else {
-                $headBlock->setDescription($this->string->substr($product->getDescription(), 0, 255));
-            }
-            //@todo: move canonical link to separate block
-            if ($this->_productHelper->canUseCanonicalTag()
-                && !$headBlock->getChildBlock('magento-page-head-product-canonical-link')
-            ) {
-                $params = array('_ignore_category'=>true);
-                $headBlock->addChild(
-                    'magento-page-head-product-canonical-link',
-                    'Magento\Theme\Block\Html\Head\Link',
-                    array(
-                        'url' => $product->getUrlModel()->getUrl($product, $params),
-                        'properties' => array('attributes' => array('rel' => 'canonical'))
-                    )
-                );
+            $pageMainTitle = $this->getLayout()->getBlock('page.main.title');
+            if ($pageMainTitle) {
+                $pageMainTitle->setPageTitle($product->getName());
             }
         }
-        $pageMainTitle = $this->getLayout()->getBlock('page.main.title');
-        if ($pageMainTitle) {
-            $pageMainTitle->setPageTitle($this->getProduct()->getName());
-        }
-
         return parent::_prepareLayout();
     }
 
