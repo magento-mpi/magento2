@@ -726,7 +726,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
                 try {
                     $this->_structure->setAsChild($name, $parentName, $alias);
                 } catch (\Exception $e) {
-                    $this->_logger->logException($e);
+                    $this->_logger->log($e->getMessage());
                 }
             } else {
                 $this->_logger
