@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<mapping strict="1">
+    <fields>
+        <credit_card_type>
+            <selector>#%paymentCode%_cc_type</selector>
+            <input>select</input>
+        </credit_card_type>
+        <credit_card_number>
+            <selector>#%paymentCode%_cc_number</selector>
+        </credit_card_number>
+        <expiration_month>
+            <selector>#%paymentCode%_expiration</selector>
+            <input>select</input>
+        </expiration_month>
+        <expiration_year>
+            <selector>#%paymentCode%_expiration_yr</selector>
+            <input>select</input>
+        </expiration_year>
+        <credit_card_cvv>
+            <selector>#%paymentCode%_cc_cid</selector>
+        </credit_card_cvv>
+    </fields>
+</mapping>

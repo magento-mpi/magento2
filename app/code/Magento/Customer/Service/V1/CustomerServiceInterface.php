@@ -19,20 +19,20 @@ interface CustomerServiceInterface
     /**
      * Create or update customer information
      *
-     * @param Dto\Customer $customer
+     * @param Data\Customer $customer
      * @param string $password
      * @throws \Magento\Customer\Exception If something goes wrong during save
      * @throws InputException If bad input is provided
      * @return int customer ID
      */
-    public function saveCustomer(Dto\Customer $customer, $password = null);
+    public function saveCustomer(Data\Customer $customer, $password = null);
 
     /**
      * Retrieve Customer
      *
      * @param int $customerId
      * @throws NoSuchEntityException If customer with customerId is not found.
-     * @return Dto\Customer
+     * @return Data\Customer
      */
     public function getCustomer($customerId);
 
@@ -42,7 +42,7 @@ interface CustomerServiceInterface
      * @param string $customerEmail
      * @param int|null $websiteId
      * @throws NoSuchEntityException If customer with the specified email is not found.
-     * @return Dto\Customer
+     * @return Data\Customer
      */
     public function getCustomerByEmail($customerEmail, $websiteId = null);
 

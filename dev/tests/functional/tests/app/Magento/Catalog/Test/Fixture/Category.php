@@ -25,8 +25,8 @@ class Category extends DataFixture
     /**
      * Attribute set for mapping data into ui tabs
      */
-    const GROUP_GENERAL_INFORMATION = 'category_info_tabs_group_4';
-    const GROUP_DISPLAY_SETTINGS = 'category_info_tabs_group_5';
+    const GROUP_GENERAL_INFORMATION = 'general_information';
+    const GROUP_DISPLAY_SETTINGS = 'display_setting';
 
     /**
      * Contains categories that are needed to create next category
@@ -145,9 +145,6 @@ class Category extends DataFixture
                     'input_value' => 'default_sort_by',
                     'group' => static::GROUP_DISPLAY_SETTINGS,
                     'input' => 'checkbox'
-                ),
-                'path' => array(
-                    'input_value' => 2
                 )
             ),
             'category_path' =>  array(

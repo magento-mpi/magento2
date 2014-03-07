@@ -83,6 +83,13 @@ class View extends Block
     protected $mapPopup = '#map-popup';
 
     /**
+     * Stock Availability control
+     *
+     * @var string
+     */
+    protected $stockAvailability = '.stock span';
+
+    /**
      * Get bundle options block
      *
      * @return \Magento\Bundle\Test\Block\Catalog\Product\View\Type\Bundle
@@ -260,5 +267,15 @@ class View extends Block
     public function isAddToCartButtonVisible()
     {
         return $this->_rootElement->find($this->addToCart, Locator::SELECTOR_CSS)->isVisible();
+    }
+
+    /**
+     * Get text of Stock Availability control
+     *
+     * @return array|string
+     */
+    public function stockAvailability()
+    {
+        return $this->_rootElement->find($this->stockAvailability)->getText();
     }
 }

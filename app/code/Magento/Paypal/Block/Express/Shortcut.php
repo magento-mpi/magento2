@@ -96,6 +96,11 @@ class Shortcut extends \Magento\View\Element\Template implements CatalogBlock\Sh
     protected $productTypeConfig;
 
     /**
+     * @var \Magento\Locale\ResolverInterface
+     */
+    protected $_localeResolver;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Paypal\Helper\Data $paypalData
      * @param \Magento\Payment\Helper\Data $paymentData
@@ -105,6 +110,7 @@ class Shortcut extends \Magento\View\Element\Template implements CatalogBlock\Sh
      * @param \Magento\Paypal\Model\Express\Checkout\Factory $checkoutFactory
      * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig
+     * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param array $data
      */
@@ -118,6 +124,7 @@ class Shortcut extends \Magento\View\Element\Template implements CatalogBlock\Sh
         \Magento\Paypal\Model\Express\Checkout\Factory $checkoutFactory,
         \Magento\Math\Random $mathRandom,
         \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig,
+        \Magento\Locale\ResolverInterface $localeResolver,
         \Magento\Checkout\Model\Session $checkoutSession = null,
         array $data = array()
     ) {
@@ -130,6 +137,7 @@ class Shortcut extends \Magento\View\Element\Template implements CatalogBlock\Sh
         $this->_checkoutFactory = $checkoutFactory;
         $this->mathRandom = $mathRandom;
         $this->productTypeConfig = $productTypeConfig;
+        $this->_localeResolver = $localeResolver;
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
     }
@@ -185,7 +193,9 @@ class Shortcut extends \Magento\View\Element\Template implements CatalogBlock\Sh
 
         // use static image if in catalog
         if ($isInCatalog || null === $quote) {
-            $this->setImageUrl($config->getExpressCheckoutShortcutImageUrl($this->_locale->getLocaleCode()));
+            $this->setImageUrl($config->getExpressCheckoutShortcutImageUrl(
+                $this->_localeResolver->getLocaleCode())
+            );
         } else {
             $parameters = array(
                 'params' => array(

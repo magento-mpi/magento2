@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\SalesRule\Model;
 
 /**
@@ -41,6 +40,11 @@ class Coupon extends \Magento\Core\Model\AbstractModel
      */
     protected $_rule;
 
+    /**
+     * Constructor
+     *
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -50,7 +54,7 @@ class Coupon extends \Magento\Core\Model\AbstractModel
     /**
      * Processing object before save data
      *
-     * @return \Magento\Core\Model\AbstractModel
+     * @return $this
      */
     protected function _beforeSave()
     {
@@ -63,8 +67,8 @@ class Coupon extends \Magento\Core\Model\AbstractModel
     /**
      * Set rule instance
      *
-     * @param  \Magento\SalesRule\Model\Rule
-     * @return \Magento\SalesRule\Model\Coupon
+     * @param \Magento\SalesRule\Model\Rule $rule
+     * @return $this
      */
     public function setRule(\Magento\SalesRule\Model\Rule $rule)
     {
@@ -76,7 +80,7 @@ class Coupon extends \Magento\Core\Model\AbstractModel
      * Load primary coupon for specified rule
      *
      * @param \Magento\SalesRule\Model\Rule|int $rule
-     * @return \Magento\SalesRule\Model\Coupon
+     * @return $this
      */
     public function loadPrimaryByRule($rule)
     {
@@ -88,7 +92,7 @@ class Coupon extends \Magento\Core\Model\AbstractModel
      * Load Shopping Cart Price Rule by coupon code
      *
      * @param string $couponCode
-     * @return \Magento\SalesRule\Model\Coupon
+     * @return $this
      */
     public function loadByCode($couponCode)
     {

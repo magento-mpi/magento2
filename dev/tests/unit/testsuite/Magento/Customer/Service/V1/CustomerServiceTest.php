@@ -59,7 +59,7 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
     private $_storeMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\Dto\CustomerBuilder
+     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\Data\CustomerBuilder
      */
     private $_customerBuilder;
 
@@ -138,13 +138,17 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->_setupStoreMock();
 
-        $this->_customerBuilder = new Dto\CustomerBuilder();
+        $this->_customerMetadataService = $this->getMockForAbstractClass(
+            'Magento\Customer\Service\V1\CustomerMetadataServiceInterface', [], '', false
+        );
+        $this->_customerMetadataService
+            ->expects($this->any())
+            ->method('getCustomCustomerAttributeMetadata')
+            ->will($this->returnValue([]));
+
+        $this->_customerBuilder = new Data\CustomerBuilder($this->_customerMetadataService);
 
         $this->_converter = new \Magento\Customer\Model\Converter($this->_customerBuilder, $this->_customerFactoryMock);
-
-        $this->_customerMetadataService = $this->getMockBuilder('Magento\Customer\Service\V1\CustomerMetadataService')
-            ->disableOriginalConstructor()
-            ->getMock();
     }
 
     public function testGetCustomer()
@@ -183,13 +187,11 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
         $customerService = $this->_createService();
 
         $actualCustomer = $customerService->getCustomer(self::ID);
-        $this->assertEquals(self::ID, $actualCustomer->getCustomerId(), 'customer id does not match');
+        $this->assertEquals(self::ID, $actualCustomer->getId(), 'customer id does not match');
         $this->assertEquals(self::FIRSTNAME, $actualCustomer->getFirstName());
         $this->assertEquals(self::LASTNAME, $actualCustomer->getLastName());
         $this->assertEquals(self::EMAIL, $actualCustomer->getEmail());
-        $this->assertEquals(4, count($actualCustomer->getAttributes()));
-        $attribute = $actualCustomer->getAttribute(self::ATTRIBUTE_CODE);
-        $this->assertNull($attribute, 'Arbitrary attributes must not be available do DTO users.');
+        $this->assertEquals(4, count($actualCustomer->__toArray()));
     }
 
     public function testGetCustomerCached()
@@ -249,7 +251,7 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $mockAttribute = $this->getMockBuilder('Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata')
+        $mockAttribute = $this->getMockBuilder('Magento\Customer\Service\V1\Data\Eav\AttributeMetadata')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_customerMetadataService->expects($this->any())
@@ -292,7 +294,7 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $mockAttribute = $this->getMockBuilder('Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata')
+        $mockAttribute = $this->getMockBuilder('Magento\Customer\Service\V1\Data\Eav\AttributeMetadata')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_customerMetadataService->expects($this->any())
@@ -334,7 +336,7 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $mockAttribute = $this->getMockBuilder('Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata')
+        $mockAttribute = $this->getMockBuilder('Magento\Customer\Service\V1\Data\Eav\AttributeMetadata')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_customerMetadataService->expects($this->any())
@@ -380,7 +382,7 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $mockAttribute = $this->getMockBuilder('Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata')
+        $mockAttribute = $this->getMockBuilder('Magento\Customer\Service\V1\Data\Eav\AttributeMetadata')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_customerMetadataService->expects($this->any())
@@ -422,7 +424,7 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $mockAttribute = $this->getMockBuilder('Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata')
+        $mockAttribute = $this->getMockBuilder('Magento\Customer\Service\V1\Data\Eav\AttributeMetadata')
             ->disableOriginalConstructor()
             ->getMock();
         $mockAttribute->expects($this->atLeastOnce())

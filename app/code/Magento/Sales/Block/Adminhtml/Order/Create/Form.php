@@ -8,6 +8,8 @@
 
 namespace Magento\Sales\Block\Adminhtml\Order\Create;
 
+use Magento\Customer\Service\V1\Data\AddressConverter;
+
 /**
  * Adminhtml sales order create form block
  */
@@ -23,12 +25,18 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
     protected $_addressService;
 
     /**
+     * @var \Magento\Locale\CurrencyInterface
+     */
+    protected $_localeCurrency;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Backend\Model\Session\Quote $sessionQuote
      * @param \Magento\Sales\Model\AdminOrder\Create $orderCreate
      * @param \Magento\Customer\Model\Metadata\FormFactory $customerFormFactory
      * @param \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService
+     * @param \Magento\Locale\CurrencyInterface $localeCurrency
      * @param array $data
      */
     public function __construct(
@@ -38,11 +46,13 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
         \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Customer\Model\Metadata\FormFactory $customerFormFactory,
         \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService,
+        \Magento\Locale\CurrencyInterface $localeCurrency,
         array $data = array()
     ) {
         $this->_jsonEncoder = $jsonEncoder;
         $this->_customerFormFactory = $customerFormFactory;
         $this->_addressService = $addressService;
+        $this->_localeCurrency = $localeCurrency;
         parent::__construct($context, $sessionQuote, $orderCreate, $data);
     }
 
@@ -108,19 +118,19 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
             $data['customer_id'] = $this->getCustomerId();
             $data['addresses'] = array();
             $addresses = $this->_addressService->getAddresses($this->getCustomerId());
-            foreach ($addresses as $addressDto) {
+            foreach ($addresses as $addressData) {
                 $addressForm = $this->_customerFormFactory->create(
                     'customer_address',
                     'adminhtml_customer_address',
-                    $addressDto->getAttributes()
+                    AddressConverter::toFlatArray($addressData)
                 );
-                $data['addresses'][$addressDto->getId()] = $addressForm
+                $data['addresses'][$addressData->getId()] = $addressForm
                     ->outputData(\Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_JSON);
             }
         }
         if (!is_null($this->getStoreId())) {
             $data['store_id'] = $this->getStoreId();
-            $currency = $this->_locale->currency($this->getStore()->getCurrentCurrencyCode());
+            $currency = $this->_localeCurrency->getCurrency($this->getStore()->getCurrentCurrencyCode());
             $symbol = $currency->getSymbol() ? $currency->getSymbol() : $currency->getShortName();
             $data['currency_symbol'] = $symbol;
             $data['shipping_method_reseted'] = !(bool)$this->getQuote()->getShippingAddress()->getShippingMethod();

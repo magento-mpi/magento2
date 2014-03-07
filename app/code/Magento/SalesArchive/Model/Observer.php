@@ -7,13 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\SalesArchive\Model;
+
+use Magento\Event\Observer as EventObserver;
 
 /**
  * Order archive observer model
  *
  */
-namespace Magento\SalesArchive\Model;
-
 class Observer
 {
     /**
@@ -75,7 +76,7 @@ class Observer
     /**
      * Archive order by cron
      *
-     * @return \Magento\SalesArchive\Model\Observer
+     * @return $this
      */
     public function archiveOrdersByCron()
     {
@@ -89,10 +90,10 @@ class Observer
     /**
      * Mark sales object as archived and set back urls for them
      *
-     * @param \Magento\Event\Observer $observer
-     * @return \Magento\SalesArchive\Model\Observer
+     * @param EventObserver $observer
+     * @return $this
      */
-    public function salesObjectAfterLoad(\Magento\Event\Observer $observer)
+    public function salesObjectAfterLoad(EventObserver $observer)
     {
         if (!$this->_config->isArchiveActive()) {
             return $this;
@@ -122,10 +123,10 @@ class Observer
     /**
      * Observes grid records update and depends on data updates records in grid too
      *
-     * @param \Magento\Event\Observer $observer
-     * @return \Magento\SalesArchive\Model\Observer
+     * @param EventObserver $observer
+     * @return $this
      */
-    public function salesUpdateGridRecords(\Magento\Event\Observer $observer)
+    public function salesUpdateGridRecords(EventObserver $observer)
     {
         if (!$this->_config->isArchiveActive()) {
             return $this;
@@ -163,10 +164,10 @@ class Observer
     /**
      * Add archived orders to order grid collection select
      *
-     * @param \Magento\Event\Observer $observer
-     * @return \Magento\SalesArchive\Model\Observer
+     * @param EventObserver $observer
+     * @return $this
      */
-    public function appendGridCollection(\Magento\Event\Observer $observer)
+    public function appendGridCollection(EventObserver $observer)
     {
         $collection = $observer->getEvent()->getOrderGridCollection();
         if ($collection instanceof \Magento\SalesArchive\Model\Resource\Order\Collection
@@ -191,10 +192,10 @@ class Observer
      * Replaces redirects to orders list page onto archive orders list page redirects when mass action performed from
      * archive orders list page
      *
-     * @param \Magento\Event\Observer $observer
-     * @return \Magento\SalesArchive\Model\Observer
+     * @param EventObserver $observer
+     * @return $this
      */
-    public function replaceSalesOrderRedirect(\Magento\Event\Observer $observer)
+    public function replaceSalesOrderRedirect(EventObserver $observer)
     {
         /**
          * @var \Magento\Backend\App\Action $controller

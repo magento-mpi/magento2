@@ -72,7 +72,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
                 ]
             );
             $customer = $this->_customerService->getCustomer($customerId);
-            $form->setValues($customer->getAttributes())
+            $form->setValues(\Magento\Service\DataObjectConverter::toFlatArray($customer))
                 ->addValues(['customer_id' => $customerId]);
         }
 

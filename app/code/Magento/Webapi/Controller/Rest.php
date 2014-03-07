@@ -37,6 +37,9 @@ class Rest implements \Magento\App\FrontControllerInterface
     /** @var \Magento\App\State */
     protected $_appState;
 
+    /** @var \Magento\AppInterface */
+    protected $_application;
+
     /** @var \Magento\Oauth\OauthInterface */
     protected $_oauthService;
 
@@ -60,6 +63,7 @@ class Rest implements \Magento\App\FrontControllerInterface
      * @param Router $router
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\App\State $appState
+     * @param \Magento\AppInterface $application
      * @param \Magento\Oauth\OauthInterface $oauthService
      * @param \Magento\Oauth\Helper\Request $oauthHelper
      * @param AuthorizationService $authorizationService
@@ -75,6 +79,7 @@ class Rest implements \Magento\App\FrontControllerInterface
         Router $router,
         \Magento\ObjectManager $objectManager,
         \Magento\App\State $appState,
+        \Magento\AppInterface $application,
         \Magento\Oauth\OauthInterface $oauthService,
         \Magento\Oauth\Helper\Request $oauthHelper,
         AuthorizationService $authorizationService,
@@ -86,6 +91,7 @@ class Rest implements \Magento\App\FrontControllerInterface
         $this->_response = $response;
         $this->_objectManager = $objectManager;
         $this->_appState = $appState;
+        $this->_application = $application;
         $this->_oauthService = $oauthService;
         $this->_oauthHelper = $oauthHelper;
         $this->_authorizationService = $authorizationService;
@@ -104,6 +110,10 @@ class Rest implements \Magento\App\FrontControllerInterface
         $pathParts = explode('/', trim($request->getPathInfo(), '/'));
         array_shift($pathParts);
         $request->setPathInfo('/' . implode('/', $pathParts));
+        $this->_application->loadAreaPart(
+            $this->_application->getLayout()->getArea(),
+            \Magento\Core\Model\App\Area::PART_TRANSLATE
+        );
         try {
             if (!$this->_appState->isInstalled()) {
                 throw new \Magento\Webapi\Exception(__('Magento is not yet installed'));
@@ -138,7 +148,7 @@ class Rest implements \Magento\App\FrontControllerInterface
             $serviceClassName = $route->getServiceClass();
             $inputParams = $this->_serializer->getInputData($serviceClassName, $serviceMethodName, $inputData);
             $service = $this->_objectManager->get($serviceClassName);
-            /** @var \Magento\Service\Entity\AbstractDto $outputData */
+            /** @var \Magento\Service\Data\AbstractObject $outputData */
             $outputData = call_user_func_array([$service, $serviceMethodName], $inputParams);
             $outputArray = $this->_processServiceOutput($outputData);
             $this->_response->prepareResponse($outputArray);
@@ -153,9 +163,10 @@ class Rest implements \Magento\App\FrontControllerInterface
      * Converts the incoming data into scalar or an array of scalars format.
      *
      * If the data provided is null, then an empty array is returned.  Otherwise, if the data is an object, it is
-     * assumed to be a DTO and converted to an associative array with keys representing the properties of the DTO.
-     * Nested DTOs are also converted.  If the data provided is itself an array, then we iterate through the contents
-     * and convert each piece individually.
+     * assumed to be a Data Object and converted to an associative array with keys representing the properties of the
+     * Data Object.
+     * Nested Data Objects are also converted.  If the data provided is itself an array, then we iterate through the
+     * contents and convert each piece individually.
      *
      * @param mixed $data
      * @return array|int|string|bool|float Scalar or array of scalars
@@ -166,13 +177,13 @@ class Rest implements \Magento\App\FrontControllerInterface
             $result = [];
             foreach ($data as $datum) {
                 if (is_object($datum)) {
-                    $result[] = $this->_convertDtoToArray($datum);
+                    $result[] = $this->_convertDataObjectToArray($datum);
                 } else {
                     $result[] = $datum;
                 }
             }
         } else if (is_object($data)) {
-            $result = $this->_convertDtoToArray($data);
+            $result = $this->_convertDataObjectToArray($data);
         } else if (is_null($data)) {
             $result = [];
         } else {
@@ -183,17 +194,17 @@ class Rest implements \Magento\App\FrontControllerInterface
     }
 
     /**
-     * Convert DTO to array.
+     * Convert Data Object to array.
      *
-     * @param object $dto
+     * @param object $dataObject
      * @return array
      * @throws \InvalidArgumentException
      */
-    protected function _convertDtoToArray($dto)
+    protected function _convertDataObjectToArray($dataObject)
     {
-        if (!is_object($dto) || !method_exists($dto, '__toArray')) {
+        if (!is_object($dataObject) || !method_exists($dataObject, '__toArray')) {
             throw new \InvalidArgumentException("All objects returned by service must implement __toArray().");
         }
-        return $dto->__toArray();
+        return $dataObject->__toArray();
     }
 }

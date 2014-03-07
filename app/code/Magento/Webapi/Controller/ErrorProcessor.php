@@ -54,7 +54,7 @@ class ErrorProcessor
      */
     public function __construct(
         \Magento\Core\Helper\Data $helper,
-        \Magento\Core\Model\App $app,
+        \Magento\AppInterface $app,
         \Magento\Logger $logger,
         \Magento\App\Filesystem $filesystem
     ) {

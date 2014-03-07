@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<mapping strict="0">
+    <fields>
+        <type>
+            <selector>[name='is_system']</selector>
+        </type>
+        <id_path />
+        <store>
+            <selector>[name='store_id']</selector>
+            <input>select</input>
+        </store>
+        <request_path />
+        <target_path />
+        <redirect>
+            <selector>[name='options']</selector>
+            <input>select</input>
+        </redirect>
+        <description />
+    </fields>
+</mapping>

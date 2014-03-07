@@ -18,7 +18,7 @@
  */
 namespace Magento\Rma\Block;
 
-class Form extends \Magento\CustomAttribute\Block\Form
+class Form extends \Magento\CustomAttributeManagement\Block\Form
 {
     /**
      * Name of the block in layout update xml file

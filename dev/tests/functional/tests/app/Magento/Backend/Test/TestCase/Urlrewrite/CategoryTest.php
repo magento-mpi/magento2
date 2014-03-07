@@ -11,6 +11,7 @@ namespace Magento\Backend\Test\TestCase\Urlrewrite;
 use Mtf\Factory\Factory,
     Mtf\TestCase\Functional,
     Magento\Backend\Test\Fixture\Urlrewrite\Category;
+use Mtf\TestCase\Injectable;
 
 /**
  * Class UrlrewriteTest
@@ -18,17 +19,21 @@ use Mtf\Factory\Factory,
  *
  * @package Magento\Catalog\Test\TestCase\Category
  */
-class CategoryTest extends Functional
+class CategoryTest extends Injectable
 {
+    public function __inject()
+    {
+        //
+    }
+
     /**
      * Adding permanent redirect for category
      *
      * @ZephyrId MAGETWO-12407
+     * @param Category $urlRewriteCategory
      */
-    public function testUrlRewriteCreation()
+    public function test(\Magento\Backend\Test\Fixture\Urlrewrite\Category $urlRewriteCategory)
     {
-        /** @var Category $urlRewriteCategory */
-        $urlRewriteCategory = Factory::getFixtureFactory()->getMagentoBackendUrlrewriteCategory();
         $urlRewriteCategory->switchData('category_with_permanent_redirect');
 
         //Pages & Blocks

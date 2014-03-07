@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Search\Block\Adminhtml\Search;
 
 /**
  * Search query relations edit grid
@@ -15,8 +16,6 @@
  * @package    Magento_Search
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Search\Block\Adminhtml\Search;
-
 class Grid extends \Magento\Backend\Block\Widget\Grid
 {
     /**
@@ -67,6 +66,12 @@ class Grid extends \Magento\Backend\Block\Widget\Grid
         return $this->_registryManager->registry('current_catalog_search');
     }
 
+    /**
+     * Add column filter to collection
+     *
+     * @param \Magento\Backend\Block\Widget\Grid\Column $column
+     * @return $this
+     */
     protected function _addColumnFilterToCollection($column)
     {
         // Set custom filter for query selected flag
@@ -97,6 +102,8 @@ class Grid extends \Magento\Backend\Block\Widget\Grid
     }
 
     /**
+     * Get queries json
+     *
      * @return string
      */
     public function getQueriesJson()
