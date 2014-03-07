@@ -33,7 +33,7 @@ class CheckoutOnepageSuccess extends Page
      *
      * @var string
      */
-    protected $successBlock = '//div[contains(@class, "column main")]';
+    protected $successBlock = '//div[contains(@class, "checkout success")]';
 
     /**
      * Page title block

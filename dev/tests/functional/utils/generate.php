@@ -8,19 +8,35 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+umask(0);
+
+$mtfRoot = dirname(dirname(__FILE__));
+$mtfRoot = str_replace('\\', '/', $mtfRoot);
+define('MTF_BP', $mtfRoot);
+define('MTF_TESTS_PATH', MTF_BP . '/tests/app/');
+
+$path = get_include_path();
+$path = rtrim($path, PATH_SEPARATOR);
+$path .= PATH_SEPARATOR . MTF_BP . '/lib';
+$path .= PATH_SEPARATOR . MTF_BP . '/vendor/magento/mtf';
+$path .= PATH_SEPARATOR . MTF_BP . '/vendor/magento/mtf/lib';
+set_include_path($path);
 
 $appRoot = dirname(dirname(dirname(dirname(__DIR__))));
-$mtfRoot = dirname(dirname(__FILE__));
-require_once $mtfRoot . '/bootstrap.php';
+require $appRoot . '/app/bootstrap.php';
 
-$generatorConfigFile = $mtfRoot . "/utils/config/generator_config.yml.dist";
-$generatorConfig = new \Mtf\System\Config($generatorConfigFile);
-$params = $generatorConfig->getConfigParam();
+$objectManagerFactory = new \Magento\App\ObjectManagerFactory();
+$arguments = $_SERVER;
+$objectManager = $objectManagerFactory->create(BP, $arguments);
+\Mtf\ObjectManagerFactory::configure($objectManager);
 
-$params['mtf_app_root'] = $appRoot;
-$params['mtf_mtf_root'] = $mtfRoot;
+$objectManager->create('Mtf\Util\Generate\TestCase')->launch();
+$objectManager->create('Mtf\Util\Generate\Page')->launch();
+$objectManager->create('Mtf\Util\Generate\Fixture')->launch();
+$objectManager->create('Mtf\Util\Generate\Constraint')->launch();
+$objectManager->create('Mtf\Util\Generate\Handler')->launch();
 
-$params = array_merge($params, $_REQUEST);
+$objectManager->get('Magento\App\State')->setAreaCode('frontend');
+$objectManager->create('Mtf\Util\Generate\Repository')->launch();
 
-$entryPoint = new \Mtf\Util\EntryPoint($params);
-$entryPoint->processRequest();
+\Mtf\Util\Generate\GenerateResult::displayResults();

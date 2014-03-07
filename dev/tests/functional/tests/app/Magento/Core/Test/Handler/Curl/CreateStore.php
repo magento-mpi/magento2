@@ -12,7 +12,7 @@
 
 namespace Magento\Core\Test\Handler\Curl;
 
-use Mtf\Fixture;
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Handler\Curl;
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
@@ -72,12 +72,12 @@ class CreateStore extends Curl
     /**
      * Post request for persisting Magento Store View
      *
-     * @param Fixture $fixture
+     * @param FixtureInterface $fixture
      * @return array
      * @throws \UnexpectedValueException
      * @throws \UnderflowException
      */
-    public function execute(Fixture $fixture = null)
+    public function persist(FixtureInterface $fixture = null)
     {
         $data = $this->_prepareData($fixture->getData());
         $data['store_id'] = '';
