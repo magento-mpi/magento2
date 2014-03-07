@@ -118,7 +118,7 @@ class State extends \Magento\Object
     }
 
     /**
-     * @param $step
+     * @param string $step
      * @return $this
      */
     public function setActiveStep($step)
