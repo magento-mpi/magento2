@@ -7,15 +7,21 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\System;
 
 /**
  * Command-line options parsing class.
  */
-namespace Magento\System;
-
 class Args
 {
+    /**
+     * @var array
+     */
     public $flags;
+
+    /**
+     * @var array
+     */
     public $filtered;
 
     /**

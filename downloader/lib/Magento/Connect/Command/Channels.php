@@ -7,18 +7,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Connect\Command;
 
 final class Channels
 extends \Magento\Connect\Command
 {
-
     /**
      * List available channels
-     * @param $command
-     * @param $params
-     * @param $options
+     * @param string $command
+     * @param array $options
+     * @param array $params
+     * @return void
      */
     public function doList($command, $options, $params)
     {
@@ -46,10 +45,11 @@ extends \Magento\Connect\Command
     }
 
     /**
-     * channel-delete callback method
+     * Channel-delete callback method
      * @param string $command
      * @param array $options
      * @param array $params
+     * @return void
      */
     public function doDelete($command, $options, $params)
     {
@@ -83,6 +83,7 @@ extends \Magento\Connect\Command
      * @param string $command
      * @param array $options
      * @param array $params
+     * @return void
      */
     public function doAdd($command, $options, $params)
     {
@@ -121,6 +122,7 @@ extends \Magento\Connect\Command
      * @param string $command
      * @param array $options
      * @param array $params
+     * @return void
      */
     public function doInfo($command, $options, $params)
     {
@@ -128,11 +130,11 @@ extends \Magento\Connect\Command
     }
 
     /**
-     * channel-alias
-     * @param $command
-     * @param $options
-     * @param $params
-     * @return unknown_type
+     * Channel-alias
+     * @param string $command
+     * @param array $options
+     * @param array $params
+     * @return void
      */
     public function doAlias($command, $options, $params)
     {
@@ -162,14 +164,25 @@ extends \Magento\Connect\Command
         }
     }
 
+    /**
+     * @param string $command
+     * @param string $options
+     * @param string $params
+     * @return void
+     */
     public function doLogin($command, $options, $params)
     {
 
     }
 
+    /**
+     * @param string $command
+     * @param string $options
+     * @param string $params
+     * @return void
+     */
     public function doLogout($command, $options, $params)
     {
 
     }
-
 }

@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Connect;
+
+use Magento\Connect\Package\Target;
 
 /**
  * Class to work with Magento Connect packages
@@ -15,11 +18,8 @@
  * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Connect;
-
 class Package
 {
-
     const PACKAGE_XML_DIR = 'var/package';
 
     /**
@@ -102,7 +102,7 @@ class Package
     /**
     * Object with target
     *
-    * @var \Magento\Connect\Package\Target
+    * @var Target
     */
     protected $_target = null;
 
@@ -156,7 +156,7 @@ class Package
      * Initializes an empty package object
      *
      * @param null|string $definition optional package definition xml
-     * @return \Magento\Connect\Package
+     * @return $this
      */
     protected function _init($definition=null)
     {
@@ -193,7 +193,7 @@ END;
      * Loads a package from specified file
      *
      * @param string $filename
-     * @return \Magento\Connect\Package
+     * @return $this
      */
     protected function _loadFile($filename='')
     {
@@ -209,7 +209,7 @@ END;
      * Creates a package and saves it
      *
      * @param string $path
-     * @return \Magento\Connect\Package
+     * @return $this
      */
     public function save($path)
     {
@@ -223,7 +223,7 @@ END;
      * Creates a package archive and saves it to specified path
      *
      * @param string $path
-     * @return \Magento\Connect\Package
+     * @return $this
      */
     protected function _savePackage($path)
     {
@@ -241,19 +241,23 @@ END;
     /**
     * Retrieve Target object
     *
-    * @return \Magento\Connect\Package\Target
+    * @return Target
     */
     protected function getTarget()
     {
-        if (!$this->_target instanceof \Magento\Connect\Package\Target) {
-            $this->_target = new \Magento\Connect\Package\Target();
+        if (!$this->_target instanceof Target) {
+            $this->_target = new Target();
         }
         return $this->_target;
     }
 
+    /**
+     * @param Target $arg
+     * @return void
+     */
     public function setTarget($arg)
     {
-        if ($arg instanceof \Magento\Connect\Package\Target) {
+        if ($arg instanceof Target) {
             $this->_target = $arg;
         }
     }
@@ -264,7 +268,7 @@ END;
      * Puts value to name
      *
      * @param string $name
-     * @return \Magento\Connect\Package
+     * @return $this
      */
     public function setName($name)
     {
@@ -276,7 +280,7 @@ END;
      * Puts value to <channel />
      *
      * @param string $channel
-     * @return \Magento\Connect\Package
+     * @return $this
      */
     public function setChannel($channel)
     {
@@ -288,7 +292,7 @@ END;
      * Puts value to <summary />
      *
      * @param string $summary
-     * @return \Magento\Connect\Package
+     * @return $this
      */
     public function setSummary($summary)
     {
@@ -300,7 +304,7 @@ END;
      * Puts value to <description />
      *
      * @param string $description
-     * @return \Magento\Connect\Package
+     * @return $this
      */
     public function setDescription($description)
     {
@@ -317,7 +321,7 @@ END;
      * );
      *
      * @param array $authors
-     * @return \Magento\Connect\Package
+     * @return $this
      */
     public function setAuthors($authors)
     {
@@ -334,7 +338,7 @@ END;
     * @param string $name
     * @param string $user
     * @param string $email
-    * @return \Magento\Connect\Package
+    * @return $this
     */
     public function addAuthor($name=null, $user=null, $email=null)
     {
@@ -354,7 +358,7 @@ END;
      * Puts value to <date/>. Format should be Y-M-D.
      *
      * @param string $date
-     * @return \Magento\Connect\Package
+     * @return $this
      */
     public function setDate($date)
     {
@@ -366,7 +370,7 @@ END;
      * Puts value to <time />. Format should be H:i:s.
      *
      * @param string $time
-     * @return \Magento\Connect\Package
+     * @return $this
      */
     public function setTime($time)
     {
@@ -378,7 +382,7 @@ END;
      * Puts value to <version/>. Format should be X.Y.Z.
      *
      * @param string $version
-     * @return \Magento\Connect\Package
+     * @return $this
      */
     public function setVersion($version)
     {
@@ -390,7 +394,7 @@ END;
      * Puts value to <stability/>. It can be alpha, beta, devel and stable.
      *
      * @param string $stability
-     * @return \Magento\Connect\Package
+     * @return $this
      */
     public function setStability($stability)
     {
@@ -403,7 +407,7 @@ END;
      *
      * @param string $license
      * @param string $uri
-     * @return \Magento\Connect\Package
+     * @return $this
      */
     public function setLicense($license, $uri=null)
     {
@@ -418,7 +422,7 @@ END;
      * Puts value to <notes/>.
      *
      * @param string $notes
-     * @return \Magento\Connect\Package
+     * @return $this
      */
     public function setNotes($notes)
     {
@@ -461,7 +465,7 @@ END;
      * @param string $path Path to directory or file
      * @param string $targetName Target name.
      * @param string $hash MD5 hash of the file
-     * @return \Magento\Connect\Package
+     * @return $this
      */
     public function addContent($path, $targetName)
     {
@@ -492,7 +496,7 @@ END;
      * @param string $path Path to directory
      * @param string $exclude Exclude
      * @param string $include Include
-     * @return \Magento\Connect\Package
+     * @return $this
      */
     public function addContentDir($targetName, $path, $exclude=null, $include=null)
     {
@@ -531,7 +535,7 @@ END;
      * @param string $channel
      * @param string $minVersion
      * @param string $maxVersion
-     * @return \Magento\Connect\Package
+     * @return $this
      */
     public function addCompatible($packageName, $channel, $minVersion, $maxVersion)
     {
@@ -548,7 +552,7 @@ END;
      *
      * @param string $minVersion
      * @param string $maxVersion
-     * @return \Magento\Connect\Package
+     * @return $this
      */
     public function setDependencyPhpVersion($minVersion, $maxVersion)
     {
@@ -589,11 +593,10 @@ END;
         return true;
     }
 
-
     /**
      * Check PHP extensions availability
-     * @throws Exceptiom on failure
-     * @return true | array
+     * @throws \Exception On failure
+     * @return true|array
      */
     public function checkPhpDependencies()
     {
@@ -618,7 +621,7 @@ END;
      * array('curl', 'mysql')
      *
      * @param array|string $extensions
-     * @return \Magento\Connect\Package
+     * @return $this
      */
     public function setDependencyPhpExtensions($extensions)
     {
@@ -643,7 +646,7 @@ END;
     *
     * @param array $packages
     * @param bool $clear
-    * @return \Magento\Connect\Package
+    * @return $this
     */
     public function setDependencyPackages($packages, $clear = false)
     {
@@ -667,16 +670,15 @@ END;
         return $this;
     }
 
-
-
     /**
      * Add package to dependency packages.
      *
-     * @param string $package
+     * @param string $name
      * @param string $channel
      * @param string $minVersion
      * @param string $maxVersion
-     * @return \Magento\Connect\Package
+     * @param array $files
+     * @return $this
      */
     public function addDependencyPackage($name, $channel, $minVersion, $maxVersion, $files = array())
     {
@@ -701,15 +703,13 @@ END;
         return $this;
     }
 
-
-
     /**
      * Add package to dependency extension.
      *
-     * @param string $package
+     * @param string $name
      * @param string $minVersion
      * @param string $maxVersion
-     * @return \Magento\Connect\Package
+     * @return $this
      */
     public function addDependencyExtension($name, $minVersion, $maxVersion)
     {
@@ -876,11 +876,12 @@ END;
     }
 
     /**
-    * Helper for getContents(). Create recursively list.
-    *
-    * @param \SimpleXMLElement $parent
-    * @param string $path
-    */
+     * Helper for getContents(). Create recursively list.
+     *
+     * @param \SimpleXMLElement $parent
+     * @param string $path
+     * @return void
+     */
     protected function _getList($parent, $path)
     {
         if (count($parent) == 0) {
@@ -912,11 +913,13 @@ END;
     }
 
     /**
-    * Helper for getHashContents(). Create recursively list.
-    *
-    * @param \SimpleXMLElement $parent
-    * @param string $path
-    */
+     * Helper for getHashContents(). Create recursively list.
+     *
+     * @param \SimpleXMLElement $parent
+     * @param string $path
+     * @param string $hash
+     * @return void
+     */
     protected function _getHashList($parent, $path, $hash='')
     {
         if (count($parent) == 0) {
@@ -1035,9 +1038,6 @@ END;
         return $this->_dependencyPackages;
     }
 
-
-
-
     /**
      * Get string with XML content.
      *
@@ -1047,7 +1047,6 @@ END;
     {
         return $this->_packageXml->asXml();
     }
-
 
     /**
      * Validator instance (single)
@@ -1076,7 +1075,7 @@ END;
      * Setter for validation errors
      *
      * @param array $errors
-     * @return
+     * @return void
      */
     protected function setErrors(array $errors)
     {
@@ -1099,6 +1098,7 @@ END;
      * retrieved by calling getErrors();
      *
      * @return bool
+     * @throws \Magento\Exception
      */
     public function validate()
     {
@@ -1287,7 +1287,7 @@ END;
     /**
     * Clear dependencies
     *
-    * @return \Magento\Connect\Package
+    * @return $this
     */
     public function clearDependencies()
     {
@@ -1298,7 +1298,7 @@ END;
     /**
     * Clear contents
     *
-    * @return \Magento\Connect\Package
+    * @return $this
     */
     public function clearContents()
     {
@@ -1320,6 +1320,7 @@ END;
      * Set config
      *
      * @param \Magento\Connect\Config $config
+     * @return void
      */
     public function setConfig($config)
     {
@@ -1330,8 +1331,7 @@ END;
      * Import package information from previous version of Magento Connect Manager
      *
      * @param array $data
-     *
-     * @return \Magento\Connect\Package
+     * @return $this
      */
     public function importDataV1x(array $data)
     {
@@ -1475,10 +1475,9 @@ END;
     }
 
     /**
-     * Convert package channel in order for it to be compatible with current version of Magento Connect Manager
+     * Convert package channel in order for it to be compatible with previous version of Magento Connect Manager
      *
      * @param string $channel
-     *
      * @return string
      */
     public function convertChannelFromV1x($channel)
