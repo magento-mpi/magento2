@@ -23,7 +23,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->objectManagerMock = $this->getMock('Magento\ObjectManager\ObjectManager', array(), array(), '', false);
+        $this->objectManagerMock = $this->getMock('Magento\ObjectManager', array(), array(), '', false);
         $this->factory = new \Magento\Message\Factory(
             $this->objectManagerMock
         );
@@ -40,29 +40,32 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param string $type
-     * @dataProvider createWithWrongInterfaceImplementationDataProvider
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Magento\Message\Error doesn't implement \Magento\Message\MessageInterface
      */
-    public function testCreateWithWrongInterfaceImplementation($type)
+    public function testCreateWithWrongInterfaceImplementation()
     {
-
+        $messageMock = new \stdClass();
+        $type = 'error';
         $className = 'Magento\Message\\' . ucfirst($type);
         $this->objectManagerMock
             ->expects($this->once())
             ->method('create')
-            ->with($className, array('text' => 'text'));
-        $this->setExpectedException('\InvalidArgumentException',
-            $className . ' doesn\'t implement \Magento\Message\MessageInterface');
+            ->with($className, array('text' => 'text'))
+            ->will($this->returnValue($messageMock));
         $this->factory->create($type, 'text');
     }
 
-    public function createWithWrongInterfaceImplementationDataProvider()
+    public function testSuccessfulCreateMessage()
     {
-        return array(
-            MessageInterface::TYPE_ERROR => array(MessageInterface::TYPE_ERROR),
-            MessageInterface::TYPE_WARNING => array(MessageInterface::TYPE_WARNING),
-            MessageInterface::TYPE_NOTICE => array(MessageInterface::TYPE_NOTICE),
-            MessageInterface::TYPE_SUCCESS => array(MessageInterface::TYPE_SUCCESS)
-        );
+        $messageMock = $this->getMock('Magento\Message\Success', array(), array(), '', false);
+        $type = 'success';
+        $className = 'Magento\Message\\' . ucfirst($type);
+        $this->objectManagerMock
+            ->expects($this->once())
+            ->method('create')
+            ->with($className, array('text' => 'text'))
+            ->will($this->returnValue($messageMock));
+        $this->assertEquals($messageMock, $this->factory->create($type, 'text'));
     }
 }

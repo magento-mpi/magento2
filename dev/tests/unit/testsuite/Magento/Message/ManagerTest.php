@@ -51,7 +51,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $messageInterfaceMock;
+    protected $messageMock;
 
     public function setUp()
     {
@@ -76,7 +76,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->messageInterfaceMock = $this->getMock('Magento\Message\MessageInterface');
+        $this->messageMock = $this->getMock('Magento\Message\MessageInterface');
         $this->objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->model = $this->objectManager->getObject('Magento\Message\Manager', array(
             'messagesFactory' => $this->messagesFactory,
@@ -203,8 +203,8 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
 
         $this->messageFactory->expects($this->once())
             ->method('create')->with($type, $message)
-            ->will($this->returnValue($this->messageInterfaceMock));
-        $this->assertEquals($this->model, $this->model->$methodName($message, 'group'));
+            ->will($this->returnValue($this->messageMock));
+        $this->model->$methodName($message, 'group');
     }
 
     public function addMessageDataProvider()
@@ -220,29 +220,33 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
     /**
      * @param \PHPUnit_Framework_MockObject_MockObject $messages
      * @param string $text
+     * @param string $expectation
      * @dataProvider addUniqueMessagesWhenMessagesImplementMessageInterfaceDataProvider
      */
-    public function testAddUniqueMessagesWhenMessagesImplementMessageInterface($messages, $text)
+    public function testAddUniqueMessagesWhenMessagesImplementMessageInterface($messages, $text, $expectation)
     {
-        $messageCollection = $this->getMock('Magento\Message\Collection', array('getItems'), array(), '', false);
+        $messageCollection =
+            $this->getMock('Magento\Message\Collection', array('getItems', 'addMessage'), array(), '', false);
         $this->session->expects($this->any())
             ->method('getData')
             ->will($this->returnValue($messageCollection));
         $messageCollection
             ->expects($this->once())
             ->method('getItems')
-            ->will($this->returnValue(array($this->messageInterfaceMock)));
-        $this->messageInterfaceMock->expects($this->once())->method('getText')->will($this->returnValue('text'));
+            ->will($this->returnValue(array($this->messageMock)));
+        $messageCollection->expects($this->$expectation())->method('addMessage');
+        $this->messageMock->expects($this->once())->method('getText')->will($this->returnValue('text'));
         $messages->expects($this->once())->method('getText')->will($this->returnValue($text));
-        $this->assertEquals($this->model, $this->model->addUniqueMessages($messages));
+        $this->model->addUniqueMessages($messages);
     }
 
     public function addUniqueMessagesWhenMessagesImplementMessageInterfaceDataProvider()
     {
         return array(
-            'message_text_is_unique' => array($this->getMock('Magento\Message\MessageInterface'), 'text1'),
-            'message_text_is_already_exist' => array($this->getMock('Magento\Message\MessageInterface'), 'text')
-
+            'message_text_is_unique' => array($this->getMock('Magento\Message\MessageInterface'), 'text1', 'once'),
+            'message_text_is_already_exist' => array(
+                $this->getMock('Magento\Message\MessageInterface'), 'text', 'never'
+            )
         );
     }
 
@@ -252,7 +256,8 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddUniqueMessages($messages)
     {
-        $messageCollection = $this->getMock('Magento\Message\Collection', array('getItems'), array(), '', false);
+        $messageCollection =
+            $this->getMock('Magento\Message\Collection', array('getItems', 'addMessage'), array(), '', false);
         $this->session->expects($this->any())
             ->method('getData')
             ->will($this->returnValue($messageCollection));
@@ -260,7 +265,8 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
             ->expects($this->any())
             ->method('getItems')
             ->will($this->returnValue(array('message')));
-        $this->assertEquals($this->model, $this->model->addUniqueMessages($messages));
+        $messageCollection->expects($this->never())->method('addMessage');
+        $this->model->addUniqueMessages($messages);
     }
 
     public function addUniqueMessagesDataProvider()
@@ -273,12 +279,15 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testAddMessages()
     {
-        $messageCollection = $this->getMock('Magento\Message\Collection', array('addMessage'), array(), '', false);
+        $messageCollection
+            = $this->getMock('Magento\Message\Collection', array('getItems', 'addMessage'), array(), '', false);
         $this->session->expects($this->any())
             ->method('getData')
             ->will($this->returnValue($messageCollection));
         $this->eventManager->expects($this->once())
             ->method('dispatch')->with('core_session_abstract_add_message');
-        $this->assertEquals($this->model, $this->model->addMessages(array($this->messageInterfaceMock)));
+
+        $messageCollection->expects($this->once())->method('addMessage')->with($this->messageMock);
+        $this->model->addMessages(array($this->messageMock));
     }
 }
