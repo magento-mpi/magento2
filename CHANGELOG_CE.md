@@ -22,6 +22,9 @@
   * Fixed synopsis of install.php script
   * Fixed absence of payment scheduled in shopping cart for products with recurring profile
   * Fixed code coverage fails for Magento\SalesRule\Model\Rule\Action\Discount\CartFixedTest
+  * Fixed PayPal Express Checkout must not redirect to Paypal site if Allow Guest Checkout option is No (MAGETWO-19523)
+  * Fixed ability to reset password for customer from backend (MAGETWO-20164)
+  * Fixed ability to download backup (MAGETWO-21353)
 * Modularity improvements:
   * Introduced Offline Payments module
   * Added ability to enable/disable Paypal module
