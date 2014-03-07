@@ -415,7 +415,8 @@ class Instance extends \Magento\Core\Model\AbstractModel
                     ),
                 ));
 
-                $isReadable = $this->_directory->isReadable($this->_directory->getRelativePath($configFile));
+                $isReadable = $configFile
+                    && $this->_directory->isReadable($this->_directory->getRelativePath($configFile));
                 if ($isReadable) {
                     $config = $this->_reader->readFile($configFile);
                     $widgetName = isset($this->_widgetConfigXml['name']) ? $this->_widgetConfigXml['name'] : null;
