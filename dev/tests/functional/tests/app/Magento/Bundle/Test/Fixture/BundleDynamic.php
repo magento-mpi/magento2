@@ -11,9 +11,13 @@
 
 namespace Magento\Bundle\Test\Fixture;
 
-use Mtf\System\Config;
 use Mtf\Factory\Factory;
 
+/**
+ * Class BundleDynamic
+ *
+ * @package Magento\Bundle\Test\Fixture
+ */
 class BundleDynamic extends Bundle
 {
     /**
@@ -51,6 +55,13 @@ class BundleDynamic extends Bundle
                     'input_value' => '0',
                     'group' => static::GROUP_PRODUCT_DETAILS,
                     'input' => 'select'
+                ),
+                'product_website_1' => array(
+                    'value' => 'Yes',
+                    'input_value' => array(1),
+                    'group' => static::GROUP_PRODUCT_WEBSITE,
+                    'input' => 'checkbox',
+                    'input_name' => 'website_ids'
                 ),
                 'shipment_type' => array(
                     'value' => 'Separately',

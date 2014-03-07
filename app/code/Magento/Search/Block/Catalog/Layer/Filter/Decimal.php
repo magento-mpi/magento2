@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Search\Block\Catalog\Layer\Filter;
 
 /**
  * Catalog Layer Decimal Attribute Filter Block
@@ -16,12 +16,12 @@
  * @package     Magento_Search
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Search\Block\Catalog\Layer\Filter;
-
 class Decimal extends \Magento\Catalog\Block\Layer\Filter\AbstractFilter
 {
     /**
      * Initialize Decimal Filter Model
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -32,7 +32,7 @@ class Decimal extends \Magento\Catalog\Block\Layer\Filter\AbstractFilter
     /**
      * Prepare filter process
      *
-     * @return \Magento\Catalog\Block\Layer\Filter\Decimal
+     * @return $this
      */
     protected function _prepareFilter()
     {
@@ -43,7 +43,7 @@ class Decimal extends \Magento\Catalog\Block\Layer\Filter\AbstractFilter
     /**
      * Add params to faceted search
      *
-     * @return \Magento\Search\Block\Catalog\Layer\Filter\Decimal
+     * @return $this
      */
     public function addFacetCondition()
     {

@@ -15,16 +15,5 @@ use Magento\Backend\Test\Block\Widget\Tab;
  */
 class Info extends Tab
 {
-    /**
-     * {@inheritdoc}
-     */
-    protected function _init()
-    {
-        parent::_init();
-        $this->_mapping = array(
-            'name' => '#integration_properties_name',
-            'email' => '#integration_properties_email',
-            'callback_url' => '#integration_properties_endpoint',
-        );
-    }
+    //
 }

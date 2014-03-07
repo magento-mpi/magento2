@@ -31,12 +31,11 @@ class Login extends Form
     protected $submitLogin = '#submitLogin';
 
     /**
-     * {@inheritdoc}
+     * 'Pay with my PayPal account' section
+     *
+     * @var string
      */
-    protected $_mapping = array(
-        'login_email' => '#login_email',
-        'login_password' => '#login_password'
-    );
+    protected $loginSection = '[class$=":ClickLogin"]';
 
     /**
      * Login to Paypal account
@@ -45,6 +44,10 @@ class Login extends Form
      */
     public function login(Customer $fixture)
     {
+        $loginSection = $this->_rootElement->find($this->loginSection);
+        if ($loginSection->isVisible()) {
+            $loginSection->click();
+        }
         $this->waitForElementVisible($this->submitLogin);
         $this->fill($fixture);
         $this->_rootElement->find($this->submitLogin, Locator::SELECTOR_CSS)->click();

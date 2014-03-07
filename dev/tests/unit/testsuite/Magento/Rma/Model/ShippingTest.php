@@ -56,7 +56,7 @@ class ShippingTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array(true, \Magento\Sales\Model\Order\Shipment\Track::CUSTOM_CARRIER_CODE),
-            array(false, 'ups'),
+            array(false, 'not-custom'),
         );
     }
 }

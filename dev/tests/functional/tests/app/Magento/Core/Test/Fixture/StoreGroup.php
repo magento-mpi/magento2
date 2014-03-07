@@ -45,4 +45,4 @@ class StoreGroup extends DataFixture
     {
         return Factory::getApp()->magentoCoreCreateStoreGroup($this);
     }
-} 
+}

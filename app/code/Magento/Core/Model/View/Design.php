@@ -65,7 +65,7 @@ class Design implements \Magento\View\DesignInterface
     private $_storeConfig;
 
     /**
-     * @var \Magento\LocaleInterface
+     * @var \Magento\Locale\ResolverInterface
      */
     protected $_locale;
 
@@ -80,7 +80,7 @@ class Design implements \Magento\View\DesignInterface
      * @param \Magento\App\ConfigInterface $config
      * @param \Magento\Core\Model\Store\ConfigInterface $storeConfig
      * @param \Magento\Core\Model\ThemeFactory $themeFactory
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Locale\ResolverInterface $locale
      * @param \Magento\App\State $appState
      * @param array $themes
      */
@@ -90,7 +90,7 @@ class Design implements \Magento\View\DesignInterface
         \Magento\App\ConfigInterface $config,
         \Magento\Core\Model\Store\ConfigInterface $storeConfig,
         \Magento\Core\Model\ThemeFactory $themeFactory,
-        \Magento\LocaleInterface $locale,
+        \Magento\Locale\ResolverInterface $locale,
         \Magento\App\State $appState,
         array $themes
     ) {
