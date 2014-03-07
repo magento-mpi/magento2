@@ -40,13 +40,12 @@
         <rest-route httpMethod="DELETE" method="deleteCustomer" resources="Magento_Customer::manage">/:customerId</rest-route>
         <rest-route httpMethod="GET" method="isEmailAvailable" resources="Magento_Customer::manage">/isEmailAvailable</rest-route>
     </service>
-    <service class="Magento\Customer\Service\V1\CustomerAddressServiceInterface" baseUrl="/V1/customerAddress">
-        <rest-route httpMethod="GET" method="getAddresses" resources="Magento_Customer::manage">/customerId/:customerId</rest-route>
-        <rest-route httpMethod="GET" method="getAddress" resources="Magento_Customer::manage">/:addressId</rest-route>
-        <rest-route httpMethod="GET" method="getDefaultBillingAddress" resources="Magento_Customer::manage">/defaultBilling/customerId/:customerId</rest-route>
-        <rest-route httpMethod="GET" method="getDefaultShippingAddress" resources="Magento_Customer::manage">/defaultShipping/customerId/:customerId</rest-route>
-        <rest-route httpMethod="DELETE" method="deleteAddress" resources="Magento_Customer::manage">/:addressId</rest-route>
-        <rest-route httpMethod="POST" method="saveAddresses" resources="Magento_Customer::manage">/customerId/:customerId</rest-route>
-        <rest-route httpMethod="PUT" method="saveAddresses" resources="Magento_Customer::manage">/customerId/:customerId</rest-route>
+    <service class="Magento\Customer\Service\V1\CustomerAddressServiceInterface" baseUrl="/V1/customer">
+        <rest-route httpMethod="GET" method="getAddresses" resources="Magento_Customer::manage">/:customerId/address</rest-route>
+        <rest-route httpMethod="GET" method="getAddress" resources="Magento_Customer::manage">/address/:addressId</rest-route>
+        <rest-route httpMethod="GET" method="getDefaultBillingAddress" resources="Magento_Customer::manage">/:customerId/address/defaultBilling</rest-route>
+        <rest-route httpMethod="GET" method="getDefaultShippingAddress" resources="Magento_Customer::manage">/:customerId/address/defaultShipping</rest-route>
+        <rest-route httpMethod="DELETE" method="deleteAddress" resources="Magento_Customer::manage">/address/:addressId</rest-route>
+        <rest-route httpMethod="POST" method="saveAddresses" resources="Magento_Customer::manage">/:customerId/address</rest-route>
     </service>
 </config>
