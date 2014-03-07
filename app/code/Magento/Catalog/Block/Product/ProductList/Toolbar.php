@@ -18,6 +18,8 @@
  */
 namespace Magento\Catalog\Block\Product\ProductList;
 
+use Magento\Catalog\Helper\Data;
+
 class Toolbar extends \Magento\View\Element\Template
 {
     /**
@@ -145,21 +147,28 @@ class Toolbar extends \Magento\View\Element\Template
     protected $_catalogSession;
 
     /**
+     * @var \Magento\App\Http\Context
+     */
+    protected $_httpContext;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Catalog\Model\Session $catalogSession
      * @param \Magento\Catalog\Model\Config $catalogConfig
+     * @param \Magento\App\Http\Context $httpContext
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Catalog\Model\Session $catalogSession,
         \Magento\Catalog\Model\Config $catalogConfig,
+        \Magento\App\Http\Context $httpContext,
         array $data = array()
     ) {
         $this->_catalogSession = $catalogSession;
         $this->_catalogConfig = $catalogConfig;
+        $this->_httpContext = $httpContext;
         parent::__construct($context, $data);
-        $this->_isScopePrivate = true;
     }
 
     /**
@@ -350,8 +359,15 @@ class Toolbar extends \Magento\View\Element\Template
         if ($order && isset($orders[$order])) {
             if ($order == $defaultOrder) {
                 $this->_catalogSession->unsSortOrder();
+                $this->_httpContext->unsValue(Data::CONTEXT_CATALOG_SORT_ORDER);
             } else {
                 $this->_memorizeParam('sort_order', $order);
+                if ($this->_catalogSession->hasSortOrder()) {
+                    $this->_httpContext->setValue(
+                        Data::CONTEXT_CATALOG_SORT_ORDER,
+                        $this->_catalogSession->getSortOrder()
+                    );
+                }
             }
         } else {
             $order = $this->_catalogSession->getSortOrder();
@@ -381,8 +397,15 @@ class Toolbar extends \Magento\View\Element\Template
         if ($dir && in_array($dir, $directions)) {
             if ($dir == $this->_direction) {
                 $this->_catalogSession->unsSortDirection();
+                $this->_httpContext->unsValue(Data::CONTEXT_CATALOG_SORT_DIRECTION);
             } else {
                 $this->_memorizeParam('sort_direction', $dir);
+                if ($this->_catalogSession->hasSortDirection()) {
+                    $this->_httpContext->setValue(
+                        Data::CONTEXT_CATALOG_SORT_DIRECTION,
+                        $this->_catalogSession->getSortDirection()
+                    );
+                }
             }
         } else {
             $dir = $this->_catalogSession->getSortDirection();
@@ -534,8 +557,15 @@ class Toolbar extends \Magento\View\Element\Template
         if ($mode) {
             if ($mode == $defaultMode) {
                 $this->_catalogSession->unsDisplayMode();
+                $this->_httpContext->unsValue(Data::CONTEXT_CATALOG_DISPLAY_MODE);
             } else {
                 $this->_memorizeParam('display_mode', $mode);
+                if ($this->_catalogSession->hasDisplayMode()) {
+                    $this->_httpContext->setValue(
+                        Data::CONTEXT_CATALOG_DISPLAY_MODE,
+                        $this->_catalogSession->getDisplayMode()
+                    );
+                }
             }
         } else {
             $mode = $this->_catalogSession->getDisplayMode();
@@ -737,8 +767,15 @@ class Toolbar extends \Magento\View\Element\Template
         if ($limit && isset($limits[$limit])) {
             if ($limit == $defaultLimit) {
                 $this->_catalogSession->unsLimitPage();
+                $this->_httpContext->unsValue(Data::CONTEXT_CATALOG_LIMIT);
             } else {
                 $this->_memorizeParam('limit_page', $limit);
+                if ($this->_catalogSession->hasLimitPage()) {
+                    $this->_httpContext->setValue(
+                        Data::CONTEXT_CATALOG_LIMIT,
+                        $this->_catalogSession->getLimitPage()
+                    );
+                }
             }
         } else {
             $limit = $this->_catalogSession->getLimitPage();
@@ -833,9 +870,9 @@ class Toolbar extends \Magento\View\Element\Template
             $pagerBlock->setUseContainer(false)
                 ->setShowPerPage(false)
                 ->setShowAmounts(false)
-                ->setLimitVarName($this->getLimitVarName())
-                ->setPageVarName($this->getPageVarName())
-                ->setLimit($this->getLimit())
+//                ->setLimitVarName($this->getLimitVarName())
+//                ->setPageVarName($this->getPageVarName())
+//                ->setLimit($this->getLimit())
                 ->setFrameLength($this->_storeConfig->getConfig('design/pagination/pagination_frame'))
                 ->setJump($this->_storeConfig->getConfig('design/pagination/pagination_frame_skip'))
                 ->setCollection($this->getCollection());
