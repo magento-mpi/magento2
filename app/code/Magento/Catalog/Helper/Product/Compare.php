@@ -299,28 +299,22 @@ class Compare extends \Magento\Core\Helper\Url
      */
     public function calculate($logout = false)
     {
-        // first visit
-        if (!$this->_catalogSession->hasCatalogCompareItemsCount() && !$this->_customerId) {
-            $count = 0;
+        /** @var $collection Collection */
+        $collection = $this->_itemCollectionFactory->create()
+            ->useProductItem(true);
+        if (!$logout && $this->_customerSession->isLoggedIn()) {
+            $collection->setCustomerId($this->_customerSession->getCustomerId());
+        } elseif ($this->_customerId) {
+            $collection->setCustomerId($this->_customerId);
         } else {
-            /** @var $collection Collection */
-            $collection = $this->_itemCollectionFactory->create()
-                ->useProductItem(true);
-            if (!$logout && $this->_customerSession->isLoggedIn()) {
-                $collection->setCustomerId($this->_customerSession->getCustomerId());
-            } elseif ($this->_customerId) {
-                $collection->setCustomerId($this->_customerId);
-            } else {
-                $collection->setVisitorId($this->_logVisitor->getId());
-            }
-
-            /* Price data is added to consider item stock status using price index */
-            $collection->addPriceData()
-                ->setVisibility($this->_catalogProductVisibility->getVisibleInSiteIds());
-
-            $count = $collection->getSize();
+            $collection->setVisitorId($this->_logVisitor->getId());
         }
 
+        /* Price data is added to consider item stock status using price index */
+        $collection->addPriceData()
+            ->setVisibility($this->_catalogProductVisibility->getVisibleInSiteIds());
+
+        $count = $collection->getSize();
         $this->_catalogSession->setCatalogCompareItemsCount($count);
 
         return $this;
