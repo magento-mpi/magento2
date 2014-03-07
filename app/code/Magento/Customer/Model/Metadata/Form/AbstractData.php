@@ -64,7 +64,7 @@ abstract class AbstractData
     protected $_logger;
 
     /**
-     * @var \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata
+     * @var \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata
      */
     protected $_attribute;
 
@@ -79,7 +79,7 @@ abstract class AbstractData
     /**
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Logger $logger
-     * @param \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata $attribute
+     * @param \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata $attribute
      * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param string|int|bool $value
      * @param string $entityTypeCode
@@ -88,16 +88,16 @@ abstract class AbstractData
     public function __construct(
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Logger $logger,
-        \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata $attribute,
+        \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata $attribute,
         \Magento\Locale\ResolverInterface $localeResolver,
         $value = false,
         $entityTypeCode,
         $isAjax = false
     ) {
         $this->_localeDate = $localeDate;
-        $this->_localeResolver = $localeResolver;
         $this->_logger = $logger;
         $this->_attribute = $attribute;
+        $this->_localeResolver = $localeResolver;
         $this->_value = $value;
         $this->_entityTypeCode = $entityTypeCode;
         $this->_isAjax = $isAjax;
@@ -107,7 +107,7 @@ abstract class AbstractData
      * Return Attribute instance
      *
      * @throws \Magento\Core\Exception
-     * @return \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata
+     * @return \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata
      */
     public function getAttribute()
     {

@@ -38,33 +38,33 @@ interface CustomerAccountServiceInterface
     /**
      * Create Customer Account
      *
-     * @param Dto\Customer $customer
-     * @param Dto\Address[] $addresses
+     * @param Data\Customer $customer
+     * @param Data\Address[] $addresses
      * @param string $password If null then a random password will be assigned
      * @param string $redirectUrl URL fed to welcome email templates. Can be used by templates to, for example, direct
      *                            the customer to a product they were looking at after pressing confirmation link.
-     * @return Dto\Customer
+     * @return Data\Customer
      * @throws \Exception If something goes wrong during save
      * @throws \Magento\Exception\InputException If bad input is provided
      * @throws \Magento\Exception\StateException If the provided email is already used
      */
-    public function createAccount(Dto\Customer $customer, array $addresses, $password = null, $redirectUrl = '');
+    public function createAccount(Data\Customer $customer, array $addresses, $password = null, $redirectUrl = '');
 
     /**
      * Update Customer Account
      *
-     * @param Dto\Customer $customer
-     * @param Dto\Address[]|null $addresses Full array of addresses to associate with customer,
+     * @param Data\Customer $customer
+     * @param Data\Address[]|null $addresses Full array of addresses to associate with customer,
      *                                      or null if no change to addresses
      * @return void
      */
-    public function updateAccount(Dto\Customer $customer, array $addresses = null);
+    public function updateAccount(Data\Customer $customer, array $addresses = null);
 
     /**
      * Used to activate a customer account using a key that was sent in a confirmation e-mail.
      *
      * @param int $customerId
-     * @return Dto\Customer
+     * @return Data\Customer
      * @throws \Magento\Exception\NoSuchEntityException If customer doesn't exist
      * @throws \Magento\Exception\StateException
      *      StateException::INVALID_STATE_CHANGE if account already active.
@@ -89,7 +89,7 @@ interface CustomerAccountServiceInterface
      *
      * @param string $username username in plain-text
      * @param string $password password in plain-text
-     * @return Dto\Customer
+     * @return Data\Customer
      * @throws \Magento\Exception\AuthenticationException If unable to authenticate
      */
     public function authenticate($username, $password);
@@ -178,9 +178,9 @@ interface CustomerAccountServiceInterface
     /**
      * Validate customer entity
      *
-     * @param Dto\Customer $customer
-     * @param Dto\Eav\AttributeMetadata[] $attributes
+     * @param Data\Customer $customer
+     * @param Data\Eav\AttributeMetadata[] $attributes
      * @return array|bool
      */
-    public function validateCustomerData(Dto\Customer $customer, array $attributes);
+    public function validateCustomerData(Data\Customer $customer, array $attributes);
 }

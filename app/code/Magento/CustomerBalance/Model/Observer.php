@@ -94,9 +94,9 @@ class Observer
         /* @var $request \Magento\App\RequestInterface */
         $request = $observer->getRequest();
         $data = $request->getPost('customerbalance');
-        /* @var $customer \Magento\Customer\Service\V1\Dto\Customer */
+        /* @var $customer \Magento\Customer\Service\V1\Data\Customer */
         $customer = $observer->getCustomer();
-        $customerModel = $this->_customerConverter->getCustomerModel($customer->getCustomerId());
+        $customerModel = $this->_customerConverter->getCustomerModel($customer->getId());
         if ($data) {
             if (!empty($data['amount_delta'])) {
                 $balance = $this->_balanceFactory->create()

@@ -545,6 +545,7 @@ return array(
         'Magento_Core_Model_Theme::getThemeCollectionOptionArray'
     ),
     array('getTotalModels', 'Magento\Sales\Model\Quote\Address'),
+    array('importCustomerAddress', 'Magento\Sales\Model\Quote\Address'),
     array('getTotalModels', 'Magento\Sales\Model\Quote\Config'),
     array('getTrackId', 'Magento\Shipping\Block\Tracking\Popup'),
     array('getTrackingInfoByOrder', 'Magento\Shipping\Block\Tracking\Popup'),
@@ -1345,5 +1346,6 @@ return array(
     ['getMeasureWeightName', 'Magento\Usa\Helper\Data', 'Magento\Shipping\Helper\Carrier::getMeasureWeightName'],
     ['getMeasureDimensionName', 'Magento\Usa\Helper\Data', 'Magento\Shipping\Helper\Carrier::getMeasureDimensionName'],
     ['displayGirthValue', 'Magento\Usa\Helper\Data', 'Magento\Usps\Helper\Data::displayGirthValue'],
-    array('reindexProductPrices', '\Magento\Catalog\Model\Observer')
+    array('reindexProductPrices', '\Magento\Catalog\Model\Observer'),
+    array('getCustomer', 'Magento\Checkout\Block\Onepage\AbstractOnepage')
 );

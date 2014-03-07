@@ -9,9 +9,9 @@
  */
 namespace Magento\Customer\Model\Resource\Group\Grid;
 
-use Magento\Customer\Service\V1\Dto\CustomerGroup;
-use Magento\Customer\Service\V1\Dto\Filter;
-use Magento\Customer\Service\V1\Dto\SearchCriteria;
+use Magento\Customer\Service\V1\Data\CustomerGroup;
+use Magento\Customer\Service\V1\Data\Filter;
+use Magento\Customer\Service\V1\Data\SearchCriteria;
 
 class ServiceCollection extends \Magento\Data\Collection
 {
@@ -37,26 +37,26 @@ class ServiceCollection extends \Magento\Data\Collection
     protected $groupService;
 
     /**
-     * @var \Magento\Customer\Service\V1\Dto\FilterBuilder
+     * @var \Magento\Customer\Service\V1\Data\FilterBuilder
      */
     protected $filterBuilder;
 
     /**
-     * @var \Magento\Customer\Service\V1\Dto\SearchCriteriaBuilder
+     * @var \Magento\Customer\Service\V1\Data\SearchCriteriaBuilder
      */
     protected $searchCriteriaBuilder;
 
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService
-     * @param \Magento\Customer\Service\V1\Dto\FilterBuilder $filterBuilder
-     * @param \Magento\Customer\Service\V1\Dto\SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param \Magento\Customer\Service\V1\Data\FilterBuilder $filterBuilder
+     * @param \Magento\Customer\Service\V1\Data\SearchCriteriaBuilder $searchCriteriaBuilder
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService,
-        \Magento\Customer\Service\V1\Dto\FilterBuilder $filterBuilder,
-        \Magento\Customer\Service\V1\Dto\SearchCriteriaBuilder $searchCriteriaBuilder
+        \Magento\Customer\Service\V1\Data\FilterBuilder $filterBuilder,
+        \Magento\Customer\Service\V1\Data\SearchCriteriaBuilder $searchCriteriaBuilder
     ) {
         parent::__construct($entityFactory);
         $this->groupService = $groupService;
@@ -134,7 +134,7 @@ class ServiceCollection extends \Magento\Data\Collection
             $groups = $searchResults->getItems();
             foreach ($groups as $group) {
                 $groupItem = new \Magento\Object();
-                $groupItem->addData($group->__toArray());
+                $groupItem->addData(\Magento\Service\DataObjectConverter::toFlatArray($group));
                 $this->_addItem($groupItem);
             }
             $this->_setIsLoaded();
@@ -143,7 +143,7 @@ class ServiceCollection extends \Magento\Data\Collection
     }
 
     /**
-     * Creates a search criteria DTO based on the array of field filters.
+     * Creates a search criteria Data Object based on the array of field filters.
      *
      * @return SearchCriteria
      */
@@ -152,13 +152,13 @@ class ServiceCollection extends \Magento\Data\Collection
         foreach ($this->fieldFilters as $filter) {
             if (!is_array($filter['field'])) {
                 // just one field
-                $this->searchCriteriaBuilder->addFilter($this->createFilterDto($filter['field'], $filter['condition']));
+                $this->searchCriteriaBuilder->addFilter($this->createFilterDataObject($filter['field'], $filter['condition']));
             } else {
                 // array of fields, put filters in array to use 'or' group
                 /** @var Filter[] $orGroupFilters */
                 $orGroupFilters = [];
                 foreach ($filter['field'] as $index => $field) {
-                    $orGroupFilters[] = $this->createFilterDto($field, $filter['condition'][$index]);
+                    $orGroupFilters[] = $this->createFilterDataObject($field, $filter['condition'][$index]);
                 }
                 $this->searchCriteriaBuilder->addOrGroup($orGroupFilters);
             }
@@ -175,13 +175,13 @@ class ServiceCollection extends \Magento\Data\Collection
     }
 
     /**
-     * Creates a filter DTO for given field/condition
+     * Creates a filter Data Object for given field/condition
      *
      * @param string $field Field for new filter
      * @param string|array $condition Condition for new filter.
      * @return Filter
      */
-    protected function createFilterDto($field, $condition)
+    protected function createFilterDataObject($field, $condition)
     {
         $this->filterBuilder->setField($field);
 

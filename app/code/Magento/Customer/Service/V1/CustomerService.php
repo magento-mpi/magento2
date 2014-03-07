@@ -20,7 +20,7 @@ use Magento\Validator\ValidatorException;
 class CustomerService implements CustomerServiceInterface
 {
 
-    /** @var array Cache of DTOs */
+    /** @var array Cache of DATA */
     private $_cache = [];
 
     /**
@@ -29,7 +29,7 @@ class CustomerService implements CustomerServiceInterface
     private $_converter;
 
     /**
-     * @var CustomerMetadataService
+     * @var CustomerMetadataServiceInterface
      */
     private $_customerMetadataService;
 
@@ -38,11 +38,11 @@ class CustomerService implements CustomerServiceInterface
      * Constructor
      *
      * @param Converter $converter
-     * @param CustomerMetadataService $customerMetadataService
+     * @param CustomerMetadataServiceInterface $customerMetadataService
      */
     public function __construct(
         Converter $converter,
-        CustomerMetadataService $customerMetadataService
+        CustomerMetadataServiceInterface $customerMetadataService
     ) {
         $this->_converter = $converter;
         $this->_customerMetadataService = $customerMetadataService;
@@ -75,7 +75,7 @@ class CustomerService implements CustomerServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function saveCustomer(Dto\Customer $customer, $password = null)
+    public function saveCustomer(Data\Customer $customer, $password = null)
     {
         $customerModel = $this->_converter->createCustomerModel($customer);
 
@@ -150,7 +150,7 @@ class CustomerService implements CustomerServiceInterface
 
     /**
      * @param $attributeCode
-     * @return Dto\Eav\AttributeMetadata|null
+     * @return Data\Eav\AttributeMetadata|null
      */
     protected function _getAttributeMetadata($attributeCode)
     {

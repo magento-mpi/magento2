@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Checkout
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,10 +9,6 @@ namespace Magento\Checkout\Block\Cart;
 
 /**
  * Wishlist sidebar block
- *
- * @category    Magento
- * @package     Magento_Checkout
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart  implements \Magento\View\Block\IdentityInterface
 {
@@ -64,7 +58,7 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart  implements \Mag
      * @param \Magento\Checkout\Helper\Data $checkoutHelper
      * @param \Magento\Checkout\Helper\Url $urlHelper
      * @param array $data
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
