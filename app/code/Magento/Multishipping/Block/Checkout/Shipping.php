@@ -10,7 +10,6 @@
 namespace Magento\Multishipping\Block\Checkout;
 
 use Magento\Customer\Model\Address;
-use Magento\Object;
 
 /**
  * Mustishipping checkout shipping
@@ -96,7 +95,7 @@ class Shipping extends \Magento\Sales\Block\Items\AbstractItems
 
     /**
      * @param Address $address
-     * @return Object[]
+     * @return \Magento\Object[]
      */
     public function getAddressItems($address)
     {
@@ -191,12 +190,12 @@ class Shipping extends \Magento\Sales\Block\Items\AbstractItems
     /**
      * Retrieve text for items box
      *
-     * @param Object $addressEntity
+     * @param \Magento\Object $addressEntity
      * @return string
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function getItemsBoxTextAfter(Object $addressEntity)
+    public function getItemsBoxTextAfter(\Magento\Object $addressEntity)
     {
         return '';
     }
