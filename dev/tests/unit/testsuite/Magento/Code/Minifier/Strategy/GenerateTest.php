@@ -96,7 +96,7 @@ class GenerateTest extends \PHPUnit_Framework_TestCase
     public function testGetMinifiedFileNoUpdateNeeded()
     {
         $originalFile = __DIR__ . '/original/some.js';
-        $minifiedFile = '_cache/subdir/minified/some.min.js';
+        $minifiedFile = 'some/subdir/some.min.js';
 
         $mTimeMap = array(
             array($originalFile, null, array('mtime' => 1)),

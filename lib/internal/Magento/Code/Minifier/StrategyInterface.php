@@ -16,10 +16,10 @@ interface StrategyInterface
     /**
      * Generates minified file
      *
-     * @param string $originalFile path relative to pub/static
-     * @param string $targetFile path relative to pub/static
+     * @param string $originalFile Path to the file to be minified
+     * @param string $targetRelFile Path relative to pub/static, where minified content should be put
      *
      * @return void
      */
-    public function minifyFile($originalFile, $targetFile);
+    public function minifyFile($originalFile, $targetRelFile);
 }

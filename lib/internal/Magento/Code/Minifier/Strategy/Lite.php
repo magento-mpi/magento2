@@ -50,16 +50,16 @@ class Lite implements \Magento\Code\Minifier\StrategyInterface
     /**
      * Get path to minified file for specified original file
      *
-     * @param string $originalFile path to original file relative to pub/static
-     * @param string $targetFile path relative to pub/static
+     * @param string $originalFile Path to the file to be minified
+     * @param string $targetRelFile Path relative to pub/static, where minified content should be put
      * @return void
      */
-    public function minifyFile($originalFile, $targetFile)
+    public function minifyFile($originalFile, $targetRelFile)
     {
-        if ($this->_isUpdateNeeded($targetFile)) {
+        if ($this->_isUpdateNeeded($targetRelFile)) {
             $content = $this->rootDirectory->readFile($originalFile);
             $content = $this->adapter->minify($content);
-            $this->staticViewDir->writeFile($targetFile, $content);
+            $this->staticViewDir->writeFile($targetRelFile, $content);
         }
     }
 

@@ -47,8 +47,8 @@ class Generate implements \Magento\Code\Minifier\StrategyInterface
     /**
      * Get path to minified file for specified original file
      *
-     * @param string $originalFile path to original file relative to pub/static
-     * @param string $targetRelFile path relative to pub/static
+     * @param string $originalFile Path to the file to be minified
+     * @param string $targetRelFile Path relative to pub/static, where minified content should be put
      * @return void
      */
     public function minifyFile($originalFile, $targetRelFile)

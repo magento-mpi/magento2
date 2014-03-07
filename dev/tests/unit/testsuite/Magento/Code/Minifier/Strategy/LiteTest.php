@@ -69,7 +69,7 @@ class LiteTest extends \PHPUnit_Framework_TestCase
     public function testGetMinifiedFile()
     {
         $originalFile = __DIR__ . '/original/some.js';
-        $minifiedFile = __DIR__ . '/minified/some.min.js';
+        $minifiedFile = 'some/subdir/some.min.js';
         $content = 'content';
         $minifiedContent = 'minified content';
 
