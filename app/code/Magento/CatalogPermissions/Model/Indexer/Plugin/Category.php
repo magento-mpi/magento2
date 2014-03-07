@@ -71,11 +71,13 @@ class Category
      */
     public function afterSave(\Magento\Catalog\Model\Category $subject)
     {
-        if ($this->appConfig->isEnabled() && !$this->getIndexer()->isScheduled()) {
+        if ($this->appConfig->isEnabled()) {
             if ($this->authorization->isAllowed('Magento_CatalogPermissions::catalog_magento_catalogpermissions')) {
                 $this->savePermission($subject);
             }
-            $this->getIndexer()->reindexRow($subject->getId());
+            if (!$this->getIndexer()->isScheduled()) {
+                $this->getIndexer()->reindexRow($subject->getId());
+            }
         }
 
         return $subject;
