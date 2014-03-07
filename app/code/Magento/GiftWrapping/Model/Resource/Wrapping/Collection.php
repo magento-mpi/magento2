@@ -139,9 +139,10 @@ class Collection
         )), $this->_toOptionArray('wrapping_id', 'design'));
     }
 
-     /* Add store attributes to collection
+    /**
+     * Add store attributes to collection
      *
-     * @param  int $storeId
+     * @param int $storeId
      * @return $this
      */
     public function addStoreAttributesToResult($storeId = 0)
