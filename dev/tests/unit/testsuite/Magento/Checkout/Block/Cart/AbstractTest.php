@@ -21,8 +21,8 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider getItemRendererDataProvider
-     * @param $type
-     * @param $expectedType
+     * @param string|null $type
+     * @param string $expectedType
      */
     public function testGetItemRenderer($type, $expectedType)
     {
