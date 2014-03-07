@@ -33,6 +33,7 @@
   * Added ability to access public interface of intercepted object
   * Added static integrity test for plugin inteface validation
   * Added support of both class addressing approaches in DI (with and without slash at the beginning of class name)
+  * Updated View Files Population Tool for LESS Support (MAGETWO-21779)
 * Customer Service usage:
   * Customer module blocks and controllers refactoring to use customer service layer
 * Security:
