@@ -411,8 +411,8 @@ class Editor extends \Magento\Backend\App\Action
         if ($cssTabBlock) {
             /** @var $helper \Magento\Core\Helper\Theme */
             $helper = $this->_objectManager->get('Magento\Core\Helper\Theme');
-            $cssFiles = $helper->getGroupedCssFiles($theme);
-            $cssTabBlock->setCssFiles($cssFiles)
+            $assets = $helper->getCssAssets($theme);
+            $cssTabBlock->setAssets($assets)
                 ->setThemeId($theme->getId());
         }
         return $this;

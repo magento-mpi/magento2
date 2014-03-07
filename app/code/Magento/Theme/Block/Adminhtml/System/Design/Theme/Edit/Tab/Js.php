@@ -42,7 +42,7 @@ class Js
     {
         $form = $this->getForm();
         $themeFieldset = $form->addFieldset('theme_js', array(
-            'legend' => __('Theme Java Script'),
+            'legend' => __('Theme JavaScript'),
         ));
         $customization = $this->_getCurrentTheme()->getCustomization();
         $customJsFiles = $customization->getFilesByType(\Magento\View\Design\Theme\Customization\File\Js::TYPE);

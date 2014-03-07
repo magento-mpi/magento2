@@ -50,23 +50,41 @@ class FlyweightFactory
      *
      * @param string $themeKey
      * @param string $area
-     * @return \Magento\View\Design\ThemeInterface|null
+     * @return \Magento\View\Design\ThemeInterface
      * @throws \InvalidArgumentException
+     * @throws \LogicException
      */
     public function create($themeKey, $area = \Magento\View\DesignInterface::DEFAULT_AREA)
     {
-        if (is_numeric($themeKey)) {
-            $themeModel = $this->_loadById($themeKey);
-        } elseif (is_string($themeKey)) {
-            $themeModel = $this->_loadByPath($themeKey, $area);
-        } else {
+        if (!is_numeric($themeKey) && !is_string($themeKey)) {
             throw new \InvalidArgumentException('Incorrect theme identification key');
         }
+        $themeKey = $this->extractThemeId($themeKey);
+        if (is_numeric($themeKey)) {
+            $themeModel = $this->_loadById($themeKey);
+        } else {
+            $themeModel = $this->_loadByPath($themeKey, $area);
+        }
         if (!$themeModel->getId()) {
-            return null;
+            throw new \LogicException("Unable to load theme by specified key: '{$themeKey}'");
         }
         $this->_addTheme($themeModel);
         return $themeModel;
+    }
+
+    /**
+     * Attempt to determine a numeric theme ID from the specified path
+     *
+     * @param string $path
+     * @return string
+     */
+    private function extractThemeId($path)
+    {
+        $dir = \Magento\View\Asset\PathGenerator::PUBLIC_THEME_DIR;
+        if (preg_match('/^' . preg_quote($dir, '/') . '(\d+)$/', $path, $matches)) {
+            return $matches[1];
+        }
+        return $path;
     }
 
     /**

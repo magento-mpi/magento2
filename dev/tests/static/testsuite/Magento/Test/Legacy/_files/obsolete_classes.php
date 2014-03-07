@@ -2141,4 +2141,5 @@ return array(
     ['Magento\View\Layout\File\SourceInterface', 'Magento\View\File\SourceInterface'],
     ['Magento\View\Layout\File', 'Magento\View\File'],
     ['Magento\View\Url\Resolver', 'Magento\Url'],
+    ['Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Code\Css\Group', 'Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Code\Css'],
 );

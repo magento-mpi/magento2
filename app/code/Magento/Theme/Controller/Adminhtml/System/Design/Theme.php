@@ -30,17 +30,33 @@ class Theme extends \Magento\Backend\App\Action
     protected $_fileFactory;
 
     /**
+     * @var \Magento\View\Service
+     */
+    protected $_viewService;
+
+    /**
+     * @var \Magento\App\Filesystem
+     */
+    protected $_appFileSystem;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\App\Response\Http\FileFactory $fileFactory
+     * @param \Magento\View\Service $viewService
+     * @param \Magento\App\Filesystem $appFileSystem
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\App\Response\Http\FileFactory $fileFactory
+        \Magento\App\Response\Http\FileFactory $fileFactory,
+        \Magento\View\Service $viewService,
+        \Magento\App\Filesystem $appFileSystem
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_fileFactory = $fileFactory;
+        $this->_viewService = $viewService;
+        $this->_appFileSystem = $appFileSystem;
         parent::__construct($context);
     }
 
@@ -95,12 +111,12 @@ class Theme extends \Magento\Backend\App\Action
             $this->_coreRegistry->register('current_theme', $theme);
 
             $this->_view->loadLayout();
-            /** @var $tab \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab_Css */
+            /** @var $tab \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\Css */
             $tab = $this->_view->getLayout()->getBlock('theme_edit_tabs_tab_css_tab');
             if ($tab && $tab->canShowTab()) {
                 /** @var $helper \Magento\Core\Helper\Theme */
                 $helper = $this->_objectManager->get('Magento\Core\Helper\Theme');
-                $files = $helper->getGroupedCssFiles($theme);
+                $files = $helper->getCssAssets($theme);
                 $tab->setFiles($files);
             }
             $this->_setActiveMenu('Magento_Theme::system_design_theme');
@@ -322,31 +338,28 @@ class Theme extends \Magento\Backend\App\Action
 
         /** @var $helper \Magento\Core\Helper\Theme */
         $helper = $this->_objectManager->get('Magento\Core\Helper\Theme');
-        $fileName = $helper->urlDecode($file);
+        $fileId = $helper->urlDecode($file);
         try {
             /** @var $theme \Magento\View\Design\ThemeInterface */
             $theme = $this->_objectManager->create('Magento\View\Design\ThemeInterface')->load($themeId);
             if (!$theme->getId()) {
-                throw new \InvalidArgumentException(sprintf('We cannot find a theme with id "%1".', $themeId));
+                throw new \InvalidArgumentException(sprintf('Theme not found: "%1".', $themeId));
             }
-
-            $themeCss = $helper->getCssFiles($theme);
-            if (!isset($themeCss[$fileName])) {
-                throw new \InvalidArgumentException(
-                    sprintf('Css file "%s" is not in the theme with id "%d".', $fileName, $themeId)
-                );
-            }
-
+            $asset = $this->_viewService->createAsset($fileId, array('themeModel' => $theme));
+            /** @var \Magento\App\Filesystem $fileSystem */
+            $fileSystem = $this->_objectManager->get('Magento\App\Filesystem');
+            $relPath = $this->_appFileSystem->getDirectoryRead(\Magento\App\Filesystem::ROOT_DIR)
+                ->getRelativePath($asset->getSourceFile());
             return $this->_fileFactory->create(
-                $fileName,
+                $relPath,
                 array(
                     'type'  => 'filename',
-                    'value' => $themeCss[$fileName]['path']
+                    'value' => $relPath
                 ),
                 \Magento\App\Filesystem::ROOT_DIR
             );
         } catch (\Exception $e) {
-            $this->messageManager->addException($e, __('We cannot find file "%1".', $fileName));
+            $this->messageManager->addException($e, __('File not found: "%1".', $fileId));
             $this->getResponse()->setRedirect($this->_redirect->getRefererUrl());
             $this->_objectManager->get('Magento\Logger')->logException($e);
         }

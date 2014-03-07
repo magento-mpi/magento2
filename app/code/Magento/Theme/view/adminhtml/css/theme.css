@@ -14,7 +14,7 @@
 }
 
 .js-files-container .js-file {
-    background: url("Magento_Theme::/images/js_icon.gif") no-repeat scroll 5px 50% #ECECEC;
+    background: url("Magento_Theme::images/js_icon.gif") no-repeat scroll 5px 50% #ECECEC;
     border: 1px solid #CCCCCC;
     padding: 5px 5px 10px 30px;
     margin-left: 10px;
@@ -51,11 +51,11 @@
 }
 
 .js-files-container li .up {
-    background: url("Magento_Theme::/images/bkg_movable-arrows.png") no-repeat scroll 50% 3px #ECECEC;
+    background: url("Magento_Theme::images/bkg_movable-arrows.png") no-repeat scroll 50% 3px #ECECEC;
 }
 
 .js-files-container li .down {
-    background: url("Magento_Theme::/images/bkg_movable-arrows.png") no-repeat scroll 50% -27px #ECECEC;
+    background: url("Magento_Theme::images/bkg_movable-arrows.png") no-repeat scroll 50% -27px #ECECEC;
     bottom: 0;
     top: auto;
 }
