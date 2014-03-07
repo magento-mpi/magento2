@@ -17,6 +17,24 @@ namespace Magento\CatalogPermissions\Model\Indexer;
 class ProductTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * @var \Magento\CatalogPermissions\Model\Resource\Permission\Index
+     */
+    protected $indexTable;
+
+    /**
+     * @var \Magento\Catalog\Model\Product
+     */
+    protected $product;
+
+    public function setUp()
+    {
+        $this->indexTable = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\CatalogPermissions\Model\Resource\Permission\Index');
+        $this->product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
+    }
+
+    /**
      * @test
      *
      * @magentoConfigFixture current_store catalog/magento_catalogpermissions/enabled 1
@@ -33,18 +51,27 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $indexer->load(\Magento\CatalogPermissions\Model\Indexer\Product::INDEXER_ID);
         $indexer->reindexAll();
 
-        $indexTable = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\CatalogPermissions\Model\Resource\Permission\Index');
-
-        $this->assertEmpty($indexTable->getIndexForProduct(3, 1, 1));
+        $this->assertEmpty($this->indexTable->getIndexForProduct(3, 1, 1));
         $this->assertContains(
-            [
-                'grant_catalog_category_view' => '-2',
-                'grant_catalog_product_price' => '-2',
-                'grant_checkout_items' => '-2',
-            ],
-            $indexTable->getIndexForProduct($product->getId(), 1, 1)
+            $this->getProductData(),
+            $this->indexTable->getIndexForProduct($product->getId(), 1, 1)
         );
+
+        $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+        $product->save();
+        $this->assertEmpty($this->indexTable->getIndexForProduct($product->getId(), 1, 1));
+    }
+
+    /**
+     * @return array
+     */
+    protected function getProductData()
+    {
+        return [
+            'grant_catalog_category_view' => '-2',
+            'grant_catalog_product_price' => '-2',
+            'grant_checkout_items' => '-2',
+        ];
     }
 
     /**
@@ -52,12 +79,6 @@ class ProductTest extends \PHPUnit_Framework_TestCase
      */
     protected function getProduct()
     {
-        /** @var \Magento\Catalog\Model\Product $product */
-        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Product');
-
-        $result = $product->getCollection()->getLastItem(); //getItems();
-
-        return $result;
+        return $this->product->getCollection()->getLastItem();
     }
 }
