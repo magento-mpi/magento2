@@ -137,10 +137,10 @@ class Converter
             Address::KEY_ID => $addressId,
             Address::KEY_DEFAULT_BILLING => $addressId === $defaultBillingId,
             Address::KEY_DEFAULT_SHIPPING => $addressId === $defaultShippingId,
-                    Address::KEY_CUSTOMER_ID =>
-                        $addressModel->getCustomerId() ? $addressModel->getCustomerId() : $addressModel->getParentId(),
-                    Address::KEY_REGION_CODE => $addressModel->getRegionCode(),
-                ]));
+            Address::KEY_CUSTOMER_ID =>
+                $addressModel->getCustomerId() ? $addressModel->getCustomerId() : $addressModel->getParentId(),
+            Address::KEY_REGION_CODE => $addressModel->getRegionCode(),
+        ]));
 
         $addressDto = $this->_addressBuilder->create();
         return $addressDto;

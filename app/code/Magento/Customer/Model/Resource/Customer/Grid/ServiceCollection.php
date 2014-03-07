@@ -173,7 +173,8 @@ class ServiceCollection extends \Magento\Data\Collection
             $customerItem->setBillingTelephone($billingAddress->getTelephone());
             $customerItem->setBillingPostcode($billingAddress->getPostcode());
             $customerItem->setBillingCountryId($billingAddress->getCountryId());
-            $customerItem->setBillingRegion($billingAddress->getRegion()->getRegion());
+            $region = is_null($billingAddress->getRegion()) ? '' : $billingAddress->getRegion()->getRegion();
+            $customerItem->setBillingRegion($region);
         }
         return $customerItem;
     }
