@@ -343,7 +343,9 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         $this->saveCustomer($customer);
 
         $addresses = $customerDetails->getAddresses();
-        if (count($addresses) > 0) {
+        // If $address is null, no changes must made to the list of addresses
+        // be careful $addresses != null would be true of $addresses is an empty array
+        if ($addresses !== null) {
             $existingAddresses = $this->_customerAddressService->getAddresses($customer->getCustomerId());
             /** @var Dto\Address[] $deletedAddresses */
             $deletedAddresses = array_udiff(
@@ -353,6 +355,9 @@ class CustomerAccountService implements CustomerAccountServiceInterface
                     return $existing->getId() - $replacement->getId();
                 }
             );
+
+            // If $addresses is an empty array, all addresses are removed.
+            // array_udiff would return the entire $existing array
             foreach ($deletedAddresses as $address) {
                 $this->_customerAddressService->deleteAddress($address->getId());
             }

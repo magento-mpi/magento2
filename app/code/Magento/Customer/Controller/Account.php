@@ -872,7 +872,6 @@ class Account extends \Magento\App\Action\Action
             $this->_customerBuilder->setCustomerId($customerId);
             $customer = $this->_customerBuilder->create();
 
-
             if ($this->getRequest()->getParam('change_password')) {
                 $currPass = $this->getRequest()->getPost('current_password');
                 $newPass  = $this->getRequest()->getPost('password');
