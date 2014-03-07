@@ -53,7 +53,7 @@
                         </depends>
                     </field>
                     <depends>
-                        <field id="caching_application">1</field>
+                        <field id="caching_application">2</field>
                     </depends>
                 </group>
                 <field id="ttl" type="text" translate="label comment" sortOrder="5" showInDefault="1" showInWebsite="0" showInStore="0">
