@@ -90,7 +90,6 @@ class Upsell
             $data,
             $priceBlockTypes
         );
-        $this->_isScopePrivate = true;
     }
 
     /**
