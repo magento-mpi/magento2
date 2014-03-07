@@ -43,32 +43,21 @@ class RowTest extends \Magento\TestFramework\Indexer\TestCase
             ->create('Magento\Catalog\Model\Product');
         $this->_category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Catalog\Model\Category');
-        $this->_state = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('\Magento\Catalog\Model\Indexer\Product\Flat\State');
         $this->_processor = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Catalog\Model\Indexer\Product\Flat\Processor');
     }
 
     /**
-     * @magentoDbIsolation disabled
-     * @magentoAppIsolation disabled
      * @magentoDataFixture Magento/Catalog/_files/row_fixture.php
      * @magentoConfigFixture current_store catalog/frontend/flat_catalog_product 1
      * @magentoAppArea frontend
      */
     public function testProductUpdate()
     {
-        $this->markTestSkipped('Incomplete due to MAGETWO-21369');
-
         $categoryFactory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Catalog\Model\CategoryFactory');
         $listProduct = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Catalog\Block\Product\ListProduct');
-
-        $this->assertTrue(
-            $this->_state->isFlatEnabled(),
-            'Flat is not enabled in configuration'
-        );
 
         $this->_processor->getIndexer()->setScheduled(false);
         $this->assertFalse(
