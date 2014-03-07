@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 namespace Magento\Multishipping\Block\Checkout;
+
 use Magento\Sales\Model\Quote\Address;
 
 /**
