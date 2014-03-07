@@ -523,7 +523,6 @@
             <argument name="fileSource" xsi:type="object">Magento\Less\File\Source\Aggregated</argument>
         </arguments>
     </type>
-
     <virtualType name="lessFileSourceBaseFiltered" type="Magento\View\File\Source\Decorator\ModuleOutput">
         <arguments>
             <argument name="subject" xsi:type="object">Magento\View\File\Source\Base</argument>
@@ -534,7 +533,6 @@
             <argument name="subject" xsi:type="object">lessFileSourceBaseFiltered</argument>
         </arguments>
     </virtualType>
-
     <virtualType name="lessFileSourceThemeFiltered" type="Magento\View\File\Source\Decorator\ModuleOutput">
         <arguments>
             <argument name="subject" xsi:type="object">Magento\View\File\Source\ThemeModular</argument>
@@ -545,7 +543,6 @@
             <argument name="subject" xsi:type="object">lessFileSourceThemeFiltered</argument>
         </arguments>
     </virtualType>
-
     <type name="Magento\Less\File\Source\Aggregated">
         <arguments>
             <argument name="libraryFiles" xsi:type="object">Magento\Less\File\Source\Library</argument>

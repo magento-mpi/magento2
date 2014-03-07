@@ -33,6 +33,10 @@ class PreProcessorTest extends \PHPUnit_Framework_TestCase
      */
     public function testProcess()
     {
+        $this->markTestIncomplete(
+            'Implement MAGETWO-21933 LESS Preprocessing Through \Magento\View\Asset\PreProcessorInterface'
+        );
+
         $lessPreProcessor = $this->objectManager->create('Magento\Css\PreProcessor\Less');
         /** @var $filesystem \Magento\Filesystem */
         $filesystem = $this->objectManager->get('Magento\Filesystem');

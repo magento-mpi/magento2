@@ -35,8 +35,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
         $this->_moduleList = $this->getMockForAbstractClass('Magento\Module\ModuleListInterface');
         $this->_outputConfig = $this->getMockForAbstractClass('Magento\Module\Output\ConfigInterface');
         $this->_model = new \Magento\Module\Manager($this->_outputConfig, $this->_moduleList, array(
-            'Module_DisabledOutputOne' => self::XML_PATH_OUTPUT_ENABLED,
-            'Module_DisabledOutputTwo' => 'Magento\Module\ManagerTest::XML_PATH_OUTPUT_ENABLED',
+            'Fixture_Module' => self::XML_PATH_OUTPUT_ENABLED,
         ));
     }
 
@@ -112,10 +111,8 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
     public function isOutputEnabledCustomConfigPathDataProvider()
     {
         return array(
-            'path literal, output disabled'     => array(false, 'Module_DisabledOutputOne', false),
-            'path literal, output enabled'      => array(true, 'Module_DisabledOutputOne', true),
-            'path constant, output disabled'    => array(false, 'Module_DisabledOutputTwo', false),
-            'path constant, output enabled'     => array(true, 'Module_DisabledOutputTwo', true),
+            'path literal, output disabled' => array(false, 'Fixture_Module', false),
+            'path literal, output enabled'  => array(true, 'Fixture_Module', true),
         );
     }
 }

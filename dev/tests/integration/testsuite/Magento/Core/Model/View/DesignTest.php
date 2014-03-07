@@ -90,10 +90,8 @@ class DesignTest extends \PHPUnit_Framework_TestCase
 
     public function testSetDesignTheme()
     {
-        $this->_model->setDesignTheme('test_test');
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')->setAreaCode('test');
-        $this->assertEquals('test', $this->_model->getArea());
-        $this->assertEquals(null, $this->_model->getDesignTheme()->getThemePath());
+        $this->_model->setDesignTheme('magento_blank', 'frontend');
+        $this->assertEquals('magento_blank', $this->_model->getDesignTheme()->getThemePath());
     }
 
     public function testGetDesignTheme()
