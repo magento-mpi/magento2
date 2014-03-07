@@ -151,7 +151,7 @@ class LiveCodeTest extends PHPUnit_Framework_TestCase
         // Scan for error amount
         $result = $codeSniffer->run(self::$whiteList, self::$blackList, array('php'), 0);
         // Rescan to generate report with warnings.
-        //$codeSniffer->run(self::$whiteList, self::$blackList, array('php'), $warningSeverity);
+        $codeSniffer->run(self::$whiteList, self::$blackList, array('php'), $warningSeverity);
         // Fail if there are errors in report.
         $this->assertEquals(
             0,
