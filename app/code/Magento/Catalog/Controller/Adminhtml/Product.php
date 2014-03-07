@@ -9,6 +9,9 @@
  */
 namespace Magento\Catalog\Controller\Adminhtml;
 
+use Magento\Backend\App\Action;
+use Magento\Catalog\Model\Product\Validator;
+
 /**
  * Catalog product controller
  *
@@ -16,9 +19,6 @@ namespace Magento\Catalog\Controller\Adminhtml;
  * @package    Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-use Magento\Backend\App\Action;
-use Magento\Catalog\Model\Product\Validator;
-
 class Product extends \Magento\Backend\App\Action
 {
     /**
