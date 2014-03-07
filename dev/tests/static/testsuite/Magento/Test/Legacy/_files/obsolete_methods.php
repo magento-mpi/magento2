@@ -1323,6 +1323,7 @@ return array(
     ['getDateTimeFormat', 'Magento\Core\Model\Locale', 'Magento\Stdlib\DateTime\Timezone'],
     ['date', 'Magento\Core\Model\Locale', 'Magento\Stdlib\DateTime\Timezone'],
     ['storeDate', 'Magento\Core\Model\Locale', 'Magento\Stdlib\DateTime\Timezone::scopeDate'],
+    ['storeDate', 'Magento\Stdlib\DateTime\TimezoneInterface', 'Magento\Stdlib\DateTime\TimezoneInterface::scopeDate'],
     ['utcDate', 'Magento\Core\Model\Locale', 'Magento\Stdlib\DateTime\Timezone'],
     ['storeTimeStamp', 'Magento\Core\Model\Locale', 'Magento\Stdlib\DateTime\Timezone::scopeTimeStamp'],
     ['formatDate', 'Magento\Core\Model\Locale', 'Magento\Stdlib\DateTime\Timezone'],

@@ -247,7 +247,7 @@ class View
     {
         $date = $this->getCustomerLog()->getLoginAtTimestamp();
         if ($date) {
-            $date = $this->_localeDate->storeDate(
+            $date = $this->_localeDate->scopeDate(
                 $this->getCustomer()->getStoreId(),
                 $date,
                 true
