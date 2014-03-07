@@ -16,7 +16,6 @@ $installer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
 $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
     ->create('Magento\Catalog\Model\Product');
 $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
-    ->setId(5)
     ->setAttributeSetId($installer->getAttributeSetId('catalog_product', 'Default'))
     ->setStoreId(1)
     ->setWebsiteIds(array(1))

@@ -26,6 +26,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
      */
     public function testReindexAll()
     {
+        $product = $this->getProduct();
         /** @var  $indexer \Magento\Indexer\Model\IndexerInterface */
         $indexer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Indexer\Model\Indexer');
@@ -42,7 +43,21 @@ class ProductTest extends \PHPUnit_Framework_TestCase
                 'grant_catalog_product_price' => '-2',
                 'grant_checkout_items' => '-2',
             ],
-            $indexTable->getIndexForProduct(5, 1, 1)
+            $indexTable->getIndexForProduct($product->getId(), 1, 1)
         );
+    }
+
+    /**
+     * @return \Magento\Catalog\Model\Product
+     */
+    protected function getProduct()
+    {
+        /** @var \Magento\Catalog\Model\Product $product */
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
+
+        $result = $product->getCollection()->getLastItem(); //getItems();
+
+        return $result;
     }
 }
