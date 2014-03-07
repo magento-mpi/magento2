@@ -170,6 +170,8 @@ interface CustomerAccountServiceInterface
      *
      * @param int $customerId
      * @return string returns one of the account confirmation statuses
+     *
+     * @throws \Magento\Exception\NoSuchEntityException If customer with customerId is not found.
      */
     public function getConfirmationStatus($customerId);
 
@@ -194,15 +196,6 @@ interface CustomerAccountServiceInterface
      * @return array|bool
      */
     public function validateCustomerData(\Magento\Customer\Service\V1\Dto\Customer $customer, array $attributes);
-
-    /**
-     * Validate customer details
-     *
-     * @param Dto\CustomerDetails $customerDetails
-     * @param Dto\Eav\AttributeMetadata[] $attributes
-     * @return array|bool
-     */
-    public function validateCustomerDetails(Dto\CustomerDetails $customerDetails, array $attributes);
 
     /**
      * Indicates if the Customer for the provided customerId is restricted to being read only

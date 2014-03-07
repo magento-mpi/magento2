@@ -14,7 +14,6 @@
 namespace Magento\Checkout\Model\Type;
 
 use Magento\Customer\Service\V1\Dto\CustomerBuilder;
-use Magento\Customer\Service\V1\Dto\CustomerDetailsBuilder;
 use Magento\Customer\Service\V1\Dto\AddressBuilder;
 use Magento\Customer\Service\V1\Dto\Address as AddressDto;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
@@ -123,9 +122,6 @@ class Onepage
     /** @var CustomerBuilder */
     protected $_customerBuilder;
 
-    /** @var CustomerDetailsBuilder */
-    protected $_customerDetailsBuilder;
-
     /** @var AddressBuilder */
     protected $_addressBuilder;
 
@@ -157,7 +153,6 @@ class Onepage
      * @param CustomerAccountServiceInterface $accountService
      * @param \Magento\Customer\Model\Metadata\FormFactory $formFactory
      * @param CustomerBuilder $customerBuilder
-     * @param CustomerDetailsBuilder $customerDetailsBuilder
      * @param AddressBuilder $addressBuilder
      * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Encryption\EncryptorInterface $encryptor
@@ -181,7 +176,6 @@ class Onepage
         \Magento\Message\ManagerInterface $messageManager,
         \Magento\Customer\Model\Metadata\FormFactory $formFactory,
         CustomerBuilder $customerBuilder,
-        CustomerDetailsBuilder $customerDetailsBuilder,
         AddressBuilder $addressBuilder,
         \Magento\Math\Random $mathRandom,
         \Magento\Encryption\EncryptorInterface $encryptor,
@@ -205,7 +199,6 @@ class Onepage
         $this->messageManager = $messageManager;
         $this->_formFactory = $formFactory;
         $this->_customerBuilder = $customerBuilder;
-        $this->_customerDetailsBuilder = $customerDetailsBuilder;
         $this->_addressBuilder = $addressBuilder;
         $this->mathRandom = $mathRandom;
         $this->_encryptor = $encryptor;
@@ -409,9 +402,7 @@ class Onepage
             if ($this->_customerEmailExists($address->getEmail(), $this->_storeManager->getWebsite()->getId())) {
                 return array(
                     'error' => 1,
-                    // @codingStandardsIgnoreStart
                     'message' => __('There is already a registered customer using this email address. Please log in using this email address or enter a different email address to register your account.')
-                    // @codingStandardsIgnoreEnd
                 );
             }
         }
@@ -534,8 +525,7 @@ class Onepage
 
         //validate customer
         $attributes = $customerForm->getAllowedAttributes();
-        $customerDetails = $this->_customerDetailsBuilder->setCustomer($customer)->create();
-        $result = $this->_customerAccountService->validateCustomerDetails($customerDetails, $attributes);
+        $result = $this->_customerAccountService->validateCustomerData($customer, $attributes);
         if (true !== $result && is_array($result)) {
             return array(
                 'error'   => -1,
@@ -756,7 +746,7 @@ class Onepage
         );
 
         if ($shipping) {
-            if (!$shipping->getSameAsBilling()) {
+            if( !$shipping->getSameAsBilling()) {
                 $customerShippingData = $shipping->exportCustomerAddressData();
                 $customerShippingData = $this->_addressBuilder->populate($customerShippingData)
                     ->setDefaultShipping(true)->create();
@@ -842,9 +832,7 @@ class Onepage
         if ($confirmationStatus === CustomerAccountServiceInterface::ACCOUNT_CONFIRMATION_REQUIRED) {
             $url = $this->_customerData->getEmailConfirmationUrl($customer->getEmail());
             $this->messageManager->addSuccess(
-                // @codingStandardsIgnoreStart
                 __('Account confirmation is required. Please, check your e-mail for confirmation link. To resend confirmation email please <a href="%1">click here</a>.', $url)
-                // @codingStandardsIgnoreEnd
             );
         } else {
             $this->getCustomerSession()->loginById($customer->getCustomerId());

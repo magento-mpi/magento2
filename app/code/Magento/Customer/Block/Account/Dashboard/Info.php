@@ -29,34 +29,33 @@ class Info extends \Magento\View\Element\Template
      */
     protected $_subscriberFactory;
 
+    /** @var \Magento\Customer\Helper\View */
+    protected $_helperView;
+
     /**
-     * @var CustomerMetadataServiceInterface
+     * @var \Magento\Customer\Service\V1\CustomerCurrentServiceInterface
      */
-    protected $_metadataService;
-
-    /** @var  CustomerAccountServiceInterface */
-    protected $_customerAccountService;
+    protected $customerCurrentService;
 
     /**
+     * Constructor
+     *
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Customer\Model\Session $customerSession
-     * @param CustomerAccountServiceInterface $customerAccountService
-     * @param CustomerMetadataServiceInterface $metadataService
+     * @param \Magento\Customer\Service\V1\CustomerCurrentServiceInterface $customerCurrentService
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
+     * @param \Magento\Customer\Helper\View $helperView
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Customer\Model\Session $customerSession,
-        CustomerAccountServiceInterface $customerAccountService,
-        CustomerMetadataServiceInterface $metadataService,
+        \Magento\Customer\Service\V1\CustomerCurrentServiceInterface $customerCurrentService,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
+        \Magento\Customer\Helper\View $helperView,
         array $data = array()
     ) {
-        $this->_customerSession = $customerSession;
-        $this->_customerAccountService = $customerAccountService;
-        $this->_metadataService = $metadataService;
-        $this->_subscriberFactory = $subscriberFactory;
+        $this->customerCurrentService   = $customerCurrentService;
+        $this->_subscriberFactory       = $subscriberFactory;
+        $this->_helperView = $helperView;
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
     }
@@ -69,7 +68,7 @@ class Info extends \Magento\View\Element\Template
     public function getCustomer()
     {
         try {
-            return $this->_customerAccountService->getCustomer($this->_customerSession->getId());
+            return $this->customerCurrentService->getCustomer();
         } catch (NoSuchEntityException $e) {
             return null;
         }
@@ -79,30 +78,10 @@ class Info extends \Magento\View\Element\Template
      * Get the full name of a customer
      *
      * @return string full name
-     *
-     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function getName()
     {
-        $name = '';
-
-        $customer = $this->getCustomer();
-
-        $prefixMetadata = $this->_getAttributeMetadata('prefix');
-        if (!is_null($prefixMetadata) && $prefixMetadata->isVisible() && $customer->getPrefix()) {
-            $name .= $customer->getPrefix() . ' ';
-        }
-        $name .= $customer->getFirstname();
-        $midNameMetadata = $this->_getAttributeMetadata('middlename');
-        if (!is_null($midNameMetadata) && $midNameMetadata->isVisible() && $customer->getMiddlename()) {
-            $name .= ' ' . $customer->getMiddlename();
-        }
-        $name .=  ' ' . $customer->getLastname();
-        $suffixMetadata = $this->_getAttributeMetadata('suffix');
-        if (!is_null($suffixMetadata) && $suffixMetadata->isVisible() && $customer->getSuffix()) {
-            $name .= ' ' . $customer->getSuffix();
-        }
-        return $name;
+        return $this->_helperView->getCustomerName($this->getCustomer());
     }
 
     public function getChangePasswordUrl()
@@ -155,18 +134,5 @@ class Info extends \Magento\View\Element\Template
     protected function _createSubscriber()
     {
         return $this->_subscriberFactory->create();
-    }
-
-    /**
-     * @param string $attributeCode
-     * @return \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata|null
-     */
-    protected function _getAttributeMetadata($attributeCode)
-    {
-        try {
-            return $this->_metadataService->getCustomerAttributeMetadata($attributeCode);
-        } catch (NoSuchEntityException $e) {
-            return null;
-        }
     }
 }

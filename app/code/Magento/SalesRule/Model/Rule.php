@@ -50,8 +50,6 @@ use Magento\Sales\Model\Quote\Address;
  * @method \Magento\SalesRule\Model\Rule setDiscountQty(float $value)
  * @method int getDiscountStep()
  * @method \Magento\SalesRule\Model\Rule setDiscountStep(int $value)
- * @method int getSimpleFreeShipping()
- * @method \Magento\SalesRule\Model\Rule setSimpleFreeShipping(int $value)
  * @method int getApplyToShipping()
  * @method \Magento\SalesRule\Model\Rule setApplyToShipping(int $value)
  * @method int getTimesUsed()
@@ -71,16 +69,6 @@ use Magento\Sales\Model\Quote\Address;
  */
 class Rule extends \Magento\Rule\Model\AbstractModel
 {
-    /**
-     * Free Shipping option "For matching items only"
-     */
-    const FREE_SHIPPING_ITEM    = 1;
-
-    /**
-     * Free Shipping option "For shipment with matching items"
-     */
-    const FREE_SHIPPING_ADDRESS = 2;
-
     /**
      * Coupon types
      */
@@ -191,7 +179,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\SalesRule\Model\CouponFactory $couponFactory
      * @param \Magento\SalesRule\Model\Coupon\CodegeneratorFactory $codegenFactory
      * @param \Magento\SalesRule\Model\Rule\Condition\CombineFactory $condCombineFactory
@@ -206,7 +194,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
-        \Magento\LocaleInterface $locale,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\SalesRule\Model\CouponFactory $couponFactory,
         \Magento\SalesRule\Model\Coupon\CodegeneratorFactory $codegenFactory,
         \Magento\SalesRule\Model\Rule\Condition\CombineFactory $condCombineFactory,
@@ -223,7 +211,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         $this->_condProdCombineF = $condProdCombineF;
         $this->_couponCollection = $couponCollection;
         $this->_storeManager = $storeManager;
-        parent::__construct($context, $registry, $formFactory, $locale, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $formFactory, $localeDate, $resource, $resourceCollection, $data);
     }
 
     /**

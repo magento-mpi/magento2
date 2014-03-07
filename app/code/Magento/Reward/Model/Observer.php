@@ -189,9 +189,9 @@ class Observer
             $data['reward_warning_notification'] = $subscribeByDefault;
         }
 
-        $customerBuilder->setAttribute('set_reward_update_notification',
+        $customerBuilder->setAttribute('reward_update_notification',
             (empty($data['reward_update_notification']) ? 0 : 1));
-        $customerBuilder->setAttribute('set_reward_warning_notification',
+        $customerBuilder->setAttribute('reward_warning_notification',
             (empty($data['reward_warning_notification']) ? 0 : 1));
 
         return $this;
@@ -342,7 +342,11 @@ class Observer
                 ->updateRewardPoints();
             if ($reward->getRewardPointsUpdated() && $reward->getPointsDelta()) {
                 $order->addStatusHistoryComment(
-                    __('The customer earned %1 for this order.', $this->_rewardData->formatReward($reward->getPointsDelta()))
+                    __(
+                        'The customer earned %1 for this order.',
+                        $this->_rewardData->formatReward($reward->getPointsDelta()
+                        )
+                    )
                 )->save();
             }
         }

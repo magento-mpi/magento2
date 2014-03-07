@@ -7,7 +7,6 @@
  */
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 
-use Magento\LocaleInterface;
 use Magento\Customer\Controller\RegistryConstants;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
@@ -109,8 +108,9 @@ class ViewTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetCreateDate()
     {
-        $createdAt = $this->_block
-            ->formatDate($this->_loadCustomer()->getCreatedAt(), LocaleInterface::FORMAT_TYPE_MEDIUM, true);
+        $createdAt = $this->_block->formatDate(
+            $this->_loadCustomer()->getCreatedAt(), \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM, true
+        );
         $this->assertEquals($createdAt, $this->_block->getCreateDate());
     }
 
@@ -121,8 +121,10 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     {
         $customer = $this->_loadCustomer();
         $date = $this->_context
-            ->getLocale()->storeDate($customer->getStoreId(), $customer->getCreatedAt(), true);
-        $storeCreateDate = $this->_block->formatDate($date, LocaleInterface::FORMAT_TYPE_MEDIUM, true);
+            ->getLocaleDate()->scopeDate($customer->getStoreId(), $customer->getCreatedAt(), true);
+        $storeCreateDate = $this->_block->formatDate(
+            $date, \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM, true
+        );
         $this->assertEquals($storeCreateDate, $this->_block->getStoreCreateDate());
     }
 
@@ -131,9 +133,15 @@ class ViewTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetStoreCreateDateTimezone()
     {
+        /**
+         * @var \Magento\Stdlib\DateTime\TimezoneInterface $defaultTimeZonePath
+         */
+        $defaultTimeZonePath = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Stdlib\DateTime\TimezoneInterface')->getDefaultTimezonePath();
         $timezone = $this->_context
             ->getStoreConfig()
-            ->getConfig(LocaleInterface::XML_PATH_DEFAULT_TIMEZONE, $this->_loadCustomer()->getStoreId());
+            ->getConfig(
+                $defaultTimeZonePath, $this->_loadCustomer()->getStoreId());
         $this->assertEquals($timezone, $this->_block->getStoreCreateDateTimezone());
     }
 
@@ -266,5 +274,4 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER_ID, $customer->getCustomerId());
         return $customer;
     }
-
 }

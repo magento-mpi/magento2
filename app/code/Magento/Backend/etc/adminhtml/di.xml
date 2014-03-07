@@ -9,7 +9,7 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <preference for="Magento\Authorization\RoleLocator" type="Magento\Backend\Model\Authorization\RoleLocator" />
-    <preference for="Magento\LocaleInterface" type="Magento\Backend\Model\Locale" />
+    <preference for="Magento\Locale\ResolverInterface" type="Magento\Backend\Model\Locale\Resolver" />
     <preference for="Magento\App\Action\Context" type="Magento\Backend\App\Action\Context" />
     <preference for="Magento\UrlInterface" type="Magento\Backend\Model\UrlInterface" />
     <preference for="Magento\Backend\Model\Auth\StorageInterface" type="Magento\Backend\Model\Auth\Session" />
@@ -114,6 +114,12 @@
     <type name="Magento\Message\Manager">
         <arguments>
             <argument name="defaultGroup" xsi:type="string">backend</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Translate">
+        <arguments>
+            <argument name="cache" xsi:type="object">Magento\App\Cache\Type\Translate</argument>
+            <argument name="locale" xsi:type="object">Magento\Backend\Model\Locale\Resolver\Proxy</argument>
         </arguments>
     </type>
 </config>

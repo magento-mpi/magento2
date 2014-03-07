@@ -44,6 +44,8 @@ class PhpExtension extends \Magento\Search\Model\Adapter\Solr\AbstractSolr
      * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\CatalogInventory\Helper\Data $ctlgInventData
      * @param array $options
      */
@@ -62,6 +64,8 @@ class PhpExtension extends \Magento\Search\Model\Adapter\Solr\AbstractSolr
         \Magento\Registry $registry,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\Stdlib\DateTime $dateTime,
+        \Magento\Locale\ResolverInterface $localeResolver,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\CatalogInventory\Helper\Data $ctlgInventData,
         $options = array()
     ) {
@@ -73,7 +77,7 @@ class PhpExtension extends \Magento\Search\Model\Adapter\Solr\AbstractSolr
         parent::__construct(
             $customerSession, $filterPrice, $resourceIndex, $resourceFulltext, $attributeCollection,
             $logger, $storeManager, $cache, $eavConfig, $searchFactory, $clientHelper, $registry,
-            $coreStoreConfig, $dateTime, $options
+            $coreStoreConfig, $dateTime, $localeResolver, $localeDate, $options
         );
     }
 

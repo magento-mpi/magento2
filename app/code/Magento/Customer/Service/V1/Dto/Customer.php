@@ -63,12 +63,14 @@ class Customer extends \Magento\Service\Entity\AbstractDto implements Eav\Entity
         self::DEFAULT_SHIPPING,
         self::RP_TOKEN,
         self::RP_TOKEN_CREATED_AT,
+        'reward_update_notification',
+        'reward_warning_notification',
     ];
 
     /**
-     * Retrieve array of all attributes, in the form of 'attribute code' => <attribute value'
+     * Retrieve array of all attributes, in the form of 'attribute code' => <attribute value'>.
      *
-     * @return string[] attributes, in the form of 'attribute code' => <attribute value'
+     * @return string[] attributes, in the form of 'attribute code' => <attribute value'>
      */
     public function getAttributes()
     {
@@ -258,7 +260,8 @@ class Customer extends \Magento\Service\Entity\AbstractDto implements Eav\Entity
     }
 
     /**
-     * Get tax Vat
+     * Get tax Vat.
+     *
      * @return string
      */
     public function getTaxvat()

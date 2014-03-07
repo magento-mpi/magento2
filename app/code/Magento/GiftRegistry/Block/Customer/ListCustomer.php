@@ -7,7 +7,6 @@
  */
 namespace Magento\GiftRegistry\Block\Customer;
 
-use Magento\Core\Model\LocaleInterface;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 
@@ -194,7 +193,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
      */
     public function getFormattedDate($item)
     {
-        return $this->formatDate($item->getCreatedAt(), LocaleInterface::FORMAT_TYPE_MEDIUM);
+        return $this->formatDate($item->getCreatedAt(), \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM);
     }
 
     /**

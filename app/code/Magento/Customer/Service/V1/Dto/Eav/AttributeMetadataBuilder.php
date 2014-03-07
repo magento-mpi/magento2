@@ -155,7 +155,7 @@ class AttributeMetadataBuilder extends \Magento\Service\Entity\AbstractDtoBuilde
 
     /**
      * Set is user defined
-     * f
+     *
      * @param bool $isUserDefined
      * @return $this
      */

@@ -119,10 +119,8 @@ class Session extends \Magento\Session\SessionManager
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\Http\Context $httpContext
      * @param Converter $converter
-     * @param \Magento\App\ResponseInterface $response ,
      * @param CustomerAccountServiceInterface $customerAccountService
      * @param null $sessionName
-     * @param array $data
      */
     public function __construct(
         \Magento\App\RequestInterface $request,
@@ -142,10 +140,8 @@ class Session extends \Magento\Session\SessionManager
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\Http\Context $httpContext,
         \Magento\Customer\Model\Converter $converter,
-        \Magento\App\ResponseInterface $response,
         CustomerAccountServiceInterface $customerAccountService,
-        $sessionName = null,
-        array $data = array()
+        $sessionName = null
     ) {
         $this->_coreUrl = $coreUrl;
         $this->_customerData = $customerData;

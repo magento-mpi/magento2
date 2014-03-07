@@ -147,11 +147,9 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     protected $filterManager;
 
     /**
-     * Locale
-     *
-     * @var \Magento\LocaleInterface
+     * @var \Magento\Stdlib\DateTime\TimezoneInterface
      */
-    protected $_locale;
+    protected $_localeDate;
 
     /**
      * The property is used to define content-scope of block. Can be private or public.
@@ -192,7 +190,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
         $this->_logger          = $context->getLogger();
         $this->_escaper         = $context->getEscaper();
         $this->filterManager    = $context->getFilterManager();
-        $this->_locale          = $context->getLocale();
+        $this->_localeDate      = $context->getLocaleDate();
         $this->_isScopePrivate  = false;
         parent::__construct($data);
         $this->_construct();
@@ -743,9 +741,9 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      * @return  string
      */
     public function formatDate(
-        $date = null, $format =  \Magento\LocaleInterface::FORMAT_TYPE_SHORT, $showTime = false
+        $date = null, $format =  \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT, $showTime = false
     ) {
-        return $this->_locale->formatDate($date, $format, $showTime);
+        return $this->_localeDate->formatDate($date, $format, $showTime);
     }
 
     /**
@@ -757,9 +755,9 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      * @return  string
      */
     public function formatTime(
-        $time = null, $format = \Magento\LocaleInterface::FORMAT_TYPE_SHORT, $showDate = false
+        $time = null, $format = \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT, $showDate = false
     ) {
-        return $this->_locale->formatTime($time, $format, $showDate);
+        return $this->_localeDate->formatTime($time, $format, $showDate);
     }
 
     /**

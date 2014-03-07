@@ -24,7 +24,7 @@ class Method extends AbstractRepository
     /**
      * {inheritdoc}
      */
-    public function __construct(array $defaultConfig, array $defaultData)
+    public function __construct(array $defaultConfig = array(), array $defaultData = array())
     {
         $this->_data['default'] = array(
             'config' => $defaultConfig,
@@ -34,8 +34,8 @@ class Method extends AbstractRepository
         $this->_data['free_shipping'] = $this->_getFreeShipping();
         $this->_data['flat_rate'] = $this->_getFlatRate();
         // Shipping carriers
-        $this->_data['dhlint_eu'] = $this->_getDhlIntEU();
-        $this->_data['dhlint_uk'] = $this->_getDhlIntUK();
+        $this->_data['dhl_eu'] = $this->_getDhlEU();
+        $this->_data['dhl_uk'] = $this->_getDhlUK();
         $this->_data['fedex'] = $this->_getFedex();
         $this->_data['ups'] = $this->_getUps();
         $this->_data['usps'] = $this->_getUsps();
@@ -65,7 +65,7 @@ class Method extends AbstractRepository
         );
     }
 
-    protected function _getDhlIntEU()
+    protected function _getDhlEU()
     {
         return array(
             'data' => array(
@@ -77,7 +77,7 @@ class Method extends AbstractRepository
         );
     }
 
-    protected function _getDhlIntUK()
+    protected function _getDhlUK()
     {
         return array(
             'data' => array(

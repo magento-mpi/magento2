@@ -75,7 +75,7 @@ class Address extends \Magento\Service\Entity\AbstractDto implements Eav\EntityI
     }
 
     /**
-     * Get if this address is default shipping address
+     * Get if this address is default shipping address.
      *
      * @return bool|null
      */
@@ -95,9 +95,9 @@ class Address extends \Magento\Service\Entity\AbstractDto implements Eav\EntityI
     }
 
     /**
-     * Retrieve array of all attributes, in the form of 'attribute code' => <attribute value'
+     * Retrieve array of all attributes, in the form of 'attribute code' => <attribute value'>.
      *
-     * @return string[] attributes, in the form of 'attribute code' => <attribute value'
+     * @return string[] attributes, in the form of 'attribute code' => <attribute value'>
      */
     public function getAttributes()
     {
@@ -231,6 +231,7 @@ class Address extends \Magento\Service\Entity\AbstractDto implements Eav\EntityI
 
     /**
      * Get first name
+     *
      * @return string|null
      */
     public function getFirstname()

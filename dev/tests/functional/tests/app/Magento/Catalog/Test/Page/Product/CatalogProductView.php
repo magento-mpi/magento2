@@ -13,7 +13,7 @@ namespace Magento\Catalog\Test\Page\Product;
 
 use Mtf\Page\Page;
 use Mtf\Factory\Factory;
-use Mtf\Fixture\DataFixture;
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Client\Element\Locator;
 
 /**
@@ -115,11 +115,11 @@ class CatalogProductView extends Page
     /**
      * Page initialization
      *
-     * @param DataFixture|\Magento\Catalog\Test\Fixture\Product $fixture
+     * @param FixtureInterface $fixture
      */
-    public function init(DataFixture $fixture)
+    public function init(FixtureInterface $fixture)
     {
-        $this->_url = $_ENV['app_frontend_url'] . $fixture->getProductUrl() . '.html';
+        $this->_url = $_ENV['app_frontend_url'] . $fixture->getUrlKey() . '.html';
     }
 
     /**
