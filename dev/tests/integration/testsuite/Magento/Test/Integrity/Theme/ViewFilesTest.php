@@ -19,20 +19,14 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
     protected $objectManager;
 
     /**
-     * @var \Magento\View\FileSystem
+     * @var \Magento\View\Service
      */
-    protected $viewFileSystem;
-
-    /**
-     * @var \Magento\App\Filesystem
-     */
-    protected $filesystem;
+    protected $viewService;
 
     protected function setUp()
     {
         $this->objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectmanager();
-        $this->viewFileSystem = $this->objectManager->get('Magento\View\FileSystem');
-        $this->filesystem = $this->objectManager->get('Magento\App\Filesystem');
+        $this->viewService = $this->objectManager->get('Magento\View\Service');
         $this->objectManager->configure(array(
             'preferences' => array('Magento\Core\Model\Theme' => 'Magento\Core\Model\Theme\Data')
         ));
@@ -43,46 +37,37 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
      */
     public function testViewLessFilesPreProcessing()
     {
-        $errorHandlerMock = $this->getMock('Magento\Less\PreProcessor\ErrorHandlerInterface',
-            array('processException'));
-        $this->objectManager->addSharedInstance($errorHandlerMock, 'Magento\Less\PreProcessor\ErrorHandler');
-        $errorHandlerMock->expects($this->any())->method('processException')->will($this->returnCallback(
-            function ($exception) {
-                /** @var $exception \Exception */
-                $this->fail($exception->getMessage());
-            }
-        ));
-        /** @var $lessPreProcessor \Magento\Less\PreProcessor */
-        $lessPreProcessor = $this->objectManager->create('Magento\Less\PreProcessor');
-        $directoryRead = $this->filesystem->getDirectoryRead(\Magento\App\Filesystem::ROOT_DIR);
-        /**
-         * Solution for \Magento\View\File\Source\Base aggregator, it depends on theme and area
-         */
-        $theme = $this->objectManager->create('Magento\View\Design\ThemeInterface');
-        $theme->setArea('frontend');
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
             /**
              * @param string $file
              * @param string $area
              */
-            function ($file, $area) use ($lessPreProcessor, $directoryRead, $theme) {
-                $fileInfo = pathinfo($file);
-                if ($fileInfo['extension'] == 'css') {
-                    $lessFile = "{$fileInfo['dirname']}/{$fileInfo['filename']}.less";
-                    $params = array('area' => $area, 'themeModel' => $theme);
-                    $cssSourceFile = $this->viewFileSystem->getViewFile($file, $params);
-                    $lessSourceFile = $this->viewFileSystem->getViewFile($lessFile, $params);
-                    if ($directoryRead->isExist($directoryRead->getRelativePath($cssSourceFile))
-                        && $directoryRead->isExist($directoryRead->getRelativePath($lessSourceFile))
-                    ) {
-                        $this->fail("Duplicate files: '{$lessSourceFile}', '{$cssSourceFile}'");
-                    } elseif ($directoryRead->isExist($directoryRead->getRelativePath($lessSourceFile))) {
-                        $this->assertFileExists($lessPreProcessor->processLessInstructions($lessFile, $params));
-                    }
+            function ($file, $area, $themeId) {
+                if (substr($file, -4) == '.css') {
+                    $lessFile = substr($file, 0, -4) . '.less';
+                    $params = array('area' => $area, 'themeId' => $themeId);
+
+                    $cssAsset = $this->viewService->createAsset($file, $params);
+                    $cssSourceFile = $this->viewService->getSourceFile($cssAsset);
+                    $cssSourceFileExists = $cssSourceFile && file_exists($cssSourceFile);
+
+                    $lessAsset = $this->viewService->createAsset($lessFile, $params);
+                    $lessSourceFile = $this->viewService->getSourceFile($lessAsset);
+                    $lessSourceFileExists = $lessSourceFile && file_exists($lessSourceFile);
+
+                    $this->assertTrue(
+                        $cssSourceFileExists || $lessSourceFileExists,
+                        "At least one resource file (css or less) must exist for resource '$file'"
+                    );
+                    $this->assertFalse(
+                        $cssSourceFileExists && $lessSourceFileExists,
+                        "Only one resource file must exist. Both found: '$cssSourceFile' and '$lessSourceFile'"
+                    );
+
                 }
             },
-            $this->viewFilesFromThemesDataProvider([$theme])
+            $this->viewFilesFromThemesDataProvider($this->_getDesignThemes())
         );
     }
 
@@ -91,6 +76,9 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
      */
     public function testViewFilesFromThemes()
     {
+        /** @var \Magento\View\Design\FileResolution\Strategy\Fallback $fallback */
+        $fallback = $this->objectManager->get('Magento\View\Design\FileResolution\Strategy\Fallback');
+
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
             /**
@@ -98,29 +86,43 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
              * @param string $area
              * @param string $themeId
              */
-            function ($file, $area, $themeId) {
+            function ($file, $area, $themeId) use ($fallback) {
                 $params = array('area' => $area, 'themeId' => $themeId);
-                $viewFile = $this->viewFileSystem->getViewFile($file, $params);
-                $this->assertFileExists($viewFile);
-
-                $fileParts = explode(\Magento\View\Asset\FileId::FILE_ID_SEPARATOR, $file);
-                if (count($fileParts) > 1) {
-                    $params['module'] = $fileParts[0];
-                }
-                if (pathinfo($file, PATHINFO_EXTENSION) == 'css') {
-                    $files = array();
-                    $content = file_get_contents($viewFile);
+                list($params['module'], $file) = \Magento\View\Asset\FileId::extractModule($file);
+                $this->viewService->updateDesignParams($params);
+                $originalViewFile = $fallback->getViewFile(
+                    $params['area'], $params['themeModel'], $params['locale'], $file, $params['module']
+                );
+                $this->assertNotEmpty($originalViewFile);
+                $this->assertFileExists($originalViewFile);
+                if (in_array(pathinfo($file, PATHINFO_EXTENSION), array('css', 'less'))) {
+                    $content = file_get_contents($originalViewFile);
                     preg_match_all(\Magento\View\Url\CssResolver::REGEX_CSS_RELATIVE_URLS, $content, $matches);
-                    foreach ($matches[1] as $relativePath) {
-                        $path = $this->_addCssDirectory($relativePath, $file);
-                        $pathFile = $this->viewFileSystem->getViewFile($path, $params);
-                        if (!is_file($pathFile)) {
-                            $files[] = $relativePath;
+                    $absentFiles = array();
+                    if (!empty($matches[1])) {
+                        echo $originalViewFile . "\n";
+                    }
+                    foreach ($matches[1] as $relatedSource) {
+                        $relatedParams = $params;
+                        $originalRelatedSource = $relatedSource;
+                        $relatedSource = $this->_addCssDirectory($relatedSource, $file);
+                        list($module, $relatedSource) =
+                            \Magento\View\Asset\FileId::extractModule($relatedSource);
+                        if (!empty($module)) {
+                            $relatedParams['module'] = $module;
+                        }
+                        $relatedViewFile = $fallback->getViewFile(
+                            $relatedParams['area'],
+                            $relatedParams['themeModel'],
+                            $relatedParams['locale'],
+                            $relatedSource,
+                            $relatedParams['module']
+                        );
+                        if (!$relatedViewFile || !is_file($relatedViewFile)) {
+                            $absentFiles[] = $originalRelatedSource;
                         }
                     }
-                    if (!empty($files)) {
-                        $this->fail('Cannot find file(s): ' . implode(', ', $files));
-                    }
+                    $this->assertEmpty($absentFiles, 'Cannot find resource(s): ' . implode(', ', $absentFiles));
                 }
             },
             $this->viewFilesFromThemesDataProvider($this->_getDesignThemes())
@@ -178,14 +180,14 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
                 continue;
             }
             foreach (array_unique($files[$theme->getId()]) as $file) {
-                $result["{$theme->getId()}/{$file}"] = array(
+                $result["{$theme->getFullPath()} - {$file}"] = array(
                     'file'  => $file,
                     'area'  => $theme->getArea(),
                     'theme' => $theme->getId()
                 );
             }
         }
-        return array_values($result);
+        return $result;
     }
 
     /**
