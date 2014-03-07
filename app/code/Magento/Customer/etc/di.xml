@@ -70,4 +70,9 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\Customer\Service\V1\CustomerAccountService">
+        <arguments>
+            <argument name="url" xsi:type="object">Magento\Url</argument>
+        </arguments>
+    </type>
 </config>

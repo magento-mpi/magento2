@@ -24,6 +24,9 @@
   * Fixed synopsis of install.php script
   * Fixed absence of payment scheduled in shopping cart for products with recurring profile
   * Fixed code coverage fails for Magento\SalesRule\Model\Rule\Action\Discount\CartFixedTest
+  * Fixed PayPal Express Checkout must not redirect to Paypal site if Allow Guest Checkout option is No (MAGETWO-19523)
+  * Fixed ability to reset password for customer from backend (MAGETWO-20164)
+  * Fixed ability to download backup (MAGETWO-21353)
   * Fixed possibility of XSS injection in the Integration re-authorization flow
   * Fixed cancellation of the Billing Agreement from backend
   * Fixed debug section in the developer settings
@@ -59,6 +62,9 @@
 * Security:
   * Introduced an ability to hash a password with a random salt of default length (32 chars) by the encryption library
   * Utilized a random salt of default length for admin users and frontend customers
+* Indexer implementation:
+  * Implemented a new optimized Product Price Indexer
+
 2.0.0.0-dev67
 =============
 * GitHub requests:
