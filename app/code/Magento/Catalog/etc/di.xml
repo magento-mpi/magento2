@@ -221,4 +221,7 @@
             <argument name="tableData" xsi:type="object">Magento\Catalog\Model\Indexer\Product\Flat\TableData</argument>
         </arguments>
     </type>
+    <type name="Magento\App\Http">
+        <plugin name="catalog-app-http-context-plugin" type="Magento\Core\Model\App\ContextPlugin" sortOrder="1000"/>
+    </type>
 </config>
