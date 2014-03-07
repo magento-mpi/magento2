@@ -99,13 +99,13 @@ class AbstractCart extends \Magento\View\Element\Template
     /**
      * Retrieve item renderer block
      *
-     * @param string $type
+     * @param string|null $type
      * @return \Magento\View\Element\Template
      * @throws \RuntimeException
      */
-    public function getItemRenderer($type)
+    public function getItemRenderer($type = null)
     {
-        if (!$type) {
+        if (is_null($type)) {
             $type = self::DEFAULT_TYPE;
         }
         $rendererList = $this->_getRendererList();
