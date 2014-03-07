@@ -844,6 +844,7 @@ abstract class AbstractAdapter
 
     /**
      * Checks if Solr server is still up
+     *
      * @return bool
      */
     abstract public function ping();
