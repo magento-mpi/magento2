@@ -496,6 +496,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
      */
     public function testGridAction()
     {
+        $this->markTestSkipped('Skipped due to defect MAGETWO-22086');
         $this->dispatch('backend/customer/index/grid');
 
         $body = $this->getResponse()->getBody();
