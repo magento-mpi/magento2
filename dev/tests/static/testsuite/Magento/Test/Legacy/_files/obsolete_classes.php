@@ -2081,8 +2081,8 @@ return array(
         'Magento\Sales\Model\Resource\Recurring\Profile\Collection',
         'Magento\RecurringProfile\Model\Resource\Profile\Collection'
     ),
-    ['Magento\Payment\Model\Recurring\Profile', 'Magento\RecurringProfile\Model\RecurringProfile'],
-    ['Magento\Validator\Composite\VarienObject', 'Magento\Validator\Object'],
+    array('Magento\Payment\Model\Recurring\Profile', 'Magento\RecurringProfile\Model\RecurringProfile'),
+    array('Magento\Validator\Composite\VarienObject', 'Magento\Validator\Object'),
     array('Magento\GoogleShopping\Helper\Price', 'Magento\Catalog\Model\Product\CatalogPrice'),
     array('Magento\Core\Model\Layout\Argument\Handler\ArrayHandler', 'Magento\Data\Argument\Interpreter\ArrayType'),
     array('Magento\Core\Model\Layout\Argument\Handler\String', 'Magento\Data\Argument\Interpreter\String'),
@@ -2214,4 +2214,7 @@ return array(
         'Magento\Usa\Model\Shipping\Carrier\AbstractCarrier\Source\Requesttype',
         'Magento\Shipping\Model\Config\Source\Online\Requesttype'
     ],
+    ['Magento\Catalog\Helper\Product\Url', 'Magento\Filter\Translit'],
+    array('Magento\Catalog\Model\Product\Indexer\Price'),
+    array('Magento\Catalog\Model\Resource\Product\Indexer\Price'),
 );
