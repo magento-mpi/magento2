@@ -371,6 +371,7 @@ class Form
      * Set whether invisible attributes should be ignored.
      *
      * @param bool $ignoreInvisible
+     * @return void
      */
     public function setInvisibleIgnored($ignoreInvisible)
     {

@@ -51,8 +51,7 @@ class Converter
         AddressBuilder $addressBuilder,
         AddressFactory $addressFactory,
         RegionBuilder $regionBuilder
-    )
-    {
+    ) {
         $this->_addressBuilder = $addressBuilder;
         $this->_addressFactory = $addressFactory;
         $this->_regionBuilder = $regionBuilder;
@@ -77,7 +76,7 @@ class Converter
      *
      * @param AddressModel $addressModel
      * @param Address $address
-     * return null
+     * @return void
      */
     public function updateAddressModel(AddressModel $addressModel, Address $address)
     {

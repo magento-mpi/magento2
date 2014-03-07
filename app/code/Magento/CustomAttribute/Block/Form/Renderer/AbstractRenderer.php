@@ -71,7 +71,7 @@ abstract class AbstractRenderer extends \Magento\View\Element\Template
     /**
      * Set Entity object
      *
-     * @param \Magento\Core\Model\AbstractModel
+     * @param \Magento\Core\Model\AbstractModel $entity
      * @return $this
      */
     public function setEntity(\Magento\Core\Model\AbstractModel $entity)
