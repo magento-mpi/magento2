@@ -139,7 +139,7 @@ class Rating extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * @param $reviewId
+     * @param int $reviewId
      * @param bool $onlyForCurrentStore
      * @return array
      */

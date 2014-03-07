@@ -1378,7 +1378,7 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
     /**
      * Adopt specified address object to be compatible with Magento
      *
-     * @param \Magento\Object
+     * @param \Magento\Object $address
      * @return void
      */
     protected function _applyStreetAndRegionWorkarounds(\Magento\Object $address)
@@ -1406,7 +1406,7 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
      * Adopt specified request array to be compatible with Paypal
      * Puerto Rico should be as state of USA and not as a country
      *
-     * @param array $request
+     * @param array &$request
      * @return void
      */
     protected function _applyCountryWorkarounds(&$request)

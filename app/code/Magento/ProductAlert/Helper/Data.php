@@ -117,6 +117,7 @@ class Data extends \Magento\Core\Helper\Url
     }
 
     /**
+     * @param string $type
      * @return string
      */
     public function getSaveUrl($type)

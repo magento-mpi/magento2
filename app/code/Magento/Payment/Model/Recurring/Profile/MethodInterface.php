@@ -18,6 +18,7 @@ interface MethodInterface
      * Validate data
      *
      * @param \Magento\RecurringProfile\Model\RecurringProfile $profile
+     * @return void
      * @throws \Magento\Core\Exception
      */
     public function validateRecurringProfile(\Magento\RecurringProfile\Model\RecurringProfile $profile);
@@ -27,6 +28,7 @@ interface MethodInterface
      *
      * @param \Magento\RecurringProfile\Model\RecurringProfile $profile
      * @param \Magento\Payment\Model\Info $paymentInfo
+     * @return void
      */
     public function submitRecurringProfile(\Magento\RecurringProfile\Model\RecurringProfile $profile, \Magento\Payment\Model\Info $paymentInfo);
 
@@ -35,6 +37,7 @@ interface MethodInterface
      *
      * @param string $referenceId
      * @param \Magento\Object $result
+     * @return void
      */
     public function getRecurringProfileDetails($referenceId, \Magento\Object $result);
 
@@ -49,6 +52,7 @@ interface MethodInterface
      * Update data
      *
      * @param \Magento\RecurringProfile\Model\RecurringProfile $profile
+     * @return void
      */
     public function updateRecurringProfile(\Magento\RecurringProfile\Model\RecurringProfile $profile);
 
@@ -56,6 +60,7 @@ interface MethodInterface
      * Manage status
      *
      * @param \Magento\RecurringProfile\Model\RecurringProfile $profile
+     * @return void
      */
     public function updateRecurringProfileStatus(\Magento\RecurringProfile\Model\RecurringProfile $profile);
 }

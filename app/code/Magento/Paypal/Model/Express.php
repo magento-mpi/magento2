@@ -577,7 +577,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
      * Validate RP data
      *
      * @param RecurringProfile $profile
-     * @return null
+     * @return void
      */
     public function validateRecurringProfile(RecurringProfile $profile)
     {
@@ -606,7 +606,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
      *
      * @param string $referenceId
      * @param \Magento\Object $result
-     * @return null
+     * @return void
      */
     public function getRecurringProfileDetails($referenceId, \Magento\Object $result)
     {
@@ -627,7 +627,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
      * Update RP data
      *
      * @param RecurringProfile $profile
-     * @return null
+     * @return void
      */
     public function updateRecurringProfile(RecurringProfile $profile)
     {
@@ -638,7 +638,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
      * Manage status
      *
      * @param RecurringProfile $profile
-     * @return null
+     * @return void
      */
     public function updateRecurringProfileStatus(RecurringProfile $profile)
     {

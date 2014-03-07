@@ -21,6 +21,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Define price collection
      *
+     * @return void
      */
     protected function _construct()
     {

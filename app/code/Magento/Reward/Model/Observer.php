@@ -9,6 +9,8 @@
  */
 namespace Magento\Reward\Model;
 
+use Magento\Customer\Model\Converter;
+
 /**
  * Reward observer
  *
@@ -77,7 +79,7 @@ class Observer
      */
     protected $_rateFactory;
 
-    /** @var \Magento\Customer\Model\Converter */
+    /** @var Converter */
     protected $_customerConverter;
 
     /**
@@ -92,6 +94,7 @@ class Observer
      * @param \Magento\Reward\Model\Resource\Reward\HistoryFactory $historyItemFactory
      * @param \Magento\Reward\Model\Resource\RewardFactory $rewardResourceFactory
      * @param \Magento\Reward\Model\Reward\RateFactory $rateFactory
+     * @param Converter $customerConverter
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
@@ -105,7 +108,7 @@ class Observer
         \Magento\Reward\Model\Resource\Reward\HistoryFactory $historyItemFactory,
         \Magento\Reward\Model\Resource\RewardFactory $rewardResourceFactory,
         \Magento\Reward\Model\Reward\RateFactory $rateFactory,
-        \Magento\Customer\Model\Converter $customerConverter
+        Converter $customerConverter
     ) {
         $this->_coreData = $coreData;
         $this->_rewardData = $rewardData;
