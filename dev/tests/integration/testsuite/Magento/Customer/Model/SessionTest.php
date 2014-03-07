@@ -47,8 +47,6 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     {
         $fixtureCustomerId = 1;
 
-        /** @var \Magento\Customer\Model\Customer $customer */
-        $customer = Bootstrap::getObjectManager()->create('Magento\Customer\Model\Customer')->load($fixtureCustomerId);
         /** @var \Magento\Customer\Model\Session $customerSession */
         $customerSession = Bootstrap::getObjectManager()->get('Magento\Customer\Model\Session');
         $customerSession->loginById($fixtureCustomerId);
