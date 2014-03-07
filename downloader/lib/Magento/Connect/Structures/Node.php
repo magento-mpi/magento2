@@ -153,7 +153,6 @@ class Node
         $this->_arcs[] =& $destinationNode;
     }
 
-
     /**
      * Connect this node to another one.
      * If the graph is not directed, the reverse arc, connecting $destinationNode to $this is also created.

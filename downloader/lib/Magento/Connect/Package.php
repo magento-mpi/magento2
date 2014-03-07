@@ -1475,7 +1475,7 @@ END;
     }
 
     /**
-     * Convert package channel in order for it to be compatible with previous version of Magento Connect Manager
+     * Convert package channel in order for it to be compatible with current version of Magento Connect Manager
      *
      * @param string $channel
      * @return string

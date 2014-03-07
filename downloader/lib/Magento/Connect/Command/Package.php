@@ -29,7 +29,7 @@ extends \Magento\Connect\Command
      * @param string $command
      * @param array $options
      * @param array $params
-     * @return null
+     * @return void|null
      */
     public function doPackage($command, $options, $params)
     {
