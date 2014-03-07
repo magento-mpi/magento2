@@ -6,7 +6,7 @@
  */
 /*jshint browser:true jquery:true*/
 
-define(["jquery", "jquery.parsequery"], function($){
+define(['jquery', 'jquery-ui', 'jquery.parsequery'], function($){
     $.widget('mage.configurable', {
         options: {
             superSelector: '.super-attribute-select',
