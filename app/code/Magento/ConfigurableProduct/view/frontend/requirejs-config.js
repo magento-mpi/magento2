@@ -1,3 +1,10 @@
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
 var config = {
     shim: {
         'jquery.parsequery': {
@@ -7,4 +14,4 @@ var config = {
     paths: {
         'jquery.parsequery': 'jquery/jquery.parsequery'
     }
-}
+};
