@@ -405,7 +405,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
                     // Create empty quote item. Otherwise it won't be correctly treated inside failed.phtml
                     $collectionItem = $this->_quoteItemFactory->create()
                         ->setProduct($this->_productFactory->create())
-                        //->setQuote($quote)
                         ->addData($item['item']);
                     $quoteItemsCollection[] = $collectionItem;
                 }
