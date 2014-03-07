@@ -96,7 +96,7 @@ class ConfigData
     }
 
     /**
-     *  Unset indexer data in configuration if flat is disabled
+     *  Invalidation indexer after configuration of permission was changed
      *
      * @param \Magento\Backend\Model\Config $subject
      * @param \Closure $proceed
