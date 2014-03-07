@@ -206,6 +206,7 @@ class Observer
      *
      * @param \Magento\Rule\Model\Condition\Combine $combine
      * @param string $attributeCode
+     * @return void
      */
     protected function _removeAttributeFromConditions($combine, $attributeCode)
     {
