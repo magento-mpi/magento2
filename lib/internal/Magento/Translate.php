@@ -400,11 +400,13 @@ class Translate implements \Magento\TranslateInterface
         $requiredLocaleList = $this->_composeRequiredLocaleList($this->getLocale());
         foreach ($requiredLocaleList as $locale) {
             $file = $this->_getThemeTranslationFile($locale, $area);
-            $this->_addData(
-                $this->_getFileData($file),
-                self::CONFIG_KEY_DESIGN_THEME . $this->_config[self::CONFIG_KEY_DESIGN_THEME],
-                $forceReload
-            );
+            if ($file) {
+                $this->_addData(
+                    $this->_getFileData($file),
+                    self::CONFIG_KEY_DESIGN_THEME . $this->_config[self::CONFIG_KEY_DESIGN_THEME],
+                    $forceReload
+                );
+            }
         }
         return $this;
     }

@@ -72,18 +72,19 @@ class Csv
         $this->_enclosure = $enclosure;
         return $this;
     }
-    
+
     /**
      * Retrieve CSV file data as array
      *
      * @param   string $file
+     * @throws \InvalidArgumentException
      * @return  array
      */
     public function getData($file)
     {
         $data = array();
         if (!file_exists($file)) {
-            throw new \Exception('File "'.$file.'" do not exists');
+            throw new \InvalidArgumentException('File "'.$file.'" does not exist');
         }
         
         $fh = fopen($file, 'r');

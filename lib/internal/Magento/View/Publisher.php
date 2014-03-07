@@ -169,7 +169,7 @@ class Publisher implements FilesManagerInterface
     protected function publishFile(Publisher\FileInterface $publisherFile)
     {
         $asset = $this->viewService->createAsset($publisherFile->getFilePath(), $publisherFile->getViewParams());
-        $this->viewService->publishAsset($asset);
+        $this->viewService->publish($asset);
         $this->viewFileSystem->notifyViewFileLocationChanged($publisherFile);
     }
 }
