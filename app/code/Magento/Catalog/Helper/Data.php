@@ -31,6 +31,13 @@ class Data extends \Magento\App\Helper\AbstractHelper
     const XML_PATH_MSRP_EXPLANATION_MESSAGE = 'sales/msrp/explanation_message';
     const XML_PATH_MSRP_EXPLANATION_MESSAGE_WHATS_THIS = 'sales/msrp/explanation_message_whats_this';
 
+    /**
+     * Cache context
+     */
+    const CONTEXT_CATALOG_SORT_DIRECTION = 'catalog_sort_direction';
+    const CONTEXT_CATALOG_SORT_ORDER = 'catalog_sort_order';
+    const CONTEXT_CATALOG_DISPLAY_MODE = 'catalog_mode';
+    const CONTEXT_CATALOG_LIMIT = 'catalog_limit';
 
     /**
      * Breadcrumb Path cache
