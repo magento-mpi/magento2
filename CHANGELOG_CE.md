@@ -11,12 +11,17 @@
   * [#244](https://github.com/magento/magento2/issues/244) -- Retrieve base host URL without path in error processor
   * [#411](https://github.com/magento/magento2/issues/411) -- Missed column 'payment_method' of table 'sales_flat_quote_address'
   * [#284](https://github.com/magento/magento2/pull/284) -- Fix for Issue #278 (Import -> Stores with large amount of Configurable Products)
+  * [#491](https://github.com/magento/magento2/pull/491) -- Fixed bug, incorrect auto-generation Category URL for some groups of symbols (idish, cirrilic, é, ä, and other).
+  * [#480](https://github.com/magento/magento2/pull/480) -- Fixing a bug for loading config from local.xml
+  * [#472](https://github.com/magento/magento2/issues/472) -- Params passed in pub/index.php being overwritten
+  * [#461](https://github.com/magento/magento2/pull/461) -- Use translates for Quote\Address\Total\Shipping
 * Fixed bugs:
   * Fixed transaction rollback in fetchNewIncrementId on exception
   * Fixed category saveing when it has more than 1000 products
   * Fixed error messages displayed during installation when required extensions are not installed
   * Fixed synopsis of install.php script
   * Fixed absence of payment scheduled in shopping cart for products with recurring profile
+  * Fixed code coverage fails for Magento\SalesRule\Model\Rule\Action\Discount\CartFixedTest
 * Modularity improvements:
   * Introduced Offline Payments module
   * Added ability to enable/disable Paypal module
