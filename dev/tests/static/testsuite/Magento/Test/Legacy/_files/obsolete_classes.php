@@ -2228,4 +2228,6 @@ return array(
         'Magento\Shipping\Model\Config\Source\Online\Requesttype'
     ],
     ['Magento\Catalog\Helper\Product\Url', 'Magento\Filter\Translit'],
+    array('Magento\Catalog\Model\Product\Indexer\Price'),
+    array('Magento\Catalog\Model\Resource\Product\Indexer\Price'),
 );

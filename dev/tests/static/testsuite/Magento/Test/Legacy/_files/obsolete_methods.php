@@ -1226,7 +1226,7 @@ return array(
     array('getFileIdentifier', 'Magento\View\Layout\File\FileList', 'Magento\View\Layout\File'),
     array('_getInitialXml', 'Magento\Config\Theme'),
     array('_getIdAttributes', 'Magento\Config\Theme'),
-    [
+    array(
         'getAllPeriodUnits',
         'Magento\Payment\Model\Recurring\Profile',
         'Magento\RecurringPayment\Model\PeriodUnits::toOptionArray'
@@ -1435,4 +1435,5 @@ return array(
     ['getMeasureWeightName', 'Magento\Usa\Helper\Data', 'Magento\Shipping\Helper\Carrier::getMeasureWeightName'],
     ['getMeasureDimensionName', 'Magento\Usa\Helper\Data', 'Magento\Shipping\Helper\Carrier::getMeasureDimensionName'],
     ['displayGirthValue', 'Magento\Usa\Helper\Data', 'Magento\Usps\Helper\Data::displayGirthValue'],
+    array('reindexProductPrices', '\Magento\Catalog\Model\Observer')
 );
