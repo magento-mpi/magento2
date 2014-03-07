@@ -99,9 +99,6 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
                     $content = file_get_contents($originalViewFile);
                     preg_match_all(\Magento\View\Url\CssResolver::REGEX_CSS_RELATIVE_URLS, $content, $matches);
                     $absentFiles = array();
-                    if (!empty($matches[1])) {
-                        echo $originalViewFile . "\n";
-                    }
                     foreach ($matches[1] as $relatedSource) {
                         $relatedParams = $params;
                         $originalRelatedSource = $relatedSource;
