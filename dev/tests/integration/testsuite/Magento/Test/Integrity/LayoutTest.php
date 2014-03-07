@@ -94,7 +94,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
             ->create('Magento\View\Design\ThemeInterface')->getCollection();
         /** @var $theme \Magento\View\Design\ThemeInterface */
         foreach ($themeCollection as $theme) {
-            $result[] = array($theme);
+            $result[$theme->getFullPath() . ' ['. $theme->getId() .']'] = array($theme);
         }
         return $result;
     }
@@ -175,7 +175,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
         }
         $result = array();
         foreach ($themeLayouts as $layout) {
-            $result[] = array($layout);
+            $result[$layout->getFileIdentifier()] = array($layout);
         }
         return $result;
     }
