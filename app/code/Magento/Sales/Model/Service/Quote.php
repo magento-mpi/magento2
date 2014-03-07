@@ -13,7 +13,6 @@ use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\Dto\AddressBuilder;
 use Magento\Customer\Service\V1\Dto\CustomerDetailsBuilder;
 use Magento\Customer\Service\V1\Dto\Customer as CustomerDto;
-use Magento\Customer\Service\V1\Dto\Response\CreateCustomerAccountResponse;
 
 /**
  * Quote submit service model
@@ -86,11 +85,6 @@ class Quote
      * @var AddressBuilder
      */
     protected $_customerAddressBuilder;
-
-    /**
-     * @var CreateCustomerAccountResponse
-     */
-    protected $_createCustomerResponse;
 
     /**
      * @var  CustomerDetailsBuilder
@@ -313,18 +307,15 @@ class Quote
             } else { //for new customers
                 $customerDetails =
                     $this->_customerDetailsBuilder->setCustomer($customer)->setAddresses($addresses)->create();
-                $this->_createCustomerResponse = $this->_customerAccountService->createAccount(
+                $customer = $this->_customerAccountService->createAccount(
                     $customerDetails,
                     null,
                     '',
                     '',
                     $quote->getStoreId()
                 );
-                $customer = $this->_customerAccountService->getCustomer(
-                    $this->_createCustomerResponse->getCustomerId()
-                );
                 $addresses = $this->_customerAddressService->getAddresses(
-                    $this->_createCustomerResponse->getCustomerId()
+                    $customer->getCustomerId()
                 );
                 //Update quote address information
                 foreach ($addresses as $address) {

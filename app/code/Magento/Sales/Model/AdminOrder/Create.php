@@ -1506,7 +1506,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         }
         $data = $form->restoreData($data);
         foreach ($data as $key => $value) {
-            if(!is_null($value)){
+            if (!is_null($value)) {
                 unset($data[$key]);
             }
         }
@@ -1535,7 +1535,11 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
             $customerDto = $this->_customerBuilder->mergeDtoWithArray(
                 $customerDto,
                 /** Unset customer ID to ensure that new customer will be created */
-                [CustomerDto::STORE_ID => $store->getId(), CustomerDto::ID => null, CustomerDto::CREATED_AT => null]
+                [CustomerDto::STORE_ID   => $store->getId(),
+                 CustomerDto::ID         => null,
+                 CustomerDto::CREATED_AT => null,
+                 CustomerDto::WEBSITE_ID => $store->getWebsiteId()
+                ]
             );
             $customerDto = $this->_validateCustomerData($customerDto);
         } else if (!$customerDto->getCustomerId()) {
