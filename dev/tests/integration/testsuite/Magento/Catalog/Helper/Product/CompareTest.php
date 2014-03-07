@@ -73,7 +73,7 @@ class CompareTest extends \PHPUnit_Framework_TestCase
 
     public function testGetClearListUrl()
     {
-        $this->assertContains('/catalog/product_compare/clear/', $this->_helper->getPostDataClearList());
+        $this->assertContains('\/catalog\/product_compare\/clear\/', $this->_helper->getPostDataClearList());
     }
 
     /**

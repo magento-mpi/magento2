@@ -141,9 +141,12 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct implements \Ma
     protected function _prepareLayout()
     {
         $this->getLayout()->createBlock('Magento\Catalog\Block\Breadcrumbs');
+        $product = $this->getProduct();
+        if (!$product) {
+            return parent::_prepareLayout();
+        }
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
-            $product = $this->getProduct();
             $title = $product->getMetaTitle();
             if ($title) {
                 $headBlock->setTitle($title);
@@ -178,9 +181,8 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct implements \Ma
         }
         $pageMainTitle = $this->getLayout()->getBlock('page.main.title');
         if ($pageMainTitle) {
-            $pageMainTitle->setPageTitle($this->getProduct()->getName());
+            $pageMainTitle->setPageTitle($product->getName());
         }
-
         return parent::_prepareLayout();
     }
 
