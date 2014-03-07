@@ -35,8 +35,6 @@ class SearchResults extends \Magento\Service\Entity\AbstractDto
     /**
      * Get total count
      *
-     * Get total count
-     *
      * @return int
      */
     public function getTotalCount()
