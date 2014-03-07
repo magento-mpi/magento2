@@ -101,7 +101,7 @@ class ServiceArgsSerializer
             /** This pattern will help to skip parameters declarations which precede to the current one */
             $precedingParamsPattern = str_repeat('.*\@param.*', $param->getPosition());
             $paramType = str_replace('\\', '\\\\', $param->getType());
-            if (preg_match("/.*{$precedingParamsPattern}\@param\s+({$paramType}\[\]).*/i", $docBlock->getContents())) {
+            if (preg_match("/.*{$precedingParamsPattern}\@param\s+({$paramType}\[\]).*/is", $docBlock->getContents())) {
                 $isArray = true;
             }
         }

@@ -26,7 +26,7 @@ interface CustomerAddressServiceInterface
      * Retrieve default billing address
      *
      * @param int $customerId
-     * @return \Magento\Customer\Service\V1\Dto\Address|null
+     * @return \Magento\Customer\Service\V1\Dto\Address
      * @throws \Magento\Exception\NoSuchEntityException If the customer Id is invalid
      */
     public function getDefaultBillingAddress($customerId);
@@ -35,7 +35,7 @@ interface CustomerAddressServiceInterface
      * Retrieve default shipping address
      *
      * @param int $customerId
-     * @return \Magento\Customer\Service\V1\Dto\Address|null
+     * @return \Magento\Customer\Service\V1\Dto\Address
      * @throws \Magento\Exception\NoSuchEntityException If the customer Id is invalid
      */
     public function getDefaultShippingAddress($customerId);

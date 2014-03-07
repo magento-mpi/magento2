@@ -440,21 +440,6 @@ class CustomerGroupServiceTest extends WebapiAbstract
     }
 
     /**
-     * Transform an array. Convert all camelCase keys to camel_case.
-     *
-     * @param array $groupData An array of group data.
-     * @return array The array with all camelCase keys converted to camel_case.
-     */
-    private function decamelize($groupData)
-    {
-        $data = [];
-        foreach ($groupData as $key => $value) {
-            $data[strtolower(preg_replace("/(?<=\\w)(?=[A-Z])/", "_$1", $key))] = $value;
-        }
-        return $data;
-    }
-
-    /**
      * Create a test group.
      *
      * @param CustomerGroup $group The group to create and save.
