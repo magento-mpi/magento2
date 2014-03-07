@@ -34,14 +34,14 @@ class MapperTest extends \PHPUnit_Framework_TestCase
 
     public function testAccumulateByMapWhenToIsArrayFromIsObject()
     {
-        $map['key'] = 'value';
-        $to['key'] = 'value';
-        $default['new_key'] = 'value';
+        $map['key'] = 'map_value';
+        $to['key'] = 'from_value';
+        $default['new_key'] = 'default_value';
         $this->fromMock->expects($this->once())->method('hasData')->with('key')->will($this->returnValue(true));
-        $this->fromMock->expects($this->once())->method('getData')->with('key')->will($this->returnValue('value'));
-        $expected['key'] = 'value';
-        $expected['value'] = 'value';
-        $expected['new_key'] = 'value';
+        $this->fromMock->expects($this->once())->method('getData')->with('key')->will($this->returnValue('from_value'));
+        $expected['key'] = 'from_value';
+        $expected['map_value'] = 'from_value';
+        $expected['new_key'] = 'default_value';
         $this->assertEquals($expected, $this->mapper->accumulateByMap($this->fromMock, $to, $map, $default));
     }
 
@@ -65,9 +65,9 @@ class MapperTest extends \PHPUnit_Framework_TestCase
 
     public function testAccumulateByMapWhenFromIsArrayToIsObject()
     {
-        $map['key'] = 'value';
-        $from['key'] = 'value';
-        $default['new_key'] = 'value';
+        $map['key'] = 'map_value';
+        $from['key'] = 'from_value';
+        $default['new_key'] = 'default_value';
         $this->toMock->expects($this->exactly(2))->method('setData');
         $this->assertEquals($this->toMock, $this->mapper->accumulateByMap($from, $this->toMock, $map, $default));
 
@@ -75,12 +75,12 @@ class MapperTest extends \PHPUnit_Framework_TestCase
 
     public function testAccumulateByMapFromAndToAreArrays()
     {
-        $from['value'] = 'value';
+        $from['value'] = 'from_value';
         $map[false] = 'value';
-        $to['key'] = 'value';
+        $to['key'] = 'to_value';
         $default['new_key'] = 'value';
-        $expected['key'] = 'value';
-        $expected['value'] = 'value';
+        $expected['key'] = 'to_value';
+        $expected['value'] = 'from_value';
         $expected['new_key'] = 'value';
         $this->assertEquals($expected, $this->mapper->accumulateByMap($from, $to, $map, $default));
 

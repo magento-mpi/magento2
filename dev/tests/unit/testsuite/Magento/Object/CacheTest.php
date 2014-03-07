@@ -57,10 +57,12 @@ class CacheTest extends \PHPUnit_Framework_TestCase
 
     }
 
+    /**
+     * @expectedException \Magento\Exception
+     * @expectedExceptionMessage The reference already exists: refName. New index: idx, old index: idx
+     */
     public function testReferenceWhenReferenceAlreadyExist()
     {
-        $this->setExpectedException('Magento\Exception',
-            'The reference already exists: refName. New index: idx, old index: idx');
         $refName = array('refName', 'refName');
         $this->cache->reference($refName, 'idx');
     }

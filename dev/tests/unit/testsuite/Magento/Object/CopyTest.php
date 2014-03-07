@@ -40,7 +40,7 @@ class CopyTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->fieldsetConfigMock = $this->getMock('Magento\Object\Copy\Config', array(), array(), '', false);
-        $this->eventManagerMock = $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false);
+        $this->eventManagerMock = $this->getMock('Magento\Event\ManagerInterface');
         $this->sourceMock = $this->getMock('Magento\Object', array(), array(), '', false);
         $this->targetMock = $this->getMock('Magento\Object', array(), array(), '', false);
         $this->copy = new \Magento\Object\Copy(
@@ -173,7 +173,7 @@ class CopyTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($this->copy->getDataFromFieldset('fieldset', 'aspect', $this->sourceMock));
     }
 
-    public function testGetCopyFieldsetToTargetWhenFieldExists()
+    public function testGetCopyFieldsetWhenFieldExists()
     {
         $fields['code']['aspect'] = 'value';
         $this->fieldsetConfigMock
@@ -192,7 +192,7 @@ class CopyTest extends \PHPUnit_Framework_TestCase
     }
 
 
-    public function testGetCopyFieldsetToTargetWhenFieldNotExists()
+    public function testGetCopyFieldsetWhenFieldNotExists()
     {
         $fields['code']['aspect'] = array();
         $this->fieldsetConfigMock
