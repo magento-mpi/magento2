@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Multishipping\Block\Checkout\Address;
 
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
@@ -55,6 +54,9 @@ class Select extends \Magento\Multishipping\Block\Checkout\AbstractMultishipping
      */
     protected $_isScopePrivate = true;
 
+    /**
+     * @return $this
+     */
     protected function _prepareLayout()
     {
         if ($headBlock = $this->getLayout()->getBlock('head')) {
@@ -144,11 +146,17 @@ class Select extends \Magento\Multishipping\Block\Checkout\AbstractMultishipping
         return $this->getUrl('*/*/setBilling', array('id' => $address->getId()));
     }
 
+    /**
+     * @return string
+     */
     public function getAddNewUrl()
     {
         return $this->getUrl('*/*/newBilling');
     }
 
+    /**
+     * @return string
+     */
     public function getBackUrl()
     {
         return $this->getUrl('*/checkout/billing');

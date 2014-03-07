@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Multishipping\Block\Checkout;
 
 /**
  * Multishipping billing information
@@ -15,8 +16,6 @@
  * @package    Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Multishipping\Block\Checkout;
-
 class Billing extends \Magento\Payment\Block\Form\Container
 {
     /**
@@ -59,6 +58,8 @@ class Billing extends \Magento\Payment\Block\Form\Container
 
     /**
      * Prepare children blocks
+     *
+     * @return $this
      */
     protected function _prepareLayout()
     {
