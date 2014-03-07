@@ -20,7 +20,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
         $this->model = new \Magento\Customer\Model\Config\Source\Address\Type();
     }
 
-    public function test()
+    public function testToOptionArray()
     {
         $expected = array('billing' => 'Billing Address','shipping' => 'Shipping Address');
         $this->assertEquals($expected, $this->model->toOptionArray());
