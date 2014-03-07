@@ -25,11 +25,6 @@ use Magento\Backend\Test\Block\Widget\Tab;
 class Config extends Tab
 {
     /**
-     * Tab where bundle options section is placed
-     */
-    const GROUP_PRODUCT_DETAILS = 'product_info_tabs_product-details';
-
-    /**
      * 'Generate Variations' button
      *
      * @var string
@@ -49,17 +44,6 @@ class Config extends Tab
      * @var string
      */
     protected $attribute = '//div[*/*/span="%s"]';
-
-    /**
-     * Open Variations section
-     *
-     * @param Element $context
-     */
-    public function open(Element $context = null)
-    {
-        $element = $context ? : $this->_rootElement;
-        $element->find(static::GROUP_PRODUCT_DETAILS, Locator::SELECTOR_ID)->click();
-    }
 
     /**
      * Get attribute block
@@ -101,9 +85,13 @@ class Config extends Tab
      *
      * @param array $fields
      * @param Element $element
+     * @return $this
      */
     public function fillFormTab(array $fields, Element $element)
     {
+        if (!isset($fields['configurable_attributes_data'])) {
+            return $this;
+        }
         $attributes = $fields['configurable_attributes_data']['value'];
         foreach ($attributes as $attribute) {
             $this->selectAttribute($attribute['label']['value']);
@@ -111,6 +99,8 @@ class Config extends Tab
         $this->fillAttributeOptions($attributes);
         $this->generateVariations();
         $this->fillVariationsMatrix($fields['variations-matrix']['value']);
+
+        return $this;
     }
 
     /**

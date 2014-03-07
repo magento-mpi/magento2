@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <module name="Magento_PbridgePaypal" version="1.0.0.0" active="false">
+        <sequence>
+            <module name="Magento_Pbridge"/>
+        </sequence>
+        <depends>
+            <module name="Magento_Pbridge"/>
+            <module name="Magento_Paypal"/>
+            <module name="Magento_Core"/>
+            <module name="Magento_Payment"/>
+            <module name="Magento_Sales"/>
+            <module name="Magento_Centinel"/>
+        </depends>
+    </module>
+</config>

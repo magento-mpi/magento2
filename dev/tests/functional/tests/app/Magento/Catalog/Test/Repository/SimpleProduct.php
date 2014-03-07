@@ -36,7 +36,7 @@ class SimpleProduct extends Product
     /**
      * {inheritdoc}
      */
-    public function __construct(array $defaultConfig, array $defaultData)
+    public function __construct(array $defaultConfig = array(), array $defaultData = array())
     {
         parent::__construct($defaultConfig, $defaultData);
         $this->_data[self::ADVANCED_INVENTORY] = $this->getSimpleAdvancedInventory();

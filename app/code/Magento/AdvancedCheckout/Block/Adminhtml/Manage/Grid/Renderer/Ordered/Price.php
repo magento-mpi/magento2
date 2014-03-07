@@ -31,7 +31,7 @@ class Price
         $priceInitial = sprintf("%f", $priceInitial);
         $currencyCode = $this->_getCurrencyCode($row);
         if ($currencyCode) {
-            $priceInitial = $this->_locale->currency($currencyCode)->toCurrency($priceInitial);
+            $priceInitial = $this->_localeCurrency->getCurrency($currencyCode)->toCurrency($priceInitial);
         }
 
         return $priceInitial;

@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Search\Block\Catalog\Layer;
 
 /**
  * Catalog layered navigation view block
@@ -15,8 +16,6 @@
  * @package     Magento_Search
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Search\Block\Catalog\Layer;
-
 class View extends \Magento\Catalog\Block\Layer\View
 {
     /**
@@ -54,6 +53,8 @@ class View extends \Magento\Catalog\Block\Layer\View
 
     /**
      * Initialize blocks names
+     *
+     * @return void
      */
     protected function _initBlocks()
     {
@@ -70,7 +71,7 @@ class View extends \Magento\Catalog\Block\Layer\View
     /**
      * Prepare child blocks
      *
-     * @return \Magento\Search\Block\Catalog\Layer\View
+     * @return $this
      */
     protected function _prepareLayout()
     {

@@ -8,10 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-
-$objectManager->get('Magento\Core\Model\Locale')->setLocale('de_DE');
 
 /** @var $query \Magento\CatalogSearch\Model\Query */
 $query = $objectManager->create('Magento\CatalogSearch\Model\Query');

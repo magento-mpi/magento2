@@ -497,7 +497,6 @@
                 continueSelector: '#review-buttons-container .button',
                 container: '#opc-review',
                 agreementFormSelector:'#checkout-agreements input[type="checkbox"]',
-                submitContainer: '#checkout-review-submit'
             }
         },
 
@@ -506,14 +505,6 @@
             var events = {};
             events['click ' + this.options.review.continueSelector] = this._saveOrder;
             events['saveOrder' + this.options.review.container] = this._saveOrder;
-            events['contentUpdated' + this.options.review.container] = function() {
-                var paypalIframe = this.element.find(this.options.review.container)
-                    .find('[data-container="paypal-iframe"]');
-                if (paypalIframe.length) {
-                    paypalIframe.show();
-                    $(this.options.review.submitContainer).hide();
-                }
-            };
             this._on(events);
         },
 

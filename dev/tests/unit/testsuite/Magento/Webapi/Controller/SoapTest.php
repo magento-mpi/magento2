@@ -39,7 +39,7 @@ class SoapTest extends \PHPUnit_Framework_TestCase
     protected $_oauthServiceMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Locale\ResolverInterface
      */
     protected $_localeMock;
 
@@ -73,12 +73,22 @@ class SoapTest extends \PHPUnit_Framework_TestCase
         $this->_appStateMock =  $this->getMockBuilder('Magento\App\State')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_localeMock = $this->getMock(
-            'Magento\Core\Model\Locale', array('getLocale', 'getLanguage'), array(), '', false
-        );
+        $localeMock =  $this->getMockBuilder('Magento\Locale')
+            ->disableOriginalConstructor()
+            ->setMethods(array('getLanguage'))
+            ->getMock();
+        $localeMock->expects($this->any())->method('getLanguage')->will($this->returnValue('en'));
 
-        $this->_localeMock->expects($this->any())->method('getLocale')->will($this->returnValue($this->_localeMock));
-        $this->_localeMock->expects($this->any())->method('getLanguage')->will($this->returnValue('en'));
+        $localeResolverMock =  $this->getMockBuilder('Magento\Locale\Resolver')
+            ->disableOriginalConstructor()
+            ->setMethods(array('getLocale'))
+            ->getMock();
+        $localeResolverMock->expects($this->any())->method('getLocale')->will($this->returnValue($localeMock));
+
+        $this->_applicationMock =  $this->getMockBuilder('Magento\Core\Model\App')
+            ->disableOriginalConstructor()
+            ->setMethods(array('getLocale', 'isDeveloperMode'))
+            ->getMock();
 
         $this->_applicationMock =  $this->getMockBuilder('Magento\Core\Model\App')
             ->disableOriginalConstructor()
@@ -105,7 +115,7 @@ class SoapTest extends \PHPUnit_Framework_TestCase
             $this->_appStateMock,
             $this->_applicationMock,
             $this->_oauthServiceMock,
-            $this->_localeMock
+            $localeResolverMock
         );
     }
 
