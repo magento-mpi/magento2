@@ -36,7 +36,7 @@ class Matrix extends Form
                 if (!empty($this->mapping[$key])) {
                     $this->_rootElement->find(
                         $variationRow . $this->mapping[$key]['selector'],
-                        $variationRow . $this->mapping[$key]['strategy'],
+                        Locator::SELECTOR_XPATH,
                         isset($this->mapping[$key]['input']) ? $this->mapping[$key]['input'] : null
                     )->setValue($field['value']);
                 }

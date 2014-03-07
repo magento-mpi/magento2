@@ -11,10 +11,11 @@
     <fields>
         <display>
             <selector>//*[@data-column='display']/input</selector>
+            <strategy>xpath</strategy>
             <input>checkbox</input>
         </display>
         <name>
-            <selector>//*[@data-column='name']/input</selector>\
+            <selector>//*[@data-column='name']/input</selector>
             <strategy>xpath</strategy>
         </name>
         <sku>

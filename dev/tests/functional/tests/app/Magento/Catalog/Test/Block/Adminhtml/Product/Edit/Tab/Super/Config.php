@@ -46,11 +46,11 @@ class Config extends Tab
     protected $attribute = '//div[*/*/span="%s"]';
 
     /**
-     * Backend abstract block
+     * Magento loader
      *
      * @var string
      */
-    protected $templateBlock = './ancestor::body';
+    protected $loader = '[data-role=loader]';
 
     /**
      * Attribute Opened
@@ -65,18 +65,6 @@ class Config extends Tab
      * @var string
      */
     protected $attributeTab = '//*[@data-role="configurable-attribute"]//*[text()="%attributeTab%"]';
-
-    /**
-     * Get backend abstract block
-     *
-     * @return \Magento\Backend\Test\Block\Template
-     */
-    protected function getTemplateBlock()
-    {
-        return Factory::getBlockFactory()->getMagentoBackendTemplate(
-            $this->_rootElement->find($this->templateBlock, Locator::SELECTOR_XPATH)
-        );
-    }
 
     /**
      * Get attribute block
@@ -110,8 +98,15 @@ class Config extends Tab
      */
     public function generateVariations()
     {
-        $this->_rootElement->find($this->generateVariations, Locator::SELECTOR_CSS)->click();
-        $this->getTemplateBlock()->waitLoader();
+        $browser = $this->_rootElement;
+        $browser->find($this->generateVariations, Locator::SELECTOR_CSS)->click();
+        $loaderSelector = $this->loader;
+        $browser->waitUntil(
+            function () use ($browser, $loaderSelector) {
+                $loaderElement = $browser->find($loaderSelector);
+                return $loaderElement->isVisible() == false ? true : null;
+            }
+        );
     }
 
     /**
