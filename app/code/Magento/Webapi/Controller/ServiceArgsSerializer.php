@@ -121,22 +121,17 @@ class ServiceArgsSerializer
     {
         $className = is_string($class) ? $class : $class->getName();
         $builder = $this->_objectManager->create($className . "Builder");
-        try {
-            $class = new ClassReflection($className);
-            foreach ($data as $propertyName => $value) {
-                // Converts snake_case to uppercase CamelCase to help form getter/setter method names
-                $camelCaseProperty = str_replace(' ', '', ucwords(str_replace('_', ' ', $propertyName)));
-                $getterName = 'get' . $camelCaseProperty;
-                $methodReflection = $class->getMethod($getterName);
-                if ($methodReflection->isPublic()) {
-                    $returnType = $this->_typeProcessor->getGetterReturnType($methodReflection)['type'];
-                    $setterName = 'set' . $camelCaseProperty;
-                    $builder->$setterName($this->_convertValue($value, $returnType));
-                }
+        $class = new ClassReflection($className);
+        foreach ($data as $propertyName => $value) {
+            // Converts snake_case to uppercase CamelCase to help form getter/setter method names
+            $camelCaseProperty = str_replace(' ', '', ucwords(str_replace('_', ' ', $propertyName)));
+            $methodName = $this->_processGetterMethod($class, $camelCaseProperty);
+            $methodReflection = $class->getMethod($methodName);
+            if ($methodReflection->isPublic()) {
+                $returnType = $this->_typeProcessor->getGetterReturnType($methodReflection)['type'];
+                $setterName = 'set' . $camelCaseProperty;
+                $builder->$setterName($this->_convertValue($value, $returnType));
             }
-        } catch (\ReflectionException $e) {
-            // Case where data array contains keys with no matching setter methods
-            // TODO: do we need to do anything here or can we just ignore this and keep going?
         }
         $object = $builder->create();
         return $object;
@@ -164,5 +159,28 @@ class ServiceArgsSerializer
             $result = $value;
         }
         return $result;
+    }
+
+    /**
+     * Find the getter method for a given property in the Data Object class
+     *
+     * @param ClassReflection $class
+     * @param string $camelCaseProperty
+     * @return string processed method name
+     * @throws \Exception If $camelCaseProperty has no corresponding getter method
+     */
+    protected function _processGetterMethod($class, $camelCaseProperty)
+    {
+        $getterName = 'get' . $camelCaseProperty;
+        $boolGetterName = 'is' . $camelCaseProperty;
+        if ($class->hasMethod($getterName)) {
+            $methodName = $getterName;
+        } else if ($class->hasMethod($boolGetterName)) {
+            $methodName = $boolGetterName;
+        } else {
+            throw new \Exception('Property "' . $camelCaseProperty . '" does not exist in the "' . $class->getName() .
+                ' "Data object class');
+        }
+        return $methodName;
     }
 }
