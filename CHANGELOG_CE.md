@@ -28,6 +28,8 @@
   * Fedex Shipping Carrier Module introduced
   * UPS Shipping Carrier Module introduced
   * USPS Shipping Carrier Module introduced
+  * Deprecated GoogleCheckout functionality has been removed
+  * All dependencies on Recurring Payment Module has been removed
 * Framework Improvements:
   * Added ability to intercept of internal public calls
   * Added ability to access public interface of intercepted object
