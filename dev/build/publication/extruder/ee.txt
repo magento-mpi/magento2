@@ -149,3 +149,4 @@ dev/tools/xml/logging.xslt
 dev/tools/xml/transform_logging.php
 app/code/Magento/CacheInvalidate
 dev/tests/unit/testsuite/Magento/CacheInvalidate
+dev/tests/unit/testsuite/Magento/TargetRule
