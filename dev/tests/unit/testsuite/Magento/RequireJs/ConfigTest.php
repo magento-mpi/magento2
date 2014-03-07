@@ -137,7 +137,7 @@ require.config({
     "paths": {
         "magento": "mage/requirejs/plugin/id-normalizer"
     },
-    "waitSeconds": 200
+    "waitSeconds": 0
 });
 
 expected;
