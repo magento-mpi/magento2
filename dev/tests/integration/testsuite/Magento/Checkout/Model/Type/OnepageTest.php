@@ -145,9 +145,18 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @magentoAppIsolation enabled
+     * @magentoDataFixture Magento/Customer/_files/customer.php
      */
     public function testInitCheckoutNotLoggedIn()
     {
+        /* The customer session must be cleared before the real test begins. Need to
+           have a customer via the data fixture to actually log out. */
+        /** @var $customerSession \Magento\Customer\Model\Session*/
+        $customerSession = Bootstrap::getObjectManager()->create(
+            'Magento\Customer\Model\Session');
+        $customerSession->setCustomerId(1);
+        $customerSession->logout();
+
         $this->_model->saveBilling($this->_getCustomerData(), null);
         $this->_prepareQuote($this->_getQuote());
         $this->assertTrue($this->_model->getCheckout()->getSteps()['shipping']['allow']);

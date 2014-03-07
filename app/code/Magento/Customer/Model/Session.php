@@ -387,10 +387,11 @@ class Session extends \Magento\Session\SessionManager
     {
         $this->setCustomerDto($customerDto);
 
-        $customerModel = $this->_converter->getCustomerModel($customerDto->getCustomerId());
+        $customerModel = $this->_converter->createCustomerModel($customerDto);
         $this->setCustomer($customerModel);
 
         $this->_eventManager->dispatch('customer_login', array('customer' => $customerModel));
+
         return $this;
     }
 
