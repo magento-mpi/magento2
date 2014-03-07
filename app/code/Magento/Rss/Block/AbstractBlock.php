@@ -55,7 +55,7 @@ class AbstractBlock extends \Magento\View\Element\Template
     {
         $customerGroupId =   (int) $this->getRequest()->getParam('cid');
         if($customerGroupId == null) {
-            $customerGroupId = $this->httpContext->getValue(\Magento\CustomerSegment\Helper\Data::CONTEXT_SEGMENT);
+            $customerGroupId = $this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_GROUP);
         }
         return $customerGroupId;
     }

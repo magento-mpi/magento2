@@ -24,8 +24,8 @@
         <plugin name="page-cache-indexer-reindex-product-flat"
                 type="Magento\PageCache\Model\Indexer\Product\RefreshPlugin" sortOrder="10"/>
     </type>
-    <type name="Magento\Catalog\Model\Indexer\Product\Category">
-        <plugin name="page-cache-indexer-reindex-product-category"
-                type="Magento\PageCache\Model\Indexer\Category\RefreshPlugin" sortOrder="10"/>
+    <type name="Magento\Catalog\Model\Indexer\Category\Product">
+        <plugin name="page-cache-indexer-reindex-category-product"
+                type="Magento\PageCache\Model\Indexer\Product\RefreshPlugin" sortOrder="10"/>
     </type>
 </config>
