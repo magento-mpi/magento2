@@ -57,11 +57,11 @@
                         <item name="assign_group" xsi:type="array">
                             <item name="label" xsi:type="string" translate="true">Assign a Customer Group</item>
                             <item name="url" xsi:type="string">customer/*/massAssignGroup</item>
-                            <item name="block_name" xsi:type="string">groups</item>
+                            <item name="block_name" xsi:type="string">grid.groups</item>
                         </item>
                     </argument>
                 </arguments>
-                <block class="Magento\Backend\Block\Widget\Grid\Massaction\Additional" name="adminhtml.block.groups.massactions.status" as="groups">
+                <block class="Magento\Backend\Block\Widget\Grid\Massaction\Additional" name="admin.block.customer.grid.groups.massactions" as="grid.groups">
                     <arguments>
                         <argument name="fields" xsi:type="array">
                             <item name="visibility" xsi:type="array">
