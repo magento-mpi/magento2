@@ -26,13 +26,13 @@ class CustomerDetailsBuilderTest extends \PHPUnit_Framework_TestCase
      */
     private $_builder;
 
+
     protected function setUp()
     {
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_builder =
             $this->_objectManager->create('Magento\Customer\Service\V1\Data\CustomerDetailsBuilder');
     }
-
 
     /**
      * @param $customer
@@ -54,6 +54,9 @@ class CustomerDetailsBuilderTest extends \PHPUnit_Framework_TestCase
 
     public function createDataProvider()
     {
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $customerMetadataService = $objectManager->get('\Magento\Customer\Service\V1\CustomerMetadataServiceInterface');
+
         $customerData = [
             'group_id' => 1,
             'website_id' => 1,
@@ -86,10 +89,10 @@ class CustomerDetailsBuilderTest extends \PHPUnit_Framework_TestCase
                 'region' => 'Texas',
             ],
         ];
-        $customerBuilder = new CustomerBuilder();
+        $customerBuilder = new CustomerBuilder($customerMetadataService);
         $emptyCustomer = $customerBuilder->populateWithArray([])->create();
         $customer = $customerBuilder->populateWithArray($customerData)->create();
-        $addressBuilder = new AddressBuilder(new RegionBuilder());
+        $addressBuilder = new AddressBuilder(new RegionBuilder(), $customerMetadataService);
         $address = $addressBuilder->populateWithArray($addressData)->create();
         return [
             [null, null, $emptyCustomer, null],
@@ -133,6 +136,9 @@ class CustomerDetailsBuilderTest extends \PHPUnit_Framework_TestCase
 
     public function populateWithArrayDataProvider()
     {
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $customerMetadataService = $objectManager->get('\Magento\Customer\Service\V1\CustomerMetadataServiceInterface');
+
         $customer = [
             'group_id' => 1,
             'website_id' => 1,
@@ -177,10 +183,10 @@ class CustomerDetailsBuilderTest extends \PHPUnit_Framework_TestCase
             'id' => 2
         ];
 
-        $customerBuilder = new CustomerBuilder();
+        $customerBuilder = new CustomerBuilder($customerMetadataService);
         $emptyCustomer = $customerBuilder->populateWithArray([])->create();
         $customerSdo = $customerBuilder->populateWithArray($customer)->create();
-        $addressBuilder = new AddressBuilder(new RegionBuilder());
+        $addressBuilder = new AddressBuilder(new RegionBuilder(), $customerMetadataService);
         $addressSdoA = $addressBuilder->populateWithArray($address1)->create();
         $addressSdoB = $addressBuilder->populateWithArray($address2)->create();
         return [
