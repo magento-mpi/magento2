@@ -158,7 +158,7 @@ class ServiceArgsSerializer
                 $result = $this->_createFromArray($type, $value);
             }
         } else {
-            $result = $value;
+            $result = $this->_typeProcessor->processSimpleType($value, $type);
         }
         return $result;
     }

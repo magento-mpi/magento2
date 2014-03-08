@@ -358,4 +358,32 @@ class TypeProcessor
     {
         return 'ArrayOf' . ucfirst($this->getArrayItemType($type));
     }
+
+    /**
+     * Convert the value to the requested simple type
+     *
+     * @param int|string|float|int[]|string[]|float[] $value
+     * @param int|string|float|int[]|string[]|float[] $type
+     * @return int|string|float|int[]|string[]|float[] Return the value which is converted to type
+     * @throws \Magento\Webapi\Exception
+     */
+    public function processSimpleType($value, $type)
+    {
+        $invalidTypeMsg = 'Invalid type for value :"%s". Expected Type: %s.';
+        if ($this->isArrayType($type) && is_array($value)) {
+            $arrayItemType = $this->getArrayItemType($type);
+            foreach ($value as $item) {
+                if (!settype($item, $arrayItemType)) {
+                    throw new \Magento\Webapi\Exception(sprintf($invalidTypeMsg), $value, $type);
+                }
+            }
+        } elseif (!$this->isArrayType($type) && !is_array($value)) {
+            if (!settype($value, $type)) {
+                throw new \Magento\Webapi\Exception(sprintf($invalidTypeMsg), $value, $type);
+            }
+        } else {
+            throw new \Magento\Webapi\Exception(sprintf($invalidTypeMsg), $value, $type);
+        }
+        return $value;
+    }
 }
