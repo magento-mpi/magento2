@@ -26,11 +26,11 @@
                 <arguments>
                     <argument name="exportTypes" xsi:type="array">
                         <item name="csv" xsi:type="array">
-                            <item name="urlPath" xsi:type="string">*/*/exportCsv</item>
+                            <item name="urlPath" xsi:type="string">customer/*/exportCsv</item>
                             <item name="label" xsi:type="string" translate="true">CSV</item>
                         </item>
                         <item name="excel" xsi:type="array">
-                            <item name="urlPath" xsi:type="string">*/*/exportXml</item>
+                            <item name="urlPath" xsi:type="string">customer/*/exportXml</item>
                             <item name="label" xsi:type="string" translate="true">Excel XML</item>
                         </item>
                     </argument>
