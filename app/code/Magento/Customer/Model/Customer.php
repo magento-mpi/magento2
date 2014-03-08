@@ -1098,8 +1098,19 @@ class Customer extends \Magento\Core\Model\AbstractModel
      */
     public function canSkipConfirmation()
     {
-        return $this->getId() && $this->hasSkipConfirmationIfEmail()
-        && strtolower($this->getSkipConfirmationIfEmail()) === strtolower($this->getEmail());
+        if (!$this->getId()) {
+            return false;
+        }
+
+        /* If an email invitation was used to start the registration process and it is the same email as the one
+           used to register, then this can skip confirmation.
+        */
+        $skipConfirmationIfEmail = $this->_coreRegistry->registry("skip_confirmation_if_email");
+        if (!$skipConfirmationIfEmail) {
+            return false;
+        }
+
+        return strtolower($skipConfirmationIfEmail) === strtolower($this->getEmail());
     }
 
     /**
