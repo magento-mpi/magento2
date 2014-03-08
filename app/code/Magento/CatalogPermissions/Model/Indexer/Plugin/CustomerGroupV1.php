@@ -37,7 +37,7 @@ class CustomerGroupV1
      *
      * @param \Magento\Customer\Service\V1\CustomerGroupService $subject
      * @param \Closure $proceed
-     * @param \Magento\Customer\Service\V1\Dto\CustomerGroup $customerGroup
+     * @param \Magento\Customer\Service\V1\Data\CustomerGroup $customerGroup
      *
      * @return int
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
@@ -45,7 +45,7 @@ class CustomerGroupV1
     public function aroundSaveGroup(
         \Magento\Customer\Service\V1\CustomerGroupService $subject,
         \Closure $proceed,
-        \Magento\Customer\Service\V1\Dto\CustomerGroup $customerGroup
+        \Magento\Customer\Service\V1\Data\CustomerGroup $customerGroup
     ) {
         $needInvalidating = !$customerGroup->getId();
 

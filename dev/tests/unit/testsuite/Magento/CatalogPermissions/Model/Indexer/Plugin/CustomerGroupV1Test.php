@@ -75,7 +75,7 @@ class CustomerGroupV1Test extends \PHPUnit_Framework_TestCase
         );
 
         $customerGroupMock = $this->getMock(
-            'Magento\Customer\Service\V1\Dto\CustomerGroup', array('getId'), array(), '', false
+            'Magento\Customer\Service\V1\Data\CustomerGroup', array('getId'), array(), '', false
         );
         $customerGroupMock->expects($this->once())
             ->method('getId')
@@ -98,7 +98,7 @@ class CustomerGroupV1Test extends \PHPUnit_Framework_TestCase
         );
 
         $customerGroupMock = $this->getMock(
-            'Magento\Customer\Service\V1\Dto\CustomerGroup', array('getId'), array(), '', false
+            'Magento\Customer\Service\V1\Data\CustomerGroup', array('getId'), array(), '', false
         );
         $customerGroupMock->expects($this->once())
             ->method('getId')
