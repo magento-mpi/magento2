@@ -10,7 +10,7 @@ namespace Magento\Tax\Model;
 
 use Magento\Customer\Service\V1\CustomerAddressService;
 use Magento\Customer\Service\V1\CustomerGroupService;
-use Magento\Customer\Service\V1\CustomerService;
+use Magento\Customer\Service\V1\CustomerAccountService;
 
 /**
  * Class CalculationTest
@@ -26,9 +26,9 @@ class CalculationTest extends \PHPUnit_Framework_TestCase
     protected $_objectManager;
 
     /**
-     * @var CustomerService
+     * @var CustomerAccountService
      */
-    protected $_customerService;
+    protected $_customerAccountService;
 
     /**
      * @var CustomerAddressService
@@ -54,14 +54,15 @@ class CalculationTest extends \PHPUnit_Framework_TestCase
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_model = $this->_objectManager->create('Magento\Tax\Model\Calculation');
-        $this->_customerService = $this->_objectManager->create('Magento\Customer\Service\V1\CustomerService');
+        $this->_customerAccountService = $this->_objectManager
+            ->create('Magento\Customer\Service\V1\CustomerAccountService');
         $this->_addressService = $this->_objectManager->create('Magento\Customer\Service\V1\CustomerAddressService');
         $this->_groupService = $this->_objectManager->create('Magento\Customer\Service\V1\CustomerGroupService');
     }
 
     public function testSetCustomerData()
     {
-        $customerDataSet = $this->_customerService->getCustomer(self::FIXTURE_CUSTOMER_ID);
+        $customerDataSet = $this->_customerAccountService->getCustomer(self::FIXTURE_CUSTOMER_ID);
         $this->_model->setCustomerData($customerDataSet);
 
         $customerDataRetrieved = $this->_model->getCustomerData();
@@ -76,7 +77,7 @@ class CalculationTest extends \PHPUnit_Framework_TestCase
 
     public function testGetDefaultRateRequest()
     {
-        $customerDataSet = $this->_customerService->getCustomer(self::FIXTURE_CUSTOMER_ID);
+        $customerDataSet = $this->_customerAccountService->getCustomer(self::FIXTURE_CUSTOMER_ID);
         $this->_model->setCustomerData($customerDataSet);
         $address = $this->_addressService->getAddressById(self::FIXTURE_ADDRESS_ID);
 

@@ -270,8 +270,8 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
     protected function _prepareQuoteForTestAssignCustomerWithAddressChange($quote)
     {
         $objectManager = Bootstrap::getObjectManager();
-        /** @var \Magento\Customer\Service\V1\CustomerServiceInterface $customerService */
-        $customerService = $objectManager->create('Magento\Customer\Service\V1\CustomerServiceInterface');
+        /** @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerService */
+        $customerService = $objectManager->create('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
         $fixtureCustomerId = 1;
         /** @var \Magento\Customer\Model\Customer $customer */
         $customer = $objectManager->create('Magento\Customer\Model\Customer');

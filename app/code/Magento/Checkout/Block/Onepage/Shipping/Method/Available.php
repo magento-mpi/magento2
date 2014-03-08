@@ -7,7 +7,7 @@
  */
 namespace Magento\Checkout\Block\Onepage\Shipping\Method;
 
-use Magento\Customer\Service\V1\CustomerServiceInterface as CustomerService;
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface as CustomerAccountService;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface as CustomerAddressService;
 use Magento\Customer\Model\Address\Config as AddressConfig;
 use Magento\Sales\Model\Quote\Address;
@@ -42,7 +42,7 @@ class Available extends \Magento\Checkout\Block\Onepage\AbstractOnepage
      * @param \Magento\Checkout\Model\Session $resourceSession
      * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory
      * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory
-     * @param CustomerService $customerService
+     * @param CustomerAccountService $customerAccountService
      * @param CustomerAddressService $customerAddressService
      * @param AddressConfig $addressConfig
      * @param \Magento\Tax\Helper\Data $taxData
@@ -56,7 +56,7 @@ class Available extends \Magento\Checkout\Block\Onepage\AbstractOnepage
         \Magento\Checkout\Model\Session $resourceSession,
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory,
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory,
-        CustomerService $customerService,
+        CustomerAccountService $customerAccountService,
         CustomerAddressService $customerAddressService,
         AddressConfig $addressConfig,
         \Magento\Tax\Helper\Data $taxData,
@@ -71,7 +71,7 @@ class Available extends \Magento\Checkout\Block\Onepage\AbstractOnepage
             $resourceSession,
             $countryCollectionFactory,
             $regionCollectionFactory,
-            $customerService,
+            $customerAccountService,
             $customerAddressService,
             $addressConfig,
             $data

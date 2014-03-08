@@ -35,7 +35,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         );
         $order->loadByIncrementId('100000001');
         $this->_model->setOrder($order);
-        $this->_model->setCustomerAddressData($customerAddressService->getAddressById(1));
+        $this->_model->setCustomerAddressData($customerAddressService->getAddress(1));
         $this->_model->save();
         $this->assertEquals($order->getId(), $this->_model->getParentId());
         $this->assertEquals($this->_model->getCustomerAddressId(), 1);

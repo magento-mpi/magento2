@@ -37,7 +37,7 @@ class CustomerCurrentServiceTest extends \PHPUnit_Framework_TestCase
     protected $customerDataMock;
 
     /**
-     * @var \Magento\Customer\Service\V1\CustomerService|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $customerServiceMock;
 

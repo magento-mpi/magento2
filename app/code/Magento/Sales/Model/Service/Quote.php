@@ -310,12 +310,7 @@ class Quote
                 $customerDetails =
                     $this->_customerDetailsBuilder->setCustomer($customerData)->setAddresses($addresses)->create();
                 $customerData = $this->_customerAccountService->createAccount(
-                    $customerDetails,
-                    null,
-                    '',
-                    '',
-                    $quote->getStoreId()
-                );
+                    $customerDetails);
                 $addresses = $this->_customerAddressService->getAddresses(
                     $customerData->getId()
                 );

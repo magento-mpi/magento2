@@ -16,6 +16,7 @@ namespace Magento\Sales\Block\Adminhtml\Order\Create\Form;
 
 use Magento\Customer\Service\V1\Data\Eav\AttributeMetadata;
 use Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder;
+use Magento\Customer\Service\V1\Data\Eav\OptionBuilder;
 
 class AbstractTest
     extends \PHPUnit_Framework_TestCase
@@ -51,7 +52,8 @@ class AbstractTest
         $formFactory = $objectManager->get('Magento\Data\FormFactory');
         $form = $formFactory->create();
         $fieldset = $form->addFieldset('test_fieldset', array());
-        $dateAttribute = (new AttributeMetadataBuilder())->setAttributeCode('date')->setBackendType('datetime')
+        $dateAttribute = (new AttributeMetadataBuilder(new OptionBuilder()))
+            ->setAttributeCode('date')->setBackendType('datetime')
             ->setFrontendInput('date')->setFrontendLabel('Date')->create();
         $attributes = array('date' => $dateAttribute);
         $method->invoke($block, $attributes, $fieldset);

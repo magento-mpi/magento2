@@ -202,10 +202,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->_converter = new Converter($customerBuilder, $this->_customerFactoryMock);
 
-        $this->_customerServiceMock = $this->getMockBuilder('\Magento\Customer\Service\V1\CustomerService')
-            ->disableOriginalConstructor()
-            ->getMock();
-
         $this->_customerAddressServiceMock =
             $this->getMockBuilder('\Magento\Customer\Service\V1\CustomerAddressService')
                 ->disableOriginalConstructor()
