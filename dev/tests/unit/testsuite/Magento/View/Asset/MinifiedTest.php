@@ -11,18 +11,23 @@ namespace Magento\View\Asset;
 class MinifiedTest extends \PHPUnit_Framework_TestCase
 {
     const ORIG_FILE = '/home/htdocs/some/dir/original.js';
-    const ORIG_PREMINIFIED_FILE = '/home/htdocs/some/dir/original.min.js';
     const MINIFIED_FILE = '/home/htdocs/static_dir/minified/original.min.js';
+    const ORIG_HASMINIFIED_FILE = '/home/htdocs/some/other/dir/original.js';
+    const ORIG_PREMINIFIED_FILE = '/home/htdocs/some/other/dir/original.min.js';
+
 
     const STATIC_BASE_URL = 'http://localhost/static_dir/';
 
-    const ORIG_URL = 'http://localhost/static_dir/some/other/subdir/original.js';
-    const ORIG_PREMINIFIED_URL = 'http://localhost/static_dir/some/other/subdir/original.min.js';
+    const ORIG_URL = 'http://localhost/static_dir/some/dir/original.js';
     const MINIFIED_URL = 'http://localhost/static_dir/minified/original.min.js';
+    const ORIG_HASMINIFIED_URL = 'http://localhost/static_dir/some/other/dir/original.js';
+    const ORIG_PREMINIFIED_URL = 'http://localhost/static_dir/some/other/dir/original.min.js';
 
-    const ORIG_RELPATH = 'some/other/subdir/original.js';
-    const ORIG_PREMINIFIED_RELPATH = 'some/other/subdir/original.min.js';
+    const ORIG_RELPATH = 'some/dir/original.js';
     const MINIFIED_RELPATH = 'minified/original.min.js';
+    const ORIG_HASMINIFIED_RELPATH = 'some/other/dir/original.js';
+    const ORIG_PREMINIFIED_RELPATH = 'some/other/dir/original.min.js';
+
 
     /**
      * @var \Magento\View\Asset\LocalInterface|\PHPUnit_Framework_MockObject_MockObject
@@ -110,6 +115,10 @@ class MinifiedTest extends \PHPUnit_Framework_TestCase
                 self::ORIG_PREMINIFIED_FILE,
                 self::ORIG_PREMINIFIED_URL,
             ),
+            'has minified version' => array(
+                self::ORIG_HASMINIFIED_FILE,
+                self::ORIG_PREMINIFIED_URL,
+            ),
             'needs minification' => array(
                 self::ORIG_FILE,
                 self::MINIFIED_URL,
@@ -139,6 +148,10 @@ class MinifiedTest extends \PHPUnit_Framework_TestCase
                 self::ORIG_PREMINIFIED_FILE,
                 self::ORIG_PREMINIFIED_FILE,
             ),
+            'has minified version' => array(
+                self::ORIG_HASMINIFIED_FILE,
+                self::ORIG_PREMINIFIED_FILE,
+            ),
             'needs minification' => array(
                 self::ORIG_FILE,
                 self::MINIFIED_FILE,
@@ -166,6 +179,10 @@ class MinifiedTest extends \PHPUnit_Framework_TestCase
         return array(
             'already minified' => array(
                 self::ORIG_PREMINIFIED_FILE,
+                self::ORIG_PREMINIFIED_RELPATH,
+            ),
+            'has minified version' => array(
+                self::ORIG_HASMINIFIED_FILE,
                 self::ORIG_PREMINIFIED_RELPATH,
             ),
             'needs minification' => array(
@@ -200,6 +217,7 @@ class MinifiedTest extends \PHPUnit_Framework_TestCase
             ->method('getMinifiedFile')
             ->will($this->returnValueMap([
                 [self::ORIG_FILE, self::MINIFIED_FILE],
+                [self::ORIG_HASMINIFIED_FILE, self::ORIG_PREMINIFIED_FILE],
                 [self::ORIG_PREMINIFIED_FILE, self::ORIG_PREMINIFIED_FILE],
             ]));
 

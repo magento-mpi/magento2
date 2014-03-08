@@ -11,7 +11,7 @@
     <type name="Magento\Module\Manager">
         <arguments>
             <argument name="outputConfigPaths" xsi:type="array">
-                <item name="Magento_Reward" xsi:type="string">Magento\Reward\Helper\Data::XML_PATH_ENABLED</item>
+                <item name="Magento_Reward" xsi:type="const">Magento\Reward\Helper\Data::XML_PATH_ENABLED</item>
             </argument>
         </arguments>
     </type>

@@ -18,30 +18,14 @@ class InlineParserTest extends \PHPUnit_Framework_TestCase
      */
     protected $_inlineParser;
 
-    /** @var string */
-    protected $_storeId = 'default';
-
-    public static function setUpBeforeClass()
-    {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\DesignInterface')
-            ->setDesignTheme('magento_blank');
-    }
-
     protected function setUp()
     {
-        /** @var $inline \Magento\Translate\Inline */
-        $inline = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Translate\Inline');
         $this->_inlineParser = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\Translate\Inline\Parser', array('translateInline' => $inline));
-        /* Called getConfig as workaround for setConfig bug */
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
-            ->getStore($this->_storeId)->getConfig('dev/translate_inline/active');
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
-            ->getStore($this->_storeId)->setConfig('dev/translate_inline/active', true);
+            ->create('Magento\Core\Model\Translate\Inline\Parser');
     }
 
     /**
+     * @magentoConfigFixture current_store dev/translate_inline/active 1
      * @dataProvider processAjaxPostDataProvider
      */
     public function testProcessAjaxPost($originalText, $translatedText, $isPerStore = null)

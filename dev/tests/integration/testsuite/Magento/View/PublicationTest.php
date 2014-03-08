@@ -94,8 +94,8 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
                 'static/frontend/test_default/en_US/Namespace_Module/favicon.ico',
             ),
             'lib folder' => array(
-                'varien',
-                'static/frontend/test_default/en_US/varien',
+                'spacer.gif',
+                'static/frontend/test_default/en_US/spacer.gif',
             )
         );
     }

@@ -56,18 +56,22 @@ class Minifier
      */
     public function getMinifiedFile($originalFile)
     {
+        // Already minified
         if ($this->_isFileMinified($originalFile)) {
             return $originalFile;
         }
+
+        // Has .min file in the same directory
         $originalFileRelative = $this->rootDirectory->getRelativePath($originalFile);
-        $minifiedFile = $this->_findOriginalMinifiedFile($originalFileRelative);
-        if (!$minifiedFile) {
-            $minifiedFile = $this->directoryName . '/' . $this->_generateMinifiedFileName($originalFile);
-            $this->_strategy->minifyFile($originalFileRelative, $this->staticViewDir->getRelativePath($minifiedFile));
+        $minifiedFileRelative = $this->_findOriginalMinifiedFile($originalFileRelative);
+        if ($minifiedFileRelative) {
+            return $this->rootDirectory->getAbsolutePath($minifiedFileRelative);
         }
 
-        $minifiedFile = $this->staticViewDir->getRelativePath($minifiedFile);
-        return $this->staticViewDir->getAbsolutePath($minifiedFile);
+        // Minify the file
+        $minifiedFile = $this->directoryName . '/' . $this->_generateMinifiedFileName($originalFile);
+        $this->_strategy->minifyFile($originalFileRelative, $this->staticViewDir->getRelativePath($minifiedFile));
+        return $minifiedFile;
     }
 
     /**

@@ -14,7 +14,7 @@ namespace Magento\Module;
 class Manager
 {
     /**
-     * @var ConfigInterface
+     * @var Output\ConfigInterface
      */
     private $_outputConfig;
 
@@ -84,9 +84,6 @@ class Manager
     {
         if (isset($this->_outputConfigPaths[$moduleName])) {
             $configPath = $this->_outputConfigPaths[$moduleName];
-            if (defined($configPath)) {
-                $configPath = constant($configPath);
-            }
             return $this->_outputConfig->isSetFlag($configPath);
         }
         return true;

@@ -52,6 +52,10 @@ class CacheTest extends \PHPUnit_Framework_TestCase
 
     public function testLessCache()
     {
+        $this->markTestIncomplete(
+            'Implement MAGETWO-21933 LESS Preprocessing Through \Magento\View\Asset\PreProcessorInterface'
+        );
+
         $file = $this->objectManager->create('Magento\View\Publisher\CssFile',
             [
                 'filePath' => 'oyejorge.css',

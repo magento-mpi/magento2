@@ -62,7 +62,7 @@ class AggregatedTest extends \PHPUnit_Framework_TestCase
      * @param string[] $expectedFiles
      * @dataProvider getFilesDataProvider
      */
-    public function testGetFiles($path, $themeName, $expectedFiles)
+    public function testGetFiles($path, $themeName, array $expectedFiles)
     {
         /** @var \Magento\View\Design\Theme\FlyweightFactory $themeFactory */
         $themeFactory = $this->objectManager->get('Magento\View\Design\Theme\FlyweightFactory');
@@ -86,62 +86,63 @@ class AggregatedTest extends \PHPUnit_Framework_TestCase
      */
     public function getFilesDataProvider()
     {
+        $fixtureDir = dirname(dirname(__DIR__));
         return array(
-            array(
+            'file in theme and parent theme' => array(
                 '1.file',
                 'test_default',
                 array(
                     str_replace(
                         '\\',
                         '/',
-                        dirname(dirname(__DIR__)) . '/_files/design/frontend/test_default/1.file'
+                         "$fixtureDir/_files/design/frontend/test_default/1.file"
                     ),
                     str_replace(
                         '\\',
                         '/',
-                        dirname(dirname(__DIR__)) . '/_files/design/frontend/test_default/Magento_Module/1.file'
+                        "$fixtureDir/_files/design/frontend/test_default/Magento_Core/1.file"
                     ),
                     str_replace(
                         '\\',
                         '/',
-                        dirname(dirname(__DIR__)) . '/_files/design/frontend/test_parent/Magento_Second/1.file'
+                        "$fixtureDir/_files/design/frontend/test_parent/Magento_Theme/1.file"
                     )
                 )
             ),
-            array(
+            'file in library' => array(
                 '2.file',
                 'test_default',
                 array(
                     str_replace(
                         '\\',
                         '/',
-                        dirname(dirname(__DIR__)) . '/_files/lib/2.file'
+                        "$fixtureDir/_files/lib/2.file"
                     )
                 )
             ),
-            array(
+            'non-existing file' => array(
                 'doesNotExist',
                 'test_default',
                 array()
             ),
-            array(
-                '3',
+            'file in library, module, and theme' => array(
+                '3.less',
                 'test_default',
                 array(
                     str_replace(
                         '\\',
                         '/',
-                        dirname(dirname(__DIR__)) . '/_files/lib/3.less'
+                        "$fixtureDir/_files/lib/3.less"
                     ),
                     str_replace(
                         '\\',
                         '/',
-                        dirname(dirname(__DIR__)) . '/_files/code/Magento/Other/view/frontend/3.less'
+                        "$fixtureDir/_files/code/Magento/Theme/view/frontend/3.less"
                     ),
                     str_replace(
                         '\\',
                         '/',
-                        dirname(dirname(__DIR__)) . '/_files/design/frontend/test_default/Magento_Third/3.less'
+                        "$fixtureDir/_files/design/frontend/test_default/Magento_Core/3.less"
                     )
                 )
             ),

@@ -700,18 +700,18 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     }
 
     /**
-     * Retrieve url of themes file
+     * Retrieve url of a view file
      *
-     * @param string $file path to file in theme
+     * @param string $fileId
      * @param array $params
      * @return string
      */
 
-    public function getViewFileUrl($file = null, array $params = array())
+    public function getViewFileUrl($fileId, array $params = array())
     {
         try {
             $params = array_merge(['_secure' => $this->getRequest()->isSecure()], $params);
-            return $this->_viewUrl->getAssetUrlWithParams($file, $params);
+            return $this->_viewUrl->getAssetUrlWithParams($fileId, $params);
         } catch (\Magento\Exception $e) {
             $this->_logger->logException($e);
             return $this->_getNotFoundUrl();
