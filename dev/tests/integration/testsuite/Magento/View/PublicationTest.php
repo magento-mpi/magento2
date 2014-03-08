@@ -572,7 +572,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
         $this->model = $objectManager->get('Magento\View\DesignInterface');
         $this->model->setDesignTheme('test_default');
 
-        $this->assetService = $objectManager->create('Magento\View\Service');
+        $this->assetService = $objectManager->create('Magento\View\Asset\Service');
         $this->fileSystem = $objectManager->create('Magento\View\FileSystem');
     }
 
