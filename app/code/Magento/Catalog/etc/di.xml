@@ -262,4 +262,9 @@
             <argument name="tableData" xsi:type="object">Magento\Catalog\Model\Indexer\Product\Flat\TableData</argument>
         </arguments>
     </type>
+    <type name="Magento\Catalog\Model\Indexer\Product\Price\Processor">
+        <arguments>
+            <argument name="indexer" xsi:type="object" shared="false">Magento\Indexer\Model\IndexerInterface</argument>
+        </arguments>
+    </type>
 </config>
