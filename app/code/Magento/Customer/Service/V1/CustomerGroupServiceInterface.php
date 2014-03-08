@@ -27,30 +27,30 @@ interface CustomerGroupServiceInterface
      * @param boolean $includeNotLoggedIn
      * @param int $taxClassId
      *
-     * @return Dto\CustomerGroup[]
+     * @return Data\CustomerGroup[]
      */
     public function getGroups($includeNotLoggedIn = true, $taxClassId = null);
 
     /**
-     * @param Dto\SearchCriteria $searchCriteria
+     * @param Data\SearchCriteria $searchCriteria
      * @throws InputException if there is a problem with the input
-     * @return Dto\SearchResults containing Dto\CustomerGroup objects
+     * @return Data\SearchResults containing Data\CustomerGroup objects
      */
-    public function searchGroups(Dto\SearchCriteria $searchCriteria);
+    public function searchGroups(Data\SearchCriteria $searchCriteria);
 
     /**
      * Get a customer group by group ID.
      *
      * @param int $groupId
      * @throws NoSuchEntityException if $groupId is not found
-     * @return Dto\CustomerGroup
+     * @return Data\CustomerGroup
      */
     public function getGroup($groupId);
 
     /**
      * @param int $storeId
      * @throws NoSuchEntityException if default group for $storeId is not found
-     * @return Dto\CustomerGroup
+     * @return Data\CustomerGroup
      */
     public function getDefaultGroup($storeId);
 
@@ -62,11 +62,11 @@ interface CustomerGroupServiceInterface
     public function canDelete($groupId);
 
     /**
-     * @param Dto\CustomerGroup $group
+     * @param Data\CustomerGroup $group
      * @throws \Exception if something goes wrong during save
      * @return int customer group ID
      */
-    public function saveGroup(Dto\CustomerGroup $group);
+    public function saveGroup(Data\CustomerGroup $group);
 
     /**
      * @param int $groupId

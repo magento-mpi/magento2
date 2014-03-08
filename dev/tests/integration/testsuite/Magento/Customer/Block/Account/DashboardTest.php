@@ -51,7 +51,7 @@ class DashboardTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Verify that the Dashboard::getCustomer() method returns a valid Customer Dto.
+     * Verify that the Dashboard::getCustomer() method returns a valid Customer Data.
      *
      * @magentoDataFixture Magento/Customer/_files/customer.php
      */
@@ -61,7 +61,7 @@ class DashboardTest extends \PHPUnit_Framework_TestCase
         $this->customerSession->setCustomerId(1);
         $object = $this->block->getCustomer();
         $this->assertEquals($customer, $object);
-        $this->assertInstanceOf('Magento\Customer\Service\V1\Dto\Customer', $object);
+        $this->assertInstanceOf('Magento\Customer\Service\V1\Data\Customer', $object);
     }
 
     /**
@@ -88,7 +88,7 @@ class DashboardTest extends \PHPUnit_Framework_TestCase
         $addresses = $this->block->getPrimaryAddresses();
         $this->assertCount(1, $addresses);
         $address = $addresses[0];
-        $this->assertInstanceOf('Magento\Customer\Service\V1\Dto\Address', $address);
+        $this->assertInstanceOf('Magento\Customer\Service\V1\Data\Address', $address);
         $this->assertEquals($customer->getDefaultBilling(), $address->getId());
         $this->assertEquals($customer->getDefaultShipping(), $address->getId());
     }

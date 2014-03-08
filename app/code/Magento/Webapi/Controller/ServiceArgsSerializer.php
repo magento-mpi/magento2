@@ -124,12 +124,13 @@ class ServiceArgsSerializer
             // Case where data array contains keys with no matching setter methods
             // TODO: do we need to do anything here or can we just ignore this and keep going?
         }
-        $obj = new $className($data);
+        $builderClassName = $className . 'Builder';
+        $obj = (new $builderClassName())->populateWithArray($data)->create();
         return $obj;
     }
 
     /**
-     * Convert data from array to DTO representation if type is DTO or array of DTOs.
+     * Convert data from array to Data Object representation if type is Data Object or array of Data Objects.
      *
      * @param mixed $value
      * @param string $type

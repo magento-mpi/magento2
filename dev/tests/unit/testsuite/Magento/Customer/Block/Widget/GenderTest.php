@@ -7,7 +7,7 @@
  */
 namespace Magento\Customer\Block\Widget;
 
-use Magento\Customer\Service\V1\Dto\Customer;
+use Magento\Customer\Service\V1\Data\Customer;
 use Magento\Exception\NoSuchEntityException;
 
 class GenderTest extends \PHPUnit_Framework_TestCase
@@ -21,7 +21,7 @@ class GenderTest extends \PHPUnit_Framework_TestCase
      */
     private $_attributeMetadata;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata */
+    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata */
     private $_attribute;
 
     /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Model\Session */
@@ -35,8 +35,7 @@ class GenderTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_attribute =
-            $this->getMock('Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata', [], [], '', false);
+        $this->_attribute = $this->getMock('Magento\Customer\Service\V1\Data\Eav\AttributeMetadata', [], [], '', false);
 
         $this->_attributeMetadata =
             $this->getMockForAbstractClass(
@@ -137,16 +136,18 @@ class GenderTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetCustomer()
     {
-        $data = ['firstname' => 'John', 'lastname' => 'Doe'];
-        $customerDto = new Customer($data);
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        /** @var $customerBuilder \Magento\Customer\Service\V1\Data\CustomerBuilder' */
+        $customerBuilder = $objectManager->getObject('\Magento\Customer\Service\V1\Data\CustomerBuilder');
+        $customerData = $customerBuilder->setFirstname('John')->setLastname('Doe')->create();
 
         $this->_customerSession
             ->expects($this->once())->method('getCustomerId')->will($this->returnValue(1));
         $this->_customerService
-            ->expects($this->once())->method('getCustomer')->with(1)->will($this->returnValue($customerDto));
+            ->expects($this->once())->method('getCustomer')->with(1)->will($this->returnValue($customerData));
 
         $customer = $this->_block->getCustomer();
-        $this->assertSame($customerDto, $customer);
+        $this->assertSame($customerData, $customer);
 
         $this->assertEquals('John', $customer->getFirstname());
         $this->assertEquals('Doe', $customer->getLastname());

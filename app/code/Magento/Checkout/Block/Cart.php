@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Checkout
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,10 +9,6 @@ namespace Magento\Checkout\Block;
 
 /**
  * Shopping cart block
- *
- * @category    Magento
- * @package     Magento_Checkout
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Cart extends \Magento\Checkout\Block\Cart\AbstractCart
 {

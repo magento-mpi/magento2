@@ -62,12 +62,13 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             'email'                     => 'customer@example.com',
             'default_billing'           => '1',
             'default_shipping'          => '1',
+            'disable_auto_group_change' => '0'
         );
 
         $customer = $this->_customerService->getCustomer(1);
         $this->assertNotNull($customer);
 
-        $attributes = $customer->getAttributes();
+        $attributes = \Magento\Service\DataObjectConverter::toFlatArray($customer);
         $this->assertNotEmpty($attributes);
 
         foreach ($attributes as $attributeCode => $attributeValue) {
