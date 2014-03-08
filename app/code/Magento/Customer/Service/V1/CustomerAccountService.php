@@ -521,7 +521,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function validateCustomerData(Dto\Customer $customer, array $attributes)
+    public function validateCustomerData(Dto\Customer $customer, array $attributes = [])
     {
         $customerErrors = $this->_validator->validateData(
             $customer->__toArray(),

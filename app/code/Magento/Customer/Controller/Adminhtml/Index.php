@@ -800,7 +800,7 @@ class Index extends \Magento\Backend\App\Action
             }
 
             $customer = $this->_customerBuilder->populateWithArray($data)->create();
-            $errors = $this->_customerAccountService->validateCustomerData($customer, []);
+            $errors = $this->_customerAccountService->validateCustomerData($customer);
         } catch (\Magento\Core\Exception $exception) {
             /* @var $error \Magento\Message\Error */
             foreach ($exception->getMessages(\Magento\Message\MessageInterface::TYPE_ERROR) as $error) {
