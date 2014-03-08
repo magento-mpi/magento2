@@ -218,7 +218,7 @@ class Account extends \Magento\Customer\Controller\Account
 
             parent::createPostAction();
 
-            $customerId = $this->_getSession()->getCustomerData()->getCustomerId();
+            $customerId = $this->_getSession()->getCustomerId();
             if ($customerId) {
                 $this->_invitation->accept($this->_storeManager->getWebsite()->getId(), $customerId);
             }
