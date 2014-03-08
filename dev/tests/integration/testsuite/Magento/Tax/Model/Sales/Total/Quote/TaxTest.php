@@ -59,7 +59,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
         $quoteShippingAddress = $objectManager->create('Magento\Sales\Model\Quote\Address');
         /** @var \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService */
         $addressService = $objectManager->create('Magento\Customer\Service\V1\CustomerAddressServiceInterface');
-        $quoteShippingAddress->importCustomerAddressData($addressService->getAddressById($fixtureCustomerAddressId));
+        $quoteShippingAddress->importCustomerAddressData($addressService->getAddress($fixtureCustomerAddressId));
 
         /** @var \Magento\Sales\Model\Quote $quote */
         $quote = $objectManager->create('Magento\Sales\Model\Quote');
