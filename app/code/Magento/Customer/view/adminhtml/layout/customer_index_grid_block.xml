@@ -57,18 +57,23 @@
                         <item name="assign_group" xsi:type="array">
                             <item name="label" xsi:type="string" translate="true">Assign a Customer Group</item>
                             <item name="url" xsi:type="string">customer/*/massAssignGroup</item>
-                            <item name="additional" xsi:type="array">
-                                <item name="visibility" xsi:type="array">
-                                    <item name="name" xsi:type="string">group</item>
-                                    <item name="type" xsi:type="string">select</item>
-                                    <item name="class" xsi:type="string">required-entry</item>
-                                    <item name="label" xsi:type="string" translate="true">Group</item>
-                                    <item name="values" xsi:type="options" model="Magento\Customer\Model\Config\Source\Group"/>
-                                </item>
-                            </item>
+                            <item name="block_name" xsi:type="string">groups</item>
                         </item>
                     </argument>
                 </arguments>
+                <block class="Magento\Backend\Block\Widget\Grid\Massaction\Additional" name="adminhtml.block.groups.massactions.status" as="groups">
+                    <arguments>
+                        <argument name="fields" xsi:type="array">
+                            <item name="visibility" xsi:type="array">
+                                <item name="name" xsi:type="string">group</item>
+                                <item name="type" xsi:type="string">select</item>
+                                <item name="class" xsi:type="string">required-entry</item>
+                                <item name="label" xsi:type="string" translate="true">Group</item>
+                                <item name="values" xsi:type="string">Magento\Customer\Model\Config\Source\Group</item>
+                            </item>
+                        </argument>
+                    </arguments>
+                </block>
             </block>
             <block class="Magento\Backend\Block\Widget\Grid\ColumnSet" name="admin.block.customer.grid.columnSet" as="grid.columnSet">
                 <arguments>
