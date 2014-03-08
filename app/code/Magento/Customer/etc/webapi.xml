@@ -16,6 +16,15 @@
         <rest-route httpMethod="PUT" method="saveGroup" resources="Magento_Customer::group"></rest-route>
         <rest-route httpMethod="DELETE" method="deleteGroup" resources="Magento_Customer::group">/:groupId</rest-route>
     </service>
+    <service class="Magento\Customer\Service\V1\CustomerMetadataServiceInterface" baseUrl="/V1/customerMetadata">
+        <rest-route httpMethod="GET" method="getAttributeMetadata" resources="Magento_Customer::customer">/:entityType/entity/:attributeCode/attribute</rest-route>
+        <rest-route httpMethod="GET" method="getAllAttributeSetMetadata" resources="Magento_Customer::customer">/:entityType/entity/:attributeSetId/attributeSet/:storeId/store</rest-route>
+        <rest-route httpMethod="GET" method="getAttributes" resources="Magento_Customer::customer">/:entityType/entity/:formCode/form</rest-route>
+        <rest-route httpMethod="GET" method="getCustomerAttributeMetadata" resources="Magento_Customer::customer">/customer/:attributeCode/attribute</rest-route>
+        <rest-route httpMethod="GET" method="getAllCustomerAttributeMetadata" resources="Magento_Customer::customer">/customer</rest-route>
+        <rest-route httpMethod="GET" method="getAddressAttributeMetadata" resources="Magento_Customer::customer">/address/:attributeCode/attribute</rest-route>
+        <rest-route httpMethod="GET" method="getAllAddressAttributeMetadata" resources="Magento_Customer::customer">/address</rest-route>
+    </service>
     <service class="Magento\Customer\Service\V1\CustomerAccountServiceInterface" baseUrl="/V1/customerAccounts">
         <!-- TODO: changePassword is a case of SELF. Need to revisit. For now manage is assigned -->
         <!-- TODO: createAccount, authenticate, validateResetPasswordLinkToken, initiatePasswordReset, resetPassword, resendConfirmation apis

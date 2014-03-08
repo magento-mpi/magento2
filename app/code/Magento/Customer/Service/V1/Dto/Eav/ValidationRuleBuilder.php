@@ -1,0 +1,33 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+namespace Magento\Customer\Service\V1\Dto\Eav;
+
+class ValidationRuleBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
+{
+    /**
+     * Set validation rule name
+     *
+     * @param string $name
+     * @return $this
+     */
+    public function setName($name)
+    {
+        return $this->_set(ValidationRule::NAME, $name);
+    }
+
+    /**
+     * Set validation rule value
+     *
+     * @param string $value
+     * @return $this
+     */
+    public function setValue($value)
+    {
+        return $this->_set(ValidationRule::VALUE, $value);
+    }
+}

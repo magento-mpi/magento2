@@ -20,15 +20,27 @@ class AttributeMetadataBuilder extends \Magento\Service\Entity\AbstractDtoBuilde
     protected $_optionBuilder;
 
     /**
+     * Validation rule builder
+     *
+     * @var \Magento\Customer\Service\V1\Dto\Eav\ValidationRuleBuilder
+     */
+    protected $_validationRuleBuilder;
+
+    /**
      * Initializes builder.
      *
      * @param \Magento\Customer\Service\V1\Dto\Eav\OptionBuilder $optionBuilder
+     * @param \Magento\Customer\Service\V1\Dto\Eav\ValidationRuleBuilder $validationRuleBuilder
      */
-    public function __construct(\Magento\Customer\Service\V1\Dto\Eav\OptionBuilder $optionBuilder)
-    {
+    public function __construct(
+        \Magento\Customer\Service\V1\Dto\Eav\OptionBuilder $optionBuilder,
+        \Magento\Customer\Service\V1\Dto\Eav\ValidationRuleBuilder $validationRuleBuilder
+    ) {
         parent::__construct();
         $this->_optionBuilder = $optionBuilder;
-        $this->_data[AttributeMetadata::OPTIONS] = array();
+        $this->_validationRuleBuilder = $validationRuleBuilder;
+        $this->_data[AttributeMetadata::OPTIONS] = [];
+        $this->_data[AttributeMetadata::VALIDATION_RULES] = [];
     }
 
     /**
@@ -78,7 +90,7 @@ class AttributeMetadataBuilder extends \Magento\Service\Entity\AbstractDtoBuilde
     /**
      * Set validation rules
      *
-     * @param string $validationRules
+     * @param \Magento\Customer\Service\V1\Dto\Eav\ValidationRule[] $validationRules
      * @return $this
      */
     public function setValidationRules($validationRules)
@@ -213,16 +225,8 @@ class AttributeMetadataBuilder extends \Magento\Service\Entity\AbstractDtoBuilde
      */
     public function populateWithArray(array $data)
     {
-        if (array_key_exists(AttributeMetadata::OPTIONS, $data)) {
-            $options = [];
-            if (is_array($data[AttributeMetadata::OPTIONS])) {
-                foreach ($data[AttributeMetadata::OPTIONS] as $key => $option) {
-                    $options[$key] = $this->_optionBuilder->populateWithArray($option)->create();
-                }
-            }
-
-            $data[AttributeMetadata::OPTIONS] = $options;
-        }
+        $data = $this->toAssociativeArray(AttributeMetadata::OPTIONS, $this->_optionBuilder, $data);
+        $data = $this->toAssociativeArray(AttributeMetadata::VALIDATION_RULES, $this->_validationRuleBuilder, $data);
 
         return parent::populateWithArray($data);
     }
@@ -235,5 +239,29 @@ class AttributeMetadataBuilder extends \Magento\Service\Entity\AbstractDtoBuilde
     public function create()
     {
         return parent::create();
+    }
+
+    /**
+     * Convert attribute array data to an associative array containing key/value pairs.
+     *
+     * @param string $attributeCode The attribute code of the desired attribute.
+     * @param \Magento\Service\Entity\AbstractDtoBuilder $builder Builder for the attribute metadata object.
+     * @param array $data The attribute array data.
+     * @return array
+     */
+    private function toAssociativeArray($attributeCode, $builder, array $data)
+    {
+        if (array_key_exists($attributeCode, $data)) {
+            $array = [];
+            if (is_array($data[$attributeCode])) {
+                foreach ($data[$attributeCode] as $key => $value) {
+                    $array[$key] = $builder->populateWithArray($value)->create();
+                }
+            }
+
+            $data[$attributeCode] = $array;
+        }
+
+        return $data;
     }
 }

@@ -38,6 +38,11 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
     private $_optionBuilder;
 
     /**
+     * @var Dto\Eav\ValidationRuleBuilder
+     */
+    private $_validationRuleBuilder;
+
+    /**
      * @var Dto\Eav\AttributeMetadataBuilder
      */
     private $_attributeMetadataBuilder;
@@ -47,6 +52,7 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
      * @param \Magento\Customer\Model\Resource\Form\Attribute\CollectionFactory $attrFormCollectionFactory
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param Dto\Eav\OptionBuilder $optionBuilder
+     * @param Dto\Eav\ValidationRuleBuilder $validationRuleBuilder
      * @param Dto\Eav\AttributeMetadataBuilder $attributeMetadataBuilder
      */
     public function __construct(
@@ -54,12 +60,14 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
         \Magento\Customer\Model\Resource\Form\Attribute\CollectionFactory $attrFormCollectionFactory,
         \Magento\Core\Model\StoreManager $storeManager,
         Dto\Eav\OptionBuilder $optionBuilder,
+        Dto\Eav\ValidationRuleBuilder $validationRuleBuilder,
         Dto\Eav\AttributeMetadataBuilder $attributeMetadataBuilder
     ) {
         $this->_eavConfig = $eavConfig;
         $this->_attrFormCollectionFactory = $attrFormCollectionFactory;
         $this->_storeManager = $storeManager;
         $this->_optionBuilder = $optionBuilder;
+        $this->_validationRuleBuilder = $validationRuleBuilder;
         $this->_attributeMetadataBuilder = $attributeMetadataBuilder;
     }
 
@@ -183,12 +191,18 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
                     ->create();
             }
         }
+        $validationRules = [];
+        foreach ($attribute->getValidateRules() as $name => $value) {
+            $validationRules[$name] = $this->_validationRuleBuilder->setName($name)
+                ->setValue($value)
+                ->create();
+        }
 
         $this->_attributeMetadataBuilder->setAttributeCode($attribute->getAttributeCode())
             ->setFrontendInput($attribute->getFrontendInput())
             ->setInputFilter($attribute->getInputFilter())
             ->setStoreLabel($attribute->getStoreLabel())
-            ->setValidationRules($attribute->getValidateRules())
+            ->setValidationRules($validationRules)
             ->setVisible($attribute->getIsVisible())
             ->setRequired($attribute->getIsRequired())
             ->setMultilineCount($attribute->getMultilineCount())
