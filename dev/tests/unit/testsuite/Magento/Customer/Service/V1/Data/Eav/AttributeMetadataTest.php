@@ -25,8 +25,11 @@ class AttributeMetadataTest extends \PHPUnit_Framework_TestCase
     public function testConstructorAndGetters()
     {
         $options = array('OPTION_ONE', 'OPTION_TWO');
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        /** @var \Magento\Customer\Service\V1\Data\Eav\OptionBuilder $optionBuilder */
+        $optionBuilder = $objectManager->getObject('Magento\Customer\Service\V1\Data\Eav\OptionBuilder');
 
-        $attributeMetadataBuilder = (new AttributeMetadataBuilder())->populateWithArray(
+        $attributeMetadataBuilder = (new AttributeMetadataBuilder($optionBuilder))->populateWithArray(
             [
                 'attribute_code' => self::ATTRIBUTE_CODE,
                 'frontend_input' => self::FRONTEND_INPUT,

@@ -192,6 +192,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             ->method('getCustomCustomerAttributeMetadata')
             ->will($this->returnValue([]));
 
+        $this->_customerBuilder = new Data\CustomerBuilder($this->_customerMetadataService);
+
         $customerBuilder = new CustomerBuilder($this->_customerMetadataService);
         $this->_customerDetailsBuilder = new Data\CustomerDetailsBuilder(
             $this->_customerBuilder,
@@ -1335,6 +1337,11 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testGetCustomer()
     {
+        $attributeModelMock =
+            $this->getMockBuilder('\Magento\Customer\Model\Attribute')
+                ->disableOriginalConstructor()
+                ->getMock();
+
         $this->_customerModelMock->expects($this->any())
             ->method('load')
             ->will($this->returnValue($this->_customerModelMock));
@@ -1347,8 +1354,20 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
                 'getLastname' => self::LASTNAME,
                 'getName' => self::NAME,
                 'getEmail' => self::EMAIL,
+                'getAttributes' => array($attributeModelMock),
             )
         );
+
+        $attributeModelMock
+            ->expects($this->any())
+            ->method('getAttributeCode')
+            ->will($this->returnValue('attribute_code'));
+
+        $this->_customerModelMock
+            ->expects($this->any())
+            ->method('getData')
+            ->with($this->equalTo('attribute_code'))
+            ->will($this->returnValue('ATTRIBUTE_VALUE'));
 
         $this->_customerFactoryMock->expects($this->any())
             ->method('create')

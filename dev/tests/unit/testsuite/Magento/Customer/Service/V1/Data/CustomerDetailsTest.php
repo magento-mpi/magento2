@@ -42,11 +42,12 @@ class CustomerDetailsTest extends \PHPUnit_Framework_TestCase
         $this->_addressMock = $this->getMockBuilder('\Magento\Customer\Service\V1\Data\Address')
             ->disableOriginalConstructor()
             ->getMock();
-        $data = [
-            'customer' => $this->_customerMock,
-            'addresses' => [$this->_addressMock, $this->_addressMock],
-        ];
-        $this->_customerDetails = new CustomerDetails($data);
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        /** @var Magento\Customer\Service\V1\Data\CustomerDetailsBuilder $customerDetailsBuilder */
+        $customerDetailsBuilder = $objectManager->getObject('Magento\Customer\Service\V1\Data\CustomerDetailsBuilder');
+        $customerDetailsBuilder->setCustomer($this->_customerMock)
+            ->setAddresses([$this->_addressMock, $this->_addressMock]);
+        $this->_customerDetails = new CustomerDetails($customerDetailsBuilder);
     }
 
     public function testGetCustomer()

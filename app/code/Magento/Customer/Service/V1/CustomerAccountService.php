@@ -273,7 +273,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function createAccount(Daa\CustomerDetails $customerDetails, $password = null, $redirectUrl = '')
+    public function createAccount(Data\CustomerDetails $customerDetails, $password = null, $redirectUrl = '')
     {
         $customer = $customerDetails->getCustomer();
 
