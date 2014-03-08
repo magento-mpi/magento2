@@ -95,9 +95,9 @@ class Image extends AbstractHelper
     protected $_placeholder;
 
     /**
-     * @var \Magento\View\Service
+     * @var \Magento\View\Asset\Service
      */
-    protected $_viewUrl;
+    protected $_assetService;
 
     /**
      * Core store config
@@ -116,19 +116,19 @@ class Image extends AbstractHelper
     /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Catalog\Model\Product\ImageFactory $productImageFactory
-     * @param \Magento\View\Service $viewUrl
+     * @param \Magento\View\Asset\Service $assetService
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
         \Magento\Catalog\Model\Product\ImageFactory $productImageFactory,
-        \Magento\View\Service $viewUrl,
+        \Magento\View\Asset\Service $assetService,
         \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
         $this->_productImageFactory = $productImageFactory;
         parent::__construct($context);
         $this->_coreStoreConfig = $coreStoreConfig;
-        $this->_viewUrl = $viewUrl;
+        $this->_assetService = $assetService;
     }
 
     /**
@@ -170,7 +170,9 @@ class Image extends AbstractHelper
             $this->_coreStoreConfig->getConfig("design/watermark/{$this->_getModel()->getDestinationSubdir()}_image")
         );
         $this->setWatermarkImageOpacity(
-            $this->_coreStoreConfig->getConfig("design/watermark/{$this->_getModel()->getDestinationSubdir()}_imageOpacity")
+            $this->_coreStoreConfig->getConfig(
+                "design/watermark/{$this->_getModel()->getDestinationSubdir()}_imageOpacity"
+            )
         );
         $this->setWatermarkPosition(
             $this->_coreStoreConfig->getConfig("design/watermark/{$this->_getModel()->getDestinationSubdir()}_position")
@@ -404,7 +406,7 @@ class Image extends AbstractHelper
     protected function getDefaultPlaceholderUrl()
     {
         try {
-            $url = $this->_viewUrl->getAssetUrl($this->getPlaceholder());
+            $url = $this->_assetService->getAssetUrl($this->getPlaceholder());
         } catch (\Exception $e) {
             $this->_logger->logException($e);
             $url = $this->_urlBuilder->getUrl('', array('_direct' => 'core/index/notfound'));

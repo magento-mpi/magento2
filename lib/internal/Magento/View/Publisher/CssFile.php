@@ -23,9 +23,9 @@ class CssFile extends FileAbstract
         \Magento\Module\Dir\Reader $modulesReader,
         \Magento\View\FileSystem $viewFileSystem,
         \Magento\View\Asset\PathGenerator $path,
-        \Magento\View\Service $viewService,
         $filePath,
         array $viewParams,
+        \Magento\View\Service $viewService,
         $sourcePath = null
     ) {
         $this->viewService = $viewService;

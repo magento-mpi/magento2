@@ -37,7 +37,7 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
     }
 
     /**
-     * Collect getViewUrl() calls from base templates
+     * Collect usages of templates in base templates
      *
      * @return array
      */
@@ -92,7 +92,7 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
     }
 
     /**
-     * Scan specified file for getViewUrl() pattern
+     * Scan specified file for getViewFileUrl() pattern
      *
      * @param \SplFileInfo $fileInfo
      * @return array
@@ -121,8 +121,6 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
             /**
-             * getViewUrl() hard-coded in the php-files
-             *
              * @param string $application
              * @param string $file
              */

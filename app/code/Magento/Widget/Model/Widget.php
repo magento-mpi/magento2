@@ -30,9 +30,9 @@ class Widget
     protected $_configCacheType;
 
     /**
-     * @var \Magento\View\Service
+     * @var \Magento\View\Asset\Service
      */
-    protected $_viewUrl;
+    protected $_assetService;
 
     /**
      * @var \Magento\View\FileSystem
@@ -54,18 +54,18 @@ class Widget
     /**
      * @param \Magento\Escaper $escaper
      * @param \Magento\Widget\Model\Config\Data $dataStorage
-     * @param \Magento\View\Service $viewUrl
+     * @param \Magento\View\Asset\Service $assetService
      * @param \Magento\View\FileSystem $viewFileSystem
      */
     public function __construct(
         \Magento\Escaper $escaper,
         \Magento\Widget\Model\Config\Data $dataStorage,
-        \Magento\View\Service $viewUrl,
+        \Magento\View\Asset\Service $assetService,
         \Magento\View\FileSystem $viewFileSystem
     ) {
         $this->_escaper = $escaper;
         $this->_dataStorage = $dataStorage;
-        $this->_viewUrl = $viewUrl;
+        $this->_assetService = $assetService;
         $this->_viewFileSystem = $viewFileSystem;
     }
 
@@ -277,7 +277,7 @@ class Widget
         if (!$placeholder || !$this->_viewFileSystem->getViewFile($placeholder)) {
             $placeholder = 'Magento_Widget::placeholder.gif';
         }
-        return $this->_viewUrl->getAssetUrl($placeholder);
+        return $this->_assetService->getAssetUrl($placeholder);
     }
 
     /**

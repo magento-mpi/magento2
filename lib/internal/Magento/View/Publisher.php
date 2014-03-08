@@ -66,11 +66,14 @@ class Publisher implements FilesManagerInterface
     protected $tmpDirectory;
 
     /**
-     * Public directory
-     *
      * @var Service
      */
     protected $viewService;
+
+    /**
+     * @var Asset\Service
+     */
+    protected $assetService;
 
     /**
      * @param \Magento\App\Filesystem $filesystem
@@ -78,13 +81,15 @@ class Publisher implements FilesManagerInterface
      * @param Asset\PreProcessor\PreProcessorInterface $preProcessor
      * @param Publisher\FileFactory $fileFactory
      * @param Service $viewService
+     * @param Asset\Service $assetService
      */
     public function __construct(
         \Magento\App\Filesystem $filesystem,
         \Magento\View\FileSystem $viewFileSystem,
         \Magento\View\Asset\PreProcessor\PreProcessorInterface $preProcessor,
         Publisher\FileFactory $fileFactory,
-        Service $viewService
+        Service $viewService,
+        Asset\Service $assetService
     ) {
         $this->rootDirectory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::ROOT_DIR);
         $this->tmpDirectory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::VAR_DIR);
@@ -92,6 +97,7 @@ class Publisher implements FilesManagerInterface
         $this->preProcessor = $preProcessor;
         $this->fileFactory = $fileFactory;
         $this->viewService = $viewService;
+        $this->assetService = $assetService;
     }
 
     /**
@@ -168,7 +174,7 @@ class Publisher implements FilesManagerInterface
      */
     protected function publishFile(Publisher\FileInterface $publisherFile)
     {
-        $asset = $this->viewService->createAsset($publisherFile->getFilePath(), $publisherFile->getViewParams());
+        $asset = $this->assetService->createAsset($publisherFile->getFilePath(), $publisherFile->getViewParams());
         $this->viewService->publish($asset);
         $this->viewFileSystem->notifyViewFileLocationChanged($publisherFile);
     }

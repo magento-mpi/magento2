@@ -23,15 +23,15 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
         $theme = $this->getMockForAbstractClass('\Magento\View\Design\ThemeInterface');
         $theme->expects($this->once())->method('getArea')->will($this->returnValue('area'));
         $layoutMergeFactory = $this->_getLayoutMergeFactory($theme, $layoutStr);
-        $viewService = $this->getMock('Magento\View\Service', array('createAsset'), array(), '', false);
-        $viewService->expects($this->any())
+        $assetService = $this->getMock('Magento\View\Asset\Service', array('createAsset'), array(), '', false);
+        $assetService->expects($this->any())
             ->method('createAsset')
             ->will($this->returnArgument(0))
         ;
         $helper = new \Magento\Core\Helper\Theme(
             $this->getMock('Magento\App\Helper\Context', array(), array(), '', false),
             $layoutMergeFactory,
-            $viewService
+            $assetService
         );
         $result = $helper->getCssAssets($theme);
         $this->assertSame($expectedResult, $result);

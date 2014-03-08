@@ -98,11 +98,11 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     protected $_frontController;
 
     /**
-     * View URL
+     * Asset service
      *
-     * @var \Magento\View\Service
+     * @var \Magento\View\Asset\Service
      */
-    protected $_viewUrl;
+    protected $_assetService;
 
     /**
      * View config model
@@ -180,7 +180,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
         $this->_sidResolver     = $context->getSidResolver();
         $this->_storeConfig     = $context->getStoreConfig();
         $this->_frontController = $context->getFrontController();
-        $this->_viewUrl         = $context->getViewUrl();
+        $this->_assetService    = $context->getAssetService();
         $this->_viewConfig      = $context->getViewConfig();
         $this->_cacheState      = $context->getCacheState();
         $this->_logger          = $context->getLogger();
@@ -711,7 +711,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     {
         try {
             $params = array_merge(['_secure' => $this->getRequest()->isSecure()], $params);
-            return $this->_viewUrl->getAssetUrlWithParams($fileId, $params);
+            return $this->_assetService->getAssetUrlWithParams($fileId, $params);
         } catch (\Magento\Exception $e) {
             $this->_logger->logException($e);
             return $this->_getNotFoundUrl();

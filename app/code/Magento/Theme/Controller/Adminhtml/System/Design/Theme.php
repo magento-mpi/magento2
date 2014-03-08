@@ -30,9 +30,9 @@ class Theme extends \Magento\Backend\App\Action
     protected $_fileFactory;
 
     /**
-     * @var \Magento\View\Service
+     * @var \Magento\View\Asset\Service
      */
-    protected $_viewService;
+    protected $_assetService;
 
     /**
      * @var \Magento\App\Filesystem
@@ -43,19 +43,19 @@ class Theme extends \Magento\Backend\App\Action
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\App\Response\Http\FileFactory $fileFactory
-     * @param \Magento\View\Service $viewService
+     * @param \Magento\View\Asset\Service $assetService
      * @param \Magento\App\Filesystem $appFileSystem
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\App\Response\Http\FileFactory $fileFactory,
-        \Magento\View\Service $viewService,
+        \Magento\View\Asset\Service $assetService,
         \Magento\App\Filesystem $appFileSystem
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_fileFactory = $fileFactory;
-        $this->_viewService = $viewService;
+        $this->_assetService = $assetService;
         $this->_appFileSystem = $appFileSystem;
         parent::__construct($context);
     }
@@ -345,9 +345,7 @@ class Theme extends \Magento\Backend\App\Action
             if (!$theme->getId()) {
                 throw new \InvalidArgumentException(sprintf('Theme not found: "%1".', $themeId));
             }
-            $asset = $this->_viewService->createAsset($fileId, array('themeModel' => $theme));
-            /** @var \Magento\App\Filesystem $fileSystem */
-            $fileSystem = $this->_objectManager->get('Magento\App\Filesystem');
+            $asset = $this->_assetService->createAsset($fileId, array('themeModel' => $theme));
             $relPath = $this->_appFileSystem->getDirectoryRead(\Magento\App\Filesystem::ROOT_DIR)
                 ->getRelativePath($asset->getSourceFile());
             return $this->_fileFactory->create(

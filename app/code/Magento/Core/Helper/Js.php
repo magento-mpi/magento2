@@ -23,9 +23,9 @@ class Js extends \Magento\App\Helper\AbstractHelper
     protected $_translateData = null;
 
     /**
-     * @var \Magento\View\Service
+     * @var \Magento\View\Asset\Service
      */
-    protected $_viewUrl;
+    protected $_assetService;
 
     /**
      * Core data
@@ -37,16 +37,16 @@ class Js extends \Magento\App\Helper\AbstractHelper
     /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\View\Service $viewUrl
+     * @param \Magento\View\Asset\Service $assetService
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\View\Service $viewUrl
+        \Magento\View\Asset\Service $assetService
     ) {
         $this->_coreData = $coreData;
         parent::__construct($context);
-        $this->_viewUrl = $viewUrl;
+        $this->_assetService = $assetService;
     }
 
     /**
@@ -89,7 +89,7 @@ class Js extends \Magento\App\Helper\AbstractHelper
      */
     public function includeScript($file)
     {
-        return '<script type="text/javascript" src="' . $this->_viewUrl->getAssetUrl($file) . '"></script>' . "\n";
+        return '<script type="text/javascript" src="' . $this->_assetService->getAssetUrl($file) . '"></script>' . "\n";
     }
 
     /**

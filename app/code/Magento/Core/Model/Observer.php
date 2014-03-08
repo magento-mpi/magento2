@@ -38,9 +38,9 @@ class Observer
     protected $_config;
 
     /**
-     * @var \Magento\View\Service
+     * @var \Magento\View\Asset\Service
      */
-    protected $_viewService;
+    protected $_assetService;
 
     /**
      * @var \Magento\Core\Model\Theme\Registration
@@ -57,7 +57,7 @@ class Observer
      * @param \Magento\View\DesignInterface $design
      * @param \Magento\View\Asset\GroupedCollection $assets
      * @param \Magento\App\ReinitableConfigInterface $config
-     * @param \Magento\View\Service $viewService
+     * @param \Magento\View\Asset\Service $assetService
      * @param \Magento\Core\Model\Theme\Registration $registration
      * @param \Magento\Logger $logger
      */
@@ -66,7 +66,7 @@ class Observer
         \Magento\View\DesignInterface $design,
         \Magento\View\Asset\GroupedCollection $assets,
         \Magento\App\ReinitableConfigInterface $config,
-        \Magento\View\Service $viewService,
+        \Magento\View\Asset\Service $assetService,
         \Magento\Core\Model\Theme\Registration $registration,
         \Magento\Logger $logger
     ) {
@@ -74,7 +74,7 @@ class Observer
         $this->_currentTheme = $design->getDesignTheme();
         $this->_pageAssets = $assets;
         $this->_config = $config;
-        $this->_viewService = $viewService;
+        $this->_assetService = $assetService;
         $this->_registration = $registration;
         $this->_logger = $logger;
     }
@@ -127,7 +127,7 @@ class Observer
                 $service = $themeFile->getCustomizationService();
                 if ($service instanceof \Magento\View\Design\Theme\Customization\FileAssetInterface) {
                     $identifier = $themeFile->getData('file_path');
-                    $asset = $this->_viewService->createFileAsset($identifier, $themeFile->getFullPath());
+                    $asset = $this->_assetService->createFileAsset($identifier, $themeFile->getFullPath());
                     $this->_pageAssets->add($identifier, $asset);
                 }
             } catch (\InvalidArgumentException $e) {

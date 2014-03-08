@@ -27,9 +27,9 @@ class PathTest extends \PHPUnit_Framework_TestCase
     protected $_filesystem;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\View\Service
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\View\Asset\Service
      */
-    protected $_viewUrlMock;
+    protected $_assetServiceMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\StoreManager
@@ -39,7 +39,7 @@ class PathTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_filesystem = $this->getMock('Magento\App\Filesystem', array(), array(), '', false);
-        $this->_viewUrlMock = $this->getMock('Magento\View\Service', array(), array(), '', false);
+        $this->_assetServiceMock = $this->getMock('Magento\View\Asset\Service', array(), array(), '', false);
         $this->_storeManagerMock = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
 
         $this->_filesystem->expects($this->any())->method('getPath')->with(\Magento\App\Filesystem::MEDIA_DIR)
@@ -47,7 +47,7 @@ class PathTest extends \PHPUnit_Framework_TestCase
 
         $this->_model = new Path(
             $this->_filesystem,
-            $this->_viewUrlMock,
+            $this->_assetServiceMock,
             $this->_storeManagerMock
         );
     }
@@ -56,7 +56,7 @@ class PathTest extends \PHPUnit_Framework_TestCase
     {
         $this->_model = null;
         $this->_filesystem = null;
-        $this->_viewUrlMock = null;
+        $this->_assetServiceMock = null;
         $this->_storeManagerMock = null;
     }
 
@@ -77,7 +77,7 @@ class PathTest extends \PHPUnit_Framework_TestCase
      */
     public function testDefaultPreviewImageUrlGetter()
     {
-        $this->_viewUrlMock->expects($this->once())->method('getAssetUrl')
+        $this->_assetServiceMock->expects($this->once())->method('getAssetUrl')
             ->with(\Magento\Core\Model\Theme\Image\Path::DEFAULT_PREVIEW_IMAGE);
         $this->_model->getPreviewImageDefaultUrl();
     }

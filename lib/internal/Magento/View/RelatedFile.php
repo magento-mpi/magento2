@@ -16,9 +16,9 @@ class RelatedFile
     /**
      * View service
      *
-     * @var Service
+     * @var Asset\Service
      */
-    protected $viewService;
+    protected $assetService;
 
     /**
      * View file system
@@ -28,14 +28,14 @@ class RelatedFile
     protected $viewFileSystem;
 
     /**
-     * @param Service $viewService
+     * @param Asset\Service $assetService
      * @param FileSystem $viewFileSystem
      */
     public function __construct(
-        Service $viewService,
+        Asset\Service $assetService,
         FileSystem $viewFileSystem
     ) {
-        $this->viewService = $viewService;
+        $this->assetService = $assetService;
         $this->viewFileSystem = $viewFileSystem;
     }
 
@@ -50,7 +50,7 @@ class RelatedFile
     public function buildPath($relativeFilePath, $parentRelativePath, &$params)
     {
         if (strpos($relativeFilePath, \Magento\View\Asset\FileId::FILE_ID_SEPARATOR)) {
-            $relativeFilePath = $this->viewService->extractScope($relativeFilePath, $params);
+            $relativeFilePath = $this->assetService->extractScope($relativeFilePath, $params);
         } else {
             $relativeFilePath = dirname($parentRelativePath) . '/' . $relativeFilePath;
         }

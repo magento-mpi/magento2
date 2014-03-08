@@ -25,9 +25,9 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
     protected $_strategyPool;
 
     /**
-     * @var \Magento\View\Service|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\View\Asset\Service|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_viewService;
+    protected $_assetService;
 
 
     protected function setUp()
@@ -35,11 +35,11 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
         $this->_strategyPool = $this->getMock('Magento\View\Design\FileResolution\StrategyPool', array(),
             array(), '', false
         );
-        $this->_viewService = $this->getMock('Magento\View\Service',
+        $this->_assetService = $this->getMock('Magento\View\Asset\Service',
             array('extractScope', 'updateDesignParams', 'createAsset'), array(), '', false
         );
 
-        $this->_model = new \Magento\View\FileSystem($this->_strategyPool, $this->_viewService);
+        $this->_model = new \Magento\View\FileSystem($this->_strategyPool, $this->_assetService);
     }
 
     public function testGetFilename()
@@ -47,7 +47,7 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
         $params = array(
             'area'       => 'some_area',
             'themeModel' => $this->getMock('Magento\View\Design\ThemeInterface', array(), array(), '', false, false),
-            'module'     => 'Some_Module'   //It should be set in \Magento\View\Service::extractScope
+            'module'     => 'Some_Module'   //It should be set in \Magento\View\Asset\Service::extractScope
                                             // but PHPUnit has problems with passing arguments by reference
         );
         $file = 'Some_Module::some_file.ext';
@@ -64,7 +64,7 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
             ->with(false)
             ->will($this->returnValue($strategyMock));
 
-        $this->_viewService->expects($this->any())
+        $this->_assetService->expects($this->any())
             ->method('extractScope')
             ->with($file, $params)
             ->will($this->returnValue('some_file.ext'));
@@ -102,7 +102,7 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
     {
         $asset = $this->getMockForAbstractClass('\Magento\View\Asset\LocalInterface');
         $asset->expects($this->once())->method('getSourceFile')->will($this->returnValue('/source/file'));
-        $this->_viewService->expects($this->once())
+        $this->_assetService->expects($this->once())
             ->method('createAsset')
             ->with('file', array())
             ->will($this->returnValue($asset));

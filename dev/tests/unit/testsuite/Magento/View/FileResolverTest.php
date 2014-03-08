@@ -17,6 +17,11 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
     private $viewService;
 
     /**
+     * @var \Magento\View\Asset\Service|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $assetService;
+
+    /**
      * @var \Magento\View\Publisher|\PHPUnit_Framework_MockObject_MockObject
      */
     private $publisher;
@@ -40,17 +45,19 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('MAGETWO-21654');
         $this->viewService = $this->getMock('Magento\View\Service', array(), array(), '', false);
+        $this->assetService = $this->getMock('Magento\View\Asset\Service', array(), array(), '', false);
         $this->publisher = $this->getMock('Magento\View\Publisher', array(), array(), '', false);
         $this->deployedFilesManager = $this->getMock('Magento\View\DeployedFilesManager', array(), array(), '', false);
         $this->viewFilesystem = $this->getMock('Magento\View\FileSystem', array(), array(), '', false);
         $this->viewFilesystem->expects($this->any())
             ->method('normalizePath')
             ->will($this->returnArgument(0));
-        $this->viewService->expects($this->any())
+        $this->assetService->expects($this->any())
             ->method('updateDesignParams')
             ->will($this->returnArgument(0));
         $this->object = new \Magento\View\FileResolver(
             $this->viewService,
+            $this->assetService,
             $this->publisher,
             $this->deployedFilesManager,
             $this->viewFilesystem
@@ -102,7 +109,7 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
         $expectedFile = 'expected/file.js';
         $params = array('param1' => 'param 1', 'param2' => 'param 2');
 
-        $this->viewService->expects($this->once())
+        $this->assetService->expects($this->once())
             ->method('extractScope')
             ->with($file, $params)
             ->will($this->returnValue($normalizedFile));

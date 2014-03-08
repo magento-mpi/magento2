@@ -25,6 +25,6 @@ class Link extends \Magento\View\Element\Template implements AssetBlockInterface
      */
     public function getAsset()
     {
-        return $this->_viewUrl->createRemoteAsset($this->_getData('url'), self::VIRTUAL_CONTENT_TYPE);
+        return $this->_assetService->createRemoteAsset($this->_getData('url'), self::VIRTUAL_CONTENT_TYPE);
     }
 }

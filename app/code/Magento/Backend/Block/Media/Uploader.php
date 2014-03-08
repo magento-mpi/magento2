@@ -146,6 +146,6 @@ class Uploader extends \Magento\Backend\Block\Widget
      */
     public function getUploaderUrl($url)
     {
-        return $this->_viewUrl->getAssetUrl($url);
+        return $this->_assetService->getAssetUrl($url);
     }
 }

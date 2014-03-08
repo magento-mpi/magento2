@@ -35,29 +35,9 @@ class Service implements Asset\SourceFileInterface, Asset\PublishInterface
     protected $appState;
 
     /**
-     * @var \Magento\View\DesignInterface
-     */
-    private $design;
-
-    /**
-     * @var \Magento\View\Design\Theme\FlyweightFactory
-     */
-    protected $themeFactory;
-
-    /**
-     * @var \Magento\View\Design\Theme\ListInterface
-     */
-    protected $themeList;
-
-    /**
      * @var \Magento\App\Filesystem
      */
     protected $filesystem;
-
-    /**
-     * @var \Magento\UrlInterface
-     */
-    protected $baseUrl;
 
     /**
      * @var \Magento\View\Asset\PreProcessor\Factory
@@ -70,61 +50,29 @@ class Service implements Asset\SourceFileInterface, Asset\PublishInterface
     protected $resolutionPool;
 
     /**
-     * @var \Magento\View\Asset\PathGenerator
+     * @var \Magento\View\Design\Theme\Provider
      */
-    protected $pathGenerator;
+    protected $themeProvider;
 
     /**
      * @param \Magento\App\State $appState
-     * @param \Magento\View\DesignInterface $design
-     * @param \Magento\View\Design\Theme\FlyweightFactory $themeFactory
-     * @param \Magento\View\Design\Theme\ListInterface $themeList
      * @param \Magento\App\Filesystem $filesystem
-     * @param \Magento\UrlInterface $baseUrl
      * @param \Magento\View\Asset\PreProcessor\Factory $preprocessorFactory
      * @param \Magento\View\Design\FileResolution\StrategyPool $resolutionPool
-     * @param \Magento\View\Asset\PathGenerator $pathGenerator
+     * @param Design\Theme\Provider $themeProvider
      */
     public function __construct(
         \Magento\App\State $appState,
-        DesignInterface $design,
-        Design\Theme\FlyweightFactory $themeFactory,
-        \Magento\View\Design\Theme\ListInterface $themeList,
         \Magento\App\Filesystem $filesystem,
-        \Magento\UrlInterface $baseUrl,
         Asset\PreProcessor\Factory $preprocessorFactory,
         Design\FileResolution\StrategyPool $resolutionPool,
-        Asset\PathGenerator $pathGenerator
+        \Magento\View\Design\Theme\Provider $themeProvider
     ) {
         $this->appState = $appState;
-        $this->design = $design;
         $this->filesystem = $filesystem;
-        $this->themeFactory = $themeFactory;
-        $this->themeList = $themeList;
-        $this->baseUrl = $baseUrl;
         $this->preprocessorFactory = $preprocessorFactory;
         $this->resolutionPool = $resolutionPool;
-        $this->pathGenerator = $pathGenerator;
-    }
-
-    /**
-     * Identify file scope if it defined in file name and override 'module' parameter in $params array
-     *
-     * It accepts $fileId e.g. \Magento\Core::prototype/magento.css and splits it to module part and path part.
-     * Then sets module path to $params['module'] and returns path part.
-     *
-     * @param string $fileId
-     * @param array &$params
-     * @return string
-     * @throws \Magento\Exception
-     */
-    public function extractScope($fileId, array &$params)
-    {
-        list($module, $file) = Asset\FileId::extractModule($fileId);
-        if (!empty($module)) {
-            $params['module'] = $module;
-        }
-        return $file;
+        $this->themeProvider = $themeProvider;
     }
 
     /**
@@ -148,87 +96,8 @@ class Service implements Asset\SourceFileInterface, Asset\PublishInterface
     }
 
     /**
-     * Update required parameters with default values if custom not specified
-     *
-     * @param array &$params
-     * @throws \UnexpectedValueException
-     * @return $this
-     *
-     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
-     */
-    public function updateDesignParams(array &$params)
-    {
-        $defaults = $this->design->getDesignParams();
-
-        // Set area
-        if (empty($params['area'])) {
-            $params['area'] = $defaults['area'];
-        }
-
-        // Set themeModel
-        $theme = null;
-        $area = $params['area'];
-        if (!empty($params['themeId'])) {
-            $theme = $params['themeId'];
-        } elseif (isset($params['theme'])) {
-            $theme = $params['theme'];
-        } elseif (empty($params['themeModel']) && $area !== $defaults['area']) {
-            $theme = $this->design->getConfigurationDesignTheme($area);
-        }
-
-        if ($theme) {
-            $params['themeModel'] = $this->getThemeModel($theme, $area);
-            if (!$params['themeModel']) {
-                throw new \UnexpectedValueException("Could not find theme '$theme' for area '$area'");
-            }
-        } elseif (empty($params['themeModel'])) {
-            $params['themeModel'] = $defaults['themeModel'];
-        }
-
-
-        // Set module
-        if (!array_key_exists('module', $params)) {
-            $params['module'] = false;
-        }
-
-        // Set locale
-        if (empty($params['locale'])) {
-            $params['locale'] = $defaults['locale'];
-        }
-        return $this;
-    }
-
-    /**
-     * Create instance of a local asset
-     *
-     * The asset is merely a value object that doesn't know whether the resources it refers to actually exists or not.
-     * The asset object is immutable by design.
-     *
-     * @param string $fileId
-     * @param array $params
-     * @return Asset\FileId
-     */
-    public function createAsset($fileId, array $params = array())
-    {
-        $isSecure = isset($params['_secure']) ? (bool) $params['_secure'] : null;
-        $this->updateDesignParams($params);
-        $fileId = $this->extractScope($fileId, $params);
-        if ($params['module']) {
-            $fileId = $params['module'] . Asset\FileId::FILE_ID_SEPARATOR . $fileId;
-        }
-        return new Asset\FileId(
-            $this->pathGenerator,
-            $this,
-            $fileId,
-            $this->baseUrl->getBaseUrl(array('_type' => UrlInterface::URL_TYPE_STATIC, '_secure' => $isSecure)),
-            $params['area'],
-            $this->pathGenerator->getThemePath($params['themeModel']),
-            $params['locale']
-        );
-    }
-
-    /**
      * @inheritdoc
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function getSourceFile(Asset\LocalInterface $asset)
     {
@@ -256,7 +125,7 @@ class Service implements Asset\SourceFileInterface, Asset\PublishInterface
      */
     private function resolveAssetSource(Asset\FileId $asset)
     {
-        $themeModel = $this->getThemeModel($asset->getThemePath(), $asset->getAreaCode());
+        $themeModel = $this->themeProvider->getThemeModel($asset->getThemePath(), $asset->getAreaCode());
         /**
          * Bypass proxy, since caching is out of scope of this method intentionally
          * @var Design\FileResolution\Strategy\Fallback $fallback
@@ -290,80 +159,6 @@ class Service implements Asset\SourceFileInterface, Asset\PublishInterface
             }
         }
         return $file;
-    }
-
-    /**
-     * @param string $themePath
-     * @param string $areaCode
-     * @return \Magento\View\Design\ThemeInterface
-     */
-    private function getThemeModel($themePath, $areaCode)
-    {
-        if ($this->appState->isInstalled()) {
-            $themeModel = $this->themeFactory->create($themePath, $areaCode);
-        } else {
-            $themeModel = $this->themeList->getThemeByFullPath($areaCode . '/' . $themePath);
-        }
-        return $themeModel;
-    }
-
-    /**
-     * Create a file asset value object
-     *
-     * $filePath is an invariant path of the file relative to directory or a base URL
-     * $sourcePath is an absolute path in file system where its contents may be read
-     *
-     * @param string $filePath
-     * @param string $sourcePath
-     * @param string|null $baseUrl
-     * @return Asset\File
-     */
-    public function createFileAsset($filePath, $sourcePath, $baseUrl = null)
-    {
-        if (null === $baseUrl) {
-            $baseUrl = $this->baseUrl->getBaseUrl(array('_type' => UrlInterface::URL_TYPE_STATIC));
-        }
-        return new Asset\File($filePath, $sourcePath, $baseUrl);
-    }
-
-    /**
-     * Create a remote asset value object
-     *
-     * @param string $url
-     * @param string $contentType
-     * @return Asset\Remote
-     */
-    public function createRemoteAsset($url, $contentType)
-    {
-        return new Asset\Remote($url, $contentType);
-    }
-
-    /**
-     * Getter for static view file URL
-     *
-     * @param string $fileId
-     * @return string
-     */
-    public function getAssetUrl($fileId)
-    {
-        $asset = $this->createAsset($fileId);
-        return $asset->getUrl();
-    }
-
-    /**
-     * A getter for static view file URL with special parameters
-     *
-     * To omit parameters and have them automatically determined from application state, use getAssetUrl()
-     *
-     * @param string $fileId
-     * @param array $params
-     * @return string
-     * @see getAssetUrl()
-     */
-    public function getAssetUrlWithParams($fileId, array $params)
-    {
-        $asset = $this->createAsset($fileId, $params);
-        return $asset->getUrl();
     }
 
     /**

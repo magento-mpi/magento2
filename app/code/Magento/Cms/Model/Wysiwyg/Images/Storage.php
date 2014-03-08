@@ -47,9 +47,9 @@ class Storage extends \Magento\Object
     protected $_imageFactory;
 
     /**
-     * @var \Magento\View\Service
+     * @var \Magento\View\Asset\Service
      */
-    protected $_viewUrl;
+    protected $_assetService;
 
     /**
      * Core file storage database
@@ -134,7 +134,7 @@ class Storage extends \Magento\Object
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb
      * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\Image\AdapterFactory $imageFactory
-     * @param \Magento\View\Service $viewUrl
+     * @param \Magento\View\Asset\Service $assetService
      * @param \Magento\Cms\Model\Wysiwyg\Images\Storage\CollectionFactory $storageCollectionFactory
      * @param \Magento\Core\Model\File\Storage\FileFactory $storageFileFactory
      * @param \Magento\Core\Model\File\Storage\DatabaseFactory $storageDatabaseFactory
@@ -154,7 +154,7 @@ class Storage extends \Magento\Object
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb,
         \Magento\App\Filesystem $filesystem,
         \Magento\Image\AdapterFactory $imageFactory,
-        \Magento\View\Service $viewUrl,
+        \Magento\View\Asset\Service $assetService,
         \Magento\Cms\Model\Wysiwyg\Images\Storage\CollectionFactory $storageCollectionFactory,
         \Magento\Core\Model\File\Storage\FileFactory $storageFileFactory,
         \Magento\Core\Model\File\Storage\DatabaseFactory $storageDatabaseFactory,
@@ -171,7 +171,7 @@ class Storage extends \Magento\Object
         $this->_coreFileStorageDb = $coreFileStorageDb;
         $this->_directory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::MEDIA_DIR);
         $this->_imageFactory = $imageFactory;
-        $this->_viewUrl = $viewUrl;
+        $this->_assetService = $assetService;
         $this->_storageCollectionFactory = $storageCollectionFactory;
         $this->_storageFileFactory = $storageFileFactory;
         $this->_storageDatabaseFactory = $storageDatabaseFactory;
@@ -286,7 +286,7 @@ class Storage extends \Magento\Object
                     $item->setHeight($size[1]);
                 }
             } else {
-                $thumbUrl = $this->_viewUrl->getAssetUrl(self::THUMB_PLACEHOLDER_PATH_SUFFIX);
+                $thumbUrl = $this->_assetService->getAssetUrl(self::THUMB_PLACEHOLDER_PATH_SUFFIX);
             }
 
             $item->setThumbUrl($thumbUrl);

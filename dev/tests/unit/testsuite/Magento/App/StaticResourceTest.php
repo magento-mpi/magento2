@@ -30,6 +30,11 @@ class StaticResourceTest extends \PHPUnit_Framework_TestCase
     private $viewService;
 
     /**
+     * @var \Magento\View\Asset\Service|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $assetService;
+
+    /**
      * @var \Magento\Module\ModuleList|\PHPUnit_Framework_MockObject_MockObject
      */
     private $moduleList;
@@ -55,6 +60,7 @@ class StaticResourceTest extends \PHPUnit_Framework_TestCase
         $this->response = $this->getMockForAbstractClass('Magento\App\Response\FileInterface');
         $this->request = $this->getMock('Magento\App\Request\Http', array(), array(), '', false);
         $this->viewService = $this->getMock('Magento\View\Service', array(), array(), '', false);
+        $this->assetService = $this->getMock('Magento\View\Asset\Service', array(), array(), '', false);
         $this->moduleList = $this->getMock('Magento\Module\ModuleList', array(), array(), '', false);
         $this->objectManager = $this->getMockForAbstractClass('Magento\ObjectManager');
         $this->configLoader = $this->getMock('Magento\App\ObjectManager\ConfigLoader', array(), array(), '', false);
@@ -63,6 +69,7 @@ class StaticResourceTest extends \PHPUnit_Framework_TestCase
             $this->response,
             $this->request,
             $this->viewService,
+            $this->assetService,
             $this->moduleList,
             $this->objectManager,
             $this->configLoader
@@ -123,7 +130,7 @@ class StaticResourceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($moduleExists));
         $asset = $this->getMockForAbstractClass('\Magento\View\Asset\LocalInterface');
         $asset->expects($this->once())->method('getSourceFile')->will($this->returnValue('resource/file.css'));
-        $this->viewService->expects($this->once())
+        $this->assetService->expects($this->once())
             ->method('createAsset')
             ->with($expectedFile, $expectedParams)
             ->will($this->returnValue($asset));

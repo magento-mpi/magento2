@@ -35,6 +35,11 @@ class StaticResource implements \Magento\LauncherInterface
     private $viewService;
 
     /**
+     * @var \Magento\View\Asset\Service
+     */
+    private $assetService;
+
+    /**
      * @var \Magento\Module\ModuleList
      */
     private $moduleList;
@@ -54,6 +59,7 @@ class StaticResource implements \Magento\LauncherInterface
      * @param Response\FileInterface $response
      * @param Request\Http $request
      * @param \Magento\View\Service $viewService
+     * @param \Magento\View\Asset\Service $assetService
      * @param \Magento\Module\ModuleList $moduleList
      * @param \Magento\ObjectManager $objectManager
      * @param ObjectManager\ConfigLoader $configLoader
@@ -63,6 +69,7 @@ class StaticResource implements \Magento\LauncherInterface
         Response\FileInterface $response,
         Request\Http $request,
         \Magento\View\Service $viewService,
+        \Magento\View\Asset\Service $assetService,
         \Magento\Module\ModuleList $moduleList,
         \Magento\ObjectManager $objectManager,
         ObjectManager\ConfigLoader $configLoader
@@ -71,6 +78,7 @@ class StaticResource implements \Magento\LauncherInterface
         $this->response = $response;
         $this->request = $request;
         $this->viewService = $viewService;
+        $this->assetService = $assetService;
         $this->moduleList = $moduleList;
         $this->objectManager = $objectManager;
         $this->configLoader = $configLoader;
@@ -96,7 +104,7 @@ class StaticResource implements \Magento\LauncherInterface
             unset($params['file']);
 
             try {
-                $asset = $this->viewService->createAsset($file, $params);
+                $asset = $this->assetService->createAsset($file, $params);
                 $this->response->setFilePath($asset->getSourceFile());
                 $this->viewService->publish($asset);
             } catch (\Exception $e) {

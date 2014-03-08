@@ -15,9 +15,9 @@ namespace Magento\Rule\Model\Condition;
 class Context implements \Magento\ObjectManager\ContextInterface
 {
     /**
-     * @var \Magento\View\Service
+     * @var \Magento\View\Asset\Service
      */
-    protected $_viewUrl;
+    protected $_assetService;
 
     /**
      * @var \Magento\Core\Model\LocaleInterface
@@ -40,20 +40,20 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_logger;
 
     /**
-     * @param \Magento\View\Service $viewUrl
+     * @param \Magento\View\Asset\Service $assetService
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Rule\Model\ConditionFactory $conditionFactory
      * @param \Magento\Logger $logger
      */
     public function __construct(
-        \Magento\View\Service $viewUrl,
+        \Magento\View\Asset\Service $assetService,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\View\LayoutInterface $layout,
         \Magento\Rule\Model\ConditionFactory $conditionFactory,
         \Magento\Logger $logger
     ) {
-        $this->_viewUrl = $viewUrl;
+        $this->_assetService = $assetService;
         $this->_locale = $locale;
         $this->_layout = $layout;
         $this->_conditionFactory = $conditionFactory;
@@ -61,11 +61,11 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\View\Service
+     * @return \Magento\View\Asset\Service
      */
-    public function getViewUrl()
+    public function getAssetService()
     {
-        return $this->_viewUrl;
+        return $this->_assetService;
     }
 
     /**

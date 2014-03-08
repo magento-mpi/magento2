@@ -42,15 +42,15 @@ class BaseImage extends \Magento\Data\Form\Element\AbstractElement
     protected $_fileConfig;
 
     /**
-     * @var \Magento\View\Service
+     * @var \Magento\View\Asset\Service
      */
-    protected $_viewUrl;
+    protected $_assetService;
 
     /**
      * @param \Magento\Data\Form\Element\Factory $factoryElement
      * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
      * @param \Magento\Escaper $escaper
-     * @param \Magento\View\Service $viewUrl
+     * @param \Magento\View\Asset\Service $assetService
      * @param \Magento\Backend\Model\UrlFactory $backendUrlFactory
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\File\Size $fileConfig
@@ -60,7 +60,7 @@ class BaseImage extends \Magento\Data\Form\Element\AbstractElement
         \Magento\Data\Form\Element\Factory $factoryElement,
         \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
         \Magento\Escaper $escaper,
-        \Magento\View\Service $viewUrl,
+        \Magento\View\Asset\Service $assetService,
         \Magento\Backend\Model\UrlFactory $backendUrlFactory,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\File\Size $fileConfig,
@@ -68,7 +68,7 @@ class BaseImage extends \Magento\Data\Form\Element\AbstractElement
     ) {
         parent::__construct($factoryElement, $factoryCollection, $escaper, $data);
 
-        $this->_viewUrl = $viewUrl;
+        $this->_assetService = $assetService;
         $this->_url = $backendUrlFactory->create();
         $this->_catalogHelperData = $catalogData;
         $this->_fileConfig = $fileConfig;
@@ -94,7 +94,7 @@ class BaseImage extends \Magento\Data\Form\Element\AbstractElement
     {
         $htmlId = $this->_escaper->escapeHtml($this->getHtmlId());
         $uploadUrl = $this->_escaper->escapeHtml($this->_getUploadUrl());
-        $spacerImage = $this->_viewUrl->getAssetUrl('images/spacer.gif');
+        $spacerImage = $this->_assetService->getAssetUrl('images/spacer.gif');
         $imagePlaceholderText = __('Click here or drag and drop to add images');
         $deleteImageText = __('Delete image');
         $makeBaseText = __('Make Base');

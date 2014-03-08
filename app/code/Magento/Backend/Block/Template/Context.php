@@ -33,7 +33,7 @@ class Context extends \Magento\View\Element\Template\Context
      * @var \Magento\Data\Form\FormKey
      */
     protected $formKey;
-    
+
     /**
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\View\LayoutInterface $layout
@@ -46,7 +46,7 @@ class Context extends \Magento\View\Element\Template\Context
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Magento\Core\Model\Store\Config $storeConfig
      * @param \Magento\App\FrontController $frontController
-     * @param \Magento\View\Service $viewUrl
+     * @param \Magento\View\Asset\Service $assetService
      * @param \Magento\View\ConfigInterface $viewConfig
      * @param \Magento\App\Cache\StateInterface $cacheState
      * @param \Magento\Logger $logger
@@ -64,7 +64,7 @@ class Context extends \Magento\View\Element\Template\Context
      * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Data\Form\FormKey $formKey
      * @param array $data
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -79,7 +79,7 @@ class Context extends \Magento\View\Element\Template\Context
         \Magento\Session\SidResolverInterface $sidResolver,
         \Magento\Core\Model\Store\Config $storeConfig,
         \Magento\App\FrontController $frontController,
-        \Magento\View\Service $viewUrl,
+        \Magento\View\Asset\Service $assetService,
         \Magento\View\ConfigInterface $viewConfig,
         \Magento\App\Cache\StateInterface $cacheState,
         \Magento\Logger $logger,
@@ -114,7 +114,7 @@ class Context extends \Magento\View\Element\Template\Context
             $sidResolver,
             $storeConfig,
             $frontController,
-            $viewUrl,
+            $assetService,
             $viewConfig,
             $cacheState,
             $logger,

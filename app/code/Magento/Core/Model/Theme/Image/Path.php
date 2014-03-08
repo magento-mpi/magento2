@@ -26,9 +26,9 @@ class Path implements \Magento\View\Design\Theme\Image\PathInterface
     protected $filesystem;
 
     /**
-     * @var \Magento\View\Service
+     * @var \Magento\View\Asset\Service
      */
-    protected $viewUrl;
+    protected $assetService;
 
     /**
      * @var \Magento\Core\Model\StoreManagerInterface
@@ -39,16 +39,16 @@ class Path implements \Magento\View\Design\Theme\Image\PathInterface
      * Initialize dependencies
      * 
      * @param \Magento\App\Filesystem $filesystem
-     * @param \Magento\View\Service $viewUrl
+     * @param \Magento\View\Asset\Service $assetService
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\App\Filesystem $filesystem,
-        \Magento\View\Service $viewUrl,
+        \Magento\View\Asset\Service $assetService,
         \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         $this->filesystem = $filesystem;
-        $this->viewUrl = $viewUrl;
+        $this->assetService = $assetService;
         $this->_storeManager = $storeManager;
     }
 
@@ -70,7 +70,7 @@ class Path implements \Magento\View\Design\Theme\Image\PathInterface
      */
     public function getPreviewImageDefaultUrl()
     {
-        return $this->viewUrl->getAssetUrl(self::DEFAULT_PREVIEW_IMAGE);
+        return $this->assetService->getAssetUrl(self::DEFAULT_PREVIEW_IMAGE);
     }
 
     /**

@@ -97,11 +97,9 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_frontController;
 
     /**
-     * View URL
-     *
-     * @var \Magento\View\Service
+     * @var \Magento\View\Asset\Service
      */
-    protected $_viewUrl;
+    protected $_assetService;
 
     /**
      * View config model
@@ -166,7 +164,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Magento\Core\Model\Store\Config $storeConfig
      * @param \Magento\App\FrontController $frontController
-     * @param \Magento\View\Service $viewUrl
+     * @param \Magento\View\Asset\Service $assetService
      * @param \Magento\View\ConfigInterface $viewConfig
      * @param \Magento\App\Cache\StateInterface $cacheState
      * @param \Magento\Logger $logger
@@ -191,7 +189,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\Session\SidResolverInterface $sidResolver,
         \Magento\Core\Model\Store\Config $storeConfig,
         \Magento\App\FrontController $frontController,
-        \Magento\View\Service $viewUrl,
+        \Magento\View\Asset\Service $assetService,
         \Magento\View\ConfigInterface $viewConfig,
         \Magento\App\Cache\StateInterface $cacheState,
         \Magento\Logger $logger,
@@ -212,7 +210,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         $this->_sidResolver     = $sidResolver;
         $this->_storeConfig     = $storeConfig;
         $this->_frontController = $frontController;
-        $this->_viewUrl         = $viewUrl;
+        $this->_assetService    = $assetService;
         $this->_viewConfig      = $viewConfig;
         $this->_cacheState      = $cacheState;
         $this->_logger          = $logger;
@@ -333,13 +331,13 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * Get view URL
+     * Get asset service
      *
-     * @return \Magento\View\Service
+     * @return \Magento\View\Asset\Service
      */
-    public function getViewUrl()
+    public function getAssetService()
     {
-        return $this->_viewUrl;
+        return $this->_assetService;
     }
 
     /**

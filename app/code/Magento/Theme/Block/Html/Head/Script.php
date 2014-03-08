@@ -20,6 +20,6 @@ class Script extends \Magento\View\Element\AbstractBlock implements AssetBlockIn
      */
     public function getAsset()
     {
-        return $this->_viewUrl->createAsset($this->_getData('file'));
+        return $this->_assetService->createAsset($this->_getData('file'));
     }
 }

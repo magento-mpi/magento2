@@ -27,7 +27,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_viewService;
+    protected $_assetService;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -95,7 +95,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_configMock = $this->getMock('\Magento\App\ReinitableConfigInterface',
             array(), array(), '', false, false);
 
-        $this->_viewService = $this->getMock('Magento\View\Service',
+        $this->_assetService = $this->getMock('Magento\View\Asset\Service',
             array('createFileAsset'), array(), '', false);
 
         $this->_model = new Observer(
@@ -103,7 +103,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             $designMock,
             $this->_assetsMock,
             $this->_configMock,
-            $this->_viewService,
+            $this->_assetService,
             $this->getMock('\Magento\Core\Model\Theme\Registration', array(), array(), '', false),
             $this->getMock('\Magento\Logger', array(), array(), '', false)
         );
@@ -144,7 +144,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $file->expects($this->any())->method('getCustomizationService')->will($this->returnValue($fileService));
         $file->expects($this->atLeastOnce())->method('getFullPath')->will($this->returnValue('test.css'));
 
-        $this->_viewService->expects($this->once())
+        $this->_assetService->expects($this->once())
             ->method('createFileAsset')
             ->will($this->returnValue($asset));
 

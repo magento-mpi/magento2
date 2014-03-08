@@ -19,9 +19,9 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
     protected $model;
 
     /**
-     * @var \Magento\View\Service
+     * @var \Magento\View\Asset\Service
      */
-    protected $viewService;
+    protected $assetService;
 
     /**
      * @var \Magento\View\FileSystem
@@ -42,7 +42,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = Bootstrap::getObjectManager();
         $objectManager->get('Magento\App\State')->setAreaCode('frontend');
-        $this->viewService = $objectManager->create('Magento\View\Service');
+        $this->assetService = $objectManager->create('Magento\View\Asset\Service');
         $this->fileSystem = $objectManager->create('Magento\View\FileSystem');
         $this->appFilesystem = $objectManager->create('Magento\App\Filesystem');
         $this->fileResolver = $objectManager->create('Magento\View\FileResolver');
@@ -69,7 +69,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
         $this->_initTestTheme();
 
         Bootstrap::getObjectManager()->get('Magento\Core\Model\LocaleInterface')->setLocale($locale);
-        $this->assertStringEndsWith($expectedUrl, $this->viewService->getAssetUrl($file));
+        $this->assertStringEndsWith($expectedUrl, $this->assetService->getAssetUrl($file));
         $viewFile = $this->fileSystem->getViewFile($file);
         $this->assertFileExists($viewFile);
     }
@@ -572,7 +572,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
         $this->model = $objectManager->get('Magento\View\DesignInterface');
         $this->model->setDesignTheme('test_default');
 
-        $this->viewService = $objectManager->create('Magento\View\Service');
+        $this->assetService = $objectManager->create('Magento\View\Service');
         $this->fileSystem = $objectManager->create('Magento\View\FileSystem');
     }
 

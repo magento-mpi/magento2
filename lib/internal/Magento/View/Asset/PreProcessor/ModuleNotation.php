@@ -41,7 +41,7 @@ class ModuleNotation implements Asset\PreProcessorInterface
      */
     public function process($content, $contentType, Asset\LocalInterface $asset)
     {
-        $callback = function($path) use ($asset) {
+        $callback = function ($path) use ($asset) {
             return self::convertModuleNotationToPath($asset, $path);
         };
         $content = $this->cssResolver->replaceRelativeUrls($content, $callback);

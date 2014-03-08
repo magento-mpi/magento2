@@ -46,24 +46,24 @@ class MagentoImport implements PreProcessorInterface
     /**
      * View service
      *
-     * @var \Magento\View\Service
+     * @var \Magento\View\Asset\Service
      */
-    protected $viewService;
+    protected $assetService;
 
     /**
      * @param View\File\SourceInterface $fileSource
-     * @param View\Service $viewService
+     * @param View\Asset\Service $assetService
      * @param View\RelatedFile $relatedFile
      * @param PreProcessor\ErrorHandlerInterface $errorHandler
      */
     public function __construct(
         View\File\SourceInterface $fileSource,
-        View\Service $viewService,
+        View\Asset\Service $assetService,
         View\RelatedFile $relatedFile,
         PreProcessor\ErrorHandlerInterface $errorHandler
     ) {
         $this->fileSource = $fileSource;
-        $this->viewService = $viewService;
+        $this->assetService = $assetService;
         $this->relatedFile = $relatedFile;
         $this->errorHandler = $errorHandler;
     }
@@ -75,7 +75,7 @@ class MagentoImport implements PreProcessorInterface
     {
         $viewParams = $lessFile->getViewParams();
         $parentPath = $lessFile->getFilePath();
-        $this->viewService->updateDesignParams($viewParams);
+        $this->assetService->updateDesignParams($viewParams);
         $replaceCallback = function ($matchContent) use ($viewParams, $parentPath) {
             return $this->replace($matchContent, $viewParams, $parentPath);
         };

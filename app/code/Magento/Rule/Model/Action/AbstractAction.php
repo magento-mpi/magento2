@@ -18,9 +18,9 @@ use Magento\Data\Form\Element\AbstractElement;
 abstract class AbstractAction extends \Magento\Object implements ActionInterface
 {
     /**
-     * @var \Magento\View\Service
+     * @var \Magento\View\Asset\Service
      */
-    protected $_viewUrl;
+    protected $_assetService;
 
     /**
      * @var \Magento\View\LayoutInterface
@@ -28,16 +28,16 @@ abstract class AbstractAction extends \Magento\Object implements ActionInterface
     protected $_layout;
 
     /**
-     * @param \Magento\View\Service $viewUrl
+     * @param \Magento\View\Asset\Service $assetService
      * @param \Magento\View\LayoutInterface $layout
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Service $viewUrl,
+        \Magento\View\Asset\Service $assetService,
         \Magento\View\LayoutInterface $layout,
         array $data = array()
     ) {
-        $this->_viewUrl = $viewUrl;
+        $this->_assetService = $assetService;
         $this->_layout = $layout;
 
         parent::__construct($data);
@@ -292,7 +292,7 @@ abstract class AbstractAction extends \Magento\Object implements ActionInterface
      */
     public function getAddLinkHtml()
     {
-        $src = $this->_viewUrl->getAssetUrl('images/rule_component_add.gif');
+        $src = $this->_assetService->getAssetUrl('images/rule_component_add.gif');
         $html = '<img src="' . $src . '" alt="" class="rule-param-add v-middle" />';
         return $html;
     }
@@ -302,7 +302,7 @@ abstract class AbstractAction extends \Magento\Object implements ActionInterface
      */
     public function getRemoveLinkHtml()
     {
-        $src = $this->_viewUrl->getAssetUrl('images/rule_component_remove.gif');
+        $src = $this->_assetService->getAssetUrl('images/rule_component_remove.gif');
         $html = '<span class="rule-param"><a href="javascript:void(0)" class="rule-param-remove"><img src="'
             . $src . '" alt="" class="v-middle" /></a></span>';
         return $html;

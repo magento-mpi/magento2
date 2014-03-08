@@ -16,6 +16,11 @@ class FileResolver
     protected $viewService;
 
     /**
+     * @var \Magento\View\Asset\Service
+     */
+    protected $assetService;
+
+    /**
      * @var \Magento\View\Publisher
      */
     protected $publisher;
@@ -32,17 +37,20 @@ class FileResolver
 
     /**
      * @param Service $viewService
+     * @param Asset\Service $assetService
      * @param Publisher $publisher
      * @param DeployedFilesManager $deployedFileManager
      * @param \Magento\View\FileSystem $viewFileSystem
      */
     public function __construct(
         \Magento\View\Service $viewService,
+        \Magento\View\Asset\Service $assetService,
         \Magento\View\Publisher $publisher,
         \Magento\View\DeployedFilesManager $deployedFileManager,
         \Magento\View\FileSystem $viewFileSystem
     ) {
         $this->viewService = $viewService;
+        $this->assetService = $assetService;
         $this->publisher = $publisher;
         $this->deployedFileManager = $deployedFileManager;
         $this->viewFileSystem = $viewFileSystem;
@@ -57,8 +65,8 @@ class FileResolver
      */
     public function getPublicViewFile($fileId, array $params = array())
     {
-        $this->viewService->updateDesignParams($params);
-        $filePath = $this->viewService->extractScope($this->viewFileSystem->normalizePath($fileId), $params);
+        $this->assetService->updateDesignParams($params);
+        $filePath = $this->assetService->extractScope($this->viewFileSystem->normalizePath($fileId), $params);
         $publicFilePath = $this->getFilesManager()->getPublicViewFile($filePath, $params);
 
         return $publicFilePath;
@@ -73,8 +81,8 @@ class FileResolver
      */
     public function getViewFile($fileId, array $params = array())
     {
-        $this->viewService->updateDesignParams($params);
-        $filePath = $this->viewService->extractScope($this->viewFileSystem->normalizePath($fileId), $params);
+        $this->assetService->updateDesignParams($params);
+        $filePath = $this->assetService->extractScope($this->viewFileSystem->normalizePath($fileId), $params);
         $viewFile = $this->getFilesManager()->getViewFile($filePath, $params);
         return $viewFile;
     }

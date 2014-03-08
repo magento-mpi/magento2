@@ -62,9 +62,9 @@ class UrlResolver implements PreProcessorInterface
     protected $fileFactory;
 
     /**
-     * @var \Magento\View\Service
+     * @var \Magento\View\Asset\Service
      */
-    protected $viewService;
+    protected $assetService;
 
     /**
      * @param \Magento\App\Filesystem $filesystem
@@ -73,7 +73,7 @@ class UrlResolver implements PreProcessorInterface
      * @param \Magento\View\FileResolver $fileResolver
      * @param \Magento\Logger $logger
      * @param \Magento\View\Publisher\FileFactory $fileFactory
-     * @param \Magento\View\Service $viewService
+     * @param \Magento\View\Asset\Service $assetService
      */
     public function __construct(
         \Magento\App\Filesystem $filesystem,
@@ -82,7 +82,7 @@ class UrlResolver implements PreProcessorInterface
         \Magento\View\FileResolver $fileResolver,
         \Magento\Logger $logger,
         \Magento\View\Publisher\FileFactory $fileFactory,
-        \Magento\View\Service $viewService
+        \Magento\View\Asset\Service $assetService
     ) {
         $this->rootDirectory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::ROOT_DIR);
         $this->relatedFile = $relatedFile;
@@ -90,7 +90,7 @@ class UrlResolver implements PreProcessorInterface
         $this->fileResolver = $fileResolver;
         $this->logger = $logger;
         $this->fileFactory = $fileFactory;
-        $this->viewService = $viewService;
+        $this->assetService = $assetService;
     }
 
     /**
@@ -109,7 +109,7 @@ class UrlResolver implements PreProcessorInterface
         $sourcePath = $publisherFile->getSourcePath();
         $content = $this->rootDirectory->readFile($this->rootDirectory->getRelativePath($sourcePath));
         $params = $publisherFile->getViewParams();
-        $asset = $this->viewService->createAsset($filePath, $params);
+        $asset = $this->assetService->createAsset($filePath, $params);
 
         /**
          * Don't replace anything actually, but publish and preprocess related files
@@ -119,7 +119,7 @@ class UrlResolver implements PreProcessorInterface
          * @param string $path
          * @return string
          */
-        $callback = function($path) use ($asset, $filePath, $params) {
+        $callback = function ($path) use ($asset, $filePath, $params) {
             $this->getRelatedViewFilePath($path, $filePath, $params);
             return $path;
         };

@@ -42,9 +42,9 @@ class PreProcessorTest extends \PHPUnit_Framework_TestCase
         $filesystem = $this->objectManager->get('Magento\Filesystem');
         $targetDirectory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::TMP_DIR);
         $designParams = array('area' => 'frontend', 'theme' => 'test_pre_process');
-        /** @var \Magento\View\Service $viewService */
-        $viewService = $this->objectManager->get('Magento\View\Service');
-        $viewService->updateDesignParams($designParams);
+        /** @var \Magento\View\Asset\Service $assetService */
+        $assetService = $this->objectManager->get('Magento\View\Asset\Service');
+        $assetService->updateDesignParams($designParams);
         /** @var $file \Magento\View\Publisher\CssFile */
         $cssFile = $this->objectManager->create(
             'Magento\View\Publisher\CssFile',
@@ -70,9 +70,9 @@ class PreProcessorTest extends \PHPUnit_Framework_TestCase
     public function testCircularDependency()
     {
         $designParams = array('area' => 'frontend', 'theme' => 'test_pre_process');
-        /** @var \Magento\View\Service $viewService */
-        $viewService = $this->objectManager->get('Magento\View\Service');
-        $viewService->updateDesignParams($designParams);
+        /** @var \Magento\View\Asset\Service $assetService */
+        $assetService = $this->objectManager->get('Magento\View\Asset\Service');
+        $assetService->updateDesignParams($designParams);
         /** @var $fileList \Magento\Less\PreProcessor\File\FileList */
         $fileList = $this->objectManager->create('Magento\Less\PreProcessor\File\FileList');
         $fileListFactoryMock = $this->getMock('Magento\Less\PreProcessor\File\FileListFactory',

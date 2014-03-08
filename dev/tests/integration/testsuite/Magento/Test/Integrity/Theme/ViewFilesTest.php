@@ -19,14 +19,14 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
     protected $objectManager;
 
     /**
-     * @var \Magento\View\Service
+     * @var \Magento\View\Asset\Service
      */
-    protected $viewService;
+    protected $assetService;
 
     protected function setUp()
     {
         $this->objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectmanager();
-        $this->viewService = $this->objectManager->get('Magento\View\Service');
+        $this->assetService = $this->objectManager->get('Magento\View\Asset\Service');
         $this->objectManager->configure(array(
             'preferences' => array('Magento\Core\Model\Theme' => 'Magento\Core\Model\Theme\Data')
         ));
@@ -37,23 +37,24 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
      */
     public function testViewLessFilesPreProcessing()
     {
+        $viewService = $this->objectManager->get('Magento\View\Service');
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
             /**
              * @param string $file
              * @param string $area
              */
-            function ($file, $area, $themeId) {
+            function ($file, $area, $themeId) use ($viewService) {
                 if (substr($file, -4) == '.css') {
                     $lessFile = substr($file, 0, -4) . '.less';
                     $params = array('area' => $area, 'themeId' => $themeId);
 
-                    $cssAsset = $this->viewService->createAsset($file, $params);
-                    $cssSourceFile = $this->viewService->getSourceFile($cssAsset);
+                    $cssAsset = $this->assetService->createAsset($file, $params);
+                    $cssSourceFile = $viewService->getSourceFile($cssAsset);
                     $cssSourceFileExists = $cssSourceFile && file_exists($cssSourceFile);
 
-                    $lessAsset = $this->viewService->createAsset($lessFile, $params);
-                    $lessSourceFile = $this->viewService->getSourceFile($lessAsset);
+                    $lessAsset = $this->assetService->createAsset($lessFile, $params);
+                    $lessSourceFile = $viewService->getSourceFile($lessAsset);
                     $lessSourceFileExists = $lessSourceFile && file_exists($lessSourceFile);
 
                     $this->assertTrue(
@@ -89,7 +90,7 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
             function ($file, $area, $themeId) use ($fallback) {
                 $params = array('area' => $area, 'themeId' => $themeId);
                 list($params['module'], $file) = \Magento\View\Asset\FileId::extractModule($file);
-                $this->viewService->updateDesignParams($params);
+                $this->assetService->updateDesignParams($params);
                 $originalViewFile = $fallback->getViewFile(
                     $params['area'], $params['themeModel'], $params['locale'], $file, $params['module']
                 );
@@ -156,7 +157,7 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
     }
 
     /**
-     * Collect getViewUrl() and similar calls from themes
+     * Collect usages of view files in themes
      *
      * @param \Magento\Core\Model\Theme[] $themes
      * @return array
@@ -266,8 +267,6 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
     }
 
     /**
-     * Scan specified file for getViewUrl() pattern
-     *
      * @param \SplFileInfo $fileInfo
      * @return array
      */

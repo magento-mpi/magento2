@@ -73,7 +73,7 @@ class Context extends \Magento\View\Element\Context
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Magento\Core\Model\Store\Config $storeConfig
      * @param \Magento\App\FrontController $frontController
-     * @param \Magento\View\Service $viewUrl
+     * @param \Magento\View\Asset\Service $assetService
      * @param \Magento\View\ConfigInterface $viewConfig
      * @param \Magento\App\Cache\StateInterface $cacheState
      * @param \Magento\Logger $logger
@@ -102,7 +102,7 @@ class Context extends \Magento\View\Element\Context
         \Magento\Session\SidResolverInterface $sidResolver,
         \Magento\Core\Model\Store\Config $storeConfig,
         \Magento\App\FrontController $frontController,
-        \Magento\View\Service $viewUrl,
+        \Magento\View\Asset\Service $assetService,
         \Magento\View\ConfigInterface $viewConfig,
         \Magento\App\Cache\StateInterface $cacheState,
         \Magento\Logger $logger,
@@ -129,7 +129,7 @@ class Context extends \Magento\View\Element\Context
             $sidResolver,
             $storeConfig,
             $frontController,
-            $viewUrl,
+            $assetService,
             $viewConfig,
             $cacheState,
             $logger,

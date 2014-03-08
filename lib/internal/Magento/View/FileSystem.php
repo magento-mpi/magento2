@@ -23,22 +23,22 @@ class FileSystem
     /**
      * View service
      *
-     * @var Service
+     * @var Asset\Service
      */
-    protected $_viewService;
+    protected $_assetService;
 
     /**
      * Constructor
      *
      * @param \Magento\View\Design\FileResolution\StrategyPool $resolutionPool
-     * @param Service $viewService
+     * @param Asset\Service $assetService
      */
     public function __construct(
         \Magento\View\Design\FileResolution\StrategyPool $resolutionPool,
-        Service $viewService
+        Asset\Service $assetService
     ) {
         $this->_resolutionPool = $resolutionPool;
-        $this->_viewService = $viewService;
+        $this->_assetService = $assetService;
     }
 
     /**
@@ -50,8 +50,8 @@ class FileSystem
      */
     public function getFilename($fileId, array $params = array())
     {
-        $filePath = $this->_viewService->extractScope($this->normalizePath($fileId), $params);
-        $this->_viewService->updateDesignParams($params);
+        $filePath = $this->_assetService->extractScope($this->normalizePath($fileId), $params);
+        $this->_assetService->updateDesignParams($params);
         return $this->_resolutionPool->getFileStrategy(!empty($params['skipProxy']))
             ->getFile($params['area'], $params['themeModel'], $filePath, $params['module']);
     }
@@ -65,7 +65,7 @@ class FileSystem
      */
     public function getLocaleFileName($file, array $params = array())
     {
-        $this->_viewService->updateDesignParams($params);
+        $this->_assetService->updateDesignParams($params);
         $skipProxy = isset($params['skipProxy']) && $params['skipProxy'];
         return $this->_resolutionPool->getLocaleStrategy($skipProxy)->getLocaleFile(
             $params['area'],
@@ -84,7 +84,7 @@ class FileSystem
      */
     public function getViewFile($fileId, array $params = array())
     {
-        $asset = $this->_viewService->createAsset($fileId, $params);
+        $asset = $this->_assetService->createAsset($fileId, $params);
         return $asset->getSourceFile();
     }
 

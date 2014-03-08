@@ -43,7 +43,7 @@ class MergedTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_viewService;
+    protected $_assetService;
 
     protected function setUp()
     {
@@ -62,20 +62,8 @@ class MergedTest extends \PHPUnit_Framework_TestCase
         $this->_mergeStrategy = $this->getMock('Magento\View\Asset\MergeStrategyInterface');
 
         $this->_filesystem = $this->getMock('Magento\App\Filesystem', array(), array(), '', false);
-        $this->_viewService = $this->getMock(
-            '\Magento\View\Service',
-            array(),
-            array(
-                $this->getMock('\Magento\App\State', array(), array(), '', false),
-                $this->getMockForAbstractClass('\Magento\View\DesignInterface'),
-                $this->getMock('\Magento\View\Design\Theme\FlyweightFactory', array(), array(), '', false),
-                $this->_filesystem,
-                $this->getMockForAbstractClass('\Magento\UrlInterface'),
-                $this->getMock('\Magento\View\Asset\PreProcessor\Factory', array(), array(), '', false),
-                $this->getMock('\Magento\View\Design\FileResolution\StrategyPool', array(), array(), '', false)
-            ),
-            '',
-            false
+        $this->_assetService = $this->getMock(
+            '\Magento\View\Asset\Service', array(), array(), '', false
         );
     }
 
@@ -86,7 +74,7 @@ class MergedTest extends \PHPUnit_Framework_TestCase
     public function testConstructorNothingToMerge()
     {
         new \Magento\View\Asset\Merged(
-            $this->_logger, $this->_mergeStrategy, $this->_filesystem, $this->_viewService, array()
+            $this->_logger, $this->_mergeStrategy, $this->_filesystem, $this->_assetService, array()
         );
     }
 
@@ -98,7 +86,7 @@ class MergedTest extends \PHPUnit_Framework_TestCase
     {
         $assetUrl = new \Magento\View\Asset\Remote('http://example.com/style.css', 'css');
         new \Magento\View\Asset\Merged(
-            $this->_logger, $this->_mergeStrategy, $this->_filesystem, $this->_viewService,
+            $this->_logger, $this->_mergeStrategy, $this->_filesystem, $this->_assetService,
             array($this->_assetJsOne, $assetUrl)
         );
     }
@@ -112,7 +100,7 @@ class MergedTest extends \PHPUnit_Framework_TestCase
         $assetCss = $this->getMockForAbstractClass('Magento\View\Asset\MergeableInterface');
         $assetCss->expects($this->any())->method('getContentType')->will($this->returnValue('css'));
         new \Magento\View\Asset\Merged(
-            $this->_logger, $this->_mergeStrategy, $this->_filesystem, $this->_viewService,
+            $this->_logger, $this->_mergeStrategy, $this->_filesystem, $this->_assetService,
             array($this->_assetJsOne, $assetCss)
         );
     }
@@ -126,7 +114,7 @@ class MergedTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo(\Magento\App\Filesystem::STATIC_VIEW_DIR))
             ->will($this->returnValue('pub/static'));
         $merged = new \Magento\View\Asset\Merged(
-            $this->_logger, $this->_mergeStrategy, $this->_filesystem, $this->_viewService,
+            $this->_logger, $this->_mergeStrategy, $this->_filesystem, $this->_assetService,
             $assets
         );
         $mergedAsset = $this->getMockForAbstractClass('Magento\View\Asset\MergeableInterface');
@@ -135,7 +123,7 @@ class MergedTest extends \PHPUnit_Framework_TestCase
             ->method('merge')
             ->with($assets, $mergedAsset)
             ->will($this->returnValue(null));
-        $this->_viewService->expects($this->once())->method('createFileAsset')->will($this->returnValue($mergedAsset));
+        $this->_assetService->expects($this->once())->method('createFileAsset')->will($this->returnValue($mergedAsset));
         $expectedResult = array($mergedAsset);
 
         $this->_assertIteratorEquals($expectedResult, $merged);
@@ -151,7 +139,7 @@ class MergedTest extends \PHPUnit_Framework_TestCase
             ->will($this->throwException($mergeError));
 
         $merged = new \Magento\View\Asset\Merged(
-            $this->_logger, $this->_mergeStrategy, $this->_filesystem, $this->_viewService,
+            $this->_logger, $this->_mergeStrategy, $this->_filesystem, $this->_assetService,
             array($this->_assetJsOne, $this->_assetJsTwo, $assetBroken)
         );
 
