@@ -27,9 +27,9 @@ use \Magento\Webapi\Exception as HTTPExceptionCodes;
  */
 class CustomerAccountServiceTest extends WebapiAbstract
 {
-    const SERVICE_NAME = "customerCustomerAccountServiceV1";
-    const SERVICE_VERSION = "V1";
-    const RESOURCE_PATH = "/V1/customerAccounts";
+    const SERVICE_NAME = 'customerCustomerAccountServiceV1';
+    const SERVICE_VERSION = 'V1';
+    const RESOURCE_PATH = '/V1/customerAccounts';
 
     const CONFIRMATION = 'a4fg7h893e39d';
     const CREATED_AT = '2013-11-05';
@@ -183,6 +183,46 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $this->assertEquals($customerData[Customer::ID], $customerResponseData[Customer::ID]);;
     }
 
+    public function testValidateResetPasswordLinkToken()
+    {
+        $customerData = $this->_createSampleCustomer();
+        /** @var \Magento\Customer\Model\Customer $customerModel */
+        $customerModel = Bootstrap::getObjectManager()->create('Magento\Customer\Model\CustomerFactory')
+            ->create();
+        $customerModel->load($customerData[Customer::ID]);
+        $rpToken = 'lsdj579slkj5987slkj595lkj';
+        $customerModel->setRpToken('lsdj579slkj5987slkj595lkj');
+        $customerModel->setRpTokenCreatedAt(date('Y-m-d'));
+        $customerModel->save();
+        $path = self::RESOURCE_PATH . '/' . $customerData[Customer::ID] . '/validateResetPasswordLinkToken/' . $rpToken;
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => $path,
+                'httpMethod' => RestConfig::HTTP_METHOD_GET
+            ]
+        ];
+        $this->_webApiCall($serviceInfo);
+    }
+
+    public function testValidateResetPasswordLinkTokenInvalidToken()
+    {
+        $customerData = $this->_createSampleCustomer();
+        $path = self::RESOURCE_PATH . '/' . $customerData[Customer::ID] . '/validateResetPasswordLinkToken/invalid';
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => $path,
+                'httpMethod' => RestConfig::HTTP_METHOD_GET
+            ]
+        ];
+        try {
+            $this->_webApiCall($serviceInfo);
+        } catch (\Exception $e) {
+            $errorObj = $this->_processRestExceptionResult($e);
+            $this->assertEquals("Reset password token mismatch.", $errorObj['message']);
+            $this->assertEquals(HTTPExceptionCodes::HTTP_BAD_REQUEST, $errorObj['http_code']);
+        }
+    }
+
     public function testInitiatePasswordReset()
     {
         $customerData = $this->_createSampleCustomer();
@@ -280,7 +320,6 @@ class CustomerAccountServiceTest extends WebapiAbstract
             $this->assertEquals("No such entity with email = dummy@example.com websiteId = 0", $errorObj['message']);
             $this->assertEquals(HTTPExceptionCodes::HTTP_BAD_REQUEST, $errorObj['http_code']);
         }
-
     }
 
     public function testValidateCustomerData()
@@ -458,7 +497,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $customerData = [
             Customer::FIRSTNAME => self::FIRSTNAME,
             Customer::LASTNAME => self::LASTNAME,
-            Customer::EMAIL => 'janedoe' . rand() . '@example.com',
+            Customer::EMAIL => 'janedoe' . md5(rand()) . '@example.com',
             Customer::CONFIRMATION => self::CONFIRMATION,
             Customer::CREATED_AT => self::CREATED_AT,
             Customer::CREATED_IN => self::STORE_NAME,
