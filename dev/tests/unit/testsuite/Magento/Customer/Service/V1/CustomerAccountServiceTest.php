@@ -11,6 +11,7 @@ namespace Magento\Customer\Service\V1;
 use Magento\Exception\InputException;
 use Magento\Exception\NoSuchEntityException;
 use Magento\Exception\StateException;
+use Magento\Customer\Service\V1\Data\CustomerBuilder;
 
 /**
  * \Magento\Customer\Service\V1\CustomerAccountService
@@ -182,7 +183,15 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $customerBuilder = new Dto\CustomerBuilder();
+        $metadataService = $this->getMockForAbstractClass(
+            'Magento\Customer\Service\V1\CustomerMetadataServiceInterface', [], '', false
+        );
+        $metadataService
+            ->expects($this->any())
+            ->method('getCustomCustomerAttributeMetadata')
+            ->will($this->returnValue([]));
+
+        $customerBuilder = new CustomerBuilder($metadataService);
 
         $this->_converter = new \Magento\Customer\Model\Converter($customerBuilder, $this->_customerFactoryMock);
 
@@ -249,7 +258,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         $customer = $customerService->activateAccount(self::ID);
 
-        $this->assertEquals(self::ID, $customer->getCustomerId());
+        $this->assertEquals(self::ID, $customer->getId());
     }
 
     public function testValidateAccountConfirmationKey()
@@ -444,7 +453,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         $customer = $customerService->authenticate(self::EMAIL, self::PASSWORD, self::WEBSITE_ID);
 
-        $this->assertEquals(self::ID, $customer->getCustomerId());
+        $this->assertEquals(self::ID, $customer->getId());
     }
 
     /**
@@ -1022,6 +1031,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      */
     private function _createService()
     {
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $customerService = new CustomerAccountService(
             $this->_customerFactoryMock,
             $this->_eventManagerMock,
@@ -1029,7 +1039,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             $this->_mathRandomMock,
             $this->_converter,
             $this->_validator,
-            new Dto\CustomerBuilder,
+            $objectManager->getObject('\Magento\Customer\Service\V1\Data\CustomerBuilder'),
             $this->_customerServiceMock,
             $this->_customerAddressServiceMock,
             $this->_urlMock,

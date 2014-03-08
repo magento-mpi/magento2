@@ -22,7 +22,7 @@ use Magento\Math\Random;
 use Magento\UrlInterface;
 
 /**
- *  Handle various customer account actions
+ * Handle various customer account actions
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
@@ -80,7 +80,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
      * @param Random $mathRandom
      * @param Converter $converter
      * @param Validator $validator
-     * @param Dto\CustomerBuilder $customerBuilder
+     * @param Data\CustomerBuilder $customerBuilder
      * @param CustomerServiceInterface $customerService
      * @param CustomerAddressServiceInterface $customerAddressService
      * @param UrlInterface $url
@@ -94,7 +94,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         Random $mathRandom,
         Converter $converter,
         Validator $validator,
-        Dto\CustomerBuilder $customerBuilder,
+        Data\CustomerBuilder $customerBuilder,
         CustomerServiceInterface $customerService,
         CustomerAddressServiceInterface $customerAddressService,
         UrlInterface $url
@@ -285,12 +285,12 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function createAccount(Dto\Customer $customer, array $addresses, $password = null, $redirectUrl = '')
+    public function createAccount(Data\Customer $customer, array $addresses, $password = null, $redirectUrl = '')
     {
         // This logic allows an existing customer to be added to a different store.  No new account is created.
         // The plan is to move this logic into a new method called something like 'registerAccountWithStore'
-        if ($customer->getCustomerId()) {
-            $customerModel = $this->_converter->getCustomerModel($customer->getCustomerId());
+        if ($customer->getId()) {
+            $customerModel = $this->_converter->getCustomerModel($customer->getId());
             if ($customerModel->isInStore($customer->getStoreId())) {
                 throw new InputException(__('Customer already exists in this store.'));
             }
@@ -337,24 +337,24 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function updateAccount(Dto\Customer $customer, array $addresses = null)
+    public function updateAccount(Data\Customer $customer, array $addresses = null)
     {
         // Making this call first will ensure the customer already exists.
-        $this->_customerService->getCustomer($customer->getCustomerId());
+        $this->_customerService->getCustomer($customer->getId());
         $this->_customerService->saveCustomer($customer);
 
         if ($addresses != null) {
-            $existingAddresses = $this->_customerAddressService->getAddresses($customer->getCustomerId());
-            /** @var Dto\Address[] $deletedAddresses */
+            $existingAddresses = $this->_customerAddressService->getAddresses($customer->getId());
+            /** @var Data\Address[] $deletedAddresses */
             $deletedAddresses = array_udiff($existingAddresses, $addresses,
-                function (Dto\Address $existing, Dto\Address $replacement) {
+                function (Data\Address $existing, Data\Address $replacement) {
                     return $existing->getId() - $replacement->getId();
                 }
             );
             foreach ($deletedAddresses as $address) {
                 $this->_customerAddressService->deleteAddress($address->getId());
             }
-            $this->_customerAddressService->saveAddresses($customer->getCustomerId(), $addresses);
+            $this->_customerAddressService->saveAddresses($customer->getId(), $addresses);
         }
     }
 
@@ -375,10 +375,10 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function validateCustomerData(Dto\Customer $customer, array $attributes)
+    public function validateCustomerData(Data\Customer $customer, array $attributes)
     {
         $customerErrors = $this->_validator->validateData(
-            $customer->__toArray(),
+            \Magento\Service\DataObjectConverter::toFlatArray($customer),
             $attributes,
             'customer'
         );

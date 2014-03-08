@@ -8,7 +8,7 @@
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 
 use Magento\Customer\Controller\RegistryConstants;
-use Magento\Customer\Service\V1\Dto\Customer;
+use Magento\Customer\Service\V1\Data\Customer;
 
 /**
  * Magento\Customer\Block\Adminhtml\Edit\Tab\View
@@ -23,7 +23,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     /** @var  \Magento\Registry */
     private $_coreRegistry;
 
-    /** @var  \Magento\Customer\Service\V1\Dto\CustomerBuilder */
+    /** @var  \Magento\Customer\Service\V1\Data\CustomerBuilder */
     private $_customerBuilder;
 
     /** @var  \Magento\Customer\Service\V1\CustomerServiceInterface */
@@ -49,7 +49,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
                 array('storeManager' => $this->_storeManager)
             );
 
-        $this->_customerBuilder = $objectManager->get('Magento\Customer\Service\V1\Dto\CustomerBuilder');
+        $this->_customerBuilder = $objectManager->get('Magento\Customer\Service\V1\Data\CustomerBuilder');
         $this->_coreRegistry = $objectManager->get('Magento\Registry');
         $this->_customerService = $objectManager->get('Magento\Customer\Service\V1\CustomerServiceInterface');
         $this->_groupService = $objectManager->get('Magento\Customer\Service\V1\CustomerGroupServiceInterface');
@@ -249,7 +249,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
      */
     private function _createCustomer()
     {
-        /** @var \Magento\Customer\Service\V1\Dto\Customer $customer */
+        /** @var \Magento\Customer\Service\V1\Data\Customer $customer */
         $customer = $this->_customerBuilder->setFirstname('firstname')
             ->setLastname('lastname')
             ->setEmail('email@email.com')
@@ -267,7 +267,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         $customer = $this->_customerService->getCustomer(1);
         $data = ['account' => $customer->__toArray()];
         $this->_context->getBackendSession()->setCustomerData($data);
-        $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER_ID, $customer->getCustomerId());
+        $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER_ID, $customer->getId());
         return $customer;
     }
 }

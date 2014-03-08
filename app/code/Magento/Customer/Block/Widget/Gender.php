@@ -9,8 +9,8 @@ namespace Magento\Customer\Block\Widget;
 
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
 use Magento\Customer\Service\V1\CustomerServiceInterface;
-use Magento\Customer\Service\V1\Dto\Customer;
-use Magento\Customer\Service\V1\Dto\Eav\Option;
+use Magento\Customer\Service\V1\Data\Customer;
+use Magento\Customer\Service\V1\Data\Eav\Option;
 
 /**
  * Block to render customer's gender attribute

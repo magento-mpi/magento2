@@ -8,5 +8,5 @@
  */
 -->
 <config>
-    <preference for="Magento\TestModule4\Service\V1\DtoServiceInterface" type="Magento\TestModule4\Service\V1\DtoService" />
+    <preference for="Magento\TestModule4\Service\V1\DataObjectServiceInterface" type="Magento\TestModule4\Service\V1\DataObjectService" />
 </config>

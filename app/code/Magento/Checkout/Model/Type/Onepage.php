@@ -13,9 +13,9 @@
  */
 namespace Magento\Checkout\Model\Type;
 
-use Magento\Customer\Service\V1\Dto\CustomerBuilder;
-use Magento\Customer\Service\V1\Dto\AddressBuilder;
-use Magento\Customer\Service\V1\Dto\Address as AddressDto;
+use Magento\Customer\Service\V1\Data\CustomerBuilder;
+use Magento\Customer\Service\V1\Data\AddressBuilder;
+use Magento\Customer\Service\V1\Data\Address as AddressDataObject;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 use Magento\Customer\Model\Metadata\Form;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
@@ -287,7 +287,7 @@ class Onepage
         * want to load the correct customer information by assigning to address
         * instead of just loading from sales/quote_address
         */
-        $customer = $customerSession->getCustomerData();
+        $customer = $customerSession->getCustomerDataObject();
         if ($customer) {
             $quote->assignCustomer($customer);
         }
@@ -483,7 +483,7 @@ class Onepage
         $quote = $this->getQuote();
         $isCustomerNew = !$quote->getCustomerId();
         $customer = $quote->getCustomerData();
-        $customerData = $customer->__toArray();
+        $customerData = \Magento\Service\DataObjectConverter::toFlatArray($customer);
 
         /** @var Form $customerForm */
         $customerForm = $this->_formFactory->create(
@@ -546,7 +546,12 @@ class Onepage
         $quote->getBillingAddress()->setEmail($customer->getEmail());
 
         // copy customer data to quote
-        $this->_objectCopyService->copyFieldsetToTarget('customer_account', 'to_quote', $customer->__toArray(), $quote);
+        $this->_objectCopyService->copyFieldsetToTarget(
+            'customer_account',
+            'to_quote',
+            \Magento\Service\DataObjectConverter::toFlatArray($customer),
+            $quote
+        );
 
         return true;
     }
@@ -744,25 +749,18 @@ class Onepage
         $shipping   = $quote->isVirtual() ? null : $quote->getShippingAddress();
 
         $customerData = $quote->getCustomerData();
-        // Need to set proper attribute id or future updates will cause data loss.
-        $customerData = $this->_customerBuilder->mergeDtoWithArray(
-            $customerData,
-            [CustomerMetadata::ATTRIBUTE_SET_ID_CUSTOMER => 1]
-        );
-
         $customerBillingData = $billing->exportCustomerAddressData();
-        $customerBillingData = $this->_addressBuilder->mergeDtoWithArray(
-            $customerBillingData,
-            [AddressDto::KEY_DEFAULT_BILLING => true]
-        );
+        $customerBillingData = $this->_addressBuilder->populate($customerBillingData)
+            ->setDefaultBilling(true)
+            ->create();
 
         if ($shipping) {
             if( !$shipping->getSameAsBilling()) {
                 $customerShippingData = $shipping->exportCustomerAddressData();
                 $customerShippingData = $this->_addressBuilder->populate($customerShippingData)
                     ->setDefaultShipping(true)->create();
-                $shipping->setCustomerAddress($customerShippingData);
-                // Add shipping address to quote since customer DTO does not hold address information
+                $shipping->setCustomerAddressData($customerShippingData);
+                // Add shipping address to quote since customer Data Object does not hold address information
                 $quote->addCustomerAddressData($customerShippingData);
             } else {
                 $shipping->setCustomerAddressData($customerBillingData);
@@ -780,13 +778,13 @@ class Onepage
             'to_customer',
             $quote
         );
-        $customerData = $this->_customerBuilder->mergeDtoWithArray(
+        $customerData = $this->_customerBuilder->mergeDataObjectWithArray(
             $customerData,
             $dataArray
         );
         $quote->setCustomerData($customerData)
             ->setCustomerId(true); // TODO : Eventually need to remove this legacy hack
-        // Add billing address to quote since customer DTO does not hold address information
+        // Add billing address to quote since customer Data Object does not hold address information
         $quote->addCustomerAddressData($customerBillingData);
     }
 
@@ -825,8 +823,9 @@ class Onepage
         }
 
         if ($shipping && isset($shippingAddress) && !$customer->getDefaultShipping()) {
-            $shippingAddress = $this->_addressBuilder
-                ->mergeDtoWithArray($shippingAddress, [AddressDto::KEY_DEFAULT_SHIPPING => true]);
+            $shippingAddress = $this->_addressBuilder->populate($shippingAddress)
+                ->setDefaultShipping(true)
+                ->create();
             $quote->addCustomerAddressData($shippingAddress);
         }
     }
@@ -839,14 +838,14 @@ class Onepage
     protected function _involveNewCustomer()
     {
         $customer = $this->getQuote()->getCustomerData();
-        $confirmationStatus = $this->_accountService->getConfirmationStatus($customer->getCustomerId());
+        $confirmationStatus = $this->_accountService->getConfirmationStatus($customer->getId());
         if ($confirmationStatus === CustomerAccountServiceInterface::ACCOUNT_CONFIRMATION_REQUIRED) {
             $url = $this->_customerData->getEmailConfirmationUrl($customer->getEmail());
             $this->messageManager->addSuccess(
                 __('Account confirmation is required. Please, check your e-mail for confirmation link. To resend confirmation email please <a href="%1">click here</a>.', $url)
             );
         } else {
-            $this->getCustomerSession()->loginById($customer->getCustomerId());
+            $this->getCustomerSession()->loginById($customer->getId());
         }
         return $this;
     }
@@ -875,7 +874,7 @@ class Onepage
 
         /** @var \Magento\Sales\Model\Service\Quote $quoteService */
         $quoteService = $this->_serviceQuoteFactory->create(['quote' => $this->getQuote()]);
-        $quoteService->submitAllWithDto();
+        $quoteService->submitAllWithDataObject();
 
         if ($isNewCustomer) {
             try {

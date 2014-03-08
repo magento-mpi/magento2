@@ -14,7 +14,7 @@
  */
 namespace Magento\Rma\Block\Form\Renderer;
 
-class Image extends \Magento\CustomAttribute\Block\Form\Renderer\Image
+class Image extends \Magento\CustomAttributeManagement\Block\Form\Renderer\Image
 {
     /**
      * Gets image url path

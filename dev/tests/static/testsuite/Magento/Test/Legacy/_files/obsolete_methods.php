@@ -555,6 +555,7 @@ return array(
         'Magento_Core_Model_Theme::getThemeCollectionOptionArray'
     ),
     array('getTotalModels', 'Magento\Sales\Model\Quote\Address'),
+    array('importCustomerAddress', 'Magento\Sales\Model\Quote\Address'),
     array('getTotalModels', 'Magento\Sales\Model\Quote\Config'),
     array('getTrackId', 'Magento\Shipping\Block\Tracking\Popup'),
     array('getTrackingInfoByOrder', 'Magento\Shipping\Block\Tracking\Popup'),
@@ -1112,13 +1113,11 @@ return array(
     array('getValidator', '\Magento\Core\Model\Session\Context'),
     array('getDir', '\Magento\Core\Model\Session\Context', '\Magento\Core\Model\Session\Config'),
     array('getSavePath', '\Magento\Core\Model\Session\Context', '\Magento\Core\Model\Session\Config'),
-
     array('getEventManager', '\Magento\Core\Model\Session\Context'),
     array('getLogger', '\Magento\Core\Model\Session\Context'),
     array('getStoreConfig', '\Magento\Core\Model\Session\Context'),
     array('getStoreManager', '\Magento\Core\Model\Session\Context'),
     array('getRequest', '\Magento\Core\Model\Session\Context'),
-
     array('getSessionSavePath', '\Magento\Core\Model\Session\AbstractSession', '\Magento\Core\Model\Session\Config'),
     array('getCookie', 'Magento\View\Element\Js\Cookie'),
     array('setCopyright', 'Magento\Theme\Block\Html\Footer'),
@@ -1226,7 +1225,7 @@ return array(
     array('getFileIdentifier', 'Magento\View\Layout\File\FileList', 'Magento\View\Layout\File'),
     array('_getInitialXml', 'Magento\Config\Theme'),
     array('_getIdAttributes', 'Magento\Config\Theme'),
-    array(
+    [
         'getAllPeriodUnits',
         'Magento\Payment\Model\Recurring\Profile',
         'Magento\RecurringPayment\Model\PeriodUnits::toOptionArray'
@@ -1435,5 +1434,6 @@ return array(
     ['getMeasureWeightName', 'Magento\Usa\Helper\Data', 'Magento\Shipping\Helper\Carrier::getMeasureWeightName'],
     ['getMeasureDimensionName', 'Magento\Usa\Helper\Data', 'Magento\Shipping\Helper\Carrier::getMeasureDimensionName'],
     ['displayGirthValue', 'Magento\Usa\Helper\Data', 'Magento\Usps\Helper\Data::displayGirthValue'],
-    array('reindexProductPrices', '\Magento\Catalog\Model\Observer')
+    array('reindexProductPrices', '\Magento\Catalog\Model\Observer'),
+    array('getCustomer', 'Magento\Checkout\Block\Onepage\AbstractOnepage')
 );

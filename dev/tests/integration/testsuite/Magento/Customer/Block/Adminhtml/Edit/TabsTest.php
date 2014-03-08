@@ -9,7 +9,7 @@ namespace Magento\Customer\Block\Adminhtml\Edit;
 
 use Magento\Customer\Controller\RegistryConstants;
 use Magento\TestFramework\Helper\Bootstrap;
-use Magento\Customer\Service\V1\Dto\Customer;
+use Magento\Customer\Service\V1\Data\Customer;
 
 /**
  * Class TabsTest
@@ -88,7 +88,7 @@ class TabsTest extends \PHPUnit_Framework_TestCase
         $customer = $this->customerService
             ->getCustomer($this->coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID));
 
-        $customerData['customer_id'] = $customer->getCustomerId();
+        $customerData['customer_id'] = $customer->getId();
         $customerData['account'] = $customer->__toArray();
         $customerData['address'] = [];
         $this->context->getBackendSession()->setCustomerData($customerData);

@@ -53,13 +53,15 @@ class Account extends \Magento\Customer\Controller\Account
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Store\Config $storeConfig
+     * @param \Magento\Core\Helper\Data $coreHelperData,
      * @param \Magento\Escaper $escaper
-     * @param \Magento\Customer\Service\V1\CustomerServiceInterface $customerService
+     * @param \Magento\App\State $appState
+     * @param CustomerServiceInterface $customerService
      * @param CustomerGroupServiceInterface $customerGroupService
      * @param CustomerAccountServiceInterface $customerAccountService
-     * @param \Magento\Customer\Service\V1\Dto\RegionBuilder $regionBuilder
-     * @param \Magento\Customer\Service\V1\Dto\AddressBuilder $addressBuilder
-     * @param \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerBuilder
+     * @param \Magento\Customer\Service\V1\Data\RegionBuilder $regionBuilder
+     * @param \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder
+     * @param \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder
      * @param \Magento\Registry $coreRegistry
      * @param \Magento\Invitation\Model\Config $config
      * @param \Magento\Invitation\Model\InvitationFactory $invitationFactory
@@ -82,9 +84,9 @@ class Account extends \Magento\Customer\Controller\Account
         CustomerServiceInterface $customerService,
         CustomerGroupServiceInterface $customerGroupService,
         CustomerAccountServiceInterface $customerAccountService,
-        \Magento\Customer\Service\V1\Dto\RegionBuilder $regionBuilder,
-        \Magento\Customer\Service\V1\Dto\AddressBuilder $addressBuilder,
-        \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerBuilder,
+        \Magento\Customer\Service\V1\Data\RegionBuilder $regionBuilder,
+        \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder,
+        \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder,
         \Magento\Registry $coreRegistry,
         \Magento\Invitation\Model\Config $config,
         \Magento\Invitation\Model\InvitationFactory $invitationFactory
@@ -246,7 +248,7 @@ class Account extends \Magento\Customer\Controller\Account
     }
 
     /**
-     * @param \Magento\Customer\Service\V1\Dto\Customer $customer
+     * @param \Magento\Customer\Service\V1\Data\Customer $customer
      * @param mixed $key
      * @return bool|null
      * @throws \Exception
@@ -257,7 +259,7 @@ class Account extends \Magento\Customer\Controller\Account
             if ($customer->getConfirmation() !== $key) {
                 throw new \Exception(__('Wrong confirmation key.'));
             }
-            $this->_customerAccountService->activateAccount($customer->getCustomerId(), $key);
+            $this->_customerAccountService->activateAccount($customer->getId(), $key);
 
             // log in and send greeting email, then die happy
             $this->_getSession()->setCustomerAsLoggedIn($customer);

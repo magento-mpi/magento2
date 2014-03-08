@@ -7,8 +7,8 @@
  */
 namespace Magento\Customer\Block\Address;
 
-use Magento\Customer\Service\V1\Dto\Address;
-use Magento\Customer\Service\V1\Dto\Customer;
+use Magento\Customer\Service\V1\Data\Address;
+use Magento\Customer\Service\V1\Data\Customer;
 use Magento\Exception\NoSuchEntityException;
 
 /**
@@ -39,7 +39,7 @@ class Edit extends \Magento\Directory\Block\Data
     protected $_addressService;
 
     /**
-     * @var \Magento\Customer\Service\V1\Dto\AddressBuilder
+     * @var \Magento\Customer\Service\V1\Data\AddressBuilder
      */
     protected $_addressBuilder;
 
@@ -60,7 +60,7 @@ class Edit extends \Magento\Directory\Block\Data
      * @param \Magento\App\ConfigInterface $config
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService
-     * @param \Magento\Customer\Service\V1\Dto\AddressBuilder $addressBuilder
+     * @param \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder
      * @param \Magento\Customer\Service\V1\CustomerCurrentServiceInterface $customerCurrentService
      * @param array $data
      *
@@ -76,7 +76,7 @@ class Edit extends \Magento\Directory\Block\Data
         \Magento\App\ConfigInterface $config,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService,
-        \Magento\Customer\Service\V1\Dto\AddressBuilder $addressBuilder,
+        \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder,
         \Magento\Customer\Service\V1\CustomerCurrentServiceInterface $customerCurrentService,
         array $data = array()
     ) {
@@ -138,8 +138,7 @@ class Edit extends \Magento\Directory\Block\Data
                 ];
             }
             $this->_address = $this->_addressBuilder
-                ->populateWithArray(array_merge($this->_address->__toArray(), $postedData))
-                ->create();
+                ->mergeDataObjectWithArray($this->_address, $postedData);
         }
 
         return $this;
@@ -322,7 +321,7 @@ class Edit extends \Magento\Directory\Block\Data
     }
 
     /**
-     * Retrieve the Customer Dto using the customer Id from the customer session.
+     * Retrieve the Customer Data using the customer Id from the customer session.
      *
      * @return Customer
      */
