@@ -79,7 +79,7 @@ class CalculationTest extends \PHPUnit_Framework_TestCase
     {
         $customerDataSet = $this->_customerAccountService->getCustomer(self::FIXTURE_CUSTOMER_ID);
         $this->_model->setCustomerData($customerDataSet);
-        $address = $this->_addressService->getAddressById(self::FIXTURE_ADDRESS_ID);
+        $address = $this->_addressService->getAddress(self::FIXTURE_ADDRESS_ID);
 
         $rateRequest = $this->_model->getRateRequest();
 
