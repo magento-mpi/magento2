@@ -32,7 +32,7 @@ class BackendTemplate extends Template
      * @param \Magento\Core\Model\App\Emulation $appEmulation
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\Filesystem $filesystem
-     * @param \Magento\View\Service $viewUrl
+     * @param \Magento\View\Asset\Service $assetService
      * @param \Magento\View\FileSystem $viewFileSystem
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\App\ConfigInterface $coreConfig
@@ -50,7 +50,7 @@ class BackendTemplate extends Template
         \Magento\Core\Model\App\Emulation $appEmulation,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\Filesystem $filesystem,
-        \Magento\View\Service $viewUrl,
+        \Magento\View\Asset\Service $assetService,
         \Magento\View\FileSystem $viewFileSystem,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\App\ConfigInterface $coreConfig,
@@ -66,7 +66,7 @@ class BackendTemplate extends Template
             $appEmulation,
             $storeManager,
             $filesystem,
-            $viewUrl,
+            $assetService,
             $viewFileSystem,
             $coreStoreConfig,
             $coreConfig,
