@@ -216,4 +216,23 @@ class AttributeMetadataBuilder extends \Magento\Service\Data\AbstractObjectBuild
     {
         return $this->_set(AttributeMetadata::BACKEND_TYPE, $backendType);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function _setDataValues(array $data)
+    {
+        if (array_key_exists(AttributeMetadata::OPTIONS, $data)) {
+            $options = [];
+            if (is_array($data[AttributeMetadata::OPTIONS])) {
+                foreach ($data[AttributeMetadata::OPTIONS] as $key => $option) {
+                    $options[$key] = $this->_optionBuilder->populateWithArray($option)->create();
+                }
+            }
+
+            $data[AttributeMetadata::OPTIONS] = $options;
+        }
+
+        return parent::_setDataValues($data);
+    }
 }
