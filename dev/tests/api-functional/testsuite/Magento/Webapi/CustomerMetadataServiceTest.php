@@ -283,19 +283,4 @@ class CustomerMetadataServiceTest extends WebapiAbstract
         $postcode = $this->getAttributeMetadataDataProvider()[Address::KEY_POSTCODE][2];
         $this->assertContains($postcode, $attributeMetadata);
     }
-
-    /**
-     * Transform an array. Convert all camelCase keys to snake_case.
-     *
-     * @param array $attributeMetadata An attribute metadata key/value array.
-     * @return array The array with all camelCase keys converted to snake_case.
-     */
-    private function decamelize($attributeMetadata)
-    {
-        $data = [];
-        foreach ($attributeMetadata as $key => $value) {
-            $data[strtolower(preg_replace("/(?<=\\w)(?=[A-Z])/", "_$1", $key))] = $value;
-        }
-        return $data;
-    }
 }
