@@ -8,15 +8,19 @@
 namespace Magento\Webapi;
 
 use Magento\Customer\Service\V1\Dto\Customer;
+use Magento\Customer\Service\V1\Dto\Filter;
 use Magento\Customer\Service\V1\Dto\CustomerDetails;
 use Magento\Customer\Service\V1\Dto\CustomerDetailsBuilder;
 use Magento\Customer\Service\V1\Dto\CustomerBuilder;
 use Magento\Customer\Service\V1\Dto\AddressBuilder;
+use Magento\Customer\Service\V1\Dto\FilterBuilder;
 use Magento\Customer\Service\V1\Dto\RegionBuilder;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+use Magento\Customer\Service\V1\Dto\SearchCriteriaBuilder;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
+use \Magento\Webapi\Exception as HTTPExceptionCodes;
 
 /**
  * Class CustomerAccountServiceTest
@@ -140,7 +144,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $this->assertFalse(isset($customerResponseData[Customer::CONFIRMATION]));
     }
 
-    public function testGetCustomerAuthenticateCustomer()
+    public function testAuthenticateCustomer()
     {
         $customerData = $this->_createSampleCustomer();
 
@@ -161,7 +165,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
 
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . '/' . $customerData[Customer::ID] .  '/changePassword',
+                'resourcePath' => self::RESOURCE_PATH . '/' . $customerData[Customer::ID] . '/changePassword',
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT
             ]
         ];
@@ -179,32 +183,214 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $this->assertEquals($customerData[Customer::ID], $customerResponseData[Customer::ID]);;
     }
 
-    public function testUpdateCustomer()
+    public function testInitiatePasswordReset()
     {
         $customerData = $this->_createSampleCustomer();
-        $customerDetails = $this->customerAccountService->getCustomerDetails($customerData[Customer::ID]);
-        $lastName = $customerDetails->getCustomer()->getLastname();
-
-        $updatedCustomer = $this->_customerBuilder->populate($customerDetails->getCustomer())->setLastname(
-            $lastName . "Updated"
-        )->create();
-
-        $updatedCustomerDetails = $this->_customerDetailsBuilder->populate($customerDetails)->setCustomer(
-            $updatedCustomer
-        )->setAddresses($customerDetails->getAddresses())->create();
-
 
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH,
+                'resourcePath' => self::RESOURCE_PATH . '/initiatePasswordReset',
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT
             ]
         ];
-        $customerDetailsAsArray = $updatedCustomerDetails->__toArray();
-        $requestData = ['customerDetails' => $customerDetailsAsArray];
-        /** @var $customerData Customer */
-        $customerData = $this->_webApiCall($serviceInfo, $requestData);
-        $this->assertEquals($lastName . "Updated", $customerData['lastname']);
+        $requestData = [
+            'email' => $customerData[Customer::EMAIL],
+            'websiteId' => $customerData[Customer::WEBSITE_ID],
+            'template' => CustomerAccountServiceInterface::EMAIL_RESET
+        ];
+        // This api doesn't return any response.
+        // No exception or response means the request was processed successfully.
+        // The webapi framework does not return the header information as yet. A check for HTTP 200 would be ideal here
+        $this->_webApiCall($serviceInfo, $requestData);
+    }
+
+    public function testSendPasswordResetLinkBadEmailOrWebsite()
+    {
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . '/initiatePasswordReset',
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT
+            ]
+        ];
+        $requestData = [
+            'email' => 'dummy@example.com',
+            'websiteId' => 0,
+            'template' => CustomerAccountServiceInterface::EMAIL_RESET
+        ];
+        try {
+            $this->_webApiCall($serviceInfo, $requestData);
+        } catch (\Exception $e) {
+            $errorObj = $this->_processRestExceptionResult($e);
+            $this->assertEquals("No such entity with email = dummy@example.com websiteId = 0", $errorObj['message']);
+            $this->assertEquals(HTTPExceptionCodes::HTTP_BAD_REQUEST, $errorObj['http_code']);
+        }
+
+    }
+
+    public function testGetConfirmationStatus()
+    {
+        $customerData = $this->_createSampleCustomer();
+
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . '/' . $customerData[Customer::ID] . '/confirmationStatus',
+                'httpMethod' => RestConfig::HTTP_METHOD_GET
+            ]
+        ];
+        $confirmationResponse = $this->_webApiCall($serviceInfo);
+        $this->assertEquals(CustomerAccountServiceInterface::ACCOUNT_CONFIRMATION_NOT_REQUIRED, $confirmationResponse);
+    }
+
+    public function testResendConfirmation()
+    {
+        $customerData = $this->_createSampleCustomer();
+
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . '/resendConfirmation',
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT
+            ]
+        ];
+        $requestData = [
+            'email' => $customerData[Customer::EMAIL],
+            'websiteId' => $customerData[Customer::WEBSITE_ID]
+        ];
+        // This api doesn't return any response.
+        // No exception or response means the request was processed successfully.
+        // The webapi framework does not return the header information as yet. A check for HTTP 200 would be ideal here
+        $this->_webApiCall($serviceInfo, $requestData);
+    }
+
+    public function testResendConfirmationBadEmailOrWebsite()
+    {
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . '/resendConfirmation',
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT
+            ]
+        ];
+        $requestData = [
+            'email' => 'dummy@example.com',
+            'websiteId' => 0
+        ];
+        try {
+            $this->_webApiCall($serviceInfo, $requestData);
+        } catch (\Exception $e) {
+            $errorObj = $this->_processRestExceptionResult($e);
+            $this->assertEquals("No such entity with email = dummy@example.com websiteId = 0", $errorObj['message']);
+            $this->assertEquals(HTTPExceptionCodes::HTTP_BAD_REQUEST, $errorObj['http_code']);
+        }
+
+    }
+
+    public function testValidateCustomerData()
+    {
+        $customerData = $this->_createSampleCustomerDataObject();
+        $customerData = $this->_customerBuilder->populate($customerData)
+            ->setFirstname(null)->setLastname(null)->create();
+
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . '/validateCustomerData',
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT
+            ]
+        ];
+        $requestData = ['customer' => $customerData->__toArray(), 'attributes' => []];
+        $validationResponse = $this->_webApiCall($serviceInfo, $requestData);
+        $this->assertEquals(-1, $validationResponse[0]);
+        $this->assertEquals(
+            'The first name cannot be empty., The last name cannot be empty.',
+            $validationResponse[1]
+        );
+    }
+
+    public function testCanModify()
+    {
+        $customerData = $this->_createSampleCustomer();
+
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . '/' . $customerData[Customer::ID] . '/canModify',
+                'httpMethod' => RestConfig::HTTP_METHOD_GET
+            ]
+        ];
+        $this->assertTrue($this->_webApiCall($serviceInfo));
+    }
+
+    public function testCanDelete()
+    {
+        $customerData = $this->_createSampleCustomer();
+
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . '/' . $customerData[Customer::ID] . '/canDelete',
+                'httpMethod' => RestConfig::HTTP_METHOD_GET
+            ]
+        ];
+        $this->assertTrue($this->_webApiCall($serviceInfo));
+    }
+
+    public function testDeleteCustomer()
+    {
+        $customerData = $this->_createSampleCustomer();
+
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . '/' . $customerData[Customer::ID],
+                'httpMethod' => RestConfig::HTTP_METHOD_DELETE
+            ]
+        ];
+        $this->_webApiCall($serviceInfo);
+    }
+
+    public function testDeleteCustomerInvalidCustomerId()
+    {
+        $invalidId = -1;
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . '/' . $invalidId,
+                'httpMethod' => RestConfig::HTTP_METHOD_DELETE
+            ]
+        ];
+        try {
+            $this->_webApiCall($serviceInfo);
+        } catch (\Exception $e) {
+            $errorObj = $this->_processRestExceptionResult($e);
+            $this->assertEquals("No such entity with customerId = -1", $errorObj['message']);
+            $this->assertEquals(HTTPExceptionCodes::HTTP_BAD_REQUEST, $errorObj['http_code']);
+        }
+    }
+
+    public function testEmailAvailable()
+    {
+        $customerData = $this->_createSampleCustomer();
+
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . '/isEmailAvailable',
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT
+            ]
+        ];
+        $requestData = [
+            'customerEmail' => $customerData[Customer::EMAIL],
+            'websiteId' => $customerData[Customer::WEBSITE_ID]
+        ];
+        $this->assertFalse($this->_webApiCall($serviceInfo, $requestData));
+    }
+
+    public function testEmailAvailableInvalidEmail()
+    {
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . '/isEmailAvailable',
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT
+            ]
+        ];
+        $requestData = [
+            'customerEmail' => 'invalid',
+            'websiteId' => 0
+        ];
+        $this->assertTrue($this->_webApiCall($serviceInfo, $requestData));
     }
 
     /**
@@ -217,11 +403,15 @@ class CustomerAccountServiceTest extends WebapiAbstract
             ->setDefaultBilling(true)
             ->setDefaultShipping(true)
             ->setPostcode('75477')
-            ->setRegion((new RegionBuilder())->populateWithArray([
+            ->setRegion(
+                (new RegionBuilder())->populateWithArray(
+                    [
                         'region_code' => 'AL',
                         'region' => 'Alabama',
                         'region_id' => 1
-                    ])->create() )
+                    ]
+                )->create()
+            )
             ->setStreet(['Green str, 67'])
             ->setTelephone('3468676')
             ->setCity('CityM')
@@ -234,11 +424,15 @@ class CustomerAccountServiceTest extends WebapiAbstract
             ->setDefaultBilling(false)
             ->setDefaultShipping(false)
             ->setPostcode('47676')
-            ->setRegion((new RegionBuilder())->populateWithArray([
+            ->setRegion(
+                (new RegionBuilder())->populateWithArray(
+                    [
                         'region_code' => 'AL',
                         'region' => 'Alabama',
                         'region_id' => 1
-                    ])->create())
+                    ]
+                )->create()
+            )
             ->setStreet(['Black str, 48'])
             ->setCity('CityX')
             ->setTelephone('3234676')
@@ -247,9 +441,9 @@ class CustomerAccountServiceTest extends WebapiAbstract
 
         $address2 = $this->_addressBuilder->create();
 
-        $customerData = $this->_createSampleCustomerData();
-        $customer = $this->_customerBuilder->populateWithArray($customerData)->create();
-        $customerDetails = $this->_customerDetailsBuilder->setAddresses([$address1, $address2])->setCustomer($customer)
+        $customerData = $this->_createSampleCustomerDataObject();
+        $customerDetails = $this->_customerDetailsBuilder->setAddresses([$address1, $address2])
+            ->setCustomer($customerData)
             ->create();
         return $customerDetails;
     }
@@ -257,27 +451,28 @@ class CustomerAccountServiceTest extends WebapiAbstract
     /**
      * Create customer using setters.
      *
-     * @return array
+     * @return Customer
      */
-    private function _createSampleCustomerData()
+    private function _createSampleCustomerDataObject()
     {
-        return [
-            'firstname' => self::FIRSTNAME,
-            'lastname' => self::LASTNAME,
-            'email' => 'janedoe'. rand() .'@example.com',
-            'confirmation' => self::CONFIRMATION,
-            'created_at' => self::CREATED_AT,
-            'created_in' => self::STORE_NAME,
-            'dob' => self::DOB,
-            'gender' => self::GENDER,
-            'group_id' => self::GROUP_ID,
-            'middlename' => self::MIDDLENAME,
-            'prefix' => self::PREFIX,
-            'store_id' => self::STORE_ID,
-            'suffix' => self::SUFFIX,
-            'taxvat' => self::TAXVAT,
-            'website_id' => self::WEBSITE_ID
+        $customerData = [
+            Customer::FIRSTNAME => self::FIRSTNAME,
+            Customer::LASTNAME => self::LASTNAME,
+            Customer::EMAIL => 'janedoe' . rand() . '@example.com',
+            Customer::CONFIRMATION => self::CONFIRMATION,
+            Customer::CREATED_AT => self::CREATED_AT,
+            Customer::CREATED_IN => self::STORE_NAME,
+            Customer::DOB => self::DOB,
+            Customer::GENDER => self::GENDER,
+            Customer::GROUP_ID => self::GROUP_ID,
+            Customer::MIDDLENAME => self::MIDDLENAME,
+            Customer::PREFIX => self::PREFIX,
+            Customer::STORE_ID => self::STORE_ID,
+            Customer::SUFFIX => self::SUFFIX,
+            Customer::TAXVAT => self::TAXVAT,
+            Customer::WEBSITE_ID => self::WEBSITE_ID
         ];
+        return $this->_customerBuilder->populateWithArray($customerData)->create();
     }
 
     /**
@@ -297,4 +492,21 @@ class CustomerAccountServiceTest extends WebapiAbstract
         return $customerData;
     }
 
+    /**
+     * @param \Exception $e
+     * @return array
+     * <pre> ex.
+     * array (
+     *     'message' => "No such entity with email = dummy@example.com websiteId = 0"
+     *     'http_code' => 400
+     * )
+     * </pre>
+     */
+    protected function _processRestExceptionResult(\Exception $e)
+    {
+        $error = json_decode($e->getMessage(), true)['errors'][0];
+        //Remove line breaks and replace with space
+        $error['message'] = trim(preg_replace('/\s+/', ' ', $error['message']));
+        return $error;
+    }
 }
