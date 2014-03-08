@@ -55,7 +55,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
                 $objectManager->get('Magento\Core\Model\App\Emulation'),
                 $objectManager->get('Magento\Core\Model\StoreManager'),
                 $objectManager->get('Magento\App\Filesystem'),
-                $objectManager->get('Magento\View\Service'),
+                $objectManager->get('Magento\View\Asset\Service'),
                 $objectManager->get('Magento\View\FileSystem'),
                 $objectManager->get('Magento\Core\Model\Store\Config'),
                 $objectManager->get('Magento\App\ConfigInterface'),
