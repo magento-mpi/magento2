@@ -22,7 +22,10 @@ class InfoTest extends \PHPUnit_Framework_TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\View\Element\Template\Context */
     private $_context;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\Dto\Customer */
+    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Model\Session */
+    private $_customerSession;
+
+    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\Data\Customer */
     private $_customer;
 
     /**
@@ -67,7 +70,10 @@ class InfoTest extends \PHPUnit_Framework_TestCase
         $this->_context->expects($this->once())->method('getUrlBuilder')->will($this->returnValue($urlBuilder));
         $this->_context->expects($this->once())->method('getLayout')->will($this->returnValue($layout));
 
-        $this->_customer = $this->getMock('Magento\Customer\Service\V1\Dto\Customer', array(), array(), '', false);
+        $this->_customerSession = $this->getMock('Magento\Customer\Model\Session', array(), array(), '', false);
+        $this->_customerSession->expects($this->any())->method('getId')->will($this->returnValue(self::CUSTOMER_ID));
+
+        $this->_customer = $this->getMock('Magento\Customer\Service\V1\Data\Customer', array(), array(), '', false);
         $this->_customer->expects($this->any())->method('getEmail')->will($this->returnValue(self::EMAIL_ADDRESS));
         $this->_helperView = $this->getMockBuilder('\Magento\Customer\Helper\View')->disableOriginalConstructor()
             ->getMock();
@@ -115,6 +121,9 @@ class InfoTest extends \PHPUnit_Framework_TestCase
         $this->customerCurrentService->expects($this->once())
             ->method('getCustomer')
             ->will($this->returnValue($this->_customer));
+
+        $attributeMetadata =
+            $this->getMock('Magento\Customer\Service\V1\Data\Eav\AttributeMetadata', array(), array(), '', false);
 
         /**
          * Called three times, once for each attribute (i.e. prefix, middlename, and suffix)

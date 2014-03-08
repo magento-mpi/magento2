@@ -10,7 +10,7 @@
 
 namespace Magento\Customer\Model;
 
-use Magento\Customer\Service\V1\Dto\CustomerBuilder as CustomerDtoBuilder;
+use Magento\Customer\Service\V1\Data\CustomerBuilder;
 
 /**
  * Customer model
@@ -170,9 +170,9 @@ class Customer extends \Magento\Core\Model\AbstractModel
     protected $dateTime;
 
     /**
-     * @var CustomerDtoBuilder
+     * @var CustomerBuilder
      */
-    protected $_customerDtoBuilder;
+    protected $_customerDataBuilder;
 
     /**
      * @param \Magento\Model\Context $context
@@ -192,7 +192,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Data\Collection\Db $resourceCollection
-     * @param CustomerDtoBuilder $customerDtoBuilder
+     * @param CustomerBuilder $customerDataBuilder
      * @param array $data
      */
     public function __construct(
@@ -212,8 +212,8 @@ class Customer extends \Magento\Core\Model\AbstractModel
         \Magento\Encryption\EncryptorInterface $encryptor,
         \Magento\Math\Random $mathRandom,
         \Magento\Stdlib\DateTime $dateTime,
-        CustomerDtoBuilder $customerDtoBuilder,
         \Magento\Data\Collection\Db $resourceCollection = null,
+        CustomerBuilder $customerDataBuilder,
         array $data = array()
     ) {
         $this->_customerData = $customerData;
@@ -229,7 +229,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
         $this->_encryptor = $encryptor;
         $this->mathRandom = $mathRandom;
         $this->dateTime = $dateTime;
-        $this->_customerDtoBuilder = $customerDtoBuilder;
+        $this->_customerDataBuilder = $customerDataBuilder;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -317,14 +317,14 @@ class Customer extends \Magento\Core\Model\AbstractModel
     protected function _afterSave()
     {
         $customerData = (array)$this->getData();
-        $customerData[\Magento\Customer\Service\V1\Dto\Customer::ID] = $this->getId();
-        $dataDto = $this->_customerDtoBuilder->populateWithArray($customerData)->create();
+        $customerData[\Magento\Customer\Service\V1\Data\Customer::ID] = $this->getId();
+        $dataObject = $this->_customerDataBuilder->populateWithArray($customerData)->create();
         $customerOrigData = (array)$this->getOrigData();
-        $customerOrigData[\Magento\Customer\Service\V1\Dto\Customer::ID] = $this->getId();
-        $origDataDto = $this->_customerDtoBuilder->populateWithArray($customerOrigData)->create();
+        $customerOrigData[\Magento\Customer\Service\V1\Data\Customer::ID] = $this->getId();
+        $origDataObject = $this->_customerDataBuilder->populateWithArray($customerOrigData)->create();
         $this->_eventManager->dispatch(
-            'customer_save_after_dto',
-            array('customer_dto' => $dataDto, 'orig_customer_dto' => $origDataDto)
+            'customer_save_after_data_object',
+            array('customer_data_object' => $dataObject, 'orig_customer_data_object' => $origDataObject)
         );
         return parent::_afterSave();
     }

@@ -25,25 +25,25 @@ interface CustomerGroupServiceInterface
      * @param boolean $includeNotLoggedIn
      * @param int $taxClassId
      *
-     * @return \Magento\Customer\Service\V1\Dto\CustomerGroup[]
+     * @return \Magento\Customer\Service\V1\Data\CustomerGroup[]
      */
     public function getGroups($includeNotLoggedIn = true, $taxClassId = null);
 
     /**
      * Search groups
      *
-     * @param \Magento\Customer\Service\V1\Dto\SearchCriteria $searchCriteria
+     * @param \Magento\Customer\Service\V1\Data\SearchCriteria $searchCriteria
      * @throws \Magento\Exception\InputException If there is a problem with the input
-     * @return \Magento\Customer\Service\V1\Dto\SearchResults containing Dto\CustomerGroup objects
+     * @return \Magento\Customer\Service\V1\Data\SearchResults containing Data\CustomerGroup objects
      */
-    public function searchGroups(\Magento\Customer\Service\V1\Dto\SearchCriteria $searchCriteria);
+    public function searchGroups(\Magento\Customer\Service\V1\Data\SearchCriteria $searchCriteria);
 
     /**
      * Get a customer group by group ID.
      *
      * @param int $groupId
      * @throws \Magento\Exception\NoSuchEntityException If $groupId is not found
-     * @return \Magento\Customer\Service\V1\Dto\CustomerGroup
+     * @return \Magento\Customer\Service\V1\Data\CustomerGroup
      */
     public function getGroup($groupId);
 
@@ -52,7 +52,7 @@ interface CustomerGroupServiceInterface
      *
      * @param int $storeId
      * @throws \Magento\Exception\NoSuchEntityException If default group for $storeId is not found
-     * @return \Magento\Customer\Service\V1\Dto\CustomerGroup
+     * @return \Magento\Customer\Service\V1\Data\CustomerGroup
      */
     public function getDefaultGroup($storeId);
 
@@ -67,11 +67,11 @@ interface CustomerGroupServiceInterface
     /**
      * Save group
      *
-     * @param \Magento\Customer\Service\V1\Dto\CustomerGroup $group
+     * @param \Magento\Customer\Service\V1\Data\CustomerGroup $group
      * @throws \Exception If something goes wrong during save
      * @return int customer group ID
      */
-    public function saveGroup(\Magento\Customer\Service\V1\Dto\CustomerGroup $group);
+    public function saveGroup(\Magento\Customer\Service\V1\Data\CustomerGroup $group);
 
     /**
      * Delete group

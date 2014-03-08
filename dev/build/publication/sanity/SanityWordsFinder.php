@@ -27,7 +27,7 @@ class SanityWordsFinder extends \Magento\TestFramework\Inspection\WordsFinder
     }
 
     /**
-     * Searche words in files content recursively within base directory tree
+     * Search words in files content recursively within base directory tree
      *
      * @return array
      */

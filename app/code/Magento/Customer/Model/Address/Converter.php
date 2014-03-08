@@ -10,18 +10,19 @@
 namespace Magento\Customer\Model\Address;
 
 use Magento\Customer\Model\AddressFactory;
-use Magento\Customer\Service\V1\Dto\Address;
-use Magento\Customer\Service\V1\Dto\AddressBuilder;
+use Magento\Customer\Service\V1\Data\Address;
+use Magento\Customer\Service\V1\Data\AddressBuilder;
 use Magento\Customer\Model\Address as AddressModel;
 use Magento\Customer\Model\Address\AbstractAddress;
-use Magento\Customer\Service\V1\Dto\Region;
-use Magento\Customer\Service\V1\Dto\RegionBuilder;
+use Magento\Customer\Service\V1\Data\Region;
+use Magento\Customer\Service\V1\Data\RegionBuilder;
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
+use Magento\Customer\Service\V1\Data\AddressConverter;
 
 /**
  * Customer Address Model converter.
  *
- * Converts a Customer Address Model to a DTO.
+ * Converts a Customer Address Model to a Data Object.
  *
  * TODO: Remove this class after service refactoring is done and the model is no longer needed outside of service.
  *       Then this function could be moved to the service.
@@ -69,21 +70,21 @@ class Converter
     }
 
     /**
-     * Creates an address model out of an address DTO.
+     * Creates an address model out of an address Data Object.
      *
-     * @param Address $addressDto
+     * @param Address $addressDataObject
      * @return AddressModel
      */
-    public function createAddressModel(Address $addressDto)
+    public function createAddressModel(Address $addressDataObject)
     {
         $addressModel = $this->_addressFactory->create();
-        $this->updateAddressModel($addressModel, $addressDto);
+        $this->updateAddressModel($addressModel, $addressDataObject);
 
         return $addressModel;
     }
 
     /**
-     * Updates an Address Model based on information from an Address DTO.
+     * Updates an Address Model based on information from an Address Data Object.
      *
      * @param AddressModel $addressModel
      * @param Address $address
@@ -92,11 +93,12 @@ class Converter
     public function updateAddressModel(AddressModel $addressModel, Address $address)
     {
         // Set all attributes
-        foreach ($address->getAttributes() as $attributeCode => $attributeData) {
+        $attributes = AddressConverter::toFlatArray($address);
+        foreach ($attributes as $attributeCode => $attributeData) {
             if (Address::KEY_REGION == $attributeCode && $address->getRegion() instanceof Region) {
-                $addressModel->setDataUsingMethod(Address::KEY_REGION, $address->getRegion()->getRegion());
-                $addressModel->setDataUsingMethod('region_code', $address->getRegion()->getRegionCode());
-                $addressModel->setDataUsingMethod(Address::KEY_REGION_ID, $address->getRegion()->getRegionId());
+                $addressModel->setDataUsingMethod(Region::KEY_REGION, $address->getRegion()->getRegion());
+                $addressModel->setDataUsingMethod(Region::KEY_REGION_CODE, $address->getRegion()->getRegionCode());
+                $addressModel->setDataUsingMethod(Region::KEY_REGION_ID, $address->getRegion()->getRegionId());
             } else {
                 $addressModel->setDataUsingMethod($attributeCode, $attributeData);
             }
@@ -112,7 +114,7 @@ class Converter
     }
 
     /**
-     * Make address DTO out of an address model
+     * Make address Data Object out of an address model
      *
      * @param AbstractAddress $addressModel
      * @param int $defaultBillingId
@@ -134,15 +136,23 @@ class Converter
 
         $this->_addressBuilder->populateWithArray(array_merge($addressData, [
             Address::KEY_STREET => $addressModel->getStreet(),
-            Address::KEY_ID => $addressId,
             Address::KEY_DEFAULT_BILLING => $addressId === $defaultBillingId,
             Address::KEY_DEFAULT_SHIPPING => $addressId === $defaultShippingId,
-            Address::KEY_CUSTOMER_ID =>
-                $addressModel->getCustomerId() ? $addressModel->getCustomerId() : $addressModel->getParentId(),
-            Address::KEY_REGION_CODE => $addressModel->getRegionCode(),
+            Address::KEY_REGION => [
+                Region::KEY_REGION => $addressModel->getRegion(),
+                Region::KEY_REGION_ID => $addressModel->getRegionId(),
+                Region::KEY_REGION_CODE => $addressModel->getRegionCode()
+            ]
         ]));
 
-        $addressDto = $this->_addressBuilder->create();
-        return $addressDto;
+        if ($addressId) {
+            $this->_addressBuilder->setId($addressId);
+        }
+
+        $customerId = $addressModel->getCustomerId() ? $addressModel->getCustomerId() : $addressModel->getParentId();
+        $this->_addressBuilder->setCustomerId($customerId);
+
+        $addressDataObject = $this->_addressBuilder->create();
+        return $addressDataObject;
     }
 }

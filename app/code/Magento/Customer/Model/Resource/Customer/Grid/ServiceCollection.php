@@ -11,9 +11,9 @@ use Magento\Core\Model\EntityFactory;
 use magento\Customer\Helper\View;
 use Magento\Customer\Model\Resource\AbstractServiceCollection;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
-use Magento\Customer\Service\V1\Dto\CustomerDetails;
-use Magento\Customer\Service\V1\Dto\FilterBuilder;
-use Magento\Customer\Service\V1\Dto\SearchCriteriaBuilder;
+use Magento\Customer\Service\V1\Data\CustomerDetails;
+use Magento\Customer\Service\V1\Data\FilterBuilder;
+use Magento\Customer\Service\V1\Data\SearchCriteriaBuilder;
 
 /**
  * Customer Grid Collection backed by Services
@@ -76,8 +76,8 @@ class ServiceCollection extends AbstractServiceCollection
     {
         $customer = $customerDetail->getCustomer();
         $customerItem = new \Magento\Object();
-        $customerItem->setId($customer->getCustomerId());
-        $customerItem->setEntityId($customer->getCustomerId());
+        $customerItem->setId($customer->getId());
+        $customerItem->setEntityId($customer->getId());
         $customerItem->setName($this->viewHelper->getCustomerName($customer));
         $customerItem->setEmail($customer->getEmail());
         $customerItem->setWebsiteId($customer->getWebsiteId());

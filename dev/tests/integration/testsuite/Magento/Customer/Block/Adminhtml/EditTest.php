@@ -9,8 +9,6 @@ namespace Magento\Customer\Block\Adminhtml;
 
 use Magento\Customer\Controller\RegistryConstants;
 use Magento\TestFramework\Helper\Bootstrap;
-use Magento\Customer\Service\V1\Dto\Customer;
-
 /**
  * Class EditTest
  *

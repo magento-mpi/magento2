@@ -29,9 +29,9 @@ class DataTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
      */
-    public function testGetCustomerDto()
+    public function testGetCustomerData()
     {
-        $this->assertInstanceOf('\Magento\Customer\Service\V1\Dto\Customer', $this->_dataHelper->getCustomerDto());
+        $this->assertInstanceOf('\Magento\Customer\Service\V1\Data\Customer', $this->_dataHelper->getCustomerData());
     }
 
     /**

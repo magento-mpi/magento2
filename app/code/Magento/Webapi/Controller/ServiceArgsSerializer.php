@@ -133,12 +133,11 @@ class ServiceArgsSerializer
                 $builder->$setterName($this->_convertValue($value, $returnType));
             }
         }
-        $object = $builder->create();
-        return $object;
+        return $builder->create();
     }
 
     /**
-     * Convert data from array to DTO representation if type is DTO or array of DTOs.
+     * Convert data from array to Data Object representation if type is Data Object or array of Data Objects.
      *
      * @param mixed $value
      * @param string $type

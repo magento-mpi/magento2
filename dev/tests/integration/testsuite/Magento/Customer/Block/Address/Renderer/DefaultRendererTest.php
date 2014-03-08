@@ -51,18 +51,18 @@ class DefaultRendererTest extends \PHPUnit_Framework_TestCase
             'telephone' => '3468676',
         ];
 
+        $htmlResult = "John Smith<br/>\n\nGreen str, 67<br />\n\n\n\nCityM,  Alabama, "
+                    . "75477<br/>\nUnited States<br/>\nT: 3468676\n\n";
         return [
             [
                 $addressAttributes,
                 AttributeDataFactory::OUTPUT_FORMAT_HTML,
-                "John Smith<br/>\n\nGreen str, 67<br />\n\n\n\nCityM,  Alabama, 75477<br/>
-United States<br/>\nT: 3468676\n\n"
+                $htmlResult
             ],
             [
                 $addressAttributes,
                 AttributeDataFactory::OUTPUT_FORMAT_PDF,
-                "John Smith|\n\nGreen str, 67\n\n\n\n\nCityM,|\nAlabama, 75477|
-United States|\nT: 3468676|\n|\n|"
+                "John Smith|\n\nGreen str, 67\n\n\n\n\nCityM,|\nAlabama, 75477|\nUnited States|\nT: 3468676|\n|\n|"
             ],
             [
                 $addressAttributes,
@@ -72,8 +72,7 @@ United States|\nT: 3468676|\n|\n|"
             [
                 $addressAttributes,
                 AttributeDataFactory::OUTPUT_FORMAT_TEXT,
-                "John Smith\n\nGreen str, 67\n\n\n\n\nCityM,  Alabama, 75477
-United States\nT: 3468676\n\n"
+                "John Smith\n\nGreen str, 67\n\n\n\n\nCityM,  Alabama, 75477\nUnited States\nT: 3468676\n\n"
             ],
         ];
     }

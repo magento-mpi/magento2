@@ -53,6 +53,6 @@ class SessionTest extends \PHPUnit_Framework_TestCase
 
         $customerData = $customerSession->getCustomerData();
 
-        $this->assertEquals($fixtureCustomerId, $customerData->getCustomerId(), "Customer data was loaded incorrectly");
+        $this->assertEquals($fixtureCustomerId, $customerData->getId(), "Customer data was loaded incorrectly");
     }
 }

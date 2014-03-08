@@ -11,14 +11,16 @@ namespace Magento\Customer\Controller\Adminhtml;
 
 use Magento\App\Action\NotFoundException;
 use Magento\Customer\Controller\RegistryConstants;
-use Magento\Customer\Service\V1\Dto\Customer;
-use Magento\Customer\Service\V1\Dto\CustomerBuilder;
-use Magento\Customer\Service\V1\Dto\CustomerDetailsBuilder;
-use Magento\Customer\Service\V1\Dto\AddressBuilder;
+use Magento\Customer\Service\V1\Data\Customer;
+use Magento\Customer\Service\V1\Data\CustomerBuilder;
+use Magento\Customer\Service\V1\Data\AddressBuilder;
+use Magento\Customer\Service\V1\Data\CustomerDetailsBuilder;
+use Magento\Customer\Service\V1\CustomerServiceInterface;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 use Magento\Exception\NoSuchEntityException;
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface as CustomerMetadata;
+use Magento\Customer\Service\V1\Data\AddressConverter;
 
 /**
  * Class Index
@@ -222,12 +224,12 @@ class Index extends \Magento\Backend\App\Action
         if ($isExistingCustomer) {
             try {
                 $customer = $this->_customerAccountService->getCustomer($customerId);
-                $customerData['account'] = $customer->getAttributes();
+                $customerData['account'] = \Magento\Service\DataObjectConverter::toFlatArray($customer);
                 $customerData['account']['id'] = $customerId;
                 try {
                     $addresses = $this->_addressService->getAddresses($customerId);
                     foreach ($addresses as $address) {
-                        $customerData['address'][$address->getId()] = $address->getAttributes();
+                        $customerData['address'][$address->getId()] = AddressConverter::toFlatArray($address);
                         $customerData['address'][$address->getId()]['id'] = $address->getId();
                     }
                 } catch (NoSuchEntityException $e) {
@@ -295,7 +297,7 @@ class Index extends \Magento\Backend\App\Action
                     $addressForm = $this->_formFactory->create(
                         'customer_address',
                         'adminhtml_customer_address',
-                        $address->getAttributes()
+                        AddressConverter::toFlatArray($address)
                     );
                     $formData = $addressForm->extractData($request, $requestScope);
                     $customerData['address'][$addressId] = $addressForm->restoreData($formData);
@@ -368,8 +370,11 @@ class Index extends \Magento\Backend\App\Action
 
                 $customerBuilder = $this->_customerBuilder;
                 if ($isExistingCustomer) {
-                    $savedCustomerData = $this->_customerAccountService->getCustomer($customerId)->__toArray();
-                    $customerData = array_merge($savedCustomerData, $customerData);
+                    $savedCustomerData = $this->_customerAccountService->getCustomer($customerId);
+                    $customerData = array_merge(
+                        \Magento\Service\DataObjectConverter::toFlatArray($savedCustomerData),
+                        $customerData
+                    );
                 }
                 unset($customerData[Customer::DEFAULT_BILLING]);
                 unset($customerData[Customer::DEFAULT_SHIPPING]);
@@ -408,7 +413,7 @@ class Index extends \Magento\Backend\App\Action
                 );
 
                 // Done Saving customer, finish save action
-                $customerId = $customer->getCustomerId();
+                $customerId = $customer->getId();
                 $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER_ID, $customerId);
 
                 $this->messageManager->addSuccess(__('You saved the customer.'));
@@ -759,7 +764,7 @@ class Index extends \Magento\Backend\App\Action
             $customerForm = $this->_formFactory->create(
                 'customer',
                 'adminhtml_customer',
-                $customer->getAttributes(),
+                \Magento\Service\DataObjectConverter::toFlatArray($customer),
                 true
             );
             $customerForm->setInvisibleIgnored(true);

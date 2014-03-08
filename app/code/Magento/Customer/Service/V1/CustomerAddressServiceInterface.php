@@ -17,7 +17,7 @@ interface CustomerAddressServiceInterface
      * Retrieve all Customer Addresses
      *
      * @param int $customerId
-     * @return \Magento\Customer\Service\V1\Dto\Address[]
+     * @return \Magento\Customer\Service\V1\Data\Address[]
      * @throws \Magento\Exception\NoSuchEntityException If the customer Id is invalid
      */
     public function getAddresses($customerId);
@@ -26,7 +26,7 @@ interface CustomerAddressServiceInterface
      * Retrieve default billing address
      *
      * @param int $customerId
-     * @return \Magento\Customer\Service\V1\Dto\Address
+     * @return \Magento\Customer\Service\V1\Data\Address
      * @throws \Magento\Exception\NoSuchEntityException If the customer Id is invalid
      */
     public function getDefaultBillingAddress($customerId);
@@ -35,7 +35,7 @@ interface CustomerAddressServiceInterface
      * Retrieve default shipping address
      *
      * @param int $customerId
-     * @return \Magento\Customer\Service\V1\Dto\Address
+     * @return \Magento\Customer\Service\V1\Data\Address
      * @throws \Magento\Exception\NoSuchEntityException If the customer Id is invalid
      */
     public function getDefaultShippingAddress($customerId);
@@ -44,7 +44,7 @@ interface CustomerAddressServiceInterface
      * Retrieve address by id
      *
      * @param int $addressId
-     * @return \Magento\Customer\Service\V1\Dto\Address
+     * @return \Magento\Customer\Service\V1\Data\Address
      * @throws \Magento\Exception\NoSuchEntityException If no address can be found for the provided id.
      */
     public function getAddress($addressId);
@@ -71,7 +71,7 @@ interface CustomerAddressServiceInterface
      * that a full set of data must be provided with each Address
      *
      * @param int $customerId
-     * @param \Magento\Customer\Service\V1\Dto\Address[] $addresses
+     * @param \Magento\Customer\Service\V1\Data\Address[] $addresses
      * @throws \Magento\Exception\InputException If there are validation errors.
      * @throws \Magento\Exception\NoSuchEntityException If customer with customerId is not found.
      * @throws \Exception If there were issues during the save operation
@@ -82,7 +82,7 @@ interface CustomerAddressServiceInterface
     /**
      * Validate a list of addresses.
      *
-     * @param \Magento\Customer\Service\V1\Dto\Address[] $addresses
+     * @param \Magento\Customer\Service\V1\Data\Address[] $addresses
      * @return bool true All addresses passed validation.
      * @throws \Magento\Exception\InputException If there are validation errors.
      */

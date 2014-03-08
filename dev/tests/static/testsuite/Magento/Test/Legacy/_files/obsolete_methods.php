@@ -546,6 +546,7 @@ return array(
         'Magento_Core_Model_Theme::getThemeCollectionOptionArray'
     ),
     array('getTotalModels', 'Magento\Sales\Model\Quote\Address'),
+    array('importCustomerAddress', 'Magento\Sales\Model\Quote\Address'),
     array('getTotalModels', 'Magento\Sales\Model\Quote\Config'),
     array('getTrackId', 'Magento\Shipping\Block\Tracking\Popup'),
     array('getTrackingInfoByOrder', 'Magento\Shipping\Block\Tracking\Popup'),
@@ -1212,28 +1213,28 @@ return array(
     array('getFileIdentifier', 'Magento\View\Layout\File\FileList', 'Magento\View\Layout\File'),
     array('_getInitialXml', 'Magento\Config\Theme'),
     array('_getIdAttributes', 'Magento\Config\Theme'),
-    [
+    array(
         'getAllPeriodUnits',
         'Magento\Payment\Model\Recurring\Profile',
         'Magento\RecurringProfile\Model\PeriodUnits::toOptionArray'
-    ],
-    [
+    ),
+    array(
         'getPeriodUnitLabel',
         'Magento\Payment\Model\Recurring\Profile',
         'Magento\RecurringProfile\Model\PeriodUnits::toOptionArray()[\Magento\RecurringProfile\Model\PeriodUnits::DAY]'
-    ],
-    [
+    ),
+    array(
         'getFieldComment',
         'Magento\Payment\Model\Recurring\Profile',
         'Magento\RecurringProfile\Block\Fields::getFieldComment',
-    ],
-    [
+    ),
+    array(
         'getFieldLabel',
         'Magento\Payment\Model\Recurring\Profile',
         'Magento\RecurringProfile\Block\Fields::getFieldLabel',
-    ],
-    ['_ensureLocaleAndStore', 'Magento\Payment\Model\Recurring\Profile'],
-    ['setLocale', 'Magento\Payment\Model\Recurring\Profile', 'Locale instance injected via constructor'],
+    ),
+    array('_ensureLocaleAndStore', 'Magento\Payment\Model\Recurring\Profile'),
+    array('setLocale', 'Magento\Payment\Model\Recurring\Profile', 'Locale instance injected via constructor'),
     array('_getSession', 'Magento\CatalogSearch\Controller\Result'),
     array('addPriceBlockType', 'Magento\Rss\Block\Catalog\AbstractCatalog'),
     array('getAttributeDisabledTypes', 'Magento\Catalog\Helper\Data'),
@@ -1348,4 +1349,6 @@ return array(
     ['getMeasureWeightName', 'Magento\Usa\Helper\Data', 'Magento\Shipping\Helper\Carrier::getMeasureWeightName'],
     ['getMeasureDimensionName', 'Magento\Usa\Helper\Data', 'Magento\Shipping\Helper\Carrier::getMeasureDimensionName'],
     ['displayGirthValue', 'Magento\Usa\Helper\Data', 'Magento\Usps\Helper\Data::displayGirthValue'],
+    array('reindexProductPrices', '\Magento\Catalog\Model\Observer'),
+    array('getCustomer', 'Magento\Checkout\Block\Onepage\AbstractOnepage')
 );

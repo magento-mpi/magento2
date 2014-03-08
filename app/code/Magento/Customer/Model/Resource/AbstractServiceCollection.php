@@ -8,10 +8,10 @@
 namespace Magento\Customer\Model\Resource;
 
 use Magento\Core\Model\EntityFactory;
-use Magento\Customer\Service\V1\Dto\Filter;
-use Magento\Customer\Service\V1\Dto\FilterBuilder;
-use Magento\Customer\Service\V1\Dto\SearchCriteria;
-use Magento\Customer\Service\V1\Dto\SearchCriteriaBuilder;
+use Magento\Customer\Service\V1\Data\Filter;
+use Magento\Customer\Service\V1\Data\FilterBuilder;
+use Magento\Customer\Service\V1\Data\SearchCriteria;
+use Magento\Customer\Service\V1\Data\SearchCriteriaBuilder;
 use Magento\Exception;
 
 /**
@@ -124,13 +124,13 @@ abstract class AbstractServiceCollection extends \Magento\Data\Collection
         foreach ($this->fieldFilters as $filter) {
             if (!is_array($filter['field'])) {
                 // just one field
-                $this->searchCriteriaBuilder->addFilter($this->createFilterDto($filter['field'], $filter['condition']));
+                $this->searchCriteriaBuilder->addFilter($this->createFilterData($filter['field'], $filter['condition']));
             } else {
                 // array of fields, put filters in array to use 'or' group
                 /** @var Filter[] $orGroupFilters */
                 $orGroupFilters = [];
                 foreach ($filter['field'] as $index => $field) {
-                    $orGroupFilters[] = $this->createFilterDto($field, $filter['condition'][$index]);
+                    $orGroupFilters[] = $this->createFilterData($field, $filter['condition'][$index]);
                 }
                 $this->searchCriteriaBuilder->addOrGroup($orGroupFilters);
             }
@@ -153,7 +153,7 @@ abstract class AbstractServiceCollection extends \Magento\Data\Collection
      * @param string|array $condition Condition for new filter.
      * @return Filter
      */
-    protected function createFilterDto($field, $condition)
+    protected function createFilterData($field, $condition)
     {
         $this->filterBuilder->setField($field);
 

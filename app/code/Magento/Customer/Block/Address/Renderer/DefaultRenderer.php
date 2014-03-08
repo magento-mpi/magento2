@@ -115,9 +115,11 @@ class DefaultRenderer
      */
     public function render(\Magento\Customer\Model\Address\AbstractAddress $address, $format = null)
     {
-        $attributes = $this->_addressConverter->createAddressFromModel($address, 0, 0)
-            ->getAttributes();
-        return $this->renderArray($attributes, $format);
+        $address = $this->_addressConverter->createAddressFromModel($address, 0, 0);
+        return $this->renderArray(
+            \Magento\Customer\Service\V1\Data\AddressConverter::toFlatArray($address),
+            $format
+        );
     }
 
     /**

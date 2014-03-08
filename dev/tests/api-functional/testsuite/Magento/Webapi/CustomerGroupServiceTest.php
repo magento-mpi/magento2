@@ -7,7 +7,7 @@
  */
 namespace Magento\Webapi;
 
-use Magento\Customer\Service\V1\Dto\CustomerGroup;
+use Magento\Customer\Service\V1\Data\CustomerGroup;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 use Magento\Exception\NoSuchEntityException;
 use Magento\TestFramework\Helper\Bootstrap;

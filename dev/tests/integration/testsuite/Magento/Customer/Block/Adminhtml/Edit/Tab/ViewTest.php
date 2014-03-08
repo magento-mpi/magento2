@@ -10,8 +10,8 @@ namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 use Magento\Customer\Controller\RegistryConstants;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
-use Magento\Customer\Service\V1\Dto\Customer;
-use Magento\Customer\Service\V1\Dto\CustomerBuilder;
+use Magento\Customer\Service\V1\Data\Customer;
+use Magento\Customer\Service\V1\Data\CustomerBuilder;
 
 /**
  * Magento\Customer\Block\Adminhtml\Edit\Tab\View
@@ -52,7 +52,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
                 array('storeManager' => $this->_storeManager)
             );
 
-        $this->_customerBuilder = $objectManager->get('Magento\Customer\Service\V1\Dto\CustomerBuilder');
+        $this->_customerBuilder = $objectManager->get('Magento\Customer\Service\V1\Data\CustomerBuilder');
         $this->_coreRegistry = $objectManager->get('Magento\Registry');
         $this->_customerAccountService = $objectManager
             ->get('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
@@ -253,7 +253,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
      */
     private function _createCustomer()
     {
-        /** @var \Magento\Customer\Service\V1\Dto\Customer $customer */
+        /** @var \Magento\Customer\Service\V1\Data\Customer $customer */
         $customer = $this->_customerBuilder->setFirstname('firstname')
             ->setLastname('lastname')
             ->setEmail('email@email.com')
@@ -271,7 +271,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         $customer = $this->_customerAccountService->getCustomer(1);
         $data = ['account' => $customer->__toArray()];
         $this->_context->getBackendSession()->setCustomerData($data);
-        $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER_ID, $customer->getCustomerId());
+        $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER_ID, $customer->getId());
         return $customer;
     }
 }

@@ -7,12 +7,12 @@
  */
 namespace Magento\Webapi;
 
-use Magento\Customer\Service\V1\Dto\Customer;
-use Magento\Customer\Service\V1\Dto\CustomerDetails;
-use Magento\Customer\Service\V1\Dto\CustomerDetailsBuilder;
-use Magento\Customer\Service\V1\Dto\CustomerBuilder;
-use Magento\Customer\Service\V1\Dto\AddressBuilder;
-use Magento\Customer\Service\V1\Dto\RegionBuilder;
+use Magento\Customer\Service\V1\Data\Customer;
+use Magento\Customer\Service\V1\Data\CustomerDetails;
+use Magento\Customer\Service\V1\Data\CustomerDetailsBuilder;
+use Magento\Customer\Service\V1\Data\CustomerBuilder;
+use Magento\Customer\Service\V1\Data\AddressBuilder;
+use Magento\Customer\Service\V1\Data\RegionBuilder;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\TestCase\WebapiAbstract;
@@ -106,13 +106,13 @@ class CustomerAccountServiceTest extends WebapiAbstract
     private function _createSampleCustomerDetailsData()
     {
         $this->_addressBuilder = Bootstrap::getObjectManager()->create(
-            'Magento\Customer\Service\V1\Dto\AddressBuilder'
+            'Magento\Customer\Service\V1\Data\AddressBuilder'
         );
         $this->_customerBuilder = Bootstrap::getObjectManager()->create(
-            'Magento\Customer\Service\V1\Dto\CustomerBuilder'
+            'Magento\Customer\Service\V1\Data\CustomerBuilder'
         );
         $this->_customerDetailsBuilder = Bootstrap::getObjectManager()->create(
-            'Magento\Customer\Service\V1\Dto\CustomerDetailsBuilder'
+            'Magento\Customer\Service\V1\Data\CustomerDetailsBuilder'
         );
 
         $this->_addressBuilder

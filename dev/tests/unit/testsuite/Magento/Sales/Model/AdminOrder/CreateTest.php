@@ -26,7 +26,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Customer\Model\Metadata\FormFactory|\PHPUnit_Framework_MockObject_MockObject */
     protected $formFactoryMock;
 
-    /** @var \Magento\Customer\Service\V1\Dto\CustomerBuilder|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Customer\Service\V1\Data\CustomerBuilder|\PHPUnit_Framework_MockObject_MockObject */
     protected $customerBuilderMock;
 
     /** @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface|\PHPUnit_Framework_MockObject_MockObject */
@@ -47,10 +47,10 @@ class CreateTest extends \PHPUnit_Framework_TestCase
         $customerAddressServiceMock =
             $this->getMock('Magento\Customer\Service\V1\CustomerAddressServiceInterface');
         $addressBuilderMock =
-            $this->getMock('Magento\Customer\Service\V1\Dto\AddressBuilder', [], [], '', false);
+            $this->getMock('Magento\Customer\Service\V1\Data\AddressBuilder', [], [], '', false);
         $this->formFactoryMock = $this->getMock('Magento\Customer\Model\Metadata\FormFactory', [], [], '', false);
         $this->customerBuilderMock = $this->getMock(
-            'Magento\Customer\Service\V1\Dto\CustomerBuilder',
+            'Magento\Customer\Service\V1\Data\CustomerBuilder',
             [],
             [],
             '',
@@ -91,7 +91,9 @@ class CreateTest extends \PHPUnit_Framework_TestCase
         $attributeMocks = [];
 
         foreach ($attributes as $attribute) {
-            $attributeMock = $this->getMock('Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata', [], [], '', false);
+            $attributeMock = $this->getMock(
+                'Magento\Customer\Service\V1\Data\Eav\AttributeMetadata',
+                [], [], '', false);
 
             $attributeMock
                 ->expects($this->any())
@@ -101,7 +103,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
             $attributeMocks[] = $attributeMock;
         }
 
-        $customerGroupMock = $this->getMock('Magento\Customer\Service\V1\Dto\CustomerGroup', [], [], '', false);
+        $customerGroupMock = $this->getMock('Magento\Customer\Service\V1\Data\CustomerGroup', [], [], '', false);
         $customerGroupMock->expects($this->once())->method('getTaxClassId')->will($this->returnValue($taxClassId));
         $customerFormMock = $this->getMock('Magento\Customer\Model\Metadata\Form', [], [], '', false);
         $customerFormMock->expects($this->any())->method('getAttributes')->will($this->returnValue($attributeMocks));
@@ -113,12 +115,9 @@ class CreateTest extends \PHPUnit_Framework_TestCase
             ->method('prepareRequest')
             ->will($this->returnValue($this->getMock('Magento\App\RequestInterface')));
 
-        $customerMock = $this->getMock('Magento\Customer\Service\V1\Dto\Customer', [], [], '', false);
-        $customerMock->expects($this->any())->method('__toArray')->will($this->returnValue([]));
-        $customerMock->expects($this->any())->method('getAttribute')->will($this->returnValueMap($attributes));
-        $customerMock->expects($this->any())->method('getAttributes')->will(
-            $this->returnValue(['email' => 'user@example.com', 'group_id' => 1])
-        );
+        $customerMock = $this->getMock('Magento\Customer\Service\V1\Data\Customer', [], [], '', false);
+        $customerMock->expects($this->any())->method('__toArray')
+            ->will($this->returnValue(['email' => 'user@example.com', 'group_id' => 1]));
         $quoteMock = $this->getMock('Magento\Sales\Model\Quote', [], [], '', false);
         $quoteMock->expects($this->any())->method('getCustomerData')->will($this->returnValue($customerMock));
 
@@ -137,7 +136,8 @@ class CreateTest extends \PHPUnit_Framework_TestCase
         $this->sessionQuoteMock->expects($this->any())->method('getQuote')->will($this->returnValue($quoteMock));
         $this->customerBuilderMock->expects($this->any())->method('populateWithArray')->will($this->returnSelf());
         $this->customerBuilderMock->expects($this->any())->method('create')->will($this->returnValue($customerMock));
-        $this->customerBuilderMock->expects($this->any())->method('mergeDtoWithArray')->will($this->returnArgument(0));
+        $this->customerBuilderMock->expects($this->any())->method('mergeDataObjectWithArray')
+            ->will($this->returnArgument(0));
 
         $this->customerGroupServiceMock
             ->expects($this->once())

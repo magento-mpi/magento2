@@ -69,7 +69,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
             ->with(self::SCOPE)
             ->will($this->returnValue($requestData));
 
-        $attributeIsFrontEndInput = $this->getMockBuilder('\Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata')
+        $attributeIsFrontEndInput = $this->getMockBuilder('\Magento\Customer\Service\V1\Data\Eav\AttributeMetadata')
             ->disableOriginalConstructor()
             ->getMock();
         $attributeIsFrontEndInput->expects($this->once())
@@ -79,7 +79,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
             ->method('getFrontendInput')
             ->will($this->returnValue('boolean'));
 
-        $attributeIsNotFrontEndInput = $this->getMockBuilder('\Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata')
+        $attributeIsNotFrontEndInput = $this->getMockBuilder('\Magento\Customer\Service\V1\Data\Eav\AttributeMetadata')
             ->disableOriginalConstructor()
             ->getMock();
         $attributeIsNotFrontEndInput->expects($this->once())

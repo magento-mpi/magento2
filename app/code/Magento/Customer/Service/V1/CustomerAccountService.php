@@ -23,7 +23,7 @@ use Magento\Math\Random;
 use Magento\UrlInterface;
 
 /**
- *  Handle various customer account actions
+ * Handle various customer account actions
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
@@ -32,13 +32,13 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     /** @var CustomerFactory */
     private $_customerFactory;
 
-    /** @var Dto\CustomerBuilder */
+    /** @var Data\CustomerBuilder */
     private $_customerBuilder;
 
-    /** @var Dto\CustomerDetailsBuilder */
+    /** @var Data\CustomerDetailsBuilder */
     private $_customerDetailsBuilder;
 
-    /** @var Dto\SearchResultsBuilder */
+    /** @var Data\SearchResultsBuilder */
     private $_searchResultsBuilder;
 
     /**
@@ -90,9 +90,9 @@ class CustomerAccountService implements CustomerAccountServiceInterface
      * @param Random $mathRandom
      * @param Converter $converter
      * @param Validator $validator
-     * @param Dto\CustomerBuilder $customerBuilder
-     * @param Dto\CustomerDetailsBuilder $customerDetailsBuilder
-     * @param Dto\SearchResultsBuilder $searchResultsBuilder,
+     * @param Data\CustomerBuilder $customerBuilder
+     * @param Data\CustomerDetailsBuilder $customerDetailsBuilder
+     * @param Data\SearchResultsBuilder $searchResultsBuilder,
      * @param CustomerAddressServiceInterface $customerAddressService
      * @param CustomerMetadataServiceInterface $customerMetadataService
      * @param UrlInterface $url
@@ -106,9 +106,9 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         Random $mathRandom,
         Converter $converter,
         Validator $validator,
-        Dto\CustomerBuilder $customerBuilder,
-        Dto\CustomerDetailsBuilder $customerDetailsBuilder,
-        Dto\SearchResultsBuilder $searchResultsBuilder,
+        Data\CustomerBuilder $customerBuilder,
+        Data\CustomerDetailsBuilder $customerDetailsBuilder,
+        Data\SearchResultsBuilder $searchResultsBuilder,
         CustomerAddressServiceInterface $customerAddressService,
         CustomerMetadataServiceInterface $customerMetadataService,
         UrlInterface $url
@@ -273,14 +273,14 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function createAccount(Dto\CustomerDetails $customerDetails, $password = null, $redirectUrl = '')
+    public function createAccount(Daa\CustomerDetails $customerDetails, $password = null, $redirectUrl = '')
     {
         $customer = $customerDetails->getCustomer();
 
         // This logic allows an existing customer to be added to a different store.  No new account is created.
         // The plan is to move this logic into a new method called something like 'registerAccountWithStore'
-        if ($customer->getCustomerId()) {
-            $customerModel = $this->_converter->getCustomerModel($customer->getCustomerId());
+        if ($customer->getId()) {
+            $customerModel = $this->_converter->getCustomerModel($customer->getId());
             if ($customerModel->isInStore($customer->getStoreId())) {
                 throw new InputException(__('Customer already exists in this store.'));
             }
@@ -335,23 +335,23 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function updateCustomer(Dto\CustomerDetails $customerDetails)
+    public function updateCustomer(Data\CustomerDetails $customerDetails)
     {
         $customer = $customerDetails->getCustomer();
         // Making this call first will ensure the customer already exists.
-        $this->getCustomer($customer->getCustomerId());
+        $this->getCustomer($customer->getId());
         $this->saveCustomer($customer);
 
         $addresses = $customerDetails->getAddresses();
         // If $address is null, no changes must made to the list of addresses
         // be careful $addresses != null would be true of $addresses is an empty array
         if ($addresses !== null) {
-            $existingAddresses = $this->_customerAddressService->getAddresses($customer->getCustomerId());
-            /** @var Dto\Address[] $deletedAddresses */
+            $existingAddresses = $this->_customerAddressService->getAddresses($customer->getId());
+            /** @var Data\Address[] $deletedAddresses */
             $deletedAddresses = array_udiff(
                 $existingAddresses,
                 $addresses,
-                function (Dto\Address $existing, Dto\Address $replacement) {
+                function (Data\Address $existing, Data\Address $replacement) {
                     return $existing->getId() - $replacement->getId();
                 }
             );
@@ -361,14 +361,14 @@ class CustomerAccountService implements CustomerAccountServiceInterface
             foreach ($deletedAddresses as $address) {
                 $this->_customerAddressService->deleteAddress($address->getId());
             }
-            $this->_customerAddressService->saveAddresses($customer->getCustomerId(), $addresses);
+            $this->_customerAddressService->saveAddresses($customer->getId(), $addresses);
         }
     }
 
     /**
      * (@inheritdoc)
      */
-    public function searchCustomers(Dto\SearchCriteria $searchCriteria)
+    public function searchCustomers(Data\SearchCriteria $searchCriteria)
     {
         $this->_searchResultsBuilder->setSearchCriteria($searchCriteria);
 
@@ -391,7 +391,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         $sortOrders = $searchCriteria->getSortOrders();
         if ($sortOrders) {
             foreach ($searchCriteria->getSortOrders() as $field => $direction) {
-                $collection->addOrder($field, $direction == Dto\SearchCriteria::SORT_ASC ? 'ASC' : 'DESC');
+                $collection->addOrder($field, $direction == Data\SearchCriteria::SORT_ASC ? 'ASC' : 'DESC');
             }
         }
         $collection->setCurPage($searchCriteria->getCurrentPage());
@@ -402,7 +402,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         /** @var CustomerModel $customerModel */
         foreach ($collection as $customerModel) {
             $customer = $this->_converter->createCustomerFromModel($customerModel);
-            $addresses = $this->_customerAddressService->getAddresses($customer->getCustomerId());
+            $addresses = $this->_customerAddressService->getAddresses($customer->getId());
             $customerDetails = $this->_customerDetailsBuilder
                 ->setCustomer($customer)->setAddresses($addresses)->create();
             $customersDetails[] = $customerDetails;
@@ -414,11 +414,11 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     /**
      * Adds some filters from a filter group to a collection.
      *
-     * @param Dto\Search\FilterGroupInterface $filterGroup
+     * @param Data\Search\FilterGroupInterface $filterGroup
      * @param Collection $collection
      * @throws \Magento\Exception\InputException
      */
-    protected function addFiltersToCollection(Dto\Search\FilterGroupInterface $filterGroup, Collection $collection)
+    protected function addFiltersToCollection(Data\Search\FilterGroupInterface $filterGroup, Collection $collection)
     {
         if (strcasecmp($filterGroup->getGroupType(), 'AND')) {
             throw new InputException('Only AND grouping is currently supported for filters.');
@@ -437,9 +437,9 @@ class CustomerAccountService implements CustomerAccountServiceInterface
      * Helper function that adds a filter to the collection
      *
      * @param Collection $collection
-     * @param Dto\Filter $filter
+     * @param Data\Filter $filter
      */
-    protected function addFilterToCollection(Collection $collection, Dto\Filter $filter)
+    protected function addFilterToCollection(Collection $collection, Data\Filter $filter)
     {
         $condition = $filter->getConditionType() ? $filter->getConditionType() : 'eq';
         $collection->addFieldToFilter($filter->getField(), [$condition => $filter->getValue()]);
@@ -449,10 +449,10 @@ class CustomerAccountService implements CustomerAccountServiceInterface
      * Helper function that adds a FilterGroup to the collection.
      *
      * @param Collection $collection
-     * @param Dto\Search\FilterGroupInterface $group
+     * @param Data\Search\FilterGroupInterface $group
      * @throws \Magento\Exception\InputException
      */
-    protected function addFilterGroupToCollection(Collection $collection, Dto\Search\FilterGroupInterface $group)
+    protected function addFilterGroupToCollection(Collection $collection, Data\Search\FilterGroupInterface $group)
     {
         if (strcasecmp($group->getGroupType(), 'OR')) {
             throw new InputException('The only nested groups currently supported for filters are of type OR.');
@@ -471,7 +471,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function saveCustomer(Dto\Customer $customer, $password = null)
+    public function saveCustomer(Data\Customer $customer, $password = null)
     {
         $customerModel = $this->_converter->createCustomerModel($customer);
 
@@ -521,10 +521,10 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function validateCustomerData(Dto\Customer $customer, array $attributes)
+    public function validateCustomerData(Data\Customer $customer, array $attributes)
     {
         $customerErrors = $this->_validator->validateData(
-            $customer->__toArray(),
+            \Magento\Service\DataObjectConverter::toFlatArray($customer),
             $attributes,
             'customer'
         );
@@ -634,7 +634,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
 
     /**
      * @param $attributeCode
-     * @return Dto\Eav\AttributeMetadata|null
+     * @return Data\Eav\AttributeMetadata|null
      */
     private function _getAttributeMetadata($attributeCode)
     {

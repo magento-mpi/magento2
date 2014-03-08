@@ -7,7 +7,7 @@
  */
 namespace Magento\Customer\Model\Metadata;
 
-use Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata;
+use Magento\Customer\Service\V1\Data\Eav\AttributeMetadata;
 
 class ValidatorTest extends \PHPUnit_Framework_TestCase
 {
@@ -31,7 +31,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
 
     public function testValidateDataWithNoDataModel()
     {
-        $attribute = $this->getMockBuilder('\Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata')
+        $attribute = $this->getMockBuilder('\Magento\Customer\Service\V1\Data\Eav\AttributeMetadata')
             ->disableOriginalConstructor()
             ->getMock();
         $this->attrDataFactoryMock
@@ -53,7 +53,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
 
     public function testIsValidWithNoModel()
     {
-        $attribute = $this->getMockBuilder('\Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata')
+        $attribute = $this->getMockBuilder('\Magento\Customer\Service\V1\Data\Eav\AttributeMetadata')
             ->disableOriginalConstructor()
             ->getMock();
         $this->attrDataFactoryMock
@@ -94,7 +94,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
      */
     protected function getMockAttribute()
     {
-        $attribute = $this->getMockBuilder('\Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata')
+        $attribute = $this->getMockBuilder('\Magento\Customer\Service\V1\Data\Eav\AttributeMetadata')
             ->disableOriginalConstructor()
             ->setMethods(['__wakeup', 'getAttributeCode', 'getDataModel'])
             ->getMock();

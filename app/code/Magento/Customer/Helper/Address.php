@@ -15,7 +15,7 @@
  */
 namespace Magento\Customer\Helper;
 
-use Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata;
+use Magento\Customer\Service\V1\Data\Eav\AttributeMetadata;
 
 class Address extends \Magento\App\Helper\AbstractHelper
 {
@@ -208,7 +208,7 @@ class Address extends \Magento\App\Helper\AbstractHelper
      */
     public function getAttributeValidationClass($attributeCode)
     {
-        /** @var $attribute \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata */
+        /** @var $attribute \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata */
         $attribute = isset($this->_attributes[$attributeCode]) ? $this->_attributes[$attributeCode]
             : $this->_customerMetadataService->getAttributeMetadata('customer_address', $attributeCode);
         $class = $attribute ? $attribute->getFrontendClass() : '';
@@ -217,7 +217,7 @@ class Address extends \Magento\App\Helper\AbstractHelper
                 $class = ''; // address attribute is not visible thus its validation rules are not applied
             }
 
-            /** @var $customerAttribute \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata */
+            /** @var $customerAttribute \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata */
             $customerAttribute = $this->_customerMetadataService->getAttributeMetadata('customer', $attributeCode);
             $class .= $customerAttribute && $customerAttribute->isVisible()
                 ? $customerAttribute->getFrontendClass() : '';

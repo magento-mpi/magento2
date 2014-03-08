@@ -159,8 +159,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     protected $mathRandom;
 
-    /** @var \Magento\Customer\Service\V1\Dto\Customer */
-    protected $customerDto;
+    /** @var \Magento\Customer\Service\V1\Data\Customer */
+    protected $customerData;
 
     /**
      * @param \Magento\App\Helper\Context $context
@@ -264,7 +264,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * Retrieve logged in customer
      *
      * @return \Magento\Customer\Model\Customer
-     * @deprecated use getCustomerDto() instead
+     * @deprecated use getCustomerData() instead
      */
     public function getCustomer()
     {
@@ -275,16 +275,16 @@ class Data extends \Magento\App\Helper\AbstractHelper
     }
 
     /**
-     * @return \Magento\Customer\Service\V1\Dto\Customer|null
+     * @return \Magento\Customer\Service\V1\Data\Customer|null
      * @throws  \Magento\Exception\NoSuchEntityException
      */
-    public function getCustomerDto()
+    public function getCustomerData()
     {
-        if (empty($this->customerDto)) {
+        if (empty($this->customerData)) {
             $customerId = $this->_customerSession->getCustomerId();
-            $this->customerDto = $this->_accountService->getCustomer($customerId);
+            $this->customerData = $this->_accountService->getCustomer($customerId);
         }
-        return $this->customerDto;
+        return $this->customerData;
     }
 
     /**
@@ -740,7 +740,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         }
 
         $formAttributes = $metadataForm->getAttributes();
-        /** @var \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata $attribute */
+        /** @var \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata $attribute */
         foreach ($formAttributes as $attribute) {
             $attributeCode = $attribute->getAttributeCode();
             $frontendInput = $attribute->getFrontendInput();

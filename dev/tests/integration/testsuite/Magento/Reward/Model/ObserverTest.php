@@ -11,8 +11,8 @@
 
 namespace Magento\Reward\Model;
 
+use Magento\Customer\Service\V1\Data\Customer;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
-use Magento\Customer\Service\V1\Dto\Customer;
 
 class ObserverTest extends \PHPUnit_Framework_TestCase
 {

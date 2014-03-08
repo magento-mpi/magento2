@@ -8,8 +8,8 @@
 
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab\View;
 
+use Magento\Customer\Service\V1\Data\Customer;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
-use Magento\Customer\Service\V1\Dto\Customer;
 use Magento\Exception\NoSuchEntityException;
 use Magento\Customer\Controller\RegistryConstants;
 
@@ -41,7 +41,7 @@ class Accordion extends \Magento\Backend\Block\Widget\Accordion
     /** @var CustomerAccountServiceInterface  */
     protected $_customerAccountService;
 
-    /** @var \Magento\Customer\Service\V1\Dto\CustomerBuilder  */
+    /** @var \Magento\Customer\Service\V1\Data\CustomerBuilder  */
     protected $_customerBuilder;
 
     /**
@@ -51,7 +51,7 @@ class Accordion extends \Magento\Backend\Block\Widget\Accordion
      * @param \Magento\Registry $registry
      * @param \Magento\Customer\Model\Config\Share $shareConfig
      * @param CustomerAccountServiceInterface $customerAccountService
-     * @param \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerBuilder
+     * @param \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder
      * @param array $data
      */
     public function __construct(
@@ -61,7 +61,7 @@ class Accordion extends \Magento\Backend\Block\Widget\Accordion
         \Magento\Registry $registry,
         \Magento\Customer\Model\Config\Share $shareConfig,
         CustomerAccountServiceInterface $customerAccountService,
-        \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerBuilder,
+        \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -142,7 +142,7 @@ class Accordion extends \Magento\Backend\Block\Widget\Accordion
         } elseif ($customerId) {
             return $this->_customerAccountService->getCustomer($customerId);
         } else {
-            return new Customer([]);
+            return $this->_customerBuilder->create();
         }
     }
 }

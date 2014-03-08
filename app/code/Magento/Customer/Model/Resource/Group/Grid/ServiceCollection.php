@@ -10,9 +10,9 @@ namespace Magento\Customer\Model\Resource\Group\Grid;
 use Magento\Core\Model\EntityFactory;
 use Magento\Customer\Model\Resource\AbstractServiceCollection;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
-use Magento\Customer\Service\V1\Dto\CustomerGroup;
-use Magento\Customer\Service\V1\Dto\FilterBuilder;
-use Magento\Customer\Service\V1\Dto\SearchCriteriaBuilder;
+use Magento\Customer\Service\V1\Data\CustomerGroup;
+use Magento\Customer\Service\V1\Data\FilterBuilder;
+use Magento\Customer\Service\V1\Data\SearchCriteriaBuilder;
 
 /**
  * Customer group collection backed by services
@@ -58,7 +58,7 @@ class ServiceCollection extends AbstractServiceCollection
             $groups = $searchResults->getItems();
             foreach ($groups as $group) {
                 $groupItem = new \Magento\Object();
-                $groupItem->addData($group->__toArray());
+                $groupItem->addData(\Magento\Service\DataObjectConverter::toFlatArray($group));
                 $this->_addItem($groupItem);
             }
             $this->_setIsLoaded();

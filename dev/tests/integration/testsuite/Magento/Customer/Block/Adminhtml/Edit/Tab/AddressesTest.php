@@ -10,9 +10,10 @@ namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 use Magento\Customer\Controller\RegistryConstants;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
-use Magento\Customer\Service\V1\Dto\Customer;
-use Magento\Customer\Service\V1\Dto\Address;
+use Magento\Customer\Service\V1\Data\Customer;
+use Magento\Customer\Service\V1\Data\Address;
 use Magento\TestFramework\Helper\Bootstrap;
+use \Magento\Customer\Service\V1\Data\AddressConverter;
 
 /**
  * Test Magento\Customer\Block\Adminhtml\Edit\Tab\Addresses
@@ -145,15 +146,15 @@ class AddressesTest extends \PHPUnit_Framework_TestCase
         /** @var Customer $customer */
         $customer = $this->_customerAccountService->getCustomer(1);
         $this->_customerData = [
-            'customer_id' => $customer->getCustomerId(),
-            'account' => $customer->getAttributes(),
+            'customer_id' => $customer->getId(),
+            'account' => \Magento\Service\DataObjectConverter::toFlatArray($customer),
         ];
-        $this->_customerData['account']['id'] = $customer->getCustomerId();
+        $this->_customerData['account']['id'] = $customer->getId();
         /** @var Address[] $addresses */
         $addresses = $this->_addressService->getAddresses(1);
-        foreach ($addresses as $addressDto) {
-            $this->_customerData['address'][$addressDto->getId()] = $addressDto->getAttributes();
-            $this->_customerData['address'][$addressDto->getId()]['id'] = $addressDto->getId();
+        foreach ($addresses as $addressData) {
+            $this->_customerData['address'][$addressData->getId()] = AddressConverter::toFlatArray($addressData);
+            $this->_customerData['address'][$addressData->getId()]['id'] = $addressData->getId();
         }
         $this->_backendSession->setCustomerData($this->_customerData);
     }

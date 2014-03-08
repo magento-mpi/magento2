@@ -89,6 +89,11 @@ class View extends \Magento\Rma\Block\Form
     protected $_customerAccountService;
 
     /**
+     * @var \Magent\Service\Customer\V1\Data\Customer
+     */
+    protected $customerData;
+
+    /**
      * Eav configuration model
      *
      * @var \Magento\Eav\Model\Config
@@ -377,7 +382,7 @@ class View extends \Magento\Rma\Block\Form
     public function getCustomerName()
     {
         if ($this->_customerSession->isLoggedIn()) {
-            return $this->_customerView->getCustomerName($this->getCustomerDto());
+            return $this->_customerView->getCustomerName($this->getCustomerData());
         } else {
             $billingAddress = $this->_coreRegistry->registry('current_order')->getBillingAddress();
 
@@ -400,16 +405,16 @@ class View extends \Magento\Rma\Block\Form
     }
 
     /**
-     * @return \Magento\Customer\Service\V1\Dto\Customer|null
+     * @return \Magento\Customer\Service\V1\Data\Customer|null
      * @throws \Magento\Exception\NoSuchEntityException
      */
-    public function getCustomerDto()
+    public function getCustomerData()
     {
-        if (empty($this->customerDto)) {
+        if (empty($this->customerData)) {
             $customerId = $this->_customerSession->getCustomerId();
-            $this->customerDto = $this->_customerAccountService->getCustomer($customerId);
+            $this->customerData = $this->_customerAccountService->getCustomer($customerId);
         }
-        return $this->customerDto;
+        return $this->customerData;
     }
 
     /**
