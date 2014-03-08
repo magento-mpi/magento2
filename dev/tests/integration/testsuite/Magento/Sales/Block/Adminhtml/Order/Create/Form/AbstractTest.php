@@ -52,7 +52,7 @@ class AbstractTest
             'data' => array(
                 'attribute_code' => 'date',
                 'backend_type' => 'datetime',
-                'front_end_input' => 'date',
+                'frontend_input' => 'date',
                 'frontend_label' => 'Date',
             )
         );
