@@ -48,7 +48,7 @@ class CustomerDetailsBuilder extends AbstractObjectBuilder
     /**
      * {@inheritdoc}
      */
-    public function populateWithArray(array $data)
+    protected function _setDataValues(array $data)
     {
         $newData = [];
         if (isset($data[CustomerDetails::KEY_CUSTOMER])) {
@@ -67,7 +67,7 @@ class CustomerDetailsBuilder extends AbstractObjectBuilder
             }
         }
 
-        return parent::populateWithArray($newData);
+        return parent::_setDataValues($newData);
     }
 
     /**
