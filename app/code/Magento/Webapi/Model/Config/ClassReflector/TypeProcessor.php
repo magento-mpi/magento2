@@ -113,7 +113,7 @@ class TypeProcessor
     {
         $typeName = $this->normalizeType($type);
         if (!$this->isTypeSimple($typeName)) {
-            $typeSimple = str_replace('[]', '', $type);
+            $typeSimple = $this->getArrayItemType($type);
             if (!(class_exists($typeSimple) || interface_exists($typeSimple))) {
                 throw new \LogicException(
                     sprintf('Class "%s" does not exist. Please note that namespace must be specified.', $type)
