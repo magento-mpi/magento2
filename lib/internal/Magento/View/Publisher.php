@@ -12,6 +12,7 @@ use Magento\Filesystem\Directory\WriteInterface;
 
 /**
  * Magento view file publisher
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Publisher implements FilesManagerInterface
 {
