@@ -42,7 +42,7 @@
         <rest-route httpMethod="PUT" method="initiatePasswordReset" resources="Magento_Customer::customer">/initiatePasswordReset</rest-route>
         <rest-route httpMethod="PUT" method="resetPassword" resources="Magento_Customer::customer">/:customerId/resetPassword</rest-route>
         <rest-route httpMethod="GET" method="getConfirmationStatus" resources="Magento_Customer::customer">/:customerId/confirmationStatus</rest-route>
-        <rest-route httpMethod="PUT" method="resendConfirmation" resources="Magento_Customer::customer"></rest-route>
+        <rest-route httpMethod="PUT" method="resendConfirmation" resources="Magento_Customer::customer">/resendConfirmation</rest-route>
         <rest-route httpMethod="PUT" method="validateCustomerData" resources="Magento_Customer::manage">/validateCustomerData</rest-route>
         <rest-route httpMethod="GET" method="canModify" resources="Magento_Customer::customer">/:customerId/canModify</rest-route>
         <rest-route httpMethod="GET" method="canDelete" resources="Magento_Customer::customer">/:customerId/canDelete</rest-route>
