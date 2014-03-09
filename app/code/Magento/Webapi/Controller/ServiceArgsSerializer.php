@@ -140,24 +140,22 @@ class ServiceArgsSerializer
      * Convert data from array to Data Object representation if type is Data Object or array of Data Objects.
      *
      * @param mixed $value
-     * @param mixed $type
+     * @param string $type Convert given value to the this type
      * @return mixed
      */
     protected function _convertValue($value, $type)
     {
-        if (!$this->_typeProcessor->isTypeSimple($type)) {
-            if ($this->_typeProcessor->isArrayType($type)) {
-                $itemType = $this->_typeProcessor->getArrayItemType($type);
-                // Initializing the result for array type else it will return null for empty array
-                $result = [];
-                foreach ($value as $key => $item) {
-                    $result[$key] = $this->_createFromArray($itemType, $item);
-                }
-            } else {
-                $result = $this->_createFromArray($type, $value);
+        if ($this->_typeProcessor->isTypeSimple($type)) {
+            $result = $this->_typeProcessor->processSimpleType($value, $type);
+        } elseif ($this->_typeProcessor->isArrayType($type)) {
+            $itemType = $this->_typeProcessor->getArrayItemType($type);
+            // Initializing the result for array type else it will return null for empty array
+            $result = is_array($value) ? [] : null;
+            foreach ($value as $key => $item) {
+                $result[$key] = $this->_createFromArray($itemType, $item);
             }
         } else {
-            $result = $this->_typeProcessor->processSimpleType($value, $type);
+            $result = $this->_createFromArray($type, $value);
         }
         return $result;
     }
