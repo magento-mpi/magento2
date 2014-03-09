@@ -41,6 +41,11 @@ class Account extends \Magento\Customer\Controller\Account
     protected $_invitationFactory;
 
     /**
+     * @var \Magento\Invitation\Model\Invitation
+     */
+    protected $_invitation;
+
+    /**
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Customer\Helper\Address $addressHelper
@@ -182,6 +187,26 @@ class Account extends \Magento\Customer\Controller\Account
     }
 
     /**
+     * {@inheritdoc}
+     */
+    protected function _extractCustomer($formCode)
+    {
+        $customer = parent::_extractCustomer($formCode);
+        $this->_customerBuilder->populate($customer);
+
+        if (!is_null($this->_invitation)) {
+            $this->_coreRegistry->register("skip_confirmation_if_email", $this->_invitation->getEmail());
+
+            $groupId = $this->_invitation->getGroupId();
+            if ($groupId) {
+                $this->_customerBuilder->setGroupId($groupId);
+            }
+        }
+
+        return $this->_customerBuilder->create();
+    }
+
+    /**
      * Create customer account action
      *
      * @return void
@@ -189,23 +214,15 @@ class Account extends \Magento\Customer\Controller\Account
     public function createPostAction()
     {
         try {
-            $invitation = $this->_initInvitation();
-
-            $customer = $this->_customerFactory->create()
-                ->setId(null)->setSkipConfirmationIfEmail($invitation->getEmail());
-            $this->_coreRegistry->register('current_customer', $customer);
-
-            $groupId = $invitation->getGroupId();
-            if ($groupId) {
-                $customer->setGroupId($groupId);
-            }
+            $this->_invitation = $this->_initInvitation();
 
             parent::createPostAction();
 
-            $customerId = $customer->getId();
+            $customerId = $this->_getSession()->getCustomerId();
             if ($customerId) {
-                $invitation->accept($this->_storeManager->getWebsite()->getId(), $customerId);
+                $this->_invitation->accept($this->_storeManager->getWebsite()->getId(), $customerId);
             }
+
             $this->_redirect('customer/account/');
             return;
         } catch (\Magento\Core\Exception $e) {

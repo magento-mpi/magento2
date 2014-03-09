@@ -521,7 +521,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function validateCustomerData(Data\Customer $customer, array $attributes)
+    public function validateCustomerData(Data\Customer $customer, array $attributes = [])
     {
         $customerErrors = $this->_validator->validateData(
             \Magento\Service\DataObjectConverter::toFlatArray($customer),

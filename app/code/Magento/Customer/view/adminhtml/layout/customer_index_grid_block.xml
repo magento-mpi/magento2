@@ -26,11 +26,11 @@
                 <arguments>
                     <argument name="exportTypes" xsi:type="array">
                         <item name="csv" xsi:type="array">
-                            <item name="urlPath" xsi:type="string">*/*/exportCsv</item>
+                            <item name="urlPath" xsi:type="string">customer/*/exportCsv</item>
                             <item name="label" xsi:type="string" translate="true">CSV</item>
                         </item>
                         <item name="excel" xsi:type="array">
-                            <item name="urlPath" xsi:type="string">*/*/exportXml</item>
+                            <item name="urlPath" xsi:type="string">customer/*/exportXml</item>
                             <item name="label" xsi:type="string" translate="true">Excel XML</item>
                         </item>
                     </argument>
@@ -57,18 +57,23 @@
                         <item name="assign_group" xsi:type="array">
                             <item name="label" xsi:type="string" translate="true">Assign a Customer Group</item>
                             <item name="url" xsi:type="string">customer/*/massAssignGroup</item>
-                            <item name="additional" xsi:type="array">
-                                <item name="visibility" xsi:type="array">
-                                    <item name="name" xsi:type="string">group</item>
-                                    <item name="type" xsi:type="string">select</item>
-                                    <item name="class" xsi:type="string">required-entry</item>
-                                    <item name="label" xsi:type="string" translate="true">Group</item>
-                                    <item name="values" xsi:type="options" model="Magento\Customer\Model\Config\Source\Group"/>
-                                </item>
-                            </item>
+                            <item name="block_name" xsi:type="string">grid.groups</item>
                         </item>
                     </argument>
                 </arguments>
+                <block class="Magento\Backend\Block\Widget\Grid\Massaction\Additional" name="admin.block.customer.grid.groups.massactions" as="grid.groups">
+                    <arguments>
+                        <argument name="fields" xsi:type="array">
+                            <item name="visibility" xsi:type="array">
+                                <item name="name" xsi:type="string">group</item>
+                                <item name="type" xsi:type="string">select</item>
+                                <item name="class" xsi:type="string">required-entry</item>
+                                <item name="label" xsi:type="string" translate="true">Group</item>
+                                <item name="values" xsi:type="string">Magento\Customer\Model\Config\Source\Group</item>
+                            </item>
+                        </argument>
+                    </arguments>
+                </block>
             </block>
             <block class="Magento\Backend\Block\Widget\Grid\ColumnSet" name="admin.block.customer.grid.columnSet" as="grid.columnSet">
                 <arguments>
@@ -159,6 +164,29 @@
                         <argument name="type" xsi:type="string">options</argument>
                         <argument name="options" xsi:type="options" model="Magento\Backend\Model\Config\Source\Website\AdminOptionHash"/>
                         <argument name="index" xsi:type="string">website_id</argument>
+                    </arguments>
+                </block>
+                <block class="Magento\Backend\Block\Widget\Grid\Column" as="action" acl="Magento_Customer::customer">
+                    <arguments>
+                        <argument name="id" xsi:type="string">action</argument>
+                        <argument name="header" xsi:type="string" translate="true">Action</argument>
+                        <argument name="type" xsi:type="string">action</argument>
+                        <argument name="getter" xsi:type="string">getId</argument>
+                        <argument name="filter" xsi:type="boolean">false</argument>
+                        <argument name="sortable" xsi:type="boolean">false</argument>
+                        <argument name="index" xsi:type="string">stores</argument>
+                        <argument name="is_system" xsi:type="boolean">true</argument>
+                        <argument name="actions" xsi:type="array">
+                            <item name="view_action" xsi:type="array">
+                                <item name="caption" xsi:type="string" translate="true">Edit</item>
+                                <item name="url" xsi:type="array">
+                                    <item name="base" xsi:type="string">customer/*/edit</item>
+                                </item>
+                                <item name="field" xsi:type="string">id</item>
+                            </item>
+                        </argument>
+                        <argument name="header_css_class" xsi:type="string">col-actions</argument>
+                        <argument name="column_css_class" xsi:type="string">col-actions</argument>
                     </arguments>
                 </block>
             </block>

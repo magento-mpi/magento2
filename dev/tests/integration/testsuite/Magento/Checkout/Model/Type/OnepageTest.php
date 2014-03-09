@@ -484,7 +484,7 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
 
         /** Execute SUT */
         $result = $this->_model->saveBilling($customerData, $customerAddressId);
-        $validationErrors = '"Email" is not a valid email address.';
+        $validationErrors = 'Please correct this email address: "invalidemail".';
         $this->assertEquals(['error' => -1, 'message' => $validationErrors], $result, 'Validation error is invalid.');
     }
 

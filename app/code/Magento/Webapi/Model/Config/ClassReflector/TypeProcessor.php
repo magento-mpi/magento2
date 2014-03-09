@@ -113,7 +113,7 @@ class TypeProcessor
     {
         $typeName = $this->normalizeType($type);
         if (!$this->isTypeSimple($typeName)) {
-            $typeSimple = str_replace('[]', '', $type);
+            $typeSimple = $this->getArrayItemType($type);
             if (!(class_exists($typeSimple) || interface_exists($typeSimple))) {
                 throw new \LogicException(
                     sprintf('Class "%s" does not exist. Please note that namespace must be specified.', $type)
@@ -357,5 +357,33 @@ class TypeProcessor
     public function translateArrayTypeName($type)
     {
         return 'ArrayOf' . ucfirst($this->getArrayItemType($type));
+    }
+
+    /**
+     * Convert the value to the requested simple type
+     *
+     * @param int|string|float|int[]|string[]|float[] $value
+     * @param int|string|float|int[]|string[]|float[] $type
+     * @return int|string|float|int[]|string[]|float[] Return the value which is converted to type
+     * @throws \Magento\Webapi\Exception
+     */
+    public function processSimpleType($value, $type)
+    {
+        $invalidTypeMsg = 'Invalid type for value :"%s". Expected Type: "%s".';
+        if ($this->isArrayType($type) && is_array($value)) {
+            $arrayItemType = $this->getArrayItemType($type);
+            foreach ($value as $item) {
+                if (!settype($item, $arrayItemType)) {
+                    throw new \Magento\Webapi\Exception(sprintf($invalidTypeMsg, $value, $type));
+                }
+            }
+        } elseif (!$this->isArrayType($type) && !is_array($value)) {
+            if (!settype($value, $type)) {
+                throw new \Magento\Webapi\Exception(sprintf($invalidTypeMsg, $value, $type));
+            }
+        } else {
+            throw new \Magento\Webapi\Exception(sprintf($invalidTypeMsg, $value, $type));
+        }
+        return $value;
     }
 }

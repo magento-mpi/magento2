@@ -660,9 +660,9 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $inBeforeOnly = array_diff_assoc($attributesBefore, $attributesAfter);
         $inAfterOnly = array_diff_assoc($attributesAfter, $attributesBefore);
         $expectedInBefore = array(
-            'email',
             'firstname',
             'lastname',
+            'email',
         );
         foreach ($expectedInBefore as $key) {
             $this->assertContains($key, array_keys($inBeforeOnly));

@@ -149,8 +149,12 @@ class Converter
             $this->_addressBuilder->setId($addressId);
         }
 
-        $customerId = $addressModel->getCustomerId() ? $addressModel->getCustomerId() : $addressModel->getParentId();
-        $this->_addressBuilder->setCustomerId($customerId);
+        if ($addressModel->getCustomerId() || $addressModel->getParentId()) {
+            $customerId = $addressModel->getCustomerId()
+                ? $addressModel->getCustomerId()
+                : $addressModel->getParentId();
+            $this->_addressBuilder->setCustomerId($customerId);
+        }
 
         $addressDataObject = $this->_addressBuilder->create();
         return $addressDataObject;

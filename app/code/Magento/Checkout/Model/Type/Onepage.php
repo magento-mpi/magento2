@@ -402,7 +402,9 @@ class Onepage
             if ($this->_customerEmailExists($address->getEmail(), $this->_storeManager->getWebsite()->getId())) {
                 return array(
                     'error' => 1,
+                    // @codingStandardsIgnoreStart
                     'message' => __('There is already a registered customer using this email address. Please log in using this email address or enter a different email address to register your account.')
+                    // @codingStandardsIgnoreEnd
                 );
             }
         }
@@ -527,10 +529,7 @@ class Onepage
         $attributes = $customerForm->getAllowedAttributes();
         $result = $this->_customerAccountService->validateCustomerData($customer, $attributes);
         if (true !== $result && is_array($result)) {
-            return array(
-                'error'   => -1,
-                'message' => implode(', ', $result)
-            );
+            return $result;
         }
 
         // copy customer/guest email to address
@@ -744,7 +743,7 @@ class Onepage
             ->create();
 
         if ($shipping) {
-            if( !$shipping->getSameAsBilling()) {
+            if (!$shipping->getSameAsBilling()) {
                 $customerShippingData = $shipping->exportCustomerAddressData();
                 $customerShippingData = $this->_addressBuilder->populate($customerShippingData)
                     ->setDefaultShipping(true)->create();
@@ -831,7 +830,9 @@ class Onepage
         if ($confirmationStatus === CustomerAccountServiceInterface::ACCOUNT_CONFIRMATION_REQUIRED) {
             $url = $this->_customerData->getEmailConfirmationUrl($customer->getEmail());
             $this->messageManager->addSuccess(
+                // @codingStandardsIgnoreStart
                 __('Account confirmation is required. Please, check your e-mail for confirmation link. To resend confirmation email please <a href="%1">click here</a>.', $url)
+                // @codingStandardsIgnoreEnd
             );
         } else {
             $this->getCustomerSession()->loginById($customer->getId());
