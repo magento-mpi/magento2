@@ -57,13 +57,13 @@ class CustomerAccountServiceTest extends WebapiAbstract
     private $customerAccountService;
 
     /** @var AddressBuilder */
-    private $_addressBuilder;
+    private $addressBuilder;
 
     /** @var CustomerBuilder */
-    private $_customerBuilder;
+    private $customerBuilder;
 
     /** @var CustomerDetailsBuilder */
-    private $_customerDetailsBuilder;
+    private $customerDetailsBuilder;
 
 
     /**
@@ -76,13 +76,13 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $this->customerAccountService = Bootstrap::getObjectManager()->get(
             'Magento\Customer\Service\V1\CustomerAccountServiceInterface'
         );
-        $this->_addressBuilder = Bootstrap::getObjectManager()->create(
+        $this->addressBuilder = Bootstrap::getObjectManager()->create(
             'Magento\Customer\Service\V1\Data\AddressBuilder'
         );
-        $this->_customerBuilder = Bootstrap::getObjectManager()->create(
+        $this->customerBuilder = Bootstrap::getObjectManager()->create(
             'Magento\Customer\Service\V1\Data\CustomerBuilder'
         );
-        $this->_customerDetailsBuilder = Bootstrap::getObjectManager()->create(
+        $this->customerDetailsBuilder = Bootstrap::getObjectManager()->create(
             'Magento\Customer\Service\V1\Data\CustomerDetailsBuilder'
         );
     }
@@ -327,7 +327,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
     public function testValidateCustomerData()
     {
         $customerData = $this->_createSampleCustomerDataObject();
-        $customerData = $this->_customerBuilder->populate($customerData)
+        $customerData = $this->customerBuilder->populate($customerData)
             ->setFirstname(null)->setLastname(null)->create();
 
         $serviceInfo = [
@@ -382,6 +382,14 @@ class CustomerAccountServiceTest extends WebapiAbstract
             ]
         ];
         $this->_webApiCall($serviceInfo);
+
+        //Verify if the customer is deleted
+        $this->setExpectedException(
+            'Magento\Exception\NoSuchEntityException',
+            sprintf("No such entity with customerId = %s", $customerData[Customer::ID])
+        );
+        $this->customerAccountService->getCustomerDetails($customerData[Customer::ID]);
+
     }
 
     public function testDeleteCustomerInvalidCustomerId()
@@ -440,11 +448,11 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $customerDetails = $this->customerAccountService->getCustomerDetails($customerData[Customer::ID]);
         $lastName = $customerDetails->getCustomer()->getLastname();
 
-        $updatedCustomer = $this->_customerBuilder->populate($customerDetails->getCustomer())->setLastname(
+        $updatedCustomer = $this->customerBuilder->populate($customerDetails->getCustomer())->setLastname(
             $lastName . "Updated"
         )->create();
 
-        $updatedCustomerDetails = $this->_customerDetailsBuilder->populate($customerDetails)->setCustomer(
+        $updatedCustomerDetails = $this->customerDetailsBuilder->populate($customerDetails)->setCustomer(
             $updatedCustomer
         )->setAddresses($customerDetails->getAddresses())->create();
 
@@ -471,11 +479,11 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $lastName = $customerDetails->getCustomer()->getLastname();
 
         //Set non-existent id
-        $updatedCustomer = $this->_customerBuilder->populate($customerDetails->getCustomer())->setLastname(
+        $updatedCustomer = $this->customerBuilder->populate($customerDetails->getCustomer())->setLastname(
             $lastName . "Updated"
         )->setId(-1)->create();
 
-        $updatedCustomerDetails = $this->_customerDetailsBuilder->populate($customerDetails)->setCustomer(
+        $updatedCustomerDetails = $this->customerDetailsBuilder->populate($customerDetails)->setCustomer(
             $updatedCustomer
         )->setAddresses($customerDetails->getAddresses())->create();
 
@@ -503,7 +511,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
      */
     private function _createSampleCustomerDetailsData()
     {
-        $this->_addressBuilder
+        $this->addressBuilder
             ->setCountryId('US')
             ->setDefaultBilling(true)
             ->setDefaultShipping(true)
@@ -522,9 +530,9 @@ class CustomerAccountServiceTest extends WebapiAbstract
             ->setCity('CityM')
             ->setFirstname('John')
             ->setLastname('Smith');
-        $address1 = $this->_addressBuilder->create();
+        $address1 = $this->addressBuilder->create();
 
-        $this->_addressBuilder
+        $this->addressBuilder
             ->setCountryId('US')
             ->setDefaultBilling(false)
             ->setDefaultShipping(false)
@@ -544,10 +552,10 @@ class CustomerAccountServiceTest extends WebapiAbstract
             ->setFirstname('John')
             ->setLastname('Smith');
 
-        $address2 = $this->_addressBuilder->create();
+        $address2 = $this->addressBuilder->create();
 
         $customerData = $this->_createSampleCustomerDataObject();
-        $customerDetails = $this->_customerDetailsBuilder->setAddresses([$address1, $address2])
+        $customerDetails = $this->customerDetailsBuilder->setAddresses([$address1, $address2])
             ->setCustomer($customerData)
             ->create();
         return $customerDetails;
@@ -577,7 +585,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
             Customer::TAXVAT => self::TAXVAT,
             Customer::WEBSITE_ID => self::WEBSITE_ID
         ];
-        return $this->_customerBuilder->populateWithArray($customerData)->create();
+        return $this->customerBuilder->populateWithArray($customerData)->create();
     }
 
     /**
