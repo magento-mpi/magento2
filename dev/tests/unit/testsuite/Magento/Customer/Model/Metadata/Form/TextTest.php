@@ -9,7 +9,7 @@
  */
 namespace Magento\Customer\Model\Metadata\Form;
 
-use Magento\Customer\Service\V1\Dto\Eav\ValidationRule;
+use Magento\Customer\Service\V1\Data\Eav\ValidationRule;
 
 class TextTest extends AbstractFormTestCase
 {

@@ -7,9 +7,9 @@
  */
 namespace Magento\Webapi;
 
-use Magento\Customer\Service\V1\Dto\Address;
-use Magento\Customer\Service\V1\Dto\Customer;
-use Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata;
+use Magento\Customer\Service\V1\Data\Address;
+use Magento\Customer\Service\V1\Data\Customer;
+use Magento\Customer\Service\V1\Data\Eav\AttributeMetadata;
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 

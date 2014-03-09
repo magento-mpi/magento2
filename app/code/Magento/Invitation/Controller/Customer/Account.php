@@ -191,8 +191,8 @@ class Account extends \Magento\Customer\Controller\Account
      */
     protected function _extractCustomer($formCode)
     {
-        $customerDto = parent::_extractCustomer($formCode);
-        $this->_customerBuilder->populate($customerDto);
+        $customer = parent::_extractCustomer($formCode);
+        $this->_customerBuilder->populate($customer);
 
         if (!is_null($this->_invitation)) {
             $this->_coreRegistry->register("skip_confirmation_if_email", $this->_invitation->getEmail());
