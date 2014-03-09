@@ -24,18 +24,21 @@ class AttributeMetadataTest extends \PHPUnit_Framework_TestCase
 
     public function testConstructorAndGetters()
     {
-        $options = array('OPTION_ONE', 'OPTION_TWO');
+        $options = array(['value' => 'OPTION_ONE'], ['value' => 'OPTION_TWO']);
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         /** @var \Magento\Customer\Service\V1\Data\Eav\OptionBuilder $optionBuilder */
         $optionBuilder = $objectManager->getObject('Magento\Customer\Service\V1\Data\Eav\OptionBuilder');
+        $validationRuleBuilder = $objectManager
+            ->getObject('Magento\Customer\Service\V1\Data\Eav\ValidationRuleBuilder');
 
-        $attributeMetadataBuilder = (new AttributeMetadataBuilder($optionBuilder))->populateWithArray(
+        $attributeMetadataBuilder = (new AttributeMetadataBuilder($optionBuilder, $validationRuleBuilder))
+            ->populateWithArray(
             [
                 'attribute_code' => self::ATTRIBUTE_CODE,
                 'frontend_input' => self::FRONTEND_INPUT,
                 'input_filter' => self::INPUT_FILTER,
                 'store_label' => self::STORE_LABEL,
-                'validation_rules' => self::VALIDATION_RULES,
+                'validation_rules' => [],
                 'options' => $options
             ]
         );
@@ -45,7 +48,8 @@ class AttributeMetadataTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(self::FRONTEND_INPUT, $attributeMetadata->getFrontendInput());
         $this->assertSame(self::INPUT_FILTER, $attributeMetadata->getInputFilter());
         $this->assertSame(self::STORE_LABEL, $attributeMetadata->getStoreLabel());
-        $this->assertSame(self::VALIDATION_RULES, $attributeMetadata->getValidationRules());
-        $this->assertSame($options, $attributeMetadata->getOptions());
+        $this->assertSame([], $attributeMetadata->getValidationRules());
+        $this->assertSame($options[0], $attributeMetadata->getOptions()[0]->__toArray());
+        $this->assertSame($options[1], $attributeMetadata->getOptions()[1]->__toArray());
     }
 }

@@ -77,7 +77,7 @@ class AttributeMetadata extends \Magento\Service\Data\AbstractObject
     /**
      * Retrieve validation rules.
      *
-     * @return \Magento\Customer\Service\V1\Dto\Eav\ValidationRule[]
+     * @return \Magento\Customer\Service\V1\Data\Eav\ValidationRule[]
      */
     public function getValidationRules()
     {
