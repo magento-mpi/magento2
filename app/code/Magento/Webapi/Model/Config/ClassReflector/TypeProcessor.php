@@ -369,20 +369,20 @@ class TypeProcessor
      */
     public function processSimpleType($value, $type)
     {
-        $invalidTypeMsg = 'Invalid type for value :"%s". Expected Type: %s.';
+        $invalidTypeMsg = 'Invalid type for value :"%s". Expected Type: "%s".';
         if ($this->isArrayType($type) && is_array($value)) {
             $arrayItemType = $this->getArrayItemType($type);
             foreach ($value as $item) {
                 if (!settype($item, $arrayItemType)) {
-                    throw new \Magento\Webapi\Exception(sprintf($invalidTypeMsg), $value, $type);
+                    throw new \Magento\Webapi\Exception(sprintf($invalidTypeMsg, $value, $type));
                 }
             }
         } elseif (!$this->isArrayType($type) && !is_array($value)) {
             if (!settype($value, $type)) {
-                throw new \Magento\Webapi\Exception(sprintf($invalidTypeMsg), $value, $type);
+                throw new \Magento\Webapi\Exception(sprintf($invalidTypeMsg, $value, $type));
             }
         } else {
-            throw new \Magento\Webapi\Exception(sprintf($invalidTypeMsg), $value, $type);
+            throw new \Magento\Webapi\Exception(sprintf($invalidTypeMsg, $value, $type));
         }
         return $value;
     }
