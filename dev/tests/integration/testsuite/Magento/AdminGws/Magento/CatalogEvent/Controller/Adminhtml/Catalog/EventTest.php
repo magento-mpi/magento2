@@ -31,6 +31,7 @@ class EventTest extends \Magento\Backend\Utility\Controller
 
     public function testIndexActionRestrictedUserCanSeeGrid()
     {
+        $this->markTestSkipped('Session destruction doesn\'t work');
         $this->dispatch('backend/admin/catalog_event/index/');
         $body = $this->getResponse()->getBody();
 
