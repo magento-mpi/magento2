@@ -363,7 +363,7 @@ class TypeProcessor
      * Convert the value to the requested simple type
      *
      * @param int|string|float|int[]|string[]|float[] $value
-     * @param int|string|float|int[]|string[]|float[] $type
+     * @param string $type Convert given value to the this simple type
      * @return int|string|float|int[]|string[]|float[] Return the value which is converted to type
      * @throws \Magento\Webapi\Exception
      */
