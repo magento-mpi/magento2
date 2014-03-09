@@ -207,6 +207,9 @@ class CustomerAddressServiceTest extends \Magento\TestFramework\TestCase\WebapiA
         $secondAddressData = $this->getFirstFixtureAddressData();
         unset($secondAddressData['id']);
 
+        $firstAddressData['default_billing'] = false;
+        $firstAddressData['default_shipping'] = false;
+
         $requestData = ['customerId' => $customerFixtureId,'addresses' => [$firstAddressData, $secondAddressData]];
         $createdAddressesIds = $this->_webApiCall($serviceInfo, $requestData);
 

@@ -79,7 +79,7 @@ class Address extends \Magento\Service\Data\EAV\AbstractObject
     /**
      * Get country id
      *
-     * @return int|null
+     * @return string|null
      */
     public function getCountryId()
     {
