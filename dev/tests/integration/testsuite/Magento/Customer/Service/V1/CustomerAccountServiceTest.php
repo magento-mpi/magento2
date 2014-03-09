@@ -265,9 +265,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
-     *
-     * @expectedException \Magento\Exception\StateException
-     * @expectedExceptionCode \Magento\Exception\StateException::EXPIRED
      */
     public function testValidateResetPasswordLinkTokenInvalid()
     {
@@ -667,7 +664,9 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             'firstname',
             'lastname',
         );
-        $this->assertEquals($expectedInBefore, array_keys($inBeforeOnly));
+        foreach ($expectedInBefore as $key) {
+            $this->assertContains($key, array_keys($inBeforeOnly));
+        }
         $this->assertContains('created_in', array_keys($inAfterOnly));
         $this->assertContains('firstname', array_keys($inAfterOnly));
         $this->assertContains('lastname', array_keys($inAfterOnly));

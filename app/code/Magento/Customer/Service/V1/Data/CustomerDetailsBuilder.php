@@ -107,4 +107,28 @@ class CustomerDetailsBuilder extends AbstractObjectBuilder
         }
         return parent::create();
     }
+
+    /**
+     * Merge second Data Object data with first Data Object data and create new Data Object object based on merge
+     * result.
+     *
+     * Addresses on the second data object will replace all address data from the first,
+     * no merging of data is performed.
+     *
+     * @param CustomerDetails $firstDataObject
+     * @param CustomerDetails $secondDataObject
+     * @return CustomerDetails
+     * @throws \LogicException
+     */
+    public function mergeDataObjects(CustomerDetails $firstDataObject, CustomerDetails $secondDataObject)
+    {
+        $customer = $this->_customerBuilder
+            ->mergeDataObjects($firstDataObject->getCustomer(), $secondDataObject->getCustomer());
+
+        $this->setCustomer($customer);
+
+        $this->setAddresses($secondDataObject->getAddresses());
+
+        return $this->create();
+    }
 }
