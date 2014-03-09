@@ -122,9 +122,6 @@ class InfoTest extends \PHPUnit_Framework_TestCase
             ->method('getCustomer')
             ->will($this->returnValue($this->_customer));
 
-        $attributeMetadata =
-            $this->getMock('Magento\Customer\Service\V1\Data\Eav\AttributeMetadata', array(), array(), '', false);
-
         /**
          * Called three times, once for each attribute (i.e. prefix, middlename, and suffix)
          */

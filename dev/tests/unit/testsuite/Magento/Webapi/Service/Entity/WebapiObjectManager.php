@@ -19,7 +19,7 @@ class WebapiObjectManager implements \Magento\ObjectManager
      */
     public function create($type, array $arguments = array())
     {
-        return new $type();
+        return new $type($arguments);
     }
 
     /**
@@ -41,6 +41,6 @@ class WebapiObjectManager implements \Magento\ObjectManager
      */
     public function configure(array $configuration)
     {
-
+        return $configuration;
     }
 }
