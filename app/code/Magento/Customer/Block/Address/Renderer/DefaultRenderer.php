@@ -168,9 +168,7 @@ class DefaultRenderer
             }
             $attributeCode = $attributeMetadata->getAttributeCode();
             if ($attributeCode == 'country_id'
-                && isset($addressAttributes['country_id'])
-                && $addressAttributes['country_id'] != 0
-            ) {
+                && isset($addressAttributes['country_id'])) {
                 $data['country'] = $this->_countryFactory->create()
                     ->loadByCode($addressAttributes['country_id'])
                     ->getName();
