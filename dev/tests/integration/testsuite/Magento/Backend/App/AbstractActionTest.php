@@ -14,7 +14,7 @@ namespace Magento\Backend\App;
  */
 class AbstractActionTest extends \Magento\Backend\Utility\Controller
 {
-    public function tearDown()
+    protected function tearDown()
     {
         // Do nothing
     }
