@@ -259,14 +259,6 @@ class CustomerDetailsBuilderTest extends \PHPUnit_Framework_TestCase
 
         $addressMerge = [
             'id' => 2,
-            'default_shipping' => true,
-            'default_billing' => false,
-            'company' => 'Company Name',
-            'fax' => '(555) 555-5555',
-            'middlename' => 'Mid',
-            'prefix' => 'Mr.',
-            'suffix' => 'Esq.',
-            'vat_id' => 'S45',
             'firstname' => 'test firstname',
             'lastname' => 'test lastname',
             'street' => array('test street'),
@@ -274,10 +266,6 @@ class CustomerDetailsBuilderTest extends \PHPUnit_Framework_TestCase
             'country_id' => 'US',
             'postcode' => '01001',
             'telephone' => '+7000000001',
-            'region' => [
-                'region_id' => 0,
-                'region' => 'Texas',
-            ],
         ];
 
         $customerDetails = $this->_builder
@@ -290,7 +278,7 @@ class CustomerDetailsBuilderTest extends \PHPUnit_Framework_TestCase
             ->populateWithArray(['customer' => $customer, 'addresses' => [$address2]])
             ->create();
         $customerDetailsB = $this->_builder->mergeDataObjects($customerDetailsC, $customerDetailsA);
-        $this->assertEquals($customerDetails, $customerDetailsB);
+        $this->assertEquals($customerDetails->__toArray(), $customerDetailsB->__toArray());
     }
 
     public function testMergeDataWithArray()
@@ -341,14 +329,6 @@ class CustomerDetailsBuilderTest extends \PHPUnit_Framework_TestCase
 
         $addressMerge = [
             'id' => 2,
-            'default_shipping' => true,
-            'default_billing' => false,
-            'company' => 'Company Name',
-            'fax' => '(555) 555-5555',
-            'middlename' => 'Mid',
-            'prefix' => 'Mr.',
-            'suffix' => 'Esq.',
-            'vat_id' => 'S45',
             'firstname' => 'test firstname',
             'lastname' => 'test lastname',
             'street' => array('test street'),
@@ -356,10 +336,6 @@ class CustomerDetailsBuilderTest extends \PHPUnit_Framework_TestCase
             'country_id' => 'US',
             'postcode' => '01001',
             'telephone' => '+7000000001',
-            'region' => [
-                'region_id' => 0,
-                'region' => 'Texas',
-            ],
         ];
 
         $customerDetails = $this->_builder
@@ -369,7 +345,7 @@ class CustomerDetailsBuilderTest extends \PHPUnit_Framework_TestCase
             ->populateWithArray(['customer' => $customer, 'addresses' => [$address1]])
             ->create();
         $customerDetailsB = $this->_builder->mergeDataObjectWithArray($customerDetailsC, ['addresses' => [$address2]]);
-        $this->assertEquals($customerDetails, $customerDetailsB);
+        $this->assertEquals($customerDetails->__toArray(), $customerDetailsB->__toArray());
     }
 }
 

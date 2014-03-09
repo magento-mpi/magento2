@@ -664,7 +664,9 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             'lastname',
             'email',
         );
-        $this->assertEquals($expectedInBefore, array_keys($inBeforeOnly));
+        foreach ($expectedInBefore as $key) {
+            $this->assertContains($key, array_keys($inBeforeOnly));
+        }
         $this->assertContains('created_in', array_keys($inAfterOnly));
         $this->assertContains('firstname', array_keys($inAfterOnly));
         $this->assertContains('lastname', array_keys($inAfterOnly));
