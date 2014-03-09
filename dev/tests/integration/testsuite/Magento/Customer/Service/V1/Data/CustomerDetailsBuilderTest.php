@@ -26,12 +26,29 @@ class CustomerDetailsBuilderTest extends \PHPUnit_Framework_TestCase
      */
     private $_builder;
 
+    /**
+     * Customer builder
+     *
+     * @var CustomerBuilder
+     */
+    private $_customerBuilder;
+
+    /**
+     * Address builder
+     *
+     * @var AddressBuilder
+     */
+    private $_addressBuilder;
 
     protected function setUp()
     {
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_builder =
             $this->_objectManager->create('Magento\Customer\Service\V1\Data\CustomerDetailsBuilder');
+        $this->_customerBuilder =
+            $this->_objectManager->create('Magento\Customer\Service\V1\Data\CustomerBuilder');
+        $this->_addressBuilder =
+            $this->_objectManager->create('Magento\Customer\Service\V1\Data\AddressBuilder');
     }
 
     /**
@@ -43,6 +60,26 @@ class CustomerDetailsBuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreate($customer, $addresses, $expectedCustomer, $expectedAddresses)
     {
+        if (!is_null($expectedCustomer)) {
+            $expectedCustomer = $this->_customerBuilder->populateWithArray($expectedCustomer)->create();
+        }
+        if (!is_null($customer)) {
+            $customer = $this->_customerBuilder->populateWithArray($customer)->create();
+        }
+        if (!is_null($expectedAddresses)) {
+            $addressArray = [];
+            foreach ($expectedAddresses as $expectedAddress) {
+                $addressArray[] = $this->_addressBuilder->populateWithArray($expectedAddress)->create();
+            }
+            $expectedAddresses = $addressArray;
+        }
+        if (!is_null($addresses)) {
+            $addressArray = [];
+            foreach ($addresses as $address) {
+                $addressArray[] = $this->_addressBuilder->populateWithArray($address)->create();
+            }
+            $addresses = $addressArray;
+        }
         if (!empty($customer)) {
             $this->_builder->setCustomer($customer);
         }
@@ -54,8 +91,6 @@ class CustomerDetailsBuilderTest extends \PHPUnit_Framework_TestCase
 
     public function createDataProvider()
     {
-        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $customerMetadataService = $objectManager->get('\Magento\Customer\Service\V1\CustomerMetadataServiceInterface');
 
         $customerData = [
             'group_id' => 1,
@@ -89,18 +124,14 @@ class CustomerDetailsBuilderTest extends \PHPUnit_Framework_TestCase
                 'region' => 'Texas',
             ],
         ];
-        $customerBuilder = new CustomerBuilder($customerMetadataService);
-        $emptyCustomer = $customerBuilder->populateWithArray([])->create();
-        $customer = $customerBuilder->populateWithArray($customerData)->create();
-        $addressBuilder = new AddressBuilder(new RegionBuilder(), $customerMetadataService);
-        $address = $addressBuilder->populateWithArray($addressData)->create();
+
         return [
-            [null, null, $emptyCustomer, null],
-            [$customer, null, $customer, null],
-            [null, [], $emptyCustomer, []],
-            [$customer, [$address], $customer, [$address]],
-            [$customer, [$address, $address], $customer, [$address, $address]],
-            [null, [$address, $address], $emptyCustomer, [$address, $address]],
+            [null, null, [], null],
+            [$customerData, null, $customerData, null],
+            [null, [], [], []],
+            [$customerData, [$addressData], $customerData, [$addressData]],
+            [$customerData, [$addressData, $addressData], $customerData, [$addressData, $addressData]],
+            [null, [$addressData, $addressData], [], [$addressData, $addressData]],
         ];
     }
 
@@ -112,6 +143,16 @@ class CustomerDetailsBuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function testPopulateWithArray($data, $expectedCustomer, $expectedAddresses)
     {
+        $expectedCustomer = $this->_customerBuilder->populateWithArray($expectedCustomer)->create();
+
+        if (!is_null($expectedAddresses)) {
+            $addressArray = [];
+            foreach ($expectedAddresses as $expectedAddress) {
+                $addressArray[] = $this->_addressBuilder->populateWithArray($expectedAddress)->create();
+            }
+            $expectedAddresses = $addressArray;
+        }
+
         $customerDetails = $this->_builder->populateWithArray($data)->create();
         $customerDetailsA = $this->_builder->populateWithArray($customerDetails->__toArray())->create();
         $this->assertEquals($customerDetailsA, $customerDetails);
@@ -127,6 +168,16 @@ class CustomerDetailsBuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function testPopulate($data, $expectedCustomer, $expectedAddresses)
     {
+        $expectedCustomer = $this->_customerBuilder->populateWithArray($expectedCustomer)->create();
+
+        if (!is_null($expectedAddresses)) {
+            $addressArray = [];
+            foreach ($expectedAddresses as $expectedAddress) {
+                $addressArray[] = $this->_addressBuilder->populateWithArray($expectedAddress)->create();
+            }
+            $expectedAddresses = $addressArray;
+        }
+
         $customerDetails = $this->_builder->populateWithArray($data)->create();
         $customerDetailsA = $this->_builder->populate($customerDetails)->create();
         $this->assertEquals($customerDetailsA, $customerDetails);
@@ -136,9 +187,6 @@ class CustomerDetailsBuilderTest extends \PHPUnit_Framework_TestCase
 
     public function populateWithArrayDataProvider()
     {
-        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $customerMetadataService = $objectManager->get('\Magento\Customer\Service\V1\CustomerMetadataServiceInterface');
-
         $customer = [
             'group_id' => 1,
             'website_id' => 1,
@@ -183,30 +231,24 @@ class CustomerDetailsBuilderTest extends \PHPUnit_Framework_TestCase
             'id' => 2
         ];
 
-        $customerBuilder = new CustomerBuilder($customerMetadataService);
-        $emptyCustomer = $customerBuilder->populateWithArray([])->create();
-        $customerSdo = $customerBuilder->populateWithArray($customer)->create();
-        $addressBuilder = new AddressBuilder(new RegionBuilder(), $customerMetadataService);
-        $addressSdoA = $addressBuilder->populateWithArray($address1)->create();
-        $addressSdoB = $addressBuilder->populateWithArray($address2)->create();
         return [
-            [[], $emptyCustomer, null],
-            [['customer' => $customer], $customerSdo, null],
-            [['customer' => $customer, 'addresses' => null], $customerSdo, null],
+            [[], [], null],
+            [['customer' => $customer], $customer, null],
+            [['customer' => $customer, 'addresses' => null], $customer, null],
             [
                 ['customer' => $customer, 'addresses' => [$address1, $address2]],
-                $customerSdo,
-                [$addressSdoA, $addressSdoB]
+                $customer,
+                [$address1, $address2]
             ],
             [
                 ['addresses' => [$address1, $address2]],
-                $emptyCustomer,
-                [$addressSdoA, $addressSdoB]
+                [],
+                [$address1, $address2]
             ],
             [
                 ['customer' => null, 'addresses' => [$address1, $address2]],
-                $emptyCustomer,
-                [$addressSdoA, $addressSdoB]
+                [],
+                [$address1, $address2]
             ],
         ];
     }
