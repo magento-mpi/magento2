@@ -140,7 +140,7 @@ class ServiceArgsSerializer
      * Convert data from array to Data Object representation if type is Data Object or array of Data Objects.
      *
      * @param mixed $value
-     * @param string $type
+     * @param mixed $type
      * @return mixed
      */
     protected function _convertValue($value, $type)
