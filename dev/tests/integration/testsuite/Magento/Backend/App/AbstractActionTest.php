@@ -14,9 +14,14 @@ namespace Magento\Backend\App;
  */
 class AbstractActionTest extends \Magento\Backend\Utility\Controller
 {
+    public function tearDown()
+    {
+        // Do nothing
+    }
     /**
      * Check redirection to startup page for logged user
      * @magentoConfigFixture current_store admin/security/use_form_key 1
+     * @magentoAppIsolation enabled
      */
     public function testPreDispatchWithEmptyUrlRedirectsToStartupPage()
     {
