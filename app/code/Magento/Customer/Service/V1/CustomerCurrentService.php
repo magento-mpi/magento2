@@ -72,7 +72,7 @@ class CustomerCurrentService implements \Magento\Customer\Service\V1\CustomerCur
     /**
      * Returns customer Data with customer group only
      *
-     * @return Data\Customer
+     * @return \Magento\Customer\Service\V1\Data\Customer
      */
     protected function getDepersonalizedCustomer()
     {
@@ -82,7 +82,7 @@ class CustomerCurrentService implements \Magento\Customer\Service\V1\CustomerCur
     /**
      * Returns customer Data from service
      *
-     * @return Data\Customer
+     * @return \Magento\Customer\Service\V1\Data\Customer
      */
     protected function getCustomerFromService()
     {
@@ -92,7 +92,7 @@ class CustomerCurrentService implements \Magento\Customer\Service\V1\CustomerCur
     /**
      * Returns current customer according to session and context
      *
-     * @return Data\Customer
+     * @return \Magento\Customer\Service\V1\Data\Customer
      */
     public function getCustomer()
     {

@@ -42,7 +42,7 @@ interface CustomerAccountServiceInterface
      * @param string $password If null then a random password will be assigned
      * @param string $redirectUrl URL fed to welcome email templates. Can be used by templates to, for example, direct
      *                            the customer to a product they were looking at after pressing confirmation link.
-     * @return Data\Customer
+     * @return \Magento\Customer\Service\V1\Data\Customer
      * @throws \Exception If something goes wrong during save
      * @throws \Magento\Exception\InputException If bad input is provided
      * @throws \Magento\Exception\StateException If the provided email is already used
