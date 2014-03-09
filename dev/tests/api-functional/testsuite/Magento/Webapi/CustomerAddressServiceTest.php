@@ -9,10 +9,10 @@ namespace Magento\Webapi;
 
 use Magento\TestFramework\Helper\Bootstrap;
 
-class CustomerAddressTest extends \Magento\TestFramework\TestCase\WebapiAbstract
+class CustomerAddressServiceTest extends \Magento\TestFramework\TestCase\WebapiAbstract
 {
     const SOAP_SERVICE_NAME = 'customerCustomerAddressServiceV1';
-    const SOAP_SERVICE_VERSION = 'customerCustomerAddressServiceV1';
+    const SOAP_SERVICE_VERSION = 'V1';
 
     /** @var \Magento\Customer\Service\V1\CustomerAddressServiceInterface */
     protected $customerAddressService;

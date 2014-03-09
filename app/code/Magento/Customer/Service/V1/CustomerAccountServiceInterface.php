@@ -195,7 +195,7 @@ interface CustomerAccountServiceInterface
      * @param \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata[] $attributes
      * @return array|bool
      */
-    public function validateCustomerData(\Magento\Customer\Service\V1\Data\Customer $customer, array $attributes);
+    public function validateCustomerData(\Magento\Customer\Service\V1\Data\Customer $customer, array $attributes = []);
 
     /**
      * Indicates if the Customer for the provided customerId is restricted to being read only

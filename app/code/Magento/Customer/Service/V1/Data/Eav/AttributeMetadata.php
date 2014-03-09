@@ -26,7 +26,7 @@ class AttributeMetadata extends \Magento\Service\Data\AbstractObject
     const MULTILINE_COUNT = 'multiline_count';
     const DATA_MODEL = 'data_model';
     const IS_USER_DEFINED = 'is_user_defined';
-    const FRONTEND_CLASS = 'front_end_class';
+    const FRONTEND_CLASS = 'frontend_class';
     const SORT_ORDER = 'sort_order';
     const FRONTEND_LABEL = 'frontend_label';
     const IS_SYSTEM = 'is_system';
@@ -77,7 +77,7 @@ class AttributeMetadata extends \Magento\Service\Data\AbstractObject
     /**
      * Retrieve validation rules.
      *
-     * @return string
+     * @return \Magento\Customer\Service\V1\Dto\Eav\ValidationRule[]
      */
     public function getValidationRules()
     {

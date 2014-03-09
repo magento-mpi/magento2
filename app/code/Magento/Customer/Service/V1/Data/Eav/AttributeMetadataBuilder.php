@@ -20,15 +20,27 @@ class AttributeMetadataBuilder extends \Magento\Service\Data\AbstractObjectBuild
     protected $_optionBuilder;
 
     /**
+     * Validation rule builder
+     *
+     * @var \Magento\Customer\Service\V1\Data\Eav\ValidationRuleBuilder
+     */
+    protected $_validationRuleBuilder;
+
+    /**
      * Initializes builder.
      *
      * @param \Magento\Customer\Service\V1\Data\Eav\OptionBuilder $optionBuilder
+     * @param \Magento\Customer\Service\V1\Data\Eav\ValidationRuleBuilder $validationRuleBuilder
      */
-    public function __construct(\Magento\Customer\Service\V1\Data\Eav\OptionBuilder $optionBuilder)
-    {
+    public function __construct(
+        \Magento\Customer\Service\V1\Data\Eav\OptionBuilder $optionBuilder,
+        \Magento\Customer\Service\V1\Data\Eav\ValidationRuleBuilder $validationRuleBuilder
+    ) {
         parent::__construct();
         $this->_optionBuilder = $optionBuilder;
-        $this->_data[AttributeMetadata::OPTIONS] = array();
+        $this->_validationRuleBuilder = $validationRuleBuilder;
+        $this->_data[AttributeMetadata::OPTIONS] = [];
+        $this->_data[AttributeMetadata::VALIDATION_RULES] = [];
     }
 
     /**
@@ -78,7 +90,7 @@ class AttributeMetadataBuilder extends \Magento\Service\Data\AbstractObjectBuild
     /**
      * Set validation rules
      *
-     * @param string $validationRules
+     * @param \Magento\Customer\Service\V1\Data\Eav\ValidationRule[] $validationRules
      * @return $this
      */
     public function setValidationRules($validationRules)
@@ -229,8 +241,15 @@ class AttributeMetadataBuilder extends \Magento\Service\Data\AbstractObjectBuild
                     $options[$key] = $this->_optionBuilder->populateWithArray($option)->create();
                 }
             }
+            $validationRules = [];
+            if (is_array($data[AttributeMetadata::VALIDATION_RULES])) {
+                foreach ($data[AttributeMetadata::VALIDATION_RULES] as $key => $value) {
+                    $validationRules[$key] = $this->_validationRuleBuilder->populateWithArray($value)->create();
+                }
+            }
 
             $data[AttributeMetadata::OPTIONS] = $options;
+            $data[AttributeMetadata::VALIDATION_RULES] = $validationRules;
         }
 
         return parent::_setDataValues($data);
