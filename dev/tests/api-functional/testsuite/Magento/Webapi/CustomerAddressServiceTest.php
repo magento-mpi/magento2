@@ -27,6 +27,8 @@ class CustomerAddressServiceTest extends \Magento\TestFramework\TestCase\WebapiA
         $this->customerAddressService = $objectManager->get(
             'Magento\Customer\Service\V1\CustomerAddressServiceInterface'
         );
+        //Temporarily adding it here to avoid making changes to tear down
+        $this->_markTestAsRestOnly();
         parent::setUp();
     }
 

@@ -71,6 +71,8 @@ class CustomerAccountServiceTest extends WebapiAbstract
      */
     public function setUp()
     {
+        $this->_markTestAsRestOnly();
+
         $this->customerAccountService = Bootstrap::getObjectManager()->get(
             'Magento\Customer\Service\V1\CustomerAccountServiceInterface'
         );

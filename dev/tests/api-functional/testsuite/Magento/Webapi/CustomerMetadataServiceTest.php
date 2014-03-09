@@ -19,6 +19,11 @@ class CustomerMetadataServiceTest extends WebapiAbstract
     const SERVICE_VERSION = "V1";
     const RESOURCE_PATH = "/V1/customerMetadata";
 
+    public function setUp()
+    {
+        $this->_markTestAsRestOnly();
+    }
+
     /**
      * Test retrieval of attribute metadata for the specified entity type.
      *
