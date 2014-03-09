@@ -369,7 +369,7 @@ class TypeProcessor
      */
     public function processSimpleType($value, $type)
     {
-        $invalidTypeMsg = 'Invalid type for value :"%s". Expected Type: %s.';
+        $invalidTypeMsg = 'Invalid type for value :"%s". Expected Type: "%s".';
         if ($this->isArrayType($type) && is_array($value)) {
             $arrayItemType = $this->getArrayItemType($type);
             foreach ($value as $item) {
