@@ -8,6 +8,7 @@
 namespace Magento\Webapi;
 
 use Magento\Customer\Service\V1\Data\CustomerGroup;
+use Magento\Customer\Service\V1\Data\CustomerGroupBuilder;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 use Magento\Exception\NoSuchEntityException;
 use Magento\TestFramework\Helper\Bootstrap;
@@ -262,11 +263,11 @@ class CustomerGroupServiceTest extends WebapiAbstract
         $this->_markTestAsRestOnly();
 
         $groupId = $this->createGroup(
-            new CustomerGroup([
+            new CustomerGroup((new CustomerGroupBuilder())->populateWithArray([
                 'id' => null,
                 'code' => 'New Group REST',
                 'tax_class_id' => 4
-            ])
+            ]))
         );
 
         $serviceInfo = [
@@ -371,11 +372,11 @@ class CustomerGroupServiceTest extends WebapiAbstract
     public function testDeleteGroupExists()
     {
         $groupId = $this->createGroup(
-            new CustomerGroup([
+            new CustomerGroup((new CustomerGroupBuilder())->populateWithArray([
                 'id' => null,
                 'code' => 'Delete Group',
                 'tax_class_id' => 4
-            ])
+            ]))
         );
 
         $serviceInfo = [
