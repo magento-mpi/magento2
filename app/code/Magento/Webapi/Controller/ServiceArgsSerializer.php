@@ -170,17 +170,20 @@ class ServiceArgsSerializer
      * @return string processed method name
      * @throws \Exception If $camelCaseProperty has no corresponding getter method
      */
-    protected function _processGetterMethod($class, $camelCaseProperty)
+    protected function _processGetterMethod(ClassReflection $class, $camelCaseProperty)
     {
         $getterName = 'get' . $camelCaseProperty;
         $boolGetterName = 'is' . $camelCaseProperty;
         if ($class->hasMethod($getterName)) {
             $methodName = $getterName;
-        } else if ($class->hasMethod($boolGetterName)) {
+        } elseif ($class->hasMethod($boolGetterName)) {
             $methodName = $boolGetterName;
         } else {
-            throw new \Exception('Property "' . $camelCaseProperty . '" does not exist in the "' . $class->getName() .
-                ' "Data object class');
+            throw new \Exception(sprintf(
+                'Property :"%s" does not exist in the Data Object class: "%s".',
+                $camelCaseProperty,
+                $class->getName()
+            ));
         }
         return $methodName;
     }
