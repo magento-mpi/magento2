@@ -32,6 +32,8 @@ class CustomerGroupServiceTest extends WebapiAbstract
      */
     public function setUp()
     {
+        $this->_markTestAsRestOnly();
+
         $objectManager = Bootstrap::getObjectManager();
         $this->groupService = $objectManager->get('Magento\Customer\Service\V1\CustomerGroupServiceInterface');
     }
