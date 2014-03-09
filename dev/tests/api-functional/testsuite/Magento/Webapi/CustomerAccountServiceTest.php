@@ -434,6 +434,70 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $this->assertTrue($this->_webApiCall($serviceInfo, $requestData));
     }
 
+    public function testUpdateCustomer()
+    {
+        $customerData = $this->_createSampleCustomer();
+        $customerDetails = $this->customerAccountService->getCustomerDetails($customerData[Customer::ID]);
+        $lastName = $customerDetails->getCustomer()->getLastname();
+
+        $updatedCustomer = $this->_customerBuilder->populate($customerDetails->getCustomer())->setLastname(
+            $lastName . "Updated"
+        )->create();
+
+        $updatedCustomerDetails = $this->_customerDetailsBuilder->populate($customerDetails)->setCustomer(
+            $updatedCustomer
+        )->setAddresses($customerDetails->getAddresses())->create();
+
+
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH,
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT
+            ]
+        ];
+        $customerDetailsAsArray = $updatedCustomerDetails->__toArray();
+        $requestData = ['customerDetails' => $customerDetailsAsArray];
+        $this->_webApiCall($serviceInfo, $requestData);
+
+        //Verify if the customer is updated
+        $customerDetails = $this->customerAccountService->getCustomerDetails($customerData[Customer::ID]);
+        $this->assertEquals($lastName . "Updated", $customerDetails->getCustomer()->getLastname());
+    }
+
+    public function testUpdateCustomerException()
+    {
+        $customerData = $this->_createSampleCustomer();
+        $customerDetails = $this->customerAccountService->getCustomerDetails($customerData[Customer::ID]);
+        $lastName = $customerDetails->getCustomer()->getLastname();
+
+        //Set non-existent id
+        $updatedCustomer = $this->_customerBuilder->populate($customerDetails->getCustomer())->setLastname(
+            $lastName . "Updated"
+        )->setId(-1)->create();
+
+        $updatedCustomerDetails = $this->_customerDetailsBuilder->populate($customerDetails)->setCustomer(
+            $updatedCustomer
+        )->setAddresses($customerDetails->getAddresses())->create();
+
+
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH,
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT
+            ]
+        ];
+        $customerDetailsAsArray = $updatedCustomerDetails->__toArray();
+        $requestData = ['customerDetails' => $customerDetailsAsArray];
+        try {
+            $this->_webApiCall($serviceInfo, $requestData);
+        } catch(\Exception $e) {
+            $errorObj = $this->_processRestExceptionResult($e);
+            $this->assertEquals("No such entity with customerId = -1", $errorObj['message']);
+            $this->assertEquals(HTTPExceptionCodes::HTTP_BAD_REQUEST, $errorObj['http_code']);
+        }
+    }
+
+
     /**
      * @return CustomerDetails
      */
