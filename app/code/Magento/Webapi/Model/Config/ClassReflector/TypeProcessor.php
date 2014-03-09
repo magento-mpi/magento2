@@ -372,7 +372,7 @@ class TypeProcessor
         $invalidTypeMsg = 'Invalid type for value :"%s". Expected Type: "%s".';
         if ($this->isArrayType($type) && is_array($value)) {
             $arrayItemType = $this->getArrayItemType($type);
-            foreach ($value as $key => $item) {
+            foreach (array_keys($value) as $key) {
                 if (!settype($value[$key], $arrayItemType)) {
                     throw new \Magento\Webapi\Exception(sprintf($invalidTypeMsg, $value, $type));
                 }
