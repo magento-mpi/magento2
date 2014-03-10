@@ -1,0 +1,72 @@
+// /**
+//  * {license_notice}
+//  *
+//  * @category    design
+//  * @copyright   {copyright}
+//  * @license     {license_link}
+//  */
+
+.main-navigation();
+
+.navigation {
+    margin: 0 0 30px;
+
+    > ul > .level0 {
+        font-weight: bold;
+
+        > a,
+        .action.back > a {
+            text-decoration: none;
+            text-transform: uppercase;
+        }
+        /*&.active:after {
+            content: '';
+            bottom: 0;
+            width: 100%;
+            position: absolute;
+            border-bottom: 3px solid #ff5501;
+            left: 0;
+        }
+        .submenu .active > a > span {
+            border-left: 3px solid #ff5501;
+            position: relative;
+        }*/
+    }
+
+
+
+}
+
+.main-navigation-responsive();
+
+.responsive(@break) when (@break = @mobile) {
+    .nav > .parent > .submenu > .level0 > li > a {
+        font-weight: @font-weight-bold;
+    }
+    .header.links {
+        padding: 10px 20px;
+        li {
+            display: block;
+            margin: 0;
+            a {
+                display: block;
+                line-height: 35px;
+                color: #575757;
+                &:hover {
+                    color: #333;
+                    text-decoration: none;
+                }
+            }
+            &.welcome {
+                line-height: 35px;
+            }
+        }
+    }
+    /*.navigation {
+        > ul > .level-top.active:after {
+            border-bottom: 0;
+            border-left: 3px solid #ff5501;
+            top: 0;
+        }
+    }*/
+}

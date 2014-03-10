@@ -29,9 +29,10 @@ $qtyValidationClasses = 'required-entry validate-number validate-greater-than-ze
             <?php if ($this->getIsMultipart()): ?> enctype="multipart/form-data"<?php endif; ?>>
             <fieldset class="fieldset" data-container="items"></fieldset>
 
-            <?php echo $this->getChildHtml(); ?>
-
-            <div class="actions">
+            <fieldset class="fieldset">
+                <?php echo $this->getChildHtml(); ?>
+            </fieldset>
+            <div class="actions toolbar">
                 <div class="primary">
                     <button id="sku-submit-button<?php echo $uniqueSuffix; ?>" type="submit"
                             title="<?php echo __('Add to Cart') ?>" class="action tocart">
@@ -52,7 +53,7 @@ $qtyValidationClasses = 'required-entry validate-number validate-greater-than-ze
         <script data-template="add-block" type="text/x-jQuery-tmpl">
             <div class="fields" data-mage-init='{"deletableItem":{}}'>
                 <div class="field sku required">
-                    <label for="id-items[${rowIndex}${uniqueSuffix}][sku]" class="label"><span><?php echo __('Sku') ?></span></label>
+                    <label for="id-items[${rowIndex}${uniqueSuffix}][sku]" class="label"><span><?php echo __('Sku') ?>:</span></label>
                     <div class="control">
                         <input type="text"
                                name="items[${rowIndex}${uniqueSuffix}][sku]"
@@ -62,7 +63,7 @@ $qtyValidationClasses = 'required-entry validate-number validate-greater-than-ze
                     </div>
                 </div>
                 <div class="field qty required">
-                    <label class="label" for="id-items[${rowIndex}${uniqueSuffix}][qty]"><span><?php echo __('Qty') ?></span></label>
+                    <label class="label" for="id-items[${rowIndex}${uniqueSuffix}][qty]"><span><?php echo __('Qty') ?>:</span></label>
                     <div class="control">
                         <input type="number"
                                name="items[${rowIndex}${uniqueSuffix}][qty]"
