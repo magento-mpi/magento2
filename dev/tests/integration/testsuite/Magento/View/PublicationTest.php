@@ -173,10 +173,8 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
 
 
     /**
-     * Publication of view files in development mode
-     *
      * @param string $file
-     * @param $designParams
+     * @param array $designParams
      * @param string $expectedFile
      * @magentoDataFixture Magento/Core/Model/_files/design/themes.php
      * @magentoAppIsolation enabled
@@ -195,14 +193,14 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
         // trigger publication
         $this->assertFileNotExists($expectedFile, 'Please verify isolation from previous test(s).');
         $this->fileResolver->getPublicViewFile($file, $designParams);
-        $this->assertFileExists($expectedFile);
 
-        // as soon as the files are published, they must have the same mtime as originals
-        $this->assertEquals(
-            filemtime($originalFile),
-            filemtime($expectedFile),
-            "These files mtime must be equal: {$originalFile} / {$expectedFile}"
-        );
+        $mode = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')
+            ->getMode();
+        if ($mode == \Magento\App\State::MODE_DEVELOPER) {
+            $this->assertFileNotExists($expectedFile, "View resources must not be published in 'developer' mode");
+        } else {
+            $this->assertFileExists($expectedFile);
+        }
     }
 
     /**
