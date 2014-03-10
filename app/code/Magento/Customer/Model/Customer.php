@@ -212,8 +212,8 @@ class Customer extends \Magento\Core\Model\AbstractModel
         \Magento\Encryption\EncryptorInterface $encryptor,
         \Magento\Math\Random $mathRandom,
         \Magento\Stdlib\DateTime $dateTime,
-        \Magento\Data\Collection\Db $resourceCollection = null,
         CustomerBuilder $customerDataBuilder,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_customerData = $customerData;
@@ -1098,8 +1098,19 @@ class Customer extends \Magento\Core\Model\AbstractModel
      */
     public function canSkipConfirmation()
     {
-        return $this->getId() && $this->hasSkipConfirmationIfEmail()
-        && strtolower($this->getSkipConfirmationIfEmail()) === strtolower($this->getEmail());
+        if (!$this->getId()) {
+            return false;
+        }
+
+        /* If an email was used to start the registration process and it is the same email as the one
+           used to register, then this can skip confirmation.
+        */
+        $skipConfirmationIfEmail = $this->_coreRegistry->registry("skip_confirmation_if_email");
+        if (!$skipConfirmationIfEmail) {
+            return false;
+        }
+
+        return strtolower($skipConfirmationIfEmail) === strtolower($this->getEmail());
     }
 
     /**

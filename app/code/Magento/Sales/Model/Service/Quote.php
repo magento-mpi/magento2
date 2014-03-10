@@ -8,12 +8,11 @@
 
 namespace Magento\Sales\Model\Service;
 
-use Magento\Customer\Service\V1\CustomerServiceInterface;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\Data\AddressBuilder;
 use Magento\Customer\Model\Address\Converter as AddressConverter;
-use Magento\Customer\Service\V1\Data\CustomerBuilder;
+use Magento\Customer\Service\V1\Data\CustomerDetailsBuilder;
 
 /**
  * Quote submit service model
@@ -73,11 +72,6 @@ class Quote
     protected $_transactionFactory;
 
     /**
-     * @var CustomerServiceInterface
-     */
-    protected $_customerService;
-
-    /**
      * @var CustomerAccountServiceInterface
      */
     protected $_customerAccountService;
@@ -93,9 +87,9 @@ class Quote
     protected $_customerAddressBuilder;
 
     /**
-     * @var CustomerBuilder
+     * @var  CustomerDetailsBuilder
      */
-    protected $_customerBuilder;
+    protected $_customerDetailsBuilder;
 
     /**
      * @var AddressConverter
@@ -110,11 +104,10 @@ class Quote
      * @param \Magento\Sales\Model\Convert\QuoteFactory $convertQuoteFactory
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Core\Model\Resource\TransactionFactory $transactionFactory
-     * @param CustomerServiceInterface $customerService
      * @param CustomerAccountServiceInterface $customerAccountService
      * @param CustomerAddressServiceInterface $customerAddressService
      * @param AddressBuilder $customerAddressBuilder
-     * @param CustomerBuilder $customerBuilder
+     * @param CustomerDetailsBuilder $customerDetailsBuilder
      * @param AddressConverter $addressConverter
      */
     public function __construct(
@@ -123,11 +116,10 @@ class Quote
         \Magento\Sales\Model\Convert\QuoteFactory $convertQuoteFactory,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Core\Model\Resource\TransactionFactory $transactionFactory,
-        CustomerServiceInterface $customerService,
         CustomerAccountServiceInterface $customerAccountService,
         CustomerAddressServiceInterface $customerAddressService,
         AddressBuilder $customerAddressBuilder,
-        CustomerBuilder $customerBuilder,
+        CustomerDetailsBuilder $customerDetailsBuilder,
         AddressConverter $addressConverter
     ) {
         $this->_eventManager = $eventManager;
@@ -135,11 +127,10 @@ class Quote
         $this->_convertor = $convertQuoteFactory->create();
         $this->_customerSession = $customerSession;
         $this->_transactionFactory = $transactionFactory;
-        $this->_customerService = $customerService;
         $this->_customerAccountService = $customerAccountService;
         $this->_customerAddressService = $customerAddressService;
         $this->_customerAddressBuilder = $customerAddressBuilder;
-        $this->_customerBuilder = $customerBuilder;
+        $this->_customerDetailsBuilder = $customerDetailsBuilder;
         $this->addressConverter = $addressConverter;
     }
 
@@ -308,23 +299,18 @@ class Quote
 
         $transaction = $this->_transactionFactory->create();
 
-        $originalCustomerData = null;
         $customerData = null;
         if (!$quote->getCustomerIsGuest()) {
             $customerData = $quote->getCustomerData();
             $addresses = $quote->getCustomerAddressData();
             if ($customerData->getId()) {
-                $this->_customerService->saveCustomer($customerData);
+                $this->_customerAccountService->saveCustomer($customerData);
                 $this->_customerAddressService->saveAddresses($customerData->getId(), $addresses);
             } else { //for new customers
+                $customerDetails =
+                    $this->_customerDetailsBuilder->setCustomer($customerData)->setAddresses($addresses)->create();
                 $customerData = $this->_customerAccountService->createAccount(
-                    $customerData,
-                    $addresses,
-                    null,
-                    '',
-                    '',
-                    $quote->getStoreId()
-                );
+                    $customerDetails);
                 $addresses = $this->_customerAddressService->getAddresses(
                     $customerData->getId()
                 );

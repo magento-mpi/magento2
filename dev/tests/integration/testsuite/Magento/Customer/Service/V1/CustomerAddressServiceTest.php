@@ -88,7 +88,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
     public function testSaveAddressChanges()
     {
         $customerId = 1;
-        $address = $this->_service->getAddressById(2);
+        $address = $this->_service->getAddress(2);
         $proposedAddressBuilder = $this->_addressBuilder->populate($address);
         $proposedAddressBuilder->setTelephone('555' . $address->getTelephone());
         $proposedAddress = $proposedAddressBuilder->create();
@@ -171,7 +171,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
     public function testGetAddressById()
     {
         $addressId = 2;
-        $addresses = $this->_service->getAddressById($addressId);
+        $addresses = $this->_service->getAddress($addressId);
         $this->assertEquals($this->_expectedAddresses[1], $addresses);
     }
 
@@ -182,7 +182,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
     {
         // Should throw the address not found exception
         try {
-            $this->_service->getAddressById(12345);
+            $this->_service->getAddress(12345);
             $this->fail("Expected NoSuchEntityException not caught");
         } catch (NoSuchEntityException $exception) {
             $this->assertSame($exception->getCode(), \Magento\Exception\NoSuchEntityException::NO_SUCH_ENTITY);
@@ -493,7 +493,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
     {
         $addressId = 1;
         // See that customer already has an address with expected addressId
-        $addressDataObject = $this->_service->getAddressById($addressId);
+        $addressDataObject = $this->_service->getAddress($addressId);
         $this->assertEquals($addressDataObject->getId(), $addressId);
 
         // Delete the address from the customer
@@ -501,7 +501,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
 
         // See that address is deleted
         try {
-            $addressDataObject = $this->_service->getAddressById($addressId);
+            $addressDataObject = $this->_service->getAddress($addressId);
             $this->fail("Expected NoSuchEntityException not caught");
         } catch (NoSuchEntityException $exception) {
             $this->assertSame($exception->getCode(), \Magento\Exception\NoSuchEntityException::NO_SUCH_ENTITY);
@@ -531,6 +531,67 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
                     'addressId' => 12345
                 ]
             );
+        }
+    }
+
+    public function testValidateAddresses()
+    {
+        $this->assertTrue($this->_service->validateAddresses($this->_expectedAddresses));
+    }
+
+    public function testValidateAddressesOneInvalid()
+    {
+        $invalidAddress = $this->_addressBuilder->setCity('Miami')->create();
+
+        try {
+            $this->_service->validateAddresses(array_merge([$invalidAddress], $this->_expectedAddresses));
+            $this->fail("InputException was expected but not thrown");
+        } catch (InputException $actualException) {
+            $expectedException = new InputException();
+            $expectedException->addError('REQUIRED_FIELD', 'firstname', '', ['index' => 0]);
+            $expectedException->addError('REQUIRED_FIELD', 'lastname', '', ['index' => 0]);
+            $expectedException->addError('REQUIRED_FIELD', 'street', '', ['index' => 0]);
+            $expectedException->addError('REQUIRED_FIELD', 'telephone', '', ['index' => 0]);
+            $expectedException->addError('REQUIRED_FIELD', 'postcode', '', ['index' => 0]);
+            $expectedException->addError('REQUIRED_FIELD', 'countryId', '', ['index' => 0]);
+            $this->assertEquals($expectedException->getErrors(), $actualException->getErrors());
+        }
+    }
+
+    public function testValidateAddressesOneInvalidNonNumericKeys()
+    {
+        $invalidAddress = $this->_addressBuilder->setFirstname('Freddy')
+            ->setLastname('Mercury')->create();
+
+        try {
+            $this->_service->validateAddresses(array_merge($this->_expectedAddresses, ['addr_3' => $invalidAddress]));
+            $this->fail("InputException was expected but not thrown");
+        } catch (InputException $actualException) {
+            $expectedException = new InputException();
+            $expectedException->addError('REQUIRED_FIELD', 'street', '', ['index' => 'addr_3']);
+            $expectedException->addError('REQUIRED_FIELD', 'city', '', ['index' => 'addr_3']);
+            $expectedException->addError('REQUIRED_FIELD', 'telephone', '', ['index' => 'addr_3']);
+            $expectedException->addError('REQUIRED_FIELD', 'postcode', '', ['index' => 'addr_3']);
+            $expectedException->addError('REQUIRED_FIELD', 'countryId', '', ['index' => 'addr_3']);
+            $this->assertEquals($expectedException->getErrors(), $actualException->getErrors());
+        }
+    }
+
+    public function testValidateAddressesOneInvalidNoKeys()
+    {
+        $invalidAddress = $this->_addressBuilder->setFirstname('Freddy')
+            ->setLastname('Mercury')->create();
+        try {
+            $this->_service->validateAddresses(array_merge($this->_expectedAddresses, [$invalidAddress]));
+            $this->fail("InputException was expected but not thrown");
+        } catch (InputException $actualException) {
+            $expectedException = new InputException();
+            $expectedException->addError('REQUIRED_FIELD', 'street', '', ['index' => 2]);
+            $expectedException->addError('REQUIRED_FIELD', 'city', '', ['index' => 2]);
+            $expectedException->addError('REQUIRED_FIELD', 'telephone', '', ['index' => 2]);
+            $expectedException->addError('REQUIRED_FIELD', 'postcode', '', ['index' => 2]);
+            $expectedException->addError('REQUIRED_FIELD', 'countryId', '', ['index' => 2]);
+            $this->assertEquals($expectedException->getErrors(), $actualException->getErrors());
         }
     }
 

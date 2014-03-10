@@ -5,14 +5,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Service\V1\Data;
+
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
 
 /**
  * Builder for the Customer Service Data Object
  *
- * @method Customer create()
+ * @method \Magento\Customer\Service\V1\Data\Customer create()
  */
 class CustomerBuilder extends \Magento\Service\Data\EAV\AbstractObjectBuilder
 {
@@ -22,7 +22,7 @@ class CustomerBuilder extends \Magento\Service\Data\EAV\AbstractObjectBuilder
     /**
      * Initialize dependencies.
      *
-     * @param CustomerMetadataServiceInterface $metadataService
+     * @param \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $metadataService
      */
     public function __construct(CustomerMetadataServiceInterface $metadataService)
     {
@@ -31,7 +31,9 @@ class CustomerBuilder extends \Magento\Service\Data\EAV\AbstractObjectBuilder
     }
 
     /**
-     * {@inheritdoc}
+     * Template method used to configure the attribute codes for the custom attributes
+     *
+     * @return string[]
      */
     public function getCustomAttributesCodes()
     {
@@ -43,6 +45,8 @@ class CustomerBuilder extends \Magento\Service\Data\EAV\AbstractObjectBuilder
     }
 
     /**
+     * Sets the default billing
+     *
      * @param string $defaultBilling
      * @return $this
      */
@@ -52,6 +56,8 @@ class CustomerBuilder extends \Magento\Service\Data\EAV\AbstractObjectBuilder
     }
 
     /**
+     * Sets the default shipping
+     *
      * @param string $defaultShipping
      * @return $this
      */
@@ -61,8 +67,10 @@ class CustomerBuilder extends \Magento\Service\Data\EAV\AbstractObjectBuilder
     }
 
     /**
+     * Set confirmation
+     * 
      * @param string $confirmation
-     * @return CustomerBuilder
+     * @return $this
      */
     public function setConfirmation($confirmation)
     {
@@ -70,8 +78,10 @@ class CustomerBuilder extends \Magento\Service\Data\EAV\AbstractObjectBuilder
     }
 
     /**
+     * Set created time
+     *
      * @param string $createdAt
-     * @return CustomerBuilder
+     * @return $this
      */
     public function setCreatedAt($createdAt)
     {
@@ -79,8 +89,10 @@ class CustomerBuilder extends \Magento\Service\Data\EAV\AbstractObjectBuilder
     }
 
     /**
+     * Set created area
+     *
      * @param string $createdIn
-     * @return CustomerBuilder
+     * @return $this
      */
     public function setCreatedIn($createdIn)
     {
@@ -88,8 +100,10 @@ class CustomerBuilder extends \Magento\Service\Data\EAV\AbstractObjectBuilder
     }
 
     /**
+     * Set date of birth
+     *
      * @param string $dob
-     * @return CustomerBuilder
+     * @return $this
      */
     public function setDob($dob)
     {
@@ -97,8 +111,10 @@ class CustomerBuilder extends \Magento\Service\Data\EAV\AbstractObjectBuilder
     }
 
     /**
+     * Set email address
+     *
      * @param string $email
-     * @return CustomerBuilder
+     * @return $this
      */
     public function setEmail($email)
     {
@@ -106,8 +122,10 @@ class CustomerBuilder extends \Magento\Service\Data\EAV\AbstractObjectBuilder
     }
 
     /**
+     * Set first name
+     *
      * @param string $firstname
-     * @return CustomerBuilder
+     * @return $this
      */
     public function setFirstname($firstname)
     {
@@ -115,8 +133,10 @@ class CustomerBuilder extends \Magento\Service\Data\EAV\AbstractObjectBuilder
     }
 
     /**
+     * Set gender
+     *
      * @param string $gender
-     * @return CustomerBuilder
+     * @return $this
      */
     public function setGender($gender)
     {
@@ -124,8 +144,10 @@ class CustomerBuilder extends \Magento\Service\Data\EAV\AbstractObjectBuilder
     }
 
     /**
+     * Set group id
+     *
      * @param string $groupId
-     * @return CustomerBuilder
+     * @return $this
      */
     public function setGroupId($groupId)
     {
@@ -133,8 +155,10 @@ class CustomerBuilder extends \Magento\Service\Data\EAV\AbstractObjectBuilder
     }
 
     /**
+     * Set customer id
+     *
      * @param int $id
-     * @return CustomerBuilder
+     * @return $this
      */
     public function setId($id)
     {
@@ -142,8 +166,10 @@ class CustomerBuilder extends \Magento\Service\Data\EAV\AbstractObjectBuilder
     }
 
     /**
+     * Set last name
+     *
      * @param string $lastname
-     * @return CustomerBuilder
+     * @return $this
      */
     public function setLastname($lastname)
     {
@@ -151,8 +177,10 @@ class CustomerBuilder extends \Magento\Service\Data\EAV\AbstractObjectBuilder
     }
 
     /**
+     * Set middle name
+     *
      * @param string $middlename
-     * @return CustomerBuilder
+     * @return $this
      */
     public function setMiddlename($middlename)
     {
@@ -160,8 +188,10 @@ class CustomerBuilder extends \Magento\Service\Data\EAV\AbstractObjectBuilder
     }
 
     /**
+     * Set prefix
+     *
      * @param string $prefix
-     * @return CustomerBuilder
+     * @return $this
      */
     public function setPrefix($prefix)
     {
@@ -169,8 +199,10 @@ class CustomerBuilder extends \Magento\Service\Data\EAV\AbstractObjectBuilder
     }
 
     /**
+     * Set store id
+     *
      * @param int $storeId
-     * @return CustomerBuilder
+     * @return $this
      */
     public function setStoreId($storeId)
     {
@@ -178,8 +210,10 @@ class CustomerBuilder extends \Magento\Service\Data\EAV\AbstractObjectBuilder
     }
 
     /**
+     * Set suffix
+     *
      * @param string $suffix
-     * @return CustomerBuilder
+     * @return $this
      */
     public function setSuffix($suffix)
     {
@@ -187,8 +221,10 @@ class CustomerBuilder extends \Magento\Service\Data\EAV\AbstractObjectBuilder
     }
 
     /**
+     * Set tax Vat
+     *
      * @param string $taxvat
-     * @return CustomerBuilder
+     * @return $this
      */
     public function setTaxvat($taxvat)
     {
@@ -196,8 +232,10 @@ class CustomerBuilder extends \Magento\Service\Data\EAV\AbstractObjectBuilder
     }
 
     /**
+     * Set website id
+     *
      * @param int $websiteId
-     * @return CustomerBuilder
+     * @return $this
      */
     public function setWebsiteId($websiteId)
     {

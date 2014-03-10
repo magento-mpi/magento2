@@ -13,7 +13,7 @@ use Magento\TestFramework\Helper\Bootstrap;
  * Class EditTest
  *
  * @magentoAppArea adminhtml
- * @magentoDataFixture createCustomer
+ * @magentoDataFixture Magento/Customer/_files/customer.php
  */
 class EditTest extends \PHPUnit_Framework_TestCase
 {
@@ -36,28 +36,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
      *
      * @var int
      */
-    private static $customerId;
-
-    /**
-     * Create a new Customer.
-     */
-    public static function createCustomer()
-    {
-        $customerService = Bootstrap::getObjectManager()
-            ->get('Magento\Customer\Service\V1\CustomerServiceInterface');
-        $customerBuilder = Bootstrap::getObjectManager()
-            ->get('Magento\Customer\Service\V1\Data\CustomerBuilder');
-        $customerData = [
-            'group_id' => 1,
-            'website_id' => 1,
-            'firstname' => 'Firstname',
-            'lastname' => 'Lastname',
-            'email' => 'firstname.lastname@gmail.com'
-        ];
-        $customer = $customerBuilder->populateWithArray($customerData)
-            ->create();
-        self::$customerId = $customerService->saveCustomer($customer);
-    }
+    private static $customerId = 1;
 
     /**
      * Execute per test initialization.

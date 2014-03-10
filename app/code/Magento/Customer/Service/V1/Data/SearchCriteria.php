@@ -18,22 +18,28 @@ class SearchCriteria extends AbstractObject
     const SORT_DESC = -1;
 
     /**
+     * Get filters
+     * 
      * @return \Magento\Customer\Service\V1\Data\Search\FilterGroupInterface
      */
     public function getFilters()
     {
-        return $this->_get('filters', $this->_createArray());
+        return $this->_get('filters');
     }
 
     /**
-     * @return array
+     * Get sort order
+     *
+     * @return string[]
      */
     public function getSortOrders()
     {
-        return $this->_get('sort_orders', $this->_createArray());
+        return $this->_get('sort_orders');
     }
 
     /**
+     * Get page size
+     *
      * @return int
      */
     public function getPageSize()
@@ -42,21 +48,12 @@ class SearchCriteria extends AbstractObject
     }
 
     /**
+     * Get current page
+     *
      * @return int
      */
     public function getCurrentPage()
     {
         return $this->_get('current_page');
-    }
-
-    /**
-     * Create Array
-     *
-     * @todo to be implemented in MAGETWO-18201
-     *
-     * @return array
-     */
-    private function _createArray()
-    {
     }
 }

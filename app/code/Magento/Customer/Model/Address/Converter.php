@@ -13,6 +13,7 @@ use Magento\Customer\Model\AddressFactory;
 use Magento\Customer\Service\V1\Data\Address;
 use Magento\Customer\Service\V1\Data\AddressBuilder;
 use Magento\Customer\Model\Address as AddressModel;
+use Magento\Customer\Model\Address\AbstractAddress;
 use Magento\Customer\Service\V1\Data\Region;
 use Magento\Customer\Service\V1\Data\RegionBuilder;
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
@@ -44,19 +45,28 @@ class Converter
     private $_regionBuilder;
 
     /**
+     * Customer metadata service
+     *
+     * @var \Magento\Customer\Service\V1\CustomerMetadataServiceInterface
+     */
+    private $_metadataService;
+
+    /**
      * @param AddressBuilder $addressBuilder
      * @param AddressFactory $addressFactory
      * @param RegionBuilder $regionBuilder
+     * @param CustomerMetadataServiceInterface $metadataService
      */
     public function __construct(
         AddressBuilder $addressBuilder,
         AddressFactory $addressFactory,
-        RegionBuilder $regionBuilder
-    )
-    {
+        RegionBuilder $regionBuilder,
+        CustomerMetadataServiceInterface $metadataService
+    ) {
         $this->_addressBuilder = $addressBuilder;
         $this->_addressFactory = $addressFactory;
         $this->_regionBuilder = $regionBuilder;
+        $this->_metadataService = $metadataService;
     }
 
     /**
@@ -106,26 +116,20 @@ class Converter
     /**
      * Make address Data Object out of an address model
      *
-     * @param AddressModel $addressModel
+     * @param AbstractAddress $addressModel
      * @param int $defaultBillingId
      * @param int $defaultShippingId
      * @return Address
      */
-    public function createAddressFromModel(AddressModel $addressModel, $defaultBillingId, $defaultShippingId)
+    public function createAddressFromModel(AbstractAddress $addressModel, $defaultBillingId, $defaultShippingId)
     {
         $addressId = $addressModel->getId();
-        $validAttributes = array_merge(
-            $addressModel->getDefaultAttributeCodes(),
-            [
-                Address::KEY_ID, 'region_id', Address::KEY_REGION, Address::KEY_STREET, 'vat_is_valid',
-                Address::KEY_DEFAULT_BILLING, Address::KEY_DEFAULT_SHIPPING, 'vat_request_id', 'vat_request_date',
-                'vat_request_success'
-            ]
-        );
+
+        $attributes = $this->_metadataService->getAllAddressAttributeMetadata();
         $addressData = [];
-        foreach ($addressModel->getAttributes() as $attribute) {
+        foreach ($attributes as $attribute) {
             $code = $attribute->getAttributeCode();
-            if (!in_array($code, $validAttributes) && $addressModel->getData($code) !== null) {
+            if (!is_null($addressModel->getData($code))) {
                 $addressData[$code] = $addressModel->getData($code);
             }
         }
@@ -144,8 +148,12 @@ class Converter
         if ($addressId) {
             $this->_addressBuilder->setId($addressId);
         }
-        if ($addressModel->getCustomerId()) {
-            $this->_addressBuilder->setCustomerId($addressModel->getCustomerId());
+
+        if ($addressModel->getCustomerId() || $addressModel->getParentId()) {
+            $customerId = $addressModel->getCustomerId()
+                ? $addressModel->getCustomerId()
+                : $addressModel->getParentId();
+            $this->_addressBuilder->setCustomerId($customerId);
         }
 
         $addressDataObject = $this->_addressBuilder->create();

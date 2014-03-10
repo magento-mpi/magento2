@@ -25,7 +25,7 @@ class BillingTest extends \PHPUnit_Framework_TestCase
     /** @var  \Magento\Customer\Service\V1\Data\CustomerBuilder */
     protected $_customerBuilder;
 
-    /** @var \Magento\Customer\Service\V1\CustomerService */
+    /** @var \Magento\Customer\Service\V1\CustomerAccountService */
     protected $_customerService;
 
     const FIXTURE_CUSTOMER_ID = 1;
@@ -38,7 +38,7 @@ class BillingTest extends \PHPUnit_Framework_TestCase
         parent::setUp();
         $objectManager = Bootstrap::getObjectManager();
         $this->_customerBuilder = $objectManager->create('Magento\Customer\Service\V1\Data\CustomerBuilder');
-        $this->_customerService = $objectManager->create('Magento\Customer\Service\V1\CustomerService');
+        $this->_customerService = $objectManager->create('Magento\Customer\Service\V1\CustomerAccountService');
         $customerData = $this->_customerService->getCustomer(self::FIXTURE_CUSTOMER_ID);
 
         $customerSession = $objectManager->get('\Magento\Customer\Model\Session');
@@ -46,7 +46,7 @@ class BillingTest extends \PHPUnit_Framework_TestCase
 
         $this->_addressService = $objectManager->get('Magento\Customer\Service\V1\CustomerAddressService');
         //fetch sample address
-        $address = $this->_addressService->getAddressById(self::FIXTURE_ADDRESS_ID);
+        $address = $this->_addressService->getAddress(self::FIXTURE_ADDRESS_ID);
 
         /** @var \Magento\Sales\Model\Resource\Quote\Collection $quoteCollection */
         $quoteCollection = $objectManager->get('Magento\Sales\Model\Resource\Quote\Collection');
@@ -79,7 +79,7 @@ class BillingTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetAddress()
     {
-        $addressFromFixture = $this->_addressService->getAddressById(self::FIXTURE_ADDRESS_ID);
+        $addressFromFixture = $this->_addressService->getAddress(self::FIXTURE_ADDRESS_ID);
         $address = $this->_block->getAddress();
         $this->assertEquals($addressFromFixture->getFirstname(), $address->getFirstname());
         $this->assertEquals($addressFromFixture->getLastname(), $address->getLastname());

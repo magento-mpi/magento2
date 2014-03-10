@@ -11,6 +11,7 @@
 
 namespace Magento\Customer\Model;
 
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\Data\Customer as CustomerData;
 
 /**
@@ -63,13 +64,9 @@ class Session extends \Magento\Session\SessionManager
      */
     protected $_session;
 
-    /**
-     * @var \Magento\Customer\Service\V1\CustomerServiceInterface
-     */
-    protected $_customerService;
-
-    /** @var  \Magento\Customer\Service\V1\CustomerAccountServiceInterface */
+    /** @var  CustomerAccountServiceInterface */
     protected $_customerAccountService;
+
     /**
      * @var CustomerFactory
      */
@@ -96,11 +93,6 @@ class Session extends \Magento\Session\SessionManager
     protected $_httpContext;
 
     /**
-     * @var CustomerData
-     */
-    protected $_customerDataObject;
-
-    /**
      * @var \Magento\Customer\Model\Converter
      */
     protected $_converter;
@@ -123,10 +115,8 @@ class Session extends \Magento\Session\SessionManager
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\Http\Context $httpContext
      * @param Converter $converter
-     * @param \Magento\Customer\Service\V1\CustomerServiceInterface $customerService
-     * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
+     * @param CustomerAccountServiceInterface $customerAccountService
      * @param null $sessionName
-     * @param array $data
      */
     public function __construct(
         \Magento\App\RequestInterface $request,
@@ -146,10 +136,8 @@ class Session extends \Magento\Session\SessionManager
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\Http\Context $httpContext,
         \Magento\Customer\Model\Converter $converter,
-        \Magento\Customer\Service\V1\CustomerServiceInterface $customerService,
-        \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService,
-        $sessionName = null,
-        array $data = array()
+        CustomerAccountServiceInterface $customerAccountService,
+        $sessionName = null
     ) {
         $this->_coreUrl = $coreUrl;
         $this->_customerData = $customerData;
@@ -158,7 +146,6 @@ class Session extends \Magento\Session\SessionManager
         $this->_customerFactory = $customerFactory;
         $this->_urlFactory = $urlFactory;
         $this->_session = $session;
-        $this->_customerService = $customerService;
         $this->_customerAccountService = $customerAccountService;
         $this->_eventManager = $eventManager;
         $this->_storeManager = $storeManager;
@@ -202,7 +189,7 @@ class Session extends \Magento\Session\SessionManager
     public function getCustomerData()
     {
         if (!($this->_customer instanceof CustomerData) && $this->getCustomerId()) {
-            $this->_customer = $this->_customerService->getCustomer($this->getCustomerId());
+            $this->_customer = $this->_customerAccountService->getCustomer($this->getCustomerId());
         }
 
         return $this->_customer;
@@ -368,7 +355,7 @@ class Session extends \Magento\Session\SessionManager
         }
 
         try {
-            $this->_customerService->getCustomer($customerId);
+            $this->_customerAccountService->getCustomer($customerId);
             $this->_isCustomerIdChecked = $customerId;
             return true;
         } catch (\Exception $e) {
@@ -413,7 +400,11 @@ class Session extends \Magento\Session\SessionManager
     public function setCustomerDataAsLoggedIn($customer)
     {
         $this->setCustomerData($customer);
-        $this->_eventManager->dispatch('customer_login', array('customer' => $this->getCustomer()));
+        
+        $customerModel = $this->_converter->createCustomerModel($customer);
+        $this->setCustomer($customerModel);
+        
+        $this->_eventManager->dispatch('customer_login', array('customer' => $customerModel));
         return $this;
     }
 
@@ -426,7 +417,7 @@ class Session extends \Magento\Session\SessionManager
     public function loginById($customerId)
     {
         try {
-            $customer = $this->_customerService->getCustomer($customerId);
+            $customer = $this->_customerAccountService->getCustomer($customerId);
             $this->setCustomerDataAsLoggedIn($customer);
             return true;
         } catch (\Exception $e) {

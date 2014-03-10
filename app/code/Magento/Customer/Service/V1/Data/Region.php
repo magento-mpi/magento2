@@ -1,7 +1,5 @@
 <?php
 /**
- * Class Region
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -23,6 +21,8 @@ class Region extends \Magento\Service\Data\AbstractObject
     /**#@-*/
 
     /**
+     * Get region code
+     *
      * @return string
      */
     public function getRegionCode()
@@ -31,6 +31,8 @@ class Region extends \Magento\Service\Data\AbstractObject
     }
 
     /**
+     * Get region
+     *
      * @return string
      */
     public function getRegion()
@@ -39,6 +41,8 @@ class Region extends \Magento\Service\Data\AbstractObject
     }
 
     /**
+     * Get region id
+     *
      * @return int
      */
     public function getRegionId()
