@@ -93,11 +93,6 @@ class Session extends \Magento\Session\SessionManager
     protected $_httpContext;
 
     /**
-     * @var CustomerData
-     */
-    protected $_customerDataObject;
-
-    /**
      * @var \Magento\Customer\Model\Converter
      */
     protected $_converter;

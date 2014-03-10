@@ -135,17 +135,4 @@ class Info extends \Magento\View\Element\Template
     {
         return $this->_subscriberFactory->create();
     }
-
-    /**
-     * @param string $attributeCode
-     * @return \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata|null
-     */
-    protected function _getAttributeMetadata($attributeCode)
-    {
-        try {
-            return $this->_metadataService->getCustomerAttributeMetadata($attributeCode);
-        } catch (NoSuchEntityException $e) {
-            return null;
-        }
-    }
 }

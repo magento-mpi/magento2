@@ -6,12 +6,13 @@
  * @license     {license_link}
  */
 namespace Magento\Customer\Service\V1\Data;
+
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
 
 /**
  * Builder for the Customer Service Data Object
  *
- * @method Customer create()
+ * @method \Magento\Customer\Service\V1\Data\Customer create()
  */
 class CustomerBuilder extends \Magento\Service\Data\EAV\AbstractObjectBuilder
 {
@@ -21,7 +22,7 @@ class CustomerBuilder extends \Magento\Service\Data\EAV\AbstractObjectBuilder
     /**
      * Initialize dependencies.
      *
-     * @param CustomerMetadataServiceInterface $metadataService
+     * @param \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $metadataService
      */
     public function __construct(CustomerMetadataServiceInterface $metadataService)
     {
@@ -30,7 +31,9 @@ class CustomerBuilder extends \Magento\Service\Data\EAV\AbstractObjectBuilder
     }
 
     /**
-     * {@inheritdoc}
+     * Template method used to configure the attribute codes for the custom attributes
+     *
+     * @return string[]
      */
     public function getCustomAttributesCodes()
     {
@@ -42,6 +45,8 @@ class CustomerBuilder extends \Magento\Service\Data\EAV\AbstractObjectBuilder
     }
 
     /**
+     * Sets the default billing
+     *
      * @param string $defaultBilling
      * @return $this
      */
@@ -51,6 +56,8 @@ class CustomerBuilder extends \Magento\Service\Data\EAV\AbstractObjectBuilder
     }
 
     /**
+     * Sets the default shipping
+     *
      * @param string $defaultShipping
      * @return $this
      */
