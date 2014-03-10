@@ -245,6 +245,10 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetPublicFileLessFormat($file, $designParams, $expectedFile, $contentFile)
     {
+        $this->markTestIncomplete(
+            'Implement MAGETWO-21933 LESS Preprocessing Through \Magento\View\Asset\PreProcessorInterface'
+        );
+
         $this->_initTestTheme();
 
         $expectedFile = $this->appFilesystem->getPath(\Magento\App\Filesystem::STATIC_VIEW_DIR) . '/' . $expectedFile;
