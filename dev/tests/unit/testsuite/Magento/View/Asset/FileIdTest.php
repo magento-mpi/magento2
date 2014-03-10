@@ -32,7 +32,7 @@ class FileIdTest extends \PHPUnit_Framework_TestCase
         $this->_asset = new \Magento\View\Asset\FileId(
             $this->_pathGenerator,
             $this->_fileSource,
-            'Module::fileId.ext',
+            'Module_One::fileId.ext',
             'baseUrl',
             'areaCode',
             'themePath',
@@ -81,14 +81,14 @@ class FileIdTest extends \PHPUnit_Framework_TestCase
     {
         $this->_pathGenerator->expects($this->once())
             ->method('getPath')
-            ->with('areaCode', 'themePath', 'localeCode', 'Module')
+            ->with('areaCode', 'themePath', 'localeCode', 'Module_One')
             ->will($this->returnValue('generatedPath'));
         $this->assertEquals('generatedPath/fileId.ext', $this->_asset->getRelativePath());
     }
 
     public function testGetModule()
     {
-        $this->assertEquals('Module', $this->_asset->getModule());
+        $this->assertEquals('Module_One', $this->_asset->getModule());
     }
 
     public function testGetAreaCode()
@@ -108,7 +108,7 @@ class FileIdTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateSimilar()
     {
-        $similarAsset = $this->_asset->createSimilar('Module::fileId.ext');
+        $similarAsset = $this->_asset->createSimilar('Module_One::fileId.ext');
         $this->assertEquals($this->_asset, $similarAsset);
         $this->assertNotSame($this->_asset, $similarAsset);
     }
@@ -137,11 +137,11 @@ class FileIdTest extends \PHPUnit_Framework_TestCase
 
     public function testExtractModule()
     {
-        $this->assertEquals(array('Module', 'File'), FileId::extractModule('Module::File'));
+        $this->assertEquals(array('Module_One', 'File'), FileId::extractModule('Module_One::File'));
         $this->assertEquals(array('', 'File'), FileId::extractModule('File'));
         $this->assertEquals(
-            array('Module', 'File::SomethingElse'),
-            FileId::extractModule('Module::File::SomethingElse')
+            array('Module_One', 'File::SomethingElse'),
+            FileId::extractModule('Module_One::File::SomethingElse')
         );
     }
 }
