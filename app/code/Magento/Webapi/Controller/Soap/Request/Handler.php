@@ -141,7 +141,7 @@ class Handler
             foreach ($data as $key => $value) {
                 $result[$key] = $this->_isDataObject($value) ? $this->_unpackDataObject($value) : $value;
             }
-        } elseif (is_string($data) || is_numeric($data) || is_null($data)) {
+        } elseif (is_scalar($data) || is_null($data)) {
             $result = $data;
         } else {
             throw new \InvalidArgumentException("Service returned result in invalid format.");
@@ -163,11 +163,20 @@ class Handler
         if (!$this->_isDataObject($dataObject)) {
             throw new \InvalidArgumentException("Object is expected to implement __toArray() method.");
         }
+        return $this->_unpackArray($dataObject->__toArray());
+    }
+
+    protected function _unpackArray($dataArray)
+    {
         $response = new \stdClass();
-        foreach ($dataObject->__toArray() as $fieldName => $fieldValue) {
+        foreach ($dataArray as $fieldName => $fieldValue) {
             if ($this->_isDataObject($fieldValue)) {
                 $fieldValue = $this->_unpackDataObject($fieldValue);
             }
+            if (is_array($fieldValue)) {
+                $fieldValue = $this->_unpackArray($fieldValue);
+            }
+            $fieldName = lcfirst(str_replace(' ', '', ucwords(str_replace('_', ' ', $fieldName))));
             $response->$fieldName = $fieldValue;
         }
         return $response;

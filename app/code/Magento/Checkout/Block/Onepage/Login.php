@@ -7,7 +7,7 @@
  */
 namespace Magento\Checkout\Block\Onepage;
 
-use Magento\Customer\Service\V1\CustomerServiceInterface as CustomerService;
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface as CustomerAccountService;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface as CustomerAddressService;
 use Magento\Customer\Model\Address\Config as AddressConfig;
 use Magento\Message\Collection;
@@ -39,7 +39,7 @@ class Login extends AbstractOnepage
      * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory
      * @param \Magento\Checkout\Helper\Data $checkoutData
      * @param \Magento\Message\ManagerInterface $messageManager
-     * @param CustomerService $customerService
+     * @param CustomerAccountService $customerAccountService
      * @param CustomerAddressService $customerAddressService
      * @param AddressConfig $addressConfig
      * @param array $data
@@ -52,7 +52,7 @@ class Login extends AbstractOnepage
         \Magento\Checkout\Model\Session $resourceSession,
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory,
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory,
-        CustomerService $customerService,
+        CustomerAccountService $customerAccountService,
         CustomerAddressService $customerAddressService,
         AddressConfig $addressConfig,
         \Magento\Checkout\Helper\Data $checkoutData,
@@ -70,7 +70,7 @@ class Login extends AbstractOnepage
             $resourceSession,
             $countryCollectionFactory,
             $regionCollectionFactory,
-            $customerService,
+            $customerAccountService,
             $customerAddressService,
             $addressConfig,
             $data

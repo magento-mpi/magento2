@@ -9,7 +9,7 @@
  */
 namespace Magento\Exception;
 
-abstract class Exception extends \Exception
+abstract class Exception extends \Magento\Service\Exception
 {
     /**
      * @var array

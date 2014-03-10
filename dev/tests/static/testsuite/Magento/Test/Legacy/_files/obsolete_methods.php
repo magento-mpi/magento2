@@ -318,6 +318,7 @@ return array(
     array('getAllOrderEntityTypeIds', 'Magento\Rss\Model\Resource\Order'),
     array('getAnonSuffix'),
     array('getAttributeDataModelFactory', 'Magento\Eav\Model\Validator\Attribute\Data'),
+    array('getAttributes', 'Magento\Customer\Helper\Address'),
     array('getAttributesJson', 'Magento\Backend\Block\Catalog\Product\Edit\Tab\Super\Config', 'getAttributes'),
     array(
         'getAllStates',
@@ -568,6 +569,7 @@ return array(
     array('getValidatorData', 'Magento\Core\Model\Session\AbstractSession', 'use _getSessionEnvironment method'),
     array('getValueTable'),
     array('getVarDir', 'Magento\Core\Model\Config', 'Magento_Core_Model_Dir::getDir()'),
+    array('getVatValidationUserMessage', 'Magento\Customer\Helper\Data'),
     array('getViewOrderUrl', 'Magento\Checkout\Block\Onepage\Success'),
     array('getWatermarkHeigth', '', 'getWatermarkHeight'),
     array('getWebsite', 'Magento\Captcha\Helper\Data'),
@@ -1322,6 +1324,7 @@ return array(
     ['getDateTimeFormat', 'Magento\Core\Model\Locale', 'Magento\Stdlib\DateTime\Timezone'],
     ['date', 'Magento\Core\Model\Locale', 'Magento\Stdlib\DateTime\Timezone'],
     ['storeDate', 'Magento\Core\Model\Locale', 'Magento\Stdlib\DateTime\Timezone::scopeDate'],
+    ['storeDate', 'Magento\Stdlib\DateTime\TimezoneInterface', 'Magento\Stdlib\DateTime\TimezoneInterface::scopeDate'],
     ['utcDate', 'Magento\Core\Model\Locale', 'Magento\Stdlib\DateTime\Timezone'],
     ['storeTimeStamp', 'Magento\Core\Model\Locale', 'Magento\Stdlib\DateTime\Timezone::scopeTimeStamp'],
     ['formatDate', 'Magento\Core\Model\Locale', 'Magento\Stdlib\DateTime\Timezone'],

@@ -15,8 +15,10 @@ namespace Magento\Customer\Service\V1\Data;
 class RegionBuilder extends \Magento\Service\Data\AbstractObjectBuilder
 {
     /**
+     * Set region code
+     *
      * @param string $regionCode
-     * @return RegionBuilder
+     * @return $this
      */
     public function setRegionCode($regionCode)
     {
@@ -25,8 +27,10 @@ class RegionBuilder extends \Magento\Service\Data\AbstractObjectBuilder
     }
 
     /**
+     * Set region
+     *
      * @param string $regionName
-     * @return RegionBuilder
+     * @return $this
      */
     public function setRegion($regionName)
     {
@@ -35,8 +39,10 @@ class RegionBuilder extends \Magento\Service\Data\AbstractObjectBuilder
     }
 
     /**
+     * Set region id
+     *
      * @param string $regionId
-     * @return RegionBuilder
+     * @return $this
      */
     public function setRegionId($regionId)
     {

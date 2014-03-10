@@ -1,15 +1,11 @@
 <?php
 /**
- * Customer Service Address Interface
- *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Customer\Service\V1\Data;
-
-use Magento\Customer\Service\V1\Data\SearchCriteria;
 
 /**
  * Builder for the SearchResults Service Data Object
@@ -19,9 +15,10 @@ use Magento\Customer\Service\V1\Data\SearchCriteria;
 class SearchResultsBuilder extends \Magento\Service\Data\AbstractObjectBuilder
 {
     /**
-     * @param \Magento\Customer\Service\V1\Data\SearchCriteria $searchCriteria
+     * Set search criteria
      *
-     * @return SearchResultsBuilder
+     * @param \Magento\Customer\Service\V1\Data\SearchCriteria $searchCriteria
+     * @return $this
      */
     public function setSearchCriteria(SearchCriteria $searchCriteria)
     {
@@ -29,9 +26,10 @@ class SearchResultsBuilder extends \Magento\Service\Data\AbstractObjectBuilder
     }
 
     /**
-     * @param int $totalCount
+     * Set total count
      *
-     * @return SearchResultsBuilder
+     * @param int $totalCount
+     * @return $this
      */
     public function setTotalCount($totalCount)
     {
@@ -39,9 +37,10 @@ class SearchResultsBuilder extends \Magento\Service\Data\AbstractObjectBuilder
     }
 
     /**
-     * @param array $items
+     * Set items
      *
-     * @return SearchResultsBuilder
+     * @param \Magento\Service\Data\AbstractObject[] $items
+     * @return $this
      */
     public function setItems($items)
     {

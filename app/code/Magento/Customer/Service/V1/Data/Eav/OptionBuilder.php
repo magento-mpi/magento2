@@ -1,7 +1,5 @@
 <?php
 /**
- * Builder for the Eav Service Data Object attribute option
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -9,13 +7,16 @@
  */
 namespace Magento\Customer\Service\V1\Data\Eav;
 
+/**
+ * Class OptionBuilder
+ */
 class OptionBuilder extends \Magento\Service\Data\AbstractObjectBuilder
 {
     /**
      * Set option label
      *
-     * @param $label
-     * @return OptionBuilder
+     * @param string $label
+     * @return $this
      */
     public function setLabel($label)
     {
@@ -25,8 +26,8 @@ class OptionBuilder extends \Magento\Service\Data\AbstractObjectBuilder
     /**
      * Set option value
      *
-     * @param $value
-     * @return OptionBuilder
+     * @param string $value
+     * @return $this
      */
     public function setValue($value)
     {

@@ -193,7 +193,7 @@ class Address extends \Magento\App\Action\Action
         $addressId = $this->getRequest()->getParam('id');
         $existingAddressData = [];
         if ($addressId) {
-            $existingAddress = $this->_addressService->getAddressById($addressId);
+            $existingAddress = $this->_addressService->getAddress($addressId);
             if ($existingAddress->getId()) {
                 $existingAddressData = \Magento\Customer\Service\V1\Data\AddressConverter::toFlatArray(
                     $existingAddress
@@ -227,7 +227,7 @@ class Address extends \Magento\App\Action\Action
 
         if ($addressId) {
             try {
-                $address = $this->_addressService->getAddressById($addressId);
+                $address = $this->_addressService->getAddress($addressId);
                 if ($address->getCustomerId() === $this->_getSession()->getCustomerId()) {
                     $this->_addressService->deleteAddress($addressId);
                     $this->messageManager->addSuccess(__('The address has been deleted.'));
