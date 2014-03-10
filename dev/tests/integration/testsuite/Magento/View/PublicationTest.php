@@ -589,6 +589,12 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testCssWithBase64Data()
     {
+        $mode = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')
+                    ->getMode();
+        if ($mode == \Magento\App\State::MODE_DEVELOPER) {
+            $this->markTestSkipped('Valid in non-developer mode only');
+        }
+
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
             \Magento\App\Filesystem::PARAM_APP_DIRS => array(
                 \Magento\App\Filesystem::THEMES_DIR => array('path' => dirname(__DIR__) . '/Core/Model/_files/design/')
