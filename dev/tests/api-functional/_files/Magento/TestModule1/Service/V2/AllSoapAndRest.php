@@ -24,13 +24,22 @@ class AllSoapAndRest implements \Magento\TestModule1\Service\V2\AllSoapAndRestIn
     /**
      * {@inheritdoc}
      */
-    public function items()
+    public function items($filters = array(), $sortOrder = 'ASC')
     {
-        $result1 = (new ItemBuilder())->setId(1)->setName('testProduct1')->setPrice('1')->create();
+        $result = [];
+        $result[1] = (new ItemBuilder())->setId(1)->setName('testProduct1')->setPrice('1')->create();
+        $result[2] = (new ItemBuilder())->setId(2)->setName('testProduct2')->setPrice('2')->create();
 
-        $result2 = (new ItemBuilder())->setId(2)->setName('testProduct2')->setPrice('2')->create();
-
-        return [$result1, $result2];
+        /** Simple filtration implementation (nested filters are not allowed) */
+        if (isset($filters['id']) && is_array($filters['id'])) {
+            if ($filters['id'] != 1) {
+                unset($result[1]);
+            }
+            if ($filters['id'] != 2) {
+                unset($result[2]);
+            }
+        }
+        return $result;
     }
 
     /**

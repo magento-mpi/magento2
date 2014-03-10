@@ -42,7 +42,7 @@ class OauthClient extends AbstractService
             $storage = new \OAuth\Common\Storage\Session();
         }
         if (!isset($signature)) {
-            $signature = new \OAuth\OAuth1\Signature\Signature($credentials);
+            $signature = new \Magento\TestFramework\Authentication\Rest\OauthClient\Signature($credentials);
         }
         parent::__construct($credentials, $httpClient, $storage, $signature, $baseApiUri);
     }

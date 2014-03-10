@@ -44,6 +44,7 @@ class ServiceVersionV2Test extends \Magento\Webapi\Routing\BaseService
      */
     public function testItems()
     {
+        $this->_markTestAsRestOnly("Should be enabled in after MAGETWO-22140 implementation.");
         $itemArr = array(
             array(
                 'id' => 1,
@@ -68,6 +69,51 @@ class ServiceVersionV2Test extends \Magento\Webapi\Routing\BaseService
         );
         $item = $this->_webApiCall($serviceInfo);
         $this->assertEquals($itemArr, $item, 'Items were not retrieved');
+    }
+
+    /**
+     * Test fetching items when filters are applied
+     *
+     * @param string[] $filters
+     * @param array $expectedResult
+     * @dataProvider itemsWithFiltersDataProvider
+     */
+    public function testItemsWithFilters($filters, $expectedResult)
+    {
+        $this->_markTestAsRestOnly("Should be enabled in after MAGETWO-22140 implementation.");
+        $restFilter = '';
+        foreach ($filters as $field => $value) {
+            $paramsDelimiter = empty($restFilter) ? '?' : '&';
+            $restFilter .= "{$paramsDelimiter}filters[{$field}]={$value}";
+        }
+        $serviceInfo = array(
+            'rest' => array(
+                'resourcePath' => $this->_restResourcePath . $restFilter,
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
+            ),
+            'soap' => array(
+                'service' => $this->_soapService,
+                'operation' => $this->_soapService . 'Items'
+            )
+        );
+        $requestData = [];
+        if (!empty($filters)) {
+            $requestData['filters'] = $filters;
+        }
+        $item = $this->_webApiCall($serviceInfo, $requestData);
+        $this->assertEquals($expectedResult, $item, 'Filtration does not seem to work correctly.');
+    }
+
+    public function itemsWithFiltersDataProvider()
+    {
+
+        $firstItem = ['id' => 1, 'name' => 'testProduct1', 'price' => 1];
+        $secondItem = ['id' => 2, 'name' => 'testProduct2', 'price' => 2];
+        return [
+            'First item filter' => [['id' => 1], [$firstItem]],
+            'Second item filter' => [['id' => 2], [$secondItem]],
+            'Empty filter' => [[], [$firstItem, $secondItem]],
+        ];
     }
 
     /**
