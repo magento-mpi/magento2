@@ -132,7 +132,7 @@ function getReference($filename, $rootDirectory)
  * @param string $filename
  * @param string $rootDirectory
  * @return void
-     * @throws \PHPParser_error
+ * @throws \PHPParser_error
  */
 function fixFile($filename, $rootDirectory)
 {
