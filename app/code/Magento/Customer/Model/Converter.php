@@ -9,18 +9,18 @@ namespace Magento\Customer\Model;
 
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
 use Magento\Exception\NoSuchEntityException;
-use Magento\Customer\Service\V1\Dto\Customer as CustomerDto;
-use Magento\Customer\Service\V1\Dto\CustomerBuilder as CustomerDtoBuilder;
+use Magento\Customer\Service\V1\Data\Customer as CustomerDataObject;
+use Magento\Customer\Service\V1\Data\CustomerBuilder as CustomerDataObjectBuilder;
 
 /**
  * Customer Model converter.
  *
- * Converts a Customer Model to a DTO or vice versa.
+ * Converts a Customer Model to a Data Object or vice versa.
  */
 class Converter
 {
     /**
-     * @var CustomerDtoBuilder
+     * @var CustomerDataObjectBuilder
      */
     protected $_customerBuilder;
 
@@ -30,10 +30,10 @@ class Converter
     protected $_customerFactory;
 
     /**
-     * @param CustomerDtoBuilder $customerBuilder
+     * @param CustomerDataObjectBuilder $customerBuilder
      * @param CustomerFactory $customerFactory
      */
-    public function __construct(CustomerDtoBuilder $customerBuilder, CustomerFactory $customerFactory)
+    public function __construct(CustomerDataObjectBuilder $customerBuilder, CustomerFactory $customerFactory)
     {
         $this->_customerBuilder = $customerBuilder;
         $this->_customerFactory = $customerFactory;
@@ -43,12 +43,12 @@ class Converter
      * Convert a customer model to a customer entity
      *
      * @param Customer $customerModel
-     * @return CustomerDto
+     * @return CustomerDataObject
      */
     public function createCustomerFromModel(Customer $customerModel)
     {
         $customerBuilder = $this->_populateBuilderWithAttributes($customerModel);
-        $customerBuilder->setCustomerId($customerModel->getId());
+        $customerBuilder->setId($customerModel->getId());
         $customerBuilder->setFirstname($customerModel->getFirstname());
         $customerBuilder->setLastname($customerModel->getLastname());
         $customerBuilder->setEmail($customerModel->getEmail());
@@ -100,14 +100,14 @@ class Converter
     /**
      * Creates a customer model from a customer entity.
      *
-     * @param CustomerDto $customer
+     * @param CustomerDataObject $customer
      * @return Customer
      */
-    public function createCustomerModel(CustomerDto $customer)
+    public function createCustomerModel(CustomerDataObject $customer)
     {
         $customerModel = $this->_customerFactory->create();
 
-        $attributes = $customer->getAttributes();
+        $attributes = \Magento\Service\DataObjectConverter::toFlatArray($customer);
         foreach ($attributes as $attributeCode => $attributeValue) {
             // avoid setting password through set attribute
             if ($attributeCode == 'password') {
@@ -117,7 +117,7 @@ class Converter
             }
         }
 
-        $customerId = $customer->getCustomerId();
+        $customerId = $customer->getId();
         if ($customerId) {
             $customerModel->setId($customerId);
         }
@@ -134,18 +134,18 @@ class Converter
      * Update customer model with the data from the data object
      *
      * @param Customer $customerModel
-     * @param \Magento\Customer\Service\V1\Dto\Customer $customerData
+     * @param \Magento\Customer\Service\V1\Data\Customer $customerData
      * @return void
      */
     public function updateCustomerModel(
         \Magento\Customer\Model\Customer $customerModel,
-        \Magento\Customer\Service\V1\Dto\Customer $customerData
+        \Magento\Customer\Service\V1\Data\Customer $customerData
     ) {
-        $attributes = $customerData->__toArray();
+        $attributes = \Magento\Service\DataObjectConverter::toFlatArray($customerData);
         foreach ($attributes as $attributeCode => $attributeValue) {
             $customerModel->setDataUsingMethod($attributeCode, $attributeValue);
         }
-        $customerId = $customerData->getCustomerId();
+        $customerId = $customerData->getId();
         if ($customerId) {
             $customerModel->setId($customerId);
         }
@@ -159,20 +159,19 @@ class Converter
      * Loads the values from a customer model
      *
      * @param Customer $customerModel
-     * @return CustomerDtoBuilder
+     * @return CustomerDataObjectBuilder
      */
     protected function _populateBuilderWithAttributes(Customer $customerModel)
     {
         $attributes = [];
-        $systemAttributes = ['entity_type_id', 'attribute_set_id'];
         foreach ($customerModel->getAttributes() as $attribute) {
             $attrCode = $attribute->getAttributeCode();
             $value = $customerModel->getDataUsingMethod($attrCode);
-            if (null === $value || in_array($attrCode, $systemAttributes)) {
+            if (null === $value) {
                 continue;
             }
             if ($attrCode == 'entity_id') {
-                $attributes[\Magento\Customer\Service\V1\Dto\Customer::ID] = $value;
+                $attributes[\Magento\Customer\Service\V1\Data\Customer::ID] = $value;
             } else {
                 $attributes[$attrCode] = $value;
             }

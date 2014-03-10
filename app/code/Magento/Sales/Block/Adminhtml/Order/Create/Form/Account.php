@@ -10,13 +10,14 @@
 namespace Magento\Sales\Block\Adminhtml\Order\Create\Form;
 
 use Magento\Data\Form\Element\AbstractElement;
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 
 /**
  * Create order account form
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Account extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractForm
+class Account extends AbstractForm
 {
     /**
      * Metadata form factory
@@ -25,12 +26,8 @@ class Account extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
      */
     protected $_metadataFormFactory;
 
-    /**
-     * Customer service
-     *
-     * @var \Magento\Customer\Service\V1\CustomerServiceInterface
-     */
-    protected $_customerService;
+    /** @var CustomerAccountServiceInterface */
+    protected $_customerAccountService;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
@@ -38,7 +35,7 @@ class Account extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
      * @param \Magento\Sales\Model\AdminOrder\Create $orderCreate
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory
-     * @param \Magento\Customer\Service\V1\CustomerServiceInterface $customerService
+     * @param CustomerAccountServiceInterface $customerAccountService
      * @param array $data
      */
     public function __construct(
@@ -47,11 +44,11 @@ class Account extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
         \Magento\Sales\Model\AdminOrder\Create $orderCreate,
         \Magento\Data\FormFactory $formFactory,
         \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory,
-        \Magento\Customer\Service\V1\CustomerServiceInterface $customerService,
+        CustomerAccountServiceInterface $customerAccountService,
         array $data = array()
     ) {
         $this->_metadataFormFactory = $metadataFormFactory;
-        $this->_customerService = $customerService;
+        $this->_customerAccountService = $customerAccountService;
         parent::__construct($context, $sessionQuote, $orderCreate, $formFactory, $data);
     }
 
@@ -142,11 +139,11 @@ class Account extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
     public function getFormValues()
     {
         try {
-            $customer = $this->_customerService->getCustomer($this->getCustomerId());
+            $customer = $this->_customerAccountService->getCustomer($this->getCustomerId());
         } catch (\Exception $e) {
             /** If customer does not exist do nothing. */
         }
-        $data = isset($customer) ? $customer->getAttributes() : array();
+        $data = isset($customer) ? \Magento\Service\DataObjectConverter::toFlatArray($customer) : [];
         foreach ($this->getQuote()->getData() as $key => $value) {
             if (strpos($key, 'customer_') === 0) {
                 $data[substr($key, 9)] = $value;

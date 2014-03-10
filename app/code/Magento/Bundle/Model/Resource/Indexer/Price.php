@@ -566,8 +566,6 @@ class Price extends \Magento\Catalog\Model\Resource\Product\Indexer\Price\Defaul
     /**
      * Prepare percentage tier price for bundle products
      *
-     * @see \Magento\Catalog\Model\Resource\Product\Indexer\Price::_prepareTierPriceIndex
-     *
      * @param int|array $entityIds
      * @return $this
      */
@@ -624,8 +622,6 @@ class Price extends \Magento\Catalog\Model\Resource\Product\Indexer\Price\Defaul
 
     /**
      * Prepare percentage group price for bundle products
-     *
-     * @see \Magento\Catalog\Model\Resource\Product\Indexer\Price::_prepareGroupPriceIndex
      *
      * @param int|array $entityIds
      * @return $this

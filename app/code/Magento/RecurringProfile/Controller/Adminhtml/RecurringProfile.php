@@ -42,11 +42,6 @@ class RecurringProfile extends \Magento\Backend\App\Action
     protected $_coreRegistry = null;
 
     /**
-     * @var \Magento\Customer\Service\V1\CustomerServiceInterface
-     */
-    protected $_customerService;
-
-    /**
      * @var \Magento\Logger
      */
     protected $_logger;
@@ -54,17 +49,14 @@ class RecurringProfile extends \Magento\Backend\App\Action
     /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Registry $coreRegistry
-     * @param \Magento\Customer\Service\V1\CustomerServiceInterface $customerService
      * @param \Magento\Logger $logger
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Registry $coreRegistry,
-        \Magento\Customer\Service\V1\CustomerServiceInterface $customerService,
         \Magento\Logger $logger
     ) {
-        $this->_coreRegistry = $coreRegistry;
-        $this->_customerService = $customerService;
+        $this->_coreRegistry = $coreRegistry;;
         $this->_logger = $logger;
         parent::__construct($context);
     }

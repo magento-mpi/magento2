@@ -413,8 +413,16 @@ class AbstractAddress extends \Magento\Core\Model\AbstractModel
     }
 
     /**
+     * Format address in a specific way
+     *
+     * Deprecated, use this code instead:
+     * $renderer = $this->_addressConfig->getFormatByCode('html')->getRenderer();
+     * $addressData = \Magento\Customer\Service\V1\Data\AddressConverter::toFlatArray($address);
+     * $formattedAddress = $renderer->renderArray($addressData);
+     *
+     * @deprecated
      * @param string $type
-     * @return string|null
+     * @return string
      */
     public function format($type)
     {

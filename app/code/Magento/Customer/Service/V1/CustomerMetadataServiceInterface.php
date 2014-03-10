@@ -8,10 +8,8 @@
 
 namespace Magento\Customer\Service\V1;
 
-use Magento\Exception\NoSuchEntityException;
-
 /**
- * Manipulate Customer Metadata Attributes *
+ * Interface CustomerMetadataServiceInterface
  */
 interface CustomerMetadataServiceInterface
 {
@@ -23,10 +21,10 @@ interface CustomerMetadataServiceInterface
     /**
      * Retrieve Attribute Metadata
      *
-     * @param string $entityType
-     * @param string $attributeCode
-     * @return Dto\Eav\AttributeMetadata
-     * @throws NoSuchEntityException
+     * @param   string $entityType
+     * @param   string $attributeCode
+     * @return \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata
+     * @throws \Magento\Exception\NoSuchEntityException
      */
     public function getAttributeMetadata($entityType, $attributeCode);
 
@@ -36,7 +34,7 @@ interface CustomerMetadataServiceInterface
      * @param string $entityType
      * @param int $attributeSetId
      * @param int $storeId
-     * @return Dto\Eav\AttributeMetadata[]
+     * @return \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata[]
      */
     public function getAllAttributeSetMetadata($entityType, $attributeSetId = 0, $storeId = null);
 
@@ -45,7 +43,7 @@ interface CustomerMetadataServiceInterface
      *
      * @param string $entityType
      * @param string $formCode
-     * @return Dto\Eav\AttributeMetadata[]
+     * @return \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata[]
      */
     public function getAttributes($entityType, $formCode);
 
@@ -53,32 +51,45 @@ interface CustomerMetadataServiceInterface
      * Retrieve Customer EAV attribute metadata
      *
      * @param string $attributeCode
-     * @return Dto\Eav\AttributeMetadata
-     * @throws NoSuchEntityException
+     * @return \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata
+     * @throws \Magento\Exception\NoSuchEntityException
      */
     public function getCustomerAttributeMetadata($attributeCode);
 
     /**
-     * Returns all attribute metadata for customers
+     * Get all attribute metadata for customers
      *
-     * @return Dto\Eav\AttributeMetadata[]
+     * @return \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata[]
      */
     public function getAllCustomerAttributeMetadata();
+
+    /**
+     * Get custom attribute metadata for customer.
+     *
+     * @return \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata[]
+     */
+    public function getCustomCustomerAttributeMetadata();
 
     /**
      * Retrieve Customer Addresses EAV attribute metadata
      *
      * @param string $attributeCode
-     * @return Dto\Eav\AttributeMetadata
-     * @throws NoSuchEntityException
+     * @return \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata
+     * @throws \Magento\Exception\NoSuchEntityException
      */
     public function getAddressAttributeMetadata($attributeCode);
 
     /**
-     * Returns all attribute metadata for Addresses
+     * Get all attribute metadata for Addresses
      *
-     * @return Dto\Eav\AttributeMetadata[]
+     * @return \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata[]
      */
     public function getAllAddressAttributeMetadata();
 
+    /**
+     * Get custom attribute metadata for customer address.
+     *
+     * @return \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata[]
+     */
+    public function getCustomAddressAttributeMetadata();
 }

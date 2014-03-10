@@ -144,7 +144,7 @@ abstract class AbstractForm
     /**
      * Add rendering EAV attributes to Form element
      *
-     * @param \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata[] $attributes
+     * @param \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata[] $attributes
      * @param \Magento\Data\Form\AbstractForm $form
      * @return $this
      */
@@ -179,8 +179,8 @@ abstract class AbstractForm
 
                 if ($inputType == 'select' || $inputType == 'multiselect') {
                     $options = array();
-                    foreach ($attribute->getOptions() as $optionDto) {
-                        $options[] = $optionDto->__toArray();
+                    foreach ($attribute->getOptions() as $optionData) {
+                        $options[] = \Magento\Service\DataObjectConverter::toFlatArray($optionData);
                     }
                     $element->setValues($options);
                 } else if ($inputType == 'date') {

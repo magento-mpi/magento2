@@ -8,6 +8,8 @@
 namespace Magento\Customer\Controller\Adminhtml;
 
 use Magento\Customer\Controller\RegistryConstants;
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 use Magento\Newsletter\Model\Subscriber;
 use Magento\TestFramework\Helper\Bootstrap;
 
@@ -23,18 +25,18 @@ class IndexTest extends \Magento\Backend\Utility\Controller
      */
     protected $_baseControllerUrl;
 
-    /** @var \Magento\Customer\Service\V1\CustomerServiceInterface */
-    protected $customerService;
+    /** @var CustomerAccountServiceInterface */
+    protected $customerAccountService;
 
-    /** @var \Magento\Customer\Service\V1\CustomerAddressServiceInterface */
+    /** @var CustomerAddressServiceInterface */
     protected $customerAddressService;
 
     protected function setUp()
     {
         parent::setUp();
         $this->_baseControllerUrl = 'http://localhost/index.php/backend/customer/index/';
-        $this->customerService = Bootstrap::getObjectManager()
-            ->get('Magento\Customer\Service\V1\CustomerServiceInterface');
+        $this->customerAccountService = Bootstrap::getObjectManager()
+            ->get('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
         $this->customerAddressService = Bootstrap::getObjectManager()
             ->get('Magento\Customer\Service\V1\CustomerAddressServiceInterface');
     }
@@ -101,7 +103,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
                 'website_id' => 0,
                 'firstname' => 'test firstname',
                 'lastname' => 'test lastname',
-                'email' => 'exmaple@domain.com',
+                'email' => 'example@domain.com',
                 'default_billing' => '_item1',
             ),
             'address' => array('_item1' => array()),
@@ -141,7 +143,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
                 'website_id' => 0,
                 'firstname' => 'test firstname',
                 'lastname' => 'test lastname',
-                'email' => 'exmaple@domain.com',
+                'email' => 'example@domain.com',
                 'default_billing' => '_item1',
                 'password' => 'auto'
             ),
@@ -184,7 +186,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
          */
         $registry = $objectManager->get('Magento\Registry');
         $customerId = $registry->registry(RegistryConstants::CURRENT_CUSTOMER_ID);
-        $customer = $this->customerService->getCustomer($customerId);
+        $customer = $this->customerAccountService->getCustomer($customerId);
         $this->assertEquals('test firstname', $customer->getFirstname());
         $addresses = $this->customerAddressService->getAddresses($customerId);
         $this->assertEquals(1, count($addresses));
@@ -212,7 +214,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
                 'website_id' => 1,
                 'firstname' => 'test firstname',
                 'lastname' => 'test lastname',
-                'email' => 'exmaple@domain.com',
+                'email' => 'example@domain.com',
                 'default_shipping' => '_item1',
                 'new_password' => 'auto',
                 'sendemail_store_id' => '1',
@@ -268,7 +270,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
          */
         $registry = $objectManager->get('Magento\Registry');
         $customerId = $registry->registry(RegistryConstants::CURRENT_CUSTOMER_ID);
-        $customer = $this->customerService->getCustomer($customerId);
+        $customer = $this->customerAccountService->getCustomer($customerId);
         $this->assertEquals('test firstname', $customer->getFirstname());
 
         /**
@@ -280,7 +282,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
          */
         $addresses = $this->customerAddressService->getAddresses($customerId);
         $this->assertEquals(2, count($addresses));
-        $updatedAddress = $this->customerAddressService->getAddressById(1);
+        $updatedAddress = $this->customerAddressService->getAddress(1);
         $this->assertEquals('update firstname', $updatedAddress->getFirstname());
         $newAddress = $this->customerAddressService->getDefaultShippingAddress($customerId);
         $this->assertEquals('new firstname', $newAddress->getFirstname());
@@ -300,7 +302,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
                 'website_id' => 1,
                 'firstname' => 'test firstname',
                 'lastname' => 'test lastname',
-                'email' => 'exmaple@domain.com',
+                'email' => 'example@domain.com',
                 'password' => 'auto',
             ),
         );
@@ -334,7 +336,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
                 'website_id' => 1,
                 'firstname' => 'new firstname',
                 'lastname' => 'new lastname',
-                'email' => 'exmaple@domain.com',
+                'email' => 'example@domain.com',
                 'default_shipping' => '_item1',
                 'new_password' => 'auto',
                 'sendemail_store_id' => '1',
@@ -487,6 +489,21 @@ class IndexTest extends \Magento\Backend\Utility\Controller
             $this->equalTo(['No such entity with customerId = 2']),
             \Magento\Message\MessageInterface::TYPE_ERROR
         );
+    }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer_sample.php
+     */
+    public function testGridAction()
+    {
+        $this->dispatch('backend/customer/index/grid');
+
+        $body = $this->getResponse()->getBody();
+
+        $this->assertContains('test firstname test lastname', $body);
+        $this->assertContains('example@domain.com', $body);
+        $this->assertContains('+7000000001', $body);
+        $this->assertContains('United States', $body);
     }
 
     /**
@@ -663,7 +680,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
      */
     public function testMassAssignGroupAction()
     {
-        $customer = $this->customerService->getCustomer(1);
+        $customer = $this->customerAccountService->getCustomer(1);
         $this->assertEquals(1, $customer->getGroupId());
 
         $this->getRequest()->setParam('group', 0)->setPost('customer', [1]);
@@ -674,7 +691,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
         );
         $this->assertRedirect($this->stringContains('customer/index'));
 
-        $customer = $this->customerService->getCustomer(1);
+        $customer = $this->customerAccountService->getCustomer(1);
         $this->assertEquals(0, $customer->getGroupId());
     }
 
@@ -709,8 +726,8 @@ class IndexTest extends \Magento\Backend\Utility\Controller
      */
     public function testMassAssignGroupActionPartialUpdate()
     {
-        $this->assertEquals(1, $this->customerService->getCustomer(1)->getGroupId());
-        $this->assertEquals(1, $this->customerService->getCustomer(2)->getGroupId());
+        $this->assertEquals(1, $this->customerAccountService->getCustomer(1)->getGroupId());
+        $this->assertEquals(1, $this->customerAccountService->getCustomer(2)->getGroupId());
 
         $this->getRequest()->setParam('group', 0)->setPost('customer', [1, 4200, 2]);
         $this->dispatch('backend/customer/index/massAssignGroup');
@@ -723,8 +740,8 @@ class IndexTest extends \Magento\Backend\Utility\Controller
             \Magento\Message\MessageInterface::TYPE_ERROR
         );
 
-        $this->assertEquals(0, $this->customerService->getCustomer(1)->getGroupId());
-        $this->assertEquals(0, $this->customerService->getCustomer(2)->getGroupId());
+        $this->assertEquals(0, $this->customerAccountService->getCustomer(1)->getGroupId());
+        $this->assertEquals(0, $this->customerAccountService->getCustomer(2)->getGroupId());
     }
 
 
@@ -832,7 +849,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
                 'website_id' => 1,
                 'firstname' => 'new firstname',
                 'lastname' => 'new lastname',
-                'email' => 'exmaple@domain.com',
+                'email' => 'example@domain.com',
                 'default_shipping' => '_item1',
                 'new_password' => 'auto',
                 'sendemail_store_id' => '1',

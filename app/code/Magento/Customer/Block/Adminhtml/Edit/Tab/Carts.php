@@ -18,20 +18,20 @@ class Carts extends \Magento\Backend\Block\Template
     protected $_shareConfig;
 
     /**
-     * @var \Magento\Customer\Service\V1\Dto\CustomerBuilder
+     * @var \Magento\Customer\Service\V1\Data\CustomerBuilder
      */
     protected $_customerBuilder;
 
     /**
      * @param \Magento\Backend\Block\Template\Context          $context
      * @param \Magento\Customer\Model\Config\Share             $shareConfig
-     * @param \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerBuilder
+     * @param \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder
      * @param array                                            $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Customer\Model\Config\Share $shareConfig,
-        \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerBuilder,
+        \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder,
         array $data = []
     ) {
         $this->_shareConfig = $shareConfig;
@@ -76,7 +76,7 @@ class Carts extends \Magento\Backend\Block\Template
     }
 
     /**
-     * @return \Magento\Customer\Service\V1\Dto\Customer
+     * @return \Magento\Customer\Service\V1\Data\Customer
      */
     protected function _getCustomer()
     {

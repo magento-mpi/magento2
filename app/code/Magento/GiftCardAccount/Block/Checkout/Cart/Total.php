@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftCardAccount
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -40,7 +38,14 @@ class Total extends \Magento\Checkout\Block\Total\DefaultTotal
         array $data = array()
     ) {
         $this->_giftCardAccountData = $giftCardAccountData;
-        parent::__construct($context, $catalogData, $customerSession, $checkoutSession, $salesConfig, $data);
+        parent::__construct(
+            $context,
+            $catalogData,
+            $customerSession,
+            $checkoutSession,
+            $salesConfig,
+            $data
+        );
         $this->_isScopePrivate = true;
     }
 

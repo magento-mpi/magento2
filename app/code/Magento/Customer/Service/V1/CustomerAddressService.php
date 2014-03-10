@@ -122,7 +122,7 @@ class CustomerAddressService implements CustomerAddressServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function getAddressById($addressId)
+    public function getAddress($addressId)
     {
         //TODO: use cache MAGETWO-16862
         $address = $this->_addressFactory->create();
@@ -191,6 +191,22 @@ class CustomerAddressService implements CustomerAddressServiceInterface
         }
 
         return $addressIds;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function validateAddresses($addresses)
+    {
+        $inputException = new InputException();
+        foreach ($addresses as $key => $address) {
+            $addressModel = $this->_addressConverter->createAddressModel($address);
+            $inputException = $this->_validate($addressModel, $inputException, $key);
+        }
+        if ($inputException->getErrors()) {
+            throw $inputException;
+        }
+        return true;
     }
 
     /**

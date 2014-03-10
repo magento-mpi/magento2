@@ -9,7 +9,8 @@
  */
 namespace Magento\Customer\Block\Address;
 
-use Magento\Customer\Service\V1\Dto\Address;
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 
 /**
  * Customer address book block
@@ -26,12 +27,12 @@ class Book extends \Magento\View\Element\Template
     protected $_customerSession;
 
     /**
-     * @var \Magento\Customer\Service\V1\CustomerServiceInterface
+     * @var CustomerAccountServiceInterface
      */
-    protected $_customerService;
+    protected $_customerAccountService;
 
     /**
-     * @var \Magento\Customer\Service\V1\CustomerAddressServiceInterface
+     * @var CustomerAddressServiceInterface
      */
     protected $_addressService;
 
@@ -43,21 +44,21 @@ class Book extends \Magento\View\Element\Template
     /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Customer\Service\V1\CustomerServiceInterface $customerService
-     * @param \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService
+     * @param CustomerAccountServiceInterface $customerAccountService
+     * @param CustomerAddressServiceInterface $addressService
      * @param \Magento\Customer\Model\Address\Config $addressConfig
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Customer\Service\V1\CustomerServiceInterface $customerService,
-        \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService,
+        CustomerAccountServiceInterface $customerAccountService,
+        CustomerAddressServiceInterface $addressService,
         \Magento\Customer\Model\Address\Config $addressConfig,
         array $data = array()
     ) {
         $this->_customerSession = $customerSession;
-        $this->_customerService = $customerService;
+        $this->_customerAccountService = $customerAccountService;
         $this->_addressService = $addressService;
         $this->_addressConfig = $addressConfig;
         parent::__construct($context, $data);
@@ -120,7 +121,7 @@ class Book extends \Magento\View\Element\Template
     }
 
     /**
-     * @return Address[]|false
+     * @return \Magento\Customer\Service\V1\Data\Address[]|bool
      */
     public function getAdditionalAddresses()
     {
@@ -141,28 +142,28 @@ class Book extends \Magento\View\Element\Template
     /**
      * Render an address as HTML and return the result
      *
-     * @param Address $address
+     * @param \Magento\Customer\Service\V1\Data\Address $address
      * @return string
      */
-    public function getAddressHtml(Address $address = null)
+    public function getAddressHtml(\Magento\Customer\Service\V1\Data\Address $address = null)
     {
         if (!is_null($address)) {
             /** @var \Magento\Customer\Block\Address\Renderer\RendererInterface $renderer */
             $renderer = $this->_addressConfig->getFormatByCode('html')->getRenderer();
-            return $renderer->renderArray($address->getAttributes());
+            return $renderer->renderArray(\Magento\Customer\Service\V1\Data\AddressConverter::toFlatArray($address));
         }
         return '';
     }
 
     /**
-     * @return \Magento\Customer\Service\V1\Dto\Customer|null
+     * @return \Magento\Customer\Service\V1\Data\Customer|null
      */
     public function getCustomer()
     {
         $customer = $this->getData('customer');
         if (is_null($customer)) {
             try {
-                $customer = $this->_customerService->getCustomer($this->_customerSession->getCustomerId());
+                $customer = $this->_customerAccountService->getCustomer($this->_customerSession->getCustomerId());
             } catch (\Magento\Exception\NoSuchEntityException $e) {
                 return null;
             }
@@ -186,12 +187,12 @@ class Book extends \Magento\View\Element\Template
 
     /**
      * @param int $addressId
-     * @return Address|null
+     * @return \Magento\Customer\Service\V1\Data\Address|null
      */
     public function getAddressById($addressId)
     {
         try {
-            return $this->_addressService->getAddressById($addressId);
+            return $this->_addressService->getAddress($addressId);
         } catch (\Magento\Exception\NoSuchEntityException $e) {
             return null;
         }

@@ -13,7 +13,7 @@ use Magento\Customer\Controller\RegistryConstants;
 /**
  * Renderer for customer group ID
  *
- * @method \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata getDisableAutoGroupChangeAttribute()
+ * @method \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata getDisableAutoGroupChangeAttribute()
  * @method mixed getDisableAutoGroupChangeAttributeValue()
  */
 class Group extends Element
@@ -82,7 +82,7 @@ class Group extends Element
     public function getDisableAutoGroupChangeCheckboxState()
     {
         $customerId = $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID);
-        $checkedByDefault = ($customerId) ? false : $this->_addressHelper->getDisableAutoGroupAssignDefaultValue();
+        $checkedByDefault = ($customerId) ? false : $this->_addressHelper->isDisableAutoGroupAssignDefaultValue();
 
         $value = $this->getDisableAutoGroupChangeAttributeValue();
         $state = '';

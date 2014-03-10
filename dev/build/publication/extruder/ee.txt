@@ -126,7 +126,7 @@ app/code/Magento/TargetRule
 dev/tests/integration/testsuite/Magento/TargetRule
 app/code/Magento/WebsiteRestriction
 dev/tests/integration/testsuite/Magento/WebsiteRestriction
-app/code/Magento/CustomAttribute
+app/code/Magento/CustomAttributeManagement
 app/code/Magento/AdvancedCheckout
 dev/tests/unit/testsuite/Magento/AdvancedCheckout
 dev/tests/integration/testsuite/Magento/AdvancedCheckout

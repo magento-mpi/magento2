@@ -318,6 +318,7 @@ return array(
     array('getAllOrderEntityTypeIds', 'Magento\Rss\Model\Resource\Order'),
     array('getAnonSuffix'),
     array('getAttributeDataModelFactory', 'Magento\Eav\Model\Validator\Attribute\Data'),
+    array('getAttributes', 'Magento\Customer\Helper\Address'),
     array('getAttributesJson', 'Magento\Backend\Block\Catalog\Product\Edit\Tab\Super\Config', 'getAttributes'),
     array(
         'getAllStates',
@@ -545,6 +546,7 @@ return array(
         'Magento_Core_Model_Theme::getThemeCollectionOptionArray'
     ),
     array('getTotalModels', 'Magento\Sales\Model\Quote\Address'),
+    array('importCustomerAddress', 'Magento\Sales\Model\Quote\Address'),
     array('getTotalModels', 'Magento\Sales\Model\Quote\Config'),
     array('getTrackId', 'Magento\Shipping\Block\Tracking\Popup'),
     array('getTrackingInfoByOrder', 'Magento\Shipping\Block\Tracking\Popup'),
@@ -567,6 +569,7 @@ return array(
     array('getValidatorData', 'Magento\Core\Model\Session\AbstractSession', 'use _getSessionEnvironment method'),
     array('getValueTable'),
     array('getVarDir', 'Magento\Core\Model\Config', 'Magento_Core_Model_Dir::getDir()'),
+    array('getVatValidationUserMessage', 'Magento\Customer\Helper\Data'),
     array('getViewOrderUrl', 'Magento\Checkout\Block\Onepage\Success'),
     array('getWatermarkHeigth', '', 'getWatermarkHeight'),
     array('getWebsite', 'Magento\Captcha\Helper\Data'),
@@ -1210,28 +1213,28 @@ return array(
     array('getFileIdentifier', 'Magento\View\Layout\File\FileList', 'Magento\View\Layout\File'),
     array('_getInitialXml', 'Magento\Config\Theme'),
     array('_getIdAttributes', 'Magento\Config\Theme'),
-    [
+    array(
         'getAllPeriodUnits',
         'Magento\Payment\Model\Recurring\Profile',
         'Magento\RecurringProfile\Model\PeriodUnits::toOptionArray'
-    ],
-    [
+    ),
+    array(
         'getPeriodUnitLabel',
         'Magento\Payment\Model\Recurring\Profile',
         'Magento\RecurringProfile\Model\PeriodUnits::toOptionArray()[\Magento\RecurringProfile\Model\PeriodUnits::DAY]'
-    ],
-    [
+    ),
+    array(
         'getFieldComment',
         'Magento\Payment\Model\Recurring\Profile',
         'Magento\RecurringProfile\Block\Fields::getFieldComment',
-    ],
-    [
+    ),
+    array(
         'getFieldLabel',
         'Magento\Payment\Model\Recurring\Profile',
         'Magento\RecurringProfile\Block\Fields::getFieldLabel',
-    ],
-    ['_ensureLocaleAndStore', 'Magento\Payment\Model\Recurring\Profile'],
-    ['setLocale', 'Magento\Payment\Model\Recurring\Profile', 'Locale instance injected via constructor'],
+    ),
+    array('_ensureLocaleAndStore', 'Magento\Payment\Model\Recurring\Profile'),
+    array('setLocale', 'Magento\Payment\Model\Recurring\Profile', 'Locale instance injected via constructor'),
     array('_getSession', 'Magento\CatalogSearch\Controller\Result'),
     array('addPriceBlockType', 'Magento\Rss\Block\Catalog\AbstractCatalog'),
     array('getAttributeDisabledTypes', 'Magento\Catalog\Helper\Data'),
@@ -1321,6 +1324,7 @@ return array(
     ['getDateTimeFormat', 'Magento\Core\Model\Locale', 'Magento\Stdlib\DateTime\Timezone'],
     ['date', 'Magento\Core\Model\Locale', 'Magento\Stdlib\DateTime\Timezone'],
     ['storeDate', 'Magento\Core\Model\Locale', 'Magento\Stdlib\DateTime\Timezone::scopeDate'],
+    ['storeDate', 'Magento\Stdlib\DateTime\TimezoneInterface', 'Magento\Stdlib\DateTime\TimezoneInterface::scopeDate'],
     ['utcDate', 'Magento\Core\Model\Locale', 'Magento\Stdlib\DateTime\Timezone'],
     ['storeTimeStamp', 'Magento\Core\Model\Locale', 'Magento\Stdlib\DateTime\Timezone::scopeTimeStamp'],
     ['formatDate', 'Magento\Core\Model\Locale', 'Magento\Stdlib\DateTime\Timezone'],
@@ -1345,4 +1349,6 @@ return array(
     ['getMeasureWeightName', 'Magento\Usa\Helper\Data', 'Magento\Shipping\Helper\Carrier::getMeasureWeightName'],
     ['getMeasureDimensionName', 'Magento\Usa\Helper\Data', 'Magento\Shipping\Helper\Carrier::getMeasureDimensionName'],
     ['displayGirthValue', 'Magento\Usa\Helper\Data', 'Magento\Usps\Helper\Data::displayGirthValue'],
+    array('reindexProductPrices', '\Magento\Catalog\Model\Observer'),
+    array('getCustomer', 'Magento\Checkout\Block\Onepage\AbstractOnepage')
 );

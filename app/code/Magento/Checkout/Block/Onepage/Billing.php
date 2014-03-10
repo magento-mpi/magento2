@@ -2,20 +2,17 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Checkout
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Checkout\Block\Onepage;
 
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface as CustomerAccountService;
+use Magento\Customer\Service\V1\CustomerAddressServiceInterface as CustomerAddressService;
+use Magento\Customer\Model\Address\Config as AddressConfig;
+
 /**
  * One page checkout status
- *
- * @category   Magento
- * @category   Magento
- * @package    Magento_Checkout
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Billing extends \Magento\Checkout\Block\Onepage\AbstractOnepage
 {
@@ -47,6 +44,9 @@ class Billing extends \Magento\Checkout\Block\Onepage\AbstractOnepage
      * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory
      * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory
      * @param \Magento\Sales\Model\Quote\AddressFactory $addressFactory
+     * @param CustomerAccountService $customerAccountService
+     * @param CustomerAddressService $customerAddressService
+     * @param AddressConfig $addressConfig
      * @param array $data
      */
     public function __construct(
@@ -57,6 +57,9 @@ class Billing extends \Magento\Checkout\Block\Onepage\AbstractOnepage
         \Magento\Checkout\Model\Session $resourceSession,
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory,
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory,
+        CustomerAccountService $customerAccountService,
+        CustomerAddressService $customerAddressService,
+        AddressConfig $addressConfig,
         \Magento\Sales\Model\Quote\AddressFactory $addressFactory,
         array $data = array()
     ) {
@@ -69,6 +72,9 @@ class Billing extends \Magento\Checkout\Block\Onepage\AbstractOnepage
             $resourceSession,
             $countryCollectionFactory,
             $regionCollectionFactory,
+            $customerAccountService,
+            $customerAddressService,
+            $addressConfig,
             $data
         );
         $this->_isScopePrivate = true;
@@ -134,11 +140,11 @@ class Billing extends \Magento\Checkout\Block\Onepage\AbstractOnepage
         if (is_null($this->_address)) {
             if ($this->isCustomerLoggedIn()) {
                 $this->_address = $this->getQuote()->getBillingAddress();
-                if(!$this->_address->getFirstname()) {
-                    $this->_address->setFirstname($this->getQuote()->getCustomer()->getFirstname());
+                if (!$this->_address->getFirstname()) {
+                    $this->_address->setFirstname($this->getQuote()->getCustomerData()->getFirstname());
                 }
-                if(!$this->_address->getLastname()) {
-                    $this->_address->setLastname($this->getQuote()->getCustomer()->getLastname());
+                if (!$this->_address->getLastname()) {
+                    $this->_address->setLastname($this->getQuote()->getCustomerData()->getLastname());
                 }
             } else {
                 $this->_address = $this->_addressFactory->create();
@@ -156,11 +162,7 @@ class Billing extends \Magento\Checkout\Block\Onepage\AbstractOnepage
      */
     public function getFirstname()
     {
-        $firstname = $this->getAddress()->getFirstname();
-        if (empty($firstname) && $this->getQuote()->getCustomer()) {
-            return $this->getQuote()->getCustomer()->getFirstname();
-        }
-        return $firstname;
+        return $this->getAddress()->getFirstname();
     }
 
     /**
@@ -171,11 +173,7 @@ class Billing extends \Magento\Checkout\Block\Onepage\AbstractOnepage
      */
     public function getLastname()
     {
-        $lastname = $this->getAddress()->getLastname();
-        if (empty($lastname) && $this->getQuote()->getCustomer()) {
-            return $this->getQuote()->getCustomer()->getLastname();
-        }
-        return $lastname;
+        return $this->getAddress()->getLastname();
     }
 
     /**

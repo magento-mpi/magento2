@@ -18,7 +18,7 @@ return array(
     array('addCustomerSegmentFilter', 'Magento\Banner\Model\Resource\Salesrule\Collection'),
     array('addDashboardLink', 'Magento\Rma\Block\Link'),
     array('addFieldsToBannerForm', 'Magento\CustomerSegment\Model\Observer'),
-    array('addRenderer', 'Magento\CustomAttribute\Block\Form'),
+    array('addRenderer', 'Magento\CustomAttributeManagement\Block\Form'),
     array('setModelName', 'Magento\Logging\Model\Event\Changes'),
     array('getModelName', 'Magento\Logging\Model\Event\Changes'),
     array('setModelId', 'Magento\Logging\Model\Event\Changes'),

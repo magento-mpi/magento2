@@ -34,19 +34,40 @@ class Login extends \Magento\View\Element\Template
     protected $_customerHelper;
 
     /**
+     * Checkout data
+     *
+     * @var \Magento\Checkout\Helper\Data
+     */
+    protected $checkoutData;
+
+    /**
+     * Core url
+     *
+     * @var \Magento\Core\Helper\Url
+     */
+    protected $coreUrl;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Customer\Helper\Data $customerHelper
+     * @param \Magento\Checkout\Helper\Data $checkoutData
+     * @param \Magento\Core\Helper\Url $coreUrl
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Customer\Helper\Data $customerHelper,
+        \Magento\Checkout\Helper\Data $checkoutData,
+        \Magento\Core\Helper\Url $coreUrl,
         array $data = array()
     ) {
         $this->_customerHelper = $customerHelper;
         $this->_customerSession = $customerSession;
+        $this->checkoutData = $checkoutData;
+        $this->coreUrl = $coreUrl;
+
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
     }
@@ -80,6 +101,9 @@ class Login extends \Magento\View\Element\Template
         $url = $this->getData('create_account_url');
         if (is_null($url)) {
             $url = $this->_customerHelper->getRegisterUrl();
+        }
+        if ($this->checkoutData->isContextCheckout()) {
+            $url = $this->coreUrl->addRequestParam($url, array('context' => 'checkout'));
         }
         return $url;
     }

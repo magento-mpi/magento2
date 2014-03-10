@@ -7,15 +7,15 @@
  */
 namespace Magento\Sales\Model\AdminOrder;
 
-use Magento\Customer\Service\V1\CustomerServiceInterface;
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
-use Magento\Customer\Service\V1\Dto\AddressBuilder as CustomerAddressBuilder;
-use Magento\Customer\Service\V1\Dto\CustomerBuilder;
+use Magento\Customer\Service\V1\Data\AddressBuilder as CustomerAddressBuilder;
+use Magento\Customer\Service\V1\Data\CustomerBuilder;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
-use Magento\Customer\Service\V1\Dto\Customer as CustomerDto;
+use Magento\Customer\Service\V1\Data\Customer as CustomerDataObject;
 use Magento\Customer\Model\Metadata\Form as CustomerForm;
-use Magento\Customer\Service\V1\Dto\Address as CustomerAddressDto;
+use Magento\Customer\Service\V1\Data\Address as CustomerAddressDataObject;
 
 /**
  * Order create model
@@ -132,9 +132,9 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
     protected $quoteInitializer;
 
     /**
-     * @var CustomerServiceInterface
+     * @var CustomerAccountServiceInterface
      */
-    protected $_customerService;
+    protected $_customerAccountService;
 
     /**
      * @var CustomerAddressServiceInterface
@@ -176,7 +176,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
      * @param \Magento\Object\Copy $objectCopyService
      * @param \Magento\Message\ManagerInterface $messageManager
      * @param Product\Quote\Initializer $quoteInitializer
-     * @param CustomerServiceInterface $customerService
+     * @param CustomerAccountServiceInterface $customerAccountService
      * @param CustomerAddressServiceInterface $customerAddressService
      * @param CustomerAddressBuilder $customerAddressBuilder
      * @param \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory
@@ -195,7 +195,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         \Magento\Object\Copy $objectCopyService,
         \Magento\Message\ManagerInterface $messageManager,
         Product\Quote\Initializer $quoteInitializer,
-        CustomerServiceInterface $customerService,
+        CustomerAccountServiceInterface $customerAccountService,
         CustomerAddressServiceInterface $customerAddressService,
         CustomerAddressBuilder $customerAddressBuilder,
         \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory,
@@ -213,7 +213,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         $this->_objectCopyService = $objectCopyService;
         $this->quoteInitializer = $quoteInitializer;
         $this->messageManager = $messageManager;
-        $this->_customerService = $customerService;
+        $this->_customerAccountService = $customerAccountService;
         $this->_customerAddressService = $customerAddressService;
         $this->_customerAddressBuilder = $customerAddressBuilder;
         $this->_metadataFormFactory = $metadataFormFactory;
@@ -269,10 +269,10 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
     public function initRuleData()
     {
         $this->_coreRegistry->register('rule_data', new \Magento\Object(array(
-            'store_id'  => $this->_session->getStore()->getId(),
-            'website_id'  => $this->_session->getStore()->getWebsiteId(),
-            'customer_group_id' => $this->getCustomerGroupId(),
-        )));
+                'store_id'  => $this->_session->getStore()->getId(),
+                'website_id'  => $this->_session->getStore()->getWebsiteId(),
+                'customer_group_id' => $this->getCustomerGroupId(),
+            )));
         return $this;
     }
 
@@ -523,18 +523,18 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
 
             if ($additionalOptions = $orderItem->getProductOptionByCode('additional_options')) {
                 $item->addOption(new \Magento\Object(
-                    array(
-                        'product' => $item->getProduct(),
-                        'code' => 'additional_options',
-                        'value' => serialize($additionalOptions)
-                    )
-                ));
+                        array(
+                            'product' => $item->getProduct(),
+                            'code' => 'additional_options',
+                            'value' => serialize($additionalOptions)
+                        )
+                    ));
             }
 
             $this->_eventManager->dispatch('sales_convert_order_item_to_quote_item', array(
-                'order_item' => $orderItem,
-                'quote_item' => $item
-            ));
+                    'order_item' => $orderItem,
+                    'quote_item' => $item
+                ));
             return $item;
         }
 
@@ -583,7 +583,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         if ($customerId) {
             $this->_cart->setStore($this->getSession()->getStore())->loadByCustomer($customerId);
             if (!$this->_cart->getId()) {
-                $customerData = $this->_customerService->getCustomer($customerId);
+                $customerData = $this->_customerAccountService->getCustomer($customerId);
                 $this->_cart->assignCustomer($customerData);
                 $this->_cart->save();
             }
@@ -1049,31 +1049,31 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         $item->save();
         if (!empty($options['options'])) {
             $item->addOption(new \Magento\Object(
-                array(
-                    'product' => $item->getProduct(),
-                    'code' => 'option_ids',
-                    'value' => implode(',', array_keys($options['options']))
-                )
-            ));
+                    array(
+                        'product' => $item->getProduct(),
+                        'code' => 'option_ids',
+                        'value' => implode(',', array_keys($options['options']))
+                    )
+                ));
 
             foreach ($options['options'] as $optionId => $optionValue) {
                 $item->addOption(new \Magento\Object(
-                    array(
-                        'product' => $item->getProduct(),
-                        'code' => 'option_'.$optionId,
-                        'value' => $optionValue
-                    )
-                ));
+                        array(
+                            'product' => $item->getProduct(),
+                            'code' => 'option_'.$optionId,
+                            'value' => $optionValue
+                        )
+                    ));
             }
         }
         if (!empty($options['additional_options'])) {
             $item->addOption(new \Magento\Object(
-                array(
-                    'product' => $item->getProduct(),
-                    'code' => 'additional_options',
-                    'value' => serialize($options['additional_options'])
-                )
-            ));
+                    array(
+                        'product' => $item->getProduct(),
+                        'code' => 'additional_options',
+                        'value' => serialize($options['additional_options'])
+                    )
+                ));
         }
 
         return $this;
@@ -1131,15 +1131,15 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
     /**
      * Return Customer (Checkout) Form instance
      *
-     * @param CustomerDto $customerDto
+     * @param CustomerDataObject $customerDataObject
      * @return CustomerForm
      */
-    protected function _createCustomerForm(CustomerDto $customerDto)
+    protected function _createCustomerForm(CustomerDataObject $customerDataObject)
     {
         $customerForm = $this->_metadataFormFactory->create(
             \Magento\Customer\Service\V1\CustomerMetadataServiceInterface::ENTITY_TYPE_CUSTOMER,
             'adminhtml_checkout',
-            $customerDto->getAttributes(),
+            \Magento\Service\DataObjectConverter::toFlatArray($customerDataObject),
             false,
             CustomerForm::DONT_IGNORE_INVISIBLE
         );
@@ -1159,9 +1159,9 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
     {
         $isAjax = !$this->getIsValidate();
 
-        // Region is a DTO, so it is represented by an array. validateData() doesn't understand arrays, so we need to
-        // merge region data with address data. This is going to be removed when we switch to use address DTO instead
-        // of the address model.
+        // Region is a Data Object, so it is represented by an array. validateData() doesn't understand arrays, so we
+        // need to merge region data with address data. This is going to be removed when we switch to use address Data
+        // Object instead of the address model.
         // Note: if we use getRegion() here it will pull region from db using the region_id
         $data = isset($data['region']) && is_array($data['region'])
             ? array_merge($data, $data['region'])
@@ -1407,12 +1407,15 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         $request = $form->prepareRequest($accountData);
         $data = $form->extractData($request);
         $data = $form->restoreData($data);
-        $this->getQuote()->updateCustomerData($this->_customerBuilder->mergeDtoWithArray($customer, $data));
+        $this->getQuote()->updateCustomerData($this->_customerBuilder->mergeDataObjectWithArray($customer, $data));
         $data = [];
 
+        $customerData = \Magento\Service\DataObjectConverter::toFlatArray($customer);
         foreach ($form->getAttributes() as $attribute) {
             $code = sprintf('customer_%s', $attribute->getAttributeCode());
-            $data[$code] = $customer->getAttribute($attribute->getAttributeCode());
+            $data[$code] = isset($customerData[$attribute->getAttributeCode()])
+                ? $customerData[$attribute->getAttributeCode()]
+                : null;
         }
 
         if (isset($data['customer_group_id'])) {
@@ -1483,20 +1486,20 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
     protected function _customerIsInStore($store)
     {
         $customerId = (int)$this->getSession()->getCustomerId();
-        $customerData = $this->_customerService->getCustomer($customerId);
+        $customerData = $this->_customerAccountService->getCustomer($customerId);
         return $customerData->getWebsiteId() == $store->getWebsiteId() ||
             $this->_customerHelper->isCustomerInStore($customerData->getWebsiteId(), $store->getId());
     }
 
     /**
-     * Set and validate Customer data. Return the updated DTO merged with the account data
+     * Set and validate Customer data. Return the updated Data Object merged with the account data
      *
-     * @param CustomerDto $customerDto
-     * @return CustomerDto
+     * @param CustomerDataObject $customerDataObject
+     * @return CustomerDataObject
      */
-    protected function _validateCustomerData(CustomerDto $customerDto)
+    protected function _validateCustomerData(CustomerDataObject $customerDataObject)
     {
-        $form = $this->_createCustomerForm($customerDto);
+        $form = $this->_createCustomerForm($customerDataObject);
         // emulate request
         $request = $form->prepareRequest(array('order' => $this->getData()));
         $data = $form->extractData($request, 'order/account');
@@ -1509,12 +1512,12 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
             }
         }
         $data = $form->restoreData($data);
-        foreach($data as $key => $value) {
-            if(!is_null($value)){
+        foreach ($data as $key => $value) {
+            if (!is_null($value)) {
                 unset($data[$key]);
             }
         }
-        return $this->_customerBuilder->mergeDtoWithArray($customerDto, $data);
+        return $this->_customerBuilder->mergeDataObjectWithArray($customerDataObject, $data);
     }
 
     /**
@@ -1533,100 +1536,109 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         }
         /** @var $store \Magento\Core\Model\Store */
         $store = $this->getSession()->getStore();
-        $customerDto = $this->getQuote()->getCustomerData();
-        if ($customerDto->getCustomerId() && !$this->_customerIsInStore($store)) {
+        $customerDataObject = $this->getQuote()->getCustomerData();
+        if ($customerDataObject->getId() && !$this->_customerIsInStore($store)) {
             /** Create a new customer record if it is not available in the specified store */
-            $customerDto = $this->_customerBuilder->mergeDtoWithArray(
-                $customerDto,
+            $customerDataObject = $this->_customerBuilder->populate($customerDataObject)
                 /** Unset customer ID to ensure that new customer will be created */
-                [CustomerDto::STORE_ID => $store->getId(), CustomerDto::ID => null, CustomerDto::CREATED_AT => null]
-            );
-            $customerDto = $this->_validateCustomerData($customerDto);
-        } else if (!$customerDto->getCustomerId()) {
+                ->setId(null)
+                ->setStoreId($store->getId())
+                ->setWebsiteId($store->getWebsiteId())
+                ->setCreatedAt(null)
+                ->create();
+            $customerDataObject = $this->_validateCustomerData($customerDataObject);
+        } else if (!$customerDataObject->getId()) {
             /** Create new customer */
-            $customerBillingAddressDto = $this->getBillingAddress()->exportCustomerAddressData();
-            $customerDto = $this->_customerBuilder->mergeDtos($customerDto, $customerBillingAddressDto);
-            $customerDto = $this->_customerBuilder->mergeDtoWithArray(
-                $customerDto,
-                [CustomerDto::STORE_ID => $store->getId(), CustomerDto::EMAIL => $this->_getNewCustomerEmail()]
-            );
-            $customerDto = $this->_validateCustomerData($customerDto);
+            $customerBillingAddressDataObject = $this->getBillingAddress()->exportCustomerAddressData();
+            $customerDataObject = $this->_customerBuilder->populate($customerDataObject)
+                ->setSuffix($customerBillingAddressDataObject->getSuffix())
+                ->setFirstname($customerBillingAddressDataObject->getFirstname())
+                ->setLastname($customerBillingAddressDataObject->getLastname())
+                ->setMiddlename($customerBillingAddressDataObject->getMiddlename())
+                ->setPrefix($customerBillingAddressDataObject->getPrefix())
+                ->setStoreId($store->getId())
+                ->setEmail($this->_getNewCustomerEmail())
+                ->create();
+            $customerDataObject = $this->_validateCustomerData($customerDataObject);
         }
         if ($this->getBillingAddress()->getSaveInAddressBook()) {
-            $this->_prepareCustomerAddress($customerDto, $this->getBillingAddress());
+            $this->_prepareCustomerAddress($customerDataObject, $this->getBillingAddress());
         }
         if (!$this->getQuote()->isVirtual() && $this->getShippingAddress()->getSaveInAddressBook()) {
-            $this->_prepareCustomerAddress($customerDto, $this->getShippingAddress());
+            $this->_prepareCustomerAddress($customerDataObject, $this->getShippingAddress());
         }
-        $this->getQuote()->updateCustomerData($customerDto);
+        $this->getQuote()->updateCustomerData($customerDataObject);
 
-        foreach ($this->_createCustomerForm($customerDto)->getUserAttributes() as $attribute) {
-            if (!is_null($customerDto->getAttribute($attribute->getAttributeCode()))) {
+        $customerData = \Magento\Service\DataObjectConverter::toFlatArray($customerDataObject);
+        foreach ($this->_createCustomerForm($customerDataObject)->getUserAttributes() as $attribute) {
+            if (isset($customerData[$attribute->getAttributeCode()])) {
                 $quoteCode = sprintf('customer_%s', $attribute->getAttributeCode());
-                $this->getQuote()->setData($quoteCode, $customerDto->getAttribute($attribute->getAttributeCode()));
+                $this->getQuote()->setData($quoteCode, $customerData[$attribute->getAttributeCode()]);
             }
         }
         return $this;
     }
 
     /**
-     * Create customerAddressDto and save it in the Model\Quote so that it can be used to persist later.
+     * Create customerAddressDataObject and save it in the Model\Quote so that it can be used to persist later.
      *
-     * @param CustomerDto $customerDto
+     * @param CustomerDataObject $customerDataObject
      * @param \Magento\Sales\Model\Quote\Address $quoteCustomerAddress
      * @return void
      * @throws \InvalidArgumentException
      */
-    protected function _prepareCustomerAddress($customerDto, $quoteCustomerAddress)
+    protected function _prepareCustomerAddress($customerDataObject, $quoteCustomerAddress)
     {
         // Possible that customerId is null for new customers
-        $customerId = $customerDto->getCustomerId();
+        $customerId = $customerDataObject->getId();
         $quoteCustomerAddress->setCustomerId($customerId);
-        $customerAddressDto = $quoteCustomerAddress->exportCustomerAddressData();
+        $customerAddressDataObject = $quoteCustomerAddress->exportCustomerAddressData();
         $quoteAddressId = $quoteCustomerAddress->getCustomerAddressId();
         $addressType = $quoteCustomerAddress->getAddressType();
         if ($quoteAddressId) {
             /** Update existing address */
-            $existingAddressDto = $this->_customerAddressService->getAddressById($quoteAddressId);
+            $existingAddressDataObject = $this->_customerAddressService->getAddress($quoteAddressId);
             /** Update customer address data */
-            $customerAddressDto = $this->_customerAddressBuilder->mergeDtos($existingAddressDto, $customerAddressDto);
-        } else if ($addressType == CustomerAddressDto::ADDRESS_TYPE_SHIPPING ) {
+            $customerAddressDataObject = $this->_customerAddressBuilder->mergeDataObjects(
+                $existingAddressDataObject, $customerAddressDataObject
+            );
+        } else if ($addressType == CustomerAddressDataObject::ADDRESS_TYPE_SHIPPING ) {
             try {
-                $billingAddressDto = $this->_customerAddressService->getDefaultBillingAddress($customerId);
+                $billingAddressDataObject = $this->_customerAddressService->getDefaultBillingAddress($customerId);
             } catch (\Exception $e) {
                 /** Billing address does not exist. */
             }
             $isShippingAsBilling = $quoteCustomerAddress->getSameAsBilling();
-            if (isset($billingAddressDto) && $isShippingAsBilling) {
+            if (isset($billingAddressDataObject) && $isShippingAsBilling) {
                 /** Set existing billing address as default shipping */
-                $customerAddressDto = $this->_customerAddressBuilder->mergeDtoWithArray(
-                    $billingAddressDto,
-                    [CustomerAddressDto::KEY_DEFAULT_SHIPPING => true]
-                );
+                $customerAddressDataObject = $this->_customerAddressBuilder
+                    ->populate($billingAddressDataObject)
+                    ->setDefaultShipping(true)
+                    ->create();
             }
         }
 
         switch ($addressType) {
-            case CustomerAddressDto::ADDRESS_TYPE_BILLING:
-                if (is_null($customerDto->getDefaultBilling())) {
-                    $customerAddressDto = $this->_customerAddressBuilder->mergeDtoWithArray(
-                        $customerAddressDto,
-                        [CustomerAddressDto::KEY_DEFAULT_BILLING => true]
-                    );
+            case CustomerAddressDataObject::ADDRESS_TYPE_BILLING:
+                if (is_null($customerDataObject->getDefaultBilling())) {
+                    $customerAddressDataObject = $this->_customerAddressBuilder
+                        ->populate($customerAddressDataObject)
+                        ->setDefaultBilling(true)
+                        ->create();
                 }
                 break;
-            case CustomerAddressDto::ADDRESS_TYPE_SHIPPING:
-                if (is_null($customerDto->getDefaultShipping())) {
-                    $customerAddressDto = $this->_customerAddressBuilder->mergeDtoWithArray(
-                        $customerAddressDto,
-                        [CustomerAddressDto::KEY_DEFAULT_SHIPPING => true]
-                    );
+            case CustomerAddressDataObject::ADDRESS_TYPE_SHIPPING:
+                if (is_null($customerDataObject->getDefaultShipping())) {
+                    $customerAddressDataObject = $this->_customerAddressBuilder
+                        ->populate($customerAddressDataObject)
+                        ->setDefaultShipping(true)
+                        ->create();
                 }
                 break;
             default:
                 throw new \InvalidArgumentException('Customer address type is invalid.');
         }
-        $this->getQuote()->addCustomerAddressData($customerAddressDto);
+        $this->getQuote()->addCustomerAddressData($customerAddressDataObject);
     }
 
     /**
@@ -1683,7 +1695,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
             $service->setOrderData($orderData);
         }
 
-        $order = $service->submitOrderWithDto();
+        $order = $service->submitOrderWithDataObject();
 
         if ($this->getSession()->getOrder()->getId()) {
             $oldOrder = $this->getSession()->getOrder();
