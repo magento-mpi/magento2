@@ -633,6 +633,14 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
         $this->assertFileExists($expectedFile, 'Please verify existence of the library file ' . $filePath);
 
         $actualFile = $this->fileResolver->getPublicViewFile($filePath);
-        $this->assertFileEquals($expectedFile, $actualFile);
+
+        $mode = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')
+            ->getMode();
+        if ($mode == \Magento\App\State::MODE_DEVELOPER) {
+            $this->assertFileNotExists($actualFile, "View resources must not be published in 'developer' mode");
+        } else {
+            $this->assertFileExists($actualFile);
+            $this->assertFileEquals($expectedFile, $actualFile);
+        }
     }
 }
