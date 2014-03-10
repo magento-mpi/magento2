@@ -11,6 +11,9 @@ namespace Magento\View;
 
 use Magento\TestFramework\Helper\Bootstrap;
 
+/**
+ * @magentoAppArea frontend
+ */
 class PublicationTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -41,7 +44,6 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = Bootstrap::getObjectManager();
-        $objectManager->get('Magento\App\State')->setAreaCode('frontend');
         $this->assetService = $objectManager->create('Magento\View\Asset\Service');
         $this->fileSystem = $objectManager->create('Magento\View\FileSystem');
         $this->appFilesystem = $objectManager->create('Magento\App\Filesystem');
@@ -101,7 +103,8 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Exception
+     * @expectedException \LogicException
+     * @expectedExceptionMessage Unable to resolve the source file
      * @dataProvider getPublicViewFileExceptionDataProvider
      */
     public function testGetPublicViewFileException($file)
