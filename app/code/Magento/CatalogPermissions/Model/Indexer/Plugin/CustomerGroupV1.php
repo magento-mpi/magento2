@@ -63,7 +63,7 @@ class CustomerGroupV1
      *
      * @param \Magento\Customer\Service\V1\CustomerGroupService $subject
      *
-     * @return void
+     * @return bool
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function afterDeleteGroup(
@@ -72,6 +72,7 @@ class CustomerGroupV1
         if ($this->appConfig->isEnabled()) {
             $this->getIndexer()->invalidate();
         }
+        return true;
     }
 
     /**
