@@ -1,7 +1,5 @@
 <?php
 /**
- * Builder for the Eav Attribute Service Data Object
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -9,13 +7,18 @@
  */
 namespace Magento\Customer\Service\V1\Data\Eav;
 
-use Magento\Customer\Service\V1\Data\Eav\Attribute;
+use Magento\Service\Data\AbstractObjectBuilder;
 
-class AttributeBuilder extends \Magento\Service\Data\AbstractObjectBuilder
+/**
+ * Class AttributeBuilder
+ */
+class AttributeBuilder extends AbstractObjectBuilder
 {
     /**
+     * Set attribute code
+     *
      * @param string $attributeCode
-     * @return AttributeBuilder
+     * @return $this
      */
     public function setAttributeCode($attributeCode)
     {
@@ -23,8 +26,10 @@ class AttributeBuilder extends \Magento\Service\Data\AbstractObjectBuilder
     }
 
     /**
+     * Set attribute value
+     *
      * @param string $value
-     * @return AttributeBuilder
+     * @return $this
      */
     public function setValue($value)
     {

@@ -50,12 +50,13 @@ abstract class AbstractObject
         foreach ($data as $key => $value) {
             if (method_exists($value, '__toArray')) {
                 $data[$key] = $value->__toArray();
-            } else if (is_array($value)) {
+            } elseif (is_array($value)) {
                 foreach ($value as $nestedArrayKey => $nestedArrayValue) {
                     if (method_exists($nestedArrayValue, '__toArray')) {
-                        $data[$nestedArrayKey] = $nestedArrayValue->__toArray();
+                        $value[$nestedArrayKey] = $nestedArrayValue->__toArray();
                     }
                 }
+                $data[$key] = $value;
             }
         }
         return $data;

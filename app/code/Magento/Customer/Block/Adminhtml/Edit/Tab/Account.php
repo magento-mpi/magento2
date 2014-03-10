@@ -44,11 +44,6 @@ class Account extends GenericMetadata
     protected $_customerHelper;
 
     /**
-     * @var \Magento\Customer\Service\V1\CustomerServiceInterface
-     */
-    protected $_customerService;
-
-    /**
      * @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface
      */
     protected $_customerAccountService;
@@ -71,7 +66,6 @@ class Account extends GenericMetadata
      * @param \Magento\Customer\Model\Metadata\FormFactory $customerFormFactory
      * @param \Magento\Core\Model\System\Store $systemStore
      * @param \Magento\Customer\Helper\Data $customerHelper
-     * @param \Magento\Customer\Service\V1\CustomerServiceInterface $customerService
      * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
      * @param \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $customerMetadataService
      * @param \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder
@@ -87,7 +81,6 @@ class Account extends GenericMetadata
         \Magento\Customer\Model\Metadata\FormFactory $customerFormFactory,
         \Magento\Core\Model\System\Store $systemStore,
         \Magento\Customer\Helper\Data $customerHelper,
-        \Magento\Customer\Service\V1\CustomerServiceInterface $customerService,
         \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService,
         \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $customerMetadataService,
         \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder,
@@ -97,7 +90,6 @@ class Account extends GenericMetadata
         $this->_jsonEncoder = $jsonEncoder;
         $this->_systemStore = $systemStore;
         $this->_customerFormFactory = $customerFormFactory;
-        $this->_customerService = $customerService;
         $this->_customerAccountService = $customerAccountService;
         $this->_customerMetadataService = $customerMetadataService;
         $this->_customerBuilder = $customerBuilder;
@@ -251,7 +243,7 @@ class Account extends GenericMetadata
      */
     protected function _handleReadOnlyCustomer($form, $customerId, $attributes)
     {
-        if ($customerId && $this->_customerService->isReadonly($customerId)) {
+        if ($customerId && !$this->_customerAccountService->canModify($customerId)) {
             foreach ($attributes as $attribute) {
                 $element = $form->getElement($attribute->getAttributeCode());
                 if ($element) {
@@ -372,7 +364,9 @@ class Account extends GenericMetadata
             $fieldset->removeField('website_id');
         }
 
-        if ($customerDataObject->getId() && $this->_customerService->isReadonly($customerDataObject->getId())) {
+        if ($customerDataObject->getId()
+            && !$this->_customerAccountService->canModify($customerDataObject->getId())
+        ) {
             return [];
         }
 

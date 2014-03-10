@@ -60,6 +60,9 @@
 * Customer Service usage:
   * Customer module blocks and controllers refactoring to use customer service layer
   * Tax module refactoring to use customer service layer
+  * Refactored Customer module Adminhtml internal controllers and helper to use customer services
+  * Added and updated customer service APIs
+  * Exposed customer services as REST APIs
 * Security:
   * Introduced an ability to hash a password with a random salt of default length (32 chars) by the encryption library
   * Utilized a random salt of default length for admin users and frontend customers

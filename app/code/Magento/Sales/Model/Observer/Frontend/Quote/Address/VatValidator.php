@@ -52,7 +52,7 @@ class VatValidator
         $merchantVatNumber = $this->customerData->getMerchantVatNumber();
 
         $validationResult = null;
-        if ($this->customerAddress->getValidateOnEachTransaction($store)
+        if ($this->customerAddress->hasValidateOnEachTransaction($store)
             || $customerCountryCode != $quoteAddress->getValidatedCountryCode()
             || $customerVatNumber != $quoteAddress->getValidatedVatNumber()
         ) {

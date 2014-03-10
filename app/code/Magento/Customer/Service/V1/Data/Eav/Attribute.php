@@ -1,7 +1,5 @@
 <?php
 /**
- * Eav Attribute
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -9,6 +7,9 @@
  */
 namespace Magento\Customer\Service\V1\Data\Eav;
 
+/**
+ * Class Attribute
+ */
 class Attribute extends \Magento\Service\Data\AbstractObject
 {
     /**
@@ -18,6 +19,8 @@ class Attribute extends \Magento\Service\Data\AbstractObject
     const VALUE = 'value';
 
     /**
+     * Get attribute code
+     *
      * @return string the attribute code
      */
     public function getAttributeCode()
@@ -26,6 +29,8 @@ class Attribute extends \Magento\Service\Data\AbstractObject
     }
 
     /**
+     * Get attribute value
+     *
      * @return string the attribute value
      */
     public function getValue()

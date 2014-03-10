@@ -13,6 +13,8 @@ namespace Magento\Customer\Service\V1\Data;
 class CustomerGroup extends \Magento\Service\Data\AbstractObject
 {
     /**
+     * Get id
+     *
      * @return int
      */
     public function getId()
@@ -21,6 +23,8 @@ class CustomerGroup extends \Magento\Service\Data\AbstractObject
     }
 
     /**
+     * Get code
+     *
      * @return string
      */
     public function getCode()
@@ -29,6 +33,8 @@ class CustomerGroup extends \Magento\Service\Data\AbstractObject
     }
 
     /**
+     * Get tax class id
+     *
      * @return int
      */
     public function getTaxClassId()

@@ -9,6 +9,9 @@
  */
 namespace Magento\Customer\Service\V1\Data\Eav;
 
+/**
+ * Class Option
+ */
 class Option extends \Magento\Service\Data\AbstractObject
 {
     /**

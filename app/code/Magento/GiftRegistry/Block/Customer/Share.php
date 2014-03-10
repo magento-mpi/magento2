@@ -7,7 +7,7 @@
  */
 namespace Magento\GiftRegistry\Block\Customer;
 
-use Magento\Customer\Service\V1\CustomerServiceInterface;
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 
 /**
@@ -35,7 +35,7 @@ class Share extends \Magento\Customer\Block\Account\Dashboard
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
-     * @param CustomerServiceInterface $customerService
+     * @param CustomerAccountServiceInterface $customerAccountService
      * @param CustomerAddressServiceInterface $addressService
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
      * @param \Magento\Customer\Helper\View $customerView
@@ -45,7 +45,7 @@ class Share extends \Magento\Customer\Block\Account\Dashboard
         \Magento\View\Element\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
-        CustomerServiceInterface $customerService,
+        CustomerAccountServiceInterface $customerAccountService,
         CustomerAddressServiceInterface $addressService,
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
         \Magento\Customer\Helper\View $customerView,
@@ -54,7 +54,7 @@ class Share extends \Magento\Customer\Block\Account\Dashboard
         $this->_giftRegistryData = $giftRegistryData;
         $this->_customerView = $customerView;
         parent::__construct(
-            $context, $customerSession, $subscriberFactory, $customerService, $addressService, $data
+            $context, $customerSession, $subscriberFactory, $customerAccountService, $addressService, $data
         );
     }
 

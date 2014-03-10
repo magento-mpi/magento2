@@ -65,12 +65,17 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \Magento\Customer\Model\Converter
      */
-    private $_converter;
+    private $_customerConverter;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Core\Model\Store
      */
     private $_storeMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Model\Address\Converter
+     */
+    private $_addressConverterMock;
 
     /**
      * @var \Magento\Customer\Service\V1\Data\AddressBuilder
@@ -198,7 +203,13 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         );
 
         $customerBuilder = new CustomerBuilder($metadataService);
-        $this->_converter = new \Magento\Customer\Model\Converter($customerBuilder, $this->_customerFactoryMock);
+
+        $this->_customerConverter
+            = new \Magento\Customer\Model\Converter($customerBuilder, $this->_customerFactoryMock);
+
+        $this->_addressConverterMock = $this->getMockBuilder('\Magento\Customer\Model\Address\Converter')
+            ->disableOriginalConstructor()
+            ->getMock();
     }
 
     public function testGetAddressesDefaultBilling()
@@ -216,35 +227,23 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerModelMock->expects($this->any())
             ->method('getDefaultBilling')
             ->will($this->returnValue(1));
+        $this->_customerModelMock->expects($this->any())
+            ->method('getDefaultShipping')
+            ->will($this->returnValue(0));
         $this->_customerFactoryMock->expects($this->any())
             ->method('create')
             ->will($this->returnValue($this->_customerModelMock));
+        $this->_addressConverterMock->expects($this->once())
+            ->method('createAddressFromModel')
+            ->with($addressMock, 1, 0)
+            ->will($this->returnValue('address'));
 
         $customerService = $this->_createService();
 
         $customerId = 1;
         $address = $customerService->getDefaultBillingAddress($customerId);
 
-        $expected = [
-            'id' => 1,
-            'default_billing' => true,
-            'default_shipping' => false,
-            'customer_id' => self::ID,
-            'region' => [
-                    'region_id' => self::REGION_ID,
-                    'region_code' => '',
-                    'region' => self::REGION
-                ],
-            'country_id' => self::COUNTRY_ID,
-            'street' => [self::STREET],
-            'telephone' => self::TELEPHONE,
-            'postcode' => self::POSTCODE,
-            'city' => self::CITY,
-            'firstname' => 'John',
-            'lastname' => 'Doe',
-        ];
-
-        $this->assertEquals($expected, $address->__toArray());
+        $this->assertEquals('address', $address);
     }
 
     public function testGetAddressesDefaultShipping()
@@ -262,35 +261,24 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerModelMock->expects($this->any())
             ->method('getDefaultShipping')
             ->will($this->returnValue(1));
+        $this->_customerModelMock->expects($this->any())
+            ->method('getDefaultBilling')
+            ->will($this->returnValue(0));
         $this->_customerFactoryMock->expects($this->any())
             ->method('create')
             ->will($this->returnValue($this->_customerModelMock));
+
+        $this->_addressConverterMock->expects($this->once())
+            ->method('createAddressFromModel')
+            ->with($addressMock, 0, 1)
+            ->will($this->returnValue('address'));
 
         $customerService = $this->_createService();
 
         $customerId = 1;
         $address = $customerService->getDefaultShippingAddress($customerId);
 
-        $expected = [
-            'id' => 1,
-            'default_shipping' => true,
-            'default_billing' => false,
-            'customer_id' => self::ID,
-            'region' => [
-                'region_id' => self::REGION_ID,
-                'region_code' => '',
-                'region' => self::REGION
-            ],
-            'country_id' => self::COUNTRY_ID,
-            'street' => [self::STREET],
-            'telephone' => self::TELEPHONE,
-            'postcode' => self::POSTCODE,
-            'city' => self::CITY,
-            'firstname' => 'John',
-            'lastname' => 'Doe',
-        ];
-
-        $this->assertEquals($expected, $address->__toArray());
+        $this->assertEquals('address', $address);
     }
 
     public function testGetAddressById()
@@ -311,36 +299,22 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerModelMock->expects($this->any())
             ->method('getDefaultShipping')
             ->will($this->returnValue(1));
+        $this->_customerModelMock->expects($this->any())
+            ->method('getDefaultBilling')
+            ->will($this->returnValue(0));
         $this->_customerFactoryMock->expects($this->any())
             ->method('create')
             ->will($this->returnValue($this->_customerModelMock));
-
+        $this->_addressConverterMock->expects($this->once())
+            ->method('createAddressFromModel')
+            ->with($addressMock, 0, 1)
+            ->will($this->returnValue('address'));
 
         $customerService = $this->_createService();
 
         $addressId = 1;
-        $address = $customerService->getAddressById($addressId);
-
-        $expected = [
-            'id' => 1,
-            'default_shipping' => true,
-            'default_billing' => false,
-            'customer_id' => self::ID,
-            'region' => [
-                    'region_id' => self::REGION_ID,
-                    'region_code' => '',
-                    'region' => self::REGION
-                ],
-            'country_id' => self::COUNTRY_ID,
-            'street' => [self::STREET],
-            'telephone' => self::TELEPHONE,
-            'postcode' => self::POSTCODE,
-            'city' => self::CITY,
-            'firstname' => 'John',
-            'lastname' => 'Doe',
-        ];
-
-        $this->assertEquals($expected, $address->__toArray());
+        $address = $customerService->getAddress($addressId);
+        $this->assertEquals('address', $address);
     }
 
     public function testGetAddresses()
@@ -366,50 +340,20 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnValue($this->_customerModelMock));
 
-        $customerService = $this->_createService();
+        $this->_addressConverterMock->expects($this->at(0))
+            ->method('createAddressFromModel')
+            ->with($addressMock, 2, 1)
+            ->will($this->returnValue('address'));
 
+        $this->_addressConverterMock->expects($this->at(1))
+            ->method('createAddressFromModel')
+            ->with($addressMock2, 2, 1)
+            ->will($this->returnValue('address2'));
+
+        $customerService = $this->_createService();
         $addresses = $customerService->getAddresses(1);
 
-        $expected = [
-            [
-                'id' => 1,
-                'default_shipping' => true,
-                'default_billing' => false,
-                'customer_id' => self::ID,
-                'region' => [
-                        'region_id' => self::REGION_ID,
-                        'region_code' => '',
-                        'region' => self::REGION
-                    ],
-                'country_id' => self::COUNTRY_ID,
-                'street' => [self::STREET],
-                'telephone' => self::TELEPHONE,
-                'postcode' => self::POSTCODE,
-                'city' => self::CITY,
-                'firstname' => 'John',
-                'lastname' => 'Doe',
-            ], [
-                'id' => 2,
-                'default_billing' => true,
-                'default_shipping' => false,
-                'customer_id' => self::ID,
-                'region' => [
-                        'region_id' => self::REGION_ID,
-                        'region_code' => '',
-                        'region' => self::REGION
-                    ],
-                'country_id' => self::COUNTRY_ID,
-                'street' => [self::STREET],
-                'telephone' => self::TELEPHONE,
-                'postcode' => self::POSTCODE,
-                'city' => self::CITY,
-                'firstname' => 'Genry',
-                'lastname' => 'Doe',
-            ]
-        ];
-
-        $this->assertEquals($expected[0], $addresses[0]->__toArray());
-        $this->assertEquals($expected[1], $addresses[1]->__toArray());
+        $this->assertEquals(['address', 'address2'], $addresses);
     }
 
     public function testSaveAddresses()
@@ -697,6 +641,62 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    public function testValidateAddressesEmpty()
+    {
+        $customerService = $this->_createService();
+        $this->assertTrue($customerService->validateAddresses([]));
+    }
+
+    public function testValidateAddressesValid()
+    {
+        // Setup address mock
+        $mockAddress = $this->_createAddress(1, 'John');
+
+        $address = $this->_addressBuilder->setFirstname('John')
+            ->setLastname(self::LASTNAME)
+            ->setRegion((new Data\RegionBuilder())->setRegionId(self::REGION_ID)->setRegion(self::REGION)->create())
+            ->setStreet([self::STREET])
+            ->setTelephone(self::TELEPHONE)
+            ->setCity(self::CITY)
+            ->setCountryId(self::COUNTRY_ID)
+            ->setPostcode(self::POSTCODE)
+            ->create();
+
+        $this->_addressConverterMock->expects($this->once())
+            ->method('createAddressModel')
+            ->with($address)
+            ->will($this->returnValue($mockAddress));
+
+        $customerService = $this->_createService();
+
+        $this->assertTrue($customerService->validateAddresses([$address]));
+    }
+
+    public function testValidateAddressesBoth()
+    {
+        // Setup address mock, no first name
+        $mockBadAddress = $this->_createAddress(1, '');
+
+        // Setup address mock, with first name
+        $mockAddress = $this->_createAddress(1, 'John');
+
+        $addressBad = $this->_addressBuilder->create();
+        $addressGood = $this->_addressBuilder->create();
+
+        $this->_addressConverterMock->expects($this->any())
+            ->method('createAddressModel')
+            ->will($this->returnValueMap([[$addressBad, $mockBadAddress], [$addressGood, $mockAddress]]));
+        $customerService = $this->_createService();
+
+        try {
+            $customerService->validateAddresses(['b' => $addressBad, 'g' => $addressGood]);
+            $this->fail("InputException was expected but not thrown");
+        } catch (InputException $actualException) {
+            $expectedException = new InputException();
+            $expectedException->addError('REQUIRED_FIELD', 'firstname', '', ['index' => 'b']);
+            $this->assertEquals($expectedException->getErrors(), $actualException->getErrors());
+        }
+    }
 
     private function _setupStoreMock()
     {
@@ -722,17 +722,12 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
     {
         $customerService = new CustomerAddressService(
             $this->_addressFactoryMock,
-            $this->_converter,
-            new \Magento\Customer\Model\Address\Converter(
-                $this->_addressBuilder,
-                $this->_addressFactoryMock,
-                new Data\RegionBuilder()
-            ),
+            $this->_customerConverter,
+            $this->_addressConverterMock,
             $this->_directoryData
         );
         return $customerService;
     }
-
 
     /**
      * Helper that returns a mock \Magento\Customer\Model\Address object.

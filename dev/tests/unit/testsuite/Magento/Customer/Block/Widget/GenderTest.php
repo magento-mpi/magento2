@@ -27,8 +27,8 @@ class GenderTest extends \PHPUnit_Framework_TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Model\Session */
     private $_customerSession;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\CustomerServiceInterface */
-    private $_customerService;
+    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\CustomerAccountServiceInterface */
+    private $_customerAccountService;
 
     /** @var Gender */
     private $_block;
@@ -38,22 +38,22 @@ class GenderTest extends \PHPUnit_Framework_TestCase
         $this->_attribute = $this->getMock('Magento\Customer\Service\V1\Data\Eav\AttributeMetadata', [], [], '', false);
 
         $this->_attributeMetadata =
-            $this->getMockForAbstractClass(
-                'Magento\Customer\Service\V1\CustomerMetadataServiceInterface', [], '', false
-            );
+            $this->getMockBuilder('Magento\Customer\Service\V1\CustomerMetadataServiceInterface')
+            ->getMockForAbstractClass();
         $this->_attributeMetadata->expects($this->any())->method('getCustomerAttributeMetadata')
             ->with(self::GENDER_ATTRIBUTE_CODE)
             ->will($this->returnValue($this->_attribute));
 
-        $this->_customerService =
-            $this->getMockForAbstractClass('Magento\Customer\Service\V1\CustomerServiceInterface', [], '', false);
+        $this->_customerAccountService =
+            $this->getMockBuilder('Magento\Customer\Service\V1\CustomerAccountServiceInterface')
+                ->getMockForAbstractClass();
         $this->_customerSession = $this->getMock('Magento\Customer\Model\Session', [], [], '', false);
 
         $this->_block = new Gender(
             $this->getMock('Magento\View\Element\Template\Context', [], [], '', false),
             $this->getMock('Magento\Customer\Helper\Address', [], [], '', false),
             $this->_attributeMetadata,
-            $this->_customerService,
+            $this->_customerAccountService,
             $this->_customerSession
         );
     }
@@ -143,7 +143,7 @@ class GenderTest extends \PHPUnit_Framework_TestCase
 
         $this->_customerSession
             ->expects($this->once())->method('getCustomerId')->will($this->returnValue(1));
-        $this->_customerService
+        $this->_customerAccountService
             ->expects($this->once())->method('getCustomer')->with(1)->will($this->returnValue($customerData));
 
         $customer = $this->_block->getCustomer();

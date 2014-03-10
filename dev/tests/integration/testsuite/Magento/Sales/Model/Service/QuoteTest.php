@@ -10,11 +10,11 @@ namespace Magento\Sales\Model\Service;
 
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\Customer\Service\V1\Data\CustomerBuilder;
+use Magento\Customer\Service\V1\Data\CustomerDetailsBuilder;
 use Magento\Customer\Service\V1\Data\AddressBuilder;
 use Magento\Customer\Service\V1\Data\RegionBuilder;
 use Magento\Customer\Service\V1\Data\Customer as CustomerData;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
-use Magento\Customer\Service\V1\CustomerServiceInterface;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 
 /**
@@ -33,11 +33,6 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
     private $_customerBuilder;
 
     /**
-     * @var CustomerServiceInterface
-     */
-    protected $_customerService;
-
-    /**
      * @var CustomerAccountServiceInterface
      */
     protected $_customerAccountService;
@@ -52,6 +47,10 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
      */
     protected $_customerAddressBuilder;
 
+    /**
+     * @var CustomerDetailsBuilder
+     */
+    protected $_customerDetailsBuilder;
 
     public function setUp()
     {
@@ -61,11 +60,11 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
         $this->_customerBuilder = Bootstrap::getObjectManager()->get(
             'Magento\Customer\Service\V1\Data\CustomerBuilder'
         );
+        $this->_customerDetailsBuilder = Bootstrap::getObjectManager()->get(
+            'Magento\Customer\Service\V1\Data\CustomerDetailsBuilder'
+        );
         $this->_customerAccountService = Bootstrap::getObjectManager()->get(
             'Magento\Customer\Service\V1\CustomerAccountService'
-        );
-        $this->_customerService = Bootstrap::getObjectManager()->get(
-            'Magento\Customer\Service\V1\CustomerService'
         );
         $this->_customerAddressService = Bootstrap::getObjectManager()->get(
             'Magento\Customer\Service\V1\CustomerAddressService'
@@ -104,11 +103,9 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
     {
         $this->_prepareQuote(false);
 
-        $customerData = $this->_customerAccountService->createAccount(
-        $this->getSampleCustomerEntity(),
-            $this->getSampleAddressEntity(),
-            'password'
-        );
+        $customerDetails = $this->_customerDetailsBuilder->setCustomer($this->getSampleCustomerEntity())
+            ->setAddresses($this->getSampleAddressEntity())->create();
+        $customerData = $this->_customerAccountService->createAccount($customerDetails, 'password');
 
         $existingCustomerId = $customerData->getId();
         $customerData = $this->_customerBuilder->mergeDataObjectWithArray(
@@ -123,7 +120,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
         $this->assertNotNull($customerId);
         //Make sure no new customer is created
         $this->assertEquals($existingCustomerId, $customerId);
-        $customerData = $this->_customerService->getCustomer($existingCustomerId);
+        $customerData = $this->_customerAccountService->getCustomer($existingCustomerId);
         $this->assertEquals('new@example.com', $customerData->getEmail());
     }
 

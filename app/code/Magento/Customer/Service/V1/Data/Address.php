@@ -37,6 +37,8 @@ class Address extends \Magento\Service\Data\EAV\AbstractObject
     /**#@-*/
 
     /**
+     * Get id
+     *
      * @return int|null
      */
     public function getId()
@@ -45,7 +47,9 @@ class Address extends \Magento\Service\Data\EAV\AbstractObject
     }
 
     /**
-     * @return boolean|null
+     * Get if this address is default shipping address.
+     *
+     * @return bool|null
      */
     public function isDefaultShipping()
     {
@@ -53,7 +57,9 @@ class Address extends \Magento\Service\Data\EAV\AbstractObject
     }
 
     /**
-     * @return boolean|null
+     * Get if this address is default billing address
+     *
+     * @return bool|null
      */
     public function isDefaultBilling()
     {
@@ -61,7 +67,9 @@ class Address extends \Magento\Service\Data\EAV\AbstractObject
     }
 
     /**
-     * @return Region|null
+     * Get region
+     *
+     * @return \Magento\Customer\Service\V1\Data\Region|null
      */
     public function getRegion()
     {
@@ -69,7 +77,9 @@ class Address extends \Magento\Service\Data\EAV\AbstractObject
     }
 
     /**
-     * @return int|null
+     * Get country id
+     *
+     * @return string|null
      */
     public function getCountryId()
     {
@@ -77,6 +87,8 @@ class Address extends \Magento\Service\Data\EAV\AbstractObject
     }
 
     /**
+     * Get street
+     *
      * @return string[]|null
      */
     public function getStreet()
@@ -85,6 +97,8 @@ class Address extends \Magento\Service\Data\EAV\AbstractObject
     }
 
     /**
+     * Get company
+     *
      * @return string|null
      */
     public function getCompany()
@@ -93,6 +107,8 @@ class Address extends \Magento\Service\Data\EAV\AbstractObject
     }
 
     /**
+     * Get telephone number
+     *
      * @return string|null
      */
     public function getTelephone()
@@ -101,6 +117,8 @@ class Address extends \Magento\Service\Data\EAV\AbstractObject
     }
 
     /**
+     * Get fax number
+     *
      * @return string|null
      */
     public function getFax()
@@ -109,6 +127,8 @@ class Address extends \Magento\Service\Data\EAV\AbstractObject
     }
 
     /**
+     * Get postcode
+     *
      * @return string|null
      */
     public function getPostcode()
@@ -117,6 +137,8 @@ class Address extends \Magento\Service\Data\EAV\AbstractObject
     }
 
     /**
+     * Get city name
+     *
      * @return string|null
      */
     public function getCity()
@@ -125,6 +147,8 @@ class Address extends \Magento\Service\Data\EAV\AbstractObject
     }
 
     /**
+     * Get first name
+     *
      * @return string|null
      */
     public function getFirstname()
@@ -133,6 +157,8 @@ class Address extends \Magento\Service\Data\EAV\AbstractObject
     }
 
     /**
+     * Get last name
+     *
      * @return string|null
      */
     public function getLastname()
@@ -141,6 +167,8 @@ class Address extends \Magento\Service\Data\EAV\AbstractObject
     }
 
     /**
+     * Get middle name
+     *
      * @return string|null
      */
     public function getMiddlename()
@@ -149,6 +177,8 @@ class Address extends \Magento\Service\Data\EAV\AbstractObject
     }
 
     /**
+     * Get prefix
+     *
      * @return string|null
      */
     public function getPrefix()
@@ -157,6 +187,8 @@ class Address extends \Magento\Service\Data\EAV\AbstractObject
     }
 
     /**
+     * Get suffix
+     *
      * @return string|null
      */
     public function getSuffix()
@@ -165,6 +197,8 @@ class Address extends \Magento\Service\Data\EAV\AbstractObject
     }
 
     /**
+     * Get Vat id
+     *
      * @return string|null
      */
     public function getVatId()
@@ -173,6 +207,8 @@ class Address extends \Magento\Service\Data\EAV\AbstractObject
     }
 
     /**
+     * Get customer id
+     *
      * @return string|null
      */
     public function getCustomerId()

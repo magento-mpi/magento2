@@ -18,7 +18,6 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
     const FRONTEND_INPUT = 'select';
     const INPUT_FILTER = 'input filter';
     const STORE_LABEL = 'store label';
-    const VALIDATE_RULES = 'validate rules';
     const FRONTEND_CLASS = 'frontend class';
 
     /**
@@ -35,6 +34,9 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
      * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
      */
     private $_sourceMock;
+
+    /** @var array */
+    private $_validateRules = [];
 
     public function setUp()
     {
@@ -82,7 +84,7 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
                 'getFrontendInput' => self::FRONTEND_INPUT,
                 'getInputFilter' => self::INPUT_FILTER,
                 'getStoreLabel' => self::STORE_LABEL,
-                'getValidateRules' => self::VALIDATE_RULES,
+                'getValidateRules' => $this->_validateRules,
                 'getFrontend' => $frontendMock,
             )
         );
@@ -125,11 +127,13 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $optionBuilder = new \Magento\Customer\Service\V1\Data\Eav\OptionBuilder();
+        $validationRuleBuilder = new \Magento\Customer\Service\V1\Data\Eav\ValidationRuleBuilder();
 
-        $attributeMetadataBuilder = new \Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder();
+        $attributeMetadataBuilder =
+            new \Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder($optionBuilder, $validationRuleBuilder);
 
         $service = new CustomerMetadataService($this->_eavConfigMock, $attributeColFactoryMock, $storeManagerMock,
-            $optionBuilder, $attributeMetadataBuilder);
+            $optionBuilder, $validationRuleBuilder, $attributeMetadataBuilder);
 
         $attributeMetadata = $service->getAttributeMetadata('entityCode', 'attributeId');
         $this->assertMetadataAttributes($attributeMetadata);
@@ -157,11 +161,13 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $optionBuilder = new \Magento\Customer\Service\V1\Data\Eav\OptionBuilder();
+        $validationRuleBuilder = new \Magento\Customer\Service\V1\Data\Eav\ValidationRuleBuilder();
 
-        $attributeMetadataBuilder = new \Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder();
+        $attributeMetadataBuilder =
+            new \Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder($optionBuilder, $validationRuleBuilder);
 
         $service = new CustomerMetadataService($this->_eavConfigMock, $attributeColFactoryMock, $storeManagerMock,
-            $optionBuilder, $attributeMetadataBuilder);
+            $optionBuilder, $validationRuleBuilder, $attributeMetadataBuilder);
 
         try {
             $service->getAttributeMetadata('entityCode', 'attributeId');
@@ -200,12 +206,14 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $attributeMetadataBuilder = new \Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder();
-
         $optionBuilder = new \Magento\Customer\Service\V1\Data\Eav\OptionBuilder();
+        $validationRuleBuilder = new \Magento\Customer\Service\V1\Data\Eav\ValidationRuleBuilder();
+
+        $attributeMetadataBuilder =
+            new \Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder($optionBuilder, $validationRuleBuilder);
 
         $service = new CustomerMetadataService($this->_eavConfigMock, $attributeColFactoryMock, $storeManagerMock,
-            $optionBuilder, $attributeMetadataBuilder);
+            $optionBuilder, $validationRuleBuilder, $attributeMetadataBuilder);
 
         $attributeMetadata = $service->getAttributeMetadata('entityCode', 'attributeId');
         $this->assertMetadataAttributes($attributeMetadata);
@@ -233,11 +241,13 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $optionBuilder = new \Magento\Customer\Service\V1\Data\Eav\OptionBuilder();
+        $validationRuleBuilder = new \Magento\Customer\Service\V1\Data\Eav\ValidationRuleBuilder();
 
-        $attributeMetadataBuilder = new \Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder();
+        $attributeMetadataBuilder =
+            new \Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder($optionBuilder, $validationRuleBuilder);
 
         $service = new CustomerMetadataService($this->_eavConfigMock, $attributeColFactoryMock, $storeManagerMock,
-            $optionBuilder, $attributeMetadataBuilder);
+            $optionBuilder, $validationRuleBuilder, $attributeMetadataBuilder);
 
         $attributeMetadata = $service->getAttributeMetadata('entityCode', 'attributeId');
         $this->assertMetadataAttributes($attributeMetadata);
@@ -261,11 +271,13 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $optionBuilder = new \Magento\Customer\Service\V1\Data\Eav\OptionBuilder();
+        $validationRuleBuilder = new \Magento\Customer\Service\V1\Data\Eav\ValidationRuleBuilder();
 
-        $attributeMetadataBuilder = new \Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder();
+        $attributeMetadataBuilder =
+            new \Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder($optionBuilder, $validationRuleBuilder);
 
         $service = new CustomerMetadataService($this->_eavConfigMock, $attributeColFactoryMock, $storeManagerMock,
-            $optionBuilder, $attributeMetadataBuilder);
+            $optionBuilder, $validationRuleBuilder, $attributeMetadataBuilder);
 
         try {
             $service->getCustomerAttributeMetadata('attributeId');
@@ -297,11 +309,13 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $optionBuilder = new \Magento\Customer\Service\V1\Data\Eav\OptionBuilder();
+        $validationRuleBuilder = new \Magento\Customer\Service\V1\Data\Eav\ValidationRuleBuilder();
 
-        $attributeMetadataBuilder = new \Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder();
+        $attributeMetadataBuilder =
+            new \Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder($optionBuilder, $validationRuleBuilder);
 
         $service = new CustomerMetadataService($this->_eavConfigMock, $attributeColFactoryMock, $storeManagerMock,
-            $optionBuilder, $attributeMetadataBuilder);
+            $optionBuilder, $validationRuleBuilder, $attributeMetadataBuilder);
 
         try {
             $service->getAddressAttributeMetadata('attributeId');
@@ -338,11 +352,13 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $optionBuilder = new \Magento\Customer\Service\V1\Data\Eav\OptionBuilder();
+        $validationRuleBuilder = new \Magento\Customer\Service\V1\Data\Eav\ValidationRuleBuilder();
 
-        $attributeMetadataBuilder = new \Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder();
+        $attributeMetadataBuilder =
+            new \Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder($optionBuilder, $validationRuleBuilder);
 
         $service = new CustomerMetadataService($this->_eavConfigMock, $attributeColFactoryMock, $storeManagerMock,
-            $optionBuilder, $attributeMetadataBuilder);
+            $optionBuilder, $validationRuleBuilder, $attributeMetadataBuilder);
 
         $this->assertEquals([], $service->getAllAttributeSetMetadata('entityType', 0, 1));
     }
@@ -369,7 +385,7 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(self::FRONTEND_INPUT, $attributeMetadata->getFrontendInput());
         $this->assertEquals(self::INPUT_FILTER, $attributeMetadata->getInputFilter());
         $this->assertEquals(self::STORE_LABEL, $attributeMetadata->getStoreLabel());
-        $this->assertEquals(self::VALIDATE_RULES, $attributeMetadata->getValidationRules());
+        $this->assertEquals($this->_validateRules, $attributeMetadata->getValidationRules());
         $this->assertEquals(self::FRONTEND_CLASS, $attributeMetadata->getFrontendClass());
     }
 }
